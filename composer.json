@@ -1,0 +1,29 @@
+{
+    "name": "intervention/image",
+    "description": "Image handling and manipulation",
+    "version": "0.6.0-dev",
+    "keywords": ["image", "gd"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Oliver Vogel",
+            "email": "oliver@olivervogel.net",
+            "homepage": "http://olivervogel.net/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "ext-gd": "*",
+        "illuminate/support": "4.0.x",
+        "illuminate/filesystem": "4.0.x"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "Intervention\\Image": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}

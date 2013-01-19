@@ -18,9 +18,6 @@
         "illuminate/filesystem": "4.0.x"
     },
     "autoload": {
-        "classmap": [
-            "src/migrations"
-        ],
         "psr-0": {
             "Intervention\\Image": "src/"
         }

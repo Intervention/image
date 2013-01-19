@@ -35,6 +35,6 @@ Add the facade of this package to the `$aliases` array.
 
         ...
 
-        'Image' => 'Intervention\Helper\Facades\Image',
+        'Image' => 'Intervention\Image\Facades\Image',
 
     ),

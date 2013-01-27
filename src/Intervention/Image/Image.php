@@ -192,6 +192,11 @@ class Image
         return $this;
     }
 
+    public function pixelate($size = 10, $advanced = true)
+    {
+        imagefilter($this->resource, IMG_FILTER_PIXELATE, $size, $advanced);
+    }
+
     public function reset()
     {   
         $this->setProperties($this->dirname .'/'. $this->basename);

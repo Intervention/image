@@ -101,6 +101,14 @@ class ImageTest extends PHPUnit_Framework_Testcase
         
     }
 
+    public function testPixelateImage()
+    {
+        $img = $this->getTestImage();
+        $img->pixelate(20);
+        $img->save('public/pixels.jpg');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+    }
+
     public function testResetImage()
     {
         $img = $this->getTestImage();
@@ -114,7 +122,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
 
     public function testSaveImage()
     {
-        $save_as = 'public/test.jpg';
+        $save_as = 'public/test2.jpg';
         $img = $this->getTestImage();
         $img->save($save_as);
         $this->assertFileExists($save_as);

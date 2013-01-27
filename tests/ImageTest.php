@@ -105,7 +105,13 @@ class ImageTest extends PHPUnit_Framework_Testcase
     {
         $img = $this->getTestImage();
         $img->pixelate(20);
-        $img->save('public/pixels.jpg');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+    }
+
+    public function testGreyscaleImage()
+    {
+        $img = $this->getTestImage();
+        $img->greyscale();
         $this->assertInstanceOf('Intervention\Image\Image', $img);
     }
 

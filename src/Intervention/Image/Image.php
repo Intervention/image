@@ -197,6 +197,16 @@ class Image
         imagefilter($this->resource, IMG_FILTER_PIXELATE, $size, $advanced);
     }
 
+    public function grayscale()
+    {
+        imagefilter($this->resource, IMG_FILTER_GRAYSCALE);
+    }
+
+    public function greyscale()
+    {
+        $this->grayscale();
+    }
+
     public function reset()
     {   
         $this->setProperties($this->dirname .'/'. $this->basename);

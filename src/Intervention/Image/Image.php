@@ -195,16 +195,19 @@ class Image
     public function pixelate($size = 10, $advanced = true)
     {
         imagefilter($this->resource, IMG_FILTER_PIXELATE, $size, $advanced);
+        return $this;
     }
 
     public function grayscale()
     {
         imagefilter($this->resource, IMG_FILTER_GRAYSCALE);
+        return $this;
     }
 
     public function greyscale()
     {
         $this->grayscale();
+        return $this;
     }
 
     public function reset()

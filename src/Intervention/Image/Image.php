@@ -284,6 +284,7 @@ class Image
     public function reset()
     {   
         $this->setProperties($this->dirname .'/'. $this->basename);
+        return $this;
     }
 
     /**

@@ -1,8 +1,7 @@
 {
     "name": "intervention/image",
     "description": "Image handling and manipulation",
-    "version": "0.6.0",
-    "keywords": ["image", "gd"],
+    "keywords": ["image", "gd", "laravel"],
     "license": "MIT",
     "authors": [
         {

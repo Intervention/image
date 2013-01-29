@@ -7,16 +7,58 @@ use Illuminate\Filesystem\Filesystem;
 
 class Image
 {
+    /**
+     * The image resource identifier of current image
+     * @var resource
+     */
     public $resource;
+
+    /**
+     * Type of current image
+     * @var string
+     */
     public $type;
+
+    /**
+     * Width of current image
+     * @var integer
+     */
     public $width;
+
+    /**
+     * Height of current image
+     * @var integer
+     */
     public $height;
     
+    /**
+     * Directory path of current image
+     * @var string
+     */
     public $dirname;
+
+    /**
+     * Trailing name component of current image filename
+     * @var string
+     */
     public $basename;
+
+    /**
+     * File extension of current image filename
+     * @var string
+     */
     public $extension;
+
+    /**
+     * Combined filename (basename and extension)
+     * @var [type]
+     */
     public $filename;
 
+    /**
+     * Instance of Illuminate\Filesystem\Filesystem
+     * @var Filesystem
+     */
     protected $filesystem;
     
     /**

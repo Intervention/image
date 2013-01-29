@@ -38,3 +38,15 @@ Add the facade of this package to the `$aliases` array.
         'Image' => 'Intervention\Image\Facades\Image',
 
     ),
+
+## Usage
+
+* Image::__construct - Create new instance of Image class
+* Image::make - Create new image resource from image file
+* Image::resize - Resize image based on given width and/or height
+* Image::grab - Cut out a detail of the image in given ratio and resize to output size
+* Image::insert - Insert another image on top of the current image
+* Image::pixelate - Pixelate current image
+* Image::greyscale - Turn current image into a greyscale version
+* Image::reset - Reset to original image resource
+* Image::save - Save image in filesystem

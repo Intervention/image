@@ -19,17 +19,33 @@ class Image
 
     protected $filesystem;
     
+    /**
+     * Create a new instance of Image class
+     * 
+     * @param string $path
+     */
     public function __construct($path = null) 
     {
         $this->filesystem = new Filesystem;
         $this->setProperties($path);
     }
 
+    /**
+     * Create a new image resource from image file
+     * 
+     * @param  string $path
+     * @return Image
+     */
     public static function make($path)
     {
         return new Image($path);
     }
 
+    /**
+     * Set local properties for image resource
+     * 
+     * @param string $path
+     */
     private function setProperties($path)
     {
         if ( ! is_null($path) && $this->filesystem->exists($path)) {
@@ -74,6 +90,19 @@ class Image
         @imagesavealpha($this->resource, true);
     }
     
+    /**
+     * Modify wrapper function used by resize and grab
+     * 
+     * @param  integer $dst_x
+     * @param  integer $dst_y
+     * @param  integer $src_x
+     * @param  integer $src_y
+     * @param  integer $dst_w
+     * @param  integer $dst_h
+     * @param  integer $src_w
+     * @param  integer $src_h
+     * @return Image
+     */
     private function modify($dst_x , $dst_y , $src_x , $src_y , $dst_w , $dst_h , $src_w , $src_h)
     {
         // create new image
@@ -92,6 +121,13 @@ class Image
         return $this;
     }
 
+    /**
+     * Resize current image based on given width/height
+     * 
+     * @param  mixed width|height  width and height are optional, the not given 
+     *                             parameter is calculated based on the given
+     * @return Image
+     */
     public function resize()
     {
         $args = func_get_args();
@@ -125,6 +161,13 @@ class Image
         return $this->modify(0, 0, 0, 0, $width, $height, $this->width, $this->height);
     }
 
+    /**
+     * Cut out a detail of the image in given ratio and resize to output size
+     * 
+     * @param mixed width|height    width and height are optional, the not given
+     *                              parameter is calculated based on the given
+     * @return Image
+     */
     public function grab()
     {
         $args = func_get_args();
@@ -179,11 +222,17 @@ class Image
             $src_y = 0;
         }
 
-        // dd(array($grab_width, $grab_height));
-
         return $this->modify(0, 0, $src_x, $src_y, $width, $height, $grab_width, $grab_height);
     }
 
+    /**
+     * Insert another image on top of the current image
+     * 
+     * @param  string  $file
+     * @param  integer $pos_x
+     * @param  integer $pos_y
+     * @return Image
+     */
     public function insert($file, $pos_x = 0, $pos_y = 0)
     {
         $obj = is_a($file, 'Intervention\Image') ? $file : (new Image($file));
@@ -192,29 +241,57 @@ class Image
         return $this;
     }
 
+    /**
+     * Pixelate current image
+     * 
+     * @param  integer $size
+     * @param  boolean $advanced
+     * @return Image            
+     */
     public function pixelate($size = 10, $advanced = true)
     {
         imagefilter($this->resource, IMG_FILTER_PIXELATE, $size, $advanced);
         return $this;
     }
 
+    /**
+     * Turn current image into a greyscale verision
+     * 
+     * @return Image
+     */
     public function grayscale()
     {
         imagefilter($this->resource, IMG_FILTER_GRAYSCALE);
         return $this;
     }
 
+    /**
+     * Alias of greyscale
+     * 
+     * @return Image
+     */
     public function greyscale()
     {
         $this->grayscale();
         return $this;
     }
 
+    /**
+     * Reset to original image resource
+     * 
+     * @return void
+     */
     public function reset()
     {   
         $this->setProperties($this->dirname .'/'. $this->basename);
     }
 
+    /**
+     * Returns image type stream
+     * 
+     * @param  string $type gif|png|jpg|jpeg
+     * @return string
+     */
     private function data($type = null)
     {
         ob_start();
@@ -241,6 +318,12 @@ class Image
         return $data;
     }
 
+    /**
+     * Save image in filesystem
+     * 
+     * @param  string $path
+     * @return Image 
+     */
     public function save($path = null)
     {
         $path = is_null($path) ? ($this->dirname .'/'. $this->basename) : $path;
@@ -256,11 +339,21 @@ class Image
     }
     */
 
+    /**
+     * Return filesystem object
+     * 
+     * @return Filesystem
+     */
     public function getFilesystem()
     {
         return $this->filesystem;
     }
 
+    /**
+     * Returns image stream
+     * 
+     * @return string
+     */
     public function __toString()
     {
         return $this->data();

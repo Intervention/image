@@ -404,7 +404,7 @@ class Image
      * @param  string $value
      * @return int
      */
-    private function getColor($hexcolor)
+    private function getColor($value)
     {
         // $args = func_get_args();
 

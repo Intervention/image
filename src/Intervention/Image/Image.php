@@ -311,12 +311,18 @@ class Image
         return $this;
     }
 
-
-    public function text($text, $pos_x = 0, $pos_y = 0, $size = 16, $color = '000000', $fontfile = null, $angle = 0)
+    public function text($text, $pos_x = 0, $pos_y = 0, $angle = 0, $size = 16, $color = '000000', $fontfile = null)
     {
-        $fontfile = is_null($fontfile) ? 'public/ttf/bebas/BEBAS___.TTF' : $fontfile;
-        imagettftext($this->resource, $size, $angle, $pos_x, $pos_y, $this->getColor($color), $fontfile, $text);
-        // imagestring($this->resource, 5, $pos_x, $pos_y, $text, $color); 
+        if (is_null($fontfile)) {
+            
+            imagestring($this->resource, $size, $pos_x, $pos_y, $text, $this->getColor($color)); 
+
+        } else {
+            
+            imagettftext($this->resource, $size, $angle, $pos_x, $pos_y, $this->getColor($color), $fontfile, $text); 
+
+        }
+
         return $this;
     }
 
@@ -406,17 +412,30 @@ class Image
      */
     private function getColor($value)
     {
-        // $args = func_get_args();
+        if (is_array($value)) {
 
-        $value = (string) $value;
+            list($r, $g, $b) = $value;
 
-        $color = array(
-            'r' => '0x' . substr($value, 0, 2),
-            'g' => '0x' . substr($value, 2, 2),
-            'b' => '0x' . substr($value, 4, 2)
-        );
+            $color = array(
+                'r' => '0x' . $r,
+                'g' => '0x' . $g,
+                'b' => '0x' . $b
+            );
 
-        return imagecolorallocate($this->resource, $color['r'], $color['g'], $color['b']);
+        } elseif(is_string($value) && strlen($value) == 6) {
+
+            $color = array(
+                'r' => '0x' . substr($value, 0, 2),
+                'g' => '0x' . substr($value, 2, 2),
+                'b' => '0x' . substr($value, 4, 2)
+            );
+        }
+
+        if (is_array($color)) {
+            return imagecolorallocate($this->resource, $color['r'], $color['g'], $color['b']);
+        } else {
+            throw new Exception("Error Processing Color");
+        }
     }
 
     /**

@@ -141,6 +141,10 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img = $this->getTestImage();
         $img = $img->text('Fox', 10, 10, 0, 16, '000000', null);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
+
+        $font = 'public/ttf/bebas/BEBAS___.TTF';
+        $img = $img->text('Fox', 10, 10, 0, 16, '000000', $font);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
     }
 
     public function testResetImage()

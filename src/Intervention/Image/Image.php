@@ -284,6 +284,43 @@ class Image
     }
 
     /**
+     * Fill image with given hexadecimal color at position x,y
+     * 
+     * @param  string  $color
+     * @param  integer $pos_x
+     * @param  integer $pos_y
+     * @return Image
+     */
+    public function fill($color, $pos_x = 0, $pos_y = 0)
+    {
+        imagefill($this->resource, $pos_x, $pos_y, $this->getColor($color));
+        return $this;
+    }
+
+    /**
+     * Set single pixel
+     * 
+     * @param  string  $color
+     * @param  integer $pos_x
+     * @param  integer $pos_y
+     * @return Image
+     */
+    public function pixel($color, $pos_x = 0, $pos_y = 0)
+    {
+        imagesetpixel($this->resource, $pos_x, $pos_y, $this->getColor($color));
+        return $this;
+    }
+
+
+    public function text($text, $pos_x = 0, $pos_y = 0, $size = 16, $color = '000000', $fontfile = null, $angle = 0)
+    {
+        $fontfile = is_null($fontfile) ? 'public/ttf/bebas/BEBAS___.TTF' : $fontfile;
+        imagettftext($this->resource, $size, $angle, $pos_x, $pos_y, $this->getColor($color), $fontfile, $text);
+        // imagestring($this->resource, 5, $pos_x, $pos_y, $text, $color); 
+        return $this;
+    }
+
+    /**
      * Pixelate current image
      * 
      * @param  integer $size
@@ -359,6 +396,27 @@ class Image
         
         ob_end_clean();
         return $data;
+    }
+
+    /**
+     * Allocate color from given string
+     * 
+     * @param  string $value
+     * @return int
+     */
+    private function getColor($hexcolor)
+    {
+        // $args = func_get_args();
+
+        $value = (string) $value;
+
+        $color = array(
+            'r' => '0x' . substr($value, 0, 2),
+            'g' => '0x' . substr($value, 2, 2),
+            'b' => '0x' . substr($value, 4, 2)
+        );
+
+        return imagecolorallocate($this->resource, $color['r'], $color['g'], $color['b']);
     }
 
     /**

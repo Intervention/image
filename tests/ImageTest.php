@@ -1,6 +1,7 @@
 <?php
 
 use Intervention\Image\Image;
+use Intervention\Image\Font;
 
 class ImageTest extends PHPUnit_Framework_Testcase
 {
@@ -112,6 +113,33 @@ class ImageTest extends PHPUnit_Framework_Testcase
     {
         $img = $this->getTestImage();
         $img->greyscale();
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+    }
+
+    public function testFillImage()
+    {
+        $img = $this->getTestImage();
+        $img = $img->fill('fdf5e4');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+
+        $img = $img->fill(array(155, 155, 155), rand(1,10), rand(1,10));
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+    }
+
+    public function testPixelImage()
+    {
+        $img = $this->getTestImage();
+        $img = $img->pixel('fdf5e4', rand(1,10), rand(1,10));
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+
+        $img = $img->pixel(array(255, 255, 255), rand(1,10), rand(1,10));
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+    }
+
+    public function testTextImage()
+    {
+        $img = $this->getTestImage();
+        $img = $img->text('Fox', 10, 10, 0, 16, '000000', null);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
     }
 

@@ -51,7 +51,7 @@ class Image
 
     /**
      * Combined filename (basename and extension)
-     * @var [type]
+     * @var string
      */
     public $filename;
 
@@ -121,6 +121,7 @@ class Image
                     throw new Exception("Wrong image type ({$this->type}) only use JPG, PNG or GIF images.");
                     break;
             }
+
         } else {
             
             $this->width = 1;
@@ -196,7 +197,7 @@ class Image
         }
 
         if (is_null($width) OR is_null($height)) {
-                throw new Exception('width or height needs to be defined');
+            throw new Exception('width or height needs to be defined');
         }
 
         // create new image in new dimensions
@@ -242,21 +243,18 @@ class Image
         }
 
         if (is_null($width) OR is_null($height)) {
-                throw new Exception('width or height needs to be defined');
+            throw new Exception('width or height needs to be defined');
         }
 
         // ausschnitt berechnen
         $grab_width = $this->width;
         $ratio = $grab_width / $width;
 
-        if($height * $ratio <= $this->height)
-        {
+        if($height * $ratio <= $this->height) {
             $grab_height = round($height * $ratio);
             $src_x = 0;
             $src_y = round(($this->height - $grab_height) / 2);
-        }
-        else
-        {
+        } else {
             $grab_height = $this->height;
             $ratio = $grab_height / $height;
             $grab_width = round($width * $ratio);

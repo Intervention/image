@@ -69,5 +69,5 @@ $img->save('public/bar.jpg');
 // its also possible to chain methods
 $img1 = Image::make('public/img1.png');
 $img2 = Image::make('public/img2.png');
-$img1->grab(200)->insert($over)->save('public/bar.jpg');
+$img1->grab(200)->insert($img2)->save('public/bar.jpg');
 ```

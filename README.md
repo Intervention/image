@@ -50,3 +50,24 @@ Add the facade of this package to the `$aliases` array.
 * Image::greyscale - Turn current image into a greyscale version
 * Image::reset - Reset to original image resource
 * Image::save - Save image in filesystem
+
+### Code example (Laravel)
+
+```php
+// create Image from file
+$img = Image::make('public/foo.jpg');
+
+// resize image
+$img->resize(300, 200);
+
+// turn image into greyscale version
+$img->greyscale();
+
+// save image in desired format
+$img->save('public/bar.jpg');
+
+// its also possible to chain methods
+$img1 = Image::make('public/img1.png');
+$img2 = Image::make('public/img2.png');
+$img1->grab(200)->insert($over)->save('public/bar.jpg');
+```

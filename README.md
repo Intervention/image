@@ -82,6 +82,9 @@ $img->pixelate(25);
 // save image in desired format
 $img->save('public/bar.jpg');
 
+// save image in desired format and quality
+$img->save('public/bar.jpg', 60);
+
 // its also possible to chain methods
 $img1 = Image::make('public/img1.png');
 $img2 = Image::make('public/img2.png');

@@ -387,10 +387,11 @@ class Image
     /**
      * Returns image type stream
      * 
-     * @param  string $type gif|png|jpg|jpeg
+     * @param string $type gif|png|jpg|jpeg
+     * @param integer quality
      * @return string
      */
-    private function data($type = null)
+    private function data($type = null, $quality = 90)
     {
         ob_start();
 
@@ -406,7 +407,7 @@ class Image
             default:
             case 'jpg':
             case 'jpeg':
-                @imagejpeg($this->resource, null, 90);
+                @imagejpeg($this->resource, null, $quality);
             break;
         }
 
@@ -456,10 +457,10 @@ class Image
      * @param  string $path
      * @return Image 
      */
-    public function save($path = null)
+    public function save($path = null, $quality = 90)
     {
         $path = is_null($path) ? ($this->dirname .'/'. $this->basename) : $path;
-        file_put_contents($path, $this->data($this->filesystem->extension($path)));
+        file_put_contents($path, $this->data($this->filesystem->extension($path), $quality));
         return $this;
     }
 

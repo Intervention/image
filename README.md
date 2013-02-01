@@ -1,6 +1,6 @@
 # Intervention Image Class
 
-Image handling and manipulation. Made to work with **Laravel 4** but runs also standalone.
+Image handling and manipulation based on PHP GD library. Made to work with **Laravel 4** but runs also standalone.
 
 ## Installation
 
@@ -35,7 +35,7 @@ Add the facade of this package to the `$aliases` array.
 
         ...
 
-        'Image' => 'Intervention\Image\Facades\Image',
+        'Image' => 'Intervention\Image\Facades\Image'
 
     ),
 
@@ -48,6 +48,7 @@ Add the facade of this package to the `$aliases` array.
 * Image::insert - Insert another image on top of the current image
 * Image::pixelate - Pixelate current image
 * Image::greyscale - Turn current image into a greyscale version
+* Image::text - Write text in current image
 * Image::reset - Reset to original image resource
 * Image::save - Save image in filesystem
 
@@ -68,6 +69,9 @@ $img->resize(array('height' => '200'));
 
 // insert another image
 $img->insert('public/bar.png');
+
+// write some text in image
+$img->text('Hello World', 10, 10);
 
 // turn image into greyscale version
 $img->greyscale();

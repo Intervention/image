@@ -139,7 +139,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
     public function testTextImage()
     {
         $img = $this->getTestImage();
-        $img = $img->text('Fox', 10, 10, 0, 16, '000000', null);
+        $img = $img->text('Fox', 10, 10, 16, '000000', 0, null);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
     }
 

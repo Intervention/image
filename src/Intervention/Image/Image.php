@@ -311,7 +311,19 @@ class Image
         return $this;
     }
 
-    public function text($text, $pos_x = 0, $pos_y = 0, $angle = 0, $size = 16, $color = '000000', $fontfile = null)
+    /**
+     * Write text in current image
+     * 
+     * @param  string  $text     
+     * @param  integer $pos_x   
+     * @param  integer $pos_y   
+     * @param  integer $angle   
+     * @param  integer $size    
+     * @param  string  $color   
+     * @param  string  $fontfile
+     * @return Image            
+     */
+    public function text($text, $pos_x = 0, $pos_y = 0, $size = 16, $color = '000000', $angle = 0, $fontfile = null)
     {
         if (is_null($fontfile)) {
             

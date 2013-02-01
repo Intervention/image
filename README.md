@@ -57,11 +57,23 @@ Add the facade of this package to the `$aliases` array.
 // create Image from file
 $img = Image::make('public/foo.jpg');
 
-// resize image
+// resize image to fixed size
 $img->resize(300, 200);
+
+// resize image to maximum width of 300px and keep ratio for height automatically
+$img->resize(array('width' => '300'));
+
+// resize image to maximum height of 200px and keep ratio for width automatically
+$img->resize(array('height' => '200'));
+
+// insert another image
+$img->insert('public/bar.png');
 
 // turn image into greyscale version
 $img->greyscale();
+
+// pixelate image with blocksize of 25x25 pixel
+$img->pixelate(25);
 
 // save image in desired format
 $img->save('public/bar.jpg');
@@ -69,5 +81,19 @@ $img->save('public/bar.jpg');
 // its also possible to chain methods
 $img1 = Image::make('public/img1.png');
 $img2 = Image::make('public/img2.png');
-$img1->grab(200)->insert($img2)->save('public/bar.jpg');
+$img1->resize(300, 200)->insert($img2)->save('public/bar.jpg');
+```
+
+```php
+// use grab method to format images in a smart way combining cropping and resizing
+$img = Image::make('public/foo.jpg');
+
+// crop the best fitting 1:1 ratio (200x200) and resize to 200x200 pixel
+$img->grab(200);
+
+// crop the best fitting 5:3 (600x360) ratio and resize to 600x360 pixel
+$img->grab(600, 360);
+
+// crop the best fitting 1:1 (150x150) ratio and resize to 150x150 pixel
+$img->grab(array('width' => '150'));
 ```

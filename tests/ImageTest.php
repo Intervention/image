@@ -173,6 +173,27 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInstanceOf('Intervention\Image\Image', $img);
     }
 
+    public function testAddImagesWithAlphaChannel()
+    {
+        $img = $this->getTestImage();
+        $circle = new Image('public/circle.png');
+
+        for ($x=0; $x < $img->width; $x=$x+$circle->width) { 
+            for ($y=0; $y < $img->height; $y=$y+$circle->height) { 
+                // insert circle png at position x,y
+                $img->insert($circle, $x, $y);
+            }
+        }
+
+        $save_as = 'public/final.png';
+        $img->save($save_as);
+        $this->assertFileExists($save_as);
+        @unlink($save_as);
+
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInstanceOf('Intervention\Image\Image', $circle);
+    }
+
     public function testResetImage()
     {
         $img = $this->getTestImage();

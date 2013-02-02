@@ -95,6 +95,9 @@ $img->save('public/bar.jpg', 60);
 $img1 = Image::make('public/img1.png');
 $img2 = Image::make('public/img2.png');
 $img1->resize(300, 200)->insert($img2)->save('public/bar.jpg');
+
+// create an empty (transparent background) image, without opening any file
+$img = new Image(null, 300, 200);
 ```
 
 ```php

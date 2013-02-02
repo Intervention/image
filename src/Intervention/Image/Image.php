@@ -66,10 +66,10 @@ class Image
      * 
      * @param string $path
      */
-    public function __construct($path = null) 
+    public function __construct($path = null, $width = null, $height = null) 
     {
         $this->filesystem = new Filesystem;
-        $this->setProperties($path);
+        $this->setProperties($path, $width, $height);
     }
 
     /**
@@ -88,7 +88,7 @@ class Image
      * 
      * @param string $path
      */
-    private function setProperties($path)
+    private function setProperties($path, $width = null, $height = null)
     {
         if ( ! is_null($path) && $this->filesystem->exists($path)) {
             
@@ -124,13 +124,16 @@ class Image
 
         } else {
             
-            $this->width = 1;
-            $this->height = 1;
-            $this->resource = @imagecreatetruecolor($this->width, $this->height);
-        }
+            $this->width = is_numeric($width) ? intval($width) : 1;
+            $this->height = is_numeric($height) ? intval($height) : 1;
 
-        @imagealphablending($this->resource, false);
-        @imagesavealpha($this->resource, true);
+            // create empty image
+            $this->resource = @imagecreatetruecolor($this->width, $this->height);
+
+            // fill with transparent background instead of black
+            $transparent = imagecolorallocatealpha($this->resource, 0, 0, 0, 127);
+            imagefill($this->resource, 0, 0, $transparent);
+        }
     }
     
     /**
@@ -465,6 +468,8 @@ class Image
             break;
 
             case 'png':
+                @imagealphablending($this->resource, false);
+                @imagesavealpha($this->resource, true);
                 @imagepng($this->resource);
             break;
 

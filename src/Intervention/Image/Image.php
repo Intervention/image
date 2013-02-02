@@ -294,7 +294,7 @@ class Image
      */
     public function fill($color, $pos_x = 0, $pos_y = 0)
     {
-        imagefill($this->resource, $pos_x, $pos_y, $this->getColor($color));
+        imagefill($this->resource, $pos_x, $pos_y, $this->parseColor($color));
         return $this;
     }
 
@@ -308,7 +308,7 @@ class Image
      */
     public function pixel($color, $pos_x = 0, $pos_y = 0)
     {
-        imagesetpixel($this->resource, $pos_x, $pos_y, $this->getColor($color));
+        imagesetpixel($this->resource, $pos_x, $pos_y, $this->parseColor($color));
         return $this;
     }
 
@@ -326,7 +326,7 @@ class Image
     public function rectangle($color, $x1 = 0, $y1 = 0, $x2 = 10, $y2 = 10, $filled = true)
     {
         $callback = $filled ? 'imagefilledrectangle' : 'imagerectangle';
-        call_user_func($callback, $this->resource, $x1, $y1, $x2, $y2, $this->getColor($color));
+        call_user_func($callback, $this->resource, $x1, $y1, $x2, $y2, $this->parseColor($color));
         return $this;
     }
 
@@ -342,7 +342,7 @@ class Image
      */
     public function line($color, $x1 = 0, $y1 = 0, $x2 = 10, $y2 = 10)
     {
-        imageline($this->resource, $x1, $y1, $x2, $y2, $this->getColor($color));
+        imageline($this->resource, $x1, $y1, $x2, $y2, $this->parseColor($color));
         return $this;
     }
 
@@ -359,7 +359,7 @@ class Image
     public function ellipse($color, $x = 0, $y = 0, $width = 10, $height = 10, $filled = true)
     {
         $callback = $filled ? 'imagefilledellipse' : 'imageellipse';
-        call_user_func($callback, $this->resource, $x, $y, $width, $height, $this->getColor($color));
+        call_user_func($callback, $this->resource, $x, $y, $width, $height, $this->parseColor($color));
         return $this;
     }
 
@@ -394,11 +394,11 @@ class Image
     {
         if (is_null($fontfile)) {
             
-            imagestring($this->resource, $size, $pos_x, $pos_y, $text, $this->getColor($color)); 
+            imagestring($this->resource, $size, $pos_x, $pos_y, $text, $this->parseColor($color)); 
 
         } else {
             
-            imagettftext($this->resource, $size, $angle, $pos_x, $pos_y, $this->getColor($color), $fontfile, $text); 
+            imagettftext($this->resource, $size, $angle, $pos_x, $pos_y, $this->parseColor($color), $fontfile, $text); 
 
         }
 
@@ -486,37 +486,41 @@ class Image
         return $data;
     }
 
+    public function pickColor($x, $y, $format = null)
+    {
+        $colorindex = imagecolorat($this->resource, $x, $y);
+    }
+
     /**
      * Allocate color from given string
      * 
      * @param  string $value
      * @return int
      */
-    private function getColor($value)
+    public function parseColor($value)
     {
-        if (is_array($value)) {
+        if (is_array($value)) { // parse color array like: array(155, 155, 155)
 
             list($r, $g, $b) = $value;
 
-            $color = array(
-                'r' => '0x' . $r,
-                'g' => '0x' . $g,
-                'b' => '0x' . $b
-            );
+        } elseif(is_string($value)) { // parse color in hexidecimal str like #cccccc or cccccc or ccc
 
-        } elseif(is_string($value) && strlen($value) == 6) {
+            if (preg_match('/^#?([a-f0-9]{1,2})([a-f0-9]{1,2})([a-f0-9]{1,2})$/i', $value, $matches)) {
 
-            $color = array(
-                'r' => '0x' . substr($value, 0, 2),
-                'g' => '0x' . substr($value, 2, 2),
-                'b' => '0x' . substr($value, 4, 2)
-            );
+                $r = strlen($matches[1]) == '1' ? $matches[1].$matches[1] : $matches[1];
+                $g = strlen($matches[2]) == '1' ? $matches[2].$matches[2] : $matches[2];
+                $b = strlen($matches[3]) == '1' ? $matches[3].$matches[3] : $matches[3];
+            }
+
         }
 
-        if (is_array($color)) {
-            return imagecolorallocate($this->resource, $color['r'], $color['g'], $color['b']);
+        if (isset($r) && isset($g) && isset($b)) {
+
+            return imagecolorallocate($this->resource, '0x'.$r, '0x'.$g, '0x'.$b);
+            
         } else {
-            throw new Exception("Error Processing Color");
+            
+            throw new Exception("Error parsing color [{$value}]");
         }
     }
 

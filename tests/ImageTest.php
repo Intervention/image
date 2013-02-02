@@ -1,7 +1,6 @@
 <?php
 
 use Intervention\Image\Image;
-use Intervention\Image\Font;
 
 class ImageTest extends PHPUnit_Framework_Testcase
 {
@@ -219,6 +218,25 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img = $this->getTestImage();
         $img = strval($img);
         $this->assertInternalType('string', $img);
+    }
+
+    public function testParseColor()
+    {
+        $img = $this->getTestImage();
+        $color = $img->parseColor(array(155, 155, 155));
+        $this->assertInternalType('int', $color);
+            
+        $color = $img->parseColor('#cccccc');
+        $this->assertInternalType('int', $color);
+
+        $color = $img->parseColor('cccccc');
+        $this->assertInternalType('int', $color);
+
+        $color = $img->parseColor('#ccc');
+        $this->assertInternalType('int', $color);
+
+        $color = $img->parseColor('ccc');
+        $this->assertInternalType('int', $color);
     }
 
 }

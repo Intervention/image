@@ -310,6 +310,72 @@ class Image
     }
 
     /**
+     * Draw rectangle in current image starting at point 1 and ending at point 2
+     * 
+     * @param  string  $color
+     * @param  integer $x1    
+     * @param  integer $y1   
+     * @param  integer $x2    
+     * @param  integer $y2
+     * @param  boolean $filled
+     * @return Image         
+     */
+    public function rectangle($color, $x1 = 0, $y1 = 0, $x2 = 10, $y2 = 10, $filled = true)
+    {
+        $callback = $filled ? 'imagefilledrectangle' : 'imagerectangle';
+        call_user_func($callback, $this->resource, $x1, $y1, $x2, $y2, $this->getColor($color));
+        return $this;
+    }
+
+    /**
+     * Draw a line in current image starting at point 1 and ending at point 2
+     * 
+     * @param  string  $color 
+     * @param  integer $x1    
+     * @param  integer $y1    
+     * @param  integer $x2    
+     * @param  integer $y2    
+     * @return Image
+     */
+    public function line($color, $x1 = 0, $y1 = 0, $x2 = 10, $y2 = 10)
+    {
+        imageline($this->resource, $x1, $y1, $x2, $y2, $this->getColor($color));
+        return $this;
+    }
+
+    /**
+     * Draw an ellipse centered at given coordinates.
+     * 
+     * @param  string  $color  
+     * @param  integer $x      
+     * @param  integer $y      
+     * @param  integer $width  
+     * @param  integer $height 
+     * @return Image
+     */
+    public function ellipse($color, $x = 0, $y = 0, $width = 10, $height = 10, $filled = true)
+    {
+        $callback = $filled ? 'imagefilledellipse' : 'imageellipse';
+        call_user_func($callback, $this->resource, $x, $y, $width, $height, $this->getColor($color));
+        return $this;
+    }
+
+    /**
+     * Draw a circle centered at given coordinates
+     *                  
+     * @param  string  $color 
+     * @param  integer $x     
+     * @param  integer $y     
+     * @param  integer $radius
+     * @param  boolean $filled
+     * @return Image
+     */
+    public function circle($color, $x = 0, $y = 0, $radius = 10, $filled = true)
+    {
+        return $this->ellipse($color, $x, $y, $radius, $radius, $filled);
+    }
+
+    /**
      * Write text in current image
      * 
      * @param  string  $text     

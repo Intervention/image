@@ -143,6 +143,36 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInstanceOf('Intervention\Image\Image', $img);
     }
 
+    public function testRectangleImage()
+    {
+        $img = $this->getTestImage();
+        $img = $img->rectangle('cccccc', 10, 10, 100, 100);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+    }
+
+    public function testLineImage()
+    {
+        $img = $this->getTestImage();
+        $img = $img->line('cccccc', 10, 10, 100, 100);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+    }
+
+    public function testEllipseImage()
+    {
+        $img = $this->getTestImage();
+        $img = $img->ellipse('cccccc', 10, 10, 100, 50, false);
+        $img = $img->ellipse('666666', 100, 100, 50, 100, true);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+    }
+
+    public function testCircleImage()
+    {
+        $img = $this->getTestImage();
+        $img = $img->circle('cccccc', 10, 10, 100, false);
+        $img = $img->circle('666666', 100, 100, 50, true);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+    }
+
     public function testResetImage()
     {
         $img = $this->getTestImage();

@@ -49,6 +49,12 @@ Add the facade of this package to the `$aliases` array.
 * Image::pixelate - Pixelate current image
 * Image::greyscale - Turn current image into a greyscale version
 * Image::text - Write text in current image
+* Image::fill - Fill image with given hexadecimal color at position x,y
+* Image::rectangle - Draw rectangle in current image starting at point 1 and ending at point 2
+* Image::line - Draw a line in current image starting at point 1 and ending at point 2
+* Image::ellipse - Draw an ellipse centered at given coordinates
+* Image::circle - Draw a circle centered at given coordinates
+* Image::pixel - Set single pixel with given hexadecimal color at position x,y
 * Image::reset - Reset to original image resource
 * Image::save - Save image in filesystem
 

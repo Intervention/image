@@ -1,6 +1,7 @@
 {
     "name": "intervention/image",
-    "description": "Image handling and manipulation",
+    "description": "Image handling and manipulation for Laravel 4",
+    "homepage": "https://github.com/Intervention/image",
     "keywords": ["image", "gd", "laravel"],
     "license": "MIT",
     "authors": [

@@ -275,7 +275,7 @@ class Image
      */
     public function insert($file, $pos_x = 0, $pos_y = 0)
     {
-        $obj = is_a($file, 'Intervention\Image') ? $file : (new Image($file));
+        $obj = is_a($file, 'Intervention\Image\Image') ? $file : (new Image($file));
         imagecopy($this->resource, $obj->resource, $pos_x, $pos_y, 0, 0, $obj->width, $obj->height);
 
         return $this;

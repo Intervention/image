@@ -7,7 +7,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
 {
     private function getTestImage()
     {
-        return new Image('public/gun.jpg');
+        return new Image('public/test.jpg');
     }
 
     public function testFilesystemLibraryIsAvailable()
@@ -25,9 +25,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->width, 800);
         $this->assertEquals($img->height, 600);
         $this->assertEquals($img->dirname, 'public');
-        $this->assertEquals($img->basename, 'gun.jpg');
+        $this->assertEquals($img->basename, 'test.jpg');
         $this->assertEquals($img->extension, 'jpg');
-        $this->assertEquals($img->filename, 'gun');
+        $this->assertEquals($img->filename, 'test');
     }
 
     public function testResizeImage()
@@ -97,7 +97,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
     public function testInsertImage()
     {
         $img = $this->getTestImage();
-        $img->insert('public/gun.jpg', 10, 10);
+        $img->insert('public/test.jpg', 10, 10);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         
     }

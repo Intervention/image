@@ -85,6 +85,13 @@ $img->greyscale();
 // pixelate image with blocksize of 25x25 pixel
 $img->pixelate(25);
 
+// fill image with color
+$img->fill('ccc'); // its possible to use shorthand hexcolor
+$img->fill('cccccc'); // or full hexcolor code
+$img->fill('#ccc'); // with or without #
+$img->fill('#cccccc');
+$img->fill(array(204, 204, 204)); // or just pass the color as rgb format array
+
 // save image in desired format
 $img->save('public/bar.jpg');
 

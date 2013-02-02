@@ -121,6 +121,15 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img = $img->fill('fdf5e4');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
 
+        $img = $img->fill('#fdf5e4');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+
+        $img = $img->fill('ccc');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+
+        $img = $img->fill('#ccc');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+
         $img = $img->fill(array(155, 155, 155), rand(1,10), rand(1,10));
         $this->assertInstanceOf('Intervention\Image\Image', $img);
     }
@@ -139,6 +148,12 @@ class ImageTest extends PHPUnit_Framework_Testcase
     {
         $img = $this->getTestImage();
         $img = $img->text('Fox', 10, 10, 16, '000000', 0, null);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+
+        $img = $img->text('Fox', 10, 10, 16, '#000000', 0, null);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+
+        $img = $img->text('Fox', 10, 10, 16, array(155, 155, 155), 0, null);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
     }
 

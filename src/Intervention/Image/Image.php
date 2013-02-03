@@ -530,6 +530,11 @@ class Image
                 $color = sprintf('rgb(%d, %d, %d)', $color['red'], $color['green'], $color['blue']);
                 break;
 
+            case 'rgba':
+                $color = imagecolorsforindex($this->resource, $color);
+                $color = sprintf('rgba(%d, %d, %d, %.2f)', $color['red'], $color['green'], $color['blue'], $this->alpha2rgba($color['alpha']));
+                break;
+
             case 'hex':
                 $color = imagecolorsforindex($this->resource, $color);
                 $color = sprintf('#%02x%02x%02x', $color['red'], $color['green'], $color['blue']);
@@ -585,16 +590,8 @@ class Image
                 $r = ($matches[1] >= 0 && $matches[1] <= 255) ? intval($matches[1]) : 0;
                 $g = ($matches[2] >= 0 && $matches[2] <= 255) ? intval($matches[2]) : 0;
                 $b = ($matches[3] >= 0 && $matches[3] <= 255) ? intval($matches[3]) : 0;
-
-                $range_input = range(1, 0, 1/127);
-                $range_output = range(0, 127);
-
-                foreach ($range_input as $key => $value) {
-                    if ($value <= ($matches[4])) {
-                        $alpha = $range_output[$key];
-                        break;
-                    }
-                }
+                $alpha = $this->alpha2gd($matches[4]);
+                
             }
         }
 
@@ -623,6 +620,30 @@ class Image
         $path = is_null($path) ? ($this->dirname .'/'. $this->basename) : $path;
         file_put_contents($path, $this->data($this->filesystem->extension($path), $quality));
         return $this;
+    }
+
+    private function alpha2gd($input)
+    {
+        $range_input = range(1, 0, 1/127);
+        $range_output = range(0, 127);
+
+        foreach ($range_input as $key => $value) {
+            if ($value <= $input) {
+                return $range_output[$key];
+            }
+        }
+    }
+
+    private function alpha2rgba($input)
+    {
+        $range_input = range(0, 127);
+        $range_output = range(1, 0, 1/127);
+
+        foreach ($range_input as $key => $value) {
+            if ($value >= $input) {
+                return round($range_output[$key], 2);
+            }
+        }
     }
 
     /*

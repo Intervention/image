@@ -263,6 +263,17 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($color['green'], 166);   
         $this->assertInternalType('int', $color['blue']);   
         $this->assertEquals($color['blue'], 0);   
+
+        // rgba color string
+        $color = $img->pickColor(799, 599, 'rgba');
+        $this->assertInternalType('string', $color);   
+        $this->assertEquals($color, 'rgba(255, 166, 0, 1.00)');
+        $img = new Image(null, 100, 100);
+        $color = imagecolorallocatealpha($img->resource, 0, 0, 255, 64);
+        $img->fill($color);
+        $color = $img->pickColor(50, 50, 'rgba');
+        $this->assertInternalType('string', $color);   
+        $this->assertEquals($color, 'rgba(0, 0, 255, 0.50)');
     }
 
     public function testParseColor()
@@ -350,5 +361,4 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img->contrast(-50);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
     }
-
 }

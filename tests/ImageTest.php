@@ -324,6 +324,15 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($checkColor['green'], 0);   
         $this->assertEquals($checkColor['blue'], 0);   
         $this->assertEquals($checkColor['alpha'], 64);   
+
+        $img = new Image(null, 100, 100);
+        $color = imagecolorallocatealpha($img->resource, 0, 0, 255, 60);
+        $img->fill($color);
+        $checkColor = $img->pickColor(50, 50,'array');
+        $this->assertEquals($checkColor['red'], 0);   
+        $this->assertEquals($checkColor['green'], 0);   
+        $this->assertEquals($checkColor['blue'], 255);   
+        $this->assertEquals($checkColor['alpha'], 60);   
     }
 
     public function testBrightnessImage()

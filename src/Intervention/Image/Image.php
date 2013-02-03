@@ -553,7 +553,12 @@ class Image
     {
         $alpha = 0;
 
-        if (is_array($value)) {
+        if (is_int($value)) {
+
+            // color is alread allocated
+            $allocatedColor = $value;            
+
+        } elseif(is_array($value)) {
 
             // parse color array like: array(155, 155, 155)
             list($r, $g, $b) = $value;
@@ -593,7 +598,11 @@ class Image
             }
         }
 
-        if (isset($r) && isset($g) && isset($b)) {
+        if (isset($allocatedColor)) {
+            
+            return $allocatedColor;
+
+        } elseif (isset($r) && isset($g) && isset($b)) {
 
             return imagecolorallocatealpha($this->resource, $r, $g, $b, $alpha);
 

@@ -90,8 +90,12 @@ class Image
      */
     private function setProperties($path, $width = null, $height = null)
     {
-        if ( ! is_null($path) && $this->filesystem->exists($path)) {
+        if ( ! is_null($path)) {
             
+            if (!$this->filesystem->exists($path)) {
+                throw new Exception("Image file ({$path}) not found");
+            }
+
             // set file info
             $info = pathinfo($path);
             $this->dirname = $info['dirname'];
@@ -645,14 +649,6 @@ class Image
             }
         }
     }
-
-    /*
-    public function render($type = 'jpg')
-    {
-        return Response::make($this->data($type), 200, 
-                array('content-type' => $this->filesystem->mime($type)));
-    }
-    */
 
     /**
      * Return filesystem object

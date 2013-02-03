@@ -294,4 +294,20 @@ class ImageTest extends PHPUnit_Framework_Testcase
 
     }
 
+    public function testBrightnessImage()
+    {
+        $img = $this->getTestImage();
+        $img->brightness(50);
+        $img->brightness(-50);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+    }
+
+    public function testContrastImage()
+    {
+        $img = $this->getTestImage();
+        $img->contrast(50);
+        $img->contrast(-50);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+    }
+
 }

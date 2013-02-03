@@ -406,6 +406,30 @@ class Image
     }
 
     /**
+     * Changes the brightness of the current image
+     * 
+     * @param  int $level [description]
+     * @return Image
+     */
+    public function brightness($level)
+    {
+        imagefilter($this->resource, IMG_FILTER_BRIGHTNESS, $level);
+        return $this;
+    }
+
+    /**
+     * Changes the contrast of the current image
+     * 
+     * @param  int $level
+     * @return Image    
+     */
+    public function contrast($level)
+    {
+        imagefilter($this->resource, IMG_FILTER_CONTRAST, $level);
+        return $this;
+    }
+
+    /**
      * Pixelate current image
      * 
      * @param  integer $size

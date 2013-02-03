@@ -78,9 +78,9 @@ class Image
      * @param  string $path
      * @return Image
      */
-    public static function make($path)
+    public static function make($path, $width = null, $height = null)
     {
-        return new Image($path);
+        return new Image($path, $width, $height);
     }
 
     /**

@@ -551,6 +551,8 @@ class Image
      */
     public function parseColor($value)
     {
+        $alpha = 0;
+
         if (is_array($value)) {
 
             // parse color array like: array(155, 155, 155)
@@ -561,24 +563,40 @@ class Image
             // parse color string in hexidecimal format like #cccccc or cccccc or ccc
             if (preg_match('/^#?([a-f0-9]{1,2})([a-f0-9]{1,2})([a-f0-9]{1,2})$/i', $value, $matches)) {
 
-                $r = strlen($matches[1]) == '1' ? $matches[1].$matches[1] : $matches[1];
-                $g = strlen($matches[2]) == '1' ? $matches[2].$matches[2] : $matches[2];
-                $b = strlen($matches[3]) == '1' ? $matches[3].$matches[3] : $matches[3];
+                $r = strlen($matches[1]) == '1' ? '0x'.$matches[1].$matches[1] : '0x'.$matches[1];
+                $g = strlen($matches[2]) == '1' ? '0x'.$matches[2].$matches[2] : '0x'.$matches[2];
+                $b = strlen($matches[3]) == '1' ? '0x'.$matches[3].$matches[3] : '0x'.$matches[3];
 
             // parse color string in format rgb(140, 140, 140)
             } elseif (preg_match('/^rgb ?\(([0-9]{1,3}), ?([0-9]{1,3}), ?([0-9]{1,3})\)$/i', $value, $matches)) {
                 
                 $r = ($matches[1] >= 0 && $matches[1] <= 255) ? intval($matches[1]) : 0;
-                $g = ($matches[1] >= 0 && $matches[2] <= 255) ? intval($matches[2]) : 0;
-                $b = ($matches[1] >= 0 && $matches[3] <= 255) ? intval($matches[3]) : 0;
+                $g = ($matches[2] >= 0 && $matches[2] <= 255) ? intval($matches[2]) : 0;
+                $b = ($matches[3] >= 0 && $matches[3] <= 255) ? intval($matches[3]) : 0;
 
+            // parse color string in format rgba(255, 0, 0, 0.5)
+            } elseif (preg_match('/^rgba ?\(([0-9]{1,3}), ?([0-9]{1,3}), ?([0-9]{1,3}), ?([0-9.]{1,3})\)$/i', $value, $matches)) {
+                
+                $r = ($matches[1] >= 0 && $matches[1] <= 255) ? intval($matches[1]) : 0;
+                $g = ($matches[2] >= 0 && $matches[2] <= 255) ? intval($matches[2]) : 0;
+                $b = ($matches[3] >= 0 && $matches[3] <= 255) ? intval($matches[3]) : 0;
+
+                $range_input = range(1, 0, 1/127);
+                $range_output = range(0, 127);
+
+                foreach ($range_input as $key => $value) {
+                    if ($value <= ($matches[4])) {
+                        $alpha = $range_output[$key];
+                        break;
+                    }
+                }
             }
         }
 
         if (isset($r) && isset($g) && isset($b)) {
 
-            return imagecolorallocate($this->resource, '0x'.$r, '0x'.$g, '0x'.$b);
-            
+            return imagecolorallocatealpha($this->resource, $r, $g, $b, $alpha);
+
         } else {
             
             throw new Exception("Error parsing color [{$value}]");

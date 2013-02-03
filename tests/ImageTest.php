@@ -292,6 +292,38 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $color = $img->parseColor('rgb(0,0,0)');
         $this->assertInternalType('int', $color);
 
+        $color = $img->parseColor('rgba(0,0,0,0.5)');
+        $this->assertInternalType('int', $color);
+
+        $color = $img->parseColor('rgba(255, 0, 0, 0.5)');
+        $this->assertInternalType('int', $color);
+    }
+
+    public function testAdvancedColors()
+    {
+        $img = new Image(null, 100, 100);
+        $img->fill('rgb(255, 0, 0)');
+        
+        $checkColor = $img->pickColor(50, 50,'array');
+        $this->assertEquals($checkColor['red'], 255);   
+        $this->assertEquals($checkColor['green'], 0);   
+        $this->assertEquals($checkColor['blue'], 0);   
+        $this->assertEquals($checkColor['alpha'], 0);   
+
+        $img->rectangle('rgba(0,0,0,0.5)', 0, 0, 100, 100);
+        $checkColor = $img->pickColor(50, 50,'array');
+        $this->assertEquals($checkColor['red'], 128);   
+        $this->assertEquals($checkColor['green'], 0);   
+        $this->assertEquals($checkColor['blue'], 0);   
+        $this->assertEquals($checkColor['alpha'], 0);   
+
+        $img = new Image(null, 100, 100);
+        $img->fill('rgba(0,0,0,0.5)');
+        $checkColor = $img->pickColor(50, 50,'array');
+        $this->assertEquals($checkColor['red'], 0);   
+        $this->assertEquals($checkColor['green'], 0);   
+        $this->assertEquals($checkColor['blue'], 0);   
+        $this->assertEquals($checkColor['alpha'], 64);   
     }
 
     public function testBrightnessImage()

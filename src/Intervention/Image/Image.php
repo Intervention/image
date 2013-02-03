@@ -486,9 +486,37 @@ class Image
         return $data;
     }
 
+    /**
+     * Picks and formats color at position
+     * 
+     * @param  int $x      
+     * @param  int $y      
+     * @param  string $format 
+     * @return mixed         
+     */
     public function pickColor($x, $y, $format = null)
     {
-        $colorindex = imagecolorat($this->resource, $x, $y);
+        // pick color at postion
+        $color = imagecolorat($this->resource, $x, $y);
+
+        // format color
+        switch (strtolower($format)) {
+            case 'rgb':
+                $color = imagecolorsforindex($this->resource, $color);
+                $color = sprintf('rgb(%d, %d, %d)', $color['red'], $color['green'], $color['blue']);
+                break;
+
+            case 'hex':
+                $color = imagecolorsforindex($this->resource, $color);
+                $color = sprintf('#%02x%02x%02x', $color['red'], $color['green'], $color['blue']);
+                break;
+            
+            case 'array':
+                $color = imagecolorsforindex($this->resource, $color);
+                break;
+        }
+        
+        return $color;
     }
 
     /**
@@ -499,19 +527,28 @@ class Image
      */
     public function parseColor($value)
     {
-        if (is_array($value)) { // parse color array like: array(155, 155, 155)
+        if (is_array($value)) {
 
+            // parse color array like: array(155, 155, 155)
             list($r, $g, $b) = $value;
 
-        } elseif(is_string($value)) { // parse color in hexidecimal str like #cccccc or cccccc or ccc
+        } elseif(is_string($value)) {
 
+            // parse color string in hexidecimal format like #cccccc or cccccc or ccc
             if (preg_match('/^#?([a-f0-9]{1,2})([a-f0-9]{1,2})([a-f0-9]{1,2})$/i', $value, $matches)) {
 
                 $r = strlen($matches[1]) == '1' ? $matches[1].$matches[1] : $matches[1];
                 $g = strlen($matches[2]) == '1' ? $matches[2].$matches[2] : $matches[2];
                 $b = strlen($matches[3]) == '1' ? $matches[3].$matches[3] : $matches[3];
-            }
 
+            // parse color string in format rgb(140, 140, 140)
+            } elseif (preg_match('/^rgb ?\(([0-9]{1,3}), ?([0-9]{1,3}), ?([0-9]{1,3})\)$/i', $value, $matches)) {
+                
+                $r = ($matches[1] >= 0 && $matches[1] <= 255) ? intval($matches[1]) : 0;
+                $g = ($matches[1] >= 0 && $matches[2] <= 255) ? intval($matches[2]) : 0;
+                $b = ($matches[1] >= 0 && $matches[3] <= 255) ? intval($matches[3]) : 0;
+
+            }
         }
 
         if (isset($r) && isset($g) && isset($b)) {

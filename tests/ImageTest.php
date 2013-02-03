@@ -235,6 +235,36 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInternalType('string', $img);
     }
 
+    public function testPickColor()
+    {
+        $img = $this->getTestImage();
+        
+        // int color
+        $color = $img->pickColor(100, 100);
+        $this->assertInternalType('int', $color);   
+        $this->assertEquals($color, 16776956);
+
+        // rgb color string
+        $color = $img->pickColor(799, 599, 'rgb');
+        $this->assertInternalType('string', $color);   
+        $this->assertEquals($color, 'rgb(255, 166, 0)');
+
+        // hex color string
+        $color = $img->pickColor(799, 599, 'hex');
+        $this->assertInternalType('string', $color);   
+        $this->assertEquals($color, '#ffa600');   
+
+        // rgb color array
+        $color = $img->pickColor(799, 599, 'array');
+        $this->assertInternalType('array', $color);   
+        $this->assertInternalType('int', $color['red']);   
+        $this->assertEquals($color['red'], 255);   
+        $this->assertInternalType('int', $color['green']);   
+        $this->assertEquals($color['green'], 166);   
+        $this->assertInternalType('int', $color['blue']);   
+        $this->assertEquals($color['blue'], 0);   
+    }
+
     public function testParseColor()
     {
         $img = $this->getTestImage();
@@ -252,6 +282,16 @@ class ImageTest extends PHPUnit_Framework_Testcase
 
         $color = $img->parseColor('ccc');
         $this->assertInternalType('int', $color);
+
+        $color = $img->parseColor('rgb(1, 14, 144)');
+        $this->assertInternalType('int', $color);
+
+        $color = $img->parseColor('rgb (255, 255, 255)');
+        $this->assertInternalType('int', $color);
+
+        $color = $img->parseColor('rgb(0,0,0)');
+        $this->assertInternalType('int', $color);
+
     }
 
 }

@@ -55,6 +55,7 @@ Add the facade of this package to the `$aliases` array.
 * Image::ellipse - Draw an ellipse centered at given coordinates
 * Image::circle - Draw a circle centered at given coordinates
 * Image::pixel - Set single pixel with given hexadecimal color at position x,y
+* Image::pickColor - Picks and formats color at position in current image
 * Image::reset - Reset to original image resource
 * Image::save - Save image in filesystem
 

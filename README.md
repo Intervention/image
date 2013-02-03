@@ -93,6 +93,7 @@ $img->fill('ccc'); // its possible to use shorthand hexcolor
 $img->fill('cccccc'); // or full hexcolor code
 $img->fill('#ccc'); // with or without #
 $img->fill('#cccccc');
+$img->fill('rgba(255, 0, 0, 0.5)'); // define transparent colors as rgba format
 $img->fill(array(204, 204, 204)); // or just pass the color as rgb format array
 
 // save image in desired format

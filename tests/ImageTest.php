@@ -361,4 +361,42 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img->contrast(-50);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
     }
+
+    public function testStaticCallMake()
+    {
+        $img = Image::make('public/test.jpg');
+        $this->assertInternalType('resource', $img->resource);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 800);
+        $this->assertEquals($img->height, 600);
+        $this->assertEquals($img->dirname, 'public');
+        $this->assertEquals($img->basename, 'test.jpg');
+        $this->assertEquals($img->extension, 'jpg');
+        $this->assertEquals($img->filename, 'test');
+    }
+
+    public function testStaticCallCanvas()
+    {
+        $img = Image::canvas(300, 200);
+        $this->assertInternalType('resource', $img->resource);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 300);
+        $this->assertEquals($img->height, 200);
+    }
+
+    public function testCreateCanvasWithTransparentBackground()
+    {
+        $img = Image::canvas(100, 100);
+        $color = $img->pickColor(50, 50, 'array');
+        $this->assertInternalType('int', $color['red']);
+        $this->assertInternalType('int', $color['green']);
+        $this->assertInternalType('int', $color['blue']);
+        $this->assertInternalType('int', $color['alpha']);
+        $this->assertEquals($color['red'], 0);
+        $this->assertEquals($color['green'], 0);
+        $this->assertEquals($color['blue'], 0);
+        $this->assertEquals($color['alpha'], 127);
+    }
 }

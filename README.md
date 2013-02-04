@@ -42,8 +42,9 @@ Add the facade of this package to the `$aliases` array.
 ## Usage
 
 * Image::__construct - Create new instance of Image class
-* Image::make - Create new image resource from image file
-* Image::resize - Resize image based on given width and/or height
+* Image::make - Open a new image resource from image file or create a new empty image
+* Image::canvas - Create a new empty image resource
+* Image::resize - Resize current image based on given width and/or height
 * Image::grab - Cut out a detail of the image in given ratio and resize to output size
 * Image::insert - Insert another image on top of the current image
 * Image::brightness - Changes brightness of current image
@@ -64,6 +65,9 @@ Add the facade of this package to the `$aliases` array.
 ### Code example (Laravel)
 
 ```php
+// create an empty Image resource (background color transparent)
+$img = Image::canvas(640, 480);
+
 // create Image from file
 $img = Image::make('public/foo.jpg');
 
@@ -103,12 +107,9 @@ $img->save('public/bar.jpg');
 $img->save('public/bar.jpg', 60);
 
 // its also possible to chain methods
-$img1 = Image::make('public/img1.png');
+$img1 = Image::canvas(800, 600);
 $img2 = Image::make('public/img2.png');
 $img1->resize(300, 200)->insert($img2)->save('public/bar.jpg');
-
-// create an empty (transparent background) image, without opening any file
-$img = new Image(null, 300, 200);
 ```
 
 ```php

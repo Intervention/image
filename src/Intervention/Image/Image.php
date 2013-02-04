@@ -73,7 +73,7 @@ class Image
     }
 
     /**
-     * Create a new image resource from image file
+     * Open a new image resource from image file or create a new empty image
      * 
      * @param  string $path
      * @return Image
@@ -81,6 +81,18 @@ class Image
     public static function make($path, $width = null, $height = null)
     {
         return new Image($path, $width, $height);
+    }
+
+    /**
+     * Create a new empty image resource
+     *        
+     * @param  int $width
+     * @param  int $height
+     * @return Image
+     */
+    public static function canvas($width, $height)
+    {
+        return new Image(null, $width, $height);
     }
 
     /**

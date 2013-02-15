@@ -30,7 +30,7 @@ class Image
      * @var integer
      */
     public $height;
-    
+
     /**
      * Directory path of current image
      * @var string
@@ -60,13 +60,13 @@ class Image
      * @var Filesystem
      */
     protected $filesystem;
-    
+
     /**
      * Create a new instance of Image class
-     * 
+     *
      * @param string $path
      */
-    public function __construct($path = null, $width = null, $height = null) 
+    public function __construct($path = null, $width = null, $height = null)
     {
         $this->filesystem = new Filesystem;
         $this->setProperties($path, $width, $height);
@@ -74,7 +74,7 @@ class Image
 
     /**
      * Open a new image resource from image file or create a new empty image
-     * 
+     *
      * @param  string $path
      * @return Image
      */
@@ -85,7 +85,7 @@ class Image
 
     /**
      * Create a new empty image resource
-     *        
+     *
      * @param  int $width
      * @param  int $height
      * @return Image
@@ -97,13 +97,13 @@ class Image
 
     /**
      * Set local properties for image resource
-     * 
+     *
      * @param string $path
      */
     private function setProperties($path, $width = null, $height = null)
     {
         if ( ! is_null($path)) {
-            
+
             if (!$this->filesystem->exists($path)) {
                 throw new Exception("Image file ({$path}) not found");
             }
@@ -124,7 +124,7 @@ class Image
                 case 3:
                     $this->resource = @imagecreatefrompng($path);
                     break;
-                
+
                 case IMG_JPG:
                     $this->resource = @imagecreatefromjpeg($path);
                     break;
@@ -139,7 +139,7 @@ class Image
             }
 
         } else {
-            
+
             $this->width = is_numeric($width) ? intval($width) : 1;
             $this->height = is_numeric($height) ? intval($height) : 1;
 
@@ -151,10 +151,10 @@ class Image
             imagefill($this->resource, 0, 0, $transparent);
         }
     }
-    
+
     /**
      * Modify wrapper function used by resize and grab
-     * 
+     *
      * @param  integer $dst_x
      * @param  integer $dst_y
      * @param  integer $src_x
@@ -170,7 +170,7 @@ class Image
         // create new image
         $image = @imagecreatetruecolor($dst_w, $dst_h);
 
-        // copy content from resource        
+        // copy content from resource
         @imagecopyresampled($image, $this->resource, $dst_x , $dst_y , $src_x , $src_y , $dst_w , $dst_h , $src_w , $src_h);
 
         // set new content as recource
@@ -185,22 +185,22 @@ class Image
 
     /**
      * Resize current image based on given width/height
-     * 
-     * @param  mixed width|height  width and height are optional, the not given 
+     *
+     * @param  mixed width|height  width and height are optional, the not given
      *                             parameter is calculated based on the given
      * @return Image
      */
     public function resize()
     {
         $args = func_get_args();
-        
+
         if (array_key_exists(0, $args) && is_array($args[0])) {
-            
-            // extract 'width' and 'height'            
+
+            // extract 'width' and 'height'
             extract(array_only($args[0], array('width', 'height')));
             $width = isset($width) ? intval($width) : null;
             $height = isset($height) ? intval($height) : null;
-            
+
             if ( ! is_null($width) OR ! is_null($height)) {
                 // if width or height are not set, define values automatically
                 $width = is_null($width) ? intval($height / $this->height * $this->width) : $width;
@@ -225,7 +225,7 @@ class Image
 
     /**
      * Cut out a detail of the image in given ratio and resize to output size
-     * 
+     *
      * @param mixed width|height    width and height are optional, the not given
      *                              parameter is calculated based on the given
      * @return Image
@@ -235,11 +235,11 @@ class Image
         $args = func_get_args();
 
         if (array_key_exists(0, $args) && is_array($args[0])) {
-            // extract 'width' and 'height'            
+            // extract 'width' and 'height'
             extract(array_only($args[0], array('width', 'height')));
             $width = isset($width) ? intval($width) : null;
             $height = isset($height) ? intval($height) : null;
-            
+
             if ( ! is_null($width) OR ! is_null($height)) {
                 // if width or height are not set, define values automatically
                 $width = is_null($width) ? $height : $width;
@@ -250,12 +250,12 @@ class Image
             }
 
         } elseif (array_key_exists(0, $args) && array_key_exists(1, $args) && is_numeric($args[0]) && is_numeric($args[1])) {
-            
+
             $width = intval($args[0]);
             $height = intval($args[1]);
 
         } elseif (array_key_exists(0, $args) && is_numeric($args[0])) {
-            
+
             $width = intval($args[0]);
             $height = intval($args[0]);
 
@@ -286,7 +286,7 @@ class Image
 
     /**
      * Insert another image on top of the current image
-     * 
+     *
      * @param  string  $file
      * @param  integer $pos_x
      * @param  integer $pos_y
@@ -302,7 +302,7 @@ class Image
 
     /**
      * Fill image with given hexadecimal color at position x,y
-     * 
+     *
      * @param  string  $color
      * @param  integer $pos_x
      * @param  integer $pos_y
@@ -316,7 +316,7 @@ class Image
 
     /**
      * Set single pixel
-     * 
+     *
      * @param  string  $color
      * @param  integer $pos_x
      * @param  integer $pos_y
@@ -330,14 +330,14 @@ class Image
 
     /**
      * Draw rectangle in current image starting at point 1 and ending at point 2
-     * 
+     *
      * @param  string  $color
-     * @param  integer $x1    
-     * @param  integer $y1   
-     * @param  integer $x2    
+     * @param  integer $x1
+     * @param  integer $y1
+     * @param  integer $x2
      * @param  integer $y2
      * @param  boolean $filled
-     * @return Image         
+     * @return Image
      */
     public function rectangle($color, $x1 = 0, $y1 = 0, $x2 = 10, $y2 = 10, $filled = true)
     {
@@ -348,12 +348,12 @@ class Image
 
     /**
      * Draw a line in current image starting at point 1 and ending at point 2
-     * 
-     * @param  string  $color 
-     * @param  integer $x1    
-     * @param  integer $y1    
-     * @param  integer $x2    
-     * @param  integer $y2    
+     *
+     * @param  string  $color
+     * @param  integer $x1
+     * @param  integer $y1
+     * @param  integer $x2
+     * @param  integer $y2
      * @return Image
      */
     public function line($color, $x1 = 0, $y1 = 0, $x2 = 10, $y2 = 10)
@@ -364,12 +364,12 @@ class Image
 
     /**
      * Draw an ellipse centered at given coordinates.
-     * 
-     * @param  string  $color  
-     * @param  integer $x      
-     * @param  integer $y      
-     * @param  integer $width  
-     * @param  integer $height 
+     *
+     * @param  string  $color
+     * @param  integer $x
+     * @param  integer $y
+     * @param  integer $width
+     * @param  integer $height
      * @return Image
      */
     public function ellipse($color, $x = 0, $y = 0, $width = 10, $height = 10, $filled = true)
@@ -381,10 +381,10 @@ class Image
 
     /**
      * Draw a circle centered at given coordinates
-     *                  
-     * @param  string  $color 
-     * @param  integer $x     
-     * @param  integer $y     
+     *
+     * @param  string  $color
+     * @param  integer $x
+     * @param  integer $y
      * @param  integer $radius
      * @param  boolean $filled
      * @return Image
@@ -396,25 +396,25 @@ class Image
 
     /**
      * Write text in current image
-     * 
-     * @param  string  $text     
-     * @param  integer $pos_x   
-     * @param  integer $pos_y   
-     * @param  integer $angle   
-     * @param  integer $size    
-     * @param  string  $color   
+     *
+     * @param  string  $text
+     * @param  integer $pos_x
+     * @param  integer $pos_y
+     * @param  integer $angle
+     * @param  integer $size
+     * @param  string  $color
      * @param  string  $fontfile
-     * @return Image            
+     * @return Image
      */
     public function text($text, $pos_x = 0, $pos_y = 0, $size = 16, $color = '000000', $angle = 0, $fontfile = null)
     {
         if (is_null($fontfile)) {
-            
-            imagestring($this->resource, $size, $pos_x, $pos_y, $text, $this->parseColor($color)); 
+
+            imagestring($this->resource, $size, $pos_x, $pos_y, $text, $this->parseColor($color));
 
         } else {
-            
-            imagettftext($this->resource, $size, $angle, $pos_x, $pos_y, $this->parseColor($color), $fontfile, $text); 
+
+            imagettftext($this->resource, $size, $angle, $pos_x, $pos_y, $this->parseColor($color), $fontfile, $text);
 
         }
 
@@ -423,7 +423,7 @@ class Image
 
     /**
      * Changes the brightness of the current image
-     * 
+     *
      * @param  int $level [description]
      * @return Image
      */
@@ -435,9 +435,9 @@ class Image
 
     /**
      * Changes the contrast of the current image
-     * 
+     *
      * @param  int $level
-     * @return Image    
+     * @return Image
      */
     public function contrast($level)
     {
@@ -447,10 +447,10 @@ class Image
 
     /**
      * Pixelate current image
-     * 
+     *
      * @param  integer $size
      * @param  boolean $advanced
-     * @return Image            
+     * @return Image
      */
     public function pixelate($size = 10, $advanced = true)
     {
@@ -460,7 +460,7 @@ class Image
 
     /**
      * Turn current image into a greyscale verision
-     * 
+     *
      * @return Image
      */
     public function grayscale()
@@ -471,7 +471,7 @@ class Image
 
     /**
      * Alias of greyscale
-     * 
+     *
      * @return Image
      */
     public function greyscale()
@@ -482,18 +482,18 @@ class Image
 
     /**
      * Reset to original image resource
-     * 
+     *
      * @return void
      */
     public function reset()
-    {   
+    {
         $this->setProperties($this->dirname .'/'. $this->basename);
         return $this;
     }
 
     /**
      * Returns image type stream
-     * 
+     *
      * @param string $type gif|png|jpg|jpeg
      * @param integer quality
      * @return string
@@ -521,18 +521,18 @@ class Image
         }
 
         $data = ob_get_contents();
-        
+
         ob_end_clean();
         return $data;
     }
 
     /**
      * Picks and formats color at position
-     * 
-     * @param  int $x      
-     * @param  int $y      
-     * @param  string $format 
-     * @return mixed         
+     *
+     * @param  int $x
+     * @param  int $y
+     * @param  string $format
+     * @return mixed
      */
     public function pickColor($x, $y, $format = null)
     {
@@ -555,18 +555,18 @@ class Image
                 $color = imagecolorsforindex($this->resource, $color);
                 $color = sprintf('#%02x%02x%02x', $color['red'], $color['green'], $color['blue']);
                 break;
-            
+
             case 'array':
                 $color = imagecolorsforindex($this->resource, $color);
                 break;
         }
-        
+
         return $color;
     }
 
     /**
      * Allocate color from given string
-     * 
+     *
      * @param  string $value
      * @return int
      */
@@ -577,7 +577,7 @@ class Image
         if (is_int($value)) {
 
             // color is alread allocated
-            $allocatedColor = $value;            
+            $allocatedColor = $value;
 
         } elseif(is_array($value)) {
 
@@ -595,24 +595,24 @@ class Image
 
             // parse color string in format rgb(140, 140, 140)
             } elseif (preg_match('/^rgb ?\(([0-9]{1,3}), ?([0-9]{1,3}), ?([0-9]{1,3})\)$/i', $value, $matches)) {
-                
+
                 $r = ($matches[1] >= 0 && $matches[1] <= 255) ? intval($matches[1]) : 0;
                 $g = ($matches[2] >= 0 && $matches[2] <= 255) ? intval($matches[2]) : 0;
                 $b = ($matches[3] >= 0 && $matches[3] <= 255) ? intval($matches[3]) : 0;
 
             // parse color string in format rgba(255, 0, 0, 0.5)
             } elseif (preg_match('/^rgba ?\(([0-9]{1,3}), ?([0-9]{1,3}), ?([0-9]{1,3}), ?([0-9.]{1,3})\)$/i', $value, $matches)) {
-                
+
                 $r = ($matches[1] >= 0 && $matches[1] <= 255) ? intval($matches[1]) : 0;
                 $g = ($matches[2] >= 0 && $matches[2] <= 255) ? intval($matches[2]) : 0;
                 $b = ($matches[3] >= 0 && $matches[3] <= 255) ? intval($matches[3]) : 0;
                 $alpha = $this->alpha2gd($matches[4]);
-                
+
             }
         }
 
         if (isset($allocatedColor)) {
-            
+
             return $allocatedColor;
 
         } elseif (isset($r) && isset($g) && isset($b)) {
@@ -620,16 +620,16 @@ class Image
             return imagecolorallocatealpha($this->resource, $r, $g, $b, $alpha);
 
         } else {
-            
+
             throw new Exception("Error parsing color [{$value}]");
         }
     }
 
     /**
      * Save image in filesystem
-     * 
+     *
      * @param  string $path
-     * @return Image 
+     * @return Image
      */
     public function save($path = null, $quality = 90)
     {
@@ -664,7 +664,7 @@ class Image
 
     /**
      * Return filesystem object
-     * 
+     *
      * @return Filesystem
      */
     public function getFilesystem()
@@ -674,7 +674,7 @@ class Image
 
     /**
      * Returns image stream
-     * 
+     *
      * @return string
      */
     public function __toString()

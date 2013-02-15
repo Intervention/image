@@ -98,7 +98,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img = $this->getTestImage();
         $img->insert('public/test.jpg', 10, 10);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        
+
     }
 
     public function testPixelateImage()
@@ -192,8 +192,8 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img = $this->getTestImage();
         $circle = new Image('public/circle.png');
 
-        for ($x=0; $x < $img->width; $x=$x+$circle->width) { 
-            for ($y=0; $y < $img->height; $y=$y+$circle->height) { 
+        for ($x=0; $x < $img->width; $x=$x+$circle->width) {
+            for ($y=0; $y < $img->height; $y=$y+$circle->height) {
                 // insert circle png at position x,y
                 $img->insert($circle, $x, $y);
             }
@@ -238,41 +238,41 @@ class ImageTest extends PHPUnit_Framework_Testcase
     public function testPickColor()
     {
         $img = $this->getTestImage();
-        
+
         // int color
         $color = $img->pickColor(100, 100);
-        $this->assertInternalType('int', $color);   
+        $this->assertInternalType('int', $color);
         $this->assertEquals($color, 16776956);
 
         // rgb color string
         $color = $img->pickColor(799, 599, 'rgb');
-        $this->assertInternalType('string', $color);   
+        $this->assertInternalType('string', $color);
         $this->assertEquals($color, 'rgb(255, 166, 0)');
 
         // hex color string
         $color = $img->pickColor(799, 599, 'hex');
-        $this->assertInternalType('string', $color);   
-        $this->assertEquals($color, '#ffa600');   
+        $this->assertInternalType('string', $color);
+        $this->assertEquals($color, '#ffa600');
 
         // rgb color array
         $color = $img->pickColor(799, 599, 'array');
-        $this->assertInternalType('array', $color);   
-        $this->assertInternalType('int', $color['red']);   
-        $this->assertEquals($color['red'], 255);   
-        $this->assertInternalType('int', $color['green']);   
-        $this->assertEquals($color['green'], 166);   
-        $this->assertInternalType('int', $color['blue']);   
-        $this->assertEquals($color['blue'], 0);   
+        $this->assertInternalType('array', $color);
+        $this->assertInternalType('int', $color['red']);
+        $this->assertEquals($color['red'], 255);
+        $this->assertInternalType('int', $color['green']);
+        $this->assertEquals($color['green'], 166);
+        $this->assertInternalType('int', $color['blue']);
+        $this->assertEquals($color['blue'], 0);
 
         // rgba color string
         $color = $img->pickColor(799, 599, 'rgba');
-        $this->assertInternalType('string', $color);   
+        $this->assertInternalType('string', $color);
         $this->assertEquals($color, 'rgba(255, 166, 0, 1.00)');
         $img = new Image(null, 100, 100);
         $color = imagecolorallocatealpha($img->resource, 0, 0, 255, 64);
         $img->fill($color);
         $color = $img->pickColor(50, 50, 'rgba');
-        $this->assertInternalType('string', $color);   
+        $this->assertInternalType('string', $color);
         $this->assertEquals($color, 'rgba(0, 0, 255, 0.50)');
     }
 
@@ -281,7 +281,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img = $this->getTestImage();
         $color = $img->parseColor(array(155, 155, 155));
         $this->assertInternalType('int', $color);
-            
+
         $color = $img->parseColor('#cccccc');
         $this->assertInternalType('int', $color);
 
@@ -314,36 +314,36 @@ class ImageTest extends PHPUnit_Framework_Testcase
     {
         $img = new Image(null, 100, 100);
         $img->fill('rgb(255, 0, 0)');
-        
+
         $checkColor = $img->pickColor(50, 50,'array');
-        $this->assertEquals($checkColor['red'], 255);   
-        $this->assertEquals($checkColor['green'], 0);   
-        $this->assertEquals($checkColor['blue'], 0);   
-        $this->assertEquals($checkColor['alpha'], 0);   
+        $this->assertEquals($checkColor['red'], 255);
+        $this->assertEquals($checkColor['green'], 0);
+        $this->assertEquals($checkColor['blue'], 0);
+        $this->assertEquals($checkColor['alpha'], 0);
 
         $img->rectangle('rgba(0,0,0,0.5)', 0, 0, 100, 100);
         $checkColor = $img->pickColor(50, 50,'array');
-        $this->assertEquals($checkColor['red'], 128);   
-        $this->assertEquals($checkColor['green'], 0);   
-        $this->assertEquals($checkColor['blue'], 0);   
-        $this->assertEquals($checkColor['alpha'], 0);   
+        $this->assertEquals($checkColor['red'], 128);
+        $this->assertEquals($checkColor['green'], 0);
+        $this->assertEquals($checkColor['blue'], 0);
+        $this->assertEquals($checkColor['alpha'], 0);
 
         $img = new Image(null, 100, 100);
         $img->fill('rgba(0,0,0,0.5)');
         $checkColor = $img->pickColor(50, 50,'array');
-        $this->assertEquals($checkColor['red'], 0);   
-        $this->assertEquals($checkColor['green'], 0);   
-        $this->assertEquals($checkColor['blue'], 0);   
-        $this->assertEquals($checkColor['alpha'], 64);   
+        $this->assertEquals($checkColor['red'], 0);
+        $this->assertEquals($checkColor['green'], 0);
+        $this->assertEquals($checkColor['blue'], 0);
+        $this->assertEquals($checkColor['alpha'], 64);
 
         $img = new Image(null, 100, 100);
         $color = imagecolorallocatealpha($img->resource, 0, 0, 255, 60);
         $img->fill($color);
         $checkColor = $img->pickColor(50, 50,'array');
-        $this->assertEquals($checkColor['red'], 0);   
-        $this->assertEquals($checkColor['green'], 0);   
-        $this->assertEquals($checkColor['blue'], 255);   
-        $this->assertEquals($checkColor['alpha'], 60);   
+        $this->assertEquals($checkColor['red'], 0);
+        $this->assertEquals($checkColor['green'], 0);
+        $this->assertEquals($checkColor['blue'], 255);
+        $this->assertEquals($checkColor['alpha'], 60);
     }
 
     public function testBrightnessImage()

@@ -47,8 +47,8 @@ Add the facade of this package to the `$aliases` array.
 * Image::resize - Resize current image based on given width and/or height
 * Image::grab - Cut out a detail of the image in given ratio and resize to output size
 * Image::insert - Insert another image on top of the current image
-* Image::brightness - Changes brightness of current image
-* Image::contrast - Changes contrast of current image
+* Image::brightness - Changes brightness of current image (from -255 to +255)
+* Image::contrast - Changes contrast of current image (from -100 to +100)
 * Image::pixelate - Pixelate current image
 * Image::greyscale - Turn current image into a greyscale version
 * Image::text - Write text in current image
@@ -62,12 +62,11 @@ Add the facade of this package to the `$aliases` array.
 * Image::reset - Reset to original image resource
 * Image::save - Save image in filesystem
 
-### Code example (Laravel)
+### Code examples (Laravel)
+
+#### Resize images
 
 ```php
-// create an empty Image resource (background color transparent)
-$img = Image::canvas(640, 480);
-
 // create Image from file
 $img = Image::make('public/foo.jpg');
 
@@ -77,40 +76,17 @@ $img->resize(300, 200);
 // resize image to maximum width of 300px and keep ratio for height automatically
 $img->resize(array('width' => '300'));
 
+// Reset image resource to original
+$img->reset();
+
 // resize image to maximum height of 200px and keep ratio for width automatically
 $img->resize(array('height' => '200'));
 
-// insert another image
-$img->insert('public/bar.png');
-
-// write some text in image
-$img->text('Hello World', 10, 10);
-
-// turn image into greyscale version
-$img->greyscale();
-
-// pixelate image with blocksize of 25x25 pixel
-$img->pixelate(25);
-
-// fill image with color
-$img->fill('ccc'); // its possible to use shorthand hexcolor
-$img->fill('cccccc'); // or full hexcolor code
-$img->fill('#ccc'); // with or without #
-$img->fill('#cccccc');
-$img->fill('rgba(255, 0, 0, 0.5)'); // define transparent colors as rgba format
-$img->fill(array(204, 204, 204)); // or just pass the color as rgb format array
-
-// save image in desired format
-$img->save('public/bar.jpg');
-
 // save image in desired format and quality
 $img->save('public/bar.jpg', 60);
-
-// its also possible to chain methods
-$img1 = Image::canvas(800, 600);
-$img2 = Image::make('public/img2.png');
-$img1->resize(300, 200)->insert($img2)->save('public/bar.jpg');
 ```
+
+#### Smart resizing
 
 ```php
 // use grab method to format images in a smart way combining cropping and resizing
@@ -124,4 +100,72 @@ $img->grab(600, 360);
 
 // crop the best fitting 1:1 (150x150) ratio and resize to 150x150 pixel
 $img->grab(array('width' => '150'));
+
+// save image
+$img->save('public/bar.jpg');
 ```
+
+#### Create empty images and add content
+
+```php
+// create an empty Image resource (background color transparent)
+$img = Image::canvas(640, 480);
+
+// insert another image on top of current resource
+$img->insert('public/bar.png');
+
+// write some text in image
+$img->text('Hello World', 10, 10);
+
+// save image in desired format
+$img->save('public/foo.jpg');
+```
+
+#### Image filters
+
+```php
+// create Image from file
+$img = Image::make('public/foo.jpg');
+
+// turn image into greyscale version
+$img->greyscale();
+
+// modify brightness level
+$img->brightness(80);
+
+// modify contrast level
+$img->contrast(-45);
+
+// pixelate image with blocksize of 25x25 pixel
+$img->pixelate(25);
+```
+
+#### Other examples
+
+```php
+// create empty canvas
+$img = Image::canvas(800, 600);
+
+// fill image with color
+$img->fill('cccccc');
+
+// draw a filled rectangle
+$img->rectangle('006729', 100, 100, 200, 200, true);
+
+// draw a outline circle
+$img->circle('ae051f', 400, 300, 100, false);
+
+// draw a red line from point 10,10 to point 300,300 pixel
+$img->line('ae051f', 10, 10, 300, 300);
+```
+
+#### Method chaining
+
+```php
+// it is possible to chain all methods
+$img1 = Image::canvas(800, 600);
+$img2 = Image::make('public/img2.png');
+$img1->resize(300, 200)->insert($img2)->save('public/bar.jpg');
+```
+
+

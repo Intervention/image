@@ -429,7 +429,15 @@ class Image
      */
     public function brightness($level)
     {
+        // normalize level
+        if ($level >= -100 && $level <= 100) {
+            $level = $level * 2.55;
+        } else {
+            throw new Exception('Brightness level must be between -100 and +100');
+        }
+
         imagefilter($this->resource, IMG_FILTER_BRIGHTNESS, $level);
+
         return $this;
     }
 
@@ -441,7 +449,15 @@ class Image
      */
     public function contrast($level)
     {
+        // normalize level
+        if ($level >= -100 && $level <= 100) {
+            $level = $level * (-1);
+        } else {
+            throw new Exception('Contrast level must be between -100 and +100');
+        }
+
         imagefilter($this->resource, IMG_FILTER_CONTRAST, $level);
+
         return $this;
     }
 
@@ -455,6 +471,7 @@ class Image
     public function pixelate($size = 10, $advanced = true)
     {
         imagefilter($this->resource, IMG_FILTER_PIXELATE, $size, $advanced);
+
         return $this;
     }
 
@@ -466,6 +483,7 @@ class Image
     public function grayscale()
     {
         imagefilter($this->resource, IMG_FILTER_GRAYSCALE);
+
         return $this;
     }
 
@@ -477,6 +495,7 @@ class Image
     public function greyscale()
     {
         $this->grayscale();
+
         return $this;
     }
 
@@ -488,6 +507,7 @@ class Image
     public function reset()
     {
         $this->setProperties($this->dirname .'/'. $this->basename);
+
         return $this;
     }
 

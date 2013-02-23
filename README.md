@@ -47,8 +47,8 @@ Add the facade of this package to the `$aliases` array.
 * Image::resize - Resize current image based on given width and/or height
 * Image::grab - Cut out a detail of the image in given ratio and resize to output size
 * Image::insert - Insert another image on top of the current image
-* Image::brightness - Changes brightness of current image (from -255 to +255)
-* Image::contrast - Changes contrast of current image (from -100 to +100)
+* Image::brightness - Changes brightness of current image (-100 = min brightness, 0 = no change, +100 = max brightness)
+* Image::contrast - Changes contrast of current image (-100 = min contrast, 0 = no change, +100 = max contrast)
 * Image::pixelate - Pixelate current image
 * Image::greyscale - Turn current image into a greyscale version
 * Image::text - Write text in current image

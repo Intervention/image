@@ -40,8 +40,8 @@ class ImageTest extends PHPUnit_Framework_Testcase
 
         // Only resize the width.
         $img = $this->getTestImage();
-        $img->resize(320);
         $height = $img->height;
+        $img->resize(320);
         $this->assertInternalType('int', $img->width);
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 320);
@@ -50,8 +50,8 @@ class ImageTest extends PHPUnit_Framework_Testcase
 
         // Only resize the width.
         $img = $this->getTestImage();
-        $img->resize(null, 240);
         $width = $img->width;
+        $img->resize(null, 240);
         $this->assertInternalType('int', $img->width);
         $this->assertInternalType('int', $img->height);
         // Check if the width is still the same.
@@ -73,6 +73,22 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 320);
         $this->assertEquals($img->height, 240);
+
+        // preserve simple upsizing
+        $img = $this->getTestImage();
+        $img->resize(1000, 1000, true, false);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 800);
+        $this->assertEquals($img->height, 600);        
+
+        // test dominant width for auto-resizing
+        $img = $this->getTestImage();
+        $img->resize(1000, 1200, true);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 1000);
+        $this->assertEquals($img->height, 750);        
 
         // Test image upsizing.
         $img = $this->getTestImage();

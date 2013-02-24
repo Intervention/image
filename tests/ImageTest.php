@@ -107,6 +107,25 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, $original_height);
     }
 
+    public function testLegacyResize()
+    {
+        // auto height
+        $img = $this->getTestImage();
+        $img->resize(array('width' => '320'));
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 320);
+        $this->assertEquals($img->height, 240);
+
+        // auto width
+        $img = $this->getTestImage();
+        $img->resize(array('height' => '240'));
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 320);
+        $this->assertEquals($img->height, 240);
+    }
+
     public function testGrabImage()
     {
         $img = $this->getTestImage();

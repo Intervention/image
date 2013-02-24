@@ -200,6 +200,12 @@ class Image
      */
     public function resize($width = null, $height = null, $ratio = false, $upsize = true)
     {
+        // catch legacy call
+        if (is_array($width)) {
+            $dimensions = $width;
+            return $this->legacyResize($dimensions);
+        }
+
         // Evaluate passed parameters.
         $width = isset($width) ? intval($width) : null;
         $height = $max_height = isset($height) ? intval($height) : null;
@@ -273,6 +279,19 @@ class Image
 
         // Create new image in new dimensions.
         return $this->modify(0, 0, 0, 0, $width, $height, $this->width, $this->height);
+    }
+
+    /**
+     * Legacy method to support old resizing calls
+     * 
+     * @param  array  $dimensions
+     * @return Image
+     */
+    public function legacyResize($dimensions = array())
+    {
+        $width = array_key_exists('width', $dimensions) ? intval($dimensions['width']) : null;
+        $height = array_key_exists('height', $dimensions) ? intval($dimensions['height']) : null;
+        return $this->resize($width, $height, true);
     }
 
     /**

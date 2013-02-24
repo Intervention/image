@@ -21,22 +21,18 @@ Open your Laravel config file `config/app.php` and add the following lines.
 In the `$providers` array add the service providers for this package.
     
     'providers' => array(
-
         ...
 
         'Intervention\Image\ImageServiceProvider'
-
     ),
     
 
 Add the facade of this package to the `$aliases` array.
 
     'aliases' => array(
-
         ...
 
         'Image' => 'Intervention\Image\Facades\Image'
-
     ),
 
 ## Usage
@@ -85,7 +81,7 @@ $img->resize(300, null, true);
 // resize the image to a height of 200 and constrain aspect ratio (auto width)
 $img->resize(null, 200, true);
 
-// prevent upsizing with optional fourth parameter
+// prevent possible upsizing with optional fourth parameter
 $img->resize(null, 400, true, false);
 
 // Reset image resource to original

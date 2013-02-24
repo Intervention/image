@@ -38,9 +38,29 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->width, 320);
         $this->assertEquals($img->height, 240);
 
+        // Only resize the width.
+        $img = $this->getTestImage();
+        $img->resize(320);
+        $height = $img->height;
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 320);
+        // Check if the height is still the same.
+        $this->assertEquals($img->height, $height);
+
+        // Only resize the width.
+        $img = $this->getTestImage();
+        $img->resize(null, 240);
+        $width = $img->width;
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        // Check if the width is still the same.
+        $this->assertEquals($img->width, $width);
+        $this->assertEquals($img->height, 240);
+
         // auto height
         $img = $this->getTestImage();
-        $img->resize(array('width' => '320'));
+        $img->resize(320, null, true);
         $this->assertInternalType('int', $img->width);
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 320);
@@ -48,11 +68,27 @@ class ImageTest extends PHPUnit_Framework_Testcase
 
         // auto width
         $img = $this->getTestImage();
-        $img->resize(array('height' => '240'));
+        $img->resize(null, 240, true);
         $this->assertInternalType('int', $img->width);
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 320);
         $this->assertEquals($img->height, 240);
+
+        // Test image upsizing.
+        $img = $this->getTestImage();
+        // Keep original width and height.
+        $original_width = $img->width;
+        $original_height = $img->height;
+        // Increase values a bit.
+        $width = $original_width + 500;
+        $height = $original_height + 350;
+        // Try resizing to higher values while upsizing is set to false.
+        $img->resize($width, $height, false, false);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        // Check if width and height are still the same.
+        $this->assertEquals($img->width, $original_width);
+        $this->assertEquals($img->height, $original_height);
     }
 
     public function testGrabImage()

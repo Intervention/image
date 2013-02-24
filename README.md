@@ -73,14 +73,23 @@ $img = Image::make('public/foo.jpg');
 // resize image to fixed size
 $img->resize(300, 200);
 
-// resize image to maximum width of 300px and keep ratio for height automatically
-$img->resize(array('width' => '300'));
+// resize only the width of the image
+$img->resize(300, null);
+
+// resize only the height of the image
+$img->resize(null, 200);
+
+// resize the image to a width of 300 and constrain aspect ratio (auto height)
+$img->resize(300, null, true);
+
+// resize the image to a height of 200 and constrain aspect ratio (auto width)
+$img->resize(null, 200, true);
+
+// prevent upsizing with optional fourth parameter
+$img->resize(null, 400, true, false);
 
 // Reset image resource to original
 $img->reset();
-
-// resize image to maximum height of 200px and keep ratio for width automatically
-$img->resize(array('height' => '200'));
 
 // save image in desired format and quality
 $img->save('public/bar.jpg', 60);

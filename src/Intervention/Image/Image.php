@@ -9,54 +9,63 @@ class Image
 {
     /**
      * The image resource identifier of current image
+     * 
      * @var resource
      */
     public $resource;
 
     /**
      * Type of current image
+     * 
      * @var string
      */
     public $type;
 
     /**
      * Width of current image
+     * 
      * @var integer
      */
     public $width;
 
     /**
      * Height of current image
+     * 
      * @var integer
      */
     public $height;
 
     /**
      * Directory path of current image
+     * 
      * @var string
      */
     public $dirname;
 
     /**
      * Trailing name component of current image filename
+     * 
      * @var string
      */
     public $basename;
 
     /**
      * File extension of current image filename
+     * 
      * @var string
      */
     public $extension;
 
     /**
      * Combined filename (basename and extension)
+     * 
      * @var string
      */
     public $filename;
 
     /**
      * Instance of Illuminate\Filesystem\Filesystem
+     * 
      * @var Filesystem
      */
     protected $filesystem;
@@ -297,12 +306,14 @@ class Image
     /**
      * Cut out a detail of the image in given ratio and resize to output size
      *
-     * @param mixed width|height    width and height are optional, the not given
-     *                              parameter is calculated based on the given
+     * @param  int  $width
+     * @param  int  $height
+     *                     
      * @return Image
      */
     public function grab($width = null, $height = null)
     {
+        // catch legacy call
         if (is_array($width)) {
             $dimensions = $width;
             return $this->legacyGrab($dimensions);
@@ -339,6 +350,12 @@ class Image
         return $this->modify(0, 0, $src_x, $src_y, $width, $height, $grab_width, $grab_height);
     }
 
+    /**
+     * Legacy Method to support older grab calls
+     * 
+     * @param  array  $dimensions
+     * @return Image
+     */
     public function legacyGrab($dimensions = array())
     {
         $width = array_key_exists('width', $dimensions) ? intval($dimensions['width']) : null;
@@ -720,6 +737,12 @@ class Image
         return $this;
     }
 
+    /**
+     * Convert rgba alpha (0-1) value to gd value (0-127)
+     * 
+     * @param  float $input
+     * @return int
+     */
     private function alpha2gd($input)
     {
         $range_input = range(1, 0, 1/127);
@@ -732,6 +755,12 @@ class Image
         }
     }
 
+    /**
+     * Convert gd alpha (0-127) value to rgba alpha value (0-1)
+     * 
+     * @param  int $input
+     * @return float
+     */
     private function alpha2rgba($input)
     {
         $range_input = range(0, 127);

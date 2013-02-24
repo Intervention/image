@@ -80,7 +80,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInternalType('int', $img->width);
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 800);
-        $this->assertEquals($img->height, 600);        
+        $this->assertEquals($img->height, 600);
 
         // test dominant width for auto-resizing
         $img = $this->getTestImage();
@@ -88,7 +88,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInternalType('int', $img->width);
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 1000);
-        $this->assertEquals($img->height, 750);        
+        $this->assertEquals($img->height, 750);
 
         // Test image upsizing.
         $img = $this->getTestImage();

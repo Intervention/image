@@ -188,7 +188,7 @@ class Image
      *
      * Width and height are optional, the not given parameter is calculated
      * based on the given. The ratio boolean decides whether the resizing
-     * should keep the image ratio. You can also pass along a boolean to 
+     * should keep the image ratio. You can also pass along a boolean to
      * prevent the image from being upsized.
      *
      * @param integer $width  The target width for the image
@@ -219,12 +219,12 @@ class Image
             if ( ! is_null($width) && ! is_null($height)) {
                 // First, calculate the height.
                 $height = intval($width / $this->width * $this->height);
-                
+
                 // If the height is too large, set it to the maximum
                 // height and calculate the width.
                 if ($height > $max_height) {
-                	$height = $max_height;
-                	$width = intval($height / $this->height * $this->width);
+                    $height = $max_height;
+                    $width = intval($height / $this->height * $this->width);
                 }
             }
 
@@ -267,12 +267,12 @@ class Image
             throw new Exception('width or height needs to be defined');
         }
 
-        // If only the width hasn't been set, keep the current width. 
+        // If only the width hasn't been set, keep the current width.
         else if (is_null($width) ) {
             $width = $this->width;
         }
 
-        // If only the height hasn't been set, keep the current height. 
+        // If only the height hasn't been set, keep the current height.
         else if (is_null($height) ) {
             $height = $this->height;
         }
@@ -283,7 +283,7 @@ class Image
 
     /**
      * Legacy method to support old resizing calls
-     * 
+     *
      * @param  array  $dimensions
      * @return Image
      */

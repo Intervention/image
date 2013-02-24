@@ -103,9 +103,6 @@ $img->grab(200);
 // crop the best fitting 5:3 (600x360) ratio and resize to 600x360 pixel
 $img->grab(600, 360);
 
-// crop the best fitting 1:1 (150x150) ratio and resize to 150x150 pixel
-$img->grab(array('width' => '150'));
-
 // save image
 $img->save('public/bar.jpg');
 ```

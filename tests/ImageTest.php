@@ -143,10 +143,10 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 100);
 
         $img = $this->getTestImage();
-        $img->grab(array('width' => '320', 'height' => '100'));
+        $img->grab(null, 100);
         $this->assertInternalType('int', $img->width);
         $this->assertInternalType('int', $img->height);
-        $this->assertEquals($img->width, 320);
+        $this->assertEquals($img->width, 100);
         $this->assertEquals($img->height, 100);
 
         $img = $this->getTestImage();
@@ -157,11 +157,11 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 100);
 
         $img = $this->getTestImage();
-        $img->grab(array('height' => '100'));
+        $img->grab(array('height' => '200'));
         $this->assertInternalType('int', $img->width);
         $this->assertInternalType('int', $img->height);
-        $this->assertEquals($img->width, 100);
-        $this->assertEquals($img->height, 100);
+        $this->assertEquals($img->width, 200);
+        $this->assertEquals($img->height, 200);
     }
 
     public function testInsertImage()

@@ -301,38 +301,22 @@ class Image
      *                              parameter is calculated based on the given
      * @return Image
      */
-    public function grab()
+    public function grab($width = null, $height = null)
     {
-        $args = func_get_args();
-
-        if (array_key_exists(0, $args) && is_array($args[0])) {
-            // extract 'width' and 'height'
-            extract(array_only($args[0], array('width', 'height')));
-            $width = isset($width) ? intval($width) : null;
-            $height = isset($height) ? intval($height) : null;
-
-            if ( ! is_null($width) OR ! is_null($height)) {
-                // if width or height are not set, define values automatically
-                $width = is_null($width) ? $height : $width;
-                $height = is_null($height) ? $width : $height;
-            } else {
-                // width or height not defined (resume with original values)
-                throw new Exception('Width or Height needs to be defined as keys in paramater array');
-            }
-
-        } elseif (array_key_exists(0, $args) && array_key_exists(1, $args) && is_numeric($args[0]) && is_numeric($args[1])) {
-
-            $width = intval($args[0]);
-            $height = intval($args[1]);
-
-        } elseif (array_key_exists(0, $args) && is_numeric($args[0])) {
-
-            $width = intval($args[0]);
-            $height = intval($args[0]);
-
+        if (is_array($width)) {
+            $dimensions = $width;
+            return $this->legacyGrab($dimensions);
         }
 
-        if (is_null($width) OR is_null($height)) {
+        $width = is_numeric($width) ? intval($width) : null;
+        $height = is_numeric($height) ? intval($height) : null;
+
+        if ( ! is_null($width) OR ! is_null($height)) {
+            // if width or height are not set, define values automatically
+            $width = is_null($width) ? $height : $width;
+            $height = is_null($height) ? $width : $height;
+        } else {
+            // width or height not defined (resume with original values)
             throw new Exception('width or height needs to be defined');
         }
 
@@ -353,6 +337,13 @@ class Image
         }
 
         return $this->modify(0, 0, $src_x, $src_y, $width, $height, $grab_width, $grab_height);
+    }
+
+    public function legacyGrab($dimensions = array())
+    {
+        $width = array_key_exists('width', $dimensions) ? intval($dimensions['width']) : null;
+        $height = array_key_exists('height', $dimensions) ? intval($dimensions['height']) : null;
+        return $this->grab($width, $height);
     }
 
     /**

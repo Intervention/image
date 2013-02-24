@@ -40,7 +40,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
 
         // auto height
         $img = $this->getTestImage();
-        $img->resize(array('width' => '320'));
+        $img->resize(320, null, true);
         $this->assertInternalType('int', $img->width);
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 320);
@@ -48,7 +48,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
 
         // auto width
         $img = $this->getTestImage();
-        $img->resize(array('height' => '240'));
+        $img->resize(null, 240, true);
         $this->assertInternalType('int', $img->width);
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 320);

@@ -71,6 +71,13 @@ class Image
     protected $filesystem;
 
     /**
+     * Attributes of the original created image
+     * 
+     * @var Array
+     */
+    protected $original;
+
+    /**
      * Create a new instance of Image class
      *
      * @param string $path
@@ -151,6 +158,9 @@ class Image
 
             $this->width = is_numeric($width) ? intval($width) : 1;
             $this->height = is_numeric($height) ? intval($height) : 1;
+
+            $this->original['width'] = $this->width;
+            $this->original['height'] = $this->height;
 
             // create empty image
             $this->resource = @imagecreatetruecolor($this->width, $this->height);
@@ -593,7 +603,14 @@ class Image
      */
     public function reset()
     {
-        $this->setProperties($this->dirname .'/'. $this->basename);
+        if (is_null($this->dirname) && is_null($this->basename)) {
+            
+            $this->setProperties(null, $this->original['width'], $this->original['height']);
+
+        } else {
+
+            $this->setProperties($this->dirname .'/'. $this->basename);
+        }
 
         return $this;
     }
@@ -742,7 +759,7 @@ class Image
     {
         $path = is_null($path) ? ($this->dirname .'/'. $this->basename) : $path;
         file_put_contents($path, $this->data($this->filesystem->extension($path), $quality));
-        
+
         return $this;
     }
 

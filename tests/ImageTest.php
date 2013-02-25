@@ -290,6 +290,17 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 600);
     }
 
+    public function testResetEmptyImage()
+    {
+        $img = new Image(null, 800, 600);
+        $img->resize(300, 200);
+        $img->reset();
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 800);
+        $this->assertEquals($img->height, 600);
+    }
+
     public function testSaveImage()
     {
         $save_as = 'public/test2.jpg';

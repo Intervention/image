@@ -113,7 +113,7 @@ class Image
     {
         if ( ! is_null($path)) {
 
-            if (!$this->filesystem->exists($path)) {
+            if ( ! $this->filesystem->exists($path)) {
                 throw new Exception("Image file ({$path}) not found");
             }
 
@@ -223,22 +223,24 @@ class Image
 
         // If the ratio needs to be kept.
         if ($ratio) {
+
             // If both width and hight have been passed along, the width and
             // height parameters are maximum values.
             if ( ! is_null($width) && ! is_null($height)) {
+
                 // First, calculate the height.
                 $height = intval($width / $this->width * $this->height);
 
                 // If the height is too large, set it to the maximum
                 // height and calculate the width.
                 if ($height > $max_height) {
+
                     $height = $max_height;
                     $width = intval($height / $this->height * $this->width);
                 }
-            }
 
-            // If only one of width or height has been provided.
-            else if ($ratio && ( ! is_null($width) OR ! is_null($height))) {
+            } elseif ($ratio && ( ! is_null($width) OR ! is_null($height))) { // If only one of width or height has been provided.
+
                 $width = is_null($width) ? intval($height / $this->height * $this->width) : $width;
                 $height = is_null($height) ? intval($width / $this->width * $this->height) : $height;
             }
@@ -273,17 +275,17 @@ class Image
         // If both the width and height haven't been passed along,
         // throw an exception.
         if (is_null($width) && is_null($height)) {
+
             throw new Exception('width or height needs to be defined');
-        }
 
-        // If only the width hasn't been set, keep the current width.
-        else if (is_null($width) ) {
+        } elseif (is_null($width)) { // If only the width hasn't been set, keep the current width.
+            
             $width = $this->width;
-        }
 
-        // If only the height hasn't been set, keep the current height.
-        else if (is_null($height) ) {
+        } elseif (is_null($height)) { // If only the height hasn't been set, keep the current height.
+            
             $height = $this->height;
+
         }
 
         // Create new image in new dimensions.
@@ -360,6 +362,7 @@ class Image
     {
         $width = array_key_exists('width', $dimensions) ? intval($dimensions['width']) : null;
         $height = array_key_exists('height', $dimensions) ? intval($dimensions['height']) : null;
+
         return $this->grab($width, $height);
     }
 
@@ -390,6 +393,7 @@ class Image
     public function fill($color, $pos_x = 0, $pos_y = 0)
     {
         imagefill($this->resource, $pos_x, $pos_y, $this->parseColor($color));
+
         return $this;
     }
 
@@ -404,6 +408,7 @@ class Image
     public function pixel($color, $pos_x = 0, $pos_y = 0)
     {
         imagesetpixel($this->resource, $pos_x, $pos_y, $this->parseColor($color));
+
         return $this;
     }
 
@@ -422,6 +427,7 @@ class Image
     {
         $callback = $filled ? 'imagefilledrectangle' : 'imagerectangle';
         call_user_func($callback, $this->resource, $x1, $y1, $x2, $y2, $this->parseColor($color));
+
         return $this;
     }
 
@@ -438,6 +444,7 @@ class Image
     public function line($color, $x1 = 0, $y1 = 0, $x2 = 10, $y2 = 10)
     {
         imageline($this->resource, $x1, $y1, $x2, $y2, $this->parseColor($color));
+
         return $this;
     }
 
@@ -455,6 +462,7 @@ class Image
     {
         $callback = $filled ? 'imagefilledellipse' : 'imageellipse';
         call_user_func($callback, $this->resource, $x, $y, $width, $height, $this->parseColor($color));
+
         return $this;
     }
 
@@ -734,6 +742,7 @@ class Image
     {
         $path = is_null($path) ? ($this->dirname .'/'. $this->basename) : $path;
         file_put_contents($path, $this->data($this->filesystem->extension($path), $quality));
+        
         return $this;
     }
 

@@ -330,6 +330,7 @@ class Image
            throw new Exception('x, y, width and height needs to be defined');
         }
         $this->modify(0, 0, $src_x , $src_y, $src_w, $src_h, $src_w, $src_h);
+        return $this;
     }
 
     /**

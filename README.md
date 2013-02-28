@@ -49,6 +49,7 @@ Add the facade of this package to the `$aliases` array.
 * Image::make - Open a new image resource from image file or create a new empty image
 * Image::canvas - Create a new empty image resource
 * Image::resize - Resize current image based on given width and/or height
+* Image::crop - Crop the current image
 * Image::grab - Cut out a detail of the image in given ratio and resize to output size
 * Image::insert - Insert another image on top of the current image
 * Image::brightness - Changes brightness of current image (-100 = min brightness, 0 = no change, +100 = max brightness)
@@ -97,6 +98,22 @@ $img->reset();
 
 // save image in desired format and quality
 $img->save('public/bar.jpg', 60);
+```
+
+#### Crop image
+
+```php
+// create Image from file
+$img = Image::make('public/foo.jpg');
+
+// crop 300x200 pixel cutout at position x:200, y:100
+$img->crop(300, 200, 200, 100);
+
+// crop 300x200 pixel cutout centered on current image
+$img->crop(300, 200);
+
+// save image
+$img->save();
 ```
 
 #### Smart resizing

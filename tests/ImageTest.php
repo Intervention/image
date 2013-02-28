@@ -107,6 +107,25 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, $original_height);
     }
 
+    public function testCropImage()
+    {
+        $img = $this->getTestImage();
+        $img->crop(100, 100);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 100);
+        $this->assertEquals($img->height, 100);
+        $this->assertEquals('#ffbe46', $img->pickColor(99, 99, 'hex'));
+
+        $img = $this->getTestImage();
+        $img->crop(100, 100, 650, 400);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 100);
+        $this->assertEquals($img->height, 100);
+        $this->assertEquals('#ffa600', $img->pickColor(99, 99, 'hex'));
+    }
+
     public function testLegacyResize()
     {
         // auto height

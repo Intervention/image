@@ -316,6 +316,36 @@ class Image
     }
 
     /**
+     * Crop the current image
+     *
+     * @param  integer $width
+     * @param  integer $height
+     * @param  integer $pos_x
+     * @param  integer $pos_y
+     *
+     * @return Image
+     */
+    public function crop($width, $height, $pos_x = null, $pos_y = null)
+    {
+        $width = is_numeric($width) ? intval($width) : null;
+        $height = is_numeric($height) ? intval($height) : null;
+        $pos_x = is_numeric($pos_x) ? intval($pos_x) : null;
+        $pos_y = is_numeric($pos_y) ? intval($pos_y) : null;
+
+        if (is_null($pos_x) && is_null($pos_y)) {
+            // center position of width/height rectangle
+            $pos_x = floor(($this->width - intval($width)) / 2);
+            $pos_y = floor(($this->height - intval($height)) / 2);
+        }
+
+        if (is_null($width) || is_null($height)) {
+            throw new Exception('width and height of cutout needs to be defined');
+        }
+
+        return $this->modify(0, 0, $pos_x , $pos_y, $width, $height, $width, $height);
+    }
+
+    /**
      * Cut out a detail of the image in given ratio and resize to output size
      *
      * @param  int  $width

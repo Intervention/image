@@ -314,6 +314,24 @@ class Image
         $height = array_key_exists('height', $dimensions) ? intval($dimensions['height']) : null;
         return $this->resize($width, $height, true);
     }
+    
+    /**
+     * Crop an image
+     *
+     * @param  integer $src_x
+     * @param  integer $src_y
+     * @param  integer $src_w
+     * @param  integer $src_h
+     * @return Image
+     */
+    public function crop($src_x , $src_y , $src_w , $src_h)
+    {
+        if (is_null($src_x) || is_null($src_y) || is_null($src_w) || is_null($src_h)) {
+           throw new Exception('x, y, width and height needs to be defined');
+        }
+        $this->modify(0, 0, $src_x , $src_y, $src_w, $src_h, $src_w, $src_h);
+        return $this;
+    }
 
     /**
      * Crop the current image

@@ -56,6 +56,7 @@ Add the facade of this package to the `$aliases` array.
 * Image::contrast - Changes contrast of current image (-100 = min contrast, 0 = no change, +100 = max contrast)
 * Image::pixelate - Pixelate current image
 * Image::greyscale - Turn current image into a greyscale version
+* Image::invert - Invert colors of current image
 * Image::text - Write text in current image
 * Image::fill - Fill image with given color at position x,y
 * Image::rectangle - Draw rectangle in current image starting at point 1 and ending at point 2

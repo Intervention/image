@@ -627,6 +627,18 @@ class Image
     }
 
     /**
+     * Invert colors of current image
+     * 
+     * @return Image
+     */
+    public function invert()
+    {
+        imagefilter($this->resource, IMG_FILTER_NEGATE);
+
+        return $this;
+    }
+
+    /**
      * Reset to original image resource
      *
      * @return void

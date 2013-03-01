@@ -205,6 +205,14 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInstanceOf('Intervention\Image\Image', $img);
     }
 
+    public function testInvertImage()
+    {
+        $img = $this->getTestImage();
+        $img->invert();
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('#000000', $img->pickColor(0, 0, 'hex'));
+    }
+
     public function testFillImage()
     {
         $img = $this->getTestImage();

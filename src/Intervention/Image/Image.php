@@ -314,23 +314,35 @@ class Image
         $height = array_key_exists('height', $dimensions) ? intval($dimensions['height']) : null;
         return $this->resize($width, $height, true);
     }
-    
+
     /**
-     * Crop an image
+     * Crop the current image
      *
-     * @param  integer $src_x
-     * @param  integer $src_y
-     * @param  integer $src_w
-     * @param  integer $src_h
+     * @param  integer $width
+     * @param  integer $height
+     * @param  integer $pos_x
+     * @param  integer $pos_y
+     *
      * @return Image
      */
-    public function crop($src_x , $src_y , $src_w , $src_h)
+    public function crop($width, $height, $pos_x = null, $pos_y = null)
     {
-        if (is_null($src_x) || is_null($src_y) || is_null($src_w) || is_null($src_h)) {
-           throw new Exception('x, y, width and height needs to be defined');
+        $width = is_numeric($width) ? intval($width) : null;
+        $height = is_numeric($height) ? intval($height) : null;
+        $pos_x = is_numeric($pos_x) ? intval($pos_x) : null;
+        $pos_y = is_numeric($pos_y) ? intval($pos_y) : null;
+
+        if (is_null($pos_x) && is_null($pos_y)) {
+            // center position of width/height rectangle
+            $pos_x = floor(($this->width - intval($width)) / 2);
+            $pos_y = floor(($this->height - intval($height)) / 2);
         }
-        $this->modify(0, 0, $src_x , $src_y, $src_w, $src_h, $src_w, $src_h);
-        return $this;
+
+        if (is_null($width) || is_null($height)) {
+            throw new Exception('width and height of cutout needs to be defined');
+        }
+
+        return $this->modify(0, 0, $pos_x , $pos_y, $width, $height, $width, $height);
     }
 
     /**
@@ -406,6 +418,21 @@ class Image
     {
         $obj = is_a($file, 'Intervention\Image\Image') ? $file : (new Image($file));
         imagecopy($this->resource, $obj->resource, $pos_x, $pos_y, 0, 0, $obj->width, $obj->height);
+
+        return $this;
+    }
+
+    /**
+     * Rotate image with given angle
+     *
+     * @param  float    $angle
+     * @param  string   $color
+     * @param  int      $ignore_transparent
+     * @return Image
+     */
+    public function rotate($angle = 0, $color = '#000000', $ignore_transparent = 0)
+    {
+        $this->resource = imagerotate($this->resource, $angle, $this->parseColor($color), $ignore_transparent);
 
         return $this;
     }
@@ -610,6 +637,18 @@ class Image
     public function greyscale()
     {
         $this->grayscale();
+
+        return $this;
+    }
+
+    /**
+     * Invert colors of current image
+     * 
+     * @return Image
+     */
+    public function invert()
+    {
+        imagefilter($this->resource, IMG_FILTER_NEGATE);
 
         return $this;
     }

@@ -335,6 +335,18 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img->save($save_as);
         $this->assertFileExists($save_as);
         @unlink($save_as);
+
+        $save_as = 'public/test2.png';
+        $img = $this->getTestImage();
+        $img->save($save_as, 80);
+        $this->assertFileExists($save_as);
+        @unlink($save_as);
+
+        $save_as = 'public/test2.jpg';
+        $img = $this->getTestImage();
+        $img->save($save_as, 0);
+        $this->assertFileExists($save_as);
+        @unlink($save_as);
     }
 
     public function testStringConversion()

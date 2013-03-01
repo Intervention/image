@@ -666,6 +666,10 @@ class Image
      */
     private function data($type = null, $quality = 90)
     {
+        if ($quality < 0 || $quality > 100) {
+            throw new Exception('Quality of image must range from 0 to 100.');
+        }
+
         ob_start();
 
         switch (strtolower($type)) {
@@ -674,9 +678,10 @@ class Image
             break;
 
             case 'png':
+                $quality = round($quality / 11.11111111111); // transform quality to png setting
                 @imagealphablending($this->resource, false);
                 @imagesavealpha($this->resource, true);
-                @imagepng($this->resource);
+                @imagepng($this->resource, null, $quality);
             break;
 
             default:

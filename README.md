@@ -66,6 +66,7 @@ Add the facade of this package to the `$aliases` array.
 * Image::pickColor - Picks and formats color at position in current image
 * Image::reset - Reset to original image resource
 * Image::save - Save image in filesystem
+* Image::__toString - Returns image data depending on current format
 
 ### Code examples (Laravel)
 

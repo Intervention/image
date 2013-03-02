@@ -196,6 +196,42 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals('#fed78c', $img->pickColor(0, 0, 'hex'));
     }
 
+    public function testRotateImage()
+    {
+        $img = $this->getTestImage();
+        $img->rotate(90);
+        $img->save('public/rotate.jpg');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 600);
+        $this->assertEquals($img->height, 800);
+        $this->assertEquals('#ffbf47', $img->pickColor(0, 0, 'hex'));
+
+        $img = $this->getTestImage();
+        $img->rotate(180);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 800);
+        $this->assertEquals($img->height, 600);
+        $this->assertEquals('#ffa600', $img->pickColor(0, 0, 'hex'));
+
+        // rotate transparent png and keep transparency
+        $img = Image::make('public/circle.png');
+        $img->rotate(180);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 50);
+        $this->assertEquals($img->height, 50);
+        $checkColor = $img->pickColor(0, 0, 'array');
+        $this->assertEquals($checkColor['red'], 0);
+        $this->assertEquals($checkColor['green'], 0);
+        $this->assertEquals($checkColor['blue'], 0);
+        $this->assertEquals($checkColor['alpha'], 127);
+    }
+
     public function testInsertImage()
     {
         $img = $this->getTestImage();

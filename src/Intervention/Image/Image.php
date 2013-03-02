@@ -448,6 +448,21 @@ class Image
     }
 
     /**
+     * Rotate image with given angle
+     *
+     * @param  float    $angle
+     * @param  string   $color
+     * @param  int      $ignore_transparent
+     * @return Image
+     */
+    public function rotate($angle = 0, $color = '#000000', $ignore_transparent = 0)
+    {
+        $this->resource = imagerotate($this->resource, $angle, $this->parseColor($color), $ignore_transparent);
+
+        return $this;
+    }
+
+    /**
      * Fill image with given hexadecimal color at position x,y
      *
      * @param  string  $color

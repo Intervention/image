@@ -200,7 +200,6 @@ class ImageTest extends PHPUnit_Framework_Testcase
     {
         $img = $this->getTestImage();
         $img->rotate(90);
-        $img->save('public/rotate.jpg');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
         $this->assertInternalType('int', $img->height);

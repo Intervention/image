@@ -188,6 +188,9 @@ $img->circle('ae051f', 400, 300, 100, false);
 // draw a red line from point 10,10 to point 300,300 pixel
 $img->line('ae051f', 10, 10, 300, 300);
 
+// rotate image 90° clockwise
+$img->rotate(90);
+
 // flip image horizontally
 $img->flip('h');
 

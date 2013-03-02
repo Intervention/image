@@ -457,7 +457,12 @@ class Image
      */
     public function rotate($angle = 0, $color = '#000000', $ignore_transparent = 0)
     {
+        // rotate image
         $this->resource = imagerotate($this->resource, $angle, $this->parseColor($color), $ignore_transparent);
+
+        // re-read width/height
+        $this->width = imagesx($this->resource);
+        $this->height = imagesy($this->resource);
 
         return $this;
     }

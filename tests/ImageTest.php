@@ -183,6 +183,19 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 200);
     }
 
+    public function testFlipImage()
+    {
+        $img = $this->getTestImage();
+        $img->flip('h');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('#ffbf47', $img->pickColor(0, 0, 'hex'));
+        
+        $img = $this->getTestImage();
+        $img->flip('v');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('#fed78c', $img->pickColor(0, 0, 'hex'));
+    }
+
     public function testInsertImage()
     {
         $img = $this->getTestImage();

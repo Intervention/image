@@ -57,6 +57,7 @@ Add the facade of this package to the `$aliases` array.
 * Image::pixelate - Pixelate current image
 * Image::greyscale - Turn current image into a greyscale version
 * Image::invert - Invert colors of current image
+* Image::flip - Mirror image horizontally or vertically
 * Image::text - Write text in current image
 * Image::fill - Fill image with given color at position x,y
 * Image::rectangle - Draw rectangle in current image starting at point 1 and ending at point 2
@@ -186,6 +187,12 @@ $img->circle('ae051f', 400, 300, 100, false);
 
 // draw a red line from point 10,10 to point 300,300 pixel
 $img->line('ae051f', 10, 10, 300, 300);
+
+// flip image horizontally
+$img->flip('h');
+
+// flip image vertically
+$img->flip('v');
 ```
 
 #### Method chaining

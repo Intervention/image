@@ -406,6 +406,31 @@ class Image
         return $this->grab($width, $height);
     }
 
+    public function flip($mode = null)
+    {
+        $x = 0;
+        $y = 0;
+        $width = $this->width;
+        $height = $this->height;
+
+        switch (strtolower($mode)) {
+            case 2:
+            case 'v':
+            case 'vert':
+            case 'vertical':
+                $y = $height - 1;
+                $height = $height * (-1);
+                break;
+            
+            default:
+                $x = $width - 1;
+                $width = $width * (-1);
+                break;
+        }
+
+        return $this->modify(0, 0, $x, $y, $this->width, $this->height, $width, $height);
+    }
+
     /**
      * Insert another image on top of the current image
      *

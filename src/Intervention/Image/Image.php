@@ -394,7 +394,7 @@ class Image
 
     /**
      * Legacy Method to support older grab calls
-     * 
+     *
      * @param  array  $dimensions
      * @return Image
      */
@@ -406,6 +406,12 @@ class Image
         return $this->grab($width, $height);
     }
 
+    /**
+     * Mirror image horizontally or vertically
+     *
+     * @param  mixed $mode
+     * @return Image
+     */
     public function flip($mode = null)
     {
         $x = 0;

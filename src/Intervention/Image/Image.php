@@ -141,6 +141,12 @@ class Image
         return $image;
     }
 
+    /**
+     * Set properties for image resource from image file
+     * 
+     * @param string $path
+     * @return void
+     */
     private function setPropertiesFromPath($path)
     {
         if ( ! $this->filesystem->exists($path)) {
@@ -178,6 +184,12 @@ class Image
         }
     }
 
+    /**
+     * Set properties for image resource from string
+     *
+     * @param string $string
+     * @return void
+     */
     private function setPropertiesFromString($string)
     {
         $this->resource = imagecreatefromstring($string);
@@ -187,6 +199,13 @@ class Image
         $this->original['height'] = $this->height;
     }
 
+    /**
+     * Set properties for empty image resource
+     * 
+     * @param int $width
+     * @param int $height
+     * @return void
+     */
     private function setPropertiesEmpty($width, $height)
     {
         $this->width = is_numeric($width) ? intval($width) : 1;

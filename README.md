@@ -46,8 +46,10 @@ Add the facade of this package to the `$aliases` array.
 ## Usage
 
 * Image::__construct - Create new instance of Image class
-* Image::make - Open a new image resource from image file or create a new empty image
+* Image::make - Open a new image resource from image file
 * Image::canvas - Create a new empty image resource
+* Image::raw - Create a new image resource with image data from string
+* Image::open - Open a new image resource from image file
 * Image::resize - Resize current image based on given width and/or height
 * Image::crop - Crop the current image
 * Image::grab - Cut out a detail of the image in given ratio and resize to output size

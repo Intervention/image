@@ -15,6 +15,44 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInstanceOf('Illuminate\Filesystem\Filesystem', $img->getFilesystem());
     }
 
+    public function testConstructor()
+    {
+        $img = new Image('public/test.jpg');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('resource', $img->resource);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 800);
+        $this->assertEquals($img->height, 600);
+        $this->assertEquals($img->dirname, 'public');
+        $this->assertEquals($img->basename, 'test.jpg');
+        $this->assertEquals($img->extension, 'jpg');
+        $this->assertEquals($img->filename, 'test');
+
+        $img = new Image(null, 800, 600);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('resource', $img->resource);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 800);
+        $this->assertEquals($img->height, 600);
+    }
+
+    public function testOpenImage()
+    {
+        $img = new Image;
+        $img->open('public/test.jpg');
+        $this->assertInternalType('resource', $img->resource);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 800);
+        $this->assertEquals($img->height, 600);
+        $this->assertEquals($img->dirname, 'public');
+        $this->assertEquals($img->basename, 'test.jpg');
+        $this->assertEquals($img->extension, 'jpg');
+        $this->assertEquals($img->filename, 'test');
+    }
+
     public function testCreationFromFile()
     {
         $img = $this->getTestImage();
@@ -581,6 +619,17 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 300);
         $this->assertEquals($img->height, 200);
+    }
+
+    public function testStaticCallRaw()
+    {
+        $data = file_get_contents('public/test.jpg');
+        $img = Image::raw($data);
+        $this->assertInternalType('resource', $img->resource);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 800);
+        $this->assertEquals($img->height, 600);
     }
 
     public function testCreateCanvasWithTransparentBackground()

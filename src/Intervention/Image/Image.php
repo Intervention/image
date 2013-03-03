@@ -84,19 +84,32 @@ class Image
      */
     public function __construct($path = null, $width = null, $height = null)
     {
+        // create filesystem
         $this->filesystem = new Filesystem;
-        $this->setProperties($path, $width, $height);
+        
+        // set image properties 
+        if ( ! is_null($path)) {
+
+            $this->setPropertiesFromPath($path);
+
+        } else {
+
+            $this->setPropertiesEmpty($width, $height);
+        }
     }
 
     /**
-     * Open a new image resource from image file or create a new empty image
+     * Open a new image resource from image file
      *
      * @param  string $path
      * @return Image
      */
-    public static function make($path, $width = null, $height = null)
+    public static function make($path)
     {
-        return new Image($path, $width, $height);
+        $image = new Image;
+        $image->setPropertiesFromPath($path);
+
+        return $image;
     }
 
     /**
@@ -108,67 +121,86 @@ class Image
      */
     public static function canvas($width, $height)
     {
-        return new Image(null, $width, $height);
+        $image = new Image;
+        $image->setPropertiesEmpty($width, $height);
+
+        return $image;
     }
 
     /**
-     * Set local properties for image resource
+     * Create a new image resource with image data from string
      *
-     * @param string $path
+     * @param  string $data
+     * @return Image
      */
-    private function setProperties($path, $width = null, $height = null)
+    public static function raw($string)
     {
-        if ( ! is_null($path)) {
+        $image = new Image;
+        $image->setPropertiesFromString($string);
 
-            if ( ! $this->filesystem->exists($path)) {
-                throw new Exception("Image file ({$path}) not found");
-            }
+        return $image;
+    }
 
-            // set file info
-            $info = pathinfo($path);
-            $this->dirname = $info['dirname'];
-            $this->basename = $info['basename'];
-            $this->extension = $info['extension'];
-            $this->filename = $info['filename'];
-
-            // set image info
-            list($this->width, $this->height, $this->type) = @getimagesize($path);
-
-            // set resource
-            switch ($this->type) {
-                case IMG_PNG:
-                case 3:
-                    $this->resource = @imagecreatefrompng($path);
-                    break;
-
-                case IMG_JPG:
-                    $this->resource = @imagecreatefromjpeg($path);
-                    break;
-
-                case IMG_GIF:
-                    $this->resource = @imagecreatefromgif($path);
-                    break;
-
-                default:
-                    throw new Exception("Wrong image type ({$this->type}) only use JPG, PNG or GIF images.");
-                    break;
-            }
-
-        } else {
-
-            $this->width = is_numeric($width) ? intval($width) : 1;
-            $this->height = is_numeric($height) ? intval($height) : 1;
-
-            $this->original['width'] = $this->width;
-            $this->original['height'] = $this->height;
-
-            // create empty image
-            $this->resource = @imagecreatetruecolor($this->width, $this->height);
-
-            // fill with transparent background instead of black
-            $transparent = imagecolorallocatealpha($this->resource, 0, 0, 0, 127);
-            imagefill($this->resource, 0, 0, $transparent);
+    private function setPropertiesFromPath($path)
+    {
+        if ( ! $this->filesystem->exists($path)) {
+            throw new Exception("Image file ({$path}) not found");
         }
+
+        // set file info
+        $info = pathinfo($path);
+        $this->dirname = $info['dirname'];
+        $this->basename = $info['basename'];
+        $this->extension = $info['extension'];
+        $this->filename = $info['filename'];
+
+        // set image info
+        list($this->width, $this->height, $this->type) = @getimagesize($path);
+
+        // set resource
+        switch ($this->type) {
+            case IMG_PNG:
+            case 3:
+            $this->resource = @imagecreatefrompng($path);
+            break;
+
+            case IMG_JPG:
+            $this->resource = @imagecreatefromjpeg($path);
+            break;
+
+            case IMG_GIF:
+            $this->resource = @imagecreatefromgif($path);
+            break;
+
+            default:
+            throw new Exception("Wrong image type ({$this->type}) only use JPG, PNG or GIF images.");
+            break;
+        }
+    }
+
+    private function setPropertiesFromString($string)
+    {
+        $this->resource = imagecreatefromstring($string);
+        $this->width = imagesx($this->resource);
+        $this->height = imagesy($this->resource);
+        $this->original['width'] = $this->width;
+        $this->original['height'] = $this->height;
+    }
+
+    private function setPropertiesEmpty($width, $height)
+    {
+        $this->width = is_numeric($width) ? intval($width) : 1;
+        $this->height = is_numeric($height) ? intval($height) : 1;
+
+        $this->original['width'] = $this->width;
+        $this->original['height'] = $this->height;
+
+        // create empty image
+        $this->resource = @imagecreatetruecolor($this->width, $this->height);
+
+        // fill with transparent background instead of black
+        $transparent = imagecolorallocatealpha($this->resource, 0, 0, 0, 127);
+        imagefill($this->resource, 0, 0, $transparent);
     }
 
     /**
@@ -198,6 +230,19 @@ class Image
         // set new dimensions
         $this->width = $dst_w;
         $this->height = $dst_h;
+
+        return $this;
+    }
+
+    /**
+     * Open a new image resource from image file
+     *
+     * @param  string $path
+     * @return Image
+     */
+    public function open($path)
+    {
+        $this->setPropertiesFromPath($path);
 
         return $this;
     }
@@ -698,11 +743,11 @@ class Image
     {
         if (is_null($this->dirname) && is_null($this->basename)) {
             
-            $this->setProperties(null, $this->original['width'], $this->original['height']);
+            $this->setPropertiesEmpty($this->original['width'], $this->original['height']);
 
         } else {
 
-            $this->setProperties($this->dirname .'/'. $this->basename);
+            $this->setPropertiesFromPath($this->dirname .'/'. $this->basename);
         }
 
         return $this;

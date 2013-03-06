@@ -53,6 +53,7 @@ Add the facade of this package to the `$aliases` array.
 * Image::resize - Resize current image based on given width and/or height
 * Image::crop - Crop the current image
 * Image::grab - Cut out a detail of the image in given ratio and resize to output size
+* Image::resizeCanvas - Resize image canvas
 * Image::insert - Insert another image on top of the current image
 * Image::brightness - Changes brightness of current image (-100 = min brightness, 0 = no change, +100 = max brightness)
 * Image::contrast - Changes contrast of current image (-100 = min contrast, 0 = no change, +100 = max contrast)
@@ -104,6 +105,31 @@ $img->reset();
 
 // save image in desired format and quality
 $img->save('public/bar.jpg', 60);
+```
+
+#### Resize canvas
+
+```php
+// create Image from file
+$img = Image::make('public/foo.jpg');
+
+// resize image canvas
+$img->resizeCanvas(300, 200);
+
+// resize only the width of the canvas
+$img->resizeCanvas(300, null);
+
+// resize only the height of the canvas
+$img->resizeCanvas(null, 200);
+
+// resize the canvas by cutting out bottom right position
+$img->resizeCanvas(300, 200, 'bottom-right');
+
+// resize the canvas relative by setting the third parameter to true
+$img->resizeCanvas(10, -10, 'center', true);
+
+// set a background-color for the emerging area
+$img->resizeCanvas(1280, 720, 'center', false, 'ff00ff');
 ```
 
 #### Crop image

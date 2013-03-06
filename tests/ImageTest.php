@@ -145,6 +145,165 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, $original_height);
     }
 
+    public function testResizeCanvas()
+    {
+        $img = $this->getTestImage();
+        $img->resizeCanvas(300, 200); // pin center
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 300);
+        $this->assertEquals($img->height, 200);
+        $this->assertEquals('#ffe8bc', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#ffaf1c', $img->pickColor(299, 199, 'hex'));
+
+        $img = $this->getTestImage();
+        $img->resizeCanvas(300, 200, 'top-left');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 300);
+        $this->assertEquals($img->height, 200);
+        $this->assertEquals('#ffffff', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#fee3ae', $img->pickColor(299, 199, 'hex'));
+
+        $img = $this->getTestImage();
+        $img->resizeCanvas(300, 200, 'top');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 300);
+        $this->assertEquals($img->height, 200);
+        $this->assertEquals('#fffbf2', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#ffc559', $img->pickColor(299, 199, 'hex'));
+
+        $img = $this->getTestImage();
+        $img->resizeCanvas(300, 200, 'top-right');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 300);
+        $this->assertEquals($img->height, 200);
+        $this->assertEquals('#ffe2ae', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#ffac12', $img->pickColor(299, 199, 'hex'));
+
+        $img = $this->getTestImage();
+        $img->resizeCanvas(300, 200, 'left');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 300);
+        $this->assertEquals($img->height, 200);
+        $this->assertEquals('#fefdf9', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#ffca6a', $img->pickColor(299, 199, 'hex'));
+
+        $img = $this->getTestImage();
+        $img->resizeCanvas(300, 200, 'right');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 300);
+        $this->assertEquals($img->height, 200);
+        $this->assertEquals('#ffca66', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#ffa600', $img->pickColor(299, 199, 'hex'));
+
+        $img = $this->getTestImage();
+        $img->resizeCanvas(300, 200, 'bottom-left');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 300);
+        $this->assertEquals($img->height, 200);
+        $this->assertEquals('#ffedcc', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#ffb42b', $img->pickColor(299, 199, 'hex'));
+
+        $img = $this->getTestImage();
+        $img->resizeCanvas(300, 200, 'bottom');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 300);
+        $this->assertEquals($img->height, 200);
+        $this->assertEquals('#ffd179', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#ffa600', $img->pickColor(299, 199, 'hex'));
+
+        $img = $this->getTestImage();
+        $img->resizeCanvas(300, 200, 'bottom-right');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 300);
+        $this->assertEquals($img->height, 200);
+        $this->assertEquals('#ffb42a', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#ffa600', $img->pickColor(299, 199, 'hex'));
+
+        // resize relative from center 5px border in magenta
+        $img = $this->getTestImage();
+        $img->resizeCanvas(10, 10, 'center', true, 'ff00ff');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 810);
+        $this->assertEquals($img->height, 610);
+        $this->assertEquals('#ff00ff', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#ff00ff', $img->pickColor(809, 609, 'hex'));
+
+        // resize just width
+        $img = $this->getTestImage();
+        $img->resizeCanvas(300, null);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 300);
+        $this->assertEquals($img->height, 600);
+        $this->assertEquals('#fffbf2', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#ffa600', $img->pickColor(299, 599, 'hex'));
+
+        // resize just height
+        $img = $this->getTestImage();
+        $img->resizeCanvas(null, 200);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 800);
+        $this->assertEquals($img->height, 200);
+        $this->assertEquals('#fefdf9', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#ffa600', $img->pickColor(799, 199, 'hex'));
+
+        // smaller width, larger height
+        $img = $this->getTestImage();
+        $img->resizeCanvas(300, 800);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 300);
+        $this->assertEquals($img->height, 800);
+        $this->assertEquals('#000000', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#000000', $img->pickColor(299, 799, 'hex'));
+
+        // larger width, smaller height
+        $img = $this->getTestImage();
+        $img->resizeCanvas(900, 200);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 900);
+        $this->assertEquals($img->height, 200);
+        $this->assertEquals('#000000', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#000000', $img->pickColor(899, 199, 'hex'));
+
+        // test negative values (for relative resize)
+        $img = $this->getTestImage();
+        $img->resizeCanvas(-200, -200);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 600);
+        $this->assertEquals($img->height, 400);
+        $this->assertEquals('#fffefc', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#ffa600', $img->pickColor(599, 399, 'hex'));
+    }
+
     public function testCropImage()
     {
         $img = $this->getTestImage();

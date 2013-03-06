@@ -380,6 +380,135 @@ class Image
     }
 
     /**
+     * Resize image canvas
+     * 
+     * @param  int  $width
+     * @param  int  $height
+     * @param  string  $anchor
+     * @param  boolean $relative
+     * @param  mixed  $bgcolor
+     * @return Image
+     */
+    public function resizeCanvas($width, $height, $anchor = null, $relative = false, $bgcolor = null)
+    {
+        // check of only width or height is set
+        $width = is_null($width) ? $this->width : intval($width);
+        $height = is_null($height) ? $this->height : intval($height);
+
+        // check on relative width/height
+        if ($relative) {
+            $width = $this->width + $width;
+            $height = $this->height + $height;
+        } 
+
+        // check for negative width
+        if ($width <= 0) {
+            $width = $this->width + $width;
+        }
+
+        // check for negative height
+        if ($height <= 0) {
+            $height = $this->height + $height;
+        }
+
+        // create new canvas
+        $image = @imagecreatetruecolor($width, $height);
+
+        if ($width > $this->width || $height > $this->height) {
+            $bgcolor = is_null($bgcolor) ? '000000' : $bgcolor;
+            imagefill($image, 0, 0, $this->parseColor($bgcolor));
+        }
+
+        if ($width >= $this->width) {
+            $src_w = $this->width;
+        } else {
+            $src_w = $width;
+        }
+
+        if ($height >= $this->height) {
+            $src_h = $this->height;
+        } else {
+            $src_h = $height;
+        }
+
+        // define anchor
+        switch ($anchor) {
+            case 'top-left':
+                $src_x = 0;
+                $src_y = 0;
+                break;
+
+            case 'top':
+            case 'top-center':
+            case 'top-middle':
+                $src_x = ($width < $this->width) ? intval(($this->width - $width) / 2) : 0;
+                $src_y = 0;
+                break;
+
+            case 'top-right':
+                $src_x = ($width < $this->width) ? intval($this->width - $width) : 0;
+                $src_y = 0;
+                break;
+
+            case 'left':
+            case 'left-center':
+            case 'left-middle':
+                $src_x = 0;
+                $src_y = ($height < $this->height) ? intval(($this->height - $height) / 2) : 0;
+                break;
+
+            case 'right':
+            case 'right-center':
+            case 'right-middle':
+                $src_x = ($width < $this->width) ? intval($this->width - $width) : 0;
+                $src_y = ($height < $this->height) ? intval(($this->height - $height) / 2) : 0;
+                break;
+
+            case 'bottom-left':
+                $src_x = 0;
+                $src_y = ($height < $this->height) ? intval($this->height - $height) : 0;
+                break;
+
+            case 'bottom':
+            case 'bottom-center':
+            case 'bottom-middle':
+                $src_x = ($width < $this->width) ? intval(($this->width - $width) / 2) : 0;
+                $src_y = ($height < $this->height) ? intval($this->height - $height) : 0;
+                break;
+            
+            case 'bottom-right':
+                $src_x = ($width < $this->width) ? intval($this->width - $width) : 0;
+                $src_y = ($height < $this->height) ? intval($this->height - $height) : 0;
+                break;
+
+            default:
+            case 'center':
+            case 'middle':
+            case 'center-center':
+            case 'middle-middle':
+                $src_x = ($width < $this->width) ? intval(($this->width - $width) / 2) : 0;
+                $src_y = ($height < $this->height) ? intval(($this->height - $height) / 2) : 0;
+                break;
+        }
+
+        // define dest. pos
+        $dst_x = ($width <= $this->width) ? 0 : intval(($width - $this->width) / 2);
+        $dst_y = ($height <= $this->height) ? 0 : intval(($height - $this->height) / 2);
+
+        // copy content from resource
+        @imagecopy($image, $this->resource, $dst_x , $dst_y , $src_x , $src_y , $src_w , $src_h);
+
+        // set new content as recource
+        $this->resource = $image;
+
+        // set new dimensions
+        $this->width = $width;
+        $this->height = $height;
+
+        return $this;
+    }
+
+    /**
      * Crop the current image
      *
      * @param  integer $width

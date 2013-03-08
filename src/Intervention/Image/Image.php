@@ -3,6 +3,7 @@
 namespace Intervention\Image;
 
 use Exception;
+use Closure;
 use Illuminate\Filesystem\Filesystem;
 
 class Image
@@ -139,6 +140,26 @@ class Image
         $image->setPropertiesFromString($string);
 
         return $image;
+    }
+
+    /**
+     * Create new cached image and run callback
+     * (requires additional package intervention/imagecache)
+     *
+     * @param  Closure $callback
+     * @return Image
+     */
+    public static function cache(Closure $callback = null)
+    {
+        if ( ! class_exists('\Intervention\Image\ImageCache')) {
+            throw new Exception('Please install package intervention/imagecache before running this function.');
+        }
+
+        // Create image and run callback
+        $image = new \Intervention\Image\ImageCache;
+        $image = is_callable($callback) ? $callback($image) : $image;
+
+        return $image->get();
     }
 
     /**

@@ -79,6 +79,13 @@ class Image
     protected $original;
 
     /**
+     * Identifier for cached images
+     * 
+     * @var boolean
+     */
+    public $cached = false;
+
+    /**
      * Create a new instance of Image class
      *
      * @param string $path

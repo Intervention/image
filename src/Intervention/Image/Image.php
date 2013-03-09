@@ -156,7 +156,7 @@ class Image
      * @param  Closure $callback
      * @return Image
      */
-    public static function cache(Closure $callback = null)
+    public static function cache(Closure $callback = null, $lifetime = null, $returnObj = false)
     {
         if ( ! class_exists('\Intervention\Image\ImageCache')) {
             throw new Exception('Please install package intervention/imagecache before running this function.');
@@ -166,7 +166,7 @@ class Image
         $image = new \Intervention\Image\ImageCache;
         $image = is_callable($callback) ? $callback($image) : $image;
 
-        return $image->get();
+        return $image->get($lifetime, $returnObj);
     }
 
     /**

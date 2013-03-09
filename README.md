@@ -1,8 +1,8 @@
 # Intervention Image Class
 
-Intervention Image Class is an image handling and manipulation wrapper library using **PHP GD library**. The class is written to make PHP image manipulating more easier and expressive.
+Intervention Image Class is an image handling and manipulation wrapper library using [PHP GD library](http://www.php.net/manual/book.image.php). The class is written to make PHP image manipulating more easier and expressive.
 
-The library requires at least **PHP version 5.3** and comes with **Laravel 4** Facades and Service Providers to simplify the optional framework integration.
+The library requires at least **PHP version 5.3** and comes with [Laravel 4](https://github.com/laravel/framework/) Facades and Service Providers to simplify the optional framework integration.
 
 ## Installation
 
@@ -53,7 +53,7 @@ Add the facade of this package to the `$aliases` array.
 * Image::resize - Resize current image based on given width and/or height
 * Image::crop - Crop the current image
 * Image::grab - Cut out a detail of the image in given ratio and resize to output size
-* Image::resizeCanvas - Resize image canvas
+* Image::resizeCanvas - Resize image boundaries
 * Image::insert - Insert another image on top of the current image
 * Image::brightness - Changes brightness of current image (-100 = min brightness, 0 = no change, +100 = max brightness)
 * Image::contrast - Changes contrast of current image (-100 = min contrast, 0 = no change, +100 = max contrast)
@@ -236,4 +236,16 @@ $img2 = Image::make('public/img2.png');
 $img1->resize(300, 200)->insert($img2)->save('public/bar.jpg');
 ```
 
+## Image Caching
 
+The optional package [Intervention Image Cache](https://github.com/Intervention/imagecache/) extends the package to be capable of image caching. `Image::cache` will automatically detect if a cached file for the particular operations exists.
+
+```php
+// run the operations on the image or read a file
+// for the particular operations from cache
+$img = Image::cache(function($image) {
+   return $image->make('public/foo.jpg')->resize(300, 200)->greyscale();
+});
+```
+
+Read more about [Intervention Image Cache](https://github.com/Intervention/imagecache/).

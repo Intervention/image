@@ -17,6 +17,9 @@
         "illuminate/support": "4.0.x",
         "illuminate/filesystem": "4.0.x"
     },
+    "suggest": {
+        "intervention/imagecache": "Caching extension for the Intervention Image library"
+    },
     "autoload": {
         "psr-0": {
             "Intervention\\Image": "src/"

@@ -249,3 +249,7 @@ $img = Image::cache(function($image) {
 ```
 
 Read more about [Intervention Image Cache](https://github.com/Intervention/imagecache/).
+
+## License
+
+Intervention Image Class is licensed under the [MIT License](http://opensource.org/licenses/MIT).

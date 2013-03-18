@@ -268,6 +268,10 @@ class Image
         // create new image
         $image = @imagecreatetruecolor($dst_w, $dst_h);
 
+        // preserve transparency
+        @imagealphablending($image, false);
+        @imagesavealpha($image, true);
+
         // copy content from resource
         @imagecopyresampled($image, $this->resource, $dst_x , $dst_y , $src_x , $src_y , $dst_w , $dst_h , $src_w , $src_h);
 

@@ -679,6 +679,30 @@ class Image
     }
 
     /**
+     * Set opacity of current image
+     * 
+     * @param  integer $value
+     * @return Image
+     */
+    public function opacity($value)
+    {
+        if ($value >= 0 && $value <= 100) {
+            $value = intval($value) / 100;
+        } else {
+            throw new Exception('Opacity must be between 0 and 100');
+        }
+
+        // create alpha mask
+        $alpha = new self(null, $this->width, $this->height);
+        $alpha->fill(sprintf('rgba(0, 0, 0, %.1f)', $value));
+
+        // apply alpha mask
+        $this->mask($alpha, true);
+
+        return $this;
+    }
+
+    /**
      * Apply given image as alpha mask on current image
      *
      * @param  mixed $file
@@ -1128,7 +1152,8 @@ class Image
     /**
      * Save image in filesystem
      *
-     * @param  string $path
+     * @param  string  $path
+     * @param  integer $quality
      * @return Image
      */
     public function save($path = null, $quality = 90)

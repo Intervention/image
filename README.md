@@ -54,6 +54,7 @@ Add the facade of this package to the `$aliases` array.
 * Image::crop - Crop the current image
 * Image::grab - Cut out a detail of the image in given ratio and resize to output size
 * Image::resizeCanvas - Resize image boundaries
+* Image::opacity - Set opacity of current image
 * Image::mask - Apply given image as alpha mask on current image
 * Image::insert - Insert another image on top of the current image
 * Image::brightness - Changes brightness of current image (-100 = min brightness, 0 = no change, +100 = max brightness)
@@ -223,6 +224,9 @@ $img->mask('public/mask.png', true);
 
 // rotate image 90° clockwise
 $img->rotate(90);
+
+// set 75% opacity
+$img->opacity(75);
 
 // flip image horizontally
 $img->flip('h');

@@ -435,6 +435,28 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInstanceOf('Intervention\Image\Image', $img);
     }
 
+    public function testOpacity()
+    {
+        // simple image mask
+        $img = Image::make('public/test.jpg');
+        $img->resize(32, 32)->opacity(50);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 32);
+        $this->assertEquals($img->height, 32);
+        $checkColor = $img->pickColor(15, 15, 'array');
+        $this->assertEquals($checkColor['red'], 254);
+        $this->assertEquals($checkColor['green'], 204);
+        $this->assertEquals($checkColor['blue'], 112);
+        $this->assertEquals($checkColor['alpha'], 64);
+        $checkColor = $img->pickColor(31, 31, 'array');
+        $this->assertEquals($checkColor['red'], 255);
+        $this->assertEquals($checkColor['green'], 166);
+        $this->assertEquals($checkColor['blue'], 0);
+        $this->assertEquals($checkColor['alpha'], 64);
+    }
+
     public function testMaskImage()
     {
         // simple image mask

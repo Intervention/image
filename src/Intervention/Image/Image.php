@@ -665,7 +665,7 @@ class Image
     /**
      * Insert another image on top of the current image
      *
-     * @param  string  $file
+     * @param  mixed  $file
      * @param  integer $pos_x
      * @param  integer $pos_y
      * @return Image
@@ -1029,7 +1029,10 @@ class Image
         } elseif(is_array($value)) {
 
             // parse color array like: array(155, 155, 155)
-            list($r, $g, $b) = $value;
+            list($r, $g, $b, $a) = $value;
+
+            // set alpha if available (A value between 0 [opaque] and 127 [transparent])
+            $alpha = is_numeric($a) ? intval($a) : $alpha;
 
         } elseif(is_string($value)) {
 

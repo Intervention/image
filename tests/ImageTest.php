@@ -433,7 +433,67 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img = $this->getTestImage();
         $img->insert('public/test.jpg', 10, 10);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
+    }
 
+    public function testMaskImage()
+    {
+        // simple image mask
+        $img = Image::make('public/test.jpg');
+        $img->resize(32, 32)->mask('public/mask1.png', false);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 32);
+        $this->assertEquals($img->height, 32);
+        $checkColor = $img->pickColor(16, 2, 'array');
+        $this->assertEquals($checkColor['red'], 254);
+        $this->assertEquals($checkColor['green'], 230);
+        $this->assertEquals($checkColor['blue'], 186);
+        $this->assertEquals($checkColor['alpha'], 22);
+        $checkColor = $img->pickColor(31, 31, 'array');
+        $this->assertEquals($checkColor['red'], 0);
+        $this->assertEquals($checkColor['green'], 0);
+        $this->assertEquals($checkColor['blue'], 0);
+        $this->assertEquals($checkColor['alpha'], 127);
+
+        // use alpha channel as mask
+        $img = Image::make('public/test.jpg');
+        $img->resize(32, 32)->mask('public/mask2.png', true);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 32);
+        $this->assertEquals($img->height, 32);
+        $checkColor = $img->pickColor(5, 5, 'array');
+        $this->assertEquals($checkColor['red'], 0);
+        $this->assertEquals($checkColor['green'], 0);
+        $this->assertEquals($checkColor['blue'], 0);
+        $this->assertEquals($checkColor['alpha'], 127);
+        $checkColor = $img->pickColor(20, 15, 'array');
+        $this->assertEquals($checkColor['red'], 254);
+        $this->assertEquals($checkColor['green'], 190);
+        $this->assertEquals($checkColor['blue'], 69);
+        $this->assertEquals($checkColor['alpha'], 0);
+
+        // preserve existing alpha channel
+        $img = Image::make('public/circle.png');
+        $img->resize(32, 32)->mask('public/mask2.png', true);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 32);
+        $this->assertEquals($img->height, 32);
+        $checkColor = $img->pickColor(5, 5, 'array');
+        $this->assertEquals($checkColor['red'], 0);
+        $this->assertEquals($checkColor['green'], 0);
+        $this->assertEquals($checkColor['blue'], 0);
+        $this->assertEquals($checkColor['alpha'], 127);
+        $checkColor = $img->pickColor(15, 15, 'array');
+        $this->assertEquals($checkColor['red'], 0);
+        $this->assertEquals($checkColor['green'], 0);
+        $this->assertEquals($checkColor['blue'], 0);
+        $this->assertEquals($checkColor['alpha'], 25);
+        
     }
 
     public function testPixelateImage()

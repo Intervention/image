@@ -679,6 +679,56 @@ class Image
     }
 
     /**
+     * Apply given image as alpha mask on current image
+     *
+     * @param  mixed $file
+     * @return Image
+     */
+    public function mask($file, $mask_with_alpha = false)
+    {
+        // create new empty image
+        $maskedImage = new Image(null, $this->width, $this->height);
+
+        // create mask
+        $mask = is_a($file, 'Intervention\Image\Image') ? $file : (new Image($file));
+
+        // resize mask to size of current image (if necessary)
+        if ($mask->width != $this->width || $mask->height != $this->height) {
+            $mask->resize($this->width, $this->height);
+        }
+
+        // redraw old image pixel by pixel considering alpha map
+        for ($x=0; $x < $this->width; $x++) {
+            for ($y=0; $y < $this->height; $y++) {
+
+                $color = $this->pickColor($x, $y, 'array');
+                $alpha = $mask->pickColor($x, $y, 'array');
+                
+                if ($mask_with_alpha) {
+                    $alpha = $alpha['alpha']; // use alpha channel as mask
+                } else {
+                    $alpha = 127 - floor($alpha['red'] / 2); // use red channel as mask
+                }
+
+                // preserve alpha of original image...
+                if ($color['alpha'] > $alpha) {
+                    $alpha = $color['alpha'];
+                }
+
+                $pixelColor = $this->parseColor(array($color['red'], $color['green'], $color['blue'], $alpha));
+                $maskedImage->pixel($pixelColor, $x, $y);
+            }
+        }
+
+        // apply masked image to current instance
+        $this->resource = $maskedImage->resource;
+        $this->width = $maskedImage->width;
+        $this->height = $maskedImage->height;
+
+        return $this;
+    }
+
+    /**
      * Rotate image with given angle
      *
      * @param  float    $angle

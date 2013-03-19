@@ -788,6 +788,12 @@ class Image
             imagesettile($this->resource, $color->resource);
             $color = IMG_COLOR_TILED;
 
+        } elseif (is_resource($color)) {
+
+            // fill with image resource
+            imagesettile($this->resource, $color);
+            $color = IMG_COLOR_TILED;
+
         } else {
             
             // fill with color

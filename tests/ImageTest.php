@@ -542,21 +542,32 @@ class ImageTest extends PHPUnit_Framework_Testcase
 
     public function testFillImage()
     {
-        $img = $this->getTestImage();
+        $img = new Image(null, 32, 32);
         $img = $img->fill('fdf5e4');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('#fdf5e4', $img->pickColor(0, 0, 'hex'));
 
         $img = $img->fill('#fdf5e4');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('#fdf5e4', $img->pickColor(0, 0, 'hex'));
 
         $img = $img->fill('ccc');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('#cccccc', $img->pickColor(0, 0, 'hex'));
 
         $img = $img->fill('#ccc');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('#cccccc', $img->pickColor(0, 0, 'hex'));
 
         $img = $img->fill(array(155, 155, 155), rand(1,10), rand(1,10));
         $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('#9b9b9b', $img->pickColor(0, 0, 'hex'));
+
+        $img = $img->fill(Image::make('public/tile.png'));
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('#b4e000', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#445160', $img->pickColor(31, 31, 'hex'));
+
     }
 
     public function testPixelImage()

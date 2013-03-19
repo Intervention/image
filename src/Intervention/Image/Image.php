@@ -773,16 +773,28 @@ class Image
     }
 
     /**
-     * Fill image with given hexadecimal color at position x,y
+     * Fill image with given color or image at position x,y
      *
-     * @param  string  $color
+     * @param  mixed   $color
      * @param  integer $pos_x
      * @param  integer $pos_y
      * @return Image
      */
     public function fill($color, $pos_x = 0, $pos_y = 0)
     {
-        imagefill($this->resource, $pos_x, $pos_y, $this->parseColor($color));
+        if (is_a($color, 'Intervention\Image\Image')) {
+
+            // fill with image
+            imagesettile($this->resource, $color->resource);
+            $color = IMG_COLOR_TILED;
+
+        } else {
+            
+            // fill with color
+            $color = $this->parseColor($color);
+        }
+
+        imagefill($this->resource, $pos_x, $pos_y, $color);
 
         return $this;
     }

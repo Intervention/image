@@ -65,7 +65,7 @@ Add the facade of this package to the `$aliases` array.
 * Image::rotate - Rotate image by a given value
 * Image::flip - Mirror image horizontally or vertically
 * Image::text - Write text in current image
-* Image::fill - Fill image with given color at position x,y
+* Image::fill - Fill image with given color or image at position x,y
 * Image::rectangle - Draw rectangle in current image starting at point 1 and ending at point 2
 * Image::line - Draw a line in current image starting at point 1 and ending at point 2
 * Image::ellipse - Draw an ellipse centered at given coordinates
@@ -209,6 +209,9 @@ $img = Image::canvas(800, 600);
 
 // fill image with color
 $img->fill('cccccc');
+
+// fill image with tiled image
+$img->fill(Image::make('tile.png'));
 
 // draw a filled rectangle
 $img->rectangle('006729', 100, 100, 200, 200, true);

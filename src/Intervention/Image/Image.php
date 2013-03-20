@@ -88,9 +88,12 @@ class Image
     /**
      * Create a new instance of Image class
      *
-     * @param string $path
+     * @param string  $path
+     * @param integer $width
+     * @param integer $height
+     * @param mixed   $bgcolor
      */
-    public function __construct($path = null, $width = null, $height = null)
+    public function __construct($path = null, $width = null, $height = null, $bgcolor = null)
     {
         // create filesystem
         $this->filesystem = new Filesystem;
@@ -102,7 +105,7 @@ class Image
 
         } else {
 
-            $this->setPropertiesEmpty($width, $height);
+            $this->setPropertiesEmpty($width, $height, $bgcolor);
         }
     }
 
@@ -125,12 +128,13 @@ class Image
      *
      * @param  int $width
      * @param  int $height
+     * @param  mixed $bgcolor
      * @return Image
      */
-    public static function canvas($width, $height)
+    public static function canvas($width, $height, $bgcolor = null)
     {
         $image = new Image;
-        $image->setPropertiesEmpty($width, $height);
+        $image->setPropertiesEmpty($width, $height, $bgcolor);
 
         return $image;
     }
@@ -154,6 +158,8 @@ class Image
      * (requires additional package intervention/imagecache)
      *
      * @param  Closure $callback
+     * @param  integer $lifetime
+     * @param  boolean $returnObj
      * @return Image
      */
     public static function cache(Closure $callback = null, $lifetime = null, $returnObj = false)
@@ -230,11 +236,12 @@ class Image
     /**
      * Set properties for empty image resource
      * 
-     * @param int $width
-     * @param int $height
+     * @param int   $width
+     * @param int   $height
+     * @param mixed $bgcolor
      * @return void
      */
-    private function setPropertiesEmpty($width, $height)
+    private function setPropertiesEmpty($width, $height, $bgcolor = null)
     {
         $this->width = is_numeric($width) ? intval($width) : 1;
         $this->height = is_numeric($height) ? intval($height) : 1;
@@ -245,9 +252,15 @@ class Image
         // create empty image
         $this->resource = @imagecreatetruecolor($this->width, $this->height);
 
-        // fill with transparent background instead of black
-        $transparent = imagecolorallocatealpha($this->resource, 0, 0, 0, 127);
-        imagefill($this->resource, 0, 0, $transparent);
+        // set background color
+        if (is_null($bgcolor)) {
+            // fill with transparent background instead of black
+            $bgcolor = imagecolorallocatealpha($this->resource, 0, 0, 0, 127);
+        } else {
+            $bgcolor = $this->parseColor($bgcolor);
+        }
+        
+        imagefill($this->resource, 0, 0, $bgcolor);
     }
 
     /**
@@ -573,8 +586,8 @@ class Image
     /**
      * Cut out a detail of the image in given ratio and resize to output size
      *
-     * @param  int  $width
-     * @param  int  $height
+     * @param  integer  $width
+     * @param  integer  $height
      *                     
      * @return Image
      */
@@ -705,7 +718,8 @@ class Image
     /**
      * Apply given image as alpha mask on current image
      *
-     * @param  mixed $file
+     * @param  mixed   $file
+     * @param  boolean $mask_with_alpha
      * @return Image
      */
     public function mask($file, $mask_with_alpha = false)
@@ -1028,7 +1042,7 @@ class Image
     /**
      * Returns image type stream
      *
-     * @param string $type gif|png|jpg|jpeg
+     * @param string  $type gif|png|jpg|jpeg
      * @param integer quality
      * @return string
      */

@@ -871,6 +871,14 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 300);
         $this->assertEquals($img->height, 200);
+
+        $img = Image::canvas(32, 32, 'b53717');
+        $this->assertInternalType('resource', $img->resource);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 32);
+        $this->assertEquals($img->height, 32);
+        $this->assertEquals($img->pickColor(15, 15, 'hex'), '#b53717');
     }
 
     public function testStaticCallRaw()

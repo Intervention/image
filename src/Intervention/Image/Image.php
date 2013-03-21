@@ -10,77 +10,77 @@ class Image
 {
     /**
      * The image resource identifier of current image
-     * 
+     *
      * @var resource
      */
     public $resource;
 
     /**
      * Type of current image
-     * 
+     *
      * @var string
      */
     public $type;
 
     /**
      * Width of current image
-     * 
+     *
      * @var integer
      */
     public $width;
 
     /**
      * Height of current image
-     * 
+     *
      * @var integer
      */
     public $height;
 
     /**
      * Directory path of current image
-     * 
+     *
      * @var string
      */
     public $dirname;
 
     /**
      * Trailing name component of current image filename
-     * 
+     *
      * @var string
      */
     public $basename;
 
     /**
      * File extension of current image filename
-     * 
+     *
      * @var string
      */
     public $extension;
 
     /**
      * Combined filename (basename and extension)
-     * 
+     *
      * @var string
      */
     public $filename;
 
     /**
      * Instance of Illuminate\Filesystem\Filesystem
-     * 
+     *
      * @var Filesystem
      */
     protected $filesystem;
 
     /**
      * Attributes of the original created image
-     * 
+     *
      * @var Array
      */
     protected $original;
 
     /**
      * Identifier for cached images
-     * 
+     *
      * @var boolean
      */
     public $cached = false;
@@ -97,8 +97,8 @@ class Image
     {
         // create filesystem
         $this->filesystem = new Filesystem;
-        
-        // set image properties 
+
+        // set image properties
         if ( ! is_null($path)) {
 
             $this->setPropertiesFromPath($path);
@@ -177,7 +177,7 @@ class Image
 
     /**
      * Set properties for image resource from image file
-     * 
+     *
      * @param string $path
      * @return void
      */
@@ -235,7 +235,7 @@ class Image
 
     /**
      * Set properties for empty image resource
-     * 
+     *
      * @param int   $width
      * @param int   $height
      * @param mixed $bgcolor
@@ -259,7 +259,7 @@ class Image
         } else {
             $bgcolor = $this->parseColor($bgcolor);
         }
-        
+
         imagefill($this->resource, 0, 0, $bgcolor);
     }
 
@@ -398,11 +398,11 @@ class Image
             throw new Exception('width or height needs to be defined');
 
         } elseif (is_null($width)) { // If only the width hasn't been set, keep the current width.
-            
+
             $width = $this->width;
 
         } elseif (is_null($height)) { // If only the height hasn't been set, keep the current height.
-            
+
             $height = $this->height;
 
         }
@@ -426,7 +426,7 @@ class Image
 
     /**
      * Resize image canvas
-     * 
+     *
      * @param  int  $width
      * @param  int  $height
      * @param  string  $anchor
@@ -444,7 +444,7 @@ class Image
         if ($relative) {
             $width = $this->width + $width;
             $height = $this->height + $height;
-        } 
+        }
 
         // check for negative width
         if ($width <= 0) {
@@ -520,7 +520,7 @@ class Image
                 $src_x = ($width < $this->width) ? intval(($this->width - $width) / 2) : 0;
                 $src_y = ($height < $this->height) ? intval($this->height - $height) : 0;
                 break;
-            
+
             case 'bottom-right':
                 $src_x = ($width < $this->width) ? intval($this->width - $width) : 0;
                 $src_y = ($height < $this->height) ? intval($this->height - $height) : 0;
@@ -588,7 +588,7 @@ class Image
      *
      * @param  integer  $width
      * @param  integer  $height
-     *                     
+     *
      * @return Image
      */
     public function grab($width = null, $height = null)
@@ -665,7 +665,7 @@ class Image
                 $y = $height - 1;
                 $height = $height * (-1);
                 break;
-            
+
             default:
                 $x = $width - 1;
                 $width = $width * (-1);
@@ -693,21 +693,21 @@ class Image
 
     /**
      * Set opacity of current image
-     * 
-     * @param  integer $value
+     *
+     * @param  integer $transparency
      * @return Image
      */
-    public function opacity($value)
+    public function opacity($transparency)
     {
-        if ($value >= 0 && $value <= 100) {
-            $value = intval($value) / 100;
+        if ($transparency >= 0 && $transparency <= 100) {
+            $transparency = intval($transparency) / 100;
         } else {
             throw new Exception('Opacity must be between 0 and 100');
         }
 
         // create alpha mask
         $alpha = new self(null, $this->width, $this->height);
-        $alpha->fill(sprintf('rgba(0, 0, 0, %.1f)', $value));
+        $alpha->fill(sprintf('rgba(0, 0, 0, %.1f)', $transparency));
 
         // apply alpha mask
         $this->mask($alpha, true);
@@ -741,7 +741,7 @@ class Image
 
                 $color = $this->pickColor($x, $y, 'array');
                 $alpha = $mask->pickColor($x, $y, 'array');
-                
+
                 if ($mask_with_alpha) {
                     $alpha = $alpha['alpha']; // use alpha channel as mask
                 } else {
@@ -774,10 +774,10 @@ class Image
      * @param  int      $ignore_transparent
      * @return Image
      */
-    public function rotate($angle = 0, $color = '#000000', $ignore_transparent = 0)
+    public function rotate($angle = 0, $bgcolor = '#000000', $ignore_transparent = 0)
     {
         // rotate image
-        $this->resource = imagerotate($this->resource, $angle, $this->parseColor($color), $ignore_transparent);
+        $this->resource = imagerotate($this->resource, $angle, $this->parseColor($bgcolor), $ignore_transparent);
 
         // re-read width/height
         $this->width = imagesx($this->resource);
@@ -809,7 +809,7 @@ class Image
             $color = IMG_COLOR_TILED;
 
         } else {
-            
+
             // fill with color
             $color = $this->parseColor($color);
         }
@@ -874,16 +874,16 @@ class Image
      * Draw an ellipse centered at given coordinates.
      *
      * @param  string  $color
-     * @param  integer $x
-     * @param  integer $y
+     * @param  integer $pos_x
+     * @param  integer $pos_y
      * @param  integer $width
      * @param  integer $height
      * @return Image
      */
-    public function ellipse($color, $x = 0, $y = 0, $width = 10, $height = 10, $filled = true)
+    public function ellipse($color, $pos_x = 0, $pos_y = 0, $width = 10, $height = 10, $filled = true)
     {
         $callback = $filled ? 'imagefilledellipse' : 'imageellipse';
-        call_user_func($callback, $this->resource, $x, $y, $width, $height, $this->parseColor($color));
+        call_user_func($callback, $this->resource, $pos_x, $pos_y, $width, $height, $this->parseColor($color));
 
         return $this;
     }
@@ -1010,7 +1010,7 @@ class Image
 
     /**
      * Invert colors of current image
-     * 
+     *
      * @return Image
      */
     public function invert()
@@ -1028,7 +1028,7 @@ class Image
     public function reset()
     {
         if (is_null($this->dirname) && is_null($this->basename)) {
-            
+
             $this->setPropertiesEmpty($this->original['width'], $this->original['height']);
 
         } else {
@@ -1141,7 +1141,7 @@ class Image
                 list($r, $g, $b, $alpha) = $value;
 
             } elseif (count($value) == 3) {
-                
+
                 // color array without alpha value
                 list($r, $g, $b) = $value;
 
@@ -1205,7 +1205,7 @@ class Image
 
     /**
      * Convert rgba alpha (0-1) value to gd value (0-127)
-     * 
+     *
      * @param  float $input
      * @return int
      */
@@ -1223,7 +1223,7 @@ class Image
 
     /**
      * Convert gd alpha (0-127) value to rgba alpha value (0-1)
-     * 
+     *
      * @param  int $input
      * @return float
      */

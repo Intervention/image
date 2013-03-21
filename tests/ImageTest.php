@@ -386,7 +386,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img->flip('h');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertEquals('#ffbf47', $img->pickColor(0, 0, 'hex'));
-        
+
         $img = $this->getTestImage();
         $img->flip('v');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
@@ -515,7 +515,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($checkColor['green'], 0);
         $this->assertEquals($checkColor['blue'], 0);
         $this->assertEquals($checkColor['alpha'], 25);
-        
+
     }
 
     public function testPixelateImage()

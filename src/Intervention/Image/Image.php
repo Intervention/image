@@ -1135,10 +1135,17 @@ class Image
         } elseif(is_array($value)) {
 
             // parse color array like: array(155, 155, 155)
-            list($r, $g, $b, $a) = $value;
+            if (count($value) == 4) {
 
-            // set alpha if available (A value between 0 [opaque] and 127 [transparent])
-            $alpha = is_numeric($a) ? intval($a) : $alpha;
+                // color array with alpha value
+                list($r, $g, $b, $alpha) = $value;
+
+            } elseif (count($value) == 3) {
+                
+                // color array without alpha value
+                list($r, $g, $b) = $value;
+
+            }
 
         } elseif(is_string($value)) {
 

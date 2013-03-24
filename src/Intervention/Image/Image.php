@@ -1292,6 +1292,30 @@ class Image
     }
 
     /**
+     * Applies set of operations on current image
+     *
+     * @param  Array $action
+     * @return Image
+     */
+    public function runAction($action)
+    {
+        if (is_array($action) && count($action)) {
+            // apply action array on current image
+            foreach ($action as $method_name => $params) {
+                if (is_array($params)) {
+                    call_user_method_array($method_name, $this, $params);
+                } else {
+                    call_user_method($method_name, $this);
+                }
+            }
+        } else {
+            throw new Exception('Given action must be defined as an array.');
+        }
+
+        return $this;
+    }
+
+    /**
      * Convert rgba alpha (0-1) value to gd value (0-127)
      *
      * @param  float $input

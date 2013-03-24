@@ -4,7 +4,6 @@ namespace Intervention\Image;
 
 use Exception;
 use Closure;
-use Illuminate\Filesystem\Filesystem;
 
 class Image
 {
@@ -65,13 +64,6 @@ class Image
     public $filename;
 
     /**
-     * Instance of Illuminate\Filesystem\Filesystem
-     *
-     * @var Filesystem
-     */
-    protected $filesystem;
-
-    /**
      * Attributes of the original created image
      *
      * @var Array
@@ -95,9 +87,6 @@ class Image
      */
     public function __construct($path = null, $width = null, $height = null, $bgcolor = null)
     {
-        // create filesystem
-        $this->filesystem = new Filesystem;
-
         // set image properties
         if ( ! is_null($path)) {
 
@@ -183,7 +172,7 @@ class Image
      */
     private function setPropertiesFromPath($path)
     {
-        if ( ! $this->filesystem->exists($path)) {
+        if ( ! file_exists($path)) {
             throw new Exception("Image file ({$path}) not found");
         }
 
@@ -1286,7 +1275,7 @@ class Image
     public function save($path = null, $quality = 90)
     {
         $path = is_null($path) ? ($this->dirname .'/'. $this->basename) : $path;
-        file_put_contents($path, $this->data($this->filesystem->extension($path), $quality));
+        file_put_contents($path, $this->data(pathinfo($path, PATHINFO_EXTENSION), $quality));
 
         return $this;
     }
@@ -1349,16 +1338,6 @@ class Image
                 return round($range_output[$key], 2);
             }
         }
-    }
-
-    /**
-     * Return filesystem object
-     *
-     * @return Filesystem
-     */
-    public function getFilesystem()
-    {
-        return $this->filesystem;
     }
 
     /**

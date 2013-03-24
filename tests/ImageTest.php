@@ -9,12 +9,6 @@ class ImageTest extends PHPUnit_Framework_Testcase
         return new Image('public/test.jpg');
     }
 
-    public function testFilesystemLibraryIsAvailable()
-    {
-        $img = new Image;
-        $this->assertInstanceOf('Illuminate\Filesystem\Filesystem', $img->getFilesystem());
-    }
-
     public function testConstructor()
     {
         $img = new Image('public/test.jpg');

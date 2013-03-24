@@ -261,6 +261,7 @@ class Image
         }
 
         imagefill($this->resource, 0, 0, $bgcolor);
+        $this->original['bgcolor'] = $bgcolor;
     }
 
     /**
@@ -1029,7 +1030,7 @@ class Image
     {
         if (is_null($this->dirname) && is_null($this->basename)) {
 
-            $this->setPropertiesEmpty($this->original['width'], $this->original['height']);
+            $this->setPropertiesEmpty($this->original['width'], $this->original['height'], $this->original['bgcolor']);
 
         } else {
 

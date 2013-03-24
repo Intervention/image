@@ -480,6 +480,7 @@ class Image
         // define anchor
         switch ($anchor) {
             case 'top-left':
+            case 'left-top':
                 $src_x = 0;
                 $src_y = 0;
                 break;
@@ -487,11 +488,14 @@ class Image
             case 'top':
             case 'top-center':
             case 'top-middle':
+            case 'center-top':
+            case 'middle-top':
                 $src_x = ($width < $this->width) ? intval(($this->width - $width) / 2) : 0;
                 $src_y = 0;
                 break;
 
             case 'top-right':
+            case 'right-top':
                 $src_x = ($width < $this->width) ? intval($this->width - $width) : 0;
                 $src_y = 0;
                 break;
@@ -499,6 +503,8 @@ class Image
             case 'left':
             case 'left-center':
             case 'left-middle':
+            case 'center-left':
+            case 'middle-left':
                 $src_x = 0;
                 $src_y = ($height < $this->height) ? intval(($this->height - $height) / 2) : 0;
                 break;
@@ -506,11 +512,14 @@ class Image
             case 'right':
             case 'right-center':
             case 'right-middle':
+            case 'center-right':
+            case 'middle-right':
                 $src_x = ($width < $this->width) ? intval($this->width - $width) : 0;
                 $src_y = ($height < $this->height) ? intval(($this->height - $height) / 2) : 0;
                 break;
 
             case 'bottom-left':
+            case 'left-bottom':
                 $src_x = 0;
                 $src_y = ($height < $this->height) ? intval($this->height - $height) : 0;
                 break;
@@ -518,11 +527,14 @@ class Image
             case 'bottom':
             case 'bottom-center':
             case 'bottom-middle':
+            case 'center-bottom':
+            case 'middle-bottom':
                 $src_x = ($width < $this->width) ? intval(($this->width - $width) / 2) : 0;
                 $src_y = ($height < $this->height) ? intval($this->height - $height) : 0;
                 break;
 
             case 'bottom-right':
+            case 'right-bottom':
                 $src_x = ($width < $this->width) ? intval($this->width - $width) : 0;
                 $src_y = ($height < $this->height) ? intval($this->height - $height) : 0;
                 break;
@@ -679,14 +691,89 @@ class Image
     /**
      * Insert another image on top of the current image
      *
-     * @param  mixed  $file
+     * @param  mixed   $file
      * @param  integer $pos_x
      * @param  integer $pos_y
+     * @param  string  $anchor
      * @return Image
      */
-    public function insert($file, $pos_x = 0, $pos_y = 0)
+    public function insert($file, $pos_x = 0, $pos_y = 0, $anchor = null)
     {
         $obj = is_a($file, 'Intervention\Image\Image') ? $file : (new Image($file));
+
+        // define anchor
+        switch ($anchor) {
+
+            case 'top':
+            case 'top-center':
+            case 'top-middle':
+            case 'center-top':
+            case 'middle-top':
+                $pos_x = intval((($this->width - $obj->width) / 2) + $pos_x);
+                $pos_y = $pos_y;
+                break;
+
+            case 'top-right':
+            case 'right-top':
+                $pos_x = intval($this->width - $obj->width - $pos_x);
+                $pos_y = $pos_y;
+                break;
+
+            case 'left':
+            case 'left-center':
+            case 'left-middle':
+            case 'center-left':
+            case 'middle-left':
+                $pos_x = $pos_x;
+                $pos_y = intval((($this->height - $obj->height) / 2) + $pos_y);
+                break;
+
+            case 'right':
+            case 'right-center':
+            case 'right-middle':
+            case 'center-right':
+            case 'middle-right':
+                $pos_x = intval($this->width - $obj->width - $pos_x);
+                $pos_y = intval((($this->height - $obj->height) / 2) + $pos_y);
+                break;
+
+            case 'bottom-left':
+            case 'left-bottom':
+                $pos_x = $pos_x;
+                $pos_y = intval($this->height - $obj->height - $pos_y);
+                break;
+
+            case 'bottom':
+            case 'bottom-center':
+            case 'bottom-middle':
+            case 'center-bottom':
+            case 'middle-bottom':
+                $pos_x = intval((($this->width - $obj->width) / 2) + $pos_x);
+                $pos_y = intval($this->height - $obj->height - $pos_y);
+                break;
+
+            case 'bottom-right':
+            case 'right-bottom':
+                $pos_x = intval($this->width - $obj->width - $pos_x);
+                $pos_y = intval($this->height - $obj->height - $pos_y);
+                break;
+
+            case 'center':
+            case 'middle':
+            case 'center-center':
+            case 'middle-middle':
+                $pos_x = intval((($this->width - $obj->width) / 2) + $pos_x);
+                $pos_y = intval((($this->height - $obj->height) / 2) + $pos_y);
+                break;
+
+            default:
+            case 'top-left':
+            case 'left-top':
+                $pos_x = intval($pos_x);
+                $pos_y = intval($pos_y);
+                break;
+        }
+
         imagecopy($this->resource, $obj->resource, $pos_x, $pos_y, 0, 0, $obj->width, $obj->height);
 
         return $this;

@@ -4,6 +4,16 @@ use Intervention\Image\Image;
 
 class ImageTest extends PHPUnit_Framework_Testcase
 {
+    protected function setUp()
+    {
+        
+    }
+
+    protected function tearDown()
+    {
+        
+    }
+
     private function getTestImage()
     {
         return new Image('public/test.jpg');
@@ -22,7 +32,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->basename, 'test.jpg');
         $this->assertEquals($img->extension, 'jpg');
         $this->assertEquals($img->filename, 'test');
-        $this->assertEquals($img->mimetype, 'image/jpeg');
+        $this->assertEquals($img->mime, 'image/jpeg');
 
         $img = new Image(null, 800, 600);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
@@ -46,7 +56,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->basename, 'test.jpg');
         $this->assertEquals($img->extension, 'jpg');
         $this->assertEquals($img->filename, 'test');
-        $this->assertEquals($img->mimetype, 'image/jpeg');
+        $this->assertEquals($img->mime, 'image/jpeg');
     }
 
     public function testCreationFromFile()
@@ -61,7 +71,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->basename, 'test.jpg');
         $this->assertEquals($img->extension, 'jpg');
         $this->assertEquals($img->filename, 'test');
-        $this->assertEquals($img->mimetype, 'image/jpeg');
+        $this->assertEquals($img->mime, 'image/jpeg');
     }
 
     public function testResizeImage()
@@ -1077,7 +1087,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->basename, 'test.jpg');
         $this->assertEquals($img->extension, 'jpg');
         $this->assertEquals($img->filename, 'test');
-        $this->assertEquals($img->mimetype, 'image/jpeg');
+        $this->assertEquals($img->mime, 'image/jpeg');
     }
 
     public function testStaticCallCanvas()
@@ -1121,5 +1131,25 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($color['green'], 0);
         $this->assertEquals($color['blue'], 0);
         $this->assertEquals($color['alpha'], 127);
+    }
+
+    public function testEncode()
+    {
+        // default encoding
+        $data = Image::make('public/circle.png')->encode();
+        $this->assertInternalType('resource', @imagecreatefromstring($data));
+
+        // jpg encoding
+        $data = Image::make('public/circle.png')->encode('jpg');
+        $this->assertInternalType('resource', @imagecreatefromstring($data));
+
+        // gif encoding
+        $data = Image::make('public/circle.png')->encode('gif');
+        $this->assertInternalType('resource', @imagecreatefromstring($data));
+
+        // data-url encoding
+        $data = Image::make('public/circle.png')->encode('data-url');
+        $encoded = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAChklEQVRo3uXavUscQRjH8c+t2MhhcUhiKolYiDFXCIKFNkoqrYL/gyT/UV4sTZ3CgI2SIhBBsJBwWKjEYCEptLmzSpFi5ny56Hm+nLdjvt3e7t4+v52ZnWee3xTcHyMYxiAG0I8SivF8FUc4xD72sI3KfTy8cMf7y5jAOMZu+R+b2MA6th5ayCSmMXPujd+VKlaxhm/tFjKKOcyiR3s4wRcs40erN3Xd4AHzeIMpdGsf3XiBl/G4cl9CnmABb+PgfShK8aUVsYvaXYQMxlZ4rXOU0YefOL6NkLqIVzrPUBSze5WYribdKS8i6jxHb/wA1FoVstDh7tSsZQr43oqQ+Tiw80pZyBAqzYSMxi5VyrEQeCakN7/rP2QNF8zF5ss7QzFWlwmZFGbsVJiNMf8jZFr70o520BNjviCkLCSAqTETYz8VMuH+stiHpBhjPxUynqAI52PPhJXdWMJCxjCSCcvT1BnOhOQwdQYzoVCQOgOZUO1Inf5M/vOqVihl0pw/Gilmj0AEwjxSfQQ6qpmwSEmdo0yoxabOYSYUlFNnPxOq4qmzlwlr39TZzoRqxGbCIjZRqc8jGwkL2eBsYbUuzfmkGmM/FbIlmCypsRpjv1BFWRNMllQ4iTHjYqXxF54KJksKfMan+kFj0riMnQRE7MRYXdYinNVSp3Iu5B2+NhNCmFeKYuErhyxhsfHHq/yRXcEhyltBewUf3MDoqQmeXZ/gFOWBNbzHwWUnm3mIx7FlenPQMitRxJUJ7nWu7rHg2RU6OGaWYnc6aHZRKz57TfDsjgSn6KGqLjvC12nRNR57q0LqVISU/08cN+3a/XAiTHYfNXxim/HfbqppJPltTpfR0Y1nfwGRl30LQuetpgAAAABJRU5ErkJggg==';
+        $this->assertEquals($data, $encoded);
     }
 }

@@ -68,7 +68,7 @@ class Image
      *
      * @var string
      */
-    public $mimetype;
+    public $mime;
 
     /**
      * Attributes of the original created image
@@ -195,7 +195,7 @@ class Image
         $this->width = $info[0];
         $this->height = $info[1];
         $this->type = $info[2];
-        $this->mimetype = $info['mime'];
+        $this->mime = $info['mime'];
 
         // set resource
         switch ($this->type) {
@@ -1130,21 +1130,27 @@ class Image
     }
 
     /**
-     * Returns image type stream
+     * Encode image in different formats
      *
-     * @param string  $type gif|png|jpg|jpeg
-     * @param integer quality
+     * @param string  $format
+     * @param integer $quality
      * @return string
      */
-    private function data($type = null, $quality = 90)
+    public function encode($format = null, $quality = 90)
     {
+        $format = is_null($format) ? $this->type : $format;
+
         if ($quality < 0 || $quality > 100) {
             throw new Exception('Quality of image must range from 0 to 100.');
         }
 
         ob_start();
 
-        switch (strtolower($type)) {
+        switch (strtolower($format)) {
+            case 'data-url':
+                echo sprintf('data:%s;base64,%s', $this->mime, base64_encode($this->encode($this->type, $quality)));
+                break;
+
             case 'gif':
             case 1:
                 @imagegif($this->resource);
@@ -1291,7 +1297,7 @@ class Image
     public function save($path = null, $quality = 90)
     {
         $path = is_null($path) ? ($this->dirname .'/'. $this->basename) : $path;
-        file_put_contents($path, $this->data(pathinfo($path, PATHINFO_EXTENSION), $quality));
+        file_put_contents($path, $this->encode(pathinfo($path, PATHINFO_EXTENSION), $quality));
 
         return $this;
     }
@@ -1363,6 +1369,6 @@ class Image
      */
     public function __toString()
     {
-        return $this->data();
+        return $this->encode();
     }
 }

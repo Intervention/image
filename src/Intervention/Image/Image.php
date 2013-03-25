@@ -205,10 +205,12 @@ class Image
             break;
 
             case IMG_JPG:
+            case 2:
             $this->resource = @imagecreatefromjpeg($path);
             break;
 
             case IMG_GIF:
+            case 1:
             $this->resource = @imagecreatefromgif($path);
             break;
 
@@ -1144,10 +1146,12 @@ class Image
 
         switch (strtolower($type)) {
             case 'gif':
+            case 1:
                 @imagegif($this->resource);
             break;
 
             case 'png':
+            case 3:
                 $quality = round($quality / 11.11111111111); // transform quality to png setting
                 @imagealphablending($this->resource, false);
                 @imagesavealpha($this->resource, true);
@@ -1157,6 +1161,7 @@ class Image
             default:
             case 'jpg':
             case 'jpeg':
+            case 2:
                 @imagejpeg($this->resource, null, $quality);
             break;
         }

@@ -64,6 +64,13 @@ class Image
     public $filename;
 
     /**
+     * MIME type of image
+     *
+     * @var string
+     */
+    public $mimetype;
+
+    /**
      * Attributes of the original created image
      *
      * @var Array
@@ -184,7 +191,11 @@ class Image
         $this->filename = $info['filename'];
 
         // set image info
-        list($this->width, $this->height, $this->type) = @getimagesize($path);
+        $info = getimagesize($path);
+        $this->width = $info[0];
+        $this->height = $info[1];
+        $this->type = $info[2];
+        $this->mimetype = $info['mime'];
 
         // set resource
         switch ($this->type) {

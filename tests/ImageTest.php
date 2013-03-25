@@ -22,6 +22,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->basename, 'test.jpg');
         $this->assertEquals($img->extension, 'jpg');
         $this->assertEquals($img->filename, 'test');
+        $this->assertEquals($img->mimetype, 'image/jpeg');
 
         $img = new Image(null, 800, 600);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
@@ -45,6 +46,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->basename, 'test.jpg');
         $this->assertEquals($img->extension, 'jpg');
         $this->assertEquals($img->filename, 'test');
+        $this->assertEquals($img->mimetype, 'image/jpeg');
     }
 
     public function testCreationFromFile()
@@ -59,6 +61,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->basename, 'test.jpg');
         $this->assertEquals($img->extension, 'jpg');
         $this->assertEquals($img->filename, 'test');
+        $this->assertEquals($img->mimetype, 'image/jpeg');
     }
 
     public function testResizeImage()
@@ -1074,6 +1077,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->basename, 'test.jpg');
         $this->assertEquals($img->extension, 'jpg');
         $this->assertEquals($img->filename, 'test');
+        $this->assertEquals($img->mimetype, 'image/jpeg');
     }
 
     public function testStaticCallCanvas()

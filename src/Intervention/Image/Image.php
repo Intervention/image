@@ -246,7 +246,7 @@ class Image
      */
     private function setPropertiesFromResource($resource)
     {
-        if (is_resource($resource)) {
+        if ($this->isImageResource($resource)) {
             $this->resource = $resource;
             $this->width = imagesx($this->resource);
             $this->height = imagesy($this->resource);
@@ -914,7 +914,7 @@ class Image
             imagesettile($this->resource, $color->resource);
             $color = IMG_COLOR_TILED;
 
-        } elseif (is_resource($color)) {
+        } elseif ($this->isImageResource($color)) {
 
             // fill with image resource
             imagesettile($this->resource, $color);
@@ -1358,6 +1358,28 @@ class Image
                 return round($range_output[$key], 2);
             }
         }
+    }
+
+    /**
+     * Checks if string contains printable characters
+     *
+     * @param  mixed  $input
+     * @return boolean
+     */
+    private function isBinary($input)
+    {
+        return ( ! ctype_print($input));
+    }
+
+    /**
+     * Checks if the input object is image resource
+     *
+     * @param  mixed  $input
+     * @return boolean
+     */
+    private function isImageResource($input)
+    {
+        return (is_resource($input) && get_resource_type($input) == 'gd');
     }
 
     /**

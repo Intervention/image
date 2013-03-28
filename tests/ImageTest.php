@@ -41,6 +41,15 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 800);
         $this->assertEquals($img->height, 600);
+
+        $resource = imagecreatefromjpeg('public/test.jpg');
+        $img = new Image($resource);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('resource', $img->resource);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 800);
+        $this->assertEquals($img->height, 600);
     }
 
     public function testOpenImage()
@@ -1038,6 +1047,17 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->extension, 'jpg');
         $this->assertEquals($img->filename, 'test');
         $this->assertEquals($img->mime, 'image/jpeg');
+    }
+
+    public function testStaticCallMakeFromResource()
+    {
+        $resource = imagecreatefromjpeg('public/test.jpg');
+        $img = Image::make($resource);
+        $this->assertInternalType('resource', $img->resource);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 800);
+        $this->assertEquals($img->height, 600);
     }
 
     public function testStaticCallCanvas()

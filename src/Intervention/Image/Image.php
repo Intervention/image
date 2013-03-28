@@ -87,17 +87,21 @@ class Image
     /**
      * Create a new instance of Image class
      *
-     * @param string  $path
+     * @param string  $source
      * @param integer $width
      * @param integer $height
      * @param mixed   $bgcolor
      */
-    public function __construct($path = null, $width = null, $height = null, $bgcolor = null)
+    public function __construct($source = null, $width = null, $height = null, $bgcolor = null)
     {
         // set image properties
-        if ( ! is_null($path)) {
+        if ( ! is_null($source)) {
 
-            $this->setPropertiesFromPath($path);
+            if (is_resource($source)) {
+                $this->setPropertiesFromResource($source);
+            } else {
+                $this->setPropertiesFromPath($source);
+            }
 
         } else {
 
@@ -108,13 +112,18 @@ class Image
     /**
      * Open a new image resource from image file
      *
-     * @param  string $path
+     * @param  mixed $source
      * @return Image
      */
-    public static function make($path)
+    public static function make($source)
     {
         $image = new Image;
-        $image->setPropertiesFromPath($path);
+
+        if (is_resource($source)) {
+            $image->setPropertiesFromResource($source);
+        } else {
+            $image->setPropertiesFromPath($source);
+        }
 
         return $image;
     }

@@ -236,6 +236,24 @@ class Image
     }
 
     /**
+     * Set image properties from GD image resource
+     *
+     * @param resource $resource
+     */
+    private function setPropertiesFromResource($resource)
+    {
+        if (is_resource($resource)) {
+            $this->resource = $resource;
+            $this->width = imagesx($this->resource);
+            $this->height = imagesy($this->resource);
+            $this->original['width'] = $this->width;
+            $this->original['height'] = $this->height;
+        } else {
+            throw new Exception("setPropertiesFromResource expects parameter to be resource.");
+        }
+    }
+
+    /**
      * Set properties for empty image resource
      *
      * @param int   $width

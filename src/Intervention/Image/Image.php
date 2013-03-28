@@ -97,10 +97,15 @@ class Image
         // set image properties
         if ( ! is_null($source)) {
 
-            if (is_resource($source)) {
+            if ($this->isImageResource($source)) {
 
                 // image properties come from gd image resource
                 $this->setPropertiesFromResource($source);
+
+            } elseif ($this->isBinary($source)) {
+
+                // image properties come from binary image string
+                $this->setPropertiesFromString($source);
 
             } else {
                 
@@ -147,10 +152,7 @@ class Image
      */
     public static function raw($string)
     {
-        $image = new Image;
-        $image->setPropertiesFromString($string);
-
-        return $image;
+        return new Image($string);
     }
 
     /**

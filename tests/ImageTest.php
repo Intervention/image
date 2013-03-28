@@ -891,28 +891,6 @@ class ImageTest extends PHPUnit_Framework_Testcase
         @unlink($save_as);
     }
 
-    public function testActionMethod()
-    {
-        // create test action
-        $make_thumbnail = array(
-            'grab' => array(100, 100),
-            'greyscale' => null,
-            'flip' => array('h')
-        );
-
-        $img = Image::make('public/test.jpg');
-        $img->runAction($make_thumbnail);
-        $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertInternalType('int', $img->width);
-        $this->assertInternalType('int', $img->height);
-        $this->assertEquals($img->width, 100);
-        $this->assertEquals($img->height, 100);
-        $this->assertEquals('#cecece', $img->pickColor(0, 0, 'hex'));
-        $this->assertEquals('#adadad', $img->pickColor(0, 99, 'hex'));
-        $this->assertEquals('#ffffff', $img->pickColor(99, 0, 'hex'));
-        $this->assertEquals('#cdcdcd', $img->pickColor(99, 99, 'hex'));
-    }
-
     public function testStringConversion()
     {
         $img = $this->getTestImage();

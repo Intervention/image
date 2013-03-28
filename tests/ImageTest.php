@@ -1025,34 +1025,6 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInstanceOf('Intervention\Image\Image', $img);
     }
 
-    public function testBrightnessException()
-    {
-        $img = $this->getTestImage();
-
-        // test exception
-        try {
-            $img->brightness(255);
-        } catch (Exception $e) {
-            return;
-        }
-
-        $this->fail('An expected exception has not been raised for brightness filter');
-    }
-
-    public function testContrastException()
-    {
-        $img = $this->getTestImage();
-
-        // test exception
-        try {
-            $img->contrast(255);
-        } catch (Exception $e) {
-            return;
-        }
-
-        $this->fail('An expected exception has not been raised for contrast filter');
-    }
-
     public function testStaticCallMake()
     {
         $img = Image::make('public/test.jpg');

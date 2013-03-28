@@ -98,13 +98,19 @@ class Image
         if ( ! is_null($source)) {
 
             if (is_resource($source)) {
+
+                // image properties come from gd image resource
                 $this->setPropertiesFromResource($source);
+
             } else {
+                
+                // image properties come from image file
                 $this->setPropertiesFromPath($source);
             }
 
         } else {
 
+            // new empty resource
             $this->setPropertiesEmpty($width, $height, $bgcolor);
         }
     }
@@ -117,31 +123,20 @@ class Image
      */
     public static function make($source)
     {
-        $image = new Image;
-
-        if (is_resource($source)) {
-            $image->setPropertiesFromResource($source);
-        } else {
-            $image->setPropertiesFromPath($source);
-        }
-
-        return $image;
+        return new Image($source);
     }
 
     /**
      * Create a new empty image resource
      *
-     * @param  int $width
-     * @param  int $height
+     * @param  int   $width
+     * @param  int   $height
      * @param  mixed $bgcolor
      * @return Image
      */
     public static function canvas($width, $height, $bgcolor = null)
     {
-        $image = new Image;
-        $image->setPropertiesEmpty($width, $height, $bgcolor);
-
-        return $image;
+        return new Image(null, $width, $height, $bgcolor);
     }
 
     /**

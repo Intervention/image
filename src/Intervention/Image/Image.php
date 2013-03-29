@@ -922,7 +922,7 @@ class Image
             imagesettile($this->resource, $source);
             $source = IMG_COLOR_TILED;
 
-        } elseif (is_string($source) && file_exists($source)) {
+        } elseif (is_string($source) && file_exists(realpath($source))) {
 
             $img = new self($source);
             imagesettile($this->resource, $img->resource);

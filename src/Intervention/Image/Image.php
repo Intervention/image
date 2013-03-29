@@ -717,15 +717,15 @@ class Image
     /**
      * Insert another image on top of the current image
      *
-     * @param  mixed   $file
+     * @param  mixed   $source
      * @param  integer $pos_x
      * @param  integer $pos_y
      * @param  string  $anchor
      * @return Image
      */
-    public function insert($file, $pos_x = 0, $pos_y = 0, $anchor = null)
+    public function insert($source, $pos_x = 0, $pos_y = 0, $anchor = null)
     {
-        $obj = is_a($file, 'Intervention\Image\Image') ? $file : (new Image($file));
+        $obj = is_a($source, 'Intervention\Image\Image') ? $source : (new Image($source));
 
         // define anchor
         switch ($anchor) {
@@ -901,34 +901,47 @@ class Image
     }
 
     /**
-     * Fill image with given color or image at position x,y
+     * Fill image with given color or image source at position x,y
      *
-     * @param  mixed   $color
+     * @param  mixed   $source
      * @param  integer $pos_x
      * @param  integer $pos_y
      * @return Image
      */
-    public function fill($color, $pos_x = 0, $pos_y = 0)
+    public function fill($source, $pos_x = 0, $pos_y = 0)
     {
-        if (is_a($color, 'Intervention\Image\Image')) {
+        if (is_a($source, 'Intervention\Image\Image')) {
 
             // fill with image
-            imagesettile($this->resource, $color->resource);
-            $color = IMG_COLOR_TILED;
+            imagesettile($this->resource, $source->resource);
+            $source = IMG_COLOR_TILED;
 
-        } elseif ($this->isImageResource($color)) {
+        } elseif ($this->isImageResource($source)) {
 
             // fill with image resource
-            imagesettile($this->resource, $color);
-            $color = IMG_COLOR_TILED;
+            imagesettile($this->resource, $source);
+            $source = IMG_COLOR_TILED;
+
+        } elseif (is_string($source) && file_exists($source)) {
+
+            $img = new self($source);
+            imagesettile($this->resource, $img->resource);
+            $source = IMG_COLOR_TILED;
+
+        } elseif (is_string($source) && $this->isBinary($source)) {
+
+            // fill with image from binary string
+            $img = new self($source);
+            imagesettile($this->resource, $img->resource);
+            $source = IMG_COLOR_TILED;
 
         } else {
 
             // fill with color
-            $color = $this->parseColor($color);
+            $source = $this->parseColor($source);
         }
 
-        imagefill($this->resource, $pos_x, $pos_y, $color);
+        imagefill($this->resource, $pos_x, $pos_y, $source);
 
         return $this;
     }

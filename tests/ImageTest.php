@@ -742,6 +742,57 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img->reset();
     }
 
+    public function testInsertImageFromResource()
+    {
+        $resource = imagecreatefrompng('public/tile.png');
+        $img = Image::canvas(16, 16)->insert($resource);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 16);
+        $this->assertEquals($img->height, 16);
+        $this->assertEquals('#b4e000', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#445160', $img->pickColor(15, 15, 'hex'));
+    }
+
+    public function testInsertImageFromBinary()
+    {
+        $data = file_get_contents('public/tile.png');
+        $img = Image::canvas(16, 16)->insert($data);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 16);
+        $this->assertEquals($img->height, 16);
+        $this->assertEquals('#b4e000', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#445160', $img->pickColor(15, 15, 'hex'));
+    }
+
+    public function testInsertImageFromObject()
+    {
+        $obj = new Image('public/tile.png');
+        $img = Image::canvas(16, 16)->insert($obj);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 16);
+        $this->assertEquals($img->height, 16);
+        $this->assertEquals('#b4e000', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#445160', $img->pickColor(15, 15, 'hex'));
+    }
+
+    public function testInsertImageFromPath()
+    {
+        $img = Image::canvas(16, 16)->insert('public/tile.png');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 16);
+        $this->assertEquals($img->height, 16);
+        $this->assertEquals('#b4e000', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#445160', $img->pickColor(15, 15, 'hex'));
+    }
+
     public function testOpacity()
     {
         // simple image mask
@@ -874,7 +925,57 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertEquals('#b4e000', $img->pickColor(0, 0, 'hex'));
         $this->assertEquals('#445160', $img->pickColor(31, 31, 'hex'));
+    }
 
+    public function testFillImageWithResource()
+    {
+        $resource = imagecreatefrompng('public/tile.png');
+        $img = Image::canvas(32, 32)->fill($resource);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 32);
+        $this->assertEquals($img->height, 32);
+        $this->assertEquals('#b4e000', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#445160', $img->pickColor(31, 31, 'hex'));
+    }
+
+    public function testFillImageWithBinary()
+    {
+        $data = file_get_contents('public/tile.png');
+        $img = Image::canvas(32, 32)->fill($data);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 32);
+        $this->assertEquals($img->height, 32);
+        $this->assertEquals('#b4e000', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#445160', $img->pickColor(31, 31, 'hex'));
+    }
+
+    public function testFillImageWithObject()
+    {
+        $obj = new Image('public/tile.png');
+        $img = Image::canvas(32, 32)->fill($obj);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 32);
+        $this->assertEquals($img->height, 32);
+        $this->assertEquals('#b4e000', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#445160', $img->pickColor(31, 31, 'hex'));
+    }
+
+    public function testFillImageWithPath()
+    {
+        $img = Image::canvas(32, 32)->fill('public/tile.png');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 32);
+        $this->assertEquals($img->height, 32);
+        $this->assertEquals('#b4e000', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#445160', $img->pickColor(31, 31, 'hex'));
     }
 
     public function testPixelImage()

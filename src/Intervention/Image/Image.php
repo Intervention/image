@@ -191,10 +191,10 @@ class Image
 
         // set file info
         $info = pathinfo($path);
-        $this->dirname = $info['dirname'];
-        $this->basename = $info['basename'];
-        $this->extension = $info['extension'];
-        $this->filename = $info['filename'];
+        $this->dirname = array_key_exists('dirname', $info) ? $info['dirname'] : null;
+        $this->basename = array_key_exists('basename', $info) ? $info['basename'] : null;
+        $this->extension = array_key_exists('extension', $info) ? $info['extension'] : null;
+        $this->filename = array_key_exists('filename', $info) ? $info['filename'] : null;
 
         // set image info
         $info = getimagesize($path);

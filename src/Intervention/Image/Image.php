@@ -922,15 +922,15 @@ class Image
             imagesettile($this->resource, $source);
             $source = IMG_COLOR_TILED;
 
-        } elseif (is_string($source) && file_exists(realpath($source))) {
+        } elseif (is_string($source) && $this->isBinary($source)) {
 
+            // fill with image from binary string
             $img = new self($source);
             imagesettile($this->resource, $img->resource);
             $source = IMG_COLOR_TILED;
 
-        } elseif (is_string($source) && $this->isBinary($source)) {
+        } elseif (is_string($source) && file_exists(realpath($source))) {
 
-            // fill with image from binary string
             $img = new self($source);
             imagesettile($this->resource, $img->resource);
             $source = IMG_COLOR_TILED;

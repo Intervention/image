@@ -2,6 +2,8 @@
 
 Intervention Image is a PHP Image handling and manipulation class with support for Laravel 4 integration.
 
+[![Build Status](https://travis-ci.org/Intervention/image.png?branch=master)](https://travis-ci.org/Intervention/image)
+
 ## Documentation
 
 Refer to the following guide on how to use Intervention Image Class.

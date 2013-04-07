@@ -857,17 +857,17 @@ class Image
                 $alpha = $mask->pickColor($x, $y, 'array');
 
                 if ($mask_with_alpha) {
-                    $alpha = $alpha['alpha']; // use alpha channel as mask
+                    $alpha = $alpha['a']; // use alpha channel as mask
                 } else {
-                    $alpha = 127 - floor($alpha['red'] / 2); // use red channel as mask
+                    $alpha = floatval(round($alpha['r'] / 255, 2)); // use red channel as mask
                 }
 
                 // preserve alpha of original image...
-                if ($color['alpha'] > $alpha) {
-                    $alpha = $color['alpha'];
+                if ($color['a'] < $alpha) {
+                    $alpha = $color['a'];
                 }
 
-                $pixelColor = $this->parseColor(array($color['red'], $color['green'], $color['blue'], $alpha));
+                $pixelColor = array($color['r'], $color['g'], $color['b'], $alpha);
                 $maskedImage->pixel($pixelColor, $x, $y);
             }
         }
@@ -1245,8 +1245,20 @@ class Image
                 $color = sprintf('#%02x%02x%02x', $color['red'], $color['green'], $color['blue']);
                 break;
 
+            case 'int':
+            case 'integer':
+                # in gd2 library color already is int...
+                break;
+
+            default:
             case 'array':
                 $color = imagecolorsforindex($this->resource, $color);
+                $color = array(
+                    'r' => $color['red'],
+                    'g' => $color['green'],
+                    'b' => $color['blue'],
+                    'a' => $this->alpha2rgba($color['alpha'])
+                );
                 break;
         }
 
@@ -1261,7 +1273,7 @@ class Image
      */
     public function parseColor($value)
     {
-        $alpha = 0;
+        $a = 0; // alpha value
 
         if (is_int($value)) {
 
@@ -1274,7 +1286,8 @@ class Image
             if (count($value) == 4) {
 
                 // color array with alpha value
-                list($r, $g, $b, $alpha) = $value;
+                list($r, $g, $b, $a) = $value;
+                $a = $this->alpha2gd($a);
 
             } elseif (count($value) == 3) {
 
@@ -1305,7 +1318,7 @@ class Image
                 $r = ($matches[1] >= 0 && $matches[1] <= 255) ? intval($matches[1]) : 0;
                 $g = ($matches[2] >= 0 && $matches[2] <= 255) ? intval($matches[2]) : 0;
                 $b = ($matches[3] >= 0 && $matches[3] <= 255) ? intval($matches[3]) : 0;
-                $alpha = $this->alpha2gd($matches[4]);
+                $a = $this->alpha2gd($matches[4]);
 
             }
         }
@@ -1316,7 +1329,7 @@ class Image
 
         } elseif (isset($r) && isset($g) && isset($b)) {
 
-            return imagecolorallocatealpha($this->resource, $r, $g, $b, $alpha);
+            return imagecolorallocatealpha($this->resource, $r, $g, $b, $a);
 
         } else {
 

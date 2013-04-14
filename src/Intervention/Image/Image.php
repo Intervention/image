@@ -1313,7 +1313,7 @@ class Image
                 $b = ($matches[3] >= 0 && $matches[3] <= 255) ? intval($matches[3]) : 0;
 
             // parse color string in format rgba(255, 0, 0, 0.5)
-            } elseif (preg_match('/^rgba ?\(([0-9]{1,3}), ?([0-9]{1,3}), ?([0-9]{1,3}), ?([0-9.]{1,3})\)$/i', $value, $matches)) {
+            } elseif (preg_match('/^rgba ?\(([0-9]{1,3}), ?([0-9]{1,3}), ?([0-9]{1,3}), ?([0-9.]{1,4})\)$/i', $value, $matches)) {
 
                 $r = ($matches[1] >= 0 && $matches[1] <= 255) ? intval($matches[1]) : 0;
                 $g = ($matches[2] >= 0 && $matches[2] <= 255) ? intval($matches[2]) : 0;

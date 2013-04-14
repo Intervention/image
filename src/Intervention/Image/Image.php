@@ -1027,7 +1027,7 @@ class Image
      */
     public function circle($color, $x = 0, $y = 0, $radius = 10, $filled = true)
     {
-        return $this->ellipse($color, $x, $y, $radius, $radius, $filled);
+        return $this->ellipse($color, $x, $y, $radius * 2, $radius * 2, $filled);
     }
 
     /**

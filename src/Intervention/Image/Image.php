@@ -832,17 +832,17 @@ class Image
     /**
      * Apply given image as alpha mask on current image
      *
-     * @param  mixed   $file
+     * @param  mixed   $source
      * @param  boolean $mask_with_alpha
      * @return Image
      */
-    public function mask($file, $mask_with_alpha = false)
+    public function mask($source, $mask_with_alpha = false)
     {
         // create new empty image
         $maskedImage = new Image(null, $this->width, $this->height);
 
         // create mask
-        $mask = is_a($file, 'Intervention\Image\Image') ? $file : (new Image($file));
+        $mask = is_a($source, 'Intervention\Image\Image') ? $source : (new Image($source));
 
         // resize mask to size of current image (if necessary)
         if ($mask->width != $this->width || $mask->height != $this->height) {

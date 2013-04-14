@@ -19,7 +19,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
         return new Image('public/test.jpg');
     }
 
-    public function testConstructor()
+    public function testConstructorPlain()
     {
         $img = new Image;
         $this->assertInstanceOf('Intervention\Image\Image', $img);
@@ -28,6 +28,16 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 1);
         $this->assertEquals($img->height, 1);
+
+        $color = $img->pickColor(0, 0, 'array');
+        $this->assertInternalType('int', $color['r']);
+        $this->assertInternalType('int', $color['g']);
+        $this->assertInternalType('int', $color['b']);
+        $this->assertInternalType('float', $color['a']);
+        $this->assertEquals($color['r'], 0);
+        $this->assertEquals($color['g'], 0);
+        $this->assertEquals($color['b'], 0);
+        $this->assertEquals($color['a'], 0);
     }
 
     public function testConstructorWithPath()
@@ -79,6 +89,16 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 800);
         $this->assertEquals($img->height, 600);
+
+        $color = $img->pickColor(50, 50, 'array');
+        $this->assertInternalType('int', $color['r']);
+        $this->assertInternalType('int', $color['g']);
+        $this->assertInternalType('int', $color['b']);
+        $this->assertInternalType('float', $color['a']);
+        $this->assertEquals($color['r'], 0);
+        $this->assertEquals($color['g'], 0);
+        $this->assertEquals($color['b'], 0);
+        $this->assertEquals($color['a'], 0);
     }
 
     public function testStaticCallMakeFromPath()
@@ -185,6 +205,8 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 320);
         $this->assertEquals($img->height, 240);
+        $this->assertEquals($img->pickColor(50, 50, 'hex'), '#fffaf4');
+        $this->assertEquals($img->pickColor(260, 190, 'hex'), '#ffa600');
 
         // Only resize the width.
         $img = $this->getTestImage();
@@ -195,6 +217,8 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->width, 320);
         // Check if the height is still the same.
         $this->assertEquals($img->height, $height);
+        $this->assertEquals($img->pickColor(75, 65, 'hex'), '#fffcf3');
+        $this->assertEquals($img->pickColor(250, 150, 'hex'), '#ffc150');
 
         // Only resize the width.
         $img = $this->getTestImage();
@@ -205,6 +229,8 @@ class ImageTest extends PHPUnit_Framework_Testcase
         // Check if the width is still the same.
         $this->assertEquals($img->width, $width);
         $this->assertEquals($img->height, 240);
+        $this->assertEquals($img->pickColor(150, 75, 'hex'), '#fff4e0');
+        $this->assertEquals($img->pickColor(540, 10, 'hex'), '#ffda96');
 
         // auto height
         $img = $this->getTestImage();
@@ -213,6 +239,8 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 320);
         $this->assertEquals($img->height, 240);
+        $this->assertEquals($img->pickColor(50, 50, 'hex'), '#fffaf4');
+        $this->assertEquals($img->pickColor(260, 190, 'hex'), '#ffa600');
 
         // auto width
         $img = $this->getTestImage();
@@ -221,6 +249,8 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 320);
         $this->assertEquals($img->height, 240);
+        $this->assertEquals($img->pickColor(50, 50, 'hex'), '#fffaf4');
+        $this->assertEquals($img->pickColor(260, 190, 'hex'), '#ffa600');
 
         // preserve simple upsizing
         $img = $this->getTestImage();
@@ -460,6 +490,8 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 200);
         $this->assertEquals($img->height, 200);
+        $this->assertEquals($img->pickColor(50, 50, 'hex'), '#feedcc');
+        $this->assertEquals($img->pickColor(140, 20, 'hex'), '#fed891');
 
         $img = $this->getTestImage();
         $img->grab(200, 100);
@@ -467,6 +499,8 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 200);
         $this->assertEquals($img->height, 100);
+        $this->assertEquals($img->pickColor(50, 25, 'hex'), '#ffeccb');
+        $this->assertEquals($img->pickColor(180, 40, 'hex'), '#fead15');
 
         $img = $this->getTestImage();
         $img->grab(null, 100);
@@ -474,6 +508,8 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 100);
         $this->assertEquals($img->height, 100);
+        $this->assertEquals($img->pickColor(30, 30, 'hex'), '#fee5b7');
+        $this->assertEquals($img->pickColor(95, 20, 'hex'), '#ffbe47');
 
         $img = $this->getTestImage();
         $img->grab(array('width' => '100'));
@@ -481,6 +517,8 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 100);
         $this->assertEquals($img->height, 100);
+        $this->assertEquals($img->pickColor(30, 30, 'hex'), '#fee5b7');
+        $this->assertEquals($img->pickColor(95, 20, 'hex'), '#ffbe47');
 
         $img = $this->getTestImage();
         $img->grab(array('height' => '200'));
@@ -488,6 +526,8 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 200);
         $this->assertEquals($img->height, 200);
+        $this->assertEquals($img->pickColor(30, 30, 'hex'), '#fff9ed');
+        $this->assertEquals($img->pickColor(95, 20, 'hex'), '#ffe8bf');
     }
 
     public function testFlipImage()
@@ -873,7 +913,72 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($checkColor['g'], 0);
         $this->assertEquals($checkColor['b'], 0);
         $this->assertEquals($checkColor['a'], 0.8);
+    }
 
+    public function testMaskWithResource()
+    {
+        $img = Image::make('public/circle.png');
+        $resource = imagecreatefrompng('public/mask2.png');
+        $img->resize(32, 32)->mask($resource, true);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 32);
+        $this->assertEquals($img->height, 32);
+        $checkColor = $img->pickColor(5, 5, 'array');
+        $this->assertEquals($checkColor['r'], 0);
+        $this->assertEquals($checkColor['g'], 0);
+        $this->assertEquals($checkColor['b'], 0);
+        $this->assertEquals($checkColor['a'], 0);
+        $checkColor = $img->pickColor(15, 15, 'array');
+        $this->assertEquals($checkColor['r'], 0);
+        $this->assertEquals($checkColor['g'], 0);
+        $this->assertEquals($checkColor['b'], 0);
+        $this->assertEquals($checkColor['a'], 0.8);
+    }
+
+    public function testMaskWithBinary()
+    {
+        $img = Image::make('public/circle.png');
+        $data = file_get_contents('public/mask2.png');
+        $img->resize(32, 32)->mask($data, true);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 32);
+        $this->assertEquals($img->height, 32);
+        $checkColor = $img->pickColor(5, 5, 'array');
+        $this->assertEquals($checkColor['r'], 0);
+        $this->assertEquals($checkColor['g'], 0);
+        $this->assertEquals($checkColor['b'], 0);
+        $this->assertEquals($checkColor['a'], 0);
+        $checkColor = $img->pickColor(15, 15, 'array');
+        $this->assertEquals($checkColor['r'], 0);
+        $this->assertEquals($checkColor['g'], 0);
+        $this->assertEquals($checkColor['b'], 0);
+        $this->assertEquals($checkColor['a'], 0.8);
+    }
+
+    public function testMaskWithObject()
+    {
+        $img = Image::make('public/circle.png');
+        $obj = Image::make('public/mask2.png');
+        $img->resize(32, 32)->mask($obj, true);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 32);
+        $this->assertEquals($img->height, 32);
+        $checkColor = $img->pickColor(5, 5, 'array');
+        $this->assertEquals($checkColor['r'], 0);
+        $this->assertEquals($checkColor['g'], 0);
+        $this->assertEquals($checkColor['b'], 0);
+        $this->assertEquals($checkColor['a'], 0);
+        $checkColor = $img->pickColor(15, 15, 'array');
+        $this->assertEquals($checkColor['r'], 0);
+        $this->assertEquals($checkColor['g'], 0);
+        $this->assertEquals($checkColor['b'], 0);
+        $this->assertEquals($checkColor['a'], 0.8);
     }
 
     public function testPixelateImage()
@@ -888,6 +993,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img = $this->getTestImage();
         $img->greyscale();
         $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('#adadad', $img->pickColor(660, 450, 'hex'));
     }
 
     public function testInvertImage()
@@ -921,10 +1027,13 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertEquals('#9b9b9b', $img->pickColor(0, 0, 'hex'));
 
-        $img = $img->fill(Image::make('public/tile.png'));
-        $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertEquals('#b4e000', $img->pickColor(0, 0, 'hex'));
-        $this->assertEquals('#445160', $img->pickColor(31, 31, 'hex'));
+        $img = new Image(null, 32, 32);
+        $img = $img->fill('rgba(180, 224, 0, 0.65)', rand(1,10), rand(1,10));
+        $checkColor = $img->pickColor(0, 0, 'array');
+        $this->assertEquals(180, $checkColor['r']);
+        $this->assertEquals(224, $checkColor['g']);
+        $this->assertEquals(0, $checkColor['b']);
+        $this->assertEquals(0.65, $checkColor['a']);
     }
 
     public function testFillImageWithResource()
@@ -981,11 +1090,11 @@ class ImageTest extends PHPUnit_Framework_Testcase
     public function testPixelImage()
     {
         $img = $this->getTestImage();
-        $img = $img->pixel('fdf5e4', rand(1,10), rand(1,10));
-        $this->assertInstanceOf('Intervention\Image\Image', $img);
-
-        $img = $img->pixel(array(255, 255, 255), rand(1,10), rand(1,10));
-        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $coords = array(array(5, 5), array(100, 100));
+        $img = $img->pixel('fdf5e4', $coords[0][0], $coords[0][1]);
+        $img = $img->pixel(array(255, 255, 255), $coords[1][0], $coords[1][1]);
+        $this->assertEquals('#fdf5e4', $img->pickColor($coords[0][0], $coords[0][1], 'hex'));
+        $this->assertEquals('#ffffff', $img->pickColor($coords[1][0], $coords[1][1], 'hex'));   
     }
 
     public function testTextImage()
@@ -1004,52 +1113,54 @@ class ImageTest extends PHPUnit_Framework_Testcase
     public function testRectangleImage()
     {
         $img = $this->getTestImage();
-        $img = $img->rectangle('cccccc', 10, 10, 100, 100);
-        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $img = $img->rectangle('cccccc', 10, 10, 100, 100, false);
+        $this->assertEquals('#ffffff', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#cccccc', $img->pickColor(10, 10, 'hex'));
+        $this->assertEquals('#ffffff', $img->pickColor(50, 50, 'hex'));
+
+        $img = $this->getTestImage();
+        $img = $img->rectangle('cccccc', 10, 10, 100, 100, true);
+        $this->assertEquals('#ffffff', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#cccccc', $img->pickColor(10, 10, 'hex'));   
+        $this->assertEquals('#cccccc', $img->pickColor(50, 50, 'hex'));   
     }
 
     public function testLineImage()
     {
         $img = $this->getTestImage();
         $img = $img->line('cccccc', 10, 10, 100, 100);
-        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('#ffffff', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#cccccc', $img->pickColor(10, 10, 'hex'));
+        $this->assertEquals('#cccccc', $img->pickColor(100, 100, 'hex'));
     }
 
     public function testEllipseImage()
     {
         $img = $this->getTestImage();
-        $img = $img->ellipse('cccccc', 10, 10, 100, 50, false);
+        $img = $img->ellipse('cccccc', 0, 0, 100, 50, false);
         $img = $img->ellipse('666666', 100, 100, 50, 100, true);
-        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('#ffffff', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#cccccc', $img->pickColor(50, 0, 'hex'));
+        $this->assertEquals('#666666', $img->pickColor(100, 100, 'hex'));
     }
 
     public function testCircleImage()
     {
         $img = $this->getTestImage();
-        $img = $img->circle('cccccc', 10, 10, 100, false);
+        $img = $img->circle('cccccc', 0, 0, 100, false);
         $img = $img->circle('666666', 100, 100, 50, true);
-        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('#ffffff', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#cccccc', $img->pickColor(100, 0, 'hex'));
+        $this->assertEquals('#cccccc', $img->pickColor(0, 100, 'hex'));
+        $this->assertEquals('#666666', $img->pickColor(100, 100, 'hex'));
     }
 
-    public function testInsertImagesWithAlphaChannel()
+    public function testInsertImageWithAlphaChannel()
     {
-        $img = $this->getTestImage();
-        $circle = new Image('public/circle.png');
-
-        for ($x=0; $x < $img->width; $x=$x+$circle->width) {
-            for ($y=0; $y < $img->height; $y=$y+$circle->height) {
-                // insert circle png at position x,y
-                $img->insert($circle, $x, $y);
-            }
-        }
-
-        $save_as = 'public/final.png';
-        $img->save($save_as);
-        $this->assertFileExists($save_as);
-        @unlink($save_as);
-
-        $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertInstanceOf('Intervention\Image\Image', $circle);
+        $img = new Image(null, 50, 50, '#ffffff');
+        $img->insert('public/circle.png');
+        $this->assertEquals('#ffffff', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#323232', $img->pickColor(30, 30, 'hex'));
     }
 
     public function testResetImage()
@@ -1133,16 +1244,21 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInternalType('string', $color);
         $this->assertEquals($color, '#ffa600');
 
-        // rgba color string
-        $color = $img->pickColor(799, 599, 'rgba');
+        // pick semi-transparent color
+        $img = Image::make('public/circle.png');
+        $color = $img->pickColor(20, 20, 'array');
+        $this->assertInternalType('array', $color);
+        $this->assertInternalType('int', $color['r']);
+        $this->assertInternalType('int', $color['g']);
+        $this->assertInternalType('int', $color['b']);
+        $this->assertInternalType('float', $color['a']);
+        $this->assertEquals($color['r'], 0);
+        $this->assertEquals($color['g'], 0);
+        $this->assertEquals($color['b'], 0);
+        $this->assertEquals($color['a'], 0.8);
+        $color = $img->pickColor(20, 20, 'rgba');
         $this->assertInternalType('string', $color);
-        $this->assertEquals($color, 'rgba(255, 166, 0, 1.00)');
-        $img = new Image(null, 100, 100);
-        $color = imagecolorallocatealpha($img->resource, 0, 0, 255, 64);
-        $img->fill($color);
-        $color = $img->pickColor(50, 50, 'rgba');
-        $this->assertInternalType('string', $color);
-        $this->assertEquals($color, 'rgba(0, 0, 255, 0.50)');
+        $this->assertEquals($color, 'rgba(0, 0, 0, 0.80)');
     }
 
     public function testParseColor()
@@ -1150,69 +1266,41 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img = $this->getTestImage();
         $color = $img->parseColor(array(155, 155, 155));
         $this->assertInternalType('int', $color);
+        $this->assertEquals($color, 10197915);
 
         $color = $img->parseColor('#cccccc');
         $this->assertInternalType('int', $color);
+        $this->assertEquals($color, 13421772);
 
         $color = $img->parseColor('cccccc');
         $this->assertInternalType('int', $color);
+        $this->assertEquals($color, 13421772);
 
         $color = $img->parseColor('#ccc');
         $this->assertInternalType('int', $color);
+        $this->assertEquals($color, 13421772);
 
         $color = $img->parseColor('ccc');
         $this->assertInternalType('int', $color);
+        $this->assertEquals($color, 13421772);
 
         $color = $img->parseColor('rgb(1, 14, 144)');
         $this->assertInternalType('int', $color);
+        $this->assertEquals($color, 69264);
 
         $color = $img->parseColor('rgb (255, 255, 255)');
         $this->assertInternalType('int', $color);
+        $this->assertEquals($color, 16777215);
 
         $color = $img->parseColor('rgb(0,0,0)');
         $this->assertInternalType('int', $color);
+        $this->assertEquals($color, 0);
 
         $color = $img->parseColor('rgba(0,0,0,0.5)');
         $this->assertInternalType('int', $color);
 
         $color = $img->parseColor('rgba(255, 0, 0, 0.5)');
         $this->assertInternalType('int', $color);
-    }
-
-    public function testAdvancedColors()
-    {
-        $img = new Image(null, 100, 100);
-        $img->fill('rgb(255, 0, 0)');
-
-        $checkColor = $img->pickColor(50, 50,'array');
-        $this->assertEquals($checkColor['r'], 255);
-        $this->assertEquals($checkColor['g'], 0);
-        $this->assertEquals($checkColor['b'], 0);
-        $this->assertEquals($checkColor['a'], 1);
-
-        $img->rectangle('rgba(0,0,0,0.5)', 0, 0, 100, 100);
-        $checkColor = $img->pickColor(50, 50,'array');
-        $this->assertEquals($checkColor['r'], 128);
-        $this->assertEquals($checkColor['g'], 0);
-        $this->assertEquals($checkColor['b'], 0);
-        $this->assertEquals($checkColor['a'], 1);
-
-        $img = new Image(null, 100, 100);
-        $img->fill('rgba(0,0,0,0.5)');
-        $checkColor = $img->pickColor(50, 50,'array');
-        $this->assertEquals($checkColor['r'], 0);
-        $this->assertEquals($checkColor['g'], 0);
-        $this->assertEquals($checkColor['b'], 0);
-        $this->assertEquals($checkColor['a'], 0.5);
-
-        $img = new Image(null, 100, 100);
-        $color = imagecolorallocatealpha($img->resource, 0, 0, 255, 60);
-        $img->fill($color);
-        $checkColor = $img->pickColor(50, 50,'array');
-        $this->assertEquals($checkColor['r'], 0);
-        $this->assertEquals($checkColor['g'], 0);
-        $this->assertEquals($checkColor['b'], 255);
-        $this->assertEquals($checkColor['a'], 0.53);
     }
 
     public function testBrightnessImage()

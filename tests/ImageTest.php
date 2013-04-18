@@ -1004,6 +1004,14 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals('#000000', $img->pickColor(0, 0, 'hex'));
     }
 
+    public function testBlurImage()
+    {
+        $img = Image::make('public/tile.png')->blur();
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('#b4e000', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#98bc18', $img->pickColor(0, 7, 'hex'));
+    }
+
     public function testFillImage()
     {
         $img = new Image(null, 32, 32);

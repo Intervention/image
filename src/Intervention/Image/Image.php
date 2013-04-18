@@ -1148,6 +1148,21 @@ class Image
     }
 
     /**
+     * Apply blur filter on the current image
+     *
+     * @param  integer $amount
+     * @return Image
+     */
+    public function blur($amount = 1)
+    {
+        for ($i=0; $i < intval($amount); $i++) { 
+            imagefilter($this->resource, IMG_FILTER_GAUSSIAN_BLUR);
+        }
+
+        return $this;
+    }
+
+    /**
      * Reset to original image resource
      *
      * @return void

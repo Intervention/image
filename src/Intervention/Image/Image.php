@@ -1426,6 +1426,26 @@ class Image
     }
 
     /**
+     * Checks if the current image has (half) transparent pixels
+     *
+     * @return boolean
+     */
+    private function hasTransparency()
+    {
+        $step_x = min(max(floor($this->width/50), 1), 10);
+        $step_y = min(max(floor($this->height/50), 1), 10);
+
+        for ($x=0; $x<$this->width; $x=$x+$step_x) {
+            for ($y=0; $y<$this->height; $y=$y+$step_y) {
+                $color = $this->pickColor($x, $y);
+                if ($color['a'] < 1) return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Returns image stream
      *
      * @return string

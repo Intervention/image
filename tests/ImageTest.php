@@ -1193,6 +1193,49 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 600);
     }
 
+    public function testLimitColors()
+    {
+        // reduce colors
+        $img = Image::make('public/test.jpg');
+        $img->limitColors(10);
+        $this->assertEquals(imagecolorstotal($img->resource), 11);
+
+        // reduce colors + keep transparency with matte
+        $img = Image::make('public/mask2.png');
+        $img->limitColors(10, '#ff0000'); // red matte
+        $this->assertEquals(imagecolorstotal($img->resource), 11);
+        $color1 = $img->pickColor(0, 0); // full transparent
+        $color2 = $img->pickColor(9, 17); // part of matte gradient
+        $this->assertEquals($color1['r'], 255);
+        $this->assertEquals($color1['g'], 0);
+        $this->assertEquals($color1['b'], 0);
+        $this->assertEquals($color1['a'], 0);
+        $this->assertEquals($color2['r'], 252);
+        $this->assertEquals($color2['g'], 10);
+        $this->assertEquals($color2['b'], 11);
+        $this->assertEquals($color2['a'], 1);
+
+        // increase colors
+        $img = Image::make('public/png8.png');
+        $img->limitColors(null); // set image to true color
+        $this->assertEquals(imagecolorstotal($img->resource), 0);
+
+        // increase colors + keep transparency with matte
+        $img = Image::make('public/png8.png');
+        $img->limitColors(null); // set image to true color
+        $this->assertEquals(imagecolorstotal($img->resource), 0);
+        $color1 = $img->pickColor(0, 0); // full transparent
+        $color2 = $img->pickColor(10, 10); // solid color
+        $this->assertEquals($color1['r'], 0);
+        $this->assertEquals($color1['g'], 0);
+        $this->assertEquals($color1['b'], 0);
+        $this->assertEquals($color1['a'], 0);
+        $this->assertEquals($color2['r'], 140);
+        $this->assertEquals($color2['g'], 140);
+        $this->assertEquals($color2['b'], 140);
+        $this->assertEquals($color2['a'], 1);        
+    }
+
     public function testSaveImage()
     {
         $save_as = 'public/test2.jpg';

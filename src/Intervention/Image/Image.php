@@ -1163,6 +1163,41 @@ class Image
     }
 
     /**
+     * Set a maximum number of colors for the current image
+     *
+     * @param integer $count
+     * @param mixed   $matte
+     * @return Image
+     */
+    public function limitColors($count = null, $matte = null)
+    {
+        // create empty canvas
+        $resource = imagecreatetruecolor($this->width, $this->height);
+
+        // define matte
+        $matte = is_null($matte) ? imagecolorallocatealpha($resource, 0, 0, 0, 127) : $this->parseColor($matte);
+
+        // fill with matte and copy original image
+        imagefill($resource, 0, 0, $matte);
+
+        // set transparency
+        imagecolortransparent($resource, $matte);
+
+        // copy original image
+        imagecopy($resource, $this->resource, 0, 0, 0, 0, $this->width, $this->height);
+
+        if (is_numeric($count) && $count <= 256) {
+            // decrease colors
+            imagetruecolortopalette($resource, true, intval($count));
+        }
+
+        // set new resource
+        $this->resource = $resource;
+
+        return $this;
+    }
+
+    /**
      * Reset to original image resource
      *
      * @return void

@@ -207,17 +207,17 @@ class Image
         switch ($this->type) {
             case IMG_PNG:
             case 3:
-            $this->resource = @imagecreatefrompng($path);
+            $this->resource = imagecreatefrompng($path);
             break;
 
             case IMG_JPG:
             case 2:
-            $this->resource = @imagecreatefromjpeg($path);
+            $this->resource = imagecreatefromjpeg($path);
             break;
 
             case IMG_GIF:
             case 1:
-            $this->resource = @imagecreatefromgif($path);
+            $this->resource = imagecreatefromgif($path);
             break;
 
             default:
@@ -276,7 +276,7 @@ class Image
         $this->original['height'] = $this->height;
 
         // create empty image
-        $this->resource = @imagecreatetruecolor($this->width, $this->height);
+        $this->resource = imagecreatetruecolor($this->width, $this->height);
 
         // set background color
         if (is_null($bgcolor)) {
@@ -306,14 +306,14 @@ class Image
     private function modify($dst_x , $dst_y , $src_x , $src_y , $dst_w , $dst_h , $src_w , $src_h)
     {
         // create new image
-        $image = @imagecreatetruecolor($dst_w, $dst_h);
+        $image = imagecreatetruecolor($dst_w, $dst_h);
 
         // preserve transparency
-        @imagealphablending($image, false);
-        @imagesavealpha($image, true);
+        imagealphablending($image, false);
+        imagesavealpha($image, true);
 
         // copy content from resource
-        @imagecopyresampled($image, $this->resource, $dst_x , $dst_y , $src_x , $src_y , $dst_w , $dst_h , $src_w , $src_h);
+        imagecopyresampled($image, $this->resource, $dst_x , $dst_y , $src_x , $src_y , $dst_w , $dst_h , $src_w , $src_h);
 
         // set new content as recource
         $this->resource = $image;
@@ -484,7 +484,7 @@ class Image
         }
 
         // create new canvas
-        $image = @imagecreatetruecolor($width, $height);
+        $image = imagecreatetruecolor($width, $height);
 
         if ($width > $this->width || $height > $this->height) {
             $bgcolor = is_null($bgcolor) ? '000000' : $bgcolor;
@@ -580,7 +580,7 @@ class Image
         $dst_y = ($height <= $this->height) ? 0 : intval(($height - $this->height) / 2);
 
         // copy content from resource
-        @imagecopy($image, $this->resource, $dst_x , $dst_y , $src_x , $src_y , $src_w , $src_h);
+        imagecopy($image, $this->resource, $dst_x , $dst_y , $src_x , $src_y , $src_w , $src_h);
 
         // set new content as recource
         $this->resource = $image;
@@ -1240,22 +1240,22 @@ class Image
 
             case 'gif':
             case 1:
-                @imagegif($this->resource);
+                imagegif($this->resource);
             break;
 
             case 'png':
             case 3:
                 $quality = round($quality / 11.11111111111); // transform quality to png setting
-                @imagealphablending($this->resource, false);
-                @imagesavealpha($this->resource, true);
-                @imagepng($this->resource, null, $quality);
+                imagealphablending($this->resource, false);
+                imagesavealpha($this->resource, true);
+                imagepng($this->resource, null, $quality);
             break;
 
             default:
             case 'jpg':
             case 'jpeg':
             case 2:
-                @imagejpeg($this->resource, null, $quality);
+                imagejpeg($this->resource, null, $quality);
             break;
         }
 

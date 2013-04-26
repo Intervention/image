@@ -1165,10 +1165,18 @@ class ImageTest extends PHPUnit_Framework_Testcase
 
     public function testInsertImageWithAlphaChannel()
     {
-        $img = new Image(null, 50, 50, '#ffffff');
+        $img = new Image(null, 50, 50, '#ff0000');
         $img->insert('public/circle.png');
-        $this->assertEquals('#ffffff', $img->pickColor(0, 0, 'hex'));
-        $this->assertEquals('#323232', $img->pickColor(30, 30, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#320000', $img->pickColor(30, 30, 'hex'));
+    }
+
+    public function testInsertPng8WithAlphaChannel()
+    {
+        $img = new Image(null, 16, 16, '#ff0000');
+        $img->insert('public/png8.png');
+        $this->assertEquals('#ff0000', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#8c8c8c', $img->pickColor(10, 10, 'hex'));
     }
 
     public function testResetImage()

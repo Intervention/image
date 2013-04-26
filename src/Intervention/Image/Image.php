@@ -1418,6 +1418,8 @@ class Image
                 return $range_output[$key];
             }
         }
+
+        return 127;
     }
 
     /**
@@ -1436,6 +1438,8 @@ class Image
                 return round($range_output[$key], 2);
             }
         }
+
+        return 1;
     }
 
     /**

@@ -463,6 +463,16 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals('#ffa600', $img->pickColor(99, 99, 'hex'));
     }
 
+    public function testCropImageWithNullDimensions()
+    {
+        /**
+         * @expectedException Exception
+         */
+        
+        $img = $this->getTestImage();
+        $img->crop(null, null);
+    }
+
     public function testLegacyResize()
     {
         // auto height
@@ -853,6 +863,24 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($checkColor['g'], 166);
         $this->assertEquals($checkColor['b'], 0);
         $this->assertEquals($checkColor['a'], 0.5);
+    }
+
+    public function testOpacityIsTooHigh()
+    {
+        /**
+         * ExpectedException Exception
+         */
+        $img = Image::make('public/test.jpg');
+        $img->resize(32, 32)->opacity(120);
+    }
+
+    public function testOpacityIsTooLow()
+    {
+        /**
+         * ExpectedException Exception
+         */
+        $img = Image::make('public/test.jpg');
+        $img->resize(32, 32)->opacity(-120);
     }
 
     public function testMaskImage()
@@ -1370,12 +1398,51 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInstanceOf('Intervention\Image\Image', $img);
     }
 
+    public function testBrightnessImageIsTooHigh()
+    {
+     /**
+     * @expectedException Exception
+     */
+        $img = $this->getTestImage();
+        $img->brightness(120);
+    }
+
+    public function testBrightnessImageIsTooLow()
+    {
+        /**
+         * @expectedException Exception
+         */
+        
+        $img = $this->getTestImage();
+        $img->brightness(-120);
+    }
+
     public function testContrastImage()
     {
         $img = $this->getTestImage();
         $img->contrast(100);
         $img->contrast(-100);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
+    }
+
+    public function testContrastImageIsTooHigh()
+    {
+        /**
+         * @expectedException Exception
+         */
+        
+        $img = $this->getTestImage();
+        $img->contrast(120);
+    }
+
+    public function testContrastImageIsTooLow()
+    {
+        /**
+         * @expectedException Exception
+         */
+        
+        $img = $this->getTestImage();
+        $img->contrast(-120);
     }
 
     public function testEncode()
@@ -1396,5 +1463,21 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $data = Image::make('public/circle.png')->encode('data-url');
         $encoded = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAChklEQVRo3uXavUscQRjH8c+t2MhhcUhiKolYiDFXCIKFNkoqrYL/gyT/UV4sTZ3CgI2SIhBBsJBwWKjEYCEptLmzSpFi5ny56Hm+nLdjvt3e7t4+v52ZnWee3xTcHyMYxiAG0I8SivF8FUc4xD72sI3KfTy8cMf7y5jAOMZu+R+b2MA6th5ayCSmMXPujd+VKlaxhm/tFjKKOcyiR3s4wRcs40erN3Xd4AHzeIMpdGsf3XiBl/G4cl9CnmABb+PgfShK8aUVsYvaXYQMxlZ4rXOU0YefOL6NkLqIVzrPUBSze5WYribdKS8i6jxHb/wA1FoVstDh7tSsZQr43oqQ+Tiw80pZyBAqzYSMxi5VyrEQeCakN7/rP2QNF8zF5ss7QzFWlwmZFGbsVJiNMf8jZFr70o520BNjviCkLCSAqTETYz8VMuH+stiHpBhjPxUynqAI52PPhJXdWMJCxjCSCcvT1BnOhOQwdQYzoVCQOgOZUO1Inf5M/vOqVihl0pw/Gilmj0AEwjxSfQQ6qpmwSEmdo0yoxabOYSYUlFNnPxOq4qmzlwlr39TZzoRqxGbCIjZRqc8jGwkL2eBsYbUuzfmkGmM/FbIlmCypsRpjv1BFWRNMllQ4iTHjYqXxF54KJksKfMan+kFj0riMnQRE7MRYXdYinNVSp3Iu5B2+NhNCmFeKYuErhyxhsfHHq/yRXcEhyltBewUf3MDoqQmeXZ/gFOWBNbzHwWUnm3mIx7FlenPQMitRxJUJ7nWu7rHg2RU6OGaWYnc6aHZRKz57TfDsjgSn6KGqLjvC12nRNR57q0LqVISU/08cN+3a/XAiTHYfNXxim/HfbqppJPltTpfR0Y1nfwGRl30LQuetpgAAAABJRU5ErkJggg==';
         $this->assertEquals($data, $encoded);
+    }
+
+    public function testEncodeQualityIsTooHigh()
+    {
+        /**
+         * ExpectedException Exception
+         */
+        $data = Image::make('public/circle.png')->encode(null, 150);
+    }
+
+    public function testEncodeQualityIsTooLow()
+    {
+        /**
+         * ExpectedException Exception
+         */
+        $data = Image::make('public/circle.png')->encode(null, -150);
     }
 }

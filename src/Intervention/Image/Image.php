@@ -100,23 +100,23 @@ class Image
             if ($this->isImageResource($source)) {
 
                 // image properties come from gd image resource
-                $this->setPropertiesFromResource($source);
+                $this->initFromResource($source);
 
             } elseif ($this->isBinary($source)) {
 
                 // image properties come from binary image string
-                $this->setPropertiesFromString($source);
+                $this->initFromString($source);
 
             } else {
                 
                 // image properties come from image file
-                $this->setPropertiesFromPath($source);
+                $this->initFromPath($source);
             }
 
         } else {
 
             // new empty resource
-            $this->setPropertiesEmpty($width, $height, $bgcolor);
+            $this->initEmpty($width, $height, $bgcolor);
         }
     }
 
@@ -183,47 +183,17 @@ class Image
      * @param string $path
      * @return void
      */
-    private function setPropertiesFromPath($path)
+    private function initFromPath($path)
     {
         if ( ! file_exists($path)) {
             throw new Exception("Image file ({$path}) not found");
         }
 
         // set file info
-        $info = pathinfo($path);
-        $this->dirname = array_key_exists('dirname', $info) ? $info['dirname'] : null;
-        $this->basename = array_key_exists('basename', $info) ? $info['basename'] : null;
-        $this->extension = array_key_exists('extension', $info) ? $info['extension'] : null;
-        $this->filename = array_key_exists('filename', $info) ? $info['filename'] : null;
+        $this->setFileInfoFromPath($path);
 
         // set image info
-        $info = getimagesize($path);
-        $this->width = $info[0];
-        $this->height = $info[1];
-        $this->type = $info[2];
-        $this->mime = $info['mime'];
-
-        // set resource
-        switch ($this->type) {
-            case IMG_PNG:
-            case 3:
-            $this->resource = imagecreatefrompng($path);
-            break;
-
-            case IMG_JPG:
-            case 2:
-            $this->resource = imagecreatefromjpeg($path);
-            break;
-
-            case IMG_GIF:
-            case 1:
-            $this->resource = imagecreatefromgif($path);
-            break;
-
-            default:
-            throw new Exception("Wrong image type ({$this->type}) only use JPG, PNG or GIF images.");
-            break;
-        }
+        $this->setImageInfoFromPath($path);
     }
 
     /**
@@ -232,13 +202,9 @@ class Image
      * @param string $string
      * @return void
      */
-    private function setPropertiesFromString($string)
+    private function initFromString($string)
     {
-        $this->resource = imagecreatefromstring($string);
-        $this->width = imagesx($this->resource);
-        $this->height = imagesy($this->resource);
-        $this->original['width'] = $this->width;
-        $this->original['height'] = $this->height;
+        $this->setImageInfoFromString($string);
     }
 
     /**
@@ -246,17 +212,13 @@ class Image
      *
      * @param resource $resource
      */
-    private function setPropertiesFromResource($resource)
+    private function initFromResource($resource)
     {
-        if ($this->isImageResource($resource)) {
-            $this->resource = $resource;
-            $this->width = imagesx($this->resource);
-            $this->height = imagesy($this->resource);
-            $this->original['width'] = $this->width;
-            $this->original['height'] = $this->height;
-        } else {
-            throw new Exception("setPropertiesFromResource expects parameter to be resource.");
+        if ( ! $this->isImageResource($resource)) {
+            throw new Exception("initFromResource expects parameter to be resource.");
         }
+
+        $this->setImageInfoFromResource($resource);
     }
 
     /**
@@ -267,7 +229,7 @@ class Image
      * @param mixed $bgcolor
      * @return void
      */
-    private function setPropertiesEmpty($width, $height, $bgcolor = null)
+    private function initEmpty($width, $height, $bgcolor = null)
     {
         $this->width = is_numeric($width) ? intval($width) : 1;
         $this->height = is_numeric($height) ? intval($height) : 1;
@@ -333,7 +295,7 @@ class Image
      */
     public function open($path)
     {
-        $this->setPropertiesFromPath($path);
+        $this->initFromPath($path);
 
         return $this;
     }
@@ -1206,11 +1168,11 @@ class Image
     {
         if (is_null($this->dirname) && is_null($this->basename)) {
 
-            $this->setPropertiesEmpty($this->original['width'], $this->original['height'], $this->original['bgcolor']);
+            $this->initEmpty($this->original['width'], $this->original['height'], $this->original['bgcolor']);
 
         } else {
 
-            $this->setPropertiesFromPath($this->dirname .'/'. $this->basename);
+            $this->initFromPath($this->dirname .'/'. $this->basename);
         }
 
         return $this;
@@ -1482,6 +1444,85 @@ class Image
         }
 
         return false;
+    }
+
+    /**
+     * Set file info from image path in filesystem
+     *
+     * @param string $path
+     */
+    private function setFileInfoFromPath($path)
+    {
+        // set file info
+        $info = pathinfo($path);
+        $this->dirname = array_key_exists('dirname', $info) ? $info['dirname'] : null;
+        $this->basename = array_key_exists('basename', $info) ? $info['basename'] : null;
+        $this->extension = array_key_exists('extension', $info) ? $info['extension'] : null;
+        $this->filename = array_key_exists('filename', $info) ? $info['filename'] : null;
+    }
+
+    /**
+     * Set image info from image path in filesystem
+     *
+     * @param string $path
+     */
+    private function setImageInfoFromPath($path)
+    {
+        $info = getimagesize($path);
+        $this->width = $info[0];
+        $this->height = $info[1];
+        $this->type = $info[2];
+        $this->mime = $info['mime'];
+
+        // set resource
+        switch ($this->type) {
+            case IMG_PNG:
+            case 3:
+            $this->resource = imagecreatefrompng($path);
+            break;
+
+            case IMG_JPG:
+            case 2:
+            $this->resource = imagecreatefromjpeg($path);
+            break;
+
+            case IMG_GIF:
+            case 1:
+            $this->resource = imagecreatefromgif($path);
+            break;
+
+            default:
+            throw new Exception("Wrong image type ({$this->type}) only use JPG, PNG or GIF images.");
+            break;
+        }
+    }
+
+    /**
+     * Set local image info from GD resource
+     *
+     * @param resource $resource
+     */
+    private function setImageInfoFromResource($resource)
+    {
+        $this->resource = $resource;
+        $this->width = imagesx($this->resource);
+        $this->height = imagesy($this->resource);
+        $this->original['width'] = $this->width;
+        $this->original['height'] = $this->height;
+    }
+
+    /**
+     * Set local image information from image string
+     *
+     * @param string $string
+     */
+    private function setImageInfoFromString($string)
+    {
+        $this->resource = imagecreatefromstring($string);
+        $this->width = imagesx($this->resource);
+        $this->height = imagesy($this->resource);
+        $this->original['width'] = $this->width;
+        $this->original['height'] = $this->height;
     }
 
     /**

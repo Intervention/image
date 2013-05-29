@@ -14,7 +14,7 @@
     "require": {
         "php": ">=5.3.0",
         "ext-gd": "*",
-        "illuminate/support": "4.x.x"
+        "illuminate/support": "4.*"
     },
     "suggest": {
         "intervention/imagecache": "Caching extension for the Intervention Image library"

@@ -1365,6 +1365,23 @@ class Image
     }
 
     /**
+     * Read Exif data from the current image
+     *
+     * @param  string $key
+     * @return mixed
+     */
+    public function exif($key = null)
+    {
+        $data = exif_read_data($this->dirname .'/'. $this->basename, 'EXIF', false);
+
+        if ( ! is_null($key)) {
+            return array_key_exists($key, $data) ? $data[$key] : null;
+        }
+
+        return $data;
+    }
+
+    /**
      * Convert rgba alpha (0-1) value to gd value (0-127)
      *
      * @param  float $input

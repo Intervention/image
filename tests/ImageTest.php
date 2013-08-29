@@ -285,6 +285,40 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, $original_height);
     }
 
+    public function testWidenImage()
+    {
+        $img = $this->getTestImage();
+
+        $img->widen(100);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 100);
+        $this->assertEquals($img->height, 75);
+
+        $img->widen(1000);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 1000);
+        $this->assertEquals($img->height, 750);
+    }
+
+    public function testHeightenImage()
+    {
+        $img = $this->getTestImage();
+
+        $img->heighten(150);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 200);
+        $this->assertEquals($img->height, 150);
+
+        $img->heighten(900);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 1200);
+        $this->assertEquals($img->height, 900);
+    }
+
     public function testResizeCanvas()
     {
         $img = $this->getTestImage();

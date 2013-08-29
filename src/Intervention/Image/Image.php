@@ -414,6 +414,28 @@ class Image
     }
 
     /**
+     * Resize image to new width, constraining proportions
+     *
+     * @param  integer $width
+     * @return Image
+     */
+    public function widen($width)
+    {
+        return $this->resize($width, null, true);
+    }
+
+    /**
+     * Resize image to new height, constraining proportions
+     *
+     * @param  integer $height
+     * @return Image
+     */
+    public function heighten($height)
+    {
+        return $this->resize(null, $height, true);
+    }
+
+    /**
      * Resize image canvas
      *
      * @param  int  $width

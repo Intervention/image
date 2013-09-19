@@ -2,7 +2,6 @@
 
 namespace Intervention\Image;
 
-use Exception;
 use Closure;
 
 class Image
@@ -167,7 +166,7 @@ class Image
     public static function cache(Closure $callback = null, $lifetime = null, $returnObj = false)
     {
         if ( ! class_exists('\Intervention\Image\ImageCache')) {
-            throw new Exception('Please install package intervention/imagecache before running this function.');
+            throw new Exception\ImageCacheNotFoundException('Please install package intervention/imagecache before running this function.');
         }
 
         // Create image and run callback
@@ -186,7 +185,7 @@ class Image
     private function initFromPath($path)
     {
         if ( ! file_exists($path)) {
-            throw new Exception("Image file ({$path}) not found");
+            throw new Exception\ImageNotFoundException("Image file ({$path}) not found");
         }
 
         // set file info
@@ -215,7 +214,7 @@ class Image
     private function initFromResource($resource)
     {
         if ( ! $this->isImageResource($resource)) {
-            throw new Exception("initFromResource expects parameter to be resource.");
+            throw new Exception\InvalidImageResourceException;
         }
 
         $this->setImageInfoFromResource($resource);
@@ -384,7 +383,7 @@ class Image
         // throw an exception.
         if (is_null($width) && is_null($height)) {
 
-            throw new Exception('width or height needs to be defined');
+            throw new Exception\ImageDimensionException('width or height needs to be defined');
 
         } elseif (is_null($width)) { // If only the width hasn't been set, keep the current width.
 
@@ -600,7 +599,7 @@ class Image
         }
 
         if (is_null($width) || is_null($height)) {
-            throw new Exception('width and height of cutout needs to be defined');
+            throw new Exception\ImageDimensionException('width and height of cutout needs to be defined');
         }
 
         return $this->modify(0, 0, $pos_x , $pos_y, $width, $height, $width, $height);
@@ -631,7 +630,7 @@ class Image
             $height = is_null($height) ? $width : $height;
         } else {
             // width or height not defined (resume with original values)
-            throw new Exception('width or height needs to be defined');
+            throw new Exception\ImageDimensionException('width or height needs to be defined');
         }
 
         // ausschnitt berechnen
@@ -800,7 +799,7 @@ class Image
         if ($transparency >= 0 && $transparency <= 100) {
             $transparency = intval($transparency) / 100;
         } else {
-            throw new Exception('Opacity must be between 0 and 100');
+            throw new Exception\ImageOpacityException('Opacity must be between 0 and 100');
         }
 
         // create alpha mask
@@ -1053,7 +1052,7 @@ class Image
         if ($level >= -100 && $level <= 100) {
             $level = $level * 2.55;
         } else {
-            throw new Exception('Brightness level must be between -100 and +100');
+            throw new Exception\ImageBrightnessException('Brightness level must be between -100 and +100');
         }
 
         imagefilter($this->resource, IMG_FILTER_BRIGHTNESS, $level);
@@ -1073,7 +1072,7 @@ class Image
         if ($level >= -100 && $level <= 100) {
             $level = $level * (-1);
         } else {
-            throw new Exception('Contrast level must be between -100 and +100');
+            throw new Exception\ImageConstractException('Contrast level must be between -100 and +100');
         }
 
         imagefilter($this->resource, IMG_FILTER_CONTRAST, $level);
@@ -1212,7 +1211,7 @@ class Image
         $format = is_null($format) ? $this->type : $format;
 
         if ($quality < 0 || $quality > 100) {
-            throw new Exception('Quality of image must range from 0 to 100.');
+            throw new Exception\ImageQualityException('Quality of image must range from 0 to 100.');
         }
 
         ob_start();
@@ -1367,7 +1366,7 @@ class Image
 
         } else {
 
-            throw new Exception("Error parsing color [{$value}]");
+            throw new Exception\ImageColorException("Error parsing color [{$value}]");
         }
     }
 
@@ -1531,7 +1530,7 @@ class Image
             break;
 
             default:
-            throw new Exception("Wrong image type ({$this->type}) only use JPG, PNG or GIF images.");
+            throw new Exception\InvalidImageTypeException("Wrong image type ({$this->type}) only use JPG, PNG or GIF images.");
             break;
         }
     }

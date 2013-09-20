@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Exception;
 
-class ImageOpacityException extends \RuntimeException
+class BrightnessOutOfBoundsException extends \OutOfBoundsException
 {
     # nothing to override
 }

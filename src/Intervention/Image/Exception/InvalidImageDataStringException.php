@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Exception;
 
-class ImageDimensionException extends \RuntimeException
+class InvalidImageDataStringException extends \RuntimeException
 {
     # nothing to override
 }

@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Exception;
 
-class ImageConstractException extends \RuntimeException
+class ExifFunctionsNotAvailableException extends \RuntimeException
 {
     # nothing to override
 }

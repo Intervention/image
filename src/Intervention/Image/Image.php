@@ -161,12 +161,16 @@ class Image
      * @param  Closure $callback
      * @param  integer $lifetime
      * @param  boolean $returnObj
+     *
      * @return Image
      */
     public static function cache(Closure $callback = null, $lifetime = null, $returnObj = false)
     {
         if ( ! class_exists('\Intervention\Image\ImageCache')) {
-            throw new Exception\ImageCacheNotFoundException('Please install package intervention/imagecache before running this function.');
+            throw new Exception\ImageCacheNotFoundException(
+                'Please install package intervention/imagecache before
+                running this function.'
+            );
         }
 
         // Create image and run callback
@@ -185,7 +189,9 @@ class Image
     private function initFromPath($path)
     {
         if ( ! file_exists($path)) {
-            throw new Exception\ImageNotFoundException("Image file ({$path}) not found");
+            throw new Exception\ImageNotFoundException(
+                "Image file ({$path}) not found"
+            );
         }
 
         // set file info
@@ -383,7 +389,7 @@ class Image
         // throw an exception.
         if (is_null($width) && is_null($height)) {
 
-            throw new Exception\ImageDimensionException('width or height needs to be defined');
+            throw new Exception\DimensionOutOfBoundsException('width or height needs to be defined');
 
         } elseif (is_null($width)) { // If only the width hasn't been set, keep the current width.
 
@@ -599,7 +605,9 @@ class Image
         }
 
         if (is_null($width) || is_null($height)) {
-            throw new Exception\ImageDimensionException('width and height of cutout needs to be defined');
+            throw new Exception\DimensionOutOfBoundsException(
+                'width and height of cutout needs to be defined'
+            );
         }
 
         return $this->modify(0, 0, $pos_x , $pos_y, $width, $height, $width, $height);
@@ -630,7 +638,9 @@ class Image
             $height = is_null($height) ? $width : $height;
         } else {
             // width or height not defined (resume with original values)
-            throw new Exception\ImageDimensionException('width or height needs to be defined');
+            throw new Exception\DimensionOutOfBoundsException(
+                'width or height needs to be defined'
+            );
         }
 
         // ausschnitt berechnen
@@ -796,12 +806,15 @@ class Image
      */
     public function opacity($transparency)
     {
-        if ($transparency >= 0 && $transparency <= 100) {
+        if (is_numeric($transparency) && $transparency >= 0 && $transparency <= 100) {
             $transparency = intval($transparency) / 100;
         } else {
-            throw new Exception\ImageOpacityException('Opacity must be between 0 and 100');
+            throw new Exception\OpacityOutOfBoundsException('Opacity must be between 0 and 100');
         }
 
+        // --------------------------------------------------------------------
+        // http://stackoverflow.com/questions/2396415/what-does-new-self-mean-in-php
+        // --------------------------------------------------------------------
         // create alpha mask
         $alpha = new self(null, $this->width, $this->height);
         $alpha->fill(sprintf('rgba(0, 0, 0, %.1f)', $transparency));
@@ -1044,18 +1057,18 @@ class Image
      * Changes the brightness of the current image
      *
      * @param  int $level [description]
+     *
      * @return Image
      */
     public function brightness($level)
     {
-        // normalize level
-        if ($level >= -100 && $level <= 100) {
-            $level = $level * 2.55;
-        } else {
-            throw new Exception\ImageBrightnessException('Brightness level must be between -100 and +100');
+        if ($level < -100 || $level > 100) {
+            throw new Exception\BrightnessOutOfBoundsException(
+                'Brightness level must be between -100 and +100'
+            );
         }
-
-        imagefilter($this->resource, IMG_FILTER_BRIGHTNESS, $level);
+        
+        imagefilter($this->resource, IMG_FILTER_BRIGHTNESS, ($level * 2.55));
 
         return $this;
     }
@@ -1064,18 +1077,18 @@ class Image
      * Changes the contrast of the current image
      *
      * @param  int $level
+     *
      * @return Image
      */
     public function contrast($level)
     {
-        // normalize level
-        if ($level >= -100 && $level <= 100) {
-            $level = $level * (-1);
-        } else {
-            throw new Exception\ImageConstractException('Contrast level must be between -100 and +100');
+        if ($level < -100 || $level > 100) {
+            throw new Exception\ContrastOutOfBoundsException(
+                'Contrast level must be between -100 and +100'
+            );
         }
 
-        imagefilter($this->resource, IMG_FILTER_CONTRAST, $level);
+        imagefilter($this->resource, IMG_FILTER_CONTRAST, ($level * -1));
 
         return $this;
     }
@@ -1387,12 +1400,19 @@ class Image
 
     /**
      * Read Exif data from the current image
-     *
+     * 
+     * Note: Windows PHP Users - in order to use this method you will need to
+     * enable the mbstring and exif extensions within the php.ini file.
+     * 
      * @param  string $key
      * @return mixed
      */
     public function exif($key = null)
     {
+        if (!function_exists('exif_read_data')) {
+            throw new Exception\ExifFunctionsNotAvailableException;
+        }
+
         $data = exif_read_data($this->dirname .'/'. $this->basename, 'EXIF', false);
 
         if ( ! is_null($key)) {
@@ -1450,6 +1470,10 @@ class Image
      */
     private function isBinary($input)
     {
+        if (is_resource($input)) {
+            return false;
+        }
+
         return ( ! ctype_print($input));
     }
 
@@ -1461,7 +1485,29 @@ class Image
      */
     private function isImageResource($input)
     {
-        return (is_resource($input) && get_resource_type($input) == 'gd');
+        // --------------------------------------------------------------------
+        // There was a logical error in the program that wasn't considered.
+        // Namely, how should the program handle a valid resource handle
+        // that wasn't a valid image resource handle.
+        // 
+        // Previously this method simply returned false if $input wasn't
+        // a valid image resource handle.  But in the constructor, the next
+        // conditional passed the file handle to the Image::isBinary method.
+        // The Image::isBinary method only checked if the input didn't contain
+        // any printable characters which for a handle is true. So the program
+        // incorrectly assumed the file handle as a binary string causing errors.
+        // By throwing an exception for resource handles that are not of type
+        // 'gd', the program stop the futher processing of data, and the
+        // developer is given a descriptive exception.
+        // --------------------------------------------------------------------
+
+        if (is_resource($input)) {
+            if (get_resource_type($input) != 'gd') {
+                throw new Exception\InvalidImageResourceException;
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -1506,7 +1552,14 @@ class Image
      */
     private function setImageInfoFromPath($path)
     {
-        $info = getimagesize($path);
+        $info = @getimagesize($path);
+
+        if ($info === false) {
+            throw new Exception\InvalidImageTypeException(
+                "Wrong image type ({$this->type}) only use JPG, PNG or GIF images."
+            );
+        }
+
         $this->width = $info[0];
         $this->height = $info[1];
         $this->type = $info[2];
@@ -1530,7 +1583,9 @@ class Image
             break;
 
             default:
-            throw new Exception\InvalidImageTypeException("Wrong image type ({$this->type}) only use JPG, PNG or GIF images.");
+            throw new Exception\InvalidImageTypeException(
+                "Wrong image type ({$this->type}) only use JPG, PNG or GIF images."
+            );
             break;
         }
     }
@@ -1556,7 +1611,17 @@ class Image
      */
     private function setImageInfoFromString($string)
     {
-        $this->resource = imagecreatefromstring($string);
+        // Without the '@' passing in an invalid binary-safe string will
+        // cause PHP to raise a warning. (Which is fine in production since
+        // you should have display errors off. right?)
+        // So supress the warning, and then check if there was an error.
+        $resource = @imagecreatefromstring($string);
+
+        if ($resource === false) {
+             throw new Exception\InvalidImageDataStringException;
+        }
+
+        $this->resource = $resource;
         $this->width = imagesx($this->resource);
         $this->height = imagesy($this->resource);
         $this->original['width'] = $this->width;

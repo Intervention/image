@@ -1496,7 +1496,6 @@ class Image
         // There was a logical error in the program that wasn't considered.
         // Namely, how should the program handle a valid resource handle
         // that wasn't a valid image resource handle.
-        // 
         // Previously this method simply returned false if $input wasn't
         // a valid image resource handle.  But in the constructor, the next
         // conditional passed the file handle to the Image::isBinary method.

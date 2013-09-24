@@ -364,6 +364,7 @@ class Image
                 }
 
             } elseif ($ratio && (! is_null($width) or ! is_null($height))) {
+
                 // If only one of width or height has been provided.
                 $width = is_null($width) ? intval($height / $this->height * $this->width) : $width;
                 $height = is_null($height) ? intval($width / $this->width * $this->height) : $height;

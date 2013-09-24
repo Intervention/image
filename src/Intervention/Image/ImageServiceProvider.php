@@ -31,9 +31,11 @@ class ImageServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app['image'] = $this->app->share(function($app) {
-            return new Image;
-        });
+        $this->app['image'] = $this->app->share(
+            function ($app) {
+                return new Image;
+            }
+        );
     }
 
     /**

@@ -107,7 +107,7 @@ class Image
                 $this->initFromString($source);
 
             } else {
-                
+
                 // image properties come from image file
                 $this->initFromPath($source);
             }
@@ -158,9 +158,9 @@ class Image
      * Create new cached image and run callback
      * (requires additional package intervention/imagecache)
      *
-     * @param  Closure $callback
-     * @param  integer $lifetime
-     * @param  boolean $returnObj
+     * @param Closure $callback
+     * @param integer $lifetime
+     * @param boolean $returnObj
      *
      * @return Image
      */
@@ -183,7 +183,7 @@ class Image
     /**
      * Set properties for image resource from image file
      *
-     * @param string $path
+     * @param  string $path
      * @return void
      */
     private function initFromPath($path)
@@ -204,7 +204,7 @@ class Image
     /**
      * Set properties for image resource from string
      *
-     * @param string $string
+     * @param  string $string
      * @return void
      */
     private function initFromString($string)
@@ -229,9 +229,9 @@ class Image
     /**
      * Set properties for empty image resource
      *
-     * @param int   $width
-     * @param int   $height
-     * @param mixed $bgcolor
+     * @param  int   $width
+     * @param  int   $height
+     * @param  mixed $bgcolor
      * @return void
      */
     private function initEmpty($width, $height, $bgcolor = null)
@@ -336,6 +336,7 @@ class Image
         // catch legacy call
         if (is_array($width)) {
             $dimensions = $width;
+
             return $this->legacyResize($dimensions);
         }
 
@@ -420,13 +421,14 @@ class Image
     /**
      * Legacy method to support old resizing calls
      *
-     * @param  array  $dimensions
+     * @param  array $dimensions
      * @return Image
      */
     public function legacyResize($dimensions = array())
     {
         $width = array_key_exists('width', $dimensions) ? intval($dimensions['width']) : null;
         $height = array_key_exists('height', $dimensions) ? intval($dimensions['height']) : null;
+
         return $this->resize($width, $height, true);
     }
 
@@ -455,11 +457,11 @@ class Image
     /**
      * Resize image canvas
      *
-     * @param  int  $width
-     * @param  int  $height
+     * @param  int     $width
+     * @param  int     $height
      * @param  string  $anchor
      * @param  boolean $relative
-     * @param  mixed  $bgcolor
+     * @param  mixed   $bgcolor
      * @return Image
      */
     public function resizeCanvas($width, $height, $anchor = null, $relative = false, $bgcolor = null)
@@ -596,10 +598,10 @@ class Image
     /**
      * Crop the current image
      *
-     * @param  integer $width
-     * @param  integer $height
-     * @param  integer $pos_x
-     * @param  integer $pos_y
+     * @param integer $width
+     * @param integer $height
+     * @param integer $pos_x
+     * @param integer $pos_y
      *
      * @return Image
      */
@@ -628,8 +630,8 @@ class Image
     /**
      * Cut out a detail of the image in given ratio and resize to output size
      *
-     * @param  integer  $width
-     * @param  integer  $height
+     * @param integer $width
+     * @param integer $height
      *
      * @return Image
      */
@@ -638,6 +640,7 @@ class Image
         // catch legacy call
         if (is_array($width)) {
             $dimensions = $width;
+
             return $this->legacyGrab($dimensions);
         }
 
@@ -677,7 +680,7 @@ class Image
     /**
      * Legacy Method to support older grab calls
      *
-     * @param  array  $dimensions
+     * @param  array $dimensions
      * @return Image
      */
     public function legacyGrab($dimensions = array())
@@ -891,9 +894,9 @@ class Image
     /**
      * Rotate image with given angle
      *
-     * @param  float    $angle
-     * @param  string   $color
-     * @param  int      $ignore_transparent
+     * @param  float  $angle
+     * @param  string $color
+     * @param  int    $ignore_transparent
      * @return Image
      */
     public function rotate($angle = 0, $bgcolor = '#000000', $ignore_transparent = 0)
@@ -1068,7 +1071,7 @@ class Image
     /**
      * Changes the brightness of the current image
      *
-     * @param  int $level [description]
+     * @param int $level [description]
      *
      * @return Image
      */
@@ -1079,7 +1082,7 @@ class Image
                 'Brightness level must be between -100 and +100'
             );
         }
-        
+
         imagefilter($this->resource, IMG_FILTER_BRIGHTNESS, ($level * 2.55));
 
         return $this;
@@ -1088,7 +1091,7 @@ class Image
     /**
      * Changes the contrast of the current image
      *
-     * @param  int $level
+     * @param int $level
      *
      * @return Image
      */
@@ -1173,8 +1176,8 @@ class Image
     /**
      * Set a maximum number of colors for the current image
      *
-     * @param integer $count
-     * @param mixed   $matte
+     * @param  integer $count
+     * @param  mixed   $matte
      * @return Image
      */
     public function limitColors($count = null, $matte = null)
@@ -1227,8 +1230,8 @@ class Image
     /**
      * Encode image in different formats
      *
-     * @param string  $format
-     * @param integer $quality
+     * @param  string  $format
+     * @param  integer $quality
      * @return string
      */
     public function encode($format = null, $quality = 90)
@@ -1270,14 +1273,15 @@ class Image
         $data = ob_get_contents();
 
         ob_end_clean();
+
         return $data;
     }
 
     /**
      * Picks and formats color at position
      *
-     * @param  int $x
-     * @param  int $y
+     * @param  int    $x
+     * @param  int    $y
      * @param  string $format
      * @return mixed
      */
@@ -1370,7 +1374,7 @@ class Image
 
             // parse color string in format rgba(255, 0, 0, 0.5)
             $rgbaPattern = '/^rgba ?\(([0-9]{1,3}), ?([0-9]{1,3}), ?([0-9]{1,3}), ?([0-9.]{1,4})\)$/i';
-            
+
             if (preg_match($hexPattern, $value, $matches)) {
                 $r = strlen($matches[1]) == '1' ? '0x'.$matches[1].$matches[1] : '0x'.$matches[1];
                 $g = strlen($matches[2]) == '1' ? '0x'.$matches[2].$matches[2] : '0x'.$matches[2];
@@ -1388,11 +1392,9 @@ class Image
         }
 
         if (isset($allocatedColor)) {
-
             return $allocatedColor;
 
         } elseif (isset($r) && isset($g) && isset($b)) {
-
             return imagecolorallocatealpha($this->resource, $r, $g, $b, $a);
 
         } else {
@@ -1411,23 +1413,27 @@ class Image
     public function save($path = null, $quality = 90)
     {
         $path = is_null($path) ? ($this->dirname .'/'. $this->basename) : $path;
-        file_put_contents($path, $this->encode(pathinfo($path, PATHINFO_EXTENSION), $quality));
+        $saved = @file_put_contents($path, $this->encode(pathinfo($path, PATHINFO_EXTENSION), $quality));
+
+        if ($saved === false) {
+            throw new Exception\ImageNotWritableException;
+        }
 
         return $this;
     }
 
     /**
      * Read Exif data from the current image
-     * 
+     *
      * Note: Windows PHP Users - in order to use this method you will need to
      * enable the mbstring and exif extensions within the php.ini file.
-     * 
+     *
      * @param  string $key
      * @return mixed
      */
     public function exif($key = null)
     {
-        if (!function_exists('exif_read_data')) {
+        if (! function_exists('exif_read_data')) {
             throw new Exception\ExifFunctionsNotAvailableException;
         }
 
@@ -1463,7 +1469,7 @@ class Image
     /**
      * Convert gd alpha (0-127) value to rgba alpha value (0-1)
      *
-     * @param  int $input
+     * @param  int   $input
      * @return float
      */
     private function alpha2rgba($input)
@@ -1483,7 +1489,7 @@ class Image
     /**
      * Checks if string contains printable characters
      *
-     * @param  mixed  $input
+     * @param  mixed   $input
      * @return boolean
      */
     private function isBinary($input)
@@ -1498,7 +1504,7 @@ class Image
     /**
      * Checks if the input object is image resource
      *
-     * @param  mixed  $input
+     * @param  mixed   $input
      * @return boolean
      */
     private function isImageResource($input)
@@ -1522,8 +1528,10 @@ class Image
             if (get_resource_type($input) != 'gd') {
                 throw new Exception\InvalidImageResourceException;
             }
+
             return true;
         }
+
         return false;
     }
 

@@ -6,12 +6,12 @@ class ImageTest extends PHPUnit_Framework_Testcase
 {
     protected function setUp()
     {
-        
+
     }
 
     protected function tearDown()
     {
-        
+
     }
 
     private function getTestImage()
@@ -1235,7 +1235,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img = $img->pixel('fdf5e4', $coords[0][0], $coords[0][1]);
         $img = $img->pixel(array(255, 255, 255), $coords[1][0], $coords[1][1]);
         $this->assertEquals('#fdf5e4', $img->pickColor($coords[0][0], $coords[0][1], 'hex'));
-        $this->assertEquals('#ffffff', $img->pickColor($coords[1][0], $coords[1][1], 'hex'));   
+        $this->assertEquals('#ffffff', $img->pickColor($coords[1][0], $coords[1][1], 'hex'));
     }
 
     public function testTextImage()
@@ -1262,8 +1262,8 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img = $this->getTestImage();
         $img = $img->rectangle('cccccc', 10, 10, 100, 100, true);
         $this->assertEquals('#ffffff', $img->pickColor(0, 0, 'hex'));
-        $this->assertEquals('#cccccc', $img->pickColor(10, 10, 'hex'));   
-        $this->assertEquals('#cccccc', $img->pickColor(50, 50, 'hex'));   
+        $this->assertEquals('#cccccc', $img->pickColor(10, 10, 'hex'));
+        $this->assertEquals('#cccccc', $img->pickColor(50, 50, 'hex'));
     }
 
     public function testLineImage()
@@ -1374,7 +1374,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($color2['r'], 140);
         $this->assertEquals($color2['g'], 140);
         $this->assertEquals($color2['b'], 140);
-        $this->assertEquals($color2['a'], 1);        
+        $this->assertEquals($color2['a'], 1);
     }
 
     public function testSaveImage()

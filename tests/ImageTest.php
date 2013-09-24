@@ -56,6 +56,22 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->mime, 'image/jpeg');
     }
 
+    /**
+     * @expectedException Intervention\Image\Exception\ImageNotFoundException
+     */
+    public function testConstructorWithInvalidPath()
+    {
+        $img = new Image('public/foo/bar/invalid_image_path.jpg');
+    }
+
+    /**
+     * @expectedException Intervention\Image\Exception\InvalidImageTypeException
+     */
+    public function testContructorWithPathInvalidType()
+    {
+        $img = new Image('public/text.txt');
+    }
+
     public function testConstructoWithString()
     {
         $data = file_get_contents('public/test.jpg');
@@ -68,6 +84,17 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 600);
     }
 
+    /**
+     * @expectedException Intervention\Image\Exception\InvalidImageDataStringException
+     */
+    public function testConstructionWithInvalidString()
+    {
+        // the semi-random string is base64_decoded to allow it to
+        // pass the isBinary conditional.
+        $data = base64_decode('6KKjdeyUAhRPNzxeYybZ');
+        $img = new Image($data);
+    }
+
     public function testConstructorWithResource()
     {
         $resource = imagecreatefromjpeg('public/test.jpg');
@@ -78,6 +105,15 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 800);
         $this->assertEquals($img->height, 600);
+    }
+
+    /**
+     * @expectedException Intervention\Image\Exception\InvalidImageResourceException
+     */
+    public function testConstructorWithInvalidResource()
+    {
+        $resource = fopen('public/test.jpg', 'r+');
+        $img = new Image($resource);
     }
 
     public function testConstructorCanvas()
@@ -283,6 +319,15 @@ class ImageTest extends PHPUnit_Framework_Testcase
         // Check if width and height are still the same.
         $this->assertEquals($img->width, $original_width);
         $this->assertEquals($img->height, $original_height);
+    }
+
+    /**
+     * @expectedException Intervention\Image\Exception\DimensionOutOfBoundsException
+     */
+    public function testResizeImageWithoutDimensions()
+    {
+        $img = $this->getTestImage();
+        $img->resize();
     }
 
     public function testWidenImage()
@@ -497,6 +542,24 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals('#ffa600', $img->pickColor(99, 99, 'hex'));
     }
 
+    /**
+     * @expectedException Intervention\Image\Exception\DimensionOutOfBoundsException
+     */
+    public function testCropImageWithoutDimensions()
+    {
+        $img = $this->getTestImage();
+        $img->crop(null, null);
+    }
+
+    /**
+     * @expectedException Intervention\Image\Exception\DimensionOutOfBoundsException
+     */
+    public function testCropImageWithNonNumericDimensions()
+    {
+        $img = $this->getTestImage();
+        $img->crop('a', 'z');
+    }
+
     public function testLegacyResize()
     {
         // auto height
@@ -562,6 +625,15 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 200);
         $this->assertEquals($img->pickColor(30, 30, 'hex'), '#fff9ed');
         $this->assertEquals($img->pickColor(95, 20, 'hex'), '#ffe8bf');
+    }
+
+    /**
+     * @expectedException Intervention\Image\Exception\DimensionOutOfBoundsException
+     */
+    public function testGrabImageWithoutDimensions()
+    {
+        $img = $this->getTestImage();
+        $img->grab();
     }
 
     public function testFlipImage()
@@ -887,6 +959,33 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($checkColor['g'], 166);
         $this->assertEquals($checkColor['b'], 0);
         $this->assertEquals($checkColor['a'], 0.5);
+    }
+
+    /**
+     * @expectedException Intervention\Image\Exception\OpacityOutOfBoundsException
+     */
+    public function testOpacityTooHigh()
+    {
+        $img = $this->getTestImage();
+        $img->opacity(101);
+    }
+
+    /**
+     * @expectedException Intervention\Image\Exception\OpacityOutOfBoundsException
+     */
+    public function testOpacityTooLow()
+    {
+        $img = $this->getTestImage();
+        $img->opacity(-1);
+    }
+
+    /**
+     * @expectedException Intervention\Image\Exception\OpacityOutOfBoundsException
+     */
+    public function testOpacityAlphaChar()
+    {
+        $img = $this->getTestImage();
+        $img->opacity('a');
     }
 
     public function testMaskImage()
@@ -1396,6 +1495,24 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInternalType('int', $color);
     }
 
+    /**
+     * @expectedException Intervention\Image\Exception\ImageColorException
+     */
+    public function testParseColorInvalidRGBColor()
+    {
+        $img = $this->getTestImage();
+        $img->parseColor('rgb()');
+    }
+
+    /**
+     * @expectedException Intervention\Image\Exception\ImageColorException
+     */
+    public function testParseColorInvalidHexColor()
+    {
+        $img = $this->getTestImage();
+        $img->parseColor('ab');
+    }
+
     public function testBrightnessImage()
     {
         $img = $this->getTestImage();
@@ -1404,12 +1521,48 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInstanceOf('Intervention\Image\Image', $img);
     }
 
+    /**
+     * @expectedException Intervention\Image\Exception\BrightnessOutOfBoundsException
+     */
+    public function testBrightnessOutOfBoundsHigh()
+    {
+        $img = $this->getTestImage();
+        $img->brightness(101);
+    }
+
+    /**
+     * @expectedException Intervention\Image\Exception\BrightnessOutOfBoundsException
+     */
+    public function testBrightnessOutOfBoundsLow()
+    {
+        $img = $this->getTestImage();
+        $img->brightness(-101);
+    }
+
     public function testContrastImage()
     {
         $img = $this->getTestImage();
         $img->contrast(100);
         $img->contrast(-100);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
+    }
+
+    /**
+     * @expectedException Intervention\Image\Exception\ContrastOutOfBoundsException
+     */
+    public function testContrastOutOfBoundsHigh()
+    {
+        $img = $this->getTestImage();
+        $img->contrast(101);
+    }
+
+    /**
+     * @expectedException Intervention\Image\Exception\ContrastOutOfBoundsException
+     */
+    public function testContrastOutOfBoundsLow()
+    {
+        $img = $this->getTestImage();
+        $img->contrast(-101);
     }
 
     public function testEncode()

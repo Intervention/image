@@ -1439,7 +1439,7 @@ class Image
 
         $data = exif_read_data($this->dirname .'/'. $this->basename, 'EXIF', false);
 
-        if (! is_null($key)) {
+        if (! is_null($key) && is_array($data)) {
             return array_key_exists($key, $data) ? $data[$key] : null;
         }
 

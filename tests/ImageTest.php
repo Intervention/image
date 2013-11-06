@@ -888,6 +888,18 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img->reset();
     }
 
+    public function testInsertAfterResize()
+    {
+        $watermark = 'public/circle.png';
+        $img = Image::make('public/test.jpg');
+        $img->resize(50, 50)->insert($watermark, 0, 0, 'center');
+        $this->assertEquals($img->width, 50);
+        $this->assertEquals($img->height, 50);
+        $this->assertEquals('#ffffff', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#322715', $img->pickColor(24, 24, 'hex'));
+        $this->assertEquals('#ffa600', $img->pickColor(49, 49, 'hex'));
+    }
+
     public function testInsertImageFromResource()
     {
         $resource = imagecreatefrompng('public/tile.png');

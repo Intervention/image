@@ -808,7 +808,11 @@ class Image
                 break;
         }
 
+        imagealphablending($this->resource, true); // enable alphablending just for imagecopy
+
         imagecopy($this->resource, $obj->resource, $pos_x, $pos_y, 0, 0, $obj->width, $obj->height);
+
+        imagealphablending($this->resource, false);
 
         return $this;
     }

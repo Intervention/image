@@ -275,9 +275,18 @@ class Image
         // create new image
         $image = imagecreatetruecolor($dst_w, $dst_h);
 
-        // preserve transparency
-        imagealphablending($image, false);
-        imagesavealpha($image, true);
+        // preserve transparency        
+        $transIndex = imagecolortransparent($this->resource);
+
+        if ($transIndex != -1) {
+            $rgba = imagecolorsforindex($image, $transIndex);
+            $transColor = imagecolorallocate($image, $rgba['red'], $rgba['green'], $rgba['blue']);
+            imagefill($image, 0, 0, $transColor);
+            imagecolortransparent($image, $transColor);
+        } else {
+            imagealphablending($image, false);
+            imagesavealpha($image, true);
+        }
 
         // copy content from resource
         imagecopyresampled(

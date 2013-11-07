@@ -1617,4 +1617,90 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $data = Image::make('public/exif.jpg')->exif('xxx');
         $this->assertEquals($data, null);
     }
+
+    public function testTrim()
+    {  
+        $img = Image::make('public/trim.png');
+        $img->trim();
+        $this->assertEquals($img->width, 28);
+        $this->assertEquals($img->height, 28);
+        $this->assertEquals('#ffa601', $img->pickColor(6, 6, 'hex'));
+        $this->assertEquals('#ffa601', $img->pickColor(21, 21, 'hex'));
+
+        $img = Image::make('public/trim.png');
+        $img->trim('top-left');
+        $this->assertEquals($img->width, 28);
+        $this->assertEquals($img->height, 28);
+        $this->assertEquals('#ffa601', $img->pickColor(6, 6, 'hex'));
+        $this->assertEquals('#ffa601', $img->pickColor(21, 21, 'hex'));
+
+        $img = Image::make('public/trim.png');
+        $img->trim('bottom-right');
+        $this->assertEquals($img->width, 28);
+        $this->assertEquals($img->height, 28);
+        $this->assertEquals('#ffa601', $img->pickColor(6, 6, 'hex'));
+        $this->assertEquals('#ffa601', $img->pickColor(21, 21, 'hex'));
+
+        $img = Image::make('public/mask1.png');
+        $img->trim('bottom-right');
+        $this->assertEquals($img->width, 17);
+        $this->assertEquals($img->height, 17);
+        $this->assertEquals('#ffffff', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#000000', $img->pickColor(16, 16, 'hex'));
+
+        $img = Image::make('public/mask2.png');
+        $img->trim('bottom-right');
+        $this->assertEquals($img->width, 20);
+        $this->assertEquals($img->height, 20);
+        $this->assertEquals('rgba(255, 255, 255, 0.72)', $img->pickColor(6, 6, 'rgba'));
+        $this->assertEquals('rgba(0, 0, 0, 0.00)', $img->pickColor(19, 19, 'rgba'));
+
+        $img = Image::make('public/mask2.png');
+        $img->trim('transparent');
+        $this->assertEquals($img->width, 20);
+        $this->assertEquals($img->height, 20);
+        $this->assertEquals('rgba(255, 255, 255, 0.72)', $img->pickColor(6, 6, 'rgba'));
+        $this->assertEquals('rgba(0, 0, 0, 0.00)', $img->pickColor(19, 19, 'rgba'));
+
+        $img = Image::make('public/trim.png');
+        $img->trim('top-left', array('top', 'bottom'));
+        $this->assertEquals($img->width, 50);
+        $this->assertEquals($img->height, 28);
+        $this->assertEquals('#00aef0', $img->pickColor(6, 6, 'hex'));
+        $this->assertEquals('#f6a609', $img->pickColor(25, 0, 'hex'));
+
+        $img = Image::make('public/trim.png');
+        $img->trim('top-left', array('left', 'right'));
+        $this->assertEquals($img->width, 28);
+        $this->assertEquals($img->height, 50);
+        $this->assertEquals('#f6a609', $img->pickColor(0, 24, 'hex'));
+        $this->assertEquals('#00aef0', $img->pickColor(27, 49, 'hex'));
+
+        $img = Image::make('public/trim.png');
+        $img->trim('top-left', array('bottom'));
+        $this->assertEquals($img->width, 50);
+        $this->assertEquals($img->height, 39);
+        $this->assertEquals('#00aef0', $img->pickColor(6, 6, 'hex'));
+        $this->assertEquals('#f6a609', $img->pickColor(11, 24, 'hex'));
+
+        $img = Image::make('public/trim.png');
+        $img->trim('top-left', array('right'));
+        $this->assertEquals($img->width, 39);
+        $this->assertEquals($img->height, 50);
+        $this->assertEquals('#00aef0', $img->pickColor(6, 6, 'hex'));
+        $this->assertEquals('#f6a609', $img->pickColor(11, 25, 'hex'));
+
+        $img = Image::make('public/mask2.png');
+        $img->trim('transparent', array('TOP', 'BOTTOM'));
+        $this->assertEquals($img->width, 32);
+        $this->assertEquals($img->height, 20);
+        $this->assertEquals('rgba(255, 255, 255, 0.72)', $img->pickColor(12, 6, 'rgba'));
+        $this->assertEquals('rgba(0, 0, 0, 0.00)', $img->pickColor(31, 19, 'rgba'));
+
+        $img = Image::make('public/exif.jpg');
+        $img->trim(); // trim nothing because image is just one color
+        $this->assertEquals($img->width, 16);
+        $this->assertEquals($img->height, 16);
+        
+    }
 }

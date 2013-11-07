@@ -280,7 +280,7 @@ class Image
 
         if ($transIndex != -1) {
             $rgba = imagecolorsforindex($image, $transIndex);
-            $transColor = imagecolorallocate($image, $rgba['red'], $rgba['green'], $rgba['blue']);
+            $transColor = imagecolorallocatealpha($image, $rgba['red'], $rgba['green'], $rgba['blue'], 127);
             imagefill($image, 0, 0, $transColor);
             imagecolortransparent($image, $transColor);
         } else {

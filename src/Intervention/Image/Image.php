@@ -711,7 +711,13 @@ class Image
     {
         // default values
         $checkTransparency = false;
-        $away = is_array($away) ? $away : array('top', 'right', 'bottom', 'left');
+
+        // define borders to trim away
+        if (is_null($away)) {
+            $away = array('top', 'right', 'bottom', 'left');
+        } elseif (is_string($away)) {
+            $away = array($away);
+        }
 
         // define base color position
         switch (strtolower($base)) {

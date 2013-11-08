@@ -1701,6 +1701,12 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img->trim(); // trim nothing because image is just one color
         $this->assertEquals($img->width, 16);
         $this->assertEquals($img->height, 16);
-        
+
+        $img = Image::make('public/trim.png');
+        $img->trim('top-left', 'right');
+        $this->assertEquals($img->width, 39);
+        $this->assertEquals($img->height, 50);
+        $this->assertEquals('#00aef0', $img->pickColor(6, 6, 'hex'));
+        $this->assertEquals('#f6a609', $img->pickColor(11, 25, 'hex'));
     }
 }

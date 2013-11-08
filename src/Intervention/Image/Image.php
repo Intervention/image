@@ -718,6 +718,8 @@ class Image
             case 'transparent':
             case 'trans':
                 $checkTransparency = true;
+                $base_x = 0;
+                $base_y = 0;
                 break;
 
             case 'bottom-right':

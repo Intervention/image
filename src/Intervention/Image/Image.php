@@ -791,7 +791,7 @@ class Image
         }
 
         // modify image if all values are set
-        if (is_int($width) && is_int($height) && is_int($src_x) && is_int($src_y)) {
+        if (isset($width) && isset($height) && isset($src_x) && isset($src_y)) {
             $this->modify(0, 0, $src_x, $src_y, $width, $height, $width, $height);
         }
 

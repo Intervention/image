@@ -1276,6 +1276,37 @@ class Image
     }
 
     /**
+     * Apply colorize filter to current image
+     *
+     * @param  integer $red
+     * @param  integer $green
+     * @param  integer $blue
+     * @return Image
+     */
+    public function colorize($red, $green, $blue, $alpha = 0)
+    {
+        if (($red < -100 || $red > 100) || 
+            ($green < -100 || $green > 100) || 
+            ($blue < -100 || $blue > 100) || 
+            ($alpha < -100 || $alpha > 100)) {
+                throw new Exception\ColorizeOutOfBoundsException(
+                    'Colorize levels must be between -100 and +100'
+            );
+        }
+
+        // normalize colorize levels
+        $red = round($red * 2.55);
+        $green = round($green * 2.55);
+        $blue = round($blue * 2.55);
+        $alpha = round($alpha * 2.55);
+
+        // apply filter
+        imagefilter($this->resource, IMG_FILTER_COLORIZE, $red, $green, $blue, $alpha);
+
+        return $this;
+    }
+
+    /**
      * Apply blur filter on the current image
      *
      * @param  integer $amount

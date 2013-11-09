@@ -1577,6 +1577,23 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img->contrast(-101);
     }
 
+    public function testColorizeImage()
+    {
+        $img = $this->getTestImage();
+        $img->colorize(-100, 0, 100);
+        $img->colorize(100, -100, -100, 50);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+    }
+
+    /**
+     * @expectedException Intervention\Image\Exception\ColorizeOutOfBoundsException
+     */
+    public function testColorizeOutOfBounds()
+    {
+        $img = $this->getTestImage();
+        $img->colorize(-101, 0, 0);
+    }
+
     public function testEncode()
     {
         // default encoding

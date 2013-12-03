@@ -1738,18 +1738,15 @@ class Image
 
         // set resource
         switch ($this->type) {
-            case IMG_PNG:
-            case 3:
+            case IMAGETYPE_PNG:
                 $this->resource = imagecreatefrompng($path);
                 break;
 
-            case IMG_JPG:
-            case 2:
+            case IMAGETYPE_JPEG:
                 $this->resource = imagecreatefromjpeg($path);
                 break;
 
-            case IMG_GIF:
-            case 1:
+            case IMAGETYPE_GIF:
                 $this->resource = imagecreatefromgif($path);
                 break;
 

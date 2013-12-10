@@ -1353,6 +1353,19 @@ class Image
     }
 
     /**
+     * Determine whether an Image should be interlaced
+     *
+     * @param  boolean $interlace
+     * @return Image
+     */
+    public function interlace($interlace = true)
+    {
+        imageinterlace($this->resource, $interlace);
+
+        return $this;
+    }
+
+    /**
      * Reset to original image resource
      *
      * @return void

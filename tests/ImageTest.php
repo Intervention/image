@@ -1389,6 +1389,17 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($color2['a'], 1);
     }
 
+    public function testInterlaceImage()
+    {
+        $img = Image::make('public/trim.png');
+        $img->interlace();
+        $contents = $img->encode();
+        $this->assertEquals(( ord($contents[28]) != '0' ), true);
+        $img->interlace(false);
+        $contents = $img->encode();
+        $this->assertEquals(( ord($contents[28]) != '0' ), false);
+    }
+
     public function testSaveImage()
     {
         $save_as = 'public/test2.jpg';

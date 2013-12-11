@@ -1400,6 +1400,17 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals(( ord($contents[28]) != '0' ), false);
     }
 
+    public function testGammaImage()
+    {
+        $img = Image::make('public/tile.png');
+        $img->gamma(1.0, 1.6);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $color1 = $img->pickColor(0, 0, 'hex');
+        $color2 = $img->pickColor(10, 10, 'hex');
+        $this->assertEquals('#cdeb00', $color1);
+        $this->assertEquals('#707d8a', $color2);
+    }
+
     public function testSaveImage()
     {
         $save_as = 'public/test2.jpg';

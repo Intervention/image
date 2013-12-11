@@ -1366,6 +1366,20 @@ class Image
     }
 
     /**
+     * Applies gamma correction
+     *
+     * @param  float $input
+     * @param  float $output
+     * @return Image
+     */
+    public function gamma($input, $output)
+    {
+        imagegammacorrect($this->resource, $input, $output);
+
+        return $this;
+    }
+
+    /**
      * Reset to original image resource
      *
      * @return void

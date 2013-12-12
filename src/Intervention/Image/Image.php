@@ -84,6 +84,14 @@ class Image
     public $cached = false;
 
     /**
+     * Result of image after encoding
+     *
+     * @var string
+     */
+    public $encoded;
+
+
+    /**
      * Create a new instance of Image class
      *
      * @param string  $source
@@ -1441,11 +1449,11 @@ class Image
                 break;
         }
 
-        $data = ob_get_contents();
+        $this->encoded = ob_get_contents();
 
         ob_end_clean();
 
-        return $data;
+        return $this->encoded;
     }
 
     /**

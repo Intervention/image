@@ -1748,4 +1748,11 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals('#00aef0', $img->pickColor(6, 6, 'hex'));
         $this->assertEquals('#f6a609', $img->pickColor(11, 25, 'hex'));
     }
+
+    public function testEncoded()
+    {
+        $img = Image::make('public/test.jpg');
+        $img->encode();
+        $this->assertEquals($img->encoded, $img->encode());
+    }
 }

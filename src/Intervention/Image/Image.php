@@ -1429,23 +1429,29 @@ class Image
                 break;
 
             case 'gif':
-            case 1:
+            case IMAGETYPE_GIF:
                 imagegif($this->resource);
+                $this->type = IMAGETYPE_GIF;
+                $this->mime = image_type_to_mime_type(IMAGETYPE_GIF);
                 break;
 
             case 'png':
-            case 3:
+            case IMAGETYPE_PNG:
                 $quality = round($quality / 11.11111111111); // transform quality to png setting
                 imagealphablending($this->resource, false);
                 imagesavealpha($this->resource, true);
                 imagepng($this->resource, null, $quality);
+                $this->type = IMAGETYPE_PNG;
+                $this->mime = image_type_to_mime_type(IMAGETYPE_PNG);
                 break;
 
             default:
             case 'jpg':
             case 'jpeg':
-            case 2:
+            case IMAGETYPE_JPEG:
                 imagejpeg($this->resource, null, $quality);
+                $this->type = IMAGETYPE_JPEG;
+                $this->mime = image_type_to_mime_type(IMAGETYPE_JPEG);
                 break;
         }
 
@@ -1834,40 +1840,26 @@ class Image
     /**
      * Send direct output with proper header
      *
+     * @param  string  $type
+     * @param  integer $quality
      * @return string
      */
-    public function output()
+    public function response($type = null, $quality = 90)
     {
-        // Determine image type
-        $type = '';
-
-        // set type
-        switch ($this->type) {
-            case IMAGETYPE_PNG:
-                $type = 'png';
-                break;
-
-            case IMAGETYPE_JPEG:
-                $type = 'jpg';
-                break;
-
-            case IMAGETYPE_GIF:
-                $type = 'gif';
-                break;
-        }
+        // encode image in desired type (default: current type)
+        $this->encode($type, $quality);
 
         // If this is a Laravel application, prepare response object
-        if (function_exists('app') && is_a($app = app(), 'Illuminate\Foundation\Application'))
-        {
-            $response = \Response::make($this->encode());
-            $response->header('Content-type', 'image/' . $type);
+        if (function_exists('app') && is_a($app = app(), 'Illuminate\Foundation\Application')) {
+            $response = \Response::make($this->encoded);
+            $response->header('Content-Type', $this->mime);
             return $response;
         }
 
         // If this is not Laravel, set header directly
-        header('Content-type: image/' . $type);
+        header('Content-Type: ' . $this->mime);
 
-        return $this->encode();
+        return $this->encoded;
     }
 
     /**

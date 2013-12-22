@@ -283,7 +283,7 @@ class Image
         // create new image
         $image = imagecreatetruecolor($dst_w, $dst_h);
 
-        // preserve transparency        
+        // preserve transparency
         $transIndex = imagecolortransparent($this->resource);
 
         if ($transIndex != -1) {
@@ -757,8 +757,8 @@ class Image
         $x_values = array();
         $y_values = array();
 
-        for ($y=0; $y < $this->height; $y++) { 
-            for ($x=0; $x < $this->width; $x++) { 
+        for ($y=0; $y < $this->height; $y++) {
+            for ($x=0; $x < $this->width; $x++) {
 
                 $checkColor = $this->pickColor($x, $y, 'array');
 
@@ -774,7 +774,7 @@ class Image
             sort($x_values);
             $src_x = reset($x_values);
             $width = end($x_values) - $src_x + 1;
-        } 
+        }
 
         if (count($y_values)) {
             sort($y_values);
@@ -1291,8 +1291,8 @@ class Image
      */
     public function colorize($red, $green, $blue)
     {
-        if (($red < -100 || $red > 100) || 
-            ($green < -100 || $green > 100) || 
+        if (($red < -100 || $red > 100) ||
+            ($green < -100 || $green > 100) ||
             ($blue < -100 || $blue > 100)) {
                 throw new Exception\ColorizeOutOfBoundsException(
                     'Colorize levels must be between -100 and +100'
@@ -1829,6 +1829,45 @@ class Image
         $this->height = imagesy($this->resource);
         $this->original['width'] = $this->width;
         $this->original['height'] = $this->height;
+    }
+
+    /**
+     * Send direct output with proper header
+     *
+     * @return string
+     */
+    public function output()
+    {
+        // Determine image type
+        $type = '';
+
+        // set type
+        switch ($this->type) {
+            case IMAGETYPE_PNG:
+                $type = 'png';
+                break;
+
+            case IMAGETYPE_JPEG:
+                $type = 'jpg';
+                break;
+
+            case IMAGETYPE_GIF:
+                $type = 'gif';
+                break;
+        }
+
+        // If this is a Laravel application, prepare response object
+        if (function_exists('app') && is_a($app = app(), 'Illuminate\Foundation\Application'))
+        {
+            $response = \Response::make($this->encode());
+            $response->header('Content-type', 'image/' . $type);
+            return $response;
+        }
+
+        // If this is not Laravel, set header directly
+        header('Content-type: image/' . $type);
+
+        return $this->encode();
     }
 
     /**

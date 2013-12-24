@@ -1598,6 +1598,20 @@ class Image
     public function save($path = null, $quality = 90)
     {
         $path = is_null($path) ? ($this->dirname .'/'. $this->basename) : $path;
+
+        // Ensure the path we're writing to does not already exist as something 
+        // other than a directory
+        if ( file_exists(pathinfo($path, PATHINFO_DIRNAME)) && 
+            !is_dir(pathinfo($path, PATHINFO_DIRNAME)) ) 
+        {
+            throw new Exception\ImageNotWritableException;
+        }
+
+        // If the directory doesn't exit then make it.
+        if (!file_exists(pathinfo($path, PATHINFO_DIRNAME))) {
+            mkdir(pathinfo($path, PATHINFO_DIRNAME), 0777, true);
+        }
+
         $saved = @file_put_contents($path, $this->encode(pathinfo($path, PATHINFO_EXTENSION), $quality));
 
         if ($saved === false) {

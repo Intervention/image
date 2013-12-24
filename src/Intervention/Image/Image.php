@@ -1602,12 +1602,12 @@ class Image
         // Ensure the path we're writing to does not already exist as something 
         // other than a directory
         if ( file_exists(pathinfo($path, PATHINFO_DIRNAME)) && 
-            !is_dir(file_exists(pathinfo($path, PATHINFO_DIRNAME)) )) 
+            !is_dir(pathinfo($path, PATHINFO_DIRNAME)) ) 
         {
             throw new Exception\ImageNotWritableException;
         }
 
-        // If the directory doesn't exit then make it
+        // If the directory doesn't exit then make it.
         if (!file_exists(pathinfo($path, PATHINFO_DIRNAME))) {
             mkdir(pathinfo($path, PATHINFO_DIRNAME), 0777, true);
         }

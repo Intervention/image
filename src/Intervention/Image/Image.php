@@ -77,11 +77,11 @@ class Image
     protected $original;
 
     /**
-     * Identifier for cached images
+     * Identifier key for cached images
      *
-     * @var boolean
+     * @var string
      */
-    public $cached = false;
+    public $cachekey = null;
 
     /**
      * Result of image after encoding

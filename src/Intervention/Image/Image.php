@@ -77,13 +77,6 @@ class Image
     protected $original;
 
     /**
-     * Identifier key for cached images
-     *
-     * @var string
-     */
-    public $cachekey = null;
-
-    /**
      * Result of image after encoding
      *
      * @var string
@@ -182,10 +175,10 @@ class Image
         }
 
         // Create image and run callback
-        $image = new \Intervention\Image\ImageCache;
-        $image = is_callable($callback) ? $callback($image) : $image;
+        $imagecache = new \Intervention\Image\ImageCache;
+        $imagecache = is_callable($callback) ? $callback($imagecache) : $imagecache;
 
-        return $image->get($lifetime, $returnObj);
+        return $imagecache->get($lifetime, $returnObj);
     }
 
     /**

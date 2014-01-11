@@ -128,7 +128,7 @@ class Image
      */
     public static function make($source)
     {
-        return new Image($source);
+        return new static($source);
     }
 
     /**
@@ -141,7 +141,7 @@ class Image
      */
     public static function canvas($width, $height, $bgcolor = null)
     {
-        return new Image(null, $width, $height, $bgcolor);
+        return new static(null, $width, $height, $bgcolor);
     }
 
     /**
@@ -152,7 +152,7 @@ class Image
      */
     public static function raw($string)
     {
-        return new Image($string);
+        return new static($string);
     }
 
     /**

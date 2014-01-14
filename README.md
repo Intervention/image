@@ -13,7 +13,8 @@ Intervention Image is a **PHP image handling and manipulation** library based on
 
 Intervention Image installable with Composer. Read further information on how to install.
 
-[Intervention Image Installation Guide](http://intervention.olivervogel.net/image/getting_started/installation)
+[Intervention Image Installation Guide](http://intervention.olivervogel.net/image/getting_started/installation)  
+[Laravel Framework Integration](http://intervention.olivervogel.net/image/getting_started/laravel)
 
 ## Documentation
 

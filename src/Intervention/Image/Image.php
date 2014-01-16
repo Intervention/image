@@ -107,6 +107,11 @@ class Image
                 // image properties come from binary image string
                 $this->initFromString($source);
 
+            } elseif (filter_var($source, FILTER_VALIDATE_URL)) {
+
+                // image will be fetched from url before init
+                $this->initFromString(file_get_contents($source));
+
             } else {
 
                 // image properties come from image file

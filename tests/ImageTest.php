@@ -161,6 +161,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 800);
         $this->assertEquals($img->height, 600);
+        $this->assertEquals($img->mime, 'image/jpeg');
     }
 
     public function testStaticCallMakeFromResource()

@@ -432,6 +432,45 @@ class Image
         // Create new image in new dimensions.
         return $this->modify(0, 0, 0, 0, $width, $height, $this->width, $this->height);
     }
+    
+    /**
+     * Resize and crop image to fit new width and height
+     *
+     * @param  integer $width
+     * @param integer $height
+     * @return Image
+     */
+    public function fit($width = null, $height = null)
+    {
+        if (empty($width) and empty($height)) {
+            throw new Exception\DimensionOutOfBoundsException(
+                'width and height of fit needs to be defined'
+            );
+        }
+
+        $crop_width  = $width;
+        $crop_height = $height;
+
+        $ratio      = $this->width / $this->height;
+        $crop_ratio = (empty($crop_height) or empty($crop_width))? 0 : $crop_width / $crop_height;
+
+        if ($ratio >= $crop_ratio and $crop_height > 0) {
+            $width  = $ratio * $crop_height;
+            $height = $crop_height;
+        } else {
+            $width  = $crop_width;
+            $height = $crop_width / $ratio;
+        }
+
+        $width  = ceil($width);
+        $height = ceil($height);
+
+        $x = floor(($width - $crop_width) / 2);
+        $y = floor(($height - $crop_height) / 2);
+
+        return $this->resize($width, $height)
+            ->crop($crop_width, $crop_height, $x, $y);
+    }
 
     /**
      * Legacy method to support old resizing calls

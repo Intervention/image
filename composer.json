@@ -16,6 +16,9 @@
         "ext-gd": "*",
         "illuminate/support": "4.*"
     },
+    "require-dev": {
+        "phpunit/phpunit": "3.9.x"
+    },
     "suggest": {
         "intervention/imagecache": "Caching extension for the Intervention Image library"
     },

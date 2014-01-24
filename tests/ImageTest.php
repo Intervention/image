@@ -331,6 +331,16 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $img->resize();
     }
 
+    public function testFitImage()
+    {
+        $img = $this->getTestImage();
+
+        $img->fit(100, 600);
+
+        $this->assertEquals($img->width, 100);
+        $this->assertEquals($img->height, 600);
+    }
+
     public function testWidenImage()
     {
         $img = $this->getTestImage();

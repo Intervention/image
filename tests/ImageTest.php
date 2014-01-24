@@ -2,7 +2,7 @@
 
 use Intervention\Image\Image;
 
-class ImageTest extends PHPUnit_Framework_Testcase
+class ImageTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
@@ -329,6 +329,16 @@ class ImageTest extends PHPUnit_Framework_Testcase
     {
         $img = $this->getTestImage();
         $img->resize();
+    }
+
+    public function testFitImage()
+    {
+        $img = $this->getTestImage();
+
+        $img->fit(100, 600);
+
+        $this->assertEquals($img->width, 100);
+        $this->assertEquals($img->height, 600);
     }
 
     public function testWidenImage()
@@ -1757,3 +1767,4 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->encoded, $img->encode());
     }
 }
+

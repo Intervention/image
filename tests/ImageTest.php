@@ -1338,13 +1338,28 @@ class ImageTest extends PHPUnit_Framework_Testcase
 
     public function testResetEmptyImage()
     {
-        $img = new Image(null, 800, 600);
+        $img = new Image(null, 800, 600, '#0000ff');
         $img->resize(300, 200);
+        $img->fill('#00ff00');
         $img->reset();
         $this->assertInternalType('int', $img->width);
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 800);
         $this->assertEquals($img->height, 600);
+        $this->assertEquals('#0000ff', $img->pickColor(0, 0, 'hex'));
+    }
+
+    public function testBackup()
+    {
+        $img = new Image(null, 800, 600, '#0000ff');
+        $img->fill('#00ff00');
+        $img->backup();
+        $img->reset();
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 800);
+        $this->assertEquals($img->height, 600);
+        $this->assertEquals('#00ff00', $img->pickColor(0, 0, 'hex'));
     }
 
     public function testLimitColors()

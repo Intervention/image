@@ -242,11 +242,9 @@ class Image
      */
     private function initEmpty($width, $height, $bgcolor = null)
     {
+        // define width + height
         $this->width = is_numeric($width) ? intval($width) : 1;
         $this->height = is_numeric($height) ? intval($height) : 1;
-
-        $this->original['width'] = $this->width;
-        $this->original['height'] = $this->height;
 
         // create empty image
         $this->resource = imagecreatetruecolor($this->width, $this->height);
@@ -259,8 +257,11 @@ class Image
             $bgcolor = $this->parseColor($bgcolor);
         }
 
+        // fill with background color
         imagefill($this->resource, 0, 0, $bgcolor);
-        $this->original['bgcolor'] = $bgcolor;
+
+        // save current state as original
+        $this->backup();
     }
 
     /**
@@ -1386,19 +1387,24 @@ class Image
     }
 
     /**
+     * Set current image as original (reset will return to this)
+     *
+     * @return void
+     */
+    public function backup()
+    {
+        $this->original = $this->cloneResource($this->resource);
+    }
+
+    /**
      * Reset to original image resource
      *
      * @return void
      */
     public function reset()
     {
-        if (is_null($this->dirname) && is_null($this->basename)) {
-
-            $this->initEmpty($this->original['width'], $this->original['height'], $this->original['bgcolor']);
-
-        } else {
-
-            $this->initFromPath($this->dirname .'/'. $this->basename);
+        if ($this->isImageResource($this->original)) {
+            $this->initFromResource($this->original);
         }
 
         return $this;
@@ -1745,6 +1751,19 @@ class Image
     }
 
     /**
+     * Clones and returns cloned image resource
+     *
+     * @param  Resource $resource
+     * @return Resource
+     */
+    private function cloneResource($resource)
+    {
+        ob_start();
+        imagegd2($resource);
+        return imagecreatefromstring(ob_get_clean());
+    }
+
+    /**
      * Set file info from image path in filesystem
      *
      * @param string $path
@@ -1799,6 +1818,9 @@ class Image
                 );
                 break;
         }
+
+        // save current state as original
+        $this->backup();
     }
 
     /**
@@ -1811,8 +1833,9 @@ class Image
         $this->resource = $resource;
         $this->width = imagesx($this->resource);
         $this->height = imagesy($this->resource);
-        $this->original['width'] = $this->width;
-        $this->original['height'] = $this->height;
+
+        // save current state as original
+        $this->backup();
     }
 
     /**
@@ -1836,8 +1859,9 @@ class Image
         $this->mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $string);
         $this->width = imagesx($this->resource);
         $this->height = imagesy($this->resource);
-        $this->original['width'] = $this->width;
-        $this->original['height'] = $this->height;
+
+        // save current state as original
+        $this->backup();
     }
 
     /**

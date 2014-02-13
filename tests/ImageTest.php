@@ -1784,4 +1784,11 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img->encode();
         $this->assertEquals($img->encoded, $img->encode());
     }
+
+    public function testDestroy()
+    {
+        $img = $this->getTestImage();
+        $img->destroy();
+        $this->assertEquals(get_resource_type($img->resource), 'Unknown');
+    }
 }

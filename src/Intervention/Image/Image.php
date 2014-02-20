@@ -1758,9 +1758,10 @@ class Image
      */
     private function cloneResource($resource)
     {
-        ob_start();
-        imagegd2($resource);
-        return imagecreatefromstring(ob_get_clean());
+        $clone = imagecreatetruecolor($this->width, $this->height);
+        imagecopy($clone, $resource, 0, 0, 0, 0, $this->width, $this->height);
+
+        return $clone;
     }
 
     /**

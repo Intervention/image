@@ -1354,11 +1354,24 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img = new Image(null, 800, 600, '#0000ff');
         $img->fill('#00ff00');
         $img->backup();
+        $img->resize(200, 200);
         $img->reset();
         $this->assertInternalType('int', $img->width);
         $this->assertInternalType('int', $img->height);
         $this->assertEquals($img->width, 800);
         $this->assertEquals($img->height, 600);
+        $this->assertEquals('#00ff00', $img->pickColor(0, 0, 'hex'));
+
+        $img = new Image('public/tile.png');
+        $img->resize(10, 10);
+        $img->fill('#00ff00');
+        $img->backup();
+        $img->resize(5, 5);
+        $img->reset();
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 10);
+        $this->assertEquals($img->height, 10);
         $this->assertEquals('#00ff00', $img->pickColor(0, 0, 'hex'));
     }
 

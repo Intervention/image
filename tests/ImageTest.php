@@ -522,6 +522,18 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 400);
         $this->assertEquals('#fffefc', $img->pickColor(0, 0, 'hex'));
         $this->assertEquals('#ffa600', $img->pickColor(599, 399, 'hex'));
+
+        // resize to larger size with anchor and only height set
+        $img = $this->getTestImage();
+        $img->resizeCanvas(null, 650, 'bottom-left', false, '#00000');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 800);
+        $this->assertEquals($img->height, 650);
+        $this->assertEquals('#000000', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#ffffff', $img->pickColor(3, 50, 'hex'));
+        $this->assertEquals('#ffa600', $img->pickColor(799, 649, 'hex'));
     }
 
     public function testCropImage()

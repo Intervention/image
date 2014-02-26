@@ -528,6 +528,8 @@ class Image
             case 'left-top':
                 $src_x = 0;
                 $src_y = 0;
+                $dst_x = 0;
+                $dst_y = 0;
                 break;
 
             case 'top':
@@ -537,12 +539,16 @@ class Image
             case 'middle-top':
                 $src_x = ($width < $this->width) ? intval(($this->width - $width) / 2) : 0;
                 $src_y = 0;
+                $dst_x = ($width <= $this->width) ? 0 : intval(($width - $this->width) / 2);
+                $dst_y = 0;
                 break;
 
             case 'top-right':
             case 'right-top':
                 $src_x = ($width < $this->width) ? intval($this->width - $width) : 0;
                 $src_y = 0;
+                $dst_x = ($width <= $this->width) ? 0 : intval(($width - $this->width));
+                $dst_y = 0;
                 break;
 
             case 'left':
@@ -552,6 +558,8 @@ class Image
             case 'middle-left':
                 $src_x = 0;
                 $src_y = ($height < $this->height) ? intval(($this->height - $height) / 2) : 0;
+                $dst_x = 0;
+                $dst_y = ($height <= $this->height) ? 0 : intval(($height - $this->height) / 2);
                 break;
 
             case 'right':
@@ -561,12 +569,16 @@ class Image
             case 'middle-right':
                 $src_x = ($width < $this->width) ? intval($this->width - $width) : 0;
                 $src_y = ($height < $this->height) ? intval(($this->height - $height) / 2) : 0;
+                $dst_x = ($width <= $this->width) ? 0 : intval(($width - $this->width));
+                $dst_y = ($height <= $this->height) ? 0 : intval(($height - $this->height) / 2);
                 break;
 
             case 'bottom-left':
             case 'left-bottom':
                 $src_x = 0;
                 $src_y = ($height < $this->height) ? intval($this->height - $height) : 0;
+                $dst_x = 0;
+                $dst_y = ($height <= $this->height) ? 0 : intval(($height - $this->height));
                 break;
 
             case 'bottom':
@@ -576,12 +588,16 @@ class Image
             case 'middle-bottom':
                 $src_x = ($width < $this->width) ? intval(($this->width - $width) / 2) : 0;
                 $src_y = ($height < $this->height) ? intval($this->height - $height) : 0;
+                $dst_x = ($width <= $this->width) ? 0 : intval(($width - $this->width) / 2);
+                $dst_y = ($height <= $this->height) ? 0 : intval(($height - $this->height));
                 break;
 
             case 'bottom-right':
             case 'right-bottom':
                 $src_x = ($width < $this->width) ? intval($this->width - $width) : 0;
                 $src_y = ($height < $this->height) ? intval($this->height - $height) : 0;
+                $dst_x = ($width <= $this->width) ? 0 : intval(($width - $this->width));
+                $dst_y = ($height <= $this->height) ? 0 : intval(($height - $this->height));
                 break;
 
             default:
@@ -591,12 +607,10 @@ class Image
             case 'middle-middle':
                 $src_x = ($width < $this->width) ? intval(($this->width - $width) / 2) : 0;
                 $src_y = ($height < $this->height) ? intval(($this->height - $height) / 2) : 0;
+                $dst_x = ($width <= $this->width) ? 0 : intval(($width - $this->width) / 2);
+                $dst_y = ($height <= $this->height) ? 0 : intval(($height - $this->height) / 2);
                 break;
         }
-
-        // define dest. pos
-        $dst_x = ($width <= $this->width) ? 0 : intval(($width - $this->width) / 2);
-        $dst_y = ($height <= $this->height) ? 0 : intval(($height - $this->height) / 2);
 
         // copy content from resource
         imagecopy($image, $this->resource, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h);

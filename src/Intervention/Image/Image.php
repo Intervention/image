@@ -1404,6 +1404,7 @@ class Image
     public function reset()
     {
         if ($this->isImageResource($this->original)) {
+            is_resource($this->resource) ? imagedestroy($this->resource) : null;
             $this->initFromResource($this->original);
         }
 

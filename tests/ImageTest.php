@@ -1243,6 +1243,20 @@ class ImageTest extends PHPUnit_Framework_Testcase
 
     public function testFillImageWithPath()
     {
+        $img = Image::canvas(100, 100, '#ffa600')->fill('public/circle.png');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 100);
+        $this->assertEquals($img->height, 100);
+        $this->assertEquals('#ffa600', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#322000', $img->pickColor(12, 12, 'hex'));
+        $this->assertEquals('#ffa600', $img->pickColor(99, 99, 'hex'));
+        $this->assertEquals('#322000', $img->pickColor(80, 80, 'hex'));
+    }
+
+    public function testFillImageWithTransparentImage()
+    {
         $img = Image::canvas(32, 32)->fill('public/tile.png');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -1251,6 +1265,22 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#b4e000', $img->pickColor(0, 0, 'hex'));
         $this->assertEquals('#445160', $img->pickColor(31, 31, 'hex'));
+    }
+
+    public function testFillWithPosition()
+    {
+        $img = Image::make('public/tile.png')->fill('#ff00ff', 0, 0);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('#ff00ff', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#445160', $img->pickColor(15, 15, 'hex'));
+    }
+
+    public function testFillWithoutPosition()
+    {
+        $img = Image::make('public/tile.png')->fill('#ff00ff');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('#ff00ff', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#ff00ff', $img->pickColor(15, 15, 'hex'));
     }
 
     public function testPixelImage()

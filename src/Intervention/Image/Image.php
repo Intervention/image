@@ -1054,7 +1054,7 @@ class Image
      * @param  integer $pos_y
      * @return Image
      */
-    public function fill($source, $pos_x = 0, $pos_y = 0)
+    public function fill($source, $pos_x = null, $pos_y = null)
     {
         if (is_a($source, 'Intervention\Image\Image')) {
 
@@ -1086,8 +1086,14 @@ class Image
             // fill with color
             $source = $this->parseColor($source);
         }
-
-        imagefill($this->resource, $pos_x, $pos_y, $source);
+        
+        if (is_int($pos_x) && is_int($pos_y)) {
+            // floodfill if exact position is defined
+            imagefill($this->resource, $pos_x, $pos_y, $source);
+        } else {
+            // fill whole image otherwise
+            imagefilledrectangle($this->resource, 0, 0, $this->width - 1, $this->height - 1, $source);
+        }
 
         return $this;
     }

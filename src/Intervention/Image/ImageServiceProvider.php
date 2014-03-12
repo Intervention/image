@@ -36,6 +36,67 @@ class ImageServiceProvider extends ServiceProvider
                 return new Image;
             }
         );
+
+        // try to create imagecache route only if imagecache is present
+        if (class_exists('\Intervention\Image\ImageCache')) {
+
+            // load imagecache config
+            $this->app['config']->package('intervention/imagecache', __DIR__.'/../../../../imagecache/src/config');
+            $config = $this->app['config']->get('imagecache::imagecache');
+
+            // create dynamic manipulation route
+            if (is_string($config['route'])) {
+
+                // add original to route templates
+                $config['templates']['original'] = null;
+
+                // setup image manipulator route
+                $this->app['router']->get($config['route'].'/{template}/{filename}', array('as' => 'imagecache', function($template, $filename) use ($config) {
+
+                    // find file
+                    foreach ($config['paths'] as $path) {
+                        $image_path = $path.'/'.$filename;
+                        if (file_exists($image_path)) {
+                            break;
+                        } else {
+                            $image_path = false;
+                        }
+                    }
+
+                    // abort if file not found
+                    if ($image_path === false) {
+                        $this->app->abort(404);
+                    }
+
+                    // define template callback
+                    $callback = $config['templates'][$template];
+
+                    if (is_callable($callback)) {
+
+                        // image manipulation based on callback
+                        $content = $this->app['image']->cache(function($image) use ($image_path, $callback) {
+                            return $callback($image->make($image_path));
+                        }, $config['lifetime']);
+
+                    } else {
+
+                        // get original image file contents
+                        $content = file_get_contents($image_path);
+                    }
+
+                    // define mime type
+                    $mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $content);
+
+                    // return http response
+                    return new \Illuminate\Http\Response($content, 200, array(
+                        'Content-Type' => $mime,
+                        'Cache-Control' => 'max-age='.($config['lifetime']*60).', public',
+                        'Etag' => md5($content)
+                    ));
+
+                }))->where(array('template' => join('|', array_keys($config['templates'])), 'filename' => '^[\w.-]+$'));
+            }
+        }
     }
 
     /**

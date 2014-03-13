@@ -261,7 +261,7 @@ class Image
         imagefill($this->resource, 0, 0, $bgcolor);
 
         // save current state as original
-        $this->backup();
+        // $this->backup();
     }
 
     /**
@@ -1842,7 +1842,7 @@ class Image
         }
 
         // save current state as original
-        $this->backup();
+        // $this->backup();
     }
 
     /**
@@ -1857,7 +1857,7 @@ class Image
         $this->height = imagesy($this->resource);
 
         // save current state as original
-        $this->backup();
+        // $this->backup();
     }
 
     /**
@@ -1883,7 +1883,7 @@ class Image
         $this->height = imagesy($this->resource);
 
         // save current state as original
-        $this->backup();
+        // $this->backup();
     }
 
     /**

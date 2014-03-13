@@ -699,10 +699,10 @@ class ImageTest extends PHPUnit_Framework_Testcase
 
     public function testInsertImage()
     {
-        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $watermark = Image::canvas(16, 16, '#0000ff'); // create watermark
 
         // top-left anchor
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 0, 0, 'top-left');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -711,9 +711,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(0, 0, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(16, 16, 'hex'));
-        $img->reset();
 
         // top-left anchor coordinates
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 10, 10, 'top-left');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -722,9 +722,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#ff0000', $img->pickColor(9, 9, 'hex'));
         $this->assertEquals('#0000ff', $img->pickColor(10, 10, 'hex'));
-        $img->reset();
 
         // top anchor
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 0, 0, 'top');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -733,9 +733,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#ff0000', $img->pickColor(0, 0, 'hex'));
         $this->assertEquals('#0000ff', $img->pickColor(23, 15, 'hex'));
-        $img->reset();
 
         // top anchor coordinates
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 10, 10, 'top');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -744,9 +744,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(18, 10, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(31, 26, 'hex'));
-        $img->reset();
 
         // top-right anchor
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 0, 0, 'top-right');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -755,9 +755,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#ff0000', $img->pickColor(15, 0, 'hex'));
         $this->assertEquals('#0000ff', $img->pickColor(31, 0, 'hex'));
-        $img->reset();
 
         // top-right anchor coordinates
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 10, 10, 'top-right');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -766,9 +766,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#ff0000', $img->pickColor(6, 9, 'hex'));
         $this->assertEquals('#0000ff', $img->pickColor(21, 25, 'hex'));
-        $img->reset();
 
         // left anchor
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 0, 0, 'left');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -777,9 +777,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(15, 23, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(0, 7, 'hex'));
-        $img->reset();
 
         // left anchor coordinates
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 10, 10, 'left');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -788,9 +788,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(25, 31, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(10, 17, 'hex'));
-        $img->reset();
 
         // right anchor
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 0, 0, 'right');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -799,9 +799,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(31, 23, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(15, 15, 'hex'));
-        $img->reset();
 
         // right anchor coordinates
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 10, 10, 'right');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -810,9 +810,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(21, 31, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(5, 18, 'hex'));
-        $img->reset();
 
         // bottom-left anchor
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 0, 0, 'bottom-left');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -821,9 +821,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(15, 31, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(0, 15, 'hex'));
-        $img->reset();
 
         // bottom-left anchor coordinates
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 10, 10, 'bottom-left');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -832,9 +832,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(10, 21, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(9, 20, 'hex'));
-        $img->reset();
 
         // bottom anchor
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 0, 0, 'bottom');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -843,9 +843,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(8, 16, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(8, 15, 'hex'));
-        $img->reset();
 
         // bottom anchor coordinates
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 10, 10, 'bottom');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -854,9 +854,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(18, 21, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(17, 21, 'hex'));
-        $img->reset();
 
         // bottom-right anchor
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 0, 0, 'bottom-right');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -865,9 +865,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(16, 16, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(15, 16, 'hex'));
-        $img->reset();
 
         // bottom-right anchor coordinates
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 10, 10, 'bottom-right');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -876,9 +876,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(21, 21, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(22, 22, 'hex'));
-        $img->reset();
 
         // center anchor
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 0, 0, 'center');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -887,9 +887,9 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(23, 23, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(8, 7, 'hex'));
-        $img->reset();
 
         // center anchor coordinates
+        $img = Image::canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 10, 10, 'center');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
@@ -898,7 +898,6 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->height, 32);
         $this->assertEquals('#0000ff', $img->pickColor(31, 31, 'hex'));
         $this->assertEquals('#ff0000', $img->pickColor(18, 17, 'hex'));
-        $img->reset();
     }
 
     public function testInsertAfterResize()
@@ -1370,6 +1369,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
     public function testResetImage()
     {
         $img = $this->getTestImage();
+        $img->backup();
         $img->resize(300, 200);
         $img->reset();
         $this->assertInternalType('int', $img->width);
@@ -1381,6 +1381,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
     public function testResetEmptyImage()
     {
         $img = new Image(null, 800, 600, '#0000ff');
+        $img->backup();
         $img->resize(300, 200);
         $img->fill('#00ff00');
         $img->reset();

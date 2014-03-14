@@ -25,7 +25,7 @@ class Image
      *
      * @var integer
      */
-    public $width;
+    public $width;te
 
     /**
      * Height of current image
@@ -1226,7 +1226,9 @@ class Image
     {
         // we need a font file to get the font ttf box
         if (is_null($fontfile)) {
-            return $this;
+            throw new Exception\FontFileRequiredException(
+                'a font file must be specified for this function to work'
+            );
         }
 
         // Start the text
@@ -1235,10 +1237,12 @@ class Image
 
         // This is our cordinates for X and Y
         $x = ($bbox[0] + (imagesx($this->resource) / 2)) - ($bbox[4] / 2);
-        $y = (($bbox[1] + (imagesy($this->resource) / 2)) - ($bbox[5] / 2)) - ($size / 2);
+        $y = (($bbox[1] + (imagesy($this->resource) / 2)) - ($bbox[5] / 2));
 
-        if ($bbox[1] == 1) {
-            $y += ($size / 2);
+        // This is for when your string has characters that drop below the line.
+        // i.e g, p, j etc.
+        if ($bbox[1] > 1) {
+            $y -= ($size / 2);
         }
 
         // Is there any offset to be done?

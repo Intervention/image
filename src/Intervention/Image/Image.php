@@ -25,7 +25,7 @@ class Image
      *
      * @var integer
      */
-    public $width;te
+    public $width;
 
     /**
      * Height of current image

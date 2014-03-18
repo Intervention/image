@@ -1183,7 +1183,50 @@ class Image
     }
 
     /**
-     * Write text in current image
+     * Compatibility method to decide old or new style of text writing
+     *
+     * @param  string  $text
+     * @param  integer $posx
+     * @param  integer $posy
+     * @param  integer $angle
+     * @param  integer $size
+     * @param  string  $color
+     * @param  string  $fontfile
+     * @return Image
+     */
+    public function text($text, $posx = 0, $posy = 0, $size_or_callback = null, $color = '000000', $angle = 0, $fontfile = null)
+    {
+        if (is_numeric($size_or_callback)) {
+            return $this->legacyText($text, $posx, $posy, $size_or_callback, $color, $angle, $fontfile);
+        } else {
+            return $this->textCallback($text, $posx, $posy, $size_or_callback);
+        }
+    }
+
+    /**
+     * Write text in current image, define details via callback
+     *
+     * @param  string  $text
+     * @param  integer $posx
+     * @param  integer $posy
+     * @param  Closure $callback
+     * @return Image
+     */
+    public function textCallback($text, $posx = 0, $posy = 0, Closure $callback = null)
+    {
+        $font = new \Intervention\Image\Font($text);
+
+        if ($callback instanceof Closure) {
+            $callback($font);
+        }
+
+        $font->applyToImage($this, $posx, $posy);
+
+        return $this;
+    }
+
+    /**
+     * Legacy method to keep support of old style of text writing
      *
      * @param  string  $text
      * @param  integer $pos_x
@@ -1194,7 +1237,7 @@ class Image
      * @param  string  $fontfile
      * @return Image
      */
-    public function text($text, $pos_x = 0, $pos_y = 0, $size = 16, $color = '000000', $angle = 0, $fontfile = null)
+    public function legacyText($text, $pos_x = 0, $pos_y = 0, $size = 16, $color = '000000', $angle = 0, $fontfile = null)
     {
         if (is_null($fontfile)) {
 
@@ -1920,6 +1963,24 @@ class Image
     {
         is_resource($this->resource) ? imagedestroy($this->resource) : null;
         is_resource($this->original) ? imagedestroy($this->original) : null;
+    }
+
+    /**
+     * Calculates checksum of current image
+     *
+     * @return String
+     */
+    public function checksum()
+    {
+        $colors = array();
+
+        for ($x=0; $x <= ($this->width-1); $x++) { 
+            for ($y=0; $y <= ($this->height-1); $y++) { 
+                $colors[] = $this->pickColor($x, $y, 'int');
+            }
+        }
+        
+        return md5(serialize($colors));
     }
 
     /**

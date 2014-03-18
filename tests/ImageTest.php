@@ -1292,7 +1292,7 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals('#ffffff', $img->pickColor($coords[1][0], $coords[1][1], 'hex'));
     }
 
-    public function testTextImage()
+    public function testLegacyTextImage()
     {
         $img = $this->getTestImage();
         $img = $img->text('Fox', 10, 10, 16, '000000', 0, null);
@@ -1303,6 +1303,33 @@ class ImageTest extends PHPUnit_Framework_Testcase
 
         $img = $img->text('Fox', 10, 10, 16, array(155, 155, 155), 0, null);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
+    }
+
+    public function testTextImage()
+    {
+        $img = new Image(null, 160, 80, 'ffffff');
+        $img = $img->text('00000', 80, 40);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('a85e0d2329957b27b3cf4c3f21721c45', $img->checksum());
+
+        $img = new Image(null, 160, 80, 'ffffff');
+        $img = $img->text('00000', 80, 40, function($font) {
+            $font->align('center');
+            $font->valign('top');
+            $font->color('000000');
+        });
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('86c9fa152b5b3e1a637cb17b70a6edfc', $img->checksum());
+
+        $img = new Image(null, 160, 80, 'ffffff');
+        $img = $img->text('00000', 80, 40, function($font) {
+            $font->align('right');
+            $font->valign('middle');
+            $font->file(2);
+            $font->color('000000');
+        });
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('870034642cfd26ebd165ca0de5a8c12c', $img->checksum());
     }
 
     public function testRectangleImage()
@@ -1833,5 +1860,12 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img = $this->getTestImage();
         $img->destroy();
         $this->assertEquals(get_resource_type($img->resource), 'Unknown');
+    }
+
+    public function testChecksum()
+    {
+        $img = new Image('public/circle.png');
+        $checksum = $img->checksum();
+        $this->assertEquals($checksum, '149432c4e99e8bf8c295afb85be64e78');
     }
 }

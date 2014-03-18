@@ -1419,6 +1419,15 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals('#0000ff', $img->pickColor(0, 0, 'hex'));
     }
 
+    /**
+     * @expectedException Intervention\Image\Exception\ImageBackupNotAvailableException
+     */
+    public function testResetImageWithoutBackup()
+    {
+        $img = $this->getTestImage();
+        $img->reset();
+    }
+
     public function testBackup()
     {
         $img = new Image(null, 800, 600, '#0000ff');

@@ -1469,6 +1469,8 @@ class Image
         if ($this->isImageResource($this->original)) {
             is_resource($this->resource) ? imagedestroy($this->resource) : null;
             $this->initFromResource($this->original);
+        } else {
+            throw new Exception\ImageBackupNotAvailableException('backup() must be called first to use reset().');
         }
 
         return $this;

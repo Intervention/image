@@ -1086,7 +1086,7 @@ class Image
             // fill with color
             $source = $this->parseColor($source);
         }
-        
+
         if (is_int($pos_x) && is_int($pos_y)) {
             // floodfill if exact position is defined
             imagefill($this->resource, $pos_x, $pos_y, $source);
@@ -1249,6 +1249,53 @@ class Image
             imagettftext($this->resource, $size, $angle, $pos_x, $pos_y, $this->parseColor($color), $fontfile, $text);
 
         }
+
+        return $this;
+    }
+
+    /**
+     * Write text in the center of the image
+     *
+     * @param  string  $text
+     * @param  integer $size
+     * @param  string  $color
+     * @param  string  $fontfile
+     * @param  integer $offset_x
+     * @param  integer $offset_y
+     * @param  integer $angle
+     * @return Image
+     */
+    public function centerText($text, $size = 16, $color = '000000', $fontfile = null, $offset_x = 0, $offset_y = 0, $angle = 0)
+    {
+        // we need a font file to get the font ttf box
+        if (is_null($fontfile)) {
+            throw new Exception\FontFileRequiredException(
+                'a font file must be specified for this function to work'
+            );
+        }
+
+        // Start the text
+        // First we create our bounding box for the first text
+        $bbox = imagettfbbox($size, $angle, $fontfile, $text);
+
+        // This is our cordinates for X and Y
+        $x = ($bbox[0] + (imagesx($this->resource) / 2)) - ($bbox[4] / 2);
+        $y = (($bbox[1] + (imagesy($this->resource) / 2)) - ($bbox[5] / 2));
+
+        // This is for when your string has characters that drop below the line.
+        // i.e g, p, j etc.
+        if ($bbox[1] > 1) {
+            $y -= ($size / 2);
+        }
+
+        // Is there any offset to be done?
+        $x += $offset_x;
+        $y += $offset_y;
+
+        // Write it
+        imagealphablending($this->resource, true);
+        imagettftext($this->resource, $size, $angle, $x, $y, $this->parseColor($color), $fontfile, $text);
+        imagealphablending($this->resource, false);
 
         return $this;
     }

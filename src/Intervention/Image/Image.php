@@ -740,6 +740,11 @@ class Image
             $away = array($away);
         }
 
+        // lower border names
+        foreach ($away as $key => $value) {
+            $away[$key] = strtolower($value);
+        }
+
         // define base color position
         switch (strtolower($base)) {
             case 'transparent':
@@ -766,61 +771,60 @@ class Image
         // pick base color
         $color = $this->pickColor($base_x, $base_y, 'array');
 
-        // search for values that are not base color
-        $x_values = array();
-        $y_values = array();
+        $top_x = 0;
+        $top_y = 0;
+        $bottom_x = $this->width;
+        $bottom_y = $this->height;
 
-        for ($y=0; $y < $this->height; $y++) {
+        if (in_array('top', $away)) {
+            for ($y=0; $y < $this->height; $y++) {
+                for ($x=0; $x < $this->width; $x++) {
+                    $checkColor = $this->pickColor($x, $y, 'array');
+                    if (($checkColor != $color && $checkTransparency == false) or ($checkColor['a'] != 0 && $checkTransparency == true)) {
+                        $top_y = $y;
+                        break 2;
+                    }
+                }
+            }
+        }
+        
+        if (in_array('left', $away)) {
             for ($x=0; $x < $this->width; $x++) {
-
-                $checkColor = $this->pickColor($x, $y, 'array');
-
-                if (($checkColor != $color && $checkTransparency == false) or ($checkColor['a'] != 0 && $checkTransparency == true)) {
-                    $x_values[] = $x;
-                    $y_values[] = $y;
+                for ($y=0; $y < $this->height; $y++) {
+                    $checkColor = $this->pickColor($x, $y, 'array');
+                    if (($checkColor != $color && $checkTransparency == false) or ($checkColor['a'] != 0 && $checkTransparency == true)) {
+                        $top_x = $x;
+                        break 2;
+                    }
                 }
             }
         }
 
-        // define area to crop out
-        if (count($x_values)) {
-            sort($x_values);
-            $src_x = reset($x_values);
-            $width = end($x_values) - $src_x + 1;
+        if (in_array('bottom', $away)) {
+            for ($y=($this->height-1); $y >= 0; $y--) {
+                for ($x=0; $x < $this->width; $x++) {
+                    $checkColor = $this->pickColor($x, $y, 'array');
+                    if (($checkColor != $color && $checkTransparency == false) or ($checkColor['a'] != 0 && $checkTransparency == true)) {
+                        $bottom_y = $y+1;
+                        break 2;
+                    }
+                }
+            }
         }
 
-        if (count($y_values)) {
-            sort($y_values);
-            $src_y = reset($y_values);
-            $height = end($y_values) - $src_y + 1;
+        if (in_array('right', $away)) {
+            for ($x=($this->width-1); $x >= 0; $x--) {
+                for ($y=0; $y < $this->height; $y++) {
+                    $checkColor = $this->pickColor($x, $y, 'array');
+                    if (($checkColor != $color && $checkTransparency == false) or ($checkColor['a'] != 0 && $checkTransparency == true)) {
+                        $bottom_x = $x+1;
+                        break 2;
+                    }
+                }
+            }
         }
-
-        // check if top border should be trimmed away
-        if ( ! in_array('top', $away) &&  ! in_array('TOP', $away)) {
-            $height = $height + $src_y;
-            $src_y = 0;
-        }
-
-        // check if bottom border should be trimmed away
-        if ( ! in_array('bottom', $away) &&  ! in_array('BOTTOM', $away)) {
-            $height = $this->height - $src_y;
-        }
-
-        // check if left border should be trimmed away
-        if ( ! in_array('left', $away) &&  ! in_array('LEFT', $away)) {
-            $width = $width + $src_x;
-            $src_x = 0;
-        }
-
-        // check if right border should be trimmed away
-        if ( ! in_array('right', $away) &&  ! in_array('RIGHT', $away)) {
-            $width = $this->width - $src_x;
-        }
-
-        // modify image if all values are set
-        if (isset($width) && isset($height) && isset($src_x) && isset($src_y)) {
-            $this->modify(0, 0, $src_x, $src_y, $width, $height, $width, $height);
-        }
+        
+        $this->modify(0, 0, $top_x, $top_y, ($bottom_x-$top_x), ($bottom_y-$top_y), ($bottom_x-$top_x), ($bottom_y-$top_y));
 
         return $this;
     }

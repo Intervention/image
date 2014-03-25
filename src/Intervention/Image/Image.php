@@ -1509,10 +1509,9 @@ class Image
             case 'png':
             case 'image/png':
             case IMAGETYPE_PNG:
-                $quality = round($quality / 11.11111111111); // transform quality to png setting
                 imagealphablending($this->resource, false);
                 imagesavealpha($this->resource, true);
-                imagepng($this->resource, null, $quality);
+                imagepng($this->resource, null, -1);
                 $this->type = IMAGETYPE_PNG;
                 $this->mime = image_type_to_mime_type(IMAGETYPE_PNG);
                 break;

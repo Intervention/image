@@ -790,7 +790,7 @@ class Image
         
         if (in_array('left', $away)) {
             for ($x=0; $x < $this->width; $x++) {
-                for ($y=0; $y < $this->height; $y++) {
+                for ($y=$top_y; $y < $this->height; $y++) {
                     $checkColor = $this->pickColor($x, $y, 'array');
                     if (($checkColor != $color && $checkTransparency == false) or ($checkColor['a'] != 0 && $checkTransparency == true)) {
                         $top_x = $x;
@@ -802,7 +802,7 @@ class Image
 
         if (in_array('bottom', $away)) {
             for ($y=($this->height-1); $y >= 0; $y--) {
-                for ($x=0; $x < $this->width; $x++) {
+                for ($x=$top_x; $x < $this->width; $x++) {
                     $checkColor = $this->pickColor($x, $y, 'array');
                     if (($checkColor != $color && $checkTransparency == false) or ($checkColor['a'] != 0 && $checkTransparency == true)) {
                         $bottom_y = $y+1;
@@ -814,7 +814,7 @@ class Image
 
         if (in_array('right', $away)) {
             for ($x=($this->width-1); $x >= 0; $x--) {
-                for ($y=0; $y < $this->height; $y++) {
+                for ($y=$top_y; $y < $bottom_y; $y++) {
                     $checkColor = $this->pickColor($x, $y, 'array');
                     if (($checkColor != $color && $checkTransparency == false) or ($checkColor['a'] != 0 && $checkTransparency == true)) {
                         $bottom_x = $x+1;

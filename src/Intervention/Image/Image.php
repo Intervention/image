@@ -84,6 +84,7 @@ class Image
     public $encoded;
 
 
+
     /**
      * Create a new instance of Image class
      *
@@ -769,7 +770,7 @@ class Image
         }
 
         // pick base color
-        $color = $this->pickColor($base_x, $base_y, 'array');
+        $color = imagecolorsforindex($this->resource, imagecolorat($this->resource, $base_x, $base_y));
 
         $top_x = 0;
         $top_y = 0;
@@ -779,20 +780,20 @@ class Image
         if (in_array('top', $away)) {
             for ($y=0; $y < $this->height; $y++) {
                 for ($x=0; $x < $this->width; $x++) {
-                    $checkColor = $this->pickColor($x, $y, 'array');
-                    if (($checkColor != $color && $checkTransparency == false) or ($checkColor['a'] != 0 && $checkTransparency == true)) {
+                    $checkColor = imagecolorsforindex($this->resource, imagecolorat($this->resource, $x, $y));
+                    if (($checkTransparency == false && $checkColor != $color) or ($checkTransparency == true && $checkColor['alpha'] != 127)) {
                         $top_y = $y;
                         break 2;
                     }
                 }
             }
         }
-        
+
         if (in_array('left', $away)) {
             for ($x=0; $x < $this->width; $x++) {
                 for ($y=$top_y; $y < $this->height; $y++) {
-                    $checkColor = $this->pickColor($x, $y, 'array');
-                    if (($checkColor != $color && $checkTransparency == false) or ($checkColor['a'] != 0 && $checkTransparency == true)) {
+                    $checkColor = imagecolorsforindex($this->resource, imagecolorat($this->resource, $x, $y));
+                    if (($checkTransparency == false && $checkColor != $color) or ($checkTransparency == true && $checkColor['alpha'] != 127)) {
                         $top_x = $x;
                         break 2;
                     }
@@ -803,8 +804,8 @@ class Image
         if (in_array('bottom', $away)) {
             for ($y=($this->height-1); $y >= 0; $y--) {
                 for ($x=$top_x; $x < $this->width; $x++) {
-                    $checkColor = $this->pickColor($x, $y, 'array');
-                    if (($checkColor != $color && $checkTransparency == false) or ($checkColor['a'] != 0 && $checkTransparency == true)) {
+                    $checkColor = imagecolorsforindex($this->resource, imagecolorat($this->resource, $x, $y));
+                    if (($checkTransparency == false && $checkColor != $color) or ($checkTransparency == true && $checkColor['alpha'] != 127)) {
                         $bottom_y = $y+1;
                         break 2;
                     }
@@ -815,15 +816,15 @@ class Image
         if (in_array('right', $away)) {
             for ($x=($this->width-1); $x >= 0; $x--) {
                 for ($y=$top_y; $y < $bottom_y; $y++) {
-                    $checkColor = $this->pickColor($x, $y, 'array');
-                    if (($checkColor != $color && $checkTransparency == false) or ($checkColor['a'] != 0 && $checkTransparency == true)) {
+                    $checkColor = imagecolorsforindex($this->resource, imagecolorat($this->resource, $x, $y));
+                    if (($checkTransparency == false && $checkColor != $color) or ($checkTransparency == true && $checkColor['alpha'] != 127)) {
                         $bottom_x = $x+1;
                         break 2;
                     }
                 }
             }
         }
-        
+
         $this->modify(0, 0, $top_x, $top_y, ($bottom_x-$top_x), ($bottom_y-$top_y), ($bottom_x-$top_x), ($bottom_y-$top_y));
 
         return $this;
@@ -1090,7 +1091,7 @@ class Image
             // fill with color
             $source = $this->parseColor($source);
         }
-        
+
         if (is_int($pos_x) && is_int($pos_y)) {
             // floodfill if exact position is defined
             imagefill($this->resource, $pos_x, $pos_y, $source);
@@ -1553,7 +1554,7 @@ class Image
         $color = imagecolorat($this->resource, $x, $y);
 
         // format color
-        switch (strtolower($format)) {
+        switch ($format) {
             case 'rgb':
                 $color = imagecolorsforindex($this->resource, $color);
                 $color = sprintf('rgb(%d, %d, %d)', $color['red'], $color['green'], $color['blue']);
@@ -1579,7 +1580,6 @@ class Image
             case 'integer':
                 # in gd2 library color already is int...
                 break;
-
             default:
             case 'array':
                 $color = imagecolorsforindex($this->resource, $color);
@@ -1587,7 +1587,7 @@ class Image
                     'r' => $color['red'],
                     'g' => $color['green'],
                     'b' => $color['blue'],
-                    'a' => $this->alpha2rgba($color['alpha'])
+                    'a' => round(1 - $color['alpha'] / 127, 2)
                 );
                 break;
         }
@@ -1736,16 +1736,7 @@ class Image
      */
     private function alpha2rgba($input)
     {
-        $range_input = range(0, 127);
-        $range_output = range(1, 0, 1/127);
-
-        foreach ($range_input as $key => $value) {
-            if ($value >= $input) {
-                return round($range_output[$key], 2);
-            }
-        }
-
-        return 1;
+        return round(1 - $input / 127, 2);
     }
 
     /**
@@ -1979,12 +1970,12 @@ class Image
     {
         $colors = array();
 
-        for ($x=0; $x <= ($this->width-1); $x++) { 
-            for ($y=0; $y <= ($this->height-1); $y++) { 
+        for ($x=0; $x <= ($this->width-1); $x++) {
+            for ($y=0; $y <= ($this->height-1); $y++) {
                 $colors[] = $this->pickColor($x, $y, 'int');
             }
         }
-        
+
         return md5(serialize($colors));
     }
 

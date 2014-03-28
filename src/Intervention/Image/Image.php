@@ -84,7 +84,6 @@ class Image
     public $encoded;
 
 
-
     /**
      * Create a new instance of Image class
      *
@@ -1554,7 +1553,7 @@ class Image
         $color = imagecolorat($this->resource, $x, $y);
 
         // format color
-        switch ($format) {
+        switch (strtolower($format)) {
             case 'rgb':
                 $color = imagecolorsforindex($this->resource, $color);
                 $color = sprintf('rgb(%d, %d, %d)', $color['red'], $color['green'], $color['blue']);

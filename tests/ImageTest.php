@@ -1937,6 +1937,198 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals($img->width, 1);
         $this->assertEquals($img->height, 1);
         $this->assertEquals('#000000', $img->pickColor(0, 0, 'hex'));
+
+        // try to trim non-transparent image with transparency
+        $img = Image::make('public/gradient.png');
+        $img->trim('transparent', null);
+        $this->assertEquals($img->width, 50);
+        $this->assertEquals($img->height, 50);
+    }
+
+    public function testTrimWithTolerance()
+    {
+        // prepare test image
+        $canvas = Image::canvas(1, 1, '000000');
+        $canvas->resizeCanvas(5, 5, 'center', false, '808080');
+        $canvas->resizeCanvas(11, 11, 'center', false, 'ffffff');
+        $this->assertEquals($canvas->width, 11);
+        $this->assertEquals($canvas->height, 11);
+        $this->assertEquals('#000000', $canvas->pickColor(5, 5, 'hex'));
+        $this->assertEquals('#808080', $canvas->pickColor(3, 3, 'hex'));
+        $this->assertEquals('#ffffff', $canvas->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(); // trim without tolerance (should trim away ffffff)
+        $this->assertEquals($img->width, 5);
+        $this->assertEquals($img->height, 5);
+        $this->assertEquals('#000000', $img->pickColor(2, 2, 'hex'));
+        $this->assertEquals('#808080', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, null, 30); // trim with 40 tolerance (should not touch 808080)
+        $this->assertEquals($img->width, 5);
+        $this->assertEquals($img->height, 5);
+        $this->assertEquals('#000000', $img->pickColor(2, 2, 'hex'));
+        $this->assertEquals('#808080', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, null, 50); // trim with 50 tolerance (should only leave 000000)
+        $this->assertEquals($img->width, 1);
+        $this->assertEquals($img->height, 1);
+        $this->assertEquals('#000000', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, null, 100); // trim with 100 tolerance (should leave image as is)
+        $this->assertEquals($img->width, 11);
+        $this->assertEquals($img->height, 11);
+        $this->assertEquals('#000000', $canvas->pickColor(5, 5, 'hex'));
+        $this->assertEquals('#808080', $canvas->pickColor(3, 3, 'hex'));
+        $this->assertEquals('#ffffff', $canvas->pickColor(0, 0, 'hex'));
+
+        // prepare test image
+        $canvas = Image::canvas(1, 1, '000000');
+        $canvas->resizeCanvas(5, 5, 'center', false, '804040');
+        $canvas->resizeCanvas(11, 11, 'center', false, 'ffffff');
+        $this->assertEquals($canvas->width, 11);
+        $this->assertEquals($canvas->height, 11);
+        $this->assertEquals('#000000', $canvas->pickColor(5, 5, 'hex'));
+        $this->assertEquals('#804040', $canvas->pickColor(3, 3, 'hex'));
+        $this->assertEquals('#ffffff', $canvas->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(); // trim without tolerance (should trim away ffffff)
+        $this->assertEquals($img->width, 5);
+        $this->assertEquals($img->height, 5);
+        $this->assertEquals('#000000', $img->pickColor(2, 2, 'hex'));
+        $this->assertEquals('#804040', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, null, 30); // trim with 40 tolerance (should not touch 804040)
+        $this->assertEquals($img->width, 5);
+        $this->assertEquals($img->height, 5);
+        $this->assertEquals('#000000', $img->pickColor(2, 2, 'hex'));
+        $this->assertEquals('#804040', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, null, 50); // trim with 50 tolerance (should not touch 804040)
+        $this->assertEquals($img->width, 5);
+        $this->assertEquals($img->height, 5);
+        $this->assertEquals('#000000', $img->pickColor(2, 2, 'hex'));
+        $this->assertEquals('#804040', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, null, 70); // trim with 70 tolerance (should only leave 000000)
+        $this->assertEquals($img->width, 1);
+        $this->assertEquals($img->height, 1);
+        $this->assertEquals('#000000', $img->pickColor(0, 0, 'hex'));
+
+        $img = clone $canvas;
+        $img->trim(null, null, 100); // trim with 100 tolerance (should leave image as is)
+        $this->assertEquals($img->width, 11);
+        $this->assertEquals($img->height, 11);
+        $this->assertEquals('#000000', $canvas->pickColor(5, 5, 'hex'));
+        $this->assertEquals('#804040', $canvas->pickColor(3, 3, 'hex'));
+        $this->assertEquals('#ffffff', $canvas->pickColor(0, 0, 'hex'));
+
+        // prepare test image
+        $canvas = Image::canvas(1, 1, '000000');
+        $canvas->resizeCanvas(5, 5, 'center', false, array(255, 255, 255, 0.5));
+        $canvas->resizeCanvas(11, 11, 'center', false, array(0, 0, 0, 0));
+        $this->assertEquals($canvas->width, 11);
+        $this->assertEquals($canvas->height, 11);
+        $this->assertEquals('rgba(0, 0, 0, 0.00)', $canvas->pickColor(0, 0, 'rgba'));
+        $this->assertEquals('rgba(255, 255, 255, 0.50)', $canvas->pickColor(3, 3, 'rgba'));
+        $this->assertEquals('rgba(0, 0, 0, 1.00)', $canvas->pickColor(5, 5, 'rgba'));
+
+        $img = clone $canvas;
+        $img->trim('transparent', null);
+        $this->assertEquals($img->width, 5);
+        $this->assertEquals($img->height, 5);
+        $this->assertEquals('rgba(255, 255, 255, 0.50)', $img->pickColor(0, 0, 'rgba'));
+        $this->assertEquals('rgba(0, 0, 0, 1.00)', $img->pickColor(2, 2, 'rgba'));
+
+        $img = clone $canvas;
+        $img->trim('transparent', null, 40);
+        $this->assertEquals($img->width, 5);
+        $this->assertEquals($img->height, 5);
+        $this->assertEquals('rgba(255, 255, 255, 0.50)', $img->pickColor(0, 0, 'rgba'));
+        $this->assertEquals('rgba(0, 0, 0, 1.00)', $img->pickColor(2, 2, 'rgba'));
+
+        $img = clone $canvas;
+        $img->trim('transparent', null, 50);
+        $this->assertEquals($img->width, 1);
+        $this->assertEquals($img->height, 1);
+        $this->assertEquals('rgba(0, 0, 0, 1.00)', $img->pickColor(0, 0, 'rgba'));
+
+        $img = clone $canvas;
+        $img->trim('transparent', null, 100);
+        $this->assertEquals($canvas->width, 11);
+        $this->assertEquals($canvas->height, 11);
+        $this->assertEquals('rgba(0, 0, 0, 0.00)', $canvas->pickColor(0, 0, 'rgba'));
+        $this->assertEquals('rgba(255, 255, 255, 0.50)', $canvas->pickColor(3, 3, 'rgba'));
+        $this->assertEquals('rgba(0, 0, 0, 1.00)', $canvas->pickColor(5, 5, 'rgba'));
+
+        // trim gradient
+        $canvas = Image::make('public/gradient.png');
+
+        $img = clone $canvas;
+        $img->trim();
+        $this->assertEquals($img->width, 46);
+        $this->assertEquals($img->height, 46);
+
+        $img = clone $canvas;
+        $img->trim(null, null, 10);
+        $this->assertEquals($img->width, 38);
+        $this->assertEquals($img->height, 38);
+
+        $img = clone $canvas;
+        $img->trim(null, null, 20);
+        $this->assertEquals($img->width, 34);
+        $this->assertEquals($img->height, 34);
+
+        $img = clone $canvas;
+        $img->trim(null, null, 30);
+        $this->assertEquals($img->width, 30);
+        $this->assertEquals($img->height, 30);
+
+        $img = clone $canvas;
+        $img->trim(null, null, 40);
+        $this->assertEquals($img->width, 26);
+        $this->assertEquals($img->height, 26);
+
+        $img = clone $canvas;
+        $img->trim(null, null, 50);
+        $this->assertEquals($img->width, 22);
+        $this->assertEquals($img->height, 22);
+
+        $img = clone $canvas;
+        $img->trim(null, null, 60);
+        $this->assertEquals($img->width, 20);
+        $this->assertEquals($img->height, 20);
+
+        $img = clone $canvas;
+        $img->trim(null, null, 70);
+        $this->assertEquals($img->width, 16);
+        $this->assertEquals($img->height, 16);
+
+        $img = clone $canvas;
+        $img->trim(null, null, 80);
+        $this->assertEquals($img->width, 12);
+        $this->assertEquals($img->height, 12);
+
+        $img = clone $canvas;
+        $img->trim(null, null, 90);
+        $this->assertEquals($img->width, 8);
+        $this->assertEquals($img->height, 8);
+    }
+
+    /**
+     * @expectedException Intervention\Image\Exception\TrimToleranceOutOfBoundsException
+     */
+    public function testTrimToleranceOutOfBounds()
+    {
+        $img = new Image;
+        $img->trim(null, null, 200);
     }
 
     public function testEncoded()

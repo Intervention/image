@@ -726,9 +726,10 @@ class Image
      *
      * @param  string $base Position of the color to trim away
      * @param  array  $away Borders to trim away
+     * @param  int    $tolerance Tolerance of color comparison
      * @return Image
      */
-    public function trim($base = null, $away = null)
+    public function trim($base = null, $away = null, $tolerance = null)
     {
         // default values
         $checkTransparency = false;
@@ -768,19 +769,54 @@ class Image
                 break;
         }
 
+        // define tolerance
+        $tolerance = is_numeric($tolerance) ? intval($tolerance) : 0;
+
+        if ($tolerance < 0 || $tolerance > 100) {
+            throw new Exception\TrimToleranceOutOfBoundsException(
+                'Tolerance level must be between 0 and 100'
+            );
+        } else {
+            $color_tolerance = round($tolerance * 2.55);
+            $alpha_tolerance = round($tolerance * 1.27);
+        }
+
         // pick base color
         $color = imagecolorsforindex($this->resource, imagecolorat($this->resource, $base_x, $base_y));
+
+        // compare colors
+        $matches = function($c1, $c2) use ($checkTransparency, $color_tolerance, $alpha_tolerance) {
+
+            if ($checkTransparency == true) {
+
+                $alpha_delta = abs($c1['alpha'] - $c2['alpha']);
+                return($alpha_delta <= $alpha_tolerance);
+
+            } else {
+
+                $color_delta = round((
+                    abs($c1['red'] - $c2['red']) +
+                    abs($c1['green'] - $c2['green']) +
+                    abs($c1['blue'] - $c2['blue'])) / 3
+                );
+
+                $alpha_delta = abs($c1['alpha'] - $c2['alpha']);
+                return($color_delta <= $color_tolerance && $alpha_delta <= $alpha_tolerance);
+            }
+
+        };
 
         $top_x = 0;
         $top_y = 0;
         $bottom_x = $this->width;
         $bottom_y = $this->height;
 
+        // search upper part of image for colors to trim away
         if (in_array('top', $away)) {
-            for ($y=0; $y < $this->height; $y++) {
+            for ($y=0; $y < ceil($this->height/2); $y++) {
                 for ($x=0; $x < $this->width; $x++) {
                     $checkColor = imagecolorsforindex($this->resource, imagecolorat($this->resource, $x, $y));
-                    if (($checkTransparency == false && $checkColor != $color) or ($checkTransparency == true && $checkColor['alpha'] != 127)) {
+                    if ( ! $matches($color, $checkColor)) {
                         $top_y = $y;
                         break 2;
                     }
@@ -788,11 +824,12 @@ class Image
             }
         }
 
+        // search left part of image for colors to trim away
         if (in_array('left', $away)) {
-            for ($x=0; $x < $this->width; $x++) {
+            for ($x=0; $x < ceil($this->width/2); $x++) {
                 for ($y=$top_y; $y < $this->height; $y++) {
                     $checkColor = imagecolorsforindex($this->resource, imagecolorat($this->resource, $x, $y));
-                    if (($checkTransparency == false && $checkColor != $color) or ($checkTransparency == true && $checkColor['alpha'] != 127)) {
+                    if ( ! $matches($color, $checkColor)) {
                         $top_x = $x;
                         break 2;
                     }
@@ -800,11 +837,12 @@ class Image
             }
         }
 
+        // search lower part of image for colors to trim away
         if (in_array('bottom', $away)) {
-            for ($y=($this->height-1); $y >= 0; $y--) {
+            for ($y=($this->height-1); $y >= floor($this->height/2); $y--) {
                 for ($x=$top_x; $x < $this->width; $x++) {
                     $checkColor = imagecolorsforindex($this->resource, imagecolorat($this->resource, $x, $y));
-                    if (($checkTransparency == false && $checkColor != $color) or ($checkTransparency == true && $checkColor['alpha'] != 127)) {
+                    if ( ! $matches($color, $checkColor)) {
                         $bottom_y = $y+1;
                         break 2;
                     }
@@ -812,11 +850,12 @@ class Image
             }
         }
 
+        // search right part of image for colors to trim away
         if (in_array('right', $away)) {
-            for ($x=($this->width-1); $x >= 0; $x--) {
+            for ($x=($this->width-1); $x >= floor($this->width/2); $x--) {
                 for ($y=$top_y; $y < $bottom_y; $y++) {
                     $checkColor = imagecolorsforindex($this->resource, imagecolorat($this->resource, $x, $y));
-                    if (($checkTransparency == false && $checkColor != $color) or ($checkTransparency == true && $checkColor['alpha'] != 127)) {
+                    if ( ! $matches($color, $checkColor)) {
                         $bottom_x = $x+1;
                         break 2;
                     }
@@ -824,6 +863,7 @@ class Image
             }
         }
 
+        // trim parts of image
         $this->modify(0, 0, $top_x, $top_y, ($bottom_x-$top_x), ($bottom_y-$top_y), ($bottom_x-$top_x), ($bottom_y-$top_y));
 
         return $this;
@@ -1579,6 +1619,7 @@ class Image
             case 'integer':
                 # in gd2 library color already is int...
                 break;
+
             default:
             case 'array':
                 $color = imagecolorsforindex($this->resource, $color);

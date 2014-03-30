@@ -1501,6 +1501,8 @@ class Image
     public function backup()
     {
         $this->original = $this->cloneResource($this->resource);
+
+        return $this;
     }
 
     /**

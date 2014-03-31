@@ -785,23 +785,26 @@ class Image
         $color = imagecolorsforindex($this->resource, imagecolorat($this->resource, $base_x, $base_y));
 
         // compare colors
-        $matches = function($c1, $c2) use ($checkTransparency, $color_tolerance, $alpha_tolerance) {
+        $colorDiffers = function($c1, $c2) use ($checkTransparency, $color_tolerance, $alpha_tolerance) {
 
             if ($checkTransparency == true) {
 
-                $alpha_delta = abs($c1['alpha'] - $c2['alpha']);
-                return($alpha_delta <= $alpha_tolerance);
+                $alpha_delta = abs(127 - $c2['alpha']);
+                return($alpha_delta > $alpha_tolerance);
 
             } else {
 
-                $color_delta = round((
-                    abs($c1['red'] - $c2['red']) +
-                    abs($c1['green'] - $c2['green']) +
-                    abs($c1['blue'] - $c2['blue'])) / 3
-                );
-
+                $red_delta = abs($c1['red'] - $c2['red']);
+                $green_delta = abs($c1['green'] - $c2['green']);
+                $blue_delta = abs($c1['blue'] - $c2['blue']);
                 $alpha_delta = abs($c1['alpha'] - $c2['alpha']);
-                return($color_delta <= $color_tolerance && $alpha_delta <= $alpha_tolerance);
+                
+                return (
+                    $red_delta > $color_tolerance or 
+                    $green_delta > $color_tolerance or 
+                    $blue_delta > $color_tolerance or 
+                    $alpha_delta > $alpha_tolerance
+                );
             }
 
         };
@@ -816,7 +819,7 @@ class Image
             for ($y=0; $y < ceil($this->height/2); $y++) {
                 for ($x=0; $x < $this->width; $x++) {
                     $checkColor = imagecolorsforindex($this->resource, imagecolorat($this->resource, $x, $y));
-                    if ( ! $matches($color, $checkColor)) {
+                    if ($colorDiffers($color, $checkColor)) {
                         $top_y = $y;
                         break 2;
                     }
@@ -829,7 +832,7 @@ class Image
             for ($x=0; $x < ceil($this->width/2); $x++) {
                 for ($y=$top_y; $y < $this->height; $y++) {
                     $checkColor = imagecolorsforindex($this->resource, imagecolorat($this->resource, $x, $y));
-                    if ( ! $matches($color, $checkColor)) {
+                    if ($colorDiffers($color, $checkColor)) {
                         $top_x = $x;
                         break 2;
                     }
@@ -839,10 +842,10 @@ class Image
 
         // search lower part of image for colors to trim away
         if (in_array('bottom', $away)) {
-            for ($y=($this->height-1); $y >= floor($this->height/2); $y--) {
+            for ($y=($this->height-1); $y >= floor($this->height/2)-1; $y--) {
                 for ($x=$top_x; $x < $this->width; $x++) {
                     $checkColor = imagecolorsforindex($this->resource, imagecolorat($this->resource, $x, $y));
-                    if ( ! $matches($color, $checkColor)) {
+                    if ($colorDiffers($color, $checkColor)) {
                         $bottom_y = $y+1;
                         break 2;
                     }
@@ -852,10 +855,10 @@ class Image
 
         // search right part of image for colors to trim away
         if (in_array('right', $away)) {
-            for ($x=($this->width-1); $x >= floor($this->width/2); $x--) {
+            for ($x=($this->width-1); $x >= floor($this->width/2)-1; $x--) {
                 for ($y=$top_y; $y < $bottom_y; $y++) {
                     $checkColor = imagecolorsforindex($this->resource, imagecolorat($this->resource, $x, $y));
-                    if ( ! $matches($color, $checkColor)) {
+                    if ($colorDiffers($color, $checkColor)) {
                         $bottom_x = $x+1;
                         break 2;
                     }

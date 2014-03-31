@@ -51,7 +51,7 @@ class ImageServiceProvider extends ServiceProvider
                 $config['templates']['original'] = null;
 
                 // setup image manipulator route
-                $this->app['router']->get($config['route'].'/{template}/{filename}', array('as' => 'imagecache', function($template, $filename) use ($config) {
+                $this->app['router']->get($config['route'].'/{template}/{filename}', array('as' => 'imagecache', function ($template, $filename) use ($config) {
 
                     // find file
                     foreach ($config['paths'] as $path) {
@@ -74,7 +74,7 @@ class ImageServiceProvider extends ServiceProvider
                     if (is_callable($callback)) {
 
                         // image manipulation based on callback
-                        $content = $this->app['image']->cache(function($image) use ($image_path, $callback) {
+                        $content = $this->app['image']->cache(function ($image) use ($image_path, $callback) {
                             return $callback($image->make($image_path));
                         }, $config['lifetime']);
 

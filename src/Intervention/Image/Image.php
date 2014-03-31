@@ -785,7 +785,7 @@ class Image
         $color = imagecolorsforindex($this->resource, imagecolorat($this->resource, $base_x, $base_y));
 
         // compare colors
-        $colorDiffers = function($c1, $c2) use ($checkTransparency, $color_tolerance, $alpha_tolerance) {
+        $colorDiffers = function ($c1, $c2) use ($checkTransparency, $color_tolerance, $alpha_tolerance) {
 
             if ($checkTransparency == true) {
 
@@ -798,11 +798,11 @@ class Image
                 $green_delta = abs($c1['green'] - $c2['green']);
                 $blue_delta = abs($c1['blue'] - $c2['blue']);
                 $alpha_delta = abs($c1['alpha'] - $c2['alpha']);
-                
+
                 return (
-                    $red_delta > $color_tolerance or 
-                    $green_delta > $color_tolerance or 
-                    $blue_delta > $color_tolerance or 
+                    $red_delta > $color_tolerance or
+                    $green_delta > $color_tolerance or
+                    $blue_delta > $color_tolerance or
                     $alpha_delta > $alpha_tolerance
                 );
             }

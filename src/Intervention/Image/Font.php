@@ -47,7 +47,7 @@ class Font
     private $valign;
 
     /**
-     * Path to TTF or GD library internal font file of the text 
+     * Path to TTF or GD library internal font file of the text
      *
      * @var mixed
      */
@@ -58,7 +58,7 @@ class Font
      *
      * @param Strinf $text Text to be written
      */
-    public function __construct($text = null) 
+    public function __construct($text = null)
     {
         $this->text = $text;
     }
@@ -149,7 +149,7 @@ class Font
 
     /**
      * Get rotation angle of text
-     * 
+     *
      * @return integer
      */
     public function getAngle()
@@ -219,7 +219,7 @@ class Font
     {
         return $this->file;
     }
-    
+
     /**
      * Checks if current font has access to an applicable font file
      *
@@ -353,7 +353,7 @@ class Font
             if ($this->angle != 0 || is_string($this->align) || is_string($this->valign)) {
 
                 $box = $this->getBoxSize();
-                
+
                 $align = is_null($this->align) ? 'left' : strtolower($this->align);
                 $valign = is_null($this->valign) ? 'bottom' : strtolower($this->valign);
 
@@ -409,11 +409,11 @@ class Font
                         break;
                 }
             }
-            
+
             // $image->rectangle(array(0,0,0,0.5), $posx+$box[6], $posy+$box[7], $posx+$box[2], $posy+$box[3]);
 
             // enable alphablending for imagettftext
-            imagealphablending($image->resource, true); 
+            imagealphablending($image->resource, true);
 
             // draw ttf text
             imagettftext($image->resource, $this->getPointSize(), $this->angle, $posx, $posy, $color, $this->file, $this->text);
@@ -436,7 +436,7 @@ class Font
                 $top_correction = 3;
                 $bottom_correction = 4;
             }
-            
+
             // x-position corrections for horizontal alignment
             switch (strtolower($this->align)) {
                 case 'center':
@@ -465,7 +465,7 @@ class Font
                     break;
             }
 
-            // draw text 
+            // draw text
             imagestring($image->resource, $this->getInternalFont(), $posx, $posy, $this->text, $color);
         }
     }

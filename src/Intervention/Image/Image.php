@@ -1723,7 +1723,7 @@ class Image
         $saved = @file_put_contents($path, $this->encode(pathinfo($path, PATHINFO_EXTENSION), $quality));
 
         if ($saved === false) {
-            throw new Exception\ImageNotWritableException;
+            throw new Exception\ImageNotWritableException("Can't write image data to path [{$path}]");
         }
 
         return $this;

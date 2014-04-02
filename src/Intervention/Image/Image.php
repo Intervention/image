@@ -727,9 +727,10 @@ class Image
      * @param  string $base Position of the color to trim away
      * @param  array  $away Borders to trim away
      * @param  int    $tolerance Tolerance of color comparison
+     * @param  int    $feather Amount of pixels outside (when positive) or inside (when negative) of the strict limit of the matched color
      * @return Image
      */
-    public function trim($base = null, $away = null, $tolerance = null)
+    public function trim($base = null, $away = null, $tolerance = null, $feather = 0)
     {
         // default values
         $checkTransparency = false;
@@ -866,8 +867,8 @@ class Image
             }
         }
 
-        // trim parts of image
-        $this->modify(0, 0, $top_x, $top_y, ($bottom_x-$top_x), ($bottom_y-$top_y), ($bottom_x-$top_x), ($bottom_y-$top_y));
+        // trim parts of image, taking a possible feathering range into account
+        $this->modify(0, 0, max(0, $top_x - $feather), max(0, $top_y - $feather), ($bottom_x-$top_x) + (2 * $feather), ($bottom_y-$top_y) + (2 * $feather), ($bottom_x-$top_x) + (2 * $feather), ($bottom_y-$top_y) + (2 * $feather));
 
         return $this;
     }

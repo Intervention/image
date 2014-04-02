@@ -1525,17 +1525,29 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img = $this->getTestImage();
         $img->save($save_as);
         $this->assertFileExists($save_as);
+        $this->assertEquals($img->dirname, 'public');
+        $this->assertEquals($img->basename, 'test2.jpg');
+        $this->assertEquals($img->extension, 'jpg');
+        $this->assertEquals($img->filename, 'test2');
         @unlink($save_as);
 
         $save_as = 'public/test2.png';
         $img = $this->getTestImage();
         $img->save($save_as, 80);
+        $this->assertEquals($img->dirname, 'public');
+        $this->assertEquals($img->basename, 'test2.png');
+        $this->assertEquals($img->extension, 'png');
+        $this->assertEquals($img->filename, 'test2');
         $this->assertFileExists($save_as);
         @unlink($save_as);
 
         $save_as = 'public/test2.jpg';
         $img = $this->getTestImage();
         $img->save($save_as, 0);
+        $this->assertEquals($img->dirname, 'public');
+        $this->assertEquals($img->basename, 'test2.jpg');
+        $this->assertEquals($img->extension, 'jpg');
+        $this->assertEquals($img->filename, 'test2');
         $this->assertFileExists($save_as);
         @unlink($save_as);
     }

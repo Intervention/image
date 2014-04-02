@@ -1726,6 +1726,9 @@ class Image
             throw new Exception\ImageNotWritableException("Can't write image data to path [{$path}]");
         }
 
+        // set new file info
+        $this->setFileInfoFromPath($path);
+
         return $this;
     }
 

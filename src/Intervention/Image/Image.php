@@ -821,7 +821,7 @@ class Image
                 for ($x=0; $x < $this->width; $x++) {
                     $checkColor = imagecolorsforindex($this->resource, imagecolorat($this->resource, $x, $y));
                     if ($colorDiffers($color, $checkColor)) {
-                        $top_y = $y;
+                        $top_y = max(0, $y - $feather);
                         break 2;
                     }
                 }
@@ -834,7 +834,7 @@ class Image
                 for ($y=$top_y; $y < $this->height; $y++) {
                     $checkColor = imagecolorsforindex($this->resource, imagecolorat($this->resource, $x, $y));
                     if ($colorDiffers($color, $checkColor)) {
-                        $top_x = $x;
+                        $top_x = max(0, $x - $feather);
                         break 2;
                     }
                 }
@@ -847,7 +847,7 @@ class Image
                 for ($x=$top_x; $x < $this->width; $x++) {
                     $checkColor = imagecolorsforindex($this->resource, imagecolorat($this->resource, $x, $y));
                     if ($colorDiffers($color, $checkColor)) {
-                        $bottom_y = $y+1;
+                        $bottom_y = min($this->height, $y+1 + $feather);
                         break 2;
                     }
                 }
@@ -860,15 +860,15 @@ class Image
                 for ($y=$top_y; $y < $bottom_y; $y++) {
                     $checkColor = imagecolorsforindex($this->resource, imagecolorat($this->resource, $x, $y));
                     if ($colorDiffers($color, $checkColor)) {
-                        $bottom_x = $x+1;
+                        $bottom_x = min($this->width, $x+1 + $feather);
                         break 2;
                     }
                 }
             }
         }
 
-        // trim parts of image, taking a possible feathering range into account
-        $this->modify(0, 0, max(0, $top_x - $feather), max(0, $top_y - $feather), ($bottom_x-$top_x) + (2 * $feather), ($bottom_y-$top_y) + (2 * $feather), ($bottom_x-$top_x) + (2 * $feather), ($bottom_y-$top_y) + (2 * $feather));
+        // trim parts of image
+        $this->modify(0, 0, $top_x, $top_y, ($bottom_x-$top_x), ($bottom_y-$top_y), ($bottom_x-$top_x), ($bottom_y-$top_y));
 
         return $this;
     }

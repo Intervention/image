@@ -729,9 +729,10 @@ class Image
      * @param  int    $tolerance Tolerance of color comparison
      * @param  int    $stepSizeX Size of the step used when iterating over the X-axis / columns
      * @param  int    $stepSizeY Size of the step used when iterating over the Y-axis / rows
+     * @param  int    $feather Amount of pixels outside (when positive) or inside (when negative) of the strict limit of the matched color
      * @return Image
      */
-    public function trim($base = null, $away = null, $tolerance = null, $stepSizeX = 1, $stepSizeY = 1)
+    public function trim($base = null, $away = null, $tolerance = null, $stepSizeX = 1, $stepSizeY = 1, $feather = 0)
     {
         // default values
         $checkTransparency = false;
@@ -822,7 +823,7 @@ class Image
                 for ($x=0; $x < $this->width; $x+=$stepSizeX) {
                     $checkColor = imagecolorsforindex($this->resource, imagecolorat($this->resource, $x, $y));
                     if ($colorDiffers($color, $checkColor)) {
-                        $top_y = $y;
+                        $top_y = max(0, $y - $feather);
                         break 2;
                     }
                 }
@@ -835,7 +836,7 @@ class Image
                 for ($y=$top_y; $y < $this->height; $y+=$stepSizeY) {
                     $checkColor = imagecolorsforindex($this->resource, imagecolorat($this->resource, $x, $y));
                     if ($colorDiffers($color, $checkColor)) {
-                        $top_x = $x;
+                        $top_x = max(0, $x - $feather);
                         break 2;
                     }
                 }
@@ -848,7 +849,7 @@ class Image
                 for ($x=$top_x; $x < $this->width; $x+=$stepSizeX) {
                     $checkColor = imagecolorsforindex($this->resource, imagecolorat($this->resource, $x, $y));
                     if ($colorDiffers($color, $checkColor)) {
-                        $bottom_y = $y+1;
+                        $bottom_y = min($this->height, $y+1 + $feather);
                         break 2;
                     }
                 }
@@ -861,7 +862,7 @@ class Image
                 for ($y=$top_y; $y < $bottom_y; $y+=$stepSizeY) {
                     $checkColor = imagecolorsforindex($this->resource, imagecolorat($this->resource, $x, $y));
                     if ($colorDiffers($color, $checkColor)) {
-                        $bottom_x = $x+1;
+                        $bottom_x = min($this->width, $x+1 + $feather);
                         break 2;
                     }
                 }

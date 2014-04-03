@@ -2311,6 +2311,76 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $img->trim(null, null, 200);
     }
 
+    public function testTrimWithFeather()
+    {
+        $canvas = Image::make('public/trim.png');
+
+        $img = clone $canvas;
+        $feather = 5;
+        $img->trim(null, null, null, $feather);
+        $this->assertEquals($img->width, 28 + $feather * 2);
+        $this->assertEquals($img->height, 28 + $feather * 2);
+
+        $img = clone $canvas;
+        $feather = 10;
+        $img->trim(null, null, null, $feather);
+        $this->assertEquals($img->width, 28 + $feather * 2);
+        $this->assertEquals($img->height, 28 + $feather * 2);
+
+        $img = clone $canvas;
+        $feather = 20; // must respect original dimensions of image
+        $img->trim(null, null, null, $feather);
+        $this->assertEquals($img->width, 50);
+        $this->assertEquals($img->height, 50);
+
+        $img = clone $canvas;
+        $feather = -5;
+        $img->trim(null, null, null, $feather);
+        $this->assertEquals($img->width, 28 + $feather * 2);
+        $this->assertEquals($img->height, 28 + $feather * 2);
+
+        $img = clone $canvas;
+        $feather = -10;
+        $img->trim(null, null, null, $feather);
+        $this->assertEquals($img->width, 28 + $feather * 2);
+        $this->assertEquals($img->height, 28 + $feather * 2);
+
+        // trim only left and right with feather
+        $img = clone $canvas;
+        $feather = 10;
+        $img->trim(null, array('left', 'right'), null, $feather);
+        $this->assertEquals($img->width, 28 + $feather * 2);
+        $this->assertEquals($img->height, 50);
+
+        // trim only top and bottom with feather
+        $img = clone $canvas;
+        $feather = 10;
+        $img->trim(null, array('top', 'bottom'), null, $feather);
+        $this->assertEquals($img->width, 50);
+        $this->assertEquals($img->height, 28 + $feather * 2);
+
+        // trim with tolerance and feather
+        $canvas = Image::make('public/gradient.png');
+
+        $img = clone $canvas;
+        $feather = 2;
+        $img->trim(null, null, 10, $feather);
+        $this->assertEquals($img->width, 38 + $feather * 2);
+        $this->assertEquals($img->height, 38 + $feather * 2);
+
+        $img = clone $canvas;
+        $feather = 5;
+        $img->trim(null, null, 10, $feather);
+        $this->assertEquals($img->width, 38 + $feather * 2);
+        $this->assertEquals($img->height, 38 + $feather * 2);
+
+        $img = clone $canvas;
+        $feather = 10; // should respect original dimensions
+        $img->trim(null, null, 20, $feather);
+        $this->assertEquals($img->width, 50);
+        $this->assertEquals($img->height, 50);
+    }
+
     public function testEncoded()
     {
         $img = Image::make('public/test.jpg');

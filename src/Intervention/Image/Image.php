@@ -42,7 +42,7 @@ class Image
     public $dirname;
 
     /**
-     * Trailing name component of current image filename
+     * The current basename of the image file, if instance was created from file.
      *
      * @var string
      */
@@ -56,7 +56,7 @@ class Image
     public $extension;
 
     /**
-     * Combined filename (basename and extension)
+     * The current image basename without extension, if instance was created from file.
      *
      * @var string
      */

@@ -102,21 +102,21 @@ class Image
                 // image properties come from gd image resource
                 $this->initFromResource($source);
 
-            } elseif (is_file($source) || filter_var($source, FILTER_VALIDATE_URL)) {
+            } elseif (is_file($source)) {
 
-                // image will be read from file / fetched from url before init
-                $this->initFromString(file_get_contents($source));
+                // image properties come from image file
+                $this->initFromPath($source);
 
             } elseif ($this->isBinary($source)) {
 
                 // image properties come from binary image string
                 $this->initFromString($source);
 
-            } else {
+            } elseif (filter_var($source, FILTER_VALIDATE_URL)) {
 
-                // image properties come from image file
-                $this->initFromPath($source);
-            }
+                // image will be fetched from url before init
+                $this->initFromString(file_get_contents($source));
+            } 
 
         } else {
 

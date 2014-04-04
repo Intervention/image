@@ -104,7 +104,7 @@ class Image
 
             } elseif (is_file($source)) {
 
-                // image properties come from image file
+                // image properties come from existing image file
                 $this->initFromPath($source);
 
             } elseif ($this->isBinary($source)) {
@@ -116,7 +116,11 @@ class Image
 
                 // image will be fetched from url before init
                 $this->initFromString(file_get_contents($source));
-            } 
+            } else {
+
+                // image properties come from potentially existing image file
+                $this->initFromPath($source);
+            }
 
         } else {
 

@@ -547,6 +547,18 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $transparency_2 = $img->pickColor(899, 699, 'array');
         $this->assertEquals(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0.0), $transparency_1);
         $this->assertEquals(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0.0), $transparency_2);
+
+        // preserve transparency when resizing canvas
+        $img = new Image('public/circle.png');
+        $img->resizeCanvas(40, 40, 'center');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('int', $img->width);
+        $this->assertInternalType('int', $img->height);
+        $this->assertEquals($img->width, 40);
+        $this->assertEquals($img->height, 40);
+        $this->assertEquals(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0.0), $img->pickColor(0, 0, 'array'));
+        $this->assertEquals(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0.8), $img->pickColor(20, 20, 'array'));
+
     }
 
     public function testCropImage()

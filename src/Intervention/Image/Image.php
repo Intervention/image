@@ -504,8 +504,10 @@ class Image
 
         // create new canvas
         $image = imagecreatetruecolor($width, $height);
+        imagealphablending($image, false);
+        imagesavealpha($image, true);
 
-        if ($width > $this->width || $height > $this->height) {
+        if ($width > $this->width or $height > $this->height) {
             $bgcolor = is_null($bgcolor) ? '000000' : $bgcolor;
             imagefill($image, 0, 0, $this->parseColor($bgcolor));
         }

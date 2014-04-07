@@ -538,7 +538,6 @@ class ImageTest extends PHPUnit_Framework_Testcase
         // resize with emerging transparent area
         $img = $this->getTestImage();
         $img->resizeCanvas(900, 700, 'center', false, array(0, 0, 0, 0));
-        $img->save('test.png');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInternalType('int', $img->width);
         $this->assertInternalType('int', $img->height);
@@ -1656,11 +1655,25 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertInternalType('int', $color);
         $this->assertEquals($color, 0);
 
+        $color = $img->parseColor('rgba(0,0,0,0)');
+        $this->assertInternalType('int', $color);
+        $this->assertEquals($color, 2130706432);
+
         $color = $img->parseColor('rgba(0,0,0,0.5)');
         $this->assertInternalType('int', $color);
+        $this->assertEquals($color, 1073741824);
 
         $color = $img->parseColor('rgba(255, 0, 0, 0.5)');
         $this->assertInternalType('int', $color);
+        $this->assertEquals($color, 1090453504);
+
+        $color = $img->parseColor(array(0, 0, 0, 0.5));
+        $this->assertInternalType('int', $color);
+        $this->assertEquals($color, 1073741824);
+
+        $color = $img->parseColor(array(0, 0, 0, 0));
+        $this->assertInternalType('int', $color);
+        $this->assertEquals($color, 2130706432);
     }
 
     /**

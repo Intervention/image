@@ -1207,6 +1207,7 @@ class Image
      * @param  integer $pos_y
      * @param  integer $width
      * @param  integer $height
+     * @param  boolean $filled
      * @return Image
      */
     public function ellipse($color, $pos_x = 0, $pos_y = 0, $width = 10, $height = 10, $filled = true)
@@ -1238,8 +1239,8 @@ class Image
      * @param  string  $text
      * @param  integer $posx
      * @param  integer $posy
+     * @param  integer $size_or_callback
      * @param  integer $angle
-     * @param  integer $size
      * @param  string  $color
      * @param  string  $fontfile
      * @return Image

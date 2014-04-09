@@ -1239,7 +1239,7 @@ class Image
      * @param  string  $text
      * @param  integer $posx
      * @param  integer $posy
-     * @param  integer $size_or_callback
+     * @param  mixed   $size_or_callback
      * @param  integer $angle
      * @param  string  $color
      * @param  string  $fontfile

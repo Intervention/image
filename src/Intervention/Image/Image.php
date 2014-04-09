@@ -102,15 +102,15 @@ class Image
                 // image properties come from gd image resource
                 $this->initFromResource($source);
 
-            } elseif ($this->isBinary($source)) {
-
-                // image properties come from binary image string
-                $this->initFromString($source);
-
             } elseif (filter_var($source, FILTER_VALIDATE_URL)) {
 
                 // image will be fetched from url before init
                 $this->initFromString(file_get_contents($source));
+
+            } elseif ($this->isBinary($source)) {
+
+                // image properties come from binary image string
+                $this->initFromString($source);
 
             } else {
 
@@ -1791,18 +1791,15 @@ class Image
     }
 
     /**
-     * Checks if string contains printable characters
+     * Checks if string contains binary image data
      *
      * @param  mixed   $input
      * @return boolean
      */
     private function isBinary($input)
     {
-        if (is_resource($input)) {
-            return false;
-        }
-
-        return ( ! ctype_print($input));
+        $mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), (string) $input);
+        return substr($mime, 0, 4) != 'text';
     }
 
     /**

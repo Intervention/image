@@ -65,6 +65,16 @@ class ImageTest extends PHPUnit_Framework_Testcase
     }
 
     /**
+     * @expectedException Intervention\Image\Exception\ImageNotFoundException
+     */
+    public function testConstructorWithNonAsciiCharacters()
+    {
+        // file does not exists but path string should NOT be considered
+        // as binary data. (should _NOT_ throw InvalidImageDataStringException)
+        $img = new Image('public/Über.jpg');
+    }
+
+    /**
      * @expectedException Intervention\Image\Exception\InvalidImageTypeException
      */
     public function testContructorWithPathInvalidType()

@@ -1240,8 +1240,8 @@ class Image
      * @param  integer $posx
      * @param  integer $posy
      * @param  mixed   $size_or_callback
-     * @param  integer $angle
      * @param  string  $color
+     * @param  integer $angle
      * @param  string  $fontfile
      * @return Image
      */

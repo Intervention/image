@@ -31,7 +31,8 @@ class ImageServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app['image'] = $this->app->share(
+        $app = $this->app;
+        $app['image'] = $app->share(
             function ($app) {
                 return new Image;
             }
@@ -41,8 +42,8 @@ class ImageServiceProvider extends ServiceProvider
         if (class_exists('\Intervention\Image\ImageCache')) {
 
             // load imagecache config
-            $this->app['config']->package('intervention/imagecache', __DIR__.'/../../../../imagecache/src/config');
-            $config = $this->app['config']->get('imagecache::imagecache');
+            $app['config']->package('intervention/imagecache', __DIR__.'/../../../../imagecache/src/config');
+            $config = $app['config']->get('imagecache::imagecache');
 
             // create dynamic manipulation route
             if (is_string($config['route'])) {
@@ -51,7 +52,7 @@ class ImageServiceProvider extends ServiceProvider
                 $config['templates']['original'] = null;
 
                 // setup image manipulator route
-                $this->app['router']->get($config['route'].'/{template}/{filename}', array('as' => 'imagecache', function ($template, $filename) use ($config) {
+                $app['router']->get($config['route'].'/{template}/{filename}', array('as' => 'imagecache', function ($template, $filename) use ($app, $config) {
 
                     // find file
                     foreach ($config['paths'] as $path) {
@@ -65,7 +66,7 @@ class ImageServiceProvider extends ServiceProvider
 
                     // abort if file not found
                     if ($image_path === false) {
-                        $this->app->abort(404);
+                        $app->abort(404);
                     }
 
                     // define template callback
@@ -74,7 +75,7 @@ class ImageServiceProvider extends ServiceProvider
                     if (is_callable($callback)) {
 
                         // image manipulation based on callback
-                        $content = $this->app['image']->cache(function ($image) use ($image_path, $callback) {
+                        $content = $app['image']->cache(function ($image) use ($image_path, $callback) {
                             return $callback($image->make($image_path));
                         }, $config['lifetime']);
 

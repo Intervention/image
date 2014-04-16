@@ -1489,6 +1489,15 @@ class ImageTest extends PHPUnit_Framework_Testcase
         $this->assertEquals('#00ff00', $img->pickColor(0, 0, 'hex'));
     }
 
+    public function testBackupKeepTransparency($value='')
+    {
+        $img = new Image('public/circle.png');
+        $img->backup();
+        $img->reset();
+        $transparent = array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0.0);
+        $this->assertEquals($transparent, $img->pickColor(0, 0, 'array'));
+    }
+
     public function testLimitColors()
     {
         // reduce colors

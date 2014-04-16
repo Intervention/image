@@ -1868,6 +1868,9 @@ class Image
     private function cloneResource($resource)
     {
         $clone = imagecreatetruecolor($this->width, $this->height);
+        imagealphablending($clone, false);
+        imagesavealpha($clone, true);
+        
         imagecopy($clone, $resource, 0, 0, 0, 0, $this->width, $this->height);
 
         return $clone;

@@ -5,22 +5,33 @@ Intervention Image is a **PHP image handling and manipulation** library based on
 [![Build Status](https://travis-ci.org/Intervention/image.png?branch=master)](https://travis-ci.org/Intervention/image)
 
 ## Requirements
-    
+
 - PHP >=5.3
 - GD >=2.0
 
-## Installation
+## Getting started
 
-Intervention Image installable with Composer. Read further information on how to install.
+- [Installation Guide](http://image.intervention.io/getting_started/installation)
+- [Laravel Framework Integration](http://image.intervention.io/getting_started/laravel)
+- [Official Documentation](http://image.intervention.io/)
 
-[Intervention Image Installation Guide](http://image.intervention.io/getting_started/installation)  
-[Laravel Framework Integration](http://image.intervention.io/getting_started/laravel)
+## Code Examples
 
-## Documentation
+```php
+// open an image file
+$img = Image::make('public/foo.jpg');
 
-Refer to the following guide on how to use Intervention Image Class.
+// resize image instance
+$img->resize(320, 240);
 
-[Intervention Image Documentation](http://image.intervention.io/)
+// insert a watermark
+$img->insert('public/watermark.png');
+
+// save image in desired format
+$img->save('public/bar.jpg');
+```
+
+Refer to the [documentation](http://image.intervention.io/) to learn more about Intervention Image.
 
 ## License
 

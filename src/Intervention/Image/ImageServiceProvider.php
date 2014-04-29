@@ -95,7 +95,7 @@ class ImageServiceProvider extends ServiceProvider
                         'Etag' => md5($content)
                     ));
 
-                }))->where(array('template' => join('|', array_keys($config['templates'])), 'filename' => '^[\w.-]+$'));
+                }))->where(array('template' => join('|', array_keys($config['templates'])), 'filename' => '^[\/\w.-]+$'));
             }
         }
     }

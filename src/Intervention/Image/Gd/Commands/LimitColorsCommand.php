@@ -1,0 +1,46 @@
+<?php
+
+namespace Intervention\Image\Gd\Commands;
+
+use Intervention\Image\Gd\Color;
+
+class LimitColorsCommand extends \Intervention\Image\Commands\AbstractCommand
+{
+    public function execute($image)
+    {
+        $count = $this->getArgument(0);
+        $matte = $this->getArgument(1);
+
+        // get current image size
+        $size = $image->getSize();
+
+        // create empty canvas
+        $resource = imagecreatetruecolor($size->width, $size->height);
+
+        // define matte
+        if (is_null($matte)) {
+            $matte = imagecolorallocatealpha($resource, 0, 0, 0, 127);
+        } else {
+            $matte = $image->getDriver()->parseColor($matte)->getInt();
+        }
+
+        // fill with matte and copy original image
+        imagefill($resource, 0, 0, $matte);
+
+        // set transparency
+        imagecolortransparent($resource, $matte);
+
+        // copy original image
+        imagecopy($resource, $image->getCore(), 0, 0, 0, 0, $size->width, $size->height);
+        
+        if ($count <= 256) {
+            // decrease colors
+            imagetruecolortopalette($resource, true, $count);
+        }
+
+        // set new resource
+        $image->setCore($resource);
+
+        return true;
+    }
+}

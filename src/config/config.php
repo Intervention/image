@@ -3,6 +3,6 @@
 return array(
 
     // imagick, gd
-    'driver' => 'imagick'
+    'driver' => 'gd'
 
 );

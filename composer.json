@@ -29,5 +29,5 @@
             "Intervention\\Image\\": "src/"
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "dev"
 }

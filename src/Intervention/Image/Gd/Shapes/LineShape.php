@@ -25,28 +25,15 @@ class LineShape extends \Intervention\Image\AbstractShape
 
     public function width($width)
     {
-        $this->width = $width;
+        throw new \Intervention\Image\Exception\NotSupportedException(
+            "Line width is not supported by GD driver."
+        );
     }
 
     public function applyToImage(Image $image, $x = 0, $y = 0)
     {
-        $angle = atan2(($this->y - $y),($this->x - $x)); 
-        $dist_x=$this->width*(sin($angle));
-        $dist_y=$this->width*(cos($angle));
-
-        $points = array(
-            ceil($this->x + $dist_x),
-            ceil($this->y + $dist_y),
-            ceil($x + $dist_x),
-            ceil($y + $dist_y),
-            ceil($x - $dist_x),
-            ceil($y - $dist_y),
-            ceil($this->x - $dist_x),
-            ceil($this->y - $dist_y)
-        );
-
         $color = new Color($this->color);
-        imagefilledpolygon($image->getCore(), $points, (count($points)/2), $color->getInt());
+        imageline($image->getCore(), $x, $y, $this->x, $this->y, $color->getInt());
 
         return true;
     }

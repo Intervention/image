@@ -35,7 +35,7 @@ class Source extends \Intervention\Image\AbstractSource
 
             default:
                 throw new \Intervention\Image\Exception\NotReadableException(
-                    "Unable to read image type ({$this->type}) only use JPG, PNG or GIF images."
+                    "Unable to read image type ({$this->type}) only use JPG, PNG or GIF images with GD driver."
                 );
                 break;
         }

@@ -6,7 +6,7 @@ class InterlaceCommand extends \Intervention\Image\Commands\AbstractCommand
 {
     public function execute($image)
     {
-        $mode = $this->getArgument(0);
+        $mode = $this->getArgument(0, true);
         
         imageinterlace($image->getCore(), $mode);
 

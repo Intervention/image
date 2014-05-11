@@ -2,7 +2,7 @@
 
 use Intervention\Image\Commands\ChecksumCommand;
 
-class ExifCommandTest extends PHPUnit_Framework_TestCase
+class ChecksumCommandTest extends PHPUnit_Framework_TestCase
 {
     public function tearDown()
     {

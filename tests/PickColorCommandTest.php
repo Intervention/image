@@ -14,7 +14,7 @@ class PickColorCommandTest extends PHPUnit_Framework_TestCase
     {
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $image = Mockery::mock('Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($resource);
+        $image->shouldReceive('getCore')->times(2)->andReturn($resource);
         $command = new PickColorGd(array());
         $result = $command->execute($image);
         $this->assertTrue($result);
@@ -27,7 +27,7 @@ class PickColorCommandTest extends PHPUnit_Framework_TestCase
     {
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $image = Mockery::mock('Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($resource);
+        $image->shouldReceive('getCore')->times(2)->andReturn($resource);
         $command = new PickColorGd(array(1, 2));
         $result = $command->execute($image);
         $this->assertTrue($result);
@@ -40,7 +40,7 @@ class PickColorCommandTest extends PHPUnit_Framework_TestCase
     {
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $image = Mockery::mock('Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($resource);
+        $image->shouldReceive('getCore')->times(2)->andReturn($resource);
         $command = new PickColorGd(array(1, 2, 'hex'));
         $result = $command->execute($image);
         $this->assertTrue($result);

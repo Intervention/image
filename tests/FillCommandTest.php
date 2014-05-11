@@ -24,12 +24,15 @@ class FillCommandTest extends PHPUnit_Framework_TestCase
 
     public function testGdFillWithCoordinates()
     {
+        $driver = Mockery::mock('\Intervention\Image\Gd\Driver');
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $image = Mockery::mock('Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($resource);
+        $image->shouldReceive('getDriver')->once()->andReturn($driver);
+        $image->shouldReceive('getCore')->times(2)->andReturn($resource);
         $image->shouldReceive('getWidth')->once()->andReturn(800);
         $image->shouldReceive('getHeight')->once()->andReturn(600);
         $image->shouldReceive('setCore')->once();
+        $driver->shouldReceive('newImage')->with(800, 600)->once()->andReturn($image);
         $command = new FillGd(array('#666666', 0, 0));
         $result = $command->execute($image);
         $this->assertTrue($result);

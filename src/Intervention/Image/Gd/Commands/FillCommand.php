@@ -37,7 +37,7 @@ class FillCommand extends \Intervention\Image\Commands\AbstractCommand
         if (is_int($x) && is_int($y)) {
             
             // resource should be visible through transparency
-            $base = imagecreatetruecolor($width, $height);
+            $base = $image->getDriver()->newImage($width, $height)->getCore();
             imagecopy($base, $resource, 0, 0, 0, 0, $width, $height);
 
             // floodfill if exact position is defined

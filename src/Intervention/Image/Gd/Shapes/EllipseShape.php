@@ -19,12 +19,12 @@ class EllipseShape extends \Intervention\Image\AbstractShape
     public function applyToImage(Image $image, $x = 0, $y = 0)
     {
         $background = new Color($this->background);
-        imagefilledellipse($image->getCore(), $x, $y, $this->width * 2, $this->height * 2, $background->getInt());
+        imagefilledellipse($image->getCore(), $x, $y, $this->width, $this->height, $background->getInt());
 
         if ($this->hasBorder()) {
             $border_color = new Color($this->border_color);
             imagesetthickness($image->getCore(), $this->border_width);
-            imageellipse($image->getCore(), $x, $y, $this->width * 2, $this->height * 2, $border_color->getInt());
+            imageellipse($image->getCore(), $x, $y, $this->width, $this->height, $border_color->getInt());
         }
 
         return true;

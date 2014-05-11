@@ -21,7 +21,7 @@ class Image extends File
         return $command->hasOutput() ? $command->getOutput() : $this;
     }
 
-    public function encode($format, $quality = 90)
+    public function encode($format = null, $quality = 90)
     {
         return $this->driver->encode($this, $format, $quality);
     }

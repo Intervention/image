@@ -1241,6 +1241,108 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($img->getHeight(), 8);
     }
 
+    public function testTrimOnlyLeftAndRight()
+    {
+        $img = $this->manager()->make('tests/images/gradient.png');
+        $img->trim(null, array('left', 'right'), 60);
+        $this->assertEquals($img->getWidth(), 20);
+        $this->assertEquals($img->getHeight(), 50);
+    }
+
+    public function testTrimOnlyTopAndBottom()
+    {
+        $img = $this->manager()->make('tests/images/gradient.png');
+        $img->trim(null, array('top', 'bottom'), 60);
+        $this->assertEquals($img->getWidth(), 50);
+        $this->assertEquals($img->getHeight(), 20);
+    }
+
+    public function testTrimOnlyTop()
+    {
+        $img = $this->manager()->make('tests/images/gradient.png');
+        $img->trim(null, 'top', 60);
+        $this->assertEquals($img->getWidth(), 50);
+        $this->assertEquals($img->getHeight(), 35);
+    }
+
+    public function testTrimOnlyBottom()
+    {
+        $img = $this->manager()->make('tests/images/gradient.png');
+        $img->trim(null, 'top', 60);
+        $this->assertEquals($img->getWidth(), 50);
+        $this->assertEquals($img->getHeight(), 35);
+    }
+
+    public function testTrimWithFeather()
+    {
+        $canvas = $this->manager()->make('tests/images/trim.png');
+        
+        $img = clone $canvas;
+        $feather = 5;
+        $img->trim(null, null, null, $feather);
+        $this->assertEquals($img->getWidth(), 28 + $feather * 2);
+        $this->assertEquals($img->getHeight(), 28 + $feather * 2);
+
+        $img = clone $canvas;
+        $feather = 10;
+        $img->trim(null, null, null, $feather);
+        $this->assertEquals($img->getWidth(), 28 + $feather * 2);
+        $this->assertEquals($img->getHeight(), 28 + $feather * 2);
+
+        $img = clone $canvas;
+        $feather = 20; // must respect original dimensions of image
+        $img->trim(null, null, null, $feather);
+        $this->assertEquals($img->getWidth(), 50);
+        $this->assertEquals($img->getHeight(), 50);
+
+        $img = clone $canvas;
+        $feather = -5;
+        $img->trim(null, null, null, $feather);
+        $this->assertEquals($img->getWidth(), 28 + $feather * 2);
+        $this->assertEquals($img->getHeight(), 28 + $feather * 2);
+
+        $img = clone $canvas;
+        $feather = -10;
+        $img->trim(null, null, null, $feather);
+        $this->assertEquals($img->getWidth(), 28 + $feather * 2);
+        $this->assertEquals($img->getHeight(), 28 + $feather * 2);
+
+        // trim only left and right with feather
+        $img = clone $canvas;
+        $feather = 10;
+        $img->trim(null, array('left', 'right'), null, $feather);
+        $this->assertEquals($img->getWidth(), 28 + $feather * 2);
+        $this->assertEquals($img->getHeight(), 50);
+
+        // trim only top and bottom with feather
+        $img = clone $canvas;
+        $feather = 10;
+        $img->trim(null, array('top', 'bottom'), null, $feather);
+        $this->assertEquals($img->getWidth(), 50);
+        $this->assertEquals($img->getHeight(), 28 + $feather * 2);
+
+        // trim with tolerance and feather
+        $canvas = $this->manager()->make('tests/images/gradient.png');
+
+        $img = clone $canvas;
+        $feather = 2;
+        $img->trim(null, null, 10, $feather);
+        $this->assertEquals($img->getWidth(), 38 + $feather * 2);
+        $this->assertEquals($img->getHeight(), 38 + $feather * 2);
+
+        $img = clone $canvas;
+        $feather = 5;
+        $img->trim(null, null, 10, $feather);
+        $this->assertEquals($img->getWidth(), 38 + $feather * 2);
+        $this->assertEquals($img->getHeight(), 38 + $feather * 2);
+
+        $img = clone $canvas;
+        $feather = 10; // should respect original dimensions
+        $img->trim(null, null, 20, $feather);
+        $this->assertEquals($img->getWidth(), 50);
+        $this->assertEquals($img->getHeight(), 50);
+    }
+
     public function testEncodeDefault()
     {
         $img = $this->manager()->make('tests/images/trim.png');

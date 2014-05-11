@@ -2,6 +2,10 @@
 
 namespace Intervention\Image;
 
+use Illuminate\Config\Repository as Config;
+use Illuminate\Config\FileLoader;
+use Illuminate\Filesystem\Filesystem;
+
 class ImageManager
 {
     public $config;
@@ -15,8 +19,13 @@ class ImageManager
 
         } else {
 
-            $loader = new FileLoader(new Filesystem, __DIR__.'/../../config');
-            $this->config = new Config($loader, null);
+            $config_path = __DIR__.'/../../config';
+            $env = 'production';
+
+            $file = new Filesystem;
+            $loader = new FileLoader($file, $config_path);
+            $this->config = new Config($loader, $env);
+            $this->config->package('intervention/image', $config_path, 'image');
         }
     }
 

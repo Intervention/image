@@ -416,15 +416,15 @@ class Image
 
         // If both the width and height haven't been passed along,
         // throw an exception.
-        if (is_null($width) && is_null($height)) {
+        if (empty($width) && empty($height)) {
 
             throw new Exception\DimensionOutOfBoundsException('width or height needs to be defined');
 
-        } elseif (is_null($width)) { // If only the width hasn't been set, keep the current width.
+        } elseif (empty($width)) { // If only the width hasn't been set, keep the current width.
 
             $width = $this->width;
 
-        } elseif (is_null($height)) { // If only the height hasn't been set, keep the current height.
+        } elseif (empty($height)) { // If only the height hasn't been set, keep the current height.
 
             $height = $this->height;
 

@@ -70,7 +70,7 @@ class Source extends \Intervention\Image\AbstractSource
             );
         }
 
-        $image = $this->initFromGdResource($core);
+        $image = $this->initFromGdResource($resource);
         $image->mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $binary);
 
         return $image;

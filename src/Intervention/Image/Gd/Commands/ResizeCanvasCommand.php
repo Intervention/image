@@ -61,6 +61,12 @@ class ResizeCanvasCommand extends \Intervention\Image\Commands\AbstractCommand
             $src_h = $original_height;
         }
 
+        // make image area transparent to keep transparency
+        // even if background-color is set
+        $transparent = imagecolorallocatealpha($canvas->getCore(), 0, 0, 0, 127);
+        imagealphablending($canvas->getCore(), false); // do not blend / just overwrite
+        imagefilledrectangle($canvas->getCore(), $dst_x, $dst_y, $src_w + 1, $src_h + 1, $transparent);
+
         // copy image into new canvas
         imagecopy($canvas->getCore(), $image->getCore(), $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h);
 

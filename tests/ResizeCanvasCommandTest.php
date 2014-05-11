@@ -22,7 +22,7 @@ class ResizeCanvasCommandTest extends PHPUnit_Framework_TestCase
         $image_size->shouldReceive('align')->with('center')->andReturn($image_size);
         $image_size->shouldReceive('relativePosition')->andReturn($image_pos);
         $canvas = Mockery::mock('\Intervention\Image\Image');
-        $canvas->shouldReceive('getCore')->times(2)->andReturn($resource);
+        $canvas->shouldReceive('getCore')->times(5)->andReturn($resource);
         $canvas->shouldReceive('getSize')->andReturn($canvas_size);
         $driver = Mockery::mock('\Intervention\Image\Gd\Driver');
         $driver->shouldReceive('newImage')->with(820, 640, '#b53717')->once()->andReturn($canvas);

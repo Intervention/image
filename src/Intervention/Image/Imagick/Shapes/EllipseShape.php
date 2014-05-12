@@ -31,7 +31,7 @@ class EllipseShape extends \Intervention\Image\AbstractShape
             $circle->setStrokeColor($border_color->getPixel());
         }
 
-        $circle->ellipse($x, $y, $this->width, $this->height, 0, 360); 
+        $circle->ellipse($x, $y, $this->width / 2, $this->height / 2, 0, 360); 
 
         $image->getCore()->drawImage($circle);
 

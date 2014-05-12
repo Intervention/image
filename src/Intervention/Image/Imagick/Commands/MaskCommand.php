@@ -14,7 +14,12 @@ class MaskCommand extends \Intervention\Image\Commands\AbstractCommand
 
         // build mask image from source
         $mask = $image->getDriver()->init($mask_source);
-        $mask_size = $mask->getSize();
+
+        // resize mask to size of current image (if necessary)
+        $image_size = $image->getSize();
+        if ($mask->getSize() != $image_size) {
+            $mask->resize($image_size->width, $image_size->height);
+        }
 
         $imagick->setImageMatte(true); 
 

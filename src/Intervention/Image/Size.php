@@ -109,18 +109,36 @@ class Size
 
     public function fit(Size $size)
     {
-        $width = $size->getRatio() <= 1 ? null : $this->width;
-        $height = $size->getRatio() > 1 ? null : $this->height;
+        $auto_width = clone $size;
+        $auto_height = clone $size;
 
-        $size->resize($width, $height, function ($constraint) {
+        // create size with auto width
+        $auto_width->resize(null, $this->height, function ($constraint) {
             $constraint->aspectRatio();
         });
+
+        // create size with auto height
+        $auto_height->resize($this->width, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+
+        // decide which version to use
+        if ($auto_height->fitsInto($this)) {
+            $size = $auto_height;
+        } else {
+            $size = $auto_width;
+        }
 
         $this->align('center');
         $size->align('center');
         $size->setPivot($this->relativePosition($size));
 
         return $size;
+    }
+
+    public function fitsInto(Size $size)
+    {
+        return ($this->width <= $size->width) && ($this->height <= $size->height);
     }
 
     public function align($position, $offset_x = 0, $offset_y = 0)

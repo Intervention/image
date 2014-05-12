@@ -292,6 +292,44 @@ class SizeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(300, $fitted->height);
         $this->assertEquals(50, $fitted->pivot->x);
         $this->assertEquals(0, $fitted->pivot->y);
+
+        $box = new Size(600, 800);
+        $fitted = $box->fit(new Size(100, 100));
+        $this->assertEquals(600, $fitted->width);
+        $this->assertEquals(600, $fitted->height);
+        $this->assertEquals(0, $fitted->pivot->x);
+        $this->assertEquals(100, $fitted->pivot->y);
+    }
+
+    public function testFitsInto()
+    {
+        $box = new Size(800, 600);
+        $fits = $box->fitsInto(new Size(100, 100));
+        $this->assertFalse($fits);
+
+        $box = new Size(800, 600);
+        $fits = $box->fitsInto(new Size(1000, 100));
+        $this->assertFalse($fits);
+
+        $box = new Size(800, 600);
+        $fits = $box->fitsInto(new Size(100, 1000));
+        $this->assertFalse($fits);
+
+        $box = new Size(800, 600);
+        $fits = $box->fitsInto(new Size(800, 600));
+        $this->assertTrue($fits);
+
+        $box = new Size(800, 600);
+        $fits = $box->fitsInto(new Size(1000, 1000));
+        $this->assertTrue($fits);
+
+        $box = new Size(100, 100);
+        $fits = $box->fitsInto(new Size(800, 600));
+        $this->assertTrue($fits);
+
+        $box = new Size(100, 100);
+        $fits = $box->fitsInto(new Size(80, 60));
+        $this->assertFalse($fits);
     }
 
     /**

@@ -23,7 +23,7 @@ class FitCommand extends \Intervention\Image\Commands\AbstractCommand
         );
         
         // resize image
-        $image->getCore()->resizeImage($width, $height, \Imagick::FILTER_CATROM, 1);
+        $image->getCore()->resizeImage($width, $height, \Imagick::FILTER_BOX, 1);
         $image->getCore()->setImagePage(0,0,0,0);
         
         return true;

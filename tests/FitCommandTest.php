@@ -36,7 +36,7 @@ class FitCommandTest extends PHPUnit_Framework_TestCase
         $original_size->shouldReceive('fit')->once()->andReturn($fitted_size);
         $imagick = Mockery::mock('Imagick');
         $imagick->shouldReceive('cropimage')->with(800, 400, 0, 100)->andReturn(true);
-        $imagick->shouldReceive('resizeimage')->with(200, 100, \Imagick::FILTER_CATROM, 1)->andReturn(true);
+        $imagick->shouldReceive('resizeimage')->with(200, 100, \Imagick::FILTER_BOX, 1)->andReturn(true);
         $imagick->shouldReceive('setimagepage')->with(0, 0, 0, 0)->andReturn(true);
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getSize')->once()->andReturn($original_size);

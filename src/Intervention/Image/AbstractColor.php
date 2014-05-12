@@ -64,7 +64,7 @@ abstract class AbstractColor
                 break;
 
             case 'hex':
-                return $this->getHex();
+                return $this->getHex('#');
                 break;
 
             case 'int':

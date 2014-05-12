@@ -46,7 +46,7 @@ class PickColorCommandTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
         $this->assertInternalType('string', $command->getOutput());
-        $this->assertEquals('ffffff', $command->getOutput());
+        $this->assertEquals('#ffffff', $command->getOutput());
     }
 
     public function testImagick()
@@ -88,6 +88,6 @@ class PickColorCommandTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
         $this->assertInternalType('string', $command->getOutput());
-        $this->assertEquals('ff0000', $command->getOutput());
+        $this->assertEquals('#ff0000', $command->getOutput());
     }
 }

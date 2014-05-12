@@ -66,7 +66,7 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(30, $img->getWidth());
         $this->assertEquals(20, $img->getHeight());
-        $this->assertEquals('b53717', $img->pickColor(15, 15, 'hex'));
+        $this->assertEquals('#b53717', $img->pickColor(15, 15, 'hex'));
     }
 
     public function testGetSize()
@@ -205,8 +205,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
-        $this->assertColorAtPosition('b4e000', $img, 0, 4);
-        $this->assertColorAtPosition('445160', $img, 5, 5);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 4);
+        $this->assertColorAtPosition('#445160', $img, 5, 5);
         $this->assertTransparentPosition($img, 0, 5);
         $this->assertTransparentPosition($img, 5, 4);
     }
@@ -219,8 +219,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
-        $this->assertColorAtPosition('b4e000', $img, 0, 7);
-        $this->assertColorAtPosition('445160', $img, 8, 8);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 7);
+        $this->assertColorAtPosition('#445160', $img, 8, 8);
         $this->assertTransparentPosition($img, 0, 8);
         $this->assertTransparentPosition($img, 8, 7);
     }
@@ -233,8 +233,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
-        $this->assertColorAtPosition('b4e000', $img, 0, 7);
-        $this->assertColorAtPosition('445160', $img, 5, 8);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 7);
+        $this->assertColorAtPosition('#445160', $img, 5, 8);
         $this->assertTransparentPosition($img, 0, 8);
         $this->assertTransparentPosition($img, 5, 7);
     }
@@ -247,8 +247,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
-        $this->assertColorAtPosition('b4e000', $img, 0, 7);
-        $this->assertColorAtPosition('445160', $img, 2, 8);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 7);
+        $this->assertColorAtPosition('#445160', $img, 2, 8);
         $this->assertTransparentPosition($img, 0, 8);
         $this->assertTransparentPosition($img, 2, 7);
     }
@@ -261,8 +261,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
-        $this->assertColorAtPosition('b4e000', $img, 0, 4);
-        $this->assertColorAtPosition('445160', $img, 8, 5);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 4);
+        $this->assertColorAtPosition('#445160', $img, 8, 5);
         $this->assertTransparentPosition($img, 0, 5);
         $this->assertTransparentPosition($img, 8, 4);
     }
@@ -275,8 +275,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
-        $this->assertColorAtPosition('b4e000', $img, 0, 4);
-        $this->assertColorAtPosition('445160', $img, 2, 5);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 4);
+        $this->assertColorAtPosition('#445160', $img, 2, 5);
         $this->assertTransparentPosition($img, 0, 5);
         $this->assertTransparentPosition($img, 2, 4);
     }
@@ -289,8 +289,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
-        $this->assertColorAtPosition('b4e000', $img, 0, 1);
-        $this->assertColorAtPosition('445160', $img, 8, 2);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 1);
+        $this->assertColorAtPosition('#445160', $img, 8, 2);
         $this->assertTransparentPosition($img, 0, 2);
         $this->assertTransparentPosition($img, 8, 1);
     }
@@ -303,8 +303,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
-        $this->assertColorAtPosition('b4e000', $img, 0, 1);
-        $this->assertColorAtPosition('445160', $img, 2, 2);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 1);
+        $this->assertColorAtPosition('#445160', $img, 2, 2);
         $this->assertTransparentPosition($img, 0, 2);
         $this->assertTransparentPosition($img, 2, 1);
     }
@@ -317,8 +317,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
-        $this->assertColorAtPosition('b4e000', $img, 0, 1);
-        $this->assertColorAtPosition('445160', $img, 5, 2);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 1);
+        $this->assertColorAtPosition('#445160', $img, 5, 2);
         $this->assertTransparentPosition($img, 0, 2);
         $this->assertTransparentPosition($img, 5, 1);
     }
@@ -331,10 +331,10 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(20, $img->getWidth());
         $this->assertEquals(20, $img->getHeight());
-        $this->assertColorAtPosition('ff00ff', $img, 0, 0);
-        $this->assertColorAtPosition('ff00ff', $img, 19, 19);
-        $this->assertColorAtPosition('b4e000', $img, 2, 9);
-        $this->assertColorAtPosition('445160', $img, 10, 10);
+        $this->assertColorAtPosition('#ff00ff', $img, 0, 0);
+        $this->assertColorAtPosition('#ff00ff', $img, 19, 19);
+        $this->assertColorAtPosition('#b4e000', $img, 2, 9);
+        $this->assertColorAtPosition('#445160', $img, 10, 10);
         $this->assertTransparentPosition($img, 2, 10);
         $this->assertTransparentPosition($img, 10, 9);
     }
@@ -347,8 +347,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(16, $img->getHeight());
-        $this->assertColorAtPosition('b4e000', $img, 0, 7);
-        $this->assertColorAtPosition('445160', $img, 5, 8);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 7);
+        $this->assertColorAtPosition('#445160', $img, 5, 8);
         $this->assertTransparentPosition($img, 0, 8);
         $this->assertTransparentPosition($img, 5, 7);
     }
@@ -361,8 +361,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(16, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
-        $this->assertColorAtPosition('b4e000', $img, 0, 4);
-        $this->assertColorAtPosition('445160', $img, 8, 5);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 4);
+        $this->assertColorAtPosition('#445160', $img, 8, 5);
         $this->assertTransparentPosition($img, 0, 5);
         $this->assertTransparentPosition($img, 8, 4);
     }
@@ -375,8 +375,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(20, $img->getHeight());
-        $this->assertColorAtPosition('b4e000', $img, 0, 9);
-        $this->assertColorAtPosition('445160', $img, 5, 10);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 9);
+        $this->assertColorAtPosition('#445160', $img, 5, 10);
         $this->assertTransparentPosition($img, 0, 10);
         $this->assertTransparentPosition($img, 5, 9);
     }
@@ -389,8 +389,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(20, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
-        $this->assertColorAtPosition('b4e000', $img, 2, 4);
-        $this->assertColorAtPosition('445160', $img, 10, 5);
+        $this->assertColorAtPosition('#b4e000', $img, 2, 4);
+        $this->assertColorAtPosition('#445160', $img, 10, 5);
         $this->assertTransparentPosition($img, 0, 0);
         $this->assertTransparentPosition($img, 2, 5);
         $this->assertTransparentPosition($img, 10, 4);
@@ -404,8 +404,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(12, $img->getWidth());
         $this->assertEquals(12, $img->getHeight());
-        $this->assertColorAtPosition('b4e000', $img, 0, 5);
-        $this->assertColorAtPosition('445160', $img, 6, 6);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 5);
+        $this->assertColorAtPosition('#445160', $img, 6, 6);
         $this->assertTransparentPosition($img, 0, 6);
         $this->assertTransparentPosition($img, 6, 5);
     }
@@ -418,10 +418,10 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(16, $img->getWidth());
         $this->assertEquals(20, $img->getHeight());
-        $this->assertColorAtPosition('ff00ff', $img, 0, 0);
-        $this->assertColorAtPosition('b4e000', $img, 0, 4);
-        $this->assertColorAtPosition('b4e000', $img, 0, 11);
-        $this->assertColorAtPosition('445160', $img, 8, 12);
+        $this->assertColorAtPosition('#ff00ff', $img, 0, 0);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 4);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 11);
+        $this->assertColorAtPosition('#445160', $img, 8, 12);
         $this->assertTransparentPosition($img, 0, 12);
         $this->assertTransparentPosition($img, 8, 11);
     }
@@ -434,10 +434,10 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(17, $img->getWidth());
         $this->assertEquals(17, $img->getHeight());
-        $this->assertColorAtPosition('333333', $img, 0, 0);
-        $this->assertColorAtPosition('333333', $img, 5, 5);
-        $this->assertColorAtPosition('333333', $img, 7, 7);
-        $this->assertColorAtPosition('ff0000', $img, 8, 8);
+        $this->assertColorAtPosition('#333333', $img, 0, 0);
+        $this->assertColorAtPosition('#333333', $img, 5, 5);
+        $this->assertColorAtPosition('#333333', $img, 7, 7);
+        $this->assertColorAtPosition('#ff0000', $img, 8, 8);
     }
 
     public function testCropImage()
@@ -448,8 +448,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(6, $img->getWidth());
         $this->assertEquals(6, $img->getHeight());
-        $this->assertColorAtPosition('b4e000', $img, 0, 2);
-        $this->assertColorAtPosition('445160', $img, 3, 3);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 2);
+        $this->assertColorAtPosition('#445160', $img, 3, 3);
         $this->assertTransparentPosition($img, 0, 3);
         $this->assertTransparentPosition($img, 3, 2);
     }
@@ -462,8 +462,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(4, $img->getWidth());
         $this->assertEquals(4, $img->getHeight());
-        $this->assertColorAtPosition('b4e000', $img, 0, 0);
-        $this->assertColorAtPosition('445160', $img, 1, 1);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 0);
+        $this->assertColorAtPosition('#445160', $img, 1, 1);
         $this->assertTransparentPosition($img, 0, 1);
         $this->assertTransparentPosition($img, 1, 0);
     }
@@ -476,8 +476,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(6, $img->getWidth());
         $this->assertEquals(6, $img->getHeight());
-        $this->assertColorAtPosition('b4e000', $img, 0, 2);
-        $this->assertColorAtPosition('445060', $img, 3, 3);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 2);
+        $this->assertColorAtPosition('#445060', $img, 3, 3);
         $this->assertTransparentPosition($img, 0, 3);
         $this->assertTransparentPosition($img, 3, 2);
     }
@@ -490,8 +490,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(12, $img->getWidth());
         $this->assertEquals(6, $img->getHeight());
-        $this->assertColorAtPosition('b4e000', $img, 0, 2);
-        $this->assertColorAtPosition('445160', $img, 6, 3);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 2);
+        $this->assertColorAtPosition('#445160', $img, 6, 3);
         $this->assertTransparentPosition($img, 0, 3);
         $this->assertTransparentPosition($img, 6, 2);
     }
@@ -504,8 +504,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(16, $img->getWidth());
         $this->assertEquals(16, $img->getHeight());
-        $this->assertColorAtPosition('b4e000', $img, 8, 7);
-        $this->assertColorAtPosition('445160', $img, 0, 8);
+        $this->assertColorAtPosition('#b4e000', $img, 8, 7);
+        $this->assertColorAtPosition('#445160', $img, 0, 8);
         $this->assertTransparentPosition($img, 0, 7);
         $this->assertTransparentPosition($img, 8, 8);
     }
@@ -518,8 +518,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(16, $img->getWidth());
         $this->assertEquals(16, $img->getHeight());
-        $this->assertColorAtPosition('b4e000', $img, 0, 8);
-        $this->assertColorAtPosition('445160', $img, 8, 7);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 8);
+        $this->assertColorAtPosition('#445160', $img, 8, 7);
         $this->assertTransparentPosition($img, 0, 7);
         $this->assertTransparentPosition($img, 8, 8);
     }
@@ -532,8 +532,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(16, $img->getWidth());
         $this->assertEquals(16, $img->getHeight());
-        $this->assertColorAtPosition('b4e000', $img, 0, 8);
-        $this->assertColorAtPosition('445160', $img, 8, 7);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 8);
+        $this->assertColorAtPosition('#445160', $img, 8, 7);
         $this->assertTransparentPosition($img, 0, 7);
         $this->assertTransparentPosition($img, 8, 8);
     }
@@ -550,8 +550,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
-        $this->assertEquals('0000ff', $img->pickColor(0, 0, 'hex'));
-        $this->assertEquals('ff0000', $img->pickColor(16, 16, 'hex'));
+        $this->assertEquals('#0000ff', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(16, 16, 'hex'));
 
         // top-left anchor coordinates
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
@@ -561,8 +561,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
-        $this->assertEquals('ff0000', $img->pickColor(9, 9, 'hex'));
-        $this->assertEquals('0000ff', $img->pickColor(10, 10, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(9, 9, 'hex'));
+        $this->assertEquals('#0000ff', $img->pickColor(10, 10, 'hex'));
 
         // top anchor
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
@@ -572,8 +572,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
-        $this->assertEquals('ff0000', $img->pickColor(0, 0, 'hex'));
-        $this->assertEquals('0000ff', $img->pickColor(23, 15, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(0, 0, 'hex'));
+        $this->assertEquals('#0000ff', $img->pickColor(23, 15, 'hex'));
 
         // top anchor coordinates
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
@@ -583,8 +583,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
-        $this->assertEquals('0000ff', $img->pickColor(18, 10, 'hex'));
-        $this->assertEquals('ff0000', $img->pickColor(31, 26, 'hex'));
+        $this->assertEquals('#0000ff', $img->pickColor(18, 10, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(31, 26, 'hex'));
 
         // top-right anchor
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
@@ -594,8 +594,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
-        $this->assertEquals('ff0000', $img->pickColor(15, 0, 'hex'));
-        $this->assertEquals('0000ff', $img->pickColor(31, 0, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(15, 0, 'hex'));
+        $this->assertEquals('#0000ff', $img->pickColor(31, 0, 'hex'));
 
         // top-right anchor coordinates
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
@@ -605,8 +605,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
-        $this->assertEquals('ff0000', $img->pickColor(6, 9, 'hex'));
-        $this->assertEquals('0000ff', $img->pickColor(21, 25, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(6, 9, 'hex'));
+        $this->assertEquals('#0000ff', $img->pickColor(21, 25, 'hex'));
 
         // left anchor
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
@@ -616,8 +616,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
-        $this->assertEquals('0000ff', $img->pickColor(15, 23, 'hex'));
-        $this->assertEquals('ff0000', $img->pickColor(0, 7, 'hex'));
+        $this->assertEquals('#0000ff', $img->pickColor(15, 23, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(0, 7, 'hex'));
 
         // left anchor coordinates
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
@@ -627,10 +627,10 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
-        $this->assertEquals('ff0000', $img->pickColor(8, 23, 'hex'));
-        $this->assertEquals('ff0000', $img->pickColor(10, 7, 'hex'));
-        $this->assertEquals('0000ff', $img->pickColor(25, 23, 'hex'));
-        $this->assertEquals('0000ff', $img->pickColor(25, 8, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(8, 23, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(10, 7, 'hex'));
+        $this->assertEquals('#0000ff', $img->pickColor(25, 23, 'hex'));
+        $this->assertEquals('#0000ff', $img->pickColor(25, 8, 'hex'));
 
         // right anchor
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
@@ -640,8 +640,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
-        $this->assertEquals('0000ff', $img->pickColor(31, 23, 'hex'));
-        $this->assertEquals('ff0000', $img->pickColor(15, 15, 'hex'));
+        $this->assertEquals('#0000ff', $img->pickColor(31, 23, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(15, 15, 'hex'));
 
         // right anchor coordinates
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
@@ -651,12 +651,12 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
-        $this->assertEquals('ff0000', $img->pickColor(5, 8, 'hex'));
-        $this->assertEquals('ff0000', $img->pickColor(22, 23, 'hex'));
-        $this->assertEquals('ff0000', $img->pickColor(21, 7, 'hex'));
-        $this->assertEquals('0000ff', $img->pickColor(6, 8, 'hex'));
-        $this->assertEquals('0000ff', $img->pickColor(21, 23, 'hex'));
-        $this->assertEquals('0000ff', $img->pickColor(6, 23, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(5, 8, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(22, 23, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(21, 7, 'hex'));
+        $this->assertEquals('#0000ff', $img->pickColor(6, 8, 'hex'));
+        $this->assertEquals('#0000ff', $img->pickColor(21, 23, 'hex'));
+        $this->assertEquals('#0000ff', $img->pickColor(6, 23, 'hex'));
 
         // bottom-left anchor
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
@@ -666,8 +666,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
-        $this->assertEquals('0000ff', $img->pickColor(15, 31, 'hex'));
-        $this->assertEquals('ff0000', $img->pickColor(0, 15, 'hex'));
+        $this->assertEquals('#0000ff', $img->pickColor(15, 31, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(0, 15, 'hex'));
 
         // bottom-left anchor coordinates
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
@@ -677,8 +677,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
-        $this->assertEquals('0000ff', $img->pickColor(10, 21, 'hex'));
-        $this->assertEquals('ff0000', $img->pickColor(9, 20, 'hex'));
+        $this->assertEquals('#0000ff', $img->pickColor(10, 21, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(9, 20, 'hex'));
 
         // bottom anchor
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
@@ -688,8 +688,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
-        $this->assertEquals('0000ff', $img->pickColor(8, 16, 'hex'));
-        $this->assertEquals('ff0000', $img->pickColor(8, 15, 'hex'));
+        $this->assertEquals('#0000ff', $img->pickColor(8, 16, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(8, 15, 'hex'));
 
         // bottom anchor coordinates
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
@@ -699,13 +699,13 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
-        $this->assertEquals('ff0000', $img->pickColor(5, 8, 'hex'));
-        $this->assertEquals('ff0000', $img->pickColor(23, 22, 'hex'));
-        $this->assertEquals('ff0000', $img->pickColor(24, 21, 'hex'));
-        $this->assertEquals('ff0000', $img->pickColor(7, 6, 'hex'));
-        $this->assertEquals('0000ff', $img->pickColor(8, 6, 'hex'));
-        $this->assertEquals('0000ff', $img->pickColor(23, 21, 'hex'));
-        $this->assertEquals('0000ff', $img->pickColor(23, 6, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(5, 8, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(23, 22, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(24, 21, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(7, 6, 'hex'));
+        $this->assertEquals('#0000ff', $img->pickColor(8, 6, 'hex'));
+        $this->assertEquals('#0000ff', $img->pickColor(23, 21, 'hex'));
+        $this->assertEquals('#0000ff', $img->pickColor(23, 6, 'hex'));
 
         // bottom-right anchor
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
@@ -715,8 +715,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
-        $this->assertEquals('0000ff', $img->pickColor(16, 16, 'hex'));
-        $this->assertEquals('ff0000', $img->pickColor(15, 16, 'hex'));
+        $this->assertEquals('#0000ff', $img->pickColor(16, 16, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(15, 16, 'hex'));
 
         // bottom-right anchor coordinates
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
@@ -726,8 +726,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
-        $this->assertEquals('0000ff', $img->pickColor(21, 21, 'hex'));
-        $this->assertEquals('ff0000', $img->pickColor(22, 22, 'hex'));
+        $this->assertEquals('#0000ff', $img->pickColor(21, 21, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(22, 22, 'hex'));
 
         // center anchor
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
@@ -737,8 +737,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
-        $this->assertEquals('0000ff', $img->pickColor(23, 23, 'hex'));
-        $this->assertEquals('ff0000', $img->pickColor(8, 7, 'hex'));
+        $this->assertEquals('#0000ff', $img->pickColor(23, 23, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(8, 7, 'hex'));
 
         // center anchor coordinates / coordinates will be ignored for center
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
@@ -748,16 +748,16 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
-        $this->assertEquals('0000ff', $img->pickColor(23, 23, 'hex'));
-        $this->assertEquals('ff0000', $img->pickColor(8, 7, 'hex'));
+        $this->assertEquals('#0000ff', $img->pickColor(23, 23, 'hex'));
+        $this->assertEquals('#ff0000', $img->pickColor(8, 7, 'hex'));
     }
 
     public function testInsertWithAlphaChannel()
     {
         $img = $this->manager()->canvas(50, 50, 'ff0000');
         $img->insert('tests/images/circle.png');
-        $this->assertColorAtPosition('ff0000', $img, 0, 0);
-        $this->assertColorAtPosition('320000', $img, 30, 30);
+        $this->assertColorAtPosition('#ff0000', $img, 0, 0);
+        $this->assertColorAtPosition('#320000', $img, 30, 30);
     }
 
     public function testInsertAfterResize()
@@ -768,10 +768,10 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(16, $img->getWidth());
         $this->assertEquals(16, $img->getHeight());
-        $this->assertColorAtPosition('b4e000', $img, 0, 7);
-        $this->assertColorAtPosition('00aef0', $img, 0, 8);
-        $this->assertColorAtPosition('445160', $img, 8, 8);
-        $this->assertColorAtPosition('ffa601', $img, 8, 7);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 7);
+        $this->assertColorAtPosition('#00aef0', $img, 0, 8);
+        $this->assertColorAtPosition('#445160', $img, 8, 8);
+        $this->assertColorAtPosition('#ffa601', $img, 8, 7);
     }
 
     public function testInsertResource()
@@ -780,11 +780,11 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $img = $this->manager()->make('tests/images/trim.png');
         $img->insert($resource);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertColorAtPosition('b4e000', $img, 0, 7);
-        $this->assertColorAtPosition('00aef0', $img, 0, 8);
-        $this->assertColorAtPosition('445160', $img, 8, 8);
-        $this->assertColorAtPosition('00aef0', $img, 8, 7);
-        $this->assertColorAtPosition('ffa601', $img, 24, 24);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 7);
+        $this->assertColorAtPosition('#00aef0', $img, 0, 8);
+        $this->assertColorAtPosition('#445160', $img, 8, 8);
+        $this->assertColorAtPosition('#00aef0', $img, 8, 7);
+        $this->assertColorAtPosition('#ffa601', $img, 24, 24);
     }
 
     public function testInsertBinary()
@@ -793,11 +793,11 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $img = $this->manager()->make('tests/images/trim.png');
         $img->insert($data);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertColorAtPosition('b4e000', $img, 0, 7);
-        $this->assertColorAtPosition('00aef0', $img, 0, 8);
-        $this->assertColorAtPosition('445160', $img, 8, 8);
-        $this->assertColorAtPosition('00aef0', $img, 8, 7);
-        $this->assertColorAtPosition('ffa601', $img, 24, 24);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 7);
+        $this->assertColorAtPosition('#00aef0', $img, 0, 8);
+        $this->assertColorAtPosition('#445160', $img, 8, 8);
+        $this->assertColorAtPosition('#00aef0', $img, 8, 7);
+        $this->assertColorAtPosition('#ffa601', $img, 24, 24);
     }
 
     public function testInsertInterventionImage()
@@ -806,11 +806,11 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $img = $this->manager()->make('tests/images/trim.png');
         $img->insert($obj);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertColorAtPosition('b4e000', $img, 0, 7);
-        $this->assertColorAtPosition('00aef0', $img, 0, 8);
-        $this->assertColorAtPosition('445160', $img, 8, 8);
-        $this->assertColorAtPosition('00aef0', $img, 8, 7);
-        $this->assertColorAtPosition('ffa601', $img, 24, 24);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 7);
+        $this->assertColorAtPosition('#00aef0', $img, 0, 8);
+        $this->assertColorAtPosition('#445160', $img, 8, 8);
+        $this->assertColorAtPosition('#00aef0', $img, 8, 7);
+        $this->assertColorAtPosition('#ffa601', $img, 24, 24);
     }
 
     public function testOpacity()
@@ -878,7 +878,7 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $img->greyscale();
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertTransparentPosition($img, 8, 0);
-        $this->assertColorAtPosition('b9b9b9', $img, 0, 0);
+        $this->assertColorAtPosition('#b9b9b9', $img, 0, 0);
     }
 
     public function testInvertImage()
@@ -887,7 +887,7 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $img->invert();
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertTransparentPosition($img, 8, 0);
-        $this->assertColorAtPosition('4b1fff', $img, 0, 0);
+        $this->assertColorAtPosition('#4b1fff', $img, 0, 0);
     }
 
     public function testBlurImage()
@@ -901,8 +901,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->fill('b53717');
-        $this->assertColorAtPosition('b53717', $img, 0, 0);
-        $this->assertColorAtPosition('b53717', $img, 15, 15);
+        $this->assertColorAtPosition('#b53717', $img, 0, 0);
+        $this->assertColorAtPosition('#b53717', $img, 15, 15);
     }
 
     public function testFillImageWithColorAtPosition()
@@ -910,8 +910,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $img = $this->manager()->make('tests/images/tile.png');
         $img->fill('b53717', 0, 0);
         $this->assertTransparentPosition($img, 0, 8);
-        $this->assertColorAtPosition('b53717', $img, 0, 0);
-        $this->assertColorAtPosition('445160', $img, 15, 15);
+        $this->assertColorAtPosition('#b53717', $img, 0, 0);
+        $this->assertColorAtPosition('#445160', $img, 15, 15);
     }
 
     public function testFillImageWithResource()
@@ -919,10 +919,10 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $resource = imagecreatefrompng('tests/images/tile.png');
         $img = $this->manager()->make('tests/images/trim.png');
         $img->fill($resource, 0, 0);
-        $this->assertColorAtPosition('b4e000', $img, 0, 0);
-        $this->assertColorAtPosition('445160', $img, 8, 8);
-        $this->assertColorAtPosition('00aef0', $img, 8, 7);
-        $this->assertColorAtPosition('ffa601', $img, 20, 20);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 0);
+        $this->assertColorAtPosition('#445160', $img, 8, 8);
+        $this->assertColorAtPosition('#00aef0', $img, 8, 7);
+        $this->assertColorAtPosition('#ffa601', $img, 20, 20);
     }
 
     public function testFillImageWithBinary()
@@ -930,10 +930,10 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $data = file_get_contents('tests/images/tile.png');
         $img = $this->manager()->make('tests/images/trim.png');
         $img->fill($data, 0, 0);
-        $this->assertColorAtPosition('b4e000', $img, 0, 0);
-        $this->assertColorAtPosition('445160', $img, 8, 8);
-        $this->assertColorAtPosition('00aef0', $img, 8, 7);
-        $this->assertColorAtPosition('ffa601', $img, 20, 20);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 0);
+        $this->assertColorAtPosition('#445160', $img, 8, 8);
+        $this->assertColorAtPosition('#00aef0', $img, 8, 7);
+        $this->assertColorAtPosition('#ffa601', $img, 20, 20);
     }
 
     public function testFillImageWithInterventionImage()
@@ -941,10 +941,10 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $obj = $this->manager()->make('tests/images/tile.png');
         $img = $this->manager()->make('tests/images/trim.png');
         $img->fill($obj, 0, 0);
-        $this->assertColorAtPosition('b4e000', $img, 0, 0);
-        $this->assertColorAtPosition('445160', $img, 8, 8);
-        $this->assertColorAtPosition('00aef0', $img, 8, 7);
-        $this->assertColorAtPosition('ffa601', $img, 20, 20);
+        $this->assertColorAtPosition('#b4e000', $img, 0, 0);
+        $this->assertColorAtPosition('#445160', $img, 8, 8);
+        $this->assertColorAtPosition('#00aef0', $img, 8, 7);
+        $this->assertColorAtPosition('#ffa601', $img, 20, 20);
     }
 
     public function testPixelImage()
@@ -953,8 +953,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $coords = array(array(5, 5), array(12, 12));
         $img = $img->pixel('fdf5e4', $coords[0][0], $coords[0][1]);
         $img = $img->pixel(array(255, 255, 255), $coords[1][0], $coords[1][1]);
-        $this->assertEquals('fdf5e4', $img->pickColor($coords[0][0], $coords[0][1], 'hex'));
-        $this->assertEquals('ffffff', $img->pickColor($coords[1][0], $coords[1][1], 'hex'));
+        $this->assertEquals('#fdf5e4', $img->pickColor($coords[0][0], $coords[0][1], 'hex'));
+        $this->assertEquals('#ffffff', $img->pickColor($coords[1][0], $coords[1][1], 'hex'));
     }
 
     public function testTextImage()
@@ -1036,7 +1036,7 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(16, $img->getWidth());
         $this->assertEquals(16, $img->getHeight());
-        $this->assertColorAtPosition('0000ff', $img, 0, 0);
+        $this->assertColorAtPosition('#0000ff', $img, 0, 0);
     }
 
     public function testResetKeepTransparency()
@@ -1060,8 +1060,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $img->limitColors(16);
         $this->assertEquals(imagecolorstotal($img->getCore()), 16);
         $this->assertTransparentPosition($img, 0, 0);
-        $this->assertColorAtPosition('0c02b4', $img, 6, 12);
-        $this->assertColorAtPosition('fcbe04', $img, 22, 24);
+        $this->assertColorAtPosition('#0c02b4', $img, 6, 12);
+        $this->assertColorAtPosition('#fcbe04', $img, 22, 24);
     }
     
     public function testLimitColorsKeepTransparencyWithMatte()
@@ -1070,9 +1070,9 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $img->limitColors(64, '#00ff00');
         $this->assertEquals(imagecolorstotal($img->getCore()), 65);
         $this->assertTransparentPosition($img, 0, 0);
-        $this->assertColorAtPosition('04f204', $img, 12, 10);
-        $this->assertColorAtPosition('06fe04', $img, 22, 17);
-        $this->assertColorAtPosition('e40214', $img, 16, 21);
+        $this->assertColorAtPosition('#04f204', $img, 12, 10);
+        $this->assertColorAtPosition('#06fe04', $img, 22, 17);
+        $this->assertColorAtPosition('#e40214', $img, 16, 21);
     }
 
     public function testPickColorFromTrueColor()
@@ -1158,32 +1158,32 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
     {
         $img = $this->manager()->make('tests/images/trim.png');
         $img->gamma(1.6);
-        $this->assertColorAtPosition('00c9f6', $img, 0, 0);
-        $this->assertColorAtPosition('ffc308', $img, 24, 24);
+        $this->assertColorAtPosition('#00c9f6', $img, 0, 0);
+        $this->assertColorAtPosition('#ffc308', $img, 24, 24);
     }
 
     public function testBrightnessImage()
     {
         $img = $this->manager()->make('tests/images/trim.png');
         $img->brightness(35);
-        $this->assertColorAtPosition('59ffff', $img, 0, 0);
-        $this->assertColorAtPosition('ffff5a', $img, 24, 24);
+        $this->assertColorAtPosition('#59ffff', $img, 0, 0);
+        $this->assertColorAtPosition('#ffff5a', $img, 24, 24);
     }
 
     public function testContrastImage()
     {
         $img = $this->manager()->make('tests/images/trim.png');
         $img->contrast(35);
-        $this->assertColorAtPosition('00d4ff', $img, 0, 0);
-        $this->assertColorAtPosition('ffc500', $img, 24, 24);
+        $this->assertColorAtPosition('#00d4ff', $img, 0, 0);
+        $this->assertColorAtPosition('#ffc500', $img, 24, 24);
     }
 
     public function testColorizeImage()
     {
         $img = $this->manager()->make('tests/images/trim.png');
         $img->colorize(40, 25, -50);
-        $this->assertColorAtPosition('66ee70', $img, 0, 0);
-        $this->assertColorAtPosition('ffe600', $img, 24, 24);
+        $this->assertColorAtPosition('#66ee70', $img, 0, 0);
+        $this->assertColorAtPosition('#ffe600', $img, 24, 24);
     }
     
     public function testTrimGradient()
@@ -1448,11 +1448,11 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
     {
         $img = $this->manager()->make('tests/images/trim.png');
         $img->filter(new \Intervention\Image\Filters\DemoFilter(10));
-        $this->assertColorAtPosition('818181', $img, 0, 0);
-        $this->assertColorAtPosition('939393', $img, 18, 18);
-        $this->assertColorAtPosition('939393', $img, 18, 18);
-        $this->assertColorAtPosition('adadad', $img, 25, 25);
-        $this->assertColorAtPosition('939393', $img, 35, 35);
+        $this->assertColorAtPosition('#818181', $img, 0, 0);
+        $this->assertColorAtPosition('#939393', $img, 18, 18);
+        $this->assertColorAtPosition('#939393', $img, 18, 18);
+        $this->assertColorAtPosition('#adadad', $img, 25, 25);
+        $this->assertColorAtPosition('#939393', $img, 35, 35);
     }
 
     private function assertColorAtPosition($color, $img, $x, $y)

@@ -10,10 +10,10 @@ class FlipCommand extends \Intervention\Image\Commands\AbstractCommand
 
         if (in_array(strtolower($mode), array(2, 'v', 'vert', 'vertical'))) {
             // flip vertical
-            return $image->getCore()->flopImage();
+            return $image->getCore()->flipImage();
         } else {
             // flip horizontal
-            return $image->getCore()->flipImage();
+            return $image->getCore()->flopImage();
         }
     }
 }

@@ -26,7 +26,7 @@ class FlipCommandTest extends PHPUnit_Framework_TestCase
     public function testImagick()
     {
         $imagick = Mockery::mock('Imagick');
-        $imagick->shouldReceive('flipimage')->with()->andReturn(true);
+        $imagick->shouldReceive('flopimage')->with()->andReturn(true);
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
         $command = new FlipImagick(array('h'));
@@ -34,7 +34,7 @@ class FlipCommandTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($result);
 
         $imagick = Mockery::mock('Imagick');
-        $imagick->shouldReceive('flopimage')->with()->andReturn(true);
+        $imagick->shouldReceive('flipimage')->with()->andReturn(true);
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
         $command = new FlipImagick(array('v'));

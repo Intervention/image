@@ -18,6 +18,10 @@ class File
         $this->extension = array_key_exists('extension', $info) ? $info['extension'] : null;
         $this->filename = array_key_exists('filename', $info) ? $info['filename'] : null;
 
+        if (file_exists($path)) {
+            $this->mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
+        }
+
         return $this;
     }
 }

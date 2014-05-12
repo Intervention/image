@@ -24,7 +24,6 @@ class Source extends \Intervention\Image\AbstractSource
 
         // build image
         $image = $this->initFromImagick($core);
-        $image->mime = $this->getMime($core);
         $image->setFileInfoFromPath($path);
 
         return $image;

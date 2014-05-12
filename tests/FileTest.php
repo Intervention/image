@@ -7,10 +7,11 @@ class FileTest extends PHPUnit_Framework_TestCase
     public function testSetFileInfoFromPath()
     {
         $file = new File;
-        $file->setFileInfoFromPath('test/foo/bar.baz');
-        $this->assertEquals('test/foo', $file->dirname);
-        $this->assertEquals('bar.baz', $file->basename);
-        $this->assertEquals('baz', $file->extension);
-        $this->assertEquals('bar', $file->filename);
+        $file->setFileInfoFromPath('tests/images/test.jpg');
+        $this->assertEquals('tests/images', $file->dirname);
+        $this->assertEquals('test.jpg', $file->basename);
+        $this->assertEquals('jpg', $file->extension);
+        $this->assertEquals('test', $file->filename);
+        $this->assertEquals('image/jpeg', $file->mime);
     }
 }

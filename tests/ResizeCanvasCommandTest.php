@@ -54,9 +54,12 @@ class ResizeCanvasCommandTest extends PHPUnit_Framework_TestCase
         $imagick->shouldReceive('cropimage')->with(800, 600, 0, 0)->once();
         $imagick->shouldReceive('compositeimage')->with($imagick, 40, 0, 0)->once();
         $imagick->shouldReceive('setimagepage')->with(0, 0, 0, 0)->once();
+        $imagick->shouldReceive('drawimage')->once();
+        $imagick->shouldReceive('painttransparentimage')->once();
 
-        $canvas->shouldReceive('getCore')->times(3)->andReturn($imagick);
+        $canvas->shouldReceive('getCore')->times(5)->andReturn($imagick);
         $canvas->shouldReceive('getSize')->andReturn($canvas_size);
+        $canvas->shouldReceive('pickColor')->with(0, 0, 'hex')->once()->andReturn('#000000');
         $driver = Mockery::mock('\Intervention\Image\Gd\Driver');
         $driver->shouldReceive('newImage')->with(820, 640, '#b53717')->once()->andReturn($canvas);
         $image = Mockery::mock('Intervention\Image\Image');

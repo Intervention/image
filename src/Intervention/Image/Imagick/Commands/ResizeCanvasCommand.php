@@ -58,6 +58,16 @@ class ResizeCanvasCommand extends \Intervention\Image\Commands\AbstractCommand
             $src_h = $original_height;
         }
 
+        // make image area transparent to keep transparency
+        // even if background-color is set
+        $rect = new \ImagickDraw;
+        $fill = $canvas->pickColor(0, 0, 'hex');
+        $fill = $fill == '#ff0000' ? '#00ff00' : '#ff0000';
+        $rect->setFillColor($fill);
+        $rect->rectangle($dst_x, $dst_y, $dst_x + $src_w - 1, $dst_y + $src_h - 1);
+        $canvas->getCore()->drawImage($rect);
+        $canvas->getCore()->paintTransparentImage($fill, 0, 0);
+
         // copy image into new canvas
         $image->getCore()->cropImage($src_w, $src_h, $src_x, $src_y);
         $canvas->getCore()->compositeImage($image->getCore(), \Imagick::COMPOSITE_DEFAULT, $dst_x, $dst_y);

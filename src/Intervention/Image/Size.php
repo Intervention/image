@@ -109,23 +109,27 @@ class Size
 
     public function fit(Size $size)
     {
-        $auto_width = clone $size;
-        $auto_height = clone $size;
-
-        // create size with auto width
-        $auto_width->resize(null, $this->height, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-
         // create size with auto height
+        $auto_height = clone $size;
+        
         $auto_height->resize($this->width, null, function ($constraint) {
             $constraint->aspectRatio();
         });
 
         // decide which version to use
         if ($auto_height->fitsInto($this)) {
+            
             $size = $auto_height;
+            
         } else {
+                        
+            // create size with auto width
+            $auto_width = clone $size;
+
+            $auto_width->resize(null, $this->height, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
             $size = $auto_width;
         }
 

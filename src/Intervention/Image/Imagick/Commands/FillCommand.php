@@ -64,9 +64,15 @@ class FillCommand extends \Intervention\Image\Commands\AbstractCommand
                 // mask away color at pos.
                 $tile->paintTransparentImage($tile->getImagePixelColor($x, $y), 0, 0);
 
+                // save alpha channel of original image
+                $alpha = clone $image->getCore();
+
                 // merge original with canvas and tile
                 $image->getCore()->compositeImage($canvas, \Imagick::COMPOSITE_DEFAULT, 0, 0);                
                 $image->getCore()->compositeImage($tile, \Imagick::COMPOSITE_DEFAULT, 0, 0);                
+
+                // restore alpha channel of original image
+                $image->getCore()->compositeImage($alpha, \Imagick::COMPOSITE_COPYOPACITY, 0, 0);
             }
 
         } else {

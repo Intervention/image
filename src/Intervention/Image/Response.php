@@ -17,16 +17,18 @@ class Response
 
     public function make()
     {
-        $data = $this->image->encode($this->format, $this->quality);
+        $this->image->encode($this->format, $this->quality);
+        $data = $this->image->getEncoded();
+        $mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $data);
 
         if (function_exists('app') && is_a($app = app(), 'Illuminate\Foundation\Application')) {
             
             $response = \Response::make($data);
-            $response->header('Content-Type', $this->image->mime);
+            $response->header('Content-Type', $mime);
 
         } else {
             
-            header('Content-Type: ' . $this->image->mime);
+            header('Content-Type: ' . $mime);
             $response = $data;
         }
 

@@ -1051,14 +1051,14 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
     {
        $img = $this->manager()->make('tests/images/trim.png');
        $img->limitColors(4);
-       $this->assertEquals(imagecolorstotal($img->getCore()), 5);
+       $this->assertLessThanOrEqual(5, imagecolorstotal($img->getCore()));
     }
 
     public function testLimitColorsKeepTransparency()
     {
         $img = $this->manager()->make('tests/images/star.png');
         $img->limitColors(16);
-        $this->assertEquals(imagecolorstotal($img->getCore()), 16);
+        $this->assertLessThanOrEqual(17, imagecolorstotal($img->getCore()));
         $this->assertTransparentPosition($img, 0, 0);
         $this->assertColorAtPosition('#0c02b4', $img, 6, 12);
         $this->assertColorAtPosition('#fcbe04', $img, 22, 24);
@@ -1068,7 +1068,7 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
     {
         $img = $this->manager()->make('tests/images/star.png');
         $img->limitColors(64, '#00ff00');
-        $this->assertEquals(imagecolorstotal($img->getCore()), 65);
+        $this->assertLessThanOrEqual(65, imagecolorstotal($img->getCore()));
         $this->assertTransparentPosition($img, 0, 0);
         $this->assertColorAtPosition('#04f204', $img, 12, 10);
         $this->assertColorAtPosition('#06fe04', $img, 22, 17);

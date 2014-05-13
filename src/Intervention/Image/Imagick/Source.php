@@ -57,23 +57,8 @@ class Source extends \Intervention\Image\AbstractSource
 
         // build image
         $image = $this->initFromImagick($core);
-        $image->mime = $this->getMime($core);
+        $image->mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $binary);
 
         return $image;
-    }
-
-    private function getMime(\Imagick $core)
-    {
-        $info = $core->identifyImage(true);
-
-        if (preg_match("/Mime type: (?P<mime>[-\w+]+\/[-\w+]+)/", $info['rawOutput'], $match)) {
-            
-            return $match['mime'];
-
-        } else {
-            throw new \Intervention\Image\Exception\RuntimeException(
-                "Mime type could not be extracted from image."
-            );
-        }
     }
 }

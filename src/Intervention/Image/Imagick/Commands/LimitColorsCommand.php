@@ -15,7 +15,7 @@ class LimitColorsCommand extends \Intervention\Image\Commands\AbstractCommand
         // build 2 color alpha mask from original alpha
         $alpha = clone $image->getCore();
         $alpha->separateImageChannel(\Imagick::CHANNEL_ALPHA);
-        $alpha->paintTransparentImage('#ffffff', 0, 0);
+        $alpha->transparentPaintImage('#ffffff', 0, 0, false);
         $alpha->separateImageChannel(\Imagick::CHANNEL_ALPHA);
         $alpha->negateImage(false);
 

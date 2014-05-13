@@ -66,7 +66,7 @@ class ResizeCanvasCommand extends \Intervention\Image\Commands\AbstractCommand
         $rect->setFillColor($fill);
         $rect->rectangle($dst_x, $dst_y, $dst_x + $src_w - 1, $dst_y + $src_h - 1);
         $canvas->getCore()->drawImage($rect);
-        $canvas->getCore()->paintTransparentImage($fill, 0, 0);
+        $canvas->getCore()->transparentPaintImage($fill, 0, 0, false);
 
         // copy image into new canvas
         $image->getCore()->cropImage($src_w, $src_h, $src_x, $src_y);

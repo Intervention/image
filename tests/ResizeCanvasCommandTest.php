@@ -55,7 +55,7 @@ class ResizeCanvasCommandTest extends PHPUnit_Framework_TestCase
         $imagick->shouldReceive('compositeimage')->with($imagick, 40, 0, 0)->once();
         $imagick->shouldReceive('setimagepage')->with(0, 0, 0, 0)->once();
         $imagick->shouldReceive('drawimage')->once();
-        $imagick->shouldReceive('painttransparentimage')->once();
+        $imagick->shouldReceive('transparentpaintimage')->once();
 
         $canvas->shouldReceive('getCore')->times(5)->andReturn($imagick);
         $canvas->shouldReceive('getSize')->andReturn($canvas_size);

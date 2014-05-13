@@ -55,7 +55,7 @@ class FillCommandTest extends PHPUnit_Framework_TestCase
     {
         $imagick = Mockery::mock('Imagick');
         $imagick->shouldReceive('getimagepixelcolor')->once()->andReturn('#000000');
-        $imagick->shouldReceive('painttransparentimage')->once()->andReturn(true);
+        $imagick->shouldReceive('transparentpaintimage')->once()->andReturn(true);
         $imagick->shouldReceive('compositeimage')->times(3)->andReturn(true);
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->andReturn($imagick);

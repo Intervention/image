@@ -37,7 +37,7 @@ class FillCommand extends \Intervention\Image\Commands\AbstractCommand
                 $tile = clone $image->getCore();
 
                 // mask away color at position
-                $tile->paintTransparentImage($tile->getImagePixelColor($x, $y), 0, 0);
+                $tile->transparentPaintImage($tile->getImagePixelColor($x, $y), 0, 0, false);
 
                 // create canvas
                 $canvas = clone $image->getCore();
@@ -62,7 +62,7 @@ class FillCommand extends \Intervention\Image\Commands\AbstractCommand
                 $tile = clone $image->getCore();
 
                 // mask away color at pos.
-                $tile->paintTransparentImage($tile->getImagePixelColor($x, $y), 0, 0);
+                $tile->transparentPaintImage($tile->getImagePixelColor($x, $y), 0, 0, false);
 
                 // save alpha channel of original image
                 $alpha = clone $image->getCore();

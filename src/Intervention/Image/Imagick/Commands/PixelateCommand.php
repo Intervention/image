@@ -11,7 +11,7 @@ class PixelateCommand extends \Intervention\Image\Commands\AbstractCommand
         $width = $image->getWidth();
         $height = $image->getHeight();
 
-        $image->getCore()->scaleImage($width / $size, $height / $size);
+        $image->getCore()->scaleImage(max(1, ($width / $size)), max(1, ($height / $size)));
         $image->getCore()->scaleImage($width, $height);
 
         return true;

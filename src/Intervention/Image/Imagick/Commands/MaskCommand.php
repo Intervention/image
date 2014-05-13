@@ -37,7 +37,7 @@ class MaskCommand extends \Intervention\Image\Commands\AbstractCommand
             // use red channel from mask ask alpha
             $mask_alpha = clone $mask->getCore();
             $mask_alpha->compositeImage($mask->getCore(), \Imagick::COMPOSITE_DEFAULT, 0, 0);
-            $mask_alpha->setImageAlphaChannel(\Imagick::ALPHACHANNEL_DEACTIVATE);
+            // $mask_alpha->setImageAlphaChannel(\Imagick::ALPHACHANNEL_DEACTIVATE);
             $mask_alpha->separateImageChannel(\Imagick::CHANNEL_ALL);
 
             // combine both alphas from original and mask

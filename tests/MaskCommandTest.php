@@ -56,6 +56,8 @@ class MaskCommandTest extends PHPUnit_Framework_TestCase
         $imagick->shouldReceive('compositeimage')->with($mask_core, \Imagick::COMPOSITE_DSTIN, 0, 0)->once();
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
+        $image_size = Mockery::mock('Intervention\Image\Size', array(32, 32));
+        $image->shouldReceive('getSize')->once()->andReturn($image_size);
         $image->shouldReceive('getDriver')->once()->andReturn($driver);
         
         $command = new MaskImagick(array($mask_path, true));

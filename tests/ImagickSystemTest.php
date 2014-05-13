@@ -836,16 +836,10 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
         $img->mask('tests/images/gradient.png');
         $this->assertTransparentPosition($img, 0, 0);
         $this->assertTransparentPosition($img, 23, 23);
-        $checkColor = $img->pickColor(23, 24, 'array');
-        $this->assertEquals($checkColor[0], 255);
-        $this->assertEquals($checkColor[1], 166);
-        $this->assertEquals($checkColor[2], 1);
-        $this->assertEquals($checkColor[3], 0.97);
-        $checkColor = $img->pickColor(39, 25, 'array');
-        $this->assertEquals($checkColor[0], 0);
-        $this->assertEquals($checkColor[1], 174);
-        $this->assertEquals($checkColor[2], 240);
-        $this->assertEquals($checkColor[3], 0.33);
+        $c = $img->getCore()->getImagePixelColor(23, 24)->getColorAsString();
+        $this->assertEquals('srgba(255,166,1,0.972549)', $c);
+        $c = $img->getCore()->getImagePixelColor(39, 25)->getColorAsString();
+        $this->assertEquals('srgba(0,174,240,0.333333)', $c);
     }
 
     public function testMaskImageWithAlpha()
@@ -854,16 +848,10 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
         $img->mask('tests/images/star.png', true);
         $this->assertTransparentPosition($img, 0, 0);
         $this->assertTransparentPosition($img, 16, 16);
-        $checkColor = $img->pickColor(18, 18, 'array');
-        $this->assertEquals($checkColor[0], 255);
-        $this->assertEquals($checkColor[1], 166);
-        $this->assertEquals($checkColor[2], 1);
-        $this->assertEquals($checkColor[3], 0.47);
-        $checkColor = $img->pickColor(24, 10, 'array');
-        $this->assertEquals($checkColor[0], 0);
-        $this->assertEquals($checkColor[1], 174);
-        $this->assertEquals($checkColor[2], 240);
-        $this->assertEquals($checkColor[3], 0.78);
+        $c = $img->getCore()->getImagePixelColor(18, 18)->getColorAsString();
+        $this->assertEquals('srgba(255,166,1,0.466667)', $c);
+        $c = $img->getCore()->getImagePixelColor(24, 10)->getColorAsString();
+        $this->assertEquals('srgba(0,174,240,0.776471)', $c);
     }
 
     public function testPixelateImage()

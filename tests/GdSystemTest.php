@@ -1122,7 +1122,7 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
     public function testPickColorFromPalette()
     {
         $img = $this->manager()->make('tests/images/tile.png');
-        imagetruecolortopalette($img->getCore(), true, 200);
+        $img->limitColors(200);
         
         $c = $img->pickColor(0, 0);
         $this->assertEquals(180, $c[0]);

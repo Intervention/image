@@ -21,7 +21,8 @@ class Source extends \Intervention\Image\AbstractSource
         switch ($info[2]) {
             case IMAGETYPE_PNG:
                 $core = imagecreatefrompng($path);
-                imagepalettetotruecolor($core);
+                // imagepalettetotruecolor($core);
+                $this->gdResourceToTruecolor($core);
                 break;
 
             case IMAGETYPE_JPEG:
@@ -30,7 +31,8 @@ class Source extends \Intervention\Image\AbstractSource
 
             case IMAGETYPE_GIF:
                 $core = imagecreatefromgif($path);
-                imagepalettetotruecolor($core);
+                // imagepalettetotruecolor($core);
+                $this->gdResourceToTruecolor($core);
                 break;
 
             default:
@@ -74,5 +76,38 @@ class Source extends \Intervention\Image\AbstractSource
         $image->mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $binary);
 
         return $image;
+    }
+
+    /**
+     * Transform GD resource into Truecolor version
+     *
+     * @param  resource $resource
+     * @return bool
+     */
+    public function gdResourceToTruecolor(&$resource)
+    {
+        if (imageistruecolor($resource)) {
+            return true;
+        }
+
+        $width = imagesx($resource);
+        $height = imagesy($resource);
+
+        // new canvas
+        $canvas = imagecreatetruecolor($width, $height);
+
+        // fill with transparent color
+        imagealphablending($canvas, false);
+        $transparent = imagecolorallocatealpha($canvas, 0, 0, 0, 127);
+        imagefilledrectangle($canvas, 0, 0, $width, $height, $transparent);
+        imagealphablending($canvas, true);
+
+        // copy original
+        imagecopy($canvas, $resource, 0, 0, 0, 0, $width, $height);
+        imagedestroy($resource);
+
+        $resource = $canvas;
+
+        return true;
     }
 }

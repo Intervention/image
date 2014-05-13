@@ -1025,14 +1025,14 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
     {
        $img = $this->manager()->make('tests/images/trim.png');
        $img->limitColors(4);
-       $this->assertLessThanOrEqual(4, $img->getCore()->getImageColors());
+       $this->assertLessThanOrEqual(5, $img->getCore()->getImageColors());
     }
 
     public function testLimitColorsKeepTransparency()
     {
         $img = $this->manager()->make('tests/images/star.png');
         $img->limitColors(16);
-        $this->assertLessThanOrEqual(16, $img->getCore()->getImageColors());
+        $this->assertLessThanOrEqual(17, $img->getCore()->getImageColors());
         $this->assertTransparentPosition($img, 0, 0);
         $this->assertColorAtPosition('#680098', $img, 6, 12);
         $this->assertColorAtPosition('#c2596a', $img, 22, 24);
@@ -1042,7 +1042,7 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
     {
         $img = $this->manager()->make('tests/images/star.png');
         $img->limitColors(32, '#00ff00');
-        $this->assertLessThanOrEqual(32, $img->getCore()->getImageColors());
+        $this->assertLessThanOrEqual(33, $img->getCore()->getImageColors());
         $this->assertTransparentPosition($img, 0, 0);
         $this->assertColorAtPosition('#00ff00', $img, 12, 10);
         $this->assertColorAtPosition('#00ff00', $img, 22, 17);

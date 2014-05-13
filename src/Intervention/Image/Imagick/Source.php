@@ -71,7 +71,7 @@ class Source extends \Intervention\Image\AbstractSource
             return $match['mime'];
 
         } else {
-            throw new \Intervention\Image\Exception\InvalidImageTypeException(
+            throw new \Intervention\Image\Exception\RuntimeException(
                 "Mime type could not be extracted from image."
             );
         }

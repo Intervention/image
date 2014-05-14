@@ -6,6 +6,12 @@ use \Intervention\Image\Imagick\Source;
 
 class InsertCommand extends \Intervention\Image\Commands\AbstractCommand
 {
+    /**
+     * Insert another image into given image
+     *
+     * @param  Intervention\Image\Image $image
+     * @return boolean
+     */
     public function execute($image)
     {
         $source = $this->argument(0)->value();

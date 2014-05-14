@@ -6,6 +6,12 @@ use \Intervention\Image\Imagick\Color;
 
 class PickColorCommand extends \Intervention\Image\Commands\AbstractCommand
 {
+    /**
+     * Read color information from a certain position
+     *
+     * @param  Intervention\Image\Image $image
+     * @return boolean
+     */
     public function execute($image)
     {
         $x = $this->argument(0)->type('integer')->required()->value();

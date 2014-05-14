@@ -4,6 +4,12 @@ namespace Intervention\Image\Imagick\Commands;
 
 class LimitColorsCommand extends \Intervention\Image\Commands\AbstractCommand
 {
+    /**
+     * Reduces colors of a given image
+     *
+     * @param  Intervention\Image\Image $image
+     * @return boolean
+     */
     public function execute($image)
     {
         $count = $this->argument(0)->value();

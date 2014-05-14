@@ -4,6 +4,12 @@ namespace Intervention\Image\Imagick\Commands;
 
 class ResizeCommand extends \Intervention\Image\Commands\AbstractCommand
 {
+    /**
+     * Resizes image dimensions
+     *
+     * @param  Intervention\Image\Image $image
+     * @return boolean
+     */
     public function execute($image)
     {
         $width = $this->argument(0)->value();

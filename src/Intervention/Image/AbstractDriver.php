@@ -4,19 +4,70 @@ namespace Intervention\Image;
 
 abstract class AbstractDriver
 {
+    /**
+     * Source instance to init images from
+     *
+     * @var Intervention\Image\AbstractSource
+     */
+    public $source;
+
+    /**
+     * Image encoder instance
+     *
+     * @var Intervention\Image\AbstractEncoder
+     */
+    public $encoder;
+
+    /**
+     * Creates new image instance
+     *
+     * @param  integer $width
+     * @param  integer $height
+     * @param  string  $background
+     * @return Intervention\Image\Image
+     */
     abstract public function newImage($width, $height, $background);
+
+    /**
+     * Reads given string into color object
+     *
+     * @param  string $value
+     * @return AbstractColor
+     */
     abstract public function parseColor($value);
     
+    /**
+     * Initiates new image from given input
+     *
+     * @param  mixed $data
+     * @return Intervention\Image\Image
+     */
     public function init($data)
     {
         return $this->source->init($data);
     }
 
+    /**
+     * Encodes given image
+     *
+     * @param  Image   $image
+     * @param  string  $format
+     * @param  integer $quality
+     * @return Intervention\Image\Image
+     */
     public function encode($image, $format, $quality)
     {
         return $this->encoder->process($image, $format, $quality);
     }
 
+    /**
+     * Executes named command on given image
+     *
+     * @param  Image  $image
+     * @param  string $name
+     * @param  array $arguments
+     * @return Intervention\Image\Commands\AbstractCommand
+     */
     public function executeCommand($image, $name, $arguments)
     {
         $commandName = $this->getCommandClassName($name);
@@ -26,6 +77,12 @@ abstract class AbstractDriver
         return $command;
     }
 
+    /**
+     * Returns classname of given command name
+     *
+     * @param  string $name
+     * @return string
+     */
     private function getCommandClassName($name)
     {
         $drivername = $this->getDriverName();
@@ -43,6 +100,11 @@ abstract class AbstractDriver
         );
     }
 
+    /**
+     * Returns name of current driver instance
+     *
+     * @return string
+     */
     public function getDriverName()
     {
         $reflect = new \ReflectionClass($this);

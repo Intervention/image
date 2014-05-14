@@ -6,6 +6,12 @@ use \Intervention\Image\Color;
 
 class TrimCommand extends ResizeCommand
 {
+    /**
+     * Trims away parts of an image
+     *
+     * @param  Intervention\Image\Image $image
+     * @return boolean
+     */
     public function execute($image)
     {
         $base = $this->argument(0)->type('string')->value();

@@ -4,6 +4,12 @@ namespace Intervention\Image\Gd\Commands;
 
 class FlipCommand extends ResizeCommand
 {
+    /**
+     * Mirrors an image
+     *
+     * @param  Intervention\Image\Image $image
+     * @return boolean
+     */
     public function execute($image)
     {
         $mode = $this->argument(0)->value('h');

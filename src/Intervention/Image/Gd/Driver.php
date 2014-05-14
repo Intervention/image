@@ -6,15 +6,26 @@ use \Intervention\Image\Size;
 
 class Driver extends \Intervention\Image\AbstractDriver
 {
-    public $source;
-    public $encoder;
-
+    /**
+     * Creates new instance of driver
+     *
+     * @param Intervention\Image\Gd\Source  $source
+     * @param Intervention\Image\Gd\Encoder $encoder
+     */
 	public function __construct(Source $source = null, Encoder $encoder = null)
 	{
         $this->source = $source ? $source : new Source;
 	    $this->encoder = $encoder ? $encoder : new Encoder;
 	}
 
+    /**
+     * Creates new image instance
+     *
+     * @param  integer $width
+     * @param  integer $height
+     * @param  string  $background
+     * @return Intervention\Image\Image
+     */
     public function newImage($width, $height, $background = null)
     {
         // create empty resource
@@ -29,6 +40,12 @@ class Driver extends \Intervention\Image\AbstractDriver
         return $image;
     }
 
+    /**
+     * Reads given string into color object
+     *
+     * @param  string $value
+     * @return AbstractColor
+     */
     public function parseColor($value)
     {
         return new Color($value);

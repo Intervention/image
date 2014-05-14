@@ -4,21 +4,49 @@ namespace Intervention\Image\Commands;
 
 class Argument
 {
+    /**
+     * Command with arguments
+     *
+     * @var Intervention\Image\Commands\AbstractCommand
+     */
     public $command;
+
+    /**
+     * Key of argument in array
+     *
+     * @var integer
+     */
     public $key;
 
+    /**
+     * Creates new instance from given command and key
+     *
+     * @param AbstractCommand $command
+     * @param integer         $key
+     */
     public function __construct(AbstractCommand $command, $key = 0)
     {
         $this->command = $command;
         $this->key = $key;
     }
 
+    /**
+     * Returns name of current arguments command
+     *
+     * @return string
+     */
     public function getCommandName()
     {
         preg_match("/\\\\([\w]+)Command$/", get_class($this->command), $matches);
         return isset($matches[1]) ? lcfirst($matches[1]).'()' : 'Method';
     }
 
+    /**
+     * Returns value of current argument
+     *
+     * @param  mixed $default
+     * @return mixed
+     */
     public function value($default = null)
     {
         $arguments = $this->command->arguments;
@@ -28,6 +56,11 @@ class Argument
         }
     }
 
+    /**
+     * Defines current argument as required
+     *
+     * @return Intervention\Image\Commands\Argument
+     */
     public function required()
     {
         if ( ! array_key_exists($this->key, $this->command->arguments)) {
@@ -39,6 +72,11 @@ class Argument
         return $this;
     }
 
+    /**
+     * Determines that current argument must be of given type
+     *
+     * @return Intervention\Image\Commands\Argument
+     */
     public function type($type)
     {
         $fail = false;
@@ -93,6 +131,11 @@ class Argument
         return $this;
     }
 
+    /**
+     * Determines that current argument value must be numeric between given values
+     *
+     * @return Intervention\Image\Commands\Argument
+     */
     public function between($x, $y)
     {
         $value = $this->type('numeric')->value();

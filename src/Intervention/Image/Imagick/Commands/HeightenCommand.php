@@ -4,6 +4,12 @@ namespace Intervention\Image\Imagick\Commands;
 
 class HeightenCommand extends ResizeCommand
 {
+    /**
+     * Resize image proportionally to given height
+     *
+     * @param  Intervention\Image\Image $image
+     * @return boolean
+     */
     public function execute($image)
     {
         $height = $this->argument(0)->type('integer')->required()->value();

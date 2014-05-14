@@ -7,6 +7,12 @@ use \Intervention\Image\Size;
 
 class CropCommand extends \Intervention\Image\Commands\AbstractCommand
 {
+    /**
+     * Crop an image instance
+     *
+     * @param  Intervention\Image\Image $image
+     * @return boolean
+     */
     public function execute($image)
     {
         $width = $this->argument(0)->type('integer')->required()->value();

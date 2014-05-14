@@ -4,23 +4,113 @@ namespace Intervention\Image;
 
 abstract class AbstractColor
 {
+    /**
+     * Initiates color object from integer
+     *
+     * @param  integer $value
+     * @return Intervention\Image\AbstractColor
+     */
     abstract public function initFromInteger($value);
+
+    /**
+     * Initiates color object from given array
+     *
+     * @param  array $value
+     * @return Intervention\Image\AbstractColor
+     */
     abstract public function initFromArray($value);
+
+    /**
+     * Initiates color object from given string
+     *
+     * @param  string $value
+     * @return Intervention\Image\AbstractColor
+     */
     abstract public function initFromString($value);
+
+    /**
+     * Initiates color object from given ImagickPixel object
+     *
+     * @param  ImagickPixel $value
+     * @return Intervention\Image\AbstractColor
+     */
     abstract public function initFromObject($value);
+
+    /**
+     * Initiates color object from given R, G and B values
+     *
+     * @param  integer $r
+     * @param  integer $g
+     * @param  integer $b
+     * @return Intervention\Image\AbstractColor
+     */
     abstract public function initFromRgb($r, $g, $b);
+
+    /**
+     * Initiates color object from given R, G, B and A values
+     *
+     * @param  integer $r
+     * @param  integer $g
+     * @param  integer $b
+     * @param  float   $a
+     * @return Intervention\Image\AbstractColor
+     */
     abstract public function initFromRgba($r, $g, $b, $a);
+
+    /**
+     * Calculates integer value of current color instance
+     *
+     * @return integer
+     */
     abstract public function getInt();
+
+    /**
+     * Calculates hexadecimal value of current color instance
+     *
+     * @param  string $prefix
+     * @return string
+     */
     abstract public function getHex($prefix);
+
+    /**
+     * Calculates RGB(A) in array format of current color instance
+     *
+     * @return array
+     */
     abstract public function getArray();
+
+    /**
+     * Calculates RGBA in string format of current color instance
+     *
+     * @return string
+     */
     abstract public function getRgba();
+
+    /**
+     * Determines if current color is different from given color
+     *
+     * @param  AbstractColor $color
+     * @param  integer       $tolerance
+     * @return boolean
+     */
     abstract public function differs(AbstractColor $color, $tolerance = 0);
 
+    /**
+     * Creates new instance
+     *
+     * @param string $value
+     */
     public function __construct($value = null)
     {
         $this->parse($value);
     }
 
+    /**
+     * Parses given value as color
+     *
+     * @param  mixed $value
+     * @return Intervention\Image\AbstractColor
+     */
     public function parse($value)
     {
         switch (true) {
@@ -55,6 +145,12 @@ abstract class AbstractColor
         return $this;
     }
 
+    /**
+     * Formats current color instance into given format
+     *
+     * @param  string $type
+     * @return mixed
+     */
     public function format($type)
     {
         switch (strtolower($type)) {
@@ -89,6 +185,12 @@ abstract class AbstractColor
         }
     }
 
+    /**
+     * Reads RGBA values from string into array
+     *
+     * @param  string $value
+     * @return array
+     */
     protected function rgbaFromString($value)
     {
         $result = false;

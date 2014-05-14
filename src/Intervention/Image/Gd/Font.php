@@ -171,6 +171,7 @@ class Font extends \Intervention\Image\AbstractFont
 
     /**
      * Draws font to given image at given position
+     *
      * @param  Image   $image
      * @param  integer $posx
      * @param  integer $posy

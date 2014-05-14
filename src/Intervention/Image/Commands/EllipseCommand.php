@@ -6,6 +6,12 @@ use \Closure;
 
 class EllipseCommand extends \Intervention\Image\Commands\AbstractCommand
 {
+    /**
+     * Draws ellipse on given image
+     *
+     * @param  Intervention\Image\Image $image
+     * @return boolean
+     */
     public function execute($image)
     {
         $x = $this->argument(0)->type('numeric')->required()->value();

@@ -6,6 +6,12 @@ use \Intervention\Image\Imagick\Color;
 
 class PixelCommand extends \Intervention\Image\Commands\AbstractCommand
 {
+    /**
+     * Draws one pixel to a given image
+     *
+     * @param  Intervention\Image\Image $image
+     * @return boolean
+     */
     public function execute($image)
     {
         $color = $this->argument(0)->required()->value();

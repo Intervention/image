@@ -7,6 +7,12 @@ use \Intervention\Image\Size;
 
 class Source extends \Intervention\Image\AbstractSource
 {
+    /**
+     * Initiates new image from path in filesystem
+     *
+     * @param  string $path
+     * @return Intervention\Image\Image
+     */
     public function initFromPath($path)
     {
         $core = new \Imagick;
@@ -29,6 +35,12 @@ class Source extends \Intervention\Image\AbstractSource
         return $image;
     }
 
+    /**
+     * Initiates new image from GD resource
+     *
+     * @param  Resource $resource
+     * @return Intervention\Image\Image
+     */
     public function initFromGdResource($resource)
     {
         throw new \Intervention\Image\Exception\NotSupportedException(
@@ -36,11 +48,23 @@ class Source extends \Intervention\Image\AbstractSource
         );
     }
 
-    public function initFromImagick($object)
+    /**
+     * Initiates new image from Imagick object
+     *
+     * @param  Imagick $object
+     * @return Intervention\Image\Image
+     */
+    public function initFromImagick(\Imagick $object)
     {
         return new Image(new Driver, $object);
     }
 
+    /**
+     * Initiates new image from binary data
+     *
+     * @param  string $data
+     * @return Intervention\Image\Image
+     */
     public function initFromBinary($binary)
     {
         $core = new \Imagick;

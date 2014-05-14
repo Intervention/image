@@ -4,18 +4,60 @@ namespace Intervention\Image;
 
 abstract class AbstractSource
 {
+    /**
+     * Initiates new image from path in filesystem
+     *
+     * @param  string $path
+     * @return Intervention\Image\Image
+     */
     abstract public function initFromPath($path);
-    abstract public function initFromBinary($data);
-    abstract public function initFromGdResource($resource);
-    abstract public function initFromImagick($object);
 
+    /**
+     * Initiates new image from binary data
+     *
+     * @param  string $data
+     * @return Intervention\Image\Image
+     */
+    abstract public function initFromBinary($data);
+
+    /**
+     * Initiates new image from GD resource
+     *
+     * @param  Resource $resource
+     * @return Intervention\Image\Image
+     */
+    abstract public function initFromGdResource($resource);
+
+    /**
+     * Initiates new image from Imagick object
+     *
+     * @param  Imagick $object
+     * @return Intervention\Image\Image
+     */
+    abstract public function initFromImagick(\Imagick $object);
+
+    /**
+     * Buffer of input data
+     *
+     * @var mixed
+     */
     private $data;
 
+    /**
+     * Creates new Source with data
+     *
+     * @param mixed $data
+     */
     public function __construct($data = null)
     {
         $this->data = $data;
     }
 
+    /**
+     * Determines if current source data is GD resource
+     *
+     * @return boolean
+     */
     public function isGdResource()
     {
         if (is_resource($this->data)) {
@@ -25,16 +67,31 @@ abstract class AbstractSource
         return false;
     }
 
+    /**
+     * Determines if current source data is Imagick object
+     *
+     * @return boolean
+     */
     public function isImagick()
     {
         return is_a($this->data, 'Imagick');
     }
 
+    /**
+     * Determines if current source data is Intervention\Image\Image object
+     *
+     * @return boolean
+     */
     public function isInterventionImage()
     {
         return is_a($this->data, '\Intervention\Image\Image');
     }
 
+    /**
+     * Determines if current source data is file path
+     *
+     * @return boolean
+     */
     public function isFilePath()
     {
         if (is_string($this->data)) {
@@ -44,11 +101,21 @@ abstract class AbstractSource
         return false;
     }
 
+    /**
+     * Determines if current source data is url
+     *
+     * @return boolean
+     */
     public function isUrl()
     {
         return (bool) filter_var($this->data, FILTER_VALIDATE_URL);
     }
 
+    /**
+     * Determines if current source data is binary data
+     *
+     * @return boolean
+     */
     public function isBinary()
     {
         if (is_string($this->data)) {
@@ -59,11 +126,23 @@ abstract class AbstractSource
         return false;
     }
 
+    /**
+     * Initiates new Image from Intervention\Image\Image
+     *
+     * @param  Image $object
+     * @return Intervention\Image\Image
+     */
     public function initFromInterventionImage($object)
     {
         return $object;
     }
 
+    /**
+     * Initiates new image from mixed data
+     *
+     * @param  mixed $data
+     * @return Intervention\Image\Image
+     */
     public function init($data)
     {
         $this->data = $data;
@@ -100,6 +179,11 @@ abstract class AbstractSource
         }
     }
 
+    /**
+     * Source object transforms to string source data
+     *
+     * @return string
+     */
     public function __toString()
     {
         return (string) $this->data;

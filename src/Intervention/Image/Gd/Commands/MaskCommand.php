@@ -4,6 +4,12 @@ namespace Intervention\Image\Gd\Commands;
 
 class MaskCommand extends \Intervention\Image\Commands\AbstractCommand
 {
+    /**
+     * Applies an alpha mask to an image
+     *
+     * @param  Intervention\Image\Image $image
+     * @return boolean
+     */
     public function execute($image)
     {
         $mask_source = $this->argument(0)->value();

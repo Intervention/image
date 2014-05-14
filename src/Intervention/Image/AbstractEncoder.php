@@ -4,12 +4,42 @@ namespace Intervention\Image;
 
 abstract class AbstractEncoder
 {
+    /**
+     * Processes and returns encoded image as JPEG string
+     *
+     * @return string
+     */
     abstract protected function processJpeg();
+
+    /**
+     * Processes and returns encoded image as PNG string
+     *
+     * @return string
+     */
     abstract protected function processPng();
+
+    /**
+     * Processes and returns encoded image as GIF string
+     *
+     * @return string
+     */
     abstract protected function processGif();
 
+    /**
+     * Buffer of encode result data
+     *
+     * @var string
+     */
     public $result;
 
+    /**
+     * Process a given image
+     *
+     * @param  Image   $image
+     * @param  string  $format
+     * @param  integer $quality
+     * @return Intervention\Image\Image
+     */
     public function process(Image $image, $format = null, $quality = null)
     {
         $this->setImage($image);
@@ -44,6 +74,11 @@ abstract class AbstractEncoder
         return $image->setEncoded($this->result);
     }
 
+    /**
+     * Processes and returns encoded image as data-url string
+     *
+     * @return string
+     */
     protected function processDataUrl()
     {
         return sprintf('data:%s;base64,%s', 
@@ -52,11 +87,21 @@ abstract class AbstractEncoder
         );
     }
 
+    /**
+     * Sets image to process
+     *
+     * @param Intervention\Image\Image $image
+     */
     protected function setImage($image)
     {
         $this->image = $image;
     }
 
+    /**
+     * Determines output format
+     *
+     * @param string $format
+     */
     protected function setFormat($format = null)
     {
         if (is_null($format) && $this->image instanceof Image) {
@@ -68,6 +113,11 @@ abstract class AbstractEncoder
         return $this;
     }
 
+    /**
+     * Determines output quality
+     *
+     * @param integer $quality
+     */
     protected function setQuality($quality)
     {
         $quality = is_null($quality) ? 90 : $quality;

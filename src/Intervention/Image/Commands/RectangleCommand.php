@@ -6,6 +6,12 @@ use \Closure;
 
 class RectangleCommand extends \Intervention\Image\Commands\AbstractCommand
 {
+    /**
+     * Draws rectangle on given image
+     *
+     * @param  Intervention\Image\Image $image
+     * @return boolean
+     */
     public function execute($image)
     {
         $x1 = $this->argument(0)->type('numeric')->required()->value();

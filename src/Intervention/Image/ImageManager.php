@@ -8,8 +8,18 @@ use Illuminate\Filesystem\Filesystem;
 
 class ImageManager
 {
+    /**
+     * Instance of Illuminate Config respository
+     *
+     * @var Illuminate\Config\Repository
+     */
     public $config;
 
+    /**
+     * Creates new instance of Image Manager
+     *
+     * @param Illuminate\Config\Repository $config
+     */
     public function __construct(\Illuminate\Config\Repository $config = null)
     {
         // create configurator
@@ -29,6 +39,11 @@ class ImageManager
         }
     }
 
+    /**
+     * Creates a driver instance according to config settings
+     *
+     * @return Intervention\Image\AbstractDriver
+     */
     private function createDriver()
     {
         $drivername = ucfirst($this->config->get('image::driver'));
@@ -43,11 +58,25 @@ class ImageManager
         );
     }
 
+    /**
+     * Initiates an Image instance from different input types
+     *
+     * @param  mixed $data
+     * @return Intervention\Image\Image
+     */
     public function make($data)
     {
         return $this->createDriver()->init($data);
     }
 
+    /**
+     * Creates an empty image canvas
+     *
+     * @param  integer $width
+     * @param  integer $height
+     * @param  mixed $background
+     * @return Intervention\Image\Image
+     */
     public function canvas($width, $height, $background = null)
     {
         return $this->createDriver()->newImage($width, $height, $background);

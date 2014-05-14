@@ -6,10 +6,34 @@ use \Closure;
 
 class Size
 {
+    /**
+     * Width
+     *
+     * @var integer
+     */
     public $width;
+
+    /**
+     * Height
+     *
+     * @var integer
+     */
     public $height;
+
+    /**
+     * Pivot point
+     *
+     * @var Intervention\Image\Point
+     */
     public $pivot;
 
+    /**
+     * Creates a new Size instance
+     *
+     * @param integer $width
+     * @param integer $height
+     * @param Point   $pivot
+     */
     public function __construct($width = null, $height = null, Point $pivot = null)
     {
         $this->width = is_numeric($width) ? intval($width) : 1;
@@ -17,32 +41,66 @@ class Size
         $this->pivot = $pivot ? $pivot : new Point;
     }
 
+    /**
+     * Set the width and height absolutely
+     *
+     * @param integer $width
+     * @param integer $height
+     */
     public function set($width, $height)
     {
         $this->width = $width;
         $this->height = $height;
     }
 
+    /**
+     * Set current pivot point
+     *
+     * @param Point $point
+     */
     public function setPivot(Point $point)
     {
         $this->pivot = $point;
     }
 
+    /**
+     * Get the current width
+     *
+     * @return integer
+     */
     public function getWidth()
     {
         return $this->width;
     }
 
+    /**
+     * Get the current height
+     *
+     * @return integer
+     */
     public function getHeight()
     {
         return $this->height;
     }
 
+    /**
+     * Calculate the current aspect ratio
+     *
+     * @return float
+     */
     public function getRatio()
     {
         return $this->width / $this->height;
     }
 
+    /**
+     * Resize to desired width and/or height
+     *
+     * @param  integer $width
+     * @param  integer $height
+     * @param  Closure $callback
+     * @return Size
+     */
     public function resize($width, $height, Closure $callback = null)
     {
         if (is_null($width) && is_null($height)) {
@@ -99,6 +157,13 @@ class Size
         return $this;
     }
 
+    /**
+     * Calculate the relative position to another Size
+     * based on the pivot point settings of both sizes.
+     *
+     * @param  Size   $size
+     * @return Intervention\Image\Point
+     */
     public function relativePosition(Size $size)
     {
         $x = $this->pivot->x - $size->pivot->x;
@@ -107,6 +172,12 @@ class Size
         return new Point($x, $y);
     }
 
+    /**
+     * Resize given Size to best fitting size of current size.
+     *
+     * @param  Size   $size
+     * @return Intervention\Image\Size
+     */
     public function fit(Size $size)
     {
         // create size with auto height
@@ -140,11 +211,26 @@ class Size
         return $size;
     }
 
+    /**
+     * Checks if given size fits into current size
+     *
+     * @param  Size   $size
+     * @return boolean
+     */
     public function fitsInto(Size $size)
     {
         return ($this->width <= $size->width) && ($this->height <= $size->height);
     }
 
+    /**
+     * Aligns current size's pivot point to given position
+     * and moves point automatically by offset.
+     *
+     * @param  string  $position
+     * @param  integer $offset_x
+     * @param  integer $offset_y
+     * @return Intervention\Image\Size
+     */
     public function align($position, $offset_x = 0, $offset_y = 0)
     {
         switch (strtolower($position)) {
@@ -224,6 +310,12 @@ class Size
         return $this;
     }
 
+    /**
+     * Runs constraints on current size
+     *
+     * @param  Closure $callback
+     * @return Intervention\Image\Constraint
+     */
     private function getConstraint(Closure $callback = null)
     {
         $constraint = new Constraint(clone $this);

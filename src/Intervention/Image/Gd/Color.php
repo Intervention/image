@@ -6,11 +6,40 @@ use Intervention\Image\AbstractColor;
 
 class Color extends AbstractColor
 {
+    /**
+     * RGB Red value of current color instance
+     *
+     * @var integer
+     */
     public $r;
+
+    /**
+     * RGB Green value of current color instance
+     *
+     * @var integer
+     */
     public $g;
+
+    /**
+     * RGB Blue value of current color instance
+     *
+     * @var integer
+     */
     public $b;
+
+    /**
+     * RGB Alpha value of current color instance
+     *
+     * @var float
+     */
     public $a;
 
+    /**
+     * Initiates color object from integer
+     *
+     * @param  integer $value
+     * @return Intervention\Image\AbstractColor
+     */
     public function initFromInteger($value)
     {
         $this->a = ($value >> 24) & 0xFF;
@@ -19,6 +48,12 @@ class Color extends AbstractColor
         $this->b = $value & 0xFF;
     }
 
+    /**
+     * Initiates color object from given array
+     *
+     * @param  array $value
+     * @return Intervention\Image\AbstractColor
+     */
     public function initFromArray($array)
     {
         $array = array_values($array);
@@ -42,6 +77,12 @@ class Color extends AbstractColor
         $this->b = $b;
     }
 
+    /**
+     * Initiates color object from given string
+     *
+     * @param  string $value
+     * @return Intervention\Image\AbstractColor
+     */
     public function initFromString($value)
     {
         if ($color = $this->rgbaFromString($value)) {
@@ -52,6 +93,14 @@ class Color extends AbstractColor
         }
     }
 
+    /**
+     * Initiates color object from given R, G and B values
+     *
+     * @param  integer $r
+     * @param  integer $g
+     * @param  integer $b
+     * @return Intervention\Image\AbstractColor
+     */
     public function initFromRgb($r, $g, $b)
     {
         $this->r = intval($r);
@@ -60,6 +109,15 @@ class Color extends AbstractColor
         $this->a = 0;
     }
 
+    /**
+     * Initiates color object from given R, G, B and A values
+     *
+     * @param  integer $r
+     * @param  integer $g
+     * @param  integer $b
+     * @param  float   $a
+     * @return Intervention\Image\AbstractColor
+     */
     public function initFromRgba($r, $g, $b, $a = 1)
     {
         $this->r = intval($r);
@@ -68,31 +126,67 @@ class Color extends AbstractColor
         $this->a = $this->alpha2gd($a);
     }
 
+    /**
+     * Initiates color object from given ImagickPixel object
+     *
+     * @param  ImagickPixel $value
+     * @return Intervention\Image\AbstractColor
+     */
     public function initFromObject($value)
     {
-        throw new \Exception('Not available');
+        throw new \Intervention\Image\Exception\NotSupportedException(
+            "GD colors cannot init from ImagickPixel objects."
+        );
     }
 
+    /**
+     * Calculates integer value of current color instance
+     *
+     * @return integer
+     */
     public function getInt()
     {
         return ($this->a << 24) + ($this->r << 16) + ($this->g << 8) + $this->b;
     }
 
+    /**
+     * Calculates hexadecimal value of current color instance
+     *
+     * @param  string $prefix
+     * @return string
+     */
     public function getHex($prefix = '')
     {
         return sprintf('%s%02x%02x%02x', $prefix, $this->r, $this->g, $this->b);
     }
 
+    /**
+     * Calculates RGB(A) in array format of current color instance
+     *
+     * @return array
+     */
     public function getArray()
     {
         return array($this->r, $this->g, $this->b, round(1 - $this->a / 127, 2));
     }
 
+    /**
+     * Calculates RGBA in string format of current color instance
+     *
+     * @return string
+     */
     public function getRgba()
     {
         return sprintf('rgba(%d, %d, %d, %.2f)', $this->r, $this->g, $this->b, round(1 - $this->a / 127, 2));
     }
 
+    /**
+     * Determines if current color is different from given color
+     *
+     * @param  AbstractColor $color
+     * @param  integer       $tolerance
+     * @return boolean
+     */
     public function differs(AbstractColor $color, $tolerance = 0)
     {
         $color_tolerance = round($tolerance * 2.55);

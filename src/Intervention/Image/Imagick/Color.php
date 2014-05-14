@@ -4,8 +4,19 @@ namespace Intervention\Image\Imagick;
 
 class Color extends \Intervention\Image\AbstractColor
 {
+    /**
+     * ImagickPixel containing current color information
+     *
+     * @var ImagickPixel
+     */
     public $pixel;
 
+    /**
+     * Initiates color object from integer
+     *
+     * @param  integer $value
+     * @return Intervention\Image\AbstractColor
+     */
     public function initFromInteger($value)
     {
         $a = ($value >> 24) & 0xFF;
@@ -17,6 +28,12 @@ class Color extends \Intervention\Image\AbstractColor
         $this->setPixel($r, $g, $b, $a);
     }
 
+    /**
+     * Initiates color object from given array
+     *
+     * @param  array $value
+     * @return Intervention\Image\AbstractColor
+     */
     public function initFromArray($array)
     {
         $array = array_values($array);
@@ -36,6 +53,12 @@ class Color extends \Intervention\Image\AbstractColor
         $this->setPixel($r, $g, $b, $a);
     }
 
+    /**
+     * Initiates color object from given string
+     *
+     * @param  string $value
+     * @return Intervention\Image\AbstractColor
+     */
     public function initFromString($value)
     {
         if ($color = $this->rgbaFromString($value)) {
@@ -43,6 +66,12 @@ class Color extends \Intervention\Image\AbstractColor
         }
     }
 
+    /**
+     * Initiates color object from given ImagickPixel object
+     *
+     * @param  ImagickPixel $value
+     * @return Intervention\Image\AbstractColor
+     */
     public function initFromObject($value)
     {
         if (is_a($value, '\ImagickPixel')) {
@@ -50,16 +79,38 @@ class Color extends \Intervention\Image\AbstractColor
         }
     }
 
+    /**
+     * Initiates color object from given R, G and B values
+     *
+     * @param  integer $r
+     * @param  integer $g
+     * @param  integer $b
+     * @return Intervention\Image\AbstractColor
+     */
     public function initFromRgb($r, $g, $b)
     {
         $this->setPixel($r, $g, $b);
     }
 
+    /**
+     * Initiates color object from given R, G, B and A values
+     *
+     * @param  integer $r
+     * @param  integer $g
+     * @param  integer $b
+     * @param  float   $a
+     * @return Intervention\Image\AbstractColor
+     */
     public function initFromRgba($r, $g, $b, $a)
     {
         $this->setPixel($r, $g, $b, $a);
     }
 
+    /**
+     * Calculates integer value of current color instance
+     *
+     * @return integer
+     */
     public function getInt()
     {
         $r = $this->getRedValue();
@@ -70,6 +121,12 @@ class Color extends \Intervention\Image\AbstractColor
         return intval(($a << 24) + ($r << 16) + ($g << 8) + $b);
     }
 
+    /**
+     * Calculates hexadecimal value of current color instance
+     *
+     * @param  string $prefix
+     * @return string
+     */
     public function getHex($prefix = '')
     {
         return sprintf('%s%02x%02x%02x', $prefix, 
@@ -79,6 +136,11 @@ class Color extends \Intervention\Image\AbstractColor
         );
     }
 
+    /**
+     * Calculates RGB(A) in array format of current color instance
+     *
+     * @return array
+     */
     public function getArray()
     {
         return array(
@@ -89,6 +151,11 @@ class Color extends \Intervention\Image\AbstractColor
         );
     }
 
+    /**
+     * Calculates RGBA in string format of current color instance
+     *
+     * @return string
+     */
     public function getRgba()
     {
         return sprintf('rgba(%d, %d, %d, %.2f)', 
@@ -99,6 +166,13 @@ class Color extends \Intervention\Image\AbstractColor
         );
     }
 
+    /**
+     * Determines if current color is different from given color
+     *
+     * @param  AbstractColor $color
+     * @param  integer       $tolerance
+     * @return boolean
+     */
     public function differs(\Intervention\Image\AbstractColor $color, $tolerance = 0)
     {
         $color_tolerance = round($tolerance * 2.55);
@@ -119,26 +193,51 @@ class Color extends \Intervention\Image\AbstractColor
         );
     }
 
+    /**
+     * Returns RGB red value of current color
+     *
+     * @return integer
+     */
     public function getRedValue()
     {
         return intval(round($this->pixel->getColorValue(\Imagick::COLOR_RED) * 255));
     }
 
+    /**
+     * Returns RGB green value of current color
+     *
+     * @return integer
+     */
     public function getGreenValue()
     {
         return intval(round($this->pixel->getColorValue(\Imagick::COLOR_GREEN) * 255));
     }
 
+    /**
+     * Returns RGB blue value of current color
+     *
+     * @return integer
+     */
     public function getBlueValue()
     {
         return intval(round($this->pixel->getColorValue(\Imagick::COLOR_BLUE) * 255));
     }
 
+    /**
+     * Returns RGB alpha value of current color
+     *
+     * @return float
+     */
     public function getAlphaValue()
     {
         return round($this->pixel->getColorValue(\Imagick::COLOR_ALPHA), 2);
     }
 
+    /**
+     * Initiates ImagickPixel from given RGBA values
+     *
+     * @return ImagickPixel
+     */
     private function setPixel($r, $g, $b, $a = null)
     {
         $a = is_null($a) ? 1 : $a;
@@ -148,11 +247,22 @@ class Color extends \Intervention\Image\AbstractColor
         );
     }
 
+    /**
+     * Returns current color as ImagickPixel
+     *
+     * @return ImagickPixel
+     */
     public function getPixel()
     {
         return $this->pixel;
     }
 
+    /**
+     * Calculates RGA integer alpha value into float value
+     *
+     * @param  integer $value
+     * @return float
+     */
     private function rgb2alpha($value)
     {
         // (255 -> 1.0) / (0 -> 0.0)

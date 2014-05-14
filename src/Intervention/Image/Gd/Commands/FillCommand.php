@@ -7,6 +7,12 @@ use Intervention\Image\Gd\Color;
 
 class FillCommand extends \Intervention\Image\Commands\AbstractCommand
 {
+    /**
+     * Fills image with color or pattern
+     *
+     * @param  Intervention\Image\Image $image
+     * @return boolean
+     */
     public function execute($image)
     {
         $filling = $this->argument(0)->value();

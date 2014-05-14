@@ -4,6 +4,11 @@ namespace Intervention\Image\Imagick;
 
 class Encoder extends \Intervention\Image\AbstractEncoder
 {
+    /**
+     * Processes and returns encoded image as JPEG string
+     *
+     * @return string
+     */
     protected function processJpeg()
     {
         $format = 'jpeg';
@@ -20,6 +25,11 @@ class Encoder extends \Intervention\Image\AbstractEncoder
         return (string) $imagick;
     }
 
+    /**
+     * Processes and returns encoded image as PNG string
+     *
+     * @return string
+     */
     protected function processPng()
     {
         $format = 'png';
@@ -34,6 +44,11 @@ class Encoder extends \Intervention\Image\AbstractEncoder
         return (string) $imagick;
     }
 
+    /**
+     * Processes and returns encoded image as GIF string
+     *
+     * @return string
+     */
     protected function processGif()
     {
         $format = 'gif';

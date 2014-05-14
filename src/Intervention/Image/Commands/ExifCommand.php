@@ -4,6 +4,15 @@ namespace Intervention\Image\Commands;
 
 class ExifCommand extends AbstractCommand
 {
+    /**
+     * Read Exif data from the given image
+     *
+     * Note: Windows PHP Users - in order to use this method you will need to
+     * enable the mbstring and exif extensions within the php.ini file.
+     *
+     * @param  Intervention\Image\Image $image
+     * @return boolean
+     */
     public function execute($image)
     {
         if ( ! function_exists('exif_read_data')) {

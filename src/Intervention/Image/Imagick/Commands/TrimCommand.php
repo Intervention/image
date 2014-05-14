@@ -6,6 +6,12 @@ use \Intervention\Image\Imagick\Color;
 
 class TrimCommand extends \Intervention\Image\Commands\AbstractCommand
 {
+    /**
+     * Trims away parts of an image
+     *
+     * @param  Intervention\Image\Image $image
+     * @return boolean
+     */
     public function execute($image)
     {
         $base = $this->argument(0)->type('string')->value();

@@ -4,10 +4,34 @@ namespace Intervention\Image;
 
 class Response
 {
+    /**
+     * Image that should be displayed by response
+     *
+     * @var Intervention\Image\Image
+     */
     public $image;
+
+    /**
+     * Format of displayed image
+     *
+     * @var string
+     */
     public $format;
+
+    /**
+     * Quality of displayed image
+     *
+     * @var integer
+     */
     public $quality;
 
+    /**
+     * Creates a new instance of response
+     *
+     * @param Image   $image
+     * @param string  $format
+     * @param integer $quality
+     */
     public function __construct(Image $image, $format = null, $quality = null) 
     {
         $this->image = $image;
@@ -15,6 +39,11 @@ class Response
         $this->quality = $quality ? $quality : 90;
     }
 
+    /**
+     * Builds response according to settings
+     *
+     * @return mixed
+     */
     public function make()
     {
         $this->image->encode($this->format, $this->quality);

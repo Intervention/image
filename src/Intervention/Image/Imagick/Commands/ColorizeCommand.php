@@ -4,6 +4,12 @@ namespace Intervention\Image\Imagick\Commands;
 
 class ColorizeCommand extends \Intervention\Image\Commands\AbstractCommand
 {
+    /**
+     * Changes balance of different RGB color channels
+     *
+     * @param  Intervention\Image\Image $image
+     * @return boolean
+     */
     public function execute($image)
     {
         $red = $this->argument(0)->between(-100, 100)->required()->value();

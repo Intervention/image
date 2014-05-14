@@ -4,6 +4,12 @@ namespace Intervention\Image\Gd\Commands;
 
 class BlurCommand extends \Intervention\Image\Commands\AbstractCommand
 {
+    /**
+     * Applies blur effect on image
+     *
+     * @param  Intervention\Image\Image $image
+     * @return boolean
+     */
     public function execute($image)
     {
         $amount = $this->argument(0)->between(0, 100)->value(1);

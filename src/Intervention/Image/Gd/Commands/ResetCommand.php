@@ -4,6 +4,12 @@ namespace Intervention\Image\Gd\Commands;
 
 class ResetCommand extends \Intervention\Image\Commands\AbstractCommand
 {
+    /**
+     * Resets given image to its backup state
+     *
+     * @param  Intervention\Image\Image $image
+     * @return boolean
+     */
     public function execute($image)
     {
         if (is_resource($backup = $image->getBackup())) {

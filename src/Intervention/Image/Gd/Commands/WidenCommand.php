@@ -4,6 +4,12 @@ namespace Intervention\Image\Gd\Commands;
 
 class WidenCommand extends ResizeCommand
 {
+    /**
+     * Resize image proportionally to given width
+     *
+     * @param  Intervention\Image\Image $image
+     * @return boolean
+     */
     public function execute($image)
     {
         $width = $this->argument(0)->type('integer')->required()->value();

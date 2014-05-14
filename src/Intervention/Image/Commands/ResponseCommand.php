@@ -6,6 +6,12 @@ use \Intervention\Image\Response;
 
 class ResponseCommand extends AbstractCommand
 {
+    /**
+     * Builds HTTP response from given image
+     *
+     * @param  Intervention\Image\Image $image
+     * @return boolean
+     */
     public function execute($image)
     {
         $format = $this->argument(0)->value();

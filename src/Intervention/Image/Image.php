@@ -4,28 +4,79 @@ namespace Intervention\Image;
 
 class Image extends File
 {
+    /**
+     * Instance of current image driver
+     *
+     * @var Intervention\Image\AbstractDriver
+     */
     protected $driver;
+
+    /**
+     * Image resource/object of current image processor
+     *
+     * @var mixed
+     */
     protected $core;
+
+    /**
+     * Image resource backup of current image processor
+     *
+     * @var mixded
+     */
     protected $backup;
+
+    /**
+     * Last image encoding result
+     *
+     * @var string
+     */
     public $encoded = '';
 
+    /**
+     * Creates a new Image instance
+     *
+     * @param Driver $driver
+     * @param mixed  $core
+     */
     public function __construct($driver = null, $core = null)
     {
         $this->driver = $driver;
         $this->core = $core;
     }
 
+    /**
+     * Magic method to catch all image calls
+     * usually any AbstractCommand
+     *
+     * @param  string $name
+     * @param  Array  $arguments
+     * @return mixed
+     */
     public function __call($name, $arguments)
     {
         $command = $this->driver->executeCommand($this, $name, $arguments);
         return $command->hasOutput() ? $command->getOutput() : $this;
     }
 
+    /**
+     * Starts encoding of current image
+     *
+     * @param  string  $format
+     * @param  integer $quality
+     * @return Intervention\Image\Image
+     */
     public function encode($format = null, $quality = 90)
     {
         return $this->driver->encode($this, $format, $quality);
     }
 
+    /**
+     * Saves encoded image in filesystem
+     *
+     * @param  string  $path
+     * @param  integer $quality
+     * @return Intervention\Image\Image
+     */
     public function save($path = null, $quality = null)
     {
         $path = is_null($path) ? ($this->dirname .'/'. $this->basename) : $path;
@@ -44,28 +95,53 @@ class Image extends File
         return $this;
     }
 
+    /**
+     * Runs a given filter on current image
+     *
+     * @param  FiltersFilterInterface $filter
+     * @return Intervention\Image\Image
+     */
     public function filter(Filters\FilterInterface $filter)
     {
         return $filter->applyFilter($this);
     }
 
+    /**
+     * Returns current image driver
+     *
+     * @return Intervention\Image\AbstractDriver
+     */
     public function getDriver()
     {
         return $this->driver;
     }
 
-    public function setDriver($driver)
+    /**
+     * Sets current image driver
+     * @param AbstractDriver $driver
+     */
+    public function setDriver(AbstractDriver $driver)
     {
         $this->driver = $driver;
 
         return $this;
     }
 
+    /**
+     * Returns current image resource/obj
+     *
+     * @return mixed
+     */
     public function getCore()
     {
         return $this->core;
     }
 
+    /**
+     * Sets current image resource
+     *
+     * @param mixed $core
+     */
     public function setCore($core)
     {
         $this->core = $core;
@@ -73,11 +149,21 @@ class Image extends File
         return $this;
     }
 
+    /**
+     * Returns current image backup
+     *
+     * @return mixed
+     */
     public function getBackup()
     {
         return $this->backup;
     }
 
+    /**
+     * Sets current image backup
+     *
+     * @param mixed $value
+     */
     public function setBackup($value)
     {
         $this->backup = $value;
@@ -85,16 +171,31 @@ class Image extends File
         return $this;
     }
 
+    /**
+     * Checks if current image is already encoded
+     *
+     * @return boolean
+     */
     public function isEncoded()
     {
         return ! is_null($this->encoded);
     }
 
+    /**
+     * Returns encoded image data of current image
+     *
+     * @return string
+     */
     public function getEncoded()
     {
         return $this->encoded;
     }
 
+    /**
+     * Sets encoded image buffer
+     *
+     * @param string $value
+     */
     public function setEncoded($value)
     {
         $this->encoded = $value;
@@ -102,16 +203,31 @@ class Image extends File
         return $this;
     }
 
+    /**
+     * Calculates current image width
+     *
+     * @return integer
+     */
     public function getWidth()
     {
         return $this->getSize()->width;
     }
 
+    /**
+     * Calculates current image height
+     *
+     * @return integer
+     */
     public function getHeight()
     {
         return $this->getSize()->height;
     }
 
+    /**
+     * Returns encoded image data in string conversion
+     *
+     * @return string
+     */
     public function __toString()
     {
         return $this->encoded;

@@ -4,6 +4,11 @@ namespace Intervention\Image\Gd;
 
 class Encoder extends \Intervention\Image\AbstractEncoder
 {
+    /**
+     * Processes and returns encoded image as JPEG string
+     *
+     * @return string
+     */
     protected function processJpeg()
     {
         ob_start();
@@ -15,6 +20,11 @@ class Encoder extends \Intervention\Image\AbstractEncoder
         return $buffer;
     }
 
+    /**
+     * Processes and returns encoded image as PNG string
+     *
+     * @return string
+     */
     protected function processPng()
     {
         ob_start();
@@ -29,6 +39,11 @@ class Encoder extends \Intervention\Image\AbstractEncoder
         return $buffer;
     }
 
+    /**
+     * Processes and returns encoded image as GIF string
+     *
+     * @return string
+     */
     protected function processGif()
     {
         ob_start();

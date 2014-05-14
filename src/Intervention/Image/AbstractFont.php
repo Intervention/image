@@ -4,6 +4,14 @@ namespace Intervention\Image;
 
 abstract class AbstractFont
 {
+    /**
+     * Draws font to given image on given position
+     *
+     * @param  Image   $image
+     * @param  integer $posx
+     * @param  integer $posy
+     * @return boolean
+     */
     abstract public function applyToImage(Image $image, $posx = 0, $posy = 0);
 
     /**

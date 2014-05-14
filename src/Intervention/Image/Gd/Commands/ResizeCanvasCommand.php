@@ -7,6 +7,12 @@ use \Intervention\Image\Size;
 
 class ResizeCanvasCommand extends \Intervention\Image\Commands\AbstractCommand
 {
+    /**
+     * Resizes image boundaries
+     *
+     * @param  Intervention\Image\Image $image
+     * @return boolean
+     */
     public function execute($image)
     {
         $width = $this->argument(0)->type('integer')->required()->value();

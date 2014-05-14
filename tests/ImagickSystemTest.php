@@ -835,11 +835,18 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
         $img = $this->manager()->make('tests/images/trim.png');
         $img->mask('tests/images/gradient.png');
         $this->assertTransparentPosition($img, 0, 0);
+        $this->assertTransparentPosition($img, 18, 18);
         $this->assertTransparentPosition($img, 23, 23);
-        $c = $img->getCore()->getImagePixelColor(23, 24)->getColorAsString();
-        $this->assertEquals('srgba(255,166,1,0.972549)', $c);
-        $c = $img->getCore()->getImagePixelColor(39, 25)->getColorAsString();
-        $this->assertEquals('srgba(0,174,240,0.333333)', $c);
+        $this->assertTransparentPosition($img, 30, 30);
+        $alpha = $img->pickColor(23, 24, 'array');
+        $this->assertLessThan(1, $alpha[3]);
+        $this->assertGreaterThanOrEqual(0, $alpha[3]);
+        $alpha = $img->pickColor(35, 25, 'array');
+        $this->assertLessThan(1, $alpha[3]);
+        $this->assertGreaterThanOrEqual(0, $alpha[3]);
+        $alpha = $img->pickColor(25, 42, 'array');
+        $this->assertLessThan(1, $alpha[3]);
+        $this->assertGreaterThanOrEqual(0, $alpha[3]);
     }
 
     public function testMaskImageWithAlpha()
@@ -848,10 +855,14 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
         $img->mask('tests/images/star.png', true);
         $this->assertTransparentPosition($img, 0, 0);
         $this->assertTransparentPosition($img, 16, 16);
-        $c = $img->getCore()->getImagePixelColor(18, 18)->getColorAsString();
-        $this->assertEquals('srgba(255,166,1,0.466667)', $c);
-        $c = $img->getCore()->getImagePixelColor(24, 10)->getColorAsString();
-        $this->assertEquals('srgba(0,174,240,0.776471)', $c);
+        $this->assertTransparentPosition($img, 36, 36);
+        $this->assertTransparentPosition($img, 47, 47);
+        $alpha = $img->pickColor(18, 18, 'array');
+        $this->assertLessThan(1, $alpha[3]);
+        $this->assertGreaterThanOrEqual(0, $alpha[3]);
+        $alpha = $img->pickColor(22, 35, 'array');
+        $this->assertLessThan(1, $alpha[3]);
+        $this->assertGreaterThanOrEqual(0, $alpha[3]);
     }
 
     public function testPixelateImage()

@@ -7,11 +7,11 @@ class AbstractCommandTest extends PHPUnit_Framework_TestCase
         Mockery::close();
     }
     
-    public function testGetArgument()
+    public function testArgument()
     {
         $command = $this->getTestCommand();
-        $this->assertEquals('foo', $command->getArgument(0));
-        $this->assertEquals('bar', $command->getArgument(1));
+        $this->assertEquals('foo', $command->argument(0)->value());
+        $this->assertEquals('bar', $command->argument(1)->value());
     }
 
     public function testGetOutput()

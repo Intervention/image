@@ -6,9 +6,9 @@ class ColorizeCommand extends \Intervention\Image\Commands\AbstractCommand
 {
     public function execute($image)
     {
-        $red = $this->getArgument(0);
-        $green = $this->getArgument(1);
-        $blue = $this->getArgument(2);
+        $red = $this->argument(0)->between(-100, 100)->required()->value();
+        $green = $this->argument(1)->between(-100, 100)->required()->value();
+        $blue = $this->argument(2)->between(-100, 100)->required()->value();
 
         // normalize colorize levels
         $red = round($red * 2.55);

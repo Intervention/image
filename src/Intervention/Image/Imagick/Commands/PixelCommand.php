@@ -8,9 +8,10 @@ class PixelCommand extends \Intervention\Image\Commands\AbstractCommand
 {
     public function execute($image)
     {
-        $color = new Color($this->getArgument(0));
-        $x = $this->getArgument(1);
-        $y = $this->getArgument(2);
+        $color = $this->argument(0)->required()->value();
+        $color = new Color($color);
+        $x = $this->argument(1)->type('integer')->required()->value();
+        $y = $this->argument(2)->type('integer')->required()->value();
 
         // prepare pixel
         $draw = new \ImagickDraw;

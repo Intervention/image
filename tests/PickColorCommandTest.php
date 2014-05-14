@@ -10,19 +10,6 @@ class PickColorCommandTest extends PHPUnit_Framework_TestCase
         Mockery::close();
     }
     
-    public function testGd()
-    {
-        $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
-        $image = Mockery::mock('Intervention\Image\Image');
-        $image->shouldReceive('getCore')->times(2)->andReturn($resource);
-        $command = new PickColorGd(array());
-        $result = $command->execute($image);
-        $this->assertTrue($result);
-        $this->assertTrue($command->hasOutput());
-        $this->assertInternalType('array', $command->getOutput());
-        $this->assertEquals(4, count($command->getOutput()));
-    }
-
     public function testGdWithCoordinates()
     {
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
@@ -47,20 +34,6 @@ class PickColorCommandTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($command->hasOutput());
         $this->assertInternalType('string', $command->getOutput());
         $this->assertEquals('#ffffff', $command->getOutput());
-    }
-
-    public function testImagick()
-    {
-        $imagick = Mockery::mock('Imagick');
-        $imagick->shouldReceive('getimagepixelcolor')->with(0, 0)->andReturn(new ImagickPixel);
-        $image = Mockery::mock('Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($imagick);
-        $command = new PickColorImagick(array());
-        $result = $command->execute($image);
-        $this->assertTrue($result);
-        $this->assertTrue($command->hasOutput());
-        $this->assertInternalType('array', $command->getOutput());
-        $this->assertEquals(4, count($command->getOutput()));
     }
 
     public function testImagickWithCoordinates()

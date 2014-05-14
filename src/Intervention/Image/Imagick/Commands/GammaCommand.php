@@ -6,7 +6,7 @@ class GammaCommand extends \Intervention\Image\Commands\AbstractCommand
 {
     public function execute($image)
     {
-        $gamma = $this->getArgument(0);
+        $gamma = $this->argument(0)->type('numeric')->required()->value();
 
         return $image->getCore()->gammaImage($gamma);
     }

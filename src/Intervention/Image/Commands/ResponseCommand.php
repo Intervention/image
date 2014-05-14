@@ -8,8 +8,8 @@ class ResponseCommand extends AbstractCommand
 {
     public function execute($image)
     {
-        $format = $this->getArgument(0);
-        $quality = $this->getArgument(1);
+        $format = $this->argument(0)->value();
+        $quality = $this->argument(1)->between(0, 100)->value();
 
         $response = new Response($image, $format, $quality);
 

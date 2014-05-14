@@ -6,9 +6,9 @@ class ResizeCommand extends \Intervention\Image\Commands\AbstractCommand
 {
     public function execute($image)
     {
-        $width = $this->getArgument(0);
-        $height = $this->getArgument(1);
-        $constraints = $this->getArgument(2);
+        $width = $this->argument(0)->value();
+        $height = $this->argument(1)->value();
+        $constraints = $this->argument(2)->type('closure')->value();
 
         // resize box
         $resized = $image->getSize()->resize($width, $height, $constraints);

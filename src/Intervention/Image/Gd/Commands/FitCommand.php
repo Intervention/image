@@ -9,8 +9,8 @@ class FitCommand extends ResizeCommand
 {
     public function execute($image)
     {
-        $width = $this->getArgument(0);
-        $height = $this->getArgument(1, $width);
+        $width = $this->argument(0)->type('integer')->value();
+        $height = $this->argument(1)->type('integer')->value($width);
 
         // calculate size
         $fitted = $image->getSize()->fit(new Size($width, $height));

@@ -12,7 +12,7 @@ class ExifCommand extends AbstractCommand
             );
         }
 
-        $key = $this->getArgument(0);
+        $key = $this->argument(0)->value();
         $data = exif_read_data($image->dirname .'/'. $image->basename, 'EXIF', false);
 
         if (! is_null($key) && is_array($data)) {

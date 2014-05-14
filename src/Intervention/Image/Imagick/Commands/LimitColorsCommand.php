@@ -6,8 +6,8 @@ class LimitColorsCommand extends \Intervention\Image\Commands\AbstractCommand
 {
     public function execute($image)
     {
-        $count = $this->getArgument(0);
-        $matte = $this->getArgument(1);
+        $count = $this->argument(0)->value();
+        $matte = $this->argument(1)->value();
 
         // get current image size
         $size = $image->getSize();

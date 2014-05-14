@@ -8,10 +8,10 @@ class TrimCommand extends \Intervention\Image\Commands\AbstractCommand
 {
     public function execute($image)
     {
-        $base = $this->getArgument(0);
-        $away = $this->getArgument(1);
-        $tolerance = intval($this->getArgument(2, 0));
-        $feather = intval($this->getArgument(3, 0));
+        $base = $this->argument(0)->type('string')->value();
+        $away = $this->argument(1)->value();
+        $tolerance = $this->argument(2)->type('numeric')->value(0);
+        $feather = $this->argument(3)->type('numeric')->value(0);
 
         $width = $image->getWidth();
         $height = $image->getHeight();

@@ -6,7 +6,7 @@ class FlipCommand extends ResizeCommand
 {
     public function execute($image)
     {
-        $mode = strtolower($this->getArgument(0, 'h'));
+        $mode = $this->argument(0)->value('h');
 
         $size = $image->getSize();
         $dst = clone $size;

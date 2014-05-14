@@ -14,15 +14,9 @@ abstract class AbstractCommand
         $this->arguments = $arguments;
     }
 
-    public function getArgument($key, $default = null)
+    public function argument($key)
     {
-        // return new \Intervention\Image\Argument($this->arguments, $key);
-
-        if (is_array($this->arguments)) {
-            return array_key_exists($key, $this->arguments) ? $this->arguments[$key] : $default;
-        }
-
-        return $default;
+        return new \Intervention\Image\Commands\Argument($this, $key);
     }
 
     public function getOutput()

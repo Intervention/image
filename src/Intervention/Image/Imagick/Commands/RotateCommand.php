@@ -8,8 +8,9 @@ class RotateCommand extends \Intervention\Image\Commands\AbstractCommand
 {
     public function execute($image)
     {
-        $angle = $this->getArgument(0);
-        $color = new Color($this->getArgument(1));
+        $angle = $this->argument(0)->type('numeric')->required()->value();
+        $color = $this->argument(1)->value();
+        $color = new Color($color);
 
         // rotate image
         $image->getCore()->rotateImage($color->getPixel(), ($angle * -1));

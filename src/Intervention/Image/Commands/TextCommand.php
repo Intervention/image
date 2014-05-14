@@ -8,10 +8,10 @@ class TextCommand extends \Intervention\Image\Commands\AbstractCommand
 {
     public function execute($image)
     {
-        $text = $this->getArgument(0);
-        $x = $this->getArgument(1, 0);
-        $y = $this->getArgument(2, 0);
-        $callback = $this->getArgument(3);
+        $text = $this->argument(0)->required()->value();
+        $x = $this->argument(1, 0)->type('numeric')->value();
+        $y = $this->argument(2, 0)->type('numeric')->value();
+        $callback = $this->argument(3)->type('closure')->value();
 
         $fontclassname = sprintf('\Intervention\Image\%s\Font', 
             $image->getDriver()->getDriverName());

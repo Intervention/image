@@ -25,6 +25,10 @@ class ArgumentTest extends PHPUnit_Framework_TestCase
         $arg = new Argument($this->getMockedCommand(array(null)));
         $arg->required();
         $this->validateArgument($arg, null);
+
+        $arg = new Argument($this->getMockedCommand(array(0)));
+        $arg->required();
+        $this->validateArgument($arg, 0);
     }
 
     /**
@@ -83,6 +87,30 @@ class ArgumentTest extends PHPUnit_Framework_TestCase
     {
         $arg = new Argument($this->getMockedCommand(array('foo')));
         $arg->type('numeric');
+    }
+
+    public function testTypeBooleanPass()
+    {
+        $arg = new Argument($this->getMockedCommand(array()));
+        $arg->type('boolean');
+        $this->validateArgument($arg, null);
+
+        $arg = new Argument($this->getMockedCommand(array(true)));
+        $arg->type('boolean');
+        $this->validateArgument($arg, true);
+
+        $arg = new Argument($this->getMockedCommand(array(false)));
+        $arg->type('boolean');
+        $this->validateArgument($arg, false);
+    }
+
+    /**
+     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
+     */
+    public function testTypeBooleanFail()
+    {
+        $arg = new Argument($this->getMockedCommand(array('foo')));
+        $arg->type('boolean');
     }
 
     public function testTypeStringPass()

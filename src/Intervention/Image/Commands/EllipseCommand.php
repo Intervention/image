@@ -8,11 +8,11 @@ class EllipseCommand extends \Intervention\Image\Commands\AbstractCommand
 {
     public function execute($image)
     {
-        $x = $this->getArgument(0);
-        $y = $this->getArgument(1);
-        $width = $this->getArgument(2);
-        $height = $this->getArgument(3);
-        $callback = $this->getArgument(4);
+        $x = $this->argument(0)->type('numeric')->required()->value();
+        $y = $this->argument(1)->type('numeric')->required()->value();
+        $width = $this->argument(2)->type('numeric')->value(10);
+        $height = $this->argument(3)->type('numeric')->value(10);
+        $callback = $this->argument(4)->type('closure')->value();
 
         $ellipse_classname = sprintf('\Intervention\Image\%s\Shapes\EllipseShape', 
             $image->getDriver()->getDriverName());

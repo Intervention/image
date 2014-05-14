@@ -8,11 +8,11 @@ class LineCommand extends \Intervention\Image\Commands\AbstractCommand
 {
     public function execute($image)
     {
-        $x1 = $this->getArgument(0);
-        $y1 = $this->getArgument(1);
-        $x2 = $this->getArgument(2);
-        $y2 = $this->getArgument(3);
-        $callback = $this->getArgument(4);
+        $x1 = $this->argument(0)->type('numeric')->required()->value();
+        $y1 = $this->argument(1)->type('numeric')->required()->value();
+        $x2 = $this->argument(2)->type('numeric')->required()->value();
+        $y2 = $this->argument(3)->type('numeric')->required()->value();
+        $callback = $this->argument(4)->type('closure')->value();
 
         $line_classname = sprintf('\Intervention\Image\%s\Shapes\LineShape', 
             $image->getDriver()->getDriverName());

@@ -6,8 +6,8 @@ class MaskCommand extends \Intervention\Image\Commands\AbstractCommand
 {
     public function execute($image)
     {
-        $mask_source = $this->getArgument(0);
-        $mask_w_alpha = (bool) $this->getArgument(1);
+        $mask_source = $this->argument(0)->value();
+        $mask_w_alpha = $this->argument(1)->type('bool')->value(false);
 
         // get imagick
         $imagick = $image->getCore();

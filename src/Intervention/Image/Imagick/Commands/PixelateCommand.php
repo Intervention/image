@@ -6,7 +6,7 @@ class PixelateCommand extends \Intervention\Image\Commands\AbstractCommand
 {
     public function execute($image)
     {
-        $size = intval($this->getArgument(0, 10));
+        $size = $this->argument(0)->type('integer')->value(10);
 
         $width = $image->getWidth();
         $height = $image->getHeight();

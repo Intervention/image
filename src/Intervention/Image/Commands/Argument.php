@@ -51,6 +51,12 @@ class Argument
 
         switch (strtolower($type)) {
             
+            case 'bool':
+            case 'boolean':
+                $fail =  ! is_bool($value);
+                $message = sprintf('%s accepts only boolean values as argument %d.', $this->getCommandName(), $this->key + 1);
+                break;
+
             case 'int':
             case 'integer':
                 $fail =  ! is_integer($value);

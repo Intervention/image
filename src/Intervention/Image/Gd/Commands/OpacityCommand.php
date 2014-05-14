@@ -6,7 +6,7 @@ class OpacityCommand extends \Intervention\Image\Commands\AbstractCommand
 {
     public function execute($image)
     {
-        $transparency = $this->getArgument(0);
+        $transparency = $this->argument(0)->between(0, 100)->required()->value();
 
         // get size of image
         $size = $image->getSize();

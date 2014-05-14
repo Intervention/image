@@ -6,7 +6,7 @@ class WidenCommand extends ResizeCommand
 {
     public function execute($image)
     {
-        $width = $this->getArgument(0);
+        $width = $this->argument(0)->type('integer')->required()->value();
 
         $this->arguments[0] = $width;
         $this->arguments[1] = null;

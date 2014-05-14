@@ -10,9 +10,9 @@ class FillCommand extends \Intervention\Image\Commands\AbstractCommand
 {
     public function execute($image)
     {
-        $filling = $this->getArgument(0);
-        $x = $this->getArgument(1);
-        $y = $this->getArgument(2);
+        $filling = $this->argument(0)->value();
+        $x = $this->argument(1)->type('integer')->value();
+        $y = $this->argument(2)->type('integer')->value();
 
         $imagick = $image->getCore();
         

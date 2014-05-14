@@ -9,10 +9,10 @@ class CropCommand extends \Intervention\Image\Commands\AbstractCommand
 {
     public function execute($image)
     {
-        $width = $this->getArgument(0);
-        $height = $this->getArgument(1);
-        $x = $this->getArgument(2);
-        $y = $this->getArgument(3);
+        $width = $this->argument(0)->type('integer')->required()->value();
+        $height = $this->argument(1)->type('integer')->required()->value();
+        $x = $this->argument(2)->type('integer')->value();
+        $y = $this->argument(3)->type('integer')->value();
 
         if (is_null($width) || is_null($height)) {
             throw new \Intervention\Image\Exception\InvalidArgumentException(

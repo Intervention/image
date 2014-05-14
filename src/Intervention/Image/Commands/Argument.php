@@ -19,7 +19,7 @@ class Argument
         return isset($matches[1]) ? lcfirst($matches[1]).'()' : 'Method';
     }
 
-    public function get($default = null)
+    public function value($default = null)
     {
         $arguments = $this->command->arguments;
 
@@ -43,7 +43,7 @@ class Argument
     {
         $fail = false;
 
-        $value = $this->get();
+        $value = $this->value();
 
         if (is_null($value)) {
             return $this;
@@ -89,7 +89,7 @@ class Argument
 
     public function between($x, $y)
     {
-        $value = $this->type('numeric')->get();
+        $value = $this->type('numeric')->value();
 
         if (is_null($value)) {
             return $this;

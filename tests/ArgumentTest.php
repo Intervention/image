@@ -200,7 +200,7 @@ class ArgumentTest extends PHPUnit_Framework_TestCase
     private function validateArgument($argument, $value)
     {
         $this->assertInstanceOf('\Intervention\Image\Commands\Argument', $argument);
-        $this->assertEquals($value, $argument->get());
+        $this->assertEquals($value, $argument->value());
     }
 
     private function getMockedCommand($arguments = array())

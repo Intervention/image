@@ -28,7 +28,8 @@ class ImageServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app['image'] = $this->app->share(
+		$app = $this->app;
+		$app['image'] = $app->share(
             function ($app) {
                 return new ImageManager($app['config']);
             }

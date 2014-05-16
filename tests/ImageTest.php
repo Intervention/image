@@ -51,6 +51,12 @@ class ImageTest extends PHPUnit_Framework_TestCase
         $image->filter($demoFilter);
     }
 
+    public function testMime()
+    {
+        $image = $this->getTestImage();
+        $this->assertEquals('image/png', $image->mime());
+    }
+
     private function getTestImage()
     {
         $size = Mockery::mock('\Intervention\Image\Size', array(800, 600));
@@ -60,6 +66,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
         $command->shouldReceive('getOutput')->andReturn('mock');
         $driver->shouldReceive('executeCommand')->andReturn($command);
         $image = new Image($driver, 'mock');
+        $image->mime = 'image/png';
 
         return $image;
     }

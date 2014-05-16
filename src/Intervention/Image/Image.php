@@ -224,6 +224,16 @@ class Image extends File
     }
 
     /**
+     * Reads mime type
+     *
+     * @return string
+     */
+    public function mime()
+    {
+        return $this->mime;
+    }
+
+    /**
      * Returns encoded image data in string conversion
      *
      * @return string

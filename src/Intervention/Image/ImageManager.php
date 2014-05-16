@@ -81,4 +81,29 @@ class ImageManager
     {
         return $this->createDriver()->newImage($width, $height, $background);
     }
+
+    /**
+     * Create new cached image and run callback
+     * (requires additional package intervention/imagecache)
+     *
+     * @param Closure $callback
+     * @param integer $lifetime
+     * @param boolean $returnObj
+     *
+     * @return Image
+     */
+    public function cache(Closure $callback, $lifetime = null, $returnObj = false)
+    {
+        if (class_exists('\Intervention\Image\ImageCache')) {
+            // Create imagecache and run callback
+            $imagecache = new ImageCache($this);
+            $imagecache = is_callable($callback) ? $callback($imagecache) : $imagecache;
+
+            return $imagecache->get($lifetime, $returnObj);    
+        }
+
+        throw new \Intervention\Image\Exception\NotSupportedException(
+            "Please install package intervention/imagecache before running this function."
+        );
+    }
 }

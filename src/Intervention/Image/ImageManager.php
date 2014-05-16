@@ -2,6 +2,7 @@
 
 namespace Intervention\Image;
 
+use Closure;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Config\FileLoader;
 use Illuminate\Filesystem\Filesystem;

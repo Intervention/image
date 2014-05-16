@@ -214,6 +214,16 @@ class Image extends File
     }
 
     /**
+     * Alias of getWidth()
+     *
+     * @return integer
+     */
+    public function width()
+    {
+        return $this->getWidth();
+    }
+
+    /**
      * Calculates current image height
      *
      * @return integer
@@ -221,6 +231,16 @@ class Image extends File
     public function getHeight()
     {
         return $this->getSize()->height;
+    }
+
+    /**
+     * Alias of getHeight
+     *
+     * @return integer
+     */
+    public function height()
+    {
+        return $this->getHeight();
     }
 
     /**

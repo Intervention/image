@@ -12,7 +12,7 @@ class InsertCommand extends \Intervention\Image\Commands\AbstractCommand
      */
     public function execute($image)
     {
-        $source = $this->argument(0)->value();
+        $source = $this->argument(0)->required()->value();
         $position = $this->argument(1)->type('string')->value();
         $x = $this->argument(2)->type('integer')->value(0);
         $y = $this->argument(3)->type('integer')->value(0);

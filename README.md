@@ -1,6 +1,6 @@
 # Intervention Image
 
-Intervention Image is a **PHP image handling and manipulation** library providing an easier and expressive way of using PHP's GD or Imagick libraries. The package includes ServiceProviders and Facades for easy **Laravel 4** integration.
+Intervention Image is a **PHP image handling and manipulation** library providing an easier and expressive way to create, edit, and compose images. The package includes ServiceProviders and Facades for easy **Laravel 4** integration.
 
 [![Build Status](https://travis-ci.org/Intervention/image.png?branch=master)](https://travis-ci.org/Intervention/image)
 
@@ -8,11 +8,15 @@ Intervention Image is a **PHP image handling and manipulation** library providin
 
 - PHP >=5.3
 - Fileinfo Extension
-- GD (>=2.0) or Imagick module
+
+## Supported Image Libraries
+
+- GD Library (>=2.0)
+- Imagick PHP extension (>=6.3.8)
 
 ## Getting started
 
-- [Installation Guide](http://image.intervention.io/installation)
+- [Installation](http://image.intervention.io/installation)
 - [Laravel Framework Integration](http://image.intervention.io/laravel)
 - [Official Documentation](http://image.intervention.io/)
 

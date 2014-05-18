@@ -14,6 +14,12 @@ class Driver extends \Intervention\Image\AbstractDriver
      */
 	public function __construct(Source $source = null, Encoder $encoder = null)
 	{
+        if ( ! $this->coreAvailable()) {
+            throw new \Intervention\Image\Exception\NotSupportedException(
+                "ImageMagick module not available with this PHP installation."
+            );
+        }
+
         $this->source = $source ? $source : new Source;
 	    $this->encoder = $encoder ? $encoder : new Encoder;
 	}
@@ -55,5 +61,15 @@ class Driver extends \Intervention\Image\AbstractDriver
     public function parseColor($value)
     {
         return new Color($value);
+    }
+
+    /**
+     * Checks if core module installation is available
+     *
+     * @return boolean
+     */
+    protected function coreAvailable()
+    {
+        return (extension_loaded('imagick') && class_exists('Imagick'));
     }
 }

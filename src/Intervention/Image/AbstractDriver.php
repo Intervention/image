@@ -35,6 +35,13 @@ abstract class AbstractDriver
      * @return AbstractColor
      */
     abstract public function parseColor($value);
+
+    /**
+     * Checks if core module installation is available
+     *
+     * @return boolean
+     */
+    abstract protected function coreAvailable();
     
     /**
      * Initiates new image from given input

@@ -1430,6 +1430,32 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         @unlink($save_as);
     }
 
+    public function testSaveImageWithoutParameter()
+    {
+        $path = 'tests/tmp/bar.png';
+
+        // create temp. test image (red)
+        $img = $this->manager()->canvas(16, 16, '#ff0000');
+        $img->save($path);
+        $img->destroy();
+        
+        // open test image again
+        $img = $this->manager()->make($path);
+        $this->assertColorAtPosition('#ff0000', $img, 0, 0);
+
+        // fill with green and save wthout paramater
+        $img->fill('#00ff00');
+        $img->save();
+        $img->destroy();
+
+        // re-open test image (should be green)
+        $img = $this->manager()->make($path);
+        $this->assertColorAtPosition('#00ff00', $img, 0, 0);
+        $img->destroy();
+
+        @unlink($path);
+    }
+
     public function testDestroy()
     {
         $img = $this->manager()->make('tests/images/trim.png');

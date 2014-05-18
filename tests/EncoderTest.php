@@ -46,6 +46,31 @@ class EncoderTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('image/gif; charset=binary', $this->getMime($encoder->result));
     }
 
+    public function testProcessUnknownWithMimeGd()
+    {
+        $core = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
+        $encoder = new GdEncoder;
+        $image = Mockery::mock('\Intervention\Image\Image');
+        $image->mime = 'image/jpeg';
+        $image->shouldReceive('getCore')->once()->andReturn($core);
+        $image->shouldReceive('setEncoded')->once()->andReturn($image);
+        $img = $encoder->process($image, null);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('image/jpeg; charset=binary', $this->getMime($encoder->result));
+    }
+
+    /**
+     * @expectedException \Intervention\Image\Exception\NotSupportedException
+     */
+    public function testProcessUnknownGd()
+    {
+        $core = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
+        $encoder = new GdEncoder;
+        $image = Mockery::mock('\Intervention\Image\Image');
+        $img = $encoder->process($image, null);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+    }
+
     public function testProcessJpegImagick()
     {
         $core = $this->getImagickMock('jpeg');
@@ -80,6 +105,30 @@ class EncoderTest extends PHPUnit_Framework_TestCase
         $img = $encoder->process($image, 'gif', 90);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertEquals('mock-gif', $encoder->result);
+    }
+
+    public function testProcessUnknownWithMimeImagick()
+    {
+        $core = $this->getImagickMock('jpeg');
+        $encoder = new ImagickEncoder;
+        $image = Mockery::mock('\Intervention\Image\Image');
+        $image->mime = 'image/jpeg';
+        $image->shouldReceive('getCore')->once()->andReturn($core);
+        $image->shouldReceive('setEncoded')->once()->andReturn($image);
+        $img = $encoder->process($image, null);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('mock-jpeg', $encoder->result);
+    }
+
+    /**
+     * @expectedException \Intervention\Image\Exception\NotSupportedException
+     */
+    public function testProcessUnknownImagick()
+    {
+        $core = Mockery::mock('Imagick');
+        $encoder = new ImagickEncoder;
+        $image = Mockery::mock('\Intervention\Image\Image');
+        $img = $encoder->process($image, null);
     }
 
     public function getImagickMock($type)

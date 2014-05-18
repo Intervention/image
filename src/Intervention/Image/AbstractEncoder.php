@@ -62,12 +62,17 @@ abstract class AbstractEncoder
                 $this->result = $this->processPng();
                 break;
 
-            default:
             case 'jpg':
             case 'jpeg':
             case 'image/jpg':
             case 'image/jpeg':
                 $this->result = $this->processJpeg();
+                break;
+
+            default:
+                throw new \Intervention\Image\Exception\NotSupportedException(
+                    "Writing format ({$format}) is not supported."
+                );
                 break;
         }
 
@@ -83,7 +88,7 @@ abstract class AbstractEncoder
     {
         return sprintf('data:%s;base64,%s', 
             $this->image->mime, 
-            base64_encode($this->process($this->image, $this->quality))
+            base64_encode($this->process($this->image, null, $this->quality))
         );
     }
 

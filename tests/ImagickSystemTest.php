@@ -975,14 +975,14 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
     public function testEllipseImage()
     {
         $img = $this->manager()->canvas(16, 16, 'ffffff');
-        $img->ellipse(8, 8, 12, 8, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
+        $img->ellipse(12, 8, 8, 8, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
         $this->assertEquals('9dc5bbec6d45868610c082a1d67640b5', $img->checksum());
     }
 
     public function testCircleImage()
     {
         $img = $this->manager()->canvas(16, 16, 'ffffff');
-        $img->circle(8, 8, 12, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
+        $img->circle(12, 8, 8, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
         $this->assertEquals('a433c7c1a842ef83e1cb45875371358c', $img->checksum());
     }
 

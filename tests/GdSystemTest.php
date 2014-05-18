@@ -1002,14 +1002,14 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
     public function testEllipseImage()
     {
         $img = $this->manager()->canvas(16, 16, 'ffffff');
-        $img->ellipse(8, 8, 12, 8, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
+        $img->ellipse(12, 8, 8, 8, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
         $this->assertEquals('d56363fd454ad6e25a23c2a4a7c77998', $img->checksum());
     }
 
     public function testCircleImage()
     {
         $img = $this->manager()->canvas(16, 16, 'ffffff');
-        $img->circle(8, 8, 12, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
+        $img->circle(12, 8, 8, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
         $this->assertEquals('c214f58de03d171f7f278a7b957bab50', $img->checksum());
     }
 

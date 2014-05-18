@@ -17,7 +17,7 @@ class CircleCommandTest extends PHPUnit_Framework_TestCase
         $image = Mockery::mock('\Intervention\Image\Image');
         $image->shouldReceive('getDriver')->once()->andReturn($driver);
         $image->shouldReceive('getCore')->once()->andReturn($resource);
-        $command = new CircleCommand(array(10, 20, 250));
+        $command = new CircleCommand(array(250, 10, 20));
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertFalse($command->hasOutput());
@@ -33,7 +33,7 @@ class CircleCommandTest extends PHPUnit_Framework_TestCase
         $image->shouldReceive('getDriver')->once()->andReturn($driver);
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
 
-        $command = new CircleCommand(array(10, 20, 250));
+        $command = new CircleCommand(array(25, 10, 20));
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertFalse($command->hasOutput());

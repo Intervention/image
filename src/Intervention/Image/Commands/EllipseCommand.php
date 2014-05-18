@@ -14,10 +14,10 @@ class EllipseCommand extends \Intervention\Image\Commands\AbstractCommand
      */
     public function execute($image)
     {
-        $x = $this->argument(0)->type('numeric')->required()->value();
-        $y = $this->argument(1)->type('numeric')->required()->value();
-        $width = $this->argument(2)->type('numeric')->value(10);
-        $height = $this->argument(3)->type('numeric')->value(10);
+        $width = $this->argument(0)->type('numeric')->required()->value();
+        $height = $this->argument(1)->type('numeric')->required()->value();
+        $x = $this->argument(2)->type('numeric')->required()->value();
+        $y = $this->argument(3)->type('numeric')->required()->value();
         $callback = $this->argument(4)->type('closure')->value();
 
         $ellipse_classname = sprintf('\Intervention\Image\%s\Shapes\EllipseShape', 

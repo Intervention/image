@@ -96,9 +96,13 @@ class ImageManager
     public function cache(Closure $callback, $lifetime = null, $returnObj = false)
     {
         if (class_exists('\Intervention\Image\ImageCache')) {
-            // Create imagecache and run callback
+            // create imagecache
             $imagecache = new ImageCache($this);
-            $imagecache = is_callable($callback) ? $callback($imagecache) : $imagecache;
+            
+            // run callback
+            if (is_callable($callback)) {
+                $callback($imagecache);
+            }
 
             return $imagecache->get($lifetime, $returnObj);
         }

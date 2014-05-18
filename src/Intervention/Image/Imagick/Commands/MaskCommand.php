@@ -27,7 +27,7 @@ class MaskCommand extends \Intervention\Image\Commands\AbstractCommand
             $mask->resize($image_size->width, $image_size->height);
         }
 
-        $imagick->setImageMatte(true); 
+        $imagick->setImageMatte(true);
 
         if ($mask_w_alpha) {
 
@@ -35,7 +35,7 @@ class MaskCommand extends \Intervention\Image\Commands\AbstractCommand
             $imagick->compositeImage($mask->getCore(), \Imagick::COMPOSITE_DSTIN, 0, 0);
 
         } else {
-            
+
             // get alpha channel of original as greyscale image
             $original_alpha = clone $imagick;
             $original_alpha->separateImageChannel(\Imagick::CHANNEL_ALPHA);
@@ -48,11 +48,11 @@ class MaskCommand extends \Intervention\Image\Commands\AbstractCommand
 
             // combine both alphas from original and mask
             $original_alpha->compositeImage($mask_alpha, \Imagick::COMPOSITE_COPYOPACITY, 0, 0);
-            
+
             // mask the image with the alpha combination
             $imagick->compositeImage($original_alpha, \Imagick::COMPOSITE_DSTIN, 0, 0);
         }
 
-        return true;        
+        return true;
     }
 }

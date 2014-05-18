@@ -43,7 +43,7 @@ class RectangleShape extends \Intervention\Image\AbstractShape
      * @param integer $x2
      * @param integer $y2
      */
-    function __construct($x1 = null, $y1 = null, $x2 = null, $y2 = null) 
+    public function __construct($x1 = null, $y1 = null, $x2 = null, $y2 = null)
     {
         $this->x1 = is_numeric($x1) ? intval($x1) : $this->x1;
         $this->y1 = is_numeric($y1) ? intval($y1) : $this->y1;

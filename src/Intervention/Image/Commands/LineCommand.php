@@ -20,7 +20,7 @@ class LineCommand extends \Intervention\Image\Commands\AbstractCommand
         $y2 = $this->argument(3)->type('numeric')->required()->value();
         $callback = $this->argument(4)->type('closure')->value();
 
-        $line_classname = sprintf('\Intervention\Image\%s\Shapes\LineShape', 
+        $line_classname = sprintf('\Intervention\Image\%s\Shapes\LineShape',
             $image->getDriver()->getDriverName());
 
         $line = new $line_classname($x2, $y2);

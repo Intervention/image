@@ -33,7 +33,7 @@ class Constraint
      *
      * @param Size $size
      */
-    public function __construct(Size $size) 
+    public function __construct(Size $size)
     {
         $this->size = $size;
     }

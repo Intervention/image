@@ -18,12 +18,12 @@ class CircleShape extends EllipseShape
      *
      * @param integer $radius
      */
-    function __construct($radius = null) 
+    public function __construct($radius = null)
     {
         $this->width = is_numeric($radius) ? intval($radius) : $this->radius;
         $this->height = is_numeric($radius) ? intval($radius) : $this->radius;
         $this->radius = is_numeric($radius) ? intval($radius) : $this->radius;
-    }   
+    }
 
     /**
      * Draw current circle on given image

@@ -41,7 +41,7 @@ class LineShape extends \Intervention\Image\AbstractShape
      * @param integer $x
      * @param integer $y
      */
-    function __construct($x = null, $y = null)
+    public function __construct($x = null, $y = null)
     {
         $this->x = is_numeric($x) ? intval($x) : $this->x;
         $this->y = is_numeric($y) ? intval($y) : $this->y;

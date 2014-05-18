@@ -13,7 +13,7 @@ class Encoder extends \Intervention\Image\AbstractEncoder
     {
         $format = 'jpeg';
         $compression = \Imagick::COMPRESSION_JPEG;
-        
+
         $imagick = $this->image->getCore();
         $imagick->setFormat($format);
         $imagick->setImageFormat($format);

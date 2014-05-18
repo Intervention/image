@@ -24,7 +24,7 @@ class Point
      * @param integer $x
      * @param integer $y
      */
-    public function __construct($x = null, $y = null) 
+    public function __construct($x = null, $y = null)
     {
         $this->x = is_numeric($x) ? intval($x) : 0;
         $this->y = is_numeric($y) ? intval($y) : 0;

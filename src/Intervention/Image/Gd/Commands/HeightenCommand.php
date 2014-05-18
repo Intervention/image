@@ -19,7 +19,7 @@ class HeightenCommand extends ResizeCommand
         $this->arguments[2] = function ($constraint) {
             $constraint->aspectRatio();
         };
-        
+
         return parent::execute($image);
     }
 }

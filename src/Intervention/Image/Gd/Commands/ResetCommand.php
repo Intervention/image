@@ -13,7 +13,7 @@ class ResetCommand extends \Intervention\Image\Commands\AbstractCommand
     public function execute($image)
     {
         if (is_resource($backup = $image->getBackup())) {
-            
+
             // destroy old resource
             imagedestroy($image->getCore());
             // reset to new resource

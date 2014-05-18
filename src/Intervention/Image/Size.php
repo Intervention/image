@@ -123,7 +123,7 @@ class Size
             } else {
                 $this->height = $height;
             }
-            
+
             if ($constraint->isFixed(Constraint::ASPECTRATIO)) {
                 $w = intval(round($this->height * $constraint->getSize()->getRatio()));
 
@@ -142,7 +142,7 @@ class Size
             } else {
                 $this->width = $width;
             }
-            
+
             if ($constraint->isFixed(Constraint::ASPECTRATIO)) {
                 $h = intval(round($this->width / $constraint->getSize()->getRatio()));
 
@@ -182,18 +182,18 @@ class Size
     {
         // create size with auto height
         $auto_height = clone $size;
-        
+
         $auto_height->resize($this->width, null, function ($constraint) {
             $constraint->aspectRatio();
         });
 
         // decide which version to use
         if ($auto_height->fitsInto($this)) {
-            
+
             $size = $auto_height;
-            
+
         } else {
-                        
+
             // create size with auto width
             $auto_width = clone $size;
 

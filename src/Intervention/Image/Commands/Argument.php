@@ -88,7 +88,7 @@ class Argument
         }
 
         switch (strtolower($type)) {
-            
+
             case 'bool':
             case 'boolean':
                 $fail =  ! is_bool($value);

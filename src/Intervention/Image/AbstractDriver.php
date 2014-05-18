@@ -42,7 +42,7 @@ abstract class AbstractDriver
      * @return boolean
      */
     abstract protected function coreAvailable();
-    
+
     /**
      * Initiates new image from given input
      *

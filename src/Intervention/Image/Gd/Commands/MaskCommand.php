@@ -50,11 +50,11 @@ class MaskCommand extends \Intervention\Image\Commands\AbstractCommand
                     if ($alpha[3] == 0) { // transparent as black
                         $alpha = 0;
                     } else {
-                        
+
                         // $alpha = floatval(round((($alpha[0] + $alpha[1] + $alpha[3]) / 3) / 255, 2));
-                        
+
                         // image is greyscale, so channel doesn't matter (use red channel)
-                        $alpha = floatval(round($alpha[0] / 255, 2)); 
+                        $alpha = floatval(round($alpha[0] / 255, 2));
                     }
 
                 }

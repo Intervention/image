@@ -27,11 +27,11 @@ class EllipseShape extends \Intervention\Image\AbstractShape
      * @param integer $width
      * @param integer $height
      */
-    function __construct($width = null, $height = null) 
+    public function __construct($width = null, $height = null)
     {
         $this->width = is_numeric($width) ? intval($width) : $this->width;
         $this->height = is_numeric($height) ? intval($height) : $this->height;
-    }   
+    }
 
     /**
      * Draw ellipse instance on given image
@@ -47,7 +47,7 @@ class EllipseShape extends \Intervention\Image\AbstractShape
 
         // set background
         $bgcolor = new Color($this->background);
-        $circle->setFillColor($bgcolor->getPixel()); 
+        $circle->setFillColor($bgcolor->getPixel());
 
         // set border
         if ($this->hasBorder()) {
@@ -56,7 +56,7 @@ class EllipseShape extends \Intervention\Image\AbstractShape
             $circle->setStrokeColor($border_color->getPixel());
         }
 
-        $circle->ellipse($x, $y, $this->width / 2, $this->height / 2, 0, 360); 
+        $circle->ellipse($x, $y, $this->width / 2, $this->height / 2, 0, 360);
 
         $image->getCore()->drawImage($circle);
 

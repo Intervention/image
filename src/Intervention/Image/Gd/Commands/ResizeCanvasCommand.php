@@ -27,7 +27,7 @@ class ResizeCanvasCommand extends \Intervention\Image\Commands\AbstractCommand
         // check of only width or height is set
         $width = is_null($width) ? $original_width : intval($width);
         $height = is_null($height) ? $original_height : intval($height);
-        
+
         // check on relative width/height
         if ($relative) {
             $width = $original_width + $width;
@@ -37,8 +37,8 @@ class ResizeCanvasCommand extends \Intervention\Image\Commands\AbstractCommand
         // check for negative width/height
         $width = ($width <= 0) ? $width + $original_width : $width;
         $height = ($height <= 0) ? $height + $original_height : $height;
-    
-        // create new canvas        
+
+        // create new canvas
         $canvas = $image->getDriver()->newImage($width, $height, $bgcolor);
 
         // set copy position
@@ -60,7 +60,7 @@ class ResizeCanvasCommand extends \Intervention\Image\Commands\AbstractCommand
         if ($height <= $original_height) {
             $dst_y = 0;
             $src_y = $canvas_pos->y;
-            $src_h = $canvas_size->height;   
+            $src_h = $canvas_size->height;
         } else {
             $dst_y = $image_pos->y;
             $src_y = 0;

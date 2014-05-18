@@ -26,7 +26,7 @@ class LimitColorsCommand extends \Intervention\Image\Commands\AbstractCommand
         $alpha->negateImage(false);
 
         if ($matte) {
-            
+
             // get matte color
             $mattecolor = $image->getDriver()->parseColor($matte)->getPixel();
 
@@ -40,18 +40,18 @@ class LimitColorsCommand extends \Intervention\Image\Commands\AbstractCommand
 
             // copy new alpha to canvas
             $canvas->compositeImage($alpha, \Imagick::COMPOSITE_COPYOPACITY, 0, 0);
-            
+
             // replace core
             $image->setCore($canvas);
 
         } else {
-            
+
             $image->getCore()->quantizeImage($count, \Imagick::COLORSPACE_RGB, 0, false, false);
             $image->getCore()->compositeImage($alpha, \Imagick::COMPOSITE_COPYOPACITY, 0, 0);
 
         }
-        
+
         return true;
-        
+
     }
 }

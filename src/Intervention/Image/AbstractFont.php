@@ -183,5 +183,5 @@ abstract class AbstractFont
         }
 
         return false;
-    }    
+    }
 }

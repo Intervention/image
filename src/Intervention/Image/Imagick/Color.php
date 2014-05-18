@@ -49,7 +49,7 @@ class Color extends \Intervention\Image\AbstractColor
             list($r, $g, $b) = $array;
             $a = 1;
         }
-        
+
         $this->setPixel($r, $g, $b, $a);
     }
 
@@ -129,9 +129,9 @@ class Color extends \Intervention\Image\AbstractColor
      */
     public function getHex($prefix = '')
     {
-        return sprintf('%s%02x%02x%02x', $prefix, 
-            $this->getRedValue(), 
-            $this->getGreenValue(), 
+        return sprintf('%s%02x%02x%02x', $prefix,
+            $this->getRedValue(),
+            $this->getGreenValue(),
             $this->getBlueValue()
         );
     }
@@ -158,7 +158,7 @@ class Color extends \Intervention\Image\AbstractColor
      */
     public function getRgba()
     {
-        return sprintf('rgba(%d, %d, %d, %.2f)', 
+        return sprintf('rgba(%d, %d, %d, %.2f)',
             $this->getRedValue(),
             $this->getGreenValue(),
             $this->getBlueValue(),

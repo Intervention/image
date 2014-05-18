@@ -20,7 +20,7 @@ class EllipseCommand extends \Intervention\Image\Commands\AbstractCommand
         $y = $this->argument(3)->type('numeric')->required()->value();
         $callback = $this->argument(4)->type('closure')->value();
 
-        $ellipse_classname = sprintf('\Intervention\Image\%s\Shapes\EllipseShape', 
+        $ellipse_classname = sprintf('\Intervention\Image\%s\Shapes\EllipseShape',
             $image->getDriver()->getDriverName());
 
         $ellipse = new $ellipse_classname($width, $height);

@@ -72,13 +72,13 @@ class Font extends \Intervention\Image\AbstractFont
 
         // set font file
         if ($this->hasApplicableFontFile()) {
-            $draw->setFont($this->file);    
+            $draw->setFont($this->file);
         } else {
             throw new \Intervention\Image\Exception\RuntimeException(
                 "Font file must be provided to apply text to image."
             );
         }
-        
+
         // parse text color
         $color = new Color($this->color);
 
@@ -94,7 +94,7 @@ class Font extends \Intervention\Image\AbstractFont
             case 'right':
                 $align = \Imagick::ALIGN_RIGHT;
                 break;
-            
+
             default:
                 $align = \Imagick::ALIGN_LEFT;
                 break;

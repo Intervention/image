@@ -109,7 +109,7 @@ class TrimCommand extends ResizeCommand
                         $checkColor->g = 0;
                         $checkColor->b = 0;
                     }
-                    
+
                     if ($color->differs($checkColor, $tolerance)) {
                         $top_x = max(0, $x - $feather);
                         break 2;
@@ -125,7 +125,7 @@ class TrimCommand extends ResizeCommand
 
             for ($y=($height-1); $y >= floor($height/2)-1; $y--) {
                 for ($x=$top_x; $x < $width; $x++) {
-                    
+
                     $checkColor = $image->pickColor($x, $y, 'object');
 
                     if ($checkTransparency) {
@@ -133,7 +133,7 @@ class TrimCommand extends ResizeCommand
                         $checkColor->g = 0;
                         $checkColor->b = 0;
                     }
-                    
+
                     if ($color->differs($checkColor, $tolerance)) {
                         $bottom_y = min($height, $y+1 + $feather);
                         break 2;
@@ -149,9 +149,9 @@ class TrimCommand extends ResizeCommand
 
             for ($x=($width-1); $x >= floor($width/2)-1; $x--) {
                 for ($y=$top_y; $y < $bottom_y; $y++) {
-                    
+
                     $checkColor = $image->pickColor($x, $y, 'object');
-                    
+
                     if ($checkTransparency) {
                         $checkColor->r = 0;
                         $checkColor->g = 0;
@@ -167,7 +167,7 @@ class TrimCommand extends ResizeCommand
             }
 
         }
-        
+
 
         // trim parts of image
         return $this->modify($image, 0, 0, $top_x, $top_y, ($bottom_x-$top_x), ($bottom_y-$top_y), ($bottom_x-$top_x), ($bottom_y-$top_y));

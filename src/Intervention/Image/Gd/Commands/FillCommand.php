@@ -41,7 +41,7 @@ class FillCommand extends \Intervention\Image\Commands\AbstractCommand
         imagealphablending($resource, true);
 
         if (is_int($x) && is_int($y)) {
-            
+
             // resource should be visible through transparency
             $base = $image->getDriver()->newImage($width, $height)->getCore();
             imagecopy($base, $resource, 0, 0, 0, 0, $width, $height);

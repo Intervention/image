@@ -100,7 +100,7 @@ class ImageManager
             $imagecache = new ImageCache($this);
             $imagecache = is_callable($callback) ? $callback($imagecache) : $imagecache;
 
-            return $imagecache->get($lifetime, $returnObj);    
+            return $imagecache->get($lifetime, $returnObj);
         }
 
         throw new \Intervention\Image\Exception\NotSupportedException(

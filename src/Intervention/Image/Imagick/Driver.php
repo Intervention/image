@@ -12,8 +12,8 @@ class Driver extends \Intervention\Image\AbstractDriver
      * @param Intervention\Image\Imagick\Source  $source
      * @param Intervention\Image\Imagick\Encoder $encoder
      */
-	public function __construct(Source $source = null, Encoder $encoder = null)
-	{
+    public function __construct(Source $source = null, Encoder $encoder = null)
+    {
         if ( ! $this->coreAvailable()) {
             throw new \Intervention\Image\Exception\NotSupportedException(
                 "ImageMagick module not available with this PHP installation."
@@ -21,8 +21,8 @@ class Driver extends \Intervention\Image\AbstractDriver
         }
 
         $this->source = $source ? $source : new Source;
-	    $this->encoder = $encoder ? $encoder : new Encoder;
-	}
+        $this->encoder = $encoder ? $encoder : new Encoder;
+    }
 
     /**
      * Creates new image instance

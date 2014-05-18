@@ -134,7 +134,7 @@ abstract class AbstractColor
             case is_null($value):
                 $this->initFromArray(array(0, 0, 0, 0));
                 break;
-            
+
             default:
                 throw new \Intervention\Image\Exception\NotReadableException(
                     "Color format ({$value}) cannot be read."
@@ -154,7 +154,7 @@ abstract class AbstractColor
     public function format($type)
     {
         switch (strtolower($type)) {
-            
+
             case 'rgba':
                 return $this->getRgba();
                 break;
@@ -167,7 +167,7 @@ abstract class AbstractColor
             case 'integer':
                 return $this->getInt();
                 break;
-            
+
             case 'array':
                 return $this->getArray();
                 break;

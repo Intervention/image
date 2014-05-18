@@ -18,7 +18,7 @@ class TextCommand extends \Intervention\Image\Commands\AbstractCommand
         $y = $this->argument(2)->type('numeric')->value(0);
         $callback = $this->argument(3)->type('closure')->value();
 
-        $fontclassname = sprintf('\Intervention\Image\%s\Font', 
+        $fontclassname = sprintf('\Intervention\Image\%s\Font',
             $image->getDriver()->getDriverName());
 
         $font = new $fontclassname($text);

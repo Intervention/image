@@ -43,13 +43,13 @@ class RectangleShape extends \Intervention\Image\AbstractShape
      * @param integer $x2
      * @param integer $y2
      */
-    function __construct($x1 = null, $y1 = null, $x2 = null, $y2 = null) 
+    public function __construct($x1 = null, $y1 = null, $x2 = null, $y2 = null)
     {
         $this->x1 = is_numeric($x1) ? intval($x1) : $this->x1;
         $this->y1 = is_numeric($y1) ? intval($y1) : $this->y1;
         $this->x2 = is_numeric($x2) ? intval($x2) : $this->x2;
         $this->y2 = is_numeric($y2) ? intval($y2) : $this->y2;
-    }   
+    }
 
     /**
      * Draw rectangle to given image at certain position
@@ -65,7 +65,7 @@ class RectangleShape extends \Intervention\Image\AbstractShape
 
         // set background
         $bgcolor = new Color($this->background);
-        $rectangle->setFillColor($bgcolor->getPixel()); 
+        $rectangle->setFillColor($bgcolor->getPixel());
 
         // set border
         if ($this->hasBorder()) {
@@ -74,7 +74,7 @@ class RectangleShape extends \Intervention\Image\AbstractShape
             $rectangle->setStrokeColor($border_color->getPixel());
         }
 
-        $rectangle->rectangle($this->x1, $this->y1, $this->x2, $this->y2); 
+        $rectangle->rectangle($this->x1, $this->y1, $this->x2, $this->y2);
 
         $image->getCore()->drawImage($rectangle);
 

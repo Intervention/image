@@ -38,7 +38,7 @@ class LimitColorsCommand extends \Intervention\Image\Commands\AbstractCommand
 
         // copy original image
         imagecopy($resource, $image->getCore(), 0, 0, 0, 0, $size->width, $size->height);
-        
+
         if ($count <= 256) {
             // decrease colors
             imagetruecolortopalette($resource, true, $count);

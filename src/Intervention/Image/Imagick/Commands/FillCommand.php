@@ -21,7 +21,7 @@ class FillCommand extends \Intervention\Image\Commands\AbstractCommand
         $y = $this->argument(2)->type('integer')->value();
 
         $imagick = $image->getCore();
-        
+
         try {
             // set image filling
             $source = new Source;
@@ -39,7 +39,7 @@ class FillCommand extends \Intervention\Image\Commands\AbstractCommand
             // flood fill with texture
             if ($filling instanceof Image) {
 
-                // create tile 
+                // create tile
                 $tile = clone $image->getCore();
 
                 // mask away color at position
@@ -50,7 +50,7 @@ class FillCommand extends \Intervention\Image\Commands\AbstractCommand
 
                 // fill canvas with texture
                 $canvas = $canvas->textureImage($filling->getCore());
-                
+
                 // merge canvas and tile
                 $canvas->compositeImage($tile, \Imagick::COMPOSITE_DEFAULT, 0, 0);
 
@@ -74,8 +74,8 @@ class FillCommand extends \Intervention\Image\Commands\AbstractCommand
                 $alpha = clone $image->getCore();
 
                 // merge original with canvas and tile
-                $image->getCore()->compositeImage($canvas, \Imagick::COMPOSITE_DEFAULT, 0, 0);                
-                $image->getCore()->compositeImage($tile, \Imagick::COMPOSITE_DEFAULT, 0, 0);                
+                $image->getCore()->compositeImage($canvas, \Imagick::COMPOSITE_DEFAULT, 0, 0);
+                $image->getCore()->compositeImage($tile, \Imagick::COMPOSITE_DEFAULT, 0, 0);
 
                 // restore alpha channel of original image
                 $image->getCore()->compositeImage($alpha, \Imagick::COMPOSITE_COPYOPACITY, 0, 0);

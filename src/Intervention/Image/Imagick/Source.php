@@ -70,7 +70,7 @@ class Source extends \Intervention\Image\AbstractSource
         $core = new \Imagick;
 
         try {
-            
+
             $core->readImageBlob($binary);
 
         } catch (\ImagickException $e) {

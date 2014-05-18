@@ -27,7 +27,7 @@ class EllipseShape extends \Intervention\Image\AbstractShape
      * @param integer $width
      * @param integer $height
      */
-    function __construct($width = null, $height = null) 
+    public function __construct($width = null, $height = null)
     {
         $this->width = is_numeric($width) ? intval($width) : $this->width;
         $this->height = is_numeric($height) ? intval($height) : $this->height;

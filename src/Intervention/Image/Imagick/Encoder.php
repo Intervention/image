@@ -15,6 +15,9 @@ class Encoder extends \Intervention\Image\AbstractEncoder
         $compression = \Imagick::COMPRESSION_JPEG;
 
         $imagick = $this->image->getCore();
+        $imagick->setImageBackgroundColor('white');
+        $imagick->setBackgroundColor('white');
+        $imagick = $imagick->flattenImages();
         $imagick->setFormat($format);
         $imagick->setImageFormat($format);
         $imagick->setCompression($compression);

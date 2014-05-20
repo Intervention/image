@@ -25,7 +25,7 @@ class LimitColorsCommand extends \Intervention\Image\Commands\AbstractCommand
 
         // define matte
         if (is_null($matte)) {
-            $matte = imagecolorallocatealpha($resource, 0, 0, 0, 127);
+            $matte = imagecolorallocatealpha($resource, 255, 255, 255, 127);
         } else {
             $matte = $image->getDriver()->parseColor($matte)->getInt();
         }

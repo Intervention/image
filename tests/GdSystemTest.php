@@ -1113,9 +1113,9 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, $c[3]);
 
         $c = $img->pickColor(0, 15);
-        $this->assertEquals(0, $c[0]);
-        $this->assertEquals(0, $c[1]);
-        $this->assertEquals(0, $c[2]);
+        $this->assertEquals(255, $c[0]);
+        $this->assertEquals(255, $c[1]);
+        $this->assertEquals(255, $c[2]);
         $this->assertEquals(0, $c[3]);
     }
 
@@ -1137,9 +1137,9 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, $c[3]);
 
         $c = $img->pickColor(0, 15);
-        $this->assertEquals(0, $c[0]);
-        $this->assertEquals(0, $c[1]);
-        $this->assertEquals(0, $c[2]);
+        $this->assertEquals(255, $c[0]);
+        $this->assertEquals(255, $c[1]);
+        $this->assertEquals(255, $c[2]);
         $this->assertEquals(0, $c[3]);
     }
 

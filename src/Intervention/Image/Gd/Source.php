@@ -110,10 +110,6 @@ class Source extends \Intervention\Image\AbstractSource
      */
     public function gdResourceToTruecolor(&$resource)
     {
-        if (imageistruecolor($resource)) {
-            return true;
-        }
-
         $width = imagesx($resource);
         $height = imagesy($resource);
 
@@ -122,7 +118,7 @@ class Source extends \Intervention\Image\AbstractSource
 
         // fill with transparent color
         imagealphablending($canvas, false);
-        $transparent = imagecolorallocatealpha($canvas, 0, 0, 0, 127);
+        $transparent = imagecolorallocatealpha($canvas, 255, 255, 255, 127);
         imagefilledrectangle($canvas, 0, 0, $width, $height, $transparent);
         imagealphablending($canvas, true);
 

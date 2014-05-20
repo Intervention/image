@@ -142,7 +142,7 @@ class EncoderTest extends PHPUnit_Framework_TestCase
         $imagick->shouldReceive('setimagecompressionquality');
         $imagick->shouldReceive('setimagebackgroundcolor');
         $imagick->shouldReceive('setbackgroundcolor');
-        $imagick->shouldReceive('flattenimages')->andReturn($imagick);
+        $imagick->shouldReceive('mergeimagelayers')->andReturn($imagick);
         $imagick->shouldReceive('__toString')->once()->andReturn(sprintf('mock-%s', $type));
         return $imagick;
     }

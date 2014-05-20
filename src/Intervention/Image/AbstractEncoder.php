@@ -109,7 +109,7 @@ abstract class AbstractEncoder
      */
     protected function setFormat($format = null)
     {
-        if (is_null($format) && $this->image instanceof Image) {
+        if ($format == '' && $this->image instanceof Image) {
             $format = $this->image->mime;
         }
 

@@ -16,8 +16,8 @@ Intervention Image is a **PHP image handling and manipulation** library providin
 
 ## Getting started
 
-- [Installation](http://image.intervention.io/installation)
-- [Laravel Framework Integration](http://image.intervention.io/laravel)
+- [Installation](http://image.intervention.io/getting_started/installation)
+- [Laravel Framework Integration](http://image.intervention.io/getting_started/laravel)
 - [Official Documentation](http://image.intervention.io/)
 
 ## Code Examples

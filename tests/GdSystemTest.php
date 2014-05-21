@@ -827,6 +827,7 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($checkColor[1], 81);
         $this->assertEquals($checkColor[2], 96);
         $this->assertEquals($checkColor[3], 0.5);
+        $this->assertTransparentPosition($img, 0, 11);
     }
 
     public function testMaskImage()

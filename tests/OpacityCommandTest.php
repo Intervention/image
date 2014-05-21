@@ -33,7 +33,7 @@ class OpacityCommandTest extends PHPUnit_Framework_TestCase
     public function testImagick()
     {
         $imagick = Mockery::mock('Imagick');
-        $imagick->shouldReceive('setimageopacity')->with(0.5)->andReturn(true);
+        $imagick->shouldReceive('evaluateimage')->with(\Imagick::EVALUATE_DIVIDE, 2, \Imagick::CHANNEL_ALPHA)->andReturn(true);
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
         $command = new OpacityImagick(array(50));

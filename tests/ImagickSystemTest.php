@@ -1463,6 +1463,20 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Intervention\Image\Image', $img);
     }
 
+    public function testCloneImageObject()
+    {
+        $img = $this->manager()->make('tests/images/trim.png');
+        $cln = clone $img;
+
+        // destroy original
+        $img->destroy();
+        unset($img);
+
+        // clone should be still intact
+        $this->assertInstanceOf('Intervention\Image\Image', $cln);
+        $this->assertInstanceOf('Imagick', $cln->getCore());
+    }
+
     private function assertColorAtPosition($color, $img, $x, $y)
     {
         $pick = $img->pickColor($x, $y, 'hex');

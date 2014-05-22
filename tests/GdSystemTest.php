@@ -1482,6 +1482,20 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertColorAtPosition('#939393', $img, 35, 35);
     }
 
+    public function testCloneImageObject()
+    {
+        $img = $this->manager()->make('tests/images/trim.png');
+        $cln = clone $img;
+
+        // destroy original
+        $img->destroy();
+        unset($img);
+
+        // clone should be still intact
+        $this->assertInstanceOf('Intervention\Image\Image', $cln);
+        $this->assertInternalType('resource', $cln->getCore());
+    }
+
     private function assertColorAtPosition($color, $img, $x, $y)
     {
         $pick = $img->pickColor($x, $y, 'hex');

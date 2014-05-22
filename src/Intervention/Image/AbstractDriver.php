@@ -44,6 +44,16 @@ abstract class AbstractDriver
     abstract protected function coreAvailable();
 
     /**
+     * Returns clone of given core
+     *
+     * @return mixed
+     */
+    public function cloneCore($core)
+    {
+        return clone $core;
+    }
+
+    /**
      * Initiates new image from given input
      *
      * @param  mixed $data

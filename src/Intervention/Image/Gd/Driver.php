@@ -66,4 +66,22 @@ class Driver extends \Intervention\Image\AbstractDriver
     {
         return (extension_loaded('gd') && function_exists('gd_info'));
     }
+
+    /**
+     * Returns clone of given core
+     *
+     * @return mixed
+     */
+    public function cloneCore($core)
+    {
+        $width = imagesx($core);
+        $height = imagesy($core);
+        $clone = imagecreatetruecolor($width, $height);
+        imagealphablending($clone, false);
+        imagesavealpha($clone, true);
+        
+        imagecopy($clone, $core, 0, 0, 0, 0, $width, $height);
+
+        return $clone;
+    }
 }

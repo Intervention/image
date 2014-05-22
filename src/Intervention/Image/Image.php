@@ -262,4 +262,12 @@ class Image extends File
     {
         return $this->encoded;
     }
+
+    /**
+     * Cloning an image
+     */
+    public function __clone()
+    {
+        $this->core = $this->driver->cloneCore($this->core);
+    }
 }

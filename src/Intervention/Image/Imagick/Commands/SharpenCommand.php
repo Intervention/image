@@ -12,7 +12,7 @@ class SharpenCommand extends \Intervention\Image\Commands\AbstractCommand
      */
     public function execute($image)
     {
-        $amount = $this->argument(0)->between(0, 100)->value(30);
+        $amount = $this->argument(0)->between(0, 100)->value(10);
 
         return $image->getCore()->unsharpMaskImage(1, 1, $amount / 6.25, 0);
     }

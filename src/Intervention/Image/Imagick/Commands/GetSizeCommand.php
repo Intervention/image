@@ -14,7 +14,7 @@ class GetSizeCommand extends \Intervention\Image\Commands\AbstractCommand
      */
     public function execute($image)
     {
-        $info = $image->getCore()->identifyImage(true);
+        $info = $image->getCore()->identifyImage();
 
         $this->setOutput(new Size(
             $info['geometry']['width'],

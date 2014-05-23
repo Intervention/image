@@ -132,7 +132,7 @@ abstract class AbstractColor
                 break;
 
             case is_null($value):
-                $this->initFromArray(array(0, 0, 0, 0));
+                $this->initFromArray(array(255, 255, 255, 0));
                 break;
 
             default:

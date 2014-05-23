@@ -40,14 +40,14 @@ class ImagickColorTest extends PHPUnit_Framework_TestCase
     public function testConstructor()
     {
         $c = new Color;
-        $this->validateColor($c, 0, 0, 0, 0);
+        $this->validateColor($c, 255, 255, 255, 0);
     }
 
     public function testParseNull()
     {
         $c = new Color;
         $c->parse(null);
-        $this->validateColor($c, 0, 0, 0, 0);
+        $this->validateColor($c, 255, 255, 255, 0);
     }
 
     public function testParseInteger()
@@ -187,7 +187,7 @@ class ImagickColorTest extends PHPUnit_Framework_TestCase
         $c = new Color;
         $i = $c->getInt();
         $this->assertInternalType('int', $i);
-        $this->assertEquals($i, 0);
+        $this->assertEquals($i, 16777215);
 
         $c = new Color(array(255, 255, 255));
         $i = $c->getInt();
@@ -225,7 +225,7 @@ class ImagickColorTest extends PHPUnit_Framework_TestCase
         $c = new Color;
         $i = $c->getHex();
         $this->assertInternalType('string', $i);
-        $this->assertEquals($i, '000000');
+        $this->assertEquals($i, 'ffffff');
 
         $c = new Color(array(255, 255, 255, 1));
         $i = $c->getHex();
@@ -248,7 +248,7 @@ class ImagickColorTest extends PHPUnit_Framework_TestCase
         $c = new Color;
         $i = $c->getArray();
         $this->assertInternalType('array', $i);
-        $this->assertEquals($i, array(0, 0, 0, 0));
+        $this->assertEquals($i, array(255, 255, 255, 0));
 
         $c = new Color(array(255, 255, 255, 1));
         $i = $c->getArray();
@@ -271,7 +271,7 @@ class ImagickColorTest extends PHPUnit_Framework_TestCase
         $c = new Color;
         $i = $c->getRgba();
         $this->assertInternalType('string', $i);
-        $this->assertEquals($i, 'rgba(0, 0, 0, 0.00)');
+        $this->assertEquals($i, 'rgba(255, 255, 255, 0.00)');
 
         $c = new Color(array(255, 255, 255, 1));
         $i = $c->getRgba();

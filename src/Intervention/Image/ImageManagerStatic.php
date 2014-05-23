@@ -2,6 +2,8 @@
 
 namespace Intervention\Image;
 
+use Closure;
+
 class ImageManagerStatic
 {
     /**
@@ -53,5 +55,18 @@ class ImageManagerStatic
     public static function canvas($width, $height, $background = null)
     {
         return self::newInstance()->manager->canvas($width, $height, $background);
+    }
+
+    /**
+     * Create new cached image and run callback statically
+     *
+     * @param  Closure  $callback
+     * @param  integer  $lifetime
+     * @param  boolean  $returnObj
+     * @return mixed
+     */
+    public static function cache(Closure $callback, $lifetime = null, $returnObj = false)
+    {
+        return self::newInstance()->manager->cache($callback, $lifetime, $returnObj);
     }
 }

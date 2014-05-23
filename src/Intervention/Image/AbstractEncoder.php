@@ -69,6 +69,13 @@ abstract class AbstractEncoder
                 $this->result = $this->processJpeg();
                 break;
 
+            case 'tiff':
+            case 'image/tiff':
+                if (method_exists($this, 'processTiff')) {
+                    $this->result = $this->processTiff();
+                    break;
+                }
+                //fall through
             default:
                 throw new \Intervention\Image\Exception\NotSupportedException(
                     "Writing format ({$format}) is not supported."

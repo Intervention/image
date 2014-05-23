@@ -65,4 +65,26 @@ class Encoder extends \Intervention\Image\AbstractEncoder
 
         return (string) $imagick;
     }
+
+    /**
+     * Processes and returns encoded image as TIFF string
+     *
+     * @return string
+     */
+    protected function processTiff()
+    {
+        $format = 'tiff';
+        $compression = \Imagick::COMPRESSION_UNDEFINED;
+
+        $imagick = $this->image->getCore();
+        $imagick->setFormat($format);
+        $imagick->setImageFormat($format);
+        $imagick->setCompression($compression);
+        $imagick->setImageCompression($compression);
+        $imagick->setCompressionQuality($this->quality);
+        $imagick->setImageCompressionQuality($this->quality);
+
+        return (string) $imagick;
+    }
+
 }

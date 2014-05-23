@@ -71,16 +71,16 @@ class EncoderTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('image/jpeg; charset=binary', $this->getMime($encoder->result));
     }
 
-    /**
-     * @expectedException \Intervention\Image\Exception\NotSupportedException
-     */
     public function testProcessUnknownGd()
     {
         $core = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $encoder = new GdEncoder;
         $image = Mockery::mock('\Intervention\Image\Image');
+        $image->shouldReceive('getCore')->once()->andReturn($core);
+        $image->shouldReceive('setEncoded')->once()->andReturn($image);
         $img = $encoder->process($image, null);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('image/jpeg; charset=binary', $this->getMime($encoder->result));
     }
 
     public function testProcessJpegImagick()
@@ -144,15 +144,16 @@ class EncoderTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('mock-jpeg', $encoder->result);
     }
 
-    /**
-     * @expectedException \Intervention\Image\Exception\NotSupportedException
-     */
     public function testProcessUnknownImagick()
     {
-        $core = Mockery::mock('Imagick');
+        $core = $this->getImagickMock('jpeg');
         $encoder = new ImagickEncoder;
         $image = Mockery::mock('\Intervention\Image\Image');
+        $image->shouldReceive('getCore')->once()->andReturn($core);
+        $image->shouldReceive('setEncoded')->once()->andReturn($image);
         $img = $encoder->process($image, null);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('mock-jpeg', $encoder->result);
     }
 
     public function getImagickMock($type)

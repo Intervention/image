@@ -126,7 +126,7 @@ abstract class AbstractEncoder
             $format = $this->image->mime;
         }
 
-        $this->format = $format;
+        $this->format = $format ? $format : 'jpg';
 
         return $this;
     }

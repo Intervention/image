@@ -54,4 +54,16 @@ class Encoder extends \Intervention\Image\AbstractEncoder
 
         return $buffer;
     }
+
+    /**
+     * Processes and returns encoded image as TIFF string
+     *
+     * @return string
+     */
+    protected function processTiff()
+    {
+        throw new \Intervention\Image\Exception\NotSupportedException(
+            "TIFF format is not supported by Gd Driver."
+        );
+    }
 }

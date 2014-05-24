@@ -78,6 +78,11 @@ class SizeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(750, $size->height);
 
         $size = new Size(800, 600);
+        $size->resize(2000, 1000, function ($c) { $c->aspectRatio(); });
+        $this->assertEquals(1333, $size->width);
+        $this->assertEquals(1000, $size->height);
+
+        $size = new Size(800, 600);
         $size->resize(null, 3000, function ($c) { $c->aspectRatio(); });
         $this->assertEquals(4000, $size->width);
         $this->assertEquals(3000, $size->height);
@@ -91,6 +96,11 @@ class SizeTest extends PHPUnit_Framework_TestCase
         $size->resize(100, 400, function ($c) { $c->aspectRatio(); });
         $this->assertEquals(100, $size->width);
         $this->assertEquals(75, $size->height);
+
+        $size = new Size(800, 600);
+        $size->resize(400, 100, function ($c) { $c->aspectRatio(); });
+        $this->assertEquals(133, $size->width);
+        $this->assertEquals(100, $size->height);
 
         $size = new Size(800, 600);
         $size->resize(null, 300, function ($c) { $c->aspectRatio(); });
@@ -111,6 +121,21 @@ class SizeTest extends PHPUnit_Framework_TestCase
         $size->resize(223, null, function ($c) { $c->aspectRatio(); });
         $this->assertEquals(223, $size->width);   
         $this->assertEquals(167, $size->height);   
+
+        $size = new Size(600, 800);
+        $size->resize(300, 300, function ($c) { $c->aspectRatio(); });
+        $this->assertEquals(225, $size->width);   
+        $this->assertEquals(300, $size->height);   
+
+        $size = new Size(800, 600);
+        $size->resize(400, 10, function ($c) { $c->aspectRatio(); });
+        $this->assertEquals(13, $size->width);   
+        $this->assertEquals(10, $size->height);   
+
+        $size = new Size(800, 600);
+        $size->resize(1000, 1200, function ($c) { $c->aspectRatio(); });
+        $this->assertEquals(1000, $size->width);   
+        $this->assertEquals(750, $size->height);   
     }
 
     public function testResizeWithCallbackUpsize()
@@ -124,6 +149,11 @@ class SizeTest extends PHPUnit_Framework_TestCase
         $size->resize(400, 1000, function ($c) { $c->upsize(); });
         $this->assertEquals(400, $size->width);
         $this->assertEquals(600, $size->height);
+
+        $size = new Size(800, 600);
+        $size->resize(1000, 400, function ($c) { $c->upsize(); });
+        $this->assertEquals(800, $size->width);
+        $this->assertEquals(400, $size->height);
 
         $size = new Size(800, 600);
         $size->resize(400, 300, function ($c) { $c->upsize(); });
@@ -155,8 +185,13 @@ class SizeTest extends PHPUnit_Framework_TestCase
 
         $size = new Size(800, 600);
         $size->resize(1000, 300, function ($c) { $c->aspectRatio(); $c->upsize(); });
-        $this->assertEquals(800, $size->width);
-        $this->assertEquals(600, $size->height);
+        $this->assertEquals(400, $size->width);
+        $this->assertEquals(300, $size->height);
+
+        $size = new Size(800, 600);
+        $size->resize(400, 1000, function ($c) { $c->aspectRatio(); $c->upsize(); });
+        $this->assertEquals(400, $size->width);
+        $this->assertEquals(300, $size->height);
 
         $size = new Size(800, 600);
         $size->resize(400, null, function ($c) { $c->aspectRatio(); $c->upsize(); });
@@ -169,14 +204,34 @@ class SizeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(300, $size->height);
 
         $size = new Size(800, 600);
+        $size->resize(1000, null, function ($c) { $c->aspectRatio(); $c->upsize(); });
+        $this->assertEquals(800, $size->width);
+        $this->assertEquals(600, $size->height);
+
+        $size = new Size(800, 600);
+        $size->resize(null, 1000, function ($c) { $c->aspectRatio(); $c->upsize(); });
+        $this->assertEquals(800, $size->width);
+        $this->assertEquals(600, $size->height);
+
+        $size = new Size(800, 600);
         $size->resize(100, 100, function ($c) { $c->aspectRatio(); $c->upsize(); });
         $this->assertEquals(100, $size->width);
         $this->assertEquals(75, $size->height);
 
         $size = new Size(800, 600);
         $size->resize(300, 200, function ($c) { $c->aspectRatio(); $c->upsize(); });
-        $this->assertEquals(300, $size->width);
-        $this->assertEquals(225, $size->height);
+        $this->assertEquals(267, $size->width);
+        $this->assertEquals(200, $size->height);
+
+        $size = new Size(600, 800);
+        $size->resize(300, 300, function ($c) { $c->aspectRatio(); $c->upsize(); });
+        $this->assertEquals(225, $size->width);   
+        $this->assertEquals(300, $size->height);   
+
+        $size = new Size(800, 600);
+        $size->resize(400, 10, function ($c) { $c->aspectRatio(); $c->upsize(); });
+        $this->assertEquals(13, $size->width);
+        $this->assertEquals(10, $size->height);
     }
 
     public function testRelativePosition()

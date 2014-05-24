@@ -109,6 +109,71 @@ class Size
             );
         }
 
+        // new size with dominant width
+        $dominant_w_size = clone $this;
+        $dominant_w_size->resizeHeight($height, $callback);
+        $dominant_w_size->resizeWidth($width, $callback);
+
+        // new size with dominant height
+        $dominant_h_size = clone $this;
+        $dominant_h_size->resizeWidth($width, $callback);
+        $dominant_h_size->resizeHeight($height, $callback);
+
+        // decide which size to use
+        if ($dominant_h_size->fitsInto(new self($width, $height))) {
+            $this->set($dominant_h_size->width, $dominant_h_size->height);
+        } else {
+            $this->set($dominant_w_size->width, $dominant_w_size->height);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Scale size according to given constraints
+     *
+     * @param  integer $width
+     * @param  Closure $callback
+     * @return Size
+     */
+    private function resizeWidth($width, Closure $callback = null)
+    {
+        $constraint = $this->getConstraint($callback);
+
+        if ($constraint->isFixed(Constraint::UPSIZE)) {
+            $max_width = $constraint->getSize()->getWidth();
+            $max_height = $constraint->getSize()->getHeight();
+        }
+
+        if (is_numeric($width)) {
+
+            if ($constraint->isFixed(Constraint::UPSIZE)) {
+                $this->width = ($width > $max_width) ? $max_width : $width;
+            } else {
+                $this->width = $width;
+            }
+
+            if ($constraint->isFixed(Constraint::ASPECTRATIO)) {
+                $h = intval(round($this->width / $constraint->getSize()->getRatio()));
+
+                if ($constraint->isFixed(Constraint::UPSIZE)) {
+                    $this->height = ($h > $max_height) ? $max_height : $h;
+                } else {
+                    $this->height = $h;
+                }
+            }
+        }
+    }
+
+    /**
+     * Scale size according to given constraints
+     *
+     * @param  integer $width
+     * @param  Closure $callback
+     * @return Size
+     */
+    private function resizeHeight($height, Closure $callback = null)
+    {
         $constraint = $this->getConstraint($callback);
 
         if ($constraint->isFixed(Constraint::UPSIZE)) {
@@ -134,27 +199,6 @@ class Size
                 }
             }
         }
-
-        if (is_numeric($width)) {
-
-            if ($constraint->isFixed(Constraint::UPSIZE)) {
-                $this->width = ($width > $max_width) ? $max_width : $width;
-            } else {
-                $this->width = $width;
-            }
-
-            if ($constraint->isFixed(Constraint::ASPECTRATIO)) {
-                $h = intval(round($this->width / $constraint->getSize()->getRatio()));
-
-                if ($constraint->isFixed(Constraint::UPSIZE)) {
-                    $this->height = ($h > $max_height) ? $max_height : $h;
-                } else {
-                    $this->height = $h;
-                }
-            }
-        }
-
-        return $this;
     }
 
     /**

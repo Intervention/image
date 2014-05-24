@@ -1076,6 +1076,16 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertColorAtPosition('#e40214', $img, 16, 21);
     }
 
+    public function testLimitColorsNullWithMatte()
+    {
+        $img = $this->manager()->make('tests/images/tile.png');
+        $img->limitColors(null, '#ff00ff');
+        $this->assertColorAtPosition('#b4e000', $img, 0, 0);
+        $this->assertColorAtPosition('#445160', $img, 8, 8);
+        $this->assertColorAtPosition('#ff00ff', $img, 0, 8);
+        $this->assertColorAtPosition('#ff00ff', $img, 15, 0);
+    }
+
     public function testPickColorFromTrueColor()
     {
         $img = $this->manager()->make('tests/images/star.png');

@@ -225,6 +225,96 @@ class ArgumentTest extends PHPUnit_Framework_TestCase
         $arg->between(-100, 100);
     }
 
+    public function testMinPass()
+    {
+        $arg = new Argument($this->getMockedCommand(array()));
+        $arg->min(10);
+        $this->validateArgument($arg, null);
+
+        $arg = new Argument($this->getMockedCommand(array(null)));
+        $arg->min(10);
+        $this->validateArgument($arg, null);
+
+        $arg = new Argument($this->getMockedCommand(array(50)));
+        $arg->min(10);
+        $this->validateArgument($arg, 50);
+
+        $arg = new Argument($this->getMockedCommand(array(50)));
+        $arg->min(50);
+        $this->validateArgument($arg, 50);
+
+        $arg = new Argument($this->getMockedCommand(array(50)));
+        $arg->min(-10);
+        $this->validateArgument($arg, 50);
+
+        $arg = new Argument($this->getMockedCommand(array(-10)));
+        $arg->min(-10);
+        $this->validateArgument($arg, -10);
+    }
+
+    /**
+     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
+     */
+    public function testMinFailString()
+    {
+        $arg = new Argument($this->getMockedCommand(array('foo')));
+        $arg->min(10);
+    }
+
+    /**
+     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
+     */
+    public function testMinFail()
+    {
+        $arg = new Argument($this->getMockedCommand(array(10.9)));
+        $arg->min(11);
+    }
+
+    public function testMaxPass()
+    {
+        $arg = new Argument($this->getMockedCommand(array()));
+        $arg->max(100);
+        $this->validateArgument($arg, null);
+
+        $arg = new Argument($this->getMockedCommand(array(null)));
+        $arg->max(100);
+        $this->validateArgument($arg, null);
+
+        $arg = new Argument($this->getMockedCommand(array(50)));
+        $arg->max(100);
+        $this->validateArgument($arg, 50);
+
+        $arg = new Argument($this->getMockedCommand(array(100)));
+        $arg->max(100);
+        $this->validateArgument($arg, 100);
+
+        $arg = new Argument($this->getMockedCommand(array(-100)));
+        $arg->max(-10);
+        $this->validateArgument($arg, -100);
+
+        $arg = new Argument($this->getMockedCommand(array(-10)));
+        $arg->max(-10);
+        $this->validateArgument($arg, -10);
+    }
+
+    /**
+     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
+     */
+    public function testMaxFailString()
+    {
+        $arg = new Argument($this->getMockedCommand(array('foo')));
+        $arg->max(10);
+    }
+
+    /**
+     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
+     */
+    public function testMaxFail()
+    {
+        $arg = new Argument($this->getMockedCommand(array(25)));
+        $arg->max(10);
+    }
+
     private function validateArgument($argument, $value)
     {
         $this->assertInstanceOf('\Intervention\Image\Commands\Argument', $argument);

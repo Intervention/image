@@ -155,4 +155,48 @@ class Argument
 
         return $this;
     }
+
+    /**
+     * Determines that current argument must be over a minimum value
+     *
+     * @return Intervention\Image\Commands\Argument
+     */
+    public function min($value)
+    {
+        $v = $this->type('numeric')->value();
+
+        if (is_null($v)) {
+            return $this;
+        }
+
+        if ($v < $value) {
+            throw new \Intervention\Image\Exception\InvalidArgumentException(
+                sprintf('Argument %d must be at least %s.', $this->key, $value)
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Determines that current argument must be under a maxiumum value
+     *
+     * @return Intervention\Image\Commands\Argument
+     */
+    public function max($value)
+    {
+        $v = $this->type('numeric')->value();
+
+        if (is_null($v)) {
+            return $this;
+        }
+
+        if ($v > $value) {
+            throw new \Intervention\Image\Exception\InvalidArgumentException(
+                sprintf('Argument %d may not be greater than %s.', $this->key, $value)
+            );
+        }
+
+        return $this;
+    }
 }

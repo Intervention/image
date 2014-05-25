@@ -56,6 +56,10 @@ class Source extends \Intervention\Image\AbstractSource
      */
     public function initFromImagick(\Imagick $object)
     {
+        // currently animations are not supported
+        // so all images are turned into static
+        $object = $this->removeAnimation($object);
+
         return new Image(new Driver, $object);
     }
 
@@ -84,5 +88,26 @@ class Source extends \Intervention\Image\AbstractSource
         $image->mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $binary);
 
         return $image;
+    }
+
+    /**
+     * Turns object into one frame Imagick object
+     * by removing all frames except first
+     *
+     * @param  Imagick $object
+     * @return Imagick
+     */
+    private function removeAnimation(\Imagick $object)
+    {
+        $imagick = new \Imagick;
+
+        foreach ($object as $frame) {
+            $imagick->addImage($frame->getImage());
+            break;
+        }
+
+        $object->destroy();
+
+        return $imagick;
     }
 }

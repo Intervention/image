@@ -25,7 +25,7 @@ class Encoder extends \Intervention\Image\AbstractEncoder
         $imagick->setCompressionQuality($this->quality);
         $imagick->setImageCompressionQuality($this->quality);
 
-        return (string) $imagick;
+        return $imagick->getImagesBlob();
     }
 
     /**
@@ -44,7 +44,7 @@ class Encoder extends \Intervention\Image\AbstractEncoder
         $imagick->setCompression($compression);
         $imagick->setImageCompression($compression);
 
-        return (string) $imagick;
+        return $imagick->getImagesBlob();
     }
 
     /**
@@ -63,7 +63,7 @@ class Encoder extends \Intervention\Image\AbstractEncoder
         $imagick->setCompression($compression);
         $imagick->setImageCompression($compression);
 
-        return (string) $imagick;
+        return $imagick->getImagesBlob();
     }
 
     /**
@@ -84,7 +84,7 @@ class Encoder extends \Intervention\Image\AbstractEncoder
         $imagick->setCompressionQuality($this->quality);
         $imagick->setImageCompressionQuality($this->quality);
 
-        return (string) $imagick;
+        return $imagick->getImagesBlob();
     }
 
 }

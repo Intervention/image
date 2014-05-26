@@ -60,6 +60,9 @@ class Source extends \Intervention\Image\AbstractSource
         // so all images are turned into static
         $object = $this->removeAnimation($object);
 
+        // reset image orientation
+        $object->setImageOrientation(\Imagick::ORIENTATION_UNDEFINED);
+
         return new Image(new Driver, $object);
     }
 

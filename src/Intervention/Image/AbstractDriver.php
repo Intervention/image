@@ -5,11 +5,11 @@ namespace Intervention\Image;
 abstract class AbstractDriver
 {
     /**
-     * Source instance to init images from
+     * Decoder instance to init images from
      *
-     * @var Intervention\Image\AbstractSource
+     * @var Intervention\Image\AbstractDecoder
      */
-    public $source;
+    public $decoder;
 
     /**
      * Image encoder instance
@@ -61,7 +61,7 @@ abstract class AbstractDriver
      */
     public function init($data)
     {
-        return $this->source->init($data);
+        return $this->decoder->init($data);
     }
 
     /**

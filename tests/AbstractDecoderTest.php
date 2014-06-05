@@ -1,8 +1,8 @@
 <?php
 
-use \Intervention\Image\AbstractSource;
+use \Intervention\Image\AbstractDecoder;
 
-class AbstractSourceTest extends PHPUnit_Framework_TestCase
+class AbstractDecoderTest extends PHPUnit_Framework_TestCase
 {
     public function tearDown()
     {
@@ -11,76 +11,76 @@ class AbstractSourceTest extends PHPUnit_Framework_TestCase
     
     public function testIsImagick()
     {
-        $source = $this->getTestSource(new \Imagick);
+        $source = $this->getTestDecoder(new \Imagick);
         $this->assertTrue($source->isImagick());
 
-        $source = $this->getTestSource(new StdClass);
+        $source = $this->getTestDecoder(new StdClass);
         $this->assertFalse($source->isImagick());
 
-        $source = $this->getTestSource(null);
+        $source = $this->getTestDecoder(null);
         $this->assertFalse($source->isImagick());
     }
 
     public function testIsGdResource()
     {
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
-        $source = $this->getTestSource($resource);
+        $source = $this->getTestDecoder($resource);
         $this->assertTrue($source->isGdResource());
 
-        $source = $this->getTestSource(tmpfile());
+        $source = $this->getTestDecoder(tmpfile());
         $this->assertFalse($source->isGdResource());
 
-        $source = $this->getTestSource(null);
+        $source = $this->getTestDecoder(null);
         $this->assertFalse($source->isGdResource());
     }
 
     public function testIsFilepath()
     {
-        $source = $this->getTestSource(__DIR__.'/AbstractSourceTest.php');
+        $source = $this->getTestDecoder(__DIR__.'/AbstractDecoderTest.php');
         $this->assertTrue($source->isFilepath());
 
-        $source = $this->getTestSource(null);
+        $source = $this->getTestDecoder(null);
         $this->assertFalse($source->isFilepath());
 
-        $source = $this->getTestSource(array());
+        $source = $this->getTestDecoder(array());
         $this->assertFalse($source->isFilepath());
 
-        $source = $this->getTestSource(new StdClass);
+        $source = $this->getTestDecoder(new StdClass);
         $this->assertFalse($source->isFilepath());
     }
 
     public function testIsUrl()
     {
-        $source = $this->getTestSource('http://foo.bar');
+        $source = $this->getTestDecoder('http://foo.bar');
         $this->assertTrue($source->isUrl());
 
-        $source = $this->getTestSource(null);
+        $source = $this->getTestDecoder(null);
         $this->assertFalse($source->isUrl());
     }
 
     public function testIsBinary()
     {
-        $source = $this->getTestSource(file_get_contents(__DIR__.'/images/test.jpg'));
+        $source = $this->getTestDecoder(file_get_contents(__DIR__.'/images/test.jpg'));
         $this->assertTrue($source->isBinary());
 
-        $source = $this->getTestSource(null);
+        $source = $this->getTestDecoder(null);
         $this->assertFalse($source->isBinary());
 
-        $source = $this->getTestSource(1);
+        $source = $this->getTestDecoder(1);
         $this->assertFalse($source->isBinary());
 
-        $source = $this->getTestSource(0);
+        $source = $this->getTestDecoder(0);
         $this->assertFalse($source->isBinary());
 
-        $source = $this->getTestSource(array(1,2,3));
+        $source = $this->getTestDecoder(array(1,2,3));
         $this->assertFalse($source->isBinary());
 
-        $source = $this->getTestSource(new StdClass);
+        $source = $this->getTestDecoder(new StdClass);
         $this->assertFalse($source->isBinary());
     }
 
-    public function getTestSource($data)
+    public function getTestDecoder($data)
     {
-        return $this->getMockForAbstractClass('\Intervention\Image\AbstractSource', array($data));
+        return $this->getMockForAbstractClass('\Intervention\Image\AbstractDecoder', array($data));
     }
 }

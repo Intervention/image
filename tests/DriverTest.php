@@ -13,7 +13,7 @@ class DriverTest extends PHPUnit_Framework_TestCase
     public function testNewImageGd()
     {
         $driver = new GdDriver(
-            Mockery::mock('\Intervention\Image\Gd\Source'),
+            Mockery::mock('\Intervention\Image\Gd\Decoder'),
             Mockery::mock('\Intervention\Image\Gd\Encoder')
         );
 
@@ -26,7 +26,7 @@ class DriverTest extends PHPUnit_Framework_TestCase
     public function testNewImageImagick()
     {
         $driver = new ImagickDriver(
-            Mockery::mock('\Intervention\Image\Imagick\Source'),
+            Mockery::mock('\Intervention\Image\Imagick\Decoder'),
             Mockery::mock('\Intervention\Image\Imagick\Encoder')
         );
 
@@ -39,7 +39,7 @@ class DriverTest extends PHPUnit_Framework_TestCase
     public function testParseColorGd()
     {
         $driver = new GdDriver(
-            Mockery::mock('\Intervention\Image\Gd\Source'),
+            Mockery::mock('\Intervention\Image\Gd\Decoder'),
             Mockery::mock('\Intervention\Image\Gd\Encoder')
         );
 
@@ -50,7 +50,7 @@ class DriverTest extends PHPUnit_Framework_TestCase
     public function testParseColorImagick()
     {
         $driver = new ImagickDriver(
-            Mockery::mock('\Intervention\Image\Imagick\Source'),
+            Mockery::mock('\Intervention\Image\Imagick\Decoder'),
             Mockery::mock('\Intervention\Image\Imagick\Encoder')
         );
 

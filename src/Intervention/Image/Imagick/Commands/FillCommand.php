@@ -3,7 +3,7 @@
 namespace Intervention\Image\Imagick\Commands;
 
 use \Intervention\Image\Image;
-use \Intervention\Image\Imagick\Source;
+use \Intervention\Image\Imagick\Decoder;
 use \Intervention\Image\Imagick\Color;
 
 class FillCommand extends \Intervention\Image\Commands\AbstractCommand
@@ -24,7 +24,7 @@ class FillCommand extends \Intervention\Image\Commands\AbstractCommand
 
         try {
             // set image filling
-            $source = new Source;
+            $source = new Decoder;
             $filling = $source->init($filling);
 
         } catch (\Intervention\Image\Exception\NotReadableException $e) {

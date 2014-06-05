@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Gd\Commands;
 
-use Intervention\Image\Gd\Source;
+use Intervention\Image\Gd\Decoder;
 use Intervention\Image\Gd\Color;
 
 class FillCommand extends \Intervention\Image\Commands\AbstractCommand
@@ -26,7 +26,7 @@ class FillCommand extends \Intervention\Image\Commands\AbstractCommand
         try {
 
             // set image tile filling
-            $source = new Source;
+            $source = new Decoder;
             $tile = $source->init($filling);
             imagesettile($image->getCore(), $tile->getCore());
             $filling = IMG_COLOR_TILED;

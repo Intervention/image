@@ -2,8 +2,6 @@
 
 namespace Intervention\Image\Imagick\Commands;
 
-use \Intervention\Image\Imagick\Source;
-
 class InsertCommand extends \Intervention\Image\Commands\AbstractCommand
 {
     /**

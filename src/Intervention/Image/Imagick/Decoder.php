@@ -5,7 +5,7 @@ namespace Intervention\Image\Imagick;
 use \Intervention\Image\Image;
 use \Intervention\Image\Size;
 
-class Source extends \Intervention\Image\AbstractSource
+class Decoder extends \Intervention\Image\AbstractDecoder
 {
     /**
      * Initiates new image from path in filesystem

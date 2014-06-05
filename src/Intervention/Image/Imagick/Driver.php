@@ -9,10 +9,10 @@ class Driver extends \Intervention\Image\AbstractDriver
     /**
      * Creates new instance of driver
      *
-     * @param Intervention\Image\Imagick\Source  $source
+     * @param Intervention\Image\Imagick\Decoder $decoder
      * @param Intervention\Image\Imagick\Encoder $encoder
      */
-    public function __construct(Source $source = null, Encoder $encoder = null)
+    public function __construct(Decoder $decoder = null, Encoder $encoder = null)
     {
         if ( ! $this->coreAvailable()) {
             throw new \Intervention\Image\Exception\NotSupportedException(
@@ -20,7 +20,7 @@ class Driver extends \Intervention\Image\AbstractDriver
             );
         }
 
-        $this->source = $source ? $source : new Source;
+        $this->decoder = $decoder ? $decoder : new Decoder;
         $this->encoder = $encoder ? $encoder : new Encoder;
     }
 

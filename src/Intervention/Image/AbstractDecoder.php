@@ -2,7 +2,7 @@
 
 namespace Intervention\Image;
 
-abstract class AbstractSource
+abstract class AbstractDecoder
 {
     /**
      * Initiates new image from path in filesystem
@@ -44,7 +44,7 @@ abstract class AbstractSource
     private $data;
 
     /**
-     * Creates new Source with data
+     * Creates new Decoder with data
      *
      * @param mixed $data
      */
@@ -180,7 +180,7 @@ abstract class AbstractSource
     }
 
     /**
-     * Source object transforms to string source data
+     * Decoder object transforms to string source data
      *
      * @return string
      */

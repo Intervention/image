@@ -17,7 +17,7 @@
         "illuminate/support": "4.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "3.*"
+        "phpunit/phpunit": "3.4.*"
     },
     "suggest": {
         "intervention/imagecache": "Caching extension for the Intervention Image library"

@@ -81,4 +81,13 @@ class OrientateCommandTest extends PHPUnit_Framework_TestCase
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
+
+    public function testExecuteOrientationNoExifData()
+    {
+        $image = Mockery::mock('Intervention\Image\Image');
+        $image->shouldReceive('exif')->with('Orientation')->once()->andReturn(null);
+        $command = new OrientateCommand(array());
+        $result = $command->execute($image);
+        $this->assertTrue($result);
+    }
 }

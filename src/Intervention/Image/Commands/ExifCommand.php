@@ -22,7 +22,9 @@ class ExifCommand extends AbstractCommand
         }
 
         $key = $this->argument(0)->value();
-        $data = exif_read_data($image->dirname .'/'. $image->basename, 'EXIF', false);
+
+        // try to read exif data from image file
+        $data = @exif_read_data($image->dirname .'/'. $image->basename, 'EXIF', false);
 
         if (! is_null($key) && is_array($data)) {
             $data = array_key_exists($key, $data) ? $data[$key] : false;

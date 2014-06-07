@@ -44,4 +44,26 @@ class ExifCommandTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($command->hasOutput());
         $this->assertEquals(null, $command->getOutput());
     }
+
+    public function testFetchFromPng()
+    {
+        $image = Mockery::mock('Intervention\Image\Image');
+        $image->dirname = __DIR__.'/images';
+        $image->basename = 'star.png';
+        $command = new ExifCommand(array('Orientation'));
+        $result = $command->execute($image);
+        $this->assertTrue($result);
+        $this->assertTrue($command->hasOutput());
+        $this->assertEquals(null, $command->getOutput());
+    }
+
+    public function testReturnNullOnExifReadFail()
+    {
+        $image = Mockery::mock('Intervention\Image\Image');
+        $command = new ExifCommand(array('Orientation'));
+        $result = $command->execute($image);
+        $this->assertTrue($result);
+        $this->assertTrue($command->hasOutput());
+        $this->assertEquals(null, $command->getOutput());
+    }
 }

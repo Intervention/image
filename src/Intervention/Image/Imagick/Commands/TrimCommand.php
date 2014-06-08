@@ -111,6 +111,7 @@ class TrimCommand extends \Intervention\Image\Commands\AbstractCommand
 
         // finally crop based on page
         $image->getCore()->cropImage($crop_width, $crop_height, $crop_x, $crop_y);
+        $image->getCore()->setImagePage(0,0,0,0);
 
         $trimed->destroy();
 

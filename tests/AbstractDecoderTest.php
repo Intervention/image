@@ -79,6 +79,16 @@ class AbstractDecoderTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($source->isBinary());
     }
 
+    public function testIsInterventionImage()
+    {
+        $source = $this->getTestDecoder(1);
+        $this->assertFalse($source->isInterventionImage());
+
+        $img = Mockery::mock('Intervention\Image\Image');
+        $source = $this->getTestDecoder($img);
+        $this->assertTrue($source->isInterventionImage());
+    }
+
     public function getTestDecoder($data)
     {
         return $this->getMockForAbstractClass('\Intervention\Image\AbstractDecoder', array($data));

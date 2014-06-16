@@ -88,6 +88,16 @@ abstract class AbstractDecoder
     }
 
     /**
+     * Determines if current data is Symfony UploadedFile component
+     *
+     * @return boolean
+     */
+    public function isSymfonyUpload()
+    {
+        return is_a($this->data, 'Symfony\Component\HttpFoundation\File\UploadedFile');
+    }
+
+    /**
      * Determines if current source data is file path
      *
      * @return boolean
@@ -159,6 +169,10 @@ abstract class AbstractDecoder
 
             case $this->isInterventionImage():
                 return $this->initFromInterventionImage($this->data);
+                break;
+
+            case $this->isSymfonyUpload():
+                return $this->initFromPath($this->data->getRealPath());
                 break;
 
             case $this->isBinary():

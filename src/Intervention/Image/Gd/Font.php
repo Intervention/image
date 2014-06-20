@@ -124,7 +124,7 @@ class Font extends \Intervention\Image\AbstractFont
      *
      * @return Array
      */
-    protected function getBoxSize()
+    public function getBoxSize()
     {
         $box = array();
 

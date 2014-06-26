@@ -120,6 +120,7 @@ class Decoder extends \Intervention\Image\AbstractDecoder
         imagealphablending($canvas, false);
         $transparent = imagecolorallocatealpha($canvas, 255, 255, 255, 127);
         imagefilledrectangle($canvas, 0, 0, $width, $height, $transparent);
+        imagecolortransparent($canvas, $transparent);
         imagealphablending($canvas, true);
 
         // copy original

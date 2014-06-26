@@ -1487,6 +1487,20 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Imagick', $cln->getCore());
     }
 
+    public function testGifConversionKeepsTransparency()
+    {
+        $save_as = 'tests/tmp/foo.gif';
+
+        // create gif image from transparent png
+        $img = $this->manager()->make('tests/images/star.png');
+        $img->save($save_as);
+
+        // new gif image should be transparent
+        $img = $this->manager()->make($save_as);
+        $this->assertTransparentPosition($img, 0, 0);
+        @unlink($save_as);
+    }
+
     private function assertColorAtPosition($color, $img, $x, $y)
     {
         $pick = $img->pickColor($x, $y, 'hex');

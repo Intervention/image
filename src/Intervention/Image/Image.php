@@ -38,7 +38,7 @@ class Image extends File
      * @param Driver $driver
      * @param mixed  $core
      */
-    public function __construct($driver = null, $core = null)
+    public function __construct(AbstractDriver $driver = null, $core = null)
     {
         $this->driver = $driver;
         $this->core = $core;

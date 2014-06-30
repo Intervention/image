@@ -7,7 +7,7 @@ class Response
     /**
      * Image that should be displayed by response
      *
-     * @var Intervention\Image\Image
+     * @var Image
      */
     public $image;
 

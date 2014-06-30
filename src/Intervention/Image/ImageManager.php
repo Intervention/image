@@ -12,14 +12,14 @@ class ImageManager
     /**
      * Instance of Illuminate Config respository
      *
-     * @var Illuminate\Config\Repository
+     * @var \Illuminate\Config\Repository
      */
     public $config;
 
     /**
      * Creates new instance of Image Manager
      *
-     * @param Illuminate\Config\Repository $config
+     * @param \Illuminate\Config\Repository $config
      */
     public function __construct(\Illuminate\Config\Repository $config = null)
     {
@@ -63,6 +63,7 @@ class ImageManager
      * Initiates an Image instance from different input types
      *
      * @param  mixed $data
+     *
      * @return Intervention\Image\Image
      */
     public function make($data)
@@ -76,6 +77,7 @@ class ImageManager
      * @param  integer $width
      * @param  integer $height
      * @param  mixed $background
+     *
      * @return Intervention\Image\Image
      */
     public function canvas($width, $height, $background = null)

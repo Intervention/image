@@ -139,7 +139,6 @@ abstract class AbstractColor
                 throw new \Intervention\Image\Exception\NotReadableException(
                     "Color format ({$value}) cannot be read."
                 );
-                break;
         }
 
         return $this;
@@ -157,31 +156,25 @@ abstract class AbstractColor
 
             case 'rgba':
                 return $this->getRgba();
-                break;
 
             case 'hex':
                 return $this->getHex('#');
-                break;
 
             case 'int':
             case 'integer':
                 return $this->getInt();
-                break;
 
             case 'array':
                 return $this->getArray();
-                break;
 
             case 'obj':
             case 'object':
                 return $this;
-                break;
 
             default:
                 throw new \Intervention\Image\Exception\NotSupportedException(
                     "Color format ({$type}) is not supported."
                 );
-                break;
         }
     }
 

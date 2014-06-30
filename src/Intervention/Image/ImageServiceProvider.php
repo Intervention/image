@@ -1,7 +1,7 @@
 <?php namespace Intervention\Image;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Http\Response;
+use Illuminate\Http\Response as IlluminateResponse;
 
 class ImageServiceProvider extends ServiceProvider
 {
@@ -89,7 +89,7 @@ class ImageServiceProvider extends ServiceProvider
                     $mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $content);
 
                     // return http response
-                    return new Response($content, 200, array(
+                    return new IlluminateResponse($content, 200, array(
                         'Content-Type' => $mime,
                         'Cache-Control' => 'max-age='.($config->get('imagecache::lifetime')*60).', public',
                         'Etag' => md5($content)

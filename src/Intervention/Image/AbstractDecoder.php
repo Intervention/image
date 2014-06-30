@@ -161,35 +161,27 @@ abstract class AbstractDecoder
 
             case $this->isGdResource():
                 return $this->initFromGdResource($this->data);
-                break;
 
             case $this->isImagick():
                 return $this->initFromImagick($this->data);
-                break;
 
             case $this->isInterventionImage():
                 return $this->initFromInterventionImage($this->data);
-                break;
 
             case $this->isSymfonyUpload():
                 return $this->initFromPath($this->data->getRealPath());
-                break;
 
             case $this->isBinary():
                 return $this->initFromBinary($this->data);
-                break;
 
             case $this->isUrl():
                 return $this->initFromBinary(file_get_contents($this->data));
-                break;
 
             case $this->isFilePath():
                 return $this->initFromPath($this->data);
-                break;
 
             default:
                 throw new Exception\NotReadableException("Image source not readable");
-                break;
         }
     }
 

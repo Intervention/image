@@ -43,9 +43,8 @@ class Decoder extends \Intervention\Image\AbstractDecoder
 
             default:
                 throw new \Intervention\Image\Exception\NotReadableException(
-                    "Unable to read image type ({$this->type}) only use JPG, PNG or GIF images with GD driver."
+                    "Unable to read image type. Only use JPG, PNG or GIF images with GD driver."
                 );
-                break;
         }
 
         // build image

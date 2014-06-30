@@ -5,6 +5,34 @@ namespace Intervention\Image;
 abstract class AbstractEncoder
 {
     /**
+     * Buffer of encode result data
+     *
+     * @var string
+     */
+    public $result;
+
+    /**
+     * Image object to encode
+     *
+     * @var Image
+     */
+    public $image;
+
+    /**
+     * Output format of encoder instance
+     *
+     * @var string
+     */
+    public $format;
+
+    /**
+     * Output quality of encoder instance
+     *
+     * @var integer
+     */
+    public $quality;
+    
+    /**
      * Processes and returns encoded image as JPEG string
      *
      * @return string
@@ -33,19 +61,12 @@ abstract class AbstractEncoder
     abstract protected function processTiff();
 
     /**
-     * Buffer of encode result data
-     *
-     * @var string
-     */
-    public $result;
-
-    /**
      * Process a given image
      *
      * @param  Image   $image
      * @param  string  $format
      * @param  integer $quality
-     * @return Intervention\Image\Image
+     * @return Image
      */
     public function process(Image $image, $format = null, $quality = null)
     {
@@ -86,7 +107,6 @@ abstract class AbstractEncoder
                 throw new \Intervention\Image\Exception\NotSupportedException(
                     "Encoding format ({$format}) is not supported."
                 );
-                break;
         }
 
         return $image->setEncoded($this->result);
@@ -108,7 +128,7 @@ abstract class AbstractEncoder
     /**
      * Sets image to process
      *
-     * @param Intervention\Image\Image $image
+     * @param Image $image
      */
     protected function setImage($image)
     {

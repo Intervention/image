@@ -9,14 +9,14 @@ class ImageManagerStatic
     /**
      * Instance of Intervention\Image\ImageManager
      *
-     * @var Intervention\Image\ImageManager
+     * @var ImageManager
      */
     public $manager;
 
     /**
      * Creates a new instance
      *
-     * @param Intervention\Image\ImageManager $manager
+     * @param ImageManager $manager
      */
     public function __construct(ImageManager $manager = null)
     {
@@ -37,6 +37,7 @@ class ImageManagerStatic
      * Statically initiates an Image instance from different input types
      *
      * @param  mixed $data
+     *
      * @return Intervention\Image\Image
      */
     public static function make($data)
@@ -50,6 +51,7 @@ class ImageManagerStatic
      * @param  integer $width
      * @param  integer $height
      * @param  mixed $background
+     *
      * @return Intervention\Image\Image
      */
     public static function canvas($width, $height, $background = null)
@@ -63,6 +65,7 @@ class ImageManagerStatic
      * @param  Closure  $callback
      * @param  integer  $lifetime
      * @param  boolean  $returnObj
+     *
      * @return mixed
      */
     public static function cache(Closure $callback, $lifetime = null, $returnObj = false)

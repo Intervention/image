@@ -9,8 +9,8 @@ class Driver extends \Intervention\Image\AbstractDriver
     /**
      * Creates new instance of driver
      *
-     * @param Intervention\Image\Gd\Decoder $decoder
-     * @param Intervention\Image\Gd\Encoder $encoder
+     * @param Decoder $decoder
+     * @param Encoder $encoder
      */
     public function __construct(Decoder $decoder = null, Encoder $encoder = null)
     {
@@ -36,8 +36,7 @@ class Driver extends \Intervention\Image\AbstractDriver
     {
         // create empty resource
         $core = imagecreatetruecolor($width, $height);
-        $size = new Size($width, $height);
-        $image = new \Intervention\Image\Image(new self, $core, $size);
+        $image = new \Intervention\Image\Image(new self, $core);
 
         // set background color
         $background = new Color($background);

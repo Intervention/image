@@ -7,7 +7,7 @@ class Argument
     /**
      * Command with arguments
      *
-     * @var Intervention\Image\Commands\AbstractCommand
+     * @var AbstractCommand
      */
     public $command;
 

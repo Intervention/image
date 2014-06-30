@@ -7,55 +7,6 @@ use \Intervention\Image\Image;
 class Font extends \Intervention\Image\AbstractFont
 {
     /**
-     * Text to be written
-     *
-     * @var String
-     */
-    protected $text;
-
-    /**
-     * Text size in pixels
-     *
-     * @var integer
-     */
-    protected $size = 12;
-
-    /**
-     * Color of the text
-     *
-     * @var mixed
-     */
-    protected $color = '000000';
-
-    /**
-     * Rotation angle of the text
-     *
-     * @var integer
-     */
-    protected $angle = 0;
-
-    /**
-     * Horizontal alignment of the text
-     *
-     * @var String
-     */
-    protected $align;
-
-    /**
-     * Vertical alignment of the text
-     *
-     * @var String
-     */
-    protected $valign;
-
-    /**
-     * Path to TTF or GD library internal font file of the text
-     *
-     * @var mixed
-     */
-    protected $file;
-
-    /**
      * Draws font to given image at given position
      *
      * @param  Image   $image

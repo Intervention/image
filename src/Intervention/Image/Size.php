@@ -23,7 +23,7 @@ class Size
     /**
      * Pivot point
      *
-     * @var Intervention\Image\Point
+     * @var Point
      */
     public $pivot;
 

@@ -7,11 +7,11 @@ use \Intervention\Image\Image;
 class Font extends \Intervention\Image\AbstractFont
 {
     /**
-     * Height of the line as a multiple of the size
+     * Spacing of the line as a multiple of the size
      *
      * @var float
      */
-    public $lineHeight = 1.05;
+    public $lineSpacing = 1.05;
 
     /**
      * Get font size in points
@@ -79,27 +79,27 @@ class Font extends \Intervention\Image\AbstractFont
 
     private function getExtraInfo()
     {
-        return $this->getLineHeight() ? array('linespacing' => $this->getLineHeight()) : array();
+        return array('linespacing' => $this->getLineSpacing());
     }
 
     /**
-     * Set line height as a multiple of the size
+     * Set line spacing as a multiple of the size
      *
-     * @param $lineHeight
+     * @param $lineSpacing
      */
-    public function lineHeight($lineHeight)
+    public function lineSpacing($lineSpacing)
     {
-        $this->lineHeight = $lineHeight;
+        $this->lineSpacing = $lineSpacing;
     }
 
     /**
-     * Get the line height as a multiple of the size
+     * Get the line spacing as a multiple of the size
      *
      * @return float
      */
-    public function getLineHeight()
+    public function getLineSpacing()
     {
-        return $this->lineHeight;
+        return $this->lineSpacing;
     }
 
     /**

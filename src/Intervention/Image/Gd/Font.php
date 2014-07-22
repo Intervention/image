@@ -7,6 +7,13 @@ use \Intervention\Image\Image;
 class Font extends \Intervention\Image\AbstractFont
 {
     /**
+     * Height of the line as a multiple of the size
+     *
+     * @var float
+     */
+    public $lineHeight = 1.05;
+
+    /**
      * Get font size in points
      *
      * @return integer
@@ -70,6 +77,31 @@ class Font extends \Intervention\Image\AbstractFont
         }
     }
 
+    private function getExtraInfo()
+    {
+        $this->getLineHeight() ? array('linespacing' => $this->getLineHeight()) : array();
+    }
+
+    /**
+     * Set line height as a multiple of the size
+     *
+     * @param $lineHeight
+     */
+    public function lineHeight($lineHeight)
+    {
+        $this->lineHeight = $lineHeight;
+    }
+
+    /**
+     * Get the line height as a multiple of the size
+     *
+     * @return float
+     */
+    public function getLineHeight()
+    {
+        return $this->lineHeight;
+    }
+
     /**
      * Calculates bounding box of current font setting
      *
@@ -82,7 +114,7 @@ class Font extends \Intervention\Image\AbstractFont
         if ($this->hasApplicableFontFile()) {
 
             // get bounding box with angle 0
-            $box = imagettfbbox($this->getPointSize(), 0, $this->file, $this->text);
+            $box = imageftbbox($this->getPointSize(), 0, $this->file, $this->text, $this->getExtraInfo());
 
             // rotate points manually
             if ($this->angle != 0) {
@@ -199,7 +231,7 @@ class Font extends \Intervention\Image\AbstractFont
             imagealphablending($image->getCore(), true);
 
             // draw ttf text
-            imagettftext($image->getCore(), $this->getPointSize(), $this->angle, $posx, $posy, $color->getInt(), $this->file, $this->text);
+            imagefttext($image->getCore(), $this->getPointSize(), $this->angle, $posx, $posy, $color->getInt(), $this->file, $this->text, $this->getExtraInfo());
 
         } else {
 

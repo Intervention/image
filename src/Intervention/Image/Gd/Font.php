@@ -79,7 +79,7 @@ class Font extends \Intervention\Image\AbstractFont
 
     private function getExtraInfo()
     {
-        $this->getLineHeight() ? array('linespacing' => $this->getLineHeight()) : array();
+        return $this->getLineHeight() ? array('linespacing' => $this->getLineHeight()) : array();
     }
 
     /**

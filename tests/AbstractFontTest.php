@@ -61,4 +61,17 @@ class AbstractFontTest extends PHPUnit_Framework_TestCase
         $font->file('test.ttf');
         $this->assertEquals('test.ttf', $font->file);
     }
+
+    public function testCountLines()
+    {
+        $font = $this->getMockForAbstractClass('\Intervention\Image\AbstractFont');
+        $font->text('foo'.PHP_EOL.'bar'.PHP_EOL.'baz');
+        $this->assertEquals(3, $font->countLines());   
+        $font->text("foo\nbar\nbaz");
+        $this->assertEquals(3, $font->countLines());
+        $font->text('foo
+            bar
+            baz');
+        $this->assertEquals(3, $font->countLines());
+    }
 }

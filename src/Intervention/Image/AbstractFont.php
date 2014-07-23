@@ -233,4 +233,14 @@ abstract class AbstractFont
 
         return false;
     }
+
+    /**
+     * Counts lines of text to be written
+     *
+     * @return integer
+     */
+    public function countLines()
+    {
+        return count(explode(PHP_EOL, $this->text));
+    }
 }

@@ -38,6 +38,14 @@ $img->save('public/bar.jpg');
 
 Refer to the [documentation](http://image.intervention.io/) to learn more about Intervention Image.
 
+## Contributing
+
+Contributions to the Intervention Image library are welcome. Please note the following guidelines before submiting your pull request.
+
+- Follow PSR-0, PSR-1 and PSR-2 coding standards.
+- Write tests for new functions and added features
+- API calls should work consistently with both GD and Imagick drivers
+
 ## License
 
 Intervention Image is licensed under the [MIT License](http://opensource.org/licenses/MIT).

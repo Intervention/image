@@ -120,7 +120,7 @@ class Argument
 
             case 'digit':
                 $fail = ! $this->isDigit($value);
-                $message = sprintf('%s accepts only digit values as argument %d.', $this->getCommandName(), $this->key + 1);
+                $message = sprintf('%s accepts only integer values as argument %d.', $this->getCommandName(), $this->key + 1);
                 break;
         }
 

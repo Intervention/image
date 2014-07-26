@@ -69,6 +69,68 @@ class ArgumentTest extends PHPUnit_Framework_TestCase
         $arg->type('integer');
     }
 
+    public function testTypeDigitPass()
+    {
+        $arg = new Argument($this->getMockedCommand(array()));
+        $arg->type('digit');
+        $this->validateArgument($arg, null);
+
+        $arg = new Argument($this->getMockedCommand(array(0)));
+        $arg->type('digit');
+        $this->validateArgument($arg, 0);
+
+        $arg = new Argument($this->getMockedCommand(array(123)));
+        $arg->type('digit');
+        $this->validateArgument($arg, 123);
+
+        $arg = new Argument($this->getMockedCommand(array(5.0)));
+        $arg->type('digit');
+        $this->validateArgument($arg, 5.0);
+
+        $arg = new Argument($this->getMockedCommand(array(-10)));
+        $arg->type('digit');
+        $this->validateArgument($arg, -10);
+
+        $arg = new Argument($this->getMockedCommand(array(-10.0)));
+        $arg->type('digit');
+        $this->validateArgument($arg, -10.0);
+
+        $arg = new Argument($this->getMockedCommand(array('12')));
+        $arg->type('digit');
+        $this->validateArgument($arg, '12');
+
+        $arg = new Argument($this->getMockedCommand(array('12.0')));
+        $arg->type('digit');
+        $this->validateArgument($arg, '12.0');
+    }
+
+    /**
+     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
+     */
+    public function testTypeDigitFailString()
+    {
+        $arg = new Argument($this->getMockedCommand(array('foo')));
+        $arg->type('digit');
+    }
+
+    /**
+     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
+     */
+    public function testTypeDigitFailFloat()
+    {
+        $arg = new Argument($this->getMockedCommand(array(12.5)));
+        $arg->type('digit');
+    }
+
+    /**
+     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
+     */
+    public function testTypeDigitFailBool()
+    {
+        $arg = new Argument($this->getMockedCommand(array(true)));
+        $arg->type('digit');
+    }
+
     public function testTypeNumericPass()
     {
         $arg = new Argument($this->getMockedCommand(array()));

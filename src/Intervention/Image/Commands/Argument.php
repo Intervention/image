@@ -117,6 +117,11 @@ class Argument
                 $fail =  ! is_a($value, '\Closure');
                 $message = sprintf('%s accepts only Closure as argument %d.', $this->getCommandName(), $this->key + 1);
                 break;
+
+            case 'digit':
+                $fail = ! $this->isDigit($value);
+                $message = sprintf('%s accepts only digit values as argument %d.', $this->getCommandName(), $this->key + 1);
+                break;
         }
 
         if ($fail) {
@@ -198,5 +203,10 @@ class Argument
         }
 
         return $this;
+    }
+
+    private function isDigit($value)
+    {
+        return is_numeric($value) ? intval($value) == $value : false;
     }
 }

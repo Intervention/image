@@ -205,6 +205,12 @@ class Argument
         return $this;
     }
 
+    /**
+     * Checks if value is "PHP" integer (120 but also 120.0)
+     *
+     * @param  mixed $value
+     * @return boolean
+     */
     private function isDigit($value)
     {
         return is_numeric($value) ? intval($value) == $value : false;

@@ -12,7 +12,7 @@ class HeightenCommand extends ResizeCommand
      */
     public function execute($image)
     {
-        $height = $this->argument(0)->type('integer')->required()->value();
+        $height = $this->argument(0)->type('digit')->required()->value();
 
         $this->arguments[0] = null;
         $this->arguments[1] = $height;

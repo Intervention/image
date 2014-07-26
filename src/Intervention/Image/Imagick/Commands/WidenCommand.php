@@ -12,7 +12,7 @@ class WidenCommand extends ResizeCommand
      */
     public function execute($image)
     {
-        $width = $this->argument(0)->type('integer')->required()->value();
+        $width = $this->argument(0)->type('digit')->required()->value();
 
         $this->arguments[0] = $width;
         $this->arguments[1] = null;

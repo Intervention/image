@@ -15,10 +15,10 @@ class CropCommand extends ResizeCommand
      */
     public function execute($image)
     {
-        $width = $this->argument(0)->type('integer')->required()->value();
-        $height = $this->argument(1)->type('integer')->required()->value();
-        $x = $this->argument(2)->type('integer')->value();
-        $y = $this->argument(3)->type('integer')->value();
+        $width = $this->argument(0)->type('digit')->required()->value();
+        $height = $this->argument(1)->type('digit')->required()->value();
+        $x = $this->argument(2)->type('digit')->value();
+        $y = $this->argument(3)->type('digit')->value();
 
         if (is_null($width) || is_null($height)) {
             throw new \Intervention\Image\Exception\InvalidArgumentException(

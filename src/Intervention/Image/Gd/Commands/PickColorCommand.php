@@ -14,8 +14,8 @@ class PickColorCommand extends \Intervention\Image\Commands\AbstractCommand
      */
     public function execute($image)
     {
-        $x = $this->argument(0)->type('integer')->required()->value();
-        $y = $this->argument(1)->type('integer')->required()->value();
+        $x = $this->argument(0)->type('digit')->required()->value();
+        $y = $this->argument(1)->type('digit')->required()->value();
         $format = $this->argument(2)->type('string')->value('array');
 
         // pick color

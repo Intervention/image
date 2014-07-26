@@ -14,8 +14,8 @@ class FitCommand extends \Intervention\Image\Commands\AbstractCommand
      */
     public function execute($image)
     {
-        $width = $this->argument(0)->type('integer')->required()->value();
-        $height = $this->argument(1)->type('integer')->value($width);
+        $width = $this->argument(0)->type('digit')->required()->value();
+        $height = $this->argument(1)->type('digit')->value($width);
 
         // calculate size
         $fitted = $image->getSize()->fit(new Size($width, $height));

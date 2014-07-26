@@ -16,8 +16,8 @@ class FillCommand extends \Intervention\Image\Commands\AbstractCommand
     public function execute($image)
     {
         $filling = $this->argument(0)->value();
-        $x = $this->argument(1)->type('integer')->value();
-        $y = $this->argument(2)->type('integer')->value();
+        $x = $this->argument(1)->type('digit')->value();
+        $y = $this->argument(2)->type('digit')->value();
 
         $width = $image->getWidth();
         $height = $image->getHeight();

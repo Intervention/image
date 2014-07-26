@@ -496,6 +496,19 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
         $this->assertTransparentPosition($img, 6, 2);
     }
 
+    public function testFitImageWithConstraintUpsize()
+    {
+        $img = $this->manager()->make('tests/images/trim.png');
+        $img->fit(300, 150, function ($constraint) {$constraint->upsize();});
+        $this->assertInternalType('int', $img->getWidth());
+        $this->assertInternalType('int', $img->getHeight());
+        $this->assertEquals(50, $img->getWidth());
+        $this->assertEquals(25, $img->getHeight());
+        $this->assertColorAtPosition('#00aef0', $img, 0, 0);
+        $this->assertColorAtPosition('#afa94c', $img, 17, 0);
+        $this->assertColorAtPosition('#ffa601', $img, 24, 0);
+    }
+
     public function testFlipImageHorizontal()
     {
         $img = $this->manager()->make('tests/images/tile.png');

@@ -16,20 +16,23 @@ class FitCommand extends \Intervention\Image\Commands\AbstractCommand
     {
         $width = $this->argument(0)->type('digit')->required()->value();
         $height = $this->argument(1)->type('digit')->value($width);
+        $constraints = $this->argument(2)->type('closure')->value();
 
         // calculate size
-        $fitted = $image->getSize()->fit(new Size($width, $height));
+        $cropped = $image->getSize()->fit(new Size($width, $height));
+        $resized = clone $cropped;
+        $resized = $resized->resize($width, $height, $constraints);
 
         // crop image
         $image->getCore()->cropImage(
-            $fitted->width,
-            $fitted->height,
-            $fitted->pivot->x,
-            $fitted->pivot->y
+            $cropped->width,
+            $cropped->height,
+            $cropped->pivot->x,
+            $cropped->pivot->y
         );
 
         // resize image
-        $image->getCore()->resizeImage($width, $height, \Imagick::FILTER_BOX, 1);
+        $image->getCore()->resizeImage($resized->getWidth(), $resized->getHeight(), \Imagick::FILTER_BOX, 1);
         $image->getCore()->setImagePage(0,0,0,0);
 
         return true;

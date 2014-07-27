@@ -1000,6 +1000,14 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('a433c7c1a842ef83e1cb45875371358c', $img->checksum());
     }
 
+    public function testPolygonImage()
+    {
+        $img = $this->manager()->canvas(16, 16, 'ffffff');
+        $points = array(3, 3, 11, 11, 7, 13);
+        $img->polygon($points, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
+        $this->assertEquals('e301afe179da858d441ad8fc0eb5490a', $img->checksum());
+    }
+
     public function testResetImage()
     {
         $img = $this->manager()->make('tests/images/tile.png');

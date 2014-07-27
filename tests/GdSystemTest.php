@@ -1027,6 +1027,14 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('c214f58de03d171f7f278a7b957bab50', $img->checksum());
     }
 
+    public function testPolygonImage()
+    {
+        $img = $this->manager()->canvas(16, 16, 'ffffff');
+        $points = array(3, 3, 11, 11, 7, 13);
+        $img->polygon($points, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
+        $this->assertEquals('e534ff90c8026f9317b99071fda01ed4', $img->checksum());
+    }
+
     public function testResetImage()
     {
         $img = $this->manager()->make('tests/images/tile.png');

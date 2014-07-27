@@ -113,6 +113,11 @@ class Argument
                 $message = sprintf('%s accepts only string values as argument %d.', $this->getCommandName(), $this->key + 1);
                 break;
 
+            case 'array':
+                $fail =  ! is_array($value);
+                $message = sprintf('%s accepts only array as argument %d.', $this->getCommandName(), $this->key + 1);
+                break;
+
             case 'closure':
                 $fail =  ! is_a($value, '\Closure');
                 $message = sprintf('%s accepts only Closure as argument %d.', $this->getCommandName(), $this->key + 1);

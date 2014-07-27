@@ -69,6 +69,26 @@ class ArgumentTest extends PHPUnit_Framework_TestCase
         $arg->type('integer');
     }
 
+    public function testTypeArrayPass()
+    {
+        $arg = new Argument($this->getMockedCommand(array()));
+        $arg->type('array');
+        $this->validateArgument($arg, null);
+
+        $arg = new Argument($this->getMockedCommand(array(array(1,2,3))));
+        $arg->type('array');
+        $this->validateArgument($arg, array(1,2,3));
+    }
+
+    /**
+     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
+     */
+    public function testTypeArrayFail()
+    {
+        $arg = new Argument($this->getMockedCommand(array('foo')));
+        $arg->type('array');
+    }
+
     public function testTypeDigitPass()
     {
         $arg = new Argument($this->getMockedCommand(array()));

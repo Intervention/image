@@ -42,7 +42,6 @@ class Driver extends \Intervention\Image\AbstractDriver
         $core->setType(\Imagick::IMGTYPE_UNDEFINED);
         $core->setImagetype(\Imagick::IMGTYPE_UNDEFINED);
         $core->setColorspace(\Imagick::COLORSPACE_UNDEFINED);
-        $core->setImageColorspace(\Imagick::COLORSPACE_UNDEFINED);
 
         // build image
         $image = new \Intervention\Image\Image(new self, $core);

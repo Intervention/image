@@ -24,7 +24,7 @@ class ImageManager
     public function __construct(\Illuminate\Config\Repository $config = null)
     {
         // create configurator
-        if (is_a($config, '\Illuminate\Config\Repository')) {
+        if (is_a($config, 'Illuminate\\Config\\Repository')) {
 
             $this->config = $config;
 
@@ -48,7 +48,7 @@ class ImageManager
     private function createDriver()
     {
         $drivername = ucfirst($this->config->get('image::driver'));
-        $driverclass = sprintf('\Intervention\Image\%s\Driver', $drivername);
+        $driverclass = sprintf('Intervention\\Image\\%s\\Driver', $drivername);
 
         if (class_exists($driverclass)) {
             return new $driverclass;
@@ -97,7 +97,7 @@ class ImageManager
      */
     public function cache(Closure $callback, $lifetime = null, $returnObj = false)
     {
-        if (class_exists('\Intervention\Image\ImageCache')) {
+        if (class_exists('Intervention\\Image\\ImageCache')) {
             // create imagecache
             $imagecache = new ImageCache($this);
 

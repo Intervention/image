@@ -38,7 +38,7 @@ class ImageServiceProvider extends ServiceProvider
         });
 
         // try to create imagecache route only if imagecache is present
-        if (class_exists('Intervention\Image\ImageCache')) {
+        if (class_exists('Intervention\\Image\\ImageCache')) {
 
             // load imagecache config
             $app['config']->package('intervention/imagecache', __DIR__.'/../../../../imagecache/src/config', 'imagecache');

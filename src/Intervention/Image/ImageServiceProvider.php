@@ -1,4 +1,6 @@
-<?php namespace Intervention\Image;
+<?php
+
+namespace Intervention\Image;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Response as IlluminateResponse;

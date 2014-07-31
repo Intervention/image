@@ -100,7 +100,7 @@ class ImageManager
         if (class_exists('\Intervention\Image\ImageCache')) {
             // create imagecache
             $imagecache = new ImageCache($this);
-            
+
             // run callback
             if (is_callable($callback)) {
                 $callback($imagecache);

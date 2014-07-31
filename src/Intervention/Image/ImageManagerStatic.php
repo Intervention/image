@@ -7,20 +7,20 @@ use Closure;
 class ImageManagerStatic
 {
     /**
-     * Instance of Intervention\Image\ImageManager
+     * Instance of Intervention\Image\ImageManagerBasic
      *
-     * @var ImageManager
+     * @var ImageManagerBasic
      */
     public $manager;
 
     /**
      * Creates a new instance
      *
-     * @param ImageManager $manager
+     * @param ImageManagerBasic $manager
      */
-    public function __construct(ImageManager $manager = null)
+    public function __construct(ImageManagerBasic $manager = null)
     {
-        $this->manager = $manager ? $manager : new ImageManager;
+        $this->manager = $manager ? $manager : new ImageManagerBasic;
     }
 
     /**

@@ -8,10 +8,10 @@ class ImageManagerStaticTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
+
     public function testNewInstance()
     {
-        $manager = Mockery::mock('Intervention\Image\ImageManager');
+        $manager = Mockery::mock('Intervention\Image\ImageManagerBasic');
         $managerStatic = new ImageManagerStatic($manager);
         $m = $managerStatic->newInstance();
         $this->assertInstanceOf('Intervention\Image\ImageManagerStatic', $m);
@@ -19,7 +19,7 @@ class ImageManagerStaticTest extends PHPUnit_Framework_TestCase
 
     public function testMake()
     {
-        $manager = Mockery::mock('Intervention\Image\ImageManager');
+        $manager = Mockery::mock('Intervention\Image\ImageManagerBasic');
         $managerStatic = new ImageManagerStatic($manager);
         $img = $managerStatic->make('tests/images/tile.png');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
@@ -27,7 +27,7 @@ class ImageManagerStaticTest extends PHPUnit_Framework_TestCase
 
     public function testCanvas()
     {
-        $manager = Mockery::mock('Intervention\Image\ImageManager');
+        $manager = Mockery::mock('Intervention\Image\ImageManagerBasic');
         $managerStatic = new ImageManagerStatic($manager);
         $img = $managerStatic->canvas(100, 100);
         $this->assertInstanceOf('Intervention\Image\Image', $img);

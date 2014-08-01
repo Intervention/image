@@ -1557,9 +1557,8 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
 
     private function manager()
     {
-        $manager = new \Intervention\Image\ImageManager;
-        $manager->config->set('image::driver', 'gd');
-
-        return $manager;
+        return new \Intervention\Image\ImageManager(array(
+            'driver' => 'gd'
+        ));
     }
 }

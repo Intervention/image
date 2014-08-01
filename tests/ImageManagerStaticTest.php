@@ -9,27 +9,27 @@ class ImageManagerStaticTest extends PHPUnit_Framework_TestCase
         Mockery::close();
     }
 
-    public function testNewInstance()
+    public function testGetManager()
     {
-        $manager = Mockery::mock('Intervention\Image\ImageManagerBasic');
+        $manager = Mockery::mock('Intervention\Image\ImageManager');
         $managerStatic = new ImageManagerStatic($manager);
-        $m = $managerStatic->newInstance();
-        $this->assertInstanceOf('Intervention\Image\ImageManagerStatic', $m);
+        $m = $managerStatic->getManager();
+        $this->assertInstanceOf('Intervention\Image\ImageManager', $m);
     }
 
     public function testMake()
     {
-        $manager = Mockery::mock('Intervention\Image\ImageManagerBasic');
+        $manager = Mockery::mock('Intervention\Image\ImageManager');
+        $manager->shouldReceive('make')->with('foo')->once();
         $managerStatic = new ImageManagerStatic($manager);
-        $img = $managerStatic->make('tests/images/tile.png');
-        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $managerStatic->make('foo');
     }
 
     public function testCanvas()
     {
-        $manager = Mockery::mock('Intervention\Image\ImageManagerBasic');
+        $manager = Mockery::mock('Intervention\Image\ImageManager');
+        $manager->shouldReceive('canvas')->with(100, 100, null)->once();
         $managerStatic = new ImageManagerStatic($manager);
-        $img = $managerStatic->canvas(100, 100);
-        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $managerStatic->canvas(100, 100);
     }
 }

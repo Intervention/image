@@ -100,7 +100,7 @@ class ImageServiceProvider extends ServiceProvider
         $app = $this->app;
 
         $app['image'] = $app->share(function ($app) {
-            return new ImageManager($app['config']);
+            return new ImageManager($app['config']->get('image::config'));
         });
     }
 

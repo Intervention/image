@@ -1538,9 +1538,8 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
 
     private function manager()
     {
-        $manager = new \Intervention\Image\ImageManager;
-        $manager->config->set('image::driver', 'imagick');
-
-        return $manager;
+        return new \Intervention\Image\ImageManager(array(
+            'driver' => 'imagick'
+        ));
     }
 }

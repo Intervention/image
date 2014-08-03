@@ -2,8 +2,6 @@
 
 namespace Intervention\Image\Gd;
 
-use \Intervention\Image\Size;
-
 class Driver extends \Intervention\Image\AbstractDriver
 {
     /**
@@ -27,9 +25,9 @@ class Driver extends \Intervention\Image\AbstractDriver
     /**
      * Creates new image instance
      *
-     * @param  integer $width
-     * @param  integer $height
-     * @param  string  $background
+     * @param  integer                  $width
+     * @param  integer                  $height
+     * @param  string                   $background
      * @return Intervention\Image\Image
      */
     public function newImage($width, $height, $background = null)
@@ -48,7 +46,7 @@ class Driver extends \Intervention\Image\AbstractDriver
     /**
      * Reads given string into color object
      *
-     * @param  string $value
+     * @param  string        $value
      * @return AbstractColor
      */
     public function parseColor($value)
@@ -78,7 +76,7 @@ class Driver extends \Intervention\Image\AbstractDriver
         $clone = imagecreatetruecolor($width, $height);
         imagealphablending($clone, false);
         imagesavealpha($clone, true);
-        
+
         imagecopy($clone, $core, 0, 0, 0, 0, $width, $height);
 
         return $clone;

@@ -8,7 +8,7 @@ class AbstractDecoderTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
+
     public function testIsImagick()
     {
         $source = $this->getTestDecoder(new \Imagick);

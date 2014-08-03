@@ -8,7 +8,7 @@ class ImagickColorTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
+
     public function testGetRedGreenBlueAlphaValue()
     {
         $c = new Color;

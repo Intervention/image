@@ -8,7 +8,7 @@ class OrientateCommandTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
+
     public function testExecuteOrientationTwo()
     {
         $image = Mockery::mock('Intervention\Image\Image');

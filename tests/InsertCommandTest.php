@@ -9,7 +9,7 @@ class InsertCommandTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
+
     public function testGd()
     {
         $position = Mockery::mock('\Intervention\Image\Point', array(0, 0));

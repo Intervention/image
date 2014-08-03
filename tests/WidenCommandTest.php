@@ -9,7 +9,7 @@ class WidenCommandTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
+
     public function testGd()
     {
         $callback = function ($constraint) { $constraint->aspectRatio(); };

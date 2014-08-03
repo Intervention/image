@@ -9,7 +9,7 @@ class MaskCommandTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
+
     public function testGd()
     {
         $mask_path = __DIR__.'images/star.png';
@@ -59,7 +59,7 @@ class MaskCommandTest extends PHPUnit_Framework_TestCase
         $image_size = Mockery::mock('Intervention\Image\Size', array(32, 32));
         $image->shouldReceive('getSize')->once()->andReturn($image_size);
         $image->shouldReceive('getDriver')->once()->andReturn($driver);
-        
+
         $command = new MaskImagick(array($mask_path, true));
         $result = $command->execute($image);
         $this->assertTrue($result);

@@ -3,13 +3,13 @@
 use Intervention\Image\Gd\Commands\ResizeCommand as ResizeCommandGd;
 use Intervention\Image\Imagick\Commands\ResizeCommand as ResizeCommandImagick;
 
-class resizeCommandTest extends PHPUnit_Framework_TestCase
+class ResizeCommandTest extends PHPUnit_Framework_TestCase
 {
     public function tearDown()
     {
         Mockery::close();
     }
-    
+
     public function testGd()
     {
         $callback = function ($constraint) { $constraint->upsize(); };

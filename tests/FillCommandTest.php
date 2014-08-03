@@ -9,7 +9,7 @@ class FillCommandTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
+
     public function testGdFill()
     {
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');

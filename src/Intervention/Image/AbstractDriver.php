@@ -21,9 +21,9 @@ abstract class AbstractDriver
     /**
      * Creates new image instance
      *
-     * @param  integer $width
-     * @param  integer $height
-     * @param  string  $background
+     * @param  integer                  $width
+     * @param  integer                  $height
+     * @param  string                   $background
      * @return Intervention\Image\Image
      */
     abstract public function newImage($width, $height, $background);
@@ -31,7 +31,7 @@ abstract class AbstractDriver
     /**
      * Reads given string into color object
      *
-     * @param  string $value
+     * @param  string        $value
      * @return AbstractColor
      */
     abstract public function parseColor($value);
@@ -56,7 +56,7 @@ abstract class AbstractDriver
     /**
      * Initiates new image from given input
      *
-     * @param  mixed $data
+     * @param  mixed                    $data
      * @return Intervention\Image\Image
      */
     public function init($data)
@@ -67,9 +67,9 @@ abstract class AbstractDriver
     /**
      * Encodes given image
      *
-     * @param  Image   $image
-     * @param  string  $format
-     * @param  integer $quality
+     * @param  Image                    $image
+     * @param  string                   $format
+     * @param  integer                  $quality
      * @return Intervention\Image\Image
      */
     public function encode($image, $format, $quality)
@@ -80,9 +80,9 @@ abstract class AbstractDriver
     /**
      * Executes named command on given image
      *
-     * @param  Image  $image
-     * @param  string $name
-     * @param  array $arguments
+     * @param  Image                                       $image
+     * @param  string                                      $name
+     * @param  array                                       $arguments
      * @return Intervention\Image\Commands\AbstractCommand
      */
     public function executeCommand($image, $name, $arguments)

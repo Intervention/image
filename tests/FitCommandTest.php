@@ -9,7 +9,7 @@ class FitCommandTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
+
     public function testGd()
     {
         $cropped_size = Mockery::mock('\Intervention\Image\Size', array(800, 400));

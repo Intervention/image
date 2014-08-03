@@ -8,7 +8,7 @@ class PolygonCommandTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
+
     public function testGd()
     {
         $points = array(1, 2, 3, 4, 5, 6);

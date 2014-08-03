@@ -8,7 +8,7 @@ class ChecksumCommandTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
+
     public function testExecute()
     {
         $size = Mockery::mock('Intervention\Image\Size', array(3, 3));

@@ -19,7 +19,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
     {
         $image = $this->getTestImage();
         $result = $image->test(1, 2, 3);
-        $this->assertEquals('mock', $result);   
+        $this->assertEquals('mock', $result);
     }
 
     public function testEncode()

@@ -62,7 +62,7 @@ class ImageManager
     /**
      * Initiates an Image instance from different input types
      *
-     * @param  mixed $data
+     * @param mixed $data
      *
      * @return Intervention\Image\Image
      */
@@ -74,9 +74,9 @@ class ImageManager
     /**
      * Creates an empty image canvas
      *
-     * @param  integer $width
-     * @param  integer $height
-     * @param  mixed $background
+     * @param integer $width
+     * @param integer $height
+     * @param mixed   $background
      *
      * @return Intervention\Image\Image
      */
@@ -100,7 +100,7 @@ class ImageManager
         if (class_exists('\Intervention\Image\ImageCache')) {
             // create imagecache
             $imagecache = new ImageCache($this);
-            
+
             // run callback
             if (is_callable($callback)) {
                 $callback($imagecache);

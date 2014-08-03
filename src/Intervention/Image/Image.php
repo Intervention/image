@@ -36,7 +36,7 @@ class Image extends File
      * Creates a new Image instance
      *
      * @param AbstractDriver $driver
-     * @param mixed  $core
+     * @param mixed          $core
      */
     public function __construct(AbstractDriver $driver = null, $core = null)
     {
@@ -55,14 +55,15 @@ class Image extends File
     public function __call($name, $arguments)
     {
         $command = $this->driver->executeCommand($this, $name, $arguments);
+
         return $command->hasOutput() ? $command->getOutput() : $this;
     }
 
     /**
      * Starts encoding of current image
      *
-     * @param  string  $format
-     * @param  integer $quality
+     * @param  string                   $format
+     * @param  integer                  $quality
      * @return Intervention\Image\Image
      */
     public function encode($format = null, $quality = 90)
@@ -73,8 +74,8 @@ class Image extends File
     /**
      * Saves encoded image in filesystem
      *
-     * @param  string  $path
-     * @param  integer $quality
+     * @param  string                   $path
+     * @param  integer                  $quality
      * @return Intervention\Image\Image
      */
     public function save($path = null, $quality = null)
@@ -98,7 +99,7 @@ class Image extends File
     /**
      * Runs a given filter on current image
      *
-     * @param  FiltersFilterInterface $filter
+     * @param  FiltersFilterInterface   $filter
      * @return Intervention\Image\Image
      */
     public function filter(Filters\FilterInterface $filter)

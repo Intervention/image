@@ -36,7 +36,7 @@ class ImageManagerStatic
     /**
      * Statically initiates an Image instance from different input types
      *
-     * @param  mixed $data
+     * @param mixed $data
      *
      * @return Intervention\Image\Image
      */
@@ -48,9 +48,9 @@ class ImageManagerStatic
     /**
      * Statically creates an empty image canvas
      *
-     * @param  integer $width
-     * @param  integer $height
-     * @param  mixed $background
+     * @param integer $width
+     * @param integer $height
+     * @param mixed   $background
      *
      * @return Intervention\Image\Image
      */
@@ -62,9 +62,9 @@ class ImageManagerStatic
     /**
      * Create new cached image and run callback statically
      *
-     * @param  Closure  $callback
-     * @param  integer  $lifetime
-     * @param  boolean  $returnObj
+     * @param Closure $callback
+     * @param integer $lifetime
+     * @param boolean $returnObj
      *
      * @return mixed
      */

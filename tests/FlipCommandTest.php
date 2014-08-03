@@ -9,7 +9,7 @@ class FlipCommandTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
+
     public function testGd()
     {
         $size = Mockery::mock('\Intervention\Image\Size', array(800, 600));

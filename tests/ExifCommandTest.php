@@ -8,7 +8,7 @@ class ExifCommandTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
+
     public function testFetchAll()
     {
         $image = Mockery::mock('Intervention\Image\Image');

@@ -9,7 +9,7 @@ class EncoderTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
+
     public function testProcessJpegGd()
     {
         $core = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
@@ -169,12 +169,14 @@ class EncoderTest extends PHPUnit_Framework_TestCase
         $imagick->shouldReceive('setbackgroundcolor');
         $imagick->shouldReceive('mergeimagelayers')->andReturn($imagick);
         $imagick->shouldReceive('getimagesblob')->once()->andReturn(sprintf('mock-%s', $type));
+
         return $imagick;
     }
 
     public function getMime($data)
     {
         $finfo = new finfo(FILEINFO_MIME);
+
         return $finfo->buffer($data);
     }
 }

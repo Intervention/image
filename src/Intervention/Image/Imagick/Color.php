@@ -14,7 +14,7 @@ class Color extends \Intervention\Image\AbstractColor
     /**
      * Initiates color object from integer
      *
-     * @param  integer $value
+     * @param  integer                          $value
      * @return Intervention\Image\AbstractColor
      */
     public function initFromInteger($value)
@@ -31,7 +31,7 @@ class Color extends \Intervention\Image\AbstractColor
     /**
      * Initiates color object from given array
      *
-     * @param  array $value
+     * @param  array                            $value
      * @return Intervention\Image\AbstractColor
      */
     public function initFromArray($array)
@@ -56,7 +56,7 @@ class Color extends \Intervention\Image\AbstractColor
     /**
      * Initiates color object from given string
      *
-     * @param  string $value
+     * @param string $value
      *
      * @return Intervention\Image\AbstractColor
      */
@@ -70,7 +70,7 @@ class Color extends \Intervention\Image\AbstractColor
     /**
      * Initiates color object from given ImagickPixel object
      *
-     * @param  ImagickPixel $value
+     * @param ImagickPixel $value
      *
      * @return Intervention\Image\AbstractColor
      */
@@ -84,9 +84,9 @@ class Color extends \Intervention\Image\AbstractColor
     /**
      * Initiates color object from given R, G and B values
      *
-     * @param  integer $r
-     * @param  integer $g
-     * @param  integer $b
+     * @param integer $r
+     * @param integer $g
+     * @param integer $b
      *
      * @return Intervention\Image\AbstractColor
      */
@@ -98,10 +98,10 @@ class Color extends \Intervention\Image\AbstractColor
     /**
      * Initiates color object from given R, G, B and A values
      *
-     * @param  integer $r
-     * @param  integer $g
-     * @param  integer $b
-     * @param  float   $a
+     * @param integer $r
+     * @param integer $g
+     * @param integer $b
+     * @param float   $a
      *
      * @return Intervention\Image\AbstractColor
      */
@@ -128,7 +128,7 @@ class Color extends \Intervention\Image\AbstractColor
     /**
      * Calculates hexadecimal value of current color instance
      *
-     * @param  string $prefix
+     * @param string $prefix
      *
      * @return string
      */

@@ -9,7 +9,7 @@ class PickColorCommandTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
+
     public function testGdWithCoordinates()
     {
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');

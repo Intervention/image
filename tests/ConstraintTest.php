@@ -52,6 +52,7 @@ class ConstraintTest extends PHPUnit_Framework_TestCase
         $size->shouldReceive('getWidth')->andReturn($width);
         $size->shouldReceive('getHeight')->andReturn($height);
         $size->shouldReceive('getRatio')->andReturn($width/$height);
+
         return $size;
     }
 }

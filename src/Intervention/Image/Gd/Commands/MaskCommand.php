@@ -31,7 +31,7 @@ class MaskCommand extends \Intervention\Image\Commands\AbstractCommand
 
         imagealphablending($canvas->getCore(), false);
 
-        if ( ! $mask_w_alpha) {
+        if (! $mask_w_alpha) {
             // mask from greyscale image
             imagefilter($mask->getCore(), IMG_FILTER_GRAYSCALE);
         }
@@ -71,7 +71,6 @@ class MaskCommand extends \Intervention\Image\Commands\AbstractCommand
                 $canvas->pixel($color, $x, $y);
             }
         }
-
 
         // replace current image with masked instance
         $image->setCore($canvas->getCore());

@@ -978,18 +978,17 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertEquals('a9e2b15452b2a4637b65625188d206f6', $img->checksum());
 
-        
         $img = $this->manager()->canvas(16, 16, 'ffffff');
-        $img = $img->text('0', 8, 2, function($font) {
+        $img = $img->text('0', 8, 2, function ($font) {
             $font->align('center');
             $font->valign('top');
             $font->color('000000');
         });
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertEquals('649f3f529d3931c56601155fd2680959', $img->checksum());
-        
+
         $img = $this->manager()->canvas(16, 16, 'ffffff');
-        $img = $img->text('0', 8, 8, function($font) {
+        $img = $img->text('0', 8, 8, function ($font) {
             $font->align('right');
             $font->valign('middle');
             $font->file(2);
@@ -1085,7 +1084,7 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertColorAtPosition('#0c02b4', $img, 6, 12);
         $this->assertColorAtPosition('#fcbe04', $img, 22, 24);
     }
-    
+
     public function testLimitColorsKeepTransparencyWithMatte()
     {
         $img = $this->manager()->make('tests/images/star.png');
@@ -1155,7 +1154,7 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->limitColors(200);
-        
+
         $c = $img->pickColor(0, 0);
         $this->assertEquals(180, $c[0]);
         $this->assertEquals(226, $c[1]);
@@ -1217,7 +1216,7 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertColorAtPosition('#66ee70', $img, 0, 0);
         $this->assertColorAtPosition('#ffe600', $img, 24, 24);
     }
-    
+
     public function testTrimGradient()
     {
         $canvas = $this->manager()->make('tests/images/gradient.png');
@@ -1308,7 +1307,7 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
     public function testTrimWithFeather()
     {
         $canvas = $this->manager()->make('tests/images/trim.png');
-        
+
         $img = clone $canvas;
         $feather = 5;
         $img->trim(null, null, null, $feather);
@@ -1470,7 +1469,7 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $img = $this->manager()->canvas(16, 16, '#ff0000');
         $img->save($path);
         $img->destroy();
-        
+
         // open test image again
         $img = $this->manager()->make($path);
         $this->assertColorAtPosition('#ff0000', $img, 0, 0);

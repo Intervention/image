@@ -38,6 +38,7 @@ class Argument
     public function getCommandName()
     {
         preg_match("/\\\\([\w]+)Command$/", get_class($this->command), $matches);
+
         return isset($matches[1]) ? lcfirst($matches[1]).'()' : 'Method';
     }
 
@@ -213,7 +214,7 @@ class Argument
     /**
      * Checks if value is "PHP" integer (120 but also 120.0)
      *
-     * @param  mixed $value
+     * @param  mixed   $value
      * @return boolean
      */
     private function isDigit($value)

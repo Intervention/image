@@ -7,7 +7,7 @@ abstract class AbstractDecoder
     /**
      * Initiates new image from path in filesystem
      *
-     * @param  string $path
+     * @param  string                   $path
      * @return Intervention\Image\Image
      */
     abstract public function initFromPath($path);
@@ -15,7 +15,7 @@ abstract class AbstractDecoder
     /**
      * Initiates new image from binary data
      *
-     * @param  string $data
+     * @param  string                   $data
      * @return Intervention\Image\Image
      */
     abstract public function initFromBinary($data);
@@ -23,7 +23,7 @@ abstract class AbstractDecoder
     /**
      * Initiates new image from GD resource
      *
-     * @param  Resource $resource
+     * @param  Resource                 $resource
      * @return Intervention\Image\Image
      */
     abstract public function initFromGdResource($resource);
@@ -31,7 +31,7 @@ abstract class AbstractDecoder
     /**
      * Initiates new image from Imagick object
      *
-     * @param  Imagick $object
+     * @param  Imagick                  $object
      * @return Intervention\Image\Image
      */
     abstract public function initFromImagick(\Imagick $object);
@@ -130,6 +130,7 @@ abstract class AbstractDecoder
     {
         if (is_string($this->data)) {
             $mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $this->data);
+
             return (substr($mime, 0, 4) != 'text' && $mime != 'application/x-empty');
         }
 
@@ -139,7 +140,7 @@ abstract class AbstractDecoder
     /**
      * Initiates new Image from Intervention\Image\Image
      *
-     * @param  Image $object
+     * @param  Image                    $object
      * @return Intervention\Image\Image
      */
     public function initFromInterventionImage($object)
@@ -150,7 +151,7 @@ abstract class AbstractDecoder
     /**
      * Initiates new image from mixed data
      *
-     * @param  mixed $data
+     * @param  mixed                    $data
      * @return Intervention\Image\Image
      */
     public function init($data)

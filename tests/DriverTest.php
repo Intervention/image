@@ -9,7 +9,7 @@ class DriverTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
+
     public function testNewImageGd()
     {
         $driver = new GdDriver(

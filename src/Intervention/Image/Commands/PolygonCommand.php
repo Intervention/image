@@ -31,12 +31,12 @@ class PolygonCommand extends \Intervention\Image\Commands\AbstractCommand
                 "You must have at least 3 points in your array."
             );
         }
-        
+
         $polygon_classname = sprintf('\Intervention\Image\%s\Shapes\PolygonShape',
             $image->getDriver()->getDriverName());
 
         $polygon = new $polygon_classname($points);
-        
+
         if ($callback instanceof Closure) {
             $callback($polygon);
         }

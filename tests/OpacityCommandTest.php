@@ -9,7 +9,7 @@ class OpacityCommandTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
+
     public function testGd()
     {
         $mask_core = imagecreatetruecolor(32, 32);

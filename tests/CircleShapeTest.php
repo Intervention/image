@@ -9,13 +9,13 @@ class CircleShapeTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
+
     public function testGdConstructor()
     {
         $circle = new CircleGd(250);
         $this->assertInstanceOf('Intervention\Image\Gd\Shapes\CircleShape', $circle);
         $this->assertEquals(250, $circle->radius);
-        
+
     }
 
     public function testGdApplyToImage()

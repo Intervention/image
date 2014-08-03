@@ -31,7 +31,7 @@ abstract class AbstractEncoder
      * @var integer
      */
     public $quality;
-    
+
     /**
      * Processes and returns encoded image as JPEG string
      *
@@ -102,7 +102,7 @@ abstract class AbstractEncoder
             case 'image/tiff':
                 $this->result = $this->processTiff();
                 break;
-                
+
             default:
                 throw new \Intervention\Image\Exception\NotSupportedException(
                     "Encoding format ({$format}) is not supported."

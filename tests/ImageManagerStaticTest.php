@@ -8,7 +8,7 @@ class ImageManagerStaticTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
+
     public function testNewInstance()
     {
         $manager = Mockery::mock('Intervention\Image\ImageManager');

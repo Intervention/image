@@ -7,7 +7,7 @@ abstract class AbstractColor
     /**
      * Initiates color object from integer
      *
-     * @param  integer $value
+     * @param  integer                          $value
      * @return Intervention\Image\AbstractColor
      */
     abstract public function initFromInteger($value);
@@ -15,7 +15,7 @@ abstract class AbstractColor
     /**
      * Initiates color object from given array
      *
-     * @param  array $value
+     * @param  array                            $value
      * @return Intervention\Image\AbstractColor
      */
     abstract public function initFromArray($value);
@@ -23,7 +23,7 @@ abstract class AbstractColor
     /**
      * Initiates color object from given string
      *
-     * @param  string $value
+     * @param  string                           $value
      * @return Intervention\Image\AbstractColor
      */
     abstract public function initFromString($value);
@@ -31,7 +31,7 @@ abstract class AbstractColor
     /**
      * Initiates color object from given ImagickPixel object
      *
-     * @param  ImagickPixel $value
+     * @param  ImagickPixel                     $value
      * @return Intervention\Image\AbstractColor
      */
     abstract public function initFromObject($value);
@@ -39,9 +39,9 @@ abstract class AbstractColor
     /**
      * Initiates color object from given R, G and B values
      *
-     * @param  integer $r
-     * @param  integer $g
-     * @param  integer $b
+     * @param  integer                          $r
+     * @param  integer                          $g
+     * @param  integer                          $b
      * @return Intervention\Image\AbstractColor
      */
     abstract public function initFromRgb($r, $g, $b);
@@ -49,10 +49,10 @@ abstract class AbstractColor
     /**
      * Initiates color object from given R, G, B and A values
      *
-     * @param  integer $r
-     * @param  integer $g
-     * @param  integer $b
-     * @param  float   $a
+     * @param  integer                          $r
+     * @param  integer                          $g
+     * @param  integer                          $b
+     * @param  float                            $a
      * @return Intervention\Image\AbstractColor
      */
     abstract public function initFromRgba($r, $g, $b, $a);
@@ -108,7 +108,7 @@ abstract class AbstractColor
     /**
      * Parses given value as color
      *
-     * @param  mixed $value
+     * @param  mixed                            $value
      * @return Intervention\Image\AbstractColor
      */
     public function parse($value)

@@ -1,4 +1,6 @@
-<?php namespace Intervention\Image;
+<?php
+
+namespace Intervention\Image;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Response as IlluminateResponse;
@@ -22,7 +24,7 @@ class ImageServiceProvider extends ServiceProvider
         $this->package('intervention/image');
 
         // try to create imagecache route only if imagecache is present
-        if (class_exists('Intervention\Image\ImageCache')) {
+        if (class_exists('Intervention\\Image\\ImageCache')) {
 
             $app = $this->app;
 

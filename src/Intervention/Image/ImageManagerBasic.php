@@ -3,41 +3,33 @@
 namespace Intervention\Image;
 
 use Closure;
-use Illuminate\Config\Repository as Config;
-use Illuminate\Config\FileLoader;
-use Illuminate\Filesystem\Filesystem;
 
-class ImageManager
+class ImageManagerBasic
 {
     /**
-     * Instance of Illuminate Config respository
+     * Config
      *
-     * @var \Illuminate\Config\Repository
+     * @var array
      */
-    public $config;
+    protected $config;
+
+    /**
+     * Default config
+     *
+     * @var array
+     */
+    protected $defaultConfig = array(
+        'driver' => 'gd',
+    );
 
     /**
      * Creates new instance of Image Manager
      *
-     * @param \Illuminate\Config\Repository $config
+     * @param array $config
      */
-    public function __construct(\Illuminate\Config\Repository $config = null)
+    public function __construct(array $config = array())
     {
-        // create configurator
-        if (is_a($config, 'Illuminate\\Config\\Repository')) {
-
-            $this->config = $config;
-
-        } else {
-
-            $config_path = __DIR__.'/../../config';
-            $env = 'production';
-
-            $file = new Filesystem;
-            $loader = new FileLoader($file, $config_path);
-            $this->config = new Config($loader, $env);
-            $this->config->package('intervention/image', $config_path, 'image');
-        }
+        $this->config = $this->defaultConfig + $config;
     }
 
     /**
@@ -47,7 +39,7 @@ class ImageManager
      */
     private function createDriver()
     {
-        $drivername = ucfirst($this->config->get('image::driver'));
+        $drivername = ucfirst($this->config['driver']);
         $driverclass = sprintf('Intervention\\Image\\%s\\Driver', $drivername);
 
         if (class_exists($driverclass)) {

@@ -75,9 +75,10 @@ class Image extends File
      *
      * @param  string  $path
      * @param  integer $quality
+     * @param  Closure $success
      * @return Intervention\Image\Image
      */
-    public function save($path = null, $quality = null)
+    public function save($path = null, $quality = null, $success = null)
     {
         $path = is_null($path) ? ($this->dirname .'/'. $this->basename) : $path;
         $data = $this->encode(pathinfo($path, PATHINFO_EXTENSION), $quality);
@@ -91,6 +92,11 @@ class Image extends File
 
         // set new file info
         $this->setFileInfoFromPath($path);
+
+        // run callback
+        if (is_callable($success)) {
+            $success($this);
+        }
 
         return $this;
     }

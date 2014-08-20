@@ -43,27 +43,6 @@ class ImageTest extends PHPUnit_Framework_TestCase
         @unlink($save_as);
     }
 
-    public function testSaveWithCallbacl()
-    {
-        $createdByCallback = __DIR__.'/tmp/cb.txt';
-        $save_as = __DIR__.'/tmp/test.jpg';
-        $image = $this->getTestImage();
-        $image->getDriver()->shouldReceive('encode')->with($image, 'jpg', 85)->once()->andReturn('mock');
-        $imageTest = clone $this;
-        $image = $image->save($save_as, 85, function ($obj) use ($imageTest, $createdByCallback) { 
-            $imageTest->assertInstanceOf('\Intervention\Image\Image', $obj);
-            touch($createdByCallback); 
-        });
-        $this->assertInstanceOf('\Intervention\Image\Image', $image);
-        $this->assertFileExists($save_as);
-        $this->assertFileExists($createdByCallback);
-        $this->assertEquals($image->basename, 'test.jpg');
-        $this->assertEquals($image->extension, 'jpg');
-        $this->assertEquals($image->filename, 'test');
-        @unlink($save_as);
-        @unlink($createdByCallback);
-    }
-
     public function testFilter()
     {
         $demoFilter = Mockery::mock('\Intervention\Image\Filters\DemoFilter', array(15));

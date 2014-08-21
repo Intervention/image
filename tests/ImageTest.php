@@ -57,6 +57,12 @@ class ImageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('image/png', $image->mime());
     }
 
+    public function testBasePath()
+    {
+        $image = $this->getTestImage();
+        $this->assertEquals('./tmp/foo.png', $image->basePath());
+    }
+
     private function getTestImage()
     {
         $size = Mockery::mock('\Intervention\Image\Size', array(800, 600));
@@ -67,6 +73,8 @@ class ImageTest extends PHPUnit_Framework_TestCase
         $driver->shouldReceive('executeCommand')->andReturn($command);
         $image = new Image($driver, 'mock');
         $image->mime = 'image/png';
+        $image->dirname = './tmp';
+        $image->basename = 'foo.png';
 
         return $image;
     }

@@ -143,9 +143,11 @@ abstract class AbstractEncoder
      */
     protected function processDataUrl()
     {
+        $mime = $this->image->mime ? $this->image->mime : 'image/png';
+
         return sprintf('data:%s;base64,%s',
-            $this->image->mime,
-            base64_encode($this->process($this->image, null, $this->quality))
+            $mime,
+            base64_encode($this->process($this->image, $mime, $this->quality))
         );
     }
 

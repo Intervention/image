@@ -66,4 +66,16 @@ class Encoder extends \Intervention\Image\AbstractEncoder
             "TIFF format is not supported by Gd Driver."
         );
     }
+
+    /**
+     * Processes and returns encoded image as BMP string
+     *
+     * @return string
+     */
+    protected function processBmp()
+    {
+        throw new \Intervention\Image\Exception\NotSupportedException(
+            "BMP format is not supported by Gd Driver."
+        );
+    }
 }

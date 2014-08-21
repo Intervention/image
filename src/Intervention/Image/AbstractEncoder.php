@@ -61,6 +61,13 @@ abstract class AbstractEncoder
     abstract protected function processTiff();
 
     /**
+     * Processes and returns encoded image as BMP string
+     *
+     * @return string
+     */
+    abstract protected function processBmp();
+
+    /**
      * Process a given image
      *
      * @param  Image   $image
@@ -101,6 +108,13 @@ abstract class AbstractEncoder
             case 'tiff':
             case 'image/tiff':
                 $this->result = $this->processTiff();
+                break;
+
+            case 'bmp':
+            case 'image/bmp':
+            case 'image/x-windows-bmp':
+            case 'image/x-ms-bmp':
+                $this->result = $this->processBmp();
                 break;
                 
             default:

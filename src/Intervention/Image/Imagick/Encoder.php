@@ -87,4 +87,22 @@ class Encoder extends \Intervention\Image\AbstractEncoder
         return $imagick->getImagesBlob();
     }
 
+    /**
+     * Processes and returns encoded image as BMP string
+     *
+     * @return string
+     */
+    protected function processBmp()
+    {
+        $format = 'bmp';
+        $compression = \Imagick::COMPRESSION_UNDEFINED;
+
+        $imagick = $this->image->getCore();
+        $imagick->setFormat($format);
+        $imagick->setImageFormat($format);
+        $imagick->setCompression($compression);
+        $imagick->setImageCompression($compression);
+
+        return $imagick->getImagesBlob();
+    }
 }

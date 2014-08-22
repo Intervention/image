@@ -137,6 +137,18 @@ abstract class AbstractDecoder
     }
 
     /**
+     * Determines if current source data is data-url
+     *
+     * @return boolean
+     */
+    public function isDataUrl()
+    {
+        $data = $this->decodeDataUrl($this->data);
+
+        return is_null($data) ? false : true;
+    }
+
+    /**
      * Initiates new Image from Intervention\Image\Image
      *
      * @param  Image $object
@@ -145,6 +157,24 @@ abstract class AbstractDecoder
     public function initFromInterventionImage($object)
     {
         return $object;
+    }
+
+    /**
+     * Parses and decodes binary image data from data-url
+     *
+     * @param  string $data_url
+     * @return string
+     */
+    private function decodeDataUrl($data_url)
+    {
+        $pattern = "/^data:(?:image\/.+)(?:charset=\".+\")?;base64,(?P<data>.+)$/";
+        preg_match($pattern, $data_url, $matches);
+
+        if (is_array($matches) && array_key_exists('data', $matches)) {
+            return base64_decode($matches['data']);
+        }
+
+        return null;
     }
 
     /**
@@ -179,6 +209,9 @@ abstract class AbstractDecoder
 
             case $this->isFilePath():
                 return $this->initFromPath($this->data);
+
+            case $this->isDataUrl():
+                return $this->initFromBinary($this->decodeDataUrl($this->data));
 
             default:
                 throw new Exception\NotReadableException("Image source not readable");

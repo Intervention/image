@@ -45,6 +45,19 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(50, $img->getHeight());
     }
 
+    public function testMakeFromDataUrl()
+    {
+        $str = file_get_contents('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGElEQVQYlWM8c+bMfwYiABMxikYVUk8hAHWzA3cRvs4UAAAAAElFTkSuQmCC');
+        $img = $this->manager()->make($str);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInstanceOf('Imagick', $img->getCore());
+        $this->assertInternalType('int', $img->getWidth());
+        $this->assertInternalType('int', $img->getHeight());
+        $this->assertEquals(10, $img->getWidth());
+        $this->assertEquals(10, $img->getHeight());
+        $this->assertEquals('image/png', $img->mime);
+    }
+
     public function testCanvas()
     {
         $img = $this->manager()->canvas(30, 20);

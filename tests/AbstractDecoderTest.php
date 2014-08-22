@@ -99,6 +99,15 @@ class AbstractDecoderTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($source->isSymfonyUpload());
     }
 
+    public function testIsDataUrl()
+    {
+        $source = $this->getTestDecoder('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGElEQVQYlWM8c+bMfwYiABMxikYVUk8hAHWzA3cRvs4UAAAAAElFTkSuQmCC');
+        $this->assertTrue($source->isDataUrl());
+
+        $source = $this->getTestDecoder(null);
+        $this->assertFalse($source->isDataUrl());
+    }
+
     public function getTestDecoder($data)
     {
         return $this->getMockForAbstractClass('\Intervention\Image\AbstractDecoder', array($data));

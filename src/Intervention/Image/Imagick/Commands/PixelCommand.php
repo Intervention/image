@@ -9,7 +9,7 @@ class PixelCommand extends \Intervention\Image\Commands\AbstractCommand
     /**
      * Draws one pixel to a given image
      *
-     * @param  Intervention\Image\Image $image
+     * @param  \Intervention\Image\Image $image
      * @return boolean
      */
     public function execute($image)

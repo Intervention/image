@@ -206,7 +206,7 @@ class Size
      * based on the pivot point settings of both sizes.
      *
      * @param  Size   $size
-     * @return Intervention\Image\Point
+     * @return \Intervention\Image\Point
      */
     public function relativePosition(Size $size)
     {
@@ -220,7 +220,7 @@ class Size
      * Resize given Size to best fitting size of current size.
      *
      * @param  Size   $size
-     * @return Intervention\Image\Size
+     * @return \Intervention\Image\Size
      */
     public function fit(Size $size)
     {
@@ -273,7 +273,7 @@ class Size
      * @param  string  $position
      * @param  integer $offset_x
      * @param  integer $offset_y
-     * @return Intervention\Image\Size
+     * @return \Intervention\Image\Size
      */
     public function align($position, $offset_x = 0, $offset_y = 0)
     {
@@ -358,7 +358,7 @@ class Size
      * Runs constraints on current size
      *
      * @param  Closure $callback
-     * @return Intervention\Image\Constraint
+     * @return \Intervention\Image\Constraint
      */
     private function getConstraint(Closure $callback = null)
     {

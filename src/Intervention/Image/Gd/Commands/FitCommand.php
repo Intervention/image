@@ -10,7 +10,7 @@ class FitCommand extends ResizeCommand
     /**
      * Crops and resized an image at the same time
      *
-     * @param  Intervention\Image\Image $image
+     * @param  \Intervention\Image\Image $image
      * @return boolean
      */
     public function execute($image)

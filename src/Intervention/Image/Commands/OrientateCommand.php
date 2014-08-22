@@ -7,7 +7,7 @@ class OrientateCommand extends AbstractCommand
     /**
      * Correct image orientation according to Exif data
      *
-     * @param  Intervention\Image\Image $image
+     * @param  \Intervention\Image\Image $image
      * @return boolean
      */
     public function execute($image)

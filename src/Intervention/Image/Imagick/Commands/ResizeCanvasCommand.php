@@ -7,7 +7,7 @@ class ResizeCanvasCommand extends \Intervention\Image\Commands\AbstractCommand
     /**
      * Resizes image boundaries
      *
-     * @param  Intervention\Image\Image $image
+     * @param  \Intervention\Image\Image $image
      * @return boolean
      */
     public function execute($image)

@@ -9,7 +9,7 @@ class LineCommand extends \Intervention\Image\Commands\AbstractCommand
     /**
      * Draws line on given image
      *
-     * @param  Intervention\Image\Image $image
+     * @param  \Intervention\Image\Image $image
      * @return boolean
      */
     public function execute($image)

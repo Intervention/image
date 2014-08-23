@@ -50,7 +50,7 @@ class ImageManagerStatic
      *
      * @param  mixed $data
      *
-     * @return Intervention\Image\Image
+     * @return \Intervention\Image\Image
      */
     public static function make($data)
     {
@@ -64,7 +64,7 @@ class ImageManagerStatic
      * @param  integer $height
      * @param  mixed $background
      *
-     * @return Intervention\Image\Image
+     * @return \Intervention\Image\Image
      */
     public static function canvas($width, $height, $background = null)
     {

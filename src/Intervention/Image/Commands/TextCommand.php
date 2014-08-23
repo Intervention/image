@@ -8,7 +8,7 @@ class TextCommand extends \Intervention\Image\Commands\AbstractCommand
 {
     /**
      * Write text on given image
-     * @param  Intervention\Image\Image $image
+     * @param  \Intervention\Image\Image $image
      * @return boolean
      */
     public function execute($image)

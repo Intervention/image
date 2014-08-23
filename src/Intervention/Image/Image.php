@@ -63,7 +63,7 @@ class Image extends File
      *
      * @param  string  $format
      * @param  integer $quality
-     * @return Intervention\Image\Image
+     * @return \Intervention\Image\Image
      */
     public function encode($format = null, $quality = 90)
     {
@@ -75,7 +75,7 @@ class Image extends File
      *
      * @param  string  $path
      * @param  integer $quality
-     * @return Intervention\Image\Image
+     * @return \Intervention\Image\Image
      */
     public function save($path = null, $quality = null)
     {
@@ -106,7 +106,7 @@ class Image extends File
      * Runs a given filter on current image
      *
      * @param  FiltersFilterInterface $filter
-     * @return Intervention\Image\Image
+     * @return \Intervention\Image\Image
      */
     public function filter(Filters\FilterInterface $filter)
     {
@@ -116,7 +116,7 @@ class Image extends File
     /**
      * Returns current image driver
      *
-     * @return Intervention\Image\AbstractDriver
+     * @return \Intervention\Image\AbstractDriver
      */
     public function getDriver()
     {

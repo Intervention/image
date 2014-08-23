@@ -7,7 +7,7 @@ class PixelateCommand extends \Intervention\Image\Commands\AbstractCommand
     /**
      * Applies a pixelation effect to a given image
      *
-     * @param  Intervention\Image\Image $image
+     * @param  \Intervention\Image\Image $image
      * @return boolean
      */
     public function execute($image)

@@ -7,7 +7,7 @@ class BlurCommand extends \Intervention\Image\Commands\AbstractCommand
     /**
      * Applies blur effect on image
      *
-     * @param  Intervention\Image\Image $image
+     * @param  \Intervention\Image\Image $image
      * @return boolean
      */
     public function execute($image)

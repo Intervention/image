@@ -88,6 +88,16 @@ abstract class AbstractDecoder
     }
 
     /**
+     * Determines if current data is SplFileInfo object
+     *
+     * @return boolean
+     */
+    public function isSplFileInfo()
+    {
+        return is_a($this->data, 'SplFileInfo');
+    }
+
+    /**
      * Determines if current data is Symfony UploadedFile component
      *
      * @return boolean
@@ -198,7 +208,7 @@ abstract class AbstractDecoder
             case $this->isInterventionImage():
                 return $this->initFromInterventionImage($this->data);
 
-            case $this->isSymfonyUpload():
+            case $this->isSplFileInfo():
                 return $this->initFromPath($this->data->getRealPath());
 
             case $this->isBinary():

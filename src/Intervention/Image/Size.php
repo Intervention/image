@@ -168,7 +168,7 @@ class Size
     /**
      * Scale size according to given constraints
      *
-     * @param  integer $width
+     * @param  integer $height
      * @param  Closure $callback
      * @return Size
      */

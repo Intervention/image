@@ -1,6 +1,6 @@
 {
     "name": "intervention/image",
-    "description": "Image handling and manipulation library with support for Laravel 4 integration",
+    "description": "Image handling and manipulation library with support for Laravel integration",
     "homepage": "http://image.intervention.io/",
     "keywords": ["image", "gd", "imagick", "laravel", "watermark", "thumbnail"],
     "license": "MIT",

@@ -356,6 +356,43 @@ class SizeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(100, $fitted->pivot->y);
     }
 
+    /**
+     * @dataProvider providerFitWithPosition
+     */
+    public function testFitWithPosition(Size $box, $position, $x, $y)
+    {
+        $fitted = $box->fit(new Size(100, 100), $position);
+        $this->assertEquals(600, $fitted->width);
+        $this->assertEquals(600, $fitted->height);
+        $this->assertEquals($x, $fitted->pivot->x);
+        $this->assertEquals($y, $fitted->pivot->y);
+    }
+
+    public function providerFitWithPosition()
+    {
+        return array(
+            array(new Size(800, 600), 'top-left', 0, 0),
+            array(new Size(800, 600), 'top', 100, 0),
+            array(new Size(800, 600), 'top-right', 200, 0),
+            array(new Size(800, 600), 'left', 0, 0),
+            array(new Size(800, 600), 'center', 100, 0),
+            array(new Size(800, 600), 'right', 200, 0),
+            array(new Size(800, 600), 'bottom-left', 0, 0),
+            array(new Size(800, 600), 'bottom', 100, 0),
+            array(new Size(800, 600), 'bottom-right', 200, 0),
+
+            array(new Size(600, 800), 'top-left', 0, 0),
+            array(new Size(600, 800), 'top', 0, 0),
+            array(new Size(600, 800), 'top-right', 0, 0),
+            array(new Size(600, 800), 'left', 0, 100),
+            array(new Size(600, 800), 'center', 0, 100),
+            array(new Size(600, 800), 'right', 0, 100),
+            array(new Size(600, 800), 'bottom-left', 0, 200),
+            array(new Size(600, 800), 'bottom', 0, 200),
+            array(new Size(600, 800), 'bottom-right', 0, 200),
+        );
+    }
+
     public function testFitsInto()
     {
         $box = new Size(800, 600);

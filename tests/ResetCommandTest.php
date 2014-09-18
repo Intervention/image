@@ -15,7 +15,10 @@ class ResetCommandTest extends PHPUnit_Framework_TestCase
         $size = Mockery::mock('Intervention\Image\Size', array(800, 600));
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $image = Mockery::mock('Intervention\Image\Image');
+        $driver = Mockery::mock('Intervention\Image\Gd\Driver');
+        $driver->shouldReceive('cloneCore')->with($resource)->once()->andReturn($resource);
         $image->shouldReceive('getCore')->once()->andReturn($resource);
+        $image->shouldReceive('getDriver')->once()->andReturn($driver);
         $image->shouldReceive('setCore')->once();
         $image->shouldReceive('getBackup')->once()->andReturn($resource);
         $command = new ResetGd(array());
@@ -28,6 +31,9 @@ class ResetCommandTest extends PHPUnit_Framework_TestCase
         $size = Mockery::mock('Intervention\Image\Size', array(800, 600));
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $image = Mockery::mock('Intervention\Image\Image');
+        $driver = Mockery::mock('Intervention\Image\Gd\Driver');
+        $driver->shouldReceive('cloneCore')->with($resource)->once()->andReturn($resource);
+        $image->shouldReceive('getDriver')->once()->andReturn($driver);
         $image->shouldReceive('getCore')->once()->andReturn($resource);
         $image->shouldReceive('setCore')->once();
         $image->shouldReceive('getBackup')->once()->withArgs(array('fooBackup'))->andReturn($resource);

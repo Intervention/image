@@ -1081,6 +1081,29 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
         $this->assertTransparentPosition($img, 0, 0);
     }
 
+    public function testResetToNamed()
+    {
+        $img = $this->manager()->make('tests/images/tile.png');
+        $img->backup('original');
+        $img->resize(30, 20);
+        $img->backup('30x20');
+
+        // reset to original
+        $img->reset('original');
+        $this->assertEquals(16, $img->getWidth());
+        $this->assertEquals(16, $img->getHeight());
+
+        // reset to 30x20
+        $img->reset('30x20');
+        $this->assertEquals(30, $img->getWidth());
+        $this->assertEquals(20, $img->getHeight());
+
+        // reset to original again
+        $img->reset('original');
+        $this->assertEquals(16, $img->getWidth());
+        $this->assertEquals(16, $img->getHeight());
+    }
+
     public function testLimitColors()
     {
        $img = $this->manager()->make('tests/images/trim.png');

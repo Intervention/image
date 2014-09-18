@@ -18,8 +18,11 @@ class ResetCommand extends \Intervention\Image\Commands\AbstractCommand
 
         if ($backup instanceof \Imagick) {
 
-            // destroy old core
+            // destroy current core
             $image->getCore()->clear();
+
+            // clone backup
+            $backup = clone $backup;
 
             // reset to new resource
             $image->setCore($backup);

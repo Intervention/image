@@ -23,7 +23,7 @@ class Image extends File
      *
      * @var mixed
      */
-    protected $backups = [];
+    protected $backups = array();
 
     /**
      * Last image encoding result

@@ -21,7 +21,7 @@ class BackupCommand extends \Intervention\Image\Commands\AbstractCommand
         imagesavealpha($clone, true);
         imagecopy($clone, $image->getCore(), 0, 0, 0, 0, $size->width, $size->height);
 
-        $image->setBackup($backupName, $clone);
+        $image->setBackup($clone, $backupName);
 
         return true;
     }

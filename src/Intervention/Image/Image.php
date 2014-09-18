@@ -19,9 +19,9 @@ class Image extends File
     protected $core;
 
     /**
-     * Image resource backup of current image processor
+     * Array of Image resource backups of current image processor
      *
-     * @var mixed
+     * @var array
      */
     protected $backups = array();
 
@@ -162,9 +162,15 @@ class Image extends File
      * @param string $name
      * @return mixed
      */
-    public function getBackup($name = 'default')
+    public function getBackup($name = null)
     {
-        $name = (is_null($name) ? 'default' : $name);
+        $name = is_null($name) ? 'default' : $name;
+
+        if ( ! $this->backupExists($name)) {
+            throw new \Intervention\Image\Exception\RuntimeException(
+                "Backup with name ({$name}) not available. Call backup() before reset()."
+            );
+        }
 
         return $this->backups[$name];
     }
@@ -172,25 +178,28 @@ class Image extends File
     /**
      * Sets current image backup
      *
+     * @param mixed  $resource
      * @param string $name
-     * @param mixed  $value
      * @return self
      */
-    public function setBackup($name, $value = null)
+    public function setBackup($resource, $name = null)
     {
-        // If there is just 1 argument specified then it's the value
-        if (func_num_args() == 1) {
-            $value = func_get_arg(0);
-            $name = 'default';
-        }
-        elseif (is_null($name))
-        {
-            $name = 'default';
-        }
+        $name = is_null($name) ? 'default' : $name;
 
-        $this->backups[$name] = $value;
+        $this->backups[$name] = $resource;
 
         return $this;
+    }
+
+    /**
+     * Checks if named backup exists
+     *
+     * @param  string $name
+     * @return bool
+     */
+    private function backupExists($name)
+    {
+        return array_key_exists($name, $this->backups);
     }
 
     /**

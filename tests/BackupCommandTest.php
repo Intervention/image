@@ -9,8 +9,8 @@ class BackupCommandTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
-    public function testGd()
+
+    public function testGdWithoutName()
     {
         $size = Mockery::mock('Intervention\Image\Size', array(800, 600));
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
@@ -23,13 +23,37 @@ class BackupCommandTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($result);
     }
 
-    public function testImagick()
+    public function testGdWithName()
+    {
+        $size = Mockery::mock('Intervention\Image\Size', array(800, 600));
+        $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
+        $image = Mockery::mock('Intervention\Image\Image');
+        $image->shouldReceive('getCore')->once()->andReturn($resource);
+        $image->shouldReceive('getSize')->once()->andReturn($size);
+        $image->shouldReceive('setBackup')->once();
+        $command = new BackupGd(array('name' => 'fooBackup'));
+        $result = $command->execute($image);
+        $this->assertTrue($result);
+    }
+
+    public function testImagickWithoutName()
     {
         $imagick = Mockery::mock('Imagick');
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
         $image->shouldReceive('setBackup')->once();
         $command = new BackupImagick(array());
+        $result = $command->execute($image);
+        $this->assertTrue($result);
+    }
+
+    public function testImagickWithName()
+    {
+        $imagick = Mockery::mock('Imagick');
+        $image = Mockery::mock('Intervention\Image\Image');
+        $image->shouldReceive('getCore')->once()->andReturn($imagick);
+        $image->shouldReceive('setBackup')->once();
+        $command = new BackupImagick(array('name' => 'fooBackup'));
         $result = $command->execute($image);
         $this->assertTrue($result);
     }

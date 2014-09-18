@@ -23,7 +23,7 @@ class Image extends File
      *
      * @var mixed
      */
-    protected $backup;
+    protected $backups = [];
 
     /**
      * Last image encoding result
@@ -159,21 +159,36 @@ class Image extends File
     /**
      * Returns current image backup
      *
+     * @param string $name
      * @return mixed
      */
-    public function getBackup()
+    public function getBackup($name = 'default')
     {
-        return $this->backup;
+        $name = (is_null($name) ? 'default' : $name);
+
+        return $this->backups[$name];
     }
 
     /**
      * Sets current image backup
      *
-     * @param mixed $value
+     * @param string $name
+     * @param mixed  $value
+     * @return self
      */
-    public function setBackup($value)
+    public function setBackup($name, $value = null)
     {
-        $this->backup = $value;
+        // If there is just 1 argument specified then it's the value
+        if (func_num_args() == 1) {
+            $value = func_get_arg(0);
+            $name = 'default';
+        }
+        elseif (is_null($name))
+        {
+            $name = 'default';
+        }
+
+        $this->backups[$name] = $value;
 
         return $this;
     }

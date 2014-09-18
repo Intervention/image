@@ -12,7 +12,9 @@ class ResetCommand extends \Intervention\Image\Commands\AbstractCommand
      */
     public function execute($image)
     {
-        if (is_resource($backup = $image->getBackup())) {
+        $backupName = $this->argument(0)->value();
+
+        if (is_resource($backup = $image->getBackup($backupName))) {
 
             // destroy old resource
             imagedestroy($image->getCore());

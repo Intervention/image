@@ -12,6 +12,8 @@ class BackupCommand extends \Intervention\Image\Commands\AbstractCommand
      */
     public function execute($image)
     {
+        $backupName = $this->argument(0)->value();
+
         // clone current image resource
         $size = $image->getSize();
         $clone = imagecreatetruecolor($size->width, $size->height);
@@ -19,7 +21,7 @@ class BackupCommand extends \Intervention\Image\Commands\AbstractCommand
         imagesavealpha($clone, true);
         imagecopy($clone, $image->getCore(), 0, 0, 0, 0, $size->width, $size->height);
 
-        $image->setBackup($clone);
+        $image->setBackup($backupName, $clone);
 
         return true;
     }

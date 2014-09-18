@@ -12,7 +12,9 @@ class ResetCommand extends \Intervention\Image\Commands\AbstractCommand
      */
     public function execute($image)
     {
-        $backup = $image->getBackup();
+        $backupName = $this->argument(0)->value();
+
+        $backup = $image->getBackup($backupName);
 
         if ($backup instanceof \Imagick) {
 
@@ -26,7 +28,7 @@ class ResetCommand extends \Intervention\Image\Commands\AbstractCommand
         }
 
         throw new \Intervention\Image\Exception\RuntimeException(
-            "Backup not available. Call backup() before reset()."
+            "Backup not available. Call backup({$backupName}) before reset()."
         );
     }
 }

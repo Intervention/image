@@ -25,8 +25,8 @@
         "intervention/imagecache": "Caching extension for the Intervention Image library"
     },
     "autoload": {
-        "psr-0": {
-            "Intervention\\Image\\": "src/"
+        "psr-4": {
+            "Intervention\\Image\\": "src/Intervention/Image"
         }
     },
     "minimum-stability": "stable"

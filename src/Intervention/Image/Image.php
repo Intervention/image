@@ -3,47 +3,46 @@
 namespace Intervention\Image;
 
 /**
- * @method \Intervention\Image\Image backup([string $name]) Backup current image.
- * @method \Intervention\Image\Image blur([integer $amount]) Apply gaussian blur filter.
- * @method \Intervention\Image\Image brightness([integer $level]) Change image brightness.
- * @method \Intervention\Image\Image circle(integer $radius, integer $x, integer $y, [Closure $callback]) Draw a circle.
+ * @method \Intervention\Image\Image backup(string $name = 'default') Backup current image.
+ * @method \Intervention\Image\Image blur(integer $amount = 1) Apply gaussian blur filter.
+ * @method \Intervention\Image\Image brightness(integer $level) Change image brightness.
+ * @method \Intervention\Image\Image circle(integer $radius, integer $x, integer $y, Closure $callback = null) Draw a circle.
  * @method \Intervention\Image\Image colorize(integer $red, integer $green, integer $blue) Change color balance.
  * @method \Intervention\Image\Image contrast(integer $level) Change image contrast.
- * @method \Intervention\Image\Image crop(integer $width, integer $height, [integer $x, integer $y]) Crop image.
+ * @method \Intervention\Image\Image crop(integer $width, integer $height, integer $x = null, integer $y = null) Crop image.
  * @method void destroy() Destroy instance and free up memory.
- * @method \Intervention\Image\Image ellipse(integer $width, integer $height, integer $x, integer $y, [Closure $callback]) Draw an ellipse.
- * @method mixed exif([string $key]) Read Exif data from image.
- * @method \Intervention\Image\Image fill(mixed $filling, [integer $x, integer $y]) Fill image with color or pattern.
+ * @method \Intervention\Image\Image ellipse(integer $width, integer $height, integer $x, integer $y, Closure $callback = null) Draw an ellipse.
+ * @method mixed exif(string $key = null) Read Exif data from image.
+ * @method \Intervention\Image\Image fill(mixed $filling, integer $x = null, integer $y = null) Fill image with color or pattern.
  * @method \Intervention\Image\Image filter(\Intervention\Image\Filters\FilterInterface $filter) Apply custom filter.
- * @method \Intervention\Image\Image flip([mixed $mode]) Mirror an image.
- * @method \Intervention\Image\Image fit(integer $width, [[integer $height], [Closure $callback, [string $position]]]) Crop and resize combined.
+ * @method \Intervention\Image\Image flip(mixed $mode = 'h') Mirror an image.
+ * @method \Intervention\Image\Image fit(integer $width, integer $height = null, Closure $callback = null, string $position = 'center') Crop and resize combined.
  * @method \Intervention\Image\Image gamma(float $correction) Apply gamma correction.
  * @method \Intervention\Image\Image greyscale() Turn image into greyscale version.
  * @method integer height() Get height of image.
- * @method \Intervention\Image\Image heighten(integer $height, [Closure $callback]) Resize image proportionally to given height.
- * @method \Intervention\Image\Image insert(mixed $source, [string $position, [integer $x, integer $y]]) Insert another image.
- * @method \Intervention\Image\Image interlace([boolean $interlace]) Toggle interlaced image mode.
+ * @method \Intervention\Image\Image heighten(integer $height, Closure $callback = null) Resize image proportionally to given height.
+ * @method \Intervention\Image\Image insert(mixed $source, string $position = 'top-left', integer $x = 0, integer $y = 0) Insert another image.
+ * @method \Intervention\Image\Image interlace(boolean $interlace = true) Toggle interlaced image mode.
  * @method \Intervention\Image\Image invert() Invert colors of an image.
- * @method \Intervention\Image\Image limitColors(integer $count, [mixed $matte]) Convert color palette of image to maximum number of colors.
- * @method \Intervention\Image\Image line(integer $x1, integer $y1, integer $x2, integer $y2, [Closure $callback]) Draw a line.
- * @method \Intervention\Image\Image mask(mixed $source, [bool $mask_with_alpha]) Apply alpha mask.
+ * @method \Intervention\Image\Image limitColors(integer $count, mixed $matte = null) Convert color palette of image to maximum number of colors.
+ * @method \Intervention\Image\Image line(integer $x1, integer $y1, integer $x2, integer $y2, Closure $callback = null) Draw a line.
+ * @method \Intervention\Image\Image mask(mixed $source, bool $mask_with_alpha = false) Apply alpha mask.
  * @method \Intervention\Image\Image opacity(integer $transparency) Set opacity of an image.
  * @method \Intervention\Image\Image orientate() Adjust image orientation automatically.
- * @method mixed pickColor(integer $x, integer $y, [string $format]) Pick a color out of an image.
+ * @method mixed pickColor(integer $x, integer $y, string $format = 'array') Pick a color out of an image.
  * @method \Intervention\Image\Image pixel(mixed $color, integer $x, integer $y) Draw a single pixel.
  * @method \Intervention\Image\Image pixelate(integer $size) Apply pixelation effect.
- * @method \Intervention\Image\Image polygon(array $points, [Closure $callback]) Draw a polygon.
- * @method \Intervention\Image\Image rectangle(integer $x1, integer $y1, integer $x2, integer $y2, [Closure $callback]) Draw a rectangle.
- * @method \Intervention\Image\Image reset([string $name]) Reset image instance to backup.
- * @method \Intervention\Image\Image resize(integer $width, integer $height, [Closure $callback]) Resize image.
- * @method \Intervention\Image\Image resizeCanvas(integer $width, integer $height, [string $anchor, [boolean $relative, [mixed $bgcolor]]]) Resize image boundaries.
- * @method \Intervention\Image\Image response([string $format, [integer $quality]]) Attach image to new HTTP response.
- * @method mixed response([string $format, [integer $quality]]) Attach image to new HTTP response.
- * @method \Intervention\Image\Image rotate(float $angle, [string $bgcolor]) Rotate image.
- * @method \Intervention\Image\Image sharpen([integer $amount]) Sharpen image.
- * @method \Intervention\Image\Image text(string $text, [integer $x, [integer $y, [Closure $callback]]]) Write text to an image.
- * @method \Intervention\Image\Image trim([string $base, [array $away, [integer $tolerance, [integer $feather]]]]) Trim away parts of an image.
- * @method \Intervention\Image\Image widen(integer $width, [Closure $callback]) Resize image proportionally to given width.
+ * @method \Intervention\Image\Image polygon(array $points, Closure $callback = null) Draw a polygon.
+ * @method \Intervention\Image\Image rectangle(integer $x1, integer $y1, integer $x2, integer $y2, Closure $callback = null) Draw a rectangle.
+ * @method \Intervention\Image\Image reset(string $name = 'default') Reset image instance to backup.
+ * @method \Intervention\Image\Image resize(integer $width, integer $height, Closure $callback = null) Resize image.
+ * @method \Intervention\Image\Image resizeCanvas(integer $width, integer $height, string $anchor = 'center', boolean $relative = false, mixed $bgcolor = '#000000') Resize image boundaries.
+ * @method mixed response(string $format, integer $quality) Attach image to new HTTP response.
+ * @method \Intervention\Image\Image rotate(float $angle, string $bgcolor = '#000000') Rotate image.
+ * @method \Intervention\Image\Image sharpen(integer $amount = 10) Sharpen image.
+ * @method \Intervention\Image\Image text(string $text, integer $x = 0, integer $y = 0, Closure $callback = null) Write text to an image.
+ * @method \Intervention\Image\Image trim(string $base = 'top-left', array $away = null, integer $tolerance = 0, integer $feather = 0) Trim away parts of an image.
+ * @method \Intervention\Image\Image widen(integer $width, Closure $callback = null) Resize image proportionally to given width.
  * @method integer width() Get width of image.
  */
 

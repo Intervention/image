@@ -58,4 +58,21 @@ class File
 
         return $this;
     }
+
+     /**
+      * Get file size
+      * 
+      * @return mixed
+      */
+    public function filesize()
+    {
+        $path = $this->basePath();
+
+        if (file_exists($path) && is_file($path)) {
+            return filesize($path);
+        }
+        
+        return false;
+    }
+
 }

@@ -121,6 +121,19 @@ class AbstractDecoderTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($source->isDataUrl());
     }
 
+    public function testIsBase64()
+    {
+        $decoder = $this->getTestDecoder(null);
+        $this->assertFalse($decoder->isBase64());
+
+        $decoder = $this->getTestDecoder('random');
+        $this->assertFalse($decoder->isBase64());
+
+        $base64 = "iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGElEQVQYlWM8c+bMfwYiABMxikYVUk8hAHWzA3cRvs4UAAAAAElFTkSuQmCC";
+        $decoder = $this->getTestDecoder($base64);
+        $this->assertTrue($decoder->isBase64());
+    }
+
     public function getTestDecoder($data)
     {
         return $this->getMockForAbstractClass('\Intervention\Image\AbstractDecoder', array($data));

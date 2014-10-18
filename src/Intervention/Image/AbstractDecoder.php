@@ -159,6 +159,16 @@ abstract class AbstractDecoder
     }
 
     /**
+     * Determines if current source data is base64 encoded
+     *
+     * @return boolean
+     */
+    public function isBase64()
+    {
+        return base64_encode(base64_decode($this->data)) === $this->data;
+    }
+
+    /**
      * Initiates new Image from Intervention\Image\Image
      *
      * @param  Image $object
@@ -222,6 +232,9 @@ abstract class AbstractDecoder
 
             case $this->isDataUrl():
                 return $this->initFromBinary($this->decodeDataUrl($this->data));
+
+            case $this->isBase64():
+                return $this->initFromBinary(base64_decode($this->data));
 
             default:
                 throw new Exception\NotReadableException("Image source not readable");

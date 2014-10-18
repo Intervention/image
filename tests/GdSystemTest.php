@@ -56,6 +56,17 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(10, $img->getHeight());
     }
 
+    public function testMakeFromBase64()
+    {
+        $img = $this->manager()->make('iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGElEQVQYlWM8c+bMfwYiABMxikYVUk8hAHWzA3cRvs4UAAAAAElFTkSuQmCC');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInternalType('resource', $img->getCore());
+        $this->assertInternalType('int', $img->getWidth());
+        $this->assertInternalType('int', $img->getHeight());
+        $this->assertEquals(10, $img->getWidth());
+        $this->assertEquals(10, $img->getHeight());
+    }
+
     public function testCanvas()
     {
         $img = $this->manager()->canvas(30, 20);

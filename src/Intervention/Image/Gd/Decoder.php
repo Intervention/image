@@ -54,6 +54,53 @@ class Decoder extends \Intervention\Image\AbstractDecoder
     }
 
     /**
+     * Initiates new image from SplFileInfo object
+     *
+     * @param  SplFileInfo $object
+     * @return \Intervention\Image\Image
+     */
+    public function initFromSplFileInfo(\SplFileInfo $object)
+    {
+        $path = $object->getRealPath();
+        $info = @getimagesize($path);
+
+        if ($info === false) {
+            throw new \Intervention\Image\Exception\NotReadableException(
+                "Unable to read image from file ({$path})."
+            );
+        }
+
+        // define core
+        switch ($info[2]) {
+            case IMAGETYPE_PNG:
+                $core = imagecreatefrompng($path);
+                $this->gdResourceToTruecolor($core);
+                break;
+
+            case IMAGETYPE_JPEG:
+                $core = imagecreatefromjpeg($path);
+                break;
+
+            case IMAGETYPE_GIF:
+                $core = imagecreatefromgif($path);
+                $this->gdResourceToTruecolor($core);
+                break;
+
+            default:
+                throw new \Intervention\Image\Exception\NotReadableException(
+                    "Unable to read image type. GD driver is only able to decode JPG, PNG or GIF files."
+                );
+        }
+
+        // build image
+        $image = $this->initFromGdResource($core);
+        $image->mime = $info['mime'];
+        $image->setFileInfoFromSplFileInfo($object);
+
+        return $image;
+    }
+
+    /**
      * Initiates new image from GD resource
      *
      * @param  Resource $resource

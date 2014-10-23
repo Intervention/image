@@ -37,6 +37,14 @@ abstract class AbstractDecoder
     abstract public function initFromImagick(\Imagick $object);
 
     /**
+     * Initiates new image from SplFileInfo object
+     *
+     * @param  SplFileInfo $object
+     * @return \Intervention\Image\Image
+     */
+    abstract public function initFromSplFileInfo(\SplFileInfo $object);
+
+    /**
      * Buffer of input data
      *
      * @var mixed
@@ -219,7 +227,7 @@ abstract class AbstractDecoder
                 return $this->initFromInterventionImage($this->data);
 
             case $this->isSplFileInfo():
-                return $this->initFromPath($this->data->getRealPath());
+                return $this->initFromSplFileInfo($this->data);
 
             case $this->isBinary():
                 return $this->initFromBinary($this->data);

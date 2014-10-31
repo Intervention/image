@@ -54,6 +54,20 @@ abstract class AbstractFont
     public $file;
 
     /**
+     * Width of textbox
+     *
+     * @var integer
+     */
+    public $width;
+
+    /**
+     * Height of textbox
+     *
+     * @var integer
+     */
+    public $height;
+
+    /**
      * Draws font to given image on given position
      *
      * @param  Image   $image
@@ -218,6 +232,48 @@ abstract class AbstractFont
     public function getFile()
     {
         return $this->file;
+    }
+
+    /**
+     * Set width of textbox
+     *
+     * @param  integer $width
+     * @return void
+     */
+    public function width($width)
+    {
+        $this->width = $width;
+    }
+
+    /**
+     * Get width of textbox
+     *
+     * @return integer
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    /**
+     * Set height of textbox
+     *
+     * @param  integer $height
+     * @return void
+     */
+    public function height($height)
+    {
+        $this->height = $height;
+    }
+
+    /**
+     * Get height of textbox
+     *
+     * @return integer
+     */
+    public function getHeight()
+    {
+        return $this->height;
     }
 
     /**

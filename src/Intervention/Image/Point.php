@@ -61,4 +61,35 @@ class Point
         $this->setX($x);
         $this->setY($y);
     }
+
+    /**
+     * Rotate point ccw around pivot
+     *
+     * @param  float $angle
+     * @param  Point $pivot
+     * @return Point
+     */
+    public function rotate($angle, Point $pivot)
+    {
+        $sin = sin($angle);
+        $cos = cos($angle);
+
+        // translate point
+        $this->x -= $pivot->x;
+        $this->y -= $pivot->y;
+
+        // rotate point clockwise
+        // $x = $this->x * $cos - $this->y * $sin;
+        // $y = $this->x * $sin + $this->y * $cos;
+
+        // rotate point counter-clockwise
+        $x = $this->x * $cos + $this->y * $sin;
+        $y = ($this->x * -1) * $sin + $this->y * $cos;
+
+        // translate point back
+        $this->x = $x + $pivot->x;
+        $this->y = $y + $pivot->y;
+    
+        return $this;
+    }
 }

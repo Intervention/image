@@ -354,6 +354,24 @@ class Size
         return $this;
     }
 
+    public function rotate($angle)
+    {
+        if ($angle != 0) {
+            $angle = pi() * 2 - $angle * pi() * 2 / 360;
+
+                /*
+            for ($i=0; $i<4; $i++) {
+                $x = $box[$i * 2];
+                $y = $box[$i * 2 + 1];
+                $box[$i * 2] = cos($angle) * $x - sin($angle) * $y;
+                $box[$i * 2 + 1] = sin($angle) * $x + cos($angle) * $y;
+            }
+            */
+        }
+        
+        return $this;
+    }
+
     /**
      * Runs constraints on current size
      *

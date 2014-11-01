@@ -50,5 +50,14 @@ class PointTest extends PHPUnit_Framework_TestCase
         $point->rotate(90, new Point(0, 0));
         $this->assertEquals(0, $point->x);
         $this->assertEquals(30, $point->y);
+
+        $point->rotate(90, new Point(0, 0));
+        $this->assertEquals(-30, $point->x);
+        $this->assertEquals(0, $point->y);
+
+        $point = new Point(300, 200);
+        $point->rotate(90, new Point(0, 0));
+        $this->assertEquals(-200, $point->x);
+        $this->assertEquals(300, $point->y);
     }
 }

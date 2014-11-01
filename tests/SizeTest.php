@@ -424,6 +424,75 @@ class SizeTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($fits);
     }
 
+    public function testRotate()
+    {
+        $box = new Size(300, 200);
+        $box = $box->rotate(90);
+        $this->assertEquals(200, $box->width);
+        $this->assertEquals(300, $box->height);
+        $this->assertEquals(0, $box->pivot->x);
+        $this->assertEquals(300, $box->pivot->y);
+
+        $box = new Size(300, 200);
+        $box = $box->rotate(180);
+        $this->assertEquals(300, $box->width);
+        $this->assertEquals(200, $box->height);
+        $this->assertEquals(300, $box->pivot->x);
+        $this->assertEquals(200, $box->pivot->y);
+
+        $box = new Size(300, 200);
+        $box = $box->rotate(270);
+        $this->assertEquals(200, $box->width);
+        $this->assertEquals(300, $box->height);
+        $this->assertEquals(200, $box->pivot->x);
+        $this->assertEquals(0, $box->pivot->y);
+
+        $box = new Size(300, 200);
+        $box = $box->rotate(360);
+        $this->assertEquals(300, $box->width);
+        $this->assertEquals(200, $box->height);
+        $this->assertEquals(0, $box->pivot->x);
+        $this->assertEquals(0, $box->pivot->y);
+
+        $box = new Size(200, 200);
+        $box = $box->rotate(45);
+        $this->assertEquals(282, $box->width);
+        $this->assertEquals(282, $box->height);
+        $this->assertEquals(0, $box->pivot->x);
+        $this->assertEquals(141, $box->pivot->y);
+
+        $box = new Size(300, 200);
+        $box = $box->rotate(45);
+        $this->assertEquals(353, $box->width);
+        $this->assertEquals(353, $box->height);
+        $this->assertEquals(0, $box->pivot->x);
+        $this->assertEquals(212, $box->pivot->y);
+
+        $box = new Size(300, 200);
+        $box->align('bottom-right');
+        $box = $box->rotate(45);
+        $this->assertEquals(353, $box->width);
+        $this->assertEquals(354, $box->height);
+        $this->assertEquals(353, $box->pivot->x);
+        $this->assertEquals(142, $box->pivot->y);
+
+        $box = new Size(300, 200);
+        $box->align('center');
+        $box = $box->rotate(100);
+        $this->assertEquals(249, $box->width);
+        $this->assertEquals(330, $box->height);
+        $this->assertEquals(125, $box->pivot->x);
+        $this->assertEquals(165, $box->pivot->y);
+
+        $box = new Size(300, 200);
+        $box->align('left-bottom');
+        $box = $box->rotate(90);
+        $this->assertEquals(200, $box->width);
+        $this->assertEquals(300, $box->height);
+        $this->assertEquals(200, $box->pivot->x);
+        $this->assertEquals(300, $box->pivot->y);
+    }
+
     /**
      * @expectedException \Intervention\Image\Exception\InvalidArgumentException
      */

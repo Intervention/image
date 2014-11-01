@@ -53,13 +53,16 @@ class Point
     /**
      * Sets both X and Y coordinate
      *
-     * @param integer $x
-     * @param integer $y
+     * @param  integer $x
+     * @param  integer $y
+     * @return Point
      */
     public function setPosition($x, $y)
     {
         $this->setX($x);
         $this->setY($y);
+
+        return $this;
     }
 
     /**
@@ -71,25 +74,12 @@ class Point
      */
     public function rotate($angle, Point $pivot)
     {
-        $sin = sin($angle);
-        $cos = cos($angle);
+        $sin = round(sin(deg2rad($angle)), 6);
+        $cos = round(cos(deg2rad($angle)), 6);
 
-        // translate point
-        $this->x -= $pivot->x;
-        $this->y -= $pivot->y;
+        $x = $cos * ($this->x - $pivot->x) - $sin * ($this->y - $pivot->y) + $pivot->x;
+        $y = $sin * ($this->x - $pivot->x) + $cos * ($this->y - $pivot->y) + $pivot->y;
 
-        // rotate point clockwise
-        // $x = $this->x * $cos - $this->y * $sin;
-        // $y = $this->x * $sin + $this->y * $cos;
-
-        // rotate point counter-clockwise
-        $x = $this->x * $cos + $this->y * $sin;
-        $y = ($this->x * -1) * $sin + $this->y * $cos;
-
-        // translate point back
-        $this->x = $x + $pivot->x;
-        $this->y = $y + $pivot->y;
-    
-        return $this;
+        return $this->setPosition($x, $y);
     }
 }

@@ -105,4 +105,42 @@ class Encoder extends \Intervention\Image\AbstractEncoder
 
         return $imagick->getImagesBlob();
     }
+
+    /**
+     * Processes and returns encoded image as ICO string
+     *
+     * @return string
+     */
+    protected function processIco()
+    {
+        $format = 'ico';
+        $compression = \Imagick::COMPRESSION_UNDEFINED;
+
+        $imagick = $this->image->getCore();
+        $imagick->setFormat($format);
+        $imagick->setImageFormat($format);
+        $imagick->setCompression($compression);
+        $imagick->setImageCompression($compression);
+
+        return $imagick->getImagesBlob();
+    }
+
+    /**
+     * Processes and returns encoded image as PSD string
+     *
+     * @return string
+     */
+    protected function processPsd()
+    {
+        $format = 'psd';
+        $compression = \Imagick::COMPRESSION_UNDEFINED;
+
+        $imagick = $this->image->getCore();
+        $imagick->setFormat($format);
+        $imagick->setImageFormat($format);
+        $imagick->setCompression($compression);
+        $imagick->setImageCompression($compression);
+
+        return $imagick->getImagesBlob();
+    }
 }

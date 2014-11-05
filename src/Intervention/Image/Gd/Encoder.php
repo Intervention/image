@@ -78,4 +78,28 @@ class Encoder extends \Intervention\Image\AbstractEncoder
             "BMP format is not supported by Gd Driver."
         );
     }
+
+    /**
+     * Processes and returns encoded image as ICO string
+     *
+     * @return string
+     */
+    protected function processIco()
+    {
+        throw new \Intervention\Image\Exception\NotSupportedException(
+            "ICO format is not supported by Gd Driver."
+        );
+    }
+
+    /**
+     * Processes and returns encoded image as PSD string
+     *
+     * @return string
+     */
+    protected function processPsd()
+    {
+        throw new \Intervention\Image\Exception\NotSupportedException(
+            "PSD format is not supported by Gd Driver."
+        );
+    }
 }

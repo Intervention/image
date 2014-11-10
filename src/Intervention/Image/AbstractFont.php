@@ -58,7 +58,7 @@ abstract class AbstractFont
      *
      * @var float
      */
-    public $lineHeight;
+    public $lineHeight = 1;
 
     /**
      * Width of textbox

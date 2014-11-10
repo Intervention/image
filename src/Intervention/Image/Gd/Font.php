@@ -30,28 +30,38 @@ class Font extends \Intervention\Image\AbstractFont
         // create empty resource
         $canvas = imagecreatetruecolor($box->getWidth(), $box->getHeight());
 
-        // set background color (2147483647)
+        // set background color transparent (2147483647)
         imagefill($canvas, 0, 0, 2147483647);
 
         // parse text color
         $color = new Color($this->color);
+
+        $lines = $this->getLines();
 
         if ($this->hasApplicableFontFile()) {
 
             // enable alphablending for imagettftext
             imagealphablending($image->getCore(), true);
 
-            // draw ttf text
-            imagettftext(
-                $canvas,
-                $this->getPointSize(), // size
-                0, // angle
-                0, // x 
-                49, // y
-                $color->getInt(),
-                $this->file,
-                $this->text
-            );
+            $baseline = $this->getGdBoxSize($lines[0]);
+
+            $padding = $this->getPadding();
+
+            // write line by line
+            foreach ($lines as $count => $line) {
+
+                // draw ttf text
+                imagettftext(
+                    $canvas,
+                    $this->getPointSize(), // size
+                    0, // angle
+                    $padding, // x 
+                    $baseline->getHeight() + $count * $this->lineHeight * $this->size * 1.5, // y
+                    $color->getInt(),
+                    $this->file,
+                    $line
+                );
+            }
 
             if ($this->angle != 0) {
                 $canvas = imagerotate($canvas, $this->angle, 2147483647);
@@ -79,33 +89,25 @@ class Font extends \Intervention\Image\AbstractFont
 
         if ($this->hasApplicableFontFile()) {
 
+            $lines = $this->getLines();
+            $baseline = $this->getGdBoxSize($lines[0]);
+
             $width_values = array();
-            $height_values = array();
 
             // cycle through each line
-            foreach ($this->getLines() as $line) {
-                
+            foreach ($lines as $line) {
+                $width_values[] = $this->getGdBoxSize($line)->getWidth();
             }
 
-            // get bounding box with angle 0
-            $box = imagettfbbox($this->getPointSize(), 0, $this->file, $this->text);
+            $padding = $this->getPadding();
 
-            // rotate points manually
-            if ($this->angle != 0) {
-                /*
-                $angle = pi() * 2 - $this->angle * pi() * 2 / 360;
+            $width = max($width_values);
+            $width = $width + $padding * 2;
 
-                for ($i=0; $i<4; $i++) {
-                    $x = $box[$i * 2];
-                    $y = $box[$i * 2 + 1];
-                    $box[$i * 2] = cos($angle) * $x - sin($angle) * $y;
-                    $box[$i * 2 + 1] = sin($angle) * $x + cos($angle) * $y;
-                }
-                */
-            }
+            $height = $baseline->getHeight() + (count($lines) - 1) * $this->lineHeight * $this->size * 1.5;
+            $height = $height + $baseline->getHeight() / 3;
+            $height = $height + $padding * 2;
 
-            $width = intval(abs($box[4] - $box[0]));
-            $height = intval(abs($box[5] - $box[1]));
 
         } else {
 
@@ -127,8 +129,23 @@ class Font extends \Intervention\Image\AbstractFont
         return new Size($width, $height);
     }
 
-    public function getLines()
+    private function getPadding()
     {
-        return explode(PHP_EOL, $this->text);
+        $correct = $this->angle != 0 ? 2 : 0;
+        return ceil($this->size / 20) + $correct;
+    }
+
+    private function getGdBoxSize($text = null)
+    {
+        $text = is_null($text) ? $this->text : $text;
+
+        // get boxsize
+        $box = imagettfbbox($this->getPointSize(), 0, $this->file, $text);
+            
+        // calculate width/height
+        $width = intval(abs($box[4] - $box[0]));
+        $height = intval(abs($box[5] - $box[1]));
+
+        return new Size($width, $height);   
     }
 }

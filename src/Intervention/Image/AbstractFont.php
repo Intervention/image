@@ -325,6 +325,16 @@ abstract class AbstractFont
      */
     public function countLines()
     {
-        return count(explode(PHP_EOL, $this->text));
+        return count($this->getLines());
+    }
+
+    /**
+     * Get array of lines to be written
+     *
+     * @return array
+     */
+    public function getLines()
+    {
+        return explode(PHP_EOL, $this->text);
     }
 }

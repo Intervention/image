@@ -95,4 +95,11 @@ class AbstractFontTest extends PHPUnit_Framework_TestCase
             baz');
         $this->assertEquals(3, $font->countLines());
     }
+
+    public function testGetLines()
+    {
+        $font = $this->getMockForAbstractClass('\Intervention\Image\AbstractFont');
+        $font->text('foo'.PHP_EOL.'bar'.PHP_EOL.'baz');
+        $this->assertEquals(array('foo', 'bar', 'baz'), $font->getLines());
+    }
 }

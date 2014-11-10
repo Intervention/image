@@ -26,7 +26,7 @@ class Font extends \Intervention\Image\AbstractFont
         // $image->rectangle($posx, $posy, $posx + $box->getWidth(), $posy + $box->getHeight(), function ($draw) {
         //     $draw->border(1, '555');
         // });
-        
+
         // create empty resource
         $canvas = imagecreatetruecolor($box->getWidth(), $box->getHeight());
 
@@ -79,6 +79,14 @@ class Font extends \Intervention\Image\AbstractFont
 
         if ($this->hasApplicableFontFile()) {
 
+            $width_values = array();
+            $height_values = array();
+
+            // cycle through each line
+            foreach ($this->getLines() as $line) {
+                
+            }
+
             // get bounding box with angle 0
             $box = imagettfbbox($this->getPointSize(), 0, $this->file, $this->text);
 
@@ -117,5 +125,10 @@ class Font extends \Intervention\Image\AbstractFont
         }
 
         return new Size($width, $height);
+    }
+
+    public function getLines()
+    {
+        return explode(PHP_EOL, $this->text);
     }
 }

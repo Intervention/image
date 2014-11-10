@@ -62,6 +62,27 @@ class AbstractFontTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('test.ttf', $font->file);
     }
 
+    public function testLineHeight()
+    {
+        $font = $this->getMockForAbstractClass('\Intervention\Image\AbstractFont');
+        $font->lineHeight(1.5);
+        $this->assertEquals(1.5, $font->lineHeight);
+    }
+
+    public function testWidth()
+    {
+        $font = $this->getMockForAbstractClass('\Intervention\Image\AbstractFont');
+        $font->width(300);
+        $this->assertEquals(300, $font->width);
+    }
+
+    public function testHeight()
+    {
+        $font = $this->getMockForAbstractClass('\Intervention\Image\AbstractFont');
+        $font->height(200);
+        $this->assertEquals(200, $font->height);
+    }
+
     public function testCountLines()
     {
         $font = $this->getMockForAbstractClass('\Intervention\Image\AbstractFont');

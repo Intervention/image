@@ -54,6 +54,13 @@ abstract class AbstractFont
     public $file;
 
     /**
+     * Line height of the text
+     *
+     * @var float
+     */
+    public $lineHeight;
+
+    /**
      * Width of textbox
      *
      * @var integer
@@ -232,6 +239,27 @@ abstract class AbstractFont
     public function getFile()
     {
         return $this->file;
+    }
+
+    /**
+     * Set line-height
+     *
+     * @param  float $height
+     * @return void
+     */
+    public function lineHeight($lineHeight)
+    {
+        $this->lineHeight = $lineHeight;
+    }
+
+    /**
+     * Get line-height of instance
+     *
+     * @return float
+     */
+    public function getLineHeight()
+    {
+        return $this->lineHeight;
     }
 
     /**

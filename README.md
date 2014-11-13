@@ -12,7 +12,7 @@ Intervention Image is a **PHP image handling and manipulation** library providin
 ## Supported Image Libraries
 
 - GD Library (>=2.0)
-- Imagick PHP extension (>=6.3.8)
+- Imagick PHP extension (>=6.5.7)
 
 ## Getting started
 

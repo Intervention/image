@@ -61,18 +61,11 @@ abstract class AbstractFont
     public $lineHeight = 1;
 
     /**
-     * Width of textbox
+     * Textbox
      *
-     * @var integer
+     * @var Size
      */
-    public $width;
-
-    /**
-     * Height of textbox
-     *
-     * @var integer
-     */
-    public $height;
+    public $box;
 
     /**
      * Draws font to given image on given position
@@ -263,14 +256,15 @@ abstract class AbstractFont
     }
 
     /**
-     * Set width of textbox
+     * Set size of boxed text
      *
      * @param  integer $width
+     * @param  integer $height
      * @return void
      */
-    public function width($width)
+    public function box($width, $height)
     {
-        $this->width = $width;
+        $this->box = new Size($width, $height);
     }
 
     /**
@@ -278,30 +272,9 @@ abstract class AbstractFont
      *
      * @return integer
      */
-    public function getWidth()
+    public function getBox()
     {
-        return $this->width;
-    }
-
-    /**
-     * Set height of textbox
-     *
-     * @param  integer $height
-     * @return void
-     */
-    public function height($height)
-    {
-        $this->height = $height;
-    }
-
-    /**
-     * Get height of textbox
-     *
-     * @return integer
-     */
-    public function getHeight()
-    {
-        return $this->height;
+        return $this->box;
     }
 
     /**
@@ -333,8 +306,30 @@ abstract class AbstractFont
      *
      * @return array
      */
-    public function getLines()
+    public function getLines($text = null)
     {
-        return explode(PHP_EOL, $this->text);
+        $text = is_null($text) ? $this->text : $text;
+
+        return explode(PHP_EOL, $text);
+    }
+
+    /**
+     * Get array of words to be written
+     *
+     * @return array
+     */
+    public function getWords()
+    {
+        return explode(' ', $this->text);
+    }
+
+    /**
+     * Determines if text has defined box size
+     *
+     * @return boolean
+     */
+    protected function isBoxed()
+    {
+        return is_a($this->box, 'Intervention\Image\Size');
     }
 }

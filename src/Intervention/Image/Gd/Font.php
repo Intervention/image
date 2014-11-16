@@ -19,24 +19,28 @@ class Font extends \Intervention\Image\AbstractFont
 
     public function applyToImage(Image $image, $posx = 0, $posy = 0)
     {
+        // format text
+        $text = $this->getFormated();
+
         // box size
-        $box = $this->getBoxSize();
+        $box = $this->isBoxed() ? $this->box : $this->getBoxSize($text);
 
         // draw box (debug)
-        // $image->rectangle($posx, $posy, $posx + $box->getWidth(), $posy + $box->getHeight(), function ($draw) {
-        //     $draw->border(1, '555');
+        // $dbox = $this->getBoxSize($text);
+        // $image->rectangle($posx, $posy, $posx + $dbox->getWidth(), $posy + $dbox->getHeight(), function ($draw) {
+        //     $draw->border(1, 'ff0000');
         // });
 
         // create empty resource
-        $canvas = imagecreatetruecolor($box->getWidth(), $box->getHeight());
+        $canvas = imagecreatetruecolor($box->getWidth()+1, $box->getHeight()+1);
 
-        // set background color transparent (2147483647)
-        imagefill($canvas, 0, 0, 1291845632);
+        // set background color transparent (2147483647 (1291845632))
+        imagefill($canvas, 0, 0, 2147483647);
 
         // parse text color
         $color = new Color($this->color);
 
-        $lines = $this->getLines();
+        $lines = $this->getLines($text);
 
         if ($this->hasApplicableFontFile()) {
 
@@ -48,6 +52,21 @@ class Font extends \Intervention\Image\AbstractFont
             $padding = $this->getPadding();
 
             $box->align(sprintf('%s-%s', $this->align, 'top'));
+
+            $ystart = 0;
+
+            if ($this->isBoxed()) {
+                switch (strtolower($this->valign)) {
+                    case 'bottom':
+                        $ystart = $box->getHeight() - $this->getBoxSize($text)->getHeight();
+                        break;
+                    
+                    case 'center':
+                    case 'middle':
+                        $ystart = ($box->getHeight() - $this->getBoxSize($text)->getHeight()) / 2;
+                        break;
+                }
+            }
 
             // write line by line
             foreach ($lines as $count => $line) {
@@ -61,7 +80,7 @@ class Font extends \Intervention\Image\AbstractFont
                     $this->getPointSize(), // size
                     0, // angle
                     $relative->x, // x 
-                    $baseline->getHeight() + $count * $this->lineHeight * $this->size * 1.5, // y
+                    $ystart + $baseline->getHeight() + $count * $this->lineHeight * $this->size * 1.5, // y
                     $color->getInt(),
                     $this->file,
                     $line
@@ -87,6 +106,10 @@ class Font extends \Intervention\Image\AbstractFont
                 case 'baseline':
                     $box->pivot->moveY($baseline->getHeight());
                     break;
+            }
+
+            if ($this->isBoxed()) {
+                $box->align('top-left');
             }
 
             // rotate canvas
@@ -116,7 +139,7 @@ class Font extends \Intervention\Image\AbstractFont
 
         if ($this->hasApplicableFontFile()) {
 
-            $lines = $this->getLines();
+            $lines = $this->getLines($text);
             $baseline = $this->getGdBoxSize($lines[0]);
 
             $width_values = array();
@@ -175,5 +198,32 @@ class Font extends \Intervention\Image\AbstractFont
         $height = intval(abs($box[5] - $box[1]));
 
         return new Size($width, $height);   
+    }
+
+    private function getFormated()
+    {
+        if ($this->isBoxed()) {
+
+            $line = array();
+            $lines = array();
+
+            foreach ($this->getWords() as $word) {
+                
+                $linesize = $this->getGdBoxSize(
+                    implode(' ', array_merge($line, array($word)))
+                );
+
+                if ($linesize->getWidth() <= $this->box->getWidth() - 4) {
+                    $line[] = $word;
+                } else {
+                    $lines[] = implode(' ', $line);
+                    $line = array($word);
+                }
+            }
+
+            $lines[] = $word;
+
+            return implode(PHP_EOL, $lines);
+        }
     }
 }

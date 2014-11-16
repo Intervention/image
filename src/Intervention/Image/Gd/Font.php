@@ -31,7 +31,7 @@ class Font extends \Intervention\Image\AbstractFont
         $canvas = imagecreatetruecolor($box->getWidth(), $box->getHeight());
 
         // set background color transparent (2147483647)
-        imagefill($canvas, 0, 0, 2147483647);
+        imagefill($canvas, 0, 0, 1291845632);
 
         // parse text color
         $color = new Color($this->color);
@@ -47,15 +47,20 @@ class Font extends \Intervention\Image\AbstractFont
 
             $padding = $this->getPadding();
 
+            $box->align(sprintf('%s-%s', $this->align, 'top'));
+
             // write line by line
             foreach ($lines as $count => $line) {
+
+                $linesize = $this->getGdBoxSize($line);
+                $relative = $box->relativePosition($linesize->align($this->align));
 
                 // draw ttf text
                 imagettftext(
                     $canvas,
                     $this->getPointSize(), // size
                     0, // angle
-                    $padding, // x 
+                    $relative->x, // x 
                     $baseline->getHeight() + $count * $this->lineHeight * $this->size * 1.5, // y
                     $color->getInt(),
                     $this->file,
@@ -63,11 +68,33 @@ class Font extends \Intervention\Image\AbstractFont
                 );
             }
 
+            // valign
+            switch (strtolower($this->valign)) {
+                case 'top':
+                    # nothing to do...
+                    break;
+
+                case 'center':
+                case 'middle':
+                    $box->pivot->moveY(imagesy($canvas) / 2);
+                    break;
+
+                case 'bottom':
+                    $box->pivot->moveY(imagesy($canvas));
+                    break;
+                
+                default:
+                case 'baseline':
+                    $box->pivot->moveY($baseline->getHeight());
+                    break;
+            }
+
+            // rotate canvas
             if ($this->angle != 0) {
                 $canvas = imagerotate($canvas, $this->angle, 2147483647);
                 $box->rotate($this->angle);
             }
-            
+
             // insert canvas
             imagecopy(
                 $image->getCore(), 
@@ -131,6 +158,7 @@ class Font extends \Intervention\Image\AbstractFont
 
     private function getPadding()
     {
+        return 0;
         $correct = $this->angle != 0 ? 2 : 0;
         return ceil($this->size / 20) + $correct;
     }

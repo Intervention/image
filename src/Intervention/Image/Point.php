@@ -51,6 +51,26 @@ class Point
     }
 
     /**
+     * Move X coordinate
+     *
+     * @param integer $x
+     */
+    public function moveX($x)
+    {
+        $this->x = $this->x + intval($x);
+    }
+
+    /**
+     * Move Y coordinate
+     *
+     * @param integer $y
+     */
+    public function moveY($y)
+    {
+        $this->y = $this->y + intval($y);
+    }
+
+    /**
      * Sets both X and Y coordinate
      *
      * @param  integer $x

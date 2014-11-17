@@ -493,6 +493,56 @@ class SizeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(300, $box->pivot->y);
     }
 
+    public function testResizeCanvas()
+    {
+        $box = new Size(300, 200);
+        $box->resizeCanvas(400, 500);
+        $this->assertEquals(400, $box->width);
+        $this->assertEquals(500, $box->height);
+        $this->assertEquals(0, $box->pivot->x);
+        $this->assertEquals(0, $box->pivot->y);
+
+        $box = new Size(300, 200);
+        $box->align('top');
+        $box->resizeCanvas(50, 100, true);
+        $this->assertEquals(400, $box->width);
+        $this->assertEquals(400, $box->height);
+        $this->assertEquals(200, $box->pivot->x);
+        $this->assertEquals(0, $box->pivot->y);
+
+        $box = new Size(300, 200);
+        $box->align('center');
+        $box->resizeCanvas(150, 120, true);
+        $this->assertEquals(600, $box->width);
+        $this->assertEquals(440, $box->height);
+        $this->assertEquals(300, $box->pivot->x);
+        $this->assertEquals(220, $box->pivot->y);
+
+        $box = new Size(300, 200);
+        $box->align('right');
+        $box->resizeCanvas(300, 1000);
+        $this->assertEquals(300, $box->width);
+        $this->assertEquals(1000, $box->height);
+        $this->assertEquals(300, $box->pivot->x);
+        $this->assertEquals(500, $box->pivot->y);
+
+        $box = new Size(300, 200);
+        $box->align('right-bottom');
+        $box->resizeCanvas(50, 100);
+        $this->assertEquals(50, $box->width);
+        $this->assertEquals(100, $box->height);
+        $this->assertEquals(50, $box->pivot->x);
+        $this->assertEquals(100, $box->pivot->y);
+
+        $box = new Size(300, 200);
+        $box->align('bottom');
+        $box->resizeCanvas(50, 100);
+        $this->assertEquals(50, $box->width);
+        $this->assertEquals(100, $box->height);
+        $this->assertEquals(25, $box->pivot->x);
+        $this->assertEquals(100, $box->pivot->y);
+    }
+
     /**
      * @expectedException \Intervention\Image\Exception\InvalidArgumentException
      */

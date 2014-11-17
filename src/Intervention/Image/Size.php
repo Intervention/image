@@ -408,6 +408,29 @@ class Size
     }
 
     /**
+     * Resize rectangular and keeps pivot point relative
+     *
+     * @param  integer $width
+     * @param  integer $height
+     * @param  boolean $relative
+     * @return \Intervention\Image\Size
+     */
+    public function resizeCanvas($width, $height, $relative = false)
+    {
+        $width = $relative ? $this->width + $width * 2 : $width;
+        $height = $relative ? $this->height + $height * 2 : $height;
+
+        $px = $this->pivot->x == 0 ? 0 : $width / ($this->width / $this->pivot->x);
+        $py = $this->pivot->y == 0 ? 0 : $height / ($this->height / $this->pivot->y);
+
+        $this->width = $width;
+        $this->height = $height;
+        $this->setPivot(new Point($px, $py));
+
+        return $this;
+    }
+
+    /**
      * Runs constraints on current size
      *
      * @param  Closure $callback

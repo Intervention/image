@@ -19,6 +19,60 @@ class Font extends \Intervention\Image\AbstractFont
         return intval(ceil($this->size * 0.75));
     }
 
+    /**
+     * Filter function to access internal integer font values
+     *
+     * @return integer
+     */
+    private function getInternalFont()
+    {
+        $internalfont = is_null($this->file) ? 1 : $this->file;
+        $internalfont = is_numeric($internalfont) ? $internalfont : false;
+
+        if ( ! in_array($internalfont, array(1, 2, 3, 4, 5))) {
+            throw new \Intervention\Image\Exception\NotSupportedException(
+                sprintf('Internal GD font (%s) not available. Use only 1-5.', $internalfont)
+            );
+        }
+
+        return intval($internalfont);
+    }
+
+    /**
+     * Get width of an internal font character
+     *
+     * @return integer
+     */
+    private function getInternalFontWidth()
+    {
+        return $this->getInternalFont() + 4;
+    }
+
+    /**
+     * Get height of an internal font character
+     *
+     * @return integer
+     */
+    private function getInternalFontHeight()
+    {
+        switch ($this->getInternalFont()) {
+            case 1:
+                return 8;
+
+            case 2:
+                return 14;
+
+            case 3:
+                return 14;
+
+            case 4:
+                return 16;
+
+            case 5:
+                return 16;
+        }
+    }
+
     public function applyToImage(Image $image, $posx = 0, $posy = 0)
     {
         // format text

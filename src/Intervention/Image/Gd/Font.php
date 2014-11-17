@@ -7,6 +7,8 @@ use \Intervention\Image\Size;
 
 class Font extends \Intervention\Image\AbstractFont
 {
+    const PADDING = 10;
+
     /**
      * Get font size in points
      *
@@ -20,19 +22,16 @@ class Font extends \Intervention\Image\AbstractFont
     public function applyToImage(Image $image, $posx = 0, $posy = 0)
     {
         // format text
-        $text = $this->getFormated();
+        $text = $this->format();
 
         // box size
         $box = $this->isBoxed() ? $this->box : $this->getBoxSize($text);
 
-        // draw box (debug)
-        // $dbox = $this->getBoxSize($text);
-        // $image->rectangle($posx, $posy, $posx + $dbox->getWidth(), $posy + $dbox->getHeight(), function ($draw) {
-        //     $draw->border(1, 'ff0000');
-        // });
-
         // create empty resource
-        $canvas = imagecreatetruecolor($box->getWidth()+1, $box->getHeight()+1);
+        $canvas = imagecreatetruecolor(
+            $box->getWidth() + self::PADDING * 2,
+            $box->getHeight() + self::PADDING * 2
+        );
 
         // set background color transparent (2147483647 (1291845632))
         imagefill($canvas, 0, 0, 2147483647);
@@ -48,8 +47,6 @@ class Font extends \Intervention\Image\AbstractFont
             imagealphablending($image->getCore(), true);
 
             $baseline = $this->getGdBoxSize($lines[0]);
-
-            $padding = $this->getPadding();
 
             $box->align(sprintf('%s-%s', $this->align, 'top'));
 
@@ -79,8 +76,8 @@ class Font extends \Intervention\Image\AbstractFont
                     $canvas,
                     $this->getPointSize(), // size
                     0, // angle
-                    $relative->x, // x 
-                    $ystart + $baseline->getHeight() + $count * $this->lineHeight * $this->size * 1.5, // y
+                    self::PADDING + $relative->x, // x 
+                    self::PADDING + $ystart + $baseline->getHeight() + $count * $this->lineHeight * $this->size * 1.5, // y
                     $color->getInt(),
                     $this->file,
                     $line
@@ -95,11 +92,11 @@ class Font extends \Intervention\Image\AbstractFont
 
                 case 'center':
                 case 'middle':
-                    $box->pivot->moveY(imagesy($canvas) / 2);
+                    $box->pivot->moveY($box->getHeight() / 2);
                     break;
 
                 case 'bottom':
-                    $box->pivot->moveY(imagesy($canvas));
+                    $box->pivot->moveY($box->getHeight());
                     break;
                 
                 default:
@@ -122,8 +119,8 @@ class Font extends \Intervention\Image\AbstractFont
             imagecopy(
                 $image->getCore(), 
                 $canvas, 
-                $posx - $box->pivot->x,
-                $posy - $box->pivot->y, 
+                $posx - $box->pivot->x - self::PADDING,
+                $posy - $box->pivot->y - self::PADDING, 
                 0, 
                 0, 
                 imagesx($canvas), 
@@ -149,15 +146,10 @@ class Font extends \Intervention\Image\AbstractFont
                 $width_values[] = $this->getGdBoxSize($line)->getWidth();
             }
 
-            $padding = $this->getPadding();
-
             $width = max($width_values);
-            $width = $width + $padding * 2;
 
             $height = $baseline->getHeight() + (count($lines) - 1) * $this->lineHeight * $this->size * 1.5;
             $height = $height + $baseline->getHeight() / 3;
-            $height = $height + $padding * 2;
-
 
         } else {
 
@@ -179,13 +171,6 @@ class Font extends \Intervention\Image\AbstractFont
         return new Size($width, $height);
     }
 
-    private function getPadding()
-    {
-        return 0;
-        $correct = $this->angle != 0 ? 2 : 0;
-        return ceil($this->size / 20) + $correct;
-    }
-
     private function getGdBoxSize($text = null)
     {
         $text = is_null($text) ? $this->text : $text;
@@ -200,7 +185,7 @@ class Font extends \Intervention\Image\AbstractFont
         return new Size($width, $height);   
     }
 
-    private function getFormated()
+    private function format()
     {
         if ($this->isBoxed()) {
 
@@ -213,7 +198,7 @@ class Font extends \Intervention\Image\AbstractFont
                     implode(' ', array_merge($line, array($word)))
                 );
 
-                if ($linesize->getWidth() <= $this->box->getWidth() - 4) {
+                if ($linesize->getWidth() <= $this->box->getWidth()) {
                     $line[] = $word;
                 } else {
                     $lines[] = implode(' ', $line);
@@ -221,7 +206,7 @@ class Font extends \Intervention\Image\AbstractFont
                 }
             }
 
-            $lines[] = $word;
+            $lines[] = implode(' ', $line);
 
             return implode(PHP_EOL, $lines);
         }

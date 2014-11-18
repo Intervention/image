@@ -4,6 +4,9 @@ namespace Intervention\Image;
 
 abstract class AbstractFont
 {
+    /**
+     * Security padding to prevent text being cut off
+     */
     const PADDING = 10;
 
     /**

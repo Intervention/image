@@ -105,6 +105,8 @@ class Font extends \Intervention\Image\AbstractFont
             $box->getHeight() + self::PADDING * 2
         );
 
+        imagealphablending($canvas, true);
+
         // set background color transparent (2147483647 (1291845632))
         imagefill($canvas, 0, 0, 2147483647);
 

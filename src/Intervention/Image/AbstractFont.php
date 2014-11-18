@@ -80,6 +80,14 @@ abstract class AbstractFont
     abstract public function applyToImage(Image $image, $posx = 0, $posy = 0);
 
     /**
+     * Calculate boxsize including own features
+     *
+     * @param  string $text
+     * @return \Intervention\Image\Size
+     */
+    abstract public function getBoxSize($text = null);
+
+    /**
      * Get raw boxsize without any non-core features
      *
      * @param  string $text

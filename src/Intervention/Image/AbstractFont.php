@@ -4,6 +4,8 @@ namespace Intervention\Image;
 
 abstract class AbstractFont
 {
+    const PADDING = 10;
+
     /**
      * Text to be written
      *
@@ -76,6 +78,14 @@ abstract class AbstractFont
      * @return boolean
      */
     abstract public function applyToImage(Image $image, $posx = 0, $posy = 0);
+
+    /**
+     * Get raw boxsize without any non-core features
+     *
+     * @param  string $text
+     * @return \Intervention\Image\Size
+     */
+    abstract protected function getCoreBoxSize($text = null);
 
     /**
      * Create a new instance of Font
@@ -331,5 +341,37 @@ abstract class AbstractFont
     protected function isBoxed()
     {
         return is_a($this->box, 'Intervention\Image\Size');
+    }
+
+    /**
+     * Returns formated text according to box settings
+     *
+     * @return string
+     */
+    protected function format()
+    {
+        if ($this->isBoxed()) {
+
+            $line = array();
+            $lines = array();
+
+            foreach ($this->getWords() as $word) {
+                
+                $linesize = $this->getCoreBoxSize(
+                    implode(' ', array_merge($line, array(trim($word))))
+                );
+
+                if ($linesize->getWidth() <= $this->box->getWidth()) {
+                    $line[] = trim($word);
+                } else {
+                    $lines[] = implode(' ', $line);
+                    $line = array(trim($word));
+                }
+            }
+
+            $lines[] = trim(implode(' ', $line));
+
+            return implode(PHP_EOL, $lines);
+        }
     }
 }

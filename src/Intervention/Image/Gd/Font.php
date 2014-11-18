@@ -7,8 +7,6 @@ use \Intervention\Image\Size;
 
 class Font extends \Intervention\Image\AbstractFont
 {
-    const PADDING = 10;
-
     /**
      * Get font size in points
      *
@@ -220,6 +218,12 @@ class Font extends \Intervention\Image\AbstractFont
         
     }
 
+    /**
+     * Calculate boxsize including own features
+     *
+     * @param  string $text
+     * @return \Intervention\Image\Size
+     */
     public function getBoxSize($text = null)
     {
         $text = is_null($text) ? $this->text : $text;
@@ -251,7 +255,13 @@ class Font extends \Intervention\Image\AbstractFont
         return new Size($width, $height);
     }
 
-    private function getCoreBoxSize($text = null)
+    /**
+     * Get raw boxsize without any non-core features
+     *
+     * @param  string $text
+     * @return \Intervention\Image\Size
+     */
+    protected function getCoreBoxSize($text = null)
     {
         $text = is_null($text) ? $this->text : $text;
 
@@ -278,32 +288,5 @@ class Font extends \Intervention\Image\AbstractFont
         }
 
         return new Size($width, $height);   
-    }
-
-    private function format()
-    {
-        if ($this->isBoxed()) {
-
-            $line = array();
-            $lines = array();
-
-            foreach ($this->getWords() as $word) {
-                
-                $linesize = $this->getCoreBoxSize(
-                    implode(' ', array_merge($line, array(trim($word))))
-                );
-
-                if ($linesize->getWidth() <= $this->box->getWidth()) {
-                    $line[] = trim($word);
-                } else {
-                    $lines[] = implode(' ', $line);
-                    $line = array(trim($word));
-                }
-            }
-
-            $lines[] = trim(implode(' ', $line));
-
-            return implode(PHP_EOL, $lines);
-        }
     }
 }

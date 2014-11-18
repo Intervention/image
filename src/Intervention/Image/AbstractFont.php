@@ -5,6 +5,11 @@ namespace Intervention\Image;
 abstract class AbstractFont
 {
     /**
+     * Security padding to prevent text being cut off
+     */
+    const PADDING = 10;
+
+    /**
      * Text to be written
      *
      * @var String
@@ -54,6 +59,20 @@ abstract class AbstractFont
     public $file;
 
     /**
+     * Line height of the text
+     *
+     * @var float
+     */
+    public $lineHeight = 1;
+
+    /**
+     * Textbox
+     *
+     * @var Size
+     */
+    public $box;
+
+    /**
      * Draws font to given image on given position
      *
      * @param  Image   $image
@@ -62,6 +81,22 @@ abstract class AbstractFont
      * @return boolean
      */
     abstract public function applyToImage(Image $image, $posx = 0, $posy = 0);
+
+    /**
+     * Calculate boxsize including own features
+     *
+     * @param  string $text
+     * @return \Intervention\Image\Size
+     */
+    abstract public function getBoxSize($text = null);
+
+    /**
+     * Get raw boxsize without any non-core features
+     *
+     * @param  string $text
+     * @return \Intervention\Image\Size
+     */
+    abstract protected function getCoreBoxSize($text = null);
 
     /**
      * Create a new instance of Font
@@ -221,6 +256,49 @@ abstract class AbstractFont
     }
 
     /**
+     * Set line-height
+     *
+     * @param  float $height
+     * @return void
+     */
+    public function lineHeight($lineHeight)
+    {
+        $this->lineHeight = $lineHeight;
+    }
+
+    /**
+     * Get line-height of instance
+     *
+     * @return float
+     */
+    public function getLineHeight()
+    {
+        return $this->lineHeight;
+    }
+
+    /**
+     * Set size of boxed text
+     *
+     * @param  integer $width
+     * @param  integer $height
+     * @return void
+     */
+    public function box($width, $height)
+    {
+        $this->box = new Size($width, $height);
+    }
+
+    /**
+     * Get width of textbox
+     *
+     * @return integer
+     */
+    public function getBox()
+    {
+        return $this->box;
+    }
+
+    /**
      * Checks if current font has access to an applicable font file
      *
      * @return boolean
@@ -241,6 +319,70 @@ abstract class AbstractFont
      */
     public function countLines()
     {
-        return count(explode(PHP_EOL, $this->text));
+        return count($this->getLines());
+    }
+
+    /**
+     * Get array of lines to be written
+     *
+     * @return array
+     */
+    public function getLines($text = null)
+    {
+        $text = is_null($text) ? $this->text : $text;
+
+        return explode(PHP_EOL, $text);
+    }
+
+    /**
+     * Get array of words to be written
+     *
+     * @return array
+     */
+    public function getWords()
+    {
+        return explode(' ', $this->text);
+    }
+
+    /**
+     * Determines if text has defined box size
+     *
+     * @return boolean
+     */
+    protected function isBoxed()
+    {
+        return is_a($this->box, 'Intervention\Image\Size');
+    }
+
+    /**
+     * Returns formated text according to box settings
+     *
+     * @return string
+     */
+    protected function format()
+    {
+        if ($this->isBoxed()) {
+
+            $line = array();
+            $lines = array();
+
+            foreach ($this->getWords() as $word) {
+                
+                $linesize = $this->getCoreBoxSize(
+                    implode(' ', array_merge($line, array(trim($word))))
+                );
+
+                if ($linesize->getWidth() <= $this->box->getWidth()) {
+                    $line[] = trim($word);
+                } else {
+                    $lines[] = implode(' ', $line);
+                    $line = array(trim($word));
+                }
+            }
+
+            $lines[] = trim(implode(' ', $line));
+
+            return implode(PHP_EOL, $lines);
+        }
     }
 }

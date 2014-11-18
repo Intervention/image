@@ -16,7 +16,7 @@ class TextCommandTest extends PHPUnit_Framework_TestCase
         $driver->shouldReceive('getDriverName')->once()->andReturn('Gd');
         $image = Mockery::mock('\Intervention\Image\Image');
         $image->shouldReceive('getDriver')->once()->andReturn($driver);
-        $image->shouldReceive('getCore')->once()->andReturn($resource);
+        $image->shouldReceive('getCore')->times(2)->andReturn($resource);
         $command = new TextCommand(array('test', 10, 20));
         $result = $command->execute($image);
         $this->assertTrue($result);

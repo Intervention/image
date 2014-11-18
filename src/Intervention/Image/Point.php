@@ -51,14 +51,55 @@ class Point
     }
 
     /**
-     * Sets both X and Y coordinate
+     * Move X coordinate
      *
      * @param integer $x
+     */
+    public function moveX($x)
+    {
+        $this->x = $this->x + intval($x);
+    }
+
+    /**
+     * Move Y coordinate
+     *
      * @param integer $y
+     */
+    public function moveY($y)
+    {
+        $this->y = $this->y + intval($y);
+    }
+
+    /**
+     * Sets both X and Y coordinate
+     *
+     * @param  integer $x
+     * @param  integer $y
+     * @return Point
      */
     public function setPosition($x, $y)
     {
         $this->setX($x);
         $this->setY($y);
+
+        return $this;
+    }
+
+    /**
+     * Rotate point ccw around pivot
+     *
+     * @param  float $angle
+     * @param  Point $pivot
+     * @return Point
+     */
+    public function rotate($angle, Point $pivot)
+    {
+        $sin = round(sin(deg2rad($angle)), 6);
+        $cos = round(cos(deg2rad($angle)), 6);
+
+        $x = $cos * ($this->x - $pivot->x) - $sin * ($this->y - $pivot->y) + $pivot->x;
+        $y = $sin * ($this->x - $pivot->x) + $cos * ($this->y - $pivot->y) + $pivot->y;
+
+        return $this->setPosition($x, $y);
     }
 }

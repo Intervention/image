@@ -355,6 +355,82 @@ class Size
     }
 
     /**
+     * Rotate rectangular size and return bounding rectangle
+     *
+     * @param  float $angle
+     * @return \Intervention\Image\Size
+     */
+    public function rotate($angle)
+    {
+        if ($angle != 0) {
+
+            // recreate rectangle with 4 points
+            $points = array(
+                new Point(0, 0),
+                new Point($this->width, 0),
+                new Point($this->width, $this->height * (-1)),
+                new Point(0, $this->height * (-1))
+            );
+
+            $x_values = array();
+            $y_values = array();
+
+            $pivot = clone $this->pivot;
+            $pivot->y = $pivot->y * (-1);
+            
+            // rotate 4 points
+            foreach ($points as $point) {
+                $point->rotate($angle, $pivot);
+                $x_values[] = $point->x;
+                $y_values[] = $point->y;
+            }
+
+            // find max/min x/y values
+            $max_x_value = max($x_values);
+            $max_y_value = max($y_values);
+            $min_x_value = min($x_values);
+            $min_y_value = min($y_values);
+
+            // set new bounding box
+            $this->set(
+                abs($min_x_value - $max_x_value),
+                abs($min_y_value - $max_y_value)
+            );
+
+            // set new pivot
+            $this->setPivot($pivot->setPosition(
+                abs($pivot->x + $min_x_value * (-1)), 
+                abs($pivot->y + $max_y_value * (-1))
+            ));
+        }
+        
+        return $this;
+    }
+
+    /**
+     * Resize rectangular and keeps pivot point relative
+     *
+     * @param  integer $width
+     * @param  integer $height
+     * @param  boolean $relative
+     * @return \Intervention\Image\Size
+     */
+    public function resizeCanvas($width, $height, $relative = false)
+    {
+        $width = $relative ? $this->width + $width * 2 : $width;
+        $height = $relative ? $this->height + $height * 2 : $height;
+
+        $px = $this->pivot->x == 0 ? 0 : $width / ($this->width / $this->pivot->x);
+        $py = $this->pivot->y == 0 ? 0 : $height / ($this->height / $this->pivot->y);
+
+        $this->width = $width;
+        $this->height = $height;
+        $this->setPivot(new Point($px, $py));
+
+        return $this;
+    }
+
+    /**
      * Runs constraints on current size
      *
      * @param  Closure $callback

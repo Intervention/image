@@ -69,18 +69,14 @@ class AbstractFontTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(1.5, $font->lineHeight);
     }
 
-    public function testWidth()
+    public function testBox()
     {
         $font = $this->getMockForAbstractClass('\Intervention\Image\AbstractFont');
-        $font->width(300);
-        $this->assertEquals(300, $font->width);
-    }
-
-    public function testHeight()
-    {
-        $font = $this->getMockForAbstractClass('\Intervention\Image\AbstractFont');
-        $font->height(200);
-        $this->assertEquals(200, $font->height);
+        $this->assertEquals(null, $font->box);
+        $font->box(300, 200);
+        $this->assertInstanceOf('Intervention\Image\Size', $font->box);
+        $this->assertEquals(300, $font->box->width);
+        $this->assertEquals(200, $font->box->height);
     }
 
     public function testCountLines()
@@ -101,5 +97,19 @@ class AbstractFontTest extends PHPUnit_Framework_TestCase
         $font = $this->getMockForAbstractClass('\Intervention\Image\AbstractFont');
         $font->text('foo'.PHP_EOL.'bar'.PHP_EOL.'baz');
         $this->assertEquals(array('foo', 'bar', 'baz'), $font->getLines());
+    }
+
+    public function testGetWord()
+    {
+        $font = $this->getMockForAbstractClass('\Intervention\Image\AbstractFont');
+
+        $font->text('foo bar baz');
+        $this->assertEquals(array('foo', 'bar', 'baz'), $font->getWords());
+
+        $font->text('foo bar');
+        $this->assertEquals(array('foo', 'bar'), $font->getWords());
+
+        $font->text('foo');
+        $this->assertEquals(array('foo'), $font->getWords());
     }
 }

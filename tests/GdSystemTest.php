@@ -1028,13 +1028,14 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
 
         
         $img = $this->manager()->canvas(16, 16, 'ffffff');
-        $img = $img->text('0', 8, 2, function($font) {
+        $img = $img->text('0', 8, 8, function($font) {
+            $font->file(3);
             $font->align('center');
-            $font->valign('top');
+            $font->valign('center');
             $font->color('000000');
         });
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertEquals('649f3f529d3931c56601155fd2680959', $img->checksum());
+        $this->assertEquals('ccb8b439d7e327089682094939564934', $img->checksum());
         
         $img = $this->manager()->canvas(16, 16, 'ffffff');
         $img = $img->text('0', 8, 8, function($font) {
@@ -1044,7 +1045,20 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
             $font->color('000000');
         });
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertEquals('c0dda67589c46a90d78a97b891a811ee', $img->checksum());
+        $this->assertEquals('496be71507490098ead374f6d6c359fe', $img->checksum());
+
+        $img = $this->manager()->canvas(100, 100, 'ffffff');
+        $txt = 'The quick brown fox jumps over the lazy dog';
+        $img = $img->text($txt, 10, 10, function($font) {
+            $font->align('center');
+            $font->valign('top');
+            $font->file(2);
+            $font->color('000000');
+            $font->lineHeight(1.4);
+            $font->box(80, 80);
+        })->save('tests/tmp/grrrr.png');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('7a6eafce0c071f3be91342d62e41fb9d', $img->checksum());
     }
 
     public function testRectangleImage()

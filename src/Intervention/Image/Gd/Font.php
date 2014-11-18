@@ -73,6 +73,26 @@ class Font extends \Intervention\Image\AbstractFont
         }
     }
 
+    private function getInternalFontBaseline()
+    {
+        switch ($this->getInternalFont()) {
+            case 1:
+                return 6;
+
+            case 2:
+                return 10;
+
+            case 3:
+                return 10;
+
+            case 4:
+                return 12;
+
+            case 5:
+                return 12;
+        }
+    }
+
     public function applyToImage(Image $image, $posx = 0, $posy = 0)
     {
         // format text
@@ -95,35 +115,32 @@ class Font extends \Intervention\Image\AbstractFont
 
         $lines = $this->getLines($text);
 
-        if ($this->hasApplicableFontFile()) {
+        $baseline = $this->getCoreBoxSize($lines[0]);
 
-            // enable alphablending for imagettftext
-            imagealphablending($image->getCore(), true);
+        $box->align(sprintf('%s-%s', $this->align, 'top'));
 
-            $baseline = $this->getGdBoxSize($lines[0]);
+        $ystart = 0;
 
-            $box->align(sprintf('%s-%s', $this->align, 'top'));
-
-            $ystart = 0;
-
-            if ($this->isBoxed()) {
-                switch (strtolower($this->valign)) {
-                    case 'bottom':
-                        $ystart = $box->getHeight() - $this->getBoxSize($text)->getHeight();
-                        break;
-                    
-                    case 'center':
-                    case 'middle':
-                        $ystart = ($box->getHeight() - $this->getBoxSize($text)->getHeight()) / 2;
-                        break;
-                }
+        if ($this->isBoxed()) {
+            switch (strtolower($this->valign)) {
+                case 'bottom':
+                    $ystart = $box->getHeight() - $this->getBoxSize($text)->getHeight();
+                    break;
+                
+                case 'center':
+                case 'middle':
+                    $ystart = ($box->getHeight() - $this->getBoxSize($text)->getHeight()) / 2;
+                    break;
             }
+        }
 
-            // write line by line
-            foreach ($lines as $count => $line) {
+        // write line by line
+        foreach ($lines as $count => $line) {
 
-                $linesize = $this->getGdBoxSize($line);
-                $relative = $box->relativePosition($linesize->align($this->align));
+            $linesize = $this->getCoreBoxSize(trim($line));
+            $relative = $box->relativePosition($linesize->align($this->align));
+
+            if ($this->hasApplicableFontFile()) {
 
                 // draw ttf text
                 imagettftext(
@@ -136,105 +153,129 @@ class Font extends \Intervention\Image\AbstractFont
                     $this->file,
                     $line
                 );
+
+            } else {
+
+                // draw text
+                imagestring(
+                    $canvas,
+                    $this->getInternalFont(),
+                    self::PADDING + $relative->x, // x
+                    self::PADDING + $ystart + $count * $this->lineHeight * $baseline->getHeight(), // y
+                    trim($line),
+                    $color->getInt()
+                );
+
             }
-
-            // valign
-            switch (strtolower($this->valign)) {
-                case 'top':
-                    # nothing to do...
-                    break;
-
-                case 'center':
-                case 'middle':
-                    $box->pivot->moveY($box->getHeight() / 2);
-                    break;
-
-                case 'bottom':
-                    $box->pivot->moveY($box->getHeight());
-                    break;
-                
-                default:
-                case 'baseline':
-                    $box->pivot->moveY($baseline->getHeight());
-                    break;
-            }
-
-            if ($this->isBoxed()) {
-                $box->align('top-left');
-            }
-
-            // rotate canvas
-            if ($this->angle != 0) {
-                $canvas = imagerotate($canvas, $this->angle, 2147483647);
-                $box->rotate($this->angle);
-            }
-
-            // insert canvas
-            imagecopy(
-                $image->getCore(), 
-                $canvas, 
-                $posx - $box->pivot->x - self::PADDING,
-                $posy - $box->pivot->y - self::PADDING, 
-                0, 
-                0, 
-                imagesx($canvas), 
-                imagesy($canvas)
-            );
 
         }
+
+        // valign
+        switch (strtolower($this->valign)) {
+            case 'top':
+            # nothing to do...
+            break;
+
+            case 'center':
+            case 'middle':
+            $box->pivot->moveY($box->getHeight() / 2);
+            break;
+
+            case 'bottom':
+            $box->pivot->moveY($box->getHeight());
+            break;
+
+            default:
+            case 'baseline':
+            $baseline = $this->hasApplicableFontFile() ? $baseline->getHeight() : $this->getInternalFontBaseline();
+            $box->pivot->moveY($baseline);
+            break;
+        }
+
+        if ($this->isBoxed()) {
+            $box->align('top-left');
+        }
+
+        // rotate canvas
+        if ($this->angle != 0) {
+            $canvas = imagerotate($canvas, $this->angle, 2147483647);
+            $box->rotate($this->angle);
+        }
+
+        // enable alphablending for imagecopy
+        imagealphablending($image->getCore(), true);
+
+        // insert canvas
+        imagecopy(
+            $image->getCore(), 
+            $canvas, 
+            $posx - $box->pivot->x - self::PADDING,
+            $posy - $box->pivot->y - self::PADDING, 
+            0, 
+            0, 
+            imagesx($canvas), 
+            imagesy($canvas)
+        );
+
+        
     }
 
     public function getBoxSize($text = null)
     {
         $text = is_null($text) ? $this->text : $text;
 
+        $lines = $this->getLines($text);
+        $baseline = $this->getCoreBoxSize($lines[0]);
+
+        $width_values = array();
+
+        // cycle through each line
+        foreach ($lines as $line) {
+            $width_values[] = $this->getCoreBoxSize($line)->getWidth();
+        }
+
+        // maximal line width is box width
+        $width = max($width_values);
+
         if ($this->hasApplicableFontFile()) {
-
-            $lines = $this->getLines($text);
-            $baseline = $this->getGdBoxSize($lines[0]);
-
-            $width_values = array();
-
-            // cycle through each line
-            foreach ($lines as $line) {
-                $width_values[] = $this->getGdBoxSize($line)->getWidth();
-            }
-
-            $width = max($width_values);
 
             $height = $baseline->getHeight() + (count($lines) - 1) * $this->lineHeight * $this->size * 1.5;
             $height = $height + $baseline->getHeight() / 3;
 
         } else {
+            
+            $height = $baseline->getHeight() + (count($lines) - 1) * $this->lineHeight * $this->getInternalFontHeight();
 
-            // get current internal font size
-            $w = $this->getInternalFontWidth();
-            $h = $this->getInternalFontHeight();
-
-            if (strlen($this->text) == 0) {
-                // no text -> no boxsize
-                $width = 0;
-                $height = 0;
-            } else {
-                // calculate boxsize
-                $width = strlen($this->text) * $w;
-                $height = $h;
-            }
         }
 
         return new Size($width, $height);
     }
 
-    private function getGdBoxSize($text = null)
+    private function getCoreBoxSize($text = null)
     {
         $text = is_null($text) ? $this->text : $text;
 
-        // get boxsize
-        $box = imagettfbbox($this->getPointSize(), 0, $this->file, $text);
+        if ($this->hasApplicableFontFile()) {
             
-        // calculate width/height
-        $width = intval(abs($box[4] - $box[0]));
-        $height = intval(abs($box[5] - $box[1]));
+            // get boxsize
+            $box = imagettfbbox($this->getPointSize(), 0, $this->file, $text);
+            
+            // calculate width/height
+            $width = intval(abs($box[4] - $box[0]));
+            $height = intval(abs($box[5] - $box[1]));
+
+        } else {
+
+            if (strlen($text) == 0) {
+                // no text -> no boxsize
+                $width = 0;
+                $height = 0;
+            } else {
+                // calculate boxsize
+                $width = strlen($text) * $this->getInternalFontWidth();
+                $height = $this->getInternalFontHeight();
+            }
+        }
 
         return new Size($width, $height);   
     }
@@ -248,19 +289,19 @@ class Font extends \Intervention\Image\AbstractFont
 
             foreach ($this->getWords() as $word) {
                 
-                $linesize = $this->getGdBoxSize(
-                    implode(' ', array_merge($line, array($word)))
+                $linesize = $this->getCoreBoxSize(
+                    implode(' ', array_merge($line, array(trim($word))))
                 );
 
                 if ($linesize->getWidth() <= $this->box->getWidth()) {
-                    $line[] = $word;
+                    $line[] = trim($word);
                 } else {
                     $lines[] = implode(' ', $line);
-                    $line = array($word);
+                    $line = array(trim($word));
                 }
             }
 
-            $lines[] = implode(' ', $line);
+            $lines[] = trim(implode(' ', $line));
 
             return implode(PHP_EOL, $lines);
         }

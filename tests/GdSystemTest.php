@@ -1056,7 +1056,7 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
             $font->color('000000');
             $font->lineHeight(1.4);
             $font->box(80, 80);
-        })->save('tests/tmp/grrrr.png');
+        });
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertEquals('7a6eafce0c071f3be91342d62e41fb9d', $img->checksum());
     }

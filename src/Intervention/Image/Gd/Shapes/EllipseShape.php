@@ -43,13 +43,20 @@ class EllipseShape extends \Intervention\Image\AbstractShape
      */
     public function applyToImage(Image $image, $x = 0, $y = 0)
     {
+        // parse background color
         $background = new Color($this->background);
-        imagefilledellipse($image->getCore(), $x, $y, $this->width, $this->height, $background->getInt());
 
         if ($this->hasBorder()) {
+            // slightly smaller ellipse to keep 1px bordered edges clean
+            imagefilledellipse($image->getCore(), $x, $y, $this->width-1, $this->height-1, $background->getInt());
+
             $border_color = new Color($this->border_color);
             imagesetthickness($image->getCore(), $this->border_width);
-            imageellipse($image->getCore(), $x, $y, $this->width, $this->height, $border_color->getInt());
+
+            // gd's imageellipse doesn't respect imagesetthickness so i use imagearc with 359.9 degrees here
+            imagearc($image->getCore(), $x, $y, $this->width, $this->height, 0, 359.99, $border_color->getInt());
+        } else {
+            imagefilledellipse($image->getCore(), $x, $y, $this->width, $this->height, $background->getInt());
         }
 
         return true;

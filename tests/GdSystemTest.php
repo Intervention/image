@@ -1065,14 +1065,14 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
     {
         $img = $this->manager()->canvas(16, 16, 'ffffff');
         $img->ellipse(12, 8, 8, 8, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
-        $this->assertEquals('d56363fd454ad6e25a23c2a4a7c77998', $img->checksum());
+        $this->assertEquals('080d9dd92ebe22f976c3c703cba33510', $img->checksum());
     }
 
     public function testCircleImage()
     {
         $img = $this->manager()->canvas(16, 16, 'ffffff');
         $img->circle(12, 8, 8, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
-        $this->assertEquals('c214f58de03d171f7f278a7b957bab50', $img->checksum());
+        $this->assertEquals('c3bff06c20244ba14e898e39ea0efd76', $img->checksum());
     }
 
     public function testPolygonImage()

@@ -143,4 +143,16 @@ class Encoder extends \Intervention\Image\AbstractEncoder
 
         return $imagick->getImagesBlob();
     }
+
+    /**
+     * Processes and returns encoded image as Webp string
+     *
+     * @return string
+     */
+    protected function processWebp()
+    {
+        throw new \Intervention\Image\Exception\NotSupportedException(
+            "Webp format is not supported by Imagick Driver."
+        );
+    }
 }

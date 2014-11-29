@@ -48,7 +48,16 @@ class Response
     {
         $this->image->encode($this->format, $this->quality);
         $data = $this->image->getEncoded();
-        $mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $data);
+
+        // WebP not recognised in finfo yet - without this exception, the
+        // mime type comes back as application/octet-stream, with Chrome
+        // downloading rather than showing the image
+        if ($this->format == 'webp' || $this->format == 'image/webp') {
+            $mime = 'image/webp';
+        } else {
+            $mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $data);
+        }
+
         $length = strlen($data);
 
         if (function_exists('app') && is_a($app = app(), 'Illuminate\Foundation\Application')) {

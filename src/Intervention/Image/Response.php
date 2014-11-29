@@ -34,6 +34,12 @@ class Response
      */
     public function __construct(Image $image, $format = null, $quality = null)
     {
+        // Add a webp exception as support (GD in particular) is pretty patchy at the
+        // moment (201411). Once GD, fileinfo et al consistently recognise webp as a
+        // legit format, this can be pulled back out.
+        if ($image->mime == 'application/octet-stream' && Image::detectWebp($image->encoded)) {
+            $image->mime = 'image/webp';
+        }
         $this->image = $image;
         $this->format = $format ? $format : $image->mime;
         $this->quality = $quality ? $quality : 90;

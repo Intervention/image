@@ -4,15 +4,23 @@ namespace Intervention\Image\Tools\Gif;
 
 class Frame
 {
+    public $graphicsControlExtension;
+    public $imageDescriptor;
+    public $imageData;
+    public $localColorTable;
+    public $interlaced;
+    public $offset;
+    public $size;
+
     /**
      * Determines if property is already set
      *
      * @param  string  $name
      * @return boolean
      */
-    public function hasProperty($name)
+    public function propertyIsSet($name)
     {
-        return property_exists($this, $name);
+        return $this->{$name} !== null;
     }
 
     /**

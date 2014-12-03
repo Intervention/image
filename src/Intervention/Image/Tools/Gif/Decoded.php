@@ -287,26 +287,24 @@ class Decoded
     {
         $added = false;
 
-        if (count($this->frames)) {
-            foreach ($this->frames as $key => $frame) {
-                if ( ! $frame->hasProperty($property)) {
-                    $this->frames[$key]->setProperty($property, $value);
-                    $added = true;
-                    break;
-                }
+        foreach ($this->frames as $key => $frame) {
+            if ( ! $frame->propertyIsSet($property)) {
+                $frame->setProperty($property, $value);
+                $added = true;
+                break;
             }
+        }
 
-            if ( ! $added) {
-                $frame = new Frame;
-                $this->frames[] = $frame->setProperty($property, $value);
-            }
-
-        } else {
-            // add frame if no frames have been added yet
-            $frame = new Frame;
-            $this->frames[] = $frame->setProperty($property, $value);
+        if ( ! $added) {
+            $this->newFrameWithProperty($property, $value);
         }
 
         return $added;
+    }
+
+    private function newFrameWithProperty($property, $value)
+    {
+        $frame = new Frame;
+        $this->frames[] = $frame->setProperty($property, $value);
     }
 }

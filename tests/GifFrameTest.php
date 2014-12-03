@@ -4,27 +4,27 @@ use Intervention\Image\Tools\Gif\Frame;
 
 class GifFrameTest extends PHPUnit_Framework_TestCase
 {
-    public function testHasProperty()
+    public function testPropertyIsSet()
     {
         $frame = new Frame;
-        $this->assertFalse($frame->hasProperty('foo'));
+        $this->assertFalse($frame->propertyIsSet('foo'));
 
         $frame = new Frame;
         $frame->foo = 'bar';
-        $this->assertTrue($frame->hasProperty('foo'));
+        $this->assertTrue($frame->propertyIsSet('foo'));
 
         $frame = new Frame;
-        $frame->foo = null;
-        $this->assertTrue($frame->hasProperty('foo'));
+        $frame->foo = false;
+        $this->assertTrue($frame->propertyIsSet('foo'));
     }
 
     public function testSetProperty()
     {
         $frame = new Frame;
-        $this->assertFalse($frame->hasProperty('foo'));
+        $this->assertFalse($frame->propertyIsSet('foo'));
         $test = $frame->setProperty('foo', 'bar');
         $this->assertEquals('bar', $frame->foo);
-        $this->assertTrue($frame->hasProperty('foo'));
+        $this->assertTrue($frame->propertyIsSet('foo'));
         $this->assertInstanceOf('Intervention\Image\Tools\Gif\Frame', $test);
     }
 
@@ -56,5 +56,19 @@ class GifFrameTest extends PHPUnit_Framework_TestCase
         $frame = new Frame;
         $frame->setProperty('graphicsControlExtension', "\x04\x01\x14\x00\xF1\x00");
         $this->assertEquals("\xF1", $frame->getTransparentColorIndex());
+    }
+
+    public function testGetDisposalMethod()
+    {
+        $frame = new Frame;
+        $this->assertEquals(0, $frame->getDisposalMethod());
+
+        $frame = new Frame;
+        $frame->setProperty('graphicsControlExtension', "\x04\x05\x14\x00\xF1\x00");
+        $this->assertEquals(1, $frame->getDisposalMethod());
+
+        $frame = new Frame;
+        $frame->setProperty('graphicsControlExtension', "\x04\x0C\x14\x00\xF1\x00");
+        $this->assertEquals(3, $frame->getDisposalMethod());
     }
 }

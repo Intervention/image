@@ -4,6 +4,10 @@ namespace Intervention\Image\Tools\Gif;
 
 class Frame
 {
+    const DISPOSAL_METHOD_LEAVE = 1;
+    const DISPOSAL_METHOD_BACKGROUND = 2;
+    const DISPOSAL_METHOD_PREVIOUS = 3;
+
     public $graphicsControlExtension;
     public $imageDescriptor;
     public $imageData;
@@ -20,7 +24,7 @@ class Frame
      */
     public function propertyIsSet($name)
     {
-        return $this->{$name} !== null;
+        return property_exists($this, $name) && ($this->{$name} !== null);
     }
 
     /**
@@ -63,7 +67,7 @@ class Frame
      */
     public function getDelay()
     {
-        if (property_exists($this, 'graphicsControlExtension') && $this->graphicsControlExtension) {
+        if ($this->graphicsControlExtension) {
             $byte = substr($this->graphicsControlExtension, 2, 2);
             return (int) unpack('v', $byte)[1];
         }
@@ -78,7 +82,7 @@ class Frame
      */
     public function hasTransparentColor()
     {
-        if (property_exists($this, 'graphicsControlExtension') && $this->graphicsControlExtension) {
+        if ($this->graphicsControlExtension) {
             $byte = substr($this->graphicsControlExtension, 1, 1);
             $byte = unpack('C', $byte)[1];
             $bit = $byte & bindec('00000001');
@@ -96,11 +100,24 @@ class Frame
      */
     public function getTransparentColorIndex()
     {
-        if (property_exists($this, 'graphicsControlExtension') && $this->graphicsControlExtension) {
+        if ($this->graphicsControlExtension) {
             return substr($this->graphicsControlExtension, 4, 1);
         }
 
         return false;        
+    }
+
+    public function getDisposalMethod()
+    {
+        if ($this->graphicsControlExtension) {
+            $byte = substr($this->graphicsControlExtension, 1, 1);
+            $byte = unpack('C', $byte)[1];
+            $method = $byte >> 2 & bindec('00000111');
+
+            return $method;
+        }
+
+        return 0;
     }
 
     /**

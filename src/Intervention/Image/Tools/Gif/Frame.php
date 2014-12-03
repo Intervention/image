@@ -129,4 +129,9 @@ class Frame
     {
         return $this->interlaced;
     }
+
+    public function getImageData()
+    {
+        return $this->imageData;
+    }
 }

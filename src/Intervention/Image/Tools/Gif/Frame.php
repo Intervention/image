@@ -12,9 +12,12 @@ class Frame
     public $imageDescriptor;
     public $imageData;
     public $localColorTable;
+    public $transparentColorIndex;
+    public $disposalMethod;
     public $interlaced;
     public $offset;
     public $size;
+    public $delay;
 
     /**
      * Determines if property is already set
@@ -40,6 +43,18 @@ class Frame
         return $this;
     }
 
+    public function setImageData($value)
+    {
+        $this->imageData = $value;
+
+        return $this;
+    }
+
+    public function getImageData()
+    {
+        return $this->imageData;
+    }
+
     /**
      * Determines if instance has local color table
      *
@@ -60,12 +75,31 @@ class Frame
         return $this->localColorTable;
     }
 
+    public function setLocalColorTable($value)
+    {
+        $this->localColorTable = $value;
+
+        return $this;
+    }
+
+    public function getDelay()
+    {
+        return $this->delay;
+    }
+
+    public function setDelay($delay)
+    {
+        $this->delay = $delay;
+
+        return $this;
+    }
+
     /**
      * Returns delay of current instance
      *
      * @return int
      */
-    public function getDelay()
+    public function decodeDelay()
     {
         if ($this->graphicsControlExtension) {
             $byte = substr($this->graphicsControlExtension, 2, 2);
@@ -93,12 +127,24 @@ class Frame
         return false;
     }
 
+    public function getTransparentColorIndex()
+    {
+        return $this->transparentColorIndex;
+    }
+
+    public function setTransparentColorIndex($value)
+    {
+        $this->transparentColorIndex = $value;
+
+        return $this;
+    }
+
     /**
      * Returns index byte of transparent color
      *
      * @return string
      */
-    public function getTransparentColorIndex()
+    public function decodeTransparentColorIndex()
     {
         if ($this->graphicsControlExtension) {
             return substr($this->graphicsControlExtension, 4, 1);
@@ -108,6 +154,18 @@ class Frame
     }
 
     public function getDisposalMethod()
+    {
+        return $this->disposalMethod;
+    }
+
+    public function setDisposalMethod($value)
+    {
+        $this->disposalMethod = $value;
+
+        return $this;
+    }
+
+    public function decodeDisposalMethod()
     {
         if ($this->graphicsControlExtension) {
             $byte = substr($this->graphicsControlExtension, 1, 1);
@@ -128,10 +186,5 @@ class Frame
     public function isInterlaced()
     {
         return $this->interlaced;
-    }
-
-    public function getImageData()
-    {
-        return $this->imageData;
     }
 }

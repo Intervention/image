@@ -25,9 +25,13 @@ class Decoder
      *
      * @param string $path
      */
-    public function __construct($path)
+    public function __construct($path = null)
     {
-        $this->handle = fopen($path, 'rb');
+        if (is_null($path)) {
+            $this->handle = fopen('php://memory', 'r+');
+        } else {
+            $this->handle = fopen($path, 'rb');
+        }
     }
 
     /**
@@ -36,6 +40,14 @@ class Decoder
     public function __destruct()
     {
         fclose($this->handle);
+    }
+
+    public function initFromData($data)
+    {
+        fwrite($this->handle, $data);
+        rewind($this->handle);
+
+        return $this;
     }
 
     /**

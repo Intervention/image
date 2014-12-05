@@ -21,6 +21,21 @@ class GifDecoderTest extends PHPUnit_Framework_TestCase
         return new Decoder($file);
     }
 
+    public function testConstructorFromFile()
+    {
+        $decoder = new Decoder('tests/images/animation.gif');
+        $this->assertInstanceOf('Intervention\Image\Tools\Gif\Decoder', $decoder);
+    }
+
+    public function testInitFromData()
+    {
+        $data = file_get_contents('tests/images/animation.gif');
+
+        $decoder = new Decoder;
+        $decoder->initFromData($data);
+        $this->assertInstanceOf('Intervention\Image\Tools\Gif\Decoder', $decoder);
+    }
+
     public function testDecode()
     {
         $decoded = $this->decoder->decode();

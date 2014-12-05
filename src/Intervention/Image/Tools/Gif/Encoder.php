@@ -85,9 +85,23 @@ class Encoder
         $this->frames[] = $frame;
     }
 
-    public function newFrame()
+    public function createFrame()
     {
         $frame = new Frame;
+
+        $this->frames[] = $frame;
+    }
+
+    public function createFrameFromGdResource($resource, $delay = null)
+    {
+        // get imagedata from resource
+        $gifdata = $this->encodeGdResource($resource);
+        $decoder = new Decoder;
+        $gif = $decoder->initFromData($gifdata)->decode();
+
+        $frame = $gif->getFrames()[0];
+        $frame->setLocalColorTable($gif->getGlobalColorTable());
+        $frame->setDelay($delay);
 
         $this->frames[] = $frame;
     }
@@ -241,6 +255,16 @@ class Encoder
     private function hasGlobalColorTable()
     {
         return isset($this->globalColorTable);
+    }
+
+    private function encodeGdResource($resource)
+    {
+        ob_start();
+        imagegif($resource);
+        $buffer = ob_get_contents();
+        ob_end_clean();
+
+        return $buffer;
     }
 
     public function isAnimated()

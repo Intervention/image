@@ -72,6 +72,21 @@ class ImageManagerStatic
     }
 
     /**
+     * Creates a new animation
+     *
+     * @param  integer  $width
+     * @param  integer  $height
+     * @param  \Closure $callback
+     * @param  integer  $loops
+     *
+     * @return \Intervention\Image\Image
+     */
+    public static function animate($width, $height, $callback = null, $loops = null)
+    {
+        return self::getManager()->animate($width, $height, $callback, $loops);
+    }
+
+    /**
      * Create new cached image and run callback statically
      *
      * @param  Closure  $callback

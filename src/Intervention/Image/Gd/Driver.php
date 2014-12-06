@@ -46,6 +46,23 @@ class Driver extends \Intervention\Image\AbstractDriver
     }
 
     /**
+     * Creates a new animation image instance
+     *
+     * @param  integer  $width
+     * @param  integer  $height
+     * @param  \Closure $callback
+     * @param  integer  $loops
+     *
+     * @return \Intervention\Image\Image
+     */
+    public function newAnimation($width, $height, $callback = null, $loops = null)
+    {
+        $image = new \Intervention\Image\Image(new self, $core);
+
+        return $image;
+    }
+
+    /**
      * Reads given string into color object
      *
      * @param  string $value

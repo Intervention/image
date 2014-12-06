@@ -64,6 +64,21 @@ class ImageManager
     }
 
     /**
+     * Creates a new animation
+     *
+     * @param  integer  $width
+     * @param  integer  $height
+     * @param  \Closure $callback
+     * @param  integer  $loops
+     *
+     * @return \Intervention\Image\Image
+     */
+    public function animate($width, $height, $callback = null, $loops = null)
+    {
+        return $this->createDriver()->newAnimation($width, $height, $callback, $loops);
+    }
+
+    /**
      * Create new cached image and run callback
      * (requires additional package intervention/imagecache)
      *

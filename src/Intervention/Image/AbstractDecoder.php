@@ -54,6 +54,23 @@ abstract class AbstractDecoder
     }
 
     /**
+     * Init from fiven URL
+     *
+     * @param  string $url
+     * @return \Intervention\Image\Image
+     */
+    public function initFromUrl($url)
+    {
+        if ($data = @file_get_contents($url)) {
+            return $this->initFromBinary($data);
+        }
+
+        throw new \Intervention\Image\Exception\NotReadableException(
+            "Unable to init from given url (".$url.")."
+        );
+    }
+
+    /**
      * Determines if current source data is GD resource
      *
      * @return boolean
@@ -225,7 +242,7 @@ abstract class AbstractDecoder
                 return $this->initFromBinary($this->data);
 
             case $this->isUrl():
-                return $this->initFromBinary(file_get_contents($this->data));
+                return $this->initFromUrl($this->data);
 
             case $this->isFilePath():
                 return $this->initFromPath($this->data);

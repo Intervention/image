@@ -204,7 +204,7 @@ abstract class AbstractDecoder
      */
     private function decodeDataUrl($data_url)
     {
-        $pattern = "/^data:(?:image\/.+)(?:charset=\".+\")?;base64,(?P<data>.+)$/";
+        $pattern = "/^data:(?:image\/[a-zA-Z\-\.]+)(?:charset=\".+\")?;base64,(?P<data>.+)$/";
         preg_match($pattern, $data_url, $matches);
 
         if (is_array($matches) && array_key_exists('data', $matches)) {

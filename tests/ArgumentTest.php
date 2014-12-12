@@ -397,6 +397,17 @@ class ArgumentTest extends PHPUnit_Framework_TestCase
         $arg->max(10);
     }
 
+    public function testValueDefault()
+    {
+        $arg = new Argument($this->getMockedCommand());
+        $value = $arg->value('foo');
+        $this->assertEquals('foo', $value);
+
+        $arg = new Argument($this->getMockedCommand(array(null)));
+        $value = $arg->value('foo');
+        $this->assertEquals('foo', $value);
+    }
+
     private function validateArgument($argument, $value)
     {
         $this->assertInstanceOf('\Intervention\Image\Commands\Argument', $argument);

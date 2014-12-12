@@ -52,8 +52,10 @@ class Argument
         $arguments = $this->command->arguments;
 
         if (is_array($arguments)) {
-            return array_key_exists($this->key, $arguments) ? $arguments[$this->key] : $default;
+            return isset($arguments[$this->key]) ? $arguments[$this->key] : $default;
         }
+
+        return $default;
     }
 
     /**

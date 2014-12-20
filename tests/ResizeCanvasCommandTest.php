@@ -56,8 +56,10 @@ class ResizeCanvasCommandTest extends PHPUnit_Framework_TestCase
         $imagick->shouldReceive('setimagepage')->with(0, 0, 0, 0)->once();
         $imagick->shouldReceive('drawimage')->once();
         $imagick->shouldReceive('transparentpaintimage')->once();
+        $imagick->shouldReceive('getimagecolorspace')->once();
+        $imagick->shouldReceive('setimagecolorspace')->once();
 
-        $canvas->shouldReceive('getCore')->times(5)->andReturn($imagick);
+        $canvas->shouldReceive('getCore')->times(6)->andReturn($imagick);
         $canvas->shouldReceive('getSize')->andReturn($canvas_size);
         $canvas->shouldReceive('pickColor')->with(0, 0, 'hex')->once()->andReturn('#000000');
         $driver = Mockery::mock('\Intervention\Image\Gd\Driver');
@@ -67,7 +69,7 @@ class ResizeCanvasCommandTest extends PHPUnit_Framework_TestCase
         $image->shouldReceive('getSize')->once()->andReturn($image_size);
         $image->shouldReceive('getWidth')->once()->andReturn(800);
         $image->shouldReceive('getHeight')->once()->andReturn(600);
-        $image->shouldReceive('getCore')->times(2)->andReturn($imagick);
+        $image->shouldReceive('getCore')->times(3)->andReturn($imagick);
         $image->shouldReceive('setCore')->once();
         $command = new ResizeCanvasImagick(array(20, 40, 'center', true, '#b53717'));
         $result = $command->execute($image);

@@ -74,6 +74,8 @@ class ResizeCanvasCommand extends \Intervention\Image\Commands\AbstractCommand
         $canvas->getCore()->drawImage($rect);
         $canvas->getCore()->transparentPaintImage($fill, 0, 0, false);
 
+        $canvas->getCore()->setImageColorspace($image->getCore()->getImageColorspace());
+
         // copy image into new canvas
         $image->getCore()->cropImage($src_w, $src_h, $src_x, $src_y);
         $canvas->getCore()->compositeImage($image->getCore(), \Imagick::COMPOSITE_DEFAULT, $dst_x, $dst_y);

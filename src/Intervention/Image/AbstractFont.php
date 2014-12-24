@@ -23,7 +23,21 @@ abstract class AbstractFont
      *
      * @var mixed
      */
-    public $color = '000000';
+    public $color = '#000000';
+
+    /**
+     * Color of the text stroke
+     *
+     * @var mixed
+     */
+    public $stroke_color = '#000000';
+
+    /**
+     * Width of the stroke
+     *
+     * @var float
+     */
+    public $stroke_width = 0;
 
     /**
      * Rotation angle of the text
@@ -116,6 +130,27 @@ abstract class AbstractFont
     }
 
     /**
+     * Set stroke width in pixels
+     *
+     * @param  float $width
+     * @return void
+     */
+    public function strokeWidth($width)
+    {
+        $this->stroke_width = $width;
+    }
+
+    /**
+     * Get stroke width in pixels
+     *
+     * @return float
+     */
+    public function getStrokeWidth()
+    {
+        return $this->stroke_width;
+    }
+
+    /**
      * Set color of text to be written
      *
      * @param  mixed $color
@@ -134,6 +169,27 @@ abstract class AbstractFont
     public function getColor()
     {
         return $this->color;
+    }
+
+    /**
+     * Set stroke color of text to be written
+     *
+     * @param  mixed $color
+     * @return void
+     */
+    public function strokeColor($color)
+    {
+        $this->stroke_color = $color;
+    }
+
+    /**
+     * Get stroke color of text
+     *
+     * @return mixed
+     */
+    public function getStrokeColor()
+    {
+        return $this->stroke_color;
     }
 
     /**

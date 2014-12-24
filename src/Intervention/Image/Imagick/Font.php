@@ -21,6 +21,14 @@ class Font extends \Intervention\Image\AbstractFont
         $draw->setStrokeAntialias(true);
         $draw->setTextAntialias(true);
 
+        if ($this->stroke_width > 0) {
+            $draw->setStrokeWidth($this->stroke_width);
+
+            if ($this->stroke_color) {
+                $draw->setStrokeColor($this->stroke_color);
+            }
+        }
+
         // set font file
         if ($this->hasApplicableFontFile()) {
             $draw->setFont($this->file);

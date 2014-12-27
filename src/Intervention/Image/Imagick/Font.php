@@ -25,7 +25,8 @@ class Font extends \Intervention\Image\AbstractFont
             $draw->setStrokeWidth($this->stroke_width);
 
             if ($this->stroke_color) {
-                $draw->setStrokeColor($this->stroke_color);
+                $strokecolor = new Color($this->stroke_color);
+                $draw->setStrokeColor($strokecolor->getPixel());
             }
         }
 

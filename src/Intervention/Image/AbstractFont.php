@@ -23,14 +23,14 @@ abstract class AbstractFont
      *
      * @var mixed
      */
-    public $color = '#000000';
+    public $color = '000000';
 
     /**
      * Color of the text stroke
      *
      * @var mixed
      */
-    public $stroke_color = '#000000';
+    public $stroke_color = '000000';
 
     /**
      * Width of the stroke

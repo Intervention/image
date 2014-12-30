@@ -36,10 +36,10 @@ class Frame
      * @param integer $delay
      * @param integer $disposal
      */
-    public function __construct($core, $delay = 0, $disposal = DISPOSAL_METHOD_LEAVE)
+    public function __construct($core, $delay = 0, $disposal = null)
     {
         $this->core = $core;
         $this->delay = $delay;
-        $this->disposal = $disposal;
+        $this->disposal = is_null($disposal) ? self::DISPOSAL_METHOD_LEAVE : $disposal;
     }
 }

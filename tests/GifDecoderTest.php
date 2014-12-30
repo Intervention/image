@@ -77,7 +77,7 @@ class GifDecoderTest extends PHPUnit_Framework_TestCase
             $this->assertEquals($sizes[$key]['height'], $frame->size->height);
             $this->assertEquals($offsets[$key]['left'], $frame->offset->left);
             $this->assertEquals($offsets[$key]['top'], $frame->offset->top);
-            $this->assertEquals($delays[$key], $frame->getDelay());
+            $this->assertEquals($delays[$key], $frame->decodeDelay());
             $this->assertEquals($interlaced[$key], $frame->isInterlaced());
             $this->assertEquals($localColorTables[$key], $frame->getLocalColorTable());
             $this->assertFalse($frame->hasLocalColorTable());

@@ -2,7 +2,9 @@
 
 namespace Intervention\Image\Gd;
 
+use \Intervention\Image\ContainerInterface;
 use \Intervention\Image\Size;
+use \Intervention\Image\Frame;
 
 class Driver extends \Intervention\Image\AbstractDriver
 {
@@ -36,7 +38,7 @@ class Driver extends \Intervention\Image\AbstractDriver
     {
         // create empty resource
         $core = imagecreatetruecolor($width, $height);
-        $image = new \Intervention\Image\Image(new self, $core);
+        $image = new \Intervention\Image\Image(new self, $this->newContainer($core));
 
         // set background color
         $background = new Color($background);
@@ -99,5 +101,41 @@ class Driver extends \Intervention\Image\AbstractDriver
         imagecopy($clone, $core, 0, 0, 0, 0, $width, $height);
 
         return $clone;
+    }
+
+    /**
+     * Returns clone of current container
+     *
+     * @param  ContainerInterface $container
+     * @return \Intervention\Image\Gd\Container
+     */
+    public function cloneContainer(ContainerInterface $container)
+    {
+        $cloneContainer = clone $container;
+        $cloneFrames = array();
+
+        // clone each resource of container
+        foreach ($container as $frame) {
+            $cloneFrames[] = new Frame($this->cloneCore($frame->getCore()));
+        }
+
+        $cloneContainer->setFrames($cloneFrames);
+
+        return $cloneContainer;
+    }
+
+    /**
+     * Builds new container from GD resource
+     *
+     * @param  resource $resource
+     * @return \Intervention\Image\Gd\Container
+     */
+    public function newContainer($resource)
+    {
+        $container = new Container;
+
+        $container->setFrames(array(new Frame($resource)));
+
+        return $container;
     }
 }

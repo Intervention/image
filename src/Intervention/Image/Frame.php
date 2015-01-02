@@ -42,4 +42,14 @@ class Frame
         $this->delay = $delay;
         $this->disposal = is_null($disposal) ? self::DISPOSAL_METHOD_LEAVE : $disposal;
     }
+
+    /**
+     * Gets core of current frame
+     *
+     * @return mixed
+     */
+    public function getCore()
+    {
+        return $this->core;
+    }
 }

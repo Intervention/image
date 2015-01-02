@@ -62,7 +62,9 @@ class Decoder extends \Intervention\Image\AbstractDecoder
      */
     public function initFromGdResource($resource)
     {
-        return new Image(new Driver, $resource);
+        $driver = new Driver;
+        
+        return new Image($driver, $driver->newContainer($resource));
     }
 
     /**

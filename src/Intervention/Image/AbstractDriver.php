@@ -44,13 +44,13 @@ abstract class AbstractDriver
     abstract protected function coreAvailable();
 
     /**
-     * Returns clone of given core
+     * Returns clone of given container
      *
      * @return mixed
      */
-    public function cloneCore($core)
+    public function cloneContainer(ContainerInterface $container)
     {
-        return clone $core;
+        return clone $container;
     }
 
     /**

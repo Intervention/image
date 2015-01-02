@@ -55,11 +55,11 @@ class Image extends File
     protected $driver;
 
     /**
-     * Image resource/object of current image processor
+     * Container object of resources/objects of current image processor
      *
      * @var mixed
      */
-    protected $core;
+    protected $container;
 
     /**
      * Array of Image resource backups of current image processor
@@ -78,13 +78,13 @@ class Image extends File
     /**
      * Creates a new Image instance
      *
-     * @param AbstractDriver $driver
-     * @param mixed  $core
+     * @param AbstractDriver      $driver
+     * @param ContainerInterface  $container
      */
-    public function __construct(AbstractDriver $driver = null, $core = null)
+    public function __construct(AbstractDriver $driver = null, ContainerInterface $container = null)
     {
         $this->driver = $driver;
-        $this->core = $core;
+        $this->container = $container;
     }
 
     /**
@@ -184,7 +184,7 @@ class Image extends File
      */
     public function getCore()
     {
-        return $this->core;
+        return $this->container->getCore();
     }
 
     /**
@@ -194,7 +194,7 @@ class Image extends File
      */
     public function setCore($core)
     {
-        $this->core = $core;
+        $this->container->setCore($core);
 
         return $this;
     }
@@ -356,6 +356,6 @@ class Image extends File
      */
     public function __clone()
     {
-        $this->core = $this->driver->cloneCore($this->core);
+        $this->container = $this->driver->cloneContainer($this->container);
     }
 }

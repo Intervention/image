@@ -80,6 +80,8 @@ class Animation implements IteratorAggregate
     public function setFrames(Array $frames)
     {
         $this->frames = $frames;
+
+        return $this;
     }
 
     /**

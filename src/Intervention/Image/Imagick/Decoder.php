@@ -15,12 +15,12 @@ class Decoder extends \Intervention\Image\AbstractDecoder
      */
     public function initFromPath($path)
     {
-        $core = new \Imagick;
+        $imagick = new \Imagick;
 
         try {
 
-            $core->readImage($path);
-            $core->setImageType(\Imagick::IMGTYPE_TRUECOLORMATTE);
+            $imagick->readImage($path);
+            $imagick->setImageType(\Imagick::IMGTYPE_TRUECOLORMATTE);
 
         } catch (\ImagickException $e) {
             throw new \Intervention\Image\Exception\NotReadableException(
@@ -29,7 +29,7 @@ class Decoder extends \Intervention\Image\AbstractDecoder
         }
 
         // build image
-        $image = $this->initFromImagick($core);
+        $image = $this->initFromImagick($imagick);
         $image->setFileInfoFromPath($path);
 
         return $image;
@@ -51,19 +51,15 @@ class Decoder extends \Intervention\Image\AbstractDecoder
     /**
      * Initiates new image from Imagick object
      *
-     * @param  Imagick $object
+     * @param  Imagick $imagick
      * @return \Intervention\Image\Image
      */
-    public function initFromImagick(\Imagick $object)
+    public function initFromImagick(\Imagick $imagick)
     {
-        // currently animations are not supported
-        // so all images are turned into static
-        $object = $this->removeAnimation($object);
-
         // reset image orientation
-        $object->setImageOrientation(\Imagick::ORIENTATION_UNDEFINED);
+        $imagick->setImageOrientation(\Imagick::ORIENTATION_UNDEFINED);
 
-        return new Image(new Driver, $object);
+        return new Image(new Driver, new Container($imagick));
     }
 
     /**
@@ -74,11 +70,11 @@ class Decoder extends \Intervention\Image\AbstractDecoder
      */
     public function initFromBinary($binary)
     {
-        $core = new \Imagick;
+        $imagick = new \Imagick;
 
         try {
 
-            $core->readImageBlob($binary);
+            $imagick->readImageBlob($binary);
 
         } catch (\ImagickException $e) {
             throw new \Intervention\Image\Exception\NotReadableException(
@@ -87,7 +83,7 @@ class Decoder extends \Intervention\Image\AbstractDecoder
         }
 
         // build image
-        $image = $this->initFromImagick($core);
+        $image = $this->initFromImagick($imagick);
         $image->mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $binary);
 
         return $image;

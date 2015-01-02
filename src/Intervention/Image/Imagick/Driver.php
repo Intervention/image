@@ -44,7 +44,7 @@ class Driver extends \Intervention\Image\AbstractDriver
         $core->setColorspace(\Imagick::COLORSPACE_UNDEFINED);
 
         // build image
-        $image = new \Intervention\Image\Image(new self, $core);
+        $image = new \Intervention\Image\Image(new self, new Container($core));
 
         return $image;
     }

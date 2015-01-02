@@ -62,7 +62,6 @@ class Encoder extends \Intervention\Image\AbstractEncoder
         $imagick->setImageFormat($format);
         $imagick->setCompression($compression);
         $imagick->setImageCompression($compression);
-        $imagick = $imagick->optimizeImageLayers();
 
         return $imagick->getImagesBlob();
     }

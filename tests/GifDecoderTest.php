@@ -1,6 +1,6 @@
 <?php
 
-use Intervention\Image\Tools\Gif\Decoder as Decoder;
+use Intervention\Image\Gd\Gif\Decoder as Decoder;
 
 class GifDecoderTest extends PHPUnit_Framework_TestCase
 {
@@ -24,7 +24,7 @@ class GifDecoderTest extends PHPUnit_Framework_TestCase
     public function testConstructorFromFile()
     {
         $decoder = new Decoder('tests/images/animation.gif');
-        $this->assertInstanceOf('Intervention\Image\Tools\Gif\Decoder', $decoder);
+        $this->assertInstanceOf('Intervention\Image\Gd\Gif\Decoder', $decoder);
     }
 
     public function testInitFromData()
@@ -33,14 +33,14 @@ class GifDecoderTest extends PHPUnit_Framework_TestCase
 
         $decoder = new Decoder;
         $decoder->initFromData($data);
-        $this->assertInstanceOf('Intervention\Image\Tools\Gif\Decoder', $decoder);
+        $this->assertInstanceOf('Intervention\Image\Gd\Gif\Decoder', $decoder);
     }
 
     public function testDecode()
     {
         $decoded = $this->decoder->decode();
 
-        $this->assertInstanceOf('Intervention\Image\Tools\Gif\Decoded', $decoded);
+        $this->assertInstanceOf('Intervention\Image\Gd\Gif\Decoded', $decoded);
         $this->assertEquals(8, $decoded->countFrames());
         $this->assertTrue($decoded->hasGlobalColorTable());
         $this->assertEquals(32, $decoded->countGlobalColors());

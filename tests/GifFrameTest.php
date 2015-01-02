@@ -1,6 +1,6 @@
 <?php
 
-use Intervention\Image\Tools\Gif\Frame;
+use Intervention\Image\Gd\Gif\Frame;
 
 class GifFrameTest extends PHPUnit_Framework_TestCase
 {
@@ -25,7 +25,7 @@ class GifFrameTest extends PHPUnit_Framework_TestCase
         $test = $frame->setProperty('foo', 'bar');
         $this->assertEquals('bar', $frame->foo);
         $this->assertTrue($frame->propertyIsSet('foo'));
-        $this->assertInstanceOf('Intervention\Image\Tools\Gif\Frame', $test);
+        $this->assertInstanceOf('Intervention\Image\Gd\Gif\Frame', $test);
     }
 
     public function testSetGetImageData()
@@ -34,7 +34,7 @@ class GifFrameTest extends PHPUnit_Framework_TestCase
         $this->assertNull($frame->getImageData());
         $result = $frame->setImageData('foo');
         $this->assertEquals('foo', $frame->getImageData());
-        $this->assertInstanceOf('Intervention\Image\Tools\Gif\Frame', $result);
+        $this->assertInstanceOf('Intervention\Image\Gd\Gif\Frame', $result);
     }
 
     public function testSetGetDelay()
@@ -45,7 +45,7 @@ class GifFrameTest extends PHPUnit_Framework_TestCase
         $frame = new Frame;
         $result = $frame->setDelay(20);
         $this->assertEquals(20, $frame->getDelay());   
-        $this->assertInstanceOf('Intervention\Image\Tools\Gif\Frame', $result);
+        $this->assertInstanceOf('Intervention\Image\Gd\Gif\Frame', $result);
     }
 
     public function testDecodeDelay()
@@ -73,7 +73,7 @@ class GifFrameTest extends PHPUnit_Framework_TestCase
         $frame = new Frame;
         $result = $frame->setTransparentColorIndex('foo');
         $this->assertEquals('foo', $frame->getTransparentColorIndex());   
-        $this->assertInstanceOf('Intervention\Image\Tools\Gif\Frame', $result);
+        $this->assertInstanceOf('Intervention\Image\Gd\Gif\Frame', $result);
     }
 
     public function testDecodeTransparentColorIndex()
@@ -94,7 +94,7 @@ class GifFrameTest extends PHPUnit_Framework_TestCase
         $frame = new Frame;
         $result = $frame->setDisposalMethod('foo');
         $this->assertEquals('foo', $frame->getDisposalMethod());   
-        $this->assertInstanceOf('Intervention\Image\Tools\Gif\Frame', $result);
+        $this->assertInstanceOf('Intervention\Image\Gd\Gif\Frame', $result);
     }
 
     public function testDecodeDisposalMethod()

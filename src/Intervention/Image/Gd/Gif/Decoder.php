@@ -1,6 +1,6 @@
 <?php
 
-namespace Intervention\Image\Tools\Gif;
+namespace Intervention\Image\Gd\Gif;
 
 class Decoder
 {

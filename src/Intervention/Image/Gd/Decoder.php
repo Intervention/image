@@ -4,6 +4,7 @@ namespace Intervention\Image\Gd;
 
 use \Intervention\Image\Image;
 use \Intervention\Image\Size;
+use \Intervention\Image\ContainerInterface;
 
 class Decoder extends \Intervention\Image\AbstractDecoder
 {
@@ -100,6 +101,17 @@ class Decoder extends \Intervention\Image\AbstractDecoder
         $image->mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $binary);
 
         return $image;
+    }
+
+    /**
+     * Initiates new image from container object
+     *
+     * @param  ContainerInterface $container
+     * @return \Intervention\Image\Image
+     */
+    public function initFromInterventionContainer(ContainerInterface $container)
+    {
+        return new Image(new Driver, $container);
     }
 
     /**

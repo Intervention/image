@@ -15,6 +15,21 @@ class ImageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('core', $image->getCore());
     }
 
+    public function testGetContainer()
+    {
+        $image = $this->getTestImage();
+        $this->assertInstanceOf('\Intervention\Image\ContainerInterface', $image->getContainer());
+    }
+
+    public function testSetContainer()
+    {
+        $image = $this->getTestImage();
+        $container = Mockery::mock('\Intervention\Image\ContainerInterface');
+        $container->shouldReceive('isReplaced')->andReturn(true);
+        $image->setContainer($container);
+        $this->assertTrue($image->getContainer()->isReplaced()); 
+    }
+
     public function testCommandCall()
     {
         $image = $this->getTestImage();
@@ -68,6 +83,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
         $size = Mockery::mock('\Intervention\Image\Size', array(800, 600));
         $driver = Mockery::mock('\Intervention\Image\AbstractDriver');
         $container = Mockery::mock('\Intervention\Image\ContainerInterface');
+        $container->shouldReceive('setCore');
         $container->shouldReceive('getCore')->andReturn('core');
         $command = Mockery::mock('\Intervention\Image\Commands\AbstractCommand');
         $command->shouldReceive('hasOutput')->andReturn(true);

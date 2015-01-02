@@ -45,7 +45,7 @@ namespace Intervention\Image;
  * @method \Intervention\Image\Image trim(string $base = 'top-left', array $away = array('top', 'bottom', 'left', 'right'), integer $tolerance = 0, integer $feather = 0) Trim away image space in given color. Define an optional base to pick a color at a certain position and borders that should be trimmed away. You can also set an optional tolerance level, to trim similar colors and add a feathering border around the trimed image.
  * @method \Intervention\Image\Image widen(integer $width, \Closure $callback = null)                                                                                     Resizes the current image to new width, constraining aspect ratio. Pass an optional Closure callback as third parameter, to apply additional constraints like preventing possible upsizing.
  */
-class Image extends File
+class Image extends File implements \IteratorAggregate
 {
     /**
      * Instance of current image driver
@@ -99,6 +99,16 @@ class Image extends File
     {
         $command = $this->driver->executeCommand($this, $name, $arguments);
         return $command->hasOutput() ? $command->getOutput() : $this;
+    }
+
+    /**
+     * Returns Iterator
+     *
+     * @return \Intervention\Image\ContainerInterface
+     */
+    public function getIterator()
+    {
+        return $this->getContainer();
     }
 
     /**
@@ -195,6 +205,28 @@ class Image extends File
     public function setCore($core)
     {
         $this->container->setCore($core);
+
+        return $this;
+    }
+
+    /**
+     * Returns current image container
+     *
+     * @return \Intervention\Image\ContainerInterface
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
+    /**
+     * Set current image container
+     *
+     * @param mixed $core
+     */
+    public function setContainer(ContainerInterface $container)
+    {
+        $this->container = $container;
 
         return $this;
     }

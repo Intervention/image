@@ -59,6 +59,9 @@ class Decoder extends \Intervention\Image\AbstractDecoder
         // reset image orientation
         $imagick->setImageOrientation(\Imagick::ORIENTATION_UNDEFINED);
 
+        // coalesce possible animation
+        $imagick = $imagick->coalesceImages();
+
         return new Image(new Driver, new Container($imagick));
     }
 

@@ -2,6 +2,9 @@
 
 namespace Intervention\Image\Gd\Gif;
 
+use Intervention\Image\Frame as ContainerFrame;
+use Intervention\Image\Gd\Container;
+
 class Decoded
 {
     /**
@@ -306,5 +309,20 @@ class Decoded
     {
         $frame = new Frame;
         $this->frames[] = $frame->setProperty($property, $value);
+    }
+
+    public function toContainer()
+    {
+        $container = new Container;
+        $container->setLoops($this->getLoops());
+
+        foreach ($this->frames as $frame) {
+            $container->addFrame(new ContainerFrame(
+                $frame->toResource(), 
+                $frame->getDelay()
+            ));
+        }
+
+        return $container;
     }
 }

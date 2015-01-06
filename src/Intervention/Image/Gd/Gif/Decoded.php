@@ -317,8 +317,31 @@ class Decoded
         $container->setLoops($this->getLoops());
 
         foreach ($this->frames as $frame) {
+
+            // create empty canvas
+            $resource = imagecreatetruecolor(
+                $this->getCanvasWidth(),
+                $this->getCanvasHeight()
+            );
+
+            imagealphablending($resource, false);
+            imagesavealpha($resource, true);
+
+            // insert frame image data into canvas
+            imagecopy(
+                $resource,
+                $frame->toResource(),
+                0,
+                0,
+                0,
+                0,
+                $frame->getSize()->width,
+                $frame->getSize()->height
+            );
+
+            // add frame to container
             $container->addFrame(new ContainerFrame(
-                $frame->toResource(), 
+                $resource, 
                 $frame->getDelay()
             ));
         }

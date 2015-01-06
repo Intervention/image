@@ -178,6 +178,68 @@ class Frame
         return 0;
     }
 
+    public function decodeWidth()
+    {
+        if ($this->imageDescriptor) {
+            return (int) unpack('v', 
+                substr($this->imageDescriptor, 4, 2)
+            )[1];
+        }
+
+        return false;
+    }
+
+    public function decodeHeight()
+    {
+        if ($this->imageDescriptor) {
+            return (int) unpack('v', 
+                substr($this->imageDescriptor, 6, 2)
+            )[1];
+        }
+
+        return false;
+    }
+
+    public function getSize()
+    {
+        $size = new \StdClass;
+        $size->width = $this->decodeWidth();
+        $size->height = $this->decodeHeight();
+
+        return $size;
+    }
+
+    public function decodeOffsetLeft()
+    {
+        if ($this->imageDescriptor) {
+            return (int) unpack('v', 
+                substr($this->imageDescriptor, 0, 2)
+            )[1];
+        }
+
+        return false;
+    }
+
+    public function decodeOffsetTop()
+    {
+        if ($this->imageDescriptor) {
+            return (int) unpack('v', 
+                substr($this->imageDescriptor, 2, 2)
+            )[1];
+        }
+
+        return false;
+    }
+
+    public function getOffset()
+    {
+        $offset = new \StdClass;
+        $offset->left = $this->decodeOffsetLeft();
+        $offset->top = $this->decodeOffsetTop();
+
+        return $offset;
+    }
+
     /**
      * Determines if current frame is saved as interlaced
      *
@@ -186,5 +248,16 @@ class Frame
     public function isInterlaced()
     {
         return $this->interlaced;
+    }
+
+    public function toResource()
+    {
+        $encoder = new Encoder;
+        $encoder->setCanvas($this->decodeWidth(), $this->decodeHeight());
+        $encoder->addFrame($this);
+
+        $data = $encoder->encode();
+
+        return imagecreatefromstring($data);
     }
 }

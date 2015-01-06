@@ -110,4 +110,69 @@ class GifFrameTest extends PHPUnit_Framework_TestCase
         $frame->setProperty('graphicsControlExtension', "\x04\x0C\x14\x00\xF1\x00");
         $this->assertEquals(3, $frame->decodeDisposalMethod());
     }
+
+    public function testDecodeWidth()
+    {
+        $frame = new Frame;
+        $this->assertFalse($frame->decodeWidth());
+
+        $frame = new Frame;
+        $frame->setProperty('imageDescriptor', "\x00\x00\x00\x00\x40\x01\xF0\x00\x00");
+        $this->assertEquals(320, $frame->decodeWidth());
+    }
+
+    public function testDecodeHeight()
+    {
+        $frame = new Frame;
+        $this->assertFalse($frame->decodeHeight());
+
+        $frame = new Frame;
+        $frame->setProperty('imageDescriptor', "\x00\x00\x00\x00\x40\x01\xF0\x00\x00");
+        $this->assertEquals(240, $frame->decodeHeight());
+    }
+
+    public function testGetSize()
+    {
+        $frame = new Frame;
+        $frame->setProperty('imageDescriptor', "\x00\x00\x00\x00\x40\x01\xF0\x00\x00");
+        $size = $frame->getSize();
+        $this->assertInstanceOf('StdClass', $size);
+        $this->assertEquals(320, $size->width);
+        $this->assertEquals(240, $size->height);
+    }
+
+    public function testDecodeOffsetTop()
+    {
+        $frame = new Frame;
+        $this->assertFalse($frame->decodeOffsetTop());
+
+        $frame = new Frame;
+        $frame->setProperty('imageDescriptor', "\x18\x00\x0C\x00\x40\x01\xF0\x00\x00");
+        $this->assertEquals(12, $frame->decodeOffsetTop());
+    }
+
+    public function testDecodeOffsetLeft()
+    {
+        $frame = new Frame;
+        $this->assertFalse($frame->decodeOffsetLeft());
+
+        $frame = new Frame;
+        $frame->setProperty('imageDescriptor', "\x18\x00\x0C\x00\x40\x01\xF0\x00\x00");
+        $this->assertEquals(24, $frame->decodeOffsetLeft());
+    }
+
+    public function testGetOffset()
+    {
+        $frame = new Frame;
+        $frame->setProperty('imageDescriptor', "\x18\x00\x0C\x00\x40\x01\xF0\x00\x00");
+        $offset = $frame->getOffset();
+        $this->assertInstanceOf('StdClass', $offset);
+        $this->assertEquals(12, $offset->top);
+        $this->assertEquals(24, $offset->left);
+    }
+
+    public function testToResource()
+    {
+        $frame = new Frame;
+    }
 }

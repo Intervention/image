@@ -7,7 +7,9 @@ class Decoder
     const IMAGE_SEPARATOR = "\x2C";
     const EXTENSION_BLOCK_MARKER = "\x21";
     const GRAPHICS_CONTROL_EXTENSION_MARKER = "\xF9";
-    const NETSCAPE_EXTENSION_MARKER = "\xFF";
+    const APPLICATION_EXTENSION_MARKER = "\xFF";
+    const NETSCAPE_EXTENSION_MARKER = "NETSCAPE2.0";
+    const XMP_EXTENSION_MARKER = "XMP DataXMP";
     const PLAINTEXT_EXTENSION_MARKER = "\x01";
     const COMMENT_EXTENSION_MARKER = "\xFE";
     const BLOCK_TERMINATOR = "\x00";
@@ -102,9 +104,9 @@ class Decoder
                     break 2;
                 
                 default:
-                    // throw new \Intervention\Image\Exception\NotReadableException(
-                    //     "Unable to decode GIF image."
-                    // );
+                    throw new \Intervention\Image\Exception\NotReadableException(
+                        "Unable to decode GIF image."
+                    );
                     break;
             }
         }
@@ -115,9 +117,10 @@ class Decoder
     /**
      * Decode extension in image stream
      *
+     * @param  Decoded $gif
      * @return void
      */
-    private function decodeExtension($gif)
+    private function decodeExtension(Decoded $gif)
     {
         switch ($this->getNextBytes(1)) {
 
@@ -125,13 +128,48 @@ class Decoder
                 $gif->addGraphicsControlExtension($this->getNextBytes(6));
                 break;
 
-            case self::NETSCAPE_EXTENSION_MARKER:
-                $gif->setNetscapeExtension($this->getNextBytes(17));
+            case self::APPLICATION_EXTENSION_MARKER:
+                $application_block_size = $this->getNextBytes(1);
+                $application_block_size = unpack('C', $application_block_size)[1];
+                $application_block = $this->getNextBytes($application_block_size);
+
+                // only save netscape application extension
+                if ($application_block == self::NETSCAPE_EXTENSION_MARKER) {
+
+                    $data_block_size = $this->getNextBytes(1);
+                    $data_block_size = unpack('C', $data_block_size)[1];
+                    $data_block = $this->getNextBytes($data_block_size);
+
+                    $extension = "\x0B";
+                    $extension .= self::NETSCAPE_EXTENSION_MARKER;
+                    $extension .= "\x03";
+                    $extension .= $data_block;
+                    $extension .= "\x00";
+                    $gif->setNetscapeExtension($extension);
+
+                } elseif ($application_block == self::XMP_EXTENSION_MARKER) {
+                        
+                    do {
+                        // skip xmp data for now
+                        $byte = $this->getNextBytes(1);
+                    } while ($byte != "\x00");
+
+                } else {
+                    
+                    $data_block_size = $this->getNextBytes(1);
+                    $data_block_size = unpack('C', $data_block_size)[1];
+                    $data_block = $this->getNextBytes($data_block_size);
+
+                }
+
+                // subblock
+                $this->getNextBytes(1);
+
                 break;
 
             case self::PLAINTEXT_EXTENSION_MARKER:
                 $blocksize = $this->getNextBytes(1);
-                $blocksize = unpack('C', $blocksize);
+                $blocksize = unpack('C', $blocksize)[1];
                 $gif->setPlaintextExtension($this->getNextBytes($blocksize));
                 $this->getNextBytes(1); // null byte
                 break;
@@ -152,9 +190,10 @@ class Decoder
     /**
      * Decode Image Descriptor from image stream
      *
+     * @param  Decoded $gif
      * @return void
      */
-    private function decodeImageDescriptor($gif)
+    private function decodeImageDescriptor(Decoded $gif)
     {
         $descriptor = $this->getNextBytes(9);
 
@@ -201,9 +240,10 @@ class Decoder
         /**
      * Decode Image data from image stream
      *
+     * @param  Decoded $gif
      * @return void
      */
-    private function decodeImageData($gif)
+    private function decodeImageData(Decoded $gif)
     {
         $data = '';
 

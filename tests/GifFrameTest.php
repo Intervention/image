@@ -40,7 +40,7 @@ class GifFrameTest extends PHPUnit_Framework_TestCase
     public function testSetGetDelay()
     {
         $frame = new Frame;
-        $this->assertNull($frame->getDelay());
+        $this->assertFalse($frame->getDelay());
 
         $frame = new Frame;
         $result = $frame->setDelay(20);
@@ -68,7 +68,7 @@ class GifFrameTest extends PHPUnit_Framework_TestCase
     public function testSetGetTransparentColorIndex()
     {
         $frame = new Frame;
-        $this->assertNull($frame->getTransparentColorIndex());
+        $this->assertFalse($frame->getTransparentColorIndex());
 
         $frame = new Frame;
         $result = $frame->setTransparentColorIndex('foo');
@@ -89,7 +89,7 @@ class GifFrameTest extends PHPUnit_Framework_TestCase
     public function testSetGetDisposalMethod()
     {
         $frame = new Frame;
-        $this->assertNull($frame->getDisposalMethod());
+        $this->assertEquals(0, $frame->getDisposalMethod());
 
         $frame = new Frame;
         $result = $frame->setDisposalMethod('foo');

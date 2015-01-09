@@ -26,6 +26,13 @@ class Encoder
     public $globalColorTable;
 
     /**
+     * Index of background color
+     *
+     * @var int
+     */
+    public $backgroundColorIndex = 0;
+
+    /**
      * Number of sequence loops
      *
      * @var integer
@@ -44,7 +51,7 @@ class Encoder
      *
      * @param  int $width
      * @param  int $height
-     * @return \Intervention\Image\Tools\Gif\Encoder
+     * @return \Intervention\Image\Gd\Gif\Encoder
      */
     public function setCanvas($width, $height)
     {
@@ -58,7 +65,7 @@ class Encoder
      * Set number of loops
      *
      * @param  int $value
-     * @return \Intervention\Image\Tools\Gif\Encoder
+     * @return \Intervention\Image\Gd\Gif\Encoder
      */
     public function setLoops($value)
     {
@@ -71,11 +78,69 @@ class Encoder
      * Set global color table
      *
      * @param  int $value
-     * @return \Intervention\Image\Tools\Gif\Encoder
+     * @return \Intervention\Image\Gd\Gif\Encoder
      */
     public function setGlobalColorTable($value)
     {
         $this->globalColorTable = $value;
+
+        return $this;
+    }
+
+    public function getGlobalColorTable()
+    {
+        return $this->globalColorTable;
+    }
+
+    public function setFrames(Array $frames)
+    {
+        $this->frames = $frames;
+
+        return $this;
+    }
+
+    public function setBackgroundColorIndex($index)
+    {
+        $this->backgroundColorIndex = $index;
+
+        return $this;
+    }
+
+    /**
+     * Setup encoder from Decoded object
+     *
+     * @param Decoded  $decoded
+     * @param int|null $frameIndex
+     * @return \Intervention\Image\Gd\Gif\Encoder
+     */
+    public function setFromDecoded(Decoded $decoded, $frameIndex = null)
+    {
+        if (is_null($frameIndex)) {
+            // setup from all decoded data
+            $width = $decoded->getCanvasWidth();
+            $height = $decoded->getCanvasHeight();
+            $colorTable = $decoded->getGlobalColorTable();
+            $loops = $decoded->getLoops();
+            $frames = $decoded->getFrames();
+        } else {
+            // setup only one specific frame
+            $frame = $decoded->getFrame($frameIndex);
+            $frame->setOffset(0, 0);
+            $width = $frame->decodeWidth();
+            $height = $frame->decodeHeight();
+            $colorTable = $frame->hasLocalColorTable() ? $frame->getLocalColorTable() : $decoded->getGlobalColorTable();
+            $loops = 0;
+            $frames = array($frame);
+        }
+
+        // setup
+        $this->setCanvas($width, $height);
+        $this->setGlobalColorTable($colorTable);
+        $this->setBackgroundColorIndex($decoded->getBackgroundColorIndex());
+        $this->setLoops($loops);
+        $this->setFrames($frames);
+
+
 
         return $this;
     }
@@ -116,8 +181,12 @@ class Encoder
         // create gif
         $encoded = $this->buildLogicalScreenDescriptor();
 
+        if ($this->hasGlobalColorTable()) {
+            $encoded .= $this->getGlobalColorTable();
+        }
+
         // netscape extension
-        if ($this->isAnimated()) {
+        if ($this->isAnimated() && $this->doesLoop()) {
             $encoded .= $this->buildNetscapeExtension();
         }
 
@@ -147,10 +216,27 @@ class Encoder
         $descriptor .= pack('v*', $this->canvasHeight);
 
         // packed field
-        $descriptor .= "\x00";
+        $colorResolution = 111;
+        $sortFlag = 0;
+
+        if ($this->hasGlobalColorTable()) {
+
+            $globalColorTableFlag = 1;
+            $globalColorTableSize = log(strlen($this->getGlobalColorTable()) / 3, 2) - 1;
+            $globalColorTableSize = decbin($globalColorTableSize);
+            $globalColorTableSize = str_pad($globalColorTableSize, 3, 0, STR_PAD_LEFT);
+
+        } else {
+            $globalColorTableFlag = 0;
+            $globalColorTableSize = 0;
+        }
+
+        $packed = $globalColorTableFlag.$colorResolution.$sortFlag.$globalColorTableSize;
+        
+        $descriptor .= pack('C', bindec($packed));
 
         // background color index
-        $descriptor .= "\x00";
+        $descriptor .= pack('C', $this->backgroundColorIndex);
 
         // pixel aspect ratio
         $descriptor .= "\x00";
@@ -195,13 +281,23 @@ class Encoder
         $extension .= "\x04";
         
         // packed field
-        $extension .= "\x00";
+        $disposalMethod = decbin($frame->getDisposalMethod());
+        $disposalMethod = str_pad($disposalMethod, 3, 0, STR_PAD_LEFT);
+        $userInputFlat = 0;
+        $transparentColorFlag = $frame->hasTransparentColor() ? 1 : 0;
+        $packed = $disposalMethod.$userInputFlat.$transparentColorFlag;
+        $packed = str_pad($packed, 3, 0, STR_PAD_LEFT);
+        $extension .= pack('C', bindec($packed));
         
         // delay
         $extension .= pack('v*', $frame->getDelay());
         
         // transparent color index
-        $extension .= "\x00";
+        if ($frame->hasTransparentColor()) {
+            $extension .= $frame->getTransparentColorIndex();
+        } else {
+            $extension .= "\x00";
+        }
         
         // block terminator
         $extension .= "\x00";
@@ -227,7 +323,6 @@ class Encoder
         );
 
         $interlacedFlag = $frame->isInterlaced() ? 1 : 0;
-        $sortFlag = 0;
         $reserved1 = 0;
         $reserved2 = 0;
 
@@ -235,10 +330,14 @@ class Encoder
             $colorTableFlag = 1;
             $colorTableSize = log(strlen($frame->getLocalColorTable()) / 3, 2) - 1;
             $colorTableSize = decbin($colorTableSize);
+            $sortFlag = 0;
         } else {
             $colorTableFlag = 0;
             $colorTableSize = 0;
+            $sortFlag = 0;
         }
+
+        $colorTableSize = str_pad($colorTableSize, 3, 0, STR_PAD_LEFT);
 
         // packed field
         $packed = $colorTableFlag.$interlacedFlag.$sortFlag.$reserved1.$reserved2.$colorTableSize;
@@ -270,6 +369,11 @@ class Encoder
     public function isAnimated()
     {
         return count($this->frames) > 1;
+    }
+
+    public function doesLoop()
+    {
+        return is_integer($this->loops);
     }
 
 }

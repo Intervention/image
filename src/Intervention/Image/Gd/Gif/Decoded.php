@@ -154,6 +154,17 @@ class Decoded
         return $this->frames;
     }
 
+    public function getFrame($index = 0)
+    {
+        if (array_key_exists($index, $this->frames)) {
+            return $this->frames[$index];
+        }
+
+        throw new \Intervention\Image\Exception\RuntimeException(
+            "Frame with index ({$index}) does not exists."
+        );
+    }
+
     public function countFrames()
     {
         return count($this->frames);
@@ -286,6 +297,18 @@ class Decoded
         return isset($bit) ? pow(2, $bit + 1) : 0;
     }
 
+    public function getBackgroundColorIndex()
+    {
+        if ($this->logicalScreenDescriptor) {
+            $index = substr($this->logicalScreenDescriptor, 5, 1);
+            $index = unpack('C', $index)[1];
+
+            return $index;
+        }
+
+        return 0;
+    }
+
     private function addToFirstFrameWithoutProperty($value, $property)
     {
         $added = false;
@@ -330,7 +353,7 @@ class Decoded
             // insert frame image data into canvas
             imagecopy(
                 $resource,
-                $frame->toResource(),
+                $resource_frame,
                 0,
                 0,
                 0,

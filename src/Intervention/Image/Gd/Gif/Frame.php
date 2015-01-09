@@ -84,7 +84,9 @@ class Frame
 
     public function getDelay()
     {
-        return $this->delay;
+        return $this->propertyIsSet('delay')
+            ? $this->delay
+            : $this->decodeDelay();
     }
 
     public function setDelay($delay)
@@ -129,7 +131,9 @@ class Frame
 
     public function getTransparentColorIndex()
     {
-        return $this->transparentColorIndex;
+        return $this->propertyIsSet('transparentColorIndex') 
+            ? $this->transparentColorIndex 
+            : $this->decodeTransparentColorIndex();
     }
 
     public function setTransparentColorIndex($value)
@@ -155,7 +159,9 @@ class Frame
 
     public function getDisposalMethod()
     {
-        return $this->disposalMethod;
+        return $this->propertyIsSet('disposalMethod') 
+            ? $this->disposalMethod 
+            : $this->decodeDisposalMethod();
     }
 
     public function setDisposalMethod($value)
@@ -240,6 +246,28 @@ class Frame
         return $offset;
     }
 
+    public function setOffset($left, $top)
+    {
+        $offset = new \StdClass;
+        $offset->left = $left;
+        $offset->top = $top;
+        $this->offset = $offset;
+
+        return $this;
+    }
+
+    public function setInterlaced(boolean $flag)
+    {
+        $this->interlaced = $flag;
+
+        return $this;
+    }
+
+    public function getInterlaced()
+    {
+        return $this->propertyIsSet('interlaced') ? $this->interlaced : $this->decodeInterlaced();
+    }
+
     /**
      * Determines if current frame is saved as interlaced
      *
@@ -247,17 +275,6 @@ class Frame
      */
     public function isInterlaced()
     {
-        return $this->interlaced;
-    }
-
-    public function toResource()
-    {
-        $encoder = new Encoder;
-        $encoder->setCanvas($this->decodeWidth(), $this->decodeHeight());
-        $encoder->addFrame($this);
-
-        $data = $encoder->encode();
-
-        return imagecreatefromstring($data);
+        return (boolean) $this->getInterlaced();
     }
 }

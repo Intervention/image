@@ -27,7 +27,7 @@ class ImageServiceProvider extends ServiceProvider
             $app = $this->app;
 
             // load imagecache config
-            $app['config']->package('intervention/imagecache', __DIR__.'/../../../../imagecache/src/config', 'imagecache');
+            $app['config']->set('imagecache', __DIR__.'/../../../../imagecache/src/config');
             $config = $app['config'];
 
             // create dynamic manipulation route

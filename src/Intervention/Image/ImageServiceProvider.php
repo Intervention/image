@@ -21,8 +21,6 @@ class ImageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->package('intervention/image');
-
         // try to create imagecache route only if imagecache is present
         if (class_exists('Intervention\\Image\\ImageCache')) {
 

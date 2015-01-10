@@ -119,5 +119,4 @@ class Encoder extends \Intervention\Image\AbstractEncoder
 
         return $buffer;
     }
-
 }

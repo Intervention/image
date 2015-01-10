@@ -110,6 +110,7 @@ class Encoder extends \Intervention\Image\AbstractEncoder
      */
     protected function processWebp()
     {
+        // imagewebp was only added in 5.5
         if (!function_exists('imagewebp')) {
             throw new \Intervention\Image\Exception\NotSupportedException(
                 "WebP is not supported by your current version of Gd."

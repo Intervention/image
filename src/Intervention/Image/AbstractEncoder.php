@@ -158,7 +158,6 @@ abstract class AbstractEncoder
 
             case 'webp':
             case 'image/webp':
-            case 'application/octet-stream':
                 $this->result = $this->processWebp();
                 break;
 

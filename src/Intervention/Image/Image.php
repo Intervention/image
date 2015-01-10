@@ -373,6 +373,6 @@ class Image extends File
      */
     public static function detectWebp($imageData)
     {
-        return preg_match('/^RIFF(.){4}WEBP/s', $imageData);
+        return (bool)preg_match('/^RIFF(.){4}WEBP/s', $imageData);
     }
 }

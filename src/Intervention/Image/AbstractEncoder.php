@@ -194,7 +194,10 @@ abstract class AbstractEncoder
     protected function setImage($image)
     {
         $this->image = $image;
-        // Webp not being detected correclty by finfo yet (201411)
+
+        // Webp not being detected correctly by finfo yet (201501) so if
+        // it's a webp image, force the mime type here as it gets relied
+        // on quite a bit in later processing
         if ($this->image->mime == 'application/octet-stream' && $this->image->extension == 'webp') {
             $this->image->mime = 'image/webp';
         }
@@ -212,6 +215,7 @@ abstract class AbstractEncoder
         }
 
         $this->format = $format ? $format : 'jpg';
+
         return $this;
     }
 

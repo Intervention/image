@@ -358,4 +358,21 @@ class Image extends File
     {
         $this->core = $this->driver->cloneCore($this->core);
     }
+
+
+    /**
+     * Attempt to detect WebP image based on the opening magic bytes of the
+     * file. This is necessary as WebP support in GD is currently (201411) a
+     * bit half-baked - we can encode and decode, but finfo and getimagesize
+     * detection doesn't work, either returning a type of application/octet-stream
+     * or false
+     *
+     * @param string $imageData Content of image
+     *
+     * @return bool Whether this is a webp image
+     */
+    public static function detectWebp($imageData)
+    {
+        return preg_match('/^RIFF(.){4}WEBP/s', $imageData);
+    }
 }

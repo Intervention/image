@@ -110,6 +110,11 @@ class Encoder extends \Intervention\Image\AbstractEncoder
      */
     protected function processWebp()
     {
+        if (!function_exists('imagewebp')) {
+            throw new \Intervention\Image\Exception\NotSupportedException(
+                "WebP is not supported by your current version of Gd."
+            );
+        }
         ob_start();
         imagewebp($this->image->getCore());
         // Set mime type manually, as no IMAGETYPE_WEBP constant exists yet

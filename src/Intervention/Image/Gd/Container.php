@@ -19,4 +19,9 @@ class Container extends Animation implements ContainerInterface
             new Frame($core)
         ));
     }
+
+    public function countFrames()
+    {
+        return count($this->getFrames());
+    }
 }

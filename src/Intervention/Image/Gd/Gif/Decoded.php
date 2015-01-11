@@ -334,41 +334,65 @@ class Decoded
         $this->frames[] = $frame->setProperty($property, $value);
     }
 
-    public function toContainer()
+    public function createContainer()
     {
         $container = new Container;
         $container->setLoops($this->getLoops());
 
-        foreach ($this->frames as $frame) {
+        // create empty canvas
+        $canvas = imagecreatetruecolor(
+            $this->getCanvasWidth(),
+            $this->getCanvasHeight()
+        );
 
-            // create empty canvas
-            $resource = imagecreatetruecolor(
-                $this->getCanvasWidth(),
-                $this->getCanvasHeight()
-            );
+        imagealphablending($canvas, false);
+        imagesavealpha($canvas, true);
 
-            imagealphablending($resource, false);
-            imagesavealpha($resource, true);
+        foreach ($this->frames as $key => $frame) {
+
+            // create resource from frame
+            $encoder = new Encoder;
+            $encoder->setFromDecoded($this, $key);
+            $frame_resource = imagecreatefromstring($encoder->encode());
 
             // insert frame image data into canvas
             imagecopy(
-                $resource,
-                $resource_frame,
-                0,
-                0,
+                $canvas,
+                $frame_resource,
+                $frame->getOffset()->left,
+                $frame->getOffset()->top,
                 0,
                 0,
                 $frame->getSize()->width,
                 $frame->getSize()->height
             );
 
+            // destory frame resource
+            imagedestroy($frame_resource);
+
             // add frame to container
             $container->addFrame(new ContainerFrame(
-                $resource, 
+                $canvas, 
                 $frame->getDelay()
             ));
+
+            // prepare next canvas
+            $canvas = $this->cloneResource($canvas);
         }
 
         return $container;
+    }
+
+    public function cloneResource($resource)
+    {
+        $width = imagesx($resource);
+        $height = imagesy($resource);
+        $clone = imagecreatetruecolor($width, $height);
+        imagealphablending($clone, false);
+        imagesavealpha($clone, true);
+        
+        imagecopy($clone, $resource, 0, 0, 0, 0, $width, $height);
+
+        return $clone;
     }
 }

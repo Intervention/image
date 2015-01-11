@@ -68,6 +68,14 @@ class Decoder extends \Intervention\Image\AbstractDecoder
         return new Image($driver, $driver->newContainer($resource));
     }
 
+
+    public function initFromContainer(Container $container)
+    {
+        $driver = new Driver;
+
+        return new Image($driver, $container);
+    }
+
     /**
      * Initiates new image from Imagick object
      *
@@ -89,16 +97,29 @@ class Decoder extends \Intervention\Image\AbstractDecoder
      */
     public function initFromBinary($binary)
     {
-        $resource = @imagecreatefromstring($binary);
+        try {
+            
+            // try to custom decode gif
+            $gifDecoder = new Gif\Decoder;
+            $decoded = $gifDecoder->initFromData($binary)->decode();
 
-        if ($resource === false) {
-             throw new \Intervention\Image\Exception\NotReadableException(
-                "Unable to init from given binary data."
-            );
+            $image = $this->initFromContainer($decoded->createContainer());
+            $image->mime = 'image/gif';
+
+        } catch (\Exception $e) {
+            
+            $resource = @imagecreatefromstring($binary);    
+
+            if ($resource === false) {
+                throw new \Intervention\Image\Exception\NotReadableException(
+                    "Unable to init from given binary data."
+                );
+            }
+
+            $image = $this->initFromGdResource($resource);
+            $image->mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $binary);
+
         }
-
-        $image = $this->initFromGdResource($resource);
-        $image->mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $binary);
 
         return $image;
     }

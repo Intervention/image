@@ -278,6 +278,16 @@ class Image extends File implements \IteratorAggregate
     }
 
     /**
+     * Determines if current image has multiple animation frames
+     *
+     * @return boolean
+     */
+    public function isAnimated()
+    {
+        return ($this->container->countFrames() > 1);
+    }
+
+    /**
      * Checks if current image is already encoded
      *
      * @return boolean

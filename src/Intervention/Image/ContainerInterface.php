@@ -6,4 +6,5 @@ interface ContainerInterface
 {
     public function setCore($core);
     public function getCore();
+    public function countFrames();
 }

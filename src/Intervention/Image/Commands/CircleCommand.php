@@ -14,7 +14,7 @@ class CircleCommand extends \Intervention\Image\Commands\AbstractCommand
      */
     public function execute($image)
     {
-        $radius = $this->argument(0)->type('numeric')->required()->value();
+        $diameter = $this->argument(0)->type('numeric')->required()->value();
         $x = $this->argument(1)->type('numeric')->required()->value();
         $y = $this->argument(2)->type('numeric')->required()->value();
         $callback = $this->argument(3)->type('closure')->value();
@@ -22,7 +22,7 @@ class CircleCommand extends \Intervention\Image\Commands\AbstractCommand
         $circle_classname = sprintf('\Intervention\Image\%s\Shapes\CircleShape',
             $image->getDriver()->getDriverName());
 
-        $circle = new $circle_classname($radius);
+        $circle = new $circle_classname($diameter);
 
         if ($callback instanceof Closure) {
             $callback($circle);

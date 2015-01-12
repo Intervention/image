@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Gd\Commands;
 
-use \Intervention\Image\Color;
+use \Intervention\Image\Gd\Color;
 
 class TrimCommand extends ResizeCommand
 {
@@ -81,9 +81,9 @@ class TrimCommand extends ResizeCommand
                     $checkColor = $image->pickColor($x, $y, 'object');
 
                     if ($checkTransparency) {
-                        $checkColor->r = 0;
-                        $checkColor->g = 0;
-                        $checkColor->b = 0;
+                        $checkColor->r = $color->r;
+                        $checkColor->g = $color->g;
+                        $checkColor->b = $color->b;
                     }
 
                     if ($color->differs($checkColor, $tolerance)) {
@@ -105,9 +105,9 @@ class TrimCommand extends ResizeCommand
                     $checkColor = $image->pickColor($x, $y, 'object');
 
                     if ($checkTransparency) {
-                        $checkColor->r = 0;
-                        $checkColor->g = 0;
-                        $checkColor->b = 0;
+                        $checkColor->r = $color->r;
+                        $checkColor->g = $color->g;
+                        $checkColor->b = $color->b;
                     }
 
                     if ($color->differs($checkColor, $tolerance)) {
@@ -129,9 +129,9 @@ class TrimCommand extends ResizeCommand
                     $checkColor = $image->pickColor($x, $y, 'object');
 
                     if ($checkTransparency) {
-                        $checkColor->r = 0;
-                        $checkColor->g = 0;
-                        $checkColor->b = 0;
+                        $checkColor->r = $color->r;
+                        $checkColor->g = $color->g;
+                        $checkColor->b = $color->b;
                     }
 
                     if ($color->differs($checkColor, $tolerance)) {
@@ -153,9 +153,9 @@ class TrimCommand extends ResizeCommand
                     $checkColor = $image->pickColor($x, $y, 'object');
 
                     if ($checkTransparency) {
-                        $checkColor->r = 0;
-                        $checkColor->g = 0;
-                        $checkColor->b = 0;
+                        $checkColor->r = $color->r;
+                        $checkColor->g = $color->g;
+                        $checkColor->b = $color->b;
                     }
 
                     if ($color->differs($checkColor, $tolerance)) {

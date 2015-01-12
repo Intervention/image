@@ -7,22 +7,22 @@ use \Intervention\Image\Image;
 class CircleShape extends EllipseShape
 {
     /**
-     * Radius of circle in pixels
+     * Diameter of circle in pixels
      *
      * @var integer
      */
-    public $radius = 100;
+    public $diameter = 100;
 
     /**
      * Create new instance of circle
      *
-     * @param integer $radius
+     * @param integer $diameter
      */
-    public function __construct($radius = null)
+    public function __construct($diameter = null)
     {
-        $this->width = is_numeric($radius) ? intval($radius) : $this->radius;
-        $this->height = is_numeric($radius) ? intval($radius) : $this->radius;
-        $this->radius = is_numeric($radius) ? intval($radius) : $this->radius;
+        $this->width = is_numeric($diameter) ? intval($diameter) : $this->diameter;
+        $this->height = is_numeric($diameter) ? intval($diameter) : $this->diameter;
+        $this->diameter = is_numeric($diameter) ? intval($diameter) : $this->diameter;
     }
 
     /**

@@ -14,7 +14,7 @@ class CircleShapeTest extends PHPUnit_Framework_TestCase
     {
         $circle = new CircleGd(250);
         $this->assertInstanceOf('Intervention\Image\Gd\Shapes\CircleShape', $circle);
-        $this->assertEquals(250, $circle->radius);
+        $this->assertEquals(250, $circle->diameter);
         
     }
 

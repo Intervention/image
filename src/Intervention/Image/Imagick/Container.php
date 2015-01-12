@@ -28,4 +28,9 @@ class Container implements ContainerInterface, IteratorAggregate
     {
         $this->imagick = $core;
     }
+
+    public function countFrames()
+    {
+        return $this->imagick->getNumberImages();
+    }
 }

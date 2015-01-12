@@ -24,31 +24,40 @@ class Decoder extends \Intervention\Image\AbstractDecoder
             );
         }
 
-        // define core
-        switch ($info[2]) {
-            case IMAGETYPE_PNG:
+        // try to decode animated gif
+        if ($info['mime'] == 'image/gif') {
+            
+            return $this->initFromBinary(file_get_contents($path));
+
+        } else {
+
+            // define core
+            switch ($info[2]) {
+                case IMAGETYPE_PNG:
                 $core = imagecreatefrompng($path);
                 $this->gdResourceToTruecolor($core);
                 break;
 
-            case IMAGETYPE_JPEG:
+                case IMAGETYPE_JPEG:
                 $core = imagecreatefromjpeg($path);
                 $this->gdResourceToTruecolor($core);
                 break;
 
-            case IMAGETYPE_GIF:
+                case IMAGETYPE_GIF:
                 $core = imagecreatefromgif($path);
                 $this->gdResourceToTruecolor($core);
                 break;
 
-            default:
+                default:
                 throw new \Intervention\Image\Exception\NotReadableException(
                     "Unable to read image type. GD driver is only able to decode JPG, PNG or GIF files."
-                );
+                    );
+            }
+
+            // build image
+            $image = $this->initFromGdResource($core);
         }
 
-        // build image
-        $image = $this->initFromGdResource($core);
         $image->mime = $info['mime'];
         $image->setFileInfoFromPath($path);
 
@@ -103,6 +112,7 @@ class Decoder extends \Intervention\Image\AbstractDecoder
             $gifDecoder = new Gif\Decoder;
             $decoded = $gifDecoder->initFromData($binary)->decode();
 
+            // create image
             $image = $this->initFromContainer($decoded->createContainer());
             $image->mime = 'image/gif';
 
@@ -116,6 +126,7 @@ class Decoder extends \Intervention\Image\AbstractDecoder
                 );
             }
 
+            // create image
             $image = $this->initFromGdResource($resource);
             $image->mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $binary);
 

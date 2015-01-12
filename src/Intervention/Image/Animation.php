@@ -53,6 +53,16 @@ class Animation implements IteratorAggregate
     }
 
     /**
+     * Return number of loops
+     *
+     * @return integer
+     */
+    public function getLoops()
+    {
+        return $this->loops;
+    }
+
+    /**
      * Add one frame to the Animation
      *
      * @param Frame $frame

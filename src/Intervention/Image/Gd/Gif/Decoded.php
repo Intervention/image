@@ -4,6 +4,7 @@ namespace Intervention\Image\Gd\Gif;
 
 use Intervention\Image\Frame as ContainerFrame;
 use Intervention\Image\Gd\Container;
+use Intervention\Image\Gd\Helper;
 
 class Decoded
 {
@@ -377,22 +378,9 @@ class Decoded
             ));
 
             // prepare next canvas
-            $canvas = $this->cloneResource($canvas);
+            $canvas = Helper::cloneResource($canvas);
         }
 
         return $container;
-    }
-
-    public function cloneResource($resource)
-    {
-        $width = imagesx($resource);
-        $height = imagesy($resource);
-        $clone = imagecreatetruecolor($width, $height);
-        imagealphablending($clone, false);
-        imagesavealpha($clone, true);
-        
-        imagecopy($clone, $resource, 0, 0, 0, 0, $width, $height);
-
-        return $clone;
     }
 }

@@ -59,7 +59,14 @@ class Driver extends \Intervention\Image\AbstractDriver
      */
     public function newAnimation($width, $height, $callback = null, $loops = null)
     {
-        $image = new \Intervention\Image\Image(new self, $core);
+        $container = new Container($this);
+        $container->setLoops($loops);
+
+        if (is_callable($callback)) {
+            $callback($container);
+        }
+
+        $image = new \Intervention\Image\Image(new self, $container);
 
         return $image;
     }

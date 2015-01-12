@@ -46,13 +46,35 @@ class Encoder extends \Intervention\Image\AbstractEncoder
      */
     protected function processGif()
     {
-        ob_start();
-        imagegif($this->image->getCore());
-        $this->image->mime = image_type_to_mime_type(IMAGETYPE_GIF);
-        $buffer = ob_get_contents();
-        ob_end_clean();
+        $image = $this->image;
 
-        return $buffer;
+        $encoder = new Gif\Encoder;
+        $encoder->setCanvas($image->getWidth(), $image->getHeight());
+        $encoder->setLoops($image->getContainer()->getLoops());
+
+        // set frames
+        foreach ($image as $frame) {
+
+            // extract each frame
+            ob_start();
+            imagegif($frame->getCore());
+            $frame_data = ob_get_contents();
+            ob_end_clean();
+
+            // decode frame
+            $decoder = new Gif\Decoder;
+            $decoder->initFromData($frame_data);
+            $decoded = $decoder->decode();
+
+            // add each frame
+            $encoder->addFrame(
+                $decoded->getFrame()
+                    ->setLocalColorTable($decoded->getGlobalColorTable())
+                    ->setDelay($frame->delay)
+            );
+        }
+
+        return $encoder->encode();
     }
 
     /**

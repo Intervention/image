@@ -132,4 +132,13 @@ class GifDecodedTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\Intervention\Image\Gd\Gif\Frame', $frame);
         $this->assertEquals('bar', $frame->imageData);
     }
+
+    /**
+     * @expectedException \Intervention\Image\Exception\RuntimeException
+     */
+    public function testGetFrameNotExisting()
+    {
+        $decoded = new Decoded;
+        $frame = $decoded->getFrame();
+    }
 }

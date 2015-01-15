@@ -73,7 +73,7 @@ class Encoder extends \Intervention\Image\AbstractEncoder
                     ->setDelay($frame->delay)
             );
         }
-
+        
         return $encoder->encode();
     }
 

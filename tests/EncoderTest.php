@@ -38,9 +38,17 @@ class EncoderTest extends PHPUnit_Framework_TestCase
     {
         $core = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $encoder = new GdEncoder;
+        $frame = Mockery::mock('\Intervention\Image\Frame');
+        $frame->shouldReceive('getCore')->andReturn($core);
+        $container = Mockery::mock('\Intervention\Image\Gd\Container');
+        $container->shouldReceive('getLoops')->once()->andReturn(1);
+        $container->shouldReceive('getIterator')->andReturn(new ArrayIterator(array($frame)));
         $image = Mockery::mock('\Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($core);
+        $image->shouldReceive('getWidth')->once()->andReturn(800);
+        $image->shouldReceive('getHeight')->once()->andReturn(600);
+        $image->shouldReceive('getContainer')->once()->andReturn($container);
         $image->shouldReceive('setEncoded')->once()->andReturn($image);
+        $image->shouldReceive('getIterator')->andReturn($container);
         $img = $encoder->process($image, 'gif', 90);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertEquals('image/gif; charset=binary', $this->getMime($encoder->result));

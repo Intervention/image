@@ -102,6 +102,11 @@ class Decoded
         return $this->logicalScreenDescriptor;
     }
 
+    /**
+     * Sets global color table
+     *
+     * @param string $value
+     */
     public function setGlobalColorTable($value)
     {
         $this->globalColorTable = $value;
@@ -109,11 +114,21 @@ class Decoded
         return $this;
     }
 
+    /**
+     * Gets global color table
+     *
+     * @return string
+     */
     public function getGlobalColorTable()
     {
         return $this->globalColorTable;
     }
 
+    /**
+     * Sets Netscape extension
+     *
+     * @param string $value
+     */
     public function setNetscapeExtension($value)
     {
         $this->netscapeExtension = $value;
@@ -121,11 +136,21 @@ class Decoded
         return $this;
     }
 
+    /**
+     * Returns Netscape extension
+     *
+     * @return string
+     */
     public function getNetscapeExtension()
     {
         return $this->netscapeExtension;
     }
 
+    /**
+     * Sets plain text extension
+     *
+     * @param string $value
+     */
     public function setPlaintextExtension($value)
     {
         $this->plaintextExtension = $value;
@@ -133,11 +158,21 @@ class Decoded
         return $this;
     }
 
+    /**
+     * Returns plain text extension
+     *
+     * @return string
+     */
     public function getPlaintextExtension()
     {
         return $this->plaintextExtension;
     }
 
+    /**
+     * Sets comment extension
+     *
+     * @param string $value
+     */
     public function setCommentExtension($value)
     {
         $this->commentExtension = $value;
@@ -145,16 +180,32 @@ class Decoded
         return $this;
     }
 
+    /**
+     * Returns comment extension
+     *
+     * @return string
+     */
     public function getCommentExtension()
     {
         return $this->commentExtension;
     }
 
+    /**
+     * Returns frames
+     *
+     * @return array
+     */
     public function getFrames()
     {
         return $this->frames;
     }
 
+    /**
+     * Returns particular frame
+     *
+     * @param  integer $index
+     * @return \Intervention\Image\Gd\Gif\Frame
+     */
     public function getFrame($index = 0)
     {
         if (array_key_exists($index, $this->frames)) {
@@ -166,26 +217,52 @@ class Decoded
         );
     }
 
+    /**
+     * Returns number of current frames
+     *
+     * @return integer
+     */
     public function countFrames()
     {
         return count($this->frames);
     }
 
+    /**
+     * Adds graphic control extension to first frame without this extension
+     *
+     * @param string $value
+     */
     public function addGraphicsControlExtension($value)
     {
         $this->addToFirstFrameWithoutProperty($value, 'graphicsControlExtension');
     }
 
+    /**
+     * Adds local color table to first frame without local color table
+     *
+     * @param string $value
+     */
     public function addLocalColorTable($value)
     {
         $this->addToFirstFrameWithoutProperty($value, 'localColorTable');
     }
 
+    /**
+     * Adds interlaced flag to first frame without flag
+     *
+     * @param string $value
+     */
     public function addInterlaced($value)
     {
         $this->addToFirstFrameWithoutProperty($value, 'interlaced');
     }
 
+    /**
+     * Adds offset to first frame without offset
+     *
+     * @param integer $left
+     * @param integer $top
+     */
     public function addOffset($left, $top)
     {
         $offset = new \StdClass;
@@ -195,6 +272,12 @@ class Decoded
         $this->addToFirstFrameWithoutProperty($offset, 'offset');
     }
 
+    /**
+     * Adds size to first frame without size
+     *
+     * @param integer $width
+     * @param integer $height
+     */
     public function addSize($width, $height)
     {
         $size = new \StdClass;
@@ -204,11 +287,21 @@ class Decoded
         $this->addToFirstFrameWithoutProperty($size, 'size');
     }
 
+    /**
+     * Adds image descriptor to first frame without this data
+     *
+     * @param string $value
+     */
     public function addImageDescriptors($value)
     {
         $this->addToFirstFrameWithoutProperty($value, 'imageDescriptor');
     }
 
+    /**
+     * Adds image data to first frame without this data
+     *
+     * @param string $value
+     */
     public function addImageData($value)
     {
         $this->addToFirstFrameWithoutProperty($value, 'imageData');
@@ -298,6 +391,11 @@ class Decoded
         return isset($bit) ? pow(2, $bit + 1) : 0;
     }
 
+    /**
+     * Returns background color index
+     *
+     * @return integer
+     */
     public function getBackgroundColorIndex()
     {
         if ($this->logicalScreenDescriptor) {
@@ -310,6 +408,12 @@ class Decoded
         return 0;
     }
 
+    /**
+     * Adds value to first frame without this particular value
+     *
+     * @param mixed $value
+     * @param mixed $property
+     */
     private function addToFirstFrameWithoutProperty($value, $property)
     {
         $added = false;
@@ -329,12 +433,24 @@ class Decoded
         return $added;
     }
 
+    /**
+     * Adds new frame with given property
+     *
+     * @param  mixed $property
+     * @param  mixed $value
+     * @return void
+     */
     private function newFrameWithProperty($property, $value)
     {
         $frame = new Frame;
         $this->frames[] = $frame->setProperty($property, $value);
     }
 
+    /**
+     * Returns Container object from decoded data
+     *
+     * @return \Intervention\Image\Gd\Container
+     */
     public function createContainer()
     {
         $container = new Container;

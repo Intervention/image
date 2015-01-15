@@ -43,6 +43,11 @@ class Frame
         return $this;
     }
 
+    /**
+     * Sets image data of fram
+     *
+     * @param string $value
+     */
     public function setImageData($value)
     {
         $this->imageData = $value;
@@ -50,6 +55,11 @@ class Frame
         return $this;
     }
 
+    /**
+     * Returns image data
+     *
+     * @return string
+     */
     public function getImageData()
     {
         return $this->imageData;
@@ -75,6 +85,11 @@ class Frame
         return $this->localColorTable;
     }
 
+    /**
+     * Sets local color table of frame
+     *
+     * @param string $value
+     */
     public function setLocalColorTable($value)
     {
         $this->localColorTable = $value;
@@ -82,6 +97,11 @@ class Frame
         return $this;
     }
 
+    /**
+     * Returns delay of frame
+     *
+     * @return integer
+     */
     public function getDelay()
     {
         return $this->propertyIsSet('delay')
@@ -89,6 +109,11 @@ class Frame
             : $this->decodeDelay();
     }
 
+    /**
+     * Sets delay of frame
+     *
+     * @param integer $delay
+     */
     public function setDelay($delay)
     {
         $this->delay = $delay;
@@ -129,6 +154,11 @@ class Frame
         return false;
     }
 
+    /**
+     * Returns transparent color index of frame
+     *
+     * @return integer
+     */
     public function getTransparentColorIndex()
     {
         return $this->propertyIsSet('transparentColorIndex') 
@@ -136,6 +166,11 @@ class Frame
             : $this->decodeTransparentColorIndex();
     }
 
+    /**
+     * Sets transparent color index of frame
+     *
+     * @param integer $value
+     */
     public function setTransparentColorIndex($value)
     {
         $this->transparentColorIndex = $value;
@@ -157,6 +192,11 @@ class Frame
         return false;        
     }
 
+    /**
+     * Returns disposal method of frame
+     *
+     * @return integer
+     */
     public function getDisposalMethod()
     {
         return $this->propertyIsSet('disposalMethod') 
@@ -164,6 +204,11 @@ class Frame
             : $this->decodeDisposalMethod();
     }
 
+    /**
+     * Defines disposal method of frame
+     *
+     * @param integer $value
+     */
     public function setDisposalMethod($value)
     {
         $this->disposalMethod = $value;
@@ -171,6 +216,11 @@ class Frame
         return $this;
     }
 
+    /**
+     * Decodes disposal method of frame
+     *
+     * @return integer
+     */
     public function decodeDisposalMethod()
     {
         if ($this->graphicsControlExtension) {
@@ -184,6 +234,11 @@ class Frame
         return 0;
     }
 
+    /**
+     * Decodes frame width
+     *
+     * @return integer
+     */
     public function decodeWidth()
     {
         if ($this->imageDescriptor) {
@@ -195,6 +250,11 @@ class Frame
         return false;
     }
 
+    /**
+     * Decodes frame height
+     *
+     * @return integer
+     */
     public function decodeHeight()
     {
         if ($this->imageDescriptor) {
@@ -206,6 +266,11 @@ class Frame
         return false;
     }
 
+    /**
+     * Decodes width and height of frame to size object
+     *
+     * @return StdClass
+     */
     public function getSize()
     {
         $size = new \StdClass;
@@ -215,6 +280,11 @@ class Frame
         return $size;
     }
 
+    /**
+     * Decodes left offset of frame
+     *
+     * @return integer
+     */
     public function decodeOffsetLeft()
     {
         if ($this->imageDescriptor) {
@@ -226,6 +296,11 @@ class Frame
         return false;
     }
 
+    /**
+     * Decodes top offset of frame
+     *
+     * @return integer
+     */
     public function decodeOffsetTop()
     {
         if ($this->imageDescriptor) {
@@ -237,6 +312,11 @@ class Frame
         return false;
     }
 
+    /**
+     * Decodes offsets into object
+     *
+     * @return StdClass
+     */
     public function getOffset()
     {
         $offset = new \StdClass;
@@ -246,6 +326,12 @@ class Frame
         return $offset;
     }
 
+    /**
+     * Sets frame offset
+     *
+     * @param integer $left
+     * @param integer $top
+     */
     public function setOffset($left, $top)
     {
         $offset = new \StdClass;
@@ -256,13 +342,23 @@ class Frame
         return $this;
     }
 
-    public function setInterlaced(boolean $flag)
+    /**
+     * Mark frame as interlaced
+     *
+     * @param boolean $flag
+     */
+    public function setInterlaced($flag)
     {
         $this->interlaced = $flag;
 
         return $this;
     }
 
+    /**
+     * Returns interlaced mode
+     *
+     * @return boolean
+     */
     public function getInterlaced()
     {
         return $this->propertyIsSet('interlaced') ? $this->interlaced : $this->decodeInterlaced();

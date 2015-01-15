@@ -87,11 +87,21 @@ class Encoder
         return $this;
     }
 
+    /**
+     * Return global color table of encoder
+     *
+     * @return string
+     */
     public function getGlobalColorTable()
     {
         return $this->globalColorTable;
     }
 
+    /**
+     * Setup frame stack of encoder
+     *
+     * @param Array $frames
+     */
     public function setFrames(Array $frames)
     {
         $this->frames = $frames;
@@ -99,6 +109,11 @@ class Encoder
         return $this;
     }
 
+    /**
+     * Set background color index for encoder
+     *
+     * @param string $index
+     */
     public function setBackgroundColorIndex($index)
     {
         $this->backgroundColorIndex = $index;
@@ -140,23 +155,26 @@ class Encoder
         $this->setLoops($loops);
         $this->setFrames($frames);
 
-
-
         return $this;
     }
 
+    /**
+     * Add one frame to stack
+     *
+     * @param Frame $frame
+     */
     public function addFrame(Frame $frame)
     {
         $this->frames[] = $frame;
     }
 
-    public function createFrame()
-    {
-        $frame = new Frame;
-
-        $this->frames[] = $frame;
-    }
-
+    /**
+     * Create and add new frame from GD resource
+     *
+     * @param  resource $resource
+     * @param  integer  $delay
+     * @return void
+     */
     public function createFrameFromGdResource($resource, $delay = null)
     {
         // get imagedata from resource
@@ -244,6 +262,11 @@ class Encoder
         return $descriptor;
     }
 
+    /**
+     * Build Netscape extension
+     *
+     * @return string
+     */
     private function buildNetscapeExtension()
     {
         $extension = "\x21";
@@ -258,6 +281,12 @@ class Encoder
         return $extension;
     }
 
+    /**
+     * Build encoded Frame
+     *
+     * @param  Frame  $frame
+     * @return string
+     */
     private function buildFrame(Frame $frame)
     {
         // graphics control extensions
@@ -272,6 +301,12 @@ class Encoder
         return $encoded;
     }
 
+    /**
+     * Build encoded graphics control extension for frame
+     *
+     * @param  Frame  $frame
+     * @return string
+     */
     private function buildGraphicsControlExtension(Frame $frame)
     {
         // start
@@ -305,6 +340,12 @@ class Encoder
         return $extension;
     }
 
+    /**
+     * Build encoded image descriptor for frame
+     *
+     * @param  Frame  $frame
+     * @return string
+     */
     private function buildImageDescriptor(Frame $frame)
     {
         // seperator
@@ -351,11 +392,22 @@ class Encoder
         return $descriptor;
     }
 
+    /**
+     * Determines if encoder has global color table
+     *
+     * @return boolean
+     */
     private function hasGlobalColorTable()
     {
         return isset($this->globalColorTable);
     }
 
+    /**
+     * Encode GD resource to GIF string
+     *
+     * @param  resource $resource
+     * @return string
+     */
     private function encodeGdResource($resource)
     {
         ob_start();
@@ -366,14 +418,23 @@ class Encoder
         return $buffer;
     }
 
+    /**
+     * Determines if current encoder is set up animated
+     *
+     * @return boolean
+     */
     public function isAnimated()
     {
         return count($this->frames) > 1;
     }
 
+    /**
+     * Determines if current encoder is set up to loop animation
+     *
+     * @return boolean
+     */
     public function doesLoop()
     {
         return is_integer($this->loops);
     }
-
 }

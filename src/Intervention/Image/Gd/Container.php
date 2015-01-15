@@ -8,18 +8,21 @@ use Intervention\Image\ContainerInterface;
 
 class Container extends Animation implements ContainerInterface
 {
-    public $driver;
-
-    public function __construct($driver = null)
-    {
-        $this->driver = $driver;
-    }
-
+    /**
+     * Return first image resource
+     *
+     * @return resource
+     */
     public function getCore()
     {
         return $this->getFrames()[0]->getCore();
     }
 
+    /**
+     * Setup image stack with new resource
+     *
+     * @param resource $core
+     */
     public function setCore($core)
     {
         $this->setFrames(array(
@@ -27,18 +30,13 @@ class Container extends Animation implements ContainerInterface
         ));
     }
 
+    /**
+     * Return number of frames in container
+     *
+     * @return int
+     */
     public function countFrames()
     {
         return count($this->getFrames());
-    }
-
-    public function add($source, $delay = 0)
-    {
-        $core = $this->driver->init($source)->getCore();
-
-        $this->addFrame(new Frame(
-            $core,
-            $delay
-        ));
     }
 }

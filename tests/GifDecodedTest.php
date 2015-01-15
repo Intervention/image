@@ -109,4 +109,27 @@ class GifDecodedTest extends PHPUnit_Framework_TestCase
         $decoded->setLogicalScreenDescriptor("\x0A\x00\x0A\x00\x91\x00\x00");
         $this->assertEquals(4, $decoded->countGlobalColors());
     }
+
+    public function testGetBackgroundColorIndex()
+    {
+        $decoded = new Decoded;
+        $this->assertEquals(0, $decoded->getBackgroundColorIndex());
+
+        $decoded = new Decoded;
+        $decoded->setLogicalScreenDescriptor("\x0A\x00\x0A\x00\x00\x05\x00");
+        $this->assertEquals(5, $decoded->getBackgroundColorIndex());
+    }
+
+    public function testGetFrame()
+    {
+        $decoded = new Decoded;
+        $decoded->addImageData('foo');
+        $decoded->addImageData('bar');
+        $frame = $decoded->getFrame();
+        $this->assertInstanceOf('\Intervention\Image\Gd\Gif\Frame', $frame);
+        $this->assertEquals('foo', $frame->imageData);
+        $frame = $decoded->getFrame(1);
+        $this->assertInstanceOf('\Intervention\Image\Gd\Gif\Frame', $frame);
+        $this->assertEquals('bar', $frame->imageData);
+    }
 }

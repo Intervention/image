@@ -171,8 +171,11 @@ class GifFrameTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(24, $offset->left);
     }
 
-    public function testToResource()
+    public function testSetInterlaced()
     {
         $frame = new Frame;
+        $frame->setInterlaced(true);
+        $this->assertTrue($frame->interlaced);
+        $this->assertInstanceOf('Intervention\Image\Gd\Gif\Frame', $frame);
     }
 }

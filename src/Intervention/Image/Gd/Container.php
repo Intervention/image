@@ -9,6 +9,13 @@ use Intervention\Image\ContainerInterface;
 class Container extends Animation implements ContainerInterface
 {
     /**
+     * Driver
+     *
+     * @var \Intervention\Image\Gd\Driver
+     */
+    protected $driver;
+
+    /**
      * Return first image resource
      *
      * @return resource
@@ -22,12 +29,15 @@ class Container extends Animation implements ContainerInterface
      * Setup image stack with new resource
      *
      * @param resource $core
+     * @return \Intervention\Image\Gd\Container
      */
     public function setCore($core)
     {
         $this->setFrames(array(
             new Frame($core)
         ));
+
+        return $this;
     }
 
     /**
@@ -38,5 +48,35 @@ class Container extends Animation implements ContainerInterface
     public function countFrames()
     {
         return count($this->getFrames());
+    }
+
+    /**
+     * Add image source to Container
+     *
+     * @param mixed   $source
+     * @param integer $delay
+     * @return \Intervention\Image\Gd\Container
+     */
+    public function add($source, $delay = 0)
+    {
+        $this->addFrame(new Frame(
+            $this->driver->init($source)->getCore(),
+            $delay
+        ));
+
+        return $this;
+    }
+
+    /**
+     * Attach driver current instance
+     *
+     * @param  Driver $driver
+     * @return \Intervention\Image\Gd\Container
+     */
+    public function attachDriver(Driver $driver)
+    {
+        $this->driver = $driver;
+
+        return $this;
     }
 }

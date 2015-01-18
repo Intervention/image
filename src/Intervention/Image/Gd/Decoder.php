@@ -35,17 +35,17 @@ class Decoder extends \Intervention\Image\AbstractDecoder
             switch ($info[2]) {
                 case IMAGETYPE_PNG:
                 $core = imagecreatefrompng($path);
-                $this->gdResourceToTruecolor($core);
+                Helper::gdResourceToTruecolor($core);
                 break;
 
                 case IMAGETYPE_JPEG:
                 $core = imagecreatefromjpeg($path);
-                $this->gdResourceToTruecolor($core);
+                Helper::gdResourceToTruecolor($core);
                 break;
 
                 case IMAGETYPE_GIF:
                 $core = imagecreatefromgif($path);
-                $this->gdResourceToTruecolor($core);
+                Helper::gdResourceToTruecolor($core);
                 break;
 
                 default:
@@ -144,35 +144,5 @@ class Decoder extends \Intervention\Image\AbstractDecoder
     public function initFromInterventionContainer(ContainerInterface $container)
     {
         return new Image(new Driver, $container);
-    }
-
-    /**
-     * Transform GD resource into Truecolor version
-     *
-     * @param  resource $resource
-     * @return bool
-     */
-    public function gdResourceToTruecolor(&$resource)
-    {
-        $width = imagesx($resource);
-        $height = imagesy($resource);
-
-        // new canvas
-        $canvas = imagecreatetruecolor($width, $height);
-
-        // fill with transparent color
-        imagealphablending($canvas, false);
-        $transparent = imagecolorallocatealpha($canvas, 255, 255, 255, 127);
-        imagefilledrectangle($canvas, 0, 0, $width, $height, $transparent);
-        imagecolortransparent($canvas, $transparent);
-        imagealphablending($canvas, true);
-
-        // copy original
-        imagecopy($canvas, $resource, 0, 0, 0, 0, $width, $height);
-        imagedestroy($resource);
-
-        $resource = $canvas;
-
-        return true;
     }
 }

@@ -1562,8 +1562,12 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
     public function testDestroy()
     {
         $img = $this->manager()->make('tests/images/trim.png');
+        $img->backup();
         $img->destroy();
+        // destroy should affect core
         $this->assertEquals(get_resource_type($img->getCore()), 'Unknown');
+        // destroy should affect backup
+        $this->assertEquals(get_resource_type($img->getBackup()), 'Unknown');
     }
 
     public function testStringConversion()

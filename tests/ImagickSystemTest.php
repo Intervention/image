@@ -1555,6 +1555,17 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
         $img->getCore()->getImageWidth(); // try to get width (should throw exception)
     }
 
+    /**
+     * @expectedException Exception
+     */
+    public function testDestroyWithBackup()
+    {
+        $img = $this->manager()->make('tests/images/trim.png');
+        $img->backup();
+        $img->destroy();
+        $img->getBackup()->getImageWidth(); // try to get width (should throw exception)
+    }
+
     public function testStringConversion()
     {
         $img = $this->manager()->make('tests/images/trim.png');

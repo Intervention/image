@@ -12,6 +12,14 @@ class DestroyCommand extends \Intervention\Image\Commands\AbstractCommand
      */
     public function execute($image)
     {
-        return $image->getCore()->clear();
+        // destroy image core
+        $image->getCore()->clear();
+
+        // destroy backups    
+        foreach ($image->getBackups() as $backup) {
+            $backup->clear();
+        }
+
+        return true;
     }
 }

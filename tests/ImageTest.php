@@ -78,6 +78,44 @@ class ImageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('./tmp/foo.png', $image->basePath());
     }
 
+    /**
+     * @expectedException \Intervention\Image\Exception\RuntimeException
+     */
+    public function testGetBackupWithoutBackuo()
+    {
+        $image = $this->getTestImage();
+        $image->getBackup();
+    }
+
+    public function testSetGetBackup()
+    {
+        $image = $this->getTestImage();
+        $image->setBackup('foo');
+        $backup = $image->getBackup();
+        $this->assertEquals('foo', $backup);
+    }
+
+    public function testGetBackups()
+    {
+        $image = $this->getTestImage();
+        $backups = $image->getBackups();
+        $this->assertEquals(array(), $backups);
+
+        $image = $this->getTestImage();
+        $image->setBackup('foo');
+        $image->setBackup('bar');
+        $image->setBackup('baz');
+        $backups = $image->getBackups();
+        $this->assertEquals(array('default' => 'baz'), $backups);
+
+        $image = $this->getTestImage();
+        $image->setBackup('foo', 'a');
+        $image->setBackup('bar', 'b');
+        $image->setBackup('baz', 'c');
+        $backups = $image->getBackups();
+        $this->assertEquals(array('a' => 'foo', 'b' => 'bar', 'c' => 'baz'), $backups);
+    }
+
     private function getTestImage()
     {
         $size = Mockery::mock('\Intervention\Image\Size', array(800, 600));

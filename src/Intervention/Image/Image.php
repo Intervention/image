@@ -252,6 +252,16 @@ class Image extends File implements \IteratorAggregate
     }
 
     /**
+     * Returns all backups attached to image
+     *
+     * @return array
+     */
+    public function getBackups()
+    {
+        return $this->backups;
+    }
+
+    /**
      * Sets current image backup
      *
      * @param mixed  $resource

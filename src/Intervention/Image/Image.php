@@ -220,6 +220,16 @@ class Image extends File
     }
 
     /**
+     * Returns all backups attached to image
+     *
+     * @return array
+     */
+    public function getBackups()
+    {
+        return $this->backups;
+    }
+
+    /**
      * Sets current image backup
      *
      * @param mixed  $resource

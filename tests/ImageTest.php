@@ -80,20 +80,24 @@ class ImageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $backup);
     }
 
-    public function testGetAllBackups()
+    public function testGetBackups()
     {
+        $image = $this->getTestImage();
+        $backups = $image->getBackups();
+        $this->assertEquals(array(), $backups);
+
         $image = $this->getTestImage();
         $image->setBackup('foo');
         $image->setBackup('bar');
         $image->setBackup('baz');
-        $backups = $image->getAllBackups();
+        $backups = $image->getBackups();
         $this->assertEquals(array('default' => 'baz'), $backups);
 
         $image = $this->getTestImage();
         $image->setBackup('foo', 'a');
         $image->setBackup('bar', 'b');
         $image->setBackup('baz', 'c');
-        $backups = $image->getAllBackups();
+        $backups = $image->getBackups();
         $this->assertEquals(array('a' => 'foo', 'b' => 'bar', 'c' => 'baz'), $backups);
     }
 

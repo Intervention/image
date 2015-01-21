@@ -5,6 +5,7 @@ namespace Intervention\Image\Gd\Gif;
 use Intervention\Image\Frame as ContainerFrame;
 use Intervention\Image\Gd\Container;
 use Intervention\Image\Gd\Helper;
+use Intervention\Image\Gd\Driver;
 
 class Decoded
 {
@@ -457,14 +458,8 @@ class Decoded
         $container->setLoops($this->getLoops());
 
         // create empty canvas
-        $canvas = imagecreatetruecolor(
-            $this->getCanvasWidth(),
-            $this->getCanvasHeight()
-        );
-
-        imagealphablending($canvas, false);
-        imagesavealpha($canvas, true);
-        Helper::gdResourceToTruecolor($canvas);
+        $driver = new Driver;
+        $canvas = $driver->newImage($this->getCanvasWidth(), $this->getCanvasHeight())->getCore();
 
         foreach ($this->frames as $key => $frame) {
 

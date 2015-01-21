@@ -107,7 +107,6 @@ class Decoder extends \Intervention\Image\AbstractDecoder
     public function initFromBinary($binary)
     {
         try {
-            
             // try to custom decode gif
             $gifDecoder = new Gif\Decoder;
             $decoded = $gifDecoder->initFromData($binary)->decode();

@@ -22,6 +22,10 @@ class ColorizeCommand extends \Intervention\Image\Commands\AbstractCommand
         $blue = round($blue * 2.55);
 
         // apply filter
-        return imagefilter($image->getCore(), IMG_FILTER_COLORIZE, $red, $green, $blue);
+        foreach ($image as $frame) {
+            imagefilter($frame->getCore(), IMG_FILTER_COLORIZE, $red, $green, $blue);
+        }
+        
+        return true;
     }
 }

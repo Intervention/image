@@ -59,13 +59,23 @@ class Driver extends \Intervention\Image\AbstractDriver
      */
     public function newAnimation($width, $height, $callback = null, $loops = null)
     {
+        // create container
         $container = new Container;
         $container->setLoops($loops);
 
+        // create empty canvas
+        $canvas = $this->newImage($width, $height)->getCore();
+
+        // build frames from callback
         if (is_callable($callback)) {
-            $callback($container->attachDriver($this));
+
+            $callback($container);
+            
+        } else {
+            $container->setCore($canvas);
         }
 
+        // setup image instance
         $image = new \Intervention\Image\Image(new self, $container);
 
         return $image;

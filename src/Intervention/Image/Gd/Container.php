@@ -9,20 +9,14 @@ use Intervention\Image\ContainerInterface;
 class Container extends Animation implements ContainerInterface
 {
     /**
-     * Driver
-     *
-     * @var \Intervention\Image\Gd\Driver
-     */
-    protected $driver;
-
-    /**
      * Return first image resource
      *
+     * @param interger $index
      * @return resource
      */
-    public function getCore()
+    public function getCore($index = 0)
     {
-        return $this->getFrames()[0]->getCore();
+        return $this->getFrames()[$index]->getCore();
     }
 
     /**
@@ -59,23 +53,12 @@ class Container extends Animation implements ContainerInterface
      */
     public function add($source, $delay = 0)
     {
+        $driver = new Driver;
+
         $this->addFrame(new Frame(
-            $this->driver->init($source)->getCore(),
+            $driver->init($source)->getCore(),
             $delay
         ));
-
-        return $this;
-    }
-
-    /**
-     * Attach driver current instance
-     *
-     * @param  Driver $driver
-     * @return \Intervention\Image\Gd\Container
-     */
-    public function attachDriver(Driver $driver)
-    {
-        $this->driver = $driver;
 
         return $this;
     }

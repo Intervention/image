@@ -472,11 +472,6 @@ class Decoded
             $encoder = new Encoder;
             $encoder->setFromDecoded($this, $key);
             $frame_resource = imagecreatefromstring($encoder->encode());
-            Helper::gdResourceToTruecolor($frame_resource);
-
-            if ($key == 2) {
-                // Helper::display($frame_resource);
-            }
 
             // insert frame image data into canvas
             imagecopy(

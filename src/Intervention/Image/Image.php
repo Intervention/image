@@ -191,11 +191,12 @@ class Image extends File implements \IteratorAggregate
     /**
      * Returns current image resource/obj
      *
+     * @param integer $index
      * @return mixed
      */
-    public function getCore()
+    public function getCore($index = 0)
     {
-        return $this->container->getCore();
+        return $this->container->getCore($index);
     }
 
     /**

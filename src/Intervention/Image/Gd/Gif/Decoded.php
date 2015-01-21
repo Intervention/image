@@ -371,7 +371,7 @@ class Decoded
             $bit = $byte & bindec('10000000');
         }
 
-        return isset($bit) ? boolval($bit) : false;
+        return isset($bit) ? (bool) $bit : false;
     }
 
     /**

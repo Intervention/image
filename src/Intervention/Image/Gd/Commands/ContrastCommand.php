@@ -14,6 +14,10 @@ class ContrastCommand extends \Intervention\Image\Commands\AbstractCommand
     {
         $level = $this->argument(0)->between(-100, 100)->required()->value();
 
-        return imagefilter($image->getCore(), IMG_FILTER_CONTRAST, ($level * -1));
+        foreach ($image as $frame) {
+            imagefilter($frame->getCore(), IMG_FILTER_CONTRAST, ($level * -1));
+        }
+
+        return true;
     }
 }

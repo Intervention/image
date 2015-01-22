@@ -14,6 +14,10 @@ class ContrastCommand extends \Intervention\Image\Commands\AbstractCommand
     {
         $level = $this->argument(0)->between(-100, 100)->required()->value();
 
-        return $image->getCore()->sigmoidalContrastImage($level > 0, $level / 4, 0);
+        foreach ($image as $imagick) {
+            $imagick->sigmoidalContrastImage($level > 0, $level / 4, 0);
+        }
+
+        return true;
     }
 }

@@ -29,5 +29,8 @@
             "Intervention\\Image\\": "src/Intervention/Image"
         }
     },
+    "autoload-dev": {
+        "classmap": ["tests"]
+    },
     "minimum-stability": "stable"
 }

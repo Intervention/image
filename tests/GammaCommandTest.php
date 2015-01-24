@@ -3,7 +3,7 @@
 use Intervention\Image\Gd\Commands\GammaCommand as GammaGd;
 use Intervention\Image\Imagick\Commands\GammaCommand as GammaImagick;
 
-class GammaCommandTest extends PHPUnit_Framework_TestCase
+class GammaCommandTest extends CommandTestCase
 {
     public function tearDown()
     {
@@ -12,9 +12,8 @@ class GammaCommandTest extends PHPUnit_Framework_TestCase
     
     public function testGd()
     {
-        $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
-        $image = Mockery::mock('Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($resource);
+        $image = $this->getTestImage('gd');
+
         $command = new GammaGd(array(1.4));
         $result = $command->execute($image);
         $this->assertTrue($result);
@@ -22,10 +21,9 @@ class GammaCommandTest extends PHPUnit_Framework_TestCase
 
     public function testImagick()
     {
-        $imagick = Mockery::mock('Imagick');
-        $imagick->shouldReceive('gammaimage')->with(1.4)->once()->andReturn(true);
-        $image = Mockery::mock('Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($imagick);
+        $image = $this->getTestImage('imagick');
+        $image->getCore()->shouldReceive('gammaimage')->times(3)->with(1.4)->andReturn(true);
+
         $command = new GammaImagick(array(1.4));
         $result = $command->execute($image);
         $this->assertTrue($result);

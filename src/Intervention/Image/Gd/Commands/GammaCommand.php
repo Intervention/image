@@ -14,6 +14,10 @@ class GammaCommand extends \Intervention\Image\Commands\AbstractCommand
     {
         $gamma = $this->argument(0)->type('numeric')->required()->value();
 
-        return imagegammacorrect($image->getCore(), 1, $gamma);
+        foreach ($image as $frame) {
+            imagegammacorrect($frame->getCore(), 1, $gamma);
+        }
+
+        return true;
     }
 }

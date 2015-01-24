@@ -52,4 +52,17 @@ class Frame
     {
         return $this->core;
     }
+
+    /**
+     * Set core of current frame
+     *
+     * @param mixed $core
+     * @return Intervention\Image\Frame
+     */
+    public function setCore($core)
+    {
+        $this->core = $core;
+
+        return $this;
+    }
 }

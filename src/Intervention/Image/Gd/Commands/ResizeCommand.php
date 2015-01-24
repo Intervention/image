@@ -41,42 +41,49 @@ class ResizeCommand extends \Intervention\Image\Commands\AbstractCommand
      */
     protected function modify($image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h)
     {
-        // create new image
-        $modified = imagecreatetruecolor($dst_w, $dst_h);
+        foreach ($image as $frame) {
 
-        // get current image
-        $resource = $image->getCore();
+            // create new image
+            $modified = imagecreatetruecolor($dst_w, $dst_h);
 
-        // preserve transparency
-        $transIndex = imagecolortransparent($resource);
+            // get current image
+            $resource = $frame->getCore();    
 
-        if ($transIndex != -1) {
-            $rgba = imagecolorsforindex($modified, $transIndex);
-            $transColor = imagecolorallocatealpha($modified, $rgba['red'], $rgba['green'], $rgba['blue'], 127);
-            imagefill($modified, 0, 0, $transColor);
-            imagecolortransparent($modified, $transColor);
-        } else {
-            imagealphablending($modified, false);
-            imagesavealpha($modified, true);
+            // preserve transparency
+            $transIndex = imagecolortransparent($resource);
+
+            if ($transIndex != -1) {
+                $rgba = imagecolorsforindex($modified, $transIndex);
+                $transColor = imagecolorallocatealpha($modified, $rgba['red'], $rgba['green'], $rgba['blue'], 127);
+                imagefill($modified, 0, 0, $transColor);
+                imagecolortransparent($modified, $transColor);
+            } else {
+                imagealphablending($modified, false);
+                imagesavealpha($modified, true);
+            }
+
+            // copy content from resource
+            imagecopyresampled(
+                $modified,
+                $resource,
+                $dst_x,
+                $dst_y,
+                $src_x,
+                $src_y,
+                $dst_w,
+                $dst_h,
+                $src_w,
+                $src_h
+            );
+
+            // free memory of old core
+            imagedestroy($resource);
+
+            // set new content as recource
+            $frame->setCore($modified);
+            
         }
 
-        // copy content from resource
-        $result = imagecopyresampled(
-            $modified,
-            $resource,
-            $dst_x,
-            $dst_y,
-            $src_x,
-            $src_y,
-            $dst_w,
-            $dst_h,
-            $src_w,
-            $src_h
-        );
-
-        // set new content as recource
-        $image->setCore($modified);
-
-        return $result;
+        return true;
     }
 }

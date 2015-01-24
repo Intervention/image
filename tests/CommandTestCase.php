@@ -20,6 +20,7 @@ abstract class CommandTestCase extends PHPUnit_Framework_TestCase
 
                 $container->shouldReceive('getIterator')->andReturn($iterator);
                 $frame->shouldReceive('getCore')->andReturn($resource);
+                $frame->shouldReceive('setCore')->andReturn($resource);
                 $image->shouldReceive('getCore')->andReturn($resource);
                 $image->shouldReceive('getIterator')->andReturn($container);
                 break;

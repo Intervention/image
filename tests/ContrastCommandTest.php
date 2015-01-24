@@ -17,7 +17,7 @@ class ContrastCommandTest extends CommandTestCase
     public function testImagick()
     {
         $image = $this->getTestImage('imagick');
-        $image->getCore()->shouldReceive('sigmoidalcontrastimage')->with(true, 5, 0)->andReturn(true);
+        $image->getCore()->shouldReceive('sigmoidalcontrastimage')->times(3)->with(true, 5, 0)->andReturn(true);
 
         $command = new ContrastImagick(array(20));
         $result = $command->execute($image);

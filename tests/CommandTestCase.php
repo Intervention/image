@@ -28,10 +28,18 @@ abstract class CommandTestCase extends PHPUnit_Framework_TestCase
                 $image = Mockery::mock('Intervention\Image\Image');
                 $container = Mockery::mock('Intervention\Image\Imagick\Container');
                 $imagick = Mockery::mock('Imagick');
+                $frame = Mockery::mock('Intervention\Image\Frame');
 
                 $iterator = new ArrayIterator(array($imagick));
 
-                $container->shouldReceive('getIterator')->once()->andReturn($iterator);
+                $frame->shouldReceive('getCore')->andReturn($imagick);
+                $container->shouldReceive('rewind')->once();
+                $container->shouldReceive('valid')->once()->andReturn(true);
+                $container->shouldReceive('valid')->once()->andReturn(true);
+                $container->shouldReceive('valid')->once()->andReturn(true);
+                $container->shouldReceive('valid')->once()->andReturn(false);
+                $container->shouldReceive('current')->times(3)->andReturn($frame);
+                $container->shouldReceive('next');
                 $image->shouldReceive('getIterator')->once()->andReturn($container);
                 $image->shouldReceive('getCore')->andReturn($imagick);
                 $imagick->shouldReceive('rewind');

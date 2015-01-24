@@ -14,8 +14,8 @@ class BlurCommand extends \Intervention\Image\Commands\AbstractCommand
     {
         $amount = $this->argument(0)->between(0, 100)->value(1);
 
-        foreach ($image as $imagick) {
-            $imagick->blurImage(1 * $amount, 0.5 * $amount);
+        foreach ($image as $frame) {
+            $frame->getCore()->blurImage(1 * $amount, 0.5 * $amount);
         }
 
         return true;

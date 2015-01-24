@@ -17,7 +17,7 @@ class BlurCommandTest extends CommandTestCase
     public function testImagick()
     {
         $image = $this->getTestImage('imagick');
-        $image->getCore()->shouldReceive('blurimage')->with(2, 1)->once()->andReturn(true);
+        $image->getCore()->shouldReceive('blurimage')->with(2, 1)->times(3)->andReturn(true);
 
         $command = new BlurImagick(array(2));
         $result = $command->execute($image);

@@ -22,4 +22,15 @@ class GdContainerTest extends PHPUnit_Framework_TestCase
         $container->addFrames(array('foo', 'bar', 'baz'));
         $this->assertEquals(3, $container->countFrames());
     }
+
+    public function testIterateToFrames()
+    {
+        $frame = Mockery::mock('Intervention\Image\Frame');
+        $container = new Container;
+        $container->addFrame($frame);
+        $container->addFrame($frame);
+        foreach ($container as $key => $value) {
+            $this->assertInstanceOf('Intervention\Image\Frame', $value);
+        }
+    }
 }

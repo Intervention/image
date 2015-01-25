@@ -25,6 +25,10 @@ class PixelCommand extends \Intervention\Image\Commands\AbstractCommand
         $draw->point($x, $y);
 
         // apply pixel
-        return $image->getCore()->drawImage($draw);
+        foreach ($image as $frame) {
+            $frame->getCore()->drawImage($draw);
+        }
+
+        return true;
     }
 }

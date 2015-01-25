@@ -19,6 +19,10 @@ class PixelCommand extends \Intervention\Image\Commands\AbstractCommand
         $x = $this->argument(1)->type('digit')->required()->value();
         $y = $this->argument(2)->type('digit')->required()->value();
 
-        return imagesetpixel($image->getCore(), $x, $y, $color->getInt());
+        foreach ($image as $frame) {
+            imagesetpixel($frame->getCore(), $x, $y, $color->getInt());
+        }
+
+        return true;
     }
 }

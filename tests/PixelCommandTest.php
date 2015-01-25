@@ -3,7 +3,7 @@
 use Intervention\Image\Gd\Commands\PixelCommand as PixelGd;
 use Intervention\Image\Imagick\Commands\PixelCommand as PixelImagick;
 
-class PixelCommandTest extends PHPUnit_Framework_TestCase
+class PixelCommandTest extends CommandTestCase
 {
     public function tearDown()
     {
@@ -12,9 +12,7 @@ class PixelCommandTest extends PHPUnit_Framework_TestCase
     
     public function testGd()
     {
-        $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
-        $image = Mockery::mock('Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($resource);
+        $image = $this->getTestImage('gd');
         $command = new PixelGd(array('#b53717', 10, 20));
         $result = $command->execute($image);
         $this->assertTrue($result);
@@ -22,10 +20,8 @@ class PixelCommandTest extends PHPUnit_Framework_TestCase
 
     public function testImagick()
     {
-        $imagick = Mockery::mock('Imagick');
-        $imagick->shouldReceive('drawimage')->once()->andReturn(true);
-        $image = Mockery::mock('Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($imagick);
+        $image = $this->getTestImage('imagick');
+        $image->getCore()->shouldReceive('drawimage')->times(3)->andReturn(true);
         $command = new PixelImagick(array('#b53717', 10, 20));
         $result = $command->execute($image);
         $this->assertTrue($result);

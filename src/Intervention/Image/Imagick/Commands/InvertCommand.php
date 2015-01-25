@@ -12,6 +12,10 @@ class InvertCommand extends \Intervention\Image\Commands\AbstractCommand
      */
     public function execute($image)
     {
-        return $image->getCore()->negateImage(false);
+        foreach ($image as $frame) {
+            $frame->getCore()->negateImage(false);
+        }
+        
+        return true;
     }
 }

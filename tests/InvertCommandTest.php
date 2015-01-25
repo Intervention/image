@@ -3,7 +3,7 @@
 use Intervention\Image\Gd\Commands\InvertCommand as InvertGd;
 use Intervention\Image\Imagick\Commands\InvertCommand as InvertImagick;
 
-class InvertCommandTest extends PHPUnit_Framework_TestCase
+class InvertCommandTest extends CommandTestCase
 {
     public function tearDown()
     {
@@ -12,9 +12,7 @@ class InvertCommandTest extends PHPUnit_Framework_TestCase
     
     public function testGd()
     {
-        $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
-        $image = Mockery::mock('Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($resource);
+        $image = $this->getTestImage('gd');
         $command = new InvertGd(array());
         $result = $command->execute($image);
         $this->assertTrue($result);
@@ -22,10 +20,8 @@ class InvertCommandTest extends PHPUnit_Framework_TestCase
 
     public function testImagick()
     {
-        $imagick = Mockery::mock('Imagick');
-        $imagick->shouldReceive('negateimage')->with(false)->andReturn(true);
-        $image = Mockery::mock('Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($imagick);
+        $image = $this->getTestImage('imagick');
+        $image->getCore()->shouldReceive('negateimage')->with(false)->times(3)->andReturn(true);
         $command = new InvertImagick(array());
         $result = $command->execute($image);
         $this->assertTrue($result);

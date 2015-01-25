@@ -12,6 +12,10 @@ class InvertCommand extends \Intervention\Image\Commands\AbstractCommand
      */
     public function execute($image)
     {
-        return imagefilter($image->getCore(), IMG_FILTER_NEGATE);
+        foreach ($image as $frame) {
+            imagefilter($frame->getCore(), IMG_FILTER_NEGATE);
+        }
+
+        return true;
     }
 }

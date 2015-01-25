@@ -3,7 +3,7 @@
 use Intervention\Image\Gd\Commands\DestroyCommand as DestroyGd;
 use Intervention\Image\Imagick\Commands\DestroyCommand as DestroyImagick;
 
-class DestroyCommandTest extends PHPUnit_Framework_TestCase
+class DestroyCommandTest extends CommandTestCase
 {
     public function tearDown()
     {
@@ -12,15 +12,14 @@ class DestroyCommandTest extends PHPUnit_Framework_TestCase
     
     public function testGd()
     {
-        $resource = imagecreatefrompng(__DIR__.'/images/tile.png');
         $backups = array(
             imagecreatefrompng(__DIR__.'/images/tile.png'), 
             imagecreatefrompng(__DIR__.'/images/tile.png')
         );
 
-        $image = Mockery::mock('Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($resource);
+        $image = $this->getTestImage('gd');
         $image->shouldReceive('getBackups')->once()->andReturn($backups);
+        
         $command = new DestroyGd(array());
         $result = $command->execute($image);
         $this->assertTrue($result);

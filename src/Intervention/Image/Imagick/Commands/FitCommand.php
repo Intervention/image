@@ -24,16 +24,17 @@ class FitCommand extends \Intervention\Image\Commands\AbstractCommand
         $resized = clone $cropped;
         $resized = $resized->resize($width, $height, $constraints);
 
-        // crop image
-        $image->getCore()->cropImage(
-            $cropped->width,
-            $cropped->height,
-            $cropped->pivot->x,
-            $cropped->pivot->y
-        );
-
-        // resize image
         foreach ($image as $frame) {
+
+            // crop image
+            $frame->getCore()->cropImage(
+                $cropped->width,
+                $cropped->height,
+                $cropped->pivot->x,
+                $cropped->pivot->y
+            );
+
+            // resize image
             $frame->getCore()->resizeImage($resized->getWidth(), $resized->getHeight(), \Imagick::FILTER_BOX, 1);
             $frame->getCore()->setImagePage(0,0,0,0);
         }

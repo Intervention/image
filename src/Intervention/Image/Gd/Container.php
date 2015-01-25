@@ -14,9 +14,12 @@ class Container extends Animation implements ContainerInterface
      * @param interger $index
      * @return resource
      */
-    public function getCore($index = 0)
+    public function getCore($index = null)
     {
-        return $this->getFrames()[$index]->getCore();
+        $index = is_numeric($index) ? $index : 0;
+        $frames = $this->getFrames();
+
+        return $frames[$index]->getCore();
     }
 
     /**

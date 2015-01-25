@@ -194,7 +194,7 @@ class Image extends File implements \IteratorAggregate
      * @param integer $index
      * @return mixed
      */
-    public function getCore($index = 0)
+    public function getCore($index = null)
     {
         return $this->container->getCore($index);
     }

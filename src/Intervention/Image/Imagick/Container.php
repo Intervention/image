@@ -16,8 +16,12 @@ class Container implements ContainerInterface, Iterator
         $this->imagick = $imagick;
     }
 
-    public function getCore()
+    public function getCore($index = null)
     {
+        if (is_numeric($index)) {
+            return $this->getImagickAtPosition($index);
+        }
+        
         return $this->imagick;
     }
 
@@ -62,10 +66,12 @@ class Container implements ContainerInterface, Iterator
         return is_a($this->getImagickAtPosition(), 'Imagick');
     }
 
-    private function getImagickAtPosition()
+    private function getImagickAtPosition($position = null)
     {
+        $position = is_numeric($position) ? $position : $this->position;
+
         foreach ($this->imagick as $key => $imagick) {
-            if ($key == $this->position) {
+            if ($key == $position) {
                 return $imagick;
             }
         }

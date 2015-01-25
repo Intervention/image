@@ -41,6 +41,7 @@ abstract class CommandTestCase extends PHPUnit_Framework_TestCase
                 $container->shouldReceive('valid')->once()->andReturn(false);
                 $container->shouldReceive('current')->times(3)->andReturn($frame);
                 $container->shouldReceive('next');
+                $container->shouldReceive('key');
                 $image->shouldReceive('getIterator')->once()->andReturn($container);
                 $image->shouldReceive('getCore')->andReturn($imagick);
                 $imagick->shouldReceive('rewind');

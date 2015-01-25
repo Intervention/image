@@ -19,7 +19,13 @@ class Container extends Animation implements ContainerInterface
         $index = is_numeric($index) ? $index : 0;
         $frames = $this->getFrames();
 
-        return $frames[$index]->getCore();
+        if (array_key_exists($index, $frames)) {
+            return $frames[$index]->getCore();
+        }
+
+        throw new \Intervention\Image\Exception\NotFoundException(
+            "Animation has no index with number {$index}."
+        );
     }
 
     /**

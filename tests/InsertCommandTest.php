@@ -3,7 +3,7 @@
 use Intervention\Image\Gd\Commands\InsertCommand as InsertGd;
 use Intervention\Image\Imagick\Commands\InsertCommand as InsertImagick;
 
-class InsertCommandTest extends PHPUnit_Framework_TestCase
+class InsertCommandTest extends CommandTestCase
 {
     public function tearDown()
     {
@@ -12,6 +12,8 @@ class InsertCommandTest extends PHPUnit_Framework_TestCase
     
     public function testGd()
     {
+        $image = $this->getTestImage('gd');
+
         $position = Mockery::mock('\Intervention\Image\Point', array(0, 0));
 
         $image_size = Mockery::mock('\Intervention\Image\Size', array(800, 600));
@@ -25,9 +27,7 @@ class InsertCommandTest extends PHPUnit_Framework_TestCase
         $watermark = Mockery::mock('Intervention\Image\Image');
         $driver = Mockery::mock('Intervention\Image\Gd\Driver');
         $driver->shouldReceive('init')->with($path)->once()->andReturn($watermark);
-        $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getDriver')->once()->andReturn($driver);
-        $image->shouldReceive('getCore')->times(2)->andReturn($resource);
         $image->shouldReceive('getSize')->once()->andReturn($image_size);
         $watermark->shouldReceive('getSize')->once()->andReturn($watermark_size);
         $watermark->shouldReceive('getCore')->once()->andReturn($resource);
@@ -39,6 +39,8 @@ class InsertCommandTest extends PHPUnit_Framework_TestCase
 
     public function testImagick()
     {
+        $image = $this->getTestImage('imagick');
+
         $position = Mockery::mock('\Intervention\Image\Point', array(10, 20));
 
         $image_size = Mockery::mock('\Intervention\Image\Size', array(800, 600));
@@ -52,13 +54,11 @@ class InsertCommandTest extends PHPUnit_Framework_TestCase
         $driver = Mockery::mock('Intervention\Image\Imagick\Driver');
         $driver->shouldReceive('init')->with($path)->once()->andReturn($watermark);
         $imagick = Mockery::mock('Imagick');
-        $imagick->shouldReceive('compositeimage')->with($imagick, \Imagick::COMPOSITE_DEFAULT, 10, 20)->andReturn(true);
-        $image = Mockery::mock('Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($imagick);
+        $image->getCore()->shouldReceive('compositeimage')->with($imagick, \Imagick::COMPOSITE_DEFAULT, 10, 20)->times(3)->andReturn(true);
         $image->shouldReceive('getDriver')->once()->andReturn($driver);
         $image->shouldReceive('getSize')->once()->andReturn($image_size);
         $watermark->shouldReceive('getSize')->once()->andReturn($watermark_size);
-        $watermark->shouldReceive('getCore')->once()->andReturn($imagick);
+        $watermark->shouldReceive('getCore')->times(3)->andReturn($imagick);
         $command = new InsertImagick(array($path, 'center', 10, 20));
         $result = $command->execute($image);
         $this->assertTrue($result);

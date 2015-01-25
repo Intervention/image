@@ -26,7 +26,22 @@ class InsertCommand extends \Intervention\Image\Commands\AbstractCommand
         $target = $image_size->relativePosition($watermark_size);
 
         // insert image at position
-        imagealphablending($image->getCore(), true);
-        return imagecopy($image->getCore(), $watermark->getCore(), $target->x, $target->y, 0, 0, $watermark_size->width, $watermark_size->height);
+        foreach ($image as $frame) {
+
+            imagealphablending($frame->getCore(), true);
+
+            imagecopy(
+                $frame->getCore(),
+                $watermark->getCore(),
+                $target->x,
+                $target->y,
+                0,
+                0,
+                $watermark_size->width,
+                $watermark_size->height
+            );
+        }
+
+        return true;
     }
 }

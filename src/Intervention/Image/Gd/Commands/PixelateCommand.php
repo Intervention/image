@@ -14,6 +14,10 @@ class PixelateCommand extends \Intervention\Image\Commands\AbstractCommand
     {
         $size = $this->argument(0)->type('digit')->value(10);
 
-        return imagefilter($image->getCore(), IMG_FILTER_PIXELATE, $size, true);
+        foreach ($image as $frame) {
+            imagefilter($frame->getCore(), IMG_FILTER_PIXELATE, $size, true);
+        }
+
+        return true;
     }
 }

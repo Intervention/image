@@ -19,7 +19,9 @@ class RotateCommand extends \Intervention\Image\Commands\AbstractCommand
         $color = new Color($color);
 
         // rotate image
-        $image->setCore(imagerotate($image->getCore(), $angle, $color->getInt()));
+        foreach ($image as $frame) {
+            $frame->setCore(imagerotate($frame->getCore(), $angle, $color->getInt()));
+        }
 
         return true;
     }

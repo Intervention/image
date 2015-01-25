@@ -27,6 +27,10 @@ class SharpenCommand extends \Intervention\Image\Commands\AbstractCommand
         );
 
         // apply the matrix
-        return imageconvolution($image->getCore(), $matrix, $div, 0);
+        foreach ($image as $frame) {
+            imageconvolution($frame->getCore(), $matrix, $div, 0);
+        }
+
+        return true;
     }
 }

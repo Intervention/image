@@ -19,8 +19,9 @@ class WidenCommand extends ResizeCommand
         $this->arguments[1] = null;
         $this->arguments[2] = function ($constraint) use ($additionalConstraints) {
             $constraint->aspectRatio();
-            if(is_callable($additionalConstraints)) 
+            if(is_callable($additionalConstraints)) {
                 $additionalConstraints($constraint);
+            }
         };
 
         return parent::execute($image);

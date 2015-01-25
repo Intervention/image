@@ -34,9 +34,11 @@ class CropCommand extends \Intervention\Image\Commands\AbstractCommand
             $position = $image->getSize()->align('center')->relativePosition($cropped->align('center'));
         }
 
-        // crop image core
-        $image->getCore()->cropImage($cropped->width, $cropped->height, $position->x, $position->y);
-        $image->getCore()->setImagePage(0,0,0,0);
+        // crop image cores
+        foreach ($image as $frame) {
+            $frame->getCore()->cropImage($cropped->width, $cropped->height, $position->x, $position->y);
+            $frame->getCore()->setImagePage(0,0,0,0);
+        }
 
         return true;
     }

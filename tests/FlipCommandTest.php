@@ -3,7 +3,7 @@
 use Intervention\Image\Gd\Commands\FlipCommand as FlipGd;
 use Intervention\Image\Imagick\Commands\FlipCommand as FlipImagick;
 
-class FlipCommandTest extends PHPUnit_Framework_TestCase
+class FlipCommandTest extends CommandTestCase
 {
     public function tearDown()
     {
@@ -12,12 +12,9 @@ class FlipCommandTest extends PHPUnit_Framework_TestCase
     
     public function testGd()
     {
+        $image = $this->getTestImage('gd');
         $size = Mockery::mock('\Intervention\Image\Size', array(800, 600));
-        $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
-        $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getSize')->once()->andReturn($size);
-        $image->shouldReceive('getCore')->once()->andReturn($resource);
-        $image->shouldReceive('setCore')->once();
         $command = new FlipGd(array('h'));
         $result = $command->execute($image);
         $this->assertTrue($result);
@@ -25,18 +22,14 @@ class FlipCommandTest extends PHPUnit_Framework_TestCase
 
     public function testImagick()
     {
-        $imagick = Mockery::mock('Imagick');
-        $imagick->shouldReceive('flopimage')->with()->andReturn(true);
-        $image = Mockery::mock('Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($imagick);
+        $image = $this->getTestImage('imagick');
+        $image->getCore()->shouldReceive('flopimage')->with()->andReturn(true);
         $command = new FlipImagick(array('h'));
         $result = $command->execute($image);
         $this->assertTrue($result);
 
-        $imagick = Mockery::mock('Imagick');
-        $imagick->shouldReceive('flipimage')->with()->andReturn(true);
-        $image = Mockery::mock('Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($imagick);
+        $image = $this->getTestImage('imagick');
+        $image->getCore()->shouldReceive('flipimage')->with()->andReturn(true);
         $command = new FlipImagick(array('v'));
         $result = $command->execute($image);
         $this->assertTrue($result);

@@ -3,7 +3,7 @@
 use Intervention\Image\Gd\Commands\HeightenCommand as HeightenGd;
 use Intervention\Image\Imagick\Commands\HeightenCommand as HeightenImagick;
 
-class HeightenCommandTest extends PHPUnit_Framework_TestCase
+class HeightenCommandTest extends CommandTestCase
 {
     public function tearDown()
     {
@@ -13,8 +13,8 @@ class HeightenCommandTest extends PHPUnit_Framework_TestCase
     public function testGd()
     {
         $callback = function ($constraint) { $constraint->aspectRatio(); };
-        $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
-        $image = Mockery::mock('Intervention\Image\Image');
+        $image = $this->getTestImage('gd');
+
         $size = Mockery::mock('Intervention\Image\Size', array(800, 600));
         $size->shouldReceive('resize')->once()->andReturn($size);
         $size->shouldReceive('getWidth')->once()->andReturn(800);
@@ -22,8 +22,7 @@ class HeightenCommandTest extends PHPUnit_Framework_TestCase
         $image->shouldReceive('getWidth')->once()->andReturn(800);
         $image->shouldReceive('getHeight')->once()->andReturn(600);
         $image->shouldReceive('getSize')->once()->andReturn($size);
-        $image->shouldReceive('getCore')->once()->andReturn($resource);
-        $image->shouldReceive('setCore')->once();
+        
         $command = new HeightenGd(array(200));
         $result = $command->execute($image);
         $this->assertTrue($result);
@@ -32,15 +31,15 @@ class HeightenCommandTest extends PHPUnit_Framework_TestCase
     public function testImagick()
     {
         $callback = function ($constraint) { $constraint->upsize(); };
-        $imagick = Mockery::mock('Imagick');
-        $imagick->shouldReceive('resizeimage')->with(300, 200, \Imagick::FILTER_BOX, 1)->once()->andReturn(true);
+        $image = $this->getTestImage('imagick');
+
+        $image->getCore()->shouldReceive('resizeimage')->with(300, 200, \Imagick::FILTER_BOX, 1)->times(3)->andReturn(true);
         $size = Mockery::mock('Intervention\Image\Size', array(800, 600));
         $size->shouldReceive('resize')->once()->andReturn($size);
-        $size->shouldReceive('getWidth')->once()->andReturn(300);
-        $size->shouldReceive('getHeight')->once()->andReturn(200);
-        $image = Mockery::mock('Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($imagick);
+        $size->shouldReceive('getWidth')->times(3)->andReturn(300);
+        $size->shouldReceive('getHeight')->times(3)->andReturn(200);
         $image->shouldReceive('getSize')->once()->andReturn($size);
+        
         $command = new HeightenImagick(array(200));
         $result = $command->execute($image);
         $this->assertTrue($result);

@@ -33,8 +33,10 @@ class FitCommand extends \Intervention\Image\Commands\AbstractCommand
         );
 
         // resize image
-        $image->getCore()->resizeImage($resized->getWidth(), $resized->getHeight(), \Imagick::FILTER_BOX, 1);
-        $image->getCore()->setImagePage(0,0,0,0);
+        foreach ($image as $frame) {
+            $frame->getCore()->resizeImage($resized->getWidth(), $resized->getHeight(), \Imagick::FILTER_BOX, 1);
+            $frame->getCore()->setImagePage(0,0,0,0);
+        }
 
         return true;
     }

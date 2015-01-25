@@ -3,7 +3,7 @@
 use Intervention\Image\Gd\Commands\CropCommand as CropGd;
 use Intervention\Image\Imagick\Commands\CropCommand as CropImagick;
 
-class CropCommandTest extends PHPUnit_Framework_TestCase
+class CropCommandTest extends CommandTestCase
 {
     public function tearDown()
     {
@@ -12,10 +12,7 @@ class CropCommandTest extends PHPUnit_Framework_TestCase
     
     public function testGd()
     {
-        $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
-        $image = Mockery::mock('Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($resource);
-        $image->shouldReceive('setCore')->once();
+        $image = $this->getTestImage('gd');
         $command = new CropGd(array(100, 150, 10, 20));
         $result = $command->execute($image);
         $this->assertTrue($result);
@@ -23,11 +20,10 @@ class CropCommandTest extends PHPUnit_Framework_TestCase
 
     public function testImagick()
     {
-        $imagick = Mockery::mock('Imagick');
-        $imagick->shouldReceive('cropimage')->with(100, 150, 10, 20)->andReturn(true);
-        $imagick->shouldReceive('setimagepage')->with(0, 0, 0, 0)->once();
-        $image = Mockery::mock('Intervention\Image\Image');
-        $image->shouldReceive('getCore')->times(2)->andReturn($imagick);
+        $image = $this->getTestImage('imagick');
+        $image->getCore()->shouldReceive('cropimage')->with(100, 150, 10, 20)->times(3)->andReturn(true);
+        $image->getCore()->shouldReceive('setimagepage')->with(0, 0, 0, 0)->times(3);
+        
         $command = new CropImagick(array(100, 150, 10, 20));
         $result = $command->execute($image);
         $this->assertTrue($result);

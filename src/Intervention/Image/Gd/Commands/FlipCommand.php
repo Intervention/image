@@ -32,6 +32,16 @@ class FlipCommand extends ResizeCommand
                 break;
         }
 
-        return $this->modify($image, 0, 0, $size->pivot->x, $size->pivot->y, $dst->width, $dst->height, $size->width, $size->height);
+        return $this->modify(
+            $image,
+            0,
+            0,
+            $size->pivot->x,
+            $size->pivot->y,
+            $dst->width,
+            $dst->height,
+            $size->width,
+            $size->height
+        );
     }
 }

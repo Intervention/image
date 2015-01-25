@@ -3,7 +3,7 @@
 use Intervention\Image\Gd\Shapes\EllipseShape as EllipseGd;
 use Intervention\Image\Imagick\Shapes\EllipseShape as EllipseImagick;
 
-class EllipseShapeTest extends PHPUnit_Framework_TestCase
+class EllipseShapeTest extends CommandTestCase
 {
     public function tearDown()
     {
@@ -21,9 +21,7 @@ class EllipseShapeTest extends PHPUnit_Framework_TestCase
 
     public function testGdApplyToImage()
     {
-        $core = imagecreatetruecolor(300, 200);
-        $image = Mockery::mock('\Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($core);
+        $image = $this->getTestImage('gd');
         $ellipse = new EllipseGd(250, 150);
         $result = $ellipse->applyToImage($image, 10, 20);
         $this->assertInstanceOf('Intervention\Image\Gd\Shapes\EllipseShape', $ellipse);
@@ -41,10 +39,8 @@ class EllipseShapeTest extends PHPUnit_Framework_TestCase
 
     public function testImagickApplyToImage()
     {
-        $core = Mockery::mock('\Imagick');
-        $core->shouldReceive('drawimage')->once();
-        $image = Mockery::mock('\Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($core);
+        $image = $this->getTestImage('imagick');
+        $image->getCore()->shouldReceive('drawimage')->times(3);
         $ellipse = new EllipseImagick(250, 150);
         $result = $ellipse->applyToImage($image, 10, 20);
         $this->assertInstanceOf('Intervention\Image\Imagick\Shapes\EllipseShape', $ellipse);

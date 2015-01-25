@@ -45,7 +45,7 @@ class Helper
         $width = imagesx($resource);
         $height = imagesy($resource);
         $clone = imagecreatetruecolor($width, $height);
-        imagealphablending($clone, false);
+        imagealphablending($clone, true);
         imagesavealpha($clone, true);
         
         imagecopy($clone, $resource, 0, 0, 0, 0, $width, $height);

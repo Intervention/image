@@ -3,7 +3,7 @@
 use Intervention\Image\Gd\Shapes\RectangleShape as RectangleGd;
 use Intervention\Image\Imagick\Shapes\RectangleShape as RectangleImagick;
 
-class RectangleShapeTest extends PHPUnit_Framework_TestCase
+class RectangleShapeTest extends CommandTestCase
 {
     public function tearDown()
     {
@@ -32,19 +32,15 @@ class RectangleShapeTest extends PHPUnit_Framework_TestCase
     public function testApplyToImage()
     {
         // gd
-        $core = imagecreatetruecolor(300, 200);
-        $image = Mockery::mock('\Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($core);
+        $image = $this->getTestImage('gd');
         $rectangle = new RectangleGd(10, 15, 100, 150);
         $result = $rectangle->applyToImage($image, 10, 20);
         $this->assertInstanceOf('Intervention\Image\Gd\Shapes\RectangleShape', $rectangle);
         $this->assertTrue($result);
 
         // imagick
-        $core = Mockery::mock('\Imagick');
-        $core->shouldReceive('drawimage')->once();
-        $image = Mockery::mock('\Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($core);
+        $image = $this->getTestImage('imagick');
+        $image->getCore()->shouldReceive('drawimage')->times(3);
         $rectangle = new RectangleImagick(10, 15, 100, 150);
         $result = $rectangle->applyToImage($image, 10, 20);
         $this->assertInstanceOf('Intervention\Image\Imagick\Shapes\RectangleShape', $rectangle);

@@ -82,7 +82,10 @@ class LineShape extends \Intervention\Image\AbstractShape
     public function applyToImage(Image $image, $x = 0, $y = 0)
     {
         $color = new Color($this->color);
-        imageline($image->getCore(), $x, $y, $this->x, $this->y, $color->getInt());
+        
+        foreach ($image as $frame) {
+            imageline($frame->getCore(), $x, $y, $this->x, $this->y, $color->getInt());
+        }
 
         return true;
     }

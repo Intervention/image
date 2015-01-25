@@ -61,13 +61,46 @@ class RectangleShape extends \Intervention\Image\AbstractShape
      */
     public function applyToImage(Image $image, $x = 0, $y = 0)
     {
+        foreach ($image as $frame) {
+            $this->applyToResource($frame->getCore(), $x, $y);
+        }
+
+        return true;
+    }
+
+    /**
+     * Draw rectangle to given GD resource
+     *
+     * @param  resource $resource
+     * @param  integer  $x
+     * @param  integer  $y
+     * @return boolean
+     */
+    private function applyToResource($resource, $x, $y)
+    {
         $background = new Color($this->background);
-        imagefilledrectangle($image->getCore(), $this->x1, $this->y1, $this->x2, $this->y2, $background->getInt());
+
+        imagefilledrectangle(
+            $resource,
+            $this->x1,
+            $this->y1,
+            $this->x2,
+            $this->y2,
+            $background->getInt()
+        );
 
         if ($this->hasBorder()) {
+            
             $border_color = new Color($this->border_color);
-            imagesetthickness($image->getCore(), $this->border_width);
-            imagerectangle($image->getCore(), $this->x1, $this->y1, $this->x2, $this->y2, $border_color->getInt());
+            imagesetthickness($resource, $this->border_width);
+            imagerectangle(
+                $resource,
+                $this->x1,
+                $this->y1,
+                $this->x2,
+                $this->y2,
+                $border_color->getInt()
+            );
         }
 
         return true;

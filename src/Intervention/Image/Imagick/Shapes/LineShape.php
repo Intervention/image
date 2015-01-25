@@ -86,7 +86,10 @@ class LineShape extends \Intervention\Image\AbstractShape
         $line->setStrokeWidth($this->width);
 
         $line->line($this->x, $this->y, $x, $y);
-        $image->getCore()->drawImage($line);
+        
+        foreach ($image as $frame) {
+            $frame->getCore()->drawImage($line);
+        }
 
         return true;
     }

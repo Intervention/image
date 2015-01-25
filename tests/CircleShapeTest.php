@@ -3,7 +3,7 @@
 use Intervention\Image\Gd\Shapes\CircleShape as CircleGd;
 use Intervention\Image\Imagick\Shapes\CircleShape as CircleImagick;
 
-class CircleShapeTest extends PHPUnit_Framework_TestCase
+class CircleShapeTest extends CommandTestCase
 {
     public function tearDown()
     {
@@ -20,9 +20,7 @@ class CircleShapeTest extends PHPUnit_Framework_TestCase
 
     public function testGdApplyToImage()
     {
-        $core = imagecreatetruecolor(300, 200);
-        $image = Mockery::mock('\Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($core);
+        $image = $this->getTestImage('gd');
         $circle = new CircleGd(250);
         $result = $circle->applyToImage($image, 10, 20);
         $this->assertInstanceOf('Intervention\Image\Gd\Shapes\CircleShape', $circle);
@@ -38,10 +36,8 @@ class CircleShapeTest extends PHPUnit_Framework_TestCase
 
     public function testImagickApplyToImage()
     {
-        $core = Mockery::mock('\Imagick');
-        $core->shouldReceive('drawimage')->once();
-        $image = Mockery::mock('\Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($core);
+        $image = $this->getTestImage('imagick');
+        $image->getCore()->shouldReceive('drawimage')->times(3);
         $circle = new CircleImagick(250);
         $result = $circle->applyToImage($image, 10, 20);
         $this->assertInstanceOf('Intervention\Image\Imagick\Shapes\CircleShape', $circle);

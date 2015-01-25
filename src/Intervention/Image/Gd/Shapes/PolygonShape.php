@@ -34,15 +34,32 @@ class PolygonShape extends \Intervention\Image\AbstractShape
      */
     public function applyToImage(Image $image, $x = 0, $y = 0)
     {
+        foreach ($image as $frame) {
+            $this->applyToResource($frame->getCore(), $x, $y);
+        }
+    
+        return true;
+    }
+
+    /**
+     * Draw polygon on given GD resource
+     *
+     * @param  resource $resource
+     * @param  integer  $x
+     * @param  interger $y
+     * @return boolean
+     */
+    private function applyToResource($resource, $x, $y)
+    {
         $background = new Color($this->background);
-        imagefilledpolygon($image->getCore(), $this->points, intval(count($this->points) / 2), $background->getInt());
+        imagefilledpolygon($resource, $this->points, intval(count($this->points) / 2), $background->getInt());
         
         if ($this->hasBorder()) {
             $border_color = new Color($this->border_color);
-            imagesetthickness($image->getCore(), $this->border_width);
-            imagepolygon($image->getCore(), $this->points, intval(count($this->points) / 2), $border_color->getInt());
+            imagesetthickness($resource, $this->border_width);
+            imagepolygon($resource, $this->points, intval(count($this->points) / 2), $border_color->getInt());
         }
-    
+
         return true;
     }
 }

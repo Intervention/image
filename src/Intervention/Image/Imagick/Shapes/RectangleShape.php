@@ -76,7 +76,9 @@ class RectangleShape extends \Intervention\Image\AbstractShape
 
         $rectangle->rectangle($this->x1, $this->y1, $this->x2, $this->y2);
 
-        $image->getCore()->drawImage($rectangle);
+        foreach ($image as $frame) {
+            $frame->getCore()->drawImage($rectangle);
+        }
 
         return true;
     }

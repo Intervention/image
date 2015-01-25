@@ -2,7 +2,7 @@
 
 use Intervention\Image\Commands\LineCommand;
 
-class LineCommandTest extends PHPUnit_Framework_TestCase
+class LineCommandTest extends CommandTestCase
 {
     public function tearDown()
     {
@@ -11,12 +11,11 @@ class LineCommandTest extends PHPUnit_Framework_TestCase
     
     public function testGd()
     {
-        $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
+        $image = $this->getTestImage('gd');
         $driver = Mockery::mock('\Intervention\Image\Gd\Driver');
         $driver->shouldReceive('getDriverName')->once()->andReturn('Gd');
-        $image = Mockery::mock('\Intervention\Image\Image');
         $image->shouldReceive('getDriver')->once()->andReturn($driver);
-        $image->shouldReceive('getCore')->once()->andReturn($resource);
+
         $command = new LineCommand(array(10, 15, 100, 150));
         $result = $command->execute($image);
         $this->assertTrue($result);
@@ -25,13 +24,11 @@ class LineCommandTest extends PHPUnit_Framework_TestCase
 
     public function testImagick()
     {
-        $imagick = Mockery::mock('\Imagick');
-        $imagick->shouldReceive('drawimage');
+        $image = $this->getTestImage('imagick');
+        $image->getCore()->shouldReceive('drawimage')->times(3);
         $driver = Mockery::mock('\Intervention\Image\Imagick\Driver');
         $driver->shouldReceive('getDriverName')->once()->andReturn('Imagick');
-        $image = Mockery::mock('\Intervention\Image\Image');
         $image->shouldReceive('getDriver')->once()->andReturn($driver);
-        $image->shouldReceive('getCore')->once()->andReturn($imagick);
 
         $command = new LineCommand(array(10, 15, 100, 150));
         $result = $command->execute($image);

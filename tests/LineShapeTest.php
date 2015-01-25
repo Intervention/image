@@ -3,7 +3,7 @@
 use Intervention\Image\Gd\Shapes\LineShape as LineGd;
 use Intervention\Image\Imagick\Shapes\LineShape as LineImagick;
 
-class LineShapeTest extends PHPUnit_Framework_TestCase
+class LineShapeTest extends CommandTestCase
 {
     public function tearDown()
     {
@@ -28,19 +28,15 @@ class LineShapeTest extends PHPUnit_Framework_TestCase
     public function testApplyToImage()
     {
         // gd
-        $core = imagecreatetruecolor(300, 200);
-        $image = Mockery::mock('\Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($core);
+        $image = $this->getTestImage('gd');
         $line = new LineGd(10, 15);
         $result = $line->applyToImage($image, 100, 200);
         $this->assertInstanceOf('Intervention\Image\Gd\Shapes\LineShape', $line);
         $this->assertTrue($result);
 
         // imagick
-        $core = Mockery::mock('\Imagick');
-        $core->shouldReceive('drawimage')->once();
-        $image = Mockery::mock('\Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($core);
+        $image = $this->getTestImage('imagick');
+        $image->getCore()->shouldReceive('drawimage')->times(3);
         $line = new LineImagick(10, 15);
         $result = $line->applyToImage($image, 100, 200);
         $this->assertInstanceOf('Intervention\Image\Imagick\Shapes\LineShape', $line);

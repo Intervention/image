@@ -49,7 +49,9 @@ class PolygonShape extends \Intervention\Image\AbstractShape
 
         $polygon->polygon($this->points);
 
-        $image->getCore()->drawImage($polygon);
+        foreach ($image as $frame) {
+            $frame->getCore()->drawImage($polygon);
+        }
 
         return true;
     }

@@ -43,22 +43,35 @@ class EllipseShape extends \Intervention\Image\AbstractShape
      */
     public function applyToImage(Image $image, $x = 0, $y = 0)
     {
+        foreach ($image as $frame) {
+            $this->applyToResource($frame->getCore(), $x, $y);
+        }
+
+        return true;
+    }
+
+    /**
+     * Draw ellipse on given gd resource
+     *
+     * @param  resource $resource
+     * @return boolean
+     */
+    private function applyToResource($resource, $x, $y)
+    {
         // parse background color
         $background = new Color($this->background);
 
         if ($this->hasBorder()) {
             // slightly smaller ellipse to keep 1px bordered edges clean
-            imagefilledellipse($image->getCore(), $x, $y, $this->width-1, $this->height-1, $background->getInt());
+            imagefilledellipse($resource, $x, $y, $this->width-1, $this->height-1, $background->getInt());
 
             $border_color = new Color($this->border_color);
-            imagesetthickness($image->getCore(), $this->border_width);
+            imagesetthickness($resource, $this->border_width);
 
             // gd's imageellipse doesn't respect imagesetthickness so i use imagearc with 359.9 degrees here
-            imagearc($image->getCore(), $x, $y, $this->width, $this->height, 0, 359.99, $border_color->getInt());
+            imagearc($resource, $x, $y, $this->width, $this->height, 0, 359.99, $border_color->getInt());
         } else {
-            imagefilledellipse($image->getCore(), $x, $y, $this->width, $this->height, $background->getInt());
+            imagefilledellipse($resource, $x, $y, $this->width, $this->height, $background->getInt());
         }
-
-        return true;
     }
 }

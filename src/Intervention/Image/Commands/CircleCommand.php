@@ -20,7 +20,8 @@ class CircleCommand extends \Intervention\Image\Commands\AbstractCommand
         $callback = $this->argument(3)->type('closure')->value();
 
         $circle_classname = sprintf('\Intervention\Image\%s\Shapes\CircleShape',
-            $image->getDriver()->getDriverName());
+            $image->getDriver()->getDriverName()
+        );
 
         $circle = new $circle_classname($diameter);
 

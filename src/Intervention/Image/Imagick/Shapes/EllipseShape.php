@@ -58,7 +58,9 @@ class EllipseShape extends \Intervention\Image\AbstractShape
 
         $circle->ellipse($x, $y, $this->width / 2, $this->height / 2, 0, 360);
 
-        $image->getCore()->drawImage($circle);
+        foreach ($image as $frame) {
+            $frame->getCore()->drawImage($circle);
+        }
 
         return true;
     }

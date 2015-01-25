@@ -3,7 +3,7 @@
 use Intervention\Image\Gd\Shapes\PolygonShape as PolygonGd;
 use Intervention\Image\Imagick\Shapes\PolygonShape as PolygonImagick;
 
-class PolygonShapeTest extends PHPUnit_Framework_TestCase
+class PolygonShapeTest extends CommandTestCase
 {
     public function tearDown()
     {
@@ -20,9 +20,7 @@ class PolygonShapeTest extends PHPUnit_Framework_TestCase
 
     public function testGdApplyToImage()
     {
-        $core = imagecreatetruecolor(300, 200);
-        $image = Mockery::mock('\Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($core);
+        $image = $this->getTestImage('gd');
         $polygon = new PolygonGd(array(1, 2, 3, 4, 5, 6));
         $result = $polygon->applyToImage($image);
         $this->assertInstanceOf('Intervention\Image\Gd\Shapes\PolygonShape', $polygon);
@@ -43,10 +41,8 @@ class PolygonShapeTest extends PHPUnit_Framework_TestCase
 
     public function testImagickApplyToImage()
     {
-        $core = Mockery::mock('\Imagick');
-        $core->shouldReceive('drawimage')->once();
-        $image = Mockery::mock('\Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($core);
+        $image = $this->getTestImage('imagick');
+        $image->getCore()->shouldReceive('drawimage')->times(3);
         $polygon = new PolygonImagick(array(1, 2, 3, 4, 5, 6));
         $result = $polygon->applyToImage($image);
         $this->assertInstanceOf('Intervention\Image\Imagick\Shapes\PolygonShape', $polygon);

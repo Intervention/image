@@ -49,7 +49,7 @@ class Animation implements IteratorAggregate
      */
     public function setLoops($value)
     {
-        $this->loops = intval($value);
+        $this->loops = $value;
     }
 
     /**

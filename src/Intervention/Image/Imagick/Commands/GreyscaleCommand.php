@@ -12,6 +12,10 @@ class GreyscaleCommand extends \Intervention\Image\Commands\AbstractCommand
      */
     public function execute($image)
     {
-        return $image->getCore()->modulateImage(100, 0, 100);
+        foreach ($image as $frame) {
+            $frame->getCore()->modulateImage(100, 0, 100);
+        }
+
+        return true;
     }
 }

@@ -1,8 +1,7 @@
 <?php
 
-namespace Intervention\Image\Providers;
+namespace Intervention\Image;
 
-use Intervention\Image\ImageManager;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Response as IlluminateResponse;
 

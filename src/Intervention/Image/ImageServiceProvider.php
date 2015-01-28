@@ -43,7 +43,7 @@ class ImageServiceProvider extends ServiceProvider
         $app = $this->app;
         $version = intval($app::VERSION);
         $provider = sprintf(
-            '\Intervention\Image\Providers\Laravel%dServiceProvider', $version
+            '\Intervention\Image\ImageServiceProviderLaravel%d', $version
         );
 
         return new $provider($app);

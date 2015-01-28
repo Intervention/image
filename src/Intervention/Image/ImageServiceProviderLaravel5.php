@@ -1,8 +1,7 @@
 <?php
 
-namespace Intervention\Image\Providers;
+namespace Intervention\Image;
 
-use Intervention\Image\ImageManager;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Response as IlluminateResponse;
 
@@ -26,7 +25,7 @@ class Laravel5ServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes(array(
-            __DIR__.'/../../../config/config.php' => config_path('image.php')
+            __DIR__.'/../../config/config.php' => config_path('image.php')
         ));
 
         // setup intervention/imagecache if package is installed
@@ -45,7 +44,7 @@ class Laravel5ServiceProvider extends ServiceProvider
         // merge default config
         $this->mergeConfigFrom(
             'image',
-            __DIR__.'/../../../config/config.php'
+            __DIR__.'/../../config/config.php'
         );
 
         // create image
@@ -62,7 +61,7 @@ class Laravel5ServiceProvider extends ServiceProvider
     private function bootstrapImageCache()
     {
         $app = $this->app;
-        $config = __DIR__.'/../../../../../imagecache/src/config/config.php';
+        $config = __DIR__.'/../../../../imagecache/src/config/config.php';
 
         $this->publishes(array(
             $config => config_path('imagecache.php')

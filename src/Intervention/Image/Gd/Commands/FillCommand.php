@@ -19,17 +19,13 @@ class FillCommand extends \Intervention\Image\Commands\AbstractCommand
         $x = $this->argument(1)->type('digit')->value();
         $y = $this->argument(2)->type('digit')->value();
 
-        $width = $image->getWidth();
-        $height = $image->getHeight();
-        $resource = $image->getCore();
+        $width = imagesx($image->getCore());
+        $height = imagesy($image->getCore());
 
         try {
 
             // set image tile filling
-            $source = new Decoder;
-            $tile = $source->init($filling);
-            imagesettile($image->getCore(), $tile->getCore());
-            $filling = IMG_COLOR_TILED;
+            $tile = $image->getDriver()->init($filling);
 
         } catch (\Intervention\Image\Exception\NotReadableException $e) {
 
@@ -38,27 +34,45 @@ class FillCommand extends \Intervention\Image\Commands\AbstractCommand
             $filling = $color->getInt();
         }
 
-        imagealphablending($resource, true);
 
-        if (is_int($x) && is_int($y)) {
+        foreach ($image as $frame) {
 
-            // resource should be visible through transparency
-            $base = $image->getDriver()->newImage($width, $height)->getCore();
-            imagecopy($base, $resource, 0, 0, 0, 0, $width, $height);
+            if (isset($tile)) {
+                imagesettile($frame->getCore(), $tile->getCore());
+                $filling = IMG_COLOR_TILED;    
+            }
 
-            // floodfill if exact position is defined
-            imagefill($resource, $x, $y, $filling);
+            imagealphablending($frame->getCore(), true);
 
-            // copy filled original over base
-            imagecopy($base, $resource, 0, 0, 0, 0, $width, $height);
+            if (is_int($x) && is_int($y)) {
 
-            // set base as new resource-core
-            $image->setCore($base);
-            imagedestroy($resource);
+                // resource should be visible through transparency
+                $base = $image->getDriver()->newImage($width, $height)->getCore();
+                imagecopy($base, $frame->getCore(), 0, 0, 0, 0, $width, $height);
 
-        } else {
-            // fill whole image otherwise
-            imagefilledrectangle($resource, 0, 0, $width - 1, $height - 1, $filling);
+                // floodfill if exact position is defined
+                imagefill($frame->getCore(), $x, $y, $filling);
+
+                // copy filled original over base
+                imagecopy($base, $frame->getCore(), 0, 0, 0, 0, $width, $height);
+
+                // set base as new resource-core
+                imagedestroy($frame->getCore());
+                $frame->setCore($base);
+
+            } else {
+
+                // fill whole image otherwise
+                imagefilledrectangle(
+                    $frame->getCore(),
+                    0,
+                    0,
+                    ($width - 1),
+                    ($height - 1),
+                    $filling
+                );
+
+            }
         }
 
         isset($tile) ? imagedestroy($tile->getCore()) : null;

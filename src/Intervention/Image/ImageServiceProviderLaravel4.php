@@ -5,7 +5,7 @@ namespace Intervention\Image;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Response as IlluminateResponse;
 
-class Laravel4ServiceProvider extends ServiceProvider
+class ImageServiceProviderLaravel4 extends ServiceProvider
 {
     /**
      * Bootstrap the application events.

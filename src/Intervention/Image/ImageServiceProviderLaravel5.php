@@ -5,7 +5,7 @@ namespace Intervention\Image;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Response as IlluminateResponse;
 
-class Laravel5ServiceProvider extends ServiceProvider
+class ImageServiceProviderLaravel5 extends ServiceProvider
 {
     /**
      * Determines if Intervention Imagecache is installed

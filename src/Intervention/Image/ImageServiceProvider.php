@@ -14,13 +14,33 @@ class ImageServiceProvider extends ServiceProvider
     protected $defer = false;
 
     /**
+     * Actual provider
+     *
+     * @var \Illuminate\Support\ServiceProvider
+     */
+    protected $provider;
+
+    /**
+     * Create a new service provider instance.
+     *
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @return void
+     */
+    public function __construct($app)
+    {
+        parent::__construct($app);
+
+        $this->provider = $this->getProvider();
+    }
+
+    /**
      * Bootstrap the application events.
      *
      * @return void
      */
     public function boot()
     {
-        return $this->getProvider()->boot();
+        return $this->provider->boot();
     }
 
     /**
@@ -30,7 +50,7 @@ class ImageServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        return $this->getProvider()->register();
+        return $this->provider->register();
     }
 
     /**

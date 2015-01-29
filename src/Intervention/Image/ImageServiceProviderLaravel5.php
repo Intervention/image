@@ -43,8 +43,8 @@ class ImageServiceProviderLaravel5 extends ServiceProvider
 
         // merge default config
         $this->mergeConfigFrom(
-            'image',
-            __DIR__.'/../../config/config.php'
+            __DIR__.'/../../config/config.php',
+            'image'
         );
 
         // create image
@@ -69,8 +69,8 @@ class ImageServiceProviderLaravel5 extends ServiceProvider
 
         // merge default config
         $this->mergeConfigFrom(
-            'imagecache',
-            $config
+            $config,
+            'imagecache'
         );
 
         $config = $app['config'];

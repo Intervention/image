@@ -20,18 +20,10 @@ class FillCommand extends \Intervention\Image\Commands\AbstractCommand
         $x = $this->argument(1)->type('digit')->value();
         $y = $this->argument(2)->type('digit')->value();
 
-        $imagick = $image->getCore();
+        $width = $image->width();
+        $height = $image->height();
 
-        try {
-            // set image filling
-            $source = new Decoder;
-            $filling = $source->init($filling);
-
-        } catch (\Intervention\Image\Exception\NotReadableException $e) {
-
-            // set solid color filling
-            $filling = new Color($filling);
-        }
+        $filling = $this->decodeFilling($filling);
 
         // flood fill if coordinates are set
         if (is_int($x) && is_int($y)) {
@@ -39,65 +31,102 @@ class FillCommand extends \Intervention\Image\Commands\AbstractCommand
             // flood fill with texture
             if ($filling instanceof Image) {
 
-                // create tile
-                $tile = clone $image->getCore();
+                foreach ($image as $frame) {
+                    // create tile
+                    $tile = clone $frame->getCore()->getImage();
 
-                // mask away color at position
-                $tile->transparentPaintImage($tile->getImagePixelColor($x, $y), 0, 0, false);
+                    // mask away color at position
+                    $tile->transparentPaintImage($tile->getImagePixelColor($x, $y), 0, 0, false);
 
-                // create canvas
-                $canvas = clone $image->getCore();
+                    // create canvas
+                    $canvas = clone $frame->getCore()->getImage();
 
-                // fill canvas with texture
-                $canvas = $canvas->textureImage($filling->getCore());
+                    // fill canvas with texture
+                    $canvas = $canvas->textureImage($filling->getCore());
 
-                // merge canvas and tile
-                $canvas->compositeImage($tile, \Imagick::COMPOSITE_DEFAULT, 0, 0);
+                    // merge canvas and tile
+                    $canvas->compositeImage($tile, \Imagick::COMPOSITE_DEFAULT, 0, 0);
 
-                // replace image core
-                $image->setCore($canvas);
+                    // replace image core
+                    $frame->getCore()->setImage($canvas);
+                }
 
             // flood fill with color
             } elseif ($filling instanceof Color) {
 
-                // create canvas with filling
-                $canvas = new \Imagick;
-                $canvas->newImage($image->getWidth(), $image->getHeight(), $filling->getPixel(), 'png');
+                foreach ($image as $frame) {
+                    // create tile
+                    $tile = clone $frame->getCore()->getImage();
 
-                // create tile to put on top
-                $tile = clone $image->getCore();
+                    // mask away color at position
+                    $tile->transparentPaintImage($tile->getImagePixelColor($x, $y), 0, 0, false);
 
-                // mask away color at pos.
-                $tile->transparentPaintImage($tile->getImagePixelColor($x, $y), 0, 0, false);
+                    // create canvas filled with color
+                    $canvas = clone $frame->getCore()->getImage();
 
-                // save alpha channel of original image
-                $alpha = clone $image->getCore();
+                    // setup draw object
+                    $draw = new \ImagickDraw();
+                    $draw->setFillColor($filling->getPixel());
+                    $draw->rectangle(0, 0, $width, $height);
 
-                // merge original with canvas and tile
-                $image->getCore()->compositeImage($canvas, \Imagick::COMPOSITE_DEFAULT, 0, 0);
-                $image->getCore()->compositeImage($tile, \Imagick::COMPOSITE_DEFAULT, 0, 0);
+                    // fill canvas with color
+                    $canvas->drawImage($draw);    
 
-                // restore alpha channel of original image
-                $image->getCore()->compositeImage($alpha, \Imagick::COMPOSITE_COPYOPACITY, 0, 0);
+                    // merge canvas and tile
+                    $canvas->compositeImage($tile, \Imagick::COMPOSITE_DEFAULT, 0, 0);
+
+                    // replace image core
+                    $frame->getCore()->setImage($canvas);
+
+                }
             }
 
         } else {
 
             if ($filling instanceof Image) {
 
-                // fill whole image with texture
-                $image->setCore($image->getCore()->textureImage($filling->getCore()));
+                // fill each frame with texture
+                foreach ($image as $frame) {
+                    $filled = $frame->getCore()->textureImage($filling->getCore());
+                    $frame->getCore()->setImage($filled);
+                }
 
             } elseif ($filling instanceof Color) {
 
-                // fill whole image with color
+                // setup draw object
                 $draw = new \ImagickDraw();
                 $draw->setFillColor($filling->getPixel());
-                $draw->rectangle(0, 0, $image->getWidth(), $image->getHeight());
-                $image->getCore()->drawImage($draw);
+                $draw->rectangle(0, 0, $width, $height);
+
+                // fill each frame with color
+                foreach ($image as $frame) {
+                    $frame->getCore()->drawImage($draw);    
+                }
             }
         }
 
         return true;
+    }
+
+    /**
+     * Decodes given filling value into Image or Color object
+     *
+     * @param  mixed $value
+     * @return Decoder|Color
+     */
+    private function decodeFilling($value)
+    {
+        try {
+            // set image filling
+            $source = new Decoder;
+            $filling = $source->init($value);
+
+        } catch (\Intervention\Image\Exception\NotReadableException $e) {
+
+            // set solid color filling
+            $filling = new Color($value);
+        }
+
+        return $filling;
     }
 }

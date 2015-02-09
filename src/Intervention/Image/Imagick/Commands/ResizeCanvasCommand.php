@@ -76,13 +76,17 @@ class ResizeCanvasCommand extends \Intervention\Image\Commands\AbstractCommand
 
         $canvas->getCore()->setImageColorspace($image->getCore()->getImageColorspace());
 
-        // copy image into new canvas
-        $image->getCore()->cropImage($src_w, $src_h, $src_x, $src_y);
-        $canvas->getCore()->compositeImage($image->getCore(), \Imagick::COMPOSITE_DEFAULT, $dst_x, $dst_y);
-        $canvas->getCore()->setImagePage(0,0,0,0);
+        foreach ($image as $frame) {
+            // copy image into new canvas
+            $frame->getCore()->cropImage($src_w, $src_h, $src_x, $src_y);
+            $canvas->getCore()->compositeImage($frame->getCore(), \Imagick::COMPOSITE_DEFAULT, $dst_x, $dst_y);
+            $canvas->getCore()->setImagePage(0,0,0,0);
+            $canvas->getCore()->setImageDelay($frame->getCore()->getImageDelay());
+            $canvas->getCore()->setImageIterations($frame->getCore()->getImageIterations());
 
-        // set new core to canvas
-        $image->setCore($canvas->getCore());
+            // set new canvas as core
+            $frame->getCore()->setImage($canvas->getCore());
+        }
 
         return true;
     }

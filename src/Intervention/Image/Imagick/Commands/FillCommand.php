@@ -35,49 +35,50 @@ class FillCommand extends \Intervention\Image\Commands\AbstractCommand
                     // create tile
                     $tile = clone $frame->getCore()->getImage();
 
+                    $alpha = false;
+
+                    if ($tile->getImageAlphaChannel() !== \Imagick::ALPHACHANNEL_UNDEFINED) {
+                        // clone alpha channel
+                        $alpha = clone $frame->getCore()->getImage();
+                    }
+
                     // mask away color at position
                     $tile->transparentPaintImage($tile->getImagePixelColor($x, $y), 0, 0, false);
 
-                    // create canvas
-                    $canvas = clone $frame->getCore()->getImage();
-
                     // fill canvas with texture
-                    $canvas = $canvas->textureImage($filling->getCore());
+                    $canvas = $frame->getCore()->textureImage($filling->getCore());
 
                     // merge canvas and tile
                     $canvas->compositeImage($tile, \Imagick::COMPOSITE_DEFAULT, 0, 0);
 
+                    if ($alpha) {
+                        // restore alpha channel of original image
+                        $canvas->compositeImage($alpha, \Imagick::COMPOSITE_COPYOPACITY, 0, 0);
+                    }
+
                     // replace image core
                     $frame->getCore()->setImage($canvas);
+
+                    $tile->clear();
+                    $canvas->clear();
                 }
 
             // flood fill with color
             } elseif ($filling instanceof Color) {
 
                 foreach ($image as $frame) {
-                    // create tile
-                    $tile = clone $frame->getCore()->getImage();
 
-                    // mask away color at position
-                    $tile->transparentPaintImage($tile->getImagePixelColor($x, $y), 0, 0, false);
+                    $target = $frame->getCore()->getImagePixelColor($x, $y);
 
-                    // create canvas filled with color
-                    $canvas = clone $frame->getCore()->getImage();
-
-                    // setup draw object
-                    $draw = new \ImagickDraw();
-                    $draw->setFillColor($filling->getPixel());
-                    $draw->rectangle(0, 0, $width, $height);
-
-                    // fill canvas with color
-                    $canvas->drawImage($draw);    
-
-                    // merge canvas and tile
-                    $canvas->compositeImage($tile, \Imagick::COMPOSITE_DEFAULT, 0, 0);
-
-                    // replace image core
-                    $frame->getCore()->setImage($canvas);
-
+                    $frame->getCore()->floodFillPaintImage(
+                        $filling->getPixel(),
+                        0,
+                        $target,
+                        $x,
+                        $y,
+                        false
+                    );
+                    
                 }
             }
 

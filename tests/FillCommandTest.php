@@ -54,11 +54,8 @@ class FillCommandTest extends CommandTestCase
         $image->shouldReceive('height')->andReturn(600);
         $image->getCore()->shouldReceive('getimage')->andReturn($image->getCore());
         $pixelcolor = Mockery::mock('ImagickPixel');
+        $image->getCore()->shouldReceive('floodfillpaintimage')->times(3);
         $image->getCore()->shouldReceive('getimagepixelcolor')->with(1, 1)->andReturn($pixelcolor);
-        $image->getCore()->shouldReceive('transparentpaintimage')->with($pixelcolor, 0, 0, false);
-        $image->getCore()->shouldReceive('drawimage')->times(3);
-        $image->getCore()->shouldReceive('compositeimage')->times(3);
-        $image->getCore()->shouldReceive('setimage')->times(3);
 
         $command = new FillImagick(array('666666', 1, 1));
         $result = $command->execute($image);

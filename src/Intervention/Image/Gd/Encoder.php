@@ -12,6 +12,7 @@ class Encoder extends \Intervention\Image\AbstractEncoder
     protected function processJpeg()
     {
         ob_start();
+        imageinterlace($this->image->getCore(), 1);
         imagejpeg($this->image->getCore(), null, $this->quality);
         $this->image->mime = image_type_to_mime_type(IMAGETYPE_JPEG);
         $buffer = ob_get_contents();

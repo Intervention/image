@@ -83,10 +83,6 @@ class ImageServiceProviderLaravel5 extends ServiceProvider
 
             $app['router']->get($config->get('imagecache.route').'/{template}/{filename}', array('as' => 'imagecache', function ($template, $filename) use ($app, $config) {
 
-                
-                // disable session cookies for image route
-                $app['config']->set('session.driver', 'array');
-
                 // find file
                 foreach ($config->get('imagecache.paths') as $path) {
                     // don't allow '..' in filenames

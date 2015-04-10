@@ -78,7 +78,11 @@ abstract class AbstractDecoder
      */
     public function initFromStream($stream)
     {
-        if ($data = @stream_get_contents($stream)){
+        $offset = ftell($stream);
+        rewind($stream);
+        $data = @stream_get_contents($stream);
+        fseek($stream, $offset);
+        if ($data) {
             return $this->initFromBinary($data);
         }
 

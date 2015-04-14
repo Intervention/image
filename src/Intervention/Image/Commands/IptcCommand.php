@@ -33,7 +33,7 @@ class IptcCommand extends AbstractCommand
                 $data['Urgency'] = isset($iptc["2#010"][0]) ? $iptc["2#010"][0] : null;
                 $data['Category'] = isset($iptc["2#015"][0]) ? $iptc["2#015"][0] : null;
                 $data['Subcategories'] = isset($iptc["2#020"][0]) ? $iptc["2#020"][0] : null;
-                $data['Keywords'] = isset($iptc["2#025"][0]) ? $iptc["2#025"][0] : null;
+                $data['Keywords'] = isset($iptc["2#025"][0]) ? $iptc["2#025"] : null;
                 $data['SpecialInstructions'] = isset($iptc["2#040"][0]) ? $iptc["2#040"][0] : null;
                 $data['CreationDate'] = isset($iptc["2#055"][0]) ? $iptc["2#055"][0] : null;
                 $data['AuthorByline'] = isset($iptc["2#080"][0]) ? $iptc["2#080"][0] : null;

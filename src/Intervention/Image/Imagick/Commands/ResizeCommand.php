@@ -20,7 +20,7 @@ class ResizeCommand extends \Intervention\Image\Commands\AbstractCommand
         $resized = $image->getSize()->resize($width, $height, $constraints);
 
         // modify image
-        $image->getCore()->resizeImage($resized->getWidth(), $resized->getHeight(), \Imagick::FILTER_BOX, 1);
+        $image->getCore()->scaleImage($resized->getWidth(), $resized->getHeight());
 
         return true;
     }

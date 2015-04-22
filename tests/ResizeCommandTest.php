@@ -33,7 +33,7 @@ class resizeCommandTest extends PHPUnit_Framework_TestCase
     {
         $callback = function ($constraint) { $constraint->upsize(); };
         $imagick = Mockery::mock('Imagick');
-        $imagick->shouldReceive('resizeimage')->with(300, 200, \Imagick::FILTER_BOX, 1)->once()->andReturn(true);
+        $imagick->shouldReceive('scaleimage')->with(300, 200)->once()->andReturn(true);
         $size = Mockery::mock('Intervention\Image\Size', array(800, 600));
         $size->shouldReceive('resize')->with(300, 200, $callback)->once()->andReturn($size);
         $size->shouldReceive('getWidth')->once()->andReturn(300);

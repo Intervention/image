@@ -58,6 +58,15 @@ class AbstractDecoderTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($source->isUrl());
     }
 
+    public function testIsStream()
+    {
+        $source = $this->getTestDecoder(fopen(__DIR__ . '/images/test.jpg', 'r'));
+        $this->assertTrue($source->isStream());
+
+        $source = $this->getTestDecoder(null);
+        $this->assertFalse($source->isStream());
+    }
+
     public function testIsBinary()
     {
         $source = $this->getTestDecoder(file_get_contents(__DIR__.'/images/test.jpg'));

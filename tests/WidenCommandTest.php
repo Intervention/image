@@ -32,7 +32,7 @@ class WidenCommandTest extends CommandTestCase
     {
         $callback = function ($constraint) { $constraint->upsize(); };
         $image = $this->getTestImage('imagick');
-        $image->getCore()->shouldReceive('resizeimage')->with(300, 200, \Imagick::FILTER_BOX, 1)->times(3)->andReturn(true);
+        $image->getCore()->shouldReceive('scaleimage')->with(300, 200)->times(3)->andReturn(true);
 
         $size = Mockery::mock('Intervention\Image\Size', array(800, 600));
         $size->shouldReceive('resize')->once()->andReturn($size);

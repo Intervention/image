@@ -51,6 +51,8 @@ class ImageServiceProviderLaravel5 extends ServiceProvider
         $app['image'] = $app->share(function ($app) {
             return new ImageManager($app['config']->get('image'));
         });
+
+        $app->alias('image', 'Intervention\Image\ImageManager');
     }
 
     /**

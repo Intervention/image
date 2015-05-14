@@ -47,7 +47,7 @@ class IptcCommand extends AbstractCommand
                 $data['PhotoSource'] = isset($iptc["2#115"][0]) ? $iptc["2#115"][0] : null;
                 $data['Copyright'] = isset($iptc["2#116"][0]) ? $iptc["2#116"][0] : null;
                 $data['Caption'] = isset($iptc["2#120"][0]) ? $iptc["2#120"][0] : null;
-                $data['CaptionWriter'] = isset($iptc["2#120"][0]) ? $iptc["2#122"][0] : null;
+                $data['CaptionWriter'] = isset($iptc["2#122"][0]) ? $iptc["2#122"][0] : null;
             }
         }
 

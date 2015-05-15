@@ -1,7 +1,7 @@
 <?php
 
-use Intervention\Image\Gd\Commands\CropCommand as CropGd;
-use Intervention\Image\Imagick\Commands\CropCommand as CropImagick;
+use Intervention\Image\Gd\Commands\FaceCommand as FaceGd;
+use Intervention\Image\Imagick\Commands\FaceCommand as FaceImagick;
 
 class FaceCommandTest extends PHPUnit_Framework_TestCase
 {
@@ -12,11 +12,11 @@ class FaceCommandTest extends PHPUnit_Framework_TestCase
     
     public function testGd()
     {
-        $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
+        $resource = imagecreatefromjpeg(__DIR__.'/images/face1.jpg');
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($resource);
         $image->shouldReceive('setCore')->once();
-        $command = new CropGd(array(100, 150, 10, 20));
+        $command = new FaceGd();
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
@@ -28,7 +28,7 @@ class FaceCommandTest extends PHPUnit_Framework_TestCase
         $imagick->shouldReceive('setimagepage')->with(0, 0, 0, 0)->once();
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->times(2)->andReturn($imagick);
-        $command = new CropImagick(array(100, 150, 10, 20));
+        $command = new FaceImagick();
         $result = $command->execute($image);
         $this->assertTrue($result);
     }

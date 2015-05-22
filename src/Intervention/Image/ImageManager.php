@@ -6,8 +6,6 @@ use Closure;
 
 class ImageManager
 {
-    public $cached;
-    
     /**
      * Config
      *

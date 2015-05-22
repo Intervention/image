@@ -48,6 +48,15 @@ namespace Intervention\Image;
  */
 class Image extends File
 {
+
+    /**
+     * Indicates if the image has already been cached
+     *
+     * @var bool
+     */
+    protected $cached;
+
+
     /**
      * Instance of current image driver
      *
@@ -200,6 +209,20 @@ class Image extends File
         return $this;
     }
 
+
+    /**
+     * Sets if image is being cached (false)
+     *
+     * @param $cached
+     * @return $this
+     */
+    public function setCached($cached)
+    {
+        $this->cached = $cached;
+
+        return $this;
+    }
+
     /**
      * Returns current image backup
      *
@@ -254,6 +277,17 @@ class Image extends File
     private function backupExists($name)
     {
         return array_key_exists($name, $this->backups);
+    }
+
+
+    /**
+     * Checks if the image has already been cached or is being
+     *
+     * @return bool
+     */
+    public function isAlreadyCached()
+    {
+        return $this->cached;
     }
 
     /**

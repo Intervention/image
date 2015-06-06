@@ -17,7 +17,7 @@ class Encoder extends \Intervention\Image\AbstractEncoder
         $imagick = $this->image->getCore();
         $imagick->setImageBackgroundColor('white');
         $imagick->setBackgroundColor('white');
-        $imagick = $imagick->mergeImageLayers(\Imagick::LAYERMETHOD_FLATTEN);
+        $imagick = $imagick->mergeImageLayers(\Imagick::LAYERMETHOD_MERGE);
         $imagick->setFormat($format);
         $imagick->setImageFormat($format);
         $imagick->setCompression($compression);

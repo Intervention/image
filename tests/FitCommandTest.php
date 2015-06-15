@@ -58,7 +58,7 @@ class FitCommandTest extends CommandTestCase
         $original_size = Mockery::mock('\Intervention\Image\Size', array(800, 600));
         $original_size->shouldReceive('fit')->with(Mockery::any(), 'center')->once()->andReturn($cropped_size);
         $image->getCore()->shouldReceive('cropimage')->with(800, 400, 0, 100)->andReturn(true);
-        $image->getCore()->shouldReceive('resizeimage')->with(200, 100, \Imagick::FILTER_BOX, 1)->andReturn(true);
+        $image->getCore()->shouldReceive('scaleimage')->with(200, 100)->andReturn(true);
         $image->getCore()->shouldReceive('setimagepage')->with(0, 0, 0, 0)->andReturn(true);
         $image->shouldReceive('getSize')->once()->andReturn($original_size);
         
@@ -79,7 +79,7 @@ class FitCommandTest extends CommandTestCase
         $original_size = Mockery::mock('\Intervention\Image\Size', array(800, 600));
         $original_size->shouldReceive('fit')->with(Mockery::any(), 'top-left')->once()->andReturn($cropped_size);
         $image->getCore()->shouldReceive('cropimage')->with(800, 400, 0, 100)->andReturn(true);
-        $image->getCore()->shouldReceive('resizeimage')->with(200, 100, \Imagick::FILTER_BOX, 1)->andReturn(true);
+        $image->getCore()->shouldReceive('scaleimage')->with(200, 100)->andReturn(true);
         $image->getCore()->shouldReceive('setimagepage')->with(0, 0, 0, 0)->andReturn(true);
         $image->shouldReceive('getSize')->once()->andReturn($original_size);
 

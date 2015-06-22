@@ -66,18 +66,45 @@ class FillCommand extends \Intervention\Image\Commands\AbstractCommand
             // flood fill with color
             } elseif ($filling instanceof Color) {
 
+                // create filling
+                $fill = new \Imagick;
+                $fill->newImage($width, $height, 'none', 'png');
+                $draw = new \ImagickDraw;
+                $draw->setFillColor($filling->getPixel());
+                $draw->rectangle(0, 0, $width, $height);
+                $fill->drawImage($draw);
+
                 foreach ($image as $frame) {
 
-                    $target = $frame->getCore()->getImagePixelColor($x, $y);
+                    // create tile
+                    $tile = clone $frame->getCore()->getImage();
 
-                    $frame->getCore()->floodFillPaintImage(
-                        $filling->getPixel(),
-                        0,
-                        $target,
-                        $x,
-                        $y,
-                        false
-                    );
+                    $alpha = false;
+
+                    if ($tile->getImageAlphaChannel() !== \Imagick::ALPHACHANNEL_UNDEFINED) {
+                        // clone alpha channel
+                        $alpha = clone $frame->getCore()->getImage();
+                    }
+
+                    // mask away color at position
+                    $tile->transparentPaintImage($tile->getImagePixelColor($x, $y), 0, 0, false);
+
+                    // fill canvas with texture
+                    $canvas = $frame->getCore()->textureImage($fill);
+
+                    // merge canvas and tile
+                    $canvas->compositeImage($tile, \Imagick::COMPOSITE_DEFAULT, 0, 0);
+
+                    if ($alpha) {
+                        // restore alpha channel of original image
+                        $canvas->compositeImage($alpha, \Imagick::COMPOSITE_COPYOPACITY, 0, 0);
+                    }
+
+                    // replace image core
+                    $frame->getCore()->setImage($canvas);
+
+                    $tile->clear();
+                    $canvas->clear();   
                     
                 }
             }

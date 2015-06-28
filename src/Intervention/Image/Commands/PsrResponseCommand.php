@@ -30,7 +30,7 @@ class PsrResponseCommand extends AbstractCommand
             finfo_open(FILEINFO_MIME_TYPE),
             $image->getEncoded()
         );
-print_r($mimetype);
+
         $this->setOutput(new Response(
             200,
             array(

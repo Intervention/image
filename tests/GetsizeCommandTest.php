@@ -3,7 +3,7 @@
 use Intervention\Image\Gd\Commands\GetSizeCommand as GetSizeGd;
 use Intervention\Image\Imagick\Commands\GetSizeCommand as GetSizeImagick;
 
-class GetSizeCommandTest extends PHPUnit_Framework_TestCase
+class GetsizeCommandTest extends PHPUnit_Framework_TestCase
 {
     public function tearDown()
     {

@@ -120,12 +120,16 @@ class Font extends \Intervention\Image\AbstractFont
         }
 
         // insert canvas
-        $image->getCore()->compositeImage(
-            $canvas,
-            \Imagick::COMPOSITE_DEFAULT,
-            $posx - $box->pivot->x - self::PADDING,
-            $posy - $box->pivot->y - self::PADDING
-        );
+        foreach ($image as $frame) {
+            $frame->getCore()->compositeImage(
+                $canvas,
+                \Imagick::COMPOSITE_DEFAULT,
+                $posx - $box->pivot->x - self::PADDING,
+                $posy - $box->pivot->y - self::PADDING
+            );    
+        }
+
+        
     }
 
     /**

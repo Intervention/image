@@ -205,19 +205,19 @@ class Font extends \Intervention\Image\AbstractFont
         // enable alphablending for imagecopy
         imagealphablending($image->getCore(), true);
 
-        // insert canvas
-        imagecopy(
-            $image->getCore(), 
-            $canvas, 
-            $posx - $box->pivot->x - self::PADDING,
-            $posy - $box->pivot->y - self::PADDING, 
-            0, 
-            0, 
-            imagesx($canvas), 
-            imagesy($canvas)
-        );
-
-        
+        foreach ($image as $frame) {
+            // insert canvas
+            imagecopy(
+                $frame->getCore(), 
+                $canvas, 
+                $posx - $box->pivot->x - self::PADDING,
+                $posy - $box->pivot->y - self::PADDING, 
+                0, 
+                0, 
+                imagesx($canvas), 
+                imagesy($canvas)
+            );
+        }
     }
 
     /**

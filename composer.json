@@ -17,7 +17,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "3.*",
-        "mockery/mockery": "~0.9.2"
+        "mockery/mockery": "~0.9.2",
+        "guzzlehttp/psr7": "~1.1"
     },
     "suggest": {
         "ext-gd": "to use GD library based image processing.",

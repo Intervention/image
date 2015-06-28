@@ -28,14 +28,14 @@ class PsrResponseCommand extends AbstractCommand
 
         $mimetype = finfo_buffer(
             finfo_open(FILEINFO_MIME_TYPE),
-            $image->encoded
+            $image->getEncoded()
         );
-
+print_r($mimetype);
         $this->setOutput(new Response(
             200,
             array(
                 'Content-Type'   => $mimetype,
-                'Content-Length' => strlen($image->encoded)
+                'Content-Length' => strlen($image->getEncoded())
             ),
             $stream
         ));

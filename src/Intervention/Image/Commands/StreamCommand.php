@@ -17,7 +17,7 @@ class StreamCommand extends AbstractCommand
         $quality = $this->argument(1)->between(0, 100)->value();
 
         $this->setOutput(\GuzzleHttp\Psr7\stream_for(
-            $image->encode($format, $quality)->encoded
+            $image->encode($format, $quality)->getEncoded()
         ));
 
         return true;

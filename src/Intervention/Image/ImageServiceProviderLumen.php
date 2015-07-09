@@ -7,27 +7,6 @@ use Illuminate\Support\ServiceProvider;
 class ImageServiceProviderLumen extends ServiceProvider
 {
     /**
-     * Determines if Intervention Imagecache is installed
-     *
-     * @return boolean
-     */
-    private function cacheIsInstalled()
-    {
-        return class_exists('Intervention\\Image\\ImageCache');
-    }
-
-    /**
-     * Bootstrap the application events.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        // setup intervention/imagecache if package is installed
-        $this->cacheIsInstalled() ? $this->bootstrapImageCache() : null;
-    }
-
-    /**
      * Register the service provider.
      *
      * @return void
@@ -48,34 +27,5 @@ class ImageServiceProviderLumen extends ServiceProvider
         });
 
         $app->alias('image', 'Intervention\Image\ImageManager');
-    }
-
-    /**
-     * Bootstrap imagecache
-     *
-     * @return void
-     */
-    private function bootstrapImageCache()
-    {
-        $app = $this->app;
-        $config = __DIR__.'/../../../../imagecache/src/config/config.php';
-
-        // merge default config
-        $this->mergeConfigFrom(
-          $config,
-          'imagecache'
-        );
-
-        // imagecache route
-        if (is_string(config('imagecache.route'))) {
-
-            $filename_pattern = '[ \w\\.\\/\\-]+';
-
-            // route to access template applied image file
-            $app['router']->get(config('imagecache.route').'/{template}/{filename}', array(
-              'uses' => 'Intervention\Image\ImageCacheController@getResponse',
-              'as' => 'imagecache'
-            ))->where(array('filename' => $filename_pattern));
-        }
     }
 }

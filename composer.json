@@ -30,5 +30,10 @@
             "Intervention\\Image\\": "src/Intervention/Image"
         }
     },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.3-dev"
+        }
+    },
     "minimum-stability": "stable"
 }

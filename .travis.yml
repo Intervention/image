@@ -14,7 +14,7 @@ before_install:
   - sudo add-apt-repository -y ppa:moti-p/cc
   - sudo apt-get update
   - sudo apt-get -y --reinstall install imagemagick
-  - printf "\n" | pecl install imagick-beta
+  - if [[ $TRAVIS_PHP_VERSION != 'hhvm' ]]; then printf "\n" | pecl install imagick-beta ; fi
 
 before_script:
   - composer self-update

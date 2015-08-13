@@ -22,6 +22,30 @@ class FillCommandTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($result);
     }
 
+    public function testGdFillArray()
+    {
+        $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
+        $image = Mockery::mock('Intervention\Image\Image');
+        $image->shouldReceive('getCore')->once()->andReturn($resource);
+        $image->shouldReceive('getWidth')->once()->andReturn(800);
+        $image->shouldReceive('getHeight')->once()->andReturn(600);
+        $command = new FillGd(array(array(50, 50, 50)));
+        $result = $command->execute($image);
+        $this->assertTrue($result);
+    }
+
+    public function testGdFillArrayWithAlpha()
+    {
+        $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
+        $image = Mockery::mock('Intervention\Image\Image');
+        $image->shouldReceive('getCore')->once()->andReturn($resource);
+        $image->shouldReceive('getWidth')->once()->andReturn(800);
+        $image->shouldReceive('getHeight')->once()->andReturn(600);
+        $command = new FillGd(array(array(50, 50, 50, .50)));
+        $result = $command->execute($image);
+        $this->assertTrue($result);
+    }
+
     public function testGdFillWithCoordinates()
     {
         $driver = Mockery::mock('\Intervention\Image\Gd\Driver');

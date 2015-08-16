@@ -216,6 +216,10 @@ abstract class AbstractDecoder
      */
     public function isBase64()
     {
+        if (!is_string($this->data)) {
+            return false;
+        }
+
         return base64_encode(base64_decode($this->data)) === $this->data;
     }
 
@@ -238,6 +242,10 @@ abstract class AbstractDecoder
      */
     private function decodeDataUrl($data_url)
     {
+        if (!is_string($data_url)) {
+            return null;
+        }
+
         $pattern = "/^data:(?:image\/[a-zA-Z\-\.]+)(?:charset=\".+\")?;base64,(?P<data>.+)$/";
         preg_match($pattern, $data_url, $matches);
 

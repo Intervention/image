@@ -268,7 +268,7 @@ class Image extends File
      */
     public function isEncoded()
     {
-        return ! is_null($this->encoded);
+        return ! empty($this->encoded);
     }
 
     /**

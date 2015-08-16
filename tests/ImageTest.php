@@ -43,6 +43,15 @@ class ImageTest extends PHPUnit_Framework_TestCase
         @unlink($save_as);
     }
 
+    public function testIsEncoded()
+    {
+        $image = $this->getTestImage();
+        $this->assertFalse($image->isEncoded());
+        
+        $image->setEncoded('foo');
+        $this->assertTrue($image->isEncoded());
+    }
+
     public function testFilter()
     {
         $demoFilter = Mockery::mock('\Intervention\Image\Filters\DemoFilter', array(15));

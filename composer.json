@@ -7,14 +7,13 @@
     "authors": [
         {
             "name": "Oliver Vogel",
-            "email": "oliver@olivervogel.net",
-            "homepage": "http://olivervogel.net/"
+            "email": "oliver@olivervogel.com",
+            "homepage": "http://olivervogel.com/"
         }
     ],
     "require": {
         "php": ">=5.4.0",
-        "ext-fileinfo": "*",
-        "guzzlehttp/psr7": "~1.1"
+        "ext-fileinfo": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "3.*",

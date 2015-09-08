@@ -13,6 +13,7 @@
     ],
     "require": {
         "php": ">=5.4.0",
+        "intervention/gif": "dev-master",
         "ext-fileinfo": "*"
     },
     "require-dev": {

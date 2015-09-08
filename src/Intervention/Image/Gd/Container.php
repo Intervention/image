@@ -2,9 +2,11 @@
 
 namespace Intervention\Image\Gd;
 
+use Intervention\Gif\Decoded;
+use Intervention\Gif\Encoder as GifEncoder;
 use Intervention\Image\Animation;
-use Intervention\Image\Frame;
 use Intervention\Image\ContainerInterface;
+use Intervention\Image\Frame;
 
 class Container extends Animation implements ContainerInterface
 {
@@ -70,5 +72,50 @@ class Container extends Animation implements ContainerInterface
         ));
 
         return $this;
+    }
+
+    public static function initFromDecoded(Decoded $decoded)
+    {
+        $container = new self;
+        $container->setLoops($decoded->getLoops());
+
+        // create empty canvas
+        $driver = new Driver;
+        $canvas = $driver->newImage($decoded->getCanvasWidth(), $decoded->getCanvasHeight())->getCore();
+
+        foreach ($decoded->getFrames() as $key => $frame) {
+
+            // create resource from frame
+            $encoder = new GifEncoder;
+            $encoder->setFromDecoded($decoded, $key);
+            $frame_resource = imagecreatefromstring($encoder->encode());
+
+            // insert frame image data into canvas
+            imagecopy(
+                $canvas,
+                $frame_resource,
+                $frame->getOffset()->left,
+                $frame->getOffset()->top,
+                0,
+                0,
+                $frame->getSize()->width,
+                $frame->getSize()->height
+            );
+
+            // destory frame resource
+            imagedestroy($frame_resource);
+
+            // add frame to container
+            $container->addFrame(new \Intervention\Image\Frame(
+                $canvas, 
+                $frame->getDelay()
+            ));
+
+            // prepare next canvas
+            $canvas = Helper::cloneResource($canvas);
+        }
+
+        return $container;
+    
     }
 }

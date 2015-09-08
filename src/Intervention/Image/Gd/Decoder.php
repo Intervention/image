@@ -2,6 +2,7 @@
 
 namespace Intervention\Image\Gd;
 
+use \Intervention\Gif\Decoder as GifDecoder;
 use \Intervention\Image\Image;
 use \Intervention\Image\Size;
 use \Intervention\Image\ContainerInterface;
@@ -108,11 +109,12 @@ class Decoder extends \Intervention\Image\AbstractDecoder
     {
         try {
             // try to custom decode gif
-            $gifDecoder = new Gif\Decoder;
+            $gifDecoder = new GifDecoder;
             $decoded = $gifDecoder->initFromData($binary)->decode();
 
             // create image
-            $image = $this->initFromContainer($decoded->createContainer());
+            $container = Container::initFromDecoded($decoded);
+            $image = $this->initFromContainer($container);
             $image->mime = 'image/gif';
 
         } catch (\Exception $e) {

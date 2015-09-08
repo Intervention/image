@@ -2,6 +2,9 @@
 
 namespace Intervention\Image\Gd;
 
+use Intervention\Gif\Encoder as GifEncoder;
+use Intervention\Gif\Decoder as GifDecoder;
+
 class Encoder extends \Intervention\Image\AbstractEncoder
 {
     /**
@@ -48,7 +51,7 @@ class Encoder extends \Intervention\Image\AbstractEncoder
     {
         $image = $this->image;
 
-        $encoder = new Gif\Encoder;
+        $encoder = new GifEncoder;
         $encoder->setCanvas($image->getWidth(), $image->getHeight());
         $encoder->setLoops($image->getContainer()->getLoops());
 
@@ -62,7 +65,7 @@ class Encoder extends \Intervention\Image\AbstractEncoder
             ob_end_clean();
 
             // decode frame
-            $decoder = new Gif\Decoder;
+            $decoder = new GifDecoder;
             $decoder->initFromData($frame_data);
             $decoded = $decoder->decode();
 

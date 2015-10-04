@@ -2,9 +2,6 @@
 
 namespace Intervention\Image;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
-
 /**
  * @method \Intervention\Image\Image backup(string $name = 'default')                                                                                                     Backups current image state as fallback for reset method under an optional name. Overwrites older state on every call, unless a different name is passed.
  * @method \Intervention\Image\Image blur(integer $amount = 1)                                                                                                            Apply a gaussian blur filter with a optional amount on the current image. Use values between 0 and 100.
@@ -48,9 +45,8 @@ use Psr\Http\Message\StreamInterface;
  * @method \Intervention\Image\Image text(string $text, integer $x = 0, integer $y = 0, \Closure $callback = null)                                                        Write a text string to the current image at an optional x,y basepoint position. You can define more details like font-size, font-file and alignment via a callback as the fourth parameter.
  * @method \Intervention\Image\Image trim(string $base = 'top-left', array $away = array('top', 'bottom', 'left', 'right'), integer $tolerance = 0, integer $feather = 0) Trim away image space in given color. Define an optional base to pick a color at a certain position and borders that should be trimmed away. You can also set an optional tolerance level, to trim similar colors and add a feathering border around the trimed image.
  * @method \Intervention\Image\Image widen(integer $width, \Closure $callback = null)                                                                                     Resizes the current image to new width, constraining aspect ratio. Pass an optional Closure callback as third parameter, to apply additional constraints like preventing possible upsizing.
- * @method StreamInterface           stream(string $format = null, integer $quality = 90)                                                                                 Build PSR-7 compatible StreamInterface with current image in given format and quality.
- * @method ResponseInterface         psrResponse(string $format = null, integer $quality = 90)                                                                            Build PSR-7 compatible ResponseInterface with current image in given format and quality.
  */
+
 class Image extends File implements \IteratorAggregate
 {
     /**

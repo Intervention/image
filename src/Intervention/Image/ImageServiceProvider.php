@@ -61,7 +61,9 @@ class ImageServiceProvider extends ServiceProvider
      */
     private function getProvider()
     {
-        if (version_compare(Application::VERSION, '5.0', '<')) {
+        if (get_class($this->app) == 'Laravel\Lumen\Application') {
+            $provider = '\Intervention\Image\ImageServiceProviderLumen';
+        } elseif (version_compare(Application::VERSION, '5.0', '<')) {
             $provider = '\Intervention\Image\ImageServiceProviderLaravel4';
         } else {
             $provider = '\Intervention\Image\ImageServiceProviderLaravel5';

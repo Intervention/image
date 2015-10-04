@@ -33,5 +33,10 @@
     "autoload-dev": {
         "classmap": ["tests"]
     },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.3-dev"
+        }
+    },
     "minimum-stability": "stable"
 }

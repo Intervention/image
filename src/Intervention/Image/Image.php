@@ -311,7 +311,7 @@ class Image extends File implements \IteratorAggregate
      */
     public function isEncoded()
     {
-        return ! is_null($this->encoded);
+        return ! empty($this->encoded);
     }
 
     /**

@@ -1,8 +1,8 @@
 {
-    "name": "intervention/image",
-    "description": "Image handling and manipulation library with support for Laravel integration",
+    "name": "pecee/intervention-image",
+    "description": "Image handling and manipulation library with support for Laravel integration, forked to apply bugfixes and addons.",
     "homepage": "http://image.intervention.io/",
-    "keywords": ["image", "gd", "imagick", "laravel", "watermark", "thumbnail"],
+    "keywords": ["image", "gd", "imagick", "laravel", "watermark", "thumbnail", "pecee"],
     "license": "MIT",
     "authors": [
         {

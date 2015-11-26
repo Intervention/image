@@ -66,12 +66,6 @@ class ImageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('image/png', $image->mime());
     }
 
-    public function testBasePath()
-    {
-        $image = $this->getTestImage();
-        $this->assertEquals('./tmp/foo.png', $image->basePath());
-    }
-
     /**
      * @expectedException \Intervention\Image\Exception\RuntimeException
      */

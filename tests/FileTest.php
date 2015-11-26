@@ -14,4 +14,14 @@ class FileTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('test', $file->filename);
         $this->assertEquals('image/jpeg', $file->mime);
     }
+
+    public function testBasePath()
+    {
+        $file = new File;
+        $this->assertNull(null, $file->basePath());
+
+        $file->dirname = 'foo';
+        $file->basename = 'bar';
+        $this->assertEquals('foo/bar', $file->basePath());
+    }
 }

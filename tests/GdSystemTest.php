@@ -1497,6 +1497,15 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(null, $data);
     }
 
+    /**
+     * @expectedException \Intervention\Image\Exception\RuntimeException
+     */
+    public function testExifReadNonFileInstance()
+    {
+        $img = $this->manager()->canvas(300, 200);
+        $data = $img->exif();
+    }
+
     public function testSaveImage()
     {
         $save_as = 'tests/tmp/foo.jpg';

@@ -21,6 +21,12 @@ class ExifCommand extends AbstractCommand
             );
         }
 
+        if ( ! $image->basePath()) {
+            throw new \Intervention\Image\Exception\RuntimeException(
+                "Reading Exif data is only possible, if the image is instantiated from a filepath."
+            );
+        }
+
         $key = $this->argument(0)->value();
 
         // try to read exif data from image file

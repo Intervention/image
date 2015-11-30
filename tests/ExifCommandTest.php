@@ -57,14 +57,4 @@ class ExifCommandTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($command->hasOutput());
         $this->assertEquals(null, $command->getOutput());
     }
-
-    /**
-     * @expectedException \Intervention\Image\Exception\RuntimeException
-     */
-    public function testFetchFromNonFileInstance()
-    {
-        $image = new Image;
-        $command = new ExifCommand(array('Artist'));        
-        $command->execute($image);
-    }
 }

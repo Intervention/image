@@ -1,6 +1,6 @@
 <?php
 
-class ImagickSystemTest extends PHPUnit_Framework_TestCase
+class IntegrationTestImagick extends PHPUnit_Framework_TestCase
 {
     public function testMakeFromPath()
     {

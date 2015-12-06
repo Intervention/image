@@ -12,7 +12,7 @@ class ChecksumCommand extends AbstractCommand
      */
     public function execute($image)
     {
-        $this->setOutput(md5($image->encode()));
+        $this->setOutput(md5($image->encode('png')));
 
         return true;
     }

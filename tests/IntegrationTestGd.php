@@ -1024,9 +1024,8 @@ class IntegrationTestGd extends PHPUnit_Framework_TestCase
         $img = $this->manager()->canvas(16, 16, 'ffffff');
         $img = $img->text('0', 3, 11);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertEquals('a9e2b15452b2a4637b65625188d206f6', $img->checksum());
+        $this->assertEquals('aebd2eea279b29f8d5264b9a53c1846e', $img->checksum());
 
-        
         $img = $this->manager()->canvas(16, 16, 'ffffff');
         $img = $img->text('0', 8, 8, function($font) {
             $font->file(3);
@@ -1035,7 +1034,7 @@ class IntegrationTestGd extends PHPUnit_Framework_TestCase
             $font->color('000000');
         });
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertEquals('ccb8b439d7e327089682094939564934', $img->checksum());
+        $this->assertEquals('9a11953d892c1e53659b9e3441ab3783', $img->checksum());
         
         $img = $this->manager()->canvas(16, 16, 'ffffff');
         $img = $img->text('0', 8, 8, function($font) {
@@ -1045,7 +1044,7 @@ class IntegrationTestGd extends PHPUnit_Framework_TestCase
             $font->color('000000');
         });
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertEquals('496be71507490098ead374f6d6c359fe', $img->checksum());
+        $this->assertEquals('6058fcde6d9273e02b94c38235aa7e28', $img->checksum());
 
         $img = $this->manager()->canvas(100, 100, 'ffffff');
         $txt = 'The quick brown fox jumps over the lazy dog';
@@ -1058,35 +1057,35 @@ class IntegrationTestGd extends PHPUnit_Framework_TestCase
             $font->box(80, 80);
         });
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertEquals('7a6eafce0c071f3be91342d62e41fb9d', $img->checksum());
+        $this->assertEquals('36ab16d344a603cb87bac981a486f964', $img->checksum());
     }
 
     public function testRectangleImage()
     {
         $img = $this->manager()->canvas(16, 16, 'ffffff');
         $img->rectangle(5, 5, 11, 11, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
-        $this->assertEquals('e95487dcc29daf371a0e9190bff8dbfe', $img->checksum());
+        $this->assertEquals('e8c79ad201c20d54eedafde5c4d165f0', $img->checksum());
     }
 
     public function testLineImage()
     {
         $img = $this->manager()->canvas(16, 16, 'ffffff');
         $img->line(0, 0, 15, 15, function ($draw) { $draw->color('#ff0000'); });
-        $this->assertEquals('a6237d34f6e95f30d2fc91a46bd058e6', $img->checksum());
+        $this->assertEquals('92f5891680b215f699e4efd52aa4bfac', $img->checksum());
     }
 
     public function testEllipseImage()
     {
         $img = $this->manager()->canvas(16, 16, 'ffffff');
         $img->ellipse(12, 8, 8, 8, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
-        $this->assertEquals('080d9dd92ebe22f976c3c703cba33510', $img->checksum());
+        $this->assertEquals('e3231057c907a6f1457370e1f4f9d712', $img->checksum());
     }
 
     public function testCircleImage()
     {
         $img = $this->manager()->canvas(16, 16, 'ffffff');
         $img->circle(12, 8, 8, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
-        $this->assertEquals('c3bff06c20244ba14e898e39ea0efd76', $img->checksum());
+        $this->assertEquals('a109b98254329484489548b618d8cb92', $img->checksum());
     }
 
     public function testPolygonImage()
@@ -1094,7 +1093,7 @@ class IntegrationTestGd extends PHPUnit_Framework_TestCase
         $img = $this->manager()->canvas(16, 16, 'ffffff');
         $points = array(3, 3, 11, 11, 7, 13);
         $img->polygon($points, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
-        $this->assertEquals('e534ff90c8026f9317b99071fda01ed4', $img->checksum());
+        $this->assertEquals('37298b58a42eb1c664d52e10496a56cf', $img->checksum());
     }
 
     public function testResetImage()

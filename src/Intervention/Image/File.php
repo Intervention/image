@@ -75,4 +75,18 @@ class File
         return false;
     }
 
+    /**
+     * Get fully qualified path
+     *
+     * @return string
+     */
+    public function basePath()
+    {
+        if ($this->dirname && $this->basename) {
+            return ($this->dirname .'/'. $this->basename);
+        }
+
+        return null;
+    }
+
 }

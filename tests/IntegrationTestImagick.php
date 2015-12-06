@@ -1028,28 +1028,28 @@ class IntegrationTestImagick extends PHPUnit_Framework_TestCase
     {
         $img = $this->manager()->canvas(16, 16, 'ffffff');
         $img->rectangle(5, 5, 11, 11, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
-        $this->assertEquals('32ceca9759d1973dd461b39664df604d', $img->checksum());
+        $this->assertEquals('d4a3924299387f5eb6f42c74626c9446', $img->checksum());
     }
 
     public function testLineImage()
     {
         $img = $this->manager()->canvas(16, 16, 'ffffff');
         $img->line(0, 0, 15, 15, function ($draw) { $draw->color('#ff0000'); });
-        $this->assertEquals('f5c585019bff361d91e2928b2ac2286b', $img->checksum());
+        $this->assertEquals('859b0c6cbd21cabd9e525efb5023ad27', $img->checksum());
     }
 
     public function testEllipseImage()
     {
         $img = $this->manager()->canvas(16, 16, 'ffffff');
         $img->ellipse(12, 8, 8, 8, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
-        $this->assertEquals('9dc5bbec6d45868610c082a1d67640b5', $img->checksum());
+        $this->assertEquals('74bcee1addf3309a8bd9f27171bf37f4', $img->checksum());
     }
 
     public function testCircleImage()
     {
         $img = $this->manager()->canvas(16, 16, 'ffffff');
         $img->circle(12, 8, 8, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
-        $this->assertEquals('a433c7c1a842ef83e1cb45875371358c', $img->checksum());
+        $this->assertEquals('bf6293c79bb50997bbb659e07bccfe37', $img->checksum());
     }
 
     public function testPolygonImage()
@@ -1057,7 +1057,7 @@ class IntegrationTestImagick extends PHPUnit_Framework_TestCase
         $img = $this->manager()->canvas(16, 16, 'ffffff');
         $points = array(3, 3, 11, 11, 7, 13);
         $img->polygon($points, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
-        $this->assertEquals('e301afe179da858d441ad8fc0eb5490a', $img->checksum());
+        $this->assertEquals('0f77f38b9c500536fec937348d9abe88', $img->checksum());
     }
 
     public function testResetImage()

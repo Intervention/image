@@ -1,8 +1,8 @@
 {
     "name": "intervention/image",
-    "description": "Image handling and manipulation library with support for Laravel integration",
+    "description": "PHP Image Manipulation",
     "homepage": "http://image.intervention.io/",
-    "keywords": ["image", "gd", "imagick", "laravel", "watermark", "thumbnail"],
+    "keywords": ["image", "gd", "imagick", "laravel", "watermark", "thumbnail", "animation", "resize"],
     "license": "MIT",
     "authors": [
         {

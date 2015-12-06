@@ -3,7 +3,7 @@
 use Intervention\Image\Gd\Shapes\RectangleShape as RectangleGd;
 use Intervention\Image\Imagick\Shapes\RectangleShape as RectangleImagick;
 
-class RectangleShapeTest extends CommandTestCase
+class RectangleShapeTest extends PHPUnit_Framework_TestCase
 {
     public function tearDown()
     {
@@ -27,23 +27,5 @@ class RectangleShapeTest extends CommandTestCase
         $this->assertEquals(15, $rectangle->y1);
         $this->assertEquals(100, $rectangle->x2);
         $this->assertEquals(150, $rectangle->y2);
-    }
-
-    public function testApplyToImage()
-    {
-        // gd
-        $image = $this->getTestImage('gd');
-        $rectangle = new RectangleGd(10, 15, 100, 150);
-        $result = $rectangle->applyToImage($image, 10, 20);
-        $this->assertInstanceOf('Intervention\Image\Gd\Shapes\RectangleShape', $rectangle);
-        $this->assertTrue($result);
-
-        // imagick
-        $image = $this->getTestImage('imagick');
-        $image->getCore()->shouldReceive('drawimage')->times(3);
-        $rectangle = new RectangleImagick(10, 15, 100, 150);
-        $result = $rectangle->applyToImage($image, 10, 20);
-        $this->assertInstanceOf('Intervention\Image\Imagick\Shapes\RectangleShape', $rectangle);
-        $this->assertTrue($result);
     }
 }

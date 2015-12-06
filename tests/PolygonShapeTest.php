@@ -3,7 +3,7 @@
 use Intervention\Image\Gd\Shapes\PolygonShape as PolygonGd;
 use Intervention\Image\Imagick\Shapes\PolygonShape as PolygonImagick;
 
-class PolygonShapeTest extends CommandTestCase
+class PolygonShapeTest extends PHPUnit_Framework_TestCase
 {
     public function tearDown()
     {
@@ -18,15 +18,6 @@ class PolygonShapeTest extends CommandTestCase
         
     }
 
-    public function testGdApplyToImage()
-    {
-        $image = $this->getTestImage('gd');
-        $polygon = new PolygonGd(array(1, 2, 3, 4, 5, 6));
-        $result = $polygon->applyToImage($image);
-        $this->assertInstanceOf('Intervention\Image\Gd\Shapes\PolygonShape', $polygon);
-        $this->assertTrue($result);
-    }
-
     public function testImagickConstructor()
     {
         $polygon = new PolygonImagick(array(1, 2, 3, 4, 5, 6));
@@ -38,15 +29,4 @@ class PolygonShapeTest extends CommandTestCase
         $polygon->points);
         
     }
-
-    public function testImagickApplyToImage()
-    {
-        $image = $this->getTestImage('imagick');
-        $image->getCore()->shouldReceive('drawimage')->times(3);
-        $polygon = new PolygonImagick(array(1, 2, 3, 4, 5, 6));
-        $result = $polygon->applyToImage($image);
-        $this->assertInstanceOf('Intervention\Image\Imagick\Shapes\PolygonShape', $polygon);
-        $this->assertTrue($result);
-    }
-
 }

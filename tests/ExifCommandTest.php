@@ -1,5 +1,6 @@
 <?php
 
+use Intervention\Image\Image;
 use Intervention\Image\Commands\ExifCommand;
 
 class ExifCommandTest extends PHPUnit_Framework_TestCase
@@ -11,7 +12,7 @@ class ExifCommandTest extends PHPUnit_Framework_TestCase
     
     public function testFetchAll()
     {
-        $image = Mockery::mock('Intervention\Image\Image');
+        $image = new Image;
         $image->dirname = __DIR__.'/images';
         $image->basename = 'exif.jpg';
         $command = new ExifCommand(array());
@@ -23,7 +24,7 @@ class ExifCommandTest extends PHPUnit_Framework_TestCase
 
     public function testFetchDefined()
     {
-        $image = Mockery::mock('Intervention\Image\Image');
+        $image = new Image;
         $image->dirname = __DIR__.'/images';
         $image->basename = 'exif.jpg';
         $command = new ExifCommand(array('Artist'));
@@ -35,7 +36,7 @@ class ExifCommandTest extends PHPUnit_Framework_TestCase
 
     public function testFetchNonExisting()
     {
-        $image = Mockery::mock('Intervention\Image\Image');
+        $image = new Image;
         $image->dirname = __DIR__.'/images';
         $image->basename = 'exif.jpg';
         $command = new ExifCommand(array('xxx'));
@@ -47,19 +48,9 @@ class ExifCommandTest extends PHPUnit_Framework_TestCase
 
     public function testFetchFromPng()
     {
-        $image = Mockery::mock('Intervention\Image\Image');
+        $image = new Image;
         $image->dirname = __DIR__.'/images';
         $image->basename = 'star.png';
-        $command = new ExifCommand(array('Orientation'));
-        $result = $command->execute($image);
-        $this->assertTrue($result);
-        $this->assertTrue($command->hasOutput());
-        $this->assertEquals(null, $command->getOutput());
-    }
-
-    public function testReturnNullOnExifReadFail()
-    {
-        $image = Mockery::mock('Intervention\Image\Image');
         $command = new ExifCommand(array('Orientation'));
         $result = $command->execute($image);
         $this->assertTrue($result);

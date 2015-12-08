@@ -344,20 +344,6 @@ class Image extends File
     }
 
     /**
-     * Get fully qualified path to image
-     *
-     * @return string
-     */
-    public function basePath()
-    {
-        if ($this->dirname && $this->basename) {
-            return ($this->dirname .'/'. $this->basename);
-        }
-
-        return null;
-    }
-
-    /**
      * Returns encoded image data in string conversion
      *
      * @return string

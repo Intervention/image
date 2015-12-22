@@ -248,8 +248,43 @@ class Size
             $size = $auto_width;
         }
 
+        $offset_y = 0;
+        $offset_x = 0;
+
+        // check if position argument contains percentages (30%,80%)
+        if (preg_match('/^(\d+(?:\.\d+)?)%,(\d+(?:\.\d+)?)%$/', $position, $matches)) {
+
+            $percentage_x = $matches[1];
+            $percentage_y = $matches[2];
+
+            $offset_x = ($this->width / 100 * $percentage_x) - ($size->width / 2);
+            $max_offset_x = $this->width - $size->width;
+
+            if ($offset_x < 0) {
+                $offset_x = 0;
+            }
+
+            if ($offset_x > $max_offset_x) {
+                $offset_x = $max_offset_x;
+            }
+
+            $offset_y = ($this->height / 100 * $percentage_y) - ($size->height / 2);
+            $max_offset_y = $this->height - $size->height;
+
+            if ($offset_y < 0) {
+                $offset_y = 0;
+            }
+
+            if ($offset_y > $max_offset_y) {
+                $offset_y = $max_offset_y;
+            }
+
+            $offset_y = -$offset_y;
+            $offset_x = -$offset_x;
+        }
+
         $this->align($position);
-        $size->align($position);
+        $size->align($position, $offset_x, $offset_y);
         $size->setPivot($this->relativePosition($size));
 
         return $size;

@@ -34,6 +34,9 @@ $img->insert('public/watermark.png');
 
 // save image in desired format
 $img->save('public/bar.jpg');
+
+// Call after save() to free any allocated memory. Important if used in loops.
+$img->destroy();
 ```
 
 Refer to the [documentation](http://image.intervention.io/) to learn more about Intervention Image.

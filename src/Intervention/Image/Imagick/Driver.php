@@ -2,7 +2,6 @@
 
 namespace Intervention\Image\Imagick;
 
-
 class Driver extends \Intervention\Image\AbstractDriver
 {
     /**

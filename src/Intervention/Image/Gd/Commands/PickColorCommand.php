@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Gd\Commands;
 
-use \Intervention\Image\Gd\Color;
+use Intervention\Image\Gd\Color;
 
 class PickColorCommand extends \Intervention\Image\Commands\AbstractCommand
 {

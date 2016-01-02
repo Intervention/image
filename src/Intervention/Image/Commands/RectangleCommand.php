@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Commands;
 
-use \Closure;
+use Closure;
 
 class RectangleCommand extends \Intervention\Image\Commands\AbstractCommand
 {

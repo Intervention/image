@@ -2,7 +2,7 @@
 
 namespace Intervention\Image;
 
-use \Closure;
+use Closure;
 
 class Size
 {

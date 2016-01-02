@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Gd\Shapes;
 
-use \Intervention\Image\Image;
+use Intervention\Image\Image;
 
 class CircleShape extends EllipseShape
 {

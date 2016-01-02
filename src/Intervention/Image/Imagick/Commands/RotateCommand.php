@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Imagick\Commands;
 
-use \Intervention\Image\Imagick\Color;
+use Intervention\Image\Imagick\Color;
 
 class RotateCommand extends \Intervention\Image\Commands\AbstractCommand
 {

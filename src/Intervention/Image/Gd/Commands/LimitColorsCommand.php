@@ -2,7 +2,6 @@
 
 namespace Intervention\Image\Gd\Commands;
 
-use Intervention\Image\Gd\Color;
 
 class LimitColorsCommand extends \Intervention\Image\Commands\AbstractCommand
 {

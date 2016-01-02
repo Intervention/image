@@ -1,6 +1,5 @@
 <?php
 
-use \Intervention\Image\AbstractDecoder;
 
 class AbstractDecoderTest extends PHPUnit_Framework_TestCase
 {

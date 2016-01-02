@@ -2,7 +2,6 @@
 
 namespace Intervention\Image\Imagick;
 
-use \Intervention\Image\Size;
 
 class Driver extends \Intervention\Image\AbstractDriver
 {

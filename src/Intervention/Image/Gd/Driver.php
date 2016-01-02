@@ -2,7 +2,6 @@
 
 namespace Intervention\Image\Gd;
 
-
 class Driver extends \Intervention\Image\AbstractDriver
 {
     /**

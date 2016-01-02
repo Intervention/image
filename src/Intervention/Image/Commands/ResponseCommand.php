@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Commands;
 
-use \Intervention\Image\Response;
+use Intervention\Image\Response;
 
 class ResponseCommand extends AbstractCommand
 {

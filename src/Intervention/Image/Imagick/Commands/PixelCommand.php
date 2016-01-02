@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Imagick\Commands;
 
-use \Intervention\Image\Imagick\Color;
+use Intervention\Image\Imagick\Color;
 
 class PixelCommand extends \Intervention\Image\Commands\AbstractCommand
 {

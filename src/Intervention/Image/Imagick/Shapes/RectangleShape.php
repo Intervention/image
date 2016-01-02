@@ -2,8 +2,8 @@
 
 namespace Intervention\Image\Imagick\Shapes;
 
-use \Intervention\Image\Image;
-use \Intervention\Image\Imagick\Color;
+use Intervention\Image\Image;
+use Intervention\Image\Imagick\Color;
 
 class RectangleShape extends \Intervention\Image\AbstractShape
 {

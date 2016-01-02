@@ -1,6 +1,6 @@
 <?php
 
-use \Intervention\Image\Response;
+use Intervention\Image\Response;
 
 class ResponseTest extends PHPUnit_Framework_TestCase
 {

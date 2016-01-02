@@ -2,7 +2,6 @@
 
 namespace Intervention\Image\Gd\Commands;
 
-
 class ResizeCanvasCommand extends \Intervention\Image\Commands\AbstractCommand
 {
     /**

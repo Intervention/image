@@ -2,9 +2,9 @@
 
 namespace Intervention\Image\Imagick\Commands;
 
-use \Intervention\Image\Image;
-use \Intervention\Image\Imagick\Decoder;
-use \Intervention\Image\Imagick\Color;
+use Intervention\Image\Image;
+use Intervention\Image\Imagick\Decoder;
+use Intervention\Image\Imagick\Color;
 
 class FillCommand extends \Intervention\Image\Commands\AbstractCommand
 {

@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Imagick\Commands;
 
-use \Intervention\Image\Size;
+use Intervention\Image\Size;
 
 class FitCommand extends \Intervention\Image\Commands\AbstractCommand
 {

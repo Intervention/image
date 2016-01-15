@@ -2,8 +2,7 @@
 
 namespace Intervention\Image\Gd;
 
-use \Intervention\Image\Image;
-use \Intervention\Image\Size;
+use Intervention\Image\Image;
 
 class Decoder extends \Intervention\Image\AbstractDecoder
 {

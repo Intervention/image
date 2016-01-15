@@ -2,8 +2,8 @@
 
 namespace Intervention\Image\Gd\Commands;
 
-use \Intervention\Image\Point;
-use \Intervention\Image\Size;
+use Intervention\Image\Point;
+use Intervention\Image\Size;
 
 class CropCommand extends ResizeCommand
 {

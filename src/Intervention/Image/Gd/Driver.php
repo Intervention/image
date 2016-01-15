@@ -2,8 +2,6 @@
 
 namespace Intervention\Image\Gd;
 
-use \Intervention\Image\Size;
-
 class Driver extends \Intervention\Image\AbstractDriver
 {
     /**

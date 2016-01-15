@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Gd;
 
-use \Intervention\Image\Image;
+use Intervention\Image\Image;
 
 class Font extends \Intervention\Image\AbstractFont
 {

@@ -1,7 +1,5 @@
 <?php
 
-use \Intervention\Image\AbstractDecoder;
-
 class AbstractDecoderTest extends PHPUnit_Framework_TestCase
 {
     public function tearDown()
@@ -14,7 +12,7 @@ class AbstractDecoderTest extends PHPUnit_Framework_TestCase
         $source = $this->getTestDecoder(new \Imagick);
         $this->assertTrue($source->isImagick());
 
-        $source = $this->getTestDecoder(new StdClass);
+        $source = $this->getTestDecoder(new stdClass);
         $this->assertFalse($source->isImagick());
 
         $source = $this->getTestDecoder(null);
@@ -45,7 +43,7 @@ class AbstractDecoderTest extends PHPUnit_Framework_TestCase
         $source = $this->getTestDecoder(array());
         $this->assertFalse($source->isFilepath());
 
-        $source = $this->getTestDecoder(new StdClass);
+        $source = $this->getTestDecoder(new stdClass);
         $this->assertFalse($source->isFilepath());
     }
 
@@ -84,7 +82,7 @@ class AbstractDecoderTest extends PHPUnit_Framework_TestCase
         $source = $this->getTestDecoder(array(1,2,3));
         $this->assertFalse($source->isBinary());
 
-        $source = $this->getTestDecoder(new StdClass);
+        $source = $this->getTestDecoder(new stdClass);
         $this->assertFalse($source->isBinary());
     }
 

@@ -47,7 +47,16 @@ class ImageManager
      */
     public function make($data)
     {
-        return $this->createDriver()->init($data);
+        $image = null;
+        foreach ($this->createDriver() as $driver) {
+            if($driver instanceof AbstractDriver) {
+                $image = $driver->init($data);
+            }
+            if($image !== null) {
+                break;
+            }
+        }
+        return $image;
     }
 
     /**
@@ -61,7 +70,14 @@ class ImageManager
      */
     public function canvas($width, $height, $background = null)
     {
-        return $this->createDriver()->newImage($width, $height, $background);
+        $image = null;
+        foreach ($this->createDriver() as $driver) {
+            $image = $driver->newImage($width, $height, $background);
+            if($image !== null) {
+                break;
+            }
+        }
+        return $image;
     }
 
     /**
@@ -96,20 +112,43 @@ class ImageManager
     /**
      * Creates a driver instance according to config settings
      *
-     * @return \Intervention\Image\AbstractDriver
+     * @return array of \Intervention\Image\AbstractDriver
      */
     private function createDriver()
     {
-        $drivername = ucfirst($this->config['driver']);
-        $driverclass = sprintf('Intervention\\Image\\%s\\Driver', $drivername);
+        $drivers = array();
+        $drivername = array();
+        $driverclass = array();
 
-        if (class_exists($driverclass)) {
-            return new $driverclass;
+        if (is_array($this->config['driver'])) {
+            foreach ($this->config['driver'] as $i => $driver) {
+                $drivername[$i] = ucfirst($driver);
+                $driverclass[$i] = sprintf('Intervention\\Image\\%s\\Driver', $drivername[$i]);
+            }
+        } else {
+            $drivername[0] = ucfirst($this->config['driver']);
+            $driverclass[0] = sprintf('Intervention\\Image\\%s\\Driver', $drivername[0]);
         }
 
-        throw new \Intervention\Image\Exception\NotSupportedException(
-            "Driver ({$drivername}) could not be instantiated."
-        );
+        foreach($driverclass as $i => $driverklass) {
+            if (class_exists($driverklass)) {
+                try {
+                    $drivers[$i] = new $driverklass;
+                } catch (Exception\NotSupportedException $e) {
+                    $e_message[$i] = $e->getMessage();
+                }
+            } else {
+                $e_message[$i] = "Driver ({$drivername[$i]}) could not be instantiated.";
+            }
+        }
+
+        if(count($drivers) == 0) {
+            throw new \Intervention\Image\Exception\NotSupportedException(
+                implode(" ", $e_message)
+            );
+        }
+
+        return $drivers;
     }
 
     /**

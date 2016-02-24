@@ -2,6 +2,8 @@
 
 namespace Intervention\Image;
 
+use Config;
+
 abstract class AbstractDecoder
 {
     /**
@@ -153,7 +155,7 @@ abstract class AbstractDecoder
     public function isFilePath()
     {
         if (is_string($this->data)) {
-            return is_file($this->data);
+            return is_file($this->data) || strtolower(Config::get('image.driver', '')) === 'imagick' && is_file(preg_replace('/\[[0-9]+\]$/', '', $this->data));
         }
 
         return false;

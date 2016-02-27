@@ -34,7 +34,7 @@ class Driver extends \Intervention\Image\AbstractDriver
     {
         // create empty resource
         $core = imagecreatetruecolor($width, $height);
-        $image = new \Intervention\Image\Image(new self, $core);
+        $image = new \Intervention\Image\Image(new static, $core);
 
         // set background color
         $background = new Color($background);

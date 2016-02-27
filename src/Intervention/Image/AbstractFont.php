@@ -202,7 +202,7 @@ abstract class AbstractFont
     /**
      * Set path to font file
      *
-     * @param  string $align
+     * @param  string $file
      * @return void
      */
     public function file($file)

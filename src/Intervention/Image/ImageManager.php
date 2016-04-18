@@ -6,13 +6,29 @@ use Closure;
 
 class ImageManager
 {
+
+    /**
+     * Config key 'driver'
+     */
+    const CONFIG_KEY_DRIVER = 'driver';
+
+    /**
+     * Config value 'gd' for key 'driver'
+     */
+    const CONFIG_DRIVER_GD = 'gd';
+
+    /**
+     * Config value 'imagick' for key 'driver'
+     */
+    const CONFIG_DRIVER_IMAGICK = 'imagick';
+
     /**
      * Config
      *
      * @var array
      */
     public $config = array(
-        'driver' => 'gd'
+        self::CONFIG_KEY_DRIVER => self::CONFIG_DRIVER_GD
     );
 
     /**
@@ -30,6 +46,7 @@ class ImageManager
      * Overrides configuration settings
      *
      * @param array $config
+     * @return $this
      */
     public function configure(array $config = array())
     {
@@ -100,7 +117,7 @@ class ImageManager
      */
     private function createDriver()
     {
-        $drivername = ucfirst($this->config['driver']);
+        $drivername = ucfirst($this->config[self::CONFIG_KEY_DRIVER]);
         $driverclass = sprintf('Intervention\\Image\\%s\\Driver', $drivername);
 
         if (class_exists($driverclass)) {

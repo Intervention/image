@@ -23,8 +23,11 @@ Intervention Image is a **PHP image handling and manipulation** library providin
 ## Code Examples
 
 ```php
+// create an image manager instance with favored driver
+$manager = new \Intervention\Image\ImageManager(['driver' => 'imagick']);
+
 // open an image file
-$img = Image::make('public/foo.jpg');
+$img = $manager->make('public/foo.jpg');
 
 // resize image instance
 $img->resize(320, 240);

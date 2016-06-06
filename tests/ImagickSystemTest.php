@@ -32,6 +32,15 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('image/png', $img->mime);
     }
 
+    public function testMakeFromStringKeepOrientation()
+    {
+        $str = file_get_contents('tests/images/exitOrientation6.jpg');
+        $img = $this->manager()->make($str);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInstanceOf('Imagick', $img->getCore());
+        $this->assertEquals(6, $img->getCore()->getImageOrientation());
+    }
+
     public function testMakeFromImagick()
     {
         $imagick = new \Imagick;

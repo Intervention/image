@@ -32,7 +32,7 @@ class DemoFilter implements FilterInterface
      * @param  \Intervention\Image\Image $image
      * @return \Intervention\Image\Image
      */
-    public function applyFilter(\Intervention\Image\Image $image)
+    public function applyFilter(\Intervention\Image\Image $image, $args = array())
     {
         $image->pixelate($this->size);
         $image->greyscale();

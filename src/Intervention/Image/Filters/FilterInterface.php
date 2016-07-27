@@ -10,5 +10,5 @@ interface FilterInterface
      * @param  \Intervention\Image\Image $image
      * @return \Intervention\Image\Image
      */
-    public function applyFilter(\Intervention\Image\Image $image);
+    public function applyFilter(\Intervention\Image\Image $image, $args=array());
 }

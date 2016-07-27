@@ -157,9 +157,9 @@ class Image extends File
      * @param  FiltersFilterInterface $filter
      * @return \Intervention\Image\Image
      */
-    public function filter(Filters\FilterInterface $filter)
+    public function filter(Filters\FilterInterface $filter, $args=array())
     {
-        return $filter->applyFilter($this);
+        return $filter->applyFilter($this, $args);
     }
 
     /**

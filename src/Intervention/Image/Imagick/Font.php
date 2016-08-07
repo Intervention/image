@@ -56,17 +56,18 @@ class Font extends \Intervention\Image\AbstractFont
         // align vertical
         if (strtolower($this->valign) != 'bottom') {
 
-            // calculate box size
-            $dimensions = $image->getCore()->queryFontMetrics($draw, $this->text);
-
             // corrections on y-position
             switch (strtolower($this->valign)) {
                 case 'center':
                 case 'middle':
+                // calculate box size
+                $dimensions = $image->getCore()->queryFontMetrics($draw, $this->text);
                 $posy = $posy + $dimensions['textHeight'] * 0.65 / 2;
                 break;
 
                 case 'top':
+                // calculate box size
+                $dimensions = $image->getCore()->queryFontMetrics($draw, $this->text, false);
                 $posy = $posy + $dimensions['textHeight'] * 0.65;
                 break;
             }

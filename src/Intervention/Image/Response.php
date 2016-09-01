@@ -53,7 +53,7 @@ class Response
 
         if (function_exists('app') && is_a($app = app(), 'Illuminate\Foundation\Application')) {
 
-            $response = \Response::make($data);
+            $response = \Illuminate\Support\Facades\Response::make($data);
             $response->header('Content-Type', $mime);
             $response->header('Content-Length', $length);
 

@@ -17,6 +17,11 @@ class GdIntegrationTest extends AbstractIntegrationTestCase
     protected function assertImage($img)
     {
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertInternalType('resource', $img->getCore());
+        $this->assertImageCore($img->getCore());
+    }
+
+    protected function assertImageCore($core)
+    {
+        $this->assertInternalType('resource', $core);
     }
 }

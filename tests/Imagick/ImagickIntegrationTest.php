@@ -20,6 +20,11 @@ class ImagickIntegrationTest extends AbstractIntegrationTestCase
     protected function assertImage($img)
     {
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertInstanceOf('Imagick', $img->getCore());
+        $this->assertImageCore($img->getCore());
+    }
+
+    protected function assertImageCore($core)
+    {
+        $this->assertInstanceOf('Imagick', $core);
     }
 }

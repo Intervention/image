@@ -28,7 +28,7 @@ class Decoder extends \Intervention\Image\AbstractDecoder
         // try to decode animated gif
         if ($info['mime'] == 'image/gif') {
             
-            return $this->initFromBinary(file_get_contents($path));
+            $image = $this->initFromBinary(file_get_contents($path));
 
         } else {
 

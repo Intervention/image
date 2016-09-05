@@ -23,6 +23,16 @@ class Collection
     }
 
     /**
+     * Returns encoded image data in string conversion
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->first();
+    }
+
+    /**
      * Count items in collection
      *
      * @return integer

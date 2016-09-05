@@ -10,6 +10,12 @@ class CollectionTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Intervention\Image\Collection', $collection);
     }
 
+    public function testToString()
+    {
+        $collection = new Collection(array('one', 'two', 'three'));
+        $this->assertEquals('one', (string) $collection);
+    }
+
     public function testCount()
     {
         $collection = new Collection(array('one', 'two', 'three'));

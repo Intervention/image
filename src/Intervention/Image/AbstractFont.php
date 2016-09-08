@@ -58,7 +58,7 @@ abstract class AbstractFont
      *
      * @var mixed
      */
-    public $strokeColor = '000000';
+    public $strokeColor = 'FFFFFF';
 
     /**
      * Width of the stroke

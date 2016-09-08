@@ -309,7 +309,7 @@ abstract class AbstractFont
     {
         for ($offsetX = $posX - $this->strokeWidth; $offsetX <= $posX + $this->strokeWidth; $offsetX++) {
             for ($offsetY = $posY - $this->strokeWidth; $offsetY <= $posY + $this->strokeWidth; $offsetY++) {
-                call_user_func($function, [$offsetX, $offsetY]);
+                call_user_func($function, $offsetX, $offsetY);
             }
         }
     }

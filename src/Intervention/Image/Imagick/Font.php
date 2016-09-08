@@ -8,6 +8,8 @@ use Intervention\Image\Image;
 
 class Font extends AbstractFont
 {
+    public $isUseInternalImagickStroke = false;
+
     /**
      * Draws font to given image at given position
      *
@@ -22,12 +24,6 @@ class Font extends AbstractFont
         $draw = new \ImagickDraw();
         $draw->setStrokeAntialias(true);
         $draw->setTextAntialias(true);
-
-        if ($this->strokeWidth > 0) {
-            $strokeColor = new Color($this->strokeColor);
-            $draw->setStrokeWidth($this->strokeWidth);
-            $draw->setStrokeColor($strokeColor->getPixel());
-        }
 
         // set font file
         if ($this->hasApplicableFontFile()) {
@@ -80,7 +76,35 @@ class Font extends AbstractFont
             }
         }
 
+        if ($this->strokeWidth > 0) {
+            $strokeColor = new Color($this->strokeColor);
+            if ($this->isUseInternalImagickStroke) {
+                $draw->setStrokeWidth($this->strokeWidth);
+                $draw->setStrokeColor($strokeColor->getPixel());
+            } else {
+                $originalFillColor = $draw->getFillColor();
+                $draw->setFillColor($strokeColor->getPixel());
+                for ($c1 = ($posx - $this->strokeWidth); $c1 <= ($posx + $this->strokeWidth); $c1++) {
+                    for ($c2 = ($posy - $this->strokeWidth); $c2 <= ($posy + $this->strokeWidth); $c2++) {
+                        $image->getCore()->annotateImage($draw, $c1, $c2, $this->angle * (-1), $this->text);
+                    }
+                }
+
+                $draw->setFillColor($originalFillColor);
+            }
+        }
+
         // apply to image
         $image->getCore()->annotateImage($draw, $posx, $posy, $this->angle * (-1), $this->text);
+    }
+
+    /**
+     * Disable drawing stroke by loops and draw it by built in Imagick methods
+     *
+     * @return void
+     */
+    public function drawStrokeByInternalMethod()
+    {
+        $this->isUseInternalImagickStroke = true;
     }
 }

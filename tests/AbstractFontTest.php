@@ -62,6 +62,22 @@ class AbstractFontTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('test.ttf', $font->file);
     }
 
+    public function testStrokeWidth()
+    {
+        /** @var \Intervention\Image\AbstractFont|\PHPUnit_Framework_MockObject_MockObject $font */
+        $font = $this->getMockForAbstractClass('\Intervention\Image\AbstractFont');
+        $font->strokeWidth(2);
+        $this->assertEquals(2, $font->strokeWidth);
+    }
+
+    public function testStrokeColor()
+    {
+        /** @var \Intervention\Image\AbstractFont|\PHPUnit_Framework_MockObject_MockObject $font */
+        $font = $this->getMockForAbstractClass('\Intervention\Image\AbstractFont');
+        $font->strokeColor('#FFFFFF');
+        $this->assertEquals('#FFFFFF', $font->strokeColor);
+    }
+
     public function testCountLines()
     {
         $font = $this->getMockForAbstractClass('\Intervention\Image\AbstractFont');

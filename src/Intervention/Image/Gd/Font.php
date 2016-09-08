@@ -136,9 +136,7 @@ class Font extends AbstractFont
         $color = new Color($this->color);
 
         if ($this->hasApplicableFontFile()) {
-
             if ($this->angle != 0 || is_string($this->align) || is_string($this->valign)) {
-
                 $box = $this->getBoxSize();
 
                 $align = is_null($this->align) ? 'left' : strtolower($this->align);
@@ -200,11 +198,36 @@ class Font extends AbstractFont
             // enable alphablending for imagettftext
             imagealphablending($image->getCore(), true);
 
+            if ($this->strokeWidth > 0) {
+                $strokeColor = new Color($this->strokeColor);
+                for ($c1 = ($posx - $this->strokeWidth); $c1 <= ($posx + $this->strokeWidth); $c1++) {
+                    for ($c2 = ($posy - $this->strokeWidth); $c2 <= ($posy + $this->strokeWidth); $c2++) {
+                        imagettftext(
+                            $image->getCore(),
+                            $this->getPointSize(),
+                            $this->angle,
+                            $c1,
+                            $c2,
+                            $strokeColor->getInt(),
+                            $this->file,
+                            $this->text
+                        );
+                    }
+                }
+            }
+
             // draw ttf text
-            imagettftext($image->getCore(), $this->getPointSize(), $this->angle, $posx, $posy, $color->getInt(), $this->file, $this->text);
-
+            imagettftext(
+                $image->getCore(),
+                $this->getPointSize(),
+                $this->angle,
+                $posx,
+                $posy,
+                $color->getInt(),
+                $this->file,
+                $this->text
+            );
         } else {
-
             // get box size
             $box = $this->getBoxSize();
             $width = $box['width'];
@@ -253,7 +276,7 @@ class Font extends AbstractFont
             $font = $this->getInternalFont();
             if ($this->strokeWidth > 0) {
                 $strokeColor = new Color($this->strokeColor);
-                for($c1 = ($posx - $this->strokeWidth); $c1 <= ($posy + $this->strokeWidth); $c1++) {
+                for ($c1 = ($posx - $this->strokeWidth); $c1 <= ($posx + $this->strokeWidth); $c1++) {
                     for ($c2 = ($posy - $this->strokeWidth); $c2 <= ($posy + $this->strokeWidth); $c2++) {
                         imagestring($image->getCore(), $font, $c1, $c2, $this->text, $strokeColor->getInt());
                     }

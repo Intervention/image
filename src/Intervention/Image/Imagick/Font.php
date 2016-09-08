@@ -8,7 +8,7 @@ use Intervention\Image\Image;
 
 class Font extends AbstractFont
 {
-    public $isUseInternalImagickStroke = false;
+    public $isUseBuiltInImagickStroke = false;
 
     /**
      * Draws font to given image at given position
@@ -78,7 +78,7 @@ class Font extends AbstractFont
 
         if ($this->strokeWidth > 0) {
             $strokeColor = new Color($this->strokeColor);
-            if ($this->isUseInternalImagickStroke) {
+            if ($this->isUseBuiltInImagickStroke) {
                 $draw->setStrokeWidth($this->strokeWidth);
                 $draw->setStrokeColor($strokeColor->getPixel());
             } else {
@@ -101,8 +101,8 @@ class Font extends AbstractFont
      *
      * @return void
      */
-    public function drawStrokeByInternalMethod()
+    public function drawStrokeByBuiltInMethods()
     {
-        $this->isUseInternalImagickStroke = true;
+        $this->isUseBuiltInImagickStroke = true;
     }
 }

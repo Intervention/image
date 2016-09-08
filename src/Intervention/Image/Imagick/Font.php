@@ -2,9 +2,11 @@
 
 namespace Intervention\Image\Imagick;
 
+use Intervention\Image\AbstractFont;
+use Intervention\Image\Exception\RuntimeException;
 use Intervention\Image\Image;
 
-class Font extends \Intervention\Image\AbstractFont
+class Font extends AbstractFont
 {
     /**
      * Draws font to given image at given position
@@ -21,11 +23,17 @@ class Font extends \Intervention\Image\AbstractFont
         $draw->setStrokeAntialias(true);
         $draw->setTextAntialias(true);
 
+        if ($this->strokeWidth > 0) {
+            $strokeColor = new Color($this->strokeColor);
+            $draw->setStrokeWidth($this->strokeWidth);
+            $draw->setStrokeColor($strokeColor->getPixel());
+        }
+
         // set font file
         if ($this->hasApplicableFontFile()) {
             $draw->setFont($this->file);
         } else {
-            throw new \Intervention\Image\Exception\RuntimeException(
+            throw new RuntimeException(
                 "Font file must be provided to apply text to image."
             );
         }

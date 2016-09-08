@@ -2,9 +2,11 @@
 
 namespace Intervention\Image\Gd;
 
+use Intervention\Image\AbstractFont;
+use Intervention\Image\Exception\NotSupportedException;
 use Intervention\Image\Image;
 
-class Font extends \Intervention\Image\AbstractFont
+class Font extends AbstractFont
 {
     /**
      * Get font size in points
@@ -26,8 +28,8 @@ class Font extends \Intervention\Image\AbstractFont
         $internalfont = is_null($this->file) ? 1 : $this->file;
         $internalfont = is_numeric($internalfont) ? $internalfont : false;
 
-        if ( ! in_array($internalfont, array(1, 2, 3, 4, 5))) {
-            throw new \Intervention\Image\Exception\NotSupportedException(
+        if (!in_array($internalfont, [1, 2, 3, 4, 5])) {
+            throw new NotSupportedException(
                 sprintf('Internal GD font (%s) not available. Use only 1-5.', $internalfont)
             );
         }
@@ -73,7 +75,7 @@ class Font extends \Intervention\Image\AbstractFont
     /**
      * Calculates bounding box of current font setting
      *
-     * @return Array
+     * @return array
      */
     public function getBoxSize()
     {
@@ -248,8 +250,18 @@ class Font extends \Intervention\Image\AbstractFont
                     break;
             }
 
+            $font = $this->getInternalFont();
+            if ($this->strokeWidth > 0) {
+                $strokeColor = new Color($this->strokeColor);
+                for($c1 = ($posx - $this->strokeWidth); $c1 <= ($posy + $this->strokeWidth); $c1++) {
+                    for ($c2 = ($posy - $this->strokeWidth); $c2 <= ($posy + $this->strokeWidth); $c2++) {
+                        imagestring($image->getCore(), $font, $c1, $c2, $this->text, $strokeColor->getInt());
+                    }
+                }
+            }
+
             // draw text
-            imagestring($image->getCore(), $this->getInternalFont(), $posx, $posy, $this->text, $color->getInt());
+            imagestring($image->getCore(), $font, $posx, $posy, $this->text, $color->getInt());
         }
     }
 }

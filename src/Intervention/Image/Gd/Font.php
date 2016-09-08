@@ -200,20 +200,18 @@ class Font extends AbstractFont
 
             if ($this->strokeWidth > 0) {
                 $strokeColor = new Color($this->strokeColor);
-                for ($c1 = ($posx - $this->strokeWidth); $c1 <= ($posx + $this->strokeWidth); $c1++) {
-                    for ($c2 = ($posy - $this->strokeWidth); $c2 <= ($posy + $this->strokeWidth); $c2++) {
-                        imagettftext(
-                            $image->getCore(),
-                            $this->getPointSize(),
-                            $this->angle,
-                            $c1,
-                            $c2,
-                            $strokeColor->getInt(),
-                            $this->file,
-                            $this->text
-                        );
-                    }
-                }
+                $this->strokeDrawLoop($posx, $posy, function($posX, $posY) use ($image, $strokeColor) {
+                    imagettftext(
+                        $image->getCore(),
+                        $this->getPointSize(),
+                        $this->angle,
+                        $posX,
+                        $posY,
+                        $strokeColor->getInt(),
+                        $this->file,
+                        $this->text
+                    );
+                });
             }
 
             // draw ttf text
@@ -276,11 +274,9 @@ class Font extends AbstractFont
             $font = $this->getInternalFont();
             if ($this->strokeWidth > 0) {
                 $strokeColor = new Color($this->strokeColor);
-                for ($c1 = ($posx - $this->strokeWidth); $c1 <= ($posx + $this->strokeWidth); $c1++) {
-                    for ($c2 = ($posy - $this->strokeWidth); $c2 <= ($posy + $this->strokeWidth); $c2++) {
-                        imagestring($image->getCore(), $font, $c1, $c2, $this->text, $strokeColor->getInt());
-                    }
-                }
+                $this->strokeDrawLoop($posx, $posy, function($posX, $posY) use ($image, $font, $strokeColor) {
+                    imagestring($image->getCore(), $font, $posX, $posY, $this->text, $strokeColor->getInt());
+                });
             }
 
             // draw text

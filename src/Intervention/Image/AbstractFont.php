@@ -277,6 +277,16 @@ abstract class AbstractFont
     }
 
     /**
+     * Counts lines of text to be written
+     *
+     * @return integer
+     */
+    public function countLines()
+    {
+        return count(explode(PHP_EOL, $this->text));
+    }
+
+    /**
      * Checks if current font has access to an applicable font file
      *
      * @return boolean
@@ -291,12 +301,16 @@ abstract class AbstractFont
     }
 
     /**
-     * Counts lines of text to be written
-     *
-     * @return integer
+     * @param integer  $posX
+     * @param integer  $posY
+     * @param callable $function
      */
-    public function countLines()
+    protected function strokeDrawLoop($posX, $posY, callable $function)
     {
-        return count(explode(PHP_EOL, $this->text));
+        for ($offsetX = $posX - $this->strokeWidth; $offsetX <= $posX + $this->strokeWidth; $offsetX++) {
+            for ($offsetY = $posY - $this->strokeWidth; $offsetY <= $posY + $this->strokeWidth; $offsetY++) {
+                call_user_func($function, [$offsetX, $offsetY]);
+            }
+        }
     }
 }

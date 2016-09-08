@@ -84,11 +84,9 @@ class Font extends AbstractFont
             } else {
                 $originalFillColor = $draw->getFillColor();
                 $draw->setFillColor($strokeColor->getPixel());
-                for ($c1 = ($posx - $this->strokeWidth); $c1 <= ($posx + $this->strokeWidth); $c1++) {
-                    for ($c2 = ($posy - $this->strokeWidth); $c2 <= ($posy + $this->strokeWidth); $c2++) {
-                        $image->getCore()->annotateImage($draw, $c1, $c2, $this->angle * (-1), $this->text);
-                    }
-                }
+                $this->strokeDrawLoop($posx, $posy, function($posX, $posY) use ($image, $draw) {
+                    $image->getCore()->annotateImage($draw, $posX, $posY, $this->angle * (-1), $this->text);
+                });
 
                 $draw->setFillColor($originalFillColor);
             }

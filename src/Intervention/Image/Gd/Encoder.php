@@ -102,4 +102,16 @@ class Encoder extends \Intervention\Image\AbstractEncoder
             "PSD format is not supported by Gd Driver."
         );
     }
+
+    /**
+     * Processes and returns encoded image as SVG string
+     *
+     * @return string
+     */
+    protected function processSvg()
+    {
+        throw new \Intervention\Image\Exception\NotSupportedException(
+            "SVG format is not supported by Gd Driver."
+        );
+    }
 }

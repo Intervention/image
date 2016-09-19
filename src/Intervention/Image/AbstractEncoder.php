@@ -31,7 +31,7 @@ abstract class AbstractEncoder
      * @var integer
      */
     public $quality;
-    
+
     /**
      * Processes and returns encoded image as JPEG string
      *
@@ -73,6 +73,20 @@ abstract class AbstractEncoder
      * @return string
      */
     abstract protected function processIco();
+
+    /**
+     * Processes and returns encoded image as PSD string
+     *
+     * @return string
+     */
+    abstract protected function processPsd();
+
+    /**
+     * Processes and returns encoded image as SVG string
+     *
+     * @return string
+     */
+    abstract protected function processSvg();
 
     /**
      * Process a given image
@@ -145,7 +159,12 @@ abstract class AbstractEncoder
             case 'image/vnd.adobe.photoshop':
                 $this->result = $this->processPsd();
                 break;
-                
+
+            case 'svg':
+            case 'image/svg+xml':
+                $this->result = $this->processSvg();
+                break;
+
             default:
                 throw new \Intervention\Image\Exception\NotSupportedException(
                     "Encoding format ({$format}) is not supported."

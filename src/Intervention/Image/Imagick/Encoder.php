@@ -143,4 +143,25 @@ class Encoder extends \Intervention\Image\AbstractEncoder
 
         return $imagick->getImagesBlob();
     }
+
+    /**
+     * Processes and returns encoded image as SVG string
+     *
+     * @return string
+     */
+    protected function processSvg()
+    {
+        $format = 'svg';
+        $compression = \Imagick::COMPRESSION_UNDEFINED;
+
+        $imagick = $this->image->getCore();
+        $imagick->setFormat($format);
+        $imagick->setImageFormat($format);
+        $imagick->setCompression($compression);
+        $imagick->setImageCompression($compression);
+
+        $this->image->mime = 'image/svg+xml';
+
+        return $imagick->getImagesBlob();
+    }
 }

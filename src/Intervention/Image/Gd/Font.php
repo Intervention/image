@@ -252,4 +252,18 @@ class Font extends \Intervention\Image\AbstractFont
             imagestring($image->getCore(), $this->getInternalFont(), $posx, $posy, $this->text, $color->getInt());
         }
     }
+
+    /**
+     * Set text kerning
+     *
+     * @param  string $kerning
+     * @return void
+     */
+    public function kerning($kerning)
+    {
+        throw new \Intervention\Image\Exception\NotSupportedException(
+            "Kerning is not supported by GD driver."
+        );
+    }
+
 }

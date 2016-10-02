@@ -47,6 +47,13 @@ abstract class AbstractFont
     public $valign;
 
     /**
+     * Space between text characters
+     *
+     * @var float
+     */
+    public $kerning = 0;
+
+    /**
      * Path to TTF or GD library internal font file of the text
      *
      * @var mixed
@@ -197,6 +204,27 @@ abstract class AbstractFont
     public function getValign()
     {
         return $this->valign;
+    }
+
+    /**
+     * Set text kerning
+     *
+     * @param  string $kerning
+     * @return void
+     */
+    public function kerning($kerning)
+    {
+        $this->kerning = $kerning;
+    }
+
+    /**
+     * Get kerning
+     *
+     * @return float
+     */
+    public function getKerning()
+    {
+        return $this->kerning;
     }
 
     /**

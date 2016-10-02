@@ -35,6 +35,7 @@ class Font extends \Intervention\Image\AbstractFont
 
         $draw->setFontSize($this->size);
         $draw->setFillColor($color->getPixel());
+        $draw->setTextKerning($this->kerning);
 
         // align horizontal
         switch (strtolower($this->align)) {

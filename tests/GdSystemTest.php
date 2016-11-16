@@ -20,6 +20,14 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('image/png', $img->mime);
     }
 
+    /**
+     * @expectedException \Intervention\Image\Exception\NotReadableException
+     */
+    public function testMakeFromPathBroken()
+    {
+        $this->manager()->make('tests/images/broken.png');
+    }
+
     public function testMakeFromString()
     {
         $str = file_get_contents('tests/images/circle.png');

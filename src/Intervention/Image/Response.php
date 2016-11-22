@@ -49,6 +49,7 @@ class Response
         $this->image->encode($this->format, $this->quality);
         $data = $this->image->getEncoded();
         $mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $data);
+        $modified_time = $this->image->modifiedtime;
         $length = strlen($data);
 
         if (function_exists('app') && is_a($app = app(), 'Illuminate\Foundation\Application')) {
@@ -56,11 +57,13 @@ class Response
             $response = \Response::make($data);
             $response->header('Content-Type', $mime);
             $response->header('Content-Length', $length);
+            $response->header('Last-Modified', gmdate('D, d M Y H:i:s', $modified_time));
 
         } else {
 
             header('Content-Type: ' . $mime);
             header('Content-Length: ' . $length);
+            header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $modified_time));
             $response = $data;
         }
 

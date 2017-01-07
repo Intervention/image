@@ -68,6 +68,7 @@ class ExifCommandTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
         $this->assertInternalType('array', $command->getOutput());
+        $this->assertCount(19, $command->getOutput());
     }
 
     public function testImagickFetchDefined()

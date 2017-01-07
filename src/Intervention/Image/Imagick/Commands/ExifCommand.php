@@ -7,6 +7,20 @@ use Intervention\Image\Commands\ExifCommand as BaseCommand;
 class ExifCommand extends BaseCommand
 {
     /**
+     * Prefer extension or not
+     *
+     * @var bool
+     */
+    private $preferExtension = true;
+
+    /**
+     *
+     */
+    public function dontPreferExtension() {
+        $this->preferExtension = false;
+    }
+
+    /**
      * Read Exif data from the given image
      *
      * @param  \Intervention\Image\Image $image
@@ -14,11 +28,16 @@ class ExifCommand extends BaseCommand
      */
     public function execute($image)
     {
+        if ($this->preferExtension && function_exists('exif_read_data')) {
+            return parent::execute($image);
+        }
+
         $core = $image->getCore();
 
-        // when getImageProperty is not supported fallback to default exif command
         if ( ! method_exists($core, 'getImageProperties')) {
-            return parent::execute($image);
+            throw new \Intervention\Image\Exception\NotSupportedException(
+                "Reading Exif data is not supported by this PHP installation."
+            );
         }
 
         $requestedKey = $this->argument(0)->value();

@@ -60,23 +60,20 @@ class ExifCommandTest extends PHPUnit_Framework_TestCase
 
     public function testImagickFetchAll()
     {
-        $image = new Image;
-        $image->dirname = __DIR__.'/images';
-        $image->basename = 'exif.jpg';
+        $image = $this->imagick()->make(__DIR__.'/images/exif.jpg');
         $command = new \Intervention\Image\Imagick\Commands\ExifCommand(array());
+        $command->dontPreferExtension();
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
         $this->assertInternalType('array', $command->getOutput());
-        $this->assertCount(19, $command->getOutput());
     }
 
     public function testImagickFetchDefined()
     {
-        $image = new Image;
-        $image->dirname = __DIR__.'/images';
-        $image->basename = 'exif.jpg';
+        $image = $this->imagick()->make(__DIR__.'/images/exif.jpg');
         $command = new \Intervention\Image\Imagick\Commands\ExifCommand(array('Artist'));
+        $command->dontPreferExtension();
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
@@ -85,10 +82,9 @@ class ExifCommandTest extends PHPUnit_Framework_TestCase
 
     public function testImagickNonExisting()
     {
-        $image = new Image;
-        $image->dirname = __DIR__.'/images';
-        $image->basename = 'exif.jpg';
-        $command = new \Intervention\Image\Imagick\Commands\ExifCommand(array('xxx'));
+        $image = $this->imagick()->make(__DIR__.'/images/exif.jpg');
+        $command = new \Intervention\Image\Imagick\Commands\ExifCommand(array('xx'));
+        $command->dontPreferExtension();
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
@@ -97,16 +93,18 @@ class ExifCommandTest extends PHPUnit_Framework_TestCase
 
     public function testImagickFallbackToExifExtenstion()
     {
-        $imagick = Mockery::mock('stdClass');
-        $image = Mockery::mock('Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($imagick);
-        $image->dirname = __DIR__.'/images';
-        $image->basename = 'exif.jpg';
-
+        $image = $this->imagick()->make(__DIR__.'/images/exif.jpg');
         $command = new \Intervention\Image\Imagick\Commands\ExifCommand(array('Artist'));
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
         $this->assertEquals('Oliver Vogel', $command->getOutput());
+    }
+
+    private function imagick()
+    {
+        return new \Intervention\Image\ImageManager(array(
+            'driver' => 'imagick'
+        ));
     }
 }

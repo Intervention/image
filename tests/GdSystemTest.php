@@ -1169,7 +1169,6 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
     {
         $img = $this->manager()->make('tests/images/star.png');
         $img->limitColors(64, '#00ff00');
-        $img->save('tests/images/foofoofoofoofoofoofoofoo.png');
         $this->assertLessThanOrEqual(65, imagecolorstotal($img->getCore()));
         $this->assertTransparentPosition($img, 0, 0);
         $this->assertColorAtPosition('#04f204', $img, 12, 10);

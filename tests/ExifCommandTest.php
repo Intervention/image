@@ -57,4 +57,54 @@ class ExifCommandTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($command->hasOutput());
         $this->assertEquals(null, $command->getOutput());
     }
+
+    public function testImagickFetchAll()
+    {
+        $image = $this->imagick()->make(__DIR__.'/images/exif.jpg');
+        $command = new \Intervention\Image\Imagick\Commands\ExifCommand(array());
+        $command->dontPreferExtension();
+        $result = $command->execute($image);
+        $this->assertTrue($result);
+        $this->assertTrue($command->hasOutput());
+        $this->assertInternalType('array', $command->getOutput());
+    }
+
+    public function testImagickFetchDefined()
+    {
+        $image = $this->imagick()->make(__DIR__.'/images/exif.jpg');
+        $command = new \Intervention\Image\Imagick\Commands\ExifCommand(array('Artist'));
+        $command->dontPreferExtension();
+        $result = $command->execute($image);
+        $this->assertTrue($result);
+        $this->assertTrue($command->hasOutput());
+        $this->assertEquals('Oliver Vogel', $command->getOutput());
+    }
+
+    public function testImagickNonExisting()
+    {
+        $image = $this->imagick()->make(__DIR__.'/images/exif.jpg');
+        $command = new \Intervention\Image\Imagick\Commands\ExifCommand(array('xx'));
+        $command->dontPreferExtension();
+        $result = $command->execute($image);
+        $this->assertTrue($result);
+        $this->assertTrue($command->hasOutput());
+        $this->assertEquals(null, $command->getOutput());
+    }
+
+    public function testImagickFallbackToExifExtenstion()
+    {
+        $image = $this->imagick()->make(__DIR__.'/images/exif.jpg');
+        $command = new \Intervention\Image\Imagick\Commands\ExifCommand(array('Artist'));
+        $result = $command->execute($image);
+        $this->assertTrue($result);
+        $this->assertTrue($command->hasOutput());
+        $this->assertEquals('Oliver Vogel', $command->getOutput());
+    }
+
+    private function imagick()
+    {
+        return new \Intervention\Image\ImageManager(array(
+            'driver' => 'imagick'
+        ));
+    }
 }

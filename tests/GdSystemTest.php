@@ -1168,11 +1168,11 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
     public function testLimitColorsKeepTransparencyWithMatte()
     {
         $img = $this->manager()->make('tests/images/star.png');
-        $img->limitColors(64, '#00ff00');
+        $img->limitColors(64, '#cccccc');
         $this->assertLessThanOrEqual(65, imagecolorstotal($img->getCore()));
         $this->assertTransparentPosition($img, 0, 0);
-        $this->assertColorAtPosition('#04f204', $img, 12, 10);
-        $this->assertColorAtPosition('#06fe04', $img, 22, 17);
+        $this->assertColorAtPosition('#c7c3c9', $img, 12, 10);
+        $this->assertColorAtPosition('#cccacb', $img, 22, 17);
         $this->assertColorAtPosition('#e40214', $img, 16, 21);
     }
 

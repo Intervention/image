@@ -31,7 +31,7 @@ abstract class AbstractDecoder
     /**
      * Initiates new image from Imagick object
      *
-     * @param  Imagick $object
+     * @param \Imagick $object
      * @return \Intervention\Image\Image
      */
     abstract public function initFromImagick(\Imagick $object);
@@ -79,9 +79,18 @@ abstract class AbstractDecoder
     public function initFromStream($stream)
     {
         $offset = ftell($stream);
-        rewind($stream);
+        $shouldAndCanSeek = $offset !== 0 && $this->isStreamSeekable($stream);
+
+        if ($shouldAndCanSeek) {
+            rewind($stream);
+        }
+
         $data = @stream_get_contents($stream);
-        fseek($stream, $offset);
+
+        if ($shouldAndCanSeek) {
+            fseek($stream, $offset);
+        }
+
         if ($data) {
             return $this->initFromBinary($data);
         }
@@ -89,6 +98,18 @@ abstract class AbstractDecoder
         throw new \Intervention\Image\Exception\NotReadableException(
             "Unable to init from given stream"
         );
+    }
+
+    /**
+     * Checks if we can move the pointer for this stream
+     *
+     * @param resource $stream
+     * @return bool
+     */
+    private function isStreamSeekable($stream)
+    {
+        $metadata = stream_get_meta_data($stream);
+        return $metadata['seekable'];
     }
 
     /**

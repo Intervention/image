@@ -53,7 +53,7 @@ class ExifCommand extends BaseCommand
                 continue;
             }
 
-            $exif[substr($key, 6)] = $value;
+            $exif[substr($key, 5)] = $value;
         }
 
         $this->setOutput($exif);

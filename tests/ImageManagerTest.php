@@ -1,6 +1,5 @@
 <?php
 
-use Intervention\Image\Image;
 use Intervention\Image\ImageManager;
 
 class ImageManagerTest extends PHPUnit_Framework_TestCase
@@ -34,7 +33,7 @@ class ImageManagerTest extends PHPUnit_Framework_TestCase
         $manager = new ImageManager($config);
 
         $image = $manager->make('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
-        $this->assertInstanceOf(Image::class, $image);
-        $this->assertInstanceOf(Imagick::class, $image->getCore());
+        $this->assertInstanceOf('Intervention\Image\Image', $image);
+        $this->assertInstanceOf('Imagick', $image->getCore());
     }
 }

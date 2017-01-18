@@ -67,6 +67,7 @@ class ExifCommandTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
         $this->assertInternalType('array', $command->getOutput());
+        $this->assertEquals('Oliver Vogel', $command->getOutput()['Artist']);
     }
 
     public function testImagickFetchDefined()

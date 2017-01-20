@@ -72,6 +72,7 @@ abstract class AbstractDecoder
         
         $context  = stream_context_create($options);
         
+
         if ($data = @file_get_contents($url, false, $context)) {
             return $this->initFromBinary($data);
         }

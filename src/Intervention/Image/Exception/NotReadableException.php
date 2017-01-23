@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Exception;
 
-class NotReadableException extends \RuntimeException
+class NotReadableException extends \Intervention\Image\Exception\ImageException
 {
     # nothing to override
 }

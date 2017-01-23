@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Exception;
 
-class NotSupportedException extends \RuntimeException
+class NotSupportedException extends \Intervention\Image\Exception\ImageException
 {
     # nothing to override
 }

@@ -59,8 +59,10 @@ class Decoder extends \Intervention\Image\AbstractDecoder
     public function initFromImagick(\Imagick $object)
     {
         // currently animations are not supported
-        // so all images are turned into static
-        $object = $this->removeAnimation($object);
+        // so GIF images are turned into static
+        if ( exif_imagetype( $this->data ) == 1 ){
+            $object = $this->removeAnimation($object);
+        }
 
         // reset image orientation
         $object->setImageOrientation(\Imagick::ORIENTATION_UNDEFINED);

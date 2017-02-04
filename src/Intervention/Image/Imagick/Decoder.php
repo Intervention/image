@@ -20,7 +20,7 @@ class Decoder extends \Intervention\Image\AbstractDecoder
 
             $core->setBackgroundColor(new \ImagickPixel('transparent'));
             $core->readImage($path);
-            $core->setImageType(\Imagick::IMGTYPE_TRUECOLORMATTE);
+            $core->setImageType(defined('\Imagick::IMGTYPE_TRUECOLORMATTE') ? \Imagick::IMGTYPE_TRUECOLORMATTE : \Imagick::IMGTYPE_TRUECOLORALPHA);
 
         } catch (\ImagickException $e) {
             throw new \Intervention\Image\Exception\NotReadableException(

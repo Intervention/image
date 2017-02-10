@@ -177,7 +177,7 @@ class Color extends AbstractColor
      */
     public function getRgba()
     {
-        return sprintf('rgba(%d, %d, %d, %.2f)', $this->r, $this->g, $this->b, round(1 - $this->a / 127, 2));
+        return sprintf('rgba(%d, %d, %d, %.2F)', $this->r, $this->g, $this->b, round(1 - $this->a / 127, 2));
     }
 
     /**

@@ -163,7 +163,7 @@ class Color extends \Intervention\Image\AbstractColor
      */
     public function getRgba()
     {
-        return sprintf('rgba(%d, %d, %d, %.2f)',
+        return sprintf('rgba(%d, %d, %d, %.2F)',
             $this->getRedValue(),
             $this->getGreenValue(),
             $this->getBlueValue(),
@@ -248,7 +248,7 @@ class Color extends \Intervention\Image\AbstractColor
         $a = is_null($a) ? 1 : $a;
 
         return $this->pixel = new \ImagickPixel(
-            sprintf('rgba(%d, %d, %d, %.2f)', $r, $g, $b, $a)
+            sprintf('rgba(%d, %d, %d, %.2F)', $r, $g, $b, $a)
         );
     }
 

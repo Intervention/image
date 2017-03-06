@@ -34,8 +34,47 @@ class AbstractDecoderTest extends PHPUnit_Framework_TestCase
 
     public function testIsFilepath()
     {
+        require_once 'Config.mock.php';
+        $mock = $this->getMock('Config', array('get'));
+ 
+        $mock->expects($this->any())
+              ->method('get')
+              ->will($this->returnValue('gd'));
+
+        Config::setStaticExpectations($mock);
+
         $source = $this->getTestDecoder(__DIR__.'/AbstractDecoderTest.php');
         $this->assertTrue($source->isFilepath());
+
+        $source = $this->getTestDecoder(__DIR__.'/AbstractDecoderTest.php[0]');
+        $this->assertfalse($source->isFilepath());
+
+        $source = $this->getTestDecoder(null);
+        $this->assertFalse($source->isFilepath());
+
+        $source = $this->getTestDecoder(array());
+        $this->assertFalse($source->isFilepath());
+
+        $source = $this->getTestDecoder(new stdClass);
+        $this->assertFalse($source->isFilepath());
+    }
+
+    public function testIsFilepathImagick()
+    {
+        require_once 'Config.mock.php';
+        $mock = $this->getMock('Config', array('get'));
+ 
+        $mock->expects($this->any())
+              ->method('get')
+              ->will($this->returnValue('imagick'));
+
+        Config::setStaticExpectations($mock);
+
+        $source = $this->getTestDecoder(__DIR__.'/AbstractDecoderTest.php');
+        $this->assertTrue($source->isFilepath());
+
+        $source = $this->getTestDecoder(__DIR__.'/AbstractDecoderTest.php[0]');
+        $this->asserttrue($source->isFilepath());
 
         $source = $this->getTestDecoder(null);
         $this->assertFalse($source->isFilepath());

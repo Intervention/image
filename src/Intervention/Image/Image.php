@@ -1688,8 +1688,8 @@ class Image
 
             if (preg_match($hexPattern, $value, $matches)) {
                 $r = strlen($matches[1]) == '1' ? hexdec($matches[1].$matches[1]) : hexdec($matches[1]);
-                $g = strlen($matches[2]) == '1' ? hexdec($matches[1].$matches[2]) : hexdec($matches[2]);
-                $b = strlen($matches[3]) == '1' ? hexdec($matches[1].$matches[3]) : hexdec($matches[3]);
+                $g = strlen($matches[2]) == '1' ? hexdec($matches[2].$matches[2]) : hexdec($matches[2]);
+                $b = strlen($matches[3]) == '1' ? hexdec($matches[3].$matches[3]) : hexdec($matches[3]);
             } elseif (preg_match($rgbPattern, $value, $matches)) {
                 $r = ($matches[1] >= 0 && $matches[1] <= 255) ? intval($matches[1]) : 0;
                 $g = ($matches[2] >= 0 && $matches[2] <= 255) ? intval($matches[2]) : 0;

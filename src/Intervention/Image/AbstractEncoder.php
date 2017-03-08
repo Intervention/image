@@ -40,6 +40,13 @@ abstract class AbstractEncoder
     abstract protected function processJpeg();
 
     /**
+     * Processes and returns encoded image as Webp string
+     *
+     * @return string
+     */
+    abstract protected function processWebp();
+
+    /**
      * Processes and returns encoded image as PNG string
      *
      * @return string
@@ -111,6 +118,12 @@ abstract class AbstractEncoder
             case 'image/jpeg':
             case 'image/pjpeg':
                 $this->result = $this->processJpeg();
+                break;
+
+            case 'webp':
+            case 'image/webp':
+            case 'image/x-webp':
+                $this->result = $this->processWebp();
                 break;
 
             case 'tif':

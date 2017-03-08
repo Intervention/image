@@ -21,6 +21,21 @@ class Encoder extends \Intervention\Image\AbstractEncoder
     }
 
     /**
+     * Processes and returns encoded image as Webp string
+     *
+     * @return string
+     */
+    protected function processWebp() {
+        ob_start();
+        imagewebp($this->image->getCore(), null, $this->quality);
+        $this->image->mime = image_type_to_mime_type(IMAGETYPE_WEBP);
+        $buffer = ob_get_contents();
+        ob_end_clean();
+
+        return $buffer;
+    }
+
+    /**
      * Processes and returns encoded image as PNG string
      *
      * @return string

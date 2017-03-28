@@ -8,7 +8,7 @@ php:
   - 7.1
   - nightly
   - hhvm
- 
+
 matrix:
     allow_failures:
         - php: nightly
@@ -25,4 +25,4 @@ before_script:
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
 
-script: phpunit
+script: vendor/bin/phpunit

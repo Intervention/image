@@ -4,6 +4,17 @@ namespace Intervention\Image\Imagick;
 
 class Encoder extends \Intervention\Image\AbstractEncoder
 {
+    private function processImage($compression, $format)
+    {
+        $imagick = $this->image->getCore();
+        $imagick->setFormat($format);
+        $imagick->setImageFormat($format);
+        $imagick->setCompression($compression);
+        $imagick->setImageCompression($compression);
+
+        return $imagick->getImagesBlob();
+    }
+
     /**
      * Processes and returns encoded image as JPEG string
      *
@@ -35,16 +46,9 @@ class Encoder extends \Intervention\Image\AbstractEncoder
      */
     protected function processPng()
     {
-        $format = 'png';
         $compression = \Imagick::COMPRESSION_ZIP;
 
-        $imagick = $this->image->getCore();
-        $imagick->setFormat($format);
-        $imagick->setImageFormat($format);
-        $imagick->setCompression($compression);
-        $imagick->setImageCompression($compression);
-
-        return $imagick->getImagesBlob();
+        return $this->processImage($compression, 'png');
     }
 
     /**
@@ -54,16 +58,9 @@ class Encoder extends \Intervention\Image\AbstractEncoder
      */
     protected function processGif()
     {
-        $format = 'gif';
         $compression = \Imagick::COMPRESSION_LZW;
 
-        $imagick = $this->image->getCore();
-        $imagick->setFormat($format);
-        $imagick->setImageFormat($format);
-        $imagick->setCompression($compression);
-        $imagick->setImageCompression($compression);
-
-        return $imagick->getImagesBlob();
+        return $this->processImage($compression, 'gif');
     }
 
     /**
@@ -73,18 +70,9 @@ class Encoder extends \Intervention\Image\AbstractEncoder
      */
     protected function processTiff()
     {
-        $format = 'tiff';
         $compression = \Imagick::COMPRESSION_UNDEFINED;
 
-        $imagick = $this->image->getCore();
-        $imagick->setFormat($format);
-        $imagick->setImageFormat($format);
-        $imagick->setCompression($compression);
-        $imagick->setImageCompression($compression);
-        $imagick->setCompressionQuality($this->quality);
-        $imagick->setImageCompressionQuality($this->quality);
-
-        return $imagick->getImagesBlob();
+        return $this->processImage($compression, 'tiff');
     }
 
     /**
@@ -94,16 +82,9 @@ class Encoder extends \Intervention\Image\AbstractEncoder
      */
     protected function processBmp()
     {
-        $format = 'bmp';
         $compression = \Imagick::COMPRESSION_UNDEFINED;
 
-        $imagick = $this->image->getCore();
-        $imagick->setFormat($format);
-        $imagick->setImageFormat($format);
-        $imagick->setCompression($compression);
-        $imagick->setImageCompression($compression);
-
-        return $imagick->getImagesBlob();
+        return $this->processImage($compression, 'bmp');
     }
 
     /**
@@ -113,16 +94,9 @@ class Encoder extends \Intervention\Image\AbstractEncoder
      */
     protected function processIco()
     {
-        $format = 'ico';
         $compression = \Imagick::COMPRESSION_UNDEFINED;
 
-        $imagick = $this->image->getCore();
-        $imagick->setFormat($format);
-        $imagick->setImageFormat($format);
-        $imagick->setCompression($compression);
-        $imagick->setImageCompression($compression);
-
-        return $imagick->getImagesBlob();
+        return $this->processImage($compression, 'ico');
     }
 
     /**
@@ -132,15 +106,20 @@ class Encoder extends \Intervention\Image\AbstractEncoder
      */
     protected function processPsd()
     {
-        $format = 'psd';
         $compression = \Imagick::COMPRESSION_UNDEFINED;
 
-        $imagick = $this->image->getCore();
-        $imagick->setFormat($format);
-        $imagick->setImageFormat($format);
-        $imagick->setCompression($compression);
-        $imagick->setImageCompression($compression);
+        return $this->processImage($compression, 'psd');
+    }
 
-        return $imagick->getImagesBlob();
+    /**
+     * Processes and returns encoded image as Webp string
+     *
+     * @return string
+     */
+    protected function processWebp()
+    {
+        $compression = \Imagick::COMPRESSION_UNDEFINED;
+
+        return $this->processImage($compression, 'webp');
     }
 }

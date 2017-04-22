@@ -3,7 +3,7 @@
 use Intervention\Image\Font;
 use Intervention\Image\Image;
 
-class FontTest extends PHPUnit_Framework_Testcase
+class FontTest extends PHPUnit_Framework_TestCase
 {
     public function testConstructorWithoutParameters()
     {

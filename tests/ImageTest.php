@@ -2,7 +2,7 @@
 
 use Intervention\Image\Image;
 
-class ImageTest extends PHPUnit_Framework_Testcase
+class ImageTest extends PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {

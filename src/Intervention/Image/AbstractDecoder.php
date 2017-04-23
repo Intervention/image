@@ -329,11 +329,11 @@ abstract class AbstractDecoder
             case $this->isDataUrl():
                 return $this->initFromBinary($this->decodeDataUrl($this->data));
 
-            case $this->isBase64():
-                return $this->initFromBinary(base64_decode($this->data));
-
             case $this->isFilePath():
                 return $this->initFromPath($this->data);
+
+            case $this->isBase64():
+                return $this->initFromBinary(base64_decode($this->data));
 
             default:
                 throw new Exception\NotReadableException("Image source not readable");

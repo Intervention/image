@@ -34,7 +34,11 @@ class Encoder extends \Intervention\Image\AbstractEncoder
 
         ob_start();
         imagewebp($this->image->getCore(), null, $this->quality);
-        $this->image->mime = image_type_to_mime_type(IMAGETYPE_WEBP);
+        if (defined('IMAGETYPE_WEBP')) {
+            $this->image->mime = image_type_to_mime_type(IMAGETYPE_WEBP);
+        } else {
+            $this->image->mime = 'image/webp';
+        }
         $buffer = ob_get_contents();
         ob_end_clean();
 

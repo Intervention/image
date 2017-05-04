@@ -186,7 +186,11 @@ abstract class AbstractDecoder
     public function isFilePath()
     {
         if (is_string($this->data)) {
-            return is_file($this->data);
+            try {
+                return is_file($this->data);
+            } catch (\Exception $e) {
+                return false;
+            }
         }
 
         return false;
@@ -322,11 +326,11 @@ abstract class AbstractDecoder
             case $this->isStream():
                 return $this->initFromStream($this->data);
 
-            case $this->isFilePath():
-                return $this->initFromPath($this->data);
-
             case $this->isDataUrl():
                 return $this->initFromBinary($this->decodeDataUrl($this->data));
+
+            case $this->isFilePath():
+                return $this->initFromPath($this->data);
 
             case $this->isBase64():
                 return $this->initFromBinary(base64_decode($this->data));

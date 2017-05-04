@@ -27,7 +27,7 @@ class Driver extends \Intervention\Image\AbstractDriver
      *
      * @param  integer $width
      * @param  integer $height
-     * @param  string  $background
+     * @param  mixed   $background
      * @return \Intervention\Image\Image
      */
     public function newImage($width, $height, $background = null)

@@ -7,6 +7,13 @@ use Intervention\Image\Image;
 class Font extends \Intervention\Image\AbstractFont
 {
     /**
+     * Spacing of the line as a multiple of the size
+     *
+     * @var float
+     */
+    public $lineSpacing = 1.05;
+
+    /**
      * Get font size in points
      *
      * @return integer
@@ -70,6 +77,31 @@ class Font extends \Intervention\Image\AbstractFont
         }
     }
 
+    private function getExtraInfo()
+    {
+        return array('linespacing' => $this->getLineSpacing());
+    }
+
+    /**
+     * Set line spacing as a multiple of the size
+     *
+     * @param $lineSpacing
+     */
+    public function lineSpacing($lineSpacing)
+    {
+        $this->lineSpacing = $lineSpacing;
+    }
+
+    /**
+     * Get the line spacing as a multiple of the size
+     *
+     * @return float
+     */
+    public function getLineSpacing()
+    {
+        return $this->lineSpacing;
+    }
+
     /**
      * Calculates bounding box of current font setting
      *
@@ -82,7 +114,7 @@ class Font extends \Intervention\Image\AbstractFont
         if ($this->hasApplicableFontFile()) {
 
             // get bounding box with angle 0
-            $box = imagettfbbox($this->getPointSize(), 0, $this->file, $this->text);
+            $box = imageftbbox($this->getPointSize(), 0, $this->file, $this->text, $this->getExtraInfo());
 
             // rotate points manually
             if ($this->angle != 0) {
@@ -199,7 +231,7 @@ class Font extends \Intervention\Image\AbstractFont
             imagealphablending($image->getCore(), true);
 
             // draw ttf text
-            imagettftext($image->getCore(), $this->getPointSize(), $this->angle, $posx, $posy, $color->getInt(), $this->file, $this->text);
+            imagefttext($image->getCore(), $this->getPointSize(), $this->angle, $posx, $posy, $color->getInt(), $this->file, $this->text, $this->getExtraInfo());
 
         } else {
 

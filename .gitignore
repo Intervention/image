@@ -2,3 +2,5 @@
 composer.lock
 vendor/
 dev/
+/nbproject/private/
+nbproject

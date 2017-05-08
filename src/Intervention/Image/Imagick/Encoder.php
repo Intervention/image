@@ -24,8 +24,13 @@ class Encoder extends \Intervention\Image\AbstractEncoder
         $imagick->setImageCompression($compression);
         $imagick->setCompressionQuality($this->quality);
         $imagick->setImageCompressionQuality($this->quality);
+		$imagick->stripImage();
+		$imagick->setImageType(\Imagick::IMGTYPE_OPTIMIZE);
+		if (method_exists($imagick, 'setColospace')) {
+			$imagick->setColorspace(\Imagick::COLORSPACE_RGB);
+		}
 
-        return $imagick->getImagesBlob();
+		return $imagick->getImagesBlob();
     }
 
     /**

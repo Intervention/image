@@ -124,9 +124,10 @@ class Image extends File
      *
      * @param  string  $path
      * @param  integer $quality
+     * @param  string  $format
      * @return \Intervention\Image\Image
      */
-    public function save($path = null, $quality = null)
+    public function save($path = null, $quality = null, $format = null)
     {
         $path = is_null($path) ? $this->basePath() : $path;
 
@@ -136,7 +137,11 @@ class Image extends File
             );
         }
 
-        $data = $this->encode(pathinfo($path, PATHINFO_EXTENSION), $quality);
+        if ($format === null) {
+            $format = pathinfo($path, PATHINFO_EXTENSION);
+        }
+
+        $data = $this->encode($format, $quality);
         $saved = @file_put_contents($path, $data);
 
         if ($saved === false) {

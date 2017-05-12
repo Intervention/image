@@ -94,6 +94,10 @@ abstract class AbstractEncoder
                 $this->result = $this->processDataUrl();
                 break;
 
+            case 'string':
+                $this->result = $this->processString();
+                break;
+
             case 'gif':
             case 'image/gif':
                 $this->result = $this->processGif();
@@ -155,6 +159,19 @@ abstract class AbstractEncoder
         $this->setImage(null);
 
         return $image->setEncoded($this->result);
+    }
+
+
+    /**
+     * Processes and returns encoded image as string
+     *
+     * @return string
+     */
+    protected function processString()
+    {
+        $mime = $this->image->mime ? $this->image->mime : 'image/png';
+
+        return (string) $this->process($this->image, $mime, $this->quality);
     }
 
     /**

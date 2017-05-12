@@ -13,7 +13,7 @@ class Font extends \Intervention\Image\AbstractFont
      */
     protected function getPointSize()
     {
-        return intval(ceil($this->size * 0.75));
+        return $this->size;
     }
 
     /**

@@ -33,7 +33,8 @@ class Encoder extends \Intervention\Image\AbstractEncoder
      *
      * @return string
      */
-    protected function processWebp() {
+    protected function processWebp()
+    {
         if (!\Imagick::queryFormats('WEBP')) {
             throw new \Intervention\Image\Exception\NotSupportedException(
                 "Webp format is not supported by Imagick Driver."

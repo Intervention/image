@@ -25,7 +25,8 @@ class Encoder extends \Intervention\Image\AbstractEncoder
      *
      * @return string
      */
-    protected function processWebp() {
+    protected function processWebp()
+    {
         if (!function_exists('imagewebp')) {
             throw new \Intervention\Image\Exception\NotSupportedException(
                 "Webp format is not supported by Gd Driver."

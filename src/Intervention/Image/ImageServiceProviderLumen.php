@@ -7,6 +7,15 @@ use Illuminate\Support\ServiceProvider;
 class ImageServiceProviderLumen extends ServiceProvider
 {
     /**
+     * Bootstrap the application events.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+    }
+
+    /**
      * Register the service provider.
      *
      * @return void

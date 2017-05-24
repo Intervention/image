@@ -29,7 +29,10 @@ class Decoder extends \Intervention\Image\AbstractDecoder
                 break;
 
             case IMAGETYPE_JPEG:
-                $core = @imagecreatefromjpeg($path);
+                $core = @imagecreatefromjpeg($path); 
+                if (!$core) { 
+                    $core= @imagecreatefromstring(file_get_contents($path)); 
+                }
                 break;
 
             case IMAGETYPE_GIF:

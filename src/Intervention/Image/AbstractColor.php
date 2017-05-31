@@ -98,7 +98,7 @@ abstract class AbstractColor
     /**
      * Creates new instance
      *
-     * @param string $value
+     * @param mixed $value
      */
     public function __construct($value = null)
     {

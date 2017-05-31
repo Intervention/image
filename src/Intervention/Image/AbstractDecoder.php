@@ -31,7 +31,7 @@ abstract class AbstractDecoder
     /**
      * Initiates new image from Imagick object
      *
-     * @param  Imagick $object
+     * @param \Imagick $object
      * @return \Intervention\Image\Image
      */
     abstract public function initFromImagick(\Imagick $object);
@@ -61,7 +61,19 @@ abstract class AbstractDecoder
      */
     public function initFromUrl($url)
     {
-        if ($data = @file_get_contents($url)) {
+        
+        $options = array(
+            'http' => array(
+                'method'=>"GET",
+                'header'=>"Accept-language: en\r\n".
+                "User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Chrome/22.0.1216.0 Safari/537.2\r\n"
+          )
+        );
+        
+        $context  = stream_context_create($options);
+        
+
+        if ($data = @file_get_contents($url, false, $context)) {
             return $this->initFromBinary($data);
         }
 
@@ -79,9 +91,18 @@ abstract class AbstractDecoder
     public function initFromStream($stream)
     {
         $offset = ftell($stream);
-        rewind($stream);
+        $shouldAndCanSeek = $offset !== 0 && $this->isStreamSeekable($stream);
+
+        if ($shouldAndCanSeek) {
+            rewind($stream);
+        }
+
         $data = @stream_get_contents($stream);
-        fseek($stream, $offset);
+
+        if ($shouldAndCanSeek) {
+            fseek($stream, $offset);
+        }
+
         if ($data) {
             return $this->initFromBinary($data);
         }
@@ -89,6 +110,18 @@ abstract class AbstractDecoder
         throw new \Intervention\Image\Exception\NotReadableException(
             "Unable to init from given stream"
         );
+    }
+
+    /**
+     * Checks if we can move the pointer for this stream
+     *
+     * @param resource $stream
+     * @return bool
+     */
+    private function isStreamSeekable($stream)
+    {
+        $metadata = stream_get_meta_data($stream);
+        return $metadata['seekable'];
     }
 
     /**
@@ -153,7 +186,11 @@ abstract class AbstractDecoder
     public function isFilePath()
     {
         if (is_string($this->data)) {
-            return is_file($this->data);
+            try {
+                return is_file($this->data);
+            } catch (\Exception $e) {
+                return false;
+            }
         }
 
         return false;
@@ -289,11 +326,11 @@ abstract class AbstractDecoder
             case $this->isStream():
                 return $this->initFromStream($this->data);
 
-            case $this->isFilePath():
-                return $this->initFromPath($this->data);
-
             case $this->isDataUrl():
                 return $this->initFromBinary($this->decodeDataUrl($this->data));
+
+            case $this->isFilePath():
+                return $this->initFromPath($this->data);
 
             case $this->isBase64():
                 return $this->initFromBinary(base64_decode($this->data));

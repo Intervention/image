@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Exception;
 
-class InvalidArgumentException extends \RuntimeException
+class InvalidArgumentException extends ImageException
 {
     # nothing to override
 }

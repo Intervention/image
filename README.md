@@ -24,16 +24,16 @@ Intervention Image is a **PHP image handling and manipulation** library providin
 
 ```php
 // open an image file
-$img = Image::make('public/foo.jpg');
+$img = Image::make('foo.jpg');
 
 // resize image instance
 $img->resize(320, 240);
 
 // insert a watermark
-$img->insert('public/watermark.png');
+$img->insert('watermark.png');
 
 // save image in desired format
-$img->save('public/bar.jpg');
+$img->save('bar.jpg');
 ```
 
 Refer to the [documentation](http://image.intervention.io/) to learn more about Intervention Image.

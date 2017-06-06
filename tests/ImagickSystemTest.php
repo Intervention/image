@@ -1130,8 +1130,8 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
         $img->limitColors(16);
         $this->assertLessThanOrEqual(17, $img->getCore()->getImageColors());
         $this->assertTransparentPosition($img, 0, 0);
-        $this->assertColorAtPosition('#680098', $img, 6, 12);
-        $this->assertColorAtPosition('#c2596a', $img, 22, 24);
+        $this->assertColorAtPosition('#856059', $img, 6, 12);
+        $this->assertColorAtPosition('#9e3046', $img, 22, 24);
     }
     
     public function testLimitColorsKeepTransparencyWithMatte()

@@ -15,7 +15,6 @@ matrix:
         - php: hhvm
 
 before_install:
-  - sudo add-apt-repository -y ppa:moti-p/cc
   - sudo apt-get clean
   - sudo apt-get update
   - sudo apt-get -y --reinstall install imagemagick

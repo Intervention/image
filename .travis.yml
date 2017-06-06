@@ -22,7 +22,6 @@ before_install:
   - make
   - sudo make install
   - cd ..
-  - printf "\n" | pecl install imagick-beta
   - yes | pecl install imagick-beta
   - if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.4" ]]; then echo "extension = imagick.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi
 

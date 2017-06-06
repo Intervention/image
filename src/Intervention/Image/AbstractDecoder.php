@@ -332,6 +332,7 @@ abstract class AbstractDecoder
             case $this->isFilePath():
                 return $this->initFromPath($this->data);
 
+            // isBase64 has to be after isFilePath to prevent false positives
             case $this->isBase64():
                 return $this->initFromBinary(base64_decode($this->data));
 

@@ -15,10 +15,14 @@ matrix:
         - php: hhvm
 
 before_install:
-  - sudo add-apt-repository -y ppa:moti-p/cc
-  - sudo apt-get clean
-  - sudo apt-get update
-  - sudo apt-get -y --reinstall install imagemagick
+  - wget http://www.imagemagick.org/download/ImageMagick.tar.gz
+  - tar xf ImageMagick.tar.gz
+  - cd ImageMagick*
+  - ./configure --prefix=/usr
+  - make
+  - sudo make install
+  - cd ..
+  - printf "\n" | pecl install imagick-beta
   - yes | pecl install imagick-beta
   - if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.4" ]]; then echo "extension = imagick.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi
 

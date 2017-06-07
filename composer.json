@@ -33,6 +33,14 @@
     "extra": {
         "branch-alias": {
             "dev-master": "2.3-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Intervention\\Image\\ImageServiceProvider"
+            ],
+            "aliases": {
+                "Image": "Intervention\\Image\\Facades\\Image"
+            }
         }
     },
     "minimum-stability": "stable"

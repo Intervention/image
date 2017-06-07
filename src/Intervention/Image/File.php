@@ -59,9 +59,28 @@ class File
         return $this;
     }
 
+    /**
+     * Sets all instance properties from given SplFileInfo object
+     *
+     * @param SplFileInfo $object
+     */
+    public function setFileInfoFromSplFileInfo(\SplFileInfo $object)
+    {
+        $this->dirname = $object->getPath();
+        $this->basename = $object->getBasename();
+        $this->extension = $object->getExtension();
+        $this->filename = $object->getFilename();
+
+        if ($object->getType() === 'file') {
+            $this->mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $object->getRealPath());
+        }
+
+        return $this;
+    }
+
      /**
       * Get file size
-      * 
+      *
       * @return mixed
       */
     public function filesize()
@@ -71,7 +90,7 @@ class File
         if (file_exists($path) && is_file($path)) {
             return filesize($path);
         }
-        
+
         return false;
     }
 

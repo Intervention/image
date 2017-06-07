@@ -38,6 +38,35 @@ class Decoder extends \Intervention\Image\AbstractDecoder
     }
 
     /**
+     * Initiates new image from SplFileInfo object
+     *
+     * @param  SplFileInfo $object
+     * @return \Intervention\Image\Image
+     */
+    public function initFromSplFileInfo(\SplFileInfo $object)
+    {
+        $core = new \Imagick;
+        $path = $object->getRealPath();
+
+        try {
+
+            $core->readImage($path);
+            $core->setImageType(\Imagick::IMGTYPE_TRUECOLORMATTE);
+
+        } catch (\ImagickException $e) {
+            throw new \Intervention\Image\Exception\NotReadableException(
+                "Unable to read image from path ({$path})."
+            );
+        }
+
+        // build image
+        $image = $this->initFromImagick($core);
+        $image->setFileInfoFromSplFileInfo($object);
+
+        return $image;
+    }
+
+    /**
      * Initiates new image from GD resource
      *
      * @param  Resource $resource

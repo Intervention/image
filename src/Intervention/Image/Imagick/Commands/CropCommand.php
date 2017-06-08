@@ -35,7 +35,7 @@ class CropCommand extends \Intervention\Image\Commands\AbstractCommand
         }
 
         // crop image core
-        $image->getCore()->cropImage($cropped->width, $cropped->height, $position->x, $position->y);
+        $image->getCore()->extentImage($cropped->width, $cropped->height, $position->x, $position->y);
         $image->getCore()->setImagePage(0,0,0,0);
 
         return true;

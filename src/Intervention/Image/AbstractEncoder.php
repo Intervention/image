@@ -75,6 +75,13 @@ abstract class AbstractEncoder
     abstract protected function processIco();
 
     /**
+     * Processes and returns encoded image as Webp string
+     *
+     * @return string
+     */
+    abstract protected function processWebp();
+
+    /**
      * Process a given image
      *
      * @param  Image   $image
@@ -87,6 +94,10 @@ abstract class AbstractEncoder
         $this->setImage($image);
         $this->setFormat($format);
         $this->setQuality($quality);
+        if ($this->image->mime == 'application/octet-stream') {
+            $this->image->mime = $image->mime = 'image/webp';
+        }
+        $image->mime == $this->image->mime;
 
         switch (strtolower($this->format)) {
 
@@ -145,7 +156,12 @@ abstract class AbstractEncoder
             case 'image/vnd.adobe.photoshop':
                 $this->result = $this->processPsd();
                 break;
-                
+
+            case 'webp':
+            case 'image/webp':
+                $this->result = $this->processWebp();
+                break;
+
             default:
                 throw new \Intervention\Image\Exception\NotSupportedException(
                     "Encoding format ({$format}) is not supported."
@@ -180,6 +196,13 @@ abstract class AbstractEncoder
     protected function setImage($image)
     {
         $this->image = $image;
+
+        // Webp not being detected correctly by finfo yet (201501) so if
+        // it's a webp image, force the mime type here as it gets relied
+        // on quite a bit in later processing
+        if ($this->image->mime == 'application/octet-stream' && $this->image->extension == 'webp') {
+            $this->image->mime = 'image/webp';
+        }
     }
 
     /**

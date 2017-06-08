@@ -102,4 +102,27 @@ class Encoder extends \Intervention\Image\AbstractEncoder
             "PSD format is not supported by Gd Driver."
         );
     }
+
+    /**
+     * Processes and returns encoded image as Webp string
+     *
+     * @return string
+     */
+    protected function processWebp()
+    {
+        // imagewebp was only added in 5.5
+        if (!function_exists('imagewebp')) {
+            throw new \Intervention\Image\Exception\NotSupportedException(
+                "WebP is not supported by your current version of Gd."
+            );
+        }
+        ob_start();
+        imagewebp($this->image->getCore());
+        // Set mime type manually, as no IMAGETYPE_WEBP constant exists yet
+        $this->image->mime = 'image/webp';
+        $buffer = ob_get_contents();
+        ob_end_clean();
+
+        return $buffer;
+    }
 }

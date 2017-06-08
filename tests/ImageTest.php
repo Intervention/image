@@ -119,4 +119,10 @@ class ImageTest extends PHPUnit_Framework_TestCase
 
         return $image;
     }
+
+    public function testDetectWebp()
+    {
+        $validWebpHeader = 'RIFF02j1WEBP';
+        $this->assertTrue(Image::detectWebp($validWebpHeader));
+    }
 }

@@ -39,6 +39,11 @@ class Decoder extends \Intervention\Image\AbstractDecoder
                 $core = @imagecreatefromgif($path);
                 break;
 
+            case 'IMAGETYPE_WEBP':
+                $core = imagecreatefromwebp($path);
+                $this->gdResourceToTruecolor($core);
+                break;
+
             default:
                 throw new \Intervention\Image\Exception\NotReadableException(
                     "Unable to read image type. GD driver is only able to decode JPG, PNG or GIF files."

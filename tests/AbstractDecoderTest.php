@@ -61,6 +61,9 @@ class AbstractDecoderTest extends PHPUnit_Framework_TestCase
         $source = $this->getTestDecoder(fopen(__DIR__ . '/images/test.jpg', 'r'));
         $this->assertTrue($source->isStream());
 
+        $source = $this->getTestDecoder(new \GuzzleHttp\Psr7\Stream(fopen(__DIR__ . '/images/test.jpg', 'r')));
+        $this->assertTrue($source->isStream());
+
         $source = $this->getTestDecoder(null);
         $this->assertFalse($source->isStream());
     }

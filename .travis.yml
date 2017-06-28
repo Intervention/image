@@ -1,5 +1,9 @@
 language: php
 
+sudo: false
+
+dist: trusty
+
 php:
   - 5.4
   - 5.5
@@ -14,16 +18,9 @@ matrix:
         - php: nightly
         - php: hhvm
 
-before_install:
-  - sudo add-apt-repository -y ppa:moti-p/cc
-  - sudo apt-get clean
-  - sudo apt-get update
-  - sudo apt-get -y --reinstall install imagemagick
-  - yes | pecl install imagick-beta
-  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.4" ]]; then echo "extension = imagick.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi
-
 before_script:
-  - composer self-update
-  - composer install --prefer-source --no-interaction --dev
+  - printf "\n" | pecl install imagick
+  - composer self-update || true
+  - composer install --prefer-dist --no-interaction --no-progress --no-suggest --optimize-autoloader
 
 script: vendor/bin/phpunit

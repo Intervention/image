@@ -21,6 +21,32 @@ class Encoder extends \Intervention\Image\AbstractEncoder
     }
 
     /**
+     * Processes and returns encoded image as Webp string
+     *
+     * @return string
+     */
+    protected function processWebp()
+    {
+        if (!function_exists('imagewebp')) {
+            throw new \Intervention\Image\Exception\NotSupportedException(
+                "Webp format is not supported by Gd Driver."
+            );
+        }
+
+        ob_start();
+        imagewebp($this->image->getCore(), null, $this->quality);
+        if (defined('IMAGETYPE_WEBP')) {
+            $this->image->mime = image_type_to_mime_type(IMAGETYPE_WEBP);
+        } else {
+            $this->image->mime = 'image/webp';
+        }
+        $buffer = ob_get_contents();
+        ob_end_clean();
+
+        return $buffer;
+    }
+
+    /**
      * Processes and returns encoded image as PNG string
      *
      * @return string

@@ -29,6 +29,34 @@ class Encoder extends \Intervention\Image\AbstractEncoder
     }
 
     /**
+     * Processes and returns encoded image as Webp string
+     *
+     * @return string
+     */
+    protected function processWebp()
+    {
+        if (!\Imagick::queryFormats('WEBP')) {
+            throw new \Intervention\Image\Exception\NotSupportedException(
+                "Webp format is not supported by Imagick Driver."
+            );
+        }
+
+        $format = 'webp';
+        $compression = \Imagick::COMPRESSION_JPEG;
+
+        /** @var \Imagick $imagick */
+        $imagick = $this->image->getCore();
+        $imagick = $imagick->mergeImageLayers(\Imagick::LAYERMETHOD_MERGE);
+        $imagick->setFormat($format);
+        $imagick->setImageFormat($format);
+        $imagick->setCompression($compression);
+        $imagick->setImageCompression($compression);
+        $imagick->setImageCompressionQuality($this->quality);
+
+        return $imagick->getImagesBlob();
+    }
+
+    /**
      * Processes and returns encoded image as PNG string
      *
      * @return string

@@ -9,7 +9,7 @@ class EncoderTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
+
     public function testProcessJpegGd()
     {
         $core = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
@@ -91,6 +91,18 @@ class EncoderTest extends PHPUnit_Framework_TestCase
         $encoder = new GdEncoder;
         $image = Mockery::mock('\Intervention\Image\Image');
         $img = $encoder->process($image, 'psd', 90);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+    }
+
+    /**
+     * @expectedException \Intervention\Image\Exception\NotSupportedException
+     */
+    public function testProcessWebpGd()
+    {
+        $core = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
+        $encoder = new GdEncoder;
+        $image = Mockery::mock('\Intervention\Image\Image');
+        $img = $encoder->process($image, 'webp', 90);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
     }
 
@@ -201,6 +213,18 @@ class EncoderTest extends PHPUnit_Framework_TestCase
         $img = $encoder->process($image, 'psd', 90);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertEquals('mock-psd', $encoder->result);
+    }
+
+    public function testProcessWebpImagick()
+    {
+        $core    = $this->getImagickMock('webp');
+        $encoder = new ImagickEncoder;
+        $image   = Mockery::mock('\Intervention\Image\Image');
+        $image->shouldReceive('getCore')->once()->andReturn($core);
+        $image->shouldReceive('setEncoded')->once()->andReturn($image);
+        $img = $encoder->process($image, 'webp', 90);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('mock-webp', $encoder->result);
     }
 
     public function testProcessUnknownWithMimeImagick()

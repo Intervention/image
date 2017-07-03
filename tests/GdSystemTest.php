@@ -85,16 +85,18 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
 
     public function testMakeFromWebp()
     {
-        $img = $this->manager()->make('tests/images/test.webp');
-        $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertInternalType('resource', $img->getCore());
-        $this->assertEquals(16, $img->getWidth());
-        $this->assertEquals(16, $img->getHeight());
-        $this->assertEquals('image/webp', $img->mime);
-        $this->assertEquals('tests/images', $img->dirname);
-        $this->assertEquals('test.webp', $img->basename);
-        $this->assertEquals('webp', $img->extension);
-        $this->assertEquals('test', $img->filename);
+        if (function_exists('imagecreatefromwebp')) {
+            $img = $this->manager()->make('tests/images/test.webp');
+            $this->assertInstanceOf('Intervention\Image\Image', $img);
+            $this->assertInternalType('resource', $img->getCore());
+            $this->assertEquals(16, $img->getWidth());
+            $this->assertEquals(16, $img->getHeight());
+            $this->assertEquals('image/webp', $img->mime);
+            $this->assertEquals('tests/images', $img->dirname);
+            $this->assertEquals('test.webp', $img->basename);
+            $this->assertEquals('webp', $img->extension);
+            $this->assertEquals('test', $img->filename);
+        }
     }
 
     public function testCanvas()
@@ -1498,9 +1500,11 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
 
     public function testEncodeWebp()
     {
-        $img = $this->manager()->make('tests/images/trim.png');
-        $data = (string) $img->encode('webp');
-        $this->assertEquals('image/webp; charset=binary', $this->getMime($data));
+        if (function_exists('imagewebp')) {
+            $img = $this->manager()->make('tests/images/trim.png');
+            $data = (string) $img->encode('webp');
+            $this->assertEquals('image/webp; charset=binary', $this->getMime($data));
+        }
     }
 
     public function testEncodeDataUrl()

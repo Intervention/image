@@ -48,14 +48,16 @@ class EncoderTest extends PHPUnit_Framework_TestCase
 
     public function testProcessWebpGd()
     {
-        $core = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
-        $encoder = new GdEncoder;
-        $image = Mockery::mock('\Intervention\Image\Image');
-        $image->shouldReceive('getCore')->once()->andReturn($core);
-        $image->shouldReceive('setEncoded')->once()->andReturn($image);
-        $img = $encoder->process($image, 'webp', 90);
-        $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertEquals('image/webp; charset=binary', $this->getMime($encoder->result));
+        if (function_exists('imagewebp')) {
+            $core = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
+            $encoder = new GdEncoder;
+            $image = Mockery::mock('\Intervention\Image\Image');
+            $image->shouldReceive('getCore')->once()->andReturn($core);
+            $image->shouldReceive('setEncoded')->once()->andReturn($image);
+            $img = $encoder->process($image, 'webp', 90);
+            $this->assertInstanceOf('Intervention\Image\Image', $img);
+            $this->assertEquals('image/webp; charset=binary', $this->getMime($encoder->result));
+        }
     }
 
     /**

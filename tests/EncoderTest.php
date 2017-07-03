@@ -22,6 +22,18 @@ class EncoderTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('image/jpeg; charset=binary', $this->getMime($encoder->result));
     }
 
+    public function testProcessWebpGd()
+    {
+        $core = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
+        $encoder = new GdEncoder;
+        $image = Mockery::mock('\Intervention\Image\Image');
+        $image->shouldReceive('getCore')->once()->andReturn($core);
+        $image->shouldReceive('setEncoded')->once()->andReturn($image);
+        $img = $encoder->process($image, 'webp', 90);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('image/webp; charset=binary', $this->getMime($encoder->result));
+    }
+
     public function testProcessPngGd()
     {
         $core = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
@@ -143,6 +155,18 @@ class EncoderTest extends PHPUnit_Framework_TestCase
         $img = $encoder->process($image, 'jpg', 90);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertEquals('mock-jpeg', $encoder->result);
+    }
+
+    public function testProcessWebpImagick()
+    {
+        $core = $this->getImagickMock('webp');
+        $encoder = new ImagickEncoder;
+        $image = Mockery::mock('\Intervention\Image\Image');
+        $image->shouldReceive('getCore')->once()->andReturn($core);
+        $image->shouldReceive('setEncoded')->once()->andReturn($image);
+        $img = $encoder->process($image, 'webp', 90);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertEquals('mock-webp', $encoder->result);
     }
 
     public function testProcessPngImagick()

@@ -4,7 +4,7 @@ Intervention Image is a **PHP image handling and manipulation** library providin
 
 [![Latest Version](https://img.shields.io/packagist/v/intervention/image.svg)](https://packagist.org/packages/intervention/image)
 [![Build Status](https://travis-ci.org/Intervention/image.png?branch=master)](https://travis-ci.org/Intervention/image)
-[![Monthly Downloads](https://img.shields.io/packagist/dm/intervention/image.svg)](https://packagist.org/packages/intervention/image)
+[![Monthly Downloads](https://img.shields.io/packagist/dm/intervention/image.svg)](https://packagist.org/packages/intervention/image/stats)
 
 ## Requirements
 
@@ -20,7 +20,7 @@ Intervention Image is a **PHP image handling and manipulation** library providin
 
 - [Installation](http://image.intervention.io/getting_started/installation)
 - [Laravel Framework Integration](http://image.intervention.io/getting_started/installation#laravel)
-- [Official Documentation](http://image.intervention.io/)
+- [Basic Usage](http://image.intervention.io/use/basics)
 
 ## Code Examples
 
@@ -38,7 +38,7 @@ $img->insert('public/watermark.png');
 $img->save('public/bar.jpg');
 ```
 
-Refer to the [documentation](http://image.intervention.io/) to learn more about Intervention Image.
+Refer to the [official documentation](http://image.intervention.io/) to learn more about Intervention Image.
 
 ## Contributing
 

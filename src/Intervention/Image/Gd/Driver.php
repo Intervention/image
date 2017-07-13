@@ -71,12 +71,53 @@ class Driver extends \Intervention\Image\AbstractDriver
      */
     public function cloneCore($core)
     {
+        if (imageistruecolor($core)) {
+            return $this->cloneTrueColorCore($core);
+        }
+
+        return $this->cloneColorPaletteCore($core);
+    }
+
+    /**
+     * Returns clone of a true color core
+     *
+     * @return mixed
+     */
+    protected function cloneTrueColorCore($core)
+    {
         $width = imagesx($core);
         $height = imagesy($core);
         $clone = imagecreatetruecolor($width, $height);
         imagealphablending($clone, false);
         imagesavealpha($clone, true);
-        
+
+        imagecopy($clone, $core, 0, 0, 0, 0, $width, $height);
+
+        return $clone;
+    }
+
+    /**
+     * Returns clone of a core with a color palette
+     *
+     * @return mixed
+     */
+    protected function cloneColorPaletteCore($core)
+    {
+        $width = imagesx($core);
+        $height = imagesy($core);
+        $clone = imagecreate($width, $height);
+        imagesavealpha($clone, true);
+
+        $rgb = imagecolorsforindex($core, imagecolortransparent($core));
+        $alpha = imagecolorallocatealpha(
+            $clone,
+            $rgb['red'],
+            $rgb['green'],
+            $rgb['blue'],
+            $rgb['alpha']
+        );
+        imagefill($clone, 0, 0, $alpha);
+
         imagecopy($clone, $core, 0, 0, 0, 0, $width, $height);
 
         return $clone;

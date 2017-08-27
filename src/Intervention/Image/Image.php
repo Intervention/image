@@ -124,9 +124,11 @@ class Image extends File
      *
      * @param  string  $path
      * @param  integer $quality
+     * @param  string  $mime
+     * @param  boolean $guessFormat
      * @return \Intervention\Image\Image
      */
-    public function save($path = null, $quality = null)
+    public function save($path = null, $quality = null, $mime = null, $guessFormat = false)
     {
         $path = is_null($path) ? $this->basePath() : $path;
 
@@ -136,7 +138,15 @@ class Image extends File
             );
         }
 
-        $data = $this->encode(pathinfo($path, PATHINFO_EXTENSION), $quality);
+        if ($guessFormat) {
+            $format = $this->mime;
+        } elseif ($mime) {
+            $format = $mime;
+        } else {
+            $format = pathinfo($path, PATHINFO_EXTENSION);
+        }
+
+        $data = $this->encode($format, $quality);
         $saved = @file_put_contents($path, $data);
 
         if ($saved === false) {

@@ -15,7 +15,7 @@ class InvertCommandTest extends PHPUnit_Framework_TestCase
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($resource);
-        $command = new InvertGd(array());
+        $command = new InvertGd([]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
@@ -26,7 +26,7 @@ class InvertCommandTest extends PHPUnit_Framework_TestCase
         $imagick->shouldReceive('negateimage')->with(false)->andReturn(true);
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
-        $command = new InvertImagick(array());
+        $command = new InvertImagick([]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }

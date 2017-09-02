@@ -22,7 +22,7 @@ class TrimCommandTest extends PHPUnit_Framework_TestCase
         $image->shouldReceive('pickColor')->with(0, 0, 'object')->times(2)->andReturn($baseColor);
         $image->shouldReceive('pickColor')->with(799, 0, 'object')->once()->andReturn($baseColor);
         $image->shouldReceive('setCore')->once();
-        $command = new TrimGd(array('top-left', array('left', 'right'), 45, 2));
+        $command = new TrimGd(['top-left', ['left', 'right'], 45, 2]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
@@ -37,7 +37,7 @@ class TrimCommandTest extends PHPUnit_Framework_TestCase
         $imagick->height = 100;
         $imagick->shouldReceive('borderimage')->with($baseColorPixel, 1, 1)->once()->andReturn(true);
         $imagick->shouldReceive('trimimage')->with(29632.5)->once()->andReturn(true);
-        $imagick->shouldReceive('getimagepage')->once()->andReturn(array('x' => 50, 'y' => 50));
+        $imagick->shouldReceive('getimagepage')->once()->andReturn(['x' => 50, 'y' => 50]);
         $imagick->shouldReceive('cropimage')->with(104, 202, 47, 0)->once()->andReturn(true);
         $imagick->shouldReceive('setimagepage')->with(0, 0, 0, 0)->once()->andReturn(true);
         $imagick->shouldReceive('destroy')->with()->once()->andReturn(true);
@@ -46,7 +46,7 @@ class TrimCommandTest extends PHPUnit_Framework_TestCase
         $image->shouldReceive('getHeight')->once()->andReturn(600);
         $image->shouldReceive('pickColor')->with(0, 0, 'object')->once()->andReturn($baseColor);
         $image->shouldReceive('getCore')->times(3)->andReturn($imagick);
-        $command = new TrimImagick(array('top-left', array('left', 'right'), 45, 2));
+        $command = new TrimImagick(['top-left', ['left', 'right'], 45, 2]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }

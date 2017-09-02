@@ -15,7 +15,7 @@ class ResizeCommandTest extends PHPUnit_Framework_TestCase
         $callback = function ($constraint) { $constraint->upsize(); };
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $image = Mockery::mock('Intervention\Image\Image');
-        $size = Mockery::mock('Intervention\Image\Size', array(800, 600));
+        $size = Mockery::mock('Intervention\Image\Size', [800, 600]);
         $size->shouldReceive('resize')->with(300, 200, $callback)->once()->andReturn($size);
         $size->shouldReceive('getWidth')->once()->andReturn(800);
         $size->shouldReceive('getHeight')->once()->andReturn(600);
@@ -24,7 +24,7 @@ class ResizeCommandTest extends PHPUnit_Framework_TestCase
         $image->shouldReceive('getSize')->once()->andReturn($size);
         $image->shouldReceive('getCore')->once()->andReturn($resource);
         $image->shouldReceive('setCore')->once();
-        $command = new ResizeCommandGd(array(300, 200, $callback));
+        $command = new ResizeCommandGd([300, 200, $callback]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
@@ -34,14 +34,14 @@ class ResizeCommandTest extends PHPUnit_Framework_TestCase
         $callback = function ($constraint) { $constraint->upsize(); };
         $imagick = Mockery::mock('Imagick');
         $imagick->shouldReceive('scaleimage')->with(300, 200)->once()->andReturn(true);
-        $size = Mockery::mock('Intervention\Image\Size', array(800, 600));
+        $size = Mockery::mock('Intervention\Image\Size', [800, 600]);
         $size->shouldReceive('resize')->with(300, 200, $callback)->once()->andReturn($size);
         $size->shouldReceive('getWidth')->once()->andReturn(300);
         $size->shouldReceive('getHeight')->once()->andReturn(200);
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
         $image->shouldReceive('getSize')->once()->andReturn($size);
-        $command = new ResizeCommandImagick(array(300, 200, $callback));
+        $command = new ResizeCommandImagick([300, 200, $callback]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }

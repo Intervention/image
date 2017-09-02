@@ -19,7 +19,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
     {
         $image = $this->getTestImage();
         $result = $image->test(1, 2, 3);
-        $this->assertEquals('mock', $result);   
+        $this->assertEquals('mock', $result);
     }
 
     public function testEncode()
@@ -54,7 +54,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
 
     public function testFilter()
     {
-        $demoFilter = Mockery::mock('\Intervention\Image\Filters\DemoFilter', array(15));
+        $demoFilter = Mockery::mock('\Intervention\Image\Filters\DemoFilter', [15]);
         $image = $this->getTestImage();
         $demoFilter->shouldReceive('applyFilter')->with($image)->once()->andReturn($image);
         $image->filter($demoFilter);
@@ -87,26 +87,26 @@ class ImageTest extends PHPUnit_Framework_TestCase
     {
         $image = $this->getTestImage();
         $backups = $image->getBackups();
-        $this->assertEquals(array(), $backups);
+        $this->assertEquals([], $backups);
 
         $image = $this->getTestImage();
         $image->setBackup('foo');
         $image->setBackup('bar');
         $image->setBackup('baz');
         $backups = $image->getBackups();
-        $this->assertEquals(array('default' => 'baz'), $backups);
+        $this->assertEquals(['default' => 'baz'], $backups);
 
         $image = $this->getTestImage();
         $image->setBackup('foo', 'a');
         $image->setBackup('bar', 'b');
         $image->setBackup('baz', 'c');
         $backups = $image->getBackups();
-        $this->assertEquals(array('a' => 'foo', 'b' => 'bar', 'c' => 'baz'), $backups);
+        $this->assertEquals(['a' => 'foo', 'b' => 'bar', 'c' => 'baz'], $backups);
     }
 
     private function getTestImage()
     {
-        $size = Mockery::mock('\Intervention\Image\Size', array(800, 600));
+        $size = Mockery::mock('\Intervention\Image\Size', [800, 600]);
         $driver = Mockery::mock('\Intervention\Image\AbstractDriver');
         $command = Mockery::mock('\Intervention\Image\Commands\AbstractCommand');
         $command->shouldReceive('hasOutput')->andReturn(true);

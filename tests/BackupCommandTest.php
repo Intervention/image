@@ -12,26 +12,26 @@ class BackupCommandTest extends PHPUnit_Framework_TestCase
 
     public function testGdWithoutName()
     {
-        $size = Mockery::mock('Intervention\Image\Size', array(800, 600));
+        $size = Mockery::mock('Intervention\Image\Size', [800, 600]);
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($resource);
         $image->shouldReceive('getSize')->once()->andReturn($size);
         $image->shouldReceive('setBackup')->once();
-        $command = new BackupGd(array());
+        $command = new BackupGd([]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
 
     public function testGdWithName()
     {
-        $size = Mockery::mock('Intervention\Image\Size', array(800, 600));
+        $size = Mockery::mock('Intervention\Image\Size', [800, 600]);
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($resource);
         $image->shouldReceive('getSize')->once()->andReturn($size);
         $image->shouldReceive('setBackup')->once();
-        $command = new BackupGd(array('name' => 'fooBackup'));
+        $command = new BackupGd(['name' => 'fooBackup']);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
@@ -42,7 +42,7 @@ class BackupCommandTest extends PHPUnit_Framework_TestCase
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
         $image->shouldReceive('setBackup')->once();
-        $command = new BackupImagick(array());
+        $command = new BackupImagick([]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
@@ -53,7 +53,7 @@ class BackupCommandTest extends PHPUnit_Framework_TestCase
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
         $image->shouldReceive('setBackup')->once();
-        $command = new BackupImagick(array('name' => 'fooBackup'));
+        $command = new BackupImagick(['name' => 'fooBackup']);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }

@@ -1044,9 +1044,9 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
     public function testPixelImage()
     {
         $img = $this->manager()->make('tests/images/tile.png');
-        $coords = array(array(5, 5), array(12, 12));
+        $coords = [[5, 5], [12, 12]];
         $img = $img->pixel('fdf5e4', $coords[0][0], $coords[0][1]);
-        $img = $img->pixel(array(255, 255, 255), $coords[1][0], $coords[1][1]);
+        $img = $img->pixel([255, 255, 255], $coords[1][0], $coords[1][1]);
         $this->assertEquals('#fdf5e4', $img->pickColor($coords[0][0], $coords[0][1], 'hex'));
         $this->assertEquals('#ffffff', $img->pickColor($coords[1][0], $coords[1][1], 'hex'));
     }
@@ -1110,7 +1110,7 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
     public function testPolygonImage()
     {
         $img = $this->manager()->canvas(16, 16, 'ffffff');
-        $points = array(3, 3, 11, 11, 7, 13);
+        $points = [3, 3, 11, 11, 7, 13];
         $img->polygon($points, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
         $this->assertEquals('e534ff90c8026f9317b99071fda01ed4', $img->checksum());
     }
@@ -1378,7 +1378,7 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
     public function testTrimOnlyLeftAndRight()
     {
         $img = $this->manager()->make('tests/images/gradient.png');
-        $img->trim(null, array('left', 'right'), 60);
+        $img->trim(null, ['left', 'right'], 60);
         $this->assertEquals($img->getWidth(), 20);
         $this->assertEquals($img->getHeight(), 50);
     }
@@ -1386,7 +1386,7 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
     public function testTrimOnlyTopAndBottom()
     {
         $img = $this->manager()->make('tests/images/gradient.png');
-        $img->trim(null, array('top', 'bottom'), 60);
+        $img->trim(null, ['top', 'bottom'], 60);
         $this->assertEquals($img->getWidth(), 50);
         $this->assertEquals($img->getHeight(), 20);
     }
@@ -1444,14 +1444,14 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         // trim only left and right with feather
         $img = clone $canvas;
         $feather = 10;
-        $img->trim(null, array('left', 'right'), null, $feather);
+        $img->trim(null, ['left', 'right'], null, $feather);
         $this->assertEquals($img->getWidth(), 28 + $feather * 2);
         $this->assertEquals($img->getHeight(), 50);
 
         // trim only top and bottom with feather
         $img = clone $canvas;
         $feather = 10;
-        $img->trim(null, array('top', 'bottom'), null, $feather);
+        $img->trim(null, ['top', 'bottom'], null, $feather);
         $this->assertEquals($img->getWidth(), 50);
         $this->assertEquals($img->getHeight(), 28 + $feather * 2);
 
@@ -1672,9 +1672,9 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
 
     private function manager()
     {
-        return new \Intervention\Image\ImageManager(array(
+        return new \Intervention\Image\ImageManager([
             'driver' => 'gd'
-        ));
+        ]);
     }
 
     private function getMime($data)

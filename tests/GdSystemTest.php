@@ -28,6 +28,14 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->manager()->make('tests/images/broken.png');
     }
 
+    /**
+     * @expectedException \Intervention\Image\Exception\NotReadableException
+     */
+    public function testMakeFromNotExisting()
+    {
+        $this->manager()->make('tests/images/not_existing.png');
+    }
+
     public function testMakeFromString()
     {
         $str = file_get_contents('tests/images/circle.png');
@@ -73,6 +81,22 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
+    }
+
+    public function testMakeFromWebp()
+    {
+        if (function_exists('imagecreatefromwebp')) {
+            $img = $this->manager()->make('tests/images/test.webp');
+            $this->assertInstanceOf('Intervention\Image\Image', $img);
+            $this->assertInternalType('resource', $img->getCore());
+            $this->assertEquals(16, $img->getWidth());
+            $this->assertEquals(16, $img->getHeight());
+            $this->assertEquals('image/webp', $img->mime);
+            $this->assertEquals('tests/images', $img->dirname);
+            $this->assertEquals('test.webp', $img->basename);
+            $this->assertEquals('webp', $img->extension);
+            $this->assertEquals('test', $img->filename);
+        }
     }
 
     public function testCanvas()
@@ -1474,6 +1498,15 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('resource', imagecreatefromstring($img->encoded));
     }
 
+    public function testEncodeWebp()
+    {
+        if (function_exists('imagewebp')) {
+            $img = $this->manager()->make('tests/images/trim.png');
+            $data = (string) $img->encode('webp');
+            $this->assertEquals('image/webp; charset=binary', $this->getMime($data));
+        }
+    }
+
     public function testEncodeDataUrl()
     {
         $img = $this->manager()->make('tests/images/trim.png');
@@ -1642,5 +1675,11 @@ class GdSystemTest extends PHPUnit_Framework_TestCase
         return new \Intervention\Image\ImageManager(array(
             'driver' => 'gd'
         ));
+    }
+
+    private function getMime($data)
+    {
+        $finfo = new finfo(FILEINFO_MIME);
+        return $finfo->buffer($data);
     }
 }

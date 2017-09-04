@@ -55,6 +55,23 @@ class Encoder extends \Intervention\Image\AbstractEncoder
         return $buffer;
     }
 
+    protected function processWebp()
+    {
+        if ( ! function_exists('imagewebp')) {
+            throw new \Intervention\Image\Exception\NotSupportedException(
+                "Webp format is not supported by PHP installation."
+            );
+        }
+
+        ob_start();
+        imagewebp($this->image->getCore(), null, $this->quality);
+        $this->image->mime = defined('IMAGETYPE_WEBP') ? image_type_to_mime_type(IMAGETYPE_WEBP) : 'image/webp';
+        $buffer = ob_get_contents();
+        ob_end_clean();
+        
+        return $buffer;
+    }
+
     /**
      * Processes and returns encoded image as TIFF string
      *

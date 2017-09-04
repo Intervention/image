@@ -77,7 +77,7 @@ class ImageServiceProviderLaravel5 extends ServiceProvider
         // imagecache route
         if (is_string(config('imagecache.route'))) {
 
-            $filename_pattern = '[ \w\\.\\/\\-\\@]+';
+            $filename_pattern = '[ \w\\.\\/\\-\\@\(\)]+';
 
             // route to access template applied image file
             $app['router']->get(config('imagecache.route').'/{template}/{filename}', array(

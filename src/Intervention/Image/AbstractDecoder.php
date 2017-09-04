@@ -2,6 +2,9 @@
 
 namespace Intervention\Image;
 
+use GuzzleHttp\Psr7\Stream;
+use Psr\Http\Message\StreamInterface;
+
 abstract class AbstractDecoder
 {
     /**
@@ -85,22 +88,35 @@ abstract class AbstractDecoder
     /**
      * Init from given stream
      *
-     * @param $stream
+     * @param StreamInterface|resource $stream
      * @return \Intervention\Image\Image
      */
     public function initFromStream($stream)
     {
-        $offset = ftell($stream);
-        $shouldAndCanSeek = $offset !== 0 && $this->isStreamSeekable($stream);
-
-        if ($shouldAndCanSeek) {
-            rewind($stream);
+        if (!$stream instanceof StreamInterface) {
+            $stream = new Stream($stream);
         }
 
-        $data = @stream_get_contents($stream);
+        try {
+            $offset = $stream->tell();
+        } catch (\RuntimeException $e) {
+            $offset = 0;
+        }
+
+        $shouldAndCanSeek = $offset !== 0 && $stream->isSeekable();
 
         if ($shouldAndCanSeek) {
-            fseek($stream, $offset);
+            $stream->rewind();
+        }
+
+        try {
+            $data = $stream->getContents();
+        } catch (\RuntimeException $e) {
+            $data = null;
+        }
+
+        if ($shouldAndCanSeek) {
+            $stream->seek($offset);
         }
 
         if ($data) {
@@ -110,18 +126,6 @@ abstract class AbstractDecoder
         throw new \Intervention\Image\Exception\NotReadableException(
             "Unable to init from given stream"
         );
-    }
-
-    /**
-     * Checks if we can move the pointer for this stream
-     *
-     * @param resource $stream
-     * @return bool
-     */
-    private function isStreamSeekable($stream)
-    {
-        $metadata = stream_get_meta_data($stream);
-        return $metadata['seekable'];
     }
 
     /**
@@ -213,6 +217,7 @@ abstract class AbstractDecoder
      */
     public function isStream()
     {
+        if ($this->data instanceof StreamInterface) return true;
         if (!is_resource($this->data)) return false;
         if (get_resource_type($this->data) !== 'stream') return false;
 
@@ -332,6 +337,7 @@ abstract class AbstractDecoder
             case $this->isFilePath():
                 return $this->initFromPath($this->data);
 
+            // isBase64 has to be after isFilePath to prevent false positives
             case $this->isBase64():
                 return $this->initFromBinary(base64_decode($this->data));
 

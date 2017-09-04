@@ -46,6 +46,20 @@ class EncoderTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('image/gif; charset=binary', $this->getMime($encoder->result));
     }
 
+    public function testProcessWebpGd()
+    {
+        if (function_exists('imagewebp')) {
+            $core = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
+            $encoder = new GdEncoder;
+            $image = Mockery::mock('\Intervention\Image\Image');
+            $image->shouldReceive('getCore')->once()->andReturn($core);
+            $image->shouldReceive('setEncoded')->once()->andReturn($image);
+            $img = $encoder->process($image, 'webp', 90);
+            $this->assertInstanceOf('Intervention\Image\Image', $img);
+            $this->assertEquals('image/webp; charset=binary', $this->getMime($encoder->result));
+        }
+    }
+
     /**
      * @expectedException \Intervention\Image\Exception\NotSupportedException
      */
@@ -153,6 +167,16 @@ class EncoderTest extends PHPUnit_Framework_TestCase
         $img = $encoder->process($image, 'gif', 90);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertEquals('mock-gif', $encoder->result);
+    }
+
+    /**
+     * @expectedException \Intervention\Image\Exception\NotSupportedException
+     */
+    public function testProcessWebpImagick()
+    {
+        $encoder = new ImagickEncoder;
+        $image = Mockery::mock('\Intervention\Image\Image');
+        $img = $encoder->process($image, 'webp', 90);
     }
 
     public function testProcessTiffImagick()

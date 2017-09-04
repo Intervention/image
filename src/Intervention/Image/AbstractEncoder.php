@@ -89,6 +89,13 @@ abstract class AbstractEncoder
     abstract protected function processSvg();
 
     /**
+     * Processes and returns image as WebP encoded string
+     *
+     * @return string
+     */
+    abstract protected function processWebp();
+
+    /**
      * Process a given image
      *
      * @param  Image   $image
@@ -163,6 +170,13 @@ abstract class AbstractEncoder
             case 'svg':
             case 'image/svg+xml':
                 $this->result = $this->processSvg();
+                break;
+
+
+            case 'webp':
+            case 'image/webp':
+            case 'image/x-webp':
+                $this->result = $this->processWebp();
                 break;
 
             default:

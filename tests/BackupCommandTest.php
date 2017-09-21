@@ -15,10 +15,10 @@ class BackupCommandTest extends PHPUnit_Framework_TestCase
         $driver = Mockery::mock('Intervention\Image\Gd\Driver');
         $driver->shouldReceive('cloneCore')->once();
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
-        $image = Mockery::mock('Intervention\Image\Image', array($driver));
+        $image = Mockery::mock('Intervention\Image\Image',  [$driver]);
         $image->shouldReceive('getCore')->once()->andReturn($resource);
         $image->shouldReceive('setBackup')->once();
-        $command = new BackupGd(array());
+        $command = new BackupGd([]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
@@ -28,10 +28,10 @@ class BackupCommandTest extends PHPUnit_Framework_TestCase
         $driver = Mockery::mock('Intervention\Image\Gd\Driver');
         $driver->shouldReceive('cloneCore')->once();
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
-        $image = Mockery::mock('Intervention\Image\Image', array($driver));
+        $image = Mockery::mock('Intervention\Image\Image', [$driver]);
         $image->shouldReceive('getCore')->once()->andReturn($resource);
         $image->shouldReceive('setBackup')->once();
-        $command = new BackupGd(array('name' => 'fooBackup'));
+        $command = new BackupGd(['name' => 'fooBackup']);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
@@ -41,10 +41,10 @@ class BackupCommandTest extends PHPUnit_Framework_TestCase
         $driver = Mockery::mock('Intervention\Image\Imagick\Driver');
         $driver->shouldReceive('cloneCore')->once();
         $imagick = Mockery::mock('Imagick');
-        $image = Mockery::mock('Intervention\Image\Image', array($driver));
+        $image = Mockery::mock('Intervention\Image\Image', [$driver]);
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
         $image->shouldReceive('setBackup')->once();
-        $command = new BackupImagick(array());
+        $command = new BackupImagick([]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
@@ -54,10 +54,10 @@ class BackupCommandTest extends PHPUnit_Framework_TestCase
         $driver = Mockery::mock('Intervention\Image\Imagick\Driver');
         $driver->shouldReceive('cloneCore')->once();
         $imagick = Mockery::mock('Imagick');
-        $image = Mockery::mock('Intervention\Image\Image', array($driver));
+        $image = Mockery::mock('Intervention\Image\Image', [$driver]);
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
         $image->shouldReceive('setBackup')->once();
-        $command = new BackupImagick(array('name' => 'fooBackup'));
+        $command = new BackupImagick(['name' => 'fooBackup']);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }

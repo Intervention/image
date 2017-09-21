@@ -15,7 +15,7 @@ class GreyscaleCommandTest extends PHPUnit_Framework_TestCase
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($resource);
-        $command = new GreyscaleGd(array());
+        $command = new GreyscaleGd([]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
@@ -26,7 +26,7 @@ class GreyscaleCommandTest extends PHPUnit_Framework_TestCase
         $imagick->shouldReceive('modulateimage')->with(100, 0, 100)->andReturn(true);
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
-        $command = new GreyscaleImagick(array());
+        $command = new GreyscaleImagick([]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }

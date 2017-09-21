@@ -15,7 +15,7 @@ class InterlaceCommandTest extends PHPUnit_Framework_TestCase
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($resource);
-        $command = new InterlaceGd(array(true));
+        $command = new InterlaceGd([true]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
@@ -26,7 +26,7 @@ class InterlaceCommandTest extends PHPUnit_Framework_TestCase
         $imagick->shouldReceive('setinterlacescheme')->with(\Imagick::INTERLACE_LINE)->andReturn(true);
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
-        $command = new InterlaceImagick(array(true));
+        $command = new InterlaceImagick([true]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }

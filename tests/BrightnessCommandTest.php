@@ -15,7 +15,7 @@ class BrightnessCommandTest extends PHPUnit_Framework_TestCase
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($resource);
-        $command = new BrightnessGd(array(12));
+        $command = new BrightnessGd([12]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
@@ -26,7 +26,7 @@ class BrightnessCommandTest extends PHPUnit_Framework_TestCase
         $imagick->shouldReceive('modulateimage')->with(112, 100, 100)->andReturn(true);
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
-        $command = new BrightnessImagick(array(12));
+        $command = new BrightnessImagick([12]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }

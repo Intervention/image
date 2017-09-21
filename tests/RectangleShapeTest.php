@@ -12,7 +12,7 @@ class RectangleShapeTest extends PHPUnit_Framework_TestCase
     
     public function testConstructor()
     {
-        // gd 
+        // gd
         $rectangle = new RectangleGd(10, 15, 100, 150);
         $this->assertInstanceOf('Intervention\Image\Gd\Shapes\RectangleShape', $rectangle);
         $this->assertEquals(10, $rectangle->x1);

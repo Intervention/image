@@ -12,11 +12,11 @@ class InsertCommandTest extends PHPUnit_Framework_TestCase
     
     public function testGd()
     {
-        $position = Mockery::mock('\Intervention\Image\Point', array(0, 0));
+        $position = Mockery::mock('\Intervention\Image\Point', [0, 0]);
 
-        $image_size = Mockery::mock('\Intervention\Image\Size', array(800, 600));
+        $image_size = Mockery::mock('\Intervention\Image\Size', [800, 600]);
         $image_size->shouldReceive('align')->with('center', 10, 20)->once()->andReturn($image_size);
-        $watermark_size = Mockery::mock('\Intervention\Image\Size', array(800, 600));
+        $watermark_size = Mockery::mock('\Intervention\Image\Size', [800, 600]);
         $watermark_size->shouldReceive('align')->with('center')->once()->andReturn($watermark_size);
         $image_size->shouldReceive('relativePosition')->with($watermark_size)->once()->andReturn($position);
 
@@ -32,18 +32,18 @@ class InsertCommandTest extends PHPUnit_Framework_TestCase
         $watermark->shouldReceive('getSize')->once()->andReturn($watermark_size);
         $watermark->shouldReceive('getCore')->once()->andReturn($resource);
 
-        $command = new InsertGd(array($path, 'center', 10, 20));
+        $command = new InsertGd([$path, 'center', 10, 20]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
 
     public function testImagick()
     {
-        $position = Mockery::mock('\Intervention\Image\Point', array(10, 20));
+        $position = Mockery::mock('\Intervention\Image\Point', [10, 20]);
 
-        $image_size = Mockery::mock('\Intervention\Image\Size', array(800, 600));
+        $image_size = Mockery::mock('\Intervention\Image\Size', [800, 600]);
         $image_size->shouldReceive('align')->with('center', 10, 20)->once()->andReturn($image_size);
-        $watermark_size = Mockery::mock('\Intervention\Image\Size', array(800, 600));
+        $watermark_size = Mockery::mock('\Intervention\Image\Size', [800, 600]);
         $watermark_size->shouldReceive('align')->with('center')->once()->andReturn($watermark_size);
         $image_size->shouldReceive('relativePosition')->with($watermark_size)->once()->andReturn($position);
 
@@ -59,7 +59,7 @@ class InsertCommandTest extends PHPUnit_Framework_TestCase
         $image->shouldReceive('getSize')->once()->andReturn($image_size);
         $watermark->shouldReceive('getSize')->once()->andReturn($watermark_size);
         $watermark->shouldReceive('getCore')->once()->andReturn($imagick);
-        $command = new InsertImagick(array($path, 'center', 10, 20));
+        $command = new InsertImagick([$path, 'center', 10, 20]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }

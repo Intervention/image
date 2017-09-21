@@ -54,6 +54,20 @@ abstract class AbstractFont
     public $file;
 
     /**
+     * Color of the text stroke
+     *
+     * @var mixed
+     */
+    public $strokeColor = 'FFFFFF';
+
+    /**
+     * Width of the stroke
+     *
+     * @var float
+     */
+    public $strokeWidth = 0;
+
+    /**
      * Draws font to given image on given position
      *
      * @param  Image   $image
@@ -66,7 +80,7 @@ abstract class AbstractFont
     /**
      * Create a new instance of Font
      *
-     * @param Strinf $text Text to be written
+     * @param string $text Text to be written
      */
     public function __construct($text = null)
     {
@@ -235,6 +249,58 @@ abstract class AbstractFont
     }
 
     /**
+     * Set stroke width in pixels
+     *
+     * @param  float $width
+     * @return void
+     */
+    public function strokeWidth($width)
+    {
+        $this->strokeWidth = $width;
+    }
+
+    /**
+     * Get stroke width in pixels
+     *
+     * @return float
+     */
+    public function getStrokeWidth()
+    {
+        return $this->strokeWidth;
+    }
+
+    /**
+     * Set stroke color of text to be written
+     *
+     * @param  mixed $color
+     * @return void
+     */
+    public function strokeColor($color)
+    {
+        $this->strokeColor = $color;
+    }
+
+    /**
+     * Get stroke color of text
+     *
+     * @return mixed
+     */
+    public function getStrokeColor()
+    {
+        return $this->strokeColor;
+    }
+
+    /**
+     * Counts lines of text to be written
+     *
+     * @return integer
+     */
+    public function countLines()
+    {
+        return count(explode(PHP_EOL, $this->text));
+    }
+
+    /**
      * Checks if current font has access to an applicable font file
      *
      * @return boolean
@@ -249,12 +315,16 @@ abstract class AbstractFont
     }
 
     /**
-     * Counts lines of text to be written
-     *
-     * @return integer
+     * @param integer  $posX
+     * @param integer  $posY
+     * @param callable $function
      */
-    public function countLines()
+    protected function strokeDrawLoop($posX, $posY, callable $function)
     {
-        return count(explode(PHP_EOL, $this->text));
+        for ($offsetX = $posX - $this->strokeWidth; $offsetX <= $posX + $this->strokeWidth; $offsetX++) {
+            for ($offsetY = $posY - $this->strokeWidth; $offsetY <= $posY + $this->strokeWidth; $offsetY++) {
+                call_user_func($function, $offsetX, $offsetY);
+            }
+        }
     }
 }

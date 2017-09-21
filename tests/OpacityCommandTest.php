@@ -20,12 +20,12 @@ class OpacityCommandTest extends PHPUnit_Framework_TestCase
         $driver = Mockery::mock('\Intervention\Image\Gd\Driver');
         $driver->shouldReceive('newImage')->with(32, 32, 'rgba(0, 0, 0, 0.5)')->andReturn($mask);
 
-        $size = Mockery::mock('\Intervention\Image\Size', array(32, 32));
+        $size = Mockery::mock('\Intervention\Image\Size', [32, 32]);
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getDriver')->once()->andReturn($driver);
         $image->shouldReceive('getSize')->once()->andReturn($size);
         $image->shouldReceive('mask')->with($mask_core, true)->once();
-        $command = new OpacityGd(array(50));
+        $command = new OpacityGd([50]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
@@ -36,7 +36,7 @@ class OpacityCommandTest extends PHPUnit_Framework_TestCase
         $imagick->shouldReceive('evaluateimage')->with(\Imagick::EVALUATE_DIVIDE, 2, \Imagick::CHANNEL_ALPHA)->andReturn(true);
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
-        $command = new OpacityImagick(array(50));
+        $command = new OpacityImagick([50]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }

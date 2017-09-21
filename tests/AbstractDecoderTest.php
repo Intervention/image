@@ -40,7 +40,7 @@ class AbstractDecoderTest extends PHPUnit_Framework_TestCase
         $source = $this->getTestDecoder(null);
         $this->assertFalse($source->isFilepath());
 
-        $source = $this->getTestDecoder(array());
+        $source = $this->getTestDecoder([]);
         $this->assertFalse($source->isFilepath());
 
         $source = $this->getTestDecoder(new stdClass);
@@ -82,7 +82,7 @@ class AbstractDecoderTest extends PHPUnit_Framework_TestCase
         $source = $this->getTestDecoder(0);
         $this->assertFalse($source->isBinary());
 
-        $source = $this->getTestDecoder(array(1,2,3));
+        $source = $this->getTestDecoder([1,2,3]);
         $this->assertFalse($source->isBinary());
 
         $source = $this->getTestDecoder(new stdClass);
@@ -146,6 +146,6 @@ class AbstractDecoderTest extends PHPUnit_Framework_TestCase
 
     public function getTestDecoder($data)
     {
-        return $this->getMockForAbstractClass('\Intervention\Image\AbstractDecoder', array($data));
+        return $this->getMockForAbstractClass('\Intervention\Image\AbstractDecoder', [$data]);
     }
 }

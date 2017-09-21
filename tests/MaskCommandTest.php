@@ -14,9 +14,9 @@ class MaskCommandTest extends PHPUnit_Framework_TestCase
     {
         $mask_path = __DIR__.'images/star.png';
         $mask_image = Mockery::mock('Intervention\Image\Image');
-        $mask_size = Mockery::mock('Intervention\Image\Size', array(32, 32));
+        $mask_size = Mockery::mock('Intervention\Image\Size', [32, 32]);
         $mask_image->shouldReceive('getSize')->once()->andReturn($mask_size);
-        $mask_image->shouldReceive('pickColor')->andReturn(array(0,0,0,0));
+        $mask_image->shouldReceive('pickColor')->andReturn([0,0,0,0]);
 
         $canvas_image = Mockery::mock('Intervention\Image\Image');
         $canvas_core = imagecreatetruecolor(32, 32);
@@ -24,18 +24,18 @@ class MaskCommandTest extends PHPUnit_Framework_TestCase
         $canvas_image->shouldReceive('pixel');
 
         $driver = Mockery::mock('Intervention\Image\Gd\Driver');
-        $driver->shouldReceive('newImage')->with(32, 32, array(0,0,0,0))->once()->andReturn($canvas_image);
+        $driver->shouldReceive('newImage')->with(32, 32, [0,0,0,0])->once()->andReturn($canvas_image);
         $driver->shouldReceive('init')->with($mask_path)->once()->andReturn($mask_image);
 
-        $image_size = Mockery::mock('Intervention\Image\Size', array(32, 32));
+        $image_size = Mockery::mock('Intervention\Image\Size', [32, 32]);
         $image_core = imagecreatefrompng(__DIR__.'/images/trim.png');
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getSize')->once()->andReturn($image_size);
         $image->shouldReceive('getDriver')->times(2)->andReturn($driver);
-        $image->shouldReceive('pickColor')->andReturn(array(0,0,0,0));
+        $image->shouldReceive('pickColor')->andReturn([0,0,0,0]);
         $image->shouldReceive('setCore')->with($canvas_core)->once();
 
-        $command = new MaskGd(array($mask_path, true));
+        $command = new MaskGd([$mask_path, true]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
@@ -46,7 +46,7 @@ class MaskCommandTest extends PHPUnit_Framework_TestCase
         $mask_path = __DIR__.'images/star.png';
         $mask_image = Mockery::mock('Intervention\Image\Image');
         $mask_image->shouldReceive('getCore')->once()->andReturn($mask_core);
-        $mask_size = Mockery::mock('Intervention\Image\Size', array(32, 32));
+        $mask_size = Mockery::mock('Intervention\Image\Size', [32, 32]);
         $mask_image->shouldReceive('getSize')->once()->andReturn($mask_size);
 
         $driver = Mockery::mock('Intervention\Image\Imagick\Driver');
@@ -56,11 +56,11 @@ class MaskCommandTest extends PHPUnit_Framework_TestCase
         $imagick->shouldReceive('compositeimage')->with($mask_core, \Imagick::COMPOSITE_DSTIN, 0, 0)->once();
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
-        $image_size = Mockery::mock('Intervention\Image\Size', array(32, 32));
+        $image_size = Mockery::mock('Intervention\Image\Size', [32, 32]);
         $image->shouldReceive('getSize')->once()->andReturn($image_size);
         $image->shouldReceive('getDriver')->once()->andReturn($driver);
         
-        $command = new MaskImagick(array($mask_path, true));
+        $command = new MaskImagick([$mask_path, true]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }

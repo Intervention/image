@@ -17,7 +17,7 @@ class FillCommandTest extends PHPUnit_Framework_TestCase
         $image->shouldReceive('getCore')->once()->andReturn($resource);
         $image->shouldReceive('getWidth')->once()->andReturn(800);
         $image->shouldReceive('getHeight')->once()->andReturn(600);
-        $command = new FillGd(array('666666'));
+        $command = new FillGd(['666666']);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
@@ -29,7 +29,7 @@ class FillCommandTest extends PHPUnit_Framework_TestCase
         $image->shouldReceive('getCore')->once()->andReturn($resource);
         $image->shouldReceive('getWidth')->once()->andReturn(800);
         $image->shouldReceive('getHeight')->once()->andReturn(600);
-        $command = new FillGd(array(array(50, 50, 50)));
+        $command = new FillGd([[50, 50, 50]]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
@@ -41,7 +41,7 @@ class FillCommandTest extends PHPUnit_Framework_TestCase
         $image->shouldReceive('getCore')->once()->andReturn($resource);
         $image->shouldReceive('getWidth')->once()->andReturn(800);
         $image->shouldReceive('getHeight')->once()->andReturn(600);
-        $command = new FillGd(array(array(50, 50, 50, .50)));
+        $command = new FillGd([[50, 50, 50, .50]]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
@@ -57,7 +57,7 @@ class FillCommandTest extends PHPUnit_Framework_TestCase
         $image->shouldReceive('getHeight')->once()->andReturn(600);
         $image->shouldReceive('setCore')->once();
         $driver->shouldReceive('newImage')->with(800, 600)->once()->andReturn($image);
-        $command = new FillGd(array('#666666', 0, 0));
+        $command = new FillGd(['#666666', 0, 0]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
@@ -70,7 +70,7 @@ class FillCommandTest extends PHPUnit_Framework_TestCase
         $image->shouldReceive('getWidth')->once()->andReturn(800);
         $image->shouldReceive('getHeight')->once()->andReturn(600);
         $image->shouldReceive('getCore')->andReturn($imagick);
-        $command = new FillImagick(array('666666'));
+        $command = new FillImagick(['666666']);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
@@ -85,7 +85,7 @@ class FillCommandTest extends PHPUnit_Framework_TestCase
         $image->shouldReceive('getCore')->andReturn($imagick);
         $image->shouldReceive('getWidth')->andReturn(800);
         $image->shouldReceive('getHeight')->andReturn(600);
-        $command = new FillImagick(array('666666', 0, 0));
+        $command = new FillImagick(['666666', 0, 0]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }

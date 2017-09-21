@@ -25,7 +25,7 @@ class PsrResponseCommandTest extends PHPUnit_Framework_TestCase
             ->twice()
             ->andReturn($encodedContent);
 
-        $command = new PsrResponseCommand(array('jpg', 87));
+        $command = new PsrResponseCommand(['jpg', 87]);
         $result = $command->execute($image);
 
         $this->assertTrue($result);

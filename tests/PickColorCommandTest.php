@@ -15,7 +15,7 @@ class PickColorCommandTest extends PHPUnit_Framework_TestCase
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->times(2)->andReturn($resource);
-        $command = new PickColorGd(array(1, 2));
+        $command = new PickColorGd([1, 2]);
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
@@ -28,7 +28,7 @@ class PickColorCommandTest extends PHPUnit_Framework_TestCase
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->times(2)->andReturn($resource);
-        $command = new PickColorGd(array(1, 2, 'hex'));
+        $command = new PickColorGd([1, 2, 'hex']);
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
@@ -42,7 +42,7 @@ class PickColorCommandTest extends PHPUnit_Framework_TestCase
         $imagick->shouldReceive('getimagepixelcolor')->with(1, 2)->andReturn(new ImagickPixel);
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
-        $command = new PickColorImagick(array(1, 2));
+        $command = new PickColorImagick([1, 2]);
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
@@ -56,7 +56,7 @@ class PickColorCommandTest extends PHPUnit_Framework_TestCase
         $imagick->shouldReceive('getimagepixelcolor')->with(1, 2)->andReturn(new ImagickPixel('#ff0000'));
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
-        $command = new PickColorImagick(array(1, 2, 'hex'));
+        $command = new PickColorImagick([1, 2, 'hex']);
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());

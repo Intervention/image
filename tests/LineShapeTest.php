@@ -12,7 +12,7 @@ class LineShapeTest extends PHPUnit_Framework_TestCase
     
     public function testConstructor()
     {
-        // gd 
+        // gd
         $line = new LineGd(10, 15);
         $this->assertInstanceOf('Intervention\Image\Gd\Shapes\LineShape', $line);
         $this->assertEquals(10, $line->x);

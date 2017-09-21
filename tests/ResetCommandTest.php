@@ -12,7 +12,7 @@ class ResetCommandTest extends PHPUnit_Framework_TestCase
 
     public function testGdWithoutName()
     {
-        $size = Mockery::mock('Intervention\Image\Size', array(800, 600));
+        $size = Mockery::mock('Intervention\Image\Size', [800, 600]);
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $image = Mockery::mock('Intervention\Image\Image');
         $driver = Mockery::mock('Intervention\Image\Gd\Driver');
@@ -21,14 +21,14 @@ class ResetCommandTest extends PHPUnit_Framework_TestCase
         $image->shouldReceive('getDriver')->once()->andReturn($driver);
         $image->shouldReceive('setCore')->once();
         $image->shouldReceive('getBackup')->once()->andReturn($resource);
-        $command = new ResetGd(array());
+        $command = new ResetGd([]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
 
     public function testGdWithName()
     {
-        $size = Mockery::mock('Intervention\Image\Size', array(800, 600));
+        $size = Mockery::mock('Intervention\Image\Size', [800, 600]);
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $image = Mockery::mock('Intervention\Image\Image');
         $driver = Mockery::mock('Intervention\Image\Gd\Driver');
@@ -36,8 +36,8 @@ class ResetCommandTest extends PHPUnit_Framework_TestCase
         $image->shouldReceive('getDriver')->once()->andReturn($driver);
         $image->shouldReceive('getCore')->once()->andReturn($resource);
         $image->shouldReceive('setCore')->once();
-        $image->shouldReceive('getBackup')->once()->withArgs(array('fooBackup'))->andReturn($resource);
-        $command = new ResetGd(array('fooBackup'));
+        $image->shouldReceive('getBackup')->once()->withArgs(['fooBackup'])->andReturn($resource);
+        $command = new ResetGd(['fooBackup']);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
@@ -50,7 +50,7 @@ class ResetCommandTest extends PHPUnit_Framework_TestCase
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
         $image->shouldReceive('setCore')->once();
         $image->shouldReceive('getBackup')->once()->andReturn($imagick);
-        $command = new ResetImagick(array());
+        $command = new ResetImagick([]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
@@ -62,8 +62,8 @@ class ResetCommandTest extends PHPUnit_Framework_TestCase
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
         $image->shouldReceive('setCore')->once();
-        $image->shouldReceive('getBackup')->once()->withArgs(array('fooBackup'))->andReturn($imagick);
-        $command = new ResetImagick(array('fooBackup'));
+        $image->shouldReceive('getBackup')->once()->withArgs(['fooBackup'])->andReturn($imagick);
+        $command = new ResetImagick(['fooBackup']);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }

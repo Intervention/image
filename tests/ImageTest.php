@@ -43,6 +43,35 @@ class ImageTest extends PHPUnit_Framework_TestCase
         @unlink($save_as);
     }
 
+    public function testSaveWithMime()
+    {
+        $save_as = __DIR__.'/tmp/test';
+        $image = $this->getTestImage();
+        $image->getDriver()->shouldReceive('encode')->with($image, 'image/jpeg', 85)->once()->andReturn('mock');
+        $image = $image->save($save_as, 85, 'image/jpeg');
+        $this->assertInstanceOf('\Intervention\Image\Image', $image);
+        $this->assertFileExists($save_as);
+        $this->assertEquals($image->basename, 'test');
+        $this->assertEquals($image->extension, null);
+        $this->assertEquals($image->filename, 'test');
+        @unlink($save_as);
+    }
+
+    public function testSaveByGuessingFormat()
+    {
+        $save_as = __DIR__.'/tmp/test';
+        $image = $this->getTestImage();
+        $image->mime = 'image/jpeg';
+        $image->getDriver()->shouldReceive('encode')->with($image, 'image/jpeg', 85)->once()->andReturn('mock');
+        $image = $image->save($save_as, 85, null, true);
+        $this->assertInstanceOf('\Intervention\Image\Image', $image);
+        $this->assertFileExists($save_as);
+        $this->assertEquals($image->basename, 'test');
+        $this->assertEquals($image->extension, null);
+        $this->assertEquals($image->filename, 'test');
+        @unlink($save_as);
+    }
+
     public function testIsEncoded()
     {
         $image = $this->getTestImage();

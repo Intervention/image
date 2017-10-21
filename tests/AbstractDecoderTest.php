@@ -142,6 +142,13 @@ class AbstractDecoderTest extends PHPUnit_Framework_TestCase
         $base64 = "iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGElEQVQYlWM8c+bMfwYiABMxikYVUk8hAHWzA3cRvs4UAAAAAElFTkSuQmCC";
         $decoder = $this->getTestDecoder($base64);
         $this->assertTrue($decoder->isBase64());
+
+        $base64WithNewlines = 'iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+' . "\n" .
+                              '9AAAAGElEQVQYlWM8c+bMfwYiABMxikYVUk8hAHWzA3' . "\n" .
+                              'cRvs4UAAAAAElFTkSuQmCC';
+
+        $decoder = $this->getTestDecoder($base64WithNewlines);
+        $this->assertTrue($decoder->isBase64());
     }
 
     public function getTestDecoder($data)

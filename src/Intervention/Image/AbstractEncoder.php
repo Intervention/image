@@ -130,7 +130,14 @@ abstract class AbstractEncoder
                 break;
 
             case 'bmp':
-            case 'image/bmp':
+            case 'bmp':
+            case 'ms-bmp':
+            case 'x-bitmap':
+            case 'x-bmp':
+            case 'x-ms-bmp':
+            case 'x-win-bitmap':
+            case 'x-windows-bmp':
+            case 'x-xbitmap':
             case 'image/ms-bmp':
             case 'image/x-bitmap':
             case 'image/x-bmp':

@@ -11,7 +11,7 @@ class ImageManagerTest extends PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
-        $config = array('driver' => 'foo', 'bar' => 'baz');
+        $config = ['driver' => 'foo', 'bar' => 'baz'];
         $manager = new ImageManager($config);
         $this->assertEquals('foo', $manager->config['driver']);
         $this->assertEquals('baz', $manager->config['bar']);
@@ -19,11 +19,21 @@ class ImageManagerTest extends PHPUnit_Framework_TestCase
 
     public function testConfigure()
     {
-        $overwrite = array('driver' => 'none', 'bar' => 'none');
-        $config = array('driver' => 'foo', 'bar' => 'baz');
+        $overwrite = ['driver' => 'none', 'bar' => 'none'];
+        $config = ['driver' => 'foo', 'bar' => 'baz'];
         $manager = new ImageManager($overwrite);
         $manager->configure($config);
         $this->assertEquals('foo', $manager->config['driver']);
         $this->assertEquals('baz', $manager->config['bar']);
+    }
+
+    public function testConfigureObject()
+    {
+        $config = ['driver' => new Intervention\Image\Imagick\Driver()];
+        $manager = new ImageManager($config);
+
+        $image = $manager->make('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
+        $this->assertInstanceOf('Intervention\Image\Image', $image);
+        $this->assertInstanceOf('Imagick', $image->getCore());
     }
 }

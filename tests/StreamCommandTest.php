@@ -22,7 +22,7 @@ class StreamCommandTest extends PHPUnit_Framework_TestCase
             ->once()
             ->andReturn($encodedContent);
 
-        $command = new StreamCommand(array('jpg', 87));
+        $command = new StreamCommand(['jpg', 87]);
         $result = $command->execute($image);
 
         $this->assertTrue($result);

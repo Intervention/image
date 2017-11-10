@@ -15,7 +15,7 @@ class ResizeCanvasCommand extends \Intervention\Image\Commands\AbstractCommand
         $width = $this->argument(0)->type('digit')->required()->value();
         $height = $this->argument(1)->type('digit')->required()->value();
         $anchor = $this->argument(2)->value('center');
-        $relative = $this->argument(3)->type('boolean')->value();
+        $relative = $this->argument(3)->type('boolean')->value(false);
         $bgcolor = $this->argument(4)->value();
 
         $original_width = $image->getWidth();

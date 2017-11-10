@@ -38,8 +38,8 @@ class AbstractCommandTest extends PHPUnit_Framework_TestCase
 
     public function getTestCommand()
     {
-        $arguments = array('foo', 'bar');
-        $command = $this->getMockForAbstractClass('\Intervention\Image\Commands\AbstractCommand', array($arguments));
+        $arguments = ['foo', 'bar'];
+        $command = $this->getMockForAbstractClass('\Intervention\Image\Commands\AbstractCommand', [$arguments]);
 
         return $command;
     }

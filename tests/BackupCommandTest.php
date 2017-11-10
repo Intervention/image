@@ -12,48 +12,52 @@ class BackupCommandTest extends PHPUnit_Framework_TestCase
 
     public function testGdWithoutName()
     {
-        $size = Mockery::mock('Intervention\Image\Size', array(800, 600));
+        $driver = Mockery::mock('Intervention\Image\Gd\Driver');
+        $driver->shouldReceive('cloneCore')->once();
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
-        $image = Mockery::mock('Intervention\Image\Image');
+        $image = Mockery::mock('Intervention\Image\Image',  [$driver]);
         $image->shouldReceive('getCore')->once()->andReturn($resource);
-        $image->shouldReceive('getSize')->once()->andReturn($size);
         $image->shouldReceive('setBackup')->once();
-        $command = new BackupGd(array());
+        $command = new BackupGd([]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
 
     public function testGdWithName()
     {
-        $size = Mockery::mock('Intervention\Image\Size', array(800, 600));
+        $driver = Mockery::mock('Intervention\Image\Gd\Driver');
+        $driver->shouldReceive('cloneCore')->once();
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
-        $image = Mockery::mock('Intervention\Image\Image');
+        $image = Mockery::mock('Intervention\Image\Image', [$driver]);
         $image->shouldReceive('getCore')->once()->andReturn($resource);
-        $image->shouldReceive('getSize')->once()->andReturn($size);
         $image->shouldReceive('setBackup')->once();
-        $command = new BackupGd(array('name' => 'fooBackup'));
+        $command = new BackupGd(['name' => 'fooBackup']);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
 
     public function testImagickWithoutName()
     {
+        $driver = Mockery::mock('Intervention\Image\Imagick\Driver');
+        $driver->shouldReceive('cloneCore')->once();
         $imagick = Mockery::mock('Imagick');
-        $image = Mockery::mock('Intervention\Image\Image');
+        $image = Mockery::mock('Intervention\Image\Image', [$driver]);
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
         $image->shouldReceive('setBackup')->once();
-        $command = new BackupImagick(array());
+        $command = new BackupImagick([]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
 
     public function testImagickWithName()
     {
+        $driver = Mockery::mock('Intervention\Image\Imagick\Driver');
+        $driver->shouldReceive('cloneCore')->once();
         $imagick = Mockery::mock('Imagick');
-        $image = Mockery::mock('Intervention\Image\Image');
+        $image = Mockery::mock('Intervention\Image\Image', [$driver]);
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
         $image->shouldReceive('setBackup')->once();
-        $command = new BackupImagick(array('name' => 'fooBackup'));
+        $command = new BackupImagick(['name' => 'fooBackup']);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }

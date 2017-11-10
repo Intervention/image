@@ -16,7 +16,7 @@ class CropCommandTest extends PHPUnit_Framework_TestCase
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($resource);
         $image->shouldReceive('setCore')->once();
-        $command = new CropGd(array(100, 150, 10, 20));
+        $command = new CropGd([100, 150, 10, 20]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
@@ -28,7 +28,7 @@ class CropCommandTest extends PHPUnit_Framework_TestCase
         $imagick->shouldReceive('setimagepage')->with(0, 0, 0, 0)->once();
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->times(2)->andReturn($imagick);
-        $command = new CropImagick(array(100, 150, 10, 20));
+        $command = new CropImagick([100, 150, 10, 20]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }

@@ -62,6 +62,13 @@ abstract class AbstractFont
      * @return boolean
      */
     abstract public function applyToImage(Image $image, $posx = 0, $posy = 0);
+    
+    /**
+     * Calculates bounding box of current font setting
+     *
+     * @return array
+     */
+    abstract public function getBoxSize();
 
     /**
      * Create a new instance of Font
@@ -82,6 +89,8 @@ abstract class AbstractFont
     public function text($text)
     {
         $this->text = $text;
+
+        return $this;
     }
 
     /**
@@ -103,6 +112,8 @@ abstract class AbstractFont
     public function size($size)
     {
         $this->size = $size;
+
+        return $this;
     }
 
     /**
@@ -124,6 +135,8 @@ abstract class AbstractFont
     public function color($color)
     {
         $this->color = $color;
+
+        return $this;
     }
 
     /**
@@ -145,6 +158,8 @@ abstract class AbstractFont
     public function angle($angle)
     {
         $this->angle = $angle;
+
+        return $this;
     }
 
     /**
@@ -166,6 +181,8 @@ abstract class AbstractFont
     public function align($align)
     {
         $this->align = $align;
+
+        return $this;
     }
 
     /**
@@ -187,6 +204,8 @@ abstract class AbstractFont
     public function valign($valign)
     {
         $this->valign = $valign;
+
+        return $this;
     }
 
     /**
@@ -208,6 +227,8 @@ abstract class AbstractFont
     public function file($file)
     {
         $this->file = $file;
+
+        return $this;
     }
 
     /**

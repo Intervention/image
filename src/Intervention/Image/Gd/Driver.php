@@ -27,7 +27,7 @@ class Driver extends \Intervention\Image\AbstractDriver
      *
      * @param  integer $width
      * @param  integer $height
-     * @param  string  $background
+     * @param  mixed   $background
      * @return \Intervention\Image\Image
      */
     public function newImage($width, $height, $background = null)
@@ -76,6 +76,8 @@ class Driver extends \Intervention\Image\AbstractDriver
         $clone = imagecreatetruecolor($width, $height);
         imagealphablending($clone, false);
         imagesavealpha($clone, true);
+        $transparency = imagecolorallocatealpha($clone, 0, 0, 0, 127);
+        imagefill($clone, 0, 0, $transparency);
         
         imagecopy($clone, $core, 0, 0, 0, 0, $width, $height);
 

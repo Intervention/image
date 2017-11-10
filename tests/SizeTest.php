@@ -22,10 +22,10 @@ class SizeTest extends PHPUnit_Framework_TestCase
     {
         $pivot = Mockery::mock('Intervention\Image\Point');
         $size = new Size(300, 200, $pivot);
-        $this->assertInstanceOf('Intervention\Image\Size', $size);   
+        $this->assertInstanceOf('Intervention\Image\Size', $size);
         $this->assertInstanceOf('Intervention\Image\Point', $size->pivot);
-        $this->assertEquals(300, $size->width);   
-        $this->assertEquals(200, $size->height);   
+        $this->assertEquals(300, $size->width);
+        $this->assertEquals(200, $size->height);
     }
 
     public function testGetWidth()
@@ -56,18 +56,18 @@ class SizeTest extends PHPUnit_Framework_TestCase
     {
         $size = new Size(800, 600);
         $size->resize(1000, 2000);
-        $this->assertEquals(1000, $size->width);   
-        $this->assertEquals(2000, $size->height);   
+        $this->assertEquals(1000, $size->width);
+        $this->assertEquals(2000, $size->height);
 
         $size = new Size(800, 600);
         $size->resize(2000, null);
-        $this->assertEquals(2000, $size->width);   
-        $this->assertEquals(600, $size->height);   
+        $this->assertEquals(2000, $size->width);
+        $this->assertEquals(600, $size->height);
 
         $size = new Size(800, 600);
         $size->resize(null, 1000);
-        $this->assertEquals(800, $size->width);   
-        $this->assertEquals(1000, $size->height);   
+        $this->assertEquals(800, $size->width);
+        $this->assertEquals(1000, $size->height);
     }
 
     public function testResizeWithCallbackAspectRatio()
@@ -114,28 +114,28 @@ class SizeTest extends PHPUnit_Framework_TestCase
 
         $size = new Size(640, 480);
         $size->resize(225, null, function ($c) { $c->aspectRatio(); });
-        $this->assertEquals(225, $size->width);   
-        $this->assertEquals(169, $size->height);   
+        $this->assertEquals(225, $size->width);
+        $this->assertEquals(169, $size->height);
 
         $size = new Size(640, 480);
         $size->resize(223, null, function ($c) { $c->aspectRatio(); });
-        $this->assertEquals(223, $size->width);   
-        $this->assertEquals(167, $size->height);   
+        $this->assertEquals(223, $size->width);
+        $this->assertEquals(167, $size->height);
 
         $size = new Size(600, 800);
         $size->resize(300, 300, function ($c) { $c->aspectRatio(); });
-        $this->assertEquals(225, $size->width);   
-        $this->assertEquals(300, $size->height);   
+        $this->assertEquals(225, $size->width);
+        $this->assertEquals(300, $size->height);
 
         $size = new Size(800, 600);
         $size->resize(400, 10, function ($c) { $c->aspectRatio(); });
-        $this->assertEquals(13, $size->width);   
-        $this->assertEquals(10, $size->height);   
+        $this->assertEquals(13, $size->width);
+        $this->assertEquals(10, $size->height);
 
         $size = new Size(800, 600);
         $size->resize(1000, 1200, function ($c) { $c->aspectRatio(); });
-        $this->assertEquals(1000, $size->width);   
-        $this->assertEquals(750, $size->height);   
+        $this->assertEquals(1000, $size->width);
+        $this->assertEquals(750, $size->height);
     }
 
     public function testResizeWithCallbackUpsize()
@@ -225,8 +225,8 @@ class SizeTest extends PHPUnit_Framework_TestCase
 
         $size = new Size(600, 800);
         $size->resize(300, 300, function ($c) { $c->aspectRatio(); $c->upsize(); });
-        $this->assertEquals(225, $size->width);   
-        $this->assertEquals(300, $size->height);   
+        $this->assertEquals(225, $size->width);
+        $this->assertEquals(300, $size->height);
 
         $size = new Size(800, 600);
         $size->resize(400, 10, function ($c) { $c->aspectRatio(); $c->upsize(); });
@@ -294,7 +294,7 @@ class SizeTest extends PHPUnit_Framework_TestCase
         $box->align('bottom-left');
         $box->align('bottom');
         $b = $box->align('bottom-right');
-        $this->assertInstanceOf('Intervention\Image\Size', $b);           
+        $this->assertInstanceOf('Intervention\Image\Size', $b);
     }
 
     public function testFit()
@@ -370,27 +370,27 @@ class SizeTest extends PHPUnit_Framework_TestCase
 
     public function providerFitWithPosition()
     {
-        return array(
-            array(new Size(800, 600), 'top-left', 0, 0),
-            array(new Size(800, 600), 'top', 100, 0),
-            array(new Size(800, 600), 'top-right', 200, 0),
-            array(new Size(800, 600), 'left', 0, 0),
-            array(new Size(800, 600), 'center', 100, 0),
-            array(new Size(800, 600), 'right', 200, 0),
-            array(new Size(800, 600), 'bottom-left', 0, 0),
-            array(new Size(800, 600), 'bottom', 100, 0),
-            array(new Size(800, 600), 'bottom-right', 200, 0),
+        return [
+            [new Size(800, 600), 'top-left', 0, 0],
+            [new Size(800, 600), 'top', 100, 0],
+            [new Size(800, 600), 'top-right', 200, 0],
+            [new Size(800, 600), 'left', 0, 0],
+            [new Size(800, 600), 'center', 100, 0],
+            [new Size(800, 600), 'right', 200, 0],
+            [new Size(800, 600), 'bottom-left', 0, 0],
+            [new Size(800, 600), 'bottom', 100, 0],
+            [new Size(800, 600), 'bottom-right', 200, 0],
 
-            array(new Size(600, 800), 'top-left', 0, 0),
-            array(new Size(600, 800), 'top', 0, 0),
-            array(new Size(600, 800), 'top-right', 0, 0),
-            array(new Size(600, 800), 'left', 0, 100),
-            array(new Size(600, 800), 'center', 0, 100),
-            array(new Size(600, 800), 'right', 0, 100),
-            array(new Size(600, 800), 'bottom-left', 0, 200),
-            array(new Size(600, 800), 'bottom', 0, 200),
-            array(new Size(600, 800), 'bottom-right', 0, 200),
-        );
+            [new Size(600, 800), 'top-left', 0, 0],
+            [new Size(600, 800), 'top', 0, 0],
+            [new Size(600, 800), 'top-right', 0, 0],
+            [new Size(600, 800), 'left', 0, 100],
+            [new Size(600, 800), 'center', 0, 100],
+            [new Size(600, 800), 'right', 0, 100],
+            [new Size(600, 800), 'bottom-left', 0, 200],
+            [new Size(600, 800), 'bottom', 0, 200],
+            [new Size(600, 800), 'bottom-right', 0, 200],
+        ];
     }
 
     public function testFitsInto()

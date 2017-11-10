@@ -15,7 +15,7 @@ class PixelCommandTest extends PHPUnit_Framework_TestCase
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($resource);
-        $command = new PixelGd(array('#b53717', 10, 20));
+        $command = new PixelGd(['#b53717', 10, 20]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
@@ -26,7 +26,7 @@ class PixelCommandTest extends PHPUnit_Framework_TestCase
         $imagick->shouldReceive('drawimage')->once()->andReturn(true);
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
-        $command = new PixelImagick(array('#b53717', 10, 20));
+        $command = new PixelImagick(['#b53717', 10, 20]);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }

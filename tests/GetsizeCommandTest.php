@@ -15,7 +15,7 @@ class GetsizeCommandTest extends PHPUnit_Framework_TestCase
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->times(2)->andReturn($resource);
-        $command = new GetSizeGd(array());
+        $command = new GetSizeGd([]);
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
@@ -29,7 +29,7 @@ class GetsizeCommandTest extends PHPUnit_Framework_TestCase
         $imagick->shouldReceive('getimageheight')->with();
         $image = Mockery::mock('Intervention\Image\Image');
         $image->shouldReceive('getCore')->once()->andReturn($imagick);
-        $command = new GetSizeImagick(array());
+        $command = new GetSizeImagick([]);
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());

@@ -14,6 +14,6 @@ class AbstractDriverTest extends PHPUnit_Framework_TestCase
     {
         $image = Mockery::mock('Intervention\Image\Image');
         $driver = $this->getMockForAbstractClass('\Intervention\Image\AbstractDriver');
-        $command = $driver->executeCommand($image, 'xxxxxxxxxxxxxxxxxxxxxxx', array());
+        $command = $driver->executeCommand($image, 'xxxxxxxxxxxxxxxxxxxxxxx', []);
     }
 }

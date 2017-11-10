@@ -11,16 +11,16 @@ class ImageManager
      *
      * @var array
      */
-    public $config = array(
+    public $config = [
         'driver' => 'gd'
-    );
+    ];
 
     /**
      * Creates new instance of Image Manager
      *
      * @param array $config
      */
-    public function __construct(array $config = array())
+    public function __construct(array $config = [])
     {
         $this->checkRequirements();
         $this->configure($config);
@@ -31,7 +31,7 @@ class ImageManager
      *
      * @param array $config
      */
-    public function configure(array $config = array())
+    public function configure(array $config = [])
     {
         $this->config = array_replace($this->config, $config);
 
@@ -100,15 +100,25 @@ class ImageManager
      */
     private function createDriver()
     {
-        $drivername = ucfirst($this->config['driver']);
-        $driverclass = sprintf('Intervention\\Image\\%s\\Driver', $drivername);
+        if (is_string($this->config['driver'])) {
+            $drivername = ucfirst($this->config['driver']);
+            $driverclass = sprintf('Intervention\\Image\\%s\\Driver', $drivername);
 
-        if (class_exists($driverclass)) {
-            return new $driverclass;
+            if (class_exists($driverclass)) {
+                return new $driverclass;
+            }
+
+            throw new \Intervention\Image\Exception\NotSupportedException(
+                "Driver ({$drivername}) could not be instantiated."
+            );
+        }
+
+        if ($this->config['driver'] instanceof AbstractDriver) {
+            return $this->config['driver'];
         }
 
         throw new \Intervention\Image\Exception\NotSupportedException(
-            "Driver ({$drivername}) could not be instantiated."
+            "Unknown driver type."
         );
     }
 

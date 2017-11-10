@@ -13,12 +13,12 @@ class ResizeCanvasCommandTest extends PHPUnit_Framework_TestCase
     public function testGd()
     {
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
-        $canvas_pos = Mockery::mock('\Intervention\Image\Point', array(0, 0));
-        $canvas_size = Mockery::mock('\Intervention\Image\Size', array(820, 640));
+        $canvas_pos = Mockery::mock('\Intervention\Image\Point', [0, 0]);
+        $canvas_size = Mockery::mock('\Intervention\Image\Size', [820, 640]);
         $canvas_size->shouldReceive('align')->with('center')->andReturn($canvas_size);
         $canvas_size->shouldReceive('relativePosition')->andReturn($canvas_pos);
-        $image_pos = Mockery::mock('\Intervention\Image\Point', array(0, 0));
-        $image_size = Mockery::mock('\Intervention\Image\Size', array(800, 600));
+        $image_pos = Mockery::mock('\Intervention\Image\Point', [0, 0]);
+        $image_size = Mockery::mock('\Intervention\Image\Size', [800, 600]);
         $image_size->shouldReceive('align')->with('center')->andReturn($image_size);
         $image_size->shouldReceive('relativePosition')->andReturn($image_pos);
         $canvas = Mockery::mock('\Intervention\Image\Image');
@@ -33,19 +33,19 @@ class ResizeCanvasCommandTest extends PHPUnit_Framework_TestCase
         $image->shouldReceive('getHeight')->once()->andReturn(600);
         $image->shouldReceive('getCore')->once()->andReturn($resource);
         $image->shouldReceive('setCore')->once();
-        $command = new ResizeCanvasGd(array(20, 40, 'center', true, '#b53717'));
+        $command = new ResizeCanvasGd([20, 40, 'center', true, '#b53717']);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
 
     public function testImagick()
     {
-        $canvas_pos = Mockery::mock('\Intervention\Image\Point', array(0, 0));
-        $canvas_size = Mockery::mock('\Intervention\Image\Size', array(820, 640));
+        $canvas_pos = Mockery::mock('\Intervention\Image\Point', [0, 0]);
+        $canvas_size = Mockery::mock('\Intervention\Image\Size', [820, 640]);
         $canvas_size->shouldReceive('align')->with('center')->andReturn($canvas_size);
         $canvas_size->shouldReceive('relativePosition')->andReturn($canvas_pos);
-        $image_pos = Mockery::mock('\Intervention\Image\Point', array(0, 0));
-        $image_size = Mockery::mock('\Intervention\Image\Size', array(800, 600));
+        $image_pos = Mockery::mock('\Intervention\Image\Point', [0, 0]);
+        $image_size = Mockery::mock('\Intervention\Image\Size', [800, 600]);
         $image_size->shouldReceive('align')->with('center')->andReturn($image_size);
         $image_size->shouldReceive('relativePosition')->andReturn($image_pos);
         $canvas = Mockery::mock('\Intervention\Image\Image');
@@ -71,7 +71,7 @@ class ResizeCanvasCommandTest extends PHPUnit_Framework_TestCase
         $image->shouldReceive('getHeight')->once()->andReturn(600);
         $image->shouldReceive('getCore')->times(3)->andReturn($imagick);
         $image->shouldReceive('setCore')->once();
-        $command = new ResizeCanvasImagick(array(20, 40, 'center', true, '#b53717'));
+        $command = new ResizeCanvasImagick([20, 40, 'center', true, '#b53717']);
         $result = $command->execute($image);
         $this->assertTrue($result);
     }

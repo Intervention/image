@@ -2,8 +2,9 @@
 
 use Intervention\Image\Image;
 use Intervention\Image\Commands\ExifCommand;
+use PHPUnit\Framework\TestCase;
 
-class ExifCommandTest extends PHPUnit_Framework_TestCase
+class ExifCommandTest extends TestCase
 {
     public function tearDown()
     {

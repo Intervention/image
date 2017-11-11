@@ -2,8 +2,9 @@
 
 use Intervention\Image\Gd\Commands\ResizeCanvasCommand as ResizeCanvasGd;
 use Intervention\Image\Imagick\Commands\ResizeCanvasCommand as ResizeCanvasImagick;
+use PHPUnit\Framework\TestCase;
 
-class ResizeCanvasCommandTest extends PHPUnit_Framework_TestCase
+class ResizeCanvasCommandTest extends TestCase
 {
     public function tearDown()
     {

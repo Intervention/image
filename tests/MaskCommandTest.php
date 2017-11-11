@@ -2,8 +2,9 @@
 
 use Intervention\Image\Gd\Commands\MaskCommand as MaskGd;
 use Intervention\Image\Imagick\Commands\MaskCommand as MaskImagick;
+use PHPUnit\Framework\TestCase;
 
-class MaskCommandTest extends PHPUnit_Framework_TestCase
+class MaskCommandTest extends TestCase
 {
     public function tearDown()
     {

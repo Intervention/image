@@ -1,8 +1,9 @@
 <?php
 
 use Intervention\Image\Imagick\Color;
+use PHPUnit\Framework\TestCase;
 
-class ImagickColorTest extends PHPUnit_Framework_TestCase
+class ImagickColorTest extends TestCase
 {
     public function tearDown()
     {

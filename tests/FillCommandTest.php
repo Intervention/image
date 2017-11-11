@@ -2,8 +2,9 @@
 
 use Intervention\Image\Gd\Commands\FillCommand as FillGd;
 use Intervention\Image\Imagick\Commands\FillCommand as FillImagick;
+use PHPUnit\Framework\TestCase;
 
-class FillCommandTest extends PHPUnit_Framework_TestCase
+class FillCommandTest extends TestCase
 {
     public function tearDown()
     {

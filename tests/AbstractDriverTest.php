@@ -1,6 +1,8 @@
 <?php
 
-class AbstractDriverTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class AbstractDriverTest extends TestCase
 {
     public function tearDown()
     {

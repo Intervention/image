@@ -1,8 +1,9 @@
 <?php
 
 use Intervention\Image\Commands\ChecksumCommand;
+use PHPUnit\Framework\TestCase;
 
-class ChecksumCommandTest extends PHPUnit_Framework_TestCase
+class ChecksumCommandTest extends TestCase
 {
     public function tearDown()
     {

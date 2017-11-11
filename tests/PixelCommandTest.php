@@ -2,8 +2,9 @@
 
 use Intervention\Image\Gd\Commands\PixelCommand as PixelGd;
 use Intervention\Image\Imagick\Commands\PixelCommand as PixelImagick;
+use PHPUnit\Framework\TestCase;
 
-class PixelCommandTest extends PHPUnit_Framework_TestCase
+class PixelCommandTest extends TestCase
 {
     public function tearDown()
     {

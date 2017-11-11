@@ -1,8 +1,9 @@
 <?php
 
 use Intervention\Image\Commands\RectangleCommand;
+use PHPUnit\Framework\TestCase;
 
-class RectangleCommandTest extends PHPUnit_Framework_TestCase
+class RectangleCommandTest extends TestCase
 {
     public function tearDown()
     {

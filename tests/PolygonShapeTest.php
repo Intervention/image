@@ -2,8 +2,9 @@
 
 use Intervention\Image\Gd\Shapes\PolygonShape as PolygonGd;
 use Intervention\Image\Imagick\Shapes\PolygonShape as PolygonImagick;
+use PHPUnit\Framework\TestCase;
 
-class PolygonShapeTest extends PHPUnit_Framework_TestCase
+class PolygonShapeTest extends TestCase
 {
     public function tearDown()
     {

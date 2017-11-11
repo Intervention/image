@@ -2,8 +2,9 @@
 
 use Intervention\Image\Gd\Commands\InsertCommand as InsertGd;
 use Intervention\Image\Imagick\Commands\InsertCommand as InsertImagick;
+use PHPUnit\Framework\TestCase;
 
-class InsertCommandTest extends PHPUnit_Framework_TestCase
+class InsertCommandTest extends TestCase
 {
     public function tearDown()
     {

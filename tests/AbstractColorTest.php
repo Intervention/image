@@ -1,6 +1,8 @@
 <?php
 
-class AbstractColorTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class AbstractColorTest extends TestCase
 {
     public function tearDown()
     {

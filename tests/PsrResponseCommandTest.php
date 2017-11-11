@@ -1,7 +1,8 @@
 <?php
 use Intervention\Image\Commands\PsrResponseCommand;
+use PHPUnit\Framework\TestCase;
 
-class PsrResponseCommandTest extends PHPUnit_Framework_TestCase
+class PsrResponseCommandTest extends TestCase
 {
     public function tearDown()
     {

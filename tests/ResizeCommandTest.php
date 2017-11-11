@@ -2,8 +2,9 @@
 
 use Intervention\Image\Gd\Commands\ResizeCommand as ResizeCommandGd;
 use Intervention\Image\Imagick\Commands\ResizeCommand as ResizeCommandImagick;
+use PHPUnit\Framework\TestCase;
 
-class ResizeCommandTest extends PHPUnit_Framework_TestCase
+class ResizeCommandTest extends TestCase
 {
     public function tearDown()
     {

@@ -2,8 +2,9 @@
 
 use Intervention\Image\Gd\Commands\BackupCommand as BackupGd;
 use Intervention\Image\Imagick\Commands\BackupCommand as BackupImagick;
+use PHPUnit\Framework\TestCase;
 
-class BackupCommandTest extends PHPUnit_Framework_TestCase
+class BackupCommandTest extends TestCase
 {
     public function tearDown()
     {

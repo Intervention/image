@@ -2,8 +2,9 @@
 
 use Intervention\Image\Gd\Commands\RotateCommand as RotateGd;
 use Intervention\Image\Imagick\Commands\RotateCommand as RotateImagick;
+use PHPUnit\Framework\TestCase;
 
-class RotateCommandTest extends PHPUnit_Framework_TestCase
+class RotateCommandTest extends TestCase
 {
     public function tearDown()
     {

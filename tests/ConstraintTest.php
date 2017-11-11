@@ -1,8 +1,9 @@
 <?php
 
 use Intervention\Image\Constraint;
+use PHPUnit\Framework\TestCase;
 
-class ConstraintTest extends PHPUnit_Framework_TestCase
+class ConstraintTest extends TestCase
 {
     public function tearDown()
     {

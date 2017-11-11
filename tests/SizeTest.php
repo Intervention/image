@@ -1,8 +1,9 @@
 <?php
 
 use Intervention\Image\Size;
+use PHPUnit\Framework\TestCase;
 
-class SizeTest extends PHPUnit_Framework_TestCase
+class SizeTest extends TestCase
 {
     public function tearDown()
     {

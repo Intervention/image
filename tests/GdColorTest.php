@@ -4,7 +4,9 @@ use Intervention\Image\Gd\Color;
 
 // alpha - A value between 0 and 127. 0 indicates completely opaque while 127 indicates completely transparent.
 
-class GdColorTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class GdColorTest extends TestCase
 {
     public function testConstructor()
     {

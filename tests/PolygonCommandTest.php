@@ -1,8 +1,9 @@
 <?php
 
 use Intervention\Image\Commands\PolygonCommand;
+use PHPUnit\Framework\TestCase;
 
-class PolygonCommandTest extends PHPUnit_Framework_TestCase
+class PolygonCommandTest extends TestCase
 {
     public function tearDown()
     {

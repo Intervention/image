@@ -2,8 +2,9 @@
 
 use Intervention\Image\Gd\Commands\ContrastCommand as ContrastGd;
 use Intervention\Image\Imagick\Commands\ContrastCommand as ContrastImagick;
+use PHPUnit\Framework\TestCase;
 
-class ContrastCommandTest extends PHPUnit_Framework_TestCase
+class ContrastCommandTest extends TestCase
 {
     public function tearDown()
     {

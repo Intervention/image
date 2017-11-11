@@ -1,8 +1,9 @@
 <?php
 
 use Intervention\Image\Commands\OrientateCommand;
+use PHPUnit\Framework\TestCase;
 
-class OrientateCommandTest extends PHPUnit_Framework_TestCase
+class OrientateCommandTest extends TestCase
 {
     public function tearDown()
     {

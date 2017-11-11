@@ -1,6 +1,8 @@
 <?php
 
-class GdSystemTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class GdSystemTest extends TestCase
 {
     public function testMakeFromPath()
     {

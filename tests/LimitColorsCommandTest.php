@@ -2,8 +2,9 @@
 
 use Intervention\Image\Gd\Commands\LimitColorsCommand as LimitColorsGd;
 use Intervention\Image\Imagick\Commands\LimitColorsCommand as LimitColorsImagick;
+use PHPUnit\Framework\TestCase;
 
-class LimitColorsCommandTest extends PHPUnit_Framework_TestCase
+class LimitColorsCommandTest extends TestCase
 {
     public function tearDown()
     {

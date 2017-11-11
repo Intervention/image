@@ -1,8 +1,9 @@
 <?php
 
 use Intervention\Image\Image;
+use PHPUnit\Framework\TestCase;
 
-class ImageTest extends PHPUnit_Framework_TestCase
+class ImageTest extends TestCase
 {
     public function tearDown()
     {
@@ -47,7 +48,7 @@ class ImageTest extends PHPUnit_Framework_TestCase
     {
         $image = $this->getTestImage();
         $this->assertFalse($image->isEncoded());
-        
+
         $image->setEncoded('foo');
         $this->assertTrue($image->isEncoded());
     }

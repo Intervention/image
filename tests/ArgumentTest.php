@@ -1,8 +1,9 @@
 <?php
 
 use Intervention\Image\Commands\Argument;
+use PHPUnit\Framework\TestCase;
 
-class ArgumentTest extends PHPUnit_Framework_TestCase
+class ArgumentTest extends TestCase
 {
     public function testConstructor()
     {

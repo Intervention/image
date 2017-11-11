@@ -2,8 +2,9 @@
 
 use Intervention\Image\Gd\Shapes\LineShape as LineGd;
 use Intervention\Image\Imagick\Shapes\LineShape as LineImagick;
+use PHPUnit\Framework\TestCase;
 
-class LineShapeTest extends PHPUnit_Framework_TestCase
+class LineShapeTest extends TestCase
 {
     public function tearDown()
     {

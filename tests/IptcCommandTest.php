@@ -1,8 +1,9 @@
 <?php
 
 use Intervention\Image\Commands\IptcCommand;
+use PHPUnit\Framework\TestCase;
 
-class IptcCommandTest extends PHPUnit_Framework_TestCase
+class IptcCommandTest extends TestCase
 {
     public function tearDown()
     {

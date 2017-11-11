@@ -2,8 +2,9 @@
 
 use Intervention\Image\Gd\Commands\OpacityCommand as OpacityGd;
 use Intervention\Image\Imagick\Commands\OpacityCommand as OpacityImagick;
+use PHPUnit\Framework\TestCase;
 
-class OpacityCommandTest extends PHPUnit_Framework_TestCase
+class OpacityCommandTest extends TestCase
 {
     public function tearDown()
     {

@@ -2,8 +2,9 @@
 
 use Intervention\Image\Gd\Encoder as GdEncoder;
 use Intervention\Image\Imagick\Encoder as ImagickEncoder;
+use PHPUnit\Framework\TestCase;
 
-class EncoderTest extends PHPUnit_Framework_TestCase
+class EncoderTest extends TestCase
 {
     public function tearDown()
     {

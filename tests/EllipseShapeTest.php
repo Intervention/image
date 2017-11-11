@@ -2,8 +2,9 @@
 
 use Intervention\Image\Gd\Shapes\EllipseShape as EllipseGd;
 use Intervention\Image\Imagick\Shapes\EllipseShape as EllipseImagick;
+use PHPUnit\Framework\TestCase;
 
-class EllipseShapeTest extends PHPUnit_Framework_TestCase
+class EllipseShapeTest extends TestCase
 {
     public function tearDown()
     {

@@ -2,8 +2,9 @@
 
 use Intervention\Image\Gd\Shapes\CircleShape as CircleGd;
 use Intervention\Image\Imagick\Shapes\CircleShape as CircleImagick;
+use PHPUnit\Framework\TestCase;
 
-class CircleShapeTest extends PHPUnit_Framework_TestCase
+class CircleShapeTest extends TestCase
 {
     public function tearDown()
     {

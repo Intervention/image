@@ -2,8 +2,9 @@
 
 use Intervention\Image\Gd\Commands\CropCommand as CropGd;
 use Intervention\Image\Imagick\Commands\CropCommand as CropImagick;
+use PHPUnit\Framework\TestCase;
 
-class CropCommandTest extends PHPUnit_Framework_TestCase
+class CropCommandTest extends TestCase
 {
     public function tearDown()
     {

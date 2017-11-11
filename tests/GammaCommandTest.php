@@ -2,8 +2,9 @@
 
 use Intervention\Image\Gd\Commands\GammaCommand as GammaGd;
 use Intervention\Image\Imagick\Commands\GammaCommand as GammaImagick;
+use PHPUnit\Framework\TestCase;
 
-class GammaCommandTest extends PHPUnit_Framework_TestCase
+class GammaCommandTest extends TestCase
 {
     public function tearDown()
     {

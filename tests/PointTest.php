@@ -1,8 +1,9 @@
 <?php
 
 use Intervention\Image\Point;
+use PHPUnit\Framework\TestCase;
 
-class PointTest extends PHPUnit_Framework_TestCase
+class PointTest extends TestCase
 {
     public function testConstructor()
     {

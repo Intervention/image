@@ -2,8 +2,9 @@
 
 use Intervention\Image\Gd\Commands\BrightnessCommand as BrightnessGd;
 use Intervention\Image\Imagick\Commands\BrightnessCommand as BrightnessImagick;
+use PHPUnit\Framework\TestCase;
 
-class BrightnessCommandTest extends PHPUnit_Framework_TestCase
+class BrightnessCommandTest extends TestCase
 {
     public function tearDown()
     {

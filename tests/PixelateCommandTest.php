@@ -2,8 +2,9 @@
 
 use Intervention\Image\Gd\Commands\PixelateCommand as PixelateGd;
 use Intervention\Image\Imagick\Commands\PixelateCommand as PixelateImagick;
+use PHPUnit\Framework\TestCase;
 
-class PixelateCommandTest extends PHPUnit_Framework_TestCase
+class PixelateCommandTest extends TestCase
 {
     public function tearDown()
     {

@@ -2,8 +2,9 @@
 
 use Intervention\Image\Gd\Commands\PickColorCommand as PickColorGd;
 use Intervention\Image\Imagick\Commands\PickColorCommand as PickColorImagick;
+use PHPUnit\Framework\TestCase;
 
-class PickColorCommandTest extends PHPUnit_Framework_TestCase
+class PickColorCommandTest extends TestCase
 {
     public function tearDown()
     {

@@ -35,9 +35,7 @@ class ExifCommand extends BaseCommand
         $core = $image->getCore();
 
         if ( ! method_exists($core, 'getImageProperties')) {
-            throw new \Intervention\Image\Exception\NotSupportedException(
-                "Reading Exif data is not supported by this PHP installation."
-            );
+            return true;
         }
 
         $requestedKey = $this->argument(0)->value();

@@ -57,7 +57,7 @@ class Encoder extends \Intervention\Image\AbstractEncoder
 
     protected function processWebp()
     {
-        if ( ! function_exists('imagewebp')) {
+        if (!function_exists('imagewebp')) {
             throw new \Intervention\Image\Exception\NotSupportedException(
                 "Webp format is not supported by PHP installation."
             );
@@ -68,7 +68,7 @@ class Encoder extends \Intervention\Image\AbstractEncoder
         $this->image->mime = defined('IMAGETYPE_WEBP') ? image_type_to_mime_type(IMAGETYPE_WEBP) : 'image/webp';
         $buffer = ob_get_contents();
         ob_end_clean();
-        
+
         return $buffer;
     }
 
@@ -117,6 +117,18 @@ class Encoder extends \Intervention\Image\AbstractEncoder
     {
         throw new \Intervention\Image\Exception\NotSupportedException(
             "PSD format is not supported by Gd Driver."
+        );
+    }
+
+    /**
+     * Processes and returns encoded image as SVG string
+     *
+     * @return string
+     */
+    protected function processSvg()
+    {
+        throw new \Intervention\Image\Exception\NotSupportedException(
+            "SVG format is not supported by Gd Driver."
         );
     }
 }

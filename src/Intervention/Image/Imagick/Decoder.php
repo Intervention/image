@@ -62,9 +62,6 @@ class Decoder extends \Intervention\Image\AbstractDecoder
         // so all images are turned into static
         $object = $this->removeAnimation($object);
 
-        // reset image orientation
-        $object->setImageOrientation(\Imagick::ORIENTATION_UNDEFINED);
-
         return new Image(new Driver, $object);
     }
 

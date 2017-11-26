@@ -36,8 +36,8 @@ class Size
      */
     public function __construct($width = null, $height = null, Point $pivot = null)
     {
-        $this->width = is_numeric($width) ? intval($width) : 1;
-        $this->height = is_numeric($height) ? intval($height) : 1;
+        $this->width = is_numeric($width) ? (int)$width : 1;
+        $this->height = is_numeric($height) ? (int)$height : 1;
         $this->pivot = $pivot ? $pivot : new Point;
     }
 
@@ -154,7 +154,7 @@ class Size
             }
 
             if ($constraint->isFixed(Constraint::ASPECTRATIO)) {
-                $h = intval(round($this->width / $constraint->getSize()->getRatio()));
+                $h = (int)round($this->width / $constraint->getSize()->getRatio());
 
                 if ($constraint->isFixed(Constraint::UPSIZE)) {
                     $this->height = ($h > $max_height) ? $max_height : $h;
@@ -190,7 +190,7 @@ class Size
             }
 
             if ($constraint->isFixed(Constraint::ASPECTRATIO)) {
-                $w = intval(round($this->height * $constraint->getSize()->getRatio()));
+                $w = (int)round($this->height * $constraint->getSize()->getRatio());
 
                 if ($constraint->isFixed(Constraint::UPSIZE)) {
                     $this->width = ($w > $max_width) ? $max_width : $w;
@@ -284,7 +284,7 @@ class Size
             case 'top-middle':
             case 'center-top':
             case 'middle-top':
-                $x = intval($this->width / 2);
+                $x = (int)$this->width / 2;
                 $y = 0 + $offset_y;
                 break;
 
@@ -300,7 +300,7 @@ class Size
             case 'center-left':
             case 'middle-left':
                 $x = 0 + $offset_x;
-                $y = intval($this->height / 2);
+                $y = (int)$this->height / 2;
                 break;
 
             case 'right':
@@ -309,7 +309,7 @@ class Size
             case 'center-right':
             case 'middle-right':
                 $x = $this->width - $offset_x;
-                $y = intval($this->height / 2);
+                $y = (int)$this->height / 2;
                 break;
 
             case 'bottom-left':
@@ -323,7 +323,7 @@ class Size
             case 'bottom-middle':
             case 'center-bottom':
             case 'middle-bottom':
-                $x = intval($this->width / 2);
+                $x = (int)$this->width / 2;
                 $y = $this->height - $offset_y;
                 break;
 
@@ -337,8 +337,8 @@ class Size
             case 'middle':
             case 'center-center':
             case 'middle-middle':
-                $x = intval($this->width / 2);
-                $y = intval($this->height / 2);
+                $x = (int)$this->width / 2 + $offset_x;
+                $y = (int)$this->height / 2 + $offset_y;
                 break;
 
             default:

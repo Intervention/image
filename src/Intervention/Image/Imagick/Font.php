@@ -68,10 +68,14 @@ class Font extends AbstractFont
             switch (strtolower($this->valign)) {
                 case 'center':
                 case 'middle':
+                    // calculate box size
+                    $dimensions = $image->getCore()->queryFontMetrics($draw, $this->text);
                     $posy = $posy + $dimensions['textHeight'] * 0.65 / 2;
                     break;
 
                 case 'top':
+                    // calculate box size
+                    $dimensions = $image->getCore()->queryFontMetrics($draw, $this->text, false);
                     $posy = $posy + $dimensions['textHeight'] * 0.65;
                     break;
             }
@@ -130,8 +134,8 @@ class Font extends AbstractFont
             $box['height'] = 0;
         } else {
             // get boxsize
-            $box['width'] = intval(abs($dimensions['textWidth']));
-            $box['height'] = intval(abs($dimensions['textHeight']));
+            $box['width'] = (int)abs($dimensions['textWidth']);
+            $box['height'] = (int)abs($dimensions['textHeight']);
         }
 
         return $box;
@@ -145,6 +149,7 @@ class Font extends AbstractFont
     public function drawStrokeByBuiltInMethods()
     {
         $this->isUseBuiltInImagickStroke = true;
+
         return $this;
     }
 }

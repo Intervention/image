@@ -148,7 +148,9 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
     public function testResizeImageAutoHeight()
     {
         $img = $this->manager()->make('tests/images/tile.png');
-        $img->resize(50, null, function ($constraint) { $constraint->aspectRatio(); });
+        $img->resize(50, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
         $this->assertInternalType('int', $img->getWidth());
@@ -161,7 +163,9 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
     public function testResizeImageAutoWidth()
     {
         $img = $this->manager()->make('tests/images/tile.png');
-        $img->resize(null, 50, function ($constraint) { $constraint->aspectRatio(); });
+        $img->resize(null, 50, function ($constraint) {
+            $constraint->aspectRatio();
+        });
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
         $this->assertInternalType('int', $img->getWidth());
@@ -174,7 +178,9 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
     public function testResizeDominantWidth()
     {
         $img = $this->manager()->make('tests/images/tile.png');
-        $img->resize(100, 120, function ($constraint) { $constraint->aspectRatio(); });
+        $img->resize(100, 120, function ($constraint) {
+            $constraint->aspectRatio();
+        });
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
         $this->assertInternalType('int', $img->getWidth());
@@ -187,7 +193,10 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
     public function testResizeImagePreserveSimpleUpsizing()
     {
         $img = $this->manager()->make('tests/images/tile.png');
-        $img->resize(100, 100, function ($constraint) { $constraint->aspectRatio(); $constraint->upsize(); });
+        $img->resize(100, 100, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
         $this->assertInternalType('int', $img->getWidth());
@@ -213,7 +222,9 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
     public function testWidenImageWithConstraint()
     {
         $img = $this->manager()->make('tests/images/tile.png');
-        $img->widen(100, function ($constraint) {$constraint->upsize();});
+        $img->widen(100, function ($constraint) {
+            $constraint->upsize();
+        });
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
         $this->assertInternalType('int', $img->getWidth());
@@ -239,7 +250,9 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
     public function testHeightenImageWithConstraint()
     {
         $img = $this->manager()->make('tests/images/tile.png');
-        $img->heighten(100, function ($constraint) {$constraint->upsize();});
+        $img->heighten(100, function ($constraint) {
+            $constraint->upsize();
+        });
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
         $this->assertInternalType('int', $img->getWidth());
@@ -551,7 +564,9 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
     public function testFitImageWithConstraintUpsize()
     {
         $img = $this->manager()->make('tests/images/trim.png');
-        $img->fit(300, 150, function ($constraint) {$constraint->upsize();});
+        $img->fit(300, 150, function ($constraint) {
+            $constraint->upsize();
+        });
         $this->assertInternalType('int', $img->getWidth());
         $this->assertInternalType('int', $img->getHeight());
         $this->assertEquals(50, $img->getWidth());
@@ -1027,28 +1042,39 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
     public function testRectangleImage()
     {
         $img = $this->manager()->canvas(16, 16, 'ffffff');
-        $img->rectangle(5, 5, 11, 11, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
+        $img->rectangle(5, 5, 11, 11, function ($draw) {
+            $draw->background('#ff0000');
+            $draw->border(1, '#0000ff');
+        });
         $this->assertEquals('32ceca9759d1973dd461b39664df604d', $img->checksum());
     }
 
     public function testLineImage()
     {
         $img = $this->manager()->canvas(16, 16, 'ffffff');
-        $img->line(0, 0, 15, 15, function ($draw) { $draw->color('#ff0000'); });
+        $img->line(0, 0, 15, 15, function ($draw) {
+            $draw->color('#ff0000');
+        });
         $this->assertEquals('f5c585019bff361d91e2928b2ac2286b', $img->checksum());
     }
 
     public function testEllipseImage()
     {
         $img = $this->manager()->canvas(16, 16, 'ffffff');
-        $img->ellipse(12, 8, 8, 8, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
+        $img->ellipse(12, 8, 8, 8, function ($draw) {
+            $draw->background('#ff0000');
+            $draw->border(1, '#0000ff');
+        });
         $this->assertEquals('9dc5bbec6d45868610c082a1d67640b5', $img->checksum());
     }
 
     public function testCircleImage()
     {
         $img = $this->manager()->canvas(16, 16, 'ffffff');
-        $img->circle(12, 8, 8, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
+        $img->circle(12, 8, 8, function ($draw) {
+            $draw->background('#ff0000');
+            $draw->border(1, '#0000ff');
+        });
         $this->assertEquals('a433c7c1a842ef83e1cb45875371358c', $img->checksum());
     }
 
@@ -1056,7 +1082,10 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
     {
         $img = $this->manager()->canvas(16, 16, 'ffffff');
         $points = [3, 3, 11, 11, 7, 13];
-        $img->polygon($points, function ($draw) { $draw->background('#ff0000'); $draw->border(1, '#0000ff'); });
+        $img->polygon($points, function ($draw) {
+            $draw->background('#ff0000');
+            $draw->border(1, '#0000ff');
+        });
         $this->assertEquals('e301afe179da858d441ad8fc0eb5490a', $img->checksum());
     }
 
@@ -1119,9 +1148,9 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
 
     public function testLimitColors()
     {
-       $img = $this->manager()->make('tests/images/trim.png');
-       $img->limitColors(4);
-       $this->assertLessThanOrEqual(5, $img->getCore()->getImageColors());
+        $img = $this->manager()->make('tests/images/trim.png');
+        $img->limitColors(4);
+        $this->assertLessThanOrEqual(5, $img->getCore()->getImageColors());
     }
 
     public function testLimitColorsKeepTransparency()
@@ -1133,7 +1162,7 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
         $this->assertColorAtPosition('#680098', $img, 6, 12);
         $this->assertColorAtPosition('#c2596a', $img, 22, 24);
     }
-    
+
     public function testLimitColorsKeepTransparencyWithMatte()
     {
         $img = $this->manager()->make('tests/images/star.png');
@@ -1203,7 +1232,7 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->getCore()->quantizeImage(200, \Imagick::COLORSPACE_RGB, 0, false, false);
-        
+
         $c = $img->pickColor(0, 0);
         $this->assertEquals(180, $c[0]);
         $this->assertEquals(224, $c[1]);
@@ -1265,7 +1294,7 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
         $this->assertColorAtPosition('#00ece2', $img, 0, 0);
         $this->assertColorAtPosition('#ffea00', $img, 24, 24);
     }
-    
+
     public function testTrimGradient()
     {
         $canvas = $this->manager()->make('tests/images/gradient.png');
@@ -1527,7 +1556,7 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
         $img = $this->manager()->canvas(16, 16, '#ff0000');
         $img->save($path);
         $img->destroy();
-        
+
         // open test image again
         $img = $this->manager()->make($path);
         $this->assertColorAtPosition('#ff0000', $img, 0, 0);
@@ -1608,6 +1637,15 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
         @unlink($save_as);
     }
 
+    public function testMakeFromStringKeepOrientation()
+    {
+        $str = file_get_contents('tests/images/exitOrientation6.jpg');
+        $img = $this->manager()->make($str);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInstanceOf('Imagick', $img->getCore());
+        $this->assertEquals(6, $img->getCore()->getImageOrientation());
+    }
+
     private function assertColorAtPosition($color, $img, $x, $y)
     {
         $pick = $img->pickColor($x, $y, 'hex');
@@ -1625,7 +1663,7 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
     private function manager()
     {
         return new \Intervention\Image\ImageManager([
-            'driver' => 'imagick'
+            'driver' => 'imagick',
         ]);
     }
 }

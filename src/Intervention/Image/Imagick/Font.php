@@ -2,14 +2,19 @@
 
 namespace Intervention\Image\Imagick;
 
+use Intervention\Image\AbstractFont;
+use Intervention\Image\Exception\RuntimeException;
 use Intervention\Image\Image;
 
-class Font extends \Intervention\Image\AbstractFont
+class Font extends AbstractFont
 {
+
+    public $isUseBuiltInImagickStroke = false;
+
     /**
      * Draws font to given image at given position
      *
-     * @param  Image   $image
+     * @param  Image $image
      * @param  integer $posx
      * @param  integer $posy
      * @return void
@@ -25,7 +30,7 @@ class Font extends \Intervention\Image\AbstractFont
         if ($this->hasApplicableFontFile()) {
             $draw->setFont($this->file);
         } else {
-            throw new \Intervention\Image\Exception\RuntimeException(
+            throw new RuntimeException(
                 "Font file must be provided to apply text to image."
             );
         }
@@ -63,19 +68,35 @@ class Font extends \Intervention\Image\AbstractFont
             switch (strtolower($this->valign)) {
                 case 'center':
                 case 'middle':
-                $posy = $posy + $dimensions['textHeight'] * 0.65 / 2;
-                break;
+                    $posy = $posy + $dimensions['textHeight'] * 0.65 / 2;
+                    break;
 
                 case 'top':
-                $posy = $posy + $dimensions['textHeight'] * 0.65;
-                break;
+                    $posy = $posy + $dimensions['textHeight'] * 0.65;
+                    break;
+            }
+        }
+
+        if ($this->strokeWidth > 0) {
+            $strokeColor = new Color($this->strokeColor);
+            if ($this->isUseBuiltInImagickStroke) {
+                $draw->setStrokeWidth($this->strokeWidth);
+                $draw->setStrokeColor($strokeColor->getPixel());
+            } else {
+                $originalFillColor = $draw->getFillColor();
+                $draw->setFillColor($strokeColor->getPixel());
+                $this->strokeDrawLoop($posx, $posy, function ($posX, $posY) use ($image, $draw) {
+                    $image->getCore()->annotateImage($draw, $posX, $posY, $this->angle * (-1), $this->text);
+                });
+
+                $draw->setFillColor($originalFillColor);
             }
         }
 
         // apply to image
         $image->getCore()->annotateImage($draw, $posx, $posy, $this->angle * (-1), $this->text);
     }
-    
+
     /**
      * Calculates bounding box of current font setting
      *
@@ -114,5 +135,16 @@ class Font extends \Intervention\Image\AbstractFont
         }
 
         return $box;
+    }
+
+    /**
+     * Disable drawing stroke by loops and draw it by built in Imagick methods
+     *
+     * @return static
+     */
+    public function drawStrokeByBuiltInMethods()
+    {
+        $this->isUseBuiltInImagickStroke = true;
+        return $this;
     }
 }

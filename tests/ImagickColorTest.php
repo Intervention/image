@@ -8,7 +8,7 @@ class ImagickColorTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
+
     public function testGetRedGreenBlueAlphaValue()
     {
         $c = new Color;
@@ -298,23 +298,23 @@ class ImagickColorTest extends PHPUnit_Framework_TestCase
     {
         $c1 = new Color([0, 0, 0]);
         $c2 = new Color([0, 0, 0]);
-        $this->assertEquals(false, $c1->differs($c2));
+        $this->assertFalse($c1->differs($c2));
 
         $c1 = new Color([1, 0, 0]);
         $c2 = new Color([0, 0, 0]);
-        $this->assertEquals(true, $c1->differs($c2));
+        $this->assertTrue($c1->differs($c2));
 
         $c1 = new Color([1, 0, 0]);
         $c2 = new Color([0, 0, 0]);
-        $this->assertEquals(false, $c1->differs($c2, 10));
+        $this->assertFalse($c1->differs($c2, 10));
 
         $c1 = new Color([127, 127, 127]);
         $c2 = new Color([0, 0, 0]);
-        $this->assertEquals(true, $c1->differs($c2, 49));
+        $this->assertTrue($c1->differs($c2, 49));
 
         $c1 = new Color([127, 127, 127]);
         $c2 = new Color([0, 0, 0]);
-        $this->assertEquals(false, $c1->differs($c2, 50));
+        $this->assertFalse($c1->differs($c2, 50));
     }
 
     /**

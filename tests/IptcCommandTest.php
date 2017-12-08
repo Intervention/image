@@ -8,7 +8,7 @@ class IptcCommandTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
+
     public function testFetchAll()
     {
         $image = Mockery::mock('Intervention\Image\Image');
@@ -43,7 +43,7 @@ class IptcCommandTest extends PHPUnit_Framework_TestCase
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
-        $this->assertEquals(null, $command->getOutput());
+        $this->assertNull($command->getOutput());
     }
 
 
@@ -56,7 +56,7 @@ class IptcCommandTest extends PHPUnit_Framework_TestCase
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
-        $this->assertEquals(null, $command->getOutput());
+        $this->assertNull($command->getOutput());
     }
 
     public function testReturnNullOnIptcReadFail()
@@ -66,6 +66,6 @@ class IptcCommandTest extends PHPUnit_Framework_TestCase
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
-        $this->assertEquals(null, $command->getOutput());
+        $this->assertNull($command->getOutput());
     }
 }

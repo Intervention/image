@@ -9,7 +9,7 @@ class ExifCommandTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
+
     public function testFetchAll()
     {
         $image = new Image;
@@ -43,7 +43,7 @@ class ExifCommandTest extends PHPUnit_Framework_TestCase
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
-        $this->assertEquals(null, $command->getOutput());
+        $this->assertNull($command->getOutput());
     }
 
     public function testFetchFromPng()
@@ -55,7 +55,7 @@ class ExifCommandTest extends PHPUnit_Framework_TestCase
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
-        $this->assertEquals(null, $command->getOutput());
+        $this->assertNull($command->getOutput());
     }
 
     public function testImagickFetchAll()
@@ -89,7 +89,7 @@ class ExifCommandTest extends PHPUnit_Framework_TestCase
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
-        $this->assertEquals(null, $command->getOutput());
+        $this->assertNull($command->getOutput());
     }
 
     public function testImagickFallbackToExifExtenstion()

@@ -64,19 +64,17 @@ abstract class AbstractDecoder
      */
     public function initFromUrl($url)
     {
-        
-        $options = [
-            'http' => [
-                'method'=>"GET",
-                'header'=>"Accept-language: en\r\n".
-                "User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Chrome/22.0.1216.0 Safari/537.2\r\n"
-          ]
+        $ch = curl_init();
+        $options =  [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Chrome/22.0.1216.0 Safari/537.2'
         ];
+        curl_setopt_array($ch, $options);
+        $data = curl_exec($ch);
+        curl_close($ch);
         
-        $context  = stream_context_create($options);
-        
-
-        if ($data = @file_get_contents($url, false, $context)) {
+        if ($data) {
             return $this->initFromBinary($data);
         }
 

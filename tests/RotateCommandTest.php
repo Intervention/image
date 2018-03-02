@@ -32,4 +32,16 @@ class RotateCommandTest extends PHPUnit_Framework_TestCase
         $result = $command->execute($image);
         $this->assertTrue($result);
     }
+
+    public function testImagickWithLargeRotation()
+    {
+        $rotation = 45;
+        $imagick = Mockery::mock('Imagick');
+        $imagick->shouldReceive('rotateimage')->with(Mockery::type('object'), -$rotation)->andReturn(true);
+        $image = Mockery::mock('Intervention\Image\Image');
+        $image->shouldReceive('getCore')->once()->andReturn($imagick);
+        $command = new RotateImagick([$rotation + (360 * 1000), '#b53717']);
+        $result = $command->execute($image);
+        $this->assertTrue($result);
+    }
 }

@@ -30,6 +30,8 @@ class ImageManager
      * Overrides configuration settings
      *
      * @param array $config
+     *
+     * @return self
      */
     public function configure(array $config = [])
     {

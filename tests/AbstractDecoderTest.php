@@ -6,7 +6,7 @@ class AbstractDecoderTest extends PHPUnit_Framework_TestCase
     {
         Mockery::close();
     }
-    
+
     public function testIsImagick()
     {
         $source = $this->getTestDecoder(new \Imagick);
@@ -51,6 +51,7 @@ class AbstractDecoderTest extends PHPUnit_Framework_TestCase
     {
         $source = $this->getTestDecoder('http://foo.bar');
         $this->assertTrue($source->isUrl());
+        $this->assertFalse($source->isStorage());
 
         $source = $this->getTestDecoder(null);
         $this->assertFalse($source->isUrl());
@@ -142,6 +143,19 @@ class AbstractDecoderTest extends PHPUnit_Framework_TestCase
         $base64 = "iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGElEQVQYlWM8c+bMfwYiABMxikYVUk8hAHWzA3cRvs4UAAAAAElFTkSuQmCC";
         $decoder = $this->getTestDecoder($base64);
         $this->assertTrue($decoder->isBase64());
+    }
+
+    public function testIsStorage()
+    {
+        $decoder = $this->getTestDecoder(null);
+        $this->assertFalse($decoder->isStorage());
+
+        $decoder = $this->getTestDecoder('random');
+        $this->assertFalse($decoder->isStorage());
+
+        $storage = "public:test";
+        $decoder = $this->getTestDecoder($storage);
+        $this->assertTrue($decoder->isStorage());
     }
 
     public function getTestDecoder($data)

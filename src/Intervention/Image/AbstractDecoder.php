@@ -64,7 +64,7 @@ abstract class AbstractDecoder
      */
     public function initFromUrl($url)
     {
-        
+
         $options = [
             'http' => [
                 'method'=>"GET",
@@ -72,9 +72,9 @@ abstract class AbstractDecoder
                 "User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Chrome/22.0.1216.0 Safari/537.2\r\n"
           ]
         ];
-        
+
         $context  = stream_context_create($options);
-        
+
 
         if ($data = @file_get_contents($url, false, $context)) {
             return $this->initFromBinary($data);
@@ -266,6 +266,33 @@ abstract class AbstractDecoder
     }
 
     /**
+     * Determines if the current source data is a Symfony Storage path
+     *
+     * @return boolean
+     */
+    public function isStorage()
+    {
+        if (is_string($this->data)) {
+            return preg_match('/^\w*:[^\/].*$/', $this->data) ? true : false;
+        }
+
+        return false;
+    }
+
+    /**
+     * Initiates new Image from Symfony Storage
+     *
+     * @param string $path
+     * @return \Intervention\Image\Image
+     */
+    public function initFromStorage($path)
+    {
+        preg_match('/(.*):(.*)/', $path, $matches);
+        list(, $fs, $file) = $matches;
+        return $this->initFromBinary(\Storage::disk($fs)->get($file));
+    }
+
+    /**
      * Initiates new Image from Intervention\Image\Image
      *
      * @param  Image $object
@@ -340,6 +367,9 @@ abstract class AbstractDecoder
             // isBase64 has to be after isFilePath to prevent false positives
             case $this->isBase64():
                 return $this->initFromBinary(base64_decode($this->data));
+
+            case $this->isStorage():
+                return $this->initFromStorage($this->data);
 
             default:
                 throw new Exception\NotReadableException("Image source not readable");

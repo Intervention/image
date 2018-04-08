@@ -7,22 +7,22 @@ class Point
     /**
      * X coordinate
      *
-     * @var integer
+     * @var int
      */
     public $x;
 
     /**
      * Y coordinate
      *
-     * @var integer
+     * @var int
      */
     public $y;
 
     /**
      * Creates a new instance
      *
-     * @param integer $x
-     * @param integer $y
+     * @param int $x
+     * @param int $y
      */
     public function __construct($x = null, $y = null)
     {
@@ -33,7 +33,7 @@ class Point
     /**
      * Sets X coordinate
      *
-     * @param integer $x
+     * @param int $x
      */
     public function setX($x)
     {
@@ -43,7 +43,7 @@ class Point
     /**
      * Sets Y coordinate
      *
-     * @param integer $y
+     * @param int $y
      */
     public function setY($y)
     {
@@ -53,8 +53,8 @@ class Point
     /**
      * Sets both X and Y coordinate
      *
-     * @param integer $x
-     * @param integer $y
+     * @param int $x
+     * @param int $y
      */
     public function setPosition($x, $y)
     {

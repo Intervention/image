@@ -25,8 +25,8 @@ class Driver extends \Intervention\Image\AbstractDriver
     /**
      * Creates new image instance
      *
-     * @param  integer $width
-     * @param  integer $height
+     * @param  int     $width
+     * @param  int     $height
      * @param  mixed   $background
      * @return \Intervention\Image\Image
      */

@@ -12,14 +12,14 @@ class DemoFilter implements FilterInterface
     /**
      * Size of filter effects
      *
-     * @var integer
+     * @var int
      */
     private $size;
 
     /**
      * Creates new instance of filter
      *
-     * @param integer $size
+     * @param int $size
      */
     public function __construct($size = null)
     {

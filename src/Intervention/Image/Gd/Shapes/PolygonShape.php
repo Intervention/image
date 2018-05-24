@@ -10,7 +10,7 @@ class PolygonShape extends \Intervention\Image\AbstractShape
     /**
      * Array of points of polygon
      *
-     * @var integer
+     * @var int
      */
     public $points;
 
@@ -28,8 +28,8 @@ class PolygonShape extends \Intervention\Image\AbstractShape
      * Draw polygon on given image
      *
      * @param  Image   $image
-     * @param  integer $x
-     * @param  integer $y
+     * @param  int     $x
+     * @param  int     $y
      * @return boolean
      */
     public function applyToImage(Image $image, $x = 0, $y = 0)

@@ -28,7 +28,7 @@ abstract class AbstractEncoder
     /**
      * Output quality of encoder instance
      *
-     * @var integer
+     * @var int
      */
     public $quality;
     
@@ -86,7 +86,7 @@ abstract class AbstractEncoder
      *
      * @param  Image   $image
      * @param  string  $format
-     * @param  integer $quality
+     * @param  int     $quality
      * @return Image
      */
     public function process(Image $image, $format = null, $quality = null)
@@ -214,7 +214,7 @@ abstract class AbstractEncoder
     /**
      * Determines output quality
      *
-     * @param integer $quality
+     * @param int $quality
      */
     protected function setQuality($quality)
     {

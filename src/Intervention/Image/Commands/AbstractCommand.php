@@ -39,7 +39,7 @@ abstract class AbstractCommand
     /**
      * Creates new argument instance from given argument key
      *
-     * @param  integer $key
+     * @param  int $key
      * @return \Intervention\Image\Commands\Argument
      */
     public function argument($key)

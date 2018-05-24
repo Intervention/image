@@ -9,14 +9,14 @@ class Size
     /**
      * Width
      *
-     * @var integer
+     * @var int
      */
     public $width;
 
     /**
      * Height
      *
-     * @var integer
+     * @var int
      */
     public $height;
 
@@ -30,9 +30,9 @@ class Size
     /**
      * Creates a new Size instance
      *
-     * @param integer $width
-     * @param integer $height
-     * @param Point   $pivot
+     * @param int   $width
+     * @param int   $height
+     * @param Point $pivot
      */
     public function __construct($width = null, $height = null, Point $pivot = null)
     {
@@ -44,8 +44,8 @@ class Size
     /**
      * Set the width and height absolutely
      *
-     * @param integer $width
-     * @param integer $height
+     * @param int $width
+     * @param int $height
      */
     public function set($width, $height)
     {
@@ -66,7 +66,7 @@ class Size
     /**
      * Get the current width
      *
-     * @return integer
+     * @return int
      */
     public function getWidth()
     {
@@ -76,7 +76,7 @@ class Size
     /**
      * Get the current height
      *
-     * @return integer
+     * @return int
      */
     public function getHeight()
     {
@@ -96,8 +96,8 @@ class Size
     /**
      * Resize to desired width and/or height
      *
-     * @param  integer $width
-     * @param  integer $height
+     * @param  int     $width
+     * @param  int     $height
      * @param  Closure $callback
      * @return Size
      */
@@ -132,7 +132,7 @@ class Size
     /**
      * Scale size according to given constraints
      *
-     * @param  integer $width
+     * @param  int     $width
      * @param  Closure $callback
      * @return Size
      */
@@ -168,7 +168,7 @@ class Size
     /**
      * Scale size according to given constraints
      *
-     * @param  integer $height
+     * @param  int     $height
      * @param  Closure $callback
      * @return Size
      */
@@ -271,8 +271,8 @@ class Size
      * and moves point automatically by offset.
      *
      * @param  string  $position
-     * @param  integer $offset_x
-     * @param  integer $offset_y
+     * @param  int     $offset_x
+     * @param  int     $offset_y
      * @return \Intervention\Image\Size
      */
     public function align($position, $offset_x = 0, $offset_y = 0)

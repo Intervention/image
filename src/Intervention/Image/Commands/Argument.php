@@ -14,7 +14,7 @@ class Argument
     /**
      * Key of argument in array
      *
-     * @var integer
+     * @var int
      */
     public $key;
 
@@ -22,7 +22,7 @@ class Argument
      * Creates new instance from given command and key
      *
      * @param AbstractCommand $command
-     * @param integer         $key
+     * @param int             $key
      */
     public function __construct(AbstractCommand $command, $key = 0)
     {

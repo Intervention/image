@@ -60,8 +60,8 @@ class ImageManagerStatic
     /**
      * Statically creates an empty image canvas
      *
-     * @param  integer $width
-     * @param  integer $height
+     * @param  int   $width
+     * @param  int   $height
      * @param  mixed $background
      *
      * @return \Intervention\Image\Image
@@ -75,7 +75,7 @@ class ImageManagerStatic
      * Create new cached image and run callback statically
      *
      * @param  Closure  $callback
-     * @param  integer  $lifetime
+     * @param  int      $lifetime
      * @param  boolean  $returnObj
      *
      * @return mixed

@@ -10,22 +10,22 @@ class EllipseShape extends \Intervention\Image\AbstractShape
     /**
      * Width of ellipse in pixels
      *
-     * @var integer
+     * @var int
      */
     public $width = 100;
 
     /**
      * Height of ellipse in pixels
      *
-     * @var integer
+     * @var int
      */
     public $height = 100;
 
     /**
      * Create new ellipse instance
      *
-     * @param integer $width
-     * @param integer $height
+     * @param int $width
+     * @param int $height
      */
     public function __construct($width = null, $height = null)
     {
@@ -37,8 +37,8 @@ class EllipseShape extends \Intervention\Image\AbstractShape
      * Draw ellipse instance on given image
      *
      * @param  Image   $image
-     * @param  integer $x
-     * @param  integer $y
+     * @param  int     $x
+     * @param  int     $y
      * @return boolean
      */
     public function applyToImage(Image $image, $x = 0, $y = 0)

@@ -10,14 +10,14 @@ class LineShape extends \Intervention\Image\AbstractShape
     /**
      * Starting point x-coordinate of line
      *
-     * @var integer
+     * @var int
      */
     public $x = 0;
 
     /**
      * Starting point y-coordinate of line
      *
-     * @var integer
+     * @var int
      */
     public $y = 0;
 
@@ -31,15 +31,15 @@ class LineShape extends \Intervention\Image\AbstractShape
     /**
      * Width of line in pixels
      *
-     * @var integer
+     * @var int
      */
     public $width = 1;
 
     /**
      * Create new line shape instance
      *
-     * @param integer $x
-     * @param integer $y
+     * @param int $x
+     * @param int $y
      */
     public function __construct($x = null, $y = null)
     {
@@ -61,7 +61,7 @@ class LineShape extends \Intervention\Image\AbstractShape
     /**
      * Set current line width in pixels
      *
-     * @param  integer $width
+     * @param  int $width
      * @return void
      */
     public function width($width)
@@ -75,8 +75,8 @@ class LineShape extends \Intervention\Image\AbstractShape
      * Draw current instance of line to given endpoint on given image
      *
      * @param  Image   $image
-     * @param  integer $x
-     * @param  integer $y
+     * @param  int     $x
+     * @param  int     $y
      * @return boolean
      */
     public function applyToImage(Image $image, $x = 0, $y = 0)

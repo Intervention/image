@@ -9,21 +9,21 @@ class Color extends AbstractColor
     /**
      * RGB Red value of current color instance
      *
-     * @var integer
+     * @var int
      */
     public $r;
 
     /**
      * RGB Green value of current color instance
      *
-     * @var integer
+     * @var int
      */
     public $g;
 
     /**
      * RGB Blue value of current color instance
      *
-     * @var integer
+     * @var int
      */
     public $b;
 
@@ -37,7 +37,7 @@ class Color extends AbstractColor
     /**
      * Initiates color object from integer
      *
-     * @param  integer $value
+     * @param  int $value
      * @return \Intervention\Image\AbstractColor
      */
     public function initFromInteger($value)
@@ -96,9 +96,9 @@ class Color extends AbstractColor
     /**
      * Initiates color object from given R, G and B values
      *
-     * @param  integer $r
-     * @param  integer $g
-     * @param  integer $b
+     * @param  int $r
+     * @param  int $g
+     * @param  int $b
      * @return \Intervention\Image\AbstractColor
      */
     public function initFromRgb($r, $g, $b)
@@ -112,9 +112,9 @@ class Color extends AbstractColor
     /**
      * Initiates color object from given R, G, B and A values
      *
-     * @param  integer $r
-     * @param  integer $g
-     * @param  integer $b
+     * @param  int     $r
+     * @param  int     $g
+     * @param  int     $b
      * @param  float   $a
      * @return \Intervention\Image\AbstractColor
      */
@@ -142,7 +142,7 @@ class Color extends AbstractColor
     /**
      * Calculates integer value of current color instance
      *
-     * @return integer
+     * @return int
      */
     public function getInt()
     {
@@ -184,7 +184,7 @@ class Color extends AbstractColor
      * Determines if current color is different from given color
      *
      * @param  AbstractColor $color
-     * @param  integer       $tolerance
+     * @param  int       $tolerance
      * @return boolean
      */
     public function differs(AbstractColor $color, $tolerance = 0)

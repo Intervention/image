@@ -7,7 +7,7 @@ abstract class AbstractColor
     /**
      * Initiates color object from integer
      *
-     * @param  integer $value
+     * @param  int $value
      * @return \Intervention\Image\AbstractColor
      */
     abstract public function initFromInteger($value);
@@ -39,9 +39,9 @@ abstract class AbstractColor
     /**
      * Initiates color object from given R, G and B values
      *
-     * @param  integer $r
-     * @param  integer $g
-     * @param  integer $b
+     * @param  int $r
+     * @param  int $g
+     * @param  int $b
      * @return \Intervention\Image\AbstractColor
      */
     abstract public function initFromRgb($r, $g, $b);
@@ -49,9 +49,9 @@ abstract class AbstractColor
     /**
      * Initiates color object from given R, G, B and A values
      *
-     * @param  integer $r
-     * @param  integer $g
-     * @param  integer $b
+     * @param  int $r
+     * @param  int $g
+     * @param  int $b
      * @param  float   $a
      * @return \Intervention\Image\AbstractColor
      */
@@ -60,7 +60,7 @@ abstract class AbstractColor
     /**
      * Calculates integer value of current color instance
      *
-     * @return integer
+     * @return int
      */
     abstract public function getInt();
 
@@ -90,7 +90,7 @@ abstract class AbstractColor
      * Determines if current color is different from given color
      *
      * @param  AbstractColor $color
-     * @param  integer       $tolerance
+     * @param  int           $tolerance
      * @return boolean
      */
     abstract public function differs(AbstractColor $color, $tolerance = 0);

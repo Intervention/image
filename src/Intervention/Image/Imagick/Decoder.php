@@ -79,6 +79,7 @@ class Decoder extends \Intervention\Image\AbstractDecoder
         $core = new \Imagick;
 
         try {
+            $core->setBackgroundColor(new \ImagickPixel('transparent'));
 
             $core->readImageBlob($binary);
 

@@ -18,6 +18,9 @@ class RotateCommand extends \Intervention\Image\Commands\AbstractCommand
         $color = $this->argument(1)->value();
         $color = new Color($color);
 
+        // restrict rotations beyond 360 degrees, since the end result is the same
+        $angle %= 360;
+
         // rotate image
         $image->setCore(imagerotate($image->getCore(), $angle, $color->getInt()));
 

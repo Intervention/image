@@ -117,6 +117,7 @@ abstract class AbstractEncoder
             case 'image/jpg':
             case 'image/jpeg':
             case 'image/pjpeg':
+            case 'tmp':
                 $this->result = $this->processJpeg();
                 break;
 

@@ -28,7 +28,7 @@ class ColorizeToRGBACommand extends \Intervention\Image\Commands\AbstractCommand
             $alpha
         );
 
-        return $image->getCore()->colorizeImage($color);
+        return $image->getCore()->colorizeImage($color, $alpha);
     }
 
     /**

@@ -24,6 +24,7 @@ class Encoder extends \Intervention\Image\AbstractEncoder
         $imagick->setImageCompression($compression);
         $imagick->setCompressionQuality($this->quality);
         $imagick->setImageCompressionQuality($this->quality);
+        $this->image->mime = $this->getImageMimeType($format);
 
         return $imagick->getImagesBlob();
     }
@@ -43,6 +44,7 @@ class Encoder extends \Intervention\Image\AbstractEncoder
         $imagick->setImageFormat($format);
         $imagick->setCompression($compression);
         $imagick->setImageCompression($compression);
+        $this->image->mime = $this->getImageMimeType($format);
 
         return $imagick->getImagesBlob();
     }
@@ -62,6 +64,7 @@ class Encoder extends \Intervention\Image\AbstractEncoder
         $imagick->setImageFormat($format);
         $imagick->setCompression($compression);
         $imagick->setImageCompression($compression);
+        $this->image->mime = $this->getImageMimeType($format);
 
         return $imagick->getImagesBlob();
     }
@@ -84,6 +87,7 @@ class Encoder extends \Intervention\Image\AbstractEncoder
         $imagick->setCompression($compression);
         $imagick->setImageCompression($compression);
         $imagick->setImageCompressionQuality($this->quality);
+        $this->image->mime = $this->getImageMimeType($format);
 
         return $imagick->getImagesBlob();
     }
@@ -164,5 +168,21 @@ class Encoder extends \Intervention\Image\AbstractEncoder
         $imagick->setImageCompression($compression);
 
         return $imagick->getImagesBlob();
+    }
+
+    /**
+     * Processes and returns mime-type of image
+     *
+     * @param  string   $format
+     * @param  Imagick  $imagick
+     * @return string
+     */
+    protected function getImageMimeType($format, $imagick = null)
+    {
+        if ($imagick && method_exists($imagick, 'getImageMimeType')) {
+            return $imagick->getImageMimeType();
+        }
+
+        return "image/{$format}";
     }
 }

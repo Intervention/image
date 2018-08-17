@@ -94,6 +94,22 @@ class Font extends AbstractFont
 
         // apply to image
         $image->getCore()->annotateImage($draw, $posx, $posy, $this->angle * (-1), $this->text);
+
+        if (isset($this->textShape)) {
+            $distortion = $this->getDistortion();
+            $distortion->distort($image->getCore());
+        }
+
+        $image->getCore()->trimImage(10);
+    }
+
+    private function getDistortion() {
+        $className = '\\Intervention\\Image\\Imagick\\Font\\Distortion\\'.str_replace(' ' , '', ucwords(str_replace('_', ' ', $this->textShape)));
+        if (!class_exists($className)) {
+            throw new \Intervention\Image\Exception\NotSupportedException('Invalid text shape');
+        }
+        $distortion = new $className();
+        return $distortion;
     }
 
     /**
@@ -110,6 +126,8 @@ class Font extends AbstractFont
      * Calculates bounding box of current font setting
      *
      * @return array
+     * @throws \ImagickException
+     * @throws RuntimeException
      */
     public function getBoxSize()
     {

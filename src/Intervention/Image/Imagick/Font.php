@@ -95,7 +95,7 @@ class Font extends AbstractFont
         // apply to image
         $image->getCore()->annotateImage($draw, $posx, $posy, $this->angle * (-1), $this->text);
 
-        if (isset($this->textShape)) {
+        if (isset($this->textShape) && $this->textShape != '') {
             $distortion = $this->getDistortion();
             $distortion->distort($image->getCore());
         }

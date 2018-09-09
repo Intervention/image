@@ -1,8 +1,9 @@
 <?php
 
 use Intervention\Image\ImageManager;
+use PHPUnit\Framework\TestCase;
 
-class ImageManagerTest extends PHPUnit_Framework_TestCase
+class ImageManagerTest extends TestCase
 {
     public function tearDown()
     {

@@ -1,14 +1,15 @@
 <?php
 
 use Intervention\Image\Commands\CircleCommand;
+use PHPUnit\Framework\TestCase;
 
-class CircleCommandTest extends PHPUnit_Framework_TestCase
+class CircleCommandTest extends TestCase
 {
     public function tearDown()
     {
         Mockery::close();
     }
-    
+
     public function testGd()
     {
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');

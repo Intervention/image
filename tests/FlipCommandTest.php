@@ -2,14 +2,15 @@
 
 use Intervention\Image\Gd\Commands\FlipCommand as FlipGd;
 use Intervention\Image\Imagick\Commands\FlipCommand as FlipImagick;
+use PHPUnit\Framework\TestCase;
 
-class FlipCommandTest extends PHPUnit_Framework_TestCase
+class FlipCommandTest extends TestCase
 {
     public function tearDown()
     {
         Mockery::close();
     }
-    
+
     public function testGd()
     {
         $size = Mockery::mock('\Intervention\Image\Size', [800, 600]);

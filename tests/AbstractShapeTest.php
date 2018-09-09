@@ -1,6 +1,8 @@
 <?php
 
-class AbstractShapeTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class AbstractShapeTest extends TestCase
 {
     public function tearDown()
     {

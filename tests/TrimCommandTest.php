@@ -2,14 +2,15 @@
 
 use Intervention\Image\Gd\Commands\TrimCommand as TrimGd;
 use Intervention\Image\Imagick\Commands\TrimCommand as TrimImagick;
+use PHPUnit\Framework\TestCase;
 
-class TrimCommandTest extends PHPUnit_Framework_TestCase
+class TrimCommandTest extends TestCase
 {
     public function tearDown()
     {
         Mockery::close();
     }
-    
+
     public function testGd()
     {
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');

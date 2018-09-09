@@ -2,14 +2,15 @@
 
 use Intervention\Image\Gd\Commands\InterlaceCommand as InterlaceGd;
 use Intervention\Image\Imagick\Commands\InterlaceCommand as InterlaceImagick;
+use PHPUnit\Framework\TestCase;
 
-class InterlaceCommandTest extends PHPUnit_Framework_TestCase
+class InterlaceCommandTest extends TestCase
 {
     public function tearDown()
     {
         Mockery::close();
     }
-    
+
     public function testGd()
     {
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');

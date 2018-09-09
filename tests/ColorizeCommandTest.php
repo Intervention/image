@@ -2,14 +2,15 @@
 
 use Intervention\Image\Gd\Commands\ColorizeCommand as ColorizeGd;
 use Intervention\Image\Imagick\Commands\ColorizeCommand as ColorizeImagick;
+use PHPUnit\Framework\TestCase;
 
-class ColorizeCommandTest extends PHPUnit_Framework_TestCase
+class ColorizeCommandTest extends TestCase
 {
     public function tearDown()
     {
         Mockery::close();
     }
-    
+
     public function testGd()
     {
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');

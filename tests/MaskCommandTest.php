@@ -2,14 +2,15 @@
 
 use Intervention\Image\Gd\Commands\MaskCommand as MaskGd;
 use Intervention\Image\Imagick\Commands\MaskCommand as MaskImagick;
+use PHPUnit\Framework\TestCase;
 
-class MaskCommandTest extends PHPUnit_Framework_TestCase
+class MaskCommandTest extends TestCase
 {
     public function tearDown()
     {
         Mockery::close();
     }
-    
+
     public function testGd()
     {
         $mask_path = __DIR__.'images/star.png';
@@ -59,7 +60,7 @@ class MaskCommandTest extends PHPUnit_Framework_TestCase
         $image_size = Mockery::mock('Intervention\Image\Size', [32, 32]);
         $image->shouldReceive('getSize')->once()->andReturn($image_size);
         $image->shouldReceive('getDriver')->once()->andReturn($driver);
-        
+
         $command = new MaskImagick([$mask_path, true]);
         $result = $command->execute($image);
         $this->assertTrue($result);

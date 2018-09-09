@@ -1,6 +1,8 @@
 <?php
 
-class AbstractFontTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class AbstractFontTest extends TestCase
 {
     public function tearDown()
     {
@@ -12,7 +14,7 @@ class AbstractFontTest extends PHPUnit_Framework_TestCase
         $font = $this->getMockForAbstractClass('\Intervention\Image\AbstractFont', ['test']);
         $this->assertEquals('test', $font->text);
     }
-    
+
     public function testText()
     {
         $font = $this->getMockForAbstractClass('\Intervention\Image\AbstractFont');

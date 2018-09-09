@@ -2,14 +2,15 @@
 
 use Intervention\Image\Gd\Commands\GreyscaleCommand as GreyscaleGd;
 use Intervention\Image\Imagick\Commands\GreyscaleCommand as GreyscaleImagick;
+use PHPUnit\Framework\TestCase;
 
-class GreyscaleCommandTest extends PHPUnit_Framework_TestCase
+class GreyscaleCommandTest extends TestCase
 {
     public function tearDown()
     {
         Mockery::close();
     }
-    
+
     public function testGd()
     {
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');

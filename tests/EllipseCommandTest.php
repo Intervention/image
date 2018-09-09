@@ -1,14 +1,15 @@
 <?php
 
 use Intervention\Image\Commands\EllipseCommand;
+use PHPUnit\Framework\TestCase;
 
-class EllipseCommandTest extends PHPUnit_Framework_TestCase
+class EllipseCommandTest extends TestCase
 {
     public function tearDown()
     {
         Mockery::close();
     }
-    
+
     public function testGd()
     {
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');

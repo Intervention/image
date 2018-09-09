@@ -14,8 +14,8 @@
     "require": {
         "php": ">=5.4.0",
         "ext-fileinfo": "*",
-        "ext-mbstring": "*",
-        "guzzlehttp/psr7": "~1.1"
+        "guzzlehttp/psr7": "~1.1",
+        "symfony/polyfill-mbstring": ">=1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^4.8 || ^5.7",

@@ -1,5 +1,5 @@
 {
-    "name": "intervention/image",
+    "name": "slosimon/image",
     "description": "Image handling and manipulation library with support for Laravel integration",
     "homepage": "http://image.intervention.io/",
     "keywords": ["image", "gd", "imagick", "laravel", "watermark", "thumbnail"],
@@ -9,6 +9,10 @@
             "name": "Oliver Vogel",
             "email": "oliver@olivervogel.com",
             "homepage": "http://olivervogel.com/"
+        },
+        {
+            "name": "Simon Weiss",
+            "email": "simon@slosimoncom"
         }
     ],
     "require": {

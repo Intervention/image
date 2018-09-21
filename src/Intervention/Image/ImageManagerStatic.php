@@ -49,12 +49,15 @@ class ImageManagerStatic
      * Statically initiates an Image instance from different input types
      *
      * @param  mixed $data
+     * @param  array $options [optional] <p>
+     * use https://secure.php.net/manual/en/function.stream-context-create.php as reference
+     * </p>
      *
      * @return \Intervention\Image\Image
      */
-    public static function make($data)
+    public static function make($data, $options = null)
     {
-        return self::getManager()->make($data);
+        return self::getManager()->make($data, $options);
     }
 
     /**

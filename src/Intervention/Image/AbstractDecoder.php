@@ -65,20 +65,25 @@ abstract class AbstractDecoder
      * </p>
      * @return \Intervention\Image\Image
      */
-    public function initFromUrl($url, $additionalOptions = null)
+    public function initFromUrl($url, $options = null)
     {
-        
+        $additionalOptions = $options;
         $options = [
             'http' => [
                 'method'=>"GET",
                 'header'=>"Accept-language: en\r\n".
-                "User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Chrome/22.0.1216.0 Safari/537.2\r\n"
-            ],
-            $additionalOptions
+                    "User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Chrome/22.0.1216.0 Safari/537.2\r\n"
+            ]
+
         ];
-        
+        if ($additionalOptions != null) {
+            foreach ($additionalOptions as $key => $value) {
+                $options[$key] = $value;
+            }
+        }
+
         $context  = stream_context_create($options);
-        
+
 
         if ($data = @file_get_contents($url, false, $context)) {
             return $this->initFromBinary($data);

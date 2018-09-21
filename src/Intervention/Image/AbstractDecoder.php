@@ -76,7 +76,7 @@ abstract class AbstractDecoder
             ]
 
         ];
-        if ($additionalOptions != null) {
+        if (!empty($additionalOptions)) {
             foreach ($additionalOptions as $key => $value) {
                 $options[$key] = $value;
             }

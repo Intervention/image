@@ -20,9 +20,9 @@ class ImageManagerStaticTest extends PHPUnit_Framework_TestCase
     public function testMake()
     {
         $manager = Mockery::mock('Intervention\Image\ImageManager');
-        $manager->shouldReceive('make')->with('foo')->once();
+        $manager->shouldReceive('make')->with('foo', null)->once();
         $managerStatic = new ImageManagerStatic($manager);
-        $managerStatic->make('foo', null);
+        $managerStatic->make('foo');
     }
 
     public function testCanvas()

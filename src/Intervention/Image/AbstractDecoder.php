@@ -60,9 +60,12 @@ abstract class AbstractDecoder
      * Init from given URL
      *
      * @param  string $url
+     * @param  array $additionalOptions [optional] <p>
+     * use https://secure.php.net/manual/en/function.stream-context-create.php as reference
+     * </p>
      * @return \Intervention\Image\Image
      */
-    public function initFromUrl($url)
+    public function initFromUrl($url, $additionalOptions = null)
     {
         
         $options = [
@@ -70,7 +73,8 @@ abstract class AbstractDecoder
                 'method'=>"GET",
                 'header'=>"Accept-language: en\r\n".
                 "User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Chrome/22.0.1216.0 Safari/537.2\r\n"
-          ]
+            ],
+            $additionalOptions
         ];
         
         $context  = stream_context_create($options);
@@ -304,7 +308,7 @@ abstract class AbstractDecoder
      * @param  mixed $data
      * @return \Intervention\Image\Image
      */
-    public function init($data)
+    public function init($data, $options = null)
     {
         $this->data = $data;
 
@@ -326,7 +330,7 @@ abstract class AbstractDecoder
                 return $this->initFromBinary($this->data);
 
             case $this->isUrl():
-                return $this->initFromUrl($this->data);
+                return $this->initFromUrl($this->data, $options);
 
             case $this->isStream():
                 return $this->initFromStream($this->data);

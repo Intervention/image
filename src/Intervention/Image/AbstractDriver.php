@@ -57,11 +57,14 @@ abstract class AbstractDriver
      * Initiates new image from given input
      *
      * @param  mixed $data
+     * @param  array $options [optional] <p>
+     * use https://secure.php.net/manual/en/function.stream-context-create.php as reference
+     * </p>
      * @return \Intervention\Image\Image
      */
-    public function init($data)
+    public function init($data, $options = null)
     {
-        return $this->decoder->init($data);
+        return $this->decoder->init($data, $options);
     }
 
     /**

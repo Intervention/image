@@ -44,12 +44,15 @@ class ImageManager
      * Initiates an Image instance from different input types
      *
      * @param  mixed $data
+     * @param  array $options [optional] <p>
+     * use https://secure.php.net/manual/en/function.stream-context-create.php as reference
+     * </p>
      *
      * @return \Intervention\Image\Image
      */
-    public function make($data)
+    public function make($data, $options = null)
     {
-        return $this->createDriver()->init($data);
+        return $this->createDriver()->init($data, $options);
     }
 
     /**

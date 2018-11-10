@@ -81,59 +81,57 @@ class Argument
      */
     public function type($type)
     {
-        $fail = false;
-
+        $valid = true;
         $value = $this->value();
 
-        if (is_null($value)) {
+        if ($value === null) {
             return $this;
         }
 
         switch (strtolower($type)) {
-
             case 'bool':
             case 'boolean':
-                $fail =  ! is_bool($value);
-                $message = sprintf('%s accepts only boolean values as argument %d.', $this->getCommandName(), $this->key + 1);
+                $valid = \is_bool($value);
+                $message = '%s accepts only boolean values as argument %d.';
                 break;
-
             case 'int':
             case 'integer':
-                $fail =  ! is_integer($value);
-                $message = sprintf('%s accepts only integer values as argument %d.', $this->getCommandName(), $this->key + 1);
+                $valid = \is_int($value);
+                $message = '%s accepts only integer values as argument %d.';
                 break;
-
             case 'num':
             case 'numeric':
-                $fail =  ! is_numeric($value);
-                $message = sprintf('%s accepts only numeric values as argument %d.', $this->getCommandName(), $this->key + 1);
+                $valid = is_numeric($value);
+                $message = '%s accepts only numeric values as argument %d.';
                 break;
-
             case 'str':
             case 'string':
-                $fail =  ! is_string($value);
-                $message = sprintf('%s accepts only string values as argument %d.', $this->getCommandName(), $this->key + 1);
+                $valid = \is_string($value);
+                $message = '%s accepts only string values as argument %d.';
                 break;
-
             case 'array':
-                $fail =  ! is_array($value);
-                $message = sprintf('%s accepts only array as argument %d.', $this->getCommandName(), $this->key + 1);
+                $valid = \is_array($value);
+                $message = '%s accepts only array as argument %d.';
                 break;
-
             case 'closure':
-                $fail =  ! is_a($value, '\Closure');
-                $message = sprintf('%s accepts only Closure as argument %d.', $this->getCommandName(), $this->key + 1);
+                $valid = is_a($value, \Closure::class);
+                $message = '%s accepts only Closure as argument %d.';
                 break;
-
             case 'digit':
-                $fail = ! $this->isDigit($value);
-                $message = sprintf('%s accepts only integer values as argument %d.', $this->getCommandName(), $this->key + 1);
+                $valid = $this->isDigit($value);
+                $message = '%s accepts only integer values as argument %d.';
                 break;
         }
 
-        if ($fail) {
+        if (! $valid) {
+            $commandName = $this->getCommandName();
+            $argument = $this->key + 1;
 
-            $message = isset($message) ? $message : sprintf("Missing argument for %d.", $this->key);
+            if (isset($message)) {
+                $message = sprintf($message, $commandName, $argument);
+            } else {
+                $message = sprintf('Missing argument for %d.', $argument);
+            }
 
             throw new \Intervention\Image\Exception\InvalidArgumentException(
                 $message

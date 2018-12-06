@@ -67,7 +67,7 @@ class Font extends \Intervention\Image\AbstractFont
                 break;
 
                 case 'top':
-                $posy = $posy + $dimensions['textHeight'] * 0.65;
+                $posy = $posy + $dimensions['characterHeight'];
                 break;
             }
         }

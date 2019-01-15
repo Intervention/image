@@ -129,8 +129,7 @@ class Image extends File
     public function save($path = null, $quality = null)
     {
         $path = is_null($path) ? $this->basePath() : $path;
-        $dir = dirname($path);
-        $dir = str_replace(strrchr($path, "/"), "", $path);
+        $dir = substr($path, 0, strrpos($path, '/'));
 
         if (is_null($path)) {
             throw new Exception\NotWritableException(

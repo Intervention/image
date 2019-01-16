@@ -129,13 +129,14 @@ class Image extends File
     public function save($path = null, $quality = null)
     {
         $path = is_null($path) ? $this->basePath() : $path;
-        $dir = substr($path, 0, strrpos($path, '/'));
 
         if (is_null($path)) {
             throw new Exception\NotWritableException(
                 "Can't write to undefined path."
             );
         }
+        
+        $dir = substr($path, 0, strrpos($path, '/'));
 
         if(!is_dir($dir)) {
             mkdir($dir, 0755, true);

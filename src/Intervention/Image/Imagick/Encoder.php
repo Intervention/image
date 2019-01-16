@@ -78,6 +78,8 @@ class Encoder extends \Intervention\Image\AbstractEncoder
         $compression = \Imagick::COMPRESSION_JPEG;
 
         $imagick = $this->image->getCore();
+        $imagick->setImageBackgroundColor(new \ImagickPixel('transparent'));
+
         $imagick = $imagick->mergeImageLayers(\Imagick::LAYERMETHOD_MERGE);
         $imagick->setFormat($format);
         $imagick->setImageFormat($format);

@@ -2,14 +2,15 @@
 
 use Intervention\Image\Gd\Commands\FillCommand as FillGd;
 use Intervention\Image\Imagick\Commands\FillCommand as FillImagick;
+use PHPUnit\Framework\TestCase;
 
-class FillCommandTest extends PHPUnit_Framework_TestCase
+class FillCommandTest extends TestCase
 {
     public function tearDown()
     {
         Mockery::close();
     }
-    
+
     public function testGdFill()
     {
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');

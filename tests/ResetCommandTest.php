@@ -2,8 +2,9 @@
 
 use Intervention\Image\Gd\Commands\ResetCommand as ResetGd;
 use Intervention\Image\Imagick\Commands\ResetCommand as ResetImagick;
+use PHPUnit\Framework\TestCase;
 
-class ResetCommandTest extends PHPUnit_Framework_TestCase
+class ResetCommandTest extends TestCase
 {
     public function tearDown()
     {

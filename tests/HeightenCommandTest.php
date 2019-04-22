@@ -2,14 +2,15 @@
 
 use Intervention\Image\Gd\Commands\HeightenCommand as HeightenGd;
 use Intervention\Image\Imagick\Commands\HeightenCommand as HeightenImagick;
+use PHPUnit\Framework\TestCase;
 
-class HeightenCommandTest extends PHPUnit_Framework_TestCase
+class HeightenCommandTest extends TestCase
 {
     public function tearDown()
     {
         Mockery::close();
     }
-    
+
     public function testGd()
     {
         $callback = function ($constraint) { $constraint->aspectRatio(); };

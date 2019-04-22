@@ -2,14 +2,15 @@
 
 use Intervention\Image\Gd\Commands\WidenCommand as WidenGd;
 use Intervention\Image\Imagick\Commands\WidenCommand as WidenImagick;
+use PHPUnit\Framework\TestCase;
 
-class WidenCommandTest extends PHPUnit_Framework_TestCase
+class WidenCommandTest extends TestCase
 {
     public function tearDown()
     {
         Mockery::close();
     }
-    
+
     public function testGd()
     {
         $callback = function ($constraint) { $constraint->aspectRatio(); };

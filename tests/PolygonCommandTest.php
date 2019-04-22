@@ -1,14 +1,15 @@
 <?php
 
 use Intervention\Image\Commands\PolygonCommand;
+use PHPUnit\Framework\TestCase;
 
-class PolygonCommandTest extends PHPUnit_Framework_TestCase
+class PolygonCommandTest extends TestCase
 {
     public function tearDown()
     {
         Mockery::close();
     }
-    
+
     public function testGd()
     {
         $points = [1, 2, 3, 4, 5, 6];

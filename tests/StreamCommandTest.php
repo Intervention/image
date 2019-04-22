@@ -1,7 +1,8 @@
 <?php
 use Intervention\Image\Commands\StreamCommand;
+use PHPUnit\Framework\TestCase;
 
-class StreamCommandTest extends PHPUnit_Framework_TestCase
+class StreamCommandTest extends TestCase
 {
     public function tearDown()
     {

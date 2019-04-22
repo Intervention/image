@@ -2,14 +2,15 @@
 
 use Intervention\Image\Gd\Commands\InvertCommand as InvertGd;
 use Intervention\Image\Imagick\Commands\InvertCommand as InvertImagick;
+use PHPUnit\Framework\TestCase;
 
-class InvertCommandTest extends PHPUnit_Framework_TestCase
+class InvertCommandTest extends TestCase
 {
     public function tearDown()
     {
         Mockery::close();
     }
-    
+
     public function testGd()
     {
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');

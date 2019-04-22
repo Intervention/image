@@ -2,8 +2,9 @@
 
 use Intervention\Image\Gd\Commands\GetSizeCommand as GetSizeGd;
 use Intervention\Image\Imagick\Commands\GetSizeCommand as GetSizeImagick;
+use PHPUnit\Framework\TestCase;
 
-class GetsizeCommandTest extends PHPUnit_Framework_TestCase
+class GetsizeCommandTest extends TestCase
 {
     public function tearDown()
     {

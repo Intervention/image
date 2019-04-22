@@ -1,14 +1,15 @@
 <?php
 
 use Intervention\Image\Commands\LineCommand;
+use PHPUnit\Framework\TestCase;
 
-class LineCommandTest extends PHPUnit_Framework_TestCase
+class LineCommandTest extends TestCase
 {
     public function tearDown()
     {
         Mockery::close();
     }
-    
+
     public function testGd()
     {
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');

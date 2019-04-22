@@ -1,12 +1,14 @@
 <?php
 
-class AbstractDecoderTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class AbstractDecoderTest extends TestCase
 {
     public function tearDown()
     {
         Mockery::close();
     }
-    
+
     public function testIsImagick()
     {
         $source = $this->getTestDecoder(new \Imagick);

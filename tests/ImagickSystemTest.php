@@ -73,6 +73,23 @@ class ImagickSystemTest extends TestCase
         $this->assertEquals('image/png', $img->mime);
     }
 
+    public function testMakeFromBase64WithNewlines()
+    {
+        $data = 'iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+' . "\n" .
+                '9AAAAGElEQVQYlWM8c+bMfwYiABMxikYVUk8hAHWzA3' . "\n" .
+                'cRvs4UAAAAAElFTkSuQmCC';
+
+        $img = $this->manager()->make($data);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInstanceOf('Imagick', $img->getCore());
+        $this->assertInternalType('int', $img->getWidth());
+        $this->assertInternalType('int', $img->getHeight());
+        $this->assertEquals(10, $img->getWidth());
+        $this->assertEquals(10, $img->getHeight());
+        $this->assertEquals('image/png', $img->mime);
+    }
+
+
     public function testCanvas()
     {
         $img = $this->manager()->canvas(30, 20);

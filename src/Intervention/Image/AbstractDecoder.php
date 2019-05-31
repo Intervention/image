@@ -262,7 +262,7 @@ abstract class AbstractDecoder
             return false;
         }
 
-        return base64_encode(base64_decode($this->data)) === $this->data;
+        return base64_encode(base64_decode($this->data)) === str_replace(["\n", "\r"], '', $this->data);
     }
 
     /**

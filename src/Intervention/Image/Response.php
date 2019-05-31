@@ -57,6 +57,12 @@ class Response
             $response->header('Content-Type', $mime);
             $response->header('Content-Length', $length);
 
+        } elseif (class_exists(\Symfony\Component\HttpFoundation\Response::class)) {
+
+            $response = \Symfony\Component\HttpFoundation\Response::create($data);
+            $response->headers->set('Content-Type', $mime);
+            $response->headers->set('Content-Length', $length);
+
         } else {
 
             header('Content-Type: ' . $mime);

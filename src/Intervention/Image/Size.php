@@ -154,7 +154,7 @@ class Size
             }
 
             if ($constraint->isFixed(Constraint::ASPECTRATIO)) {
-                $h = intval(round($this->width / $constraint->getSize()->getRatio()));
+                $h = max(1, intval(round($this->width / $constraint->getSize()->getRatio())));
 
                 if ($constraint->isFixed(Constraint::UPSIZE)) {
                     $this->height = ($h > $max_height) ? $max_height : $h;
@@ -190,7 +190,7 @@ class Size
             }
 
             if ($constraint->isFixed(Constraint::ASPECTRATIO)) {
-                $w = intval(round($this->height * $constraint->getSize()->getRatio()));
+                $w = max(1, intval(round($this->height * $constraint->getSize()->getRatio())));
 
                 if ($constraint->isFixed(Constraint::UPSIZE)) {
                     $this->width = ($w > $max_width) ? $max_width : $w;

@@ -3,6 +3,7 @@
 namespace Intervention\Image;
 
 use Closure;
+use Intervention\Image\Exception\InvalidArgumentException;
 
 class Size
 {
@@ -104,7 +105,7 @@ class Size
     public function resize($width, $height, Closure $callback = null)
     {
         if (is_null($width) && is_null($height)) {
-            throw new \Intervention\Image\Exception\InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "Width or height needs to be defined."
             );
         }

@@ -3,6 +3,7 @@
 namespace Intervention\Image\Commands;
 
 use Intervention\Image\Exception\NotReadableException;
+use Intervention\Image\Exception\NotSupportedException;
 
 class ExifCommand extends AbstractCommand
 {
@@ -18,7 +19,7 @@ class ExifCommand extends AbstractCommand
     public function execute($image)
     {
         if (!function_exists('exif_read_data')) {
-            throw new \Intervention\Image\Exception\NotSupportedException(
+            throw new NotSupportedException(
                 "Reading Exif data is not supported by this PHP installation."
             );
         }

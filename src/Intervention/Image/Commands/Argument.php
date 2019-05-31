@@ -2,6 +2,8 @@
 
 namespace Intervention\Image\Commands;
 
+use Intervention\Image\Exception\InvalidArgumentException;
+
 class Argument
 {
     /**
@@ -66,7 +68,7 @@ class Argument
     public function required()
     {
         if ( ! array_key_exists($this->key, $this->command->arguments)) {
-            throw new \Intervention\Image\Exception\InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf("Missing argument %d for %s", $this->key + 1, $this->getCommandName())
             );
         }
@@ -133,7 +135,7 @@ class Argument
                 $message = sprintf('Missing argument for %d.', $argument);
             }
 
-            throw new \Intervention\Image\Exception\InvalidArgumentException(
+            throw new InvalidArgumentException(
                 $message
             );
         }
@@ -158,7 +160,7 @@ class Argument
         $omega = max($x, $y);
 
         if ($value < $alpha || $value > $omega) {
-            throw new \Intervention\Image\Exception\InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('Argument %d must be between %s and %s.', $this->key, $x, $y)
             );
         }
@@ -180,7 +182,7 @@ class Argument
         }
 
         if ($v < $value) {
-            throw new \Intervention\Image\Exception\InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('Argument %d must be at least %s.', $this->key, $value)
             );
         }
@@ -202,7 +204,7 @@ class Argument
         }
 
         if ($v > $value) {
-            throw new \Intervention\Image\Exception\InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('Argument %d may not be greater than %s.', $this->key, $value)
             );
         }

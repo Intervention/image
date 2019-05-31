@@ -2,6 +2,8 @@
 
 namespace Intervention\Image;
 
+use Intervention\Image\Exception\NotWritableException;
+use Intervention\Image\Exception\RuntimeException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -131,7 +133,7 @@ class Image extends File
         $path = is_null($path) ? $this->basePath() : $path;
 
         if (is_null($path)) {
-            throw new Exception\NotWritableException(
+            throw new NotWritableException(
                 "Can't write to undefined path."
             );
         }
@@ -140,7 +142,7 @@ class Image extends File
         $saved = @file_put_contents($path, $data);
 
         if ($saved === false) {
-            throw new Exception\NotWritableException(
+            throw new NotWritableException(
                 "Can't write image data to path ({$path})"
             );
         }
@@ -216,7 +218,7 @@ class Image extends File
         $name = is_null($name) ? 'default' : $name;
 
         if ( ! $this->backupExists($name)) {
-            throw new \Intervention\Image\Exception\RuntimeException(
+            throw new RuntimeException(
                 "Backup with name ({$name}) not available. Call backup() before reset()."
             );
         }

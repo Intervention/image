@@ -3,6 +3,7 @@
 namespace Intervention\Image;
 
 use GuzzleHttp\Psr7\Stream;
+use Intervention\Image\Exception\NotReadableException;
 use Psr\Http\Message\StreamInterface;
 
 abstract class AbstractDecoder
@@ -80,7 +81,7 @@ abstract class AbstractDecoder
             return $this->initFromBinary($data);
         }
 
-        throw new \Intervention\Image\Exception\NotReadableException(
+        throw new NotReadableException(
             "Unable to init from given url (".$url.")."
         );
     }
@@ -123,7 +124,7 @@ abstract class AbstractDecoder
             return $this->initFromBinary($data);
         }
 
-        throw new \Intervention\Image\Exception\NotReadableException(
+        throw new NotReadableException(
             "Unable to init from given stream"
         );
     }
@@ -342,7 +343,7 @@ abstract class AbstractDecoder
                 return $this->initFromBinary(base64_decode($this->data));
 
             default:
-                throw new Exception\NotReadableException("Image source not readable");
+                throw new NotReadableException("Image source not readable");
         }
     }
 

@@ -2,7 +2,10 @@
 
 namespace Intervention\Image\Imagick;
 
-class Encoder extends \Intervention\Image\AbstractEncoder
+use Intervention\Image\AbstractEncoder;
+use Intervention\Image\Exception\NotSupportedException;
+
+class Encoder extends AbstractEncoder
 {
     /**
      * Processes and returns encoded image as JPEG string
@@ -69,7 +72,7 @@ class Encoder extends \Intervention\Image\AbstractEncoder
     protected function processWebp()
     {
         if ( ! \Imagick::queryFormats('WEBP')) {
-            throw new \Intervention\Image\Exception\NotSupportedException(
+            throw new NotSupportedException(
                 "Webp format is not supported by Imagick installation."
             );
         }

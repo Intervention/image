@@ -3,7 +3,6 @@
 
 namespace Intervention\Image;
 
-use Illuminate\Contracts\Support\Arrayable;
 use Intervention\Image\Exception\InvalidArgumentException;
 use Intervention\Image\Exception\RuntimeException;
 use JsonSerializable;
@@ -11,7 +10,7 @@ use JsonSerializable;
 /**
  * Resolution of an image.
  */
-class Resolution implements JsonSerializable, Arrayable
+class Resolution implements JsonSerializable
 {
     public const UNITS_PPI     = 'ppi';
     public const UNITS_PPCM    = 'ppcm';

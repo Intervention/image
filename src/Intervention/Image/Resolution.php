@@ -12,9 +12,9 @@ use JsonSerializable;
  */
 class Resolution implements JsonSerializable
 {
-    public const UNITS_PPI     = 'ppi';
-    public const UNITS_PPCM    = 'ppcm';
-    public const UNITS_UNKNOWN = 'unknown';
+    const UNITS_PPI     = 'ppi';
+    const UNITS_PPCM    = 'ppcm';
+    const UNITS_UNKNOWN = 'unknown';
 
     /**
      * @var int

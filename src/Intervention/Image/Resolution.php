@@ -86,7 +86,7 @@ class Resolution implements JsonSerializable
 
     // <editor-fold desc="Functions">
     // =========================================================================
-    protected function convert(int $value, ?string $units, ?string $target): int
+    protected function convert(int $value, string $units = null, string $target = null): int
     {
         // Default
         $units  = $this->units($units ?: $this->getUnits());

@@ -26,7 +26,7 @@ class SetResolutionArgumentsTest extends TestCase
      *
      * @return void
      */
-    public function testGetInputResolution($expected, array $args): void
+    public function testGetInputResolution($expected, array $args)
     {
         /** @var \Intervention\Image\Image|\Mockery\MockInterface $image */
         $resolution = new Resolution(100, 200, Resolution::UNITS_PPI);

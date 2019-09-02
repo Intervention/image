@@ -82,6 +82,8 @@ class Font extends \Intervention\Image\AbstractFont
 
         if ($this->hasApplicableFontFile()) {
 
+            $this->text = mb_encode_numericentity($this->text, array(0x0080, 0xffff, 0, 0xffff), 'UTF-8');
+
             // get bounding box with angle 0
             $box = imagettfbbox($this->getPointSize(), 0, $this->file, $this->text);
 

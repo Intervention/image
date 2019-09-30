@@ -48,7 +48,7 @@ class ImageServiceProviderLaravel5 extends ServiceProvider
 
         // create image
         $app->singleton('image', function ($app) {
-            return new ImageManager($app['config']->get('image'));
+            return new ImageManager([$app['config']->get('image')]);
         });
 
         $app->alias('image', 'Intervention\Image\ImageManager');
@@ -76,7 +76,6 @@ class ImageServiceProviderLaravel5 extends ServiceProvider
 
         // imagecache route
         if (is_string(config('imagecache.route'))) {
-
             $filename_pattern = '[ \w\\.\\/\\-\\@\(\)]+';
 
             // route to access template applied image file

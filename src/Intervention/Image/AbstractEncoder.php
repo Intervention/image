@@ -85,6 +85,90 @@ abstract class AbstractEncoder
     abstract protected function processWebp();
 
     /**
+     * Check if a given format is available
+     *
+     * @param  string  $format
+     * @return boolean
+     */
+    public function formatAvailable($format = null)
+    {
+        switch ($format) {
+
+            case 'data-url':
+                return true;
+                break;
+
+            case 'gif':
+            case 'image/gif':
+                return true;
+                break;
+
+            case 'png':
+            case 'image/png':
+            case 'image/x-png':
+                return true;
+                break;
+
+            case 'jpg':
+            case 'jpeg':
+            case 'image/jpg':
+            case 'image/jpeg':
+            case 'image/pjpeg':
+                return true;
+                break;
+
+            case 'tif':
+            case 'tiff':
+            case 'image/tiff':
+            case 'image/tif':
+            case 'image/x-tif':
+            case 'image/x-tiff':
+                return true;
+                break;
+
+            case 'bmp':
+            case 'bmp':
+            case 'ms-bmp':
+            case 'x-bitmap':
+            case 'x-bmp':
+            case 'x-ms-bmp':
+            case 'x-win-bitmap':
+            case 'x-windows-bmp':
+            case 'x-xbitmap':
+            case 'image/ms-bmp':
+            case 'image/x-bitmap':
+            case 'image/x-bmp':
+            case 'image/x-ms-bmp':
+            case 'image/x-win-bitmap':
+            case 'image/x-windows-bmp':
+            case 'image/x-xbitmap':
+                return true;
+                break;
+
+            case 'ico':
+            case 'image/x-ico':
+            case 'image/x-icon':
+            case 'image/vnd.microsoft.icon':
+                return true;
+                break;
+
+            case 'psd':
+            case 'image/vnd.adobe.photoshop':
+                return true;
+                break;
+
+            case 'webp':
+            case 'image/webp':
+            case 'image/x-webp':
+                return ($_SERVER && array_key_exists('HTTP_ACCEPT', $_SERVER) && strpos($_SERVER['HTTP_ACCEPT'], 'image/webp') !== false);
+                break;
+                
+            default:
+                return false;
+        }
+    }
+
+    /**
      * Process a given image
      *
      * @param  Image   $image
@@ -94,6 +178,26 @@ abstract class AbstractEncoder
      */
     public function process(Image $image, $format = null, $quality = null)
     {
+        $this->setImage($image);
+        $this->setFormat($format);
+        $this->setQuality($quality);
+
+        $format = strtolower($this->format);
+        $coalesceFormatPrefix = 'coalesce-';
+
+        if (strpos($format, $coalesceFormatPrefix) === 0 && strpos($format, ':') !== false) {
+            if (substr($format, 0, strlen($coalesceFormatPrefix)) == $coalesceFormatPrefix) {
+                $format = substr($format, strlen($coalesceFormatPrefix));
+                $coalesceFormatsList = explode(':', $format);
+                
+                foreach ($coalesceFormatsList as $currentFormat) {
+                    if ($this->formatAvailable($currentFormat)) {
+                        return $this->process($image, $currentFormat, $quality);
+                    }
+                }
+            }
+        }
+
         $this->setImage($image);
         $this->setFormat($format);
         $this->setQuality($quality);
@@ -189,7 +293,8 @@ abstract class AbstractEncoder
     {
         $mime = $this->image->mime ? $this->image->mime : 'image/png';
 
-        return sprintf('data:%s;base64,%s',
+        return sprintf(
+            'data:%s;base64,%s',
             $mime,
             base64_encode($this->process($this->image, $mime, $this->quality))
         );

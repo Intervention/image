@@ -42,7 +42,7 @@ Refer to the [official documentation](http://image.intervention.io/) to learn mo
 
 ## Contributing
 
-Contributions to the Intervention Image library are welcome. Please note the following guidelines before submiting your pull request.
+Contributions to the Intervention Image library are welcome. Please note the following guidelines before submitting your pull request.
 
 - Follow [PSR-2](http://www.php-fig.org/psr/psr-2/) coding standards.
 - Write tests for new functions and added features

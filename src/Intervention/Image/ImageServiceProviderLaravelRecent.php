@@ -4,7 +4,7 @@ namespace Intervention\Image;
 
 use Illuminate\Support\ServiceProvider;
 
-class ImageServiceProviderLaravel5 extends ServiceProvider
+class ImageServiceProviderLaravelRecent extends ServiceProvider
 {
     /**
      * Determines if Intervention Imagecache is installed
@@ -48,7 +48,7 @@ class ImageServiceProviderLaravel5 extends ServiceProvider
 
         // create image
         $app->singleton('image', function ($app) {
-            return new ImageManager($app['config']->get('image'));
+            return new ImageManager($this->getImageConfig($app));
         });
 
         $app->alias('image', 'Intervention\Image\ImageManager');
@@ -85,5 +85,22 @@ class ImageServiceProviderLaravel5 extends ServiceProvider
                 'as' => 'imagecache'
             ])->where(['filename' => $filename_pattern]);
         }
+    }
+
+    /**
+     * Return image configuration as array
+     *
+     * @param  Application $app
+     * @return array
+     */
+    private function getImageConfig($app)
+    {
+        $config = $app['config']->get('image');
+
+        if (is_null($config)) {
+            return [];
+        }
+
+        return $config;
     }
 }

@@ -73,16 +73,18 @@ class EncoderTest extends TestCase
         $this->assertInstanceOf('Intervention\Image\Image', $img);
     }
 
-    /**
-     * @expectedException \Intervention\Image\Exception\NotSupportedException
-     */
     public function testProcessBmpGd()
     {
-        $core = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
-        $encoder = new GdEncoder;
-        $image = Mockery::mock('\Intervention\Image\Image');
-        $img = $encoder->process($image, 'bmp', 90);
-        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        if (function_exists('imagebmp')) {
+            $core = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
+            $encoder = new GdEncoder;
+            $image = Mockery::mock('\Intervention\Image\Image');
+            $image->shouldReceive('getCore')->once()->andReturn($core);
+            $image->shouldReceive('setEncoded')->once()->andReturn($image);
+            $img = $encoder->process($image, 'bmp', 90);
+            $this->assertInstanceOf('Intervention\Image\Image', $img);
+            $this->assertEquals('image/x-ms-bmp; charset=binary', $this->getMime($encoder->result));
+        }
     }
 
     /**

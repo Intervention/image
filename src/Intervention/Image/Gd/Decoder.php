@@ -55,9 +55,25 @@ class Decoder extends \Intervention\Image\AbstractDecoder
                 $core = @imagecreatefromwebp($path);
                 break;
 
+            case 'image/bmp':
+            case 'image/ms-bmp':
+            case 'image/x-bitmap':
+            case 'image/x-bmp':
+            case 'image/x-ms-bmp':
+            case 'image/x-win-bitmap':
+            case 'image/x-windows-bmp':
+            case 'image/x-xbitmap':
+                if (! function_exists('imagecreatefrombmp')) {
+                    throw new NotReadableException(
+                        "Unsupported image type. GD/PHP installation does not support BMP format."
+                    );
+                }
+                $core = @imagecreatefrombmp($path);
+                break;
+
             default:
                 throw new NotReadableException(
-                    "Unsupported image type. GD driver is only able to decode JPG, PNG, GIF or WebP files."
+                    "Unsupported image type. GD driver is only able to decode JPG, PNG, GIF, WebP or BMP files."
                 );
         }
 

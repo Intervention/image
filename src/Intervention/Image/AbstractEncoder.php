@@ -171,7 +171,7 @@ abstract class AbstractEncoder
                 
             default:
                 throw new NotSupportedException(
-                    "Encoding format ({$format}) is not supported."
+                    "Encoding format ({$this->format}) is not supported."
                 );
         }
 

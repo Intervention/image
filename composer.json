@@ -13,7 +13,8 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "ext-fileinfo": "*",
+        "ext-exif": "*",   
+        "ext-fileinfo": "*",        
         "guzzlehttp/psr7": "~1.1"
     },
     "require-dev": {

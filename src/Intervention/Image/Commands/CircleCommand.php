@@ -15,8 +15,8 @@ class CircleCommand extends AbstractCommand
     public function execute($image)
     {
         $diameter = $this->argument(0)->type('numeric')->required()->value();
-        $x = $this->argument(1)->type('numeric')->required()->value();
-        $y = $this->argument(2)->type('numeric')->required()->value();
+        $x = $this->argument(1)->type('numeric')->value();
+        $y = $this->argument(2)->type('numeric')->value();
         $callback = $this->argument(3)->type('closure')->value();
 
         $circle_classname = sprintf('\Intervention\Image\%s\Shapes\CircleShape',

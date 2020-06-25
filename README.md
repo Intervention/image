@@ -16,6 +16,9 @@ Intervention Image is a **PHP image handling and manipulation** library providin
 - GD Library (>=2.0)
 - Imagick PHP extension (>=6.5.7)
 
+## Video Tutorials
+ - Video tutorials are here](https://www.youtube.com/playlist?list=PL0wCC44AhrC2jVoGeVfYRNLfcrMzhj7fg)
+
 ## Getting started
 
 - [Installation](http://image.intervention.io/getting_started/installation)

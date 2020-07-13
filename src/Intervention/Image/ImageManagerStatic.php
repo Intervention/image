@@ -20,7 +20,7 @@ class ImageManagerStatic
      */
     public function __construct(ImageManager $manager = null)
     {
-        self::$manager = $manager ? $manager : new ImageManager;
+        self::$manager = $manager ? $manager : resolve(ImageManager::class);
     }
 
     /**
@@ -30,7 +30,7 @@ class ImageManagerStatic
      */
     public static function getManager()
     {
-        return self::$manager ? self::$manager : new ImageManager;
+        return self::$manager ? self::$manager : resolve(ImageManager::class);
     }
 
     /**

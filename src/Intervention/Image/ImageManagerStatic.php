@@ -31,7 +31,7 @@ class ImageManagerStatic
     public static function getManager()
     {
         $isLaravel = class_exists('Illuminate\Support\Facades\App');
-        return self::$manager ? self::$manager : ($isLaravel ? resolve(ImageManager::class) : new ImageManager);
+        return self::$manager ? self::$manager : ($isLaravel ? resolve('Intervention\Image\ImageManager') : new ImageManager);
     }
 
     /**

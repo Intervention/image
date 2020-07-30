@@ -232,22 +232,22 @@ class GdColorTest extends TestCase
         $c = new Color;
         $i = $c->getRgba();
         $this->assertInternalType('string', $i);
-        $this->assertEquals($i, 'rgba(255, 255, 255, 0.00)');
+        $this->assertEquals($i, 'rgba(255, 255, 255, 0.000)');
 
         $c = new Color([255, 255, 255, 1]);
         $i = $c->getRgba();
         $this->assertInternalType('string', $i);
-        $this->assertEquals($i, 'rgba(255, 255, 255, 1.00)');
+        $this->assertEquals($i, 'rgba(255, 255, 255, 1.000)');
 
         $c = new Color([181, 55, 23, 0.5]);
         $i = $c->getRgba();
         $this->assertInternalType('string', $i);
-        $this->assertEquals($i, 'rgba(181, 55, 23, 0.50)');
+        $this->assertEquals($i, 'rgba(181, 55, 23, 0.500)');
 
         $c = new Color([0, 0, 0, 1]);
         $i = $c->getRgba();
         $this->assertInternalType('string', $i);
-        $this->assertEquals($i, 'rgba(0, 0, 0, 1.00)');
+        $this->assertEquals($i, 'rgba(0, 0, 0, 1.000)');
     }
 
     public function testDiffers()

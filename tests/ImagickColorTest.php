@@ -272,7 +272,7 @@ class ImagickColorTest extends TestCase
         $c = new Color;
         $i = $c->getRgba();
         $this->assertInternalType('string', $i);
-        $this->assertEquals($i, 'rgba(255, 255, 255, 0.00)');
+        $this->assertEquals($i, 'rgba(255, 255, 255, 0.000)');
 
         $c = new Color([255, 255, 255, 1]);
         $i = $c->getRgba();

@@ -165,7 +165,7 @@ class Color extends AbstractColor
      */
     public function getRgba()
     {
-        return sprintf('rgba(%d, %d, %d, %.2F)',
+        return sprintf('rgba(%d, %d, %d, %.3F)',
             $this->getRedValue(),
             $this->getGreenValue(),
             $this->getBlueValue(),
@@ -237,7 +237,7 @@ class Color extends AbstractColor
      */
     public function getAlphaValue()
     {
-        return round($this->pixel->getColorValue(\Imagick::COLOR_ALPHA), 2);
+        return round($this->pixel->getColorValue(\Imagick::COLOR_ALPHA), 3);
     }
 
     /**
@@ -250,7 +250,7 @@ class Color extends AbstractColor
         $a = is_null($a) ? 1 : $a;
 
         return $this->pixel = new \ImagickPixel(
-            sprintf('rgba(%d, %d, %d, %.2F)', $r, $g, $b, $a)
+            sprintf('rgba(%d, %d, %d, %.3F)', $r, $g, $b, $a)
         );
     }
 
@@ -273,7 +273,7 @@ class Color extends AbstractColor
     private function rgb2alpha($value)
     {
         // (255 -> 1.0) / (0 -> 0.0)
-        return (float) round($value/255, 2);
+        return (float) round($value/255, 3);
     }
 
 }

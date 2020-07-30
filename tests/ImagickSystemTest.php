@@ -1187,7 +1187,7 @@ class ImagickSystemTest extends TestCase
         $this->assertEquals(34, $c[0]);
         $this->assertEquals(0, $c[1]);
         $this->assertEquals(160, $c[2]);
-        $this->assertEquals(0.47, $c[3]);
+        $this->assertEquals(0.467, $c[3]);
 
         $c = $img->pickColor(16, 16);
         $this->assertEquals(231, $c[0]);

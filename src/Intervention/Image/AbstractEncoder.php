@@ -212,8 +212,10 @@ abstract class AbstractEncoder
      */
     protected function setFormat($format = null)
     {
-        if ($format == '' && $this->image instanceof Image) {
-            $format = $this->image->mime;
+        if ($format == '' || $format == 'tmp') {
+            if ( $this->image instanceof Image ) {
+                $format = $this->image->mime;
+            }
         }
 
         $this->format = $format ? $format : 'jpg';

@@ -3,6 +3,7 @@
 namespace Intervention\Image;
 
 use Illuminate\Http\Response as IlluminateResponse;
+use Illuminate\Support\Facades\Response as IlluminateResponseFacade;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 class Response
@@ -54,9 +55,11 @@ class Response
         $mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $data);
         $length = strlen($data);
 
-        if (function_exists('app') && is_a($app = app(), 'Illuminate\Container\Container')) {
+        if (function_exists('app') && app() instanceof \Illuminate\Container\Container) {
 
-            $response = new IlluminateResponse($data);
+            $response = IlluminateResponseFacade::getFacadeApplication()
+                ? IlluminateResponseFacade::make($data)
+                : new IlluminateResponse($data);
             $response->header('Content-Type', $mime);
             $response->header('Content-Length', $length);
 

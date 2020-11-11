@@ -2,6 +2,7 @@
 
 namespace Intervention\Image\Gd;
 
+use Intervention\Image\AbstractColor;
 use Intervention\Image\Exception\NotSupportedException;
 use Intervention\Image\Image;
 
@@ -81,7 +82,7 @@ class Driver extends \Intervention\Image\AbstractDriver
         imagesavealpha($clone, true);
         $transparency = imagecolorallocatealpha($clone, 0, 0, 0, 127);
         imagefill($clone, 0, 0, $transparency);
-        
+
         imagecopy($clone, $core, 0, 0, 0, 0, $width, $height);
 
         return $clone;

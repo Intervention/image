@@ -121,4 +121,16 @@ class Encoder extends \Intervention\Image\AbstractEncoder
             "PSD format is not supported by Gd Driver."
         );
     }
+
+    /**
+     * Processes and returns encoded image as AVIF string
+     *
+     * @return string
+     */
+    protected function processAvif()
+    {
+        throw new NotSupportedException(
+            "AVIF format is not supported by Gd Driver."
+        );
+    }
 }

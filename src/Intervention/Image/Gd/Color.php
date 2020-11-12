@@ -168,7 +168,7 @@ class Color extends AbstractColor
      */
     public function getArray()
     {
-        return [$this->r, $this->g, $this->b, round(1 - $this->a / 127, 2)];
+        return [$this->r, $this->g, $this->b, round(1 - $this->a / 127, 3)];
     }
 
     /**
@@ -178,7 +178,7 @@ class Color extends AbstractColor
      */
     public function getRgba()
     {
-        return sprintf('rgba(%d, %d, %d, %.2F)', $this->r, $this->g, $this->b, round(1 - $this->a / 127, 2));
+        return sprintf('rgba(%d, %d, %d, %.3F)', $this->r, $this->g, $this->b, round(1 - $this->a / 127, 3));
     }
 
     /**

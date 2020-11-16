@@ -18,11 +18,9 @@ jobs:
     - 7.4
     - nightly
     - hhvm
-
-matrix:
-    allow_failures:
-        - php: nightly
-        - php: hhvm
+  allow_failures:
+    - php: nightly
+    - php: hhvm
 
 before_script:
   - printf "\n" | pecl install imagick

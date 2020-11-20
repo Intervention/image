@@ -51,6 +51,10 @@ class ImageManager
      */
     public function make($data)
     {
+        // path traversal mitigation
+        if (strpos($data, '..') !== false) {
+            $data = str_replace('..', '', $data);
+        } 
         return $this->createDriver()->init($data);
     }
 

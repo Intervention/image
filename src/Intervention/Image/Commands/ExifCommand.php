@@ -29,7 +29,19 @@ class ExifCommand extends AbstractCommand
         // try to read exif data from image file
         try {
             $data = @exif_read_data($image->dirname . '/' . $image->basename);
-
+            
+            // recursively sanitize the data from exif
+            $data = array_map(function($element){
+                $res = null;
+                if(is_array($element)){
+                    $res = array_map('htmlspecialchars', $element);
+                }
+                else {
+                    $res = htmlspecialchars($element, ENT_QUOTES, 'UTF-8');
+                }
+                return $res;
+            }, $data);
+            
             if (!is_null($key) && is_array($data)) {
                 $data = array_key_exists($key, $data) ? $data[$key] : false;
             }

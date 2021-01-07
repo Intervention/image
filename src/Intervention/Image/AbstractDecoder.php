@@ -136,7 +136,7 @@ abstract class AbstractDecoder
      */
     public function isGdResource()
     {
-        if (is_resource($this->data) || (is_object($image) && $image instanceof \GDImage)) {
+        if (is_resource($this->data) || (is_object($this->data) && $this->data instanceof \GDImage)) {
             return (get_resource_type($this->data) == 'gd');
         }
 

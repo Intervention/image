@@ -118,7 +118,7 @@ class Decoder extends \Intervention\Image\AbstractDecoder
         }
 
         $image = $this->initFromGdResource($resource);
-        $image->mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $binary);
+        $image->mime = getimagesizefromstring($binary)['mime'];
 
         return $image;
     }

@@ -124,6 +124,7 @@ abstract class AbstractEncoder
 
             case 'jpg':
             case 'jpeg':
+            case 'image/jp2':
             case 'image/jpg':
             case 'image/jpeg':
             case 'image/pjpeg':
@@ -184,7 +185,7 @@ abstract class AbstractEncoder
                 
             default:
                 throw new NotSupportedException(
-                    "Encoding format ({$format}) is not supported."
+                    "Encoding format ({$this->format}) is not supported."
                 );
         }
 

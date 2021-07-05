@@ -170,4 +170,26 @@ class Encoder extends AbstractEncoder
 
         return $imagick->getImagesBlob();
     }
+
+    protected function processAvif()
+    {
+        if ( ! \Imagick::queryFormats('AVIF')) {
+            throw new NotSupportedException(
+                "AVIF format is not supported by Imagick installation."
+            );
+        }
+
+        $format = 'avif';
+        $compression = \Imagick::COMPRESSION_UNDEFINED;
+
+        $imagick = $this->image->getCore();
+        $imagick->setFormat($format);
+        $imagick->setImageFormat($format);
+        $imagick->setCompression($compression);
+        $imagick->setImageCompression($compression);
+        $imagick->setCompressionQuality($this->quality);
+        $imagick->setImageCompressionQuality($this->quality);
+
+        return $imagick->getImagesBlob();
+    }
 }

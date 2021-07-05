@@ -96,9 +96,19 @@ class Encoder extends \Intervention\Image\AbstractEncoder
      */
     protected function processBmp()
     {
-        throw new NotSupportedException(
-            "BMP format is not supported by Gd Driver."
-        );
+        if ( ! function_exists('imagebmp')) {
+            throw new NotSupportedException(
+                "BMP format is not supported by PHP installation."
+            );
+        }
+
+        ob_start();
+        imagebmp($this->image->getCore());
+        $this->image->mime = defined('IMAGETYPE_BMP') ? image_type_to_mime_type(IMAGETYPE_BMP) : 'image/bmp';
+        $buffer = ob_get_contents();
+        ob_end_clean();
+        
+        return $buffer;
     }
 
     /**

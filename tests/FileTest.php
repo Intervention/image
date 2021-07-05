@@ -19,7 +19,7 @@ class FileTest extends TestCase
     public function testBasePath()
     {
         $file = new File;
-        $this->assertNull(null, $file->basePath());
+        $this->assertNull(null, $file->basePath() ?: '');
 
         $file->dirname = 'foo';
         $file->basename = 'bar';

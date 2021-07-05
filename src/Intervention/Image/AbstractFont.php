@@ -73,7 +73,7 @@ abstract class AbstractFont
     /**
      * Create a new instance of Font
      *
-     * @param Strinf $text Text to be written
+     * @param String $text Text to be written
      */
     public function __construct($text = null)
     {

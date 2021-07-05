@@ -28,7 +28,17 @@ class ExifCommand extends AbstractCommand
 
         // try to read exif data from image file
         try {
-            $data = @exif_read_data($image->dirname . '/' . $image->basename);
+            if ($image->dirname && $image->basename) {
+                $stream = $image->dirname . '/' . $image->basename;
+            } elseif (version_compare(PHP_VERSION, '7.2.0', '>=')) {
+                // https://www.php.net/manual/en/function.exif-read-data.php#refsect1-function.exif-read-data-changelog
+                $stream = $image->stream()->detach();
+            } else {
+                // https://bugs.php.net/bug.php?id=65187
+                $stream = $image->encode('data-url')->encoded;
+            }
+
+            $data = @exif_read_data($stream);
 
             if (!is_null($key) && is_array($data)) {
                 $data = array_key_exists($key, $data) ? $data[$key] : false;

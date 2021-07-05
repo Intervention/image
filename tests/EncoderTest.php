@@ -60,6 +60,21 @@ class EncoderTest extends TestCase
             $this->assertEquals('image/webp; charset=binary', $this->getMime($encoder->result));
         }
     }
+    
+    public function testProcessWebpGdWithUnSupportedPalette()
+    {
+        if (function_exists('imagewebp')) {
+            $core = imagecreatefrompng(__DIR__.'/images/black-friday.png');
+            $encoder = new GdEncoder;
+            $image = Mockery::mock('\Intervention\Image\Image');
+            $image->shouldReceive('getCore')->once()->andReturn($core);
+            $image->shouldReceive('setEncoded')->once()->andReturn($image);
+            $img = $encoder->process($image, 'webp', 90);
+            $this->assertInstanceOf('Intervention\Image\Image', $img);
+            $this->assertEquals('image/webp; charset=binary', $this->getMime($encoder->result));
+        }
+    }
+
 
     /**
      * @expectedException \Intervention\Image\Exception\NotSupportedException

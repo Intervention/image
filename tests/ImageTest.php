@@ -1,8 +1,10 @@
 <?php
 
 use Intervention\Image\Image;
+use Intervention\Image\ImageManager;
+use PHPUnit\Framework\TestCase;
 
-class ImageTest extends PHPUnit_Framework_TestCase
+class ImageTest extends TestCase
 {
     public function tearDown()
     {
@@ -43,11 +45,30 @@ class ImageTest extends PHPUnit_Framework_TestCase
         @unlink($save_as);
     }
 
+    public function testFormatSave()
+    {
+        $save_as = __DIR__.'/tmp/test';
+
+        $config = ['driver' => new Intervention\Image\Imagick\Driver()];
+        $manager = new ImageManager($config);
+
+        $image = $manager->make('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
+        $this->assertInstanceOf('Intervention\Image\Image', $image);
+        $this->assertInstanceOf('Imagick', $image->getCore());
+
+        $gifCore = $image->getCore();
+        $this->assertEquals($gifCore->getImageMimeType(), 'image/gif');
+        $image->save($save_as, null, 'jpg');
+
+        $this->assertEquals(\mime_content_type($save_as), 'image/jpeg');
+        @unlink($save_as);
+    }
+
     public function testIsEncoded()
     {
         $image = $this->getTestImage();
         $this->assertFalse($image->isEncoded());
-        
+
         $image->setEncoded('foo');
         $this->assertTrue($image->isEncoded());
     }

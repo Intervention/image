@@ -1,6 +1,8 @@
 <?php
 
-class ImagickSystemTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class ImagickSystemTest extends TestCase
 {
     public function testMakeFromPath()
     {
@@ -70,6 +72,23 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(10, $img->getHeight());
         $this->assertEquals('image/png', $img->mime);
     }
+
+    public function testMakeFromBase64WithNewlines()
+    {
+        $data = 'iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+' . "\n" .
+                '9AAAAGElEQVQYlWM8c+bMfwYiABMxikYVUk8hAHWzA3' . "\n" .
+                'cRvs4UAAAAAElFTkSuQmCC';
+
+        $img = $this->manager()->make($data);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInstanceOf('Imagick', $img->getCore());
+        $this->assertInternalType('int', $img->getWidth());
+        $this->assertInternalType('int', $img->getHeight());
+        $this->assertEquals(10, $img->getWidth());
+        $this->assertEquals(10, $img->getHeight());
+        $this->assertEquals('image/png', $img->mime);
+    }
+
 
     public function testCanvas()
     {
@@ -1133,7 +1152,7 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
         $this->assertColorAtPosition('#680098', $img, 6, 12);
         $this->assertColorAtPosition('#c2596a', $img, 22, 24);
     }
-    
+
     public function testLimitColorsKeepTransparencyWithMatte()
     {
         $img = $this->manager()->make('tests/images/star.png');
@@ -1203,7 +1222,7 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->getCore()->quantizeImage(200, \Imagick::COLORSPACE_RGB, 0, false, false);
-        
+
         $c = $img->pickColor(0, 0);
         $this->assertEquals(180, $c[0]);
         $this->assertEquals(224, $c[1]);
@@ -1265,7 +1284,7 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
         $this->assertColorAtPosition('#00ece2', $img, 0, 0);
         $this->assertColorAtPosition('#ffea00', $img, 24, 24);
     }
-    
+
     public function testTrimGradient()
     {
         $canvas = $this->manager()->make('tests/images/gradient.png');
@@ -1527,7 +1546,7 @@ class ImagickSystemTest extends PHPUnit_Framework_TestCase
         $img = $this->manager()->canvas(16, 16, '#ff0000');
         $img->save($path);
         $img->destroy();
-        
+
         // open test image again
         $img = $this->manager()->make($path);
         $this->assertColorAtPosition('#ff0000', $img, 0, 0);

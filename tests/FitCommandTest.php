@@ -2,14 +2,15 @@
 
 use Intervention\Image\Gd\Commands\FitCommand as FitGd;
 use Intervention\Image\Imagick\Commands\FitCommand as FitImagick;
+use PHPUnit\Framework\TestCase;
 
-class FitCommandTest extends PHPUnit_Framework_TestCase
+class FitCommandTest extends TestCase
 {
     public function tearDown()
     {
         Mockery::close();
     }
-    
+
     public function testGdFit()
     {
         $cropped_size = Mockery::mock('\Intervention\Image\Size', [800, 400]);

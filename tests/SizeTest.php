@@ -1,8 +1,9 @@
 <?php
 
 use Intervention\Image\Size;
+use PHPUnit\Framework\TestCase;
 
-class SizeTest extends PHPUnit_Framework_TestCase
+class SizeTest extends TestCase
 {
     public function tearDown()
     {
@@ -283,7 +284,7 @@ class SizeTest extends PHPUnit_Framework_TestCase
         $pivot->shouldReceive('setPosition')->with(0, $height)->once();
         $pivot->shouldReceive('setPosition')->with(intval($width/2), $height)->once();
         $pivot->shouldReceive('setPosition')->with($width, $height)->once();
-        
+
         $box = new Size($width, $height, $pivot);
         $box->align('top-left');
         $box->align('top');

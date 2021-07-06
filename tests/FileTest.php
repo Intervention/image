@@ -1,8 +1,9 @@
 <?php
 
 use Intervention\Image\File;
+use PHPUnit\Framework\TestCase;
 
-class FileTest extends PHPUnit_Framework_TestCase
+class FileTest extends TestCase
 {
     public function testSetFileInfoFromPath()
     {
@@ -18,7 +19,7 @@ class FileTest extends PHPUnit_Framework_TestCase
     public function testBasePath()
     {
         $file = new File;
-        $this->assertNull(null, $file->basePath());
+        $this->assertNull(null, $file->basePath() ?: '');
 
         $file->dirname = 'foo';
         $file->basename = 'bar';

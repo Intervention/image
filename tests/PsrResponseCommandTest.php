@@ -1,7 +1,8 @@
 <?php
 use Intervention\Image\Commands\PsrResponseCommand;
+use PHPUnit\Framework\TestCase;
 
-class PsrResponseCommandTest extends PHPUnit_Framework_TestCase
+class PsrResponseCommandTest extends TestCase
 {
     public function tearDown()
     {
@@ -44,10 +45,10 @@ class PsrResponseCommandTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($output->hasHeader('Content-Type'));
         $this->assertTrue($output->hasHeader('Content-Length'));
 
-        $this->assertEquals(
-            "application/xml",
-            $output->getHeaderLine('Content-Type')
-        );
+        $this->assertTrue(in_array($output->getHeaderLine('Content-Type'), [
+            'application/xml',
+            'text/xml',
+        ]));
 
         $this->assertEquals(
             strlen($encodedContent),

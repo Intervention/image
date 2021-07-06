@@ -2,14 +2,15 @@
 
 use Intervention\Image\Gd\Commands\DestroyCommand as DestroyGd;
 use Intervention\Image\Imagick\Commands\DestroyCommand as DestroyImagick;
+use PHPUnit\Framework\TestCase;
 
-class DestroyCommandTest extends PHPUnit_Framework_TestCase
+class DestroyCommandTest extends TestCase
 {
     public function tearDown()
     {
         Mockery::close();
     }
-    
+
     public function testGd()
     {
         $resource = imagecreatefrompng(__DIR__.'/images/tile.png');

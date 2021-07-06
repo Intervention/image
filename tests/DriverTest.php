@@ -2,14 +2,15 @@
 
 use Intervention\Image\Gd\Driver as GdDriver;
 use Intervention\Image\Imagick\Driver as ImagickDriver;
+use PHPUnit\Framework\TestCase;
 
-class DriverTest extends PHPUnit_Framework_TestCase
+class DriverTest extends TestCase
 {
     public function tearDown()
     {
         Mockery::close();
     }
-    
+
     public function testNewImageGd()
     {
         $driver = new GdDriver(

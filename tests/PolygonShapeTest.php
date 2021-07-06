@@ -2,20 +2,21 @@
 
 use Intervention\Image\Gd\Shapes\PolygonShape as PolygonGd;
 use Intervention\Image\Imagick\Shapes\PolygonShape as PolygonImagick;
+use PHPUnit\Framework\TestCase;
 
-class PolygonShapeTest extends PHPUnit_Framework_TestCase
+class PolygonShapeTest extends TestCase
 {
     public function tearDown()
     {
         Mockery::close();
     }
-    
+
     public function testGdConstructor()
     {
         $polygon = new PolygonGd([1, 2, 3, 4, 5, 6]);
         $this->assertInstanceOf('Intervention\Image\Gd\Shapes\PolygonShape', $polygon);
         $this->assertEquals([1, 2, 3, 4, 5, 6], $polygon->points);
-        
+
     }
 
     public function testGdApplyToImage()
@@ -38,7 +39,7 @@ class PolygonShapeTest extends PHPUnit_Framework_TestCase
             ['x' => 3, 'y' => 4],
             ['x' => 5, 'y' => 6]],
         $polygon->points);
-        
+
     }
 
     public function testImagickApplyToImage()

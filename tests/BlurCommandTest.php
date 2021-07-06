@@ -2,14 +2,15 @@
 
 use Intervention\Image\Gd\Commands\BlurCommand as BlurGd;
 use Intervention\Image\Imagick\Commands\BlurCommand as BlurImagick;
+use PHPUnit\Framework\TestCase;
 
-class BlurCommandTest extends PHPUnit_Framework_TestCase
+class BlurCommandTest extends TestCase
 {
     public function tearDown()
     {
         Mockery::close();
     }
-    
+
     public function testGd()
     {
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');

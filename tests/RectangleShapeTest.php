@@ -2,14 +2,15 @@
 
 use Intervention\Image\Gd\Shapes\RectangleShape as RectangleGd;
 use Intervention\Image\Imagick\Shapes\RectangleShape as RectangleImagick;
+use PHPUnit\Framework\TestCase;
 
-class RectangleShapeTest extends PHPUnit_Framework_TestCase
+class RectangleShapeTest extends TestCase
 {
     public function tearDown()
     {
         Mockery::close();
     }
-    
+
     public function testConstructor()
     {
         // gd

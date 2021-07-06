@@ -2,9 +2,10 @@
 
 namespace Intervention\Image\Imagick\Commands;
 
+use Intervention\Image\Commands\AbstractCommand;
 use Intervention\Image\Imagick\Color;
 
-class RotateCommand extends \Intervention\Image\Commands\AbstractCommand
+class RotateCommand extends AbstractCommand
 {
     /**
      * Rotates image counter clockwise
@@ -19,7 +20,7 @@ class RotateCommand extends \Intervention\Image\Commands\AbstractCommand
         $color = new Color($color);
 
         // restrict rotations beyond 360 degrees, since the end result is the same
-        $angle %= 360;
+        $angle = fmod($angle, 360);
 
         // rotate image
         $image->getCore()->rotateImage($color->getPixel(), ($angle * -1));

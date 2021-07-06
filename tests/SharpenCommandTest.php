@@ -2,14 +2,15 @@
 
 use Intervention\Image\Gd\Commands\SharpenCommand as SharpenGd;
 use Intervention\Image\Imagick\Commands\SharpenCommand as SharpenImagick;
+use PHPUnit\Framework\TestCase;
 
-class SharpenCommandTest extends PHPUnit_Framework_TestCase
+class SharpenCommandTest extends TestCase
 {
     public function tearDown()
     {
         Mockery::close();
     }
-    
+
     public function testGd()
     {
         $resource = imagecreatefromjpeg(__DIR__.'/images/test.jpg');

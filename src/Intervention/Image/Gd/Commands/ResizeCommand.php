@@ -17,12 +17,13 @@ class ResizeCommand extends AbstractCommand
         $width = $this->argument(0)->value();
         $height = $this->argument(1)->value();
         $constraints = $this->argument(2)->type('closure')->value();
+        $interpolation = $this->argument(3)->type('int')->value(null);
 
         // resize box
         $resized = $image->getSize()->resize($width, $height, $constraints);
 
         // modify image
-        $this->modify($image, 0, 0, 0, 0, $resized->getWidth(), $resized->getHeight(), $image->getWidth(), $image->getHeight());
+        $this->modify($image, 0, 0, 0, 0, $resized->getWidth(), $resized->getHeight(), $image->getWidth(), $image->getHeight(), $interpolation);
 
         return true;
     }
@@ -41,7 +42,7 @@ class ResizeCommand extends AbstractCommand
      * @param  int     $src_h
      * @return boolean
      */
-    protected function modify($image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h)
+    protected function modify($image, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h, $interpolationAlgo = null)
     {
         // create new image
         $modified = imagecreatetruecolor($dst_w, $dst_h);
@@ -60,6 +61,10 @@ class ResizeCommand extends AbstractCommand
         } else {
             imagealphablending($modified, false);
             imagesavealpha($modified, true);
+        }
+
+        if ($interpolationAlgo && function_exists('imagesetinterpolation')) {
+            imagesetinterpolation($modified, $interpolationAlgo);
         }
 
         // copy content from resource

@@ -18,6 +18,7 @@ class FitCommand extends ResizeCommand
         $height = $this->argument(1)->type('digit')->value($width);
         $constraints = $this->argument(2)->type('closure')->value();
         $position = $this->argument(3)->type('string')->value('center');
+        $interpolation = $this->argument(4)->type('int')->value(null);
 
         // calculate size
         $cropped = $image->getSize()->fit(new Size($width, $height), $position);
@@ -25,7 +26,7 @@ class FitCommand extends ResizeCommand
         $resized = $resized->resize($width, $height, $constraints);
 
         // modify image
-        $this->modify($image, 0, 0, $cropped->pivot->x, $cropped->pivot->y, $resized->getWidth(), $resized->getHeight(), $cropped->getWidth(), $cropped->getHeight());
+        $this->modify($image, 0, 0, $cropped->pivot->x, $cropped->pivot->y, $resized->getWidth(), $resized->getHeight(), $cropped->getWidth(), $cropped->getHeight(), $interpolation);
 
         return true;
     }

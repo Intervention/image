@@ -4,11 +4,13 @@ namespace Intervention\Image;
 
 use Intervention\Image\Exception\NotWritableException;
 use Intervention\Image\Exception\RuntimeException;
+use phpDocumentor\Reflection\Types\Void_;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
 /**
- * @method \Intervention\Image\Image backup(string $name = 'default')                                                                                                     Backups current image state as fallback for reset method under an optional name. Overwrites older state on every call, unless a different name is passed.
+ * @method \Intervention\Image\Image backup(string $name = 'default')                                                                                                Backups current image state as fallback for reset method under an optional name. Overwrites older state on every call, unless a different name is passed.
+ * @method \Intervention\Image\Image blackThreshold(int $threshold)
  * @method \Intervention\Image\Image blur(int $amount = 1)                                                                                                            Apply a gaussian blur filter with a optional amount on the current image. Use values between 0 and 100.
  * @method \Intervention\Image\Image brightness(int $level)                                                                                                           Changes the brightness of the current image by the given level. Use values between -100 for min. brightness. 0 for no change and +100 for max. brightness.
  * @method \Intervention\Image\Image cache(\Closure $callback, int $lifetime = null, boolean $returnObj = false)                                                      Method to create a new cached image instance from a Closure callback. Pass a lifetime in minutes for the callback and decide whether you want to get an Intervention Image instance as return value or just receive the image stream.
@@ -18,6 +20,7 @@ use Psr\Http\Message\StreamInterface;
  * @method \Intervention\Image\Image contrast(int $level)                                                                                                             Changes the contrast of the current image by the given level. Use values between -100 for min. contrast 0 for no change and +100 for max. contrast.
  * @method \Intervention\Image\Image crop(int $width, int $height, int $x = null, int $y = null)                                                          Cut out a rectangular part of the current image with given width and height. Define optional x,y coordinates to move the top-left corner of the cutout to a certain position.
  * @method void                      destroy()                                                                                                                            Frees memory associated with the current image instance before the PHP script ends. Normally resources are destroyed automatically after the script is finished.
+ * @method \Intervention\Image\Image edge()
  * @method \Intervention\Image\Image ellipse(int $width, int $height, int $x, int $y, \Closure $callback = null)                                          Draw a colored ellipse at given x, y, coordinates. You can define width and height and set the appearance of the circle by an optional closure callback.
  * @method mixed                     exif(string $key = null)                                                                                                             Read Exif meta data from current image.
  * @method mixed                     iptc(string $key = null)                                                                                                             Read Iptc meta data from current image.

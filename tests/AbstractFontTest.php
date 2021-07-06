@@ -57,6 +57,13 @@ class AbstractFontTest extends TestCase
         $this->assertEquals('top', $font->valign);
     }
 
+    public function testKerning()
+    {
+        $font = $this->getMockForAbstractClass('\Intervention\Image\AbstractFont');
+        $font->kerning(10.5);
+        $this->assertEquals(10.5, $font->kerning);
+    }
+
     public function testFile()
     {
         $font = $this->getMockForAbstractClass('\Intervention\Image\AbstractFont');

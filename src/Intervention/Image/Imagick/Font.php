@@ -37,6 +37,7 @@ class Font extends AbstractFont
 
         $draw->setFontSize($this->size);
         $draw->setFillColor($color->getPixel());
+        $draw->setTextKerning($this->kerning);
 
         // align horizontal
         switch (strtolower($this->align)) {

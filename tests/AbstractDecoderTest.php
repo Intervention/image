@@ -53,6 +53,7 @@ class AbstractDecoderTest extends TestCase
     {
         $source = $this->getTestDecoder('http://foo.bar');
         $this->assertTrue($source->isUrl());
+        $this->assertFalse($source->isStorage());
 
         $source = $this->getTestDecoder(null);
         $this->assertFalse($source->isUrl());
@@ -151,6 +152,19 @@ class AbstractDecoderTest extends TestCase
 
         $decoder = $this->getTestDecoder($base64WithNewlines);
         $this->assertTrue($decoder->isBase64());
+    }
+
+    public function testIsStorage()
+    {
+        $decoder = $this->getTestDecoder(null);
+        $this->assertFalse($decoder->isStorage());
+
+        $decoder = $this->getTestDecoder('random');
+        $this->assertFalse($decoder->isStorage());
+
+        $storage = "public:test";
+        $decoder = $this->getTestDecoder($storage);
+        $this->assertTrue($decoder->isStorage());
     }
 
     public function getTestDecoder($data)

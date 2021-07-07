@@ -40,6 +40,13 @@ class File
     public $filename;
 
     /**
+     * Modification time
+     *
+     * @var int
+     */
+    public $modifiedtime;
+
+    /**
      * Sets all instance properties from given path
      *
      * @param string $path
@@ -54,6 +61,7 @@ class File
 
         if (file_exists($path) && is_file($path)) {
             $this->mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
+            $this->modifiedtime = filemtime($path);
         }
 
         return $this;

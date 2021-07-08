@@ -20,7 +20,7 @@ class ImageManagerStatic
      */
     public function __construct(ImageManager $manager = null)
     {
-        self::$manager = $manager ? $manager : new ImageManager;
+        self::$manager = $manager ? $manager : self::getManager();
     }
 
     /**
@@ -30,7 +30,8 @@ class ImageManagerStatic
      */
     public static function getManager()
     {
-        return self::$manager ? self::$manager : new ImageManager;
+        $isLaravel = class_exists('Illuminate\Support\Facades\App');
+        return self::$manager ? self::$manager : ($isLaravel ? resolve('Intervention\Image\ImageManager') : new ImageManager);
     }
 
     /**

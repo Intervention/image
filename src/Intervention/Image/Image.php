@@ -139,6 +139,12 @@ class Image extends File
             );
         }
 
+        $dir = dirname($path);
+
+        if ( ! is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+
         if ($format === null) {
             $format = pathinfo($path, PATHINFO_EXTENSION);
         }

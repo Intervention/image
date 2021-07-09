@@ -89,6 +89,169 @@ class ImagickSystemTest extends TestCase
         $this->assertEquals('image/png', $img->mime);
     }
 
+    public function testMakeIconFromPath()
+    {
+        $img = $this->manager()->make('tests/images/star.ico');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInstanceOf('Imagick', $img->getCore());
+        $this->assertInternalType('int', $img->getWidth());
+        $this->assertInternalType('int', $img->getHeight());
+        $this->assertEquals(16, $img->getWidth());
+        $this->assertEquals(16, $img->getHeight());
+        $this->assertEquals('image/x-icon', $img->mime);
+        $this->assertEquals('tests/images', $img->dirname);
+        $this->assertEquals('star.ico', $img->basename);
+        $this->assertEquals('ico', $img->extension);
+        $this->assertEquals('star', $img->filename);
+    }
+
+    public function testMakeIconFromString()
+    {
+        $str = file_get_contents('tests/images/star.ico');
+        $img = $this->manager()->make($str);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInstanceOf('Imagick', $img->getCore());
+        $this->assertInternalType('int', $img->getWidth());
+        $this->assertInternalType('int', $img->getHeight());
+        $this->assertEquals(16, $img->getWidth());
+        $this->assertEquals(16, $img->getHeight());
+        $this->assertEquals('image/x-icon', $img->mime);
+    }
+
+    public function testMakeIconFromImagickReadFile()
+    {
+        $imagick = new \Imagick;
+        $imagick->readImage('tests/images/star.ico');
+        $img = $this->manager()->make($imagick);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInstanceOf('Imagick', $img->getCore());
+        $this->assertInternalType('int', $img->getWidth());
+        $this->assertInternalType('int', $img->getHeight());
+        $this->assertEquals(16, $img->getWidth());
+        $this->assertEquals(16, $img->getHeight());
+    }
+
+    public function testMakeIconFromImagickReadBlob()
+    {
+        $imagick = new \Imagick;
+        $imagick->setFormat('ICO');
+        $imagick->readImageBlob(file_get_contents('tests/images/star.ico'));
+        $img = $this->manager()->make($imagick);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInstanceOf('Imagick', $img->getCore());
+        $this->assertInternalType('int', $img->getWidth());
+        $this->assertInternalType('int', $img->getHeight());
+        $this->assertEquals(16, $img->getWidth());
+        $this->assertEquals(16, $img->getHeight());
+    }
+
+    public function testMakeIconFromDataUrl()
+    {
+        $str = 'data:image/x-icon;base64,' . base64_encode(file_get_contents('tests/images/star.ico'));
+        $img = $this->manager()->make($str);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInstanceOf('Imagick', $img->getCore());
+        $this->assertInternalType('int', $img->getWidth());
+        $this->assertInternalType('int', $img->getHeight());
+        $this->assertEquals(16, $img->getWidth());
+        $this->assertEquals(16, $img->getHeight());
+        $this->assertEquals('image/x-icon', $img->mime);
+    }
+
+    public function testMakeIconFromBase64()
+    {
+        $str = base64_encode(file_get_contents('tests/images/star.ico'));
+        $img = $this->manager()->make($str);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInstanceOf('Imagick', $img->getCore());
+        $this->assertInternalType('int', $img->getWidth());
+        $this->assertInternalType('int', $img->getHeight());
+        $this->assertEquals(16, $img->getWidth());
+        $this->assertEquals(16, $img->getHeight());
+        $this->assertEquals('image/x-icon', $img->mime);
+    }
+
+    public function testMakeCursorFromPath()
+    {
+        $img = $this->manager()->make('tests/images/star.cur');
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInstanceOf('Imagick', $img->getCore());
+        $this->assertInternalType('int', $img->getWidth());
+        $this->assertInternalType('int', $img->getHeight());
+        $this->assertEquals(32, $img->getWidth());
+        $this->assertEquals(32, $img->getHeight());
+        $this->assertEquals('image/x-icon', $img->mime);
+        $this->assertEquals('tests/images', $img->dirname);
+        $this->assertEquals('star.cur', $img->basename);
+        $this->assertEquals('cur', $img->extension);
+        $this->assertEquals('star', $img->filename);
+    }
+
+    public function testMakeCursorFromString()
+    {
+        $str = file_get_contents('tests/images/star.cur');
+        $img = $this->manager()->make($str);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInstanceOf('Imagick', $img->getCore());
+        $this->assertInternalType('int', $img->getWidth());
+        $this->assertInternalType('int', $img->getHeight());
+        $this->assertEquals(32, $img->getWidth());
+        $this->assertEquals(32, $img->getHeight());
+        $this->assertEquals('image/x-icon', $img->mime);
+    }
+
+    public function testMakeCursorFromImagickReadFile()
+    {
+        $imagick = new \Imagick;
+        $imagick->readImage('tests/images/star.cur');
+        $img = $this->manager()->make($imagick);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInstanceOf('Imagick', $img->getCore());
+        $this->assertInternalType('int', $img->getWidth());
+        $this->assertInternalType('int', $img->getHeight());
+        $this->assertEquals(32, $img->getWidth());
+        $this->assertEquals(32, $img->getHeight());
+    }
+
+    public function testMakeCursorFromImagickReadBlob()
+    {
+        $imagick = new \Imagick;
+        $imagick->setFormat('CUR');
+        $imagick->readImageBlob(file_get_contents('tests/images/star.cur'));
+        $img = $this->manager()->make($imagick);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInstanceOf('Imagick', $img->getCore());
+        $this->assertInternalType('int', $img->getWidth());
+        $this->assertInternalType('int', $img->getHeight());
+        $this->assertEquals(32, $img->getWidth());
+        $this->assertEquals(32, $img->getHeight());
+    }
+
+    public function testMakeCursorFromDataUrl()
+    {
+        $str = 'data:image/x-icon;base64,' . base64_encode(file_get_contents('tests/images/star.cur'));
+        $img = $this->manager()->make($str);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInstanceOf('Imagick', $img->getCore());
+        $this->assertInternalType('int', $img->getWidth());
+        $this->assertInternalType('int', $img->getHeight());
+        $this->assertEquals(32, $img->getWidth());
+        $this->assertEquals(32, $img->getHeight());
+        $this->assertEquals('image/x-icon', $img->mime);
+    }
+
+    public function testMakeCursorFromBase64()
+    {
+        $str = base64_encode(file_get_contents('tests/images/star.cur'));
+        $img = $this->manager()->make($str);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        $this->assertInstanceOf('Imagick', $img->getCore());
+        $this->assertInternalType('int', $img->getWidth());
+        $this->assertInternalType('int', $img->getHeight());
+        $this->assertEquals(32, $img->getWidth());
+        $this->assertEquals(32, $img->getHeight());
+        $this->assertEquals('image/x-icon', $img->mime);
+    }
 
     public function testCanvas()
     {

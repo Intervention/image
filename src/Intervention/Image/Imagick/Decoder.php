@@ -84,6 +84,13 @@ class Decoder extends AbstractDecoder
         try {
             $core->setBackgroundColor(new \ImagickPixel('transparent'));
 
+            // set correct format for ICO and CUR images
+            if (substr($binary, 0, 4) === "\x00\x00\x01\x00") {
+                $core->setFormat('ICO');
+            } elseif (substr($binary, 0, 4) === "\x00\x00\x02\x00") {
+                $core->setFormat('CUR');
+            }
+
             $core->readImageBlob($binary);
 
         } catch (\ImagickException $e) {

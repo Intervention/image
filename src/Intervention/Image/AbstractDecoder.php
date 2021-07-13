@@ -65,6 +65,9 @@ abstract class AbstractDecoder
      */
     public function initFromUrl($url)
     {
+        if (extension_loaded('curl')) {
+            return $this->initFromUrlWithCurl($url);
+        }
         
         $options = [
             'http' => [
@@ -77,12 +80,38 @@ abstract class AbstractDecoder
         
         $context  = stream_context_create($options);
         
-
         if ($data = @file_get_contents($url, false, $context)) {
             return $this->initFromBinary($data);
         }
 
         throw new NotReadableException(
+            "Unable to init from given url (".$url.")."
+        );
+    }
+    
+    /**
+     * Init from fiven URL
+     *
+     * @param  string $url
+     * @return \Intervention\Image\Image
+     */
+    public function initFromUrlWithCurl($url)
+    {
+        $ch = curl_init();
+        $options =  [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Chrome/22.0.1216.0 Safari/537.2'
+        ];
+        curl_setopt_array($ch, $options);
+        $data = curl_exec($ch);
+        curl_close($ch);
+        
+        if ($data) {
+            return $this->initFromBinary($data);
+        }
+
+        throw new \Intervention\Image\Exception\NotReadableException(
             "Unable to init from given url (".$url.")."
         );
     }

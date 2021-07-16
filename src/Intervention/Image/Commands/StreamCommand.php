@@ -3,7 +3,6 @@
 namespace Intervention\Image\Commands;
 
 use GuzzleHttp\Psr7\Utils;
-use function GuzzleHttp\Psr7\stream_for;
 
 class StreamCommand extends AbstractCommand
 {
@@ -20,7 +19,9 @@ class StreamCommand extends AbstractCommand
         $quality = $this->argument(1)->between(0, 100)->value();
 
         $encoded_image = $image->encode($format, $quality)->getEncoded();
-        $output = function_exists('stream_for') ? stream_for($encoded_image) : Utils::streamFor($encoded_image);
+        
+        // For backwards compatibility with guzzlehttp/psr7 ~1.1
+        $output = function_exists('\GuzzleHttp\Psr7\stream_for') ? \GuzzleHttp\Psr7\stream_for($encoded_image) : Utils::streamFor($encoded_image);
 
         $this->setOutput($output);
 

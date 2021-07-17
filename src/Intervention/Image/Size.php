@@ -324,7 +324,7 @@ class Size
             case 'bottom-middle':
             case 'center-bottom':
             case 'middle-bottom':
-                $x = intval($this->width / 2);
+                $x = intval($this->width / 2) + $offset_x;
                 $y = $this->height - $offset_y;
                 break;
 

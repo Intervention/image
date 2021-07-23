@@ -91,6 +91,18 @@ class EncoderTest extends TestCase
     /**
      * @expectedException \Intervention\Image\Exception\NotSupportedException
      */
+    public function testProcessHeicGd()
+    {
+        $core = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
+        $encoder = new GdEncoder;
+        $image = Mockery::mock('\Intervention\Image\Image');
+        $img = $encoder->process($image, 'heic', 90);
+        $this->assertInstanceOf('Intervention\Image\Image', $img);
+    }
+
+    /**
+     * @expectedException \Intervention\Image\Exception\NotSupportedException
+     */
     public function testProcessTiffGd()
     {
         $core = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
@@ -217,6 +229,16 @@ class EncoderTest extends TestCase
         $encoder = new ImagickEncoder;
         $image = Mockery::mock('\Intervention\Image\Image');
         $img = $encoder->process($image, 'avif', 90);
+    }
+
+    /**
+     * @expectedException \Intervention\Image\Exception\NotSupportedException
+     */
+    public function testProcessHeicImagick()
+    {
+        $encoder = new ImagickEncoder;
+        $image = Mockery::mock('\Intervention\Image\Image');
+        $img = $encoder->process($image, 'heic', 90);
     }
 
     public function testProcessTiffImagick()

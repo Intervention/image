@@ -92,6 +92,13 @@ abstract class AbstractEncoder
     abstract protected function processAvif();
 
     /**
+     * Processes and returns image as Heic encoded string
+     *
+     * @return string
+     */
+    abstract protected function processHeic();
+
+    /**
      * Process a given image
      *
      * @param  Image   $image

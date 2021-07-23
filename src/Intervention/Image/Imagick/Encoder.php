@@ -183,6 +183,11 @@ class Encoder extends AbstractEncoder
         return $imagick->getImagesBlob();
     }
 
+    /**
+     * Processes and returns encoded image as AVIF string
+     *
+     * @return string
+     */
     protected function processAvif()
     {
         if ( ! \Imagick::queryFormats('AVIF')) {
@@ -205,6 +210,11 @@ class Encoder extends AbstractEncoder
         return $imagick->getImagesBlob();
     }
 
+    /**
+     * Processes and returns encoded image as HEIC string
+     *
+     * @return string
+     */
     protected function processHeic()
     {
         if ( ! \Imagick::queryFormats('HEIC')) {

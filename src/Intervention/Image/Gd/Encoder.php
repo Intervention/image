@@ -152,7 +152,6 @@ class Encoder extends \Intervention\Image\AbstractEncoder
         );
     }
 
-
     /**
      * Processes and returns encoded image as HEIC string
      *

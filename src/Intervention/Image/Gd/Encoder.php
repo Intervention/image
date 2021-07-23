@@ -149,6 +149,8 @@ class Encoder extends \Intervention\Image\AbstractEncoder
     {
         throw new NotSupportedException(
             "AVIF format is not supported by Gd Driver."
+        );
+    }
 
 
     /**

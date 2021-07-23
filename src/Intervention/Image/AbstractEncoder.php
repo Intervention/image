@@ -189,6 +189,11 @@ abstract class AbstractEncoder
             case 'image/avif':
                 $this->result = $this->processAvif();
                 break;
+
+            case 'heic':
+            case 'image/heic':
+                $this->result = $this->processHeic();
+                break;
                 
             default:
                 throw new NotSupportedException(

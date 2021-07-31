@@ -38,6 +38,7 @@ class Font extends AbstractFont
         $draw->setFontSize($this->size);
         $draw->setFillColor($color->getPixel());
         $draw->setTextKerning($this->kerning);
+        $draw->setTextInterLineSpacing($this->leading);
 
         // align horizontal
         switch (strtolower($this->align)) {
@@ -79,7 +80,7 @@ class Font extends AbstractFont
         // apply to image
         $image->getCore()->annotateImage($draw, $posx, $posy, $this->angle * (-1), $this->text);
     }
-    
+
     /**
      * Calculates bounding box of current font setting
      *
@@ -104,6 +105,7 @@ class Font extends AbstractFont
         }
 
         $draw->setFontSize($this->size);
+        $draw->setTextInterLineSpacing($this->leading);
 
         $dimensions = (new \Imagick())->queryFontMetrics($draw, $this->text);
 

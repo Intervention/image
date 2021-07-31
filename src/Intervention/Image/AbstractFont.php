@@ -54,6 +54,13 @@ abstract class AbstractFont
     public $kerning = 0;
 
     /**
+     * Vertical space between lines of text
+     *
+     * @var float
+     */
+    public $leading = 0;
+
+    /**
      * Path to TTF or GD library internal font file of the text
      *
      * @var mixed
@@ -69,7 +76,7 @@ abstract class AbstractFont
      * @return boolean
      */
     abstract public function applyToImage(Image $image, $posx = 0, $posy = 0);
-    
+
     /**
      * Calculates bounding box of current font setting
      *
@@ -244,6 +251,27 @@ abstract class AbstractFont
     public function getKerning()
     {
         return $this->kerning;
+    }
+
+    /**
+     * Set text leading
+     *
+     * @param  float $leading
+     * @return void
+     */
+    public function leading($leading)
+    {
+        $this->leading = $leading;
+    }
+
+    /**
+     * Get leading
+     *
+     * @return float
+     */
+    public function getLeading()
+    {
+        return $this->leading;
     }
 
     /**

@@ -183,6 +183,11 @@ class Encoder extends AbstractEncoder
         return $imagick->getImagesBlob();
     }
 
+    /**
+     * Processes and returns encoded image as AVIF string
+     *
+     * @return string
+     */
     protected function processAvif()
     {
         if ( ! \Imagick::queryFormats('AVIF')) {
@@ -192,6 +197,33 @@ class Encoder extends AbstractEncoder
         }
 
         $format = 'avif';
+        $compression = \Imagick::COMPRESSION_UNDEFINED;
+
+        $imagick = $this->image->getCore();
+        $imagick->setFormat($format);
+        $imagick->setImageFormat($format);
+        $imagick->setCompression($compression);
+        $imagick->setImageCompression($compression);
+        $imagick->setCompressionQuality($this->quality);
+        $imagick->setImageCompressionQuality($this->quality);
+
+        return $imagick->getImagesBlob();
+    }
+
+    /**
+     * Processes and returns encoded image as HEIC string
+     *
+     * @return string
+     */
+    protected function processHeic()
+    {
+        if ( ! \Imagick::queryFormats('HEIC')) {
+            throw new NotSupportedException(
+                "HEIC format is not supported by Imagick installation."
+            );
+        }
+
+        $format = 'heic';
         $compression = \Imagick::COMPRESSION_UNDEFINED;
 
         $imagick = $this->image->getCore();

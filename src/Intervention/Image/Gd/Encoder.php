@@ -57,6 +57,11 @@ class Encoder extends \Intervention\Image\AbstractEncoder
         return $buffer;
     }
 
+    /**
+     * Processes and returns encoded image as WEBP string
+     *
+     * @return string
+     */
     protected function processWebp()
     {
         if ( ! function_exists('imagewebp')) {
@@ -144,6 +149,18 @@ class Encoder extends \Intervention\Image\AbstractEncoder
     {
         throw new NotSupportedException(
             "AVIF format is not supported by Gd Driver."
+        );
+    }
+
+    /**
+     * Processes and returns encoded image as HEIC string
+     *
+     * @return string
+     */
+    protected function processHeic()
+    {
+        throw new NotSupportedException(
+            "HEIC format is not supported by Gd Driver."
         );
     }
 }

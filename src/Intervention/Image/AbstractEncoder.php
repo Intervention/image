@@ -149,7 +149,6 @@ abstract class AbstractEncoder
                 break;
 
             case 'bmp':
-            case 'bmp':
             case 'ms-bmp':
             case 'x-bitmap':
             case 'x-bmp':
@@ -192,6 +191,7 @@ abstract class AbstractEncoder
 
             case 'heic':
             case 'image/heic':
+            case 'image/heif':
                 $this->result = $this->processHeic();
                 break;
                 

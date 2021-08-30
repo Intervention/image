@@ -69,7 +69,7 @@ abstract class AbstractFont
      * @return boolean
      */
     abstract public function applyToImage(Image $image, $posx = 0, $posy = 0);
-    
+
     /**
      * Calculates bounding box of current font setting
      *
@@ -91,7 +91,7 @@ abstract class AbstractFont
      * Set text to be written
      *
      * @param  String $text
-     * @return void
+     * @return self
      */
     public function text($text)
     {
@@ -114,7 +114,7 @@ abstract class AbstractFont
      * Set font size in pixels
      *
      * @param  int $size
-     * @return void
+     * @return self
      */
     public function size($size)
     {
@@ -137,7 +137,7 @@ abstract class AbstractFont
      * Set color of text to be written
      *
      * @param  mixed $color
-     * @return void
+     * @return self
      */
     public function color($color)
     {
@@ -160,7 +160,7 @@ abstract class AbstractFont
      * Set rotation angle of text
      *
      * @param  int $angle
-     * @return void
+     * @return self
      */
     public function angle($angle)
     {
@@ -183,7 +183,7 @@ abstract class AbstractFont
      * Set horizontal text alignment
      *
      * @param  string $align
-     * @return void
+     * @return self
      */
     public function align($align)
     {
@@ -206,7 +206,7 @@ abstract class AbstractFont
      * Set vertical text alignment
      *
      * @param  string $valign
-     * @return void
+     * @return self
      */
     public function valign($valign)
     {
@@ -250,7 +250,7 @@ abstract class AbstractFont
      * Set path to font file
      *
      * @param  string $file
-     * @return void
+     * @return self
      */
     public function file($file)
     {

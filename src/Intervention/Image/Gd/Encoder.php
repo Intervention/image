@@ -147,9 +147,23 @@ class Encoder extends \Intervention\Image\AbstractEncoder
      */
     protected function processAvif()
     {
-        throw new NotSupportedException(
-            "AVIF format is not supported by Gd Driver."
-        );
+	    if ( ! function_exists('imageavif')) {
+		    throw new NotSupportedException(
+		      "AVIF format is not supported by PHP installation."
+		    );
+	    }
+
+	    ob_start();
+        $resource = $this->image->getCore();
+	    imagepalettetotruecolor($resource);
+	    imagealphablending($resource, true);
+	    imagesavealpha($resource, true);
+	    imageavif($resource, null, $this->quality);
+	    $this->image->mime = defined('IMAGETYPE_AVIF') ? image_type_to_mime_type(IMAGETYPE_AVIF) : 'image/avif';
+	    $buffer = ob_get_contents();
+	    ob_end_clean();
+
+	    return $buffer;
     }
 
     /**

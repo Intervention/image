@@ -60,7 +60,7 @@ class EncoderTest extends TestCase
             $this->assertEquals('image/webp; charset=binary', $this->getMime($encoder->result));
         }
     }
-    
+
     public function testProcessWebpGdWithUnSupportedPalette()
     {
         if (function_exists('imagewebp')) {
@@ -75,17 +75,18 @@ class EncoderTest extends TestCase
         }
     }
 
-
-    /**
-     * @expectedException \Intervention\Image\Exception\NotSupportedException
-     */
     public function testProcessAvifGd()
     {
-        $core = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
-        $encoder = new GdEncoder;
-        $image = Mockery::mock('\Intervention\Image\Image');
-        $img = $encoder->process($image, 'avif', 90);
-        $this->assertInstanceOf('Intervention\Image\Image', $img);
+        if (function_exists('imageavif')) {
+            $core = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
+            $encoder = new GdEncoder;
+            $image = Mockery::mock('\Intervention\Image\Image');
+            $image->shouldReceive('getCore')->once()->andReturn($core);
+            $image->shouldReceive('setEncoded')->once()->andReturn($image);
+            $img = $encoder->process($image, 'avif', 90);
+            $this->assertInstanceOf('Intervention\Image\Image', $img);
+            $this->assertEquals('image/avif; charset=binary', $this->getMime($encoder->result));
+        }
     }
 
     /**

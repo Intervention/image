@@ -11,9 +11,9 @@ use Intervention\Image\Interfaces\ImageInterface;
 class Frame extends AbstractFrame implements FrameInterface
 {
     /**
-     * Delay time in miliseconds after next frame is shown
+     * Delay time in seconds after next frame is shown
      *
-     * @var integer
+     * @var float
      */
     protected $delay = 0;
 
@@ -48,12 +48,12 @@ class Frame extends AbstractFrame implements FrameInterface
         return $this->core;
     }
 
-    public function getDelay(): int
+    public function getDelay(): float
     {
         return $this->delay;
     }
 
-    public function setDelay(int $delay): FrameInterface
+    public function setDelay(float $delay): FrameInterface
     {
         $this->delay = $delay;
 

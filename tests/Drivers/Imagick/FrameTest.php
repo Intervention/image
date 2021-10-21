@@ -14,7 +14,7 @@ class FrameTest extends TestCase
     {
         $imagick = new Imagick();
         $imagick->newImage(3, 2, new ImagickPixel('red'), 'png');
-        $imagick->setImageDelay(4);
+        $imagick->setImageDelay(125); // 1.25 seconds
         $imagick->setImageDispose(5);
         $imagick->setImagePage(3, 2, 8, 9);
 
@@ -30,11 +30,12 @@ class FrameTest extends TestCase
     public function testSetGetDelay()
     {
         $frame = $this->getTestFrame();
-        $this->assertEquals(4, $frame->getDelay());
+        $this->assertEquals(1.25, $frame->getDelay());
 
-        $result = $frame->setDelay(100);
+        $result = $frame->setDelay(2.5);
         $this->assertInstanceOf(Frame::class, $result);
-        $this->assertEquals(100, $frame->getDelay());
+        $this->assertEquals(2.5, $frame->getDelay());
+        $this->assertEquals(250, $frame->getCore()->getImageDelay());
     }
 
     public function testSetGetDispose()

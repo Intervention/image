@@ -20,14 +20,14 @@ class Frame extends AbstractFrame implements FrameInterface
         return $this->core;
     }
 
-    public function getDelay(): int
+    public function getDelay(): float
     {
-        return $this->core->getImageDelay();
+        return $this->core->getImageDelay() / 100;
     }
 
-    public function setDelay(int $delay): FrameInterface
+    public function setDelay(float $delay): FrameInterface
     {
-        $this->core->setImageDelay($delay);
+        $this->core->setImageDelay(round($delay * 100));
 
         return $this;
     }

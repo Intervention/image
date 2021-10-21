@@ -24,9 +24,9 @@ class FrameTest extends TestCase
         $frame = $this->getTestFrame();
         $this->assertEquals(0, $frame->getDelay());
 
-        $result = $frame->setDelay(100);
+        $result = $frame->setDelay(1.5);
         $this->assertInstanceOf(Frame::class, $result);
-        $this->assertEquals(100, $frame->getDelay());
+        $this->assertEquals(1.5, $frame->getDelay());
     }
 
     public function testSetGetDispose()

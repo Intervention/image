@@ -1,0 +1,29 @@
+<?php
+
+namespace Intervention\Image\Drivers\Imagick\Encoders;
+
+use Imagick;
+use Intervention\Image\Drivers\Abstract\Encoders\AbstractEncoder;
+use Intervention\Image\Interfaces\EncoderInterface;
+use Intervention\Image\Interfaces\ImageInterface;
+
+class JpegEncoder extends AbstractEncoder implements EncoderInterface
+{
+    public function encode(ImageInterface $image): string
+    {
+        $format = 'jpeg';
+        $compression = Imagick::COMPRESSION_JPEG;
+
+        $imagick = $image->getFrames()->first()->getCore();
+        $imagick->setImageBackgroundColor('white');
+        $imagick->setBackgroundColor('white');
+        $imagick->setFormat($format);
+        $imagick->setImageFormat($format);
+        $imagick->setCompression($compression);
+        $imagick->setImageCompression($compression);
+        $imagick->setCompressionQuality($this->quality);
+        $imagick->setImageCompressionQuality($this->quality);
+
+        return $imagick->getImagesBlob();
+    }
+}

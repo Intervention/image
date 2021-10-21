@@ -47,7 +47,7 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
         $splitter = GifSplitter::create($gif)->split();
         $delays = $splitter->getDelays();
         foreach ($splitter->coalesceToResources() as $key => $gd) {
-            $image->addFrame((new Frame($gd))->setDelay($delays[$key]));
+            $image->addFrame((new Frame($gd))->setDelay($delays[$key] / 100));
         }
 
         return $image;

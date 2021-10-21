@@ -24,7 +24,7 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
         $imagick = $imagick->coalesceImages();
 
         $image = new Image(new Collection());
-        $image->setLoops($imagick->getNumberImages());
+        $image->setLoops($imagick->getImageIterations());
 
         foreach ($imagick as $frame_content) {
             $image->addFrame(new Frame($frame_content));

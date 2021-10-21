@@ -3,6 +3,7 @@
 namespace Intervention\Image\Drivers\Abstract;
 
 use Intervention\Image\Collection;
+use Intervention\Image\EncodedImage;
 use Intervention\Image\Exceptions\NotWritableException;
 use Intervention\Image\Geometry\Size;
 use Intervention\Image\Interfaces\EncoderInterface;
@@ -47,35 +48,18 @@ abstract class AbstractImage
         return $modifier->apply($this);
     }
 
-    public function encode(EncoderInterface $encoder, ?string $path = null): string
+    public function encode(EncoderInterface $encoder): EncodedImage
     {
-        $encoded = $encoder->encode($this);
-
-        if ($path) {
-            $saved = @file_put_contents($path, $encoded);
-            if ($saved === false) {
-                throw new NotWritableException(
-                    "Can't write image data to path ({$path})."
-                );
-            }
-        }
-
-        return $encoded;
+        return new EncodedImage($encoder->encode($this));
     }
 
-    public function toJpeg(?int $quality = null, ?string $path = null): string
+    public function toJpeg(?int $quality = null): string
     {
-        return $this->encode(
-            $this->resolveDriverClass('Encoders\JpegEncoder', $quality),
-            $path
-        );
+        return $this->encode($this->resolveDriverClass('Encoders\JpegEncoder', $quality));
     }
 
-    public function toGif(?string $path = null): string
+    public function toGif(): string
     {
-        return $this->encode(
-            $this->resolveDriverClass('Encoders\GifEncoder'),
-            $path
-        );
+        return $this->encode($this->resolveDriverClass('Encoders\GifEncoder'));
     }
 }

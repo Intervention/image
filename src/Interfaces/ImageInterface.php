@@ -2,6 +2,8 @@
 
 namespace Intervention\Image\Interfaces;
 
+use Intervention\Image\EncodedImage;
+
 interface ImageInterface
 {
     public function size(): SizeInterface;
@@ -9,4 +11,5 @@ interface ImageInterface
     public function height(): int;
     public function isAnimated(): bool;
     public function greyscale(): ImageInterface;
+    public function encode(EncoderInterface $encoder): EncodedImage
 }

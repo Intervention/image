@@ -11,5 +11,5 @@ interface ImageInterface
     public function height(): int;
     public function isAnimated(): bool;
     public function greyscale(): ImageInterface;
-    public function encode(EncoderInterface $encoder): EncodedImage
+    public function encode(EncoderInterface $encoder): EncodedImage;
 }

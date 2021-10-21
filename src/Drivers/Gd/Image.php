@@ -14,6 +14,8 @@ use IteratorAggregate;
 
 class Image extends AbstractImage implements ImageInterface, IteratorAggregate
 {
+    protected $loops = 0;
+
     public function __construct(protected Collection $frames)
     {
         //

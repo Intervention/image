@@ -17,6 +17,8 @@ abstract class AbstractImage
 {
     use CanResolveDriverClass;
 
+    protected $loops = 0;
+
     public function getIterator(): Collection
     {
         return $this->frames;
@@ -32,6 +34,18 @@ abstract class AbstractImage
         $this->frames->push($frame);
 
         return $this;
+    }
+
+    public function setLoops(int $count): ImageInterface
+    {
+        $this->loops = $count;
+
+        return $this;
+    }
+
+    public function loops(): int
+    {
+        return $this->loops;
     }
 
     public function size(): SizeInterface

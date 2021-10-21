@@ -12,4 +12,6 @@ interface ImageInterface
     public function isAnimated(): bool;
     public function greyscale(): ImageInterface;
     public function encode(EncoderInterface $encoder): EncodedImage;
+    public function setLoops(int $count): ImageInterface;
+    public function loops(): int;
 }

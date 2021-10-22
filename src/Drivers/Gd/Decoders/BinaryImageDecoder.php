@@ -40,11 +40,12 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
         $image = new Image(new Collection());
         $gif = GifDecoder::decode($input);
 
-        $image->setLoops($gif->getMainApplicationExtension()?->getLoops());
 
         if (!$gif->isAnimated()) {
             return $image->addFrame(new Frame(@imagecreatefromstring($input)));
         }
+
+        $image->setLoops($gif->getMainApplicationExtension()?->getLoops());
 
         $splitter = GifSplitter::create($gif)->split();
         $delays = $splitter->getDelays();

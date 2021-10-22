@@ -14,13 +14,6 @@ use IteratorAggregate;
 
 class Image extends AbstractImage implements ImageInterface, IteratorAggregate
 {
-    protected $loops = 0;
-
-    public function __construct(protected Collection $frames)
-    {
-        //
-    }
-
     public function width(): int
     {
         return imagesx($this->frames->first()->getCore());
@@ -29,10 +22,5 @@ class Image extends AbstractImage implements ImageInterface, IteratorAggregate
     public function height(): int
     {
         return imagesy($this->frames->first()->getCore());
-    }
-
-    public function greyscale(): ImageInterface
-    {
-        return $this->modify(new Modifiers\GreyscaleModifier());
     }
 }

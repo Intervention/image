@@ -18,6 +18,12 @@ abstract class AbstractImage
     use CanResolveDriverClass;
 
     protected $loops = 0;
+    protected $frames;
+
+    public function __construct(Collection $frames)
+    {
+        $this->frames = $frames;
+    }
 
     public function getIterator(): Collection
     {
@@ -70,11 +76,22 @@ abstract class AbstractImage
 
     public function toJpeg(?int $quality = null): string
     {
-        return $this->encode($this->resolveDriverClass('Encoders\JpegEncoder', $quality));
+        return $this->encode(
+            $this->resolveDriverClass('Encoders\JpegEncoder', $quality)
+        );
     }
 
     public function toGif(): string
     {
-        return $this->encode($this->resolveDriverClass('Encoders\GifEncoder'));
+        return $this->encode(
+            $this->resolveDriverClass('Encoders\GifEncoder')
+        );
+    }
+
+    public function greyscale(): ImageInterface
+    {
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\GreyscaleModifier')
+        );
     }
 }

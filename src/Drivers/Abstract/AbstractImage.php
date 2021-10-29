@@ -94,4 +94,11 @@ abstract class AbstractImage
             $this->resolveDriverClass('Modifiers\GreyscaleModifier')
         );
     }
+
+    public function blur(int $amount): ImageInterface
+    {
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\BlurModifier', $amount)
+        );
+    }
 }

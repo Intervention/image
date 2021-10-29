@@ -5,8 +5,10 @@ namespace Intervention\Image\Drivers\Gd;
 use GdImage;
 use Intervention\Image\Collection;
 use Intervention\Image\Drivers\Abstract\AbstractFrame;
+use Intervention\Image\Geometry\Size;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\SizeInterface;
 
 class Frame extends AbstractFrame implements FrameInterface
 {
@@ -46,6 +48,11 @@ class Frame extends AbstractFrame implements FrameInterface
     public function getCore(): GdImage
     {
         return $this->core;
+    }
+
+    public function getSize(): SizeInterface
+    {
+        return new Size(imagesx($this->core), imagesy($this->core));
     }
 
     public function getDelay(): float

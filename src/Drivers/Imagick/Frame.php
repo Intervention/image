@@ -20,6 +20,11 @@ class Frame extends AbstractFrame implements FrameInterface
         return $this->core;
     }
 
+    public function getSize(): SizeInterface
+    {
+        return new Size($this->core->getImageWidth(), $this->core->getImageHeight());
+    }
+
     public function getDelay(): float
     {
         return $this->core->getImageDelay() / 100;

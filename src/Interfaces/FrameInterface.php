@@ -6,6 +6,7 @@ interface FrameInterface
 {
     public function toImage(): ImageInterface;
     public function getCore();
+    public function getSize(): SizeInterface;
     public function getDelay(): float;
     public function setDelay(float $delay): FrameInterface;
     public function getDispose(): int;

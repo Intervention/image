@@ -6,6 +6,7 @@ use Imagick;
 use ImagickPixel;
 use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Drivers\Imagick\Image;
+use Intervention\Image\Geometry\Size;
 use Intervention\Image\Tests\TestCase;
 
 class FrameTest extends TestCase
@@ -25,6 +26,12 @@ class FrameTest extends TestCase
     {
         $frame = $this->getTestFrame();
         $this->assertInstanceOf(Frame::class, $frame);
+    }
+
+    public function testGetSize(): void
+    {
+        $frame = $this->getTestFrame();
+        $this->assertInstanceOf(Size::class, $frame->getSize());
     }
 
     public function testSetGetDelay()

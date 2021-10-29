@@ -5,8 +5,10 @@ namespace Intervention\Image\Drivers\Imagick;
 use Imagick;
 use Intervention\Image\Collection;
 use Intervention\Image\Drivers\Abstract\AbstractFrame;
+use Intervention\Image\Geometry\Size;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\SizeInterface;
 
 class Frame extends AbstractFrame implements FrameInterface
 {

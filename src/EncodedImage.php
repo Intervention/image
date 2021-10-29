@@ -7,6 +7,7 @@ use Intervention\Image\Exceptions\NotWritableException;
 class EncodedImage
 {
     protected $data;
+    protected $mimetype;
 
     public function __construct(string $data)
     {
@@ -21,6 +22,11 @@ class EncodedImage
                 "Can't write image data to path ({$filepath})."
             );
         }
+    }
+
+    public function toDataUrl(): string
+    {
+        return '';
     }
 
     public function __toString(): string

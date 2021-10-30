@@ -25,7 +25,7 @@ class EncodedImage
         }
     }
 
-    public function toDataUrl(): string
+    public function toDataUri(): string
     {
         return sprintf('data:%s;base64,%s', $this->mimetype, base64_encode($this->data));
     }

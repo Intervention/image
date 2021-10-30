@@ -41,7 +41,7 @@ class ResizeModifier implements ModifierInterface
      * @param  int     $src_h
      * @return boolean
      */
-    protected function modify(Frame $frame, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h)
+    protected function modify(FrameInterface $frame, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h)
     {
         // create new image
         $modified = imagecreatetruecolor($dst_w, $dst_h);
@@ -75,6 +75,8 @@ class ResizeModifier implements ModifierInterface
             $src_w,
             $src_h
         );
+
+        imagedestroy($gd);
 
         // set new content as recource
         $frame->setCore($modified);

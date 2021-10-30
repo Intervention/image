@@ -24,6 +24,7 @@ class GifEncoder extends AbstractEncoder implements EncoderInterface
         $gif->setImageFormat($format);
         $gif->setCompression($compression);
         $gif->setImageCompression($compression);
+        $gif = $gif->deconstructImages();
 
         return $gif->getImagesBlob();
     }

@@ -101,4 +101,11 @@ abstract class AbstractImage
             $this->resolveDriverClass('Modifiers\BlurModifier', $amount)
         );
     }
+
+    public function resize(int $width, int $height): ImageInterface
+    {
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\ResizeModifier', $width, $height)
+        );
+    }
 }

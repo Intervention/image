@@ -5,6 +5,7 @@ namespace Intervention\Image\Drivers\Abstract;
 use Intervention\Image\Collection;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Exceptions\NotWritableException;
+use Intervention\Image\Geometry\Resizer;
 use Intervention\Image\Geometry\Size;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\FrameInterface;
@@ -59,6 +60,11 @@ abstract class AbstractImage
         return new Size($this->width(), $this->height());
     }
 
+    public function getResizer(): Resizer
+    {
+        return new Resizer($this->size());
+    }
+
     public function isAnimated(): bool
     {
         return $this->getFrames()->count() > 1;
@@ -102,10 +108,39 @@ abstract class AbstractImage
         );
     }
 
-    public function resize(int $width, int $height): ImageInterface
+    public function resize(...$arguments): ImageInterface
     {
+        $size = $this->getResizer()->setTargetSizeByArray($arguments)->resize();
+
         return $this->modify(
-            $this->resolveDriverClass('Modifiers\ResizeModifier', $width, $height)
+            $this->resolveDriverClass('Modifiers\ResizeModifier', $size)
+        );
+    }
+
+    public function resizeDown(...$arguments): ImageInterface
+    {
+        $size = $this->getResizer()->setTargetSizeByArray($arguments)->resizeDown();
+
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\ResizeModifier', $size)
+        );
+    }
+
+    public function scale(...$arguments): ImageInterface
+    {
+        $size = $this->getResizer()->setTargetSizeByArray($arguments)->scale();
+
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\ResizeModifier', $size)
+        );
+    }
+
+    public function scaleDown(...$arguments): ImageInterface
+    {
+        $size = $this->getResizer()->setTargetSizeByArray($arguments)->scaleDown();
+
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\ResizeModifier', $size)
         );
     }
 }

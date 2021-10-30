@@ -17,7 +17,7 @@ class ImageFactory implements FactoryInterface
 
         return new Image(
             new Collection([
-                new Frame($imagick)
+                new Frame($gd)
             ])
         );
     }

@@ -20,7 +20,8 @@ class ResizeModifier implements ModifierInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $this->modify($frame->getCore(), 0, 0, 0, 0, $this->width, $this->height, $image->getWidth(), $image->getHeight());
+            $framesize = $frame->getSize();
+            $this->modify($frame, 0, 0, 0, 0, $this->width, $this->height, $framesize->getWidth(), $framesize->getHeight());
         }
 
         return $image;
@@ -40,10 +41,13 @@ class ResizeModifier implements ModifierInterface
      * @param  int     $src_h
      * @return boolean
      */
-    protected function modify($gd, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h)
+    protected function modify(Frame $frame, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h)
     {
         // create new image
         $modified = imagecreatetruecolor($dst_w, $dst_h);
+
+        // get current image
+        $gd = $frame->getCore();
 
         // preserve transparency
         $transIndex = imagecolortransparent($gd);
@@ -58,7 +62,7 @@ class ResizeModifier implements ModifierInterface
             imagesavealpha($modified, true);
         }
 
-        // copy content from gd
+        // copy content from resource
         $result = imagecopyresampled(
             $modified,
             $gd,
@@ -73,8 +77,6 @@ class ResizeModifier implements ModifierInterface
         );
 
         // set new content as recource
-        $image->setCore($modified);
-
-        return $result;
+        $frame->setCore($modified);
     }
 }

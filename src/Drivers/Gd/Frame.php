@@ -50,6 +50,13 @@ class Frame extends AbstractFrame implements FrameInterface
         return $this->core;
     }
 
+    public function setCore(GdImage $core): self
+    {
+        $this->core = $core;
+
+        return $this;
+    }
+
     public function getSize(): SizeInterface
     {
         return new Size(imagesx($this->core), imagesy($this->core));

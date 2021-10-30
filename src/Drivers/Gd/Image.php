@@ -24,12 +24,4 @@ class Image extends AbstractImage implements ImageInterface, IteratorAggregate
     {
         return imagesy($this->frames->first()->getCore());
     }
-
-    public function resize(...$arguments): self
-    {
-        $resizer = new Resizer($this->size());
-        $resizer->setTargetSizeByArray($arguments)->resize();
-
-        return $this;
-    }
 }

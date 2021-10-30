@@ -94,6 +94,13 @@ abstract class AbstractImage
         );
     }
 
+    public function toPng(): EncodedImage
+    {
+        return $this->encode(
+            $this->resolveDriverClass('Encoders\PngEncoder')
+        );
+    }
+
     public function greyscale(): ImageInterface
     {
         return $this->modify(

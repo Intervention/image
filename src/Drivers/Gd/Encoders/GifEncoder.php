@@ -2,25 +2,28 @@
 
 namespace Intervention\Image\Drivers\Gd\Encoders;
 
+use Intervention\Gif\Builder as GifBuilder;
 use Intervention\Image\Drivers\Abstract\Encoders\AbstractEncoder;
+use Intervention\Image\EncodedImage;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Gif\Builder as GifBuilder;
 
 class GifEncoder extends AbstractEncoder implements EncoderInterface
 {
-    public function encode(ImageInterface $image): string
+    public function encode(ImageInterface $image): EncodedImage
     {
         if ($image->isAnimated()) {
             return $this->encodeAnimated($image);
         }
 
-        return $this->getBuffered(function () use ($image) {
+        $data = $this->getBuffered(function () use ($image) {
             imagegif($image->getFrames()->first()->getCore());
         });
+
+        return new EncodedImage($data, 'image/gif');
     }
 
-    protected function encodeAnimated($image): string
+    protected function encodeAnimated($image): EncodedImage
     {
         $builder = GifBuilder::canvas($image->width(), $image->height(), $image->loops());
         foreach ($image as $key => $frame) {
@@ -28,6 +31,6 @@ class GifEncoder extends AbstractEncoder implements EncoderInterface
             $builder->addFrame($source, $frame->getDelay());
         }
 
-        return $builder->encode();
+        return new EncodedImage($builder->encode(), 'image/gif');
     }
 }

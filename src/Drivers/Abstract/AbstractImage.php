@@ -55,14 +55,14 @@ abstract class AbstractImage
         return $this->loops;
     }
 
-    public function size(): SizeInterface
+    public function getSize(): SizeInterface
     {
         return new Size($this->width(), $this->height());
     }
 
     public function getResizer(): Resizer
     {
-        return new Resizer($this->size());
+        return new Resizer($this->getSize());
     }
 
     public function isAnimated(): bool
@@ -77,17 +77,17 @@ abstract class AbstractImage
 
     public function encode(EncoderInterface $encoder): EncodedImage
     {
-        return new EncodedImage($encoder->encode($this));
+        return $encoder->encode($this);
     }
 
-    public function toJpeg(?int $quality = null): string
+    public function toJpeg(?int $quality = null): EncodedImage
     {
         return $this->encode(
             $this->resolveDriverClass('Encoders\JpegEncoder', $quality)
         );
     }
 
-    public function toGif(): string
+    public function toGif(): EncodedImage
     {
         return $this->encode(
             $this->resolveDriverClass('Encoders\GifEncoder')

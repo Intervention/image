@@ -9,9 +9,10 @@ class EncodedImage
     protected $data;
     protected $mimetype;
 
-    public function __construct(string $data)
+    public function __construct(string $data, string $mimetype = 'application/octet-stream')
     {
         $this->data = $data;
+        $this->mimetype = $mimetype;
     }
 
     public function save(string $filepath): void
@@ -26,7 +27,7 @@ class EncodedImage
 
     public function toDataUrl(): string
     {
-        return '';
+        return sprintf('data:%s;base64,%s', $this->mimetype, base64_encode($this->data));
     }
 
     public function __toString(): string

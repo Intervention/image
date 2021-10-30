@@ -4,12 +4,13 @@ namespace Intervention\Image\Drivers\Imagick\Encoders;
 
 use Imagick;
 use Intervention\Image\Drivers\Abstract\Encoders\AbstractEncoder;
+use Intervention\Image\EncodedImage;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
 class JpegEncoder extends AbstractEncoder implements EncoderInterface
 {
-    public function encode(ImageInterface $image): string
+    public function encode(ImageInterface $image): EncodedImage
     {
         $format = 'jpeg';
         $compression = Imagick::COMPRESSION_JPEG;
@@ -24,6 +25,6 @@ class JpegEncoder extends AbstractEncoder implements EncoderInterface
         $imagick->setCompressionQuality($this->quality);
         $imagick->setImageCompressionQuality($this->quality);
 
-        return $imagick->getImagesBlob();
+        return new EncodedImage($imagick->getImagesBlob(), 'image/jpeg');
     }
 }

@@ -44,8 +44,8 @@ class ImageTest extends TestCase
         $this->assertEquals(2, $this->image->height());
     }
 
-    public function testSize(): void
+    public function testGetSize(): void
     {
-        $this->assertInstanceOf(Size::class, $this->image->size());
+        $this->assertInstanceOf(Size::class, $this->image->getSize());
     }
 }

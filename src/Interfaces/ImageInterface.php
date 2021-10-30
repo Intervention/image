@@ -6,7 +6,7 @@ use Intervention\Image\EncodedImage;
 
 interface ImageInterface
 {
-    public function size(): SizeInterface;
+    public function getSize(): SizeInterface;
     public function width(): int;
     public function height(): int;
     public function isAnimated(): bool;

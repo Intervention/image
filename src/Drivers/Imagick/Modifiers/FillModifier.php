@@ -1,9 +1,9 @@
 <?php
 
-namespace Intervention\Image\Drivers\Gd\Modifiers;
+namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\Gd\InputHandler;
-use Intervention\Image\Interfaces\FrameInterface;
+use ImagickDraw;
+use Intervention\Image\Drivers\Imagick\InputHandler;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 
@@ -16,12 +16,12 @@ class FillModifier implements ModifierInterface
 
     public function apply(ImageInterface $image): ImageInterface
     {
-        $width = $image->getWidth();
-        $height = $image->getHeight();
-        $filling = $this->getApplicableFilling();
+        $draw = new ImagickDraw();
+        $draw->setFillColor($this->getApplicableFilling()->getPixel());
+        $draw->rectangle(0, 0, $image->getWidth(), $image->getHeight());
 
         foreach ($image as $frame) {
-            imagefilledrectangle($frame->getCore(), 0, 0, $width - 1, $height - 1, $filling);
+            $frame->getCore()->drawImage($draw);
         }
 
         return $image;

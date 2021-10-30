@@ -21,6 +21,11 @@ class Color extends AbstractColor implements ColorInterface
         $this->pixel = $pixel;
     }
 
+    public function getPixel(): ImagickPixel
+    {
+        return $this->pixel;
+    }
+
     public function red(): int
     {
         return round($this->pixel->getColorValue(Imagick::COLOR_RED) * 255);

@@ -15,8 +15,10 @@ class ImageFactory implements FactoryInterface
         imagefill($gd, 0, 0, $color);
         imagesavealpha($gd, true);
 
-        return new Image(new Collection([
-            new Frame($gd)
-        ]));
+        return new Image(
+            new Collection([
+                new Frame($imagick)
+            ])
+        );
     }
 }

@@ -19,8 +19,10 @@ class ImageFactory implements FactoryInterface
         $imagick->setImageType(Imagick::IMGTYPE_UNDEFINED);
         $imagick->setColorspace(Imagick::COLORSPACE_UNDEFINED);
 
-        return new Image(new Collection([
-            new Frame($imagick)
-        ]));
+        return new Image(
+            new Collection([
+                new Frame($imagick)
+            ])
+        );
     }
 }

@@ -9,10 +9,10 @@ class GreyscaleModifier implements ModifierInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {
-        foreach ($this->image as $frame) {
+        foreach ($image as $frame) {
             $frame->getCore()->modulateImage(100, 0, 100);
         }
 
-        return $this->image;
+        return $image;
     }
 }

@@ -43,4 +43,11 @@ class ImageTest extends TestCase
     {
         $this->assertInstanceOf(Size::class, $this->image->size());
     }
+
+    public function testResize(): void
+    {
+        $this->assertInstanceOf(Image::class, $this->image->resize(function ($size) {
+            $size->width(300);
+        }));
+    }
 }

@@ -4,13 +4,14 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
 use Intervention\Image\Drivers\Imagick\InputHandler;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
-use Intervention\Image\Traits\CanHandleInput;
+use Intervention\Image\Traits\CanResolveDriverClass;
 
 class FillModifier implements ModifierInterface
 {
-    use CanHandleInput;
+    use CanResolveDriverClass;
 
     public function __construct($filling, ?int $x = null, ?int $y = null)
     {
@@ -19,7 +20,7 @@ class FillModifier implements ModifierInterface
 
     public function apply(ImageInterface $image): ImageInterface
     {
-        $filling = $this->handleInput($this->filling);
+        $filling = $this->getApplicableFilling();
 
         $draw = new ImagickDraw();
         $draw->setFillColor($filling->getPixel());
@@ -30,5 +31,10 @@ class FillModifier implements ModifierInterface
         }
 
         return $image;
+    }
+
+    protected function getApplicableFilling(): ColorInterface
+    {
+        return $this->resolveDriverClass('InputHandler')->handle($this->filling);
     }
 }

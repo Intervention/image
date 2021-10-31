@@ -3,6 +3,7 @@
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\Gd\InputHandler;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;

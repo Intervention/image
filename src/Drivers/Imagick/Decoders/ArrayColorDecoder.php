@@ -20,6 +20,10 @@ class ArrayColorDecoder extends AbstractDecoder implements DecoderInterface
             $this->fail();
         }
 
+        if (count($input) === 3) {
+            $input[] = 1;
+        }
+
         list($r, $g, $b, $a) = $input;
 
         $pixel = new ImagickPixel(

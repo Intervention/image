@@ -7,16 +7,20 @@ use Intervention\Image\Drivers\Gd\Color;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Traits\CanValidateColorArray;
+use Intervention\Image\Traits\CanValidateColors;
 
 class ArrayColorDecoder extends AbstractDecoder implements DecoderInterface
 {
-    use CanValidateColorArray;
+    use CanValidateColors;
 
     public function decode($input): ImageInterface|ColorInterface
     {
         if (! $this->isValidColorArray($input)) {
             $this->fail();
+        }
+
+        if (count($input) === 3) {
+            $input[] = 1;
         }
 
         list($r, $g, $b, $a) = $input;

@@ -58,5 +58,45 @@ class InputHandlerTest extends TestCase
         $input = [181, 55, 23, .5];
         $result = $handler->handle($input);
         $this->assertInstanceOf(Color::class, $result);
+
+        $handler = new InputHandler();
+        $input = [181, 55, 23];
+        $result = $handler->handle($input);
+        $this->assertInstanceOf(Color::class, $result);
+    }
+
+    public function testHandleHexColor(): void
+    {
+        $handler = new InputHandler();
+        $input = 'ccff33';
+        $result = $handler->handle($input);
+        $this->assertInstanceOf(Color::class, $result);
+        $this->assertEquals(204, $result->red());
+        $this->assertEquals(255, $result->green());
+        $this->assertEquals(51, $result->blue());
+
+        $handler = new InputHandler();
+        $input = 'cf3';
+        $result = $handler->handle($input);
+        $this->assertInstanceOf(Color::class, $result);
+        $this->assertEquals(204, $result->red());
+        $this->assertEquals(255, $result->green());
+        $this->assertEquals(51, $result->blue());
+
+        $handler = new InputHandler();
+        $input = '#123456';
+        $result = $handler->handle($input);
+        $this->assertInstanceOf(Color::class, $result);
+        $this->assertEquals(18, $result->red());
+        $this->assertEquals(52, $result->green());
+        $this->assertEquals(86, $result->blue());
+
+        $handler = new InputHandler();
+        $input = '#333';
+        $result = $handler->handle($input);
+        $this->assertInstanceOf(Color::class, $result);
+        $this->assertEquals(51, $result->red());
+        $this->assertEquals(51, $result->green());
+        $this->assertEquals(51, $result->blue());
     }
 }

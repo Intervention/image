@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Traits;
 
-trait CanValidateColorArray
+trait CanValidateColors
 {
     protected function isValidColorArray($input): bool
     {
@@ -22,7 +22,7 @@ trait CanValidateColorArray
         }
 
         // validate alpha value
-        if ($input[3] > 1 || $input[3] < 0) {
+        if (isset($input[3]) && ($input[3] > 1 || $input[3] < 0)) {
             return false;
         }
 

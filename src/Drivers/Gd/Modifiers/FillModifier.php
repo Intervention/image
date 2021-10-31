@@ -24,7 +24,7 @@ class FillModifier implements ModifierInterface
         $filling = $this->getApplicableFilling();
 
         foreach ($image as $frame) {
-            imagefilledrectangle($frame->getCore(), 0, 0, $width - 1, $height - 1, $filling);
+            imagefilledrectangle($frame->getCore(), 0, 0, $width - 1, $height - 1, $filling->toInt());
         }
 
         return $image;

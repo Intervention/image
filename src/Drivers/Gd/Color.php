@@ -54,4 +54,9 @@ class Color extends AbstractColor implements ColorInterface
 
         return [$r, $g, $b, $a];
     }
+
+    public function toInt(): int
+    {
+        return $this->value;
+    }
 }

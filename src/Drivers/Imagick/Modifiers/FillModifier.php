@@ -24,7 +24,7 @@ class FillModifier implements ModifierInterface
 
         $draw = new ImagickDraw();
         $draw->setFillColor($filling->getPixel());
-        $draw->rectangle(0, 0, $image->getWidth(), $image->getHeight());
+        $draw->rectangle(0, 0, $image->width(), $image->height());
 
         foreach ($image as $frame) {
             $frame->getCore()->drawImage($draw);

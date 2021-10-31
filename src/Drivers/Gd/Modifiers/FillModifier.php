@@ -20,8 +20,8 @@ class FillModifier implements ModifierInterface
 
     public function apply(ImageInterface $image): ImageInterface
     {
-        $width = $image->getWidth();
-        $height = $image->getHeight();
+        $width = $image->width();
+        $height = $image->height();
         $filling = $this->getApplicableFilling();
 
         foreach ($image as $frame) {

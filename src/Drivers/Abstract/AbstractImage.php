@@ -150,11 +150,4 @@ abstract class AbstractImage
             $this->resolveDriverClass('Modifiers\ResizeModifier', $size)
         );
     }
-
-    public function fill($filling): ImageInterface
-    {
-        return $this->modify(
-            $this->resolveDriverClass('Modifiers\FillModifier', $filling)
-        );
-    }
 }

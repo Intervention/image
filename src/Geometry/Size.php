@@ -176,4 +176,19 @@ class Size implements SizeInterface
 
         return $this;
     }
+
+    /**
+     * Calculate the relative position to another Size
+     * based on the pivot point settings of both sizes.
+     *
+     * @param  Size   $size
+     * @return Point
+     */
+    public function relativePosition(Size $size): Point
+    {
+        $x = $this->getPivot()->getX() - $size->getPivot()->getX();
+        $y = $this->getPivot()->getY() - $size->getPivot()->getY();
+
+        return new Point($x, $y);
+    }
 }

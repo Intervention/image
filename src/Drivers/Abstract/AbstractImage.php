@@ -36,6 +36,11 @@ abstract class AbstractImage
         return $this->frames;
     }
 
+    public function getFrame(int $key = 0): ?FrameInterface
+    {
+        return $this->frames->get($key);
+    }
+
     public function addFrame(FrameInterface $frame): ImageInterface
     {
         $this->frames->push($frame);
@@ -115,6 +120,16 @@ abstract class AbstractImage
         );
     }
 
+    public function pickColors(int $x, int $y): Collection
+    {
+        $colors = new Collection();
+        foreach ($this->getFrames() as $key => $frame) {
+            $colors->push($this->pickColor($x, $y, $key));
+        }
+
+        return $colors;
+    }
+
     public function resize(...$arguments): ImageInterface
     {
         $size = $this->getResizer()->setTargetSizeByArray($arguments)->resize();
@@ -148,6 +163,19 @@ abstract class AbstractImage
 
         return $this->modify(
             $this->resolveDriverClass('Modifiers\ResizeModifier', $size)
+        );
+    }
+
+    public function place($element, string $position = 'top-left', int $offset_x = 0, int $offset_y = 0): ImageInterface
+    {
+        return $this->modify(
+            $this->resolveDriverClass(
+                'Modifiers\PlaceModifier',
+                $element,
+                $position,
+                $offset_x,
+                $offset_y
+            )
         );
     }
 }

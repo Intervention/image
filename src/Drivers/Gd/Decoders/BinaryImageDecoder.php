@@ -2,6 +2,7 @@
 
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
+use GdImage;
 use Intervention\Image\Collection;
 use Intervention\Image\Drivers\Abstract\Decoders\AbstractDecoder;
 use Intervention\Image\Drivers\Gd\Frame;
@@ -26,13 +27,15 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
             return $this->decodeGif($input); // decode (animated) gif
         }
 
-        $resource = @imagecreatefromstring($input);
+        $gd = @imagecreatefromstring($input);
 
-        if ($resource === false) {
+        if ($gd === false) {
             $this->fail();
         }
 
-        return new Image(new Collection([new Frame($resource)]));
+        $gd = $this->gdImageToTruecolor($gd);
+
+        return new Image(new Collection([new Frame($gd)]));
     }
 
     protected function decodeGif($input): ImageInterface
@@ -54,5 +57,33 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
         }
 
         return $image;
+    }
+
+    /**
+     * Transform GD image into truecolor version
+     *
+     * @param  GdImage $gd
+     * @return bool
+     */
+    public function gdImageToTruecolor(GdImage $gd): GdImage
+    {
+        $width = imagesx($gd);
+        $height = imagesy($gd);
+
+        // new canvas
+        $canvas = imagecreatetruecolor($width, $height);
+
+        // fill with transparent color
+        imagealphablending($canvas, false);
+        $transparent = imagecolorallocatealpha($canvas, 255, 255, 255, 127);
+        imagefilledrectangle($canvas, 0, 0, $width, $height, $transparent);
+        imagecolortransparent($canvas, $transparent);
+        imagealphablending($canvas, true);
+
+        // copy original
+        imagecopy($canvas, $gd, 0, 0, 0, 0, $width, $height);
+        imagedestroy($gd);
+
+        return $canvas;
     }
 }

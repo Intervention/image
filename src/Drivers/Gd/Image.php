@@ -8,6 +8,7 @@ use Intervention\Image\Drivers\Abstract\AbstractImage;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Geometry\Resizer;
 use Intervention\Image\Geometry\Size;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -17,11 +18,20 @@ class Image extends AbstractImage implements ImageInterface, IteratorAggregate
 {
     public function width(): int
     {
-        return imagesx($this->frames->first()->getCore());
+        return imagesx($this->getFrame()->getCore());
     }
 
     public function height(): int
     {
-        return imagesy($this->frames->first()->getCore());
+        return imagesy($this->getFrame()->getCore());
+    }
+
+    public function pickColor(int $x, int $y, int $frame_key = 0): ?ColorInterface
+    {
+        if ($frame = $this->getFrame($frame_key)) {
+            return new Color(imagecolorat($frame->getCore(), $x, $y));
+        }
+
+        return null;
     }
 }

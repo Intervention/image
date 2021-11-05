@@ -13,6 +13,13 @@ use Intervention\Image\Interfaces\SizeInterface;
 class Frame extends AbstractFrame implements FrameInterface
 {
     /**
+     * Gd image representation of frame
+     *
+     * @var GdImage
+     */
+    protected $core;
+
+    /**
      * Delay time in seconds after next frame is shown
      *
      * @var float
@@ -40,9 +47,9 @@ class Frame extends AbstractFrame implements FrameInterface
      */
     protected $offset_top = 0;
 
-    public function __construct(protected GdImage $core)
+    public function __construct(GdImage $core)
     {
-        //
+        $this->core = $core;
     }
 
     public function getCore(): GdImage

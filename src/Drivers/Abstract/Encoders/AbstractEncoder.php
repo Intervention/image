@@ -6,9 +6,11 @@ use Intervention\Image\Interfaces\EncoderInterface;
 
 abstract class AbstractEncoder
 {
-    public function __construct(protected ?int $quality = null)
+    protected $quality;
+
+    public function __construct(?int $quality = null)
     {
-        //
+        $this->quality = $quality;
     }
 
     /**

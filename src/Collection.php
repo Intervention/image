@@ -10,15 +10,17 @@ use IteratorAggregate;
 
 class Collection implements CollectionInterface, IteratorAggregate, Countable
 {
+    protected $items = [];
+
     /**
      * Create a collection.
      *
      * @param  array  $items
      * @return void
      */
-    public function __construct(protected array $items = [])
+    public function __construct(array $items = [])
     {
-        //
+        $this->items = $items
     }
 
     /**

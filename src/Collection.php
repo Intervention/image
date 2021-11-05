@@ -20,7 +20,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
      */
     public function __construct(array $items = [])
     {
-        $this->items = $items
+        $this->items = $items;
     }
 
     /**

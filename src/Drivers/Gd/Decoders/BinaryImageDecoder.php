@@ -33,7 +33,9 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
             $this->fail();
         }
 
-        $gd = $this->gdImageToTruecolor($gd);
+        if (! imageistruecolor($gd)) {
+            imagepalettetotruecolor($gd);
+        }
 
         return new Image(new Collection([new Frame($gd)]));
     }
@@ -57,33 +59,5 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
         }
 
         return $image;
-    }
-
-    /**
-     * Transform GD image into truecolor version
-     *
-     * @param  GdImage $gd
-     * @return bool
-     */
-    public function gdImageToTruecolor(GdImage $gd): GdImage
-    {
-        $width = imagesx($gd);
-        $height = imagesy($gd);
-
-        // new canvas
-        $canvas = imagecreatetruecolor($width, $height);
-
-        // fill with transparent color
-        imagealphablending($canvas, false);
-        $transparent = imagecolorallocatealpha($canvas, 255, 255, 255, 127);
-        imagefilledrectangle($canvas, 0, 0, $width, $height, $transparent);
-        imagecolortransparent($canvas, $transparent);
-        imagealphablending($canvas, true);
-
-        // copy original
-        imagecopy($canvas, $gd, 0, 0, 0, 0, $width, $height);
-        imagedestroy($gd);
-
-        return $canvas;
     }
 }

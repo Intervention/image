@@ -38,6 +38,13 @@ class Size implements SizeInterface
         return $this->pivot;
     }
 
+    public function setPivot(PointInterface $pivot): self
+    {
+        $this->pivot = $pivot;
+
+        return $this;
+    }
+
     public function setWidth(int $width): SizeInterface
     {
         $this->width = $width;

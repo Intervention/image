@@ -11,7 +11,7 @@ class Resizer
      *
      * @var SizeInterface
      */
-    protected $size;
+    protected $original;
 
     /**
      * Target size
@@ -20,20 +20,20 @@ class Resizer
      */
     protected $target;
 
-    public function __construct(SizeInterface $size)
+    /**
+     * Create new instance
+     *
+     * @param SizeInterface $size
+     */
+    public function __construct(SizeInterface $original)
     {
-        $this->size = $size;
+        $this->original = $original;
         $this->target = new Size(0, 0);
     }
 
-    public static function fromSize(SizeInterface $size): self
+    protected function copyOriginal(): SizeInterface
     {
-        return new self($size);
-    }
-
-    public function getSize(): SizeInterface
-    {
-        return $this->size;
+        return new Size($this->original->getWidth(), $this->original->getHeight());
     }
 
     protected function hasTargetWidth(): bool
@@ -81,14 +81,32 @@ class Resizer
 
     public function setTargetSize(SizeInterface $size): self
     {
-        $this->target = $size;
+        $this->target = new Size($size->getWidth(), $size->getHeight());
 
         return $this;
     }
 
+    protected function getProportionalWidth(): int
+    {
+        if (! $this->hasTargetHeight()) {
+            return $this->original->getWidth();
+        }
+
+        return (int) round($this->target->getHeight() * $this->original->getAspectRatio());
+    }
+
+    protected function getProportionalHeight(): int
+    {
+        if (! $this->hasTargetWidth()) {
+            return $this->original->getHeight();
+        }
+
+        return (int) round($this->target->getWidth() / $this->original->getAspectRatio());
+    }
+
     public function resize(): SizeInterface
     {
-        $resized = clone $this->size;
+        $resized = $this->copyOriginal();
 
         if ($this->hasTargetWidth()) {
             $resized->setWidth($this->target->getWidth());
@@ -103,92 +121,82 @@ class Resizer
 
     public function resizeDown(): SizeInterface
     {
+        $resized = $this->copyOriginal();
+
         if ($this->hasTargetWidth()) {
-            $this->target->setWidth(
-                min($this->target->getWidth(), $this->size->getWidth())
+            $resized->setWidth(
+                min($this->target->getWidth(), $this->original->getWidth())
             );
         }
 
         if ($this->hasTargetHeight()) {
-            $this->target->setHeight(
-                min($this->target->getHeight(), $this->size->getHeight())
+            $resized->setHeight(
+                min($this->target->getHeight(), $this->original->getHeight())
             );
         }
 
-        return $this->resize();
+        return $resized;
     }
 
     public function scale(): SizeInterface
     {
+        $resized = $this->copyOriginal();
+
         if ($this->hasTargetWidth() && $this->hasTargetHeight()) {
-            $this->target->setWidth(min(
+            $resized->setWidth(min(
                 $this->getProportionalWidth(),
                 $this->target->getWidth()
             ));
-            $this->target->setHeight(min(
+            $resized->setHeight(min(
                 $this->getProportionalHeight(),
                 $this->target->getHeight()
             ));
         } elseif ($this->hasTargetWidth()) {
-            $this->target->setHeight($this->getProportionalHeight());
+            $resized->setWidth($this->target->getWidth());
+            $resized->setHeight($this->getProportionalHeight());
         } elseif ($this->hasTargetHeight()) {
-            $this->target->setWidth($this->getProportionalWidth());
+            $resized->setWidth($this->getProportionalWidth());
+            $resized->setHeight($this->target->getHeight());
         }
 
-        return $this->resize();
+        return $resized;
     }
 
     public function scaleDown(): SizeInterface
     {
+        $resized = $this->copyOriginal();
+
         if ($this->hasTargetWidth() && $this->hasTargetHeight()) {
-            $this->target->setWidth(min(
+            $resized->setWidth(min(
                 $this->getProportionalWidth(),
                 $this->target->getWidth(),
-                $this->size->getWidth()
+                $this->original->getWidth()
             ));
-            $this->target->setHeight(min(
+            $resized->setHeight(min(
                 $this->getProportionalHeight(),
                 $this->target->getHeight(),
-                $this->size->getHeight()
+                $this->original->getHeight()
             ));
         } elseif ($this->hasTargetWidth()) {
-            $this->target->setWidth(min(
+            $resized->setWidth(min(
                 $this->target->getWidth(),
-                $this->size->getWidth()
+                $this->original->getWidth()
             ));
-            $this->target->setHeight(min(
+            $resized->setHeight(min(
                 $this->getProportionalHeight(),
-                $this->size->getHeight()
+                $this->original->getHeight()
             ));
         } elseif ($this->hasTargetHeight()) {
-            $this->target->setWidth(min(
+            $resized->setWidth(min(
                 $this->getProportionalWidth(),
-                $this->size->getWidth()
+                $this->original->getWidth()
             ));
-            $this->target->setHeight(min(
+            $resized->setHeight(min(
                 $this->target->getHeight(),
-                $this->size->getHeight()
+                $this->original->getHeight()
             ));
         }
 
-        return $this->resize();
-    }
-
-    protected function getProportionalWidth(): int
-    {
-        if (! $this->hasTargetHeight()) {
-            return $this->size->getWidth();
-        }
-
-        return (int) round($this->target->getHeight() * $this->size->getAspectRatio());
-    }
-
-    protected function getProportionalHeight(): int
-    {
-        if (! $this->hasTargetWidth()) {
-            return $this->size->getHeight();
-        }
-
-        return (int) round($this->target->getWidth() / $this->size->getAspectRatio());
+        return $resized;
     }
 }

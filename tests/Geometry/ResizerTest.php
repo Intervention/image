@@ -8,6 +8,13 @@ use PHPUnit\Framework\TestCase;
 
 class ResizerTest extends TestCase
 {
+    public function testConstructor(): void
+    {
+        $size = new Size(300, 200);
+        $resizer = new Resizer($size);
+        $this->assertInstanceOf(Resizer::class, $resizer);
+    }
+
     public function testSetTargetSizeByArray()
     {
         $resizer = new Resizer(new Size(300, 200));
@@ -63,22 +70,16 @@ class ResizerTest extends TestCase
         $resizer = new Resizer($size);
         $resizer->width(150);
         $result = $resizer->resize();
-        $original = $resizer->getSize();
         $this->assertEquals(150, $result->getWidth());
         $this->assertEquals(200, $result->getHeight());
-        $this->assertEquals(300, $original->getWidth());
-        $this->assertEquals(200, $original->getHeight());
 
         $size = new Size(300, 200);
         $resizer = new Resizer($size);
         $resizer->width(20);
         $resizer->height(10);
         $result = $resizer->resize();
-        $original = $resizer->getSize();
         $this->assertEquals(20, $result->getWidth());
         $this->assertEquals(10, $result->getHeight());
-        $this->assertEquals(300, $original->getWidth());
-        $this->assertEquals(200, $original->getHeight());
     }
 
     public function testResizeDown()
@@ -367,4 +368,5 @@ class ResizerTest extends TestCase
         $this->assertEquals(13, $result->getWidth());
         $this->assertEquals(10, $result->getHeight());
     }
+
 }

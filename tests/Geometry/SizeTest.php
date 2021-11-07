@@ -143,4 +143,47 @@ class SizeTest extends TestCase
 
         $this->assertInstanceOf(Size::class, $result);
     }
+
+    public function testRelativePosition(): void
+    {
+        $container = new Size(800, 600);
+        $input = new Size(200, 100);
+        $container->align('top-left');
+        $input->align('top-left');
+        $pos = $container->relativePosition($input);
+        $this->assertEquals(0, $pos->getX());
+        $this->assertEquals(0, $pos->getY());
+
+        $container = new Size(800, 600);
+        $input = new Size(200, 100);
+        $container->align('center');
+        $input->align('top-left');
+        $pos = $container->relativePosition($input);
+        $this->assertEquals(400, $pos->getX());
+        $this->assertEquals(300, $pos->getY());
+
+        $container = new Size(800, 600);
+        $input = new Size(200, 100);
+        $container->align('bottom-right');
+        $input->align('top-right');
+        $pos = $container->relativePosition($input);
+        $this->assertEquals(600, $pos->getX());
+        $this->assertEquals(600, $pos->getY());
+
+        $container = new Size(800, 600);
+        $input = new Size(200, 100);
+        $container->align('center');
+        $input->align('center');
+        $pos = $container->relativePosition($input);
+        $this->assertEquals(300, $pos->getX());
+        $this->assertEquals(250, $pos->getY());
+
+        $container = new Size(100, 200);
+        $input = new Size(100, 100);
+        $container->align('center');
+        $input->align('center');
+        $pos = $container->relativePosition($input);
+        $this->assertEquals(0, $pos->getX());
+        $this->assertEquals(50, $pos->getY());
+    }
 }

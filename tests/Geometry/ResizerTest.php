@@ -368,5 +368,4 @@ class ResizerTest extends TestCase
         $this->assertEquals(13, $result->getWidth());
         $this->assertEquals(10, $result->getHeight());
     }
-
 }

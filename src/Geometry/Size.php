@@ -191,7 +191,7 @@ class Size implements SizeInterface
      * @param  Size   $size
      * @return Point
      */
-    public function relativePosition(Size $size): Point
+    public function getRelativePositionTo(Size $size): Point
     {
         $x = $this->getPivot()->getX() - $size->getPivot()->getX();
         $y = $this->getPivot()->getY() - $size->getPivot()->getY();

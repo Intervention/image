@@ -61,6 +61,6 @@ class PlaceModifier implements ModifierInterface
         $image_size = $image->getSize()->align($this->position, $this->offset_x, $this->offset_y);
         $watermark_size = $watermark->getSize()->align($this->position);
 
-        return $image_size->relativePosition($watermark_size);
+        return $image_size->getRelativePositionTo($watermark_size);
     }
 }

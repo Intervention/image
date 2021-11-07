@@ -4,6 +4,43 @@ namespace Intervention\Image\Geometry;
 
 use Intervention\Image\Interfaces\SizeInterface;
 
+/*
+
+modes: fill, contain, cover
+resize($width, $height, $mode, $only_reduce)
+resize(function($size) {
+    $size->width(300);
+    $size->contain();
+    $size->reduce();
+});
+
+- resize
+- resizeDown
+- scale
+- scaleDown
+- contain
+- containDown
+- cover
+- coverDown
+
+- resize
+- resizeDown
+- scale
+- scaleDown
+- fit(contain|cover)
+- fitDown(contain|cover)
+
+- resize
+- resizeDown
+- scale
+- scaleDown
+- fit
+- fitDown
+- pad
+- padDown
+
+ */
+
 class Resizer
 {
     /**
@@ -29,11 +66,6 @@ class Resizer
     {
         $this->original = $original;
         $this->target = new Size(0, 0);
-    }
-
-    protected function copyOriginal(): SizeInterface
-    {
-        return new Size($this->original->getWidth(), $this->original->getHeight());
     }
 
     protected function hasTargetWidth(): bool
@@ -102,6 +134,11 @@ class Resizer
         }
 
         return (int) round($this->target->getWidth() / $this->original->getAspectRatio());
+    }
+
+    protected function copyOriginal(): SizeInterface
+    {
+        return new Size($this->original->getWidth(), $this->original->getHeight());
     }
 
     public function resize(): SizeInterface

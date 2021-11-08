@@ -3,10 +3,12 @@
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Geometry\Resizer;
+use Intervention\Image\Geometry\Size;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Traits\CanResizeGeometrically;
 
 /*
 
@@ -22,48 +24,48 @@ use Intervention\Image\Interfaces\SizeInterface;
 
 class CropResizeModifier implements ModifierInterface
 {
-    protected $width;
-    protected $height;
+    use CanResizeGeometrically;
+
+    protected $target;
     protected $position;
 
-    public function __construct(int $width, int $height, string $position)
+    public function __construct(SizeInterface $target, string $position = 'top-left')
     {
-        $this->width = $width;
-        $this->height = $height;
+        $this->target = $target;
         $this->position = $position;
     }
 
     public function apply(ImageInterface $image): ImageInterface
     {
-        echo "<pre>";
-        var_dump($this->getCropSize($image));
-        var_dump($this->getResizeSize($image));
-        echo "</pre>";
-        exit;
+        $crop = $this->getCropSize($image);
+        $resize = $this->getResizeSize($image);
 
-        // foreach ($image as $frame) {
-        //     $this->modify($frame);
-        // }
+        foreach ($image as $frame) {
+            $this->modify($frame, $crop, $resize);
+        }
 
         return $image;
     }
 
     protected function getCropSize(ImageInterface $image): SizeInterface
     {
-        $resizer = new Resizer(new Size($this->width, $this->height));
-        $resizer->width($image->width());
-        $resizer->height($image->height());
+        $size = $this->resizeGeometrically($this->target)
+                ->toWidth($image->width())
+                ->toHeight($image->height())
+                ->scale();
 
-        return $resizer->scale()->align($this->position);
+        return $size->alignPivotTo(
+            $image->getSize()->alignPivot($this->position),
+            $this->position
+        );
     }
 
     protected function getResizeSize(ImageInterface $image): SizeInterface
     {
-        $resizer = new Resizer($this->getCropSize($image));
-        $resizer->width($this->width);
-        $resizer->height($this->height);
-
-        return $resizer->scale()->align($this->position);
+        return $this->resizeGeometrically($this->getCropSize($image))
+                ->toWidth($this->target->getWidth())
+                ->toHeight($this->target->getHeight())
+                ->scale();
     }
 
     /**
@@ -80,12 +82,12 @@ class CropResizeModifier implements ModifierInterface
      * @param  int            $src_h
      * @return void
      */
-    protected function modify(FrameInterface $frame): void
+    protected function modify(FrameInterface $frame, SizeInterface $crop, SizeInterface $resize): void
     {
         // create new image
         $modified = imagecreatetruecolor(
-            $this->resizeTo->getWidth(),
-            $this->resizeTo->getHeight()
+            $resize->getWidth(),
+            $resize->getHeight()
         );
 
         // get current image
@@ -108,14 +110,14 @@ class CropResizeModifier implements ModifierInterface
         $result = imagecopyresampled(
             $modified,
             $gd,
-            $this->resizeTo->getPivot()->getX(),
-            $this->resizeTo->getPivot()->getY(),
-            $this->cropTo->getPivot()->getX(),
-            $this->cropTo->getPivot()->getY(),
-            $this->resizeTo->getWidth(),
-            $this->resizeTo->getHeight(),
-            $this->cropTo->getWidth(),
-            $this->cropTo->getHeight()
+            $resize->getPivot()->getX(),
+            $resize->getPivot()->getY(),
+            $crop->getPivot()->getX(),
+            $crop->getPivot()->getY(),
+            $resize->getWidth(),
+            $resize->getHeight(),
+            $crop->getWidth(),
+            $crop->getHeight()
         );
 
         imagedestroy($gd);

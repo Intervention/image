@@ -92,6 +92,16 @@ class Resizer
         return $this;
     }
 
+    public function toWidth(int $width): self
+    {
+        return $this->height($width);
+    }
+
+    public function toHeight(int $height): self
+    {
+        return $this->height($height);
+    }
+
     public function setTargetSizeByArray(array $arguments): self
     {
         if (isset($arguments[0]) && is_callable($arguments[0])) {

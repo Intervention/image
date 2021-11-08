@@ -168,8 +168,10 @@ abstract class AbstractImage
 
     public function fit(int $width, int $height, string $position = 'center'): ImageInterface
     {
+        $size = new Size($width, $height);
+
         return $this->modify(
-            $this->resolveDriverClass('Modifiers\CropResizeModifier', $width, $height, $position)
+            $this->resolveDriverClass('Modifiers\CropResizeModifier', $size, $position)
         );
     }
 

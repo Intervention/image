@@ -175,6 +175,15 @@ abstract class AbstractImage
         );
     }
 
+    public function fitDown(int $width, int $height, string $position = 'center'): ImageInterface
+    {
+        $size = new Size($width, $height);
+
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\FitDownModifier', $size, $position)
+        );
+    }
+
     public function place($element, string $position = 'top-left', int $offset_x = 0, int $offset_y = 0): ImageInterface
     {
         return $this->modify(

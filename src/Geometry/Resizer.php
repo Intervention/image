@@ -94,7 +94,7 @@ class Resizer
 
     public function toWidth(int $width): self
     {
-        return $this->height($width);
+        return $this->width($width);
     }
 
     public function toHeight(int $height): self

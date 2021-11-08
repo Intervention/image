@@ -10,18 +10,6 @@ use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Traits\CanResizeGeometrically;
 
-/*
-
-# contain
-1. Scale (keep aspect ratio) Original to fit Target
-2. Scale (keep aspect ratio) Up/Down to fit Target (obsolete)
-
-# cover
-1. Scale (keep aspect ratio) Target to fit Original
-2. Scale (keep aspect ratio) Up/Down to fit Target
-
- */
-
 class FitModifier extends ResizeModifier implements ModifierInterface
 {
     use CanResizeGeometrically;
@@ -49,13 +37,22 @@ class FitModifier extends ResizeModifier implements ModifierInterface
 
     protected function getCropSize(ImageInterface $image): SizeInterface
     {
+        $imagesize = $image->getSize();
+
+        // auto height
         $size = $this->resizeGeometrically($this->target)
-                ->toWidth($image->width())
-                ->toHeight($image->height())
+                ->toWidth($imagesize->getWidth())
                 ->scale();
 
+        if (!$size->fitsInto($imagesize)) {
+            // auto width
+            $size = $this->resizeGeometrically($this->target)
+                ->toHeight($imagesize->getHeight())
+                ->scale();
+        }
+
         return $size->alignPivotTo(
-            $image->getSize()->alignPivot($this->position),
+            $imagesize->alignPivot($this->position),
             $this->position
         );
     }

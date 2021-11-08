@@ -106,7 +106,7 @@ class Size implements SizeInterface
      * @param  int     $offset_y
      * @return Size
      */
-    public function align(string $position, int $offset_x = 0, int $offset_y = 0): self
+    public function alignPivot(string $position, int $offset_x = 0, int $offset_y = 0): self
     {
         switch (strtolower($position)) {
             case 'top':
@@ -180,6 +180,18 @@ class Size implements SizeInterface
         }
 
         $this->pivot->setPosition($x, $y);
+
+        return $this;
+    }
+
+    public function alignPivotTo(Size $size, string $position): self
+    {
+        $reference = new Size($size->getWidth(), $size->getHeight());
+        $reference->alignPivot($position);
+
+        $this->alignPivot($position)->setPivot(
+            $reference->getRelativePositionTo($this)
+        );
 
         return $this;
     }

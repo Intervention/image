@@ -166,6 +166,13 @@ abstract class AbstractImage
         );
     }
 
+    public function fit(int $width, int $height, string $position = 'center'): ImageInterface
+    {
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\CropResizeModifier', $width, $height, $position)
+        );
+    }
+
     public function place($element, string $position = 'top-left', int $offset_x = 0, int $offset_y = 0): ImageInterface
     {
         return $this->modify(

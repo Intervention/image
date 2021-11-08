@@ -99,89 +99,122 @@ class SizeTest extends TestCase
         $this->assertTrue($box->isPortrait());
     }
 
-    public function testAlign(): void
+    public function testAlignPivot(): void
     {
         $box = new Size(640, 480);
         $this->assertEquals(0, $box->getPivot()->getX());
         $this->assertEquals(0, $box->getPivot()->getY());
 
-        $box->align('top-left', 3, 3);
+        $box->alignPivot('top-left', 3, 3);
         $this->assertEquals(3, $box->getPivot()->getX());
         $this->assertEquals(3, $box->getPivot()->getY());
 
-        $box->align('top', 3, 3);
+        $box->alignPivot('top', 3, 3);
         $this->assertEquals(320, $box->getPivot()->getX());
         $this->assertEquals(3, $box->getPivot()->getY());
 
-        $box->align('top-right', 3, 3);
+        $box->alignPivot('top-right', 3, 3);
         $this->assertEquals(637, $box->getPivot()->getX());
         $this->assertEquals(3, $box->getPivot()->getY());
 
-        $box->align('left', 3, 3);
+        $box->alignPivot('left', 3, 3);
         $this->assertEquals(3, $box->getPivot()->getX());
         $this->assertEquals(240, $box->getPivot()->getY());
 
-        $box->align('center', 3, 3);
+        $box->alignPivot('center', 3, 3);
         $this->assertEquals(323, $box->getPivot()->getX());
         $this->assertEquals(243, $box->getPivot()->getY());
 
-        $box->align('right', 3, 3);
+        $box->alignPivot('right', 3, 3);
         $this->assertEquals(637, $box->getPivot()->getX());
         $this->assertEquals(240, $box->getPivot()->getY());
 
-        $box->align('bottom-left', 3, 3);
+        $box->alignPivot('bottom-left', 3, 3);
         $this->assertEquals(3, $box->getPivot()->getX());
         $this->assertEquals(477, $box->getPivot()->getY());
 
-        $box->align('bottom', 3, 3);
+        $box->alignPivot('bottom', 3, 3);
         $this->assertEquals(320, $box->getPivot()->getX());
         $this->assertEquals(477, $box->getPivot()->getY());
 
-        $result = $box->align('bottom-right', 3, 3);
+        $result = $box->alignPivot('bottom-right', 3, 3);
         $this->assertEquals(637, $box->getPivot()->getX());
         $this->assertEquals(477, $box->getPivot()->getY());
 
         $this->assertInstanceOf(Size::class, $result);
     }
 
+    public function testAlignPivotTo(): void
+    {
+        $container = new Size(800, 600);
+        $size = new Size(200, 100);
+        $size->alignPivotTo($container, 'center');
+        $this->assertEquals(300, $size->getPivot()->getX());
+        $this->assertEquals(250, $size->getPivot()->getY());
+
+        $container = new Size(800, 600);
+        $size = new Size(100, 100);
+        $size->alignPivotTo($container, 'center');
+        $this->assertEquals(350, $size->getPivot()->getX());
+        $this->assertEquals(250, $size->getPivot()->getY());
+
+        $container = new Size(800, 600);
+        $size = new Size(800, 600);
+        $size->alignPivotTo($container, 'center');
+        $this->assertEquals(0, $size->getPivot()->getX());
+        $this->assertEquals(0, $size->getPivot()->getY());
+
+        $container = new Size(100, 100);
+        $size = new Size(800, 600);
+        $size->alignPivotTo($container, 'center');
+        $this->assertEquals(-350, $size->getPivot()->getX());
+        $this->assertEquals(-250, $size->getPivot()->getY());
+
+        $container = new Size(100, 100);
+        $size = new Size(800, 600);
+        $size->alignPivotTo($container, 'bottom-right');
+        $this->assertEquals(-700, $size->getPivot()->getX());
+        $this->assertEquals(-500, $size->getPivot()->getY());
+    }
+
     public function testgetRelativePositionTo(): void
     {
         $container = new Size(800, 600);
         $input = new Size(200, 100);
-        $container->align('top-left');
-        $input->align('top-left');
+        $container->alignPivot('top-left');
+        $input->alignPivot('top-left');
         $pos = $container->getRelativePositionTo($input);
         $this->assertEquals(0, $pos->getX());
         $this->assertEquals(0, $pos->getY());
 
         $container = new Size(800, 600);
         $input = new Size(200, 100);
-        $container->align('center');
-        $input->align('top-left');
+        $container->alignPivot('center');
+        $input->alignPivot('top-left');
         $pos = $container->getRelativePositionTo($input);
         $this->assertEquals(400, $pos->getX());
         $this->assertEquals(300, $pos->getY());
 
         $container = new Size(800, 600);
         $input = new Size(200, 100);
-        $container->align('bottom-right');
-        $input->align('top-right');
+        $container->alignPivot('bottom-right');
+        $input->alignPivot('top-right');
         $pos = $container->getRelativePositionTo($input);
         $this->assertEquals(600, $pos->getX());
         $this->assertEquals(600, $pos->getY());
 
         $container = new Size(800, 600);
         $input = new Size(200, 100);
-        $container->align('center');
-        $input->align('center');
+        $container->alignPivot('center');
+        $input->alignPivot('center');
         $pos = $container->getRelativePositionTo($input);
         $this->assertEquals(300, $pos->getX());
         $this->assertEquals(250, $pos->getY());
 
         $container = new Size(100, 200);
         $input = new Size(100, 100);
-        $container->align('center');
-        $input->align('center');
+        $container->alignPivot('center');
+        $input->alignPivot('center');
         $pos = $container->getRelativePositionTo($input);
         $this->assertEquals(0, $pos->getX());
         $this->assertEquals(50, $pos->getY());

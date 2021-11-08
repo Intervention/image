@@ -9,11 +9,6 @@ use Intervention\Image\Interfaces\SizeInterface;
 
 class ResizeModifier implements ModifierInterface
 {
-    /**
-     * Target size
-     *
-     * @var SizeInterface
-     */
     protected $target;
 
     public function __construct(SizeInterface $target)
@@ -24,41 +19,19 @@ class ResizeModifier implements ModifierInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $framesize = $frame->getSize();
-            $this->modify(
-                $frame,
-                0,
-                0,
-                0,
-                0,
-                $this->target->getWidth(),
-                $this->target->getHeight(),
-                $framesize->getWidth(),
-                $framesize->getHeight()
-            );
+            $this->modify($frame, $frame->getSize(), $this->target);
         }
 
         return $image;
     }
 
-    /**
-     * Wrapper function for 'imagecopyresampled'
-     *
-     * @param  Image   $image
-     * @param  int     $dst_x
-     * @param  int     $dst_y
-     * @param  int     $src_x
-     * @param  int     $src_y
-     * @param  int     $dst_w
-     * @param  int     $dst_h
-     * @param  int     $src_w
-     * @param  int     $src_h
-     * @return boolean
-     */
-    protected function modify(FrameInterface $frame, $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h)
+    protected function modify(FrameInterface $frame, SizeInterface $crop, SizeInterface $resize): void
     {
         // create new image
-        $modified = imagecreatetruecolor($dst_w, $dst_h);
+        $modified = imagecreatetruecolor(
+            $resize->getWidth(),
+            $resize->getHeight()
+        );
 
         // get current image
         $gd = $frame->getCore();
@@ -80,14 +53,14 @@ class ResizeModifier implements ModifierInterface
         $result = imagecopyresampled(
             $modified,
             $gd,
-            $dst_x,
-            $dst_y,
-            $src_x,
-            $src_y,
-            $dst_w,
-            $dst_h,
-            $src_w,
-            $src_h
+            $resize->getPivot()->getX(),
+            $resize->getPivot()->getY(),
+            $crop->getPivot()->getX(),
+            $crop->getPivot()->getY(),
+            $resize->getWidth(),
+            $resize->getHeight(),
+            $crop->getWidth(),
+            $crop->getHeight()
         );
 
         imagedestroy($gd);

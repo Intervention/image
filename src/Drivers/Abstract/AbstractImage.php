@@ -171,7 +171,7 @@ abstract class AbstractImage
         $size = new Size($width, $height);
 
         return $this->modify(
-            $this->resolveDriverClass('Modifiers\CropResizeModifier', $size, $position)
+            $this->resolveDriverClass('Modifiers\FitModifier', $size, $position)
         );
     }
 

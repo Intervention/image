@@ -6,9 +6,12 @@ use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Traits\CanResizeGeometrically;
 
 class ResizeModifier implements ModifierInterface
 {
+    use CanResizeGeometrically;
+
     protected $target;
 
     public function __construct(SizeInterface $target)
@@ -18,11 +21,24 @@ class ResizeModifier implements ModifierInterface
 
     public function apply(ImageInterface $image): ImageInterface
     {
+        $crop = $this->getCropSize($image);
+        $resize = $this->getResizeSize($image);
+
         foreach ($image as $frame) {
-            $this->modify($frame, $frame->getSize(), $this->target);
+            $this->modify($frame, $crop, $resize);
         }
 
         return $image;
+    }
+
+    protected function getCropSize(ImageInterface $image): SizeInterface
+    {
+        return $image->getSize();
+    }
+
+    protected function getResizeSize(ImageInterface $image): SizeInterface
+    {
+        return $this->target;
     }
 
     protected function modify(FrameInterface $frame, SizeInterface $crop, SizeInterface $resize): void

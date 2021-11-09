@@ -12,27 +12,12 @@ use Intervention\Image\Traits\CanResizeGeometrically;
 
 class FitModifier extends ResizeModifier implements ModifierInterface
 {
-    use CanResizeGeometrically;
-
-    protected $target;
     protected $position;
 
     public function __construct(SizeInterface $target, string $position = 'top-left')
     {
         $this->target = $target;
         $this->position = $position;
-    }
-
-    public function apply(ImageInterface $image): ImageInterface
-    {
-        $crop = $this->getCropSize($image);
-        $resize = $this->getResizeSize($image);
-
-        foreach ($image as $frame) {
-            $this->modify($frame, $crop, $resize);
-        }
-
-        return $image;
     }
 
     protected function getCropSize(ImageInterface $image): SizeInterface

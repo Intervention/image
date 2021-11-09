@@ -31,37 +31,43 @@ class Size
     /**
      * Creates a new Size instance
      *
-     * @param int   $width
-     * @param int   $height
-     * @param Point $pivot
+     * @param int|null   $width
+     * @param int|null   $height
+     * @param Point|null $pivot
      */
     public function __construct($width = null, $height = null, Point $pivot = null)
     {
         $this->width = is_numeric($width) ? intval($width) : 1;
         $this->height = is_numeric($height) ? intval($height) : 1;
-        $this->pivot = $pivot ? $pivot : new Point;
+        $this->pivot = $pivot ?: new Point;
     }
 
     /**
      * Set the width and height absolutely
      *
-     * @param int $width
-     * @param int $height
+     * @param  int $width
+     * @param  int $height
+     * @return static
      */
     public function set($width, $height)
     {
         $this->width = $width;
         $this->height = $height;
+
+        return $this;
     }
 
     /**
      * Set current pivot point
      *
-     * @param Point $point
+     * @param  Point $point
+     * @return static
      */
     public function setPivot(Point $point)
     {
         $this->pivot = $point;
+
+        return $this;
     }
 
     /**
@@ -100,7 +106,7 @@ class Size
      * @param  int     $width
      * @param  int     $height
      * @param  Closure $callback
-     * @return Size
+     * @return static
      */
     public function resize($width, $height, Closure $callback = null)
     {
@@ -135,7 +141,7 @@ class Size
      *
      * @param  int     $width
      * @param  Closure $callback
-     * @return Size
+     * @return static
      */
     private function resizeWidth($width, Closure $callback = null)
     {
@@ -164,14 +170,16 @@ class Size
                 }
             }
         }
+
+        return $this;
     }
 
     /**
      * Scale size according to given constraints
      *
-     * @param  int     $height
-     * @param  Closure $callback
-     * @return Size
+     * @param  int          $height
+     * @param  Closure|null $callback
+     * @return static
      */
     private function resizeHeight($height, Closure $callback = null)
     {
@@ -183,7 +191,6 @@ class Size
         }
 
         if (is_numeric($height)) {
-
             if ($constraint->isFixed(Constraint::UPSIZE)) {
                 $this->height = ($height > $max_height) ? $max_height : $height;
             } else {
@@ -200,6 +207,8 @@ class Size
                 }
             }
         }
+
+        return $this;
     }
 
     /**
@@ -221,6 +230,7 @@ class Size
      * Resize given Size to best fitting size of current size.
      *
      * @param  Size   $size
+     * @param  string $position
      * @return \Intervention\Image\Size
      */
     public function fit(Size $size, $position = 'center')
@@ -274,7 +284,7 @@ class Size
      * @param  string  $position
      * @param  int     $offset_x
      * @param  int     $offset_y
-     * @return \Intervention\Image\Size
+     * @return static
      */
     public function align($position, $offset_x = 0, $offset_y = 0)
     {

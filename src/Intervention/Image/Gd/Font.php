@@ -265,7 +265,7 @@ class Font extends \Intervention\Image\AbstractFont
      * Set text kerning
      *
      * @param  string $kerning
-     * @return void
+     * @return static
      */
     public function kerning($kerning)
     {
@@ -273,5 +273,4 @@ class Font extends \Intervention\Image\AbstractFont
             "Kerning is not supported by GD driver."
         );
     }
-
 }

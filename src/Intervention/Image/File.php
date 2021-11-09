@@ -42,7 +42,8 @@ class File
     /**
      * Sets all instance properties from given path
      *
-     * @param string $path
+     * @param  string $path
+     * @return static
      */
     public function setFileInfoFromPath($path)
     {
@@ -78,15 +79,14 @@ class File
     /**
      * Get fully qualified path
      *
-     * @return string
+     * @return string|null
      */
     public function basePath()
     {
         if ($this->dirname && $this->basename) {
-            return ($this->dirname .'/'. $this->basename);
+            return $this->dirname . '/' . $this->basename;
         }
 
         return null;
     }
-
 }

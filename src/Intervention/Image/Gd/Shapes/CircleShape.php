@@ -16,13 +16,12 @@ class CircleShape extends EllipseShape
     /**
      * Create new instance of circle
      *
-     * @param int $diameter
+     * @param int|null $diameter
      */
     public function __construct($diameter = null)
     {
-        $this->width = is_numeric($diameter) ? intval($diameter) : $this->diameter;
-        $this->height = is_numeric($diameter) ? intval($diameter) : $this->diameter;
         $this->diameter = is_numeric($diameter) ? intval($diameter) : $this->diameter;
+        $this->width = $this->height = $this->diameter;
     }
 
     /**

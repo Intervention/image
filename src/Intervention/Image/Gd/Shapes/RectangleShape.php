@@ -39,10 +39,10 @@ class RectangleShape extends AbstractShape
     /**
      * Create new rectangle shape instance
      *
-     * @param int $x1
-     * @param int $y1
-     * @param int $x2
-     * @param int $y2
+     * @param int|null $x1
+     * @param int|null $y1
+     * @param int|null $x2
+     * @param int|null $y2
      */
     public function __construct($x1 = null, $y1 = null, $x2 = null, $y2 = null)
     {

@@ -17,7 +17,7 @@ class Color extends AbstractColor
      * Initiates color object from integer
      *
      * @param  int $value
-     * @return \Intervention\Image\AbstractColor
+     * @return static
      */
     public function initFromInteger($value)
     {
@@ -28,13 +28,15 @@ class Color extends AbstractColor
         $a = $this->rgb2alpha($a);
 
         $this->setPixel($r, $g, $b, $a);
+
+        return $this;
     }
 
     /**
      * Initiates color object from given array
      *
      * @param  array $value
-     * @return \Intervention\Image\AbstractColor
+     * @return static
      */
     public function initFromArray($array)
     {
@@ -53,34 +55,38 @@ class Color extends AbstractColor
         }
 
         $this->setPixel($r, $g, $b, $a);
+
+        return $this;
     }
 
     /**
      * Initiates color object from given string
      *
      * @param  string $value
-     *
-     * @return \Intervention\Image\AbstractColor
+     * @return static
      */
     public function initFromString($value)
     {
         if ($color = $this->rgbaFromString($value)) {
             $this->setPixel($color[0], $color[1], $color[2], $color[3]);
         }
+
+        return $this;
     }
 
     /**
      * Initiates color object from given ImagickPixel object
      *
      * @param  ImagickPixel $value
-     *
-     * @return \Intervention\Image\AbstractColor
+     * @return static
      */
     public function initFromObject($value)
     {
         if (is_a($value, '\ImagickPixel')) {
             $this->pixel = $value;
         }
+
+        return $this;
     }
 
     /**
@@ -89,12 +95,13 @@ class Color extends AbstractColor
      * @param  int $r
      * @param  int $g
      * @param  int $b
-     *
-     * @return \Intervention\Image\AbstractColor
+     * @return static
      */
     public function initFromRgb($r, $g, $b)
     {
         $this->setPixel($r, $g, $b);
+
+        return $this;
     }
 
     /**
@@ -104,12 +111,13 @@ class Color extends AbstractColor
      * @param  int     $g
      * @param  int     $b
      * @param  float   $a
-     *
-     * @return \Intervention\Image\AbstractColor
+     * @return static
      */
     public function initFromRgba($r, $g, $b, $a)
     {
         $this->setPixel($r, $g, $b, $a);
+
+        return $this;
     }
 
     /**
@@ -275,5 +283,4 @@ class Color extends AbstractColor
         // (255 -> 1.0) / (0 -> 0.0)
         return (float) round($value/255, 2);
     }
-
 }

@@ -25,8 +25,8 @@ class EllipseShape extends AbstractShape
     /**
      * Create new ellipse instance
      *
-     * @param int $width
-     * @param int $height
+     * @param int|null $width
+     * @param int|null $height
      */
     public function __construct($width = null, $height = null)
     {

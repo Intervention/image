@@ -39,8 +39,8 @@ class LineShape extends AbstractShape
     /**
      * Create new line shape instance
      *
-     * @param int $x
-     * @param int $y
+     * @param int|null $x
+     * @param int|null $y
      */
     public function __construct($x = null, $y = null)
     {
@@ -52,18 +52,20 @@ class LineShape extends AbstractShape
      * Set current line color
      *
      * @param  string $color
-     * @return void
+     * @return static
      */
     public function color($color)
     {
         $this->color = $color;
+
+        return $this;
     }
 
     /**
      * Set current line width in pixels
      *
      * @param  int $width
-     * @return void
+     * @return static
      */
     public function width($width)
     {

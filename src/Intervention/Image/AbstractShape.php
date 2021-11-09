@@ -38,25 +38,29 @@ abstract class AbstractShape
     /**
      * Set text to be written
      *
-     * @param  string $text
-     * @return void
+     * @param  string $color
+     * @return static
      */
     public function background($color)
     {
         $this->background = $color;
+
+        return $this;
     }
 
     /**
      * Set border width and color of current shape
      *
-     * @param  int     $width
-     * @param  string  $color
-     * @return void
+     * @param  int    $width
+     * @param  string $color
+     * @return static
      */
     public function border($width, $color = null)
     {
         $this->border_width = is_numeric($width) ? intval($width) : 0;
-        $this->border_color = is_null($color) ? '#000000' : $color;
+        $this->border_color = null === $color ? '#000000' : $color;
+
+        return $this;
     }
 
     /**
@@ -66,6 +70,6 @@ abstract class AbstractShape
      */
     public function hasBorder()
     {
-        return ($this->border_width >= 1);
+        return $this->border_width >= 1;
     }
 }

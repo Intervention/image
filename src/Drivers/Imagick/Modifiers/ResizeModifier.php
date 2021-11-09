@@ -2,31 +2,32 @@
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
+use Intervention\Image\Drivers\Abstract\Modifiers\AbstractResizeModifier;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
-class ResizeModifier implements ModifierInterface
+class ResizeModifier extends AbstractResizeModifier implements ModifierInterface
 {
-    /**
-     * Target size
-     *
-     * @var SizeInterface
-     */
-    protected $target;
-
-    public function __construct(SizeInterface $target)
-    {
-        $this->target = $target;
-    }
-
     public function apply(ImageInterface $image): ImageInterface
     {
+        $resize = $this->getResizeSize($image);
+        $crop =  $this->getResizeSize($image);
+        $shouldCrop = $crop != $image->getSize();
         foreach ($image as $frame) {
+            if ($shouldCrop) {
+                $frame->getCore()->cropImage(
+                    $crop->getWidth(),
+                    $crop->getHeight(),
+                    $crop->getPivot()->getX(),
+                    $crop->getPivot()->getY()
+                );
+            }
+
             $frame->getCore()->scaleImage(
-                $this->target->getWidth(),
-                $this->target->getHeight()
+                $resize->getWidth(),
+                $resize->getHeight()
             );
         }
 

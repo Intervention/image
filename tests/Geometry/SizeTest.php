@@ -20,6 +20,23 @@ class SizeTest extends TestCase
         $this->assertEquals(200, $size->getHeight());
     }
 
+    public function testCompareSizes(): void
+    {
+        $size1 = new Size(300, 200);
+        $size2 = new Size(300, 200);
+        $size2a = new Size(300, 200, new Point(1, 1));
+        $size2b = new Size(300, 200, new Point(1, 1));
+        $size3 = new Size(300, 201);
+        $size4 = new Size(301, 200);
+
+        $this->assertTrue($size1 == $size2);
+        $this->assertTrue($size2a == $size2b);
+        $this->assertFalse($size2 == $size2a);
+        $this->assertFalse($size2 == $size3);
+        $this->assertFalse($size2 == $size4);
+        $this->assertFalse($size3 == $size4);
+    }
+
     public function testGetWidth()
     {
         $size = new Size(800, 600);

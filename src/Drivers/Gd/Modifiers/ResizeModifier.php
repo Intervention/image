@@ -2,23 +2,15 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Drivers\Abstract\Modifiers\AbstractResizeModifier;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Traits\CanResizeGeometrically;
 
-class ResizeModifier implements ModifierInterface
+class ResizeModifier extends AbstractResizeModifier implements ModifierInterface
 {
-    use CanResizeGeometrically;
-
-    protected $target;
-
-    public function __construct(SizeInterface $target)
-    {
-        $this->target = $target;
-    }
-
     public function apply(ImageInterface $image): ImageInterface
     {
         $crop = $this->getCropSize($image);
@@ -29,16 +21,6 @@ class ResizeModifier implements ModifierInterface
         }
 
         return $image;
-    }
-
-    protected function getCropSize(ImageInterface $image): SizeInterface
-    {
-        return $image->getSize();
-    }
-
-    protected function getResizeSize(ImageInterface $image): SizeInterface
-    {
-        return $this->target;
     }
 
     protected function modify(FrameInterface $frame, SizeInterface $crop, SizeInterface $resize): void

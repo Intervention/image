@@ -67,6 +67,17 @@ class Resizer
         $this->target = new Size(0, 0);
     }
 
+    public static function make(callable $callback = null): self
+    {
+        $resizer = new self();
+
+        if (is_callable($callback)) {
+            $callback($resizer);
+        }
+
+        return $resizer;
+    }
+
     protected function hasTargetWidth(): bool
     {
         return $this->target->getWidth() > 0;
@@ -244,5 +255,66 @@ class Resizer
         }
 
         return $resized;
+    }
+
+    /**
+     * Scale given size to cover target size
+     *
+     * @param  SizeInterface $size Size to be resized
+     * @return SizeInterface
+     */
+    public function cover(SizeInterface $size): SizeInterface
+    {
+        $resized = clone $size;
+
+        // auto height
+        $resized->setWidth($this->target->getWidth());
+        $resized->setHeight($this->getProportionalHeight($size));
+
+        if ($resized->fitsInto($this->target)) {
+            // auto width
+            $resized->setWidth($this->getProportionalWidth($size));
+            $resized->setHeight($this->target->getHeight());
+        }
+
+        return $resized;
+    }
+
+    /**
+     * Scale given size to contain target size
+     *
+     * @param  SizeInterface $size Size to be resized
+     * @return SizeInterface
+     */
+    public function contain(SizeInterface $size): SizeInterface
+    {
+        $resized = clone $size;
+
+        // auto height
+        $resized->setWidth($this->target->getWidth());
+        $resized->setHeight($this->getProportionalHeight($size));
+
+        if (!$resized->fitsInto($this->target)) {
+            // auto width
+            $resized->setWidth($this->getProportionalWidth($size));
+            $resized->setHeight($this->target->getHeight());
+        }
+
+        return $resized;
+    }
+
+    /**
+     * Crop target size out of given size at given position (i.e. move the pivot point)
+     *
+     * @param  SizeInterface $size
+     * @param  string        $position
+     * @return SizeInterface
+     */
+    public function crop(SizeInterface $size, string $position = 'top-left'): SizeInterface
+    {
+        return $this->resize($size)->alignPivotTo(
+            $size->alignPivot($position),
+            $position
+        );
     }
 }

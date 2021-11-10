@@ -65,11 +65,6 @@ abstract class AbstractImage
         return new Size($this->width(), $this->height());
     }
 
-    public function getResizer(): Resizer
-    {
-        return new Resizer($this->getSize());
-    }
-
     public function isAnimated(): bool
     {
         return $this->getFrames()->count() > 1;
@@ -132,46 +127,66 @@ abstract class AbstractImage
 
     public function resize(...$arguments): ImageInterface
     {
-        $size = $this->getResizer()->setTargetSizeByArray($arguments)->resize();
+        $crop = $this->getSize();
+        $resize = Resizer::make()
+                ->setTargetSizeByArray($arguments)
+                ->resize($crop);
 
         return $this->modify(
-            $this->resolveDriverClass('Modifiers\ResizeModifier', $size)
+            $this->resolveDriverClass('Modifiers\CropResizeModifier', $crop, $resize)
         );
     }
 
     public function resizeDown(...$arguments): ImageInterface
     {
-        $size = $this->getResizer()->setTargetSizeByArray($arguments)->resizeDown();
+        $crop = $this->getSize();
+        $resize = Resizer::make()
+                ->setTargetSizeByArray($arguments)
+                ->resizeDown($crop);
 
         return $this->modify(
-            $this->resolveDriverClass('Modifiers\ResizeModifier', $size)
+            $this->resolveDriverClass('Modifiers\CropResizeModifier', $crop, $resize)
         );
     }
 
     public function scale(...$arguments): ImageInterface
     {
-        $size = $this->getResizer()->setTargetSizeByArray($arguments)->scale();
+        $crop = $this->getSize();
+        $resize = Resizer::make()
+                ->setTargetSizeByArray($arguments)
+                ->scale($crop);
 
         return $this->modify(
-            $this->resolveDriverClass('Modifiers\ResizeModifier', $size)
+            $this->resolveDriverClass('Modifiers\CropResizeModifier', $crop, $resize)
         );
     }
 
     public function scaleDown(...$arguments): ImageInterface
     {
-        $size = $this->getResizer()->setTargetSizeByArray($arguments)->scaleDown();
+        $crop = $this->getSize();
+        $resize = Resizer::make()
+                ->setTargetSizeByArray($arguments)
+                ->scaleDown($crop);
 
         return $this->modify(
-            $this->resolveDriverClass('Modifiers\ResizeModifier', $size)
+            $this->resolveDriverClass('Modifiers\CropResizeModifier', $size)
         );
     }
 
     public function fit(int $width, int $height, string $position = 'center'): ImageInterface
     {
-        $size = new Size($width, $height);
+        //  crop
+        $crop = Resizer::make()
+                ->toSize($this->getSize())
+                ->contain(new Size($width, $height));
+        $crop = Resizer::make()
+                ->toSize($crop)
+                ->crop($this->getSize(), $position);
+
+        $resize = new Size($width, $height);
 
         return $this->modify(
-            $this->resolveDriverClass('Modifiers\FitModifier', $size, $position)
+            $this->resolveDriverClass('Modifiers\CropResizeModifier', $crop, $resize, $position)
         );
     }
 
@@ -180,7 +195,7 @@ abstract class AbstractImage
         $size = new Size($width, $height);
 
         return $this->modify(
-            $this->resolveDriverClass('Modifiers\FitDownModifier', $size, $position)
+            $this->resolveDriverClass('Modifiers\CropResizeModifier', $crop, $resize, $position)
         );
     }
 

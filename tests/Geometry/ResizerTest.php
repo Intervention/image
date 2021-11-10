@@ -2,6 +2,7 @@
 
 namespace Intervention\Image\Tests\Geometry;
 
+use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Resizer;
 use Intervention\Image\Geometry\Size;
 use PHPUnit\Framework\TestCase;
@@ -366,5 +367,85 @@ class ResizerTest extends TestCase
         $result = $resizer->scaleDown($size);
         $this->assertEquals(13, $result->getWidth());
         $this->assertEquals(10, $result->getHeight());
+    }
+
+    /**
+     * @dataProvider coverDataProvider
+    */
+    public function testCover($origin, $target, $result): void
+    {
+        $resizer = new Resizer();
+        $resizer->toSize($target);
+        $resized = $resizer->cover($origin);
+        $this->assertEquals($result->getWidth(), $resized->getWidth());
+        $this->assertEquals($result->getHeight(), $resized->getHeight());
+    }
+
+    public function coverDataProvider(): array
+    {
+        return [
+            [new Size(800, 600), new Size(100, 100), new Size(133, 100)],
+            [new Size(800, 600), new Size(200, 100), new Size(200, 150)],
+            [new Size(800, 600), new Size(100, 200), new Size(267, 200)],
+            [new Size(800, 600), new Size(2000, 10), new Size(2000, 1500)],
+            [new Size(800, 600), new Size(10, 2000), new Size(2667, 2000)],
+            [new Size(800, 600), new Size(800, 600), new Size(800, 600)],
+            [new Size(400, 300), new Size(120, 120), new Size(160, 120)],
+            [new Size(600, 800), new Size(100, 100), new Size(100, 133)],
+        ];
+    }
+
+    /**
+     * @dataProvider containDataProvider
+    */
+    public function testContain($origin, $target, $result): void
+    {
+        $resizer = new Resizer();
+        $resizer->toSize($target);
+        $resized = $resizer->contain($origin);
+        $this->assertEquals($result->getWidth(), $resized->getWidth());
+        $this->assertEquals($result->getHeight(), $resized->getHeight());
+    }
+
+    public function containDataProvider(): array
+    {
+        return [
+            [new Size(800, 600), new Size(100, 100), new Size(100, 75)],
+            [new Size(800, 600), new Size(200, 100), new Size(133, 100)],
+            [new Size(800, 600), new Size(100, 200), new Size(100, 75)],
+            [new Size(800, 600), new Size(2000, 10), new Size(13, 10)],
+            [new Size(800, 600), new Size(10, 2000), new Size(10, 8)],
+            [new Size(800, 600), new Size(800, 600), new Size(800, 600)],
+            [new Size(400, 300), new Size(120, 120), new Size(120, 90)],
+            [new Size(600, 800), new Size(100, 100), new Size(75, 100)],
+        ];
+    }
+
+    /**
+     * @dataProvider cropDataProvider
+    */
+    public function testCrop($origin, $target, $position, $result): void
+    {
+        $resizer = new Resizer();
+        $resizer->toSize($target);
+        $resized = $resizer->crop($origin, $position);
+        $this->assertEquals($result->getWidth(), $resized->getWidth());
+        $this->assertEquals($result->getHeight(), $resized->getHeight());
+        $this->assertEquals($result->getPivot()->getX(), $resized->getPivot()->getX());
+        $this->assertEquals($result->getPivot()->getY(), $resized->getPivot()->getY());
+    }
+
+    public function cropDataProvider(): array
+    {
+        return [
+            [new Size(800, 600), new Size(100, 100), 'center', new Size(100, 100, new Point(350, 250))],
+            [new Size(800, 600), new Size(200, 100), 'center', new Size(200, 100, new Point(300, 250))],
+            [new Size(800, 600), new Size(100, 200), 'center', new Size(100, 200, new Point(350, 200))],
+            [new Size(800, 600), new Size(2000, 10), 'center', new Size(2000, 10, new Point(-600, 295))],
+            [new Size(800, 600), new Size(10, 2000), 'center', new Size(10, 2000, new Point(395, -700))],
+            [new Size(800, 600), new Size(800, 600), 'center', new Size(800, 600, new Point(0, 0))],
+            [new Size(400, 300), new Size(120, 120), 'center', new Size(120, 120, new Point(140, 90))],
+            [new Size(600, 800), new Size(100, 100), 'center', new Size(100, 100, new Point(250, 350))],
+        ];
     }
 }

@@ -6,16 +6,8 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
-class FitModifier extends ResizeModifier implements ModifierInterface
+class FitModifier extends CropResizeModifier implements ModifierInterface
 {
-    protected $position;
-
-    public function __construct(SizeInterface $target, string $position = 'top-left')
-    {
-        $this->target = $target;
-        $this->position = $position;
-    }
-
     protected function getCropSize(ImageInterface $image): SizeInterface
     {
         $imagesize = $image->getSize();

@@ -26,7 +26,7 @@ class CropResizeModifier implements ModifierInterface
 
         foreach ($image as $frame) {
             if ($shouldCrop) {
-                $frame->getCore()->cropImage(
+                $frame->getCore()->extentImage(
                     $this->crop->getWidth(),
                     $this->crop->getHeight(),
                     $this->crop->getPivot()->getX(),

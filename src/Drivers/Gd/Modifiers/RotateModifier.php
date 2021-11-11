@@ -5,9 +5,12 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
+use Intervention\Image\Traits\CanHandleInput;
 
 class RotateModifier implements ModifierInterface
 {
+    use CanHandleInput;
+
     /**
      * Rotation angle
      *
@@ -20,23 +23,25 @@ class RotateModifier implements ModifierInterface
      *
      * @var mixed
      */
-    protected $backgroundcolor;
+    protected $backgroundColor;
 
     /**
      * Create new modifier
      *
      * @param float $angle
      */
-    public function __construct(float $angle, $backgroundcolor = null)
+    public function __construct(float $angle, $backgroundColor = null)
     {
         $this->angle = $angle;
-        $this->backgroundcolor = $backgroundcolor;
+        $this->backgroundColor = $backgroundColor;
     }
 
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            imagerotate($frame->getCore(), $this->rotationAngle(), 0);
+            $frame->setCore(
+                imagerotate($frame->getCore(), $this->rotationAngle(), $this->backgroundColor())
+            );
         }
 
         return $image;
@@ -46,5 +51,15 @@ class RotateModifier implements ModifierInterface
     {
         // restrict rotations beyond 360 degrees, since the end result is the same
         return fmod($this->angle, 360);
+    }
+
+    protected function backgroundColor(): int
+    {
+        $color = $this->handleInput($this->backgroundColor);
+
+        echo "<pre>";
+        var_dump($color);
+        echo "</pre>";
+        exit;
     }
 }

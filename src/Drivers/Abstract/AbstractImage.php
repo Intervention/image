@@ -261,4 +261,11 @@ abstract class AbstractImage
             )
         );
     }
+
+    public function rotate(float $angle, $backgroundColor = null): ImageInterface
+    {
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\RotateModifier', $angle, $backgroundColor)
+        );
+    }
 }

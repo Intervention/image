@@ -2,6 +2,7 @@
 
 namespace Intervention\Image\Geometry;
 
+use Intervention\Image\Geometry\Size;
 use Intervention\Image\Interfaces\SizeInterface;
 
 /*
@@ -120,6 +121,10 @@ class Resizer
             return $this;
         }
 
+        if (isset($arguments[0]) && is_a($arguments[0], Size::class)) {
+            return $this->toSize($arguments[0]);
+        }
+
         if (isset($arguments[0]) && is_numeric($arguments[0])) {
             $this->width($arguments[0]);
         }
@@ -163,7 +168,7 @@ class Resizer
 
     public function resize(SizeInterface $size): SizeInterface
     {
-        $resized = clone $size;
+        $resized = new Size($size->getWidth(), $size->getHeight());
 
         if ($this->hasTargetWidth()) {
             $resized->setWidth($this->target->getWidth());
@@ -178,7 +183,7 @@ class Resizer
 
     public function resizeDown(SizeInterface $size): SizeInterface
     {
-        $resized = clone $size;
+        $resized = new Size($size->getWidth(), $size->getHeight());
 
         if ($this->hasTargetWidth()) {
             $resized->setWidth(
@@ -197,7 +202,7 @@ class Resizer
 
     public function scale(SizeInterface $size): SizeInterface
     {
-        $resized = clone $size;
+        $resized = new Size($size->getWidth(), $size->getHeight());
 
         if ($this->hasTargetWidth() && $this->hasTargetHeight()) {
             $resized->setWidth(min(
@@ -221,7 +226,7 @@ class Resizer
 
     public function scaleDown(SizeInterface $size): SizeInterface
     {
-        $resized = clone $size;
+        $resized = new Size($size->getWidth(), $size->getHeight());
 
         if ($this->hasTargetWidth() && $this->hasTargetHeight()) {
             $resized->setWidth(min(
@@ -265,7 +270,7 @@ class Resizer
      */
     public function cover(SizeInterface $size): SizeInterface
     {
-        $resized = clone $size;
+        $resized = new Size($size->getWidth(), $size->getHeight());
 
         // auto height
         $resized->setWidth($this->target->getWidth());
@@ -288,7 +293,7 @@ class Resizer
      */
     public function contain(SizeInterface $size): SizeInterface
     {
-        $resized = clone $size;
+        $resized = new Size($size->getWidth(), $size->getHeight());
 
         // auto height
         $resized->setWidth($this->target->getWidth());

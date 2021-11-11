@@ -236,4 +236,84 @@ class SizeTest extends TestCase
         $this->assertEquals(0, $pos->getX());
         $this->assertEquals(50, $pos->getY());
     }
+
+    public function testResize(): void
+    {
+        $size = new Size(300, 200);
+        $result = $size->resize(120, 150);
+        $this->assertInstanceOf(Size::class, $result);
+
+        $size = new Size(300, 200);
+        $result = $size->resize(function ($resizer) {
+            $resizer->toWidth(100);
+        });
+        $this->assertInstanceOf(Size::class, $result);
+    }
+
+    public function testResizeDown(): void
+    {
+        $size = new Size(300, 200);
+        $result = $size->resizeDown(120, 150);
+        $this->assertInstanceOf(Size::class, $result);
+
+        $size = new Size(300, 200);
+        $result = $size->resizeDown(function ($resizer) {
+            $resizer->toWidth(100);
+        });
+        $this->assertInstanceOf(Size::class, $result);
+    }
+
+    public function testScale(): void
+    {
+        $size = new Size(300, 200);
+        $result = $size->scale(120, 150);
+        $this->assertInstanceOf(Size::class, $result);
+
+        $size = new Size(300, 200);
+        $result = $size->scale(function ($resizer) {
+            $resizer->toWidth(100);
+        });
+        $this->assertInstanceOf(Size::class, $result);
+    }
+
+    public function testScaleDown(): void
+    {
+        $size = new Size(300, 200);
+        $result = $size->scaleDown(120, 150);
+        $this->assertInstanceOf(Size::class, $result);
+
+        $size = new Size(300, 200);
+        $result = $size->scaleDown(function ($resizer) {
+            $resizer->toWidth(100);
+        });
+        $this->assertInstanceOf(Size::class, $result);
+    }
+
+    public function testCover(): void
+    {
+        $size = new Size(300, 200);
+        $result = $size->cover(120, 150);
+        $this->assertInstanceOf(Size::class, $result);
+
+        $size = new Size(300, 200);
+        $result = $size->cover(function ($resizer) {
+            $resizer->toWidth(100);
+        });
+        $this->assertInstanceOf(Size::class, $result);
+    }
+
+    public function testContain(): void
+    {
+        $size = new Size(100, 100);
+        $result = $size->contain(800, 600);
+        $this->assertInstanceOf(Size::class, $result);
+        $this->assertEquals(600, $result->getWidth());
+        $this->assertEquals(600, $result->getHeight());
+
+        $size = new Size(300, 200);
+        $result = $size->contain(function ($resizer) {
+            $resizer->toWidth(100);
+        });
+        $this->assertInstanceOf(Size::class, $result);
+    }
 }

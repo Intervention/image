@@ -2,6 +2,7 @@
 
 namespace Intervention\Image\Geometry;
 
+use Intervention\Image\Geometry\Resizer;
 use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
@@ -209,5 +210,43 @@ class Size implements SizeInterface
         $y = $this->getPivot()->getY() - $size->getPivot()->getY();
 
         return new Point($x, $y);
+    }
+
+    protected function getResizer(...$arguments): Resizer
+    {
+        $resizer = new Resizer();
+        $resizer->setTargetSizeByArray($arguments[0]);
+
+        return $resizer;
+    }
+
+    public function resize(...$arguments): self
+    {
+        return $this->getResizer($arguments)->resize($this);
+    }
+
+    public function resizeDown(...$arguments): self
+    {
+        return $this->getResizer($arguments)->resizeDown($this);
+    }
+
+    public function scale(...$arguments): self
+    {
+        return $this->getResizer($arguments)->scale($this);
+    }
+
+    public function scaleDown(...$arguments): self
+    {
+        return $this->getResizer($arguments)->scaleDown($this);
+    }
+
+    public function cover(...$arguments): self
+    {
+        return $this->getResizer($arguments)->cover($this);
+    }
+
+    public function contain(...$arguments): self
+    {
+        return $this->getResizer($arguments)->contain($this);
     }
 }

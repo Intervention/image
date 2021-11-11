@@ -169,21 +169,23 @@ abstract class AbstractImage
                 ->scaleDown($crop);
 
         return $this->modify(
-            $this->resolveDriverClass('Modifiers\CropResizeModifier', $size)
+            $this->resolveDriverClass('Modifiers\CropResizeModifier', $crop, $resize)
         );
     }
 
     public function fit(int $width, int $height, string $position = 'center'): ImageInterface
     {
-        //  crop
-        $crop = Resizer::make()
-                ->toSize($this->getSize())
-                ->contain(new Size($width, $height));
-        $crop = Resizer::make()
-                ->toSize($crop)
-                ->crop($this->getSize(), $position);
+        $imagesize = $this->getSize();
 
-        $resize = new Size($width, $height);
+        // crop
+        $crop = new Size($width, $height);
+        $crop = $crop->contain($imagesize)->alignPivotTo(
+            $imagesize->alignPivot($position),
+            $position
+        );
+
+        // resize
+        $resize = $crop->scale($width, $height);
 
         return $this->modify(
             $this->resolveDriverClass('Modifiers\CropResizeModifier', $crop, $resize, $position)
@@ -192,7 +194,17 @@ abstract class AbstractImage
 
     public function fitDown(int $width, int $height, string $position = 'center'): ImageInterface
     {
-        $size = new Size($width, $height);
+        $imagesize = $this->getSize();
+
+        // crop
+        $crop = new Size($width, $height);
+        $crop = $crop->contain($imagesize)->alignPivotTo(
+            $imagesize->alignPivot($position),
+            $position
+        );
+
+        // resize
+        $resize = $crop->scaleDown($width, $height);
 
         return $this->modify(
             $this->resolveDriverClass('Modifiers\CropResizeModifier', $crop, $resize, $position)

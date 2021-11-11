@@ -392,6 +392,7 @@ class ResizerTest extends TestCase
             [new Size(800, 600), new Size(800, 600), new Size(800, 600)],
             [new Size(400, 300), new Size(120, 120), new Size(160, 120)],
             [new Size(600, 800), new Size(100, 100), new Size(100, 133)],
+            [new Size(100, 100), new Size(800, 600), new Size(800, 800)],
         ];
     }
 
@@ -418,6 +419,7 @@ class ResizerTest extends TestCase
             [new Size(800, 600), new Size(800, 600), new Size(800, 600)],
             [new Size(400, 300), new Size(120, 120), new Size(120, 90)],
             [new Size(600, 800), new Size(100, 100), new Size(75, 100)],
+            [new Size(100, 100), new Size(800, 600), new Size(600, 600)],
         ];
     }
 

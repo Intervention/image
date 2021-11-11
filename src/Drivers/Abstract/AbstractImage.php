@@ -211,6 +211,44 @@ abstract class AbstractImage
         );
     }
 
+    public function pad(int $width, int $height, string $position = 'center'): ImageInterface
+    {
+        $imagesize = $this->getSize();
+
+        // crop
+        $crop = new Size($width, $height);
+        $crop = $crop->cover($imagesize)->alignPivotTo(
+            $imagesize->alignPivot($position),
+            $position
+        );
+
+        // resize
+        $resize = $crop->scale($width, $height);
+
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\CropResizeModifier', $crop, $resize, $position)
+        );
+    }
+
+    public function padDown(int $width, int $height, string $position = 'center'): ImageInterface
+    {
+        $imagesize = $this->getSize();
+
+        // crop
+        $crop = new Size($width, $height);
+        $crop = $crop->cover($imagesize)->alignPivotTo(
+            $imagesize->alignPivot($position),
+            $position
+        );
+
+        // resize
+        $resize = $crop->scaleDown($width, $height);
+
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\CropResizeModifier', $crop, $resize, $position)
+        );
+    }
+
     public function place($element, string $position = 'top-left', int $offset_x = 0, int $offset_y = 0): ImageInterface
     {
         return $this->modify(

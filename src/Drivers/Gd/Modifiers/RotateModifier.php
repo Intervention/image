@@ -2,6 +2,8 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Exceptions\TypeException;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
@@ -30,7 +32,7 @@ class RotateModifier implements ModifierInterface
      *
      * @param float $angle
      */
-    public function __construct(float $angle, $backgroundColor = null)
+    public function __construct(float $angle, $backgroundColor)
     {
         $this->angle = $angle;
         $this->backgroundColor = $backgroundColor;
@@ -57,9 +59,10 @@ class RotateModifier implements ModifierInterface
     {
         $color = $this->handleInput($this->backgroundColor);
 
-        echo "<pre>";
-        var_dump($color);
-        echo "</pre>";
-        exit;
+        if (!is_a($color, ColorInterface::class)) {
+            throw new TypeException("rotate(): Argument #2 must be of color value.");
+        }
+
+        return $color->toInt();
     }
 }

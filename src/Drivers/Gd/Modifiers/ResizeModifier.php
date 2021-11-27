@@ -8,41 +8,37 @@ use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Traits\CanResizeGeometrically;
 
-class CropResizeModifier implements ModifierInterface
+class ResizeModifier implements ModifierInterface
 {
-    protected $crop;
     protected $resize;
-    protected $position;
 
-    public function __construct(SizeInterface $crop, SizeInterface $resize, string $position = 'top-left')
+    public function __construct(SizeInterface $resize)
     {
-        $this->crop = $crop;
         $this->resize = $resize;
-        $this->position = $position;
     }
 
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $this->modify($frame, $this->crop, $this->resize);
+            $this->modify($frame);
         }
 
         return $image;
     }
 
-    protected function modify(FrameInterface $frame, SizeInterface $crop, SizeInterface $resize): void
+    protected function modify(FrameInterface $frame): void
     {
         // create new image
         $modified = imagecreatetruecolor(
-            $resize->getWidth(),
-            $resize->getHeight()
+            $this->resize->getWidth(),
+            $this->resize->getHeight()
         );
 
         // get current image
-        $gd = $frame->getCore();
+        $current = $frame->getCore();
 
         // preserve transparency
-        $transIndex = imagecolortransparent($gd);
+        $transIndex = imagecolortransparent($current);
 
         if ($transIndex != -1) {
             $rgba = imagecolorsforindex($modified, $transIndex);
@@ -55,20 +51,20 @@ class CropResizeModifier implements ModifierInterface
         }
 
         // copy content from resource
-        $result = imagecopyresampled(
+        imagecopyresampled(
             $modified,
-            $gd,
-            $resize->getPivot()->getX(),
-            $resize->getPivot()->getY(),
-            $crop->getPivot()->getX(),
-            $crop->getPivot()->getY(),
-            $resize->getWidth(),
-            $resize->getHeight(),
-            $crop->getWidth(),
-            $crop->getHeight()
+            $current,
+            $this->resize->getPivot()->getX(),
+            $this->resize->getPivot()->getY(),
+            0,
+            0,
+            $this->resize->getWidth(),
+            $this->resize->getHeight(),
+            $frame->getSize()->getWidth(),
+            $frame->getSize()->getHeight()
         );
 
-        imagedestroy($gd);
+        imagedestroy($current);
 
         // set new content as recource
         $frame->setCore($modified);

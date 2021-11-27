@@ -127,125 +127,103 @@ abstract class AbstractImage
 
     public function resize(...$arguments): ImageInterface
     {
-        $crop = $this->getSize();
-        $resize = Resizer::make()
-                ->setTargetSizeByArray($arguments)
-                ->resize($crop);
+        $resized = Resizer::make()->setTargetSizeByArray($arguments)
+                ->resize($this->getSize());
 
         return $this->modify(
-            $this->resolveDriverClass('Modifiers\CropResizeModifier', $crop, $resize)
+            $this->resolveDriverClass('Modifiers\ResizeModifier', $resized)
         );
     }
 
     public function resizeDown(...$arguments): ImageInterface
     {
-        $crop = $this->getSize();
-        $resize = Resizer::make()
-                ->setTargetSizeByArray($arguments)
-                ->resizeDown($crop);
+        $resized = Resizer::make()->setTargetSizeByArray($arguments)
+                ->resizeDown($this->getSize());
 
         return $this->modify(
-            $this->resolveDriverClass('Modifiers\CropResizeModifier', $crop, $resize)
+            $this->resolveDriverClass('Modifiers\ResizeModifier', $resized)
         );
     }
 
     public function scale(...$arguments): ImageInterface
     {
-        $crop = $this->getSize();
-        $resize = Resizer::make()
-                ->setTargetSizeByArray($arguments)
-                ->scale($crop);
+        $resized = Resizer::make()->setTargetSizeByArray($arguments)
+                ->scale($this->getSize());
 
         return $this->modify(
-            $this->resolveDriverClass('Modifiers\CropResizeModifier', $crop, $resize)
+            $this->resolveDriverClass('Modifiers\ResizeModifier', $resized)
         );
     }
 
     public function scaleDown(...$arguments): ImageInterface
     {
-        $crop = $this->getSize();
-        $resize = Resizer::make()
-                ->setTargetSizeByArray($arguments)
-                ->scaleDown($crop);
+        $resized = Resizer::make()->setTargetSizeByArray($arguments)
+                ->scaleDown($this->getSize());
 
         return $this->modify(
-            $this->resolveDriverClass('Modifiers\CropResizeModifier', $crop, $resize)
+            $this->resolveDriverClass('Modifiers\ResizeModifier', $resized)
         );
     }
 
     public function fit(int $width, int $height, string $position = 'center'): ImageInterface
     {
+        // original
         $imagesize = $this->getSize();
 
         // crop
         $crop = new Size($width, $height);
-        $crop = $crop->contain($imagesize)->alignPivotTo(
-            $imagesize->alignPivot($position),
-            $position
-        );
+        $crop = $crop->contain($imagesize)->alignPivotTo($imagesize, $position);
 
         // resize
         $resize = $crop->scale($width, $height);
 
         return $this->modify(
-            $this->resolveDriverClass('Modifiers\CropResizeModifier', $crop, $resize, $position)
+            $this->resolveDriverClass('Modifiers\FitModifier', $crop, $resize)
         );
     }
 
     public function fitDown(int $width, int $height, string $position = 'center'): ImageInterface
     {
+        // original
         $imagesize = $this->getSize();
 
         // crop
         $crop = new Size($width, $height);
-        $crop = $crop->contain($imagesize)->alignPivotTo(
-            $imagesize->alignPivot($position),
-            $position
-        );
+        $crop = $crop->contain($imagesize)->alignPivotTo($imagesize, $position);
 
         // resize
         $resize = $crop->scaleDown($width, $height);
 
         return $this->modify(
-            $this->resolveDriverClass('Modifiers\CropResizeModifier', $crop, $resize, $position)
+            $this->resolveDriverClass('Modifiers\FitModifier', $crop, $resize)
         );
     }
 
-    public function pad(int $width, int $height, string $position = 'center'): ImageInterface
+    public function pad(int $width, int $height, string $position = 'center', $backgroundColor = 'fff'): ImageInterface
     {
+        // original
         $imagesize = $this->getSize();
 
-        // crop
-        $crop = new Size($width, $height);
-        $crop = $crop->cover($imagesize)->alignPivotTo(
-            $imagesize->alignPivot($position),
-            $position
-        );
-
-        // resize
-        $resize = $crop->scale($width, $height);
+        $resize = new Size($width, $height);
+        $crop = $imagesize->contain($resize)->alignPivotTo($resize, $position);
 
         return $this->modify(
-            $this->resolveDriverClass('Modifiers\CropResizeModifier', $crop, $resize, $position)
+            $this->resolveDriverClass('Modifiers\FitModifier', $crop, $resize, $backgroundColor)
         );
     }
 
-    public function padDown(int $width, int $height, string $position = 'center'): ImageInterface
+    public function padDown(int $width, int $height, string $position = 'center', $backgroundColor = 'fff'): ImageInterface
     {
+        // original
         $imagesize = $this->getSize();
 
-        // crop
-        $crop = new Size($width, $height);
-        $crop = $crop->cover($imagesize)->alignPivotTo(
-            $imagesize->alignPivot($position),
-            $position
-        );
+        $resize = new Size($width, $height);
+        $resize = $resize->resizeDown($imagesize);
+        $crop = $imagesize->contain($resize)->alignPivotTo($resize, $position);
 
-        // resize
-        $resize = $crop->scaleDown($width, $height);
 
         return $this->modify(
-            $this->resolveDriverClass('Modifiers\CropResizeModifier', $crop, $resize, $position)
+            $this->resolveDriverClass('Modifiers\FitModifier', $crop, $resize, $backgroundColor)
         );
     }
 

@@ -15,6 +15,11 @@ class EncodedImage
         $this->mimetype = $mimetype;
     }
 
+    public function mimetype(): string
+    {
+        return $this->mimetype;
+    }
+
     public function save(string $filepath): void
     {
         $saved = @file_put_contents($filepath, (string) $this);

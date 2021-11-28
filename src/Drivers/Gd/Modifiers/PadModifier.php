@@ -9,15 +9,19 @@ use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Traits\CanHandleInput;
 use Intervention\Image\Traits\CanResizeGeometrically;
 
-class FitModifier implements ModifierInterface
+class PadModifier implements ModifierInterface
 {
+    use CanHandleInput;
+
     protected $crop;
     protected $resize;
+    protected $backgroundColor;
 
-    public function __construct(SizeInterface $crop, SizeInterface $resize)
+    public function __construct(SizeInterface $crop, SizeInterface $resize, $backgroundColor = null)
     {
         $this->crop = $crop;
         $this->resize = $resize;
+        $this->backgroundColor = $backgroundColor;
     }
 
     public function apply(ImageInterface $image): ImageInterface
@@ -36,6 +40,10 @@ class FitModifier implements ModifierInterface
             $this->resize->getWidth(),
             $this->resize->getHeight()
         );
+
+        $color = $this->handleInput($this->backgroundColor);
+
+        imagefill($modified, 0, 0, $color->toInt());
 
         // get current image
         $current = $frame->getCore();
@@ -57,14 +65,14 @@ class FitModifier implements ModifierInterface
         imagecopyresampled(
             $modified,
             $current,
-            0,
-            0,
             $this->crop->getPivot()->getX(),
             $this->crop->getPivot()->getY(),
-            $this->resize->getWidth(),
-            $this->resize->getHeight(),
+            0,
+            0,
             $this->crop->getWidth(),
-            $this->crop->getHeight()
+            $this->crop->getHeight(),
+            $frame->getSize()->getWidth(),
+            $frame->getSize()->getHeight()
         );
 
         imagedestroy($current);

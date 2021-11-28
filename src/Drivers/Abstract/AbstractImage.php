@@ -208,7 +208,7 @@ abstract class AbstractImage
         $crop = $imagesize->contain($resize)->alignPivotTo($resize, $position);
 
         return $this->modify(
-            $this->resolveDriverClass('Modifiers\FitModifier', $crop, $resize, $backgroundColor)
+            $this->resolveDriverClass('Modifiers\PadModifier', $crop, $resize, $backgroundColor)
         );
     }
 
@@ -223,7 +223,7 @@ abstract class AbstractImage
 
 
         return $this->modify(
-            $this->resolveDriverClass('Modifiers\FitModifier', $crop, $resize, $backgroundColor)
+            $this->resolveDriverClass('Modifiers\PadModifier', $crop, $resize, $backgroundColor)
         );
     }
 

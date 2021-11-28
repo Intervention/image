@@ -199,7 +199,7 @@ abstract class AbstractImage
         );
     }
 
-    public function pad(int $width, int $height, string $position = 'center', $backgroundColor = 'fff'): ImageInterface
+    public function pad(int $width, int $height, string $position = 'center', $backgroundColor = 'transparent'): ImageInterface
     {
         // original
         $imagesize = $this->getSize();
@@ -212,7 +212,7 @@ abstract class AbstractImage
         );
     }
 
-    public function padDown(int $width, int $height, string $position = 'center', $backgroundColor = 'fff'): ImageInterface
+    public function padDown(int $width, int $height, string $position = 'center', $backgroundColor = 'transparent'): ImageInterface
     {
         // original
         $imagesize = $this->getSize();

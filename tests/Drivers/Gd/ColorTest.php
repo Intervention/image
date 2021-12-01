@@ -62,6 +62,15 @@ class ColorTest extends TestCase
         $this->assertEquals([0, 0, 120, .5], $color->toArray());
     }
 
+    public function testToInt(): void
+    {
+        $color = $this->getTestColor(0, 0, 0, 0);
+        $this->assertEquals(0, $color->toInt());
+
+        $color = $this->getTestColor(255, 255, 255, 0);
+        $this->assertEquals(16777215, $color->toInt());
+    }
+
     public function testToHex(): void
     {
         $color = $this->getTestColor(181, 55, 23);

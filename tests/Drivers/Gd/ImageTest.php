@@ -40,6 +40,39 @@ class ImageTest extends TestCase
         }
     }
 
+    public function testGetFrames(): void
+    {
+        $this->assertInstanceOf(Collection::class, $this->image->getFrames());
+        $this->assertCount(3, $this->image->getFrames());
+    }
+
+    public function testGetFrame(): void
+    {
+        $this->assertInstanceOf(Frame::class, $this->image->getFrame());
+        $this->assertInstanceOf(Frame::class, $this->image->getFrame(1));
+    }
+
+    public function testAddFrame(): void
+    {
+        $this->assertCount(3, $this->image->getFrames());
+        $result = $this->image->addFrame(new Frame(imagecreatetruecolor(3, 2)));
+        $this->assertInstanceOf(Image::class, $result);
+        $this->assertCount(4, $this->image->getFrames());
+    }
+
+    public function testSetGetLoops(): void
+    {
+        $this->assertEquals(0, $this->image->loops());
+        $result = $this->image->setLoops(12);
+        $this->assertEquals(12, $this->image->loops());
+        $this->assertInstanceOf(Image::class, $result);
+    }
+
+    public function testIsAnimated(): void
+    {
+        $this->assertTrue($this->image->isAnimated());
+    }
+
     public function testWidth(): void
     {
         $this->assertEquals(3, $this->image->width());

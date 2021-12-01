@@ -37,16 +37,33 @@ class SizeTest extends TestCase
         $this->assertFalse($size3 == $size4);
     }
 
-    public function testGetWidth()
+    public function testSetGetWidth()
     {
         $size = new Size(800, 600);
         $this->assertEquals(800, $size->getWidth());
+        $result = $size->setWidth(30);
+        $this->assertEquals(30, $size->getWidth());
+        $this->assertInstanceOf(Size::class, $result);
     }
 
-    public function testGetHeight()
+    public function testSetGetHeight()
     {
         $size = new Size(800, 600);
         $this->assertEquals(600, $size->getHeight());
+        $result = $size->setHeight(30);
+        $this->assertEquals(30, $size->getHeight());
+        $this->assertInstanceOf(Size::class, $result);
+    }
+
+    public function testSetGetPivot(): void
+    {
+        $size = new Size(800, 600);
+        $pivot = $size->getPivot();
+        $this->assertInstanceOf(Point::class, $pivot);
+        $this->assertEquals(0, $pivot->getX());
+        $result = $size->setPivot(new Point(10, 0));
+        $this->assertInstanceOf(Size::class, $result);
+        $this->assertEquals(10, $size->getPivot()->getX());
     }
 
     public function testGetAspectRatio()

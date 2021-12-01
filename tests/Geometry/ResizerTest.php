@@ -9,6 +9,30 @@ use PHPUnit\Framework\TestCase;
 
 class ResizerTest extends TestCase
 {
+    public function testMake(): void
+    {
+        $result = Resizer::make();
+        $this->assertInstanceOf(Resizer::class, $result);
+    }
+
+    public function testSetTargetWidth(): void
+    {
+        $resizer = new Resizer();
+        $result = $resizer->width(100);
+        $this->assertInstanceOf(Resizer::class, $result);
+        $result = $resizer->toWidth(100);
+        $this->assertInstanceOf(Resizer::class, $result);
+    }
+
+    public function testSetTargetHeight(): void
+    {
+        $resizer = new Resizer();
+        $result = $resizer->height(100);
+        $this->assertInstanceOf(Resizer::class, $result);
+        $result = $resizer->toHeight(100);
+        $this->assertInstanceOf(Resizer::class, $result);
+    }
+
     public function testSetTargetSizeByArray()
     {
         $size = new Size(300, 200);
@@ -59,6 +83,16 @@ class ResizerTest extends TestCase
         $size = new Size(300, 200);
         $resizer = new Resizer();
         $resizer = $resizer->setTargetSize(new Size(200, 100));
+        $this->assertInstanceOf(Resizer::class, $resizer);
+        $this->assertEquals(200, $resizer->resize($size)->getWidth());
+        $this->assertEquals(100, $resizer->resize($size)->getHeight());
+    }
+
+    public function testToSize(): void
+    {
+        $size = new Size(300, 200);
+        $resizer = new Resizer();
+        $resizer = $resizer->toSize(new Size(200, 100));
         $this->assertInstanceOf(Resizer::class, $resizer);
         $this->assertEquals(200, $resizer->resize($size)->getWidth());
         $this->assertEquals(100, $resizer->resize($size)->getHeight());

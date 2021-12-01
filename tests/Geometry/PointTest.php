@@ -23,7 +23,7 @@ class PointTest extends TestCase
         $this->assertEquals(50, $point->getY());
     }
 
-    public function testSetX()
+    public function testGetSetX()
     {
         $point = new Point(0, 0);
         $point->setX(100);
@@ -31,7 +31,7 @@ class PointTest extends TestCase
         $this->assertEquals(0, $point->getY());
     }
 
-    public function testSetY()
+    public function testGetSetY()
     {
         $point = new Point(0, 0);
         $point->setY(100);

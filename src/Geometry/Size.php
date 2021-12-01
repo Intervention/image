@@ -29,6 +29,20 @@ class Size implements SizeInterface
         return $this->height;
     }
 
+    public function setWidth(int $width): SizeInterface
+    {
+        $this->width = $width;
+
+        return $this;
+    }
+
+    public function setHeight(int $height): SizeInterface
+    {
+        $this->height = $height;
+
+        return $this;
+    }
+
     /**
      * Get current pivot point
      *
@@ -42,20 +56,6 @@ class Size implements SizeInterface
     public function setPivot(PointInterface $pivot): self
     {
         $this->pivot = $pivot;
-
-        return $this;
-    }
-
-    public function setWidth(int $width): SizeInterface
-    {
-        $this->width = $width;
-
-        return $this;
-    }
-
-    public function setHeight(int $height): SizeInterface
-    {
-        $this->height = $height;
 
         return $this;
     }

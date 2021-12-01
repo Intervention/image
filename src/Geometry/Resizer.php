@@ -5,43 +5,6 @@ namespace Intervention\Image\Geometry;
 use Intervention\Image\Geometry\Size;
 use Intervention\Image\Interfaces\SizeInterface;
 
-/*
-
-modes: fill, contain, cover
-resize($width, $height, $mode, $only_reduce)
-resize(function($size) {
-    $size->width(300);
-    $size->contain();
-    $size->reduce();
-});
-
-- resize
-- resizeDown
-- scale
-- scaleDown
-- contain
-- containDown
-- cover
-- coverDown
-
-- resize
-- resizeDown
-- scale
-- scaleDown
-- fit(contain|cover)
-- fitDown(contain|cover)
-
-- resize
-- resizeDown
-- scale
-- scaleDown
-- fit
-- fitDown
-- pad
-- padDown
-
- */
-
 class Resizer
 {
     /**

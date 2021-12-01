@@ -34,4 +34,13 @@ class EncodedImageTest extends TestCase
         $image = new EncodedImage('foo', 'bar');
         $this->assertEquals('foo', (string) $image);
     }
+
+    public function testMimetype(): void
+    {
+        $image = new EncodedImage('foo');
+        $this->assertEquals('application/octet-stream', $image->mimetype());
+
+        $image = new EncodedImage('foo', 'image/jpeg');
+        $this->assertEquals('image/jpeg', $image->mimetype());
+    }
 }

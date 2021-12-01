@@ -9,10 +9,20 @@ use Intervention\Image\Drivers\Gd\Image;
 
 trait CanCreateGdTestImage
 {
+    public function getTestImagePath($filename = 'test.jpg'): string
+    {
+        return sprintf('%s/../images/%s', __DIR__, $filename);
+    }
+
+    public function getTestImageData($filename = 'test.jpg'): string
+    {
+        return file_get_contents($this->getTestImagePath($filename));
+    }
+
     public function createTestImage($filename = 'test.jpg'): Image
     {
         return $this->testImageDecoder()->handle(
-            sprintf('%s/../images/%s', __DIR__, $filename)
+            $this->getTestImagePath($filename)
         );
     }
 

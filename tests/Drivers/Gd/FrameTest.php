@@ -2,6 +2,7 @@
 
 namespace Intervention\Image\Tests\Drivers\Gd;
 
+use GdImage;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Geometry\Size;
@@ -18,6 +19,23 @@ class FrameTest extends TestCase
     {
         $frame = $this->getTestFrame();
         $this->assertInstanceOf(Frame::class, $frame);
+    }
+
+    public function testGetCore(): void
+    {
+        $frame = $this->getTestFrame();
+        $this->assertInstanceOf(GdImage::class, $frame->getCore());
+    }
+
+    public function testSetCore(): void
+    {
+        $core1 = imagecreatetruecolor(3, 2);
+        $core2 = imagecreatetruecolor(3, 3);
+        $frame = new Frame($core1);
+        $this->assertEquals(2, $frame->getSize()->getHeight());
+        $result = $frame->setCore($core2);
+        $this->assertInstanceOf(Frame::Class, $result);
+        $this->assertEquals(3, $frame->getSize()->getHeight());
     }
 
     public function testGetSize(): void

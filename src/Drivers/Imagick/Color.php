@@ -55,4 +55,14 @@ class Color extends AbstractColor implements ColorInterface
             $this->alpha()
         ];
     }
+
+    public function toInt(): int
+    {
+        $r = $this->red();
+        $g = $this->green();
+        $b = $this->blue();
+        $a = intval(round($this->alpha() * 255));
+
+        return intval(($a << 24) + ($r << 16) + ($g << 8) + $b);
+    }
 }

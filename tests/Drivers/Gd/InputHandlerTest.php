@@ -99,4 +99,12 @@ class InputHandlerTest extends TestCase
         $this->assertEquals(51, $result->green());
         $this->assertEquals(51, $result->blue());
     }
+
+    public function testHandleTransparent(): void
+    {
+        $handler = new InputHandler();
+        $input = 'transparent';
+        $result = $handler->handle($input);
+        $this->assertInstanceOf(Color::class, $result);
+    }
 }

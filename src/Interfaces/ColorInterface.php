@@ -10,4 +10,5 @@ interface ColorInterface
     public function alpha(): float;
     public function toArray(): array;
     public function toHex(): string;
+    public function toInt(): int;
 }

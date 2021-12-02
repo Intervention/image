@@ -84,4 +84,25 @@ class ColorTest extends TestCase
         $this->assertEquals('b53717', $color->toHex());
         $this->assertEquals('#b53717', $color->toHex('#'));
     }
+
+    public function testToInt(): void
+    {
+        $color = $this->getTestColor(255, 255, 255);
+        $this->assertEquals($color->toInt(), 4294967295);
+
+        $color = $this->getTestColor(255, 255, 255, 1);
+        $this->assertEquals($color->toInt(), 4294967295);
+
+        $color = $this->getTestColor(181, 55, 23, 0.2);
+        $this->assertEquals($color->toInt(), 867514135);
+
+        $color = $this->getTestColor(255, 255, 255, 0.5);
+        $this->assertEquals($color->toInt(), 2164260863);
+
+        $color = $this->getTestColor(181, 55, 23, 1);
+        $this->assertEquals($color->toInt(), 4290066199);
+
+        $color = $this->getTestColor(0, 0, 0, 0);
+        $this->assertEquals($color->toInt(), 0);
+    }
 }

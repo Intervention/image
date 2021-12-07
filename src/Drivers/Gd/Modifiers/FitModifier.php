@@ -2,6 +2,8 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Drivers\Abstract\Modifiers\AbstractFitModifier;
+use Intervention\Image\Geometry\Size;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
@@ -9,32 +11,26 @@ use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Traits\CanHandleInput;
 use Intervention\Image\Traits\CanResizeGeometrically;
 
-class FitModifier implements ModifierInterface
+class FitModifier extends AbstractFitModifier implements ModifierInterface
 {
-    protected $crop;
-    protected $resize;
-
-    public function __construct(SizeInterface $crop, SizeInterface $resize)
-    {
-        $this->crop = $crop;
-        $this->resize = $resize;
-    }
-
     public function apply(ImageInterface $image): ImageInterface
     {
+        $crop = $this->getCropSize($image);
+        $resize = $this->getResizeSize($crop);
+
         foreach ($image as $frame) {
-            $this->modify($frame);
+            $this->modifyFrame($frame, $crop, $resize);
         }
 
         return $image;
     }
 
-    protected function modify(FrameInterface $frame): void
+    protected function modifyFrame(FrameInterface $frame, SizeInterface $crop, SizeInterface $resize): void
     {
         // create new image
         $modified = imagecreatetruecolor(
-            $this->resize->getWidth(),
-            $this->resize->getHeight()
+            $resize->getWidth(),
+            $resize->getHeight()
         );
 
         // get current image
@@ -59,12 +55,12 @@ class FitModifier implements ModifierInterface
             $current,
             0,
             0,
-            $this->crop->getPivot()->getX(),
-            $this->crop->getPivot()->getY(),
-            $this->resize->getWidth(),
-            $this->resize->getHeight(),
-            $this->crop->getWidth(),
-            $this->crop->getHeight()
+            $crop->getPivot()->getX(),
+            $crop->getPivot()->getY(),
+            $resize->getWidth(),
+            $resize->getHeight(),
+            $crop->getWidth(),
+            $crop->getHeight()
         );
 
         imagedestroy($current);

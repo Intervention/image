@@ -22,8 +22,8 @@ class JpegEncoderTest extends TestCase
     public function testEncode(): void
     {
         $image = $this->getTestImage();
-        $encoder = new JpegEncoder();
+        $encoder = new JpegEncoder(75);
         $result = $encoder->encode($image);
-        $this->assertTrue(MimeSniffer::createFromString($result)->matches(new ImageJpeg));
+        $this->assertTrue(MimeSniffer::createFromString($result)->matches(new ImageJpeg()));
     }
 }

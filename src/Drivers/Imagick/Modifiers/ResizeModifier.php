@@ -9,22 +9,27 @@ use Intervention\Image\Interfaces\SizeInterface;
 
 class ResizeModifier implements ModifierInterface
 {
-    protected $resize;
-
-    public function __construct(SizeInterface $resize)
+    public function __construct(protected ?int $width = null, protected ?int $height = null)
     {
-        $this->resize = $resize;
+        //
     }
 
     public function apply(ImageInterface $image): ImageInterface
     {
+        $resizeTo = $this->getAdjustedSize($image);
+
         foreach ($image as $frame) {
             $frame->getCore()->scaleImage(
-                $this->resize->getWidth(),
-                $this->resize->getHeight()
+                $resizeTo->getWidth(),
+                $resizeTo->getHeight()
             );
         }
 
         return $image;
+    }
+
+    protected function getAdjustedSize(ImageInterface $image): SizeInterface
+    {
+        return $image->getSize()->resize($this->width, $this->height);
     }
 }

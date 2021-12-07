@@ -11,6 +11,10 @@ class HexColorDecoder extends ArrayColorDecoder implements DecoderInterface
 {
     public function decode($input): ImageInterface|ColorInterface
     {
+        if (!is_string($input)) {
+            $this->fail();
+        }
+
         $pattern = '/^#?([a-f0-9]{1,2})([a-f0-9]{1,2})([a-f0-9]{1,2})$/i';
         $result = preg_match($pattern, $input, $matches);
 

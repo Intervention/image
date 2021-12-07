@@ -9,13 +9,17 @@ class InputHandler extends AbstractInputHandler
 {
     protected function chain(): AbstractDecoder
     {
-        return new Decoders\ArrayColorDecoder(
-            new Decoders\HexColorDecoder(
-                new Decoders\TransparentColorDecoder(
-                    new Decoders\FilePathImageDecoder(
-                        new Decoders\BinaryImageDecoder(
-                            new Decoders\DataUriImageDecoder(
-                                new Decoders\Base64ImageDecoder()
+        return new Decoders\ImageObjectDecoder(
+            new Decoders\ArrayColorDecoder(
+                new Decoders\HexColorDecoder(
+                    new Decoders\RgbStringColorDecoder(
+                        new Decoders\TransparentColorDecoder(
+                            new Decoders\FilePathImageDecoder(
+                                new Decoders\BinaryImageDecoder(
+                                    new Decoders\DataUriImageDecoder(
+                                        new Decoders\Base64ImageDecoder()
+                                    )
+                                )
                             )
                         )
                     )

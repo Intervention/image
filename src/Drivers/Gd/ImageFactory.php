@@ -2,6 +2,7 @@
 
 namespace Intervention\Image\Drivers\Gd;
 
+use GdImage;
 use Intervention\Image\Collection;
 use Intervention\Image\Interfaces\FactoryInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -10,15 +11,20 @@ class ImageFactory implements FactoryInterface
 {
     public function newImage(int $width, int $height): ImageInterface
     {
-        $gd = imagecreatetruecolor($width, $height);
-        $color = imagecolorallocatealpha($gd, 0, 0, 0, 127);
-        imagefill($gd, 0, 0, $color);
-        imagesavealpha($gd, true);
-
         return new Image(
             new Collection([
-                new Frame($gd)
+                new Frame($this->newCore($width, $height))
             ])
         );
+    }
+
+    public function newCore(int $width, int $height): GdImage
+    {
+        $core = imagecreatetruecolor($width, $height);
+        $color = imagecolorallocatealpha($core, 0, 0, 0, 127);
+        imagefill($core, 0, 0, $color);
+        imagesavealpha($core, true);
+
+        return $core;
     }
 }

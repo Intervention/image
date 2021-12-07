@@ -8,14 +8,11 @@ use Intervention\Image\Interfaces\SizeInterface;
 
 class Size implements SizeInterface
 {
-    protected $width;
-    protected $height;
-    protected $pivot;
-
-    public function __construct(int $width, int $height, Point $pivot = null)
-    {
-        $this->width = $width;
-        $this->height = $height;
+    public function __construct(
+        protected int $width,
+        protected int $height,
+        protected ?Point $pivot = null
+    ) {
         $this->pivot = $pivot ? $pivot : new Point();
     }
 
@@ -214,39 +211,36 @@ class Size implements SizeInterface
 
     protected function getResizer(...$arguments): Resizer
     {
-        $resizer = new Resizer();
-        $resizer->setTargetSizeByArray($arguments[0]);
-
-        return $resizer;
+        return new Resizer(...$arguments);
     }
 
     public function resize(...$arguments): self
     {
-        return $this->getResizer($arguments)->resize($this);
+        return $this->getResizer(...$arguments)->resize($this);
     }
 
     public function resizeDown(...$arguments): self
     {
-        return $this->getResizer($arguments)->resizeDown($this);
+        return $this->getResizer(...$arguments)->resizeDown($this);
     }
 
     public function scale(...$arguments): self
     {
-        return $this->getResizer($arguments)->scale($this);
+        return $this->getResizer(...$arguments)->scale($this);
     }
 
     public function scaleDown(...$arguments): self
     {
-        return $this->getResizer($arguments)->scaleDown($this);
+        return $this->getResizer(...$arguments)->scaleDown($this);
     }
 
-    public function cover(...$arguments): self
+    public function cover(int $width, int $height): self
     {
-        return $this->getResizer($arguments)->cover($this);
+        return $this->getResizer($width, $height)->cover($this);
     }
 
-    public function contain(...$arguments): self
+    public function contain(int $width, int $height): self
     {
-        return $this->getResizer($arguments)->contain($this);
+        return $this->getResizer($width, $height)->contain($this);
     }
 }

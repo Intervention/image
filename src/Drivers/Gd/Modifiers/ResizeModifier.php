@@ -2,6 +2,7 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Geometry\Resizer;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
@@ -10,28 +11,33 @@ use Intervention\Image\Traits\CanResizeGeometrically;
 
 class ResizeModifier implements ModifierInterface
 {
-    protected $resize;
-
-    public function __construct(SizeInterface $resize)
+    public function __construct(protected ?int $width = null, protected ?int $height = null)
     {
-        $this->resize = $resize;
+        //
     }
 
     public function apply(ImageInterface $image): ImageInterface
     {
+        $resizeTo = $this->getAdjustedSize($image);
+
         foreach ($image as $frame) {
-            $this->modify($frame);
+            $this->resizeFrame($frame, $resizeTo);
         }
 
         return $image;
     }
 
-    protected function modify(FrameInterface $frame): void
+    protected function getAdjustedSize(ImageInterface $image): SizeInterface
+    {
+        return $image->getSize()->resize($this->width, $this->height);
+    }
+
+    protected function resizeFrame(FrameInterface $frame, SizeInterface $resizeTo): void
     {
         // create new image
         $modified = imagecreatetruecolor(
-            $this->resize->getWidth(),
-            $this->resize->getHeight()
+            $resizeTo->getWidth(),
+            $resizeTo->getHeight()
         );
 
         // get current image
@@ -54,12 +60,12 @@ class ResizeModifier implements ModifierInterface
         imagecopyresampled(
             $modified,
             $current,
-            $this->resize->getPivot()->getX(),
-            $this->resize->getPivot()->getY(),
+            $resizeTo->getPivot()->getX(),
+            $resizeTo->getPivot()->getY(),
             0,
             0,
-            $this->resize->getWidth(),
-            $this->resize->getHeight(),
+            $resizeTo->getWidth(),
+            $resizeTo->getHeight(),
             $frame->getSize()->getWidth(),
             $frame->getSize()->getHeight()
         );

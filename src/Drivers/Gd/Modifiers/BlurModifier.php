@@ -8,14 +8,9 @@ use Intervention\Image\Interfaces\ModifierInterface;
 
 class BlurModifier implements ModifierInterface
 {
-    /**
-     * Create new modifier
-     *
-     * @param int $amount Blur amount (0 - 100%)
-     */
-    public function __construct(int $amount)
+    public function __construct(protected int $amount)
     {
-        $this->amount = $amount;
+        //
     }
 
     public function apply(ImageInterface $image): ImageInterface

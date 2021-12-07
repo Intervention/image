@@ -12,21 +12,21 @@ use Intervention\Image\Interfaces\SizeInterface;
 
 class Frame extends AbstractFrame implements FrameInterface
 {
-    /**
-     * Imagick image representation of frame
-     *
-     * @var Imagick
-     */
-    protected $core;
-
-    public function __construct(Imagick $core)
+    public function __construct(protected Imagick $core)
     {
-        $this->core = $core;
+        //
     }
 
     public function getCore(): Imagick
     {
         return $this->core;
+    }
+
+    public function setCore(Imagick $core): FrameInterface
+    {
+        $this->core = $core;
+
+        return $this;
     }
 
     public function getSize(): SizeInterface

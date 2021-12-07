@@ -2,53 +2,16 @@
 
 namespace Intervention\Image;
 
-use Exception;
-use ReflectionClass;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Traits\CanResolveDriverClass;
 
 class ImageManager
 {
-    /**
-     * Configuration data
-     *
-     * @var array
-     */
-    protected $config = [
-        'driver' => 'gd',
-    ];
+    use CanResolveDriverClass;
 
-    /**
-     * Create new instance
-     *
-     * @param array $config
-     */
-    public function __construct(array $config = [])
+    public function __construct(protected string $driver = 'gd')
     {
-        $this->configure($config);
-    }
-
-    /**
-     * Override configuration settings
-     *
-     * @param array $config
-     */
-    public function configure(array $config = []): self
-    {
-        $this->config = array_replace($this->config, $config);
-
-        return $this;
-    }
-
-    /**
-     * Return given value of configuration
-     *
-     * @param  string $key
-     * @param  mixed  $default
-     * @return mixed
-     */
-    public function getConfig($key, $default = null)
-    {
-        return array_key_exists($key, $this->config) ? $this->config[$key] : $default;
+        //
     }
 
     /**
@@ -60,37 +23,27 @@ class ImageManager
      */
     public function create(int $width, int $height): ImageInterface
     {
-        return $this->resolve('ImageFactory')->newImage($width, $height);
+        return $this->resolveDriverClass('ImageFactory')->newImage($width, $height);
     }
 
     /**
-     * Create new image instance from input
+     * Create new image instance from source
      *
-     * @param  mixed $input
+     * @param  mixed $source
      * @return ImageInterface
      */
-    public function make($input): ImageInterface
+    public function make($source): ImageInterface
     {
-        return $this->resolve('InputHandler')->handle($input);
+        return $this->resolveDriverClass('InputHandler')->handle($source);
     }
 
     /**
-     * Resolve given classname according to current configuration
+     * Return id of current driver
      *
-     * @param  string $classname
-     * @param  array  $arguments
-     * @return mixed
+     * @return string
      */
-    private function resolve(string $classname, ...$arguments)
+    protected function getCurrentDriver(): string
     {
-        $classname = sprintf(
-            "Intervention\\Image\\Drivers\\%s\\%s",
-            ucfirst($this->config['driver']),
-            $classname
-        );
-
-        $reflection = new ReflectionClass($classname);
-
-        return $reflection->newInstanceArgs($arguments);
+        return strtolower($this->driver);
     }
 }

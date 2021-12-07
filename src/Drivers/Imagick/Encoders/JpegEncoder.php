@@ -10,6 +10,11 @@ use Intervention\Image\Interfaces\ImageInterface;
 
 class JpegEncoder extends AbstractEncoder implements EncoderInterface
 {
+    public function __construct(int $quality)
+    {
+        $this->quality = $quality;
+    }
+
     public function encode(ImageInterface $image): EncodedImage
     {
         $format = 'jpeg';

@@ -25,7 +25,7 @@ class GifEncoder extends AbstractEncoder implements EncoderInterface
 
     protected function encodeAnimated($image): EncodedImage
     {
-        $builder = GifBuilder::canvas($image->width(), $image->height(), $image->loops());
+        $builder = GifBuilder::canvas($image->getWidth(), $image->getHeight(), $image->getLoops());
         foreach ($image as $key => $frame) {
             $source = $this->encode($frame->toImage());
             $builder->addFrame($source, $frame->getDelay());

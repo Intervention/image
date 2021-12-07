@@ -6,13 +6,11 @@ use Intervention\Image\Exceptions\NotWritableException;
 
 class EncodedImage
 {
-    protected $data;
-    protected $mimetype;
-
-    public function __construct(string $data, string $mimetype = 'application/octet-stream')
-    {
-        $this->data = $data;
-        $this->mimetype = $mimetype;
+    public function __construct(
+        protected string $data,
+        protected string $mimetype = 'application/octet-stream'
+    ) {
+        //
     }
 
     public function mimetype(): string

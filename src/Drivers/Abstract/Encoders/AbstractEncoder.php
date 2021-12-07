@@ -8,11 +8,6 @@ abstract class AbstractEncoder
 {
     protected $quality;
 
-    public function __construct(?int $quality = null)
-    {
-        $this->quality = $quality;
-    }
-
     /**
      * Get return value of callback through output buffer
      *

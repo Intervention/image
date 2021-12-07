@@ -7,21 +7,9 @@ use Intervention\Image\Interfaces\ColorInterface;
 
 class Color extends AbstractColor implements ColorInterface
 {
-    /**
-     * GD library integer value of color
-     *
-     * @var int
-     */
-    protected $value;
-
-    /**
-     * Create new color instance
-     *
-     * @param int $value
-     */
-    public function __construct(int $value = 0)
+    public function __construct(protected int $value = 0)
     {
-        $this->value = $value;
+        //
     }
 
     public function red(): int

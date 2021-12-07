@@ -80,6 +80,7 @@ class CollectionTest extends TestCase
         $this->assertEquals('bar', $collection->get(1));
         $this->assertEquals('baz', $collection->get(2));
         $this->assertNull($collection->get(3));
+        $this->assertEquals('test', $collection->get(3, 'test'));
     }
 
     public function testToArray()
@@ -98,5 +99,28 @@ class CollectionTest extends TestCase
         $this->assertInstanceOf(Collection::class, $mapped);
         $this->assertEquals(['FOO', 'BAR', 'BAZ'], $collection->toArray());
         $this->assertEquals(['foo', 'bar', 'baz'], $mapped->toArray());
+    }
+
+    public function testQuery(): void
+    {
+        $collection = new Collection([
+            'foo' => 'FOO',
+            'bar' => 'BAR',
+            'baz' => [
+                'test1' => '1',
+                'test2' => '2',
+                'test3' => [
+                    'example' => 'value'
+                ]
+            ]
+        ]);
+
+        $this->assertEquals('FOO', $collection->query('foo'));
+        $this->assertEquals('BAR', $collection->query('bar'));
+        $this->assertEquals('1', $collection->query('baz.test1'));
+        $this->assertEquals('2', $collection->query('baz.test2'));
+        $this->assertEquals('value', $collection->query('baz.test3.example'));
+        $this->assertEquals('value', $collection->query('baz.test3.example', 'default'));
+        $this->assertEquals('default', $collection->query('baz.test3.no', 'default'));
     }
 }

@@ -9,16 +9,9 @@ use Intervention\Image\Interfaces\ColorInterface;
 
 class Color extends AbstractColor implements ColorInterface
 {
-    /**
-     * Imagick pixel to represent color
-     *
-     * @var ImagickPixel
-     */
-    protected $pixel;
-
-    public function __construct(ImagickPixel $pixel)
+    public function __construct(protected ImagickPixel $pixel)
     {
-        $this->pixel = $pixel;
+        //
     }
 
     public function getPixel(): ImagickPixel

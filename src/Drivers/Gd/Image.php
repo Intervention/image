@@ -16,12 +16,12 @@ use IteratorAggregate;
 
 class Image extends AbstractImage implements ImageInterface, IteratorAggregate
 {
-    public function width(): int
+    public function getWidth(): int
     {
         return imagesx($this->getFrame()->getCore());
     }
 
-    public function height(): int
+    public function getHeight(): int
     {
         return imagesy($this->getFrame()->getCore());
     }

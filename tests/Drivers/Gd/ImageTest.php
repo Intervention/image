@@ -62,9 +62,9 @@ class ImageTest extends TestCase
 
     public function testSetGetLoops(): void
     {
-        $this->assertEquals(0, $this->image->loops());
+        $this->assertEquals(0, $this->image->getLoops());
         $result = $this->image->setLoops(12);
-        $this->assertEquals(12, $this->image->loops());
+        $this->assertEquals(12, $this->image->getLoops());
         $this->assertInstanceOf(Image::class, $result);
     }
 
@@ -75,12 +75,12 @@ class ImageTest extends TestCase
 
     public function testWidth(): void
     {
-        $this->assertEquals(3, $this->image->width());
+        $this->assertEquals(3, $this->image->getWidth());
     }
 
     public function testHeight(): void
     {
-        $this->assertEquals(2, $this->image->height());
+        $this->assertEquals(2, $this->image->getHeight());
     }
 
     public function testGetSize(): void

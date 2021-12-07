@@ -10,11 +10,9 @@ use Intervention\MimeSniffer\AbstractType;
 
 abstract class AbstractDecoder
 {
-    protected $successor = null;
-
-    public function __construct(?AbstractDecoder $successor = null)
+    public function __construct(protected ?AbstractDecoder $successor = null)
     {
-        $this->successor = $successor;
+        //
     }
 
     final public function handle($input): null|ImageInterface|ColorInterface

@@ -13,8 +13,8 @@ class BinaryImageDecoderTest extends TestCase
         $decoder = new BinaryImageDecoder();
         $image = $decoder->decode(file_get_contents(__DIR__ . '/../../../images/tile.png'));
         $this->assertInstanceOf(Image::class, $image);
-        $this->assertEquals(16, $image->width());
-        $this->assertEquals(16, $image->height());
+        $this->assertEquals(16, $image->getWidth());
+        $this->assertEquals(16, $image->getHeight());
         $this->assertCount(1, $image);
     }
 
@@ -23,8 +23,8 @@ class BinaryImageDecoderTest extends TestCase
         $decoder = new BinaryImageDecoder();
         $image = $decoder->decode(file_get_contents(__DIR__ . '/../../../images/red.gif'));
         $this->assertInstanceOf(Image::class, $image);
-        $this->assertEquals(16, $image->width());
-        $this->assertEquals(16, $image->height());
+        $this->assertEquals(16, $image->getWidth());
+        $this->assertEquals(16, $image->getHeight());
         $this->assertCount(1, $image);
     }
 
@@ -33,8 +33,8 @@ class BinaryImageDecoderTest extends TestCase
         $decoder = new BinaryImageDecoder();
         $image = $decoder->decode(file_get_contents(__DIR__ . '/../../../images/cats.gif'));
         $this->assertInstanceOf(Image::class, $image);
-        $this->assertEquals(75, $image->width());
-        $this->assertEquals(50, $image->height());
+        $this->assertEquals(75, $image->getWidth());
+        $this->assertEquals(50, $image->getHeight());
         $this->assertCount(4, $image);
     }
 }

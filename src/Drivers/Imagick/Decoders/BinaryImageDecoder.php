@@ -15,6 +15,10 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
 {
     public function decode($input): ImageInterface|ColorInterface
     {
+        if (!is_string($input)) {
+            $this->fail();
+        }
+
         if (! $this->inputType($input)->isBinary()) {
             $this->fail();
         }

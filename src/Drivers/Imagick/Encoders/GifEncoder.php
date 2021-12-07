@@ -20,7 +20,7 @@ class GifEncoder extends AbstractEncoder implements EncoderInterface
             $gif->addImage($frame->getCore());
         }
 
-        $gif->setImageIterations($image->loops());
+        $gif->setImageIterations($image->getLoops());
         $gif->setFormat($format);
         $gif->setImageFormat($format);
         $gif->setCompression($compression);

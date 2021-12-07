@@ -12,21 +12,17 @@ class PlaceModifier implements ModifierInterface
 {
     use CanResolveDriverClass;
 
-    protected $element;
-    protected $position;
-    protected $offset_x;
-    protected $offset_y;
-
     /**
      * Create new modifier
      *
      */
-    public function __construct($element, string $position, int $offset_x, int $offset_y)
-    {
-        $this->element = $element;
-        $this->position = $position;
-        $this->offset_x = $offset_x;
-        $this->offset_y = $offset_y;
+    public function __construct(
+        protected $element,
+        protected string $position,
+        protected int $offset_x,
+        protected int $offset_y
+    ) {
+        //
     }
 
     public function apply(ImageInterface $image): ImageInterface
@@ -43,8 +39,8 @@ class PlaceModifier implements ModifierInterface
                 $position->getY(),
                 0,
                 0,
-                $watermark->width(),
-                $watermark->height()
+                $watermark->getWidth(),
+                $watermark->getHeight()
             );
         }
 

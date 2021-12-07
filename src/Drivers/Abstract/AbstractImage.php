@@ -5,6 +5,7 @@ namespace Intervention\Image\Drivers\Abstract;
 use Intervention\Image\Collection;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Exceptions\NotWritableException;
+use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Resizer;
 use Intervention\Image\Geometry\Size;
 use Intervention\Image\Interfaces\EncoderInterface;
@@ -12,18 +13,17 @@ use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Traits\CanHandleInput;
 use Intervention\Image\Traits\CanResolveDriverClass;
 
 abstract class AbstractImage
 {
     use CanResolveDriverClass;
+    use CanHandleInput;
 
-    protected $loops = 0;
-    protected $frames;
-
-    public function __construct(Collection $frames)
+    public function __construct(protected Collection $frames, protected $loops = 0)
     {
-        $this->frames = $frames;
+        //
     }
 
     public function getIterator(): Collection
@@ -55,14 +55,19 @@ abstract class AbstractImage
         return $this;
     }
 
-    public function loops(): int
+    public function getLoops(): int
     {
         return $this->loops;
     }
 
     public function getSize(): SizeInterface
     {
-        return new Size($this->width(), $this->height());
+        return new Size($this->getWidth(), $this->getHeight());
+    }
+
+    public function size(): SizeInterface
+    {
+        return $this->getSize();
     }
 
     public function isAnimated(): bool
@@ -80,7 +85,7 @@ abstract class AbstractImage
         return $encoder->encode($this);
     }
 
-    public function toJpeg(?int $quality = null): EncodedImage
+    public function toJpeg(int $quality = 75): EncodedImage
     {
         return $this->encode(
             $this->resolveDriverClass('Encoders\JpegEncoder', $quality)
@@ -108,122 +113,38 @@ abstract class AbstractImage
         );
     }
 
-    public function blur(int $amount): ImageInterface
+    public function invert(): ImageInterface
+    {
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\InvertModifier')
+        );
+    }
+
+    public function brightness(int $level): ImageInterface
+    {
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\BrightnessModifier', $level)
+        );
+    }
+
+    public function contrast(int $level): ImageInterface
+    {
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\ContrastModifier', $level)
+        );
+    }
+
+    public function blur(int $amount = 5): ImageInterface
     {
         return $this->modify(
             $this->resolveDriverClass('Modifiers\BlurModifier', $amount)
         );
     }
 
-    public function pickColors(int $x, int $y): Collection
+    public function rotate(float $angle, $background = 'ffffff'): ImageInterface
     {
-        $colors = new Collection();
-        foreach ($this->getFrames() as $key => $frame) {
-            $colors->push($this->pickColor($x, $y, $key));
-        }
-
-        return $colors;
-    }
-
-    public function resize(...$arguments): ImageInterface
-    {
-        $resized = Resizer::make()->setTargetSizeByArray($arguments)
-                ->resize($this->getSize());
-
         return $this->modify(
-            $this->resolveDriverClass('Modifiers\ResizeModifier', $resized)
-        );
-    }
-
-    public function resizeDown(...$arguments): ImageInterface
-    {
-        $resized = Resizer::make()->setTargetSizeByArray($arguments)
-                ->resizeDown($this->getSize());
-
-        return $this->modify(
-            $this->resolveDriverClass('Modifiers\ResizeModifier', $resized)
-        );
-    }
-
-    public function scale(...$arguments): ImageInterface
-    {
-        $resized = Resizer::make()->setTargetSizeByArray($arguments)
-                ->scale($this->getSize());
-
-        return $this->modify(
-            $this->resolveDriverClass('Modifiers\ResizeModifier', $resized)
-        );
-    }
-
-    public function scaleDown(...$arguments): ImageInterface
-    {
-        $resized = Resizer::make()->setTargetSizeByArray($arguments)
-                ->scaleDown($this->getSize());
-
-        return $this->modify(
-            $this->resolveDriverClass('Modifiers\ResizeModifier', $resized)
-        );
-    }
-
-    public function fit(int $width, int $height, string $position = 'center'): ImageInterface
-    {
-        // original
-        $imagesize = $this->getSize();
-
-        // crop
-        $crop = new Size($width, $height);
-        $crop = $crop->contain($imagesize)->alignPivotTo($imagesize, $position);
-
-        // resize
-        $resize = $crop->scale($width, $height);
-
-        return $this->modify(
-            $this->resolveDriverClass('Modifiers\FitModifier', $crop, $resize)
-        );
-    }
-
-    public function fitDown(int $width, int $height, string $position = 'center'): ImageInterface
-    {
-        // original
-        $imagesize = $this->getSize();
-
-        // crop
-        $crop = new Size($width, $height);
-        $crop = $crop->contain($imagesize)->alignPivotTo($imagesize, $position);
-
-        // resize
-        $resize = $crop->scaleDown($width, $height);
-
-        return $this->modify(
-            $this->resolveDriverClass('Modifiers\FitModifier', $crop, $resize)
-        );
-    }
-
-    public function pad(int $width, int $height, string $position = 'center', $backgroundColor = 'transparent'): ImageInterface
-    {
-        // original
-        $imagesize = $this->getSize();
-
-        $resize = new Size($width, $height);
-        $crop = $imagesize->contain($resize)->alignPivotTo($resize, $position);
-
-        return $this->modify(
-            $this->resolveDriverClass('Modifiers\PadModifier', $crop, $resize, $backgroundColor)
-        );
-    }
-
-    public function padDown(int $width, int $height, string $position = 'center', $backgroundColor = 'transparent'): ImageInterface
-    {
-        // original
-        $imagesize = $this->getSize();
-
-        $resize = new Size($width, $height);
-        $resize = $resize->resizeDown($imagesize);
-        $crop = $imagesize->contain($resize)->alignPivotTo($resize, $position);
-
-
-        return $this->modify(
-            $this->resolveDriverClass('Modifiers\PadModifier', $crop, $resize, $backgroundColor)
+            $this->resolveDriverClass('Modifiers\RotateModifier', $angle, $background)
         );
     }
 
@@ -240,10 +161,104 @@ abstract class AbstractImage
         );
     }
 
-    public function rotate(float $angle, $backgroundColor = 'ffffff'): ImageInterface
+    public function fill($color, ?int $x = null, ?int $y = null): ImageInterface
+    {
+        $color = $this->handleInput($color);
+        $position = (is_null($x) && is_null($y)) ? null : new Point($x, $y);
+
+        return $this->modify(
+            $this->resolveDriverClass(
+                'Modifiers\FillModifier',
+                $color,
+                $position
+            )
+        );
+    }
+
+    public function pixelate(int $size): ImageInterface
     {
         return $this->modify(
-            $this->resolveDriverClass('Modifiers\RotateModifier', $angle, $backgroundColor)
+            $this->resolveDriverClass('Modifiers\PixelateModifier', $size)
+        );
+    }
+
+    public function sharpen(int $amount = 10): ImageInterface
+    {
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\SharpenModifier', $amount)
+        );
+    }
+
+    public function pickColors(int $x, int $y): Collection
+    {
+        $colors = new Collection();
+        foreach ($this->getFrames() as $key => $frame) {
+            $colors->push($this->pickColor($x, $y, $key));
+        }
+
+        return $colors;
+    }
+
+    public function resize(?int $width = null, ?int $height = null): ImageInterface
+    {
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\ResizeModifier', $width, $height)
+        );
+    }
+
+    public function resizeDown(?int $width = null, ?int $height = null): ImageInterface
+    {
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\ResizeDownModifier', $width, $height)
+        );
+    }
+
+    public function scale(?int $width = null, ?int $height = null): ImageInterface
+    {
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\ScaleModifier', $width, $height)
+        );
+    }
+
+    public function scaleDown(?int $width = null, ?int $height = null): ImageInterface
+    {
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\ScaleDownModifier', $width, $height)
+        );
+    }
+
+    public function fit(int $width, int $height, string $position = 'center'): ImageInterface
+    {
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\FitModifier', $width, $height, $position)
+        );
+    }
+
+    public function fitDown(int $width, int $height, string $position = 'center'): ImageInterface
+    {
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\FitDownModifier', $width, $height, $position)
+        );
+    }
+
+    public function pad(int $width, int $height, $background = 'ffffff', string $position = 'center'): ImageInterface
+    {
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\PadModifier', $width, $height, $background, $position)
+        );
+    }
+
+    public function padDown(int $width, int $height, $background = 'ffffff', string $position = 'center'): ImageInterface
+    {
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\PadDownModifier', $width, $height, $background, $position)
+        );
+    }
+
+    public function destroy(): void
+    {
+        $this->modify(
+            $this->resolveDriverClass('Modifiers\DestroyModifier')
         );
     }
 }

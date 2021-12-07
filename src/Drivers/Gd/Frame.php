@@ -12,44 +12,14 @@ use Intervention\Image\Interfaces\SizeInterface;
 
 class Frame extends AbstractFrame implements FrameInterface
 {
-    /**
-     * Gd image representation of frame
-     *
-     * @var GdImage
-     */
-    protected $core;
-
-    /**
-     * Delay time in seconds after next frame is shown
-     *
-     * @var float
-     */
-    protected $delay = 0;
-
-    /**
-     * Disposal method of frame
-     *
-     * @var integer
-     */
-    protected $dispose = 1;
-
-    /**
-     * Left offset in pixel
-     *
-     * @var integer
-     */
-    protected $offset_left = 0;
-
-    /**
-     * Top offset in pixel
-     *
-     * @var integer
-     */
-    protected $offset_top = 0;
-
-    public function __construct(GdImage $core)
-    {
-        $this->core = $core;
+    public function __construct(
+        protected GdImage $core,
+        protected float $delay = 0,
+        protected int $dispose = 1,
+        protected int $offset_left = 0,
+        protected int $offset_top = 0
+    ) {
+        //
     }
 
     public function getCore(): GdImage
@@ -62,6 +32,11 @@ class Frame extends AbstractFrame implements FrameInterface
         $this->core = $core;
 
         return $this;
+    }
+
+    public function unsetCore(): void
+    {
+        unset($this->core);
     }
 
     public function getSize(): SizeInterface

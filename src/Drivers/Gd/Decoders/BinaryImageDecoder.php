@@ -19,6 +19,10 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
 {
     public function decode($input): ImageInterface|ColorInterface
     {
+        if (!is_string($input)) {
+            $this->fail();
+        }
+
         if (! $this->inputType($input)->isBinary()) {
             $this->fail();
         }
@@ -36,6 +40,8 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
         if (! imageistruecolor($gd)) {
             imagepalettetotruecolor($gd);
         }
+
+        imagesavealpha($gd, true);
 
         return new Image(new Collection([new Frame($gd)]));
     }

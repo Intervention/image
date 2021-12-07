@@ -7,20 +7,14 @@ use Intervention\Image\Interfaces\CollectionInterface;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
+use RecursiveIteratorIterator;
+use RecursiveArrayIterator;
 
 class Collection implements CollectionInterface, IteratorAggregate, Countable
 {
-    protected $items = [];
-
-    /**
-     * Create a collection.
-     *
-     * @param  array  $items
-     * @return void
-     */
-    public function __construct(array $items = [])
+    public function __construct(protected array $items = [])
     {
-        $this->items = $items;
+        //
     }
 
     /**
@@ -106,13 +100,23 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
      * @param  integer $key
      * @return mixed
      */
-    public function get(int $key = 0)
+    public function get(int $key = 0, $default = null)
     {
         if (! array_key_exists($key, $this->items)) {
-            return null;
+            return $default;
         }
 
         return $this->items[$key];
+    }
+
+    public function query(string $query, $default = null)
+    {
+        $items = $this->getItemsFlat();
+        if (!array_key_exists($query, $items)) {
+            return $default;
+        }
+
+        return $items[$query];
     }
 
     public function map(callable $callback): self
@@ -135,5 +139,23 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
         }
 
         return $this;
+    }
+
+    private function getItemsFlat(): array
+    {
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveArrayIterator($this->items)
+        );
+
+        $items = [];
+        foreach ($iterator as $value) {
+            $keys = [];
+            foreach (range(0, $iterator->getDepth()) as $depth) {
+                $keys[] = $iterator->getSubIterator($depth)->key();
+            }
+            $items[join('.', $keys)] = $value;
+        }
+
+        return $items;
     }
 }

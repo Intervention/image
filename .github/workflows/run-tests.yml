@@ -10,15 +10,15 @@ jobs:
         php-versions: ['8.0']
     name: Testing on PHP ${{ matrix.php-versions }}
     steps:
-      - name: checkout
+      - name: 'Checkout Project'
         uses: actions/checkout@v2
-      - name: setup
+      - name: 'Setup Environment'
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: imagick,gd,mbstring,bcmath
           tools: phpunit,composer
-      - name: install deps
+      - name: 'Install Dependencies'
         run: composer install -o -q
-      - name: run phpunit
+      - name: 'Run PHPUnit'
         run: vendor/bin/phpunit

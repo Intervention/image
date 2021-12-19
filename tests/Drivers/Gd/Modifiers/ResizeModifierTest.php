@@ -23,7 +23,7 @@ class ResizeModifierTest extends TestCase
         $this->assertColor(255, 0, 0, 1, $image->pickColor(150, 70));
         $this->assertColor(0, 255, 0, 1, $image->pickColor(125, 70));
         $this->assertColor(0, 0, 255, 1, $image->pickColor(130, 54));
-        $transparent = $image->pickColor(150, 45);
+        $transparent = $image->pickColor(170, 30);
         $this->assertEquals(2130706432, $transparent->toInt());
         $this->assertTransparency($transparent);
     }

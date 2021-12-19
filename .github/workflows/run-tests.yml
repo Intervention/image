@@ -10,13 +10,29 @@ jobs:
         php-versions: ['8.0']
     name: Testing on PHP ${{ matrix.php-versions }}
     steps:
+      - name: Run PHP code
+        shell: php {0}
+        run: |
+          <?php
+          $val = 2130706432;
+          $a = ($value >> 24) & 0xFF;
+          $r = ($value >> 16) & 0xFF;
+          $g = ($value >> 8) & 0xFF;
+          $b = $value & 0xFF;
+          $a1 = (float) round(1 - $a / 127, 2);
+          $a2 = round(1 - $a / 127, 2);
+          $a3 = 1 - $a / 127;
+          var_dump($a);
+          var_dump($a1);
+          var_dump($a2);
+          var_dump($a3);
       - name: 'Checkout Project'
         uses: actions/checkout@v2
       - name: 'Setup Environment'
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: imagick,gd,mbstring,bcmath
+          extensions: imagick,gd
           tools: phpunit,composer
       - name: 'Install Dependencies'
         run: composer install -o -q

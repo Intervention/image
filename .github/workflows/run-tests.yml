@@ -14,7 +14,7 @@ jobs:
         shell: php {0}
         run: |
           <?php
-          $val = 2130706432;
+          $value = 2130706432;
           $a = ($value >> 24) & 0xFF;
           $r = ($value >> 16) & 0xFF;
           $g = ($value >> 8) & 0xFF;

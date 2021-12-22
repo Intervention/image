@@ -4,9 +4,6 @@ namespace Intervention\Image\Interfaces;
 
 use Intervention\Image\Collection;
 use Intervention\Image\EncodedImage;
-use Intervention\Image\Interfaces\FrameInterface;
-use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\SizeInterface;
 
 interface ImageInterface
 {
@@ -21,6 +18,7 @@ interface ImageInterface
     public function modify(ModifierInterface $modifier): ImageInterface;
     public function encode(EncoderInterface $encoder): EncodedImage;
     public function toJpeg(int $quality = 75): EncodedImage;
+    public function toWebp(int $quality = 75): EncodedImage;
     public function toGif(): EncodedImage;
     public function toPng(): EncodedImage;
     public function pickColors(int $x, int $y): Collection;

@@ -3,7 +3,6 @@
 namespace Intervention\Image\Tests;
 
 use Intervention\Image\Collection;
-use Intervention\Image\Drivers\Abstract\AbstractFrame;
 use Intervention\Image\Drivers\Abstract\AbstractImage;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Geometry\Size;
@@ -130,10 +129,26 @@ class AbstractImageTest extends TestCase
         $encoder->shouldReceive('encode')->with($img)->andReturn($encoded);
 
         $img->shouldReceive('resolveDriverClass')
-                ->with('Encoders\JpegEncoder', 45)
-                ->andReturn($encoder);
+            ->with('Encoders\JpegEncoder', 45)
+            ->andReturn($encoder);
 
         $result = $img->toJpeg(45);
+        $this->assertInstanceOf(EncodedImage::class, $result);
+    }
+
+    public function testToWebp(): void
+    {
+        $img = $this->abstractImageMock();
+
+        $encoded = Mockery::mock(EncodedImage::class);
+        $encoder = Mockery::mock(EncoderInterface::class);
+        $encoder->shouldReceive('encode')->with($img)->andReturn($encoded);
+
+        $img->shouldReceive('resolveDriverClass')
+            ->with('Encoders\WebpEncoder', 45)
+            ->andReturn($encoder);
+
+        $result = $img->toWebp(45);
         $this->assertInstanceOf(EncodedImage::class, $result);
     }
 

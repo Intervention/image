@@ -7,6 +7,9 @@ use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Drivers\Imagick\ImageFactory;
 use Intervention\Image\Tests\TestCase;
 
+/**
+ * @covers \Intervention\Image\Drivers\Imagick\ImageFactory
+ */
 class ImageFactoryTest extends TestCase
 {
     public function testNewImage(): void

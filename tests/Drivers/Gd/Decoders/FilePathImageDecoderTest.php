@@ -7,6 +7,9 @@ use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
+/**
+ * @covers \Intervention\Image\Drivers\Gd\Decoders\FilePathImageDecoder
+ */
 class FilePathImageDecoderTest extends TestCase
 {
     use CanCreateGdTestImage;

@@ -6,6 +6,9 @@ use Intervention\Image\Drivers\Imagick\Color;
 use Intervention\Image\Drivers\Imagick\Decoders\TransparentColorDecoder;
 use Intervention\Image\Tests\TestCase;
 
+/**
+ * @covers \Intervention\Image\Drivers\Imagick\Decoders\TransparentColorDecoder
+ */
 class TransparentColorDecoderTest extends TestCase
 {
     public function testDecode(): void

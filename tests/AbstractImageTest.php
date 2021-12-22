@@ -3,7 +3,6 @@
 namespace Intervention\Image\Tests;
 
 use Intervention\Image\Collection;
-use Intervention\Image\Drivers\Abstract\AbstractFrame;
 use Intervention\Image\Drivers\Abstract\AbstractImage;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Geometry\Size;
@@ -14,6 +13,9 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Mockery;
 
+/**
+ * @covers \Intervention\Image\Drivers\Abstract\AbstractImage
+ */
 class AbstractImageTest extends TestCase
 {
     protected function abstractImageMock(): AbstractImage

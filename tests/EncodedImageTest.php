@@ -4,6 +4,9 @@ namespace Intervention\Image\Tests;
 
 use Intervention\Image\EncodedImage;
 
+/**
+ * @covers \Intervention\Image\EncodedImage
+ */
 class EncodedImageTest extends TestCase
 {
     public function testConstructor()

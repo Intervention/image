@@ -9,6 +9,9 @@ use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Geometry\Size;
 use Intervention\Image\Tests\TestCase;
 
+/**
+ * @covers \Intervention\Image\Drivers\Imagick\Frame
+ */
 class FrameTest extends TestCase
 {
     protected function getTestFrame(): Frame

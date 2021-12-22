@@ -2,15 +2,15 @@
 
 namespace Intervention\Image\Tests\Drivers\Gd;
 
-use Intervention\Image\Collection;
 use Intervention\Image\Drivers\Gd\Color;
-use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Drivers\Gd\InputHandler;
 use Intervention\Image\Exceptions\DecoderException;
-use Intervention\Image\Geometry\Size;
 use Intervention\Image\Tests\TestCase;
 
+/**
+ * @covers \Intervention\Image\Drivers\Gd\InputHandler
+ */
 class InputHandlerTest extends TestCase
 {
     public function testHandleEmptyString(): void

@@ -5,6 +5,9 @@ namespace Intervention\Image\Tests;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Interfaces\ImageInterface;
 
+/**
+ * @covers \Intervention\Image\ImageManager
+ */
 class ImageManagerTest extends TestCase
 {
     public function testConstructor()

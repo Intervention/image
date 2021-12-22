@@ -8,6 +8,10 @@ use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
+
+/**
+ * @covers \Intervention\Image\Drivers\Gd\Modifiers\FillModifier
+ */
 class FillModifierTest extends TestCase
 {
     use CanCreateGdTestImage;

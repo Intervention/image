@@ -2,11 +2,14 @@
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Tests\TestCase;
-use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Drivers\Gd\Modifiers\GreyscaleModifier;
+use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
+
+/**
+ * @covers \Intervention\Image\Drivers\Gd\Modifiers\GreyscaleModifier
+ */
 class GreyscaleModifierTest extends TestCase
 {
     use CanCreateGdTestImage;

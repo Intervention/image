@@ -6,6 +6,9 @@ use Intervention\Image\Drivers\Gd\Decoders\BinaryImageDecoder;
 use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Tests\TestCase;
 
+/**
+ * @covers \Intervention\Image\Drivers\Gd\Decoders\BinaryImageDecoder
+ */
 class BinaryImageDecoderTest extends TestCase
 {
     public function testDecodePng(): void

@@ -2,11 +2,13 @@
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Drivers\Imagick\Modifiers\PixelateModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
+/**
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\PixelateModifier
+ */
 class PixelateModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;

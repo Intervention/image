@@ -8,6 +8,9 @@ use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Geometry\Size;
 use Intervention\Image\Tests\TestCase;
 
+/**
+ * @covers \Intervention\Image\Drivers\Gd\Frame
+ */
 class FrameTest extends TestCase
 {
     protected function getTestFrame(): Frame

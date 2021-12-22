@@ -2,12 +2,14 @@
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Drivers\Gd\Modifiers\ResizeModifier;
-use Intervention\Image\Geometry\Size;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
+
+/**
+ * @covers \Intervention\Image\Drivers\Gd\Modifiers\ResizeModifier
+ */
 class ResizeModifierTest extends TestCase
 {
     use CanCreateGdTestImage;

@@ -2,12 +2,12 @@
 
 namespace Intervention\Image\Tests\Geometry;
 
+use Intervention\Image\Geometry\{Point, Size,};
 use Intervention\Image\Tests\TestCase;
-use Intervention\Image\Geometry\{
-    Size,
-    Point,
-};
 
+/**
+ * @covers \Intervention\Image\Geometry\Size
+ */
 class SizeTest extends TestCase
 {
     public function testConstructor()

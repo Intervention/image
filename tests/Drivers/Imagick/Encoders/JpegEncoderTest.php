@@ -12,6 +12,9 @@ use Intervention\Image\Tests\TestCase;
 use Intervention\MimeSniffer\MimeSniffer;
 use Intervention\MimeSniffer\Types\ImageJpeg;
 
+/**
+ * @covers \Intervention\Image\Drivers\Imagick\Encoders\JpegEncoder
+ */
 class JpegEncoderTest extends TestCase
 {
     protected function getTestImage(): Image

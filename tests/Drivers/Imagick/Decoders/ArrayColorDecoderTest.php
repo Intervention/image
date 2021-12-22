@@ -6,6 +6,9 @@ use Intervention\Image\Drivers\Imagick\Color;
 use Intervention\Image\Drivers\Imagick\Decoders\ArrayColorDecoder;
 use Intervention\Image\Tests\TestCase;
 
+/**
+ * @covers \Intervention\Image\Drivers\Imagick\Decoders\ArrayColorDecoder
+ */
 class ArrayColorDecoderTest extends TestCase
 {
     public function testDecode(): void

@@ -9,6 +9,9 @@ use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Geometry\Size;
 use Intervention\Image\Tests\TestCase;
 
+/**
+ * @covers \Intervention\Image\Drivers\Gd\Image
+ */
 class ImageTest extends TestCase
 {
     protected Image $image;

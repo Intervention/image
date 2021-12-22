@@ -2,15 +2,15 @@
 
 namespace Intervention\Image\Tests\Drivers\Imagick;
 
-use Intervention\Image\Collection;
 use Intervention\Image\Drivers\Imagick\Color;
-use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Drivers\Imagick\InputHandler;
 use Intervention\Image\Exceptions\DecoderException;
-use Intervention\Image\Geometry\Size;
 use Intervention\Image\Tests\TestCase;
 
+/**
+ * @requires extension imagick
+ */
 class InputHandlerTest extends TestCase
 {
     public function testHandleEmptyString(): void

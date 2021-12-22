@@ -7,6 +7,9 @@ use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Drivers\Gd\ImageFactory;
 use Intervention\Image\Tests\TestCase;
 
+/**
+ * @requires extension gd
+ */
 class ImageFactoryTest extends TestCase
 {
     public function testNewImage(): void

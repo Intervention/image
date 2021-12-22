@@ -3,11 +3,13 @@
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
 use Imagick;
-use Intervention\Image\Tests\TestCase;
-use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Drivers\Imagick\Modifiers\DestroyModifier;
+use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
+/**
+ * @requires extension imagick
+ */
 class DestroyModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;

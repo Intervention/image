@@ -7,6 +7,9 @@ use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
+/**
+ * @requires extension gd
+ */
 class Base64ImageDecoderTest extends TestCase
 {
     use CanCreateGdTestImage;

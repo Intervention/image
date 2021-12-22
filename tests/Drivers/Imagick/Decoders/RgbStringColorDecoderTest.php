@@ -6,6 +6,9 @@ use Intervention\Image\Drivers\Imagick\Color;
 use Intervention\Image\Drivers\Imagick\Decoders\RgbStringColorDecoder;
 use Intervention\Image\Tests\TestCase;
 
+/**
+ * @requires extension imagick
+ */
 class RgbStringColorDecoderTest extends TestCase
 {
     public function testDecodeRgb(): void

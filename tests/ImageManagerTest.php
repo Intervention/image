@@ -13,6 +13,7 @@ class ImageManagerTest extends TestCase
         $this->assertInstanceOf(ImageManager::class, $manager);
     }
 
+    /** @requires extension gd */
     public function testCreateGd()
     {
         $manager = new ImageManager('gd');
@@ -20,6 +21,7 @@ class ImageManagerTest extends TestCase
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
+    /** @requires extension gd */
     public function testMakeGd()
     {
         $manager = new ImageManager('gd');
@@ -27,6 +29,7 @@ class ImageManagerTest extends TestCase
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
+    /** @requires extension imagick */
     public function testCreateImagick()
     {
         $manager = new ImageManager('imagick');
@@ -34,6 +37,7 @@ class ImageManagerTest extends TestCase
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
+    /** @requires extension imagick */
     public function testMakeImagick()
     {
         $manager = new ImageManager('imagick');

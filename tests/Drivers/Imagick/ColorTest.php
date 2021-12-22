@@ -6,6 +6,9 @@ use ImagickPixel;
 use Intervention\Image\Drivers\Imagick\Color;
 use Intervention\Image\Tests\TestCase;
 
+/**
+ * @requires extension imagick
+ */
 class ColorTest extends TestCase
 {
     protected function getTestColor(int $r = 0, int $g = 0, int $b = 0, float $a = 1): Color

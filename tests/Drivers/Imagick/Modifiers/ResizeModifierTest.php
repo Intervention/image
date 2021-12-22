@@ -2,13 +2,14 @@
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Drivers\Imagick\Modifiers\ResizeModifier;
-use Intervention\Image\Geometry\Size;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
-class CropResizeModifierTest extends TestCase
+/**
+ * @requires extension imagick
+ */
+class ResizeModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

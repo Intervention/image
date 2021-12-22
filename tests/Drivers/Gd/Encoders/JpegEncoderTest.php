@@ -10,6 +10,9 @@ use Intervention\Image\Tests\TestCase;
 use Intervention\MimeSniffer\MimeSniffer;
 use Intervention\MimeSniffer\Types\ImageJpeg;
 
+/**
+ * @requires extension gd
+ */
 class JpegEncoderTest extends TestCase
 {
     protected function getTestImage(): Image

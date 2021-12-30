@@ -351,6 +351,25 @@ class Image extends File
     }
 
     /**
+     * Update the DPI of an image
+     *
+     * @param integer $dpi
+     * @param integer $method
+     * @return void
+     */
+    public function dpi(int $dpi = 72, int $units = null)
+    {
+        if(!($this->driver instanceof \Intervention\Image\Imagick\Driver)) {
+            throw new RuntimeException("dpi method is only available with imagick driver");
+        }
+        if ($units === null) {
+            $units = \imagick::RESOLUTION_PIXELSPERINCH;
+        }
+        $this->core->setImageUnits($units);
+        $this->core->setImageResolution($dpi, $dpi);
+    }
+
+    /**
      * Returns encoded image data in string conversion
      *
      * @return string

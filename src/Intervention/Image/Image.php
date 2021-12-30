@@ -52,6 +52,7 @@ use Psr\Http\Message\StreamInterface;
  * @method \Intervention\Image\Image widen(int $width, \Closure $callback = null)                                                                                     Resizes the current image to new width, constraining aspect ratio. Pass an optional Closure callback as third parameter, to apply additional constraints like preventing possible upsizing.
  * @method StreamInterface           stream(string $format = null, int $quality = 90)                                                                                 Build PSR-7 compatible StreamInterface with current image in given format and quality.
  * @method ResponseInterface         psrResponse(string $format = null, int $quality = 90)                                                                            Build PSR-7 compatible ResponseInterface with current image in given format and quality.
+ * @method void                      dpi(int $dpi = 72, int $units = null)
  */
 class Image extends File
 {

@@ -13,7 +13,7 @@
     ],
     "require": {
         "php": "^8",
-        "intervention/gif": "dev-master",
+        "intervention/gif": "^3.0",
         "intervention/mimesniffer": "^0.4.2"
     },
     "require-dev": {

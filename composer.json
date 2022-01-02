@@ -29,5 +29,6 @@
         "psr-4": {
             "Intervention\\Image\\Tests\\": "tests"
         }
-    }
+    },
+    "minimum-stability": "alpha"
 }

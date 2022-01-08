@@ -265,7 +265,7 @@ class Color extends AbstractColor
     }
 
     /**
-     * Calculates RGA integer alpha value into float value
+     * Calculates RGBA integer alpha value into float value
      *
      * @param  int $value
      * @return float

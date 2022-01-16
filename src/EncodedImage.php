@@ -33,8 +33,13 @@ class EncodedImage
         return sprintf('data:%s;base64,%s', $this->mimetype, base64_encode($this->data));
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return $this->data;
+    }
+
+    public function __toString(): string
+    {
+        return $this->toString();
     }
 }

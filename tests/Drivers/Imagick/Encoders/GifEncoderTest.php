@@ -12,6 +12,9 @@ use Intervention\Image\Tests\TestCase;
 use Intervention\MimeSniffer\MimeSniffer;
 use Intervention\MimeSniffer\Types\ImageGif;
 
+/**
+ * @requires extension imagick
+ */
 class GifEncoderTest extends TestCase
 {
     protected function getTestImage(): Image

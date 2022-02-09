@@ -6,6 +6,9 @@ use Intervention\Image\Drivers\Gd\Color;
 use Intervention\Image\Drivers\Gd\Decoders\TransparentColorDecoder;
 use Intervention\Image\Tests\TestCase;
 
+/**
+ * @requires extension gd
+ */
 class TransparentColorDecoderTest extends TestCase
 {
     public function testDecode(): void

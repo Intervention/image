@@ -5,6 +5,9 @@ namespace Intervention\Image\Tests\Drivers\Gd;
 use Intervention\Image\Drivers\Gd\Color;
 use Intervention\Image\Tests\TestCase;
 
+/**
+ * @requires extension gd
+ */
 class ColorTest extends TestCase
 {
     protected function getTestColor($r = 0, $g = 0, $b = 0, $a = 0): Color

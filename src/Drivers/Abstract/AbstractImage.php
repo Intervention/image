@@ -4,9 +4,7 @@ namespace Intervention\Image\Drivers\Abstract;
 
 use Intervention\Image\Collection;
 use Intervention\Image\EncodedImage;
-use Intervention\Image\Exceptions\NotWritableException;
 use Intervention\Image\Geometry\Point;
-use Intervention\Image\Geometry\Resizer;
 use Intervention\Image\Geometry\Size;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\FrameInterface;
@@ -89,6 +87,13 @@ abstract class AbstractImage
     {
         return $this->encode(
             $this->resolveDriverClass('Encoders\JpegEncoder', $quality)
+        );
+    }
+
+    public function toWebp(int $quality = 75): EncodedImage
+    {
+        return $this->encode(
+            $this->resolveDriverClass('Encoders\WebpEncoder', $quality)
         );
     }
 

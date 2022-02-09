@@ -1,21 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Imagick\Encoders;
 
 use Imagick;
 use ImagickPixel;
 use Intervention\Image\Collection;
-use Intervention\Image\Drivers\Imagick\Encoders\JpegEncoder;
+use Intervention\Image\Drivers\Imagick\Encoders\WebpEncoder;
 use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Drivers\Imagick\Image;
-use Intervention\Image\Tests\TestCase;
 use Intervention\MimeSniffer\MimeSniffer;
-use Intervention\MimeSniffer\Types\ImageJpeg;
+use Intervention\MimeSniffer\Types\ImageWebp;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @requires extension imagick
  */
-class JpegEncoderTest extends TestCase
+final class WebpEncoderTest extends TestCase
 {
     protected function getTestImage(): Image
     {
@@ -29,8 +31,8 @@ class JpegEncoderTest extends TestCase
     public function testEncode(): void
     {
         $image = $this->getTestImage();
-        $encoder = new JpegEncoder(75);
+        $encoder = new WebpEncoder(75);
         $result = $encoder->encode($image);
-        $this->assertTrue(MimeSniffer::createFromString($result)->matches(new ImageJpeg()));
+        $this->assertTrue(MimeSniffer::createFromString((string) $result)->matches(new ImageWebp()));
     }
 }

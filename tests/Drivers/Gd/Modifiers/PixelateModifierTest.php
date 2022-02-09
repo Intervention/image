@@ -2,11 +2,13 @@
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Drivers\Gd\Modifiers\PixelateModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
+/**
+ * @requires extension gd
+ */
 class PixelateModifierTest extends TestCase
 {
     use CanCreateGdTestImage;

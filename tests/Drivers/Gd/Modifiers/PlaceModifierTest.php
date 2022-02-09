@@ -2,12 +2,13 @@
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Drivers\Gd\Modifiers\PlaceModifier;
-use Intervention\Image\Geometry\Size;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
+/**
+ * @requires extension gd
+ */
 class PlaceModifierTest extends TestCase
 {
     use CanCreateGdTestImage;

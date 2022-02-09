@@ -1,26 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Imagick\Encoders;
 
 use Imagick;
 use ImagickPixel;
 use Intervention\Image\Collection;
-use Intervention\Image\Drivers\Imagick\Encoders\JpegEncoder;
+use Intervention\Image\Drivers\Imagick\Encoders\PngEncoder;
 use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Drivers\Imagick\Image;
-use Intervention\Image\Tests\TestCase;
 use Intervention\MimeSniffer\MimeSniffer;
-use Intervention\MimeSniffer\Types\ImageJpeg;
+use Intervention\MimeSniffer\Types\ImagePng;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @requires extension imagick
  */
-class JpegEncoderTest extends TestCase
+final class PngEncoderTest extends TestCase
 {
     protected function getTestImage(): Image
     {
         $imagick = new Imagick();
-        $imagick->newImage(3, 2, new ImagickPixel('red'), 'png');
+        $imagick->newImage(3, 2, new ImagickPixel('red'), 'jpg');
         $frame = new Frame($imagick);
 
         return new Image(new Collection([$frame]));
@@ -29,8 +31,8 @@ class JpegEncoderTest extends TestCase
     public function testEncode(): void
     {
         $image = $this->getTestImage();
-        $encoder = new JpegEncoder(75);
+        $encoder = new PngEncoder(75);
         $result = $encoder->encode($image);
-        $this->assertTrue(MimeSniffer::createFromString($result)->matches(new ImageJpeg()));
+        $this->assertTrue(MimeSniffer::createFromString((string) $result)->matches(new ImagePng()));
     }
 }

@@ -71,7 +71,7 @@ abstract class AbstractDecoder
                 'method'=>"GET",
                 'protocol_version'=>1.1, // force use HTTP 1.1 for service mesh environment with envoy
                 'header'=>"Accept-language: en\r\n".
-                "User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Chrome/22.0.1216.0 Safari/537.2\r\n"
+                "User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36\r\n"
           ]
         ];
         

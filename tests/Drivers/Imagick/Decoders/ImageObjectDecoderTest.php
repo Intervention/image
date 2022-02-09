@@ -7,6 +7,9 @@ use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
+/**
+ * @requires extension imagick
+ */
 class ImageObjectDecoderTest extends TestCase
 {
     use CanCreateImagickTestImage;

@@ -2,10 +2,13 @@
 
 namespace Intervention\Image\Tests\Drivers\Gd\Decoders;
 
-use Intervention\Image\Drivers\Gd\Decoders\HexColorDecoder;
 use Intervention\Image\Drivers\Gd\Color;
+use Intervention\Image\Drivers\Gd\Decoders\HexColorDecoder;
 use Intervention\Image\Tests\TestCase;
 
+/**
+ * @requires extension gd
+ */
 class HexColorDecoderTest extends TestCase
 {
     public function testDecode(): void

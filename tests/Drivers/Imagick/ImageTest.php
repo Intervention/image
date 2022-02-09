@@ -10,6 +10,9 @@ use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Geometry\Size;
 use Intervention\Image\Tests\TestCase;
 
+/**
+ * @requires extension imagick
+ */
 class ImageTest extends TestCase
 {
     protected Image $image;

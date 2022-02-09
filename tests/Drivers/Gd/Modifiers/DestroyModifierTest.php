@@ -3,11 +3,13 @@
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
 use GdImage;
-use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Drivers\Gd\Modifiers\DestroyModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
+/**
+ * @requires extension gd
+ */
 class DestroyModifierTest extends TestCase
 {
     use CanCreateGdTestImage;

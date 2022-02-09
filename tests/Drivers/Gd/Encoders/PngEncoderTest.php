@@ -10,6 +10,9 @@ use Intervention\Image\Tests\TestCase;
 use Intervention\MimeSniffer\MimeSniffer;
 use Intervention\MimeSniffer\Types\ImagePng;
 
+/**
+ * @requires extension gd
+ */
 class PngEncoderTest extends TestCase
 {
     protected function getTestImage(): Image

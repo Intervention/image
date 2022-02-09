@@ -9,6 +9,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 /**
  * @requires extension imagick
+ * @covers \Intervention\Image\Drivers\Imagick\Decoders\ImageObjectDecoder
  */
 class ImageObjectDecoderTest extends TestCase
 {

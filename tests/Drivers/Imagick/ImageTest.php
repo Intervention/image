@@ -12,6 +12,7 @@ use Intervention\Image\Tests\TestCase;
 
 /**
  * @requires extension imagick
+ * @covers \Intervention\Image\Drivers\Imagick\Image
  */
 class ImageTest extends TestCase
 {

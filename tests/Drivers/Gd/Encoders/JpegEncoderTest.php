@@ -12,6 +12,7 @@ use Intervention\MimeSniffer\Types\ImageJpeg;
 
 /**
  * @requires extension gd
+ * @covers \Intervention\Image\Drivers\Gd\Encoders\JpegEncoder
  */
 class JpegEncoderTest extends TestCase
 {

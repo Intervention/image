@@ -8,6 +8,7 @@ use Intervention\Image\Tests\TestCase;
 
 /**
  * @requires extension gd
+ * @covers \Intervention\Image\Drivers\Gd\Decoders\RgbStringColorDecoder
  */
 class RgbStringColorDecoderTest extends TestCase
 {

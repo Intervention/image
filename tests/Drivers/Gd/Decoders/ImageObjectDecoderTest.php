@@ -9,6 +9,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 /**
  * @requires extension gd
+ * @covers \Intervention\Image\Drivers\Gd\Decoders\ImageObjectDecoder
  */
 class ImageObjectDecoderTest extends TestCase
 {

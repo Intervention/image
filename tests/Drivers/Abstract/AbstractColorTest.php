@@ -2,10 +2,13 @@
 
 namespace Intervention\Image\Tests\Drivers\Abstract;
 
-use Mockery;
 use Intervention\Image\Drivers\Abstract\AbstractColor;
 use Intervention\Image\Tests\TestCase;
+use Mockery;
 
+/**
+ * @covers \Intervention\Image\Drivers\Abstract\AbstractColor
+ */
 class AbstractColorTest extends TestCase
 {
     public function testToHex(): void

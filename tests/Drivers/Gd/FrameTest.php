@@ -10,6 +10,7 @@ use Intervention\Image\Tests\TestCase;
 
 /**
  * @requires extension gd
+ * @covers \Intervention\Image\Drivers\Gd\Frame
  */
 class FrameTest extends TestCase
 {

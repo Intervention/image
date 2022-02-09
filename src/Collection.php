@@ -31,9 +31,9 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     /**
      * Returns Iterator
      *
-     * @return array
+     * @return \Traversable
      */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return new ArrayIterator($this->items);
     }

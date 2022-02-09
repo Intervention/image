@@ -10,6 +10,7 @@ use Intervention\Image\Tests\TestCase;
 
 /**
  * @requires extension imagick
+ * @covers \Intervention\Image\Drivers\Imagick\InputHandler
  */
 class InputHandlerTest extends TestCase
 {

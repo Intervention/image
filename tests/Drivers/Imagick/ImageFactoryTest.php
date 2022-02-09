@@ -9,6 +9,7 @@ use Intervention\Image\Tests\TestCase;
 
 /**
  * @requires extension imagick
+ * @covers \Intervention\Image\Drivers\Imagick\ImageFactory
  */
 class ImageFactoryTest extends TestCase
 {

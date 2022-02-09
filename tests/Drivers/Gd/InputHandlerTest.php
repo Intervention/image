@@ -10,6 +10,7 @@ use Intervention\Image\Tests\TestCase;
 
 /**
  * @requires extension gd
+ * @covers \Intervention\Image\Drivers\Gd\InputHandler
  */
 class InputHandlerTest extends TestCase
 {

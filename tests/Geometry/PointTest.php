@@ -5,6 +5,9 @@ namespace Intervention\Image\Tests\Geometry;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\TestCase;
 
+/**
+ * @covers \Intervention\Image\Geometry\Point
+ */
 class PointTest extends TestCase
 {
     public function testConstructor()

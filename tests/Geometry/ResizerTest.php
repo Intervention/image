@@ -7,6 +7,9 @@ use Intervention\Image\Geometry\Resizer;
 use Intervention\Image\Geometry\Size;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \Intervention\Image\Geometry\Resizer
+ */
 class ResizerTest extends TestCase
 {
     public function testMake(): void

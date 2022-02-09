@@ -12,6 +12,7 @@ use Intervention\MimeSniffer\Types\ImageGif;
 
 /**
  * @requires extension gd
+ * @covers \Intervention\Image\Drivers\Gd\Encoders\GifEncoder
  */
 class GifEncoderTest extends TestCase
 {

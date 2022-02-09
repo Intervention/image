@@ -9,6 +9,7 @@ use Intervention\Image\Tests\TestCase;
 
 /**
  * @requires extension gd
+ * @covers \Intervention\Image\Drivers\Gd\ImageFactory
  */
 class ImageFactoryTest extends TestCase
 {

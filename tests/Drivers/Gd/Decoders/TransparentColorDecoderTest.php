@@ -8,6 +8,7 @@ use Intervention\Image\Tests\TestCase;
 
 /**
  * @requires extension gd
+ * @covers \Intervention\Image\Drivers\Gd\Decoders\TransparentColorDecoder
  */
 class TransparentColorDecoderTest extends TestCase
 {

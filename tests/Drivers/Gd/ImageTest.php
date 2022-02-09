@@ -11,6 +11,7 @@ use Intervention\Image\Tests\TestCase;
 
 /**
  * @requires extension gd
+ * @covers \Intervention\Image\Drivers\Gd\Image
  */
 class ImageTest extends TestCase
 {

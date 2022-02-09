@@ -8,6 +8,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 /**
  * @requires extension imagick
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\FitModifier
  */
 class FitModifierTest extends TestCase
 {

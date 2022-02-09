@@ -11,6 +11,7 @@ use Intervention\Image\Tests\TestCase;
 
 /**
  * @requires extension imagick
+ * @covers \Intervention\Image\Drivers\Imagick\Frame
  */
 class FrameTest extends TestCase
 {

@@ -14,6 +14,7 @@ use Intervention\MimeSniffer\Types\ImageGif;
 
 /**
  * @requires extension imagick
+ * @covers \Intervention\Image\Drivers\Imagick\Encoders\GifEncoder
  */
 class GifEncoderTest extends TestCase
 {

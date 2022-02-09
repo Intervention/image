@@ -8,6 +8,7 @@ use Intervention\Image\Tests\TestCase;
 
 /**
  * @requires extension imagick
+ * @covers \Intervention\Image\Drivers\Imagick\Decoders\TransparentColorDecoder
  */
 class TransparentColorDecoderTest extends TestCase
 {

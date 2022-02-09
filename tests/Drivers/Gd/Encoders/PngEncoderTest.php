@@ -12,6 +12,7 @@ use Intervention\MimeSniffer\Types\ImagePng;
 
 /**
  * @requires extension gd
+ * @covers \Intervention\Image\Drivers\Gd\Encoders\PngEncoder
  */
 class PngEncoderTest extends TestCase
 {

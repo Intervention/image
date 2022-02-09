@@ -14,6 +14,7 @@ use Intervention\MimeSniffer\Types\ImageJpeg;
 
 /**
  * @requires extension imagick
+ * @covers \Intervention\Image\Drivers\Imagick\Encoders\JpegEncoder
  */
 class JpegEncoderTest extends TestCase
 {

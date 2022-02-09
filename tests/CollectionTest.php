@@ -4,6 +4,9 @@ namespace Intervention\Image\Tests;
 
 use Intervention\Image\Collection;
 
+/**
+ * @covers \Intervention\Image\Collection
+ */
 class CollectionTest extends TestCase
 {
     public function testConstructor()

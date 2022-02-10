@@ -153,6 +153,30 @@ abstract class AbstractImage
         );
     }
 
+    /**
+     * Creates a vertical mirror image
+     *
+     * @return ImageInterface
+     */
+    public function flip(): ImageInterface
+    {
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\FlipModifier')
+        );
+    }
+
+    /**
+     * Creates a horizontal mirror image
+     *
+     * @return ImageInterface
+     */
+    public function flop(): ImageInterface
+    {
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\FlopModifier')
+        );
+    }
+
     public function place($element, string $position = 'top-left', int $offset_x = 0, int $offset_y = 0): ImageInterface
     {
         return $this->modify(

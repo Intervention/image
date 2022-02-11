@@ -17,6 +17,8 @@ class ModifierStack implements ModifierInterface
         foreach ($this->modifiers as $modifier) {
             $modifier->apply($image);
         }
+
+        return $image;
     }
 
     public function push(ModifierInterface $modifier): self

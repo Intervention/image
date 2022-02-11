@@ -139,6 +139,13 @@ abstract class AbstractImage
         );
     }
 
+    public function gamma(float $gamma): ImageInterface
+    {
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\GammaModifier', $gamma)
+        );
+    }
+
     public function blur(int $amount = 5): ImageInterface
     {
         return $this->modify(

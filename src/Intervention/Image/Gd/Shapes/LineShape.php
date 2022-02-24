@@ -67,9 +67,7 @@ class LineShape extends AbstractShape
      */
     public function width($width)
     {
-        throw new \Intervention\Image\Exception\NotSupportedException(
-            "Line width is not supported by GD driver."
-        );
+        $this->width = $width;
     }
 
     /**
@@ -83,6 +81,8 @@ class LineShape extends AbstractShape
     public function applyToImage(Image $image, $x = 0, $y = 0)
     {
         $color = new Color($this->color);
+
+        imagesetthickness($image->getCore(), $this->width);
         imageline($image->getCore(), $x, $y, $this->x, $this->y, $color->getInt());
 
         return true;

@@ -21,7 +21,7 @@ trait CanCreateGdTestImage
 
     public function createTestImage($filename = 'test.jpg'): Image
     {
-        return $this->testImageDecoder()->handle(
+        return $this->createWithImageDecoder()->handle(
             $this->getTestImagePath($filename)
         );
     }
@@ -41,7 +41,7 @@ trait CanCreateGdTestImage
         ]));
     }
 
-    protected function testImageDecoder(): FilePathImageDecoder
+    protected function createWithImageDecoder(): FilePathImageDecoder
     {
         return new FilePathImageDecoder();
     }

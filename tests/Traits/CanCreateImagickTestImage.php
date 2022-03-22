@@ -11,12 +11,12 @@ trait CanCreateImagickTestImage
 {
     public function createTestImage($filename = 'test.jpg'): Image
     {
-        return $this->testImageDecoder()->handle(
+        return $this->createWithImageDecoder()->handle(
             sprintf('%s/../images/%s', __DIR__, $filename)
         );
     }
 
-    protected function testImageDecoder(): FilePathImageDecoder
+    protected function createWithImageDecoder(): FilePathImageDecoder
     {
         return new FilePathImageDecoder();
     }

@@ -24,7 +24,8 @@ jobs:
           extensions: mbstring, gd, imagick
           coverage: none
 
-      - name: 'Install Dependencies'
-        run: composer install -o -q
+      - name: Install dependencies
+        run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+
       - name: 'Run PHPUnit'
         run: vendor/bin/phpunit

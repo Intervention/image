@@ -6,6 +6,7 @@ jobs:
   run:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: true
       matrix:
         php-versions: ['8.0']
     name: Testing on PHP ${{ matrix.php-versions }}

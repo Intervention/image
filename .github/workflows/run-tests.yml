@@ -11,7 +11,8 @@ jobs:
         php: [ 8.0, 8.1 ]
         stability: [ prefer-lowest, prefer-stable ]
 
-    name: Testing on PHP ${{ matrix.php-versions }}
+    name: P${{ matrix.php }} - ${{ matrix.stability }}
+
     steps:
       - name: 'Checkout Project'
         uses: actions/checkout@v2

@@ -8,7 +8,9 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php-versions: ['8.0']
+        php: [ 8.0, 8.1 ]
+        stability: [ prefer-lowest, prefer-stable ]
+
     name: Testing on PHP ${{ matrix.php-versions }}
     steps:
       - name: 'Checkout Project'

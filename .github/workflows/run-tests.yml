@@ -14,8 +14,9 @@ jobs:
     name: P${{ matrix.php }} - ${{ matrix.stability }}
 
     steps:
-      - name: 'Checkout Project'
+      - name: Checkout project
         uses: actions/checkout@v2
+
       - name: 'Setup Environment'
         uses: shivammathur/setup-php@v2
         with:

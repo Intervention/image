@@ -17,12 +17,13 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v2
 
-      - name: 'Setup Environment'
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-versions }}
-          extensions: imagick,gd
-          tools: phpunit,composer
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, gd, imagick
+          coverage: none
+
       - name: 'Install Dependencies'
         run: composer install -o -q
       - name: 'Run PHPUnit'

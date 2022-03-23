@@ -65,7 +65,7 @@ class FitModifier extends AbstractFitModifier implements ModifierInterface
 
         imagedestroy($current);
 
-        // set new content as recource
+        // set new content as resource
         $frame->setCore($modified);
     }
 }

@@ -56,7 +56,7 @@ jobs:
             cd /tmp || exit 1
             tar xf ImageMagick.tar.gz
             cd ImageMagick-${{ matrix.imagemagick }}
-            sudo ./configure --prefix=/opt/imagemagick
+            sudo ./configure --prefix=~/im/imagemagick-${{ matrix.imagemagick }}
             sudo make -j$(nproc)
             sudo make install
           )
@@ -69,7 +69,7 @@ jobs:
             tar -xzf imagick.tgz
             cd imagick-${{ matrix.imagick }}
             phpize
-            sudo ./configure --with-imagick=/opt/imagemagick
+            sudo ./configure --with-imagick=~/im/imagemagick-${{ matrix.imagemagick }}
             sudo make -j$(nproc)
             sudo make install
           )

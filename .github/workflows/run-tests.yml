@@ -26,7 +26,7 @@ jobs:
           extensions: mbstring, gd
           coverage: none
 
-      - name: Prepare environament for Imagemagick
+      - name: Prepare environment for Imagemagick
         run: |
           sudo apt-get -y remove imagemagick imagemagick-6-common libmagic-dev
           sudo apt-get update

@@ -37,19 +37,25 @@ jobs:
         uses: actions/cache@v2
         id: cache-imagemagick
         with:
-          path: ${HOME}/im/imagemagick-${{ matrix.imagemagick }}
+          path: /home/runner/im/imagemagick-${{ matrix.imagemagick }}
           key: ${{ runner.os }}-ImageMagick-${{ matrix.imagemagick }}-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-ImageMagick-${{ matrix.imagemagick }}-
 
+      - name: Check ImageMagick cache exists
+        uses: andstor/file-existence-action@v1
+        id: cache-imagemagick-exists
+        with:
+          files: /home/runner/im/imagemagick-${{ matrix.imagemagick }}
+
       - name: Install ImageMagick
-        if: steps.cache-imagemagick.outputs.cache-hit != 'true'
+        if: ( steps.cache-imagemagick.outputs.cache-hit != 'true' || steps.cache-imagemagick-exists.outputs.files_exists != 'true' )
         run: |
           curl -o /tmp/ImageMagick.tar.gz -sL https://www.imagemagick.org/download/ImageMagick-${{ matrix.imagemagick }}.tar.gz
           (
             cd /tmp || exit 1
             tar xf ImageMagick.tar.gz
             cd ImageMagick-${{ matrix.imagemagick }}
-            sudo ./configure --prefix=${HOME}/im/imagemagick-${{ matrix.imagemagick }}
+            sudo ./configure --prefix=/home/runner/im/imagemagick-${{ matrix.imagemagick }}
             sudo make -j$(nproc)
             sudo make install
           )
@@ -62,7 +68,7 @@ jobs:
             tar -xzf imagick.tgz
             cd imagick-${{ matrix.imagick }}
             phpize
-            sudo ./configure --with-imagick=${HOME}/im/imagemagick-${{ matrix.imagemagick }}
+            sudo ./configure --with-imagick=/home/runner/im/imagemagick-${{ matrix.imagemagick }}
             sudo make -j$(nproc)
             sudo make install
           )

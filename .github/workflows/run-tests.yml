@@ -42,7 +42,8 @@ jobs:
         id: cache-imagemagick
         with:
           path: ${HOME}/im/imagemagick-${{ matrix.imagemagick }}
-          key: ${{ runner.os }}-ImageMagick-${{ matrix.imagemagick }}
+          key: ${{ runner.os }}-ImageMagick-${{ matrix.imagemagick }}-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-ImageMagick-${{ matrix.imagemagick }}-
 
       - name: Install ImageMagick
         if: steps.cache-imagemagick.outputs.cache-hit != 'true'

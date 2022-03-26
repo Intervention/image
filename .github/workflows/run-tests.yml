@@ -9,13 +9,8 @@ jobs:
       fail-fast: false
       matrix:
         php: [ '8.0', '8.1' ]
-        imagemagick: [
-            '6.9.12-43',
-            '7.1.0-28'
-        ]
-        imagick: [
-            '3.7.0'
-        ]
+        imagemagick: [ '6.9.12-43', '7.1.0-28' ]
+        imagick: [ '3.7.0' ]
         stability: [ prefer-lowest, prefer-stable ]
 
     name: P${{ matrix.php }} - ${{ matrix.stability }}

@@ -44,8 +44,7 @@ jobs:
 
       - name: Cache ImageMagick
         uses: actions/cache@v2
-        env:
-          cache-name: cache-ImageMagick
+        id: cache-imagemagick
         with:
           path: ~/im/imagemagick-${{ matrix.imagemagick }}
           key: ${{ runner.os }}-ImageMagick-${{ matrix.imagemagick }}

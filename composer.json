@@ -1,14 +1,14 @@
 {
     "name": "intervention/image",
     "description": "PHP image manipulation",
-    "homepage": "http://image.intervention.io/",
+    "homepage": "https://image.intervention.io/",
     "keywords": ["image", "gd", "imagick", "laravel", "watermark", "thumbnail"],
     "license": "MIT",
     "authors": [
         {
             "name": "Oliver Vogel",
             "email": "oliver@olivervogel.com",
-            "homepage": "http://intervention.io/"
+            "homepage": "https://intervention.io/"
         }
     ],
     "require": {

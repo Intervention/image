@@ -9,6 +9,7 @@ interface SizeInterface
     public function getPivot(): PointInterface;
     public function setWidth(int $width): SizeInterface;
     public function setHeight(int $height): SizeInterface;
+    public function resize(?int $width = null, ?int $height = null): SizeInterface;
     public function getAspectRatio(): float;
     public function fitsInto(SizeInterface $size): bool;
     public function isLandscape(): bool;

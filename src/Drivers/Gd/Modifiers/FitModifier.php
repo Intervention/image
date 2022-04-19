@@ -37,15 +37,14 @@ class FitModifier extends AbstractFitModifier implements ModifierInterface
         $current = $frame->getCore();
 
         // preserve transparency
+        imagealphablending($modified, false);
         $transIndex = imagecolortransparent($current);
 
         if ($transIndex != -1) {
             $rgba = imagecolorsforindex($modified, $transIndex);
             $transColor = imagecolorallocatealpha($modified, $rgba['red'], $rgba['green'], $rgba['blue'], 127);
             imagefill($modified, 0, 0, $transColor);
-            imagecolortransparent($modified, $transColor);
         } else {
-            imagealphablending($modified, false);
             imagesavealpha($modified, true);
         }
 
@@ -65,7 +64,23 @@ class FitModifier extends AbstractFitModifier implements ModifierInterface
 
         imagedestroy($current);
 
-        // set new content as recource
+        if ($transIndex != -1) { // @todo refactor because of duplication
+            imagecolortransparent($modified, $transIndex);
+            for ($y = 0; $y < $resize->getHeight(); ++$y) {
+                for ($x = 0; $x < $resize->getWidth(); ++$x) {
+                    if (((imagecolorat($modified, $x, $y) >> 24) & 0x7F) >= 100) {
+                        imagesetpixel(
+                            $modified,
+                            $x,
+                            $y,
+                            $transIndex
+                        );
+                    }
+                }
+            }
+        }
+
+        // set new content as resource
         $frame->setCore($modified);
     }
 }

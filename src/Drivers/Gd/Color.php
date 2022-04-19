@@ -34,7 +34,7 @@ class Color extends AbstractColor implements ColorInterface
 
     public function toArray(): array
     {
-        $a = ($this->value >> 24) & 0xFF;
+        $a = ($this->value >> 24) & 0x7F;
         $r = ($this->value >> 16) & 0xFF;
         $g = ($this->value >> 8) & 0xFF;
         $b = $this->value & 0xFF;

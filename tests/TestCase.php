@@ -3,7 +3,6 @@
 namespace Intervention\Image\Tests;
 
 use Intervention\Image\Interfaces\ColorInterface;
-use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 abstract class TestCase extends MockeryTestCase

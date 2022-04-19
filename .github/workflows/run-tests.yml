@@ -1,24 +1,96 @@
-name: run-tests
+name: Tests
 
-on: [push]
+on: [ push, pull_request ]
 
 jobs:
   run:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        php-versions: ['8.0']
-    name: Testing on PHP ${{ matrix.php-versions }}
+        php: [ '8.0', '8.1' ]
+        imagemagick: [ '6.9.12-43', '7.1.0-28' ]
+        imagick: [ '3.7.0' ]
+        stability: [ prefer-lowest, prefer-stable ]
+
+    name: P${{ matrix.php }} - ${{ matrix.stability }}
+
     steps:
-      - name: 'Checkout Project'
+      - name: Checkout project
         uses: actions/checkout@v2
-      - name: 'Setup Environment'
+
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-versions }}
-          extensions: imagick,gd
-          tools: phpunit,composer
-      - name: 'Install Dependencies'
-        run: composer install -o -q
-      - name: 'Run PHPUnit'
-        run: vendor/bin/phpunit
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, gd
+          coverage: none
+
+      - name: Prepare environment for Imagemagick
+        run: |
+          sudo apt-get -y remove imagemagick imagemagick-6-common libmagic-dev
+          sudo apt-get update
+          sudo apt-get install -y libjpeg-dev libgif-dev libtiff-dev libpng-dev libwebp-dev
+          sudo apt-get install -y libmagickwand-dev
+
+      - name: Cache ImageMagick
+        uses: actions/cache@v2
+        id: cache-imagemagick
+        with:
+          path: /home/runner/im/imagemagick-${{ matrix.imagemagick }}
+          key: ${{ runner.os }}-ImageMagick-${{ matrix.imagemagick }}-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-ImageMagick-${{ matrix.imagemagick }}-
+
+      - name: Check ImageMagick cache exists
+        uses: andstor/file-existence-action@v1
+        id: cache-imagemagick-exists
+        with:
+          files: /home/runner/im/imagemagick-${{ matrix.imagemagick }}
+
+      - name: Install ImageMagick
+        if: ( steps.cache-imagemagick.outputs.cache-hit != 'true' || steps.cache-imagemagick-exists.outputs.files_exists != 'true' )
+        run: |
+          curl -o /tmp/ImageMagick.tar.gz -sL https://www.imagemagick.org/download/ImageMagick-${{ matrix.imagemagick }}.tar.gz
+          (
+            cd /tmp || exit 1
+            tar xf ImageMagick.tar.gz
+            cd ImageMagick-${{ matrix.imagemagick }}
+            sudo ./configure --prefix=/home/runner/im/imagemagick-${{ matrix.imagemagick }}
+            sudo make -j$(nproc)
+            sudo make install
+          )
+
+      - name: Install PHP ImageMagick extension
+        run: |
+          curl -o /tmp/imagick.tgz -sL http://pecl.php.net/get/imagick-${{ matrix.imagick }}.tgz
+          (
+            cd /tmp || exit 1
+            tar -xzf imagick.tgz
+            cd imagick-${{ matrix.imagick }}
+            phpize
+            sudo ./configure --with-imagick=/home/runner/im/imagemagick-${{ matrix.imagemagick }}
+            sudo make -j$(nproc)
+            sudo make install
+          )
+          sudo bash -c 'echo "extension=imagick.so" >> /etc/php/${{ matrix.php }}/cli/php.ini'
+          php --ri imagick;
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ matrix.stability }}-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ matrix.stability }}-
+
+      - name: Install dependencies
+        run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+
+      - name: Which Imagick Version
+        run: php -r 'var_dump(Imagick::getVersion());'
+
+      - name: Execute tests
+        run: vendor/bin/phpunit --no-coverage

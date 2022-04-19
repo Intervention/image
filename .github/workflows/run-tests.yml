@@ -50,7 +50,7 @@ jobs:
       - name: Install ImageMagick
         if: ( steps.cache-imagemagick.outputs.cache-hit != 'true' || steps.cache-imagemagick-exists.outputs.files_exists != 'true' )
         run: |
-          curl -o /tmp/ImageMagick.tar.gz -sL https://www.imagemagick.org/download/ImageMagick-${{ matrix.imagemagick }}.tar.gz
+          curl -o /tmp/ImageMagick.tar.gz -sL https://download.imagemagick.org/ImageMagick/download/releases/ImageMagick-${{ matrix.imagemagick }}.tar.gz
           (
             cd /tmp || exit 1
             tar xf ImageMagick.tar.gz

@@ -71,7 +71,7 @@ class Size
      */
     public function getWidth()
     {
-        return $this->width;
+        return intval($this->width);
     }
 
     /**
@@ -81,7 +81,7 @@ class Size
      */
     public function getHeight()
     {
-        return $this->height;
+        return intval($this->height);
     }
 
     /**

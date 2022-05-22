@@ -14,7 +14,7 @@ use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Traits\CanHandleInput;
 use Intervention\Image\Traits\CanResolveDriverClass;
 
-abstract class AbstractImage
+abstract class AbstractImage implements ImageInterface
 {
     use CanResolveDriverClass;
     use CanHandleInput;
@@ -284,8 +284,12 @@ abstract class AbstractImage
         );
     }
 
-    public function padDown(int $width, int $height, $background = 'ffffff', string $position = 'center'): ImageInterface
-    {
+    public function padDown(
+        int $width,
+        int $height,
+        $background = 'ffffff',
+        string $position = 'center'
+    ): ImageInterface {
         return $this->modify(
             $this->resolveDriverClass('Modifiers\PadDownModifier', $width, $height, $background, $position)
         );

@@ -209,29 +209,29 @@ class Size implements SizeInterface
         return new Point($x, $y);
     }
 
-    protected function getResizer(...$arguments): Resizer
+    protected function getResizer(?int $width = null, ?int $height = null): Resizer
     {
-        return new Resizer(...$arguments);
+        return new Resizer($width, $height);
     }
 
-    public function resize(...$arguments): self
+    public function resize(?int $width = null, ?int $height = null): self
     {
-        return $this->getResizer(...$arguments)->resize($this);
+        return $this->getResizer($width, $height)->resize($this);
     }
 
-    public function resizeDown(...$arguments): self
+    public function resizeDown(?int $width = null, ?int $height = null): self
     {
-        return $this->getResizer(...$arguments)->resizeDown($this);
+        return $this->getResizer($width, $height)->resizeDown($this);
     }
 
-    public function scale(...$arguments): self
+    public function scale(?int $width = null, ?int $height = null): self
     {
-        return $this->getResizer(...$arguments)->scale($this);
+        return $this->getResizer($width, $height)->scale($this);
     }
 
-    public function scaleDown(...$arguments): self
+    public function scaleDown(?int $width = null, ?int $height = null): self
     {
-        return $this->getResizer(...$arguments)->scaleDown($this);
+        return $this->getResizer($width, $height)->scaleDown($this);
     }
 
     public function cover(int $width, int $height): self

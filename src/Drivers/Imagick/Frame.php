@@ -4,17 +4,23 @@ namespace Intervention\Image\Drivers\Imagick;
 
 use Imagick;
 use Intervention\Image\Collection;
-use Intervention\Image\Drivers\Abstract\AbstractFrame;
 use Intervention\Image\Geometry\Size;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
-class Frame extends AbstractFrame implements FrameInterface
+class Frame implements FrameInterface
 {
     public function __construct(protected Imagick $core)
     {
         //
+    }
+
+    public function setCore($core): FrameInterface
+    {
+        $this->core = $core;
+
+        return $this;
     }
 
     public function getCore(): Imagick

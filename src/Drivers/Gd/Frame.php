@@ -4,13 +4,12 @@ namespace Intervention\Image\Drivers\Gd;
 
 use GdImage;
 use Intervention\Image\Collection;
-use Intervention\Image\Drivers\Abstract\AbstractFrame;
 use Intervention\Image\Geometry\Size;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
-class Frame extends AbstractFrame implements FrameInterface
+class Frame implements FrameInterface
 {
     public function __construct(
         protected GdImage $core,
@@ -20,6 +19,13 @@ class Frame extends AbstractFrame implements FrameInterface
         protected int $offset_top = 0
     ) {
         //
+    }
+
+    public function setCore($core): FrameInterface
+    {
+        $this->core = $core;
+
+        return $this;
     }
 
     public function getCore(): GdImage

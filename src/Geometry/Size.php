@@ -50,7 +50,7 @@ class Size implements SizeInterface
         return $this->pivot;
     }
 
-    public function setPivot(PointInterface $pivot): self
+    public function setPivot(PointInterface $pivot): SizeInterface
     {
         $this->pivot = $pivot;
 
@@ -104,7 +104,7 @@ class Size implements SizeInterface
      * @param  int     $offset_y
      * @return Size
      */
-    public function alignPivot(string $position, int $offset_x = 0, int $offset_y = 0): self
+    public function alignPivot(string $position, int $offset_x = 0, int $offset_y = 0): SizeInterface
     {
         switch (strtolower($position)) {
             case 'top':
@@ -182,7 +182,7 @@ class Size implements SizeInterface
         return $this;
     }
 
-    public function alignPivotTo(SizeInterface $size, string $position): self
+    public function alignPivotTo(SizeInterface $size, string $position): SizeInterface
     {
         $reference = new Size($size->getWidth(), $size->getHeight());
         $reference->alignPivot($position);
@@ -214,32 +214,32 @@ class Size implements SizeInterface
         return new Resizer($width, $height);
     }
 
-    public function resize(?int $width = null, ?int $height = null): self
+    public function resize(?int $width = null, ?int $height = null): SizeInterface
     {
         return $this->getResizer($width, $height)->resize($this);
     }
 
-    public function resizeDown(?int $width = null, ?int $height = null): self
+    public function resizeDown(?int $width = null, ?int $height = null): SizeInterface
     {
         return $this->getResizer($width, $height)->resizeDown($this);
     }
 
-    public function scale(?int $width = null, ?int $height = null): self
+    public function scale(?int $width = null, ?int $height = null): SizeInterface
     {
         return $this->getResizer($width, $height)->scale($this);
     }
 
-    public function scaleDown(?int $width = null, ?int $height = null): self
+    public function scaleDown(?int $width = null, ?int $height = null): SizeInterface
     {
         return $this->getResizer($width, $height)->scaleDown($this);
     }
 
-    public function cover(int $width, int $height): self
+    public function cover(int $width, int $height): SizeInterface
     {
         return $this->getResizer($width, $height)->cover($this);
     }
 
-    public function contain(int $width, int $height): self
+    public function contain(int $width, int $height): SizeInterface
     {
         return $this->getResizer($width, $height)->contain($this);
     }

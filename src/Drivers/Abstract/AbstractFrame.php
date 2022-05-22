@@ -2,7 +2,9 @@
 
 namespace Intervention\Image\Drivers\Abstract;
 
-abstract class AbstractFrame
+use Intervention\Image\Interfaces\FrameInterface;
+
+abstract class AbstractFrame implements FrameInterface
 {
     /**
      * Set the frame core
@@ -12,9 +14,9 @@ abstract class AbstractFrame
      * add more drivers.
      *
      * @param mixed $core
-     * @return AbstractFrame
+     * @return FrameInterface
      */
-    public function setCore($core): self
+    public function setCore($core): FrameInterface
     {
         $this->core = $core;
 

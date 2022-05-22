@@ -22,7 +22,7 @@ abstract class AbstractDecoder implements DecoderInterface
             $decoded = $this->decode($input);
         } catch (DecoderException $e) {
             if (!$this->hasSuccessor()) {
-                $this->fail();
+                $this->fail($e->getMessage());
             }
 
             return $this->successor->handle($input);
@@ -36,9 +36,9 @@ abstract class AbstractDecoder implements DecoderInterface
         return $this->successor !== null;
     }
 
-    protected function fail(): void
+    protected function fail(string $message = 'Unable to decode given input.'): void
     {
-        throw new DecoderException("Unable to decode given input.");
+        throw new DecoderException($message);
     }
 
     protected function inputType($input): AbstractType

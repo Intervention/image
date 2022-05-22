@@ -30,7 +30,6 @@ class AbstractDecoderTest extends TestCase
         $decoder->shouldReceive('decode')->with('test input')->andThrow(DecoderException::class);
 
         $this->expectException(DecoderException::class);
-        $this->expectExceptionMessage('Unable to decode given input.');
 
         $decoder->handle('test input');
     }

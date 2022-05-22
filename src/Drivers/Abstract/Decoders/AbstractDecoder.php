@@ -15,16 +15,16 @@ abstract class AbstractDecoder
         //
     }
 
-    final public function handle($input): null|ImageInterface|ColorInterface
+    final public function handle($input): ImageInterface|ColorInterface
     {
         try {
             $decoded = $this->decode($input);
         } catch (DecoderException $e) {
-            if ($this->hasSuccessor()) {
-                return $this->successor->handle($input);
+            if (!$this->hasSuccessor()) {
+                $this->fail();
             }
 
-            $this->fail();
+            return $this->successor->handle($input);
         }
 
         return $decoded;

@@ -6,6 +6,7 @@ namespace Intervention\Image\Tests\Drivers\Abstract\Decoders;
 
 use Intervention\Image\Drivers\Abstract\Decoders\AbstractDecoder;
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Tests\TestCase;
 use Mockery;
 
@@ -16,31 +17,36 @@ class AbstractDecoderTest extends TestCase
 {
     public function testHandle(): void
     {
+        $result = Mockery::mock(ColorInterface::class);
         $decoder = Mockery::mock(AbstractDecoder::class)->makePartial();
-        $decoder->shouldReceive('decode')->with('input string')->andReturn(null);
+        $decoder->shouldReceive('decode')->with('test input')->andReturn($result);
 
-        $decoder->handle('input string');
+        $decoder->handle('test input');
     }
 
     public function testHandleFail(): void
     {
         $decoder = Mockery::mock(AbstractDecoder::class, [])->makePartial()->shouldAllowMockingProtectedMethods();
-        $decoder->shouldReceive('decode')->with('input string')->andThrow(DecoderException::class);
+        $decoder->shouldReceive('decode')->with('test input')->andThrow(DecoderException::class);
 
         $this->expectException(DecoderException::class);
         $this->expectExceptionMessage('Unable to decode given input.');
 
-        $decoder->handle('input string');
+        $decoder->handle('test input');
     }
 
     public function testHandleFailWithSuccessor(): void
     {
+        $result = Mockery::mock(ColorInterface::class);
         $successor = Mockery::mock(AbstractDecoder::class)->makePartial();
-        $successor->shouldReceive('decode')->with('input string')->andReturn(null);
+        $successor->shouldReceive('decode')->with('test input')->andReturn($result);
 
-        $decoder = Mockery::mock(AbstractDecoder::class, [$successor])->makePartial()->shouldAllowMockingProtectedMethods();
-        $decoder->shouldReceive('decode')->with('input string')->andThrow(DecoderException::class);
+        $decoder = Mockery::mock(
+            AbstractDecoder::class,
+            [$successor]
+        )->makePartial()->shouldAllowMockingProtectedMethods();
+        $decoder->shouldReceive('decode')->with('test input')->andThrow(DecoderException::class);
 
-        $decoder->handle('input string');
+        $decoder->handle('test input');
     }
 }

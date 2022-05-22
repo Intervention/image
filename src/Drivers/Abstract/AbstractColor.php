@@ -2,7 +2,9 @@
 
 namespace Intervention\Image\Drivers\Abstract;
 
-abstract class AbstractColor
+use Intervention\Image\Interfaces\ColorInterface;
+
+abstract class AbstractColor implements ColorInterface
 {
     /**
      * Format color to hexadecimal color code

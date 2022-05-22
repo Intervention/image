@@ -27,13 +27,6 @@ class Frame extends AbstractFrame implements FrameInterface
         return $this->core;
     }
 
-    public function setCore(GdImage $core): self
-    {
-        $this->core = $core;
-
-        return $this;
-    }
-
     public function unsetCore(): void
     {
         unset($this->core);

@@ -22,13 +22,6 @@ class Frame extends AbstractFrame implements FrameInterface
         return $this->core;
     }
 
-    public function setCore(Imagick $core): FrameInterface
-    {
-        $this->core = $core;
-
-        return $this;
-    }
-
     public function getSize(): SizeInterface
     {
         return new Size($this->core->getImageWidth(), $this->core->getImageHeight());

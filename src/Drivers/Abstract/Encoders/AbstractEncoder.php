@@ -4,7 +4,7 @@ namespace Intervention\Image\Drivers\Abstract\Encoders;
 
 use Intervention\Image\Interfaces\EncoderInterface;
 
-abstract class AbstractEncoder
+abstract class AbstractEncoder implements EncoderInterface
 {
     protected $quality;
 

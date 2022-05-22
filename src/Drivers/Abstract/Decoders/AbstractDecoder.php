@@ -4,11 +4,12 @@ namespace Intervention\Image\Drivers\Abstract\Decoders;
 
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\MimeSniffer\MimeSniffer;
 use Intervention\MimeSniffer\AbstractType;
 
-abstract class AbstractDecoder
+abstract class AbstractDecoder implements DecoderInterface
 {
     public function __construct(protected ?AbstractDecoder $successor = null)
     {

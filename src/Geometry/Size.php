@@ -182,7 +182,7 @@ class Size implements SizeInterface
         return $this;
     }
 
-    public function alignPivotTo(Size $size, string $position): self
+    public function alignPivotTo(SizeInterface $size, string $position): self
     {
         $reference = new Size($size->getWidth(), $size->getHeight());
         $reference->alignPivot($position);

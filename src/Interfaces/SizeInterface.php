@@ -14,4 +14,6 @@ interface SizeInterface
     public function fitsInto(SizeInterface $size): bool;
     public function isLandscape(): bool;
     public function isPortrait(): bool;
+    public function alignPivot(string $position, int $offset_x = 0, int $offset_y = 0): SizeInterface;
+    public function alignPivotTo(SizeInterface $size, string $position): SizeInterface;
 }

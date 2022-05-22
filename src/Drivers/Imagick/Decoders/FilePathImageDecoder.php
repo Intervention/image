@@ -3,6 +3,7 @@
 namespace Intervention\Image\Drivers\Imagick\Decoders;
 
 use Exception;
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -12,15 +13,15 @@ class FilePathImageDecoder extends BinaryImageDecoder implements DecoderInterfac
     public function decode($input): ImageInterface|ColorInterface
     {
         if (! is_string($input)) {
-            $this->fail();
+            throw new DecoderException('Unable to decode input');
         }
 
         try {
             if (! @is_file($input)) {
-                $this->fail();
+                throw new DecoderException('Unable to decode input');
             }
         } catch (Exception $e) {
-            $this->fail();
+            throw new DecoderException('Unable to decode input');
         }
 
         return parent::decode(file_get_contents($input));

@@ -7,6 +7,7 @@ use Intervention\Image\Collection;
 use Intervention\Image\Drivers\Abstract\Decoders\AbstractDecoder;
 use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Drivers\Imagick\Image;
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -16,11 +17,11 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
     public function decode($input): ImageInterface|ColorInterface
     {
         if (!is_string($input)) {
-            $this->fail();
+            throw new DecoderException('Unable to decode input');
         }
 
-        if (! $this->inputType($input)->isBinary()) {
-            $this->fail();
+        if (!$this->inputType($input)->isBinary()) {
+            throw new DecoderException('Unable to decode input');
         }
 
         $imagick = new Imagick();

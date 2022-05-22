@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Drivers\Imagick\Decoders;
 
-use Intervention\Image\Drivers\Imagick\Color;
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -12,14 +12,14 @@ class HexColorDecoder extends ArrayColorDecoder implements DecoderInterface
     public function decode($input): ImageInterface|ColorInterface
     {
         if (!is_string($input)) {
-            $this->fail();
+            throw new DecoderException('Unable to decode input');
         }
 
         $pattern = '/^#?([a-f0-9]{1,2})([a-f0-9]{1,2})([a-f0-9]{1,2})$/i';
         $result = preg_match($pattern, $input, $matches);
 
         if ($result !== 1) {
-            $this->fail();
+            throw new DecoderException('Unable to decode input');
         }
 
         return parent::decode([

@@ -2,7 +2,6 @@
 
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
-use GdImage;
 use Intervention\Image\Collection;
 use Intervention\Image\Drivers\Abstract\Decoders\AbstractDecoder;
 use Intervention\Image\Drivers\Gd\Frame;
@@ -10,21 +9,21 @@ use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\MimeSniffer\MimeSniffer;
 use Intervention\MimeSniffer\Types\ImageGif;
 use Intervention\Gif\Decoder as GifDecoder;
 use Intervention\Gif\Splitter as GifSplitter;
+use Intervention\Image\Exceptions\DecoderException;
 
 class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
 {
     public function decode($input): ImageInterface|ColorInterface
     {
         if (!is_string($input)) {
-            $this->fail();
+            throw new DecoderException('Unable to decode input');
         }
 
         if (! $this->inputType($input)->isBinary()) {
-            $this->fail();
+            throw new DecoderException('Unable to decode input');
         }
 
         if (is_a($this->inputType($input), ImageGif::class)) {
@@ -34,7 +33,7 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
         $gd = @imagecreatefromstring($input);
 
         if ($gd === false) {
-            $this->fail();
+            throw new DecoderException('Unable to decode input');
         }
 
         if (! imageistruecolor($gd)) {

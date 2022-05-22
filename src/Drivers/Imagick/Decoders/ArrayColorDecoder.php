@@ -5,6 +5,7 @@ namespace Intervention\Image\Drivers\Imagick\Decoders;
 use ImagickPixel;
 use Intervention\Image\Drivers\Abstract\Decoders\AbstractDecoder;
 use Intervention\Image\Drivers\Imagick\Color;
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -17,7 +18,7 @@ class ArrayColorDecoder extends AbstractDecoder implements DecoderInterface
     public function decode($input): ImageInterface|ColorInterface
     {
         if (! $this->isValidColorArray($input)) {
-            $this->fail();
+            throw new DecoderException('Unable to decode input');
         }
 
         if (count($input) === 3) {

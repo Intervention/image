@@ -2,6 +2,7 @@
 
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -11,11 +12,11 @@ class RgbStringColorDecoder extends ArrayColorDecoder implements DecoderInterfac
     public function decode($input): ImageInterface|ColorInterface
     {
         if (!is_string($input)) {
-            $this->fail();
+            throw new DecoderException('Unable to decode input');
         }
 
         if (substr($input, 0, 3) !== 'rgb') {
-            $this->fail();
+            throw new DecoderException('Unable to decode input');
         }
 
         // rgb string like rgb(102, 200, 0)
@@ -30,6 +31,6 @@ class RgbStringColorDecoder extends ArrayColorDecoder implements DecoderInterfac
             return parent::decode([$matches['r'], $matches['g'], $matches['b'], $matches['a']]);
         }
 
-        $this->fail();
+        throw new DecoderException('Unable to decode input');
     }
 }

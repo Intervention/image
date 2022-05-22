@@ -2,11 +2,11 @@
 
 namespace Intervention\Image\Drivers\Imagick\Decoders;
 
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Traits\CanDecodeDataUri;
-use Intervention\MimeSniffer\MimeSniffer;
 
 class DataUriImageDecoder extends BinaryImageDecoder implements DecoderInterface
 {
@@ -15,13 +15,13 @@ class DataUriImageDecoder extends BinaryImageDecoder implements DecoderInterface
     public function decode($input): ImageInterface|ColorInterface
     {
         if (!is_string($input)) {
-            $this->fail();
+            throw new DecoderException('Unable to decode input');
         }
 
         $uri = $this->decodeDataUri($input);
 
         if (! $uri->isValid()) {
-            $this->fail();
+            throw new DecoderException('Unable to decode input');
         }
 
         if ($uri->isBase64Encoded()) {

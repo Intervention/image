@@ -3,11 +3,8 @@
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Intervention\Image\Drivers\Abstract\Modifiers\AbstractFitModifier;
-use Intervention\Image\Geometry\Size;
-use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
-use Intervention\Image\Interfaces\SizeInterface;
 
 class FitModifier extends AbstractFitModifier implements ModifierInterface
 {

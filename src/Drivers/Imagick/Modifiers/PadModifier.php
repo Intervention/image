@@ -6,7 +6,6 @@ use Imagick;
 use ImagickDraw;
 use Intervention\Image\Drivers\Abstract\Modifiers\AbstractPadModifier;
 use Intervention\Image\Interfaces\ColorInterface;
-use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;

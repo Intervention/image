@@ -4,16 +4,16 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
 use ImagickDraw;
+use Intervention\Image\Drivers\Imagick\Color;
 use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Geometry\Point;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 
 class FillModifier implements ModifierInterface
 {
     public function __construct(
-        protected ColorInterface $color,
+        protected Color $color,
         protected ?Point $position = null
     ) {
         //

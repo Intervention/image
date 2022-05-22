@@ -9,7 +9,6 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Traits\CanHandleInput;
-use Intervention\Image\Traits\CanResizeGeometrically;
 
 class PadModifier extends AbstractPadModifier implements ModifierInterface
 {

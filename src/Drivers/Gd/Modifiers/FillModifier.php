@@ -17,7 +17,7 @@ class FillModifier implements ModifierInterface
 
     public function apply(ImageInterface $image): ImageInterface
     {
-        foreach ($image as $key => $frame) {
+        foreach ($image as $frame) {
             if ($this->hasPosition()) {
                 $this->floodFillWithColor($frame);
             } else {

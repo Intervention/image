@@ -13,6 +13,7 @@ use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Traits\CanHandleInput;
 use Intervention\Image\Traits\CanResolveDriverClass;
+use Intervention\Image\Interfaces\FontInterface;
 
 abstract class AbstractImage implements ImageInterface
 {
@@ -233,6 +234,14 @@ abstract class AbstractImage implements ImageInterface
         }
 
         return $colors;
+    }
+
+    public function text(string $text, int $x, int $y, ?callable $init = null): ImageInterface
+    {
+        $font = $this->resolveDriverClass('Font', $text, $init);
+        $modifier = $this->resolveDriverClass('Modifiers\TextWriter', new Point($x, $y), $font);
+
+        return $this->modify($modifier);
     }
 
     public function resize(?int $width = null, ?int $height = null): ImageInterface

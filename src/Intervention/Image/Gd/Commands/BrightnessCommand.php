@@ -16,6 +16,6 @@ class BrightnessCommand extends AbstractCommand
     {
         $level = $this->argument(0)->between(-100, 100)->required()->value();
 
-        return imagefilter($image->getCore(), IMG_FILTER_BRIGHTNESS, ($level * 2.55));
+        return imagefilter($image->getCore(), round(IMG_FILTER_BRIGHTNESS,0), ($level * 2.55));
     }
 }

@@ -6,6 +6,7 @@ use Intervention\Image\Collection;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Size;
+use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -24,12 +25,12 @@ abstract class AbstractImage implements ImageInterface
         //
     }
 
-    public function getIterator(): Collection
+    public function getIterator(): CollectionInterface
     {
         return $this->frames;
     }
 
-    public function getFrames(): Collection
+    public function getFrames(): CollectionInterface
     {
         return $this->frames;
     }
@@ -225,7 +226,7 @@ abstract class AbstractImage implements ImageInterface
         );
     }
 
-    public function pickColors(int $x, int $y): Collection
+    public function pickColors(int $x, int $y): CollectionInterface
     {
         $colors = new Collection();
         foreach ($this->getFrames() as $key => $frame) {

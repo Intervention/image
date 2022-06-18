@@ -86,6 +86,14 @@ class CollectionTest extends TestCase
         $this->assertEquals('test', $collection->get(3, 'test'));
     }
 
+    public function testHas(): void
+    {
+        $collection = new Collection(['foo', 'bar']);
+        $this->assertTrue($collection->has(0));
+        $this->assertTrue($collection->has(1));
+        $this->assertFalse($collection->has(2));
+    }
+
     public function testToArray()
     {
         $collection = new Collection(['foo', 'bar', 'baz']);

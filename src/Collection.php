@@ -109,6 +109,11 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
         return $this->items[$key];
     }
 
+    public function has(int $key): bool
+    {
+        return array_key_exists($key, $this->items);
+    }
+
     public function query(string $query, $default = null)
     {
         $items = $this->getItemsFlat();

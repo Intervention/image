@@ -37,17 +37,17 @@ class ImageTest extends TestCase
         $this->assertInstanceOf(Image::class, $this->image);
     }
 
+    public function testCount(): void
+    {
+        $this->assertEquals(3, $this->image->count());
+        $this->assertEquals(3, count($this->image));
+    }
+
     public function testIterator(): void
     {
         foreach ($this->image as $frame) {
             $this->assertInstanceOf(Frame::class, $frame);
         }
-    }
-
-    public function testGetFrames(): void
-    {
-        $this->assertInstanceOf(Collection::class, $this->image->getFrames());
-        $this->assertCount(3, $this->image->getFrames());
     }
 
     public function testGetFrame(): void
@@ -58,10 +58,10 @@ class ImageTest extends TestCase
 
     public function testAddFrame(): void
     {
-        $this->assertCount(3, $this->image->getFrames());
+        $this->assertCount(3, $this->image);
         $result = $this->image->addFrame(new Frame(imagecreatetruecolor(3, 2)));
         $this->assertInstanceOf(Image::class, $result);
-        $this->assertCount(4, $this->image->getFrames());
+        $this->assertCount(4, $this->image);
     }
 
     public function testSetGetLoops(): void

@@ -20,7 +20,7 @@ class JpegEncoder extends AbstractEncoder implements EncoderInterface
         $format = 'jpeg';
         $compression = Imagick::COMPRESSION_JPEG;
 
-        $imagick = $image->getFrames()->first()->getCore();
+        $imagick = $image->getFrame()->getCore();
         $imagick->setImageBackgroundColor('white');
         $imagick->setBackgroundColor('white');
         $imagick->setFormat($format);

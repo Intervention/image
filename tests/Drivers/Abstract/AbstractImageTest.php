@@ -30,56 +30,15 @@ class AbstractImageTest extends TestCase
 
         $collection = new Collection([$frame1, $frame2, $frame3]);
 
-        $mock = Mockery::mock(AbstractImage::class, ImageInterface::class, [$collection])
+        $mock = Mockery::mock(AbstractImage::class, ImageInterface::class)
                 ->shouldAllowMockingProtectedMethods()
                 ->makePartial();
 
         $mock->shouldReceive('getWidth')->andReturn(300);
         $mock->shouldReceive('getHeight')->andReturn(200);
+        $mock->shouldReceive('getIterator')->andReturn($collection);
 
         return $mock;
-    }
-
-    public function testGetIterator(): void
-    {
-        $this->assertInstanceOf(Collection::class, $this->abstractImageMock()->getIterator());
-    }
-
-    public function testGetFrames(): void
-    {
-        $this->assertInstanceOf(Collection::class, $this->abstractImageMock()->getFrames());
-    }
-
-    public function testGetFrame(): void
-    {
-        $img = $this->abstractImageMock();
-
-        $this->assertInstanceOf(FrameInterface::class, $img->getFrame());
-        $this->assertEquals(1, $img->getFrame()->ident());
-
-        $this->assertInstanceOf(FrameInterface::class, $img->getFrame(1));
-        $this->assertEquals(2, $img->getFrame(1)->ident());
-
-        $this->assertInstanceOf(FrameInterface::class, $img->getFrame(2));
-        $this->assertEquals(3, $img->getFrame(2)->ident());
-    }
-
-    public function testAddFrame(): void
-    {
-        $img = $this->abstractImageMock();
-        $this->assertEquals(3, $img->getFrames()->count());
-        $result = $img->addFrame(Mockery::mock(FrameInterface::class));
-        $this->assertInstanceOf(AbstractImage::class, $result);
-        $this->assertEquals(4, $img->getFrames()->count());
-    }
-
-    public function testSetGetLoops(): void
-    {
-        $img = $this->abstractImageMock();
-        $this->assertEquals(0, $img->getLoops());
-        $result = $img->setLoops(10);
-        $this->assertEquals(10, $img->getLoops());
-        $this->assertInstanceOf(AbstractImage::class, $result);
     }
 
     public function testGetSize(): void
@@ -96,19 +55,6 @@ class AbstractImageTest extends TestCase
         $this->assertInstanceOf(Size::class, $img->getSize());
         $this->assertEquals(300, $img->size()->getWidth());
         $this->assertEquals(200, $img->size()->getHeight());
-    }
-
-    public function testIsAnimated(): void
-    {
-        $img = Mockery::mock(AbstractImage::class, [new Collection()])->makePartial();
-        $this->assertFalse($img->isAnimated());
-
-        $collection = new Collection([
-            Mockery::mock(FrameInterface::class),
-            Mockery::mock(FrameInterface::class),
-        ]);
-        $img = Mockery::mock(AbstractImage::class, [$collection])->makePartial();
-        $this->assertTrue($img->isAnimated());
     }
 
     public function testModify(): void

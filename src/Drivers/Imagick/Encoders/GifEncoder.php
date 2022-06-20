@@ -16,7 +16,7 @@ class GifEncoder extends AbstractEncoder implements EncoderInterface
         $compression = Imagick::COMPRESSION_LZW;
 
         $gif = new Imagick() ;
-        foreach ($image->getFrames() as $frame) {
+        foreach ($image as $frame) {
             $gif->addImage($frame->getCore());
         }
 

@@ -3,7 +3,6 @@
 namespace Intervention\Image\Drivers\Imagick;
 
 use Imagick;
-use Intervention\Image\Collection;
 use Intervention\Image\Geometry\Size;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -91,6 +90,6 @@ class Frame implements FrameInterface
 
     public function toImage(): ImageInterface
     {
-        return new Image(new Collection([$this]));
+        return new Image($this->getCore());
     }
 }

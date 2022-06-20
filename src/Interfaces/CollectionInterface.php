@@ -2,7 +2,9 @@
 
 namespace Intervention\Image\Interfaces;
 
-interface CollectionInterface
+use Traversable;
+
+interface CollectionInterface extends Traversable
 {
     public function push($item): CollectionInterface;
     public function get(int $key, $default = null);

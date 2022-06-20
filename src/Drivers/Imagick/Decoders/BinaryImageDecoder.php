@@ -3,9 +3,7 @@
 namespace Intervention\Image\Drivers\Imagick\Decoders;
 
 use Imagick;
-use Intervention\Image\Collection;
 use Intervention\Image\Drivers\Abstract\Decoders\AbstractDecoder;
-use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -28,14 +26,8 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
         $imagick->readImageBlob($input);
         $imagick = $imagick->coalesceImages();
 
-        $image = new Image(new Collection());
+        $image = new Image($imagick);
         $image->setLoops($imagick->getImageIterations());
-
-        foreach ($imagick as $frame_content) {
-            $image->addFrame(
-                new Frame($frame_content->getImage())
-            );
-        }
 
         return $image;
     }

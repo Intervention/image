@@ -2,12 +2,12 @@
 
 namespace Intervention\Image\Interfaces;
 
+use Countable;
 use Intervention\Image\EncodedImage;
+use Traversable;
 
-interface ImageInterface
+interface ImageInterface extends Traversable, Countable
 {
-    public function getIterator(): CollectionInterface;
-    public function getFrames(): CollectionInterface;
     public function getFrame(int $key = 0): ?FrameInterface;
     public function addFrame(FrameInterface $frame): ImageInterface;
     public function setLoops(int $count): ImageInterface;

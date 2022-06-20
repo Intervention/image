@@ -4,8 +4,6 @@ namespace Intervention\Image\Drivers\Imagick;
 
 use Imagick;
 use ImagickPixel;
-use Intervention\Image\Collection;
-use Intervention\Image\Drivers\Imagick\Color;
 use Intervention\Image\Interfaces\FactoryInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
@@ -13,11 +11,7 @@ class ImageFactory implements FactoryInterface
 {
     public function newImage(int $width, int $height): ImageInterface
     {
-        return new Image(
-            new Collection([
-                new Frame($this->newCore($width, $height))
-            ])
-        );
+        return new Image($this->newCore($width, $height));
     }
 
     public function newCore(int $width, int $height): Imagick

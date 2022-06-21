@@ -14,25 +14,25 @@ class Image extends AbstractImage implements ImageInterface, Iterator
 {
     protected $iteratorIndex = 0;
 
-    public function __construct(protected Imagick $core)
+    public function __construct(protected Imagick $imagick)
     {
         //
     }
 
-    public function getCore(): Imagick
+    public function getImagick(): Imagick
     {
-        return $this->core;
+        return $this->imagick;
     }
 
     public function getFrame(int $key = 0): ?FrameInterface
     {
         try {
-            $this->core->setIteratorIndex($key);
+            $this->imagick->setIteratorIndex($key);
         } catch (ImagickException $e) {
             return null;
         }
 
-        return new Frame($this->core->current());
+        return new Frame($this->imagick->current());
     }
 
     public function addFrame(FrameInterface $frame): ImageInterface
@@ -50,21 +50,21 @@ class Image extends AbstractImage implements ImageInterface, Iterator
             $frame->getOffsetTop()
         );
 
-        $this->core->addImage($imagick);
+        $this->imagick->addImage($imagick);
 
         return $this;
     }
 
     public function setLoops(int $count): ImageInterface
     {
-        $this->core->setImageIterations($count);
+        $this->imagick->setImageIterations($count);
 
         return $this;
     }
 
     public function getLoops(): int
     {
-        return $this->core->getImageIterations();
+        return $this->imagick->getImageIterations();
     }
 
     public function isAnimated(): bool
@@ -74,14 +74,14 @@ class Image extends AbstractImage implements ImageInterface, Iterator
 
     public function count(): int
     {
-        return $this->core->getNumberImages();
+        return $this->imagick->getNumberImages();
     }
 
     public function current()
     {
-        $this->core->setIteratorIndex($this->iteratorIndex);
+        $this->imagick->setIteratorIndex($this->iteratorIndex);
 
-        return new Frame($this->core->current());
+        return new Frame($this->imagick->current());
     }
 
     public function key()
@@ -102,7 +102,7 @@ class Image extends AbstractImage implements ImageInterface, Iterator
     public function valid(): bool
     {
         try {
-            $result = $this->core->setIteratorIndex($this->iteratorIndex);
+            $result = $this->imagick->setIteratorIndex($this->iteratorIndex);
         } catch (ImagickException $e) {
             return false;
         }

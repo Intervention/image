@@ -6,9 +6,7 @@ namespace Intervention\Image\Tests\Drivers\Imagick\Encoders;
 
 use Imagick;
 use ImagickPixel;
-use Intervention\Image\Collection;
 use Intervention\Image\Drivers\Imagick\Encoders\WebpEncoder;
-use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\MimeSniffer\MimeSniffer;
 use Intervention\MimeSniffer\Types\ImageWebp;
@@ -23,9 +21,8 @@ final class WebpEncoderTest extends TestCase
     {
         $imagick = new Imagick();
         $imagick->newImage(3, 2, new ImagickPixel('red'), 'png');
-        $frame = new Frame($imagick);
 
-        return new Image(new Collection([$frame]));
+        return new Image($imagick);
     }
 
     public function testEncode(): void

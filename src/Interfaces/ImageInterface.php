@@ -2,13 +2,12 @@
 
 namespace Intervention\Image\Interfaces;
 
-use Intervention\Image\Collection;
+use Countable;
 use Intervention\Image\EncodedImage;
+use Traversable;
 
-interface ImageInterface
+interface ImageInterface extends Traversable, Countable
 {
-    public function getIterator(): Collection;
-    public function getFrames(): Collection;
     public function getFrame(int $key = 0): ?FrameInterface;
     public function addFrame(FrameInterface $frame): ImageInterface;
     public function setLoops(int $count): ImageInterface;
@@ -21,7 +20,7 @@ interface ImageInterface
     public function toWebp(int $quality = 75): EncodedImage;
     public function toGif(): EncodedImage;
     public function toPng(): EncodedImage;
-    public function pickColors(int $x, int $y): Collection;
+    public function pickColors(int $x, int $y): CollectionInterface;
     public function pickColor(int $x, int $y, int $frame_key = 0): ?ColorInterface;
     public function greyscale(): ImageInterface;
     public function blur(int $amount = 5): ImageInterface;

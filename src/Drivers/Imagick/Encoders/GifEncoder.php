@@ -15,18 +15,13 @@ class GifEncoder extends AbstractEncoder implements EncoderInterface
         $format = 'gif';
         $compression = Imagick::COMPRESSION_LZW;
 
-        $gif = new Imagick() ;
-        foreach ($image->getFrames() as $frame) {
-            $gif->addImage($frame->getCore());
-        }
+        $imagick = $image->getImagick();
+        $imagick->setFormat($format);
+        $imagick->setImageFormat($format);
+        $imagick->setCompression($compression);
+        $imagick->setImageCompression($compression);
+        $imagick = $imagick->deconstructImages();
 
-        $gif->setImageIterations($image->getLoops());
-        $gif->setFormat($format);
-        $gif->setImageFormat($format);
-        $gif->setCompression($compression);
-        $gif->setImageCompression($compression);
-        $gif = $gif->deconstructImages();
-
-        return new EncodedImage($gif->getImagesBlob(), 'image/gif');
+        return new EncodedImage($imagick->getImagesBlob(), 'image/gif');
     }
 }

@@ -6,8 +6,8 @@ use Intervention\Image\Collection;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Size;
+use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
-use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -20,45 +20,6 @@ abstract class AbstractImage implements ImageInterface
     use CanResolveDriverClass;
     use CanHandleInput;
 
-    public function __construct(protected Collection $frames, protected $loops = 0)
-    {
-        //
-    }
-
-    public function getIterator(): Collection
-    {
-        return $this->frames;
-    }
-
-    public function getFrames(): Collection
-    {
-        return $this->frames;
-    }
-
-    public function getFrame(int $key = 0): ?FrameInterface
-    {
-        return $this->frames->get($key);
-    }
-
-    public function addFrame(FrameInterface $frame): ImageInterface
-    {
-        $this->frames->push($frame);
-
-        return $this;
-    }
-
-    public function setLoops(int $count): ImageInterface
-    {
-        $this->loops = $count;
-
-        return $this;
-    }
-
-    public function getLoops(): int
-    {
-        return $this->loops;
-    }
-
     public function getSize(): SizeInterface
     {
         return new Size($this->getWidth(), $this->getHeight());
@@ -67,11 +28,6 @@ abstract class AbstractImage implements ImageInterface
     public function size(): SizeInterface
     {
         return $this->getSize();
-    }
-
-    public function isAnimated(): bool
-    {
-        return $this->getFrames()->count() > 1;
     }
 
     public function modify(ModifierInterface $modifier): ImageInterface
@@ -226,10 +182,10 @@ abstract class AbstractImage implements ImageInterface
         );
     }
 
-    public function pickColors(int $x, int $y): Collection
+    public function pickColors(int $x, int $y): CollectionInterface
     {
         $colors = new Collection();
-        foreach ($this->getFrames() as $key => $frame) {
+        foreach ($this as $key => $frame) {
             $colors->push($this->pickColor($x, $y, $key));
         }
 

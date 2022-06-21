@@ -6,6 +6,7 @@ use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\CollectionInterface;
 use ArrayIterator;
 use Countable;
+use Traversable;
 use IteratorAggregate;
 use RecursiveIteratorIterator;
 use RecursiveArrayIterator;
@@ -31,9 +32,9 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     /**
      * Returns Iterator
      *
-     * @return \Traversable
+     * @return Traversable
      */
-    public function getIterator(): \Traversable
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->items);
     }
@@ -107,6 +108,11 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
         }
 
         return $this->items[$key];
+    }
+
+    public function has(int $key): bool
+    {
+        return array_key_exists($key, $this->items);
     }
 
     public function query(string $query, $default = null)

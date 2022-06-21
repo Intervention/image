@@ -20,20 +20,24 @@ class GifEncoderTest extends TestCase
 {
     protected function getTestImage(): Image
     {
-        $imagick1 = new Imagick();
-        $imagick1->newImage(30, 20, new ImagickPixel('red'), 'png');
-        $frame1 = new Frame($imagick1);
-        $frame1->setDelay(50);
-        $imagick2 = new Imagick();
-        $imagick2->newImage(30, 20, new ImagickPixel('green'), 'png');
-        $frame2 = new Frame($imagick2);
-        $frame2->setDelay(50);
-        $imagick3 = new Imagick();
-        $imagick3->newImage(30, 20, new ImagickPixel('blue'), 'png');
-        $frame3 = new Frame($imagick3);
-        $frame3->setDelay(50);
+        $imagick = new Imagick();
 
-        return new Image(new Collection([$frame1, $frame2, $frame3]));
+        $frame = new Imagick();
+        $frame->newImage(30, 20, new ImagickPixel('red'), 'png');
+        $frame->setImageDelay(50);
+        $imagick->addImage($frame);
+
+        $frame = new Imagick();
+        $frame->newImage(30, 20, new ImagickPixel('green'), 'png');
+        $frame->setImageDelay(50);
+        $imagick->addImage($frame);
+
+        $frame = new Imagick();
+        $frame->newImage(30, 20, new ImagickPixel('blue'), 'png');
+        $frame->setImageDelay(50);
+        $imagick->addImage($frame);
+
+        return new Image($imagick);
     }
 
     public function testEncode(): void

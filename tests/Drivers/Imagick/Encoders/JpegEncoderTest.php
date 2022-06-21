@@ -4,9 +4,7 @@ namespace Intervention\Image\Tests\Drivers\Imagick\Encoders;
 
 use Imagick;
 use ImagickPixel;
-use Intervention\Image\Collection;
 use Intervention\Image\Drivers\Imagick\Encoders\JpegEncoder;
-use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Tests\TestCase;
 use Intervention\MimeSniffer\MimeSniffer;
@@ -22,9 +20,8 @@ class JpegEncoderTest extends TestCase
     {
         $imagick = new Imagick();
         $imagick->newImage(3, 2, new ImagickPixel('red'), 'png');
-        $frame = new Frame($imagick);
 
-        return new Image(new Collection([$frame]));
+        return new Image($imagick);
     }
 
     public function testEncode(): void

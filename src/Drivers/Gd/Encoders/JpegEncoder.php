@@ -17,7 +17,7 @@ class JpegEncoder extends AbstractEncoder implements EncoderInterface
     public function encode(ImageInterface $image): EncodedImage
     {
         $data = $this->getBuffered(function () use ($image) {
-            imagejpeg($image->getFrames()->first()->getCore(), null, $this->quality);
+            imagejpeg($image->getFrame()->getCore(), null, $this->quality);
         });
 
         return new EncodedImage($data, 'image/jpeg');

@@ -15,7 +15,7 @@ interface FontInterface
     public function angle(float $angle): self;
     public function getAngle(): float;
     public function filename(string $filename): self;
-    public function getFilename(): string;
+    public function getFilename(): ?string;
     public function hasFilename(): bool;
     public function align(string $align): self;
     public function getAlign(): string;

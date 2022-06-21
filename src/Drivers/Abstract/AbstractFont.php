@@ -29,7 +29,7 @@ abstract class AbstractFont implements FontInterface
         return $this->text;
     }
 
-    public function size(float $size): self
+    public function size(float $size): FontInterface
     {
         $this->size = $size;
 
@@ -41,7 +41,7 @@ abstract class AbstractFont implements FontInterface
         return $this->size;
     }
 
-    public function angle(float $angle): self
+    public function angle(float $angle): FontInterface
     {
         $this->angle = $angle;
 
@@ -53,14 +53,14 @@ abstract class AbstractFont implements FontInterface
         return $this->angle;
     }
 
-    public function filename(string $filename): self
+    public function filename(string $filename): FontInterface
     {
         $this->filename = $filename;
 
         return $this;
     }
 
-    public function getFilename(): string
+    public function getFilename(): ?string
     {
         return $this->filename;
     }
@@ -70,7 +70,7 @@ abstract class AbstractFont implements FontInterface
         return is_file($this->filename);
     }
 
-    public function color($color): self
+    public function color($color): FontInterface
     {
         $this->color = $color;
 
@@ -82,7 +82,7 @@ abstract class AbstractFont implements FontInterface
         return $this->handleInput($this->color);
     }
 
-    public function align(string $align): self
+    public function align(string $align): FontInterface
     {
         $this->align = $align;
 
@@ -94,7 +94,7 @@ abstract class AbstractFont implements FontInterface
         return $this->valign;
     }
 
-    public function valign(string $valign): self
+    public function valign(string $valign): FontInterface
     {
         $this->valign = $valign;
 

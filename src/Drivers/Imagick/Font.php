@@ -6,6 +6,7 @@ use Imagick;
 use ImagickDraw;
 use Intervention\Image\Drivers\Abstract\AbstractFont;
 use Intervention\Image\Exceptions\FontException;
+use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Size;
 
 class Font extends AbstractFont
@@ -13,7 +14,7 @@ class Font extends AbstractFont
     public function toImagickDraw(): ImagickDraw
     {
         if (!$this->hasFilename()) {
-            throw new FontException('No font file.');
+            throw new FontException('No font file specified.');
         }
 
         $draw = new ImagickDraw();
@@ -50,14 +51,13 @@ class Font extends AbstractFont
     /**
      * Calculate box size of current font
      *
-     * @return Size
+     * @return Polygon
      */
-    public function getBoxSize(): Size
+    public function getBoxSize(): Polygon
     {
-        $foo = null;
         // no text - no box size
         if (mb_strlen($this->getText()) === 0) {
-            return new Size(0, 0);
+            return (new Size(0, 0))->toPolygon();
         }
 
         $dimensions = (new Imagick())->queryFontMetrics(
@@ -65,9 +65,9 @@ class Font extends AbstractFont
             $this->getText()
         );
 
-        return new Size(
-            intval(abs($dimensions['textWidth'])),
-            intval(abs($dimensions['textHeight']))
-        );
+        return (new Size(
+            intval(round(abs($dimensions['boundingBox']['x1'] - $dimensions['boundingBox']['x2']))),
+            intval(round(abs($dimensions['boundingBox']['y1'] - $dimensions['boundingBox']['y2']))),
+        ))->toPolygon();
     }
 }

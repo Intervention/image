@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Tests\Geometry;
 
-use Intervention\Image\Geometry\{Point, Size,};
+use Intervention\Image\Geometry\{Point, Polygon, Size,};
 use Intervention\Image\Tests\TestCase;
 
 /**
@@ -252,6 +252,22 @@ class SizeTest extends TestCase
         $pos = $container->getRelativePositionTo($input);
         $this->assertEquals(0, $pos->getX());
         $this->assertEquals(50, $pos->getY());
+    }
+
+    public function testToPolygon(): void
+    {
+        $size = new Size(300, 200);
+        $poly = $size->toPolygon();
+        $this->assertInstanceOf(Polygon::class, $poly);
+        $this->assertCount(4, $poly);
+        $this->assertEquals(0, $poly[0]->getX());
+        $this->assertEquals(0, $poly[0]->getY());
+        $this->assertEquals(300, $poly[1]->getX());
+        $this->assertEquals(0, $poly[1]->getY());
+        $this->assertEquals(300, $poly[2]->getX());
+        $this->assertEquals(-200, $poly[2]->getY());
+        $this->assertEquals(0, $poly[3]->getX());
+        $this->assertEquals(-200, $poly[3]->getY());
     }
 
     public function testResize(): void

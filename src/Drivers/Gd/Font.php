@@ -3,6 +3,8 @@
 namespace Intervention\Image\Drivers\Gd;
 
 use Intervention\Image\Drivers\Abstract\AbstractFont;
+use Intervention\Image\Geometry\Point;
+use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Size;
 
 class Font extends AbstractFont
@@ -15,9 +17,9 @@ class Font extends AbstractFont
     /**
      * Calculate size of bounding box of current text
      *
-     * @return Size
+     * @return Polygon
      */
-    public function getBoxSize(): Size
+    public function getBoxSize(): Polygon
     {
         if (!$this->hasFilename()) {
             // calculate box size from gd font
@@ -27,18 +29,26 @@ class Font extends AbstractFont
                 $box->setWidth($chars * $this->getGdFontWidth());
                 $box->setHeight($this->getGdFontHeight());
             }
-            return $box;
+            return $box->toPolygon();
         }
 
-        // calculate box size from font file
+        // calculate box size from font file with angle 0
         $box = imageftbbox(
             $this->getSize(),
-            $this->getAngle(),
+            0,
             $this->getFilename(),
             $this->getText()
         );
 
-        return new Size(abs($box[0] - $box[2]), abs($box[1] - $box[7]));
+        // build polygon from points
+        $polygon = new Polygon();
+        $polygon->addPoint(new Point($box[6], $box[7]));
+        $polygon->addPoint(new Point($box[4], $box[5]));
+        $polygon->addPoint(new Point($box[2], $box[3]));
+        $polygon->addPoint(new Point($box[0], $box[1]));
+
+
+        return $polygon;
     }
 
     public function getGdFont(): int

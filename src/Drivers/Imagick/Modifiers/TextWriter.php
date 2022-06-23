@@ -18,15 +18,13 @@ class TextWriter implements ModifierInterface
 
     public function apply(ImageInterface $image): ImageInterface
     {
-        $draw = $this->font->toImagickDraw();
         $position = $this->getAlignedPosition();
-
         foreach ($image as $frame) {
             $frame->getCore()->annotateImage(
-                $draw,
+                $this->font->toImagickDraw(),
                 $position->getX(),
                 $position->getY(),
-                $this->font->getAngle(),
+                $this->font->getAngle() * (-1),
                 $this->font->getText()
             );
         }
@@ -42,12 +40,12 @@ class TextWriter implements ModifierInterface
         // adjust y pos
         switch ($this->font->getValign()) {
             case 'top':
-                $position->setY($position->getY() + $box->getHeight());
+                $position->setY($position->getY() + $box->height());
                 break;
 
             case 'middle':
             case 'center':
-                $position->setY($position->getY() + round($box->getHeight() / 2));
+                $position->setY(intval($position->getY() + round($box->height() / 2)));
                 break;
         }
 

@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Interfaces;
 
-use Intervention\Image\Geometry\Size;
+use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Interfaces\ColorInterface;
 
 interface FontInterface
@@ -19,5 +19,5 @@ interface FontInterface
     public function hasFilename(): bool;
     public function align(string $align): self;
     public function getAlign(): string;
-    public function getBoxSize(): Size;
+    public function getBoxSize(): Polygon;
 }

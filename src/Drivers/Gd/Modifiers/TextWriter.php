@@ -19,13 +19,12 @@ class TextWriter implements ModifierInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         $position = $this->getAlignedPosition();
-
         foreach ($image as $frame) {
             if ($this->font->hasFilename()) {
                 imagettftext(
                     $frame->getCore(),
                     $this->font->getSize(),
-                    $this->font->getAngle(),
+                    $this->font->getAngle() * (-1),
                     $position->getX(),
                     $position->getY(),
                     $this->font->getColor()->toInt(),
@@ -47,34 +46,18 @@ class TextWriter implements ModifierInterface
         return $image;
     }
 
-    protected function getAlignedPosition(): Point
+    public function getAlignedPosition(): Point
     {
-        $position = $this->position;
-        $box = $this->font->getBoxSize();
+        $poly = $this->font->getBoxSize();
+        $poly->setPivotPoint($this->position);
 
-        // adjust x pos
-        switch ($this->font->getAlign()) {
-            case 'center':
-                $position->setX($position->getX() - round($box->getWidth() / 2));
-                break;
+        $poly->align($this->font->getAlign());
+        $poly->valign($this->font->getValign());
 
-            case 'right':
-                $position->setX($position->getX() - $box->getWidth());
-                break;
+        if ($this->font->getAngle() != 0) {
+            $poly->rotate($this->font->getAngle());
         }
 
-        // adjust y pos
-        switch ($this->font->getValign()) {
-            case 'top':
-                $position->setY($position->getY() + $box->getHeight());
-                break;
-
-            case 'middle':
-            case 'center':
-                $position->setY($position->getY() + round($box->getHeight() / 2));
-                break;
-        }
-
-        return $position;
+        return $poly->last();
     }
 }

@@ -209,6 +209,30 @@ class Size implements SizeInterface
         return new Point($x, $y);
     }
 
+    public function toPolygon(): Polygon
+    {
+        $polygon = new Polygon([
+            $this->pivot // top/left
+        ], $this->pivot);
+
+        // top/right
+        $polygon->addPoint(
+            new Point($this->pivot->getX() + $this->getWidth(), $this->pivot->getY())
+        );
+
+        // bottom/right
+        $polygon->addPoint(
+            new Point($this->pivot->getX() + $this->getWidth(), $this->pivot->getY() - $this->getHeight())
+        );
+
+        // bottom/left
+        $polygon->addPoint(
+            new Point($this->pivot->getX(), $this->pivot->getY() - $this->getHeight())
+        );
+
+        return $polygon;
+    }
+
     protected function getResizer(?int $width = null, ?int $height = null): Resizer
     {
         return new Resizer($width, $height);

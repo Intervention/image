@@ -58,7 +58,7 @@ class Point implements PointInterface
     /**
      * Move X coordinate
      *
-     * @param integer $x
+     * @param integer $value
      */
     public function moveX(int $value): self
     {
@@ -70,13 +70,18 @@ class Point implements PointInterface
     /**
      * Move Y coordinate
      *
-     * @param integer $y
+     * @param integer $value
      */
     public function moveY(int $value): self
     {
         $this->y += $value;
 
         return $this;
+    }
+
+    public function move(int $x, int $y): self
+    {
+        return $this->moveX($x)->moveY($y);
     }
 
     /**
@@ -107,8 +112,8 @@ class Point implements PointInterface
         $cos = round(cos(deg2rad($angle)), 6);
 
         return $this->setPosition(
-            $cos * ($this->x - $pivot->x) - $sin * ($this->y - $pivot->y) + $pivot->x,
-            $sin * ($this->x - $pivot->x) + $cos * ($this->y - $pivot->y) + $pivot->y
+            intval($cos * ($this->x - $pivot->x) - $sin * ($this->y - $pivot->y) + $pivot->x),
+            intval($sin * ($this->x - $pivot->x) + $cos * ($this->y - $pivot->y) + $pivot->y)
         );
     }
 }

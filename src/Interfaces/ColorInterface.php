@@ -9,6 +9,6 @@ interface ColorInterface
     public function blue(): int;
     public function alpha(): float;
     public function toArray(): array;
-    public function toHex(): string;
+    public function toHex(string $prefix = ''): string;
     public function toInt(): int;
 }

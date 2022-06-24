@@ -2,7 +2,6 @@
 
 namespace Intervention\Image\Drivers\Gd;
 
-use GdImage;
 use Intervention\Image\Collection;
 use Intervention\Image\Interfaces\FactoryInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -18,7 +17,7 @@ class ImageFactory implements FactoryInterface
         );
     }
 
-    public function newCore(int $width, int $height): GdImage
+    public function newCore(int $width, int $height)
     {
         $core = imagecreatetruecolor($width, $height);
         $color = imagecolorallocatealpha($core, 0, 0, 0, 127);

@@ -5,6 +5,7 @@ namespace Intervention\Image\Drivers\Imagick;
 use Imagick;
 use ImagickDraw;
 use Intervention\Image\Drivers\Abstract\AbstractFont;
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\FontException;
 use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Size;
@@ -17,12 +18,17 @@ class Font extends AbstractFont
             throw new FontException('No font file specified.');
         }
 
+        $color = $this->getColor();
+        if (!is_a($color, Color::class)) {
+            throw new DecoderException('Unable to decode font color.');
+        }
+
         $draw = new ImagickDraw();
         $draw->setStrokeAntialias(true);
         $draw->setTextAntialias(true);
         $draw->setFont($this->getFilename());
         $draw->setFontSize($this->getSize());
-        $draw->setFillColor($this->getColor()->getPixel());
+        $draw->setFillColor($color->getPixel());
         $draw->setTextAlignment($this->getImagickAlign());
 
         return $draw;
@@ -38,11 +44,9 @@ class Font extends AbstractFont
         switch (strtolower($this->getAlign())) {
             case 'center':
                 return Imagick::ALIGN_CENTER;
-                break;
 
             case 'right':
                 return Imagick::ALIGN_RIGHT;
-                break;
         }
 
         return Imagick::ALIGN_LEFT;

@@ -68,9 +68,6 @@ class Font extends AbstractFont
     protected function getGdFontHeight(): int
     {
         switch ($this->getGdFont()) {
-            case 1:
-                return 8;
-
             case 2:
                 return 14;
 
@@ -82,6 +79,10 @@ class Font extends AbstractFont
 
             case 5:
                 return 16;
+
+            default:
+            case 1:
+                return 8;
         }
     }
 }

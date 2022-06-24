@@ -7,6 +7,7 @@ use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
+use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Traits\CanResolveDriverClass;
 
 class PlaceModifier implements ModifierInterface
@@ -44,7 +45,7 @@ class PlaceModifier implements ModifierInterface
         return $this->resolveDriverClass('InputHandler')->handle($this->element);
     }
 
-    protected function getPosition(Image $image, Image $watermark): Point
+    protected function getPosition(ImageInterface $image, Image $watermark): PointInterface
     {
         $image_size = $image->getSize()->alignPivot($this->position, $this->offset_x, $this->offset_y);
         $watermark_size = $watermark->getSize()->alignPivot($this->position);

@@ -39,7 +39,7 @@ class Frame implements FrameInterface
 
     public function setDelay(float $delay): FrameInterface
     {
-        $this->core->setImageDelay(round($delay * 100));
+        $this->core->setImageDelay(intval(round($delay * 100)));
 
         return $this;
     }

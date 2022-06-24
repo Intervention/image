@@ -5,7 +5,8 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use Imagick;
 use ImagickDraw;
 use Intervention\Image\Drivers\Abstract\Modifiers\AbstractPadModifier;
-use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Drivers\Imagick\Color;
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -22,6 +23,10 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
         $resize = $this->getResizeSize($image);
         $crop = $this->getCropSize($image);
         $background = $this->handleInput($this->background);
+
+        if (!is_a($background, Color::class)) {
+            throw new DecoderException('Unable to decode backgroud color.');
+        }
 
         foreach ($image as $frame) {
             // resize current core
@@ -49,7 +54,7 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
         return $image;
     }
 
-    protected function buildBaseCanvas(SizeInterface $crop, SizeInterface $resize, ColorInterface $background): Imagick
+    protected function buildBaseCanvas(SizeInterface $crop, SizeInterface $resize, Color $background): Imagick
     {
         // build base canvas in target size
         $canvas = $this->imageFactory()->newCore(

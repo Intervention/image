@@ -84,4 +84,19 @@ class Font extends AbstractFont
                 return 8;
         }
     }
+
+    public function capHeight(): int
+    {
+        return $this->getBoxSize('T')->height();
+    }
+
+    public function leadingInPixels(): int
+    {
+        return intval(round($this->fontSizeInPixels() * $this->getLineHeight()));
+    }
+
+    public function fontSizeInPixels(): int
+    {
+        return $this->getBoxSize('Hy')->height();
+    }
 }

@@ -20,5 +20,10 @@ interface FontInterface
     public function getAlign(): string;
     public function valign(string $align): self;
     public function getValign(): string;
+    public function lineHeight(float $value): self;
+    public function getLineHeight(): float;
+    public function leadingInPixels(): int;
+    public function fontSizeInPixels(): int;
+    public function capHeight(): int;
     public function getBoxSize(string $text): Polygon;
 }

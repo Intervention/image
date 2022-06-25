@@ -16,6 +16,7 @@ abstract class AbstractFont implements FontInterface
     protected $filename;
     protected $align = 'left';
     protected $valign = 'bottom';
+    protected $lineHeight = 1.25;
 
     public function __construct(callable $init = null)
     {
@@ -99,5 +100,17 @@ abstract class AbstractFont implements FontInterface
     public function getAlign(): string
     {
         return $this->align;
+    }
+
+    public function lineHeight(float $height): FontInterface
+    {
+        $this->lineHeight = $height;
+
+        return $this;
+    }
+
+    public function getLineHeight(): float
+    {
+        return $this->lineHeight;
     }
 }

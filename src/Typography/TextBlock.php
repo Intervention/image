@@ -17,4 +17,17 @@ class TextBlock extends Collection
     {
         return $this->items;
     }
+
+    public function longestLine(): Line
+    {
+        $lines = $this->lines();
+        usort($lines, function ($a, $b) {
+            if (mb_strlen($a) === mb_strlen($b)) {
+                return 0;
+            }
+            return (mb_strlen($a) > mb_strlen($b)) ? -1 : 1;
+        });
+
+        return $lines[0];
+    }
 }

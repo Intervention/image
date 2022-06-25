@@ -19,12 +19,12 @@ class Font extends AbstractFont
      *
      * @return Polygon
      */
-    public function getBoxSize(): Polygon
+    public function getBoxSize(string $text): Polygon
     {
         if (!$this->hasFilename()) {
             // calculate box size from gd font
             $box = new Size(0, 0);
-            $chars = mb_strlen($this->getText());
+            $chars = mb_strlen($text);
             if ($chars > 0) {
                 $box->setWidth($chars * $this->getGdFontWidth());
                 $box->setHeight($this->getGdFontHeight());
@@ -37,7 +37,7 @@ class Font extends AbstractFont
             $this->getSize(),
             0,
             $this->getFilename(),
-            $this->getText()
+            $text
         );
 
         // build polygon from points
@@ -46,7 +46,6 @@ class Font extends AbstractFont
         $polygon->addPoint(new Point($box[4], $box[5]));
         $polygon->addPoint(new Point($box[2], $box[3]));
         $polygon->addPoint(new Point($box[0], $box[1]));
-
 
         return $polygon;
     }

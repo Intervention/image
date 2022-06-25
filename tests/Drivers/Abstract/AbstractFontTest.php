@@ -12,7 +12,7 @@ class AbstractFontTest extends TestCase
     private function getAbstractFontMock()
     {
         // create mock
-        $mock = Mockery::mock(AbstractFont::class, ['test123'])
+        $mock = Mockery::mock(AbstractFont::class)
                 ->shouldAllowMockingProtectedMethods()
                 ->makePartial();
 
@@ -34,7 +34,6 @@ class AbstractFontTest extends TestCase
     public function testConstructor(): void
     {
         $mock = $this->getAbstractFontMock();
-        $this->assertEquals('test123', $mock->getText());
         $this->assertEquals(24.0, $mock->getSize());
         $this->assertEquals(30, $mock->getAngle());
         $this->assertEquals(__DIR__ . '/AbstractFontTest.php', $mock->getFilename());

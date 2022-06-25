@@ -7,7 +7,6 @@ use Intervention\Image\Interfaces\ColorInterface;
 
 interface FontInterface
 {
-    public function getText(): string;
     public function color($color): self;
     public function getColor(): ?ColorInterface;
     public function size(float $size): self;
@@ -19,5 +18,7 @@ interface FontInterface
     public function hasFilename(): bool;
     public function align(string $align): self;
     public function getAlign(): string;
-    public function getBoxSize(): Polygon;
+    public function valign(string $align): self;
+    public function getValign(): string;
+    public function getBoxSize(string $text): Polygon;
 }

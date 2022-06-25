@@ -2,20 +2,14 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Drivers\Abstract\AbstractTextWriter;
 use Intervention\Image\Drivers\Gd\Font;
+use Intervention\Image\Exceptions\FontException;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 
-class TextWriter implements ModifierInterface
+class TextWriter extends AbstractTextWriter
 {
-    public function __construct(
-        protected Point $position,
-        protected Font $font
-    ) {
-        //
-    }
-
     public function apply(ImageInterface $image): ImageInterface
     {
         $position = $this->getAlignedPosition();
@@ -23,21 +17,21 @@ class TextWriter implements ModifierInterface
             if ($this->font->hasFilename()) {
                 imagettftext(
                     $frame->getCore(),
-                    $this->font->getSize(),
-                    $this->font->getAngle() * (-1),
+                    $this->getFont()->getSize(),
+                    $this->getFont()->getAngle() * (-1),
                     $position->getX(),
                     $position->getY(),
-                    $this->font->getColor()->toInt(),
-                    $this->font->getFilename(),
-                    $this->font->getText()
+                    $this->getFont()->getColor()->toInt(),
+                    $this->getFont()->getFilename(),
+                    $this->text
                 );
             } else {
                 imagestring(
                     $frame->getCore(),
-                    $this->font->getGdFont(),
+                    $this->getFont()->getGdFont(),
                     $position->getX(),
                     $position->getY(),
-                    $this->font->getText(),
+                    $this->text,
                     $this->font->getColor()->toInt()
                 );
             }
@@ -46,9 +40,9 @@ class TextWriter implements ModifierInterface
         return $image;
     }
 
-    public function getAlignedPosition(): Point
+    private function getAlignedPosition(): Point
     {
-        $poly = $this->font->getBoxSize();
+        $poly = $this->font->getBoxSize($this->text);
         $poly->setPivotPoint($this->position);
 
         $poly->align($this->font->getAlign());
@@ -59,5 +53,13 @@ class TextWriter implements ModifierInterface
         }
 
         return $poly->last();
+    }
+
+    private function getFont(): Font
+    {
+        if (!is_a($this->font, Font::class)) {
+            throw new FontException('Font is not compatible to current driver.');
+        }
+        return $this->font;
     }
 }

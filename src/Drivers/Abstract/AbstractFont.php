@@ -17,16 +17,11 @@ abstract class AbstractFont implements FontInterface
     protected $align = 'left';
     protected $valign = 'bottom';
 
-    public function __construct(protected string $text, ?callable $init = null)
+    public function __construct(callable $init = null)
     {
         if (is_callable($init)) {
             $init($this);
         }
-    }
-
-    public function getText(): string
-    {
-        return $this->text;
     }
 
     public function size(float $size): FontInterface

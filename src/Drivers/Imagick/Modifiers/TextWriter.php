@@ -2,30 +2,24 @@
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
+use Intervention\Image\Drivers\Abstract\AbstractTextWriter;
 use Intervention\Image\Drivers\Imagick\Font;
+use Intervention\Image\Exceptions\FontException;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 
-class TextWriter implements ModifierInterface
+class TextWriter extends AbstractTextWriter
 {
-    public function __construct(
-        protected Point $position,
-        protected Font $font
-    ) {
-        //
-    }
-
     public function apply(ImageInterface $image): ImageInterface
     {
         $position = $this->getAlignedPosition();
         foreach ($image as $frame) {
             $frame->getCore()->annotateImage(
-                $this->font->toImagickDraw(),
+                $this->getFont()->toImagickDraw(),
                 $position->getX(),
                 $position->getY(),
-                $this->font->getAngle() * (-1),
-                $this->font->getText()
+                $this->getFont()->getAngle() * (-1),
+                $this->text
             );
         }
 
@@ -35,10 +29,10 @@ class TextWriter implements ModifierInterface
     protected function getAlignedPosition(): Point
     {
         $position = $this->position;
-        $box = $this->font->getBoxSize();
+        $box = $this->getFont()->getBoxSize($this->text);
 
         // adjust y pos
-        switch ($this->font->getValign()) {
+        switch ($this->getFont()->getValign()) {
             case 'top':
                 $position->setY($position->getY() + $box->height());
                 break;
@@ -50,5 +44,13 @@ class TextWriter implements ModifierInterface
         }
 
         return $position;
+    }
+
+    private function getFont(): Font
+    {
+        if (!is_a($this->font, Font::class)) {
+            throw new FontException('Font is not compatible to current driver.');
+        }
+        return $this->font;
     }
 }

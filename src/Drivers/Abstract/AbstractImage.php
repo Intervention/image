@@ -194,8 +194,8 @@ abstract class AbstractImage implements ImageInterface
 
     public function text(string $text, int $x, int $y, ?callable $init = null): ImageInterface
     {
-        $font = $this->resolveDriverClass('Font', $text, $init);
-        $modifier = $this->resolveDriverClass('Modifiers\TextWriter', new Point($x, $y), $font);
+        $font = $this->resolveDriverClass('Font', $init);
+        $modifier = $this->resolveDriverClass('Modifiers\TextWriter', new Point($x, $y), $font, $text);
 
         return $this->modify($modifier);
     }

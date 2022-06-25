@@ -5,10 +5,10 @@ namespace Intervention\Image\Drivers\Imagick;
 use Imagick;
 use ImagickDraw;
 use Intervention\Image\Drivers\Abstract\AbstractFont;
-use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\FontException;
 use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Size;
+use Intervention\Image\Interfaces\ColorInterface;
 
 class Font extends AbstractFont
 {
@@ -18,20 +18,26 @@ class Font extends AbstractFont
             throw new FontException('No font file specified.');
         }
 
-        $color = $this->getColor();
-        if (!is_a($color, Color::class)) {
-            throw new DecoderException('Unable to decode font color.');
-        }
-
         $draw = new ImagickDraw();
         $draw->setStrokeAntialias(true);
         $draw->setTextAntialias(true);
         $draw->setFont($this->getFilename());
         $draw->setFontSize($this->getSize());
-        $draw->setFillColor($color->getPixel());
+        $draw->setFillColor($this->getColor()->getPixel());
         $draw->setTextAlignment($this->getImagickAlign());
 
         return $draw;
+    }
+
+    public function getColor(): ?ColorInterface
+    {
+        $color = parent::getColor();
+
+        if (!is_a($color, Color::class)) {
+            throw new FontException('Font is not compatible to current driver.');
+        }
+
+        return $color;
     }
 
     public function getAngle(): float
@@ -57,16 +63,16 @@ class Font extends AbstractFont
      *
      * @return Polygon
      */
-    public function getBoxSize(): Polygon
+    public function getBoxSize(string $text): Polygon
     {
         // no text - no box size
-        if (mb_strlen($this->getText()) === 0) {
+        if (mb_strlen($text) === 0) {
             return (new Size(0, 0))->toPolygon();
         }
 
         $dimensions = (new Imagick())->queryFontMetrics(
             $this->toImagickDraw(),
-            $this->getText()
+            $text
         );
 
         return (new Size(

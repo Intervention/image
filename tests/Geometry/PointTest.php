@@ -81,5 +81,10 @@ class PointTest extends TestCase
         $point->rotate(90, new Point(0, 0));
         $this->assertEquals(-200, $point->getX());
         $this->assertEquals(300, $point->getY());
+
+        $point = new Point(0, 74);
+        $point->rotate(45, new Point(0, 0));
+        $this->assertEquals(-52, $point->getX());
+        $this->assertEquals(52, $point->getY());
     }
 }

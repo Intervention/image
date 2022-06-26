@@ -2,9 +2,13 @@
 
 namespace Intervention\Image\Drivers\Abstract;
 
+use Intervention\Image\Geometry\Point;
+use Intervention\Image\Geometry\Polygon;
+use Intervention\Image\Geometry\Size;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FontInterface;
 use Intervention\Image\Traits\CanHandleInput;
+use Intervention\Image\Typography\TextBlock;
 
 abstract class AbstractFont implements FontInterface
 {

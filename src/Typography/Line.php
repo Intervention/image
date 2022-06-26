@@ -19,7 +19,14 @@ class Line
         return $this->position;
     }
 
-    public function width(FontInterface $font): int
+    public function setPosition(Point $point): self
+    {
+        $this->position = $point;
+
+        return $this;
+    }
+
+    public function widthInFont(FontInterface $font): int
     {
         return $font->getBoxSize($this->text)->width();
     }

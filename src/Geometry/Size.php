@@ -40,6 +40,34 @@ class Size implements SizeInterface
         return $this;
     }
 
+    public function addWidth(int $value): SizeInterface
+    {
+        $this->width = $this->width + $value;
+
+        return $this;
+    }
+
+    public function subWidth(int $value): SizeInterface
+    {
+        $this->width = $this->width - $value;
+
+        return $this;
+    }
+
+    public function addHeight(int $value): SizeInterface
+    {
+        $this->height = $this->height + $value;
+
+        return $this;
+    }
+
+    public function subHeight(int $value): SizeInterface
+    {
+        $this->height = $this->height - $value;
+
+        return $this;
+    }
+
     /**
      * Get current pivot point
      *

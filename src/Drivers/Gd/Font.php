@@ -15,7 +15,7 @@ class Font extends AbstractFont
     }
 
     /**
-     * Calculate size of bounding box of current text
+     * Calculate size of bounding box of given text
      *
      * @return Polygon
      */

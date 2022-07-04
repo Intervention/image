@@ -116,7 +116,8 @@ abstract class AbstractDriver
 
         if (class_exists($classnameLocal)) {
             return $classnameLocal;
-        } elseif (class_exists($classnameGlobal)) {
+        }
+        if (class_exists($classnameGlobal)) {
             return $classnameGlobal;
         }
 

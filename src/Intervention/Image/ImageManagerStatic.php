@@ -18,7 +18,7 @@ class ImageManagerStatic
      *
      * @param ImageManager $manager
      */
-    public function __construct(ImageManager $manager = null)
+    public function __construct(?ImageManager $manager = null)
     {
         self::$manager = $manager ? $manager : new ImageManager;
     }

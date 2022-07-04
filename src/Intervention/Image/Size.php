@@ -35,7 +35,7 @@ class Size
      * @param int   $height
      * @param Point $pivot
      */
-    public function __construct($width = null, $height = null, Point $pivot = null)
+    public function __construct($width = null, $height = null, ?Point $pivot = null)
     {
         $this->width = is_numeric($width) ? intval($width) : 1;
         $this->height = is_numeric($height) ? intval($height) : 1;
@@ -102,7 +102,7 @@ class Size
      * @param  Closure $callback
      * @return Size
      */
-    public function resize($width, $height, Closure $callback = null)
+    public function resize($width, $height, ?Closure $callback = null)
     {
         if (is_null($width) && is_null($height)) {
             throw new InvalidArgumentException(
@@ -137,7 +137,7 @@ class Size
      * @param  Closure $callback
      * @return Size
      */
-    private function resizeWidth($width, Closure $callback = null)
+    private function resizeWidth($width, ?Closure $callback = null)
     {
         $constraint = $this->getConstraint($callback);
 
@@ -173,7 +173,7 @@ class Size
      * @param  Closure $callback
      * @return Size
      */
-    private function resizeHeight($height, Closure $callback = null)
+    private function resizeHeight($height, ?Closure $callback = null)
     {
         $constraint = $this->getConstraint($callback);
 
@@ -361,7 +361,7 @@ class Size
      * @param  Closure $callback
      * @return \Intervention\Image\Constraint
      */
-    private function getConstraint(Closure $callback = null)
+    private function getConstraint(?Closure $callback = null)
     {
         $constraint = new Constraint(clone $this);
 

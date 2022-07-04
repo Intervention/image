@@ -13,7 +13,7 @@ class Driver extends \Intervention\Image\AbstractDriver
      * @param Decoder $decoder
      * @param Encoder $encoder
      */
-    public function __construct(Decoder $decoder = null, Encoder $encoder = null)
+    public function __construct(?Decoder $decoder = null, ?Encoder $encoder = null)
     {
         if ( ! $this->coreAvailable()) {
             throw new NotSupportedException(

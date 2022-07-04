@@ -2,7 +2,6 @@
 
 namespace Intervention\Image\Commands;
 
-
 abstract class AbstractCommand
 {
     /**

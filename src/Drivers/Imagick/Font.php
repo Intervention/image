@@ -24,7 +24,7 @@ class Font extends AbstractFont
         $draw->setFont($this->getFilename());
         $draw->setFontSize($this->getSize());
         $draw->setFillColor($this->getColor()->getPixel());
-        $draw->setTextAlignment($this->getImagickAlign());
+        $draw->setTextAlignment(Imagick::ALIGN_LEFT);
 
         return $draw;
     }
@@ -40,24 +40,6 @@ class Font extends AbstractFont
         return $color;
     }
 
-    public function getAngle(): float
-    {
-        return parent::getAngle() * (-1);
-    }
-
-    public function getImagickAlign(): int
-    {
-        switch (strtolower($this->getAlign())) {
-            case 'center':
-                return Imagick::ALIGN_CENTER;
-
-            case 'right':
-                return Imagick::ALIGN_RIGHT;
-        }
-
-        return Imagick::ALIGN_LEFT;
-    }
-
     /**
      * Calculate box size of current font
      *
@@ -70,14 +52,14 @@ class Font extends AbstractFont
             return (new Size(0, 0))->toPolygon();
         }
 
-        $dimensions = (new Imagick())->queryFontMetrics(
-            $this->toImagickDraw(),
-            $text
-        );
+        $draw = $this->toImagickDraw();
+        $draw->setStrokeAntialias(true);
+        $draw->setTextAntialias(true);
+        $dimensions = (new Imagick())->queryFontMetrics($draw, $text);
 
         return (new Size(
-            intval(round(abs($dimensions['boundingBox']['x1'] - $dimensions['boundingBox']['x2']))),
-            intval(round(abs($dimensions['boundingBox']['y1'] - $dimensions['boundingBox']['y2']))),
+            intval(round($dimensions['textWidth'])),
+            intval(round($dimensions['textHeight'])),
         ))->toPolygon();
     }
 }

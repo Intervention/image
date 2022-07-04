@@ -2,13 +2,9 @@
 
 namespace Intervention\Image\Drivers\Abstract;
 
-use Intervention\Image\Geometry\Point;
-use Intervention\Image\Geometry\Polygon;
-use Intervention\Image\Geometry\Size;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FontInterface;
 use Intervention\Image\Traits\CanHandleInput;
-use Intervention\Image\Typography\TextBlock;
 
 abstract class AbstractFont implements FontInterface
 {
@@ -116,5 +112,20 @@ abstract class AbstractFont implements FontInterface
     public function getLineHeight(): float
     {
         return $this->lineHeight;
+    }
+
+    public function leadingInPixels(): int
+    {
+        return intval(round($this->fontSizeInPixels() * $this->getLineHeight()));
+    }
+
+    public function capHeight(): int
+    {
+        return $this->getBoxSize('T')->height();
+    }
+
+    public function fontSizeInPixels(): int
+    {
+        return $this->getBoxSize('Hy')->height();
     }
 }

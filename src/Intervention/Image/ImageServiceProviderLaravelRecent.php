@@ -47,9 +47,7 @@ class ImageServiceProviderLaravelRecent extends ServiceProvider
         );
 
         // create image
-        $app->singleton('image', function ($app) {
-            return new ImageManager($this->getImageConfig($app));
-        });
+        $app->singleton('image', fn ($app) => new ImageManager($this->getImageConfig($app)));
 
         $app->alias('image', 'Intervention\Image\ImageManager');
     }

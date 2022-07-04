@@ -103,9 +103,7 @@ class ImageServiceProviderLaravel4 extends ServiceProvider
     {
         $app = $this->app;
 
-        $app['image'] = $app->share(function ($app) {
-            return new ImageManager($app['config']->get('image::config'));
-        });
+        $app['image'] = $app->share(fn ($app) => new ImageManager($app['config']->get('image::config')));
 
         $app->alias('image', 'Intervention\Image\ImageManager');
     }

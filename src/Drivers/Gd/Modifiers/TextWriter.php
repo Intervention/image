@@ -5,16 +5,14 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 use Intervention\Image\Drivers\Abstract\AbstractTextWriter;
 use Intervention\Image\Drivers\Gd\Font;
 use Intervention\Image\Exceptions\FontException;
+use Intervention\Image\Interfaces\FontInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
 class TextWriter extends AbstractTextWriter
 {
     public function apply(ImageInterface $image): ImageInterface
     {
-        $lines = $this->getTextBlock();
-        $boundingBox = $lines->getBoundingBox($this->getFont(), $this->position);
-        $lines->alignByFont($this->getFont(), $boundingBox->last());
-
+        $lines = $this->getAlignedTextBlock();
         foreach ($image as $frame) {
             if ($this->font->hasFilename()) {
                 foreach ($lines as $line) {
@@ -29,9 +27,6 @@ class TextWriter extends AbstractTextWriter
                         $line
                     );
                 }
-
-                // debug
-                imagepolygon($frame->getCore(), $boundingBox->toArray(), 0);
             } else {
                 foreach ($lines as $line) {
                     imagestring(
@@ -42,7 +37,6 @@ class TextWriter extends AbstractTextWriter
                         $line,
                         $this->font->getColor()->toInt()
                     );
-                    imagepolygon($frame->getCore(), $boundingBox->toArray(), 0);
                 }
             }
         }
@@ -50,7 +44,7 @@ class TextWriter extends AbstractTextWriter
         return $image;
     }
 
-    private function getFont(): Font
+    protected function getFont(): FontInterface
     {
         if (!is_a($this->font, Font::class)) {
             throw new FontException('Font is not compatible to current driver.');

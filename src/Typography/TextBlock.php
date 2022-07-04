@@ -17,37 +17,6 @@ class TextBlock extends Collection
         }
     }
 
-    /**
-     * Set position of each line in text block
-     * according to given font settings.
-     *
-     * @param FontInterface $font
-     * @param Point         $pivot
-     * @return TextBlock
-     */
-    public function alignByFont(FontInterface $font, Point $pivot = null): self
-    {
-        $pivot = $pivot ? $pivot : new Point();
-
-        $leading = $font->leadingInPixels();
-        $x = $pivot->getX();
-        $y = $font->hasFilename() ? $pivot->getY() + $font->capHeight() : $pivot->getY();
-
-        $x_adjustment = 0;
-        $total_width = $this->longestLine()->widthInFont($font);
-        foreach ($this as $line) {
-            $x_adjustment = $font->getAlign() == 'left' ? 0 : $total_width - $line->widthInFont($font);
-            $x_adjustment = $font->getAlign() == 'right' ? intval(round($x_adjustment)) : $x_adjustment;
-            $x_adjustment = $font->getAlign() == 'center' ? intval(round($x_adjustment / 2)) : $x_adjustment;
-            $position = new Point($x + $x_adjustment, $y);
-            $position->rotate($font->getAngle(), $pivot);
-            $line->setPosition($position);
-            $y += $leading;
-        }
-
-        return $this;
-    }
-
     public function getBoundingBox(FontInterface $font, Point $pivot = null): Polygon
     {
         $pivot = $pivot ? $pivot : new Point();

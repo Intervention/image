@@ -88,10 +88,11 @@ class ImageTest extends TestCase
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\RuntimeException
      */
     public function testGetBackupWithoutBackuo()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\RuntimeException::class);
+
         $image = $this->getTestImage();
         $image->getBackup();
     }

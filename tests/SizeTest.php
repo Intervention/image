@@ -426,10 +426,11 @@ class SizeTest extends TestCase
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
      */
     public function testInvalidResize()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\InvalidArgumentException::class);
+
         $size = new Size(800, 600);
         $size->resize(null, null);
     }

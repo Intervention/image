@@ -90,10 +90,11 @@ class EncoderTest extends TestCase
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\NotSupportedException
      */
     public function testProcessHeicGd()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\NotSupportedException::class);
+
         $core = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $encoder = new GdEncoder;
         $image = Mockery::mock('\Intervention\Image\Image');
@@ -102,10 +103,11 @@ class EncoderTest extends TestCase
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\NotSupportedException
      */
     public function testProcessTiffGd()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\NotSupportedException::class);
+
         $core = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $encoder = new GdEncoder;
         $image = Mockery::mock('\Intervention\Image\Image');
@@ -128,10 +130,11 @@ class EncoderTest extends TestCase
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\NotSupportedException
      */
     public function testProcessIcoGd()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\NotSupportedException::class);
+
         $core = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $encoder = new GdEncoder;
         $image = Mockery::mock('\Intervention\Image\Image');
@@ -140,10 +143,11 @@ class EncoderTest extends TestCase
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\NotSupportedException
      */
     public function testProcessPsdGd()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\NotSupportedException::class);
+
         $core = imagecreatefromjpeg(__DIR__.'/images/test.jpg');
         $encoder = new GdEncoder;
         $image = Mockery::mock('\Intervention\Image\Image');
@@ -213,30 +217,33 @@ class EncoderTest extends TestCase
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\NotSupportedException
      */
     public function testProcessWebpImagick()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\NotSupportedException::class);
+
         $encoder = new ImagickEncoder;
         $image = Mockery::mock('\Intervention\Image\Image');
         $img = $encoder->process($image, 'webp', 90);
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\NotSupportedException
      */
     public function testProcessAvifImagick()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\NotSupportedException::class);
+
         $encoder = new ImagickEncoder;
         $image = Mockery::mock('\Intervention\Image\Image');
         $img = $encoder->process($image, 'avif', 90);
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\NotSupportedException
      */
     public function testProcessHeicImagick()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\NotSupportedException::class);
+
         $encoder = new ImagickEncoder;
         $image = Mockery::mock('\Intervention\Image\Image');
         $img = $encoder->process($image, 'heic', 90);

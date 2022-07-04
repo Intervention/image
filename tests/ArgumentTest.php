@@ -33,19 +33,21 @@ class ArgumentTest extends TestCase
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
      */
     public function testRequiredFail()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\InvalidArgumentException::class);
+
         $arg = new Argument($this->getMockedCommand([]));
         $arg->required();
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
      */
     public function testRequiredFailSecondParameter()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\InvalidArgumentException::class);
+
         $arg = new Argument($this->getMockedCommand(['foo']), 1);
         $arg->required();
     }
@@ -62,10 +64,11 @@ class ArgumentTest extends TestCase
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
      */
     public function testTypeIntegerFail()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\InvalidArgumentException::class);
+
         $arg = new Argument($this->getMockedCommand(['foo']));
         $arg->type('integer');
     }
@@ -82,10 +85,11 @@ class ArgumentTest extends TestCase
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
      */
     public function testTypeArrayFail()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\InvalidArgumentException::class);
+
         $arg = new Argument($this->getMockedCommand(['foo']));
         $arg->type('array');
     }
@@ -126,28 +130,31 @@ class ArgumentTest extends TestCase
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
      */
     public function testTypeDigitFailString()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\InvalidArgumentException::class);
+
         $arg = new Argument($this->getMockedCommand(['foo']));
         $arg->type('digit');
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
      */
     public function testTypeDigitFailFloat()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\InvalidArgumentException::class);
+
         $arg = new Argument($this->getMockedCommand([12.5]));
         $arg->type('digit');
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
      */
     public function testTypeDigitFailBool()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\InvalidArgumentException::class);
+
         $arg = new Argument($this->getMockedCommand([true]));
         $arg->type('digit');
     }
@@ -164,10 +171,11 @@ class ArgumentTest extends TestCase
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
      */
     public function testTypeNumericFail()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\InvalidArgumentException::class);
+
         $arg = new Argument($this->getMockedCommand(['foo']));
         $arg->type('numeric');
     }
@@ -188,10 +196,11 @@ class ArgumentTest extends TestCase
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
      */
     public function testTypeBooleanFail()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\InvalidArgumentException::class);
+
         $arg = new Argument($this->getMockedCommand(['foo']));
         $arg->type('boolean');
     }
@@ -208,10 +217,11 @@ class ArgumentTest extends TestCase
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
      */
     public function testTypeStringFail()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\InvalidArgumentException::class);
+
         $arg = new Argument($this->getMockedCommand([12]));
         $arg->type('string');
     }
@@ -229,10 +239,11 @@ class ArgumentTest extends TestCase
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
      */
     public function testTypeClosureFail()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\InvalidArgumentException::class);
+
         $arg = new Argument($this->getMockedCommand(['foo']));
         $arg->type('closure');
     }
@@ -273,37 +284,41 @@ class ArgumentTest extends TestCase
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
      */
     public function testBetweenFailString()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\InvalidArgumentException::class);
+
         $arg = new Argument($this->getMockedCommand(['foo']));
         $arg->between(1, 10);
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
      */
     public function testBetweenFailAbove()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\InvalidArgumentException::class);
+
         $arg = new Argument($this->getMockedCommand([10.9]));
         $arg->between(0, 10);
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
      */
     public function testBetweenFailBelow()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\InvalidArgumentException::class);
+
         $arg = new Argument($this->getMockedCommand([-1]));
         $arg->between(0, 10);
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
      */
     public function testBetweenFail()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\InvalidArgumentException::class);
+
         $arg = new Argument($this->getMockedCommand([-1000]));
         $arg->between(-100, 100);
     }
@@ -336,19 +351,21 @@ class ArgumentTest extends TestCase
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
      */
     public function testMinFailString()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\InvalidArgumentException::class);
+
         $arg = new Argument($this->getMockedCommand(['foo']));
         $arg->min(10);
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
      */
     public function testMinFail()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\InvalidArgumentException::class);
+
         $arg = new Argument($this->getMockedCommand([10.9]));
         $arg->min(11);
     }
@@ -381,19 +398,21 @@ class ArgumentTest extends TestCase
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
      */
     public function testMaxFailString()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\InvalidArgumentException::class);
+
         $arg = new Argument($this->getMockedCommand(['foo']));
         $arg->max(10);
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\InvalidArgumentException
      */
     public function testMaxFail()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\InvalidArgumentException::class);
+
         $arg = new Argument($this->getMockedCommand([25]));
         $arg->max(10);
     }

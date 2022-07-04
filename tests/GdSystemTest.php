@@ -23,18 +23,20 @@ class GdSystemTest extends TestCase
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\NotReadableException
      */
    public function testMakeFromPathBroken()
    {
+        $this->setExpectedException(\Intervention\Image\Exception\NotReadableException::class);
+
        $this->manager()->make('tests/images/broken.png');
    }
 
     /**
-     * @expectedException \Intervention\Image\Exception\NotReadableException
      */
     public function testMakeFromNotExisting()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\NotReadableException::class);
+
         $this->manager()->make('tests/images/not_existing.png');
     }
 

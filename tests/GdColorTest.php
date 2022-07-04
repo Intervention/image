@@ -274,10 +274,11 @@ class GdColorTest extends TestCase
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\NotReadableException
      */
     public function testParseUnknown()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\NotReadableException::class);
+
         $c = new Color('xxxxxxxxxxxxxxxxxxxx');
     }
 

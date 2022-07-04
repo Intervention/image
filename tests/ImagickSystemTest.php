@@ -1565,20 +1565,22 @@ class ImagickSystemTest extends TestCase
     }
 
     /**
-     * @expectedException ImagickException
      */
     public function testDestroy()
     {
+        $this->setExpectedException(\ImagickException::class);
+
         $img = $this->manager()->make('tests/images/trim.png');
         $img->destroy();
         $img->getCore()->getImageWidth(); // try to get width (should throw exception)
     }
 
     /**
-     * @expectedException Exception
      */
     public function testDestroyWithBackup()
     {
+        $this->setExpectedException(\Exception::class);
+
         $img = $this->manager()->make('tests/images/trim.png');
         $img->backup();
         $img->destroy();

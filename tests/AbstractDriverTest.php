@@ -10,10 +10,11 @@ class AbstractDriverTest extends TestCase
     }
 
     /**
-     * @expectedException \Intervention\Image\Exception\NotSupportedException
      */
     public function testExecuteCommand()
     {
+        $this->setExpectedException(\Intervention\Image\Exception\NotSupportedException::class);
+
         $image = Mockery::mock('Intervention\Image\Image');
         $driver = $this->getMockForAbstractClass('\Intervention\Image\AbstractDriver');
         $command = $driver->executeCommand($image, 'xxxxxxxxxxxxxxxxxxxxxxx', []);

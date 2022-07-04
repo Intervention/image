@@ -20,7 +20,7 @@ class CropCommand extends ResizeCommand
         $x = $this->argument(2)->type('digit')->value();
         $y = $this->argument(3)->type('digit')->value();
 
-        if (is_null($width) || is_null($height)) {
+        if (null === $width || null === $height) {
             throw new \Intervention\Image\Exception\InvalidArgumentException(
                 "Width and height of cutout needs to be defined."
             );
@@ -30,7 +30,7 @@ class CropCommand extends ResizeCommand
         $position = new Point($x, $y);
 
         // align boxes
-        if (is_null($x) && is_null($y)) {
+        if (null === $x && null === $y) {
             $position = $image->getSize()->align('center')->relativePosition($cropped->align('center'));
         }
 

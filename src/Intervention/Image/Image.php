@@ -131,9 +131,9 @@ class Image extends File
      */
     public function save($path = null, $quality = null, $format = null)
     {
-        $path = is_null($path) ? $this->basePath() : $path;
+        $path = null === $path ? $this->basePath() : $path;
 
-        if (is_null($path)) {
+        if (null === $path) {
             throw new NotWritableException(
                 "Can't write to undefined path."
             );
@@ -220,7 +220,7 @@ class Image extends File
      */
     public function getBackup($name = null)
     {
-        $name = is_null($name) ? 'default' : $name;
+        $name = null === $name ? 'default' : $name;
 
         if ( ! $this->backupExists($name)) {
             throw new RuntimeException(
@@ -250,7 +250,7 @@ class Image extends File
      */
     public function setBackup($resource, $name = null)
     {
-        $name = is_null($name) ? 'default' : $name;
+        $name = null === $name ? 'default' : $name;
 
         $this->backups[$name] = $resource;
 

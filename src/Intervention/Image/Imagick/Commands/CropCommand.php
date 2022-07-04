@@ -22,7 +22,7 @@ class CropCommand extends AbstractCommand
         $x = $this->argument(2)->type('digit')->value();
         $y = $this->argument(3)->type('digit')->value();
 
-        if (is_null($width) || is_null($height)) {
+        if (null === $width || null === $height) {
             throw new InvalidArgumentException(
                 "Width and height of cutout needs to be defined."
             );
@@ -32,7 +32,7 @@ class CropCommand extends AbstractCommand
         $position = new Point($x, $y);
 
         // align boxes
-        if (is_null($x) && is_null($y)) {
+        if (null === $x && null === $y) {
             $position = $image->getSize()->align('center')->relativePosition($cropped->align('center'));
         }
 

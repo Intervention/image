@@ -97,7 +97,7 @@ class ImageServiceProviderLaravelRecent extends ServiceProvider
     {
         $config = $app['config']->get('image');
 
-        if (is_null($config)) {
+        if (null === $config) {
             return [];
         }
 

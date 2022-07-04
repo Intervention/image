@@ -56,7 +56,7 @@ abstract class AbstractShape
     public function border($width, $color = null)
     {
         $this->border_width = is_numeric($width) ? intval($width) : 0;
-        $this->border_color = is_null($color) ? '#000000' : $color;
+        $this->border_color = null === $color ? '#000000' : $color;
     }
 
     /**

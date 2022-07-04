@@ -247,7 +247,7 @@ class Color extends AbstractColor
      */
     private function setPixel($r, $g, $b, $a = null)
     {
-        $a = is_null($a) ? 1 : $a;
+        $a = null === $a ? 1 : $a;
 
         return $this->pixel = new \ImagickPixel(
             sprintf('rgba(%d, %d, %d, %.2F)', $r, $g, $b, $a)

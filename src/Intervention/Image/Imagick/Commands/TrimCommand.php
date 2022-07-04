@@ -26,7 +26,7 @@ class TrimCommand extends AbstractCommand
         $checkTransparency = false;
 
         // define borders to trim away
-        if (is_null($away)) {
+        if (null === $away) {
             $away = ['top', 'right', 'bottom', 'left'];
         } elseif (is_string($away)) {
             $away = [$away];

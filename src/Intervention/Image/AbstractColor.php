@@ -134,7 +134,7 @@ abstract class AbstractColor
                 $this->initFromObject($value);
                 break;
 
-            case is_null($value):
+            case null === $value:
                 $this->initFromArray([255, 255, 255, 0]);
                 break;
 

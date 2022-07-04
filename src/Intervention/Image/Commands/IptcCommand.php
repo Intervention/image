@@ -57,7 +57,7 @@ class IptcCommand extends AbstractCommand
             }
         }
 
-        if (! is_null($key) && is_array($data)) {
+        if (null !== $key && is_array($data)) {
             $data = array_key_exists($key, $data) ? $data[$key] : false;
         }
 

@@ -255,7 +255,7 @@ abstract class AbstractEncoder
      */
     protected function setQuality($quality)
     {
-        $quality = is_null($quality) ? 90 : $quality;
+        $quality = null === $quality ? 90 : $quality;
         $quality = $quality === 0 ? 1 : $quality;
 
         if ($quality < 0 || $quality > 100) {

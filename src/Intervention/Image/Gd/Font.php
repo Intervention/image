@@ -24,7 +24,7 @@ class Font extends \Intervention\Image\AbstractFont
      */
     private function getInternalFont()
     {
-        $internalfont = is_null($this->file) ? 1 : $this->file;
+        $internalfont = null === $this->file ? 1 : $this->file;
         $internalfont = is_numeric($internalfont) ? $internalfont : false;
 
         if ( ! in_array($internalfont, [1, 2, 3, 4, 5])) {
@@ -147,8 +147,8 @@ class Font extends \Intervention\Image\AbstractFont
 
                 $box = $this->getBoxSize();
 
-                $align = is_null($this->align) ? 'left' : strtolower($this->align);
-                $valign = is_null($this->valign) ? 'bottom' : strtolower($this->valign);
+                $align = null === $this->align ? 'left' : strtolower($this->align);
+                $valign = null === $this->valign ? 'bottom' : strtolower($this->valign);
 
                 // correction on position depending on v/h alignment
                 switch ($align.'-'.$valign) {

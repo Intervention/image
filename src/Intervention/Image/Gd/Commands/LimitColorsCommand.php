@@ -25,7 +25,7 @@ class LimitColorsCommand extends AbstractCommand
         $resource = imagecreatetruecolor($size->width, $size->height);
 
         // define matte
-        if (is_null($matte)) {
+        if (null === $matte) {
             $matte = imagecolorallocatealpha($resource, 255, 255, 255, 127);
         } else {
             $matte = $image->getDriver()->parseColor($matte)->getInt();

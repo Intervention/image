@@ -40,7 +40,7 @@ class ExifCommand extends AbstractCommand
 
             $data = @exif_read_data($stream);
 
-            if (!is_null($key) && is_array($data)) {
+            if (null !== $key && is_array($data)) {
                 $data = array_key_exists($key, $data) ? $data[$key] : false;
             }
 

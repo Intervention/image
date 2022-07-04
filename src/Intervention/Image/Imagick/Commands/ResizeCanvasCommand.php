@@ -24,8 +24,8 @@ class ResizeCanvasCommand extends AbstractCommand
         $original_height = $image->getHeight();
 
         // check of only width or height is set
-        $width = is_null($width) ? $original_width : intval($width);
-        $height = is_null($height) ? $original_height : intval($height);
+        $width = null === $width ? $original_width : intval($width);
+        $height = null === $height ? $original_height : intval($height);
 
         // check on relative width/height
         if ($relative) {

@@ -152,7 +152,7 @@ class Argument
     {
         $value = $this->type('numeric')->value();
 
-        if (is_null($value)) {
+        if (null === $value) {
             return $this;
         }
 
@@ -177,7 +177,7 @@ class Argument
     {
         $v = $this->type('numeric')->value();
 
-        if (is_null($v)) {
+        if (null === $v) {
             return $this;
         }
 
@@ -199,7 +199,7 @@ class Argument
     {
         $v = $this->type('numeric')->value();
 
-        if (is_null($v)) {
+        if (null === $v) {
             return $this;
         }
 

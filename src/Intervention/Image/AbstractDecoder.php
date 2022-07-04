@@ -254,7 +254,7 @@ abstract class AbstractDecoder
     {
         $data = $this->decodeDataUrl($this->data);
 
-        return is_null($data) ? false : true;
+        return null === $data ? false : true;
     }
 
     /**

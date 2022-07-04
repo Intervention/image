@@ -104,7 +104,7 @@ class Size
      */
     public function resize($width, $height, Closure $callback = null)
     {
-        if (is_null($width) && is_null($height)) {
+        if (null === $width && null === $height) {
             throw new InvalidArgumentException(
                 "Width or height needs to be defined."
             );

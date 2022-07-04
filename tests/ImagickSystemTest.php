@@ -9,8 +9,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->make('tests/images/circle.png');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(50, $img->getWidth());
         $this->assertEquals(50, $img->getHeight());
         $this->assertEquals('image/png', $img->mime);
@@ -27,8 +27,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->make($str);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(50, $img->getWidth());
         $this->assertEquals(50, $img->getHeight());
         $this->assertEquals('image/png', $img->mime);
@@ -41,8 +41,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->make($imagick);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(50, $img->getWidth());
         $this->assertEquals(50, $img->getHeight());
     }
@@ -53,8 +53,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->make($str);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
         $this->assertEquals('image/png', $img->mime);
@@ -66,8 +66,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->make($str);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
         $this->assertEquals('image/png', $img->mime);
@@ -82,8 +82,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->make($data);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
         $this->assertEquals('image/png', $img->mime);
@@ -95,8 +95,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->canvas(30, 20);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(30, $img->getWidth());
         $this->assertEquals(20, $img->getHeight());
         $this->assertTransparentPosition($img, 0, 0);
@@ -107,8 +107,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->canvas(30, 20, 'b53717');
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(30, $img->getWidth());
         $this->assertEquals(20, $img->getHeight());
         $this->assertEquals('#b53717', $img->pickColor(15, 15, 'hex'));
@@ -119,8 +119,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->make('tests/images/tile.png');
         $size = $img->getSize();
         $this->assertInstanceOf('Intervention\Image\Size', $size);
-        $this->assertInternalType('int', $size->width);
-        $this->assertInternalType('int', $size->height);
+        $this->assertIsInt($size->width);
+        $this->assertIsInt($size->height);
         $this->assertEquals(16, $size->width);
         $this->assertEquals(16, $size->height);
     }
@@ -131,8 +131,8 @@ class ImagickSystemTest extends TestCase
         $img->resize(120, 150);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(120, $img->getWidth());
         $this->assertEquals(150, $img->getHeight());
         $this->assertTransparentPosition($img, 0, 0);
@@ -144,8 +144,8 @@ class ImagickSystemTest extends TestCase
         $img->resize(120, null);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(120, $img->getWidth());
         $this->assertEquals(16, $img->getHeight());
         $this->assertTransparentPosition($img, 0, 15);
@@ -157,8 +157,8 @@ class ImagickSystemTest extends TestCase
         $img->resize(null, 150);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(16, $img->getWidth());
         $this->assertEquals(150, $img->getHeight());
         $this->assertTransparentPosition($img, 15, 0);
@@ -170,8 +170,8 @@ class ImagickSystemTest extends TestCase
         $img->resize(50, null, function ($constraint) { $constraint->aspectRatio(); });
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(50, $img->getWidth());
         $this->assertEquals(50, $img->getHeight());
         $this->assertTransparentPosition($img, 30, 0);
@@ -183,8 +183,8 @@ class ImagickSystemTest extends TestCase
         $img->resize(null, 50, function ($constraint) { $constraint->aspectRatio(); });
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(50, $img->getWidth());
         $this->assertEquals(50, $img->getHeight());
         $this->assertTransparentPosition($img, 30, 0);
@@ -196,8 +196,8 @@ class ImagickSystemTest extends TestCase
         $img->resize(100, 120, function ($constraint) { $constraint->aspectRatio(); });
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(100, $img->getWidth());
         $this->assertEquals(100, $img->getHeight());
         $this->assertTransparentPosition($img, 60, 0);
@@ -209,8 +209,8 @@ class ImagickSystemTest extends TestCase
         $img->resize(100, 100, function ($constraint) { $constraint->aspectRatio(); $constraint->upsize(); });
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(16, $img->getWidth());
         $this->assertEquals(16, $img->getHeight());
         $this->assertTransparentPosition($img, 15, 0);
@@ -222,8 +222,8 @@ class ImagickSystemTest extends TestCase
         $img->widen(100);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(100, $img->getWidth());
         $this->assertEquals(100, $img->getHeight());
         $this->assertTransparentPosition($img, 60, 0);
@@ -235,8 +235,8 @@ class ImagickSystemTest extends TestCase
         $img->widen(100, function ($constraint) {$constraint->upsize();});
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(16, $img->getWidth());
         $this->assertEquals(16, $img->getHeight());
         $this->assertTransparentPosition($img, 8, 0);
@@ -248,8 +248,8 @@ class ImagickSystemTest extends TestCase
         $img->heighten(100);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(100, $img->getWidth());
         $this->assertEquals(100, $img->getHeight());
         $this->assertTransparentPosition($img, 60, 0);
@@ -261,8 +261,8 @@ class ImagickSystemTest extends TestCase
         $img->heighten(100, function ($constraint) {$constraint->upsize();});
         $this->assertInstanceOf('Intervention\Image\Image', $img);
         $this->assertInstanceOf('Imagick', $img->getCore());
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(16, $img->getWidth());
         $this->assertEquals(16, $img->getHeight());
         $this->assertTransparentPosition($img, 8, 0);
@@ -272,8 +272,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->resizeCanvas(10, 10);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
         $this->assertColorAtPosition('#b4e000', $img, 0, 4);
@@ -286,8 +286,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->resizeCanvas(10, 10, 'top-left');
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
         $this->assertColorAtPosition('#b4e000', $img, 0, 7);
@@ -300,8 +300,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->resizeCanvas(10, 10, 'top');
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
         $this->assertColorAtPosition('#b4e000', $img, 0, 7);
@@ -314,8 +314,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->resizeCanvas(10, 10, 'top-right');
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
         $this->assertColorAtPosition('#b4e000', $img, 0, 7);
@@ -328,8 +328,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->resizeCanvas(10, 10, 'left');
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
         $this->assertColorAtPosition('#b4e000', $img, 0, 4);
@@ -342,8 +342,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->resizeCanvas(10, 10, 'right');
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
         $this->assertColorAtPosition('#b4e000', $img, 0, 4);
@@ -356,8 +356,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->resizeCanvas(10, 10, 'bottom-left');
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
         $this->assertColorAtPosition('#b4e000', $img, 0, 1);
@@ -370,8 +370,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->resizeCanvas(10, 10, 'bottom-right');
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
         $this->assertColorAtPosition('#b4e000', $img, 0, 1);
@@ -384,8 +384,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->resizeCanvas(10, 10, 'bottom');
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
         $this->assertColorAtPosition('#b4e000', $img, 0, 1);
@@ -398,8 +398,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->resizeCanvas(4, 4, 'center', true, '#ff00ff');
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(20, $img->getWidth());
         $this->assertEquals(20, $img->getHeight());
         $this->assertColorAtPosition('#ff00ff', $img, 0, 0);
@@ -414,8 +414,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->resizeCanvas(10, null);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(16, $img->getHeight());
         $this->assertColorAtPosition('#b4e000', $img, 0, 7);
@@ -428,8 +428,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->resizeCanvas(null, 10);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(16, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
         $this->assertColorAtPosition('#b4e000', $img, 0, 4);
@@ -442,8 +442,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->resizeCanvas(10, 20);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(10, $img->getWidth());
         $this->assertEquals(20, $img->getHeight());
         $this->assertColorAtPosition('#b4e000', $img, 0, 9);
@@ -456,8 +456,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->resizeCanvas(20, 10);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(20, $img->getWidth());
         $this->assertEquals(10, $img->getHeight());
         $this->assertColorAtPosition('#b4e000', $img, 2, 4);
@@ -471,8 +471,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->resizeCanvas(-4, -4);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(12, $img->getWidth());
         $this->assertEquals(12, $img->getHeight());
         $this->assertColorAtPosition('#b4e000', $img, 0, 5);
@@ -485,8 +485,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->resizeCanvas(null, 20, 'bottom-left', false, '#ff00ff');
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(16, $img->getWidth());
         $this->assertEquals(20, $img->getHeight());
         $this->assertColorAtPosition('#ff00ff', $img, 0, 0);
@@ -501,8 +501,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->canvas(1, 1, 'ff0000');
         $img->resizeCanvas(17, 17, 'center', false, '333333');
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(17, $img->getWidth());
         $this->assertEquals(17, $img->getHeight());
         $this->assertColorAtPosition('#333333', $img, 0, 0);
@@ -515,8 +515,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->crop(6, 6); // should be centered without pos.
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(6, $img->getWidth());
         $this->assertEquals(6, $img->getHeight());
         $this->assertColorAtPosition('#b4e000', $img, 0, 2);
@@ -529,8 +529,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->crop(4, 4, 7, 7); // should be centered without pos.
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(4, $img->getWidth());
         $this->assertEquals(4, $img->getHeight());
         $this->assertColorAtPosition('#b4e000', $img, 0, 0);
@@ -543,8 +543,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->fit(6);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(6, $img->getWidth());
         $this->assertEquals(6, $img->getHeight());
         $this->assertColorAtPosition('#b4e000', $img, 0, 2);
@@ -557,8 +557,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->fit(12, 6);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(12, $img->getWidth());
         $this->assertEquals(6, $img->getHeight());
         $this->assertColorAtPosition('#b4e000', $img, 0, 2);
@@ -571,8 +571,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/trim.png');
         $img->fit(300, 150, function ($constraint) {$constraint->upsize();});
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(50, $img->getWidth());
         $this->assertEquals(25, $img->getHeight());
         $this->assertColorAtPosition('#00aef0', $img, 0, 0);
@@ -584,8 +584,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->flip('h');
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(16, $img->getWidth());
         $this->assertEquals(16, $img->getHeight());
         $this->assertColorAtPosition('#b4e000', $img, 8, 7);
@@ -598,8 +598,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->flip('v');
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(16, $img->getWidth());
         $this->assertEquals(16, $img->getHeight());
         $this->assertColorAtPosition('#b4e000', $img, 0, 8);
@@ -612,8 +612,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/tile.png');
         $img->rotate(90);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(16, $img->getWidth());
         $this->assertEquals(16, $img->getHeight());
         $this->assertColorAtPosition('#b4e000', $img, 0, 8);
@@ -630,8 +630,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 'top-left', 0, 0);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
         $this->assertEquals('#0000ff', $img->pickColor(0, 0, 'hex'));
@@ -641,8 +641,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 'top-left', 10, 10);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
         $this->assertEquals('#ff0000', $img->pickColor(9, 9, 'hex'));
@@ -652,8 +652,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 'top', 0, 0);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
         $this->assertEquals('#ff0000', $img->pickColor(0, 0, 'hex'));
@@ -663,8 +663,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 'top', 10, 10);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
         $this->assertEquals('#0000ff', $img->pickColor(18, 10, 'hex'));
@@ -674,8 +674,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 'top-right', 0, 0);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
         $this->assertEquals('#ff0000', $img->pickColor(15, 0, 'hex'));
@@ -685,8 +685,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 'top-right', 10, 10);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
         $this->assertEquals('#ff0000', $img->pickColor(6, 9, 'hex'));
@@ -696,8 +696,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 'left', 0, 0);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
         $this->assertEquals('#0000ff', $img->pickColor(15, 23, 'hex'));
@@ -707,8 +707,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 'left', 10, 10);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
         $this->assertEquals('#ff0000', $img->pickColor(8, 23, 'hex'));
@@ -720,8 +720,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 'right', 0, 0);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
         $this->assertEquals('#0000ff', $img->pickColor(31, 23, 'hex'));
@@ -731,8 +731,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 'right', 10, 10);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
         $this->assertEquals('#ff0000', $img->pickColor(5, 8, 'hex'));
@@ -746,8 +746,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 'bottom-left', 0, 0);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
         $this->assertEquals('#0000ff', $img->pickColor(15, 31, 'hex'));
@@ -757,8 +757,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 'bottom-left', 10, 10);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
         $this->assertEquals('#0000ff', $img->pickColor(10, 21, 'hex'));
@@ -768,8 +768,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 'bottom', 0, 0);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
         $this->assertEquals('#0000ff', $img->pickColor(8, 16, 'hex'));
@@ -779,8 +779,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 'bottom', 10, 10);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
         $this->assertEquals('#ff0000', $img->pickColor(5, 8, 'hex'));
@@ -795,8 +795,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 'bottom-right', 0, 0);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
         $this->assertEquals('#0000ff', $img->pickColor(16, 16, 'hex'));
@@ -806,8 +806,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 'bottom-right', 10, 10);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
         $this->assertEquals('#0000ff', $img->pickColor(21, 21, 'hex'));
@@ -817,8 +817,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 'center', 0, 0);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
         $this->assertEquals('#0000ff', $img->pickColor(23, 23, 'hex'));
@@ -828,8 +828,8 @@ class ImagickSystemTest extends TestCase
         $img = $this->manager()->canvas(32, 32, '#ff0000'); // create canvas
         $img->insert($watermark, 'center', 10, 10);
         $this->assertInstanceOf('Intervention\Image\Image', $img);
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals($img->getWidth(), 32);
         $this->assertEquals($img->getHeight(), 32);
         $this->assertEquals('#0000ff', $img->pickColor(23, 23, 'hex'));
@@ -848,8 +848,8 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/trim.png');
         $img->resize(16, 16)->insert('tests/images/tile.png');
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(16, $img->getWidth());
         $this->assertEquals(16, $img->getHeight());
         $this->assertColorAtPosition('#b4e000', $img, 0, 7);
@@ -1085,8 +1085,8 @@ class ImagickSystemTest extends TestCase
         $img->backup();
         $img->resize(30, 20);
         $img->reset();
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(16, $img->getWidth());
         $this->assertEquals(16, $img->getHeight());
     }
@@ -1098,8 +1098,8 @@ class ImagickSystemTest extends TestCase
         $img->resize(30, 20);
         $img->fill('#ff0000');
         $img->reset();
-        $this->assertInternalType('int', $img->getWidth());
-        $this->assertInternalType('int', $img->getHeight());
+        $this->assertIsInt($img->getWidth());
+        $this->assertIsInt($img->getHeight());
         $this->assertEquals(16, $img->getWidth());
         $this->assertEquals(16, $img->getHeight());
         $this->assertColorAtPosition('#0000ff', $img, 0, 0);
@@ -1483,7 +1483,7 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/exif.jpg');
         $data = $img->exif();
-        $this->assertInternalType('array', $data);
+        $this->assertIsArray($data);
         $this->assertGreaterThanOrEqual(13, count($data));
     }
 
@@ -1491,7 +1491,7 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/exif.jpg');
         $data = $img->exif('Artist');
-        $this->assertInternalType('string', $data);
+        $this->assertIsString($data);
         $this->assertEquals('Oliver Vogel', $data);
     }
 
@@ -1589,7 +1589,7 @@ class ImagickSystemTest extends TestCase
     {
         $img = $this->manager()->make('tests/images/trim.png');
         $value = strval($img);
-        $this->assertInternalType('string', $value);
+        $this->assertIsString($value);
     }
 
     public function testFilter()

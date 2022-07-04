@@ -20,7 +20,7 @@ class PickColorCommandTest extends TestCase
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
-        $this->assertInternalType('array', $command->getOutput());
+        $this->assertIsArray($command->getOutput());
         $this->assertEquals(4, count($command->getOutput()));
     }
 
@@ -33,7 +33,7 @@ class PickColorCommandTest extends TestCase
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
-        $this->assertInternalType('string', $command->getOutput());
+        $this->assertIsString($command->getOutput());
         $this->assertEquals('#ffffff', $command->getOutput());
     }
 
@@ -47,7 +47,7 @@ class PickColorCommandTest extends TestCase
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
-        $this->assertInternalType('array', $command->getOutput());
+        $this->assertIsArray($command->getOutput());
         $this->assertEquals(4, count($command->getOutput()));
     }
 
@@ -61,7 +61,7 @@ class PickColorCommandTest extends TestCase
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
-        $this->assertInternalType('string', $command->getOutput());
+        $this->assertIsString($command->getOutput());
         $this->assertEquals('#ff0000', $command->getOutput());
     }
 }

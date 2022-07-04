@@ -20,7 +20,7 @@ class ExifCommandTest extends TestCase
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
-        $this->assertInternalType('array', $command->getOutput());
+        $this->assertIsArray($command->getOutput());
     }
 
     public function testFetchDefined()
@@ -67,7 +67,7 @@ class ExifCommandTest extends TestCase
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
-        $this->assertInternalType('array', $command->getOutput());
+        $this->assertIsArray($command->getOutput());
         $this->assertEquals('Oliver Vogel', $command->getOutput()['Artist']);
     }
 

@@ -21,7 +21,7 @@ class DriverTest extends TestCase
         $image = $driver->newImage(300, 200, '00ff00');
         $this->assertInstanceOf('\Intervention\Image\Image', $image);
         $this->assertInstanceOf('\Intervention\Image\Gd\Driver', $image->getDriver());
-        $this->assertInternalType('resource', $image->getCore());
+        $this->assertIsResource($image->getCore());
     }
 
     public function testNewImageImagick()

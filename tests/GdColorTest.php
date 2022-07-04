@@ -152,32 +152,32 @@ class GdColorTest extends TestCase
     {
         $c = new Color;
         $i = $c->getInt();
-        $this->assertInternalType('int', $i);
+        $this->assertIsInt($i);
         $this->assertEquals(2147483647, $i);
 
         $c = new Color([255, 255, 255]);
         $i = $c->getInt();
-        $this->assertInternalType('int', $i);
+        $this->assertIsInt($i);
         $this->assertEquals($i, 16777215);
 
         $c = new Color([255, 255, 255, 1]);
         $i = $c->getInt();
-        $this->assertInternalType('int', $i);
+        $this->assertIsInt($i);
         $this->assertEquals($i, 16777215);
 
         $c = new Color([181, 55, 23, 0.5]);
         $i = $c->getInt();
-        $this->assertInternalType('int', $i);
+        $this->assertIsInt($i);
         $this->assertEquals($i, 1085617943);
 
         $c = new Color([181, 55, 23, 1]);
         $i = $c->getInt();
-        $this->assertInternalType('int', $i);
+        $this->assertIsInt($i);
         $this->assertEquals($i, 11876119);
 
         $c = new Color([0, 0, 0, 0]);
         $i = $c->getInt();
-        $this->assertInternalType('int', $i);
+        $this->assertIsInt($i);
         $this->assertEquals($i, 2130706432);
     }
 
@@ -185,22 +185,22 @@ class GdColorTest extends TestCase
     {
         $c = new Color;
         $i = $c->getHex();
-        $this->assertInternalType('string', $i);
+        $this->assertIsString($i);
         $this->assertEquals($i, 'ffffff');
 
         $c = new Color([255, 255, 255, 1]);
         $i = $c->getHex();
-        $this->assertInternalType('string', $i);
+        $this->assertIsString($i);
         $this->assertEquals($i, 'ffffff');
 
         $c = new Color([181, 55, 23, 0.5]);
         $i = $c->getHex();
-        $this->assertInternalType('string', $i);
+        $this->assertIsString($i);
         $this->assertEquals($i, 'b53717');
 
         $c = new Color([0, 0, 0, 0]);
         $i = $c->getHex('#');
-        $this->assertInternalType('string', $i);
+        $this->assertIsString($i);
         $this->assertEquals($i, '#000000');
     }
 
@@ -208,22 +208,22 @@ class GdColorTest extends TestCase
     {
         $c = new Color;
         $i = $c->getArray();
-        $this->assertInternalType('array', $i);
+        $this->assertIsArray($i);
         $this->assertEquals($i, [255, 255, 255, 0]);
 
         $c = new Color([255, 255, 255, 1]);
         $i = $c->getArray();
-        $this->assertInternalType('array', $i);
+        $this->assertIsArray($i);
         $this->assertEquals($i, [255, 255, 255, 1]);
 
         $c = new Color([181, 55, 23, 0.5]);
         $i = $c->getArray();
-        $this->assertInternalType('array', $i);
+        $this->assertIsArray($i);
         $this->assertEquals($i, [181, 55, 23, 0.5]);
 
         $c = new Color([0, 0, 0, 1]);
         $i = $c->getArray();
-        $this->assertInternalType('array', $i);
+        $this->assertIsArray($i);
         $this->assertEquals($i, [0, 0, 0, 1]);
     }
 
@@ -231,22 +231,22 @@ class GdColorTest extends TestCase
     {
         $c = new Color;
         $i = $c->getRgba();
-        $this->assertInternalType('string', $i);
+        $this->assertIsString($i);
         $this->assertEquals($i, 'rgba(255, 255, 255, 0.00)');
 
         $c = new Color([255, 255, 255, 1]);
         $i = $c->getRgba();
-        $this->assertInternalType('string', $i);
+        $this->assertIsString($i);
         $this->assertEquals($i, 'rgba(255, 255, 255, 1.00)');
 
         $c = new Color([181, 55, 23, 0.5]);
         $i = $c->getRgba();
-        $this->assertInternalType('string', $i);
+        $this->assertIsString($i);
         $this->assertEquals($i, 'rgba(181, 55, 23, 0.50)');
 
         $c = new Color([0, 0, 0, 1]);
         $i = $c->getRgba();
-        $this->assertInternalType('string', $i);
+        $this->assertIsString($i);
         $this->assertEquals($i, 'rgba(0, 0, 0, 1.00)');
     }
 
@@ -284,10 +284,10 @@ class GdColorTest extends TestCase
     private function validateColor($obj, $r, $g, $b, $a)
     {
         $this->assertInstanceOf('Intervention\Image\Gd\Color', $obj);
-        $this->assertInternalType('int', $r);
-        $this->assertInternalType('int', $g);
-        $this->assertInternalType('int', $b);
-        $this->assertInternalType('int', $a);
+        $this->assertIsInt($r);
+        $this->assertIsInt($g);
+        $this->assertIsInt($b);
+        $this->assertIsInt($a);
         $this->assertEquals($obj->r, $r);
         $this->assertEquals($obj->g, $g);
         $this->assertEquals($obj->b, $b);

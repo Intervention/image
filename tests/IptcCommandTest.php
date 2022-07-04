@@ -19,7 +19,7 @@ class IptcCommandTest extends TestCase
         $result = $command->execute($image);
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
-        $this->assertInternalType('array', $command->getOutput());
+        $this->assertIsArray($command->getOutput());
     }
 
     public function testFetchDefined()

@@ -114,7 +114,7 @@ abstract class AbstractColor
      * @param  mixed $value
      * @return \Intervention\Image\AbstractColor
      */
-    public function parse($value)
+    final public function parse($value)
     {
         switch (true) {
 
@@ -153,7 +153,7 @@ abstract class AbstractColor
      * @param  string $type
      * @return mixed
      */
-    public function format($type)
+    final public function format($type)
     {
         switch (strtolower($type)) {
 

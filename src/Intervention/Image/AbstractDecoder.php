@@ -63,7 +63,7 @@ abstract class AbstractDecoder
      * @param  string $url
      * @return \Intervention\Image\Image
      */
-    public function initFromUrl($url)
+    final public function initFromUrl($url)
     {
         
         $options = [
@@ -93,7 +93,7 @@ abstract class AbstractDecoder
      * @param StreamInterface|resource $stream
      * @return \Intervention\Image\Image
      */
-    public function initFromStream($stream)
+    final public function initFromStream($stream)
     {
         if (!$stream instanceof StreamInterface) {
             $stream = new Stream($stream);
@@ -135,7 +135,7 @@ abstract class AbstractDecoder
      *
      * @return boolean
      */
-    public function isGdResource()
+    final public function isGdResource()
     {
         if (is_resource($this->data)) {
             return (get_resource_type($this->data) == 'gd');
@@ -153,7 +153,7 @@ abstract class AbstractDecoder
      *
      * @return boolean
      */
-    public function isImagick()
+    final public function isImagick()
     {
         return is_a($this->data, 'Imagick');
     }
@@ -163,7 +163,7 @@ abstract class AbstractDecoder
      *
      * @return boolean
      */
-    public function isInterventionImage()
+    final public function isInterventionImage()
     {
         return is_a($this->data, '\Intervention\Image\Image');
     }
@@ -173,7 +173,7 @@ abstract class AbstractDecoder
      *
      * @return boolean
      */
-    public function isSplFileInfo()
+    final public function isSplFileInfo()
     {
         return is_a($this->data, 'SplFileInfo');
     }
@@ -183,7 +183,7 @@ abstract class AbstractDecoder
      *
      * @return boolean
      */
-    public function isSymfonyUpload()
+    final public function isSymfonyUpload()
     {
         return is_a($this->data, 'Symfony\Component\HttpFoundation\File\UploadedFile');
     }
@@ -193,7 +193,7 @@ abstract class AbstractDecoder
      *
      * @return boolean
      */
-    public function isFilePath()
+    final public function isFilePath()
     {
         if (is_string($this->data)) {
             try {
@@ -211,7 +211,7 @@ abstract class AbstractDecoder
      *
      * @return boolean
      */
-    public function isUrl()
+    final public function isUrl()
     {
         return (bool) filter_var($this->data, FILTER_VALIDATE_URL);
     }
@@ -221,7 +221,7 @@ abstract class AbstractDecoder
      *
      * @return boolean
      */
-    public function isStream()
+    final public function isStream()
     {
         if ($this->data instanceof StreamInterface) return true;
         if (!is_resource($this->data)) return false;
@@ -235,7 +235,7 @@ abstract class AbstractDecoder
      *
      * @return boolean
      */
-    public function isBinary()
+    final public function isBinary()
     {
         if (is_string($this->data)) {
             $mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $this->data);
@@ -250,7 +250,7 @@ abstract class AbstractDecoder
      *
      * @return boolean
      */
-    public function isDataUrl()
+    final public function isDataUrl()
     {
         $data = $this->decodeDataUrl($this->data);
 
@@ -262,7 +262,7 @@ abstract class AbstractDecoder
      *
      * @return boolean
      */
-    public function isBase64()
+    final public function isBase64()
     {
         if (!is_string($this->data)) {
             return false;
@@ -277,7 +277,7 @@ abstract class AbstractDecoder
      * @param  Image $object
      * @return \Intervention\Image\Image
      */
-    public function initFromInterventionImage($object)
+    final public function initFromInterventionImage($object)
     {
         return $object;
     }
@@ -310,7 +310,7 @@ abstract class AbstractDecoder
      * @param  mixed $data
      * @return \Intervention\Image\Image
      */
-    public function init($data)
+    final public function init($data)
     {
         $this->data = $data;
 

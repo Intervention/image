@@ -44,7 +44,7 @@ abstract class AbstractCommand
      * @param  int $key
      * @return \Intervention\Image\Commands\Argument
      */
-    public function argument($key)
+    final public function argument($key)
     {
         return new Argument($this, $key);
     }
@@ -54,7 +54,7 @@ abstract class AbstractCommand
      *
      * @return mixed
      */
-    public function getOutput()
+    final public function getOutput()
     {
         return $this->output ? $this->output : null;
     }
@@ -64,7 +64,7 @@ abstract class AbstractCommand
      *
      * @return boolean
      */
-    public function hasOutput()
+    final public function hasOutput()
     {
         return ! is_null($this->output);
     }
@@ -74,7 +74,7 @@ abstract class AbstractCommand
      *
      * @param mixed $value
      */
-    public function setOutput($value)
+    final public function setOutput($value)
     {
         $this->output = $value;
     }

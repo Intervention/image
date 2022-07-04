@@ -50,7 +50,7 @@ abstract class AbstractDriver
      *
      * @return mixed
      */
-    public function cloneCore($core)
+    final public function cloneCore($core)
     {
         return clone $core;
     }
@@ -61,7 +61,7 @@ abstract class AbstractDriver
      * @param  mixed $data
      * @return \Intervention\Image\Image
      */
-    public function init($data)
+    final public function init($data)
     {
         return $this->decoder->init($data);
     }
@@ -74,7 +74,7 @@ abstract class AbstractDriver
      * @param  int     $quality
      * @return \Intervention\Image\Image
      */
-    public function encode($image, $format, $quality)
+    final public function encode($image, $format, $quality)
     {
         return $this->encoder->process($image, $format, $quality);
     }
@@ -87,7 +87,7 @@ abstract class AbstractDriver
      * @param  array $arguments
      * @return \Intervention\Image\Commands\AbstractCommand
      */
-    public function executeCommand($image, $name, $arguments)
+    final public function executeCommand($image, $name, $arguments)
     {
         $commandName = $this->getCommandClassName($name);
         $command = new $commandName($arguments);
@@ -130,7 +130,7 @@ abstract class AbstractDriver
      *
      * @return string
      */
-    public function getDriverName()
+    final public function getDriverName()
     {
         $reflect = new \ReflectionClass($this);
         $namespace = $reflect->getNamespaceName();

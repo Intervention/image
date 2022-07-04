@@ -41,7 +41,7 @@ abstract class AbstractShape
      * @param  string $text
      * @return void
      */
-    public function background($color)
+    final public function background($color)
     {
         $this->background = $color;
     }
@@ -53,7 +53,7 @@ abstract class AbstractShape
      * @param  string  $color
      * @return void
      */
-    public function border($width, $color = null)
+    final public function border($width, $color = null)
     {
         $this->border_width = is_numeric($width) ? intval($width) : 0;
         $this->border_color = is_null($color) ? '#000000' : $color;
@@ -64,7 +64,7 @@ abstract class AbstractShape
      *
      * @return boolean
      */
-    public function hasBorder()
+    final public function hasBorder()
     {
         return ($this->border_width >= 1);
     }

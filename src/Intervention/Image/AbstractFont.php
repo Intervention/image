@@ -93,7 +93,7 @@ abstract class AbstractFont
      * @param  String $text
      * @return self
      */
-    public function text($text)
+    final public function text($text)
     {
         $this->text = $text;
 
@@ -105,7 +105,7 @@ abstract class AbstractFont
      *
      * @return String
      */
-    public function getText()
+    final public function getText()
     {
         return $this->text;
     }
@@ -116,7 +116,7 @@ abstract class AbstractFont
      * @param  int $size
      * @return self
      */
-    public function size($size)
+    final public function size($size)
     {
         $this->size = $size;
 
@@ -128,7 +128,7 @@ abstract class AbstractFont
      *
      * @return int
      */
-    public function getSize()
+    final public function getSize()
     {
         return $this->size;
     }
@@ -139,7 +139,7 @@ abstract class AbstractFont
      * @param  mixed $color
      * @return self
      */
-    public function color($color)
+    final public function color($color)
     {
         $this->color = $color;
 
@@ -151,7 +151,7 @@ abstract class AbstractFont
      *
      * @return mixed
      */
-    public function getColor()
+    final public function getColor()
     {
         return $this->color;
     }
@@ -162,7 +162,7 @@ abstract class AbstractFont
      * @param  int $angle
      * @return self
      */
-    public function angle($angle)
+    final public function angle($angle)
     {
         $this->angle = $angle;
 
@@ -174,7 +174,7 @@ abstract class AbstractFont
      *
      * @return int
      */
-    public function getAngle()
+    final public function getAngle()
     {
         return $this->angle;
     }
@@ -185,7 +185,7 @@ abstract class AbstractFont
      * @param  string $align
      * @return self
      */
-    public function align($align)
+    final public function align($align)
     {
         $this->align = $align;
 
@@ -197,7 +197,7 @@ abstract class AbstractFont
      *
      * @return string
      */
-    public function getAlign()
+    final public function getAlign()
     {
         return $this->align;
     }
@@ -208,7 +208,7 @@ abstract class AbstractFont
      * @param  string $valign
      * @return self
      */
-    public function valign($valign)
+    final public function valign($valign)
     {
         $this->valign = $valign;
 
@@ -220,7 +220,7 @@ abstract class AbstractFont
      *
      * @return string
      */
-    public function getValign()
+    final public function getValign()
     {
         return $this->valign;
     }
@@ -231,7 +231,7 @@ abstract class AbstractFont
      * @param  string $kerning
      * @return void
      */
-    public function kerning($kerning)
+    final public function kerning($kerning)
     {
         $this->kerning = $kerning;
     }
@@ -241,7 +241,7 @@ abstract class AbstractFont
      *
      * @return float
      */
-    public function getKerning()
+    final public function getKerning()
     {
         return $this->kerning;
     }
@@ -252,7 +252,7 @@ abstract class AbstractFont
      * @param  string $file
      * @return self
      */
-    public function file($file)
+    final public function file($file)
     {
         $this->file = $file;
 
@@ -264,7 +264,7 @@ abstract class AbstractFont
      *
      * @return string
      */
-    public function getFile()
+    final public function getFile()
     {
         return $this->file;
     }
@@ -288,7 +288,7 @@ abstract class AbstractFont
      *
      * @return int
      */
-    public function countLines()
+    final public function countLines()
     {
         return count(explode(PHP_EOL, $this->text));
     }

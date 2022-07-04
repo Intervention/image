@@ -106,7 +106,7 @@ abstract class AbstractEncoder
      * @param  int     $quality
      * @return Image
      */
-    public function process(Image $image, $format = null, $quality = null)
+    final public function process(Image $image, $format = null, $quality = null)
     {
         $this->setImage($image);
         $this->setFormat($format);

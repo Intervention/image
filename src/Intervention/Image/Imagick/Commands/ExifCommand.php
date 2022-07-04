@@ -17,7 +17,7 @@ class ExifCommand extends BaseCommand
     /**
      *
      */
-    public function dontPreferExtension() {
+    public function dontPreferExtension(): void {
         $this->preferExtension = false;
     }
 

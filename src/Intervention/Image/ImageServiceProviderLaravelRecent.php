@@ -21,7 +21,7 @@ class ImageServiceProviderLaravelRecent extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->publishes([
             __DIR__.'/../../config/config.php' => config_path('image.php')
@@ -36,7 +36,7 @@ class ImageServiceProviderLaravelRecent extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $app = $this->app;
 
@@ -59,7 +59,7 @@ class ImageServiceProviderLaravelRecent extends ServiceProvider
      *
      * @return void
      */
-    protected function bootstrapImageCache()
+    protected function bootstrapImageCache(): void
     {
         $app = $this->app;
         $config = __DIR__.'/../../../../imagecache/src/config/config.php';

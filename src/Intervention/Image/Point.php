@@ -35,7 +35,7 @@ class Point
      *
      * @param int $x
      */
-    public function setX($x)
+    public function setX($x): void
     {
         $this->x = intval($x);
     }
@@ -45,7 +45,7 @@ class Point
      *
      * @param int $y
      */
-    public function setY($y)
+    public function setY($y): void
     {
         $this->y = intval($y);
     }
@@ -56,7 +56,7 @@ class Point
      * @param int $x
      * @param int $y
      */
-    public function setPosition($x, $y)
+    public function setPosition($x, $y): void
     {
         $this->setX($x);
         $this->setY($y);

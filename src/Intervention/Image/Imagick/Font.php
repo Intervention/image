@@ -16,7 +16,7 @@ class Font extends AbstractFont
      * @param  int     $posy
      * @return void
      */
-    public function applyToImage(Image $image, $posx = 0, $posy = 0)
+    public function applyToImage(Image $image, $posx = 0, $posy = 0): void
     {
         // build draw object
         $draw = new \ImagickDraw();

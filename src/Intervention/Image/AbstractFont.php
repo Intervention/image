@@ -231,7 +231,7 @@ abstract class AbstractFont
      * @param  string $kerning
      * @return void
      */
-    public function kerning($kerning)
+    public function kerning($kerning): void
     {
         $this->kerning = $kerning;
     }

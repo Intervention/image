@@ -12,7 +12,7 @@ class ImageServiceProviderLaravel4 extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->package('intervention/image');
 
@@ -99,7 +99,7 @@ class ImageServiceProviderLaravel4 extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $app = $this->app;
 

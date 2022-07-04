@@ -136,7 +136,7 @@ class Font extends \Intervention\Image\AbstractFont
      * @param  int     $posy
      * @return void
      */
-    public function applyToImage(Image $image, $posx = 0, $posy = 0)
+    public function applyToImage(Image $image, $posx = 0, $posy = 0): void
     {
         // parse text color
         $color = new Color($this->color);
@@ -267,7 +267,7 @@ class Font extends \Intervention\Image\AbstractFont
      * @param  string $kerning
      * @return void
      */
-    public function kerning($kerning)
+    public function kerning($kerning): void
     {
         throw new \Intervention\Image\Exception\NotSupportedException(
             "Kerning is not supported by GD driver."

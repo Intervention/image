@@ -74,7 +74,7 @@ abstract class AbstractCommand
      *
      * @param mixed $value
      */
-    public function setOutput($value)
+    public function setOutput($value): void
     {
         $this->output = $value;
     }

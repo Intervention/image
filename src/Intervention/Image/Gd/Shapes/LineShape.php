@@ -54,7 +54,7 @@ class LineShape extends AbstractShape
      * @param  string $color
      * @return void
      */
-    public function color($color)
+    public function color($color): void
     {
         $this->color = $color;
     }
@@ -65,7 +65,7 @@ class LineShape extends AbstractShape
      * @param  int $width
      * @return void
      */
-    public function width($width)
+    public function width($width): void
     {
         throw new \Intervention\Image\Exception\NotSupportedException(
             "Line width is not supported by GD driver."

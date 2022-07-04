@@ -131,7 +131,7 @@ class ImageManager
      *
      * @return void
      */
-    private function checkRequirements()
+    private function checkRequirements(): void
     {
         if ( ! function_exists('finfo_buffer')) {
             throw new MissingDependencyException(

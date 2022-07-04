@@ -54,7 +54,7 @@ class Constraint
      * @param  int $type
      * @return void
      */
-    public function fix($type)
+    public function fix($type): void
     {
         $this->fixed = ($this->fixed & ~(1 << $type)) | (1 << $type);
     }
@@ -75,7 +75,7 @@ class Constraint
      *
      * @return void
      */
-    public function aspectRatio()
+    public function aspectRatio(): void
     {
         $this->fix(self::ASPECTRATIO);
     }
@@ -85,7 +85,7 @@ class Constraint
      *
      * @return void
      */
-    public function upsize()
+    public function upsize(): void
     {
         $this->fix(self::UPSIZE);
     }

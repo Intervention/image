@@ -33,7 +33,7 @@ class ImageServiceProviderLeague extends AbstractServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->getContainer()->share('Intervention\Image\ImageManager', function () {
             return new ImageManager($this->config);

@@ -48,7 +48,7 @@ class Size
      * @param int $width
      * @param int $height
      */
-    public function set($width, $height)
+    public function set($width, $height): void
     {
         $this->width = $width;
         $this->height = $height;
@@ -59,7 +59,7 @@ class Size
      *
      * @param Point $point
      */
-    public function setPivot(Point $point)
+    public function setPivot(Point $point): void
     {
         $this->pivot = $point;
     }
@@ -228,7 +228,7 @@ class Size
         // create size with auto height
         $auto_height = clone $size;
 
-        $auto_height->resize($this->width, null, function ($constraint) {
+        $auto_height->resize($this->width, null, function ($constraint): void {
             $constraint->aspectRatio();
         });
 
@@ -242,7 +242,7 @@ class Size
             // create size with auto width
             $auto_width = clone $size;
 
-            $auto_width->resize(null, $this->height, function ($constraint) {
+            $auto_width->resize(null, $this->height, function ($constraint): void {
                 $constraint->aspectRatio();
             });
 

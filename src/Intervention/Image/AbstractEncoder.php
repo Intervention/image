@@ -227,7 +227,7 @@ abstract class AbstractEncoder
      *
      * @param Image $image
      */
-    protected function setImage($image)
+    protected function setImage($image): void
     {
         $this->image = $image;
     }

@@ -1537,7 +1537,7 @@ class GdSystemTest extends TestCase
         $img = $this->manager()->make('tests/images/exif.jpg');
         $data = $img->exif();
         $this->assertInternalType('array', $data);
-        $this->assertEquals(19, count($data));
+        $this->assertCount(19, $data);
     }
 
     public function testExifReadKey()

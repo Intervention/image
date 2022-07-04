@@ -21,7 +21,7 @@ class PickColorCommandTest extends TestCase
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
         $this->assertInternalType('array', $command->getOutput());
-        $this->assertEquals(4, count($command->getOutput()));
+        $this->assertCount(4, $command->getOutput());
     }
 
     public function testGdWithFormat()
@@ -48,7 +48,7 @@ class PickColorCommandTest extends TestCase
         $this->assertTrue($result);
         $this->assertTrue($command->hasOutput());
         $this->assertInternalType('array', $command->getOutput());
-        $this->assertEquals(4, count($command->getOutput()));
+        $this->assertCount(4, $command->getOutput());
     }
 
     public function testImagickWithFormat()

@@ -7,12 +7,12 @@ class Constraint
     /**
      * Bit value of aspect ratio constraint
      */
-    const ASPECTRATIO = 1;
+    public const ASPECTRATIO = 1;
 
     /**
      * Bit value of upsize constraint
      */
-    const UPSIZE = 2;
+    public const UPSIZE = 2;
 
     /**
      * Constraint size

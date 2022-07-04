@@ -228,7 +228,7 @@ class Size
         // create size with auto height
         $auto_height = clone $size;
 
-        $auto_height->resize($this->width, null, function ($constraint) {
+        $auto_height->resize($this->width, null, static function ($constraint) {
             $constraint->aspectRatio();
         });
 
@@ -242,7 +242,7 @@ class Size
             // create size with auto width
             $auto_width = clone $size;
 
-            $auto_width->resize(null, $this->height, function ($constraint) {
+            $auto_width->resize(null, $this->height, static function ($constraint) {
                 $constraint->aspectRatio();
             });
 

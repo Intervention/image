@@ -32,7 +32,7 @@ class ImageServiceProviderLaravel4 extends ServiceProvider
                 $config->set('imagecache::templates.original', null);
 
                 // setup image manipulator route
-                $app['router']->get($config->get('imagecache::route').'/{template}/{filename}', ['as' => 'imagecache', function ($template, $filename) use ($app, $config) {
+                $app['router']->get($config->get('imagecache::route').'/{template}/{filename}', ['as' => 'imagecache', static function ($template, $filename) use ($app, $config) {
 
                     // disable session cookies for image route
                     $app['config']->set('session.driver', 'array');
@@ -59,7 +59,7 @@ class ImageServiceProviderLaravel4 extends ServiceProvider
                     if (is_callable($callback) || class_exists($callback)) {
 
                         // image manipulation based on callback
-                        $content = $app['image']->cache(function ($image) use ($image_path, $callback) {
+                        $content = $app['image']->cache(static function ($image) use ($image_path, $callback) {
                             
                             switch (true) {
                                 case is_callable($callback):
@@ -103,7 +103,7 @@ class ImageServiceProviderLaravel4 extends ServiceProvider
     {
         $app = $this->app;
 
-        $app['image'] = $app->share(function ($app) {
+        $app['image'] = $app->share(static function ($app) {
             return new ImageManager($app['config']->get('image::config'));
         });
 

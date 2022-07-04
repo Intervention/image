@@ -17,7 +17,7 @@ class WidenCommand extends ResizeCommand
 
         $this->arguments[0] = $width;
         $this->arguments[1] = null;
-        $this->arguments[2] = function ($constraint) use ($additionalConstraints) {
+        $this->arguments[2] = static function ($constraint) use ($additionalConstraints) {
             $constraint->aspectRatio();
             if(is_callable($additionalConstraints))
                 $additionalConstraints($constraint);

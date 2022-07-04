@@ -201,9 +201,9 @@ class Color extends AbstractColor
         ];
 
         return (
-            $delta['r'] > $color_tolerance or
-            $delta['g'] > $color_tolerance or
-            $delta['b'] > $color_tolerance or
+            $delta['r'] > $color_tolerance ||
+            $delta['g'] > $color_tolerance ||
+            $delta['b'] > $color_tolerance ||
             $delta['a'] > $alpha_tolerance
         );
     }

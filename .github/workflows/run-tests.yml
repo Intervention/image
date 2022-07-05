@@ -13,7 +13,7 @@ jobs:
         imagick: [ '3.7.0' ]
         stability: [ prefer-stable ]
 
-    name: PHP ${{ matrix.php }} - ${{ matrix.stability }} - ImageMaguck ${{ matrix.imagemagick }}
+    name: PHP ${{ matrix.php }} - ${{ matrix.stability }} - ImageMagick ${{ matrix.imagemagick }}
 
     steps:
       - name: Checkout project

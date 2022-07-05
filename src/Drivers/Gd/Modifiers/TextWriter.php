@@ -27,6 +27,11 @@ class TextWriter extends AbstractTextWriter
                         $line
                     );
                 }
+
+                // debug
+                // $lines = new TextBlock($this->text);
+                // $box = $lines->getBoundingBox($this->font, $this->position);
+                // imagepolygon($frame->getCore(), $box->toArray(), 0);
             } else {
                 foreach ($lines as $line) {
                     imagestring(

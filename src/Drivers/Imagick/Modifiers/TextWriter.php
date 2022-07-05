@@ -23,30 +23,25 @@ class TextWriter extends AbstractTextWriter
                     $line
                 );
             }
+            
+            // debug
+            // $lines = new TextBlock($this->text);
+            // $box = $lines->getBoundingBox($this->font, $this->position);
+            // $points = [];
+            // foreach (array_chunk($box->toArray(), 2) as $p) {
+            //     $points[] = ['x' => $p[0], 'y' => $p[1]];
+            // }
+            // $draw = new \ImagickDraw();
+            // $draw->setStrokeOpacity(1);
+            // $draw->setStrokeColor('black');
+            // $draw->setFillColor('transparent');
+            // $draw->polygon($points);
+            // $frame->getCore()->drawImage($draw);
+
         }
 
         return $image;
     }
-
-    // protected function getAlignedPosition(): Point
-    // {
-    //     $position = $this->position;
-    //     $box = $this->getFont()->getBoxSize($this->text);
-    //
-    //     // adjust y pos
-    //     switch ($this->getFont()->getValign()) {
-    //         case 'top':
-    //             $position->setY($position->getY() + $box->height());
-    //             break;
-    //
-    //         case 'middle':
-    //         case 'center':
-    //             $position->setY(intval($position->getY() + round($box->height() / 2)));
-    //             break;
-    //     }
-    //
-    //     return $position;
-    // }
 
     protected function getFont(): FontInterface
     {

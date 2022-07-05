@@ -59,7 +59,7 @@ class Font extends AbstractFont
 
         return (new Size(
             intval(round($dimensions['textWidth'])),
-            intval(round($dimensions['textHeight'])),
+            intval(round($dimensions['ascender'] + $dimensions['descender'])),
         ))->toPolygon();
     }
 }

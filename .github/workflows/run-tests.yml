@@ -11,7 +11,7 @@ jobs:
         php: [ '8.0', '8.1' ]
         imagemagick: [ '6.9.12-55', '7.1.0-40' ]
         imagick: [ '3.7.0' ]
-        stability: [ prefer-lowest, prefer-stable ]
+        stability: [ prefer-stable ]
 
     name: P${{ matrix.php }} - ${{ matrix.stability }}
 

@@ -200,6 +200,14 @@ abstract class AbstractImage implements ImageInterface
         return $this->modify($modifier);
     }
 
+    public function drawPixel(int $x, int $y, $color = null): ImageInterface
+    {
+        $color = $this->handleInput($color);
+        $modifier = $this->resolveDriverClass('Modifiers\DrawPixelModifier', new Point($x, $y), $color);
+
+        return $this->modify($modifier);
+    }
+
     public function resize(?int $width = null, ?int $height = null): ImageInterface
     {
         return $this->modify(

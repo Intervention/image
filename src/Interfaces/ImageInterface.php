@@ -36,6 +36,7 @@ interface ImageInterface extends Traversable, Countable
     public function fitDown(int $width, int $height, string $position = 'center'): ImageInterface;
     public function pad(int $width, int $height, $background = 'ffffff', string $position = 'center'): ImageInterface;
     public function padDown(int $width, int $height, $background = 'ffffff', string $position = 'center'): ImageInterface;
+    public function drawPixel(int $x, int $y, $color = null): ImageInterface;
     public function getWidth(): int;
     public function getHeight(): int;
     public function destroy(): void;

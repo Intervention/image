@@ -21,6 +21,7 @@ interface ImageInterface extends Traversable, Countable
     public function toGif(): EncodedImage;
     public function toPng(): EncodedImage;
     public function pickColors(int $x, int $y): CollectionInterface;
+    public function text(string $text, int $x, int $y, ?callable $init = null): ImageInterface;
     public function pickColor(int $x, int $y, int $frame_key = 0): ?ColorInterface;
     public function greyscale(): ImageInterface;
     public function blur(int $amount = 5): ImageInterface;

@@ -146,8 +146,16 @@ trait CanReadHtmlColorNames
         'maroon' => '#800000',
     ];
 
+    /**
+     * Transform given html color name to hex color
+     * or return null, if color name doesn't exist.
+     *
+     * @param string $name
+     * @return null|string
+     */
     public function hexColorFromColorName(string $name): ?string
     {
+        $name = strtolower($name);
         if (!array_key_exists($name, $this->color_names)) {
             return null;
         }

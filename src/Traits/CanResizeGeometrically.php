@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Traits;
 
-use Intervention\Image\Geometry\Resizer;
+use Intervention\Image\Geometry\Tools\Resizer;
 use Intervention\Image\Interfaces\SizeInterface;
 
 trait CanResizeGeometrically

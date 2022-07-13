@@ -1,6 +1,6 @@
 <?php
 
-namespace Intervention\Image\Geometry;
+namespace Intervention\Image\Geometry\Tools;
 
 use Intervention\Image\Exceptions\GeometryException;
 use Intervention\Image\Geometry\Size;

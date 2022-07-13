@@ -3,7 +3,7 @@
 namespace Intervention\Image\Tests\Geometry;
 
 use Intervention\Image\Geometry\Point;
-use Intervention\Image\Geometry\Resizer;
+use Intervention\Image\Geometry\Tools\Resizer;
 use Intervention\Image\Geometry\Size;
 use PHPUnit\Framework\TestCase;
 
@@ -43,7 +43,6 @@ class ResizerTest extends TestCase
 
     public function testToSize(): void
     {
-        $size = new Size(300, 200);
         $resizer = new Resizer();
         $resizer = $resizer->toSize(new Size(200, 100));
         $this->assertInstanceOf(Resizer::class, $resizer);

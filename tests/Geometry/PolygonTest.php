@@ -125,42 +125,6 @@ class PolygonTest extends TestCase
         $this->assertInstanceOf(Point::class, $poly->getPivotPoint());
     }
 
-    public function testAlignPivot(): void
-    {
-        $poly = new Polygon([
-            new Point(12, 45),
-            new Point(-24, -49),
-            new Point(3, 566),
-        ]);
-
-        $this->assertEquals(0, $poly->getPivotPoint()->getX());
-        $this->assertEquals(0, $poly->getPivotPoint()->getY());
-
-        $result = $poly->alignPivot('center');
-        $this->assertInstanceOf(Polygon::class, $result);
-
-        $this->assertEquals(-6, $result->getPivotPoint()->getX());
-        $this->assertEquals(0, $result->getPivotPoint()->getY());
-    }
-
-    public function testValignPivot(): void
-    {
-        $poly = new Polygon([
-            new Point(12, 45),
-            new Point(-24, -50),
-            new Point(3, 566),
-        ]);
-
-        $this->assertEquals(0, $poly->getPivotPoint()->getX());
-        $this->assertEquals(0, $poly->getPivotPoint()->getY());
-
-        $result = $poly->valignPivot('middle');
-        $this->assertInstanceOf(Polygon::class, $result);
-
-        $this->assertEquals(0, $result->getPivotPoint()->getX());
-        $this->assertEquals(258, $result->getPivotPoint()->getY());
-    }
-
     public function testGetMostLeftPoint(): void
     {
         $poly = new Polygon([

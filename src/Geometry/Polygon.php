@@ -255,69 +255,6 @@ class Polygon implements Countable, ArrayAccess
     }
 
     /**
-     * Align pivot point to given horizontal position
-     *
-     * @param string $position
-     * @return Polygon
-     */
-    public function alignPivot(string $position): self
-    {
-        switch (strtolower($position)) {
-            case 'center':
-                $this->pivot->setX(
-                    intval(($this->getMostRightPoint()->getX() + $this->getMostLeftPoint()->getX()) / 2)
-                );
-                break;
-
-            case 'right':
-                $this->pivot->setX(
-                    $this->getMostRightPoint()->getX()
-                );
-                break;
-
-            case 'left':
-                $this->pivot->setX(
-                    $this->getMostLeftPoint()->getX()
-                );
-                break;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Align pivot point to given vertical position
-     *
-     * @param string $position
-     * @return Polygon
-     */
-    public function valignPivot(string $position): self
-    {
-        switch (strtolower($position)) {
-            case 'center':
-            case 'middle':
-                $this->pivot->setY(
-                    intval(($this->getMostTopPoint()->getY() + $this->getMostBottomPoint()->getY()) / 2)
-                );
-                break;
-
-            case 'top':
-                $this->pivot->setY(
-                    $this->getMostTopPoint()->getY()
-                );
-                break;
-
-            case 'bottom':
-                $this->pivot->setY(
-                    $this->getMostBottomPoint()->getY()
-                );
-                break;
-        }
-
-        return $this;
-    }
-
-    /**
      * Align all points of polygon horizontally to given position around pivot point
      *
      * @param string $position

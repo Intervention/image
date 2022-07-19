@@ -6,121 +6,46 @@ use Intervention\Image\Geometry\Tools\Resizer;
 use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
-class Size implements SizeInterface
+class Rectangle extends Polygon implements SizeInterface
 {
     public function __construct(
-        protected int $width,
-        protected int $height,
+        int $width,
+        int $height,
         protected ?Point $pivot = null
     ) {
         $this->pivot = $pivot ? $pivot : new Point();
+        $this->addPoint(new Point($this->pivot->getX(), $this->pivot->getY()));
+        $this->addPoint(new Point($this->pivot->getX() + $width, $this->pivot->getY()));
+        $this->addPoint(new Point($this->pivot->getX() + $width, $this->pivot->getY() - $height));
+        $this->addPoint(new Point($this->pivot->getX(), $this->pivot->getY() - $height));
     }
 
-    public function getWidth(): int
+    public function withWidth(int $width): self
     {
-        return $this->width;
-    }
-
-    public function getHeight(): int
-    {
-        return $this->height;
-    }
-
-    public function setWidth(int $width): SizeInterface
-    {
-        $this->width = $width;
+        $this[1]->setX($this[0]->getX() + $width);
+        $this[2]->setX($this[3]->getX() + $width);
 
         return $this;
     }
 
-    public function setHeight(int $height): SizeInterface
+    public function withHeight(int $height): self
     {
-        $this->height = $height;
+        $this[2]->setY($this[1]->getY() + $height);
+        $this[3]->setY($this[0]->getY() + $height);
 
         return $this;
     }
 
-    public function addWidth(int $value): SizeInterface
-    {
-        $this->width = $this->width + $value;
-
-        return $this;
-    }
-
-    public function subWidth(int $value): SizeInterface
-    {
-        $this->width = $this->width - $value;
-
-        return $this;
-    }
-
-    public function addHeight(int $value): SizeInterface
-    {
-        $this->height = $this->height + $value;
-
-        return $this;
-    }
-
-    public function subHeight(int $value): SizeInterface
-    {
-        $this->height = $this->height - $value;
-
-        return $this;
-    }
-
-    /**
-     * Get current pivot point
-     *
-     * @return Point
-     */
-    public function getPivot(): PointInterface
+    public function pivot(): Point
     {
         return $this->pivot;
     }
 
-    public function setPivot(PointInterface $pivot): SizeInterface
+    public function withPivot(PointInterface $pivot): self
     {
         $this->pivot = $pivot;
 
         return $this;
-    }
-
-    public function getAspectRatio(): float
-    {
-        return $this->width / $this->height;
-    }
-
-    public function fitsInto(SizeInterface $size): bool
-    {
-        if ($this->getWidth() > $size->getWidth()) {
-            return false;
-        }
-
-        if ($this->getHeight() > $size->getHeight()) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Determine if size is landscape format
-     *
-     * @return boolean
-     */
-    public function isLandscape(): bool
-    {
-        return $this->getWidth() > $this->getHeight();
-    }
-
-    /**
-     * Determine if size is portrait format
-     *
-     * @return boolean
-     */
-    public function isPortrait(): bool
-    {
-        return $this->getWidth() < $this->getHeight();
     }
 
     /**
@@ -130,9 +55,10 @@ class Size implements SizeInterface
      * @param  string  $position
      * @param  int     $offset_x
      * @param  int     $offset_y
-     * @return Size
+     * @return Rectangle
      */
-    public function alignPivot(string $position, int $offset_x = 0, int $offset_y = 0): SizeInterface
+    // TODO: rename method to movePivot
+    public function alignPivot(string $position, int $offset_x = 0, int $offset_y = 0): self
     {
         switch (strtolower($position)) {
             case 'top':
@@ -140,13 +66,13 @@ class Size implements SizeInterface
             case 'top-middle':
             case 'center-top':
             case 'middle-top':
-                $x = intval($this->width / 2);
+                $x = intval($this->width() / 2);
                 $y = 0 + $offset_y;
                 break;
 
             case 'top-right':
             case 'right-top':
-                $x = $this->width - $offset_x;
+                $x = $this->width() - $offset_x;
                 $y = 0 + $offset_y;
                 break;
 
@@ -156,7 +82,7 @@ class Size implements SizeInterface
             case 'center-left':
             case 'middle-left':
                 $x = 0 + $offset_x;
-                $y = intval($this->height / 2);
+                $y = intval($this->height() / 2);
                 break;
 
             case 'right':
@@ -164,14 +90,14 @@ class Size implements SizeInterface
             case 'right-middle':
             case 'center-right':
             case 'middle-right':
-                $x = $this->width - $offset_x;
-                $y = intval($this->height / 2);
+                $x = $this->width() - $offset_x;
+                $y = intval($this->height() / 2);
                 break;
 
             case 'bottom-left':
             case 'left-bottom':
                 $x = 0 + $offset_x;
-                $y = $this->height - $offset_y;
+                $y = $this->height() - $offset_y;
                 break;
 
             case 'bottom':
@@ -179,22 +105,22 @@ class Size implements SizeInterface
             case 'bottom-middle':
             case 'center-bottom':
             case 'middle-bottom':
-                $x = intval($this->width / 2);
-                $y = $this->height - $offset_y;
+                $x = intval($this->width() / 2);
+                $y = $this->height() - $offset_y;
                 break;
 
             case 'bottom-right':
             case 'right-bottom':
-                $x = $this->width - $offset_x;
-                $y = $this->height - $offset_y;
+                $x = $this->width() - $offset_x;
+                $y = $this->height() - $offset_y;
                 break;
 
             case 'center':
             case 'middle':
             case 'center-center':
             case 'middle-middle':
-                $x = intval($this->width / 2) + $offset_x;
-                $y = intval($this->height / 2) + $offset_y;
+                $x = intval($this->width() / 2) + $offset_x;
+                $y = intval($this->height() / 2) + $offset_y;
                 break;
 
             default:
@@ -210,12 +136,13 @@ class Size implements SizeInterface
         return $this;
     }
 
-    public function alignPivotTo(SizeInterface $size, string $position): SizeInterface
+    // TODO: rename to alignPivot
+    public function alignPivotTo(SizeInterface $size, string $position): self
     {
-        $reference = new Size($size->getWidth(), $size->getHeight());
+        $reference = new self($size->width(), $size->height());
         $reference->alignPivot($position);
 
-        $this->alignPivot($position)->setPivot(
+        $this->alignPivot($position)->withPivot(
             $reference->getRelativePositionTo($this)
         );
 
@@ -229,36 +156,50 @@ class Size implements SizeInterface
      * @param  Size   $size
      * @return Point
      */
-    public function getRelativePositionTo(SizeInterface $size): PointInterface
+    public function getRelativePositionTo(SizeInterface $rectangle): PointInterface
     {
-        $x = $this->getPivot()->getX() - $size->getPivot()->getX();
-        $y = $this->getPivot()->getY() - $size->getPivot()->getY();
-
-        return new Point($x, $y);
+        return new Point(
+            $this->pivot()->getX() - $rectangle->pivot()->getX(),
+            $this->pivot()->getY() - $rectangle->pivot()->getY()
+        );
     }
 
-    public function toPolygon(): Polygon
+    public function getAspectRatio(): float
     {
-        $polygon = new Polygon([
-            $this->pivot // top/left
-        ], $this->pivot);
+        return $this->width() / $this->height();
+    }
 
-        // top/right
-        $polygon->addPoint(
-            new Point($this->pivot->getX() + $this->getWidth(), $this->pivot->getY())
-        );
+    public function fitsInto(SizeInterface $size): bool
+    {
+        if ($this->width() > $size->width()) {
+            return false;
+        }
 
-        // bottom/right
-        $polygon->addPoint(
-            new Point($this->pivot->getX() + $this->getWidth(), $this->pivot->getY() - $this->getHeight())
-        );
+        if ($this->height() > $size->height()) {
+            return false;
+        }
 
-        // bottom/left
-        $polygon->addPoint(
-            new Point($this->pivot->getX(), $this->pivot->getY() - $this->getHeight())
-        );
+        return true;
+    }
 
-        return $polygon;
+    /**
+     * Determine if size is landscape format
+     *
+     * @return boolean
+     */
+    public function isLandscape(): bool
+    {
+        return $this->width() > $this->height();
+    }
+
+    /**
+     * Determine if size is portrait format
+     *
+     * @return boolean
+     */
+    public function isPortrait(): bool
+    {
+        return $this->width() < $this->height();
     }
 
     protected function getResizer(?int $width = null, ?int $height = null): Resizer

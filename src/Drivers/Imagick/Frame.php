@@ -3,7 +3,7 @@
 namespace Intervention\Image\Drivers\Imagick;
 
 use Imagick;
-use Intervention\Image\Geometry\Size;
+use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -29,7 +29,10 @@ class Frame implements FrameInterface
 
     public function getSize(): SizeInterface
     {
-        return new Size($this->core->getImageWidth(), $this->core->getImageHeight());
+        return new Rectangle(
+            $this->core->getImageWidth(),
+            $this->core->getImageHeight()
+        );
     }
 
     public function getDelay(): float

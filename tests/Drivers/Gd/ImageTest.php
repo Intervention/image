@@ -6,7 +6,7 @@ use Intervention\Image\Collection;
 use Intervention\Image\Drivers\Gd\Color;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Drivers\Gd\Image;
-use Intervention\Image\Geometry\Size;
+use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Tests\TestCase;
 
 /**
@@ -89,7 +89,7 @@ class ImageTest extends TestCase
 
     public function testGetSize(): void
     {
-        $this->assertInstanceOf(Size::class, $this->image->getSize());
+        $this->assertInstanceOf(Rectangle::class, $this->image->getSize());
     }
 
     public function testPickColor(): void

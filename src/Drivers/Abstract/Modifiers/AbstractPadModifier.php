@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Drivers\Abstract\Modifiers;
 
-use Intervention\Image\Geometry\Size;
+use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
@@ -26,6 +26,6 @@ abstract class AbstractPadModifier
 
     protected function getResizeSize(ImageInterface $image): SizeInterface
     {
-        return new Size($this->width, $this->height);
+        return new Rectangle($this->width, $this->height);
     }
 }

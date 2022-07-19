@@ -5,7 +5,7 @@ namespace Intervention\Image\Tests\Drivers\Abstract;
 use Intervention\Image\Collection;
 use Intervention\Image\Drivers\Abstract\AbstractImage;
 use Intervention\Image\EncodedImage;
-use Intervention\Image\Geometry\Size;
+use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\FrameInterface;
@@ -44,17 +44,17 @@ class AbstractImageTest extends TestCase
     public function testGetSize(): void
     {
         $img = $this->abstractImageMock();
-        $this->assertInstanceOf(Size::class, $img->getSize());
-        $this->assertEquals(300, $img->getSize()->getWidth());
-        $this->assertEquals(200, $img->getSize()->getHeight());
+        $this->assertInstanceOf(Rectangle::class, $img->getSize());
+        $this->assertEquals(300, $img->getSize()->width());
+        $this->assertEquals(200, $img->getSize()->height());
     }
 
     public function testSizeAlias(): void
     {
         $img = $this->abstractImageMock();
-        $this->assertInstanceOf(Size::class, $img->getSize());
-        $this->assertEquals(300, $img->size()->getWidth());
-        $this->assertEquals(200, $img->size()->getHeight());
+        $this->assertInstanceOf(Rectangle::class, $img->getSize());
+        $this->assertEquals(300, $img->size()->width());
+        $this->assertEquals(200, $img->size()->height());
     }
 
     public function testModify(): void

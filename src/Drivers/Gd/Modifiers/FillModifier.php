@@ -45,8 +45,8 @@ class FillModifier implements ModifierInterface
             $frame->getCore(),
             0,
             0,
-            $frame->getSize()->getWidth() - 1,
-            $frame->getSize()->getHeight() - 1,
+            $frame->getSize()->width() - 1,
+            $frame->getSize()->height() - 1,
             $this->color->toInt()
         );
     }

@@ -5,7 +5,7 @@ namespace Intervention\Image\Drivers\Gd;
 use Intervention\Image\Drivers\Abstract\AbstractFont;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
-use Intervention\Image\Geometry\Size;
+use Intervention\Image\Geometry\Rectangle;
 
 class Font extends AbstractFont
 {
@@ -23,13 +23,13 @@ class Font extends AbstractFont
     {
         if (!$this->hasFilename()) {
             // calculate box size from gd font
-            $box = new Size(0, 0);
+            $box = new Rectangle(0, 0);
             $chars = mb_strlen($text);
             if ($chars > 0) {
-                $box->setWidth($chars * $this->getGdFontWidth());
-                $box->setHeight($this->getGdFontHeight());
+                $box->withWidth($chars * $this->getGdFontWidth());
+                $box->withHeight($this->getGdFontHeight());
             }
-            return $box->toPolygon();
+            return $box;
         }
 
         // calculate box size from font file with angle 0

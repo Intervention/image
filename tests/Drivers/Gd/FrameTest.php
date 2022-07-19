@@ -5,7 +5,7 @@ namespace Intervention\Image\Tests\Drivers\Gd;
 use GdImage;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Drivers\Gd\Image;
-use Intervention\Image\Geometry\Size;
+use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Tests\TestCase;
 
 /**
@@ -36,16 +36,16 @@ class FrameTest extends TestCase
         $core1 = imagecreatetruecolor(3, 2);
         $core2 = imagecreatetruecolor(3, 3);
         $frame = new Frame($core1);
-        $this->assertEquals(2, $frame->getSize()->getHeight());
+        $this->assertEquals(2, $frame->getSize()->height());
         $result = $frame->setCore($core2);
-        $this->assertInstanceOf(Frame::Class, $result);
-        $this->assertEquals(3, $frame->getSize()->getHeight());
+        $this->assertInstanceOf(Frame::class, $result);
+        $this->assertEquals(3, $frame->getSize()->height());
     }
 
     public function testGetSize(): void
     {
         $frame = $this->getTestFrame();
-        $this->assertInstanceOf(Size::class, $frame->getSize());
+        $this->assertInstanceOf(Rectangle::class, $frame->getSize());
     }
 
     public function testSetGetDelay()

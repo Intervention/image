@@ -4,7 +4,7 @@ namespace Intervention\Image\Drivers\Gd;
 
 use GdImage;
 use Intervention\Image\Collection;
-use Intervention\Image\Geometry\Size;
+use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -40,7 +40,7 @@ class Frame implements FrameInterface
 
     public function getSize(): SizeInterface
     {
-        return new Size(imagesx($this->core), imagesy($this->core));
+        return new Rectangle(imagesx($this->core), imagesy($this->core));
     }
 
     public function getDelay(): float

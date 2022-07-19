@@ -5,7 +5,7 @@ namespace Intervention\Image\Typography;
 use Intervention\Image\Collection;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
-use Intervention\Image\Geometry\Size;
+use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\FontInterface;
 
 class TextBlock extends Collection
@@ -22,10 +22,10 @@ class TextBlock extends Collection
         $pivot = $pivot ? $pivot : new Point();
 
         // bounding box
-        $box = (new Size(
+        $box = (new Rectangle(
             $this->longestLine()->widthInFont($font),
             $font->leadingInPixels() * ($this->count() - 1) + $font->capHeight()
-        ))->toPolygon();
+        ));
 
         // set pivot
         $box->setPivotPoint($pivot);

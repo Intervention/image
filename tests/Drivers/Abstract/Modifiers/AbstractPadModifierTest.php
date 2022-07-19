@@ -31,10 +31,10 @@ final class AbstractPadModifierTest extends TestCase
         $image = (new ImageFactory())->newImage($width, $height);
         $size = $modifier->getCropSize($image);
 
-        static::assertSame($expectedWidth, $size->getWidth());
-        static::assertSame($expectedHeight, $size->getHeight());
-        static::assertSame($expectedX, $size->getPivot()->getX());
-        static::assertSame($expectedY, $size->getPivot()->getY());
+        static::assertSame($expectedWidth, $size->width());
+        static::assertSame($expectedHeight, $size->height());
+        static::assertSame($expectedX, $size->pivot()->getX());
+        static::assertSame($expectedY, $size->pivot()->getY());
     }
 
     public function testGetResizeSize(): void
@@ -44,10 +44,10 @@ final class AbstractPadModifierTest extends TestCase
         $image = (new ImageFactory())->newImage(300, 200);
         $resize = $modifier->getResizeSize($image);
 
-        static::assertSame(200, $resize->getWidth());
-        static::assertSame(100, $resize->getHeight());
-        static::assertSame(0, $resize->getPivot()->getX());
-        static::assertSame(0, $resize->getPivot()->getY());
+        static::assertSame(200, $resize->width());
+        static::assertSame(100, $resize->height());
+        static::assertSame(0, $resize->pivot()->getX());
+        static::assertSame(0, $resize->pivot()->getY());
     }
 
     private function getModifier(int $width, int $height, $background, string $position): AbstractPadModifier

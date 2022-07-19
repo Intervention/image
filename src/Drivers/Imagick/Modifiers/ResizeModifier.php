@@ -2,7 +2,6 @@
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -20,8 +19,8 @@ class ResizeModifier implements ModifierInterface
 
         foreach ($image as $frame) {
             $frame->getCore()->scaleImage(
-                $resizeTo->getWidth(),
-                $resizeTo->getHeight()
+                $resizeTo->width(),
+                $resizeTo->height()
             );
         }
 

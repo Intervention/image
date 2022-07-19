@@ -5,7 +5,7 @@ namespace Intervention\Image\Drivers\Abstract;
 use Intervention\Image\Collection;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Geometry\Point;
-use Intervention\Image\Geometry\Size;
+use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -13,7 +13,6 @@ use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Traits\CanHandleInput;
 use Intervention\Image\Traits\CanResolveDriverClass;
-use Intervention\Image\Interfaces\FontInterface;
 
 abstract class AbstractImage implements ImageInterface
 {
@@ -22,7 +21,7 @@ abstract class AbstractImage implements ImageInterface
 
     public function getSize(): SizeInterface
     {
-        return new Size($this->getWidth(), $this->getHeight());
+        return new Rectangle($this->getWidth(), $this->getHeight());
     }
 
     public function size(): SizeInterface

@@ -6,7 +6,7 @@ use Imagick;
 use ImagickPixel;
 use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Drivers\Imagick\Image;
-use Intervention\Image\Geometry\Size;
+use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Tests\TestCase;
 
 /**
@@ -85,6 +85,6 @@ class ImageTest extends TestCase
 
     public function testGetSize(): void
     {
-        $this->assertInstanceOf(Size::class, $this->image->getSize());
+        $this->assertInstanceOf(Rectangle::class, $this->image->getSize());
     }
 }

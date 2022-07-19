@@ -7,7 +7,7 @@ use ImagickDraw;
 use Intervention\Image\Drivers\Abstract\AbstractFont;
 use Intervention\Image\Exceptions\FontException;
 use Intervention\Image\Geometry\Polygon;
-use Intervention\Image\Geometry\Size;
+use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ColorInterface;
 
 class Font extends AbstractFont
@@ -49,7 +49,7 @@ class Font extends AbstractFont
     {
         // no text - no box size
         if (mb_strlen($text) === 0) {
-            return (new Size(0, 0))->toPolygon();
+            return (new Rectangle(0, 0));
         }
 
         $draw = $this->toImagickDraw();
@@ -57,9 +57,9 @@ class Font extends AbstractFont
         $draw->setTextAntialias(true);
         $dimensions = (new Imagick())->queryFontMetrics($draw, $text);
 
-        return (new Size(
+        return (new Rectangle(
             intval(round($dimensions['textWidth'])),
             intval(round($dimensions['ascender'] + $dimensions['descender'])),
-        ))->toPolygon();
+        ));
     }
 }

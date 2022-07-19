@@ -15,15 +15,15 @@ class FitModifier extends AbstractFitModifier implements ModifierInterface
 
         foreach ($image as $frame) {
             $frame->getCore()->extentImage(
-                $crop->getWidth(),
-                $crop->getHeight(),
-                $crop->getPivot()->getX(),
-                $crop->getPivot()->getY()
+                $crop->width(),
+                $crop->height(),
+                $crop->pivot()->getX(),
+                $crop->pivot()->getY()
             );
 
             $frame->getCore()->scaleImage(
-                $resize->getWidth(),
-                $resize->getHeight()
+                $resize->width(),
+                $resize->height()
             );
         }
 

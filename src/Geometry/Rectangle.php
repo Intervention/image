@@ -49,7 +49,7 @@ class Rectangle extends Polygon implements SizeInterface
     }
 
     /**
-     * Aligns current size's pivot point to given position
+     * Move current pivot of current rectangle to given position
      * and moves point automatically by offset.
      *
      * @param  string  $position
@@ -57,8 +57,7 @@ class Rectangle extends Polygon implements SizeInterface
      * @param  int     $offset_y
      * @return Rectangle
      */
-    // TODO: rename method to movePivot
-    public function alignPivot(string $position, int $offset_x = 0, int $offset_y = 0): self
+    public function movePivot(string $position, int $offset_x = 0, int $offset_y = 0): self
     {
         switch (strtolower($position)) {
             case 'top':
@@ -136,13 +135,12 @@ class Rectangle extends Polygon implements SizeInterface
         return $this;
     }
 
-    // TODO: rename to alignPivot
     public function alignPivotTo(SizeInterface $size, string $position): self
     {
         $reference = new self($size->width(), $size->height());
-        $reference->alignPivot($position);
+        $reference->movePivot($position);
 
-        $this->alignPivot($position)->withPivot(
+        $this->movePivot($position)->withPivot(
             $reference->getRelativePositionTo($this)
         );
 

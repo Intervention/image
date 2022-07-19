@@ -123,39 +123,39 @@ class RectangleTest extends TestCase
         $this->assertEquals(0, $box->pivot()->getX());
         $this->assertEquals(0, $box->pivot()->getY());
 
-        $box->alignPivot('top-left', 3, 3);
+        $box->movePivot('top-left', 3, 3);
         $this->assertEquals(3, $box->pivot()->getX());
         $this->assertEquals(3, $box->pivot()->getY());
 
-        $box->alignPivot('top', 3, 3);
+        $box->movePivot('top', 3, 3);
         $this->assertEquals(320, $box->pivot()->getX());
         $this->assertEquals(3, $box->pivot()->getY());
 
-        $box->alignPivot('top-right', 3, 3);
+        $box->movePivot('top-right', 3, 3);
         $this->assertEquals(637, $box->pivot()->getX());
         $this->assertEquals(3, $box->pivot()->getY());
 
-        $box->alignPivot('left', 3, 3);
+        $box->movePivot('left', 3, 3);
         $this->assertEquals(3, $box->pivot()->getX());
         $this->assertEquals(240, $box->pivot()->getY());
 
-        $box->alignPivot('center', 3, 3);
+        $box->movePivot('center', 3, 3);
         $this->assertEquals(323, $box->pivot()->getX());
         $this->assertEquals(243, $box->pivot()->getY());
 
-        $box->alignPivot('right', 3, 3);
+        $box->movePivot('right', 3, 3);
         $this->assertEquals(637, $box->pivot()->getX());
         $this->assertEquals(240, $box->pivot()->getY());
 
-        $box->alignPivot('bottom-left', 3, 3);
+        $box->movePivot('bottom-left', 3, 3);
         $this->assertEquals(3, $box->pivot()->getX());
         $this->assertEquals(477, $box->pivot()->getY());
 
-        $box->alignPivot('bottom', 3, 3);
+        $box->movePivot('bottom', 3, 3);
         $this->assertEquals(320, $box->pivot()->getX());
         $this->assertEquals(477, $box->pivot()->getY());
 
-        $result = $box->alignPivot('bottom-right', 3, 3);
+        $result = $box->movePivot('bottom-right', 3, 3);
         $this->assertEquals(637, $box->pivot()->getX());
         $this->assertEquals(477, $box->pivot()->getY());
 
@@ -199,40 +199,40 @@ class RectangleTest extends TestCase
     {
         $container = new Rectangle(800, 600);
         $input = new Rectangle(200, 100);
-        $container->alignPivot('top-left');
-        $input->alignPivot('top-left');
+        $container->movePivot('top-left');
+        $input->movePivot('top-left');
         $pos = $container->getRelativePositionTo($input);
         $this->assertEquals(0, $pos->getX());
         $this->assertEquals(0, $pos->getY());
 
         $container = new Rectangle(800, 600);
         $input = new Rectangle(200, 100);
-        $container->alignPivot('center');
-        $input->alignPivot('top-left');
+        $container->movePivot('center');
+        $input->movePivot('top-left');
         $pos = $container->getRelativePositionTo($input);
         $this->assertEquals(400, $pos->getX());
         $this->assertEquals(300, $pos->getY());
 
         $container = new Rectangle(800, 600);
         $input = new Rectangle(200, 100);
-        $container->alignPivot('bottom-right');
-        $input->alignPivot('top-right');
+        $container->movePivot('bottom-right');
+        $input->movePivot('top-right');
         $pos = $container->getRelativePositionTo($input);
         $this->assertEquals(600, $pos->getX());
         $this->assertEquals(600, $pos->getY());
 
         $container = new Rectangle(800, 600);
         $input = new Rectangle(200, 100);
-        $container->alignPivot('center');
-        $input->alignPivot('center');
+        $container->movePivot('center');
+        $input->movePivot('center');
         $pos = $container->getRelativePositionTo($input);
         $this->assertEquals(300, $pos->getX());
         $this->assertEquals(250, $pos->getY());
 
         $container = new Rectangle(100, 200);
         $input = new Rectangle(100, 100);
-        $container->alignPivot('center');
-        $input->alignPivot('center');
+        $container->movePivot('center');
+        $input->movePivot('center');
         $pos = $container->getRelativePositionTo($input);
         $this->assertEquals(0, $pos->getX());
         $this->assertEquals(50, $pos->getY());

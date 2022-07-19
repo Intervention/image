@@ -241,7 +241,7 @@ class Resizer
     public function crop(SizeInterface $size, string $position = 'top-left'): SizeInterface
     {
         return $this->resize($size)->alignPivotTo(
-            $size->alignPivot($position),
+            $size->movePivot($position),
             $position
         );
     }

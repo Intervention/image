@@ -19,8 +19,8 @@ class ResizeModifier implements ModifierInterface
 
         foreach ($image as $frame) {
             $frame->getCore()->scaleImage(
-                $resizeTo->width(),
-                $resizeTo->height()
+                $resizeTo->getWidth(),
+                $resizeTo->getHeight()
             );
         }
 

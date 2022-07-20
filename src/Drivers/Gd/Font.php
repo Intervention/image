@@ -26,8 +26,8 @@ class Font extends AbstractFont
             $box = new Rectangle(0, 0);
             $chars = mb_strlen($text);
             if ($chars > 0) {
-                $box->withWidth($chars * $this->getGdFontWidth());
-                $box->withHeight($this->getGdFontHeight());
+                $box->setWidth($chars * $this->getGdFontWidth());
+                $box->setHeight($this->getGdFontHeight());
             }
             return $box;
         }

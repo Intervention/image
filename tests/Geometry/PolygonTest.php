@@ -64,7 +64,7 @@ class PolygonTest extends TestCase
         $this->assertEquals(-100, $result->getY());
     }
 
-    public function testWidth(): void
+    public function testGetWidth(): void
     {
         $poly = new Polygon([
             new Point(12, 45),
@@ -72,10 +72,10 @@ class PolygonTest extends TestCase
             new Point(3, 566),
         ]);
 
-        $this->assertEquals($poly->width(), 35);
+        $this->assertEquals($poly->getWidth(), 35);
     }
 
-    public function testHeight(): void
+    public function testGetHeight(): void
     {
         $poly = new Polygon([
             new Point(12, 45),
@@ -83,7 +83,7 @@ class PolygonTest extends TestCase
             new Point(3, 566),
         ]);
 
-        $this->assertEquals(615, $poly->height());
+        $this->assertEquals(615, $poly->getHeight());
 
         $poly = new Polygon([
             new Point(250, 207),
@@ -92,7 +92,7 @@ class PolygonTest extends TestCase
             new Point(250, 250),
         ], new Point(250, 250));
 
-        $this->assertEquals(43, $poly->height());
+        $this->assertEquals(43, $poly->getHeight());
     }
 
     public function testFirst(): void
@@ -122,7 +122,7 @@ class PolygonTest extends TestCase
     public function testGetPivotPoint(): void
     {
         $poly = new Polygon();
-        $this->assertInstanceOf(Point::class, $poly->getPivotPoint());
+        $this->assertInstanceOf(Point::class, $poly->getPivot());
     }
 
     public function testGetMostLeftPoint(): void

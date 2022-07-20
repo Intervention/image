@@ -19,7 +19,7 @@ class Polygon implements Countable, ArrayAccess
      *
      * @return Point
      */
-    public function getPivotPoint(): Point
+    public function getPivot(): Point
     {
         return $this->pivot;
     }
@@ -30,7 +30,7 @@ class Polygon implements Countable, ArrayAccess
      * @param Point $pivot
      * @return Polygon
      */
-    public function setPivotPoint(Point $pivot): self
+    public function setPivot(Point $pivot): self
     {
         $this->pivot = $pivot;
 
@@ -138,7 +138,7 @@ class Polygon implements Countable, ArrayAccess
      *
      * @return int
      */
-    public function width(): int
+    public function getWidth(): int
     {
         return abs($this->getMostLeftPoint()->getX() - $this->getMostRightPoint()->getX());
     }
@@ -148,7 +148,7 @@ class Polygon implements Countable, ArrayAccess
      *
      * @return int
      */
-    public function height(): int
+    public function getHeight(): int
     {
         return abs($this->getMostBottomPoint()->getY() - $this->getMostTopPoint()->getY());
     }
@@ -249,8 +249,8 @@ class Polygon implements Countable, ArrayAccess
     public function getCenterPoint(): Point
     {
         return new Point(
-            $this->getMostRightPoint()->getX() - (intval(round($this->width() / 2))),
-            $this->getMostTopPoint()->getY() - (intval(round($this->height() / 2)))
+            $this->getMostRightPoint()->getX() - (intval(round($this->getWidth() / 2))),
+            $this->getMostTopPoint()->getY() - (intval(round($this->getHeight() / 2)))
         );
     }
 
@@ -265,16 +265,16 @@ class Polygon implements Countable, ArrayAccess
         switch (strtolower($position)) {
             case 'center':
             case 'middle':
-                $diff = ($this->getCenterPoint()->getX() - $this->pivot->getX());
+                $diff = ($this->getCenterPoint()->getX() - $this->getPivot()->getX());
                 break;
 
             case 'right':
-                $diff = ($this->getMostRightPoint()->getX() - $this->pivot->getX());
+                $diff = ($this->getMostRightPoint()->getX() - $this->getPivot()->getX());
                 break;
 
             default:
             case 'left':
-                $diff = ($this->getMostLeftPoint()->getX() - $this->pivot->getX());
+                $diff = ($this->getMostLeftPoint()->getX() - $this->getPivot()->getX());
                 break;
         }
 
@@ -296,16 +296,16 @@ class Polygon implements Countable, ArrayAccess
         switch (strtolower($position)) {
             case 'center':
             case 'middle':
-                $diff = ($this->getCenterPoint()->getY() - $this->pivot->getY());
+                $diff = ($this->getCenterPoint()->getY() - $this->getPivot()->getY());
                 break;
 
             case 'top':
-                $diff = ($this->getMostTopPoint()->getY() - $this->pivot->getY()) - $this->height();
+                $diff = ($this->getMostTopPoint()->getY() - $this->getPivot()->getY()) - $this->getHeight();
                 break;
 
             default:
             case 'bottom':
-                $diff = ($this->getMostBottomPoint()->getY() - $this->pivot->getY()) + $this->height();
+                $diff = ($this->getMostBottomPoint()->getY() - $this->getPivot()->getY()) + $this->getHeight();
                 break;
         }
 
@@ -329,16 +329,16 @@ class Polygon implements Countable, ArrayAccess
 
         foreach ($this->points as $point) {
             // translate point to pivot
-            $point->setX($point->getX() - $this->pivot->getX());
-            $point->setY($point->getY() - $this->pivot->getY());
+            $point->setX($point->getX() - $this->getPivot()->getX());
+            $point->setY($point->getY() - $this->getPivot()->getY());
 
             // rotate point
             $x = $point->getX() * $cos - $point->getY() * $sin;
             $y = $point->getX() * $sin + $point->getY() * $cos;
 
             // translate point back
-            $point->setX($x + $this->pivot->getX());
-            $point->setY($y + $this->pivot->getY());
+            $point->setX($x + $this->getPivot()->getX());
+            $point->setY($y + $this->getPivot()->getY());
         }
 
         return $this;

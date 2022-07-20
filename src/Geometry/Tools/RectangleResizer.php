@@ -65,8 +65,8 @@ class RectangleResizer
 
     public function toSize(SizeInterface $size): self
     {
-        $this->width = $size->width();
-        $this->height = $size->height();
+        $this->width = $size->getWidth();
+        $this->height = $size->getHeight();
 
         return $this;
     }
@@ -74,7 +74,7 @@ class RectangleResizer
     protected function getProportionalWidth(SizeInterface $size): int
     {
         if (! $this->hasTargetHeight()) {
-            return $size->width();
+            return $size->getWidth();
         }
 
         return (int) round($this->height * $size->getAspectRatio());
@@ -83,7 +83,7 @@ class RectangleResizer
     protected function getProportionalHeight(SizeInterface $size): int
     {
         if (! $this->hasTargetWidth()) {
-            return $size->height();
+            return $size->getHeight();
         }
 
         return (int) round($this->width / $size->getAspectRatio());
@@ -91,14 +91,14 @@ class RectangleResizer
 
     public function resize(SizeInterface $size): SizeInterface
     {
-        $resized = new Rectangle($size->width(), $size->height());
+        $resized = new Rectangle($size->getWidth(), $size->getHeight());
 
         if ($width = $this->getTargetWidth()) {
-            $resized->withWidth($width);
+            $resized->setWidth($width);
         }
 
         if ($height = $this->getTargetHeight()) {
-            $resized->withHeight($height);
+            $resized->setHeight($height);
         }
 
         return $resized;
@@ -106,17 +106,17 @@ class RectangleResizer
 
     public function resizeDown(SizeInterface $size): SizeInterface
     {
-        $resized = new Rectangle($size->width(), $size->height());
+        $resized = new Rectangle($size->getWidth(), $size->getHeight());
 
         if ($width = $this->getTargetWidth()) {
-            $resized->withWidth(
-                min($width, $size->width())
+            $resized->setWidth(
+                min($width, $size->getWidth())
             );
         }
 
         if ($height = $this->getTargetHeight()) {
-            $resized->withHeight(
-                min($height, $size->height())
+            $resized->setHeight(
+                min($height, $size->getHeight())
             );
         }
 
@@ -125,23 +125,23 @@ class RectangleResizer
 
     public function scale(SizeInterface $size): SizeInterface
     {
-        $resized = new Rectangle($size->width(), $size->height());
+        $resized = new Rectangle($size->getWidth(), $size->getHeight());
 
         if ($this->hasTargetWidth() && $this->hasTargetHeight()) {
-            $resized->withWidth(min(
+            $resized->setWidth(min(
                 $this->getProportionalWidth($size),
                 $this->getTargetWidth()
             ));
-            $resized->withHeight(min(
+            $resized->setHeight(min(
                 $this->getProportionalHeight($size),
                 $this->getTargetHeight()
             ));
         } elseif ($this->hasTargetWidth()) {
-            $resized->withWidth($this->getTargetWidth());
-            $resized->withHeight($this->getProportionalHeight($size));
+            $resized->setWidth($this->getTargetWidth());
+            $resized->setHeight($this->getProportionalHeight($size));
         } elseif ($this->hasTargetHeight()) {
-            $resized->withWidth($this->getProportionalWidth($size));
-            $resized->withHeight($this->getTargetHeight());
+            $resized->setWidth($this->getProportionalWidth($size));
+            $resized->setHeight($this->getTargetHeight());
         }
 
         return $resized;
@@ -149,36 +149,36 @@ class RectangleResizer
 
     public function scaleDown(SizeInterface $size): SizeInterface
     {
-        $resized = new Rectangle($size->width(), $size->height());
+        $resized = new Rectangle($size->getWidth(), $size->getHeight());
 
         if ($this->hasTargetWidth() && $this->hasTargetHeight()) {
-            $resized->withWidth(min(
+            $resized->setWidth(min(
                 $this->getProportionalWidth($size),
                 $this->getTargetWidth(),
-                $size->width()
+                $size->getWidth()
             ));
-            $resized->withHeight(min(
+            $resized->setHeight(min(
                 $this->getProportionalHeight($size),
                 $this->getTargetHeight(),
-                $size->height()
+                $size->getHeight()
             ));
         } elseif ($this->hasTargetWidth()) {
-            $resized->withWidth(min(
+            $resized->setWidth(min(
                 $this->getTargetWidth(),
-                $size->width()
+                $size->getWidth()
             ));
-            $resized->withHeight(min(
+            $resized->setHeight(min(
                 $this->getProportionalHeight($size),
-                $size->height()
+                $size->getHeight()
             ));
         } elseif ($this->hasTargetHeight()) {
-            $resized->withWidth(min(
+            $resized->setWidth(min(
                 $this->getProportionalWidth($size),
-                $size->width()
+                $size->getWidth()
             ));
-            $resized->withHeight(min(
+            $resized->setHeight(min(
                 $this->getTargetHeight(),
-                $size->height()
+                $size->getHeight()
             ));
         }
 
@@ -193,16 +193,16 @@ class RectangleResizer
      */
     public function cover(SizeInterface $size): SizeInterface
     {
-        $resized = new Rectangle($size->width(), $size->height());
+        $resized = new Rectangle($size->getWidth(), $size->getHeight());
 
         // auto height
-        $resized->withWidth($this->getTargetWidth());
-        $resized->withHeight($this->getProportionalHeight($size));
+        $resized->setWidth($this->getTargetWidth());
+        $resized->setHeight($this->getProportionalHeight($size));
 
         if ($resized->fitsInto($this->getTargetSize())) {
             // auto width
-            $resized->withWidth($this->getProportionalWidth($size));
-            $resized->withHeight($this->getTargetHeight());
+            $resized->setWidth($this->getProportionalWidth($size));
+            $resized->setHeight($this->getTargetHeight());
         }
 
         return $resized;
@@ -216,16 +216,16 @@ class RectangleResizer
      */
     public function contain(SizeInterface $size): SizeInterface
     {
-        $resized = new Rectangle($size->width(), $size->height());
+        $resized = new Rectangle($size->getWidth(), $size->getHeight());
 
         // auto height
-        $resized->withWidth($this->getTargetWidth());
-        $resized->withHeight($this->getProportionalHeight($size));
+        $resized->setWidth($this->getTargetWidth());
+        $resized->setHeight($this->getProportionalHeight($size));
 
         if (!$resized->fitsInto($this->getTargetSize())) {
             // auto width
-            $resized->withWidth($this->getProportionalWidth($size));
-            $resized->withHeight($this->getTargetHeight());
+            $resized->setWidth($this->getProportionalWidth($size));
+            $resized->setHeight($this->getTargetHeight());
         }
 
         return $resized;

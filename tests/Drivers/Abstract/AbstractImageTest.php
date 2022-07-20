@@ -45,16 +45,16 @@ class AbstractImageTest extends TestCase
     {
         $img = $this->abstractImageMock();
         $this->assertInstanceOf(Rectangle::class, $img->getSize());
-        $this->assertEquals(300, $img->getSize()->width());
-        $this->assertEquals(200, $img->getSize()->height());
+        $this->assertEquals(300, $img->getSize()->getWidth());
+        $this->assertEquals(200, $img->getSize()->getHeight());
     }
 
     public function testSizeAlias(): void
     {
         $img = $this->abstractImageMock();
         $this->assertInstanceOf(Rectangle::class, $img->getSize());
-        $this->assertEquals(300, $img->size()->width());
-        $this->assertEquals(200, $img->size()->height());
+        $this->assertEquals(300, $img->size()->getWidth());
+        $this->assertEquals(200, $img->size()->getHeight());
     }
 
     public function testModify(): void

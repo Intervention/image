@@ -20,7 +20,7 @@ class Rectangle extends Polygon implements SizeInterface
         $this->addPoint(new Point($this->pivot->getX(), $this->pivot->getY() - $height));
     }
 
-    public function withWidth(int $width): self
+    public function setWidth(int $width): self
     {
         $this[1]->setX($this[0]->getX() + $width);
         $this[2]->setX($this[3]->getX() + $width);
@@ -28,7 +28,7 @@ class Rectangle extends Polygon implements SizeInterface
         return $this;
     }
 
-    public function withHeight(int $height): self
+    public function setHeight(int $height): self
     {
         $this[2]->setY($this[1]->getY() + $height);
         $this[3]->setY($this[0]->getY() + $height);
@@ -36,12 +36,12 @@ class Rectangle extends Polygon implements SizeInterface
         return $this;
     }
 
-    public function pivot(): Point
+    public function getPivot(): Point
     {
         return $this->pivot;
     }
 
-    public function withPivot(PointInterface $pivot): self
+    public function setPivot(PointInterface $pivot): self
     {
         $this->pivot = $pivot;
 
@@ -65,13 +65,13 @@ class Rectangle extends Polygon implements SizeInterface
             case 'top-middle':
             case 'center-top':
             case 'middle-top':
-                $x = intval($this->width() / 2);
+                $x = intval($this->getWidth() / 2);
                 $y = 0 + $offset_y;
                 break;
 
             case 'top-right':
             case 'right-top':
-                $x = $this->width() - $offset_x;
+                $x = $this->getWidth() - $offset_x;
                 $y = 0 + $offset_y;
                 break;
 
@@ -81,7 +81,7 @@ class Rectangle extends Polygon implements SizeInterface
             case 'center-left':
             case 'middle-left':
                 $x = 0 + $offset_x;
-                $y = intval($this->height() / 2);
+                $y = intval($this->getHeight() / 2);
                 break;
 
             case 'right':
@@ -89,14 +89,14 @@ class Rectangle extends Polygon implements SizeInterface
             case 'right-middle':
             case 'center-right':
             case 'middle-right':
-                $x = $this->width() - $offset_x;
-                $y = intval($this->height() / 2);
+                $x = $this->getWidth() - $offset_x;
+                $y = intval($this->getHeight() / 2);
                 break;
 
             case 'bottom-left':
             case 'left-bottom':
                 $x = 0 + $offset_x;
-                $y = $this->height() - $offset_y;
+                $y = $this->getHeight() - $offset_y;
                 break;
 
             case 'bottom':
@@ -104,22 +104,22 @@ class Rectangle extends Polygon implements SizeInterface
             case 'bottom-middle':
             case 'center-bottom':
             case 'middle-bottom':
-                $x = intval($this->width() / 2);
-                $y = $this->height() - $offset_y;
+                $x = intval($this->getWidth() / 2);
+                $y = $this->getHeight() - $offset_y;
                 break;
 
             case 'bottom-right':
             case 'right-bottom':
-                $x = $this->width() - $offset_x;
-                $y = $this->height() - $offset_y;
+                $x = $this->getWidth() - $offset_x;
+                $y = $this->getHeight() - $offset_y;
                 break;
 
             case 'center':
             case 'middle':
             case 'center-center':
             case 'middle-middle':
-                $x = intval($this->width() / 2) + $offset_x;
-                $y = intval($this->height() / 2) + $offset_y;
+                $x = intval($this->getWidth() / 2) + $offset_x;
+                $y = intval($this->getHeight() / 2) + $offset_y;
                 break;
 
             default:
@@ -137,10 +137,10 @@ class Rectangle extends Polygon implements SizeInterface
 
     public function alignPivotTo(SizeInterface $size, string $position): self
     {
-        $reference = new self($size->width(), $size->height());
+        $reference = new self($size->getWidth(), $size->getHeight());
         $reference->movePivot($position);
 
-        $this->movePivot($position)->withPivot(
+        $this->movePivot($position)->setPivot(
             $reference->getRelativePositionTo($this)
         );
 
@@ -157,23 +157,23 @@ class Rectangle extends Polygon implements SizeInterface
     public function getRelativePositionTo(SizeInterface $rectangle): PointInterface
     {
         return new Point(
-            $this->pivot()->getX() - $rectangle->pivot()->getX(),
-            $this->pivot()->getY() - $rectangle->pivot()->getY()
+            $this->getPivot()->getX() - $rectangle->getPivot()->getX(),
+            $this->getPivot()->getY() - $rectangle->getPivot()->getY()
         );
     }
 
     public function getAspectRatio(): float
     {
-        return $this->width() / $this->height();
+        return $this->getWidth() / $this->getHeight();
     }
 
     public function fitsInto(SizeInterface $size): bool
     {
-        if ($this->width() > $size->width()) {
+        if ($this->getWidth() > $size->getWidth()) {
             return false;
         }
 
-        if ($this->height() > $size->height()) {
+        if ($this->getHeight() > $size->getHeight()) {
             return false;
         }
 
@@ -187,7 +187,7 @@ class Rectangle extends Polygon implements SizeInterface
      */
     public function isLandscape(): bool
     {
-        return $this->width() > $this->height();
+        return $this->getWidth() > $this->getHeight();
     }
 
     /**
@@ -197,7 +197,7 @@ class Rectangle extends Polygon implements SizeInterface
      */
     public function isPortrait(): bool
     {
-        return $this->width() < $this->height();
+        return $this->getWidth() < $this->getHeight();
     }
 
     protected function getResizer(?int $width = null, ?int $height = null): RectangleResizer

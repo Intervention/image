@@ -71,9 +71,9 @@ class TextBlockTest extends TestCase
         $font->shouldReceive('capHeight')->andReturn(22);
 
         $box = $block->getBoundingBox($font, new Point(10, 15));
-        $this->assertEquals(300, $box->width());
-        $this->assertEquals(82, $box->height());
-        $this->assertEquals(10, $box->getPivotPoint()->getX());
-        $this->assertEquals(15, $box->getPivotPoint()->getY());
+        $this->assertEquals(300, $box->getWidth());
+        $this->assertEquals(82, $box->getHeight());
+        $this->assertEquals(10, $box->getPivot()->getX());
+        $this->assertEquals(15, $box->getPivot()->getY());
     }
 }

@@ -28,7 +28,7 @@ class TextBlock extends Collection
         ));
 
         // set pivot
-        $box->setPivotPoint($pivot);
+        $box->setPivot($pivot);
 
         // align
         $box->align($font->getAlign());

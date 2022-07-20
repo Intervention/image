@@ -4,12 +4,12 @@ namespace Intervention\Image\Interfaces;
 
 interface SizeInterface
 {
-    public function width(): int;
-    public function height(): int;
-    public function pivot(): PointInterface;
-    public function withWidth(int $width): SizeInterface;
-    public function withHeight(int $height): SizeInterface;
-    public function withPivot(PointInterface $pivot): SizeInterface;
+    public function getWidth(): int;
+    public function getHeight(): int;
+    public function getPivot(): PointInterface;
+    public function setWidth(int $width): SizeInterface;
+    public function setHeight(int $height): SizeInterface;
+    public function setPivot(PointInterface $pivot): SizeInterface;
     public function getAspectRatio(): float;
     public function fitsInto(SizeInterface $size): bool;
     public function isLandscape(): bool;

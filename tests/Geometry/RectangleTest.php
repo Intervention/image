@@ -31,7 +31,7 @@ class RectangleTest extends TestCase
         $this->assertEquals(34, $rectangle->getHeight());
     }
 
-    public function testWithWidth(): void
+    public function testSetWidth(): void
     {
         $rectangle = new Rectangle(300, 200);
         $this->assertEquals(300, $rectangle->getWidth());
@@ -39,7 +39,7 @@ class RectangleTest extends TestCase
         $this->assertEquals(400, $rectangle->getWidth());
     }
 
-    public function testWithHeight(): void
+    public function testSetHeight(): void
     {
         $rectangle = new Rectangle(300, 200);
         $this->assertEquals(200, $rectangle->getHeight());

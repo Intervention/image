@@ -13,11 +13,13 @@ use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Traits\CanHandleInput;
 use Intervention\Image\Traits\CanResolveDriverClass;
+use Intervention\Image\Traits\CanRunCallback;
 
 abstract class AbstractImage implements ImageInterface
 {
     use CanResolveDriverClass;
     use CanHandleInput;
+    use CanRunCallback;
 
     public function getSize(): SizeInterface
     {
@@ -193,7 +195,8 @@ abstract class AbstractImage implements ImageInterface
 
     public function text(string $text, int $x, int $y, ?callable $init = null): ImageInterface
     {
-        $font = $this->resolveDriverClass('Font', $init);
+        $font = $this->runCallback($init, $this->resolveDriverClass('Font'));
+
         $modifier = $this->resolveDriverClass('Modifiers\TextWriter', new Point($x, $y), $font, $text);
 
         return $this->modify($modifier);

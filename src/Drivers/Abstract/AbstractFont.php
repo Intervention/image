@@ -18,13 +18,6 @@ abstract class AbstractFont implements FontInterface
     protected $valign = 'bottom';
     protected $lineHeight = 1.25;
 
-    public function __construct(callable $init = null)
-    {
-        if (is_callable($init)) {
-            $init($this);
-        }
-    }
-
     public function size(float $size): FontInterface
     {
         $this->size = $size;

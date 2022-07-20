@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Intervention\Image\Geometry\Tools\RectangleResizer
  */
-class RectangleRectangleResizerTest extends TestCase
+class RectangleResizerTest extends TestCase
 {
     public function testMake(): void
     {

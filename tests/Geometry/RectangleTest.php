@@ -23,6 +23,14 @@ class RectangleTest extends TestCase
         $this->assertEquals(200, $rectangle->getHeight());
     }
 
+    public function testSetSize(): void
+    {
+        $rectangle = new Rectangle(300, 200);
+        $rectangle->setSize(12, 34);
+        $this->assertEquals(12, $rectangle->getWidth());
+        $this->assertEquals(34, $rectangle->getHeight());
+    }
+
     public function testWithWidth(): void
     {
         $rectangle = new Rectangle(300, 200);

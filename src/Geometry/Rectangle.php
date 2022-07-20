@@ -20,6 +20,11 @@ class Rectangle extends Polygon implements SizeInterface
         $this->addPoint(new Point($this->pivot->getX(), $this->pivot->getY() - $height));
     }
 
+    public function setSize(int $width, int $height): self
+    {
+        return $this->setWidth($width)->setHeight($height);
+    }
+
     public function setWidth(int $width): self
     {
         $this[1]->setX($this[0]->getX() + $width);

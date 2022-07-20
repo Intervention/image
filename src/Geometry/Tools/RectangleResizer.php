@@ -6,7 +6,7 @@ use Intervention\Image\Exceptions\GeometryException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\SizeInterface;
 
-class Resizer
+class RectangleResizer
 {
     public function __construct(
         protected ?int $width = null,

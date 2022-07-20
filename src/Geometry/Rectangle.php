@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Geometry;
 
-use Intervention\Image\Geometry\Tools\Resizer;
+use Intervention\Image\Geometry\Tools\RectangleResizer;
 use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
@@ -200,9 +200,9 @@ class Rectangle extends Polygon implements SizeInterface
         return $this->width() < $this->height();
     }
 
-    protected function getResizer(?int $width = null, ?int $height = null): Resizer
+    protected function getResizer(?int $width = null, ?int $height = null): RectangleResizer
     {
-        return new Resizer($width, $height);
+        return new RectangleResizer($width, $height);
     }
 
     public function resize(?int $width = null, ?int $height = null): SizeInterface

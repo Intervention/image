@@ -21,6 +21,15 @@ abstract class AbstractImage implements ImageInterface
     use CanHandleInput;
     use CanRunCallback;
 
+    public function eachFrame(callable $callback): self
+    {
+        foreach ($this as $frame) {
+            $callback($frame);
+        }
+
+        return $this;
+    }
+
     public function getSize(): SizeInterface
     {
         return new Rectangle($this->getWidth(), $this->getHeight());
@@ -206,6 +215,14 @@ abstract class AbstractImage implements ImageInterface
     {
         $color = $this->handleInput($color);
         $modifier = $this->resolveDriverClass('Modifiers\DrawPixelModifier', new Point($x, $y), $color);
+
+        return $this->modify($modifier);
+    }
+
+    public function drawRectangle(int $x, int $y, ?callable $init = null): ImageInterface
+    {
+        $rectangle = $this->runCallback($init, new Rectangle(0, 0));
+        $modifier = $this->resolveDriverClass('Modifiers\DrawRectangleModifier', new Point($x, $y), $rectangle);
 
         return $this->modify($modifier);
     }

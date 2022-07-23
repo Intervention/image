@@ -3,11 +3,17 @@
 namespace Intervention\Image\Geometry;
 
 use Intervention\Image\Geometry\Tools\RectangleResizer;
+use Intervention\Image\Geometry\Traits\HasBackgroundColor;
+use Intervention\Image\Geometry\Traits\HasBorder;
+use Intervention\Image\Interfaces\DrawableInterface;
 use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
-class Rectangle extends Polygon implements SizeInterface
+class Rectangle extends Polygon implements SizeInterface, DrawableInterface
 {
+    use HasBorder;
+    use HasBackgroundColor;
+
     public function __construct(
         int $width,
         int $height,
@@ -20,9 +26,24 @@ class Rectangle extends Polygon implements SizeInterface
         $this->addPoint(new Point($this->pivot->getX(), $this->pivot->getY() - $height));
     }
 
+    /**
+     * Set the rectangle dimensions to given width & height
+     *
+     * @param int $width
+     * @param int $height
+     * @return Rectangle
+     */
     public function setSize(int $width, int $height): self
     {
         return $this->setWidth($width)->setHeight($height);
+    }
+
+    /**
+     * Alias of self::setSize()
+     */
+    public function size(int $width, int $height): self
+    {
+        return $this->setSize($width, $height);
     }
 
     public function setWidth(int $width): self
@@ -203,6 +224,16 @@ class Rectangle extends Polygon implements SizeInterface
     public function isPortrait(): bool
     {
         return $this->getWidth() < $this->getHeight();
+    }
+
+    public function topLeftPoint(): PointInterface
+    {
+        return $this->points[0];
+    }
+
+    public function bottomRightPoint(): PointInterface
+    {
+        return $this->points[2];
     }
 
     protected function getResizer(?int $width = null, ?int $height = null): RectangleResizer

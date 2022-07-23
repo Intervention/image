@@ -4,6 +4,8 @@ namespace Intervention\Image\Drivers\Abstract;
 
 use Intervention\Image\Collection;
 use Intervention\Image\EncodedImage;
+use Intervention\Image\Geometry\Circle;
+use Intervention\Image\Geometry\Ellipse;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\CollectionInterface;
@@ -223,6 +225,22 @@ abstract class AbstractImage implements ImageInterface
     {
         $rectangle = $this->runCallback($init, new Rectangle(0, 0));
         $modifier = $this->resolveDriverClass('Modifiers\DrawRectangleModifier', new Point($x, $y), $rectangle);
+
+        return $this->modify($modifier);
+    }
+
+    public function drawEllipse(int $x, int $y, ?callable $init = null): ImageInterface
+    {
+        $ellipse = $this->runCallback($init, new Ellipse(0, 0));
+        $modifier = $this->resolveDriverClass('Modifiers\DrawEllipseModifier', new Point($x, $y), $ellipse);
+
+        return $this->modify($modifier);
+    }
+
+    public function drawCircle(int $x, int $y, ?callable $init = null): ImageInterface
+    {
+        $circle = $this->runCallback($init, new Circle(0));
+        $modifier = $this->resolveDriverClass('Modifiers\DrawEllipseModifier', new Point($x, $y), $circle);
 
         return $this->modify($modifier);
     }

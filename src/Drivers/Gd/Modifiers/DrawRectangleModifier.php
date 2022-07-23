@@ -3,8 +3,6 @@
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\Abstract\Modifiers\AbstractDrawModifier;
-use Intervention\Image\Exceptions\DecoderException;
-use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 
@@ -14,58 +12,31 @@ class DrawRectangleModifier extends AbstractDrawModifier implements ModifierInte
     {
         $image->eachFrame(function ($frame) {
             // draw background
-            if ($this->rectangle()->hasBackgroundColor()) {
+            if ($this->drawable()->hasBackgroundColor()) {
                 imagefilledrectangle(
                     $frame->getCore(),
                     $this->position->getX(),
                     $this->position->getY(),
-                    $this->position->getX() + $this->rectangle()->bottomRightPoint()->getY(),
-                    $this->position->getY() + $this->rectangle()->bottomRightPoint()->getY(),
-                    $this->getBackgroundColor()
+                    $this->position->getX() + $this->drawable()->bottomRightPoint()->getX(),
+                    $this->position->getY() + $this->drawable()->bottomRightPoint()->getY(),
+                    $this->getBackgroundColor()->toInt()
                 );
             }
 
-            if ($this->rectangle()->hasBorder()) {
+            if ($this->drawable()->hasBorder()) {
                 // draw border
-                imagesetthickness($frame->getCore(), $this->rectangle()->getBorderSize());
+                imagesetthickness($frame->getCore(), $this->drawable()->getBorderSize());
                 imagerectangle(
                     $frame->getCore(),
                     $this->position->getX(),
                     $this->position->getY(),
-                    $this->position->getX() + $this->rectangle()->bottomRightPoint()->getY(),
-                    $this->position->getY() + $this->rectangle()->bottomRightPoint()->getY(),
-                    $this->getBorderColor()
+                    $this->position->getX() + $this->drawable()->bottomRightPoint()->getX(),
+                    $this->position->getY() + $this->drawable()->bottomRightPoint()->getY(),
+                    $this->getBorderColor()->toInt()
                 );
             }
         });
 
         return $image;
-    }
-
-    private function rectangle(): Rectangle
-    {
-        return $this->drawable;
-    }
-
-    private function getBackgroundColor(): int
-    {
-        try {
-            $color = $this->handleInput($this->rectangle()->getBackgroundColor());
-        } catch (DecoderException $e) {
-            return 2130706432; // transparent
-        }
-
-        return $color->toInt();
-    }
-
-    private function getBorderColor(): int
-    {
-        try {
-            $color = $this->handleInput($this->rectangle()->getBorderColor());
-        } catch (DecoderException $e) {
-            return 2130706432; // transparent
-        }
-
-        return $color->toInt();
     }
 }

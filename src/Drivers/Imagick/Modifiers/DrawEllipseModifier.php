@@ -6,35 +6,34 @@ use ImagickDraw;
 use Intervention\Image\Drivers\Abstract\Modifiers\AbstractDrawModifier;
 use Intervention\Image\Drivers\Imagick\Color;
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
-use Intervention\Image\Interfaces\ColorInterface;
 
-class DrawRectangleModifier extends AbstractDrawModifier implements ModifierInterface
+class DrawEllipseModifier extends AbstractDrawModifier implements ModifierInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {
-        // setup rectangle
-        $drawing = new ImagickDraw();
-        $drawing->setFillColor($this->getBackgroundColor()->getPixel());
-        if ($this->drawable()->hasBorder()) {
-            $drawing->setStrokeColor($this->getBorderColor()->getPixel());
-            $drawing->setStrokeWidth($this->drawable()->getBorderSize());
-        }
+        return $image->eachFrame(function ($frame) {
+            $drawing = new ImagickDraw();
+            $drawing->setFillColor($this->getBackgroundColor()->getPixel());
 
-        // build rectangle
-        $drawing->rectangle(
-            $this->position->getX(),
-            $this->position->getY(),
-            $this->position->getX() + $this->drawable()->bottomRightPoint()->getX(),
-            $this->position->getY() + $this->drawable()->bottomRightPoint()->getY()
-        );
+            if ($this->drawable()->hasBorder()) {
+                $drawing->setStrokeWidth($this->drawable()->getBorderSize());
+                $drawing->setStrokeColor($this->getBorderColor()->getPixel());
+            }
 
-        $image->eachFrame(function ($frame) use ($drawing) {
+            $drawing->ellipse(
+                $this->position->getX(),
+                $this->position->getY(),
+                $this->drawable()->getWidth() / 2,
+                $this->drawable()->getHeight() / 2,
+                0,
+                360
+            );
+
             $frame->getCore()->drawImage($drawing);
         });
-
-        return $image;
     }
 
     protected function getBackgroundColor(): ColorInterface

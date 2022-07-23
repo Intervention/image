@@ -6,6 +6,7 @@ use Intervention\Image\Collection;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Geometry\Circle;
 use Intervention\Image\Geometry\Ellipse;
+use Intervention\Image\Geometry\Line;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\CollectionInterface;
@@ -241,6 +242,14 @@ abstract class AbstractImage implements ImageInterface
     {
         $circle = $this->runCallback($init, new Circle(0));
         $modifier = $this->resolveDriverClass('Modifiers\DrawEllipseModifier', new Point($x, $y), $circle);
+
+        return $this->modify($modifier);
+    }
+
+    public function drawLine(callable $init = null): ImageInterface
+    {
+        $line = $this->runCallback($init, new Line(new Point(), new Point()));
+        $modifier = $this->resolveDriverClass('Modifiers\DrawLineModifier', $line->getStart(), $line);
 
         return $this->modify($modifier);
     }

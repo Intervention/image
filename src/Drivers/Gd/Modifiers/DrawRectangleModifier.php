@@ -12,26 +12,26 @@ class DrawRectangleModifier extends AbstractDrawModifier implements ModifierInte
     {
         $image->eachFrame(function ($frame) {
             // draw background
-            if ($this->drawable()->hasBackgroundColor()) {
+            if ($this->rectangle()->hasBackgroundColor()) {
                 imagefilledrectangle(
                     $frame->getCore(),
                     $this->position->getX(),
                     $this->position->getY(),
-                    $this->position->getX() + $this->drawable()->bottomRightPoint()->getX(),
-                    $this->position->getY() + $this->drawable()->bottomRightPoint()->getY(),
+                    $this->position->getX() + $this->rectangle()->bottomRightPoint()->getX(),
+                    $this->position->getY() + $this->rectangle()->bottomRightPoint()->getY(),
                     $this->getBackgroundColor()->toInt()
                 );
             }
 
-            if ($this->drawable()->hasBorder()) {
+            if ($this->rectangle()->hasBorder()) {
                 // draw border
-                imagesetthickness($frame->getCore(), $this->drawable()->getBorderSize());
+                imagesetthickness($frame->getCore(), $this->rectangle()->getBorderSize());
                 imagerectangle(
                     $frame->getCore(),
                     $this->position->getX(),
                     $this->position->getY(),
-                    $this->position->getX() + $this->drawable()->bottomRightPoint()->getX(),
-                    $this->position->getY() + $this->drawable()->bottomRightPoint()->getY(),
+                    $this->position->getX() + $this->rectangle()->bottomRightPoint()->getX(),
+                    $this->position->getY() + $this->rectangle()->bottomRightPoint()->getY(),
                     $this->getBorderColor()->toInt()
                 );
             }

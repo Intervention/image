@@ -11,20 +11,20 @@ class DrawEllipseModifier extends AbstractDrawModifier implements ModifierInterf
     public function apply(ImageInterface $image): ImageInterface
     {
         return $image->eachFrame(function ($frame) {
-            if ($this->drawable()->hasBorder()) {
+            if ($this->ellipse()->hasBorder()) {
                 // slightly smaller ellipse to keep 1px bordered edges clean
-                if ($this->drawable()->hasBackgroundColor()) {
+                if ($this->ellipse()->hasBackgroundColor()) {
                     imagefilledellipse(
                         $frame->getCore(),
                         $this->position->getX(),
                         $this->position->getY(),
-                        $this->drawable()->getWidth() - 1,
-                        $this->drawable()->getHeight() - 1,
+                        $this->ellipse()->getWidth() - 1,
+                        $this->ellipse()->getHeight() - 1,
                         $this->getBackgroundColor()->toInt()
                     );
                 }
 
-                imagesetthickness($frame->getCore(), $this->drawable()->getBorderSize());
+                imagesetthickness($frame->getCore(), $this->ellipse()->getBorderSize());
 
                 // gd's imageellipse doesn't respect imagesetthickness so i use
                 // imagearc with 359.9 degrees here.
@@ -32,8 +32,8 @@ class DrawEllipseModifier extends AbstractDrawModifier implements ModifierInterf
                     $frame->getCore(),
                     $this->position->getX(),
                     $this->position->getY(),
-                    $this->drawable()->getWidth(),
-                    $this->drawable()->getHeight(),
+                    $this->ellipse()->getWidth(),
+                    $this->ellipse()->getHeight(),
                     0,
                     359.99,
                     $this->getBorderColor()->toInt()
@@ -43,8 +43,8 @@ class DrawEllipseModifier extends AbstractDrawModifier implements ModifierInterf
                     $frame->getCore(),
                     $this->position->getX(),
                     $this->position->getY(),
-                    $this->drawable()->getWidth(),
-                    $this->drawable()->getHeight(),
+                    $this->ellipse()->getWidth(),
+                    $this->ellipse()->getHeight(),
                     $this->getBackgroundColor()->toInt()
                 );
             }

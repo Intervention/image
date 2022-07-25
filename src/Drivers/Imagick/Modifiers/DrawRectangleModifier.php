@@ -17,17 +17,17 @@ class DrawRectangleModifier extends AbstractDrawModifier implements ModifierInte
         // setup rectangle
         $drawing = new ImagickDraw();
         $drawing->setFillColor($this->getBackgroundColor()->getPixel());
-        if ($this->drawable()->hasBorder()) {
+        if ($this->rectangle()->hasBorder()) {
             $drawing->setStrokeColor($this->getBorderColor()->getPixel());
-            $drawing->setStrokeWidth($this->drawable()->getBorderSize());
+            $drawing->setStrokeWidth($this->rectangle()->getBorderSize());
         }
 
         // build rectangle
         $drawing->rectangle(
             $this->position->getX(),
             $this->position->getY(),
-            $this->position->getX() + $this->drawable()->bottomRightPoint()->getX(),
-            $this->position->getY() + $this->drawable()->bottomRightPoint()->getY()
+            $this->position->getX() + $this->rectangle()->bottomRightPoint()->getX(),
+            $this->position->getY() + $this->rectangle()->bottomRightPoint()->getY()
         );
 
         $image->eachFrame(function ($frame) use ($drawing) {

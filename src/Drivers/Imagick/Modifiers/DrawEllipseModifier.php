@@ -18,16 +18,16 @@ class DrawEllipseModifier extends AbstractDrawModifier implements ModifierInterf
             $drawing = new ImagickDraw();
             $drawing->setFillColor($this->getBackgroundColor()->getPixel());
 
-            if ($this->drawable()->hasBorder()) {
-                $drawing->setStrokeWidth($this->drawable()->getBorderSize());
+            if ($this->ellipse()->hasBorder()) {
+                $drawing->setStrokeWidth($this->ellipse()->getBorderSize());
                 $drawing->setStrokeColor($this->getBorderColor()->getPixel());
             }
 
             $drawing->ellipse(
                 $this->position->getX(),
                 $this->position->getY(),
-                $this->drawable()->getWidth() / 2,
-                $this->drawable()->getHeight() / 2,
+                $this->ellipse()->getWidth() / 2,
+                $this->ellipse()->getHeight() / 2,
                 0,
                 360
             );

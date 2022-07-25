@@ -3,15 +3,29 @@
 namespace Intervention\Image\Geometry;
 
 use ArrayAccess;
+use ArrayIterator;
 use Countable;
+use Traversable;
+use IteratorAggregate;
+use Intervention\Image\Geometry\Traits\HasBackgroundColor;
+use Intervention\Image\Geometry\Traits\HasBorder;
+use Intervention\Image\Interfaces\DrawableInterface;
 
-class Polygon implements Countable, ArrayAccess
+class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInterface
 {
+    use HasBorder;
+    use HasBackgroundColor;
+
     public function __construct(
         protected array $points = [],
         protected ?Point $pivot = null
     ) {
         $this->pivot = $pivot ? $pivot : new Point();
+    }
+
+    public function getIterator(): Traversable
+    {
+        return new ArrayIterator($this->points);
     }
 
     /**
@@ -129,6 +143,13 @@ class Polygon implements Countable, ArrayAccess
     public function addPoint(Point $point): self
     {
         $this->points[] = $point;
+
+        return $this;
+    }
+
+    public function point(int $x, int $y): self
+    {
+        $this->addPoint(new Point($x, $y));
 
         return $this;
     }

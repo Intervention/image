@@ -8,6 +8,7 @@ use Intervention\Image\Geometry\Circle;
 use Intervention\Image\Geometry\Ellipse;
 use Intervention\Image\Geometry\Line;
 use Intervention\Image\Geometry\Point;
+use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
@@ -250,6 +251,14 @@ abstract class AbstractImage implements ImageInterface
     {
         $line = $this->runCallback($init, new Line(new Point(), new Point()));
         $modifier = $this->resolveDriverClass('Modifiers\DrawLineModifier', $line->getStart(), $line);
+
+        return $this->modify($modifier);
+    }
+
+    public function drawPolygon(callable $init = null): ImageInterface
+    {
+        $polygon = $this->runCallback($init, new Polygon());
+        $modifier = $this->resolveDriverClass('Modifiers\DrawPolygonModifier', $polygon);
 
         return $this->modify($modifier);
     }

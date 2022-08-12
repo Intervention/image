@@ -38,6 +38,13 @@ interface ImageInterface extends Traversable, Countable
     public function pad(int $width, int $height, $background = 'ffffff', string $position = 'center'): ImageInterface;
     public function padDown(int $width, int $height, $background = 'ffffff', string $position = 'center'): ImageInterface;
     public function drawPixel(int $x, int $y, $color = null): ImageInterface;
+    public function drawRectangle(int $x, int $y, ?callable $init = null): ImageInterface;
+    public function drawEllipse(int $x, int $y, ?callable $init = null): ImageInterface;
+    public function drawLine(callable $init = null): ImageInterface;
+    public function drawPolygon(callable $init = null): ImageInterface;
+    public function sharpen(int $amount = 10): ImageInterface;
+    public function flip(): ImageInterface;
+    public function flop(): ImageInterface;
     public function getWidth(): int;
     public function getHeight(): int;
     public function destroy(): void;

@@ -2,7 +2,6 @@
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\Gd\Color;
 use Intervention\Image\Drivers\Gd\Modifiers\DrawPixelModifier;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\TestCase;
@@ -20,7 +19,7 @@ class DrawPixelModifierTest extends TestCase
     {
         $image = $this->createTestImage('trim.png');
         $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
-        $image->modify(new DrawPixelModifier(new Point(14, 14), new Color(16777215)));
+        $image->modify(new DrawPixelModifier(new Point(14, 14), 'ffffff'));
         $this->assertEquals('ffffff', $image->pickColor(14, 14)->toHex());
     }
 }

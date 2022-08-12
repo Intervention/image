@@ -217,10 +217,9 @@ abstract class AbstractImage implements ImageInterface
 
     public function drawPixel(int $x, int $y, $color = null): ImageInterface
     {
-        $color = $this->handleInput($color);
-        $modifier = $this->resolveDriverClass('Modifiers\DrawPixelModifier', new Point($x, $y), $color);
-
-        return $this->modify($modifier);
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\DrawPixelModifier', new Point($x, $y), $color)
+        );
     }
 
     public function drawRectangle(int $x, int $y, ?callable $init = null): ImageInterface

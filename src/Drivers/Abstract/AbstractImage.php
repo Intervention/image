@@ -82,6 +82,18 @@ abstract class AbstractImage implements ImageInterface
         );
     }
 
+    public function toBitmap(): EncodedImage
+    {
+        return $this->encode(
+            $this->resolveDriverClass('Encoders\BmpEncoder')
+        );
+    }
+
+    public function toBmp(): EncodedImage
+    {
+        return $this->toBitmap();
+    }
+
     public function greyscale(): ImageInterface
     {
         return $this->modify(

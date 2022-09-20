@@ -75,12 +75,23 @@ class ImageServiceProviderLaravelRecent extends ServiceProvider
         );
 
         // imagecache route
-        if (is_string(config('imagecache.route'))) {
+        $this->bootstrapImageCacheRoute();
+    }
 
-            $filename_pattern = '[ \w\\.\\/\\-\\@\(\)\=]+';
+    /**
+     * Bootstrap imagecache route respecting routes cache
+     *
+     * @return void
+     */
+    protected function bootstrapImageCacheRoute()
+    {
+        $route = config('imagecache.route');
+
+        if (is_string($route) && !$this->app->routesAreCached()) {
+            $filename_pattern = '[ \w\\.\\/\\-\\@\(\)]+';
 
             // route to access template applied image file
-            $app['router']->get(config('imagecache.route').'/{template}/{filename}', [
+            $this->app['router']->get($route.'/{template}/{filename}', [
                 'uses' => 'Intervention\Image\ImageCacheController@getResponse',
                 'as' => 'imagecache'
             ])->where(['filename' => $filename_pattern]);

@@ -278,7 +278,7 @@ class Size
      */
     public function align($position, $offset_x = 0, $offset_y = 0)
     {
-        switch (strtolower($position)) {
+        switch (strtolower((string) $position)) {
 
             case 'top':
             case 'top-center':

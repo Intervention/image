@@ -229,7 +229,7 @@ class Font extends \Intervention\Image\AbstractFont
             }
 
             // x-position corrections for horizontal alignment
-            switch (strtolower($this->align)) {
+            switch (strtolower((string) $this->align)) {
                 case 'center':
                     $posx = ceil($posx - ($width / 2));
                     break;
@@ -240,7 +240,7 @@ class Font extends \Intervention\Image\AbstractFont
             }
 
             // y-position corrections for vertical alignment
-            switch (strtolower($this->valign)) {
+            switch (strtolower((string) $this->valign)) {
                 case 'center':
                 case 'middle':
                     $posy = ceil($posy - ($height / 2));

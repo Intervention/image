@@ -32,7 +32,11 @@ class ExifCommand extends AbstractCommand
                 $stream = $image->dirname . '/' . $image->basename;
             } elseif (version_compare(PHP_VERSION, '7.2.0', '>=')) {
                 // https://www.php.net/manual/en/function.exif-read-data.php#refsect1-function.exif-read-data-changelog
-                $stream = $image->stream()->detach();
+                if (is_resource($image->stream) && get_resource_type($image->stream) === 'stream') {
+                    $stream = $image->stream;
+                } else {
+                    $stream = $image->stream()->detach();
+                }
             } else {
                 // https://bugs.php.net/bug.php?id=65187
                 $stream = $image->encode('data-url')->encoded;

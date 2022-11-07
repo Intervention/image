@@ -7,37 +7,44 @@ class File
     /**
      * Mime type
      *
-     * @var string
+     * @var string|null
      */
     public $mime;
 
     /**
      * Name of directory path
      *
-     * @var string
+     * @var string|null
      */
     public $dirname;
 
     /**
      * Basename of current file
      *
-     * @var string
+     * @var string|null
      */
     public $basename;
 
     /**
      * File extension of current file
      *
-     * @var string
+     * @var string|null
      */
     public $extension;
 
     /**
      * File name of current file
      *
-     * @var string
+     * @var string|null
      */
     public $filename;
+
+    /**
+     * Resource from which the image was created
+     *
+     * @var resource|null
+     */
+    public $stream;
 
     /**
      * Sets all instance properties from given path
@@ -55,6 +62,18 @@ class File
         if (file_exists($path) && is_file($path)) {
             $this->mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
         }
+
+        return $this;
+    }
+
+    /**
+     * Keep a copy of the original stream resource.  We can use it to read EXIF data later.
+     *
+     * @param resource|StreamInterface $stream
+     */
+    public function setOriginalStream($stream)
+    {
+        $this->stream = $stream;
 
         return $this;
     }

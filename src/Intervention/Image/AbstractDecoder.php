@@ -122,7 +122,7 @@ abstract class AbstractDecoder
         }
 
         if ($data) {
-            return $this->initFromBinary($data);
+            return $this->initFromBinary($data)->setOriginalStream($stream->detach());
         }
 
         throw new NotReadableException(

@@ -103,6 +103,28 @@ class ExifCommandTest extends TestCase
         $this->assertEquals('Oliver Vogel', $command->getOutput());
     }
 
+    public function testReadOrientationFromFile()
+    {
+        $image = $this->imagick()->make(__DIR__.'/images/exif.jpg');
+        $this->assertEquals(1, $image->exif('Orientation'));
+
+        $image = $this->imagick()->make(__DIR__.'/images/exif-rotated.jpg');
+        $this->assertEquals(8, $image->exif('Orientation'));
+    }
+
+    public function testReadOrientationFromStream()
+    {
+        $fp = fopen(__DIR__.'/images/exif.jpg', 'rb');
+        $image = $this->imagick()->make($fp);
+        $this->assertEquals(1, $image->exif('Orientation'));
+        fclose($fp);
+
+        $fp = fopen(__DIR__.'/images/exif-rotated.jpg', 'rb');
+        $image = $this->imagick()->make($fp);
+        $this->assertEquals(8, $image->exif('Orientation'));
+        fclose($fp);
+    }
+
     private function imagick()
     {
         return new \Intervention\Image\ImageManager([

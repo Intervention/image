@@ -28,7 +28,7 @@ class ExifCommand extends AbstractCommand
 
         // try to read exif data from image file
         try {
-            if ($image->dirname && $image->basename) {
+            if ($image->dirname !== null && $image->basename !== null) {
                 $stream = $image->dirname . '/' . $image->basename;
             } elseif (version_compare(PHP_VERSION, '7.2.0', '>=')) {
                 // https://www.php.net/manual/en/function.exif-read-data.php#refsect1-function.exif-read-data-changelog

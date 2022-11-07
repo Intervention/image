@@ -30,7 +30,7 @@ class StreamCommand extends AbstractCommand
      */
     protected function getStream($data)
     {
-        if (class_exists(\GuzzleHttp\Psr7\Utils::class)) {
+        if (class_exists('\\GuzzleHttp\\Psr7\\Utils')) {
             return \GuzzleHttp\Psr7\Utils::streamFor($data); // guzzlehttp/psr7 >= 2.0
         }
 

@@ -68,11 +68,7 @@ class File
     {
         $path = $this->basePath();
 
-        if ($path === null) {
-            return false;
-        }
-
-        if (file_exists($path) && is_file($path)) {
+        if ($path !== null && file_exists($path) && is_file($path)) {
             return filesize($path);
         }
         

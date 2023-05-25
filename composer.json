@@ -1,5 +1,5 @@
 {
-    "name": "intervention/image",
+    "name": "bnd170/image",
     "description": "Image handling and manipulation library with support for Laravel integration",
     "homepage": "http://image.intervention.io/",
     "keywords": ["image", "gd", "imagick", "laravel", "watermark", "thumbnail"],

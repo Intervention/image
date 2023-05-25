@@ -16,7 +16,7 @@ class Decoder extends \Intervention\Image\AbstractDecoder
      */
     public function initFromPath($path)
     {
-        if ( ! file_exists($path)) {
+        if ($path === null || ! file_exists($path)) {
             throw new NotReadableException(
                 "Unable to find file ({$path})."
             );

@@ -5,7 +5,7 @@ namespace Intervention\Image\Geometry;
 class Circle extends Ellipse
 {
     public function __construct(
-        int $diameter,
+        protected int $diameter,
         protected ?Point $pivot = null
     ) {
         $this->setWidth($diameter);

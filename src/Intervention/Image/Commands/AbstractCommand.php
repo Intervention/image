@@ -23,6 +23,7 @@ abstract class AbstractCommand
      *
      * @param  \Intervention\Image\Image $image
      * @return mixed
+     * @throws \Intervention\Image\Exception\ImageException
      */
     abstract public function execute($image);
 

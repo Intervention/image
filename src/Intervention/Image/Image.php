@@ -100,8 +100,9 @@ class Image extends File
      * usually any AbstractCommand
      *
      * @param  string $name
-     * @param  Array  $arguments
+     * @param  array  $arguments
      * @return mixed
+     * @throws \Intervention\Image\Exception\ImageException
      */
     public function __call($name, $arguments)
     {

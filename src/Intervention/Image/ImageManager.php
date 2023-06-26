@@ -48,6 +48,8 @@ class ImageManager
      * @param  mixed $data
      *
      * @return \Intervention\Image\Image
+     *
+     * @throws \Intervention\Image\Exception\ImageException
      */
     public function make($data)
     {

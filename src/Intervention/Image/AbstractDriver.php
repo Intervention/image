@@ -86,6 +86,7 @@ abstract class AbstractDriver
      * @param  string $name
      * @param  array $arguments
      * @return \Intervention\Image\Commands\AbstractCommand
+     * @throws \Intervention\Image\Exception\ImageException
      */
     public function executeCommand($image, $name, $arguments)
     {

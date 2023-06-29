@@ -35,6 +35,12 @@ class Decoder extends \Intervention\Image\AbstractDecoder
             case 'image/jpg':
             case 'image/jpeg':
             case 'image/pjpeg':
+                if ( ! function_exists('imagecreatefromjpeg')) {
+                    throw new NotReadableException(
+                        "Unsupported image type. GD/PHP installation does not support jpeg format."
+                    );
+                }
+
                 $core = @imagecreatefromjpeg($path);
                 if (!$core) {
                     $core= @imagecreatefromstring(file_get_contents($path));

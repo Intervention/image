@@ -68,14 +68,14 @@ abstract class AbstractFont
      * @param  int     $posy
      * @return boolean
      */
-    abstract public function applyToImage(Image $image, $posx = 0, $posy = 0);
+    public function applyToImage(Image $image, $posx = 0, $posy = 0);
 
     /**
      * Calculates bounding box of current font setting
      *
      * @return array
      */
-    abstract public function getBoxSize();
+    public function getBoxSize();
 
     /**
      * Create a new instance of Font

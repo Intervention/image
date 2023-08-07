@@ -14,6 +14,8 @@ class Image extends Facade
 {
     protected static function getFacadeAccessor()
     {
+        chdir(str_replace('/vendor/laravel/octane/bin', '/public', getcwd()));
+
         return 'image';
     }
 }

@@ -1,0 +1,9 @@
+version: '3'
+
+services: 
+  tests:
+    build: ./
+    working_dir: /project
+    command: bash -c "composer install && ./vendor/bin/phpunit -vvv"
+    volumes:
+      - ./:/project

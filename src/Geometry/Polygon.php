@@ -106,7 +106,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
      * @param mixed $offset
      * @return Point
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->points[$offset];
     }

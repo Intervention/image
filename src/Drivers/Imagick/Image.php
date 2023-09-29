@@ -77,14 +77,14 @@ class Image extends AbstractImage implements ImageInterface, Iterator
         return $this->imagick->getNumberImages();
     }
 
-    public function current()
+    public function current(): mixed
     {
         $this->imagick->setIteratorIndex($this->iteratorIndex);
 
         return new Frame($this->imagick->current());
     }
 
-    public function key()
+    public function key(): mixed
     {
         return $this->iteratorIndex;
     }

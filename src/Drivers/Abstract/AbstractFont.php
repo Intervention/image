@@ -56,7 +56,7 @@ abstract class AbstractFont implements FontInterface
 
     public function hasFilename(): bool
     {
-        return is_file($this->filename);
+        return !is_null($this->filename) && is_file($this->filename);
     }
 
     public function color($color): FontInterface

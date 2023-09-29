@@ -22,7 +22,6 @@ class DrawPolygonModifier extends AbstractDrawModifier implements ModifierInterf
                 imagefilledpolygon(
                     $frame->getCore(),
                     $this->polygon()->toArray(),
-                    $this->polygon()->count(),
                     $this->getBackgroundColor()->toInt()
                 );
             }

@@ -15,11 +15,51 @@ interface ImageInterface extends Traversable, Countable
      * @return null|FrameInterface
      */
     public function getFrame(int $position = 0): ?FrameInterface;
+
+    /**
+     * Add frame to animated image
+     *
+     * @param FrameInterface $frame
+     * @return ImageInterface
+     */
     public function addFrame(FrameInterface $frame): ImageInterface;
+
+    /**
+     * Set loop count of animated image
+     *
+     * @param int $count
+     * @return ImageInterface
+     */
     public function setLoops(int $count): ImageInterface;
+
+    /**
+     * Return loop count of animated image
+     *
+     * @return int
+     */
     public function getLoops(): int;
+
+    /**
+     * Return size of current image
+     *
+     * @return SizeInterface
+     */
     public function getSize(): SizeInterface;
+
+    /**
+     * Determine if current image is animated
+     *
+     * @return bool
+     */
     public function isAnimated(): bool;
+
+
+    /**
+     * Apply given modifier to current image
+     *
+     * @param ModifierInterface $modifier
+     * @return ImageInterface
+     */
     public function modify(ModifierInterface $modifier): ImageInterface;
 
     /**
@@ -61,10 +101,24 @@ interface ImageInterface extends Traversable, Countable
      */
     public function toPng(): EncodedImage;
 
+    public function pickColor(int $x, int $y, int $frame_key = 0): ?ColorInterface;
     public function pickColors(int $x, int $y): CollectionInterface;
     public function text(string $text, int $x, int $y, ?callable $init = null): ImageInterface;
-    public function pickColor(int $x, int $y, int $frame_key = 0): ?ColorInterface;
+
+    /**
+     * Turn image into a greyscale version
+     *
+     * @return void
+     */
     public function greyscale(): ImageInterface;
+
+
+    /**
+     * Blur current image by given strength
+     *
+     * @param int $amount
+     * @return ImageInterface
+     */
     public function blur(int $amount = 5): ImageInterface;
     public function rotate(float $angle, $background = 'ffffff'): ImageInterface;
     public function place($element, string $position = 'top-left', int $offset_x = 0, int $offset_y = 0): ImageInterface;
@@ -80,13 +134,73 @@ interface ImageInterface extends Traversable, Countable
     public function padDown(int $width, int $height, $background = 'ffffff', string $position = 'center'): ImageInterface;
     public function drawPixel(int $x, int $y, $color = null): ImageInterface;
     public function drawRectangle(int $x, int $y, ?callable $init = null): ImageInterface;
+
+    /**
+     * Draw ellipse ot given position on current image
+     *
+     * @param int $x
+     * @param int $y
+     * @param null|callable $init
+     * @return ImageInterface
+     */
     public function drawEllipse(int $x, int $y, ?callable $init = null): ImageInterface;
+
+    /**
+     * Draw line on image
+     *
+     * @param callable|null $init
+     * @return ImageInterface
+     */
     public function drawLine(callable $init = null): ImageInterface;
+
+    /**
+     * Draw polygon on image
+     *
+     * @param callable|null $init
+     * @return ImageInterface
+     */
     public function drawPolygon(callable $init = null): ImageInterface;
+
+    /**
+     * Sharpen the current image with given strength
+     *
+     * @param int $amount
+     * @return ImageInterface
+     */
     public function sharpen(int $amount = 10): ImageInterface;
+
+    /**
+     * Mirror the current image horizontally
+     *
+     * @return void
+     */
     public function flip(): ImageInterface;
+
+    /**
+     * Mirror the current image vertically
+     *
+     * @return void
+     */
     public function flop(): ImageInterface;
+
+    /**
+     * Return image width in pixels
+     *
+     * @return int
+     */
     public function getWidth(): int;
+
+    /**
+     * Return image height in pixels
+     *
+     * @return int
+     */
     public function getHeight(): int;
+
+    /**
+     * Destroy current image instance and free up memory
+     *
+     * @return void
+     */
     public function destroy(): void;
 }

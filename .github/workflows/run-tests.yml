@@ -50,10 +50,10 @@ jobs:
       - name: Install ImageMagick
         if: ( steps.cache-imagemagick.outputs.cache-hit != 'true' || steps.cache-imagemagick-exists.outputs.files_exists != 'true' )
         run: |
-          curl -o /tmp/ImageMagick.tar.gz -sL https://imagemagick.org/archive/releases/ImageMagick-${{ matrix.imagemagick }}.tar.gz
+          curl -o /tmp/ImageMagick.tar.xz -sL https://imagemagick.org/archive/releases/ImageMagick-${{ matrix.imagemagick }}.tar.xz
           (
             cd /tmp || exit 1
-            tar xf ImageMagick.tar.gz
+            tar xf ImageMagick.tar.xz
             cd ImageMagick-${{ matrix.imagemagick }}
             sudo ./configure --prefix=/home/runner/im/imagemagick-${{ matrix.imagemagick }}
             sudo make -j$(nproc)

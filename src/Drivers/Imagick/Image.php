@@ -24,10 +24,10 @@ class Image extends AbstractImage implements ImageInterface, Iterator
         return $this->imagick;
     }
 
-    public function getFrame(int $key = 0): ?FrameInterface
+    public function getFrame(int $position = 0): ?FrameInterface
     {
         try {
-            $this->imagick->setIteratorIndex($key);
+            $this->imagick->setIteratorIndex($position);
         } catch (ImagickException $e) {
             return null;
         }

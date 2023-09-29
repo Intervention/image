@@ -8,18 +8,59 @@ use Traversable;
 
 interface ImageInterface extends Traversable, Countable
 {
-    public function getFrame(int $key = 0): ?FrameInterface;
+    /**
+     * Get frame of animation image at given position starting with zero
+     *
+     * @param int $key
+     * @return null|FrameInterface
+     */
+    public function getFrame(int $position = 0): ?FrameInterface;
     public function addFrame(FrameInterface $frame): ImageInterface;
     public function setLoops(int $count): ImageInterface;
     public function getLoops(): int;
     public function getSize(): SizeInterface;
     public function isAnimated(): bool;
     public function modify(ModifierInterface $modifier): ImageInterface;
+
+    /**
+     * Encode image with given encoder
+     *
+     * @param EncoderInterface $encoder
+     * @return EncodedImage
+     */
     public function encode(EncoderInterface $encoder): EncodedImage;
+
+    /**
+     * Encode image to jpeg format
+     *
+     * @param int $quality
+     * @return EncodedImage
+     */
     public function toJpeg(int $quality = 75): EncodedImage;
+
+    /**
+     * Encode image to webp format
+     *
+     * @param int $quality
+     * @return EncodedImage
+     */
     public function toWebp(int $quality = 75): EncodedImage;
+
+    /**
+     * Encode image to gif format
+     *
+     * @return EncodedImage
+     */
     public function toGif(): EncodedImage;
+
+
+    /**
+     * Encode image to png format
+     *
+     * @return EncodedImage
+     */
     public function toPng(): EncodedImage;
+
     public function pickColors(int $x, int $y): CollectionInterface;
     public function text(string $text, int $x, int $y, ?callable $init = null): ImageInterface;
     public function pickColor(int $x, int $y, int $frame_key = 0): ?ColorInterface;

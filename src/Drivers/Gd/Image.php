@@ -44,9 +44,9 @@ class Image extends AbstractImage implements ImageInterface, IteratorAggregate
         return $this;
     }
 
-    public function getFrame(int $key = 0): ?FrameInterface
+    public function getFrame(int $position = 0): ?FrameInterface
     {
-        return $this->frames->get($key);
+        return $this->frames->get($position);
     }
 
     public function addFrame(FrameInterface $frame): ImageInterface

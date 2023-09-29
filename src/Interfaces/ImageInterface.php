@@ -103,6 +103,16 @@ interface ImageInterface extends Traversable, Countable
 
     public function pickColor(int $x, int $y, int $frame_key = 0): ?ColorInterface;
     public function pickColors(int $x, int $y): CollectionInterface;
+
+    /**
+     * Draw text on image
+     *
+     * @param string        $text
+     * @param int           $x
+     * @param int           $y
+     * @param null|callable $init
+     * @return ImageInterface
+     */
     public function text(string $text, int $x, int $y, ?callable $init = null): ImageInterface;
 
     /**
@@ -120,8 +130,29 @@ interface ImageInterface extends Traversable, Countable
      * @return ImageInterface
      */
     public function blur(int $amount = 5): ImageInterface;
+
+
+    /**
+     * Rotate current image by given angle
+     *
+     * @param float  $angle
+     * @param string $background
+     * @return       ImageInterface
+     */
     public function rotate(float $angle, $background = 'ffffff'): ImageInterface;
+
+
+    /**
+     * Place another image into the current image instance
+     *
+     * @param mixed  $element
+     * @param string $position
+     * @param int    $offset_x
+     * @param int    $offset_y
+     * @return ImageInterface
+     */
     public function place($element, string $position = 'top-left', int $offset_x = 0, int $offset_y = 0): ImageInterface;
+
     public function fill($color, ?int $x = null, ?int $y = null): ImageInterface;
     public function pixelate(int $size): ImageInterface;
     public function resize(?int $width = null, ?int $height = null): ImageInterface;
@@ -138,9 +169,9 @@ interface ImageInterface extends Traversable, Countable
     /**
      * Draw ellipse ot given position on current image
      *
-     * @param int $x
-     * @param int $y
-     * @param null|callable $init
+     * @param int   $x
+     * @param int   $y
+     * @param       null|callable $init
      * @return ImageInterface
      */
     public function drawEllipse(int $x, int $y, ?callable $init = null): ImageInterface;
@@ -148,7 +179,7 @@ interface ImageInterface extends Traversable, Countable
     /**
      * Draw line on image
      *
-     * @param callable|null $init
+     * @param  callable|null $init
      * @return ImageInterface
      */
     public function drawLine(callable $init = null): ImageInterface;
@@ -156,7 +187,7 @@ interface ImageInterface extends Traversable, Countable
     /**
      * Draw polygon on image
      *
-     * @param callable|null $init
+     * @param  callable|null $init
      * @return ImageInterface
      */
     public function drawPolygon(callable $init = null): ImageInterface;
@@ -164,7 +195,7 @@ interface ImageInterface extends Traversable, Countable
     /**
      * Sharpen the current image with given strength
      *
-     * @param int $amount
+     * @param  int $amount
      * @return ImageInterface
      */
     public function sharpen(int $amount = 10): ImageInterface;

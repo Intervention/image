@@ -23,7 +23,7 @@ $manager = new ImageManager('gd')
 $image = $manager->make('images/example.gif');
 
 // resize image instance
-$image->resize(320, 240);
+$image->resize(height: 300);
 
 // insert a watermark
 $image->place('images/watermark.png');
@@ -37,7 +37,7 @@ $encoded->save('images/example.jpg');
 
 ## Requirements
 
-- PHP >=8.0
+- PHP >= 8.1
 
 ## Supported Image Libraries
 

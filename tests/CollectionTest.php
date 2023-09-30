@@ -45,6 +45,16 @@ class CollectionTest extends TestCase
         $this->assertEquals(3, count($collection));
     }
 
+    public function testFilter()
+    {
+        $collection = new Collection(['foo', 'bar', 'baz']);
+        $this->assertEquals(3, $collection->count());
+        $collection = $collection->filter(function ($text) {
+            return substr($text, 0, 1) == 'b';
+        });
+        $this->assertEquals(2, $collection->count());
+    }
+
     public function testFirstLast()
     {
         $collection = new Collection(['foo', 'bar', 'baz']);

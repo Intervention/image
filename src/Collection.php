@@ -134,6 +134,21 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
         return new self($items);
     }
 
+    /**
+     * Run callback on each item of the collection an remove it if it does not return true
+     *
+     * @param callable $callback
+     * @return Collection
+     */
+    public function filter(callable $callback): self
+    {
+        $items = array_filter($this->items, function ($item) use ($callback) {
+            return $callback($item);
+        });
+
+        return new self($items);
+    }
+
     public function pushEach(array $data, ?callable $callback = null): CollectionInterface
     {
         if (! is_iterable($data)) {

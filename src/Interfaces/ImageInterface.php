@@ -153,16 +153,85 @@ interface ImageInterface extends Traversable, Countable
      */
     public function place($element, string $position = 'top-left', int $offset_x = 0, int $offset_y = 0): ImageInterface;
 
+    /**
+     * Stretch the image to the desired size
+     *
+     * @param null|int $width
+     * @param null|int $height
+     * @return ImageInterface
+     */
+    public function resize(?int $width = null, ?int $height = null): ImageInterface;
+
+    /**
+     * Stretch the image to the desired size but do not exceed the original size
+     *
+     * @param null|int $width
+     * @param null|int $height
+     * @return ImageInterface
+     */
+    public function resizeDown(?int $width = null, ?int $height = null): ImageInterface;
+
+    /**
+     * Resize the image and keep the image aspect ration proportions
+     *
+     * @param null|int $width
+     * @param null|int $height
+     * @return ImageInterface
+     */
+    public function scale(?int $width = null, ?int $height = null): ImageInterface;
+
+    /**
+     * Resize the image and keep the image aspect ration proportions but do not exceed the original size
+     *
+     * @param null|int $width
+     * @param null|int $height
+     * @return ImageInterface
+     */
+    public function scaleDown(?int $width = null, ?int $height = null): ImageInterface;
+
+    /**
+     *
+     * Takes the given dimensions and scales it to the largest possible size matching
+     * the original size. Then this size is positioned on the original and cut out
+     * before being resized to the desired size from the arguments
+     *
+     * @param int $width
+     * @param int $height
+     * @param string $position
+     * @return ImageInterface
+     */
+    public function fit(int $width, int $height, string $position = 'center'): ImageInterface;
+
+    /**
+     * Same as fit() but do not exceeds the original image size
+     *
+     * @param int $width
+     * @param int $height
+     * @param string $position
+     * @return ImageInterface
+     */
+    public function fitDown(int $width, int $height, string $position = 'center'): ImageInterface;
+
+    /**
+     * @param int $width
+     * @param int $height
+     * @param string $background
+     * @param string $position
+     * @return ImageInterface
+     */
+    public function pad(int $width, int $height, $background = 'ffffff', string $position = 'center'): ImageInterface;
+
+    /**
+     * @param int $width
+     * @param int $height
+     * @param string $background
+     * @param string $position
+     * @return ImageInterface
+     */
+    public function padDown(int $width, int $height, $background = 'ffffff', string $position = 'center'): ImageInterface;
+
     public function fill($color, ?int $x = null, ?int $y = null): ImageInterface;
     public function pixelate(int $size): ImageInterface;
-    public function resize(?int $width = null, ?int $height = null): ImageInterface;
-    public function resizeDown(?int $width = null, ?int $height = null): ImageInterface;
-    public function scale(?int $width = null, ?int $height = null): ImageInterface;
-    public function scaleDown(?int $width = null, ?int $height = null): ImageInterface;
-    public function fit(int $width, int $height, string $position = 'center'): ImageInterface;
-    public function fitDown(int $width, int $height, string $position = 'center'): ImageInterface;
-    public function pad(int $width, int $height, $background = 'ffffff', string $position = 'center'): ImageInterface;
-    public function padDown(int $width, int $height, $background = 'ffffff', string $position = 'center'): ImageInterface;
     public function drawPixel(int $x, int $y, $color = null): ImageInterface;
     public function drawRectangle(int $x, int $y, ?callable $init = null): ImageInterface;
 

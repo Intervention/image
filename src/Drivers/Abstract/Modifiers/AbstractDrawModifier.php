@@ -11,11 +11,13 @@ use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
 use Intervention\Image\Interfaces\PointInterface;
+use Intervention\Image\Traits\CanCheckType;
 use Intervention\Image\Traits\CanHandleInput;
 
 class AbstractDrawModifier
 {
     use CanHandleInput;
+    use CanCheckType;
 
     public function __construct(
         protected PointInterface $position,

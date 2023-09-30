@@ -5,11 +5,13 @@ namespace Intervention\Image\Drivers\Abstract\Modifiers;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\TypeException;
 use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Traits\CanCheckType;
 use Intervention\Image\Traits\CanHandleInput;
 
 abstract class AbstractRotateModifier
 {
     use CanHandleInput;
+    use CanCheckType;
 
     public function __construct(protected float $angle, protected $background)
     {

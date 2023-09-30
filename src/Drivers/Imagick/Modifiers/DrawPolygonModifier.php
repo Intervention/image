@@ -5,7 +5,6 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use ImagickDraw;
 use Intervention\Image\Drivers\Abstract\Modifiers\AbstractDrawModifier;
 use Intervention\Image\Drivers\Imagick\Color;
-use Intervention\Image\Exceptions\TypeException;
 use Intervention\Image\Interfaces\DrawableInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
@@ -21,12 +20,15 @@ class DrawPolygonModifier extends AbstractDrawModifier implements ModifierInterf
     public function apply(ImageInterface $image): ImageInterface
     {
         $drawing = new ImagickDraw();
+        $background_color = $this->failIfNotClass($this->getBackgroundColor(), Color::class);
+        $border_color = $this->failIfNotClass($this->getBorderColor(), Color::class);
+
         if ($this->polygon()->hasBackgroundColor()) {
-            $drawing->setFillColor($this->getBackgroundColor()->getPixel());
+            $drawing->setFillColor($background_color->getPixel());
         }
 
         if ($this->polygon()->hasBorder()) {
-            $drawing->setStrokeColor($this->getBorderColor()->getPixel());
+            $drawing->setStrokeColor($border_color->getPixel());
             $drawing->setStrokeWidth($this->polygon()->getBorderSize());
         }
 
@@ -45,27 +47,5 @@ class DrawPolygonModifier extends AbstractDrawModifier implements ModifierInterf
         }
 
         return $points;
-    }
-
-    protected function getBackgroundColor(): ?Color
-    {
-        $color = parent::getBackgroundColor();
-
-        if (!is_a($color, Color::class)) {
-            throw new TypeException('Color is not compatible to current driver.');
-        }
-
-        return $color;
-    }
-
-    protected function getBorderColor(): ?Color
-    {
-        $color = parent::getBorderColor();
-
-        if (!is_a($color, Color::class)) {
-            throw new TypeException('Color is not compatible to current driver.');
-        }
-
-        return $color;
     }
 }

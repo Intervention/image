@@ -5,9 +5,12 @@ namespace Intervention\Image\Drivers\Abstract\Modifiers;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Traits\CanCheckType;
 
 abstract class AbstractPadModifier
 {
+    use CanCheckType;
+
     public function __construct(
         protected int $width,
         protected int $height,

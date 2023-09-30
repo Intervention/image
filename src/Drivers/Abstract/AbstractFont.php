@@ -4,11 +4,13 @@ namespace Intervention\Image\Drivers\Abstract;
 
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FontInterface;
+use Intervention\Image\Traits\CanCheckType;
 use Intervention\Image\Traits\CanHandleInput;
 
 abstract class AbstractFont implements FontInterface
 {
     use CanHandleInput;
+    use CanCheckType;
 
     protected $size = 12;
     protected $angle = 0;

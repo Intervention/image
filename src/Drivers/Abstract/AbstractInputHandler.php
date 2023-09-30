@@ -40,7 +40,7 @@ abstract class AbstractInputHandler
     /**
      * Try to decode the given input with each decoder of the the handler chain
      *
-     * @param  mixed $var
+     * @param  mixed $input
      * @return ImageInterface|ColorInterface
      */
     public function handle($input): ImageInterface|ColorInterface

@@ -25,7 +25,7 @@ abstract class AbstractImage implements ImageInterface
     use CanHandleInput;
     use CanRunCallback;
 
-    public function eachFrame(callable $callback): self
+    public function eachFrame(callable $callback): ImageInterface
     {
         foreach ($this as $frame) {
             $callback($frame);

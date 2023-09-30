@@ -8,7 +8,6 @@ use Intervention\Image\Drivers\Imagick\Color;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
-use Intervention\Image\Interfaces\ColorInterface;
 
 class DrawRectangleModifier extends AbstractDrawModifier implements ModifierInterface
 {
@@ -37,7 +36,7 @@ class DrawRectangleModifier extends AbstractDrawModifier implements ModifierInte
         return $image;
     }
 
-    protected function getBackgroundColor(): ColorInterface
+    protected function getBackgroundColor(): Color
     {
         $color = parent::getBackgroundColor();
         if (!is_a($color, Color::class)) {
@@ -47,7 +46,7 @@ class DrawRectangleModifier extends AbstractDrawModifier implements ModifierInte
         return $color;
     }
 
-    protected function getBorderColor(): ColorInterface
+    protected function getBorderColor(): Color
     {
         $color = parent::getBorderColor();
         if (!is_a($color, Color::class)) {

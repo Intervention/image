@@ -11,7 +11,7 @@ interface ImageInterface extends Traversable, Countable
     /**
      * Get frame of animation image at given position starting with zero
      *
-     * @param int $key
+     * @param int $position
      * @return null|FrameInterface
      */
     public function getFrame(int $position = 0): ?FrameInterface;
@@ -23,6 +23,15 @@ interface ImageInterface extends Traversable, Countable
      * @return ImageInterface
      */
     public function addFrame(FrameInterface $frame): ImageInterface;
+
+
+    /**
+     * Apply given callback to each frame of the image
+     *
+     * @param callable $callback
+     * @return ImageInterface
+     */
+    public function eachFrame(callable $callback): ImageInterface;
 
     /**
      * Set loop count of animated image
@@ -118,7 +127,7 @@ interface ImageInterface extends Traversable, Countable
     /**
      * Turn image into a greyscale version
      *
-     * @return void
+     * @return ImageInterface
      */
     public function greyscale(): ImageInterface;
 
@@ -272,14 +281,14 @@ interface ImageInterface extends Traversable, Countable
     /**
      * Mirror the current image horizontally
      *
-     * @return void
+     * @return ImageInterface
      */
     public function flip(): ImageInterface;
 
     /**
      * Mirror the current image vertically
      *
-     * @return void
+     * @return ImageInterface
      */
     public function flop(): ImageInterface;
 

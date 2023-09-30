@@ -54,6 +54,20 @@ composer require intervention/image
 
 Learn the [basics](https://image.intervention.io/v3/basics/instantiation/) on how to use Intervention Image and more with the [official documentation](https://image.intervention.io/v3/).
 
+## Development & Testing
+
+With this package comes a Docker image to build a test suite and analysis container. To build this container you have to have Docker installed on your system. You can run all tests with this command.
+
+```bash
+docker-compose run --rm --build tests
+```
+
+Run the static analyzer on the code base.
+
+```bash
+docker-compose run --rm --build analysis
+```
+
 ## License
 
 Intervention Image is licensed under the [MIT License](http://opensource.org/licenses/MIT).

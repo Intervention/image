@@ -62,6 +62,13 @@ interface ImageInterface extends Traversable, Countable
      */
     public function isAnimated(): bool;
 
+    /**
+     * Remove all frames but keep the one at the specified position
+     *
+     * @param  int $position
+     * @return ImageInterface
+     */
+    public function removeAnimation(int $position = 0): ImageInterface;
 
     /**
      * Apply given modifier to current image

@@ -26,13 +26,13 @@ class Image extends AbstractImage implements ImageInterface, Iterator
 
     public function getFrame(int $position = 0): ?FrameInterface
     {
-        try {
-            $this->imagick->setIteratorIndex($position);
-        } catch (ImagickException $e) {
-            return null;
+        foreach ($this->imagick as $core) {
+            if ($core->getIteratorIndex() == $position) {
+                return new Frame($core);
+            }
         }
 
-        return new Frame($this->imagick->current());
+        return null;
     }
 
     public function addFrame(FrameInterface $frame): ImageInterface

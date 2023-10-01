@@ -20,7 +20,7 @@ Intervention Image is a **image handling and manipulation library written in PHP
 $manager = new ImageManager('gd')
 
 // open an image file
-$image = $manager->make('images/example.gif');
+$image = $manager->read('images/example.gif');
 
 // resize image instance
 $image->resize(height: 300);

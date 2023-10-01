@@ -25,10 +25,10 @@ class ImageManagerTest extends TestCase
     }
 
     /** @requires extension gd */
-    public function testMakeGd()
+    public function testReadGd()
     {
         $manager = new ImageManager('gd');
-        $image = $manager->make(__DIR__ . '/images/red.gif');
+        $image = $manager->read(__DIR__ . '/images/red.gif');
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
@@ -41,10 +41,10 @@ class ImageManagerTest extends TestCase
     }
 
     /** @requires extension imagick */
-    public function testMakeImagick()
+    public function testReadImagick()
     {
         $manager = new ImageManager('imagick');
-        $image = $manager->make(__DIR__ . '/images/red.gif');
+        $image = $manager->read(__DIR__ . '/images/red.gif');
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 }

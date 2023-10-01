@@ -32,7 +32,7 @@ class ImageManager
      * @param  mixed $source
      * @return ImageInterface
      */
-    public function make($source): ImageInterface
+    public function read($source): ImageInterface
     {
         return $this->resolveDriverClass('InputHandler')->handle($source);
     }

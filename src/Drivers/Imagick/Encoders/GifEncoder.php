@@ -26,6 +26,7 @@ class GifEncoder extends AbstractEncoder implements EncoderInterface
         $imagick->setImageFormat($format);
         $imagick->setCompression($compression);
         $imagick->setImageCompression($compression);
+        $imagick->optimizeImageLayers();
         $imagick = $imagick->deconstructImages();
 
         return new EncodedImage($imagick->getImagesBlob(), 'image/gif');

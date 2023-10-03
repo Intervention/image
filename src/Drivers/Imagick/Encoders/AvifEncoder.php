@@ -12,7 +12,7 @@ class AvifEncoder extends AbstractEncoder implements EncoderInterface
 {
     public function encode(ImageInterface $image): EncodedImage
     {
-        $format = 'avif';
+        $format = 'AVIF';
         $compression = Imagick::COMPRESSION_ZIP;
 
         $imagick = $image->getFrame()->getCore();

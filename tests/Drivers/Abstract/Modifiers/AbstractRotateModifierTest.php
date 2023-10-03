@@ -64,7 +64,7 @@ final class AbstractRotateModifierTest extends TestCase
                 return parent::backgroundColor();
             }
 
-            public function handleInput($input, ?string $check_result_against_classname = null): ImageInterface|ColorInterface
+            public function handleInput($input): ImageInterface|ColorInterface
             {
                 if ($this->background === 'bad value') {
                     throw new DecoderException();

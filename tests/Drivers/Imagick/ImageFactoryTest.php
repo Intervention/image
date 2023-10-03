@@ -20,6 +20,17 @@ class ImageFactoryTest extends TestCase
         $this->assertInstanceOf(Image::class, $image);
     }
 
+    public function testNewAnimation(): void
+    {
+        $factory = new ImageFactory();
+        $image = $factory->newAnimation(function ($animation) {
+            $animation->add($this->getTestImagePath('blue.gif'), 1.2);
+            $animation->add($this->getTestImagePath('red.gif'), 1.2);
+        });
+        $this->assertInstanceOf(Image::class, $image);
+        $this->assertEquals(2, $image->count());
+    }
+
     public function testNewCore(): void
     {
         $factory = new ImageFactory();

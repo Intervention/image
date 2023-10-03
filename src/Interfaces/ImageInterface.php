@@ -109,6 +109,12 @@ interface ImageInterface extends Traversable, Countable
      */
     public function toGif(): EncodedImage;
 
+    /**
+     * Encode image to avif format
+     *
+     * @return EncodedImage
+     */
+    public function toAvif(): EncodedImage;
 
     /**
      * Encode image to png format

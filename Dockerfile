@@ -4,6 +4,7 @@ RUN apt update \
         && apt install -y \
             libpng-dev \
             libicu-dev \
+            libavif-dev \
             libpq-dev \
             libzip-dev \
             zip \
@@ -13,7 +14,7 @@ RUN apt update \
             libmagickwand-dev \
             libwebp-dev \
         && pecl install imagick \
-        && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+        && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp --with-avif \
         && docker-php-ext-enable imagick \
         && docker-php-ext-install \
             intl \

@@ -92,6 +92,9 @@ jobs:
       - name: Which Imagick Version
         run: php -r 'var_dump(Imagick::getVersion());'
 
+      - name: Supported Imagick Formats
+        run: php -r 'var_dump(Imagick::queryFormats());'
+
       - name: Execute tests
         run: vendor/bin/phpunit --no-coverage
 

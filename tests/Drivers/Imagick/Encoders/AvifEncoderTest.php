@@ -12,7 +12,7 @@ use Intervention\MimeSniffer\Types\ImageAvif;
 
 /**
  * @requires extension imagick
- * @covers \Intervention\Image\Drivers\Imagick\Encoders\JpegEncoder
+ * @covers \Intervention\Image\Drivers\Imagick\Encoders\AvifEncoder
  */
 class AvifEncoderTest extends TestCase
 {

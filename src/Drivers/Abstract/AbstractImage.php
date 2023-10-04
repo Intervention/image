@@ -2,8 +2,11 @@
 
 namespace Intervention\Image\Drivers\Abstract;
 
+use Exception;
+use Intervention\Gif\Exception\NotReadableException;
 use Intervention\Image\Collection;
 use Intervention\Image\EncodedImage;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Geometry\Circle;
 use Intervention\Image\Geometry\Ellipse;
 use Intervention\Image\Geometry\Line;
@@ -346,6 +349,41 @@ abstract class AbstractImage implements ImageInterface
         return $this->modify(
             $this->resolveDriverClass('Modifiers\RemoveAnimationModifier', $position)
         );
+    }
+
+    /**
+     * Read exif data from current image instance
+     *
+     * Returns value of given key or null if key was not found. If no
+     * parameter is given an array of all available data is returned.
+     *
+     * @param null|string $tag
+     * @return mixed
+     * @throws NotSupportedException
+     * @throws NotReadableException
+     */
+    public function readExif(?string $tag = null): mixed
+    {
+        if (!function_exists('exif_read_data')) {
+            throw new NotSupportedException(
+                'Reading Exif data is not supported by this PHP installation.'
+            );
+        }
+
+        try {
+            $pointer = $this->toJpeg()->toFilePointer();
+            $data = @exif_read_data($pointer);
+        } catch (Exception $e) {
+            throw new NotReadableException('Unable to read Exif data from this image.');
+        }
+
+        fclose($pointer);
+
+        if (!is_null($tag) && is_array($data)) {
+            $data = array_key_exists($tag, $data) ? $data[$tag] : null;
+        }
+
+        return is_array($data) ? new Collection($data) : $data;
     }
 
     public function destroy(): void

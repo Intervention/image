@@ -38,6 +38,15 @@ class EncodedImage
         return $this->data;
     }
 
+    public function toFilePointer()
+    {
+        $pointer = fopen('php://temp', 'rw');
+        fputs($pointer, $this->toString());
+        rewind($pointer);
+
+        return $pointer;
+    }
+
     public function __toString(): string
     {
         return $this->toString();

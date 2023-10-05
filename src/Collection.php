@@ -8,8 +8,6 @@ use ArrayIterator;
 use Countable;
 use Traversable;
 use IteratorAggregate;
-use RecursiveIteratorIterator;
-use RecursiveArrayIterator;
 
 class Collection implements CollectionInterface, IteratorAggregate, Countable
 {

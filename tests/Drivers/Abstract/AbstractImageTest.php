@@ -11,7 +11,6 @@ use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
-use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Tests\TestCase;
 use Mockery;
 
@@ -425,6 +424,15 @@ class AbstractImageTest extends TestCase
 
         $result = $img->padDown(200, 100, 'ffffff', 'center');
         $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testSetGetExif(): void
+    {
+        $img = $this->abstractImageMock();
+        $img->setExif((['test' => 'value']));
+
+        $this->assertInstanceOf(Collection::class, $img->getExif());
+        $this->assertEquals('value', $img->getExif('test'));
     }
 
     public function testDestroy(): void

@@ -86,24 +86,6 @@ class CollectionTest extends TestCase
         $this->assertEquals('BAZ', $collection->get(2));
     }
 
-    public function testGet()
-    {
-        $collection = new Collection(['foo', 'bar', 'baz']);
-        $this->assertEquals('foo', $collection->get(0));
-        $this->assertEquals('bar', $collection->get(1));
-        $this->assertEquals('baz', $collection->get(2));
-        $this->assertNull($collection->get(3));
-        $this->assertEquals('test', $collection->get(3, 'test'));
-    }
-
-    public function testHas(): void
-    {
-        $collection = new Collection(['foo', 'bar']);
-        $this->assertTrue($collection->has(0));
-        $this->assertTrue($collection->has(1));
-        $this->assertFalse($collection->has(2));
-    }
-
     public function testToArray()
     {
         $collection = new Collection(['foo', 'bar', 'baz']);
@@ -122,11 +104,14 @@ class CollectionTest extends TestCase
         $this->assertEquals(['foo', 'bar', 'baz'], $mapped->toArray());
     }
 
-    public function testQuery(): void
+    public function testGet(): void
     {
         $collection = new Collection([
-            'foo' => 'FOO',
-            'bar' => 'BAR',
+            'first',
+            'second',
+            ['testx' => 'x'],
+            'foo' => 'foo_value',
+            'bar' => 'bar_value',
             'baz' => [
                 'test1' => '1',
                 'test2' => '2',
@@ -136,12 +121,18 @@ class CollectionTest extends TestCase
             ]
         ]);
 
-        $this->assertEquals('FOO', $collection->query('foo'));
-        $this->assertEquals('BAR', $collection->query('bar'));
-        $this->assertEquals('1', $collection->query('baz.test1'));
-        $this->assertEquals('2', $collection->query('baz.test2'));
-        $this->assertEquals('value', $collection->query('baz.test3.example'));
-        $this->assertEquals('value', $collection->query('baz.test3.example', 'default'));
-        $this->assertEquals('default', $collection->query('baz.test3.no', 'default'));
+        $this->assertEquals('first', $collection->get(0));
+        $this->assertEquals('second', $collection->get(1));
+        $this->assertEquals('first', $collection->get('0'));
+        $this->assertEquals('second', $collection->get('1'));
+        $this->assertEquals('x', $collection->get('2.testx'));
+        $this->assertEquals('foo_value', $collection->get('foo'));
+        $this->assertEquals('bar_value', $collection->get('bar'));
+        $this->assertEquals('1', $collection->get('baz.test1'));
+        $this->assertEquals('2', $collection->get('baz.test2'));
+        $this->assertEquals('value', $collection->get('baz.test3.example'));
+        $this->assertEquals('value', $collection->get('baz.test3.example', 'default'));
+        $this->assertEquals('default', $collection->get('baz.test3.no', 'default'));
+        $this->assertEquals(['example' => 'value'], $collection->get('baz.test3'));
     }
 }

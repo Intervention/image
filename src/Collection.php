@@ -182,22 +182,4 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
 
         return $this;
     }
-
-    private function getItemsFlat(): array
-    {
-        $iterator = new RecursiveIteratorIterator(
-            new RecursiveArrayIterator($this->items)
-        );
-
-        $items = [];
-        foreach ($iterator as $value) {
-            $keys = [];
-            foreach (range(0, $iterator->getDepth()) as $depth) {
-                $keys[] = $iterator->getSubIterator($depth)->key();
-            }
-            $items[join('.', $keys)] = $value;
-        }
-
-        return $items;
-    }
 }

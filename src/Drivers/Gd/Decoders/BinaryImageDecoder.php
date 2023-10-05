@@ -42,7 +42,10 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
 
         imagesavealpha($gd, true);
 
-        return new Image(new Collection([new Frame($gd)]));
+        $image = new Image(new Collection([new Frame($gd)]));
+        $image->setExif($this->decodeExifData($input));
+
+        return $image;
     }
 
     protected function decodeGif($input): ImageInterface

@@ -2,7 +2,6 @@
 
 namespace Intervention\Image\Drivers\Abstract;
 
-use Exception;
 use Intervention\Gif\Exception\NotReadableException;
 use Intervention\Image\Collection;
 use Intervention\Image\EncodedImage;
@@ -21,12 +20,17 @@ use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Traits\CanHandleInput;
 use Intervention\Image\Traits\CanResolveDriverClass;
 use Intervention\Image\Traits\CanRunCallback;
+use ReflectionProperty;
 
 abstract class AbstractImage implements ImageInterface
 {
     use CanResolveDriverClass;
     use CanHandleInput;
     use CanRunCallback;
+
+    protected Collection $exif;
+
+    
 
     public function eachFrame(callable $callback): ImageInterface
     {
@@ -351,39 +355,16 @@ abstract class AbstractImage implements ImageInterface
         );
     }
 
-    /**
-     * Read exif data from current image instance
-     *
-     * Returns value of given key or null if key was not found. If no
-     * parameter is given an array of all available data is returned.
-     *
-     * @param null|string $tag
-     * @return mixed
-     * @throws NotSupportedException
-     * @throws NotReadableException
-     */
-    public function readExif(?string $tag = null): mixed
+    public function setExif(array $data): ImageInterface
     {
-        if (!function_exists('exif_read_data')) {
-            throw new NotSupportedException(
-                'Reading Exif data is not supported by this PHP installation.'
-            );
-        }
+        $this->exif = new Collection($data);
 
-        try {
-            $pointer = $this->toJpeg()->toFilePointer();
-            $data = @exif_read_data($pointer);
-        } catch (Exception $e) {
-            throw new NotReadableException('Unable to read Exif data from this image.');
-        }
+        return $this;
+    }
 
-        fclose($pointer);
-
-        if (!is_null($tag) && is_array($data)) {
-            $data = array_key_exists($tag, $data) ? $data[$tag] : null;
-        }
-
-        return is_array($data) ? new Collection($data) : $data;
+    public function getExif(?string $query = null): mixed
+    {
+        return is_null($query) ? $this->exif : $this->exif->get($query);
     }
 
     public function destroy(): void

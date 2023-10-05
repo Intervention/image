@@ -28,6 +28,7 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
 
         $image = new Image($imagick);
         $image->setLoops($imagick->getImageIterations());
+        $image->setExif($this->decodeExifData($input));
 
         return $image;
     }

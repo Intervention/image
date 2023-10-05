@@ -3,6 +3,7 @@
 namespace Intervention\Image\Interfaces;
 
 use Countable;
+use Intervention\Image\Collection;
 use Intervention\Image\EncodedImage;
 use Traversable;
 
@@ -54,6 +55,20 @@ interface ImageInterface extends Traversable, Countable
      * @return SizeInterface
      */
     public function getSize(): SizeInterface;
+
+    /**
+     * Return exif data of current image
+     *
+     * @return mixed
+     */
+    public function getExif(?string $query = null): mixed;
+
+    /**
+     * Set exif data on current image (will not be written in final image)
+     *
+     * @return ImageInterface
+     */
+    public function setExif(array $data): ImageInterface;
 
     /**
      * Determine if current image is animated

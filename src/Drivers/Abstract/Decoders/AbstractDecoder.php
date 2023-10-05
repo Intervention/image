@@ -32,6 +32,16 @@ abstract class AbstractDecoder implements DecoderInterface
         return $decoded;
     }
 
+    protected function hasSuccessor(): bool
+    {
+        return $this->successor !== null;
+    }
+
+    protected function inputType($input): AbstractType
+    {
+        return MimeSniffer::createFromString($input)->getType();
+    }
+
     protected function decodeExifData(string $image_data): array
     {
         if (! function_exists('exif_read_data')) {
@@ -42,22 +52,12 @@ abstract class AbstractDecoder implements DecoderInterface
             $pointer = fopen('php://temp', 'rw');
             fputs($pointer, $image_data);
             rewind($pointer);
-
             $data = @exif_read_data($pointer, null, true);
+            fclose($pointer);
         } catch (Exception $e) {
             $data = [];
         }
 
         return is_array($data) ? $data : [];
-    }
-
-    protected function hasSuccessor(): bool
-    {
-        return $this->successor !== null;
-    }
-
-    protected function inputType($input): AbstractType
-    {
-        return MimeSniffer::createFromString($input)->getType();
     }
 }

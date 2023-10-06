@@ -2,10 +2,8 @@
 
 namespace Intervention\Image\Drivers\Abstract;
 
-use Intervention\Gif\Exception\NotReadableException;
 use Intervention\Image\Collection;
 use Intervention\Image\EncodedImage;
-use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Geometry\Circle;
 use Intervention\Image\Geometry\Ellipse;
 use Intervention\Image\Geometry\Line;
@@ -20,7 +18,6 @@ use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Traits\CanHandleInput;
 use Intervention\Image\Traits\CanResolveDriverClass;
 use Intervention\Image\Traits\CanRunCallback;
-use ReflectionProperty;
 
 abstract class AbstractImage implements ImageInterface
 {
@@ -29,8 +26,6 @@ abstract class AbstractImage implements ImageInterface
     use CanRunCallback;
 
     protected Collection $exif;
-
-    
 
     public function eachFrame(callable $callback): ImageInterface
     {
@@ -364,6 +359,10 @@ abstract class AbstractImage implements ImageInterface
 
     public function getExif(?string $query = null): mixed
     {
+        if (!isset($this->exif)) {
+            return new Collection();
+        }
+
         return is_null($query) ? $this->exif : $this->exif->get($query);
     }
 

@@ -26,8 +26,8 @@ class DrawEllipseModifier extends AbstractDrawModifier implements ModifierInterf
 
                 imagesetthickness($frame->getCore(), $this->ellipse()->getBorderSize());
 
-                // gd's imageellipse doesn't respect imagesetthickness so i use
-                // imagearc with 359.9 degrees here.
+                // gd's imageellipse ignores imagesetthickness so i use
+                // imagearc with 360 degrees instead.
                 imagearc(
                     $frame->getCore(),
                     $this->position->getX(),
@@ -35,7 +35,7 @@ class DrawEllipseModifier extends AbstractDrawModifier implements ModifierInterf
                     $this->ellipse()->getWidth(),
                     $this->ellipse()->getHeight(),
                     0,
-                    359.99,
+                    360,
                     $this->getBorderColor()->toInt()
                 );
             } else {

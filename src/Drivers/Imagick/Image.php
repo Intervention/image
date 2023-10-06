@@ -57,6 +57,7 @@ class Image extends AbstractImage implements ImageInterface, Iterator
 
     public function setLoops(int $count): ImageInterface
     {
+        $this->imagick = $this->imagick->coalesceImages();
         $this->imagick->setImageIterations($count);
 
         return $this;

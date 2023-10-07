@@ -11,7 +11,7 @@ use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Traits\CanValidateColors;
 
-class ArrayColorDecoder extends AbstractDecoder implements DecoderInterface
+class RgbArrayColorDecoder extends AbstractDecoder implements DecoderInterface
 {
     use CanValidateColors;
 

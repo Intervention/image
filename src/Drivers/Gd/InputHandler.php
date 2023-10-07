@@ -9,7 +9,7 @@ class InputHandler extends AbstractInputHandler
     protected $decoders = [
         Decoders\ImageObjectDecoder::class,
         Decoders\FilePointerImageDecoder::class,
-        Decoders\ArrayColorDecoder::class,
+        Decoders\RgbArrayColorDecoder::class,
         Decoders\HtmlColorNameDecoder::class,
         Decoders\RgbStringColorDecoder::class,
         Decoders\HexColorDecoder::class,

@@ -1,20 +1,20 @@
 <?php
 
-namespace Intervention\Image\Tests\Drivers\Imagick\Decoders;
+namespace Intervention\Image\Tests\Drivers\Gd\Decoders;
 
-use Intervention\Image\Drivers\Imagick\Color;
-use Intervention\Image\Drivers\Imagick\Decoders\ArrayColorDecoder;
+use Intervention\Image\Drivers\Gd\Color;
+use Intervention\Image\Drivers\Gd\Decoders\RgbArrayColorDecoder;
 use Intervention\Image\Tests\TestCase;
 
 /**
- * @requires extension imagick
- * @covers \Intervention\Image\Drivers\Imagick\Decoders\ArrayColorDecoder
+ * @requires extension gd
+ * @covers \Intervention\Image\Drivers\Gd\Decoders\RgbArrayColorDecoder
  */
-class ArrayColorDecoderTest extends TestCase
+class RgbArrayColorDecoderTest extends TestCase
 {
     public function testDecode(): void
     {
-        $decoder = new ArrayColorDecoder();
+        $decoder = new RgbArrayColorDecoder();
         $color = $decoder->decode([181, 55, 23, .5]);
         $this->assertInstanceOf(Color::class, $color);
         $this->assertEquals(181, $color->red());

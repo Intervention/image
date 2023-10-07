@@ -7,7 +7,7 @@ use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
-class HexColorDecoder extends ArrayColorDecoder implements DecoderInterface
+class HexColorDecoder extends RgbArrayColorDecoder implements DecoderInterface
 {
     public function decode($input): ImageInterface|ColorInterface
     {

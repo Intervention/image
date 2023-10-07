@@ -17,8 +17,8 @@ class BrightnessModifierTest extends TestCase
     public function testApply(): void
     {
         $image = $this->createTestImage('trim.png');
-        $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
+        $this->assertEquals('00aef0', $image->getColor(14, 14)->toHex());
         $image->modify(new BrightnessModifier(30));
-        $this->assertEquals('4cfaff', $image->pickColor(14, 14)->toHex());
+        $this->assertEquals('4cfaff', $image->getColor(14, 14)->toHex());
     }
 }

@@ -19,16 +19,16 @@ class FlipFlopModifierTest extends TestCase
     public function testFlipImage(): void
     {
         $image = $this->createTestImage('tile.png');
-        $this->assertEquals('b4e000', $image->pickColor(0, 0)->toHex());
+        $this->assertEquals('b4e000', $image->getColor(0, 0)->toHex());
         $image->modify(new FlipModifier());
-        $this->assertEquals('000000', $image->pickColor(0, 0)->toHex());
+        $this->assertEquals('000000', $image->getColor(0, 0)->toHex());
     }
 
     public function testFlopImage(): void
     {
         $image = $this->createTestImage('tile.png');
-        $this->assertEquals('b4e000', $image->pickColor(0, 0)->toHex());
+        $this->assertEquals('b4e000', $image->getColor(0, 0)->toHex());
         $image->modify(new FlopModifier());
-        $this->assertEquals('000000', $image->pickColor(0, 0)->toHex());
+        $this->assertEquals('000000', $image->getColor(0, 0)->toHex());
     }
 }

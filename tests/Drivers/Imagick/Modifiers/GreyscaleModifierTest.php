@@ -17,8 +17,8 @@ class GreyscaleModifierTest extends TestCase
     public function testColorChange(): void
     {
         $image = $this->createTestImage('trim.png');
-        $this->assertFalse($image->pickColor(0, 0)->isGreyscale());
+        $this->assertFalse($image->getColor(0, 0)->isGreyscale());
         $image->modify(new GreyscaleModifier());
-        $this->assertTrue($image->pickColor(0, 0)->isGreyscale());
+        $this->assertTrue($image->getColor(0, 0)->isGreyscale());
     }
 }

@@ -17,10 +17,10 @@ class InvertModifierTest extends TestCase
     public function testApply(): void
     {
         $image = $this->createTestImage('trim.png');
-        $this->assertEquals('00aef0', $image->pickColor(0, 0)->toHex());
-        $this->assertEquals('ffa601', $image->pickColor(25, 25)->toHex());
+        $this->assertEquals('00aef0', $image->getColor(0, 0)->toHex());
+        $this->assertEquals('ffa601', $image->getColor(25, 25)->toHex());
         $image->modify(new InvertModifier());
-        $this->assertEquals('ff510f', $image->pickColor(0, 0)->toHex());
-        $this->assertEquals('0059fe', $image->pickColor(25, 25)->toHex());
+        $this->assertEquals('ff510f', $image->getColor(0, 0)->toHex());
+        $this->assertEquals('0059fe', $image->getColor(25, 25)->toHex());
     }
 }

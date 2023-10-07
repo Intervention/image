@@ -22,10 +22,10 @@ class ResizeModifierTest extends TestCase
         $image->modify(new ResizeModifier(200, 100));
         $this->assertEquals(200, $image->getWidth());
         $this->assertEquals(100, $image->getHeight());
-        $this->assertColor(255, 0, 0, 1, $image->pickColor(150, 70));
-        $this->assertColor(0, 255, 0, 1, $image->pickColor(125, 70));
-        $this->assertColor(0, 0, 255, 1, $image->pickColor(130, 54));
-        $transparent = $image->pickColor(170, 30);
+        $this->assertColor(255, 0, 0, 1, $image->getColor(150, 70));
+        $this->assertColor(0, 255, 0, 1, $image->getColor(125, 70));
+        $this->assertColor(0, 0, 255, 1, $image->getColor(130, 54));
+        $transparent = $image->getColor(170, 30);
         $this->assertEquals(2130706432, $transparent->toInt());
         $this->assertTransparency($transparent);
     }

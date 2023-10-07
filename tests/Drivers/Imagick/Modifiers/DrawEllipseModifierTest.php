@@ -15,10 +15,10 @@ class DrawEllipseModifierTest extends TestCase
     public function testApply(): void
     {
         $image = $this->createTestImage('trim.png');
-        $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
+        $this->assertEquals('00aef0', $image->getColor(14, 14)->toHex());
         $drawable = new Ellipse(10, 10);
         $drawable->background('b53717');
         $image->modify(new DrawEllipseModifier(new Point(14, 14), $drawable));
-        $this->assertEquals('b53717', $image->pickColor(14, 14)->toHex());
+        $this->assertEquals('b53717', $image->getColor(14, 14)->toHex());
     }
 }

@@ -19,10 +19,10 @@ class DrawPolygonModifierTest extends TestCase
     public function testApply(): void
     {
         $image = $this->createTestImage('trim.png');
-        $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
+        $this->assertEquals('00aef0', $image->getColor(14, 14)->toHex());
         $drawable = new Polygon([new Point(0, 0), new Point(15, 15), new Point(20, 20)]);
         $drawable->background('b53717');
         $image->modify(new DrawPolygonModifier($drawable));
-        $this->assertEquals('b53717', $image->pickColor(14, 14)->toHex());
+        $this->assertEquals('b53717', $image->getColor(14, 14)->toHex());
     }
 }

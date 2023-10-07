@@ -11,4 +11,5 @@ interface ColorInterface
     public function toArray(): array;
     public function toHex(string $prefix = ''): string;
     public function toInt(): int;
+    public function isGreyscale(): bool;
 }

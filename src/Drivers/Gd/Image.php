@@ -66,7 +66,7 @@ class Image extends AbstractImage implements ImageInterface, IteratorAggregate
         return imagesy($this->getFrame()->getCore());
     }
 
-    public function getColor(int $x, int $y, int $frame_key = 0): ?ColorInterface
+    public function pickColor(int $x, int $y, int $frame_key = 0): ?ColorInterface
     {
         if ($frame = $this->getFrame($frame_key)) {
             return new Color(imagecolorat($frame->getCore(), $x, $y));

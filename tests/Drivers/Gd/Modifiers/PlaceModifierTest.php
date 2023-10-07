@@ -17,8 +17,8 @@ class PlaceModifierTest extends TestCase
     public function testColorChange(): void
     {
         $image = $this->createTestImage('test.jpg');
-        $this->assertEquals('febc44', $image->getColor(300, 25)->toHex());
+        $this->assertEquals('febc44', $image->pickColor(300, 25)->toHex());
         $image->modify(new PlaceModifier(__DIR__ . '/../../../images/circle.png', 'top-right', 0, 0));
-        $this->assertEquals('32250d', $image->getColor(300, 25)->toHex());
+        $this->assertEquals('32250d', $image->pickColor(300, 25)->toHex());
     }
 }

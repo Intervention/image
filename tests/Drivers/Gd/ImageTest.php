@@ -92,33 +92,33 @@ class ImageTest extends TestCase
         $this->assertInstanceOf(Rectangle::class, $this->image->getSize());
     }
 
-    public function testGetColor(): void
+    public function testPickColor(): void
     {
-        $color = $this->image->getColor(0, 0);
+        $color = $this->image->pickColor(0, 0);
         $this->assertInstanceOf(Color::class, $color);
         $this->assertEquals(255, $color->red());
         $this->assertEquals(0, $color->green());
         $this->assertEquals(0, $color->blue());
 
-        $color = $this->image->getColor(0, 0, 1);
+        $color = $this->image->pickColor(0, 0, 1);
         $this->assertInstanceOf(Color::class, $color);
         $this->assertEquals(0, $color->red());
         $this->assertEquals(255, $color->green());
         $this->assertEquals(0, $color->blue());
 
-        $color = $this->image->getColor(0, 0, 2);
+        $color = $this->image->pickColor(0, 0, 2);
         $this->assertInstanceOf(Color::class, $color);
         $this->assertEquals(0, $color->red());
         $this->assertEquals(0, $color->green());
         $this->assertEquals(255, $color->blue());
 
-        $color = $this->image->getColor(0, 0, 3);
+        $color = $this->image->pickColor(0, 0, 3);
         $this->assertNull($color);
     }
 
-    public function testGetColors(): void
+    public function testPickColors(): void
     {
-        $colors = $this->image->getColors(0, 0);
+        $colors = $this->image->pickColors(0, 0);
         $this->assertInstanceOf(Collection::class, $colors);
         $this->assertCount(3, $colors);
 

@@ -15,10 +15,10 @@ class DrawRectangleModifierTest extends TestCase
     public function testApply(): void
     {
         $image = $this->createTestImage('trim.png');
-        $this->assertEquals('00aef0', $image->getColor(14, 14)->toHex());
+        $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
         $rectangle = new Rectangle(300, 200);
         $rectangle->background('ffffff');
         $image->modify(new DrawRectangleModifier(new Point(14, 14), $rectangle));
-        $this->assertEquals('ffffff', $image->getColor(14, 14)->toHex());
+        $this->assertEquals('ffffff', $image->pickColor(14, 14)->toHex());
     }
 }

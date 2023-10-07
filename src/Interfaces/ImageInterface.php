@@ -3,6 +3,7 @@
 namespace Intervention\Image\Interfaces;
 
 use Countable;
+use Intervention\Image\Collection;
 use Intervention\Image\EncodedImage;
 use Traversable;
 
@@ -137,26 +138,8 @@ interface ImageInterface extends Traversable, Countable
      */
     public function toPng(): EncodedImage;
 
-    /**
-     * Return color of pixel at the given position of the image
-     * For animated image pass the key of the animation frame.
-     *
-     * @param  int $x
-     * @param  int $y
-     * @param  int $frame_key
-     * @return null|ColorInterface
-     */
-    public function getColor(int $x, int $y, int $frame_key = 0): ?ColorInterface;
-
-    /**
-     * Return a collection with the color of the pixel at the given position
-     * For animated images all pixel colors for all frames are returned.
-     *
-     * @param  int $x
-     * @param  int $y
-     * @return CollectionInterface
-     */
-    public function getColors(int $x, int $y): CollectionInterface;
+    public function pickColor(int $x, int $y, int $frame_key = 0): ?ColorInterface;
+    public function pickColors(int $x, int $y): CollectionInterface;
 
     /**
      * Draw text on image

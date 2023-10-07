@@ -297,12 +297,12 @@ class AbstractImageTest extends TestCase
         $this->assertInstanceOf(ImageInterface::class, $result);
     }
 
-    public function testGetColors(): void
+    public function testPickColors(): void
     {
         $color = Mockery::mock(ColorInterface::class);
         $img = $this->abstractImageMock();
-        $img->shouldReceive('getColor')->times(3)->andReturn($color);
-        $result = $img->getColors(1, 2);
+        $img->shouldReceive('pickColor')->times(3)->andReturn($color);
+        $result = $img->pickColors(1, 2);
         $this->assertInstanceOf(Collection::class, $result);
     }
 

@@ -20,20 +20,20 @@ class FillModifierTest extends TestCase
     public function testFloodFillColor(): void
     {
         $image = $this->createTestImage('blocks.png');
-        $this->assertEquals('0000ff', $image->getColor(420, 270)->toHex());
-        $this->assertEquals('ff0000', $image->getColor(540, 400)->toHex());
+        $this->assertEquals('0000ff', $image->pickColor(420, 270)->toHex());
+        $this->assertEquals('ff0000', $image->pickColor(540, 400)->toHex());
         $image->modify(new FillModifier(new Color(new ImagickPixel('#cccccc')), new Point(540, 400)));
-        $this->assertEquals('0000ff', $image->getColor(420, 270)->toHex());
-        $this->assertEquals('cccccc', $image->getColor(540, 400)->toHex());
+        $this->assertEquals('0000ff', $image->pickColor(420, 270)->toHex());
+        $this->assertEquals('cccccc', $image->pickColor(540, 400)->toHex());
     }
 
     public function testFillAllColor(): void
     {
         $image = $this->createTestImage('blocks.png');
-        $this->assertEquals('0000ff', $image->getColor(420, 270)->toHex());
-        $this->assertEquals('ff0000', $image->getColor(540, 400)->toHex());
+        $this->assertEquals('0000ff', $image->pickColor(420, 270)->toHex());
+        $this->assertEquals('ff0000', $image->pickColor(540, 400)->toHex());
         $image->modify(new FillModifier(new Color(new ImagickPixel('#cccccc'))));
-        $this->assertEquals('cccccc', $image->getColor(420, 270)->toHex());
-        $this->assertEquals('cccccc', $image->getColor(540, 400)->toHex());
+        $this->assertEquals('cccccc', $image->pickColor(420, 270)->toHex());
+        $this->assertEquals('cccccc', $image->pickColor(540, 400)->toHex());
     }
 }

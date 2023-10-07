@@ -217,11 +217,11 @@ abstract class AbstractImage implements ImageInterface
         );
     }
 
-    public function getColors(int $x, int $y): CollectionInterface
+    public function pickColors(int $x, int $y): CollectionInterface
     {
         $colors = new Collection();
         foreach ($this as $key => $frame) {
-            $colors->push($this->getColor($x, $y, $key));
+            $colors->push($this->pickColor($x, $y, $key));
         }
 
         return $colors;

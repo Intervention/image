@@ -9,24 +9,26 @@ use Intervention\Image\Colors\Cmyk\Channels\Key;
 use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
+use Intervention\Image\Colors\Rgba\Colorspace as RgbaColorspace;
+use Intervention\Image\Colors\Rgba\Color as RgbaColor;
+use Intervention\Image\Colors\Traits\CanHandleChannels;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 
 class Color implements ColorInterface
 {
-    protected array $channels;
+    use CanHandleChannels;
 
-    protected Cyan $cyan;
-    protected Magenta $magenta;
-    protected Yellow $yellow;
-    protected Key $key;
+    protected array $channels;
 
     public function __construct(int $c, int $m, int $y, int $k)
     {
-        $this->cyan = new Cyan($c);
-        $this->magenta = new Magenta($m);
-        $this->yellow = new Yellow($y);
-        $this->key = new Key($k);
+        $this->channels = [
+            new Cyan($c),
+            new Magenta($m),
+            new Yellow($y),
+            new Key($k),
+        ];
     }
 
     public function channels(): array
@@ -36,22 +38,22 @@ class Color implements ColorInterface
 
     public function cyan(): Cyan
     {
-        return $this->cyan;
+        return $this->channel(Cyan::class);
     }
 
     public function magenta(): Magenta
     {
-        return $this->magenta;
+        return $this->channel(Magenta::class);
     }
 
     public function yellow(): Yellow
     {
-        return $this->yellow;
+        return $this->channel(Yellow::class);
     }
 
     public function key(): Key
     {
-        return $this->key;
+        return $this->channel(Key::class);
     }
 
     public function toArray(): array
@@ -64,24 +66,29 @@ class Color implements ColorInterface
         ];
     }
 
-    public function transformTo(string|ColorspaceInterface $colorspace): ColorInterface
+    public function convertTo(string|ColorspaceInterface $colorspace): ColorInterface
     {
         $colorspace = match (true) {
             is_object($colorspace) => $colorspace,
             default => new $colorspace(),
         };
 
-        return $colorspace->transformColor($this);
+        return $colorspace->convertColor($this);
     }
 
     public function toRgb(): RgbColor
     {
-        return $this->transformTo(RgbColorspace::class);
+        return $this->convertTo(RgbColorspace::class);
+    }
+
+    public function toRgba(): RgbaColor
+    {
+        return $this->convertTo(RgbaColorspace::class);
     }
 
     public function toCmyk(): self
     {
-        return $this->transformTo(CmykColorspace::class);
+        return $this->convertTo(CmykColorspace::class);
     }
 
     public function __toString(): string

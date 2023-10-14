@@ -3,16 +3,22 @@
 namespace Intervention\Image\Colors\Cmyk;
 
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
+use Intervention\Image\Colors\Rgba\Color as RgbaColor;
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 
 class Colorspace implements ColorspaceInterface
 {
-    public function transformColor(ColorInterface $color): ColorInterface
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorspaceInterface::convertColor()
+     */
+    public function convertColor(ColorInterface $color): ColorInterface
     {
         return match (get_class($color)) {
-            RgbColor::class => $this->convertRgbColor($color),
+            RgbColor::class, RgbaColor::class => $this->convertRgbColor($color),
             default => $color,
         };
     }

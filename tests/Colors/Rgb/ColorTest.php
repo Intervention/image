@@ -2,6 +2,8 @@
 
 namespace Intervention\Image\Tests\Colors\Rgb;
 
+use Intervention\Image\Colors\Cmyk\Color as CmykColor;
+use Intervention\Image\Colors\Rgba\Color as RgbaColor;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
@@ -65,18 +67,6 @@ class ColorTest extends TestCase
         $this->assertEquals([1.0, 0.0, 0.2], $color->normalize());
     }
 
-    public function testToInt(): void
-    {
-        $color = new Color(0, 0, 0);
-        $this->assertEquals(0, $color->toInt());
-
-        $color = new Color(255, 255, 255);
-        $this->assertEquals(16777215, $color->toInt());
-
-        $color = new Color(181, 55, 23);
-        $this->assertEquals(11876119, $color->toInt());
-    }
-
     public function testToString(): void
     {
         $color = new Color(181, 55, 23);
@@ -86,21 +76,47 @@ class ColorTest extends TestCase
     public function testToCmyk(): void
     {
         $color = new Color(0, 0, 0);
-        $this->assertEquals([0, 0, 0, 100], $color->toCmyk()->toArray());
+        $converted = $color->toCmyk();
+        $this->assertInstanceOf(CmykColor::class, $converted);
+        $this->assertEquals([0, 0, 0, 100], $converted->toArray());
 
         $color = new Color(255, 255, 255);
-        $this->assertEquals([0, 0, 0, 0], $color->toCmyk()->toArray());
+        $converted = $color->toCmyk();
+        $this->assertInstanceOf(CmykColor::class, $converted);
+        $this->assertEquals([0, 0, 0, 0], $converted->toArray());
 
         $color = new Color(255, 0, 0);
-        $this->assertEquals([0, 100, 100, 0], $color->toCmyk()->toArray());
+        $converted = $color->toCmyk();
+        $this->assertInstanceOf(CmykColor::class, $converted);
+        $this->assertEquals([0, 100, 100, 0], $converted->toArray());
 
         $color = new Color(255, 0, 255);
-        $this->assertEquals([0, 100, 0, 0], $color->toCmyk()->toArray());
+        $converted = $color->toCmyk();
+        $this->assertInstanceOf(CmykColor::class, $converted);
+        $this->assertEquals([0, 100, 0, 0], $converted->toArray());
 
         $color = new Color(255, 255, 0);
-        $this->assertEquals([0, 0, 100, 0], $color->toCmyk()->toArray());
+        $converted = $color->toCmyk();
+        $this->assertInstanceOf(CmykColor::class, $converted);
+        $this->assertEquals([0, 0, 100, 0], $converted->toArray());
 
         $color = new Color(255, 204, 204);
-        $this->assertEquals([0, 20, 20, 0], $color->toCmyk()->toArray());
+        $converted = $color->toCmyk();
+        $this->assertInstanceOf(CmykColor::class, $converted);
+        $this->assertEquals([0, 20, 20, 0], $converted->toArray());
+    }
+
+    public function testToRgb(): void
+    {
+        $color = new Color(181, 55, 23);
+        $this->assertInstanceOf(Color::class, $color->toRgb());
+    }
+
+    public function testToRgba(): void
+    {
+        $color = new Color(181, 55, 23);
+        $converted = $color->toRgba();
+        $this->assertInstanceOf(RgbaColor::class, $converted);
+        $this->assertEquals([181, 55, 23, 255], $converted->toArray());
     }
 }

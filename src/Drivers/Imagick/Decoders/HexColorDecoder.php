@@ -2,12 +2,16 @@
 
 namespace Intervention\Image\Drivers\Imagick\Decoders;
 
+use Intervention\Image\Colors\Rgb\Parser as RgbColorParser;
+use Intervention\Image\Colors\Rgba\Parser as RgbaColorParser;
+use Intervention\Image\Drivers\Abstract\Decoders\AbstractDecoder;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
-class HexColorDecoder extends RgbArrayColorDecoder implements DecoderInterface
+class HexColorDecoder extends AbstractDecoder implements DecoderInterface
 {
     public function decode($input): ImageInterface|ColorInterface
     {
@@ -15,17 +19,18 @@ class HexColorDecoder extends RgbArrayColorDecoder implements DecoderInterface
             throw new DecoderException('Unable to decode input');
         }
 
-        $pattern = '/^#?([a-f0-9]{1,2})([a-f0-9]{1,2})([a-f0-9]{1,2})$/i';
-        $result = preg_match($pattern, $input, $matches);
-
-        if ($result !== 1) {
-            throw new DecoderException('Unable to decode input');
+        try {
+            return RgbColorParser::fromHex($input);
+        } catch (ColorException $e) {
+            # code ...
         }
 
-        return parent::decode([
-            strlen($matches[1]) == '1' ? hexdec($matches[1] . $matches[1]) : hexdec($matches[1]),
-            strlen($matches[2]) == '1' ? hexdec($matches[2] . $matches[2]) : hexdec($matches[2]),
-            strlen($matches[3]) == '1' ? hexdec($matches[3] . $matches[3]) : hexdec($matches[3]),
-        ]);
+        try {
+            return RgbaColorParser::fromHex($input);
+        } catch (ColorException $e) {
+            # code ...
+        }
+
+        throw new DecoderException('Unable to decode input');
     }
 }

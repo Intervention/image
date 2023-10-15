@@ -2,27 +2,27 @@
 
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
+use Intervention\Image\Colors\Rgb\Parser;
+use Intervention\Image\Drivers\Abstract\Decoders\AbstractDecoder;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Traits\CanReadHtmlColorNames;
 
-class HtmlColorNameDecoder extends HexColorDecoder
+class HtmlColorNameDecoder extends AbstractDecoder
 {
-    use CanReadHtmlColorNames;
-
     public function decode($input): ImageInterface|ColorInterface
     {
         if (!is_string($input)) {
             throw new DecoderException('Unable to decode input');
         }
 
-        $hexcolor = $this->hexColorFromColorName($input);
-
-        if (empty($hexcolor)) {
-            throw new DecoderException('Unable to decode input');
+        try {
+            return Parser::fromName($input);
+        } catch (ColorException $e) {
+            # code ...
         }
 
-        return parent::decode($hexcolor);
+        throw new DecoderException('Unable to decode input');
     }
 }

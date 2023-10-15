@@ -2,12 +2,16 @@
 
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
+use Intervention\Image\Colors\Rgb\Parser as RgbColorParser;
+use Intervention\Image\Colors\Rgba\Parser as RgbaColorParser;
+use Intervention\Image\Drivers\Abstract\Decoders\AbstractDecoder;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
-class RgbStringColorDecoder extends RgbArrayColorDecoder implements DecoderInterface
+class RgbStringColorDecoder extends AbstractDecoder implements DecoderInterface
 {
     public function decode($input): ImageInterface|ColorInterface
     {
@@ -15,20 +19,16 @@ class RgbStringColorDecoder extends RgbArrayColorDecoder implements DecoderInter
             throw new DecoderException('Unable to decode input');
         }
 
-        if (substr($input, 0, 3) !== 'rgb') {
-            throw new DecoderException('Unable to decode input');
+        try {
+            return RgbColorParser::fromString($input);
+        } catch (ColorException $e) {
+            # code ...
         }
 
-        // rgb string like rgb(102, 200, 0)
-        $pattern = "/^rgb ?\((?P<r>[0-9]{1,3}), ?(?P<g>[0-9]{1,3}), ?(?P<b>[0-9]{1,3})\)$/i";
-        if ((bool) preg_match($pattern, $input, $matches)) {
-            return parent::decode([$matches['r'], $matches['g'], $matches['b']]);
-        }
-
-        // rgba string like "rgba(200, 10, 30, 0.5)"
-        $pattern = "/^rgba ?\(((?P<r>[0-9]{1,3})), ?((?P<g>[0-9]{1,3})), ?((?P<b>[0-9]{1,3})), ?(?P<a>[0-9.]{1,4})\)$/i";
-        if ((bool) preg_match($pattern, $input, $matches)) {
-            return parent::decode([$matches['r'], $matches['g'], $matches['b'], $matches['a']]);
+        try {
+            return RgbaColorParser::fromString($input);
+        } catch (ColorException $e) {
+            # code ...
         }
 
         throw new DecoderException('Unable to decode input');

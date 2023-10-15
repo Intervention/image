@@ -2,10 +2,10 @@
 
 namespace Intervention\Image\Drivers\Imagick\Decoders;
 
-use ImagickPixel;
-use ImagickPixelException;
+use Intervention\Image\Colors\Rgb\Parser as RgbColorParser;
+use Intervention\Image\Colors\Rgba\Parser as RgbaColorParser;
 use Intervention\Image\Drivers\Abstract\Decoders\AbstractDecoder;
-use Intervention\Image\Drivers\Imagick\Color;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
@@ -19,16 +19,18 @@ class RgbStringColorDecoder extends AbstractDecoder implements DecoderInterface
             throw new DecoderException('Unable to decode input');
         }
 
-        if (substr($input, 0, 3) !== 'rgb') {
-            throw new DecoderException('Unable to decode input');
+        try {
+            return RgbColorParser::fromString($input);
+        } catch (ColorException $e) {
+            # code ...
         }
 
         try {
-            $pixel = new ImagickPixel($input);
-        } catch (ImagickPixelException $e) {
-            throw new DecoderException('Unable to decode input');
+            return RgbaColorParser::fromString($input);
+        } catch (ColorException $e) {
+            # code ...
         }
 
-        return new Color($pixel);
+        throw new DecoderException('Unable to decode input');
     }
 }

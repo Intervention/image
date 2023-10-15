@@ -2,7 +2,8 @@
 
 namespace Intervention\Image\Tests\Drivers\Imagick;
 
-use Intervention\Image\Drivers\Imagick\Color;
+use Intervention\Image\Colors\Rgb\Color as RgbColor;
+use Intervention\Image\Colors\Rgba\Color as RgbaColor;
 use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Drivers\Imagick\InputHandler;
 use Intervention\Image\Exceptions\DecoderException;
@@ -18,7 +19,7 @@ class InputHandlerTest extends TestCase
     {
         $handler = new InputHandler();
         $this->expectException(DecoderException::class);
-        $result = $handler->handle('');
+        $handler->handle('');
     }
 
     public function testHandleBinaryImage(): void
@@ -53,11 +54,55 @@ class InputHandlerTest extends TestCase
         $this->assertInstanceOf(Image::class, $result);
     }
 
-    public function testHandleArrayColor(): void
+    public function testHandleHexColor(): void
     {
         $handler = new InputHandler();
-        $input = [181, 55, 23, .5];
+        $input = 'ccff33';
         $result = $handler->handle($input);
-        $this->assertInstanceOf(Color::class, $result);
+        $this->assertInstanceOf(RgbColor::class, $result);
+        $this->assertEquals([204, 255, 51], $result->toArray());
+
+        $handler = new InputHandler();
+        $input = 'cf3';
+        $result = $handler->handle($input);
+        $this->assertInstanceOf(RgbColor::class, $result);
+        $this->assertEquals([204, 255, 51], $result->toArray());
+
+        $handler = new InputHandler();
+        $input = '#123456';
+        $result = $handler->handle($input);
+        $this->assertInstanceOf(RgbColor::class, $result);
+        $this->assertEquals([18, 52, 86], $result->toArray());
+
+        $handler = new InputHandler();
+        $input = '#333';
+        $result = $handler->handle($input);
+        $this->assertInstanceOf(RgbColor::class, $result);
+        $this->assertEquals([51, 51, 51], $result->toArray());
+
+        $handler = new InputHandler();
+        $input = '#3333';
+        $result = $handler->handle($input);
+        $this->assertInstanceOf(RgbaColor::class, $result);
+        $this->assertEquals([51, 51, 51, 51], $result->toArray());
+
+        $handler = new InputHandler();
+        $input = '#33333333';
+        $result = $handler->handle($input);
+        $this->assertInstanceOf(RgbaColor::class, $result);
+        $this->assertEquals([51, 51, 51, 51], $result->toArray());
+    }
+
+    public function testHandleRgbString(): void
+    {
+        $handler = new InputHandler();
+        $result = $handler->handle('rgb(10, 20, 30)');
+        $this->assertInstanceOf(RgbColor::class, $result);
+        $this->assertEquals([10, 20, 30], $result->toArray());
+
+        $handler = new InputHandler();
+        $result = $handler->handle('rgba(10, 20, 30, 1.0)');
+        $this->assertInstanceOf(RgbaColor::class, $result);
+        $this->assertEquals([10, 20, 30, 255], $result->toArray());
     }
 }

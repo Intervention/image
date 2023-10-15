@@ -2,19 +2,20 @@
 
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
+use Intervention\Image\Drivers\Abstract\Decoders\AbstractDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
-class TransparentColorDecoder extends RgbArrayColorDecoder implements DecoderInterface
+class ColorObjectDecoder extends AbstractDecoder implements DecoderInterface
 {
     public function decode($input): ImageInterface|ColorInterface
     {
-        if (! is_string($input) || strtolower($input) !== 'transparent') {
+        if (! is_a($input, ColorInterface::class)) {
             throw new DecoderException('Unable to decode input');
         }
 
-        return parent::decode([0, 0, 0, 0]);
+        return $input;
     }
 }

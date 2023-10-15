@@ -2,6 +2,7 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Drivers\Gd\ColorTransformer;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -10,9 +11,11 @@ use Intervention\Image\Interfaces\ModifierInterface;
 
 class FillModifier implements ModifierInterface
 {
+    protected $gd_color;
+
     public function __construct(protected ColorInterface $color, protected ?Point $position = null)
     {
-        //
+        $this->gd_color = ColorTransformer::colorToInteger($color);
     }
 
     public function apply(ImageInterface $image): ImageInterface
@@ -34,7 +37,7 @@ class FillModifier implements ModifierInterface
             $frame->getCore(),
             $this->position->getX(),
             $this->position->getY(),
-            $this->color->toInt()
+            $this->gd_color
         );
     }
 
@@ -47,7 +50,7 @@ class FillModifier implements ModifierInterface
             0,
             $frame->getSize()->getWidth() - 1,
             $frame->getSize()->getHeight() - 1,
-            $this->color->toInt()
+            $this->gd_color
         );
     }
 

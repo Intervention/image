@@ -87,7 +87,7 @@ class Color implements ColorInterface
         return $this->convertTo(RgbaColorspace::class);
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return sprintf(
             'rgb(%d, %d, %d)',
@@ -95,5 +95,10 @@ class Color implements ColorInterface
             $this->green()->value(),
             $this->blue()->value()
         );
+    }
+
+    public function __toString(): string
+    {
+        return $this->toString();
     }
 }

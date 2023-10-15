@@ -9,4 +9,6 @@ interface ColorChannelInterface
     public function validate(mixed $value): mixed;
     public function min(): int;
     public function max(): int;
+    public function toString(): string;
+    public function __toString(): string;
 }

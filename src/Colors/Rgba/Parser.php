@@ -38,18 +38,31 @@ class Parser extends RgbParser
 
     public static function fromString(string $input): Color
     {
-        $pattern = '/^rgba\((?P<r>[0-9]{1,3}), *(?P<g>[0-9]{1,3}), *(?P<b>[0-9]{1,3}), *(?P<a>((1|0))?(\.[0-9]+)?)\)$/';
+        // rgba(255, 255, 255, 1.0)
+        $pattern = '/^s?rgba\((?P<r>[0-9]{1,3}), *(?P<g>[0-9]{1,3}), *(?P<b>[0-9]{1,3}), *(?P<a>((1|0))?(\.[0-9]+)?)\)$/';
         $result = preg_match($pattern, $input, $matches);
 
-        if ($result !== 1) {
-            throw new ColorException('Unable to parse color');
+        if ($result === 1) {
+            return new Color(
+                $matches['r'],
+                $matches['g'],
+                $matches['b'],
+                intval(round(floatval($matches['a']) * 255))
+            );
         }
 
-        return new Color(
-            $matches['r'],
-            $matches['g'],
-            $matches['b'],
-            intval(round(floatval($matches['a']) * 255))
-        );
+        // rgba(100%, 100%, 100%, 100%)
+        $pattern = '/s?rgba\((?P<r>[0-9\.]+)%, ?(?P<g>[0-9\.]+)%, ?(?P<b>[0-9\.]+)%, ?(?P<a>[0-9\.]+)%\)/';
+        $result = preg_match($pattern, $input, $matches);
+        if ($result === 1) {
+            return new Color(
+                intval(round(floatval($matches['r']) / 100 * 255)),
+                intval(round(floatval($matches['g']) / 100 * 255)),
+                intval(round(floatval($matches['b']) / 100 * 255)),
+                intval(round(floatval($matches['a']) / 100 * 255))
+            );
+        }
+
+        throw new ColorException('Unable to parse color');
     }
 }

@@ -4,19 +4,23 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
 use ImagickDraw;
-use Intervention\Image\Drivers\Imagick\Color;
+use ImagickPixel;
+use Intervention\Image\Drivers\Imagick\ColorTransformer;
 use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Geometry\Point;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 
 class FillModifier implements ModifierInterface
 {
+    protected ImagickPixel $pixel;
+
     public function __construct(
-        protected Color $color,
+        protected ColorInterface $color,
         protected ?Point $position = null
     ) {
-        //
+        $this->pixel = ColorTransformer::colorToPixel($color);
     }
 
     public function apply(ImageInterface $image): ImageInterface
@@ -40,7 +44,7 @@ class FillModifier implements ModifierInterface
         );
 
         $frame->getCore()->floodfillPaintImage(
-            $this->color->getPixel(),
+            $this->pixel,
             100,
             $target,
             $this->position->getX(),
@@ -53,7 +57,7 @@ class FillModifier implements ModifierInterface
     protected function fillAllWithColor(Frame $frame): void
     {
         $draw = new ImagickDraw();
-        $draw->setFillColor($this->color->getPixel());
+        $draw->setFillColor($this->pixel);
         $draw->rectangle(
             0,
             0,

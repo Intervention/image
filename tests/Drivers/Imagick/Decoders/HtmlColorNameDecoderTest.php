@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Decoders;
 
-use Intervention\Image\Drivers\Imagick\Color;
+use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Drivers\Imagick\Decoders\HtmlColorNameDecoder;
 use Intervention\Image\Tests\TestCase;
 

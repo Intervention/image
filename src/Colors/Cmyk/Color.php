@@ -91,7 +91,7 @@ class Color implements ColorInterface
         return $this->convertTo(CmykColorspace::class);
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return sprintf(
             'cmyk(%d, %d, %d, %d)',
@@ -100,5 +100,10 @@ class Color implements ColorInterface
             $this->yellow()->value(),
             $this->key()->value()
         );
+    }
+
+    public function __toString(): string
+    {
+        return $this->toString();
     }
 }

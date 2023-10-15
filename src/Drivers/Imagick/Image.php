@@ -124,7 +124,9 @@ class Image extends AbstractImage implements ImageInterface, Iterator
     public function pickColor(int $x, int $y, int $frame_key = 0): ?ColorInterface
     {
         if ($frame = $this->getFrame($frame_key)) {
-            return new Color($frame->getCore()->getImagePixelColor($x, $y));
+            return ColorTransformer::colorFromPixel(
+                $frame->getCore()->getImagePixelColor($x, $y)
+            );
         }
 
         return null;

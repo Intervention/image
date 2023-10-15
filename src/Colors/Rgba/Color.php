@@ -81,7 +81,7 @@ class Color extends RgbColor
         return $this->convertTo(CmykColorspace::class);
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return sprintf(
             'rgba(%d, %d, %d, %.1F)',
@@ -90,5 +90,10 @@ class Color extends RgbColor
             $this->blue()->value(),
             $this->alpha()->normalize(),
         );
+    }
+
+    public function __toString(): string
+    {
+        return $this->toString();
     }
 }

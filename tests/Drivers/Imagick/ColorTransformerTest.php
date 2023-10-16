@@ -3,7 +3,7 @@
 namespace Intervention\Image\Tests\Drivers\Imagick;
 
 use ImagickPixel;
-use Intervention\Image\Colors\Rgba\Color;
+use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Drivers\Imagick\ColorTransformer;
 use Intervention\Image\Tests\TestCase;
 

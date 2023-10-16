@@ -4,7 +4,6 @@ namespace Intervention\Image\Tests\Colors;
 
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
-use Intervention\Image\Colors\Rgba\Color as RgbaColor;
 use Intervention\Image\Colors\Parser;
 use Intervention\Image\Tests\TestCase;
 
@@ -25,7 +24,7 @@ class ParserTest extends TestCase
         $this->assertEquals([204, 204, 204], $color->toArray());
 
         $color = Parser::parse('rgba(204, 204, 204, 1)');
-        $this->assertInstanceOf(RgbaColor::class, $color);
+        $this->assertInstanceOf(RgbColor::class, $color);
         $this->assertEquals([204, 204, 204, 255], $color->toArray());
 
         $color = Parser::parse('cccc');

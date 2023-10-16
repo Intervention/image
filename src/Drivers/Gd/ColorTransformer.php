@@ -3,12 +3,12 @@
 namespace Intervention\Image\Drivers\Gd;
 
 use Intervention\Image\Interfaces\ColorInterface;
-use Intervention\Image\Colors\Rgba\Color;
+use Intervention\Image\Colors\Rgb\Color;
 
 class ColorTransformer
 {
     /**
-     * Transforms GD Library integer color value to RGBA color object
+     * Transforms GD Library integer color value to RGB color object
      *
      * @param int $value
      * @return Color
@@ -35,7 +35,7 @@ class ColorTransformer
      */
     public static function colorToInteger(ColorInterface $color): int
     {
-        $color = $color->toRgba();
+        $color = $color->toRgb();
 
         $r = $color->red()->value();
         $g = $color->green()->value();

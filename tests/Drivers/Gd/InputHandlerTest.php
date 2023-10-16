@@ -3,7 +3,6 @@
 namespace Intervention\Image\Tests\Drivers\Gd;
 
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
-use Intervention\Image\Colors\Rgba\Color as RgbaColor;
 use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Drivers\Gd\InputHandler;
 use Intervention\Image\Exceptions\DecoderException;
@@ -83,13 +82,13 @@ class GdInputHandlerTest extends TestCase
         $handler = new InputHandler();
         $input = '#3333';
         $result = $handler->handle($input);
-        $this->assertInstanceOf(RgbaColor::class, $result);
+        $this->assertInstanceOf(RgbColor::class, $result);
         $this->assertEquals([51, 51, 51, 51], $result->toArray());
 
         $handler = new InputHandler();
         $input = '#33333333';
         $result = $handler->handle($input);
-        $this->assertInstanceOf(RgbaColor::class, $result);
+        $this->assertInstanceOf(RgbColor::class, $result);
         $this->assertEquals([51, 51, 51, 51], $result->toArray());
     }
 
@@ -102,7 +101,7 @@ class GdInputHandlerTest extends TestCase
 
         $handler = new InputHandler();
         $result = $handler->handle('rgba(10, 20, 30, 1.0)');
-        $this->assertInstanceOf(RgbaColor::class, $result);
+        $this->assertInstanceOf(RgbColor::class, $result);
         $this->assertEquals([10, 20, 30, 255], $result->toArray());
     }
 

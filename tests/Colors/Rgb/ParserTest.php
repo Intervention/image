@@ -69,9 +69,6 @@ class ParserTest extends TestCase
 
         $this->expectException(ColorException::class);
         (new Parser())->fromString('rgb(120)');
-
-        $this->expectException(ColorException::class);
-        (new Parser())->fromString('rgba(204,204,204,1)');
     }
 
     public function testFromName(): void

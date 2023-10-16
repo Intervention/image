@@ -3,7 +3,6 @@
 namespace Intervention\Image\Tests\Colors\Rgb;
 
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
-use Intervention\Image\Colors\Rgba\Color as RgbaColor;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
@@ -110,13 +109,5 @@ class ColorTest extends TestCase
     {
         $color = new Color(181, 55, 23);
         $this->assertInstanceOf(Color::class, $color->toRgb());
-    }
-
-    public function testToRgba(): void
-    {
-        $color = new Color(181, 55, 23);
-        $converted = $color->toRgba();
-        $this->assertInstanceOf(RgbaColor::class, $converted);
-        $this->assertEquals([181, 55, 23, 255], $converted->toArray());
     }
 }

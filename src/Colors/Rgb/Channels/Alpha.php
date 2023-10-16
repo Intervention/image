@@ -1,6 +1,6 @@
 <?php
 
-namespace Intervention\Image\Colors\Rgba\Channels;
+namespace Intervention\Image\Colors\Rgb\Channels;
 
 class Alpha extends Red
 {

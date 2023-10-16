@@ -4,11 +4,10 @@ namespace Intervention\Image\Colors\Rgb;
 
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
 use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
-use Intervention\Image\Colors\Rgba\Colorspace as RgbaColorspace;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
-use Intervention\Image\Colors\Rgba\Color as RgbaColor;
+use Intervention\Image\Colors\Rgb\Channels\Alpha;
 use Intervention\Image\Colors\Traits\CanHandleChannels;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -20,12 +19,13 @@ class Color implements ColorInterface
 
     protected array $channels;
 
-    public function __construct(int $r, int $g, int $b)
+    public function __construct(int $r, int $g, int $b, int $a = 255)
     {
         $this->channels = [
             new Red($r),
             new Green($g),
             new Blue($b),
+            new Alpha($a),
         ];
     }
 
@@ -44,6 +44,11 @@ class Color implements ColorInterface
         return $this->channel(Blue::class);
     }
 
+    public function alpha(): Alpha
+    {
+        return $this->channel(Alpha::class);
+    }
+
     public function toArray(): array
     {
         return array_map(function (ColorChannelInterface $channel) {
@@ -53,12 +58,23 @@ class Color implements ColorInterface
 
     public function toHex(string $prefix = ''): string
     {
+        if ($this->isFullyOpaque()) {
+            return sprintf(
+                '%s%02x%02x%02x',
+                $prefix,
+                $this->red()->value(),
+                $this->green()->value(),
+                $this->blue()->value()
+            );
+        }
+
         return sprintf(
-            '%s%02x%02x%02x',
+            '%s%02x%02x%02x%02x',
             $prefix,
             $this->red()->value(),
             $this->green()->value(),
-            $this->blue()->value()
+            $this->blue()->value(),
+            $this->alpha()->value()
         );
     }
 
@@ -82,18 +98,28 @@ class Color implements ColorInterface
         return $this->convertTo(CmykColorspace::class);
     }
 
-    public function toRgba(): RgbaColor
+    public function isFullyOpaque(): bool
     {
-        return $this->convertTo(RgbaColorspace::class);
+        return $this->alpha()->value() === 255;
     }
 
     public function toString(): string
     {
+        if ($this->isFullyOpaque()) {
+            return sprintf(
+                'rgb(%d, %d, %d)',
+                $this->red()->value(),
+                $this->green()->value(),
+                $this->blue()->value()
+            );
+        }
+
         return sprintf(
-            'rgb(%d, %d, %d)',
+            'rgba(%d, %d, %d, %.1F)',
             $this->red()->value(),
             $this->green()->value(),
-            $this->blue()->value()
+            $this->blue()->value(),
+            $this->alpha()->normalize(),
         );
     }
 

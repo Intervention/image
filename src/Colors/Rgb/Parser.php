@@ -35,6 +35,7 @@ class Parser
 
     public static function fromHex(string $input): Color
     {
+        // Hexadecimal colors
         $pattern = '/^#?(?P<hex>[0-9a-f]{3}|[0-9a-f]{6})$/i';
         $result = preg_match($pattern, $input, $matches);
 
@@ -48,10 +49,35 @@ class Parser
             default => throw new ColorException('Unable to parse color'),
         };
 
+        try {
+            return new Color(
+                strlen($matches[0]) == '1' ? hexdec($matches[0] . $matches[0]) : hexdec($matches[0]),
+                strlen($matches[1]) == '1' ? hexdec($matches[1] . $matches[1]) : hexdec($matches[1]),
+                strlen($matches[2]) == '1' ? hexdec($matches[2] . $matches[2]) : hexdec($matches[2])
+            );
+        } catch (ColorException $e) {
+            # move on
+        }
+
+        // Hexadecimal colors with transparency
+        $pattern = '/^#?(?P<hex>[0-9a-f]{4}|[0-9a-f]{8})$/i';
+        $result = preg_match($pattern, $input, $matches);
+
+        if ($result !== 1) {
+            throw new ColorException('Unable to parse color');
+        }
+
+        $matches = match (strlen($matches['hex'])) {
+            4 => str_split($matches['hex']),
+            8 => str_split($matches['hex'], 2),
+            default => throw new ColorException('Unable to parse color'),
+        };
+
         return new Color(
             strlen($matches[0]) == '1' ? hexdec($matches[0] . $matches[0]) : hexdec($matches[0]),
             strlen($matches[1]) == '1' ? hexdec($matches[1] . $matches[1]) : hexdec($matches[1]),
             strlen($matches[2]) == '1' ? hexdec($matches[2] . $matches[2]) : hexdec($matches[2]),
+            strlen($matches[3]) == '1' ? hexdec($matches[3] . $matches[3]) : hexdec($matches[3]),
         );
     }
 
@@ -76,6 +102,31 @@ class Parser
                 intval(round(floatval($matches['r']) / 100 * 255)),
                 intval(round(floatval($matches['g']) / 100 * 255)),
                 intval(round(floatval($matches['b']) / 100 * 255))
+            );
+        }
+
+        // rgba(255, 255, 255, 1.0)
+        $pattern = '/^s?rgba\((?P<r>[0-9]{1,3}), *(?P<g>[0-9]{1,3}), *(?P<b>[0-9]{1,3}), *(?P<a>((1|0))?(\.[0-9]+)?)\)$/';
+        $result = preg_match($pattern, $input, $matches);
+
+        if ($result === 1) {
+            return new Color(
+                $matches['r'],
+                $matches['g'],
+                $matches['b'],
+                intval(round(floatval($matches['a']) * 255))
+            );
+        }
+
+        // rgba(100%, 100%, 100%, 100%)
+        $pattern = '/s?rgba\((?P<r>[0-9\.]+)%, ?(?P<g>[0-9\.]+)%, ?(?P<b>[0-9\.]+)%, ?(?P<a>[0-9\.]+)%\)/';
+        $result = preg_match($pattern, $input, $matches);
+        if ($result === 1) {
+            return new Color(
+                intval(round(floatval($matches['r']) / 100 * 255)),
+                intval(round(floatval($matches['g']) / 100 * 255)),
+                intval(round(floatval($matches['b']) / 100 * 255)),
+                intval(round(floatval($matches['a']) / 100 * 255))
             );
         }
 

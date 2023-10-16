@@ -9,7 +9,6 @@ class Parser
 {
     protected static $parsers = [
         Rgb\Parser::class,
-        Rgba\Parser::class,
         Cmyk\Parser::class,
     ];
 

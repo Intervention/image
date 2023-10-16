@@ -9,8 +9,6 @@ use Intervention\Image\Colors\Cmyk\Channels\Key;
 use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
-use Intervention\Image\Colors\Rgba\Colorspace as RgbaColorspace;
-use Intervention\Image\Colors\Rgba\Color as RgbaColor;
 use Intervention\Image\Colors\Traits\CanHandleChannels;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
@@ -79,11 +77,6 @@ class Color implements ColorInterface
     public function toRgb(): RgbColor
     {
         return $this->convertTo(RgbColorspace::class);
-    }
-
-    public function toRgba(): RgbaColor
-    {
-        return $this->convertTo(RgbaColorspace::class);
     }
 
     public function toCmyk(): self

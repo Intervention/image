@@ -127,9 +127,24 @@ class Decoder extends \Intervention\Image\AbstractDecoder
      */
     public function initFromImagick(\Imagick $object)
     {
-        throw new NotSupportedException(
-            "Gd driver is unable to init from Imagick object."
-        );
+        try {
+            $imageBlob = $object->getImageBlob();
+        } catch (\ImagickException $e) {
+            throw new NotSupportedException(
+                sprintf("Couldn't get image blob from Imagick object ( Imagick-Error: %s )", $e->getMessage())
+            );
+        }
+
+        # It has been reported by some people that getImageBlob() can return
+        # empty string in some cases without throwing an exception.
+        # See @https://www.php.net/manual/en/imagick.getimageblob.php
+        if (empty($imageBlob)) {
+            throw new NotReadableException(
+                "Image blob returned from Imagick object is empty"
+            );
+        }
+
+        return $this->initFromBinary($imageBlob);
     }
 
     /**

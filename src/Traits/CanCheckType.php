@@ -14,4 +14,13 @@ trait CanCheckType
 
         return $input;
     }
+
+    public function failIfNotInstance(mixed $input, string $classname)
+    {
+        if (!is_object($input) || !is_a($input, $classname)) {
+            throw new TypeException('Given input is not instance of ' . $classname);
+        }
+
+        return $input;
+    }
 }

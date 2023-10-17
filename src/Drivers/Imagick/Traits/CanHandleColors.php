@@ -1,22 +1,24 @@
 <?php
 
-namespace Intervention\Image\Drivers\Imagick;
+namespace Intervention\Image\Drivers\Imagick\Traits;
 
 use ImagickPixel;
-use Intervention\Image\Colors\Parser;
 use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Traits\CanHandleInput;
 
-class ColorTransformer
+trait CanHandleColors
 {
+    use CanHandleInput;
+
     /**
      * Transforms ImagickPixel to own color object
      *
      * @param int $value
      * @return ColorInterface
      */
-    public static function colorFromPixel(ImagickPixel $pixel): ColorInterface
+    public function colorFromPixel(ImagickPixel $pixel): ColorInterface
     {
-        return Parser::parse($pixel->getColorAsString());
+        return $this->handleInput($pixel->getColorAsString());
     }
 
     /**
@@ -25,7 +27,7 @@ class ColorTransformer
      * @param ColorInterface $color
      * @return ImagickPixel
      */
-    public static function colorToPixel(ColorInterface $color): ImagickPixel
+    public function colorToPixel(ColorInterface $color): ImagickPixel
     {
         return new ImagickPixel($color->toString());
     }

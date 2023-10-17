@@ -123,6 +123,13 @@ class Color implements ColorInterface
         );
     }
 
+    public function isGreyscale(): bool
+    {
+        $values = [$this->red()->value(), $this->green()->value(), $this->blue()->value()];
+
+        return count(array_unique($values, SORT_REGULAR)) === 1;
+    }
+
     public function __toString(): string
     {
         return $this->toString();

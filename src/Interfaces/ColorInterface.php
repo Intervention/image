@@ -11,10 +11,9 @@ interface ColorInterface
     public function toCmyk(): CmykColor;
     public function toArray(): array;
     public function toString(): string;
+    public function toHex(): string;
     public function __toString(): string;
-
-    // public function channels(): array;
-    // public function channel(string $classname): ColorChannelInterface;
-    // public function colorspace(): ColorspaceInterface;
-    // public function convertTo(string|ColorspaceInterface $colorspace): ColorInterface;
+    public function channels(): array;
+    public function convertTo(string|ColorspaceInterface $colorspace): ColorInterface;
+    public function isGreyscale(): bool;
 }

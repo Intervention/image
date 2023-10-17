@@ -4,6 +4,7 @@ namespace Intervention\Image\Drivers\Gd;
 
 use Intervention\Image\Collection;
 use Intervention\Image\Drivers\Abstract\AbstractImage;
+use Intervention\Image\Drivers\Gd\Traits\CanHandleColors;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -12,6 +13,8 @@ use Traversable;
 
 class Image extends AbstractImage implements ImageInterface, IteratorAggregate
 {
+    use CanHandleColors;
+
     public function __construct(protected Collection $frames, protected int $loops = 0)
     {
         //
@@ -69,7 +72,9 @@ class Image extends AbstractImage implements ImageInterface, IteratorAggregate
     public function pickColor(int $x, int $y, int $frame_key = 0): ?ColorInterface
     {
         if ($frame = $this->getFrame($frame_key)) {
-            return ColorTransformer::colorFromInteger(imagecolorat($frame->getCore(), $x, $y));
+            return $this->colorFromInteger(
+                imagecolorat($frame->getCore(), $x, $y)
+            );
         }
 
         return null;

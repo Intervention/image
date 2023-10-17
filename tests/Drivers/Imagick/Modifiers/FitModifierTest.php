@@ -22,9 +22,9 @@ class FitModifierTest extends TestCase
         $image->modify(new FitModifier(100, 100, 'center'));
         $this->assertEquals(100, $image->getWidth());
         $this->assertEquals(100, $image->getHeight());
-        $this->assertColor(255, 0, 0, 1, $image->pickColor(90, 90));
-        $this->assertColor(0, 255, 0, 1, $image->pickColor(65, 70));
-        $this->assertColor(0, 0, 255, 1, $image->pickColor(70, 52));
+        $this->assertColor(255, 0, 0, 255, $image->pickColor(90, 90));
+        $this->assertColor(0, 255, 0, 255, $image->pickColor(65, 70));
+        $this->assertColor(0, 0, 255, 255, $image->pickColor(70, 52));
         $this->assertTransparency($image->pickColor(90, 30));
     }
 }

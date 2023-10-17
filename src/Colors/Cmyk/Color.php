@@ -29,6 +29,11 @@ class Color implements ColorInterface
         ];
     }
 
+    public function toHex(): string
+    {
+        return $this->toRgb()->toHex();
+    }
+
     public function channels(): array
     {
         return $this->channels;
@@ -93,6 +98,15 @@ class Color implements ColorInterface
             $this->yellow()->value(),
             $this->key()->value()
         );
+    }
+
+    public function isGreyscale(): bool
+    {
+        return 0 === array_sum([
+            $this->cyan()->value(),
+            $this->magenta()->value(),
+            $this->yellow()->value(),
+        ]);
     }
 
     public function __toString(): string

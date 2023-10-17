@@ -3,8 +3,9 @@
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
-use Intervention\Image\Drivers\Imagick\Color;
+use Intervention\Image\Drivers\Imagick\Traits\CanHandleColors;
 use Intervention\Image\Geometry\Point;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Traits\CanCheckType;
@@ -13,6 +14,7 @@ use Intervention\Image\Traits\CanHandleInput;
 class DrawPixelModifier implements ModifierInterface
 {
     use CanHandleInput;
+    use CanHandleColors;
     use CanCheckType;
 
     public function __construct(protected Point $position, protected mixed $color)
@@ -22,13 +24,13 @@ class DrawPixelModifier implements ModifierInterface
 
     public function apply(ImageInterface $image): ImageInterface
     {
-        $color = $this->failIfNotClass(
+        $color = $this->failIfNotInstance(
             $this->handleInput($this->color),
-            Color::class,
+            ColorInterface::class
         );
 
         $pixel = new ImagickDraw();
-        $pixel->setFillColor($color->getPixel());
+        $pixel->setFillColor($this->colorToPixel($color));
         $pixel->point($this->position->getX(), $this->position->getY());
 
         return $image->eachFrame(function ($frame) use ($pixel) {

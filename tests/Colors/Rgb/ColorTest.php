@@ -19,13 +19,16 @@ class ColorTest extends TestCase
     {
         $color = new Color(0, 0, 0);
         $this->assertInstanceOf(Color::class, $color);
+
+        $color = new Color(0, 0, 0, 0);
+        $this->assertInstanceOf(Color::class, $color);
     }
 
     public function testChannels(): void
     {
         $color = new Color(10, 20, 30);
         $this->assertIsArray($color->channels());
-        $this->assertCount(3, $color->channels());
+        $this->assertCount(4, $color->channels());
     }
 
     public function testChannel(): void
@@ -50,7 +53,7 @@ class ColorTest extends TestCase
     public function testToArray(): void
     {
         $color = new Color(10, 20, 30);
-        $this->assertEquals([10, 20, 30], $color->toArray());
+        $this->assertEquals([10, 20, 30, 255], $color->toArray());
     }
 
     public function testToHex(): void
@@ -63,7 +66,7 @@ class ColorTest extends TestCase
     public function testNormalize(): void
     {
         $color = new Color(255, 0, 51);
-        $this->assertEquals([1.0, 0.0, 0.2], $color->normalize());
+        $this->assertEquals([1.0, 0.0, 0.2, 1.0], $color->normalize());
     }
 
     public function testToString(): void

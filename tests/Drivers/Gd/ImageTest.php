@@ -3,11 +3,11 @@
 namespace Intervention\Image\Tests\Drivers\Gd;
 
 use Intervention\Image\Collection;
-use Intervention\Image\Drivers\Gd\Color;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Colors\Rgb\Color;
 
 /**
  * @requires extension gd
@@ -96,21 +96,21 @@ class ImageTest extends TestCase
     {
         $color = $this->image->pickColor(0, 0);
         $this->assertInstanceOf(Color::class, $color);
-        $this->assertEquals(255, $color->red());
-        $this->assertEquals(0, $color->green());
-        $this->assertEquals(0, $color->blue());
+        $this->assertEquals(255, $color->toRgb()->red()->value());
+        $this->assertEquals(0, $color->toRgb()->green()->value());
+        $this->assertEquals(0, $color->toRgb()->blue()->value());
 
         $color = $this->image->pickColor(0, 0, 1);
         $this->assertInstanceOf(Color::class, $color);
-        $this->assertEquals(0, $color->red());
-        $this->assertEquals(255, $color->green());
-        $this->assertEquals(0, $color->blue());
+        $this->assertEquals(0, $color->toRgb()->red()->value());
+        $this->assertEquals(255, $color->toRgb()->green()->value());
+        $this->assertEquals(0, $color->toRgb()->blue()->value());
 
         $color = $this->image->pickColor(0, 0, 2);
         $this->assertInstanceOf(Color::class, $color);
-        $this->assertEquals(0, $color->red());
-        $this->assertEquals(0, $color->green());
-        $this->assertEquals(255, $color->blue());
+        $this->assertEquals(0, $color->toRgb()->red()->value());
+        $this->assertEquals(0, $color->toRgb()->green()->value());
+        $this->assertEquals(255, $color->toRgb()->blue()->value());
 
         $color = $this->image->pickColor(0, 0, 3);
         $this->assertNull($color);
@@ -122,16 +122,16 @@ class ImageTest extends TestCase
         $this->assertInstanceOf(Collection::class, $colors);
         $this->assertCount(3, $colors);
 
-        $this->assertEquals(255, $colors->get(0)->red());
-        $this->assertEquals(0, $colors->get(0)->green());
-        $this->assertEquals(0, $colors->get(0)->blue());
+        $this->assertEquals(255, $colors->get(0)->toRgb()->red()->value());
+        $this->assertEquals(0, $colors->get(0)->toRgb()->green()->value());
+        $this->assertEquals(0, $colors->get(0)->toRgb()->blue()->value());
 
-        $this->assertEquals(0, $colors->get(1)->red());
-        $this->assertEquals(255, $colors->get(1)->green());
-        $this->assertEquals(0, $colors->get(1)->blue());
+        $this->assertEquals(0, $colors->get(1)->toRgb()->red()->value());
+        $this->assertEquals(255, $colors->get(1)->toRgb()->green()->value());
+        $this->assertEquals(0, $colors->get(1)->toRgb()->blue()->value());
 
-        $this->assertEquals(0, $colors->get(2)->red());
-        $this->assertEquals(0, $colors->get(2)->green());
-        $this->assertEquals(255, $colors->get(2)->blue());
+        $this->assertEquals(0, $colors->get(2)->toRgb()->red()->value());
+        $this->assertEquals(0, $colors->get(2)->toRgb()->green()->value());
+        $this->assertEquals(255, $colors->get(2)->toRgb()->blue()->value());
     }
 }

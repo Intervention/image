@@ -5,6 +5,7 @@ namespace Intervention\Image\Drivers\Imagick;
 use Imagick;
 use ImagickException;
 use Intervention\Image\Drivers\Abstract\AbstractImage;
+use Intervention\Image\Drivers\Imagick\Traits\CanHandleColors;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -12,6 +13,8 @@ use Iterator;
 
 class Image extends AbstractImage implements ImageInterface, Iterator
 {
+    use CanHandleColors;
+
     protected $iteratorIndex = 0;
 
     public function __construct(protected Imagick $imagick)
@@ -124,7 +127,7 @@ class Image extends AbstractImage implements ImageInterface, Iterator
     public function pickColor(int $x, int $y, int $frame_key = 0): ?ColorInterface
     {
         if ($frame = $this->getFrame($frame_key)) {
-            return ColorTransformer::colorFromPixel(
+            return $this->colorFromPixel(
                 $frame->getCore()->getImagePixelColor($x, $y)
             );
         }

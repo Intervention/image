@@ -2,21 +2,33 @@
 
 namespace Intervention\Image\Drivers\Imagick;
 
+use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder as RgbHexColorDecoder;
+use Intervention\Image\Colors\Rgb\Decoders\StringColorDecoder as RgbStringColorDecoder;
+use Intervention\Image\Colors\Rgb\Decoders\HtmlColornameDecoder;
+use Intervention\Image\Colors\Cmyk\Decoders\StringColorDecoder as CmykStringColorDecoder;
 use Intervention\Image\Drivers\Abstract\AbstractInputHandler;
+use Intervention\Image\Drivers\Imagick\Decoders\ImageObjectDecoder;
+use Intervention\Image\Drivers\Imagick\Decoders\ColorObjectDecoder;
+use Intervention\Image\Drivers\Imagick\Decoders\FilePointerImageDecoder;
+use Intervention\Image\Drivers\Imagick\Decoders\FilePathImageDecoder;
+use Intervention\Image\Drivers\Imagick\Decoders\BinaryImageDecoder;
+use Intervention\Image\Drivers\Imagick\Decoders\DataUriImageDecoder;
+use Intervention\Image\Drivers\Imagick\Decoders\Base64ImageDecoder;
 
 class InputHandler extends AbstractInputHandler
 {
     protected $decoders = [
-        Decoders\ImageObjectDecoder::class,
-        Decoders\ColorObjectDecoder::class,
-        Decoders\FilePointerImageDecoder::class,
-        Decoders\HtmlColorNameDecoder::class,
-        Decoders\HexColorDecoder::class,
-        Decoders\RgbStringColorDecoder::class,
+        ImageObjectDecoder::class,
+        ColorObjectDecoder::class,
+        RgbHexColorDecoder::class,
+        RgbStringColorDecoder::class,
+        CmykStringColorDecoder::class,
         // Decoders\TransparentColorDecoder::class,
-        Decoders\FilePathImageDecoder::class,
-        Decoders\BinaryImageDecoder::class,
-        Decoders\DataUriImageDecoder::class,
-        Decoders\Base64ImageDecoder::class,
+        HtmlColornameDecoder::class,
+        FilePointerImageDecoder::class,
+        FilePathImageDecoder::class,
+        BinaryImageDecoder::class,
+        DataUriImageDecoder::class,
+        Base64ImageDecoder::class,
     ];
 }

@@ -80,6 +80,6 @@ class ColorTest extends TestCase
         $color = new Color(0, 20, 20, 0);
         $converted = $color->toRgb();
         $this->assertInstanceOf(RgbColor::class, $converted);
-        $this->assertEquals([255, 204, 204], $converted->toArray());
+        $this->assertEquals([255, 204, 204, 255], $converted->toArray());
     }
 }

@@ -2,10 +2,9 @@
 
 namespace Intervention\Image\Drivers\Imagick;
 
-use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder as RgbHexColorDecoder;
-use Intervention\Image\Colors\Rgb\Decoders\StringColorDecoder as RgbStringColorDecoder;
+use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder;
+use Intervention\Image\Colors\Rgb\Decoders\StringColorDecoder;
 use Intervention\Image\Colors\Rgb\Decoders\HtmlColornameDecoder;
-use Intervention\Image\Colors\Cmyk\Decoders\StringColorDecoder as CmykStringColorDecoder;
 use Intervention\Image\Drivers\Abstract\AbstractInputHandler;
 use Intervention\Image\Drivers\Imagick\Decoders\ImageObjectDecoder;
 use Intervention\Image\Drivers\Imagick\Decoders\ColorObjectDecoder;
@@ -20,9 +19,8 @@ class InputHandler extends AbstractInputHandler
     protected $decoders = [
         ImageObjectDecoder::class,
         ColorObjectDecoder::class,
-        RgbHexColorDecoder::class,
-        RgbStringColorDecoder::class,
-        CmykStringColorDecoder::class,
+        HexColorDecoder::class,
+        StringColorDecoder::class,
         // Decoders\TransparentColorDecoder::class,
         HtmlColornameDecoder::class,
         FilePointerImageDecoder::class,

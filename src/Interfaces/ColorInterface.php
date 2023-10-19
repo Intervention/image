@@ -2,13 +2,11 @@
 
 namespace Intervention\Image\Interfaces;
 
-use Intervention\Image\Colors\Cmyk\Color as CmykColor;
-use Intervention\Image\Colors\Rgb\Color as RgbColor;
+use Intervention\Image\Colors\Rgb\Color;
 
 interface ColorInterface
 {
-    public function toRgb(): RgbColor;
-    public function toCmyk(): CmykColor;
+    public function toRgb(): Color;
     public function toArray(): array;
     public function toString(): string;
     public function toHex(): string;

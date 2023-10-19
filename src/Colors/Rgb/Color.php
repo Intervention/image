@@ -2,8 +2,6 @@
 
 namespace Intervention\Image\Colors\Rgb;
 
-use Intervention\Image\Colors\Cmyk\Color as CmykColor;
-use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
@@ -91,11 +89,6 @@ class Color implements ColorInterface
         };
 
         return $colorspace->convertColor($this);
-    }
-
-    public function toCmyk(): CmykColor
-    {
-        return $this->convertTo(CmykColorspace::class);
     }
 
     public function isFullyOpaque(): bool

@@ -5,6 +5,7 @@ namespace Intervention\Image\Drivers\Gd;
 use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder;
 use Intervention\Image\Colors\Rgb\Decoders\StringColorDecoder;
 use Intervention\Image\Colors\Rgb\Decoders\HtmlColornameDecoder;
+use Intervention\Image\Colors\Rgb\Decoders\TransparentColorDecoder;
 use Intervention\Image\Drivers\Abstract\AbstractInputHandler;
 use Intervention\Image\Drivers\Gd\Decoders\ImageObjectDecoder;
 use Intervention\Image\Drivers\Gd\Decoders\ColorObjectDecoder;
@@ -21,7 +22,7 @@ class InputHandler extends AbstractInputHandler
         ColorObjectDecoder::class,
         HexColorDecoder::class,
         StringColorDecoder::class,
-        // Decoders\TransparentColorDecoder::class,
+        TransparentColorDecoder::class,
         HtmlColornameDecoder::class,
         FilePointerImageDecoder::class,
         FilePathImageDecoder::class,

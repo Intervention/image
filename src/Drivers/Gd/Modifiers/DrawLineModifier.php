@@ -3,11 +3,14 @@
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\Abstract\Modifiers\AbstractDrawModifier;
+use Intervention\Image\Drivers\Gd\Traits\CanHandleColors;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 
 class DrawLineModifier extends AbstractDrawModifier implements ModifierInterface
 {
+    use CanHandleColors;
+
     public function apply(ImageInterface $image): ImageInterface
     {
         return $image->eachFrame(function ($frame) {
@@ -17,7 +20,7 @@ class DrawLineModifier extends AbstractDrawModifier implements ModifierInterface
                 $this->line()->getStart()->getY(),
                 $this->line()->getEnd()->getX(),
                 $this->line()->getEnd()->getY(),
-                $this->getBackgroundColor()->toInt()
+                $this->colorToInteger($this->getBackgroundColor())
             );
         });
     }

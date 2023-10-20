@@ -3,11 +3,14 @@
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\Abstract\Modifiers\AbstractDrawModifier;
+use Intervention\Image\Drivers\Gd\Traits\CanHandleColors;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 
 class DrawRectangleModifier extends AbstractDrawModifier implements ModifierInterface
 {
+    use CanHandleColors;
+
     public function apply(ImageInterface $image): ImageInterface
     {
         $image->eachFrame(function ($frame) {
@@ -19,7 +22,7 @@ class DrawRectangleModifier extends AbstractDrawModifier implements ModifierInte
                     $this->position->getY(),
                     $this->position->getX() + $this->rectangle()->bottomRightPoint()->getX(),
                     $this->position->getY() + $this->rectangle()->bottomRightPoint()->getY(),
-                    $this->getBackgroundColor()->toInt()
+                    $this->colorToInteger($this->getBackgroundColor())
                 );
             }
 
@@ -32,7 +35,7 @@ class DrawRectangleModifier extends AbstractDrawModifier implements ModifierInte
                     $this->position->getY(),
                     $this->position->getX() + $this->rectangle()->bottomRightPoint()->getX(),
                     $this->position->getY() + $this->rectangle()->bottomRightPoint()->getY(),
-                    $this->getBorderColor()->toInt()
+                    $this->colorToInteger($this->getBorderColor())
                 );
             }
         });

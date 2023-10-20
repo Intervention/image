@@ -31,7 +31,7 @@ class AbstractDrawModifier
         return $this->drawable;
     }
 
-    protected function getBackgroundColor(): ?ColorInterface
+    protected function getBackgroundColor(): ColorInterface
     {
         try {
             $color = $this->handleInput($this->drawable->getBackgroundColor());
@@ -42,7 +42,7 @@ class AbstractDrawModifier
         return $color;
     }
 
-    protected function getBorderColor(): ?ColorInterface
+    protected function getBorderColor(): ColorInterface
     {
         try {
             $color = $this->handleInput($this->drawable->getBorderColor());

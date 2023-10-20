@@ -3,7 +3,7 @@
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\Abstract\Modifiers\AbstractPadModifier;
-use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Drivers\Gd\Traits\CanHandleColors;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
@@ -13,12 +13,13 @@ use Intervention\Image\Traits\CanHandleInput;
 class PadModifier extends AbstractPadModifier implements ModifierInterface
 {
     use CanHandleInput;
+    use CanHandleColors;
 
     public function apply(ImageInterface $image): ImageInterface
     {
         $crop = $this->getCropSize($image);
         $resize = $this->getResizeSize($image);
-        $background = $this->handleInput($this->background);
+        $background = $this->colorToInteger($this->handleInput($this->background));
 
         foreach ($image as $frame) {
             $this->modify($frame, $crop, $resize, $background);
@@ -31,7 +32,7 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
         FrameInterface $frame,
         SizeInterface $crop,
         SizeInterface $resize,
-        ColorInterface $background
+        int $background
     ): void {
         // create new image
         $modified = imagecreatetruecolor(
@@ -39,7 +40,7 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
             $resize->getHeight()
         );
 
-        imagefill($modified, 0, 0, $background->toInt());
+        imagefill($modified, 0, 0, $background);
 
         // get current image
         $current = $frame->getCore();

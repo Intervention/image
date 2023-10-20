@@ -4,13 +4,15 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
 use Intervention\Image\Drivers\Abstract\Modifiers\AbstractDrawModifier;
-use Intervention\Image\Drivers\Imagick\Color;
+use Intervention\Image\Drivers\Imagick\Traits\CanHandleColors;
 use Intervention\Image\Interfaces\DrawableInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 
 class DrawPolygonModifier extends AbstractDrawModifier implements ModifierInterface
 {
+    use CanHandleColors;
+
     public function __construct(
         protected DrawableInterface $drawable
     ) {
@@ -20,15 +22,15 @@ class DrawPolygonModifier extends AbstractDrawModifier implements ModifierInterf
     public function apply(ImageInterface $image): ImageInterface
     {
         $drawing = new ImagickDraw();
-        $background_color = $this->failIfNotClass($this->getBackgroundColor(), Color::class);
-        $border_color = $this->failIfNotClass($this->getBorderColor(), Color::class);
+        $background_color = $this->colorToPixel($this->getBackgroundColor());
+        $border_color = $this->colorToPixel($this->getBorderColor());
 
         if ($this->polygon()->hasBackgroundColor()) {
-            $drawing->setFillColor($background_color->getPixel());
+            $drawing->setFillColor($background_color);
         }
 
         if ($this->polygon()->hasBorder()) {
-            $drawing->setStrokeColor($border_color->getPixel());
+            $drawing->setStrokeColor($border_color);
             $drawing->setStrokeWidth($this->polygon()->getBorderSize());
         }
 

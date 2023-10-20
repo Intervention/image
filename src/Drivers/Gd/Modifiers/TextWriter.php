@@ -4,14 +4,18 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\Abstract\AbstractTextWriter;
 use Intervention\Image\Drivers\Gd\Font;
+use Intervention\Image\Drivers\Gd\Traits\CanHandleColors;
 use Intervention\Image\Interfaces\ImageInterface;
 
 class TextWriter extends AbstractTextWriter
 {
+    use CanHandleColors;
+
     public function apply(ImageInterface $image): ImageInterface
     {
         $lines = $this->getAlignedTextBlock();
         $font = $this->failIfNotClass($this->getFont(), Font::class);
+        $color = $this->colorToInteger($font->getColor());
 
         foreach ($image as $frame) {
             if ($this->font->hasFilename()) {
@@ -22,7 +26,7 @@ class TextWriter extends AbstractTextWriter
                         $font->getAngle() * (-1),
                         $line->getPosition()->getX(),
                         $line->getPosition()->getY(),
-                        $font->getColor()->toInt(),
+                        $color,
                         $font->getFilename(),
                         $line
                     );
@@ -35,7 +39,7 @@ class TextWriter extends AbstractTextWriter
                         $line->getPosition()->getX(),
                         $line->getPosition()->getY(),
                         $line,
-                        $this->font->getColor()->toInt()
+                        $color
                     );
                 }
             }

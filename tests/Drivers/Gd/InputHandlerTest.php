@@ -105,11 +105,12 @@ class GdInputHandlerTest extends TestCase
         $this->assertEquals([10, 20, 30, 255], $result->toArray());
     }
 
-    // public function testHandleTransparent(): void
-    // {
-    //     $handler = new InputHandler();
-    //     $input = 'transparent';
-    //     $result = $handler->handle($input);
-    //     $this->assertInstanceOf(Color::class, $result);
-    // }
+    public function testHandleTransparent(): void
+    {
+        $handler = new InputHandler();
+        $input = 'transparent';
+        $result = $handler->handle($input);
+        $this->assertInstanceOf(Color::class, $result);
+        $this->assertEquals([0, 0, 0, 0], $result->toArray());
+    }
 }

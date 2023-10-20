@@ -3,11 +3,14 @@
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\Abstract\Modifiers\AbstractDrawModifier;
+use Intervention\Image\Drivers\Gd\Traits\CanHandleColors;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 
 class DrawEllipseModifier extends AbstractDrawModifier implements ModifierInterface
 {
+    use CanHandleColors;
+
     public function apply(ImageInterface $image): ImageInterface
     {
         return $image->eachFrame(function ($frame) {
@@ -20,7 +23,7 @@ class DrawEllipseModifier extends AbstractDrawModifier implements ModifierInterf
                         $this->position->getY(),
                         $this->ellipse()->getWidth() - 1,
                         $this->ellipse()->getHeight() - 1,
-                        $this->getBackgroundColor()->toInt()
+                        $this->colorToInteger($this->getBackgroundColor())
                     );
                 }
 
@@ -36,7 +39,7 @@ class DrawEllipseModifier extends AbstractDrawModifier implements ModifierInterf
                     $this->ellipse()->getHeight(),
                     0,
                     360,
-                    $this->getBorderColor()->toInt()
+                    $this->colorToInteger($this->getBorderColor())
                 );
             } else {
                 imagefilledellipse(
@@ -45,7 +48,7 @@ class DrawEllipseModifier extends AbstractDrawModifier implements ModifierInterf
                     $this->position->getY(),
                     $this->ellipse()->getWidth(),
                     $this->ellipse()->getHeight(),
-                    $this->getBackgroundColor()->toInt()
+                    $this->colorToInteger($this->getBackgroundColor())
                 );
             }
         });

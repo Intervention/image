@@ -3,12 +3,15 @@
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\Abstract\Modifiers\AbstractDrawModifier;
+use Intervention\Image\Drivers\Gd\Traits\CanHandleColors;
 use Intervention\Image\Interfaces\DrawableInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 
 class DrawPolygonModifier extends AbstractDrawModifier implements ModifierInterface
 {
+    use CanHandleColors;
+
     public function __construct(
         protected DrawableInterface $drawable
     ) {
@@ -22,7 +25,7 @@ class DrawPolygonModifier extends AbstractDrawModifier implements ModifierInterf
                 imagefilledpolygon(
                     $frame->getCore(),
                     $this->polygon()->toArray(),
-                    $this->getBackgroundColor()->toInt()
+                    $this->colorToInteger($this->getBackgroundColor())
                 );
             }
 
@@ -32,7 +35,7 @@ class DrawPolygonModifier extends AbstractDrawModifier implements ModifierInterf
                     $frame->getCore(),
                     $this->polygon()->toArray(),
                     $this->polygon()->count(),
-                    $this->getBorderColor()->toInt()
+                    $this->colorToInteger($this->getBorderColor())
                 );
             }
         });

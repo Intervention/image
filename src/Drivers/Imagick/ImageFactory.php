@@ -57,7 +57,7 @@ class ImageFactory implements FactoryInterface
         $imagick->newImage($width, $height, new ImagickPixel('rgba(0, 0, 0, 0)'), 'png');
         $imagick->setType(Imagick::IMGTYPE_UNDEFINED);
         $imagick->setImageType(Imagick::IMGTYPE_UNDEFINED);
-        $imagick->setColorspace(Imagick::COLORSPACE_UNDEFINED);
+        $imagick->setColorspace(Imagick::COLORSPACE_RGB);
 
         return $imagick;
     }

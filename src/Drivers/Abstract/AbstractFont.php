@@ -68,7 +68,7 @@ abstract class AbstractFont implements FontInterface
         return $this;
     }
 
-    public function getColor(): ?ColorInterface
+    public function getColor(): ColorInterface
     {
         return $this->handleInput($this->color);
     }

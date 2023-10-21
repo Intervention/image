@@ -8,7 +8,7 @@ use Intervention\Image\Interfaces\ColorInterface;
 interface FontInterface
 {
     public function color($color): self;
-    public function getColor(): ?ColorInterface;
+    public function getColor(): ColorInterface;
     public function size(float $size): self;
     public function getSize(): float;
     public function angle(float $angle): self;

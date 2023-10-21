@@ -3,7 +3,6 @@
 namespace Intervention\Image\Interfaces;
 
 use Countable;
-use Intervention\Image\Collection;
 use Intervention\Image\EncodedImage;
 use Traversable;
 

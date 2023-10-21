@@ -17,7 +17,7 @@ use Intervention\Image\Drivers\Imagick\Decoders\Base64ImageDecoder;
 
 class InputHandler extends AbstractInputHandler
 {
-    protected $decoders = [
+    protected array $decoders = [
         ImageObjectDecoder::class,
         ColorObjectDecoder::class,
         HexColorDecoder::class,

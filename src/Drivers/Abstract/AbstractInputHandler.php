@@ -12,7 +12,7 @@ abstract class AbstractInputHandler
     /**
      * Array of decoders which will be stacked into to the input handler chain
      */
-    protected $decoders = [];
+    protected array $decoders = [];
 
     /**
      * Stack the decoder array into a nested decoder object

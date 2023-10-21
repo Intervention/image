@@ -136,7 +136,7 @@ class RectangleTest extends TestCase
         $this->assertEquals(3, $box->getPivot()->getY());
 
         $box->movePivot('top', 3, 3);
-        $this->assertEquals(320, $box->getPivot()->getX());
+        $this->assertEquals(323, $box->getPivot()->getX());
         $this->assertEquals(3, $box->getPivot()->getY());
 
         $box->movePivot('top-right', 3, 3);
@@ -145,7 +145,7 @@ class RectangleTest extends TestCase
 
         $box->movePivot('left', 3, 3);
         $this->assertEquals(3, $box->getPivot()->getX());
-        $this->assertEquals(240, $box->getPivot()->getY());
+        $this->assertEquals(243, $box->getPivot()->getY());
 
         $box->movePivot('center', 3, 3);
         $this->assertEquals(323, $box->getPivot()->getX());
@@ -153,14 +153,14 @@ class RectangleTest extends TestCase
 
         $box->movePivot('right', 3, 3);
         $this->assertEquals(637, $box->getPivot()->getX());
-        $this->assertEquals(240, $box->getPivot()->getY());
+        $this->assertEquals(243, $box->getPivot()->getY());
 
         $box->movePivot('bottom-left', 3, 3);
         $this->assertEquals(3, $box->getPivot()->getX());
         $this->assertEquals(477, $box->getPivot()->getY());
 
         $box->movePivot('bottom', 3, 3);
-        $this->assertEquals(320, $box->getPivot()->getX());
+        $this->assertEquals(323, $box->getPivot()->getX());
         $this->assertEquals(477, $box->getPivot()->getY());
 
         $result = $box->movePivot('bottom-right', 3, 3);

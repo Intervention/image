@@ -91,7 +91,7 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
             case 'top-middle':
             case 'center-top':
             case 'middle-top':
-                $x = intval($this->getWidth() / 2);
+                $x = intval($this->getWidth() / 2) + $offset_x;
                 $y = 0 + $offset_y;
                 break;
 
@@ -107,7 +107,7 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
             case 'center-left':
             case 'middle-left':
                 $x = 0 + $offset_x;
-                $y = intval($this->getHeight() / 2);
+                $y = intval($this->getHeight() / 2) + $offset_y;
                 break;
 
             case 'right':
@@ -116,7 +116,7 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
             case 'center-right':
             case 'middle-right':
                 $x = $this->getWidth() - $offset_x;
-                $y = intval($this->getHeight() / 2);
+                $y = intval($this->getHeight() / 2) + $offset_y;
                 break;
 
             case 'bottom-left':
@@ -130,7 +130,7 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
             case 'bottom-middle':
             case 'center-bottom':
             case 'middle-bottom':
-                $x = intval($this->getWidth() / 2);
+                $x = intval($this->getWidth() / 2) + $offset_x;
                 $y = $this->getHeight() - $offset_y;
                 break;
 

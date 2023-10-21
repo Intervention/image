@@ -15,11 +15,21 @@ class ImageFactory implements FactoryInterface
     use CanHandleInput;
     use CanCheckType;
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see FactoryInterface::newImage()
+     */
     public function newImage(int $width, int $height): ImageInterface
     {
         return new Image($this->newCore($width, $height));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see FactoryInterface::newAnimation()
+     */
     public function newAnimation(callable $callback): ImageInterface
     {
         $imagick = new Imagick();
@@ -51,7 +61,7 @@ class ImageFactory implements FactoryInterface
         return new Image($animation->imagick);
     }
 
-    public function newCore(int $width, int $height)
+    protected function newCore(int $width, int $height)
     {
         $imagick = new Imagick();
         $imagick->newImage($width, $height, new ImagickPixel('rgba(0, 0, 0, 0)'), 'png');

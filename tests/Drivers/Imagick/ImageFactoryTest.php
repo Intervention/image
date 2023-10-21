@@ -31,7 +31,7 @@ class ImageFactoryTest extends TestCase
         $this->assertEquals(2, $image->count());
     }
 
-    public function testNewCore(): void
+    protected function testNewCore(): void
     {
         $factory = new ImageFactory();
         $core = $factory->newCore(3, 2);

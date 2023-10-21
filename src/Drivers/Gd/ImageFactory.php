@@ -13,6 +13,11 @@ class ImageFactory implements FactoryInterface
 {
     use CanHandleInput;
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see FactoryInterface::newImage()
+     */
     public function newImage(int $width, int $height): ImageInterface
     {
         return new Image(
@@ -22,6 +27,11 @@ class ImageFactory implements FactoryInterface
         );
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see FactoryInterface::newAnimation()
+     */
     public function newAnimation(callable $callback): ImageInterface
     {
         $frames = new Collection();
@@ -50,7 +60,7 @@ class ImageFactory implements FactoryInterface
         return new Image($frames);
     }
 
-    public function newCore(int $width, int $height)
+    protected function newCore(int $width, int $height)
     {
         $core = imagecreatetruecolor($width, $height);
         $color = imagecolorallocatealpha($core, 0, 0, 0, 127);

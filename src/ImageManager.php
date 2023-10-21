@@ -9,9 +9,16 @@ class ImageManager
 {
     use CanResolveDriverClass;
 
-    public function __construct(protected string $driver = 'gd')
+    private static $required_options = ['driver'];
+
+    public function __construct(protected array $options)
     {
-        //
+        if (count(array_intersect(array_keys($options), self::$required_options)) != count(self::$required_options)) {
+            throw new Exceptions\ConfigurationException(
+                'The following attributes are required to initialize ImageManager: ' .
+                    implode(', ', self::$required_options)
+            );
+        }
     }
 
     /**
@@ -55,6 +62,6 @@ class ImageManager
      */
     protected function getCurrentDriver(): string
     {
-        return strtolower($this->driver);
+        return strtolower($this->options['driver']);
     }
 }

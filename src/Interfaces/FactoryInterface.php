@@ -20,4 +20,12 @@ interface FactoryInterface
      * @return ImageInterface
      */
     public function newAnimation(callable $callback): ImageInterface;
+
+    /**
+     * Create new driver specific core image object
+     *
+     * @param int $width
+     * @param int $height
+     */
+    public function newCore(int $width, int $height);
 }

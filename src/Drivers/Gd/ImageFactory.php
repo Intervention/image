@@ -60,7 +60,7 @@ class ImageFactory implements FactoryInterface
         return new Image($frames);
     }
 
-    protected function newCore(int $width, int $height)
+    public function newCore(int $width, int $height)
     {
         $core = imagecreatetruecolor($width, $height);
         $color = imagecolorallocatealpha($core, 0, 0, 0, 127);

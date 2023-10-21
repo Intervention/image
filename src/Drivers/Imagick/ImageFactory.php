@@ -61,7 +61,7 @@ class ImageFactory implements FactoryInterface
         return new Image($animation->imagick);
     }
 
-    protected function newCore(int $width, int $height)
+    public function newCore(int $width, int $height)
     {
         $imagick = new Imagick();
         $imagick->newImage($width, $height, new ImagickPixel('rgba(0, 0, 0, 0)'), 'png');

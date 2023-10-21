@@ -2,6 +2,7 @@
 
 namespace Intervention\Image\Tests\Drivers\Gd;
 
+use GdImage;
 use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Drivers\Gd\ImageFactory;
 use Intervention\Image\Tests\TestCase;
@@ -28,5 +29,12 @@ class ImageFactoryTest extends TestCase
         });
         $this->assertInstanceOf(Image::class, $image);
         $this->assertEquals(2, $image->count());
+    }
+
+    public function testNewCore(): void
+    {
+        $factory = new ImageFactory();
+        $core = $factory->newCore(3, 2);
+        $this->assertInstanceOf(GdImage::class, $core);
     }
 }

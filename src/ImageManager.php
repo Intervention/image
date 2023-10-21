@@ -11,7 +11,7 @@ class ImageManager
 
     private static $required_options = ['driver'];
 
-    public function __construct(protected array $options)
+    public function __construct(protected array $options = ['driver' => 'gd'])
     {
         if (count(array_intersect(array_keys($options), self::$required_options)) != count(self::$required_options)) {
             throw new Exceptions\ConfigurationException(

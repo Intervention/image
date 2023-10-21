@@ -20,7 +20,15 @@ class PixelateModifierTest extends TestCase
         $this->assertEquals('00aef0', $image->pickColor(0, 0)->toHex());
         $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
         $image->modify(new PixelateModifier(10));
-        $this->assertEquals('00aef0', $image->pickColor(0, 0)->toHex());
-        $this->assertEquals('6bab8c', $image->pickColor(14, 14)->toHex());
+
+        list($r, $g, $b) = $image->pickColor(0, 0)->toArray();
+        $this->assertEquals(0, $r);
+        $this->assertEquals(174, $g);
+        $this->assertEquals(240, $b);
+
+        list($r, $g, $b) = $image->pickColor(14, 14)->toArray();
+        $this->assertEquals(107, $r);
+        $this->assertEquals(171, $g);
+        $this->assertEquals(140, $b);
     }
 }

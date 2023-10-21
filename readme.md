@@ -5,7 +5,10 @@
 [![Build Status](https://github.com/Intervention/image/actions/workflows/run-tests.yml/badge.svg)](https://github.com/Intervention/image/actions)
 [![Monthly Downloads](https://img.shields.io/packagist/dm/intervention/image.svg)](https://packagist.org/packages/intervention/image/stats)
 
-Intervention Image is a **image handling and manipulation library written in PHP** providing an easier and expressive way to create, edit, and compose images. GD library or Imagick can be selected as the base layer for all operations.
+Intervention Image is a **image handling and manipulation library written in
+PHP** providing an easier and expressive way to create, edit, and compose
+images. GD library or Imagick can be selected as the base layer for all
+operations.
 
 - Simple interface for common tasks
 - Interchangable driver architecture
@@ -17,7 +20,7 @@ Intervention Image is a **image handling and manipulation library written in PHP
 
 ```php
 // create image manager with desired driver
-$manager = new ImageManager('gd')
+$manager = new ImageManager(['driver' => 'gd']);
 
 // open an image file
 $image = $manager->read('images/example.gif');
@@ -52,11 +55,15 @@ composer require intervention/image
 
 ## Getting started
 
-Learn the [basics](https://image.intervention.io/v3/basics/instantiation/) on how to use Intervention Image and more with the [official documentation](https://image.intervention.io/v3/).
+Learn the [basics](https://image.intervention.io/v3/basics/instantiation/) on
+how to use Intervention Image and more with the [official
+documentation](https://image.intervention.io/v3/).
 
 ## Development & Testing
 
-With this package comes a Docker image to build a test suite and analysis container. To build this container you have to have Docker installed on your system. You can run all tests with this command.
+With this package comes a Docker image to build a test suite and analysis
+container. To build this container you have to have Docker installed on your
+system. You can run all tests with this command.
 
 ```bash
 docker-compose run --rm --build tests

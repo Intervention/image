@@ -73,10 +73,4 @@ class ColorTest extends TestCase
         $color = new Color(181, 55, 23);
         $this->assertEquals('rgb(181, 55, 23)', (string) $color);
     }
-
-    public function testToRgb(): void
-    {
-        $color = new Color(181, 55, 23);
-        $this->assertInstanceOf(Color::class, $color->toRgb());
-    }
 }

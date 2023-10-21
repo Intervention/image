@@ -76,11 +76,6 @@ class Color implements ColorInterface
         );
     }
 
-    public function toRgb(): self
-    {
-        return $this;
-    }
-
     public function convertTo(string|ColorspaceInterface $colorspace): ColorInterface
     {
         $colorspace = match (true) {

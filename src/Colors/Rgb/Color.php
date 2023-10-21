@@ -27,22 +27,22 @@ class Color implements ColorInterface
         ];
     }
 
-    public function red(): Red
+    public function red(): ColorChannelInterface
     {
         return $this->channel(Red::class);
     }
 
-    public function green(): Green
+    public function green(): ColorChannelInterface
     {
         return $this->channel(Green::class);
     }
 
-    public function blue(): Blue
+    public function blue(): ColorChannelInterface
     {
         return $this->channel(Blue::class);
     }
 
-    public function alpha(): Alpha
+    public function alpha(): ColorChannelInterface
     {
         return $this->channel(Alpha::class);
     }

@@ -2,7 +2,7 @@
     "name": "intervention/image",
     "description": "PHP image manipulation",
     "homepage": "https://image.intervention.io/",
-    "keywords": ["image", "gd", "imagick", "laravel", "watermark", "thumbnail"],
+    "keywords": ["image", "gd", "imagick", "watermark", "thumbnail"],
     "license": "MIT",
     "authors": [
         {

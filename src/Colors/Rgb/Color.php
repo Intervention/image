@@ -7,6 +7,7 @@ use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Channels\Alpha;
 use Intervention\Image\Colors\Traits\CanHandleChannels;
+use Intervention\Image\Drivers\Abstract\AbstractInputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
@@ -15,8 +16,20 @@ class Color implements ColorInterface
 {
     use CanHandleChannels;
 
+    /**
+     * Color channels
+     */
     protected array $channels;
 
+    /**
+     * Create new instance
+     *
+     * @param int $r
+     * @param int $g
+     * @param int $b
+     * @param int $a
+     * @return ColorInterface
+     */
     public function __construct(int $r, int $g, int $b, int $a = 255)
     {
         $this->channels = [
@@ -27,26 +40,68 @@ class Color implements ColorInterface
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::create()
+     */
+    public static function create(mixed $input): ColorInterface
+    {
+        return (new class ([
+            Decoders\HexColorDecoder::class,
+            Decoders\StringColorDecoder::class,
+            Decoders\TransparentColorDecoder::class,
+            Decoders\HtmlColornameDecoder::class,
+        ]) extends AbstractInputHandler
+        {
+        })->handle($input);
+    }
+
+    /**
+     * Return the RGB red color channel
+     *
+     * @return ColorChannelInterface
+     */
     public function red(): ColorChannelInterface
     {
         return $this->channel(Red::class);
     }
 
+    /**
+     * Return the RGB green color channel
+     *
+     * @return ColorChannelInterface
+     */
     public function green(): ColorChannelInterface
     {
         return $this->channel(Green::class);
     }
 
+    /**
+     * Return the RGB blue color channel
+     *
+     * @return ColorChannelInterface
+     */
     public function blue(): ColorChannelInterface
     {
         return $this->channel(Blue::class);
     }
 
+    /**
+     * Return the colors alpha channel
+     *
+     * @return ColorChannelInterface
+     */
     public function alpha(): ColorChannelInterface
     {
         return $this->channel(Alpha::class);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::toArray()
+     */
     public function toArray(): array
     {
         return array_map(function (ColorChannelInterface $channel) {
@@ -54,6 +109,11 @@ class Color implements ColorInterface
         }, $this->channels());
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::toHex()
+     */
     public function toHex(string $prefix = ''): string
     {
         if ($this->isFullyOpaque()) {
@@ -76,6 +136,11 @@ class Color implements ColorInterface
         );
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::convertTo()
+     */
     public function convertTo(string|ColorspaceInterface $colorspace): ColorInterface
     {
         $colorspace = match (true) {
@@ -86,11 +151,21 @@ class Color implements ColorInterface
         return $colorspace->convertColor($this);
     }
 
+    /**
+     * Determine if the current color is fully opaque
+     *
+     * @return bool
+     */
     public function isFullyOpaque(): bool
     {
         return $this->alpha()->value() === 255;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::toString()
+     */
     public function toString(): string
     {
         if ($this->isFullyOpaque()) {
@@ -111,6 +186,11 @@ class Color implements ColorInterface
         );
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::isGreyscale()
+     */
     public function isGreyscale(): bool
     {
         $values = [$this->red()->value(), $this->green()->value(), $this->blue()->value()];
@@ -118,6 +198,11 @@ class Color implements ColorInterface
         return count(array_unique($values, SORT_REGULAR)) === 1;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::__toString()
+     */
     public function __toString(): string
     {
         return $this->toString();

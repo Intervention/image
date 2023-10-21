@@ -15,6 +15,16 @@ abstract class AbstractInputHandler
     protected array $decoders = [];
 
     /**
+     * Create new instance
+     *
+     * @param array $decoders
+     */
+    public function __construct(array $decoders = [])
+    {
+        $this->decoders = count($decoders) ? $decoders : $this->decoders;
+    }
+
+    /**
      * Stack the decoder array into a nested decoder object
      *
      * @return AbstractDecoder

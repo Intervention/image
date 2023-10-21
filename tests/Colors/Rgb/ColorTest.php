@@ -23,6 +23,17 @@ class ColorTest extends TestCase
         $this->assertInstanceOf(Color::class, $color);
     }
 
+    public function testCreate(): void
+    {
+        $color = Color::create('ccc');
+        $this->assertInstanceOf(Color::class, $color);
+        $this->assertEquals([204, 204, 204, 255], $color->toArray());
+
+        $color = Color::create('rgba(10, 20, 30, .2)');
+        $this->assertInstanceOf(Color::class, $color);
+        $this->assertEquals([10, 20, 30, 51], $color->toArray());
+    }
+
     public function testChannels(): void
     {
         $color = new Color(10, 20, 30);

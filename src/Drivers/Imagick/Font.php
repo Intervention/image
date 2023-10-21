@@ -5,26 +5,29 @@ namespace Intervention\Image\Drivers\Imagick;
 use Imagick;
 use ImagickDraw;
 use Intervention\Image\Drivers\Abstract\AbstractFont;
+use Intervention\Image\Drivers\Imagick\Traits\CanHandleColors;
 use Intervention\Image\Exceptions\FontException;
 use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Rectangle;
 
 class Font extends AbstractFont
 {
+    use CanHandleColors;
+
     public function toImagickDraw(): ImagickDraw
     {
         if (!$this->hasFilename()) {
             throw new FontException('No font file specified.');
         }
 
-        $color = $this->failIfNotClass($this->getColor(), Color::class);
+        $color = $this->colorToPixel($this->getColor());
 
         $draw = new ImagickDraw();
         $draw->setStrokeAntialias(true);
         $draw->setTextAntialias(true);
         $draw->setFont($this->getFilename());
         $draw->setFontSize($this->getSize());
-        $draw->setFillColor($color->getPixel());
+        $draw->setFillColor($color);
         $draw->setTextAlignment(Imagick::ALIGN_LEFT);
 
         return $draw;

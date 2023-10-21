@@ -13,7 +13,7 @@ trait CanHandleColors
     /**
      * Transforms ImagickPixel to own color object
      *
-     * @param int $value
+     * @param ImagickPixel $pixel
      * @return ColorInterface
      */
     public function colorFromPixel(ImagickPixel $pixel): ColorInterface

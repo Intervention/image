@@ -3,8 +3,6 @@
 namespace Intervention\Image\Drivers\Gd\Traits;
 
 use Intervention\Image\Colors\Rgb\Color;
-use Intervention\Image\Colors\Rgb\Colorspace;
-use Intervention\Image\Interfaces\ColorInterface;
 
 trait CanHandleColors
 {
@@ -31,13 +29,11 @@ trait CanHandleColors
     /**
      * Transforms given color to the corresponding GD Library integer value
      *
-     * @param ColorInterface $color
+     * @param Color $color
      * @return int
      */
     public function colorToInteger(Color $color): int
     {
-        $color = $color->convertTo(Colorspace::class);
-
         $r = $color->red()->value();
         $g = $color->green()->value();
         $b = $color->blue()->value();
@@ -61,7 +57,7 @@ trait CanHandleColors
      * @param float|int $targetMax
      * @return float|int
      */
-    private static function convertRange(
+    protected static function convertRange(
         float|int $input,
         float|int $min,
         float|int $max,

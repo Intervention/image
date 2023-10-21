@@ -5,7 +5,8 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use Imagick;
 use ImagickDraw;
 use Intervention\Image\Drivers\Abstract\Modifiers\AbstractPadModifier;
-use Intervention\Image\Drivers\Imagick\Color;
+use Intervention\Image\Colors\Rgb\Color;
+use Intervention\Image\Drivers\Imagick\Traits\CanHandleColors;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -16,12 +17,13 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
 {
     use CanBuildNewImage;
     use CanHandleInput;
+    use CanHandleColors;
 
     public function apply(ImageInterface $image): ImageInterface
     {
         $resize = $this->getResizeSize($image);
         $crop = $this->getCropSize($image);
-        $background = $this->failIfNotClass($this->handleInput($this->background), Color::class);
+        $background = $this->handleInput($this->background);
 
         foreach ($image as $frame) {
             // resize current core
@@ -59,7 +61,7 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
 
         // draw background color on canvas
         $draw = new ImagickDraw();
-        $draw->setFillColor($background->getPixel());
+        $draw->setFillColor($this->colorToPixel($background));
         $draw->rectangle(0, 0, $canvas->getImageWidth(), $canvas->getImageHeight());
         $canvas->drawImage($draw);
 

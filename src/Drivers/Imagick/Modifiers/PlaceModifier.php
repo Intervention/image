@@ -4,15 +4,14 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
 use Intervention\Image\Drivers\Imagick\Image;
-use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\PointInterface;
-use Intervention\Image\Traits\CanResolveDriverClass;
+use Intervention\Image\Traits\CanHandleInput;
 
 class PlaceModifier implements ModifierInterface
 {
-    use CanResolveDriverClass;
+    use CanHandleInput;
 
     public function __construct(
         protected $element,
@@ -25,7 +24,7 @@ class PlaceModifier implements ModifierInterface
 
     public function apply(ImageInterface $image): ImageInterface
     {
-        $watermark = $this->decodeWatermark();
+        $watermark = $this->handleInput($this->element);
         $position = $this->getPosition($image, $watermark);
 
         foreach ($image as $frame) {
@@ -38,11 +37,6 @@ class PlaceModifier implements ModifierInterface
         }
 
         return $image;
-    }
-
-    protected function decodeWatermark(): Image
-    {
-        return $this->resolveDriverClass('InputHandler')->handle($this->element);
     }
 
     protected function getPosition(ImageInterface $image, Image $watermark): PointInterface

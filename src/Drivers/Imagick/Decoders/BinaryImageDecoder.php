@@ -25,7 +25,6 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
         $imagick = new Imagick();
         $imagick->readImageBlob($input);
         $imagick = $imagick->coalesceImages();
-        // $imagick->transformImageColorspace(Imagick::COLORSPACE_RGB);
 
         $image = new Image($imagick);
         $image->setLoops($imagick->getImageIterations());

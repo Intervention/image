@@ -54,7 +54,7 @@ trait CanHandleColors
      * the image colorspace which is passed to this method.
      *
      * @param ColorInterface $color
-     * @param ColorspceInterface $colorspace
+     * @param ColorspaceInterface $colorspace
      * @return ImagickPixel
      */
     public function colorToPixel(ColorInterface $color, ColorspaceInterface $colorspace): ImagickPixel

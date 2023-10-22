@@ -15,21 +15,24 @@ class Font extends AbstractFont
 {
     use CanHandleColors;
 
-    public function toImagickDraw(ColorspaceInterface $colorspace): ImagickDraw
+    public function toImagickDraw(?ColorspaceInterface $colorspace = null): ImagickDraw
     {
         if (!$this->hasFilename()) {
             throw new FontException('No font file specified.');
         }
-
-        $color = $this->colorToPixel($this->getColor(), $colorspace);
 
         $draw = new ImagickDraw();
         $draw->setStrokeAntialias(true);
         $draw->setTextAntialias(true);
         $draw->setFont($this->getFilename());
         $draw->setFontSize($this->getSize());
-        $draw->setFillColor($color);
         $draw->setTextAlignment(Imagick::ALIGN_LEFT);
+
+        if ($colorspace) {
+            $draw->setFillColor(
+                $this->colorToPixel($this->getColor(), $colorspace)
+            );
+        }
 
         return $draw;
     }

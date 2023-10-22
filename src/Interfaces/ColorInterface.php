@@ -39,7 +39,7 @@ interface ColorInterface
      *
      * @return string
      */
-    public function toHex(): string;
+    public function toHex(string $prefix = ''): string;
 
     /**
      * Return array of all color channels

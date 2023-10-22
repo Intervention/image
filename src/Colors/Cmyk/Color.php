@@ -38,9 +38,9 @@ class Color implements ColorInterface
         })->handle($input);
     }
 
-    public function toHex(): string
+    public function toHex(string $prefix = ''): string
     {
-        return $this->convertTo(RgbColorspace::class)->toHex();
+        return $this->convertTo(RgbColorspace::class)->toHex($prefix);
     }
 
     public function channels(): array

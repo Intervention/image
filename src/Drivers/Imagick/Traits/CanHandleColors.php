@@ -46,9 +46,15 @@ trait CanHandleColors
     }
 
     /**
-     * Transforms given color to the corresponding ImagickPixel
+     * Transforms given color to the corresponding ImagickPixel in given colorspace
+     *
+     * Colorspaces of color might be different from given colorspace. You might
+     * have a CMYK Image but give an rgb color to a method. This makes sure
+     * that the color is converted to the given colorspace. In this case
+     * the image colorspace which is passed to this method.
      *
      * @param ColorInterface $color
+     * @param ColorspceInterface $colorspace
      * @return ImagickPixel
      */
     public function colorToPixel(ColorInterface $color, ColorspaceInterface $colorspace): ImagickPixel

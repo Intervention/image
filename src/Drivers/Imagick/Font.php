@@ -9,18 +9,19 @@ use Intervention\Image\Drivers\Imagick\Traits\CanHandleColors;
 use Intervention\Image\Exceptions\FontException;
 use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Interfaces\ColorspaceInterface;
 
 class Font extends AbstractFont
 {
     use CanHandleColors;
 
-    public function toImagickDraw(): ImagickDraw
+    public function toImagickDraw(ColorspaceInterface $colorspace): ImagickDraw
     {
         if (!$this->hasFilename()) {
             throw new FontException('No font file specified.');
         }
 
-        $color = $this->colorToPixel($this->getColor());
+        $color = $this->colorToPixel($this->getColor(), $colorspace);
 
         $draw = new ImagickDraw();
         $draw->setStrokeAntialias(true);

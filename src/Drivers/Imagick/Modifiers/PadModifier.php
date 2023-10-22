@@ -61,7 +61,7 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
 
         // draw background color on canvas
         $draw = new ImagickDraw();
-        $draw->setFillColor($this->colorToPixel($background));
+        $draw->setFillColor($this->colorToPixel($background, $canvas->getColorspace()));
         $draw->rectangle(0, 0, $canvas->getImageWidth(), $canvas->getImageHeight());
         $canvas->drawImage($draw);
 

@@ -64,6 +64,6 @@ class ColorTest extends TestCase
     public function testToString(): void
     {
         $color = new Color(100, 50, 20, 0);
-        $this->assertEquals('cmyk(100, 50, 20, 0)', (string) $color);
+        $this->assertEquals('cmyk(100%, 50%, 20%, 0%)', (string) $color);
     }
 }

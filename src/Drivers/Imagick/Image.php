@@ -23,14 +23,7 @@ class Image extends AbstractImage implements ImageInterface, Iterator
 
     public function __construct(protected Imagick $imagick)
     {
-        $this->colorspace = match ($imagick->getImageColorspace()) {
-            Imagick::COLORSPACE_RGB, Imagick::COLORSPACE_SRGB => new RgbColorspace(),
-            Imagick::COLORSPACE_CMYK => new CmykColorspace(),
-            default => function () use ($imagick) {
-                $imagick->transformImageColorspace(Imagick::COLORSPACE_SRGB);
-                return new RgbColorspace();
-            }
-        };
+        //
     }
 
     public function getImagick(): Imagick
@@ -140,7 +133,7 @@ class Image extends AbstractImage implements ImageInterface, Iterator
         if ($frame = $this->getFrame($frame_key)) {
             return $this->colorFromPixel(
                 $frame->getCore()->getImagePixelColor($x, $y),
-                $this->colorspace
+                $this->getColorspace()
             );
         }
 

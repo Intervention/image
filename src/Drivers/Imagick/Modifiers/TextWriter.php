@@ -16,7 +16,7 @@ class TextWriter extends AbstractTextWriter
         foreach ($image as $frame) {
             foreach ($lines as $line) {
                 $frame->getCore()->annotateImage(
-                    $font->toImagickDraw(),
+                    $font->toImagickDraw($image->getColorspace()),
                     $line->getPosition()->getX(),
                     $line->getPosition()->getY(),
                     $font->getAngle(),

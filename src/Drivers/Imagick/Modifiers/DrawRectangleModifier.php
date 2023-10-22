@@ -15,8 +15,9 @@ class DrawRectangleModifier extends AbstractDrawModifier implements ModifierInte
     public function apply(ImageInterface $image): ImageInterface
     {
         $drawing = new ImagickDraw();
-        $background_color = $this->colorToPixel($this->getBackgroundColor());
-        $border_color = $this->colorToPixel($this->getBorderColor());
+        $colorspace = $image->getColorspace();
+        $background_color = $this->colorToPixel($this->getBackgroundColor(), $colorspace);
+        $border_color = $this->colorToPixel($this->getBorderColor(), $colorspace);
 
         $drawing->setFillColor($background_color);
         if ($this->rectangle()->hasBorder()) {

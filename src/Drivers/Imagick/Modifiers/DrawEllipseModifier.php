@@ -14,8 +14,9 @@ class DrawEllipseModifier extends AbstractDrawModifier implements ModifierInterf
 
     public function apply(ImageInterface $image): ImageInterface
     {
-        $background_color = $this->colorToPixel($this->getBackgroundColor());
-        $border_color = $this->colorToPixel($this->getBorderColor());
+        $colorspace = $image->getColorspace();
+        $background_color = $this->colorToPixel($this->getBackgroundColor(), $colorspace);
+        $border_color = $this->colorToPixel($this->getBorderColor(), $colorspace);
 
         return $image->eachFrame(function ($frame) use ($background_color, $border_color) {
             $drawing = new ImagickDraw();

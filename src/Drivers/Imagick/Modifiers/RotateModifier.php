@@ -15,7 +15,7 @@ class RotateModifier extends AbstractRotateModifier implements ModifierInterface
     {
         foreach ($image as $frame) {
             $frame->getCore()->rotateImage(
-                $this->colorToPixel($this->backgroundColor()),
+                $this->colorToPixel($this->backgroundColor(), $image->getColorspace()),
                 $this->rotationAngle()
             );
         }

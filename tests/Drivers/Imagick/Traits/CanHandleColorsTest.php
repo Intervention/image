@@ -28,16 +28,16 @@ class CanHandleColorsTest extends TestCase
     public function testColorFromPixel(): void
     {
         $result = $this->getAnonymousTrait()
-            ->colorFromPixel(new ImagickPixel(), new RgbColorspace());
+            ->pixelToColor(new ImagickPixel(), new RgbColorspace());
         $this->assertInstanceOf(RgbColor::class, $result);
 
         $result = $this->getAnonymousTrait()
-            ->colorFromPixel(new ImagickPixel('rgba(10, 20, 30, .2)'), new RgbColorspace());
+            ->pixelToColor(new ImagickPixel('rgba(10, 20, 30, .2)'), new RgbColorspace());
         $this->assertInstanceOf(RgbColor::class, $result);
         $this->assertEquals([10, 20, 30, 51], $result->toArray());
 
         $result = $this->getAnonymousTrait()
-            ->colorFromPixel(new ImagickPixel('cmyk(10%, 20%, 30%, 40%)'), new CmykColorspace());
+            ->pixelToColor(new ImagickPixel('cmyk(10%, 20%, 30%, 40%)'), new CmykColorspace());
         $this->assertInstanceOf(CmykColor::class, $result);
         $this->assertEquals([10, 20, 30, 40], $result->toArray());
     }

@@ -12,7 +12,7 @@ trait CanHandleColors
      * @param int $value
      * @return Color
      */
-    public function colorFromInteger(int $value): Color
+    public function integerToColor(int $value): Color
     {
         $a = ($value >> 24) & 0xFF;
         $r = ($value >> 16) & 0xFF;

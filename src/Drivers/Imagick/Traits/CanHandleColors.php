@@ -27,7 +27,7 @@ trait CanHandleColors
      * @param ColorspaceInterface $colorspace
      * @return ColorInterface
      */
-    public function colorFromPixel(ImagickPixel $pixel, ColorspaceInterface $colorspace): ColorInterface
+    public function pixelToColor(ImagickPixel $pixel, ColorspaceInterface $colorspace): ColorInterface
     {
         return match (get_class($colorspace)) {
             CmykColorspace::class => $colorspace->colorFromNormalized([

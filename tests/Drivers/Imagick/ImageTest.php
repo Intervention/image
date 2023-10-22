@@ -92,7 +92,15 @@ class ImageTest extends TestCase
 
     public function testGetColorspace(): void
     {
-        $this->assertInstanceOf(RgbColorspace::class, $this->image->getColorspace());
+        $imagick = new Imagick();
+        $imagick->readImageBlob($this->getTestImageData('test.jpg'));
+        $image = new Image($imagick);
+        $this->assertInstanceOf(RgbColorspace::class, $image->getColorspace());
+
+        $imagick = new Imagick();
+        $imagick->readImageBlob($this->getTestImageData('cmyk.jpg'));
+        $image = new Image($imagick);
+        $this->assertInstanceOf(CmykColorspace::class, $image->getColorspace());
     }
 
     public function testSetColorspace(): void

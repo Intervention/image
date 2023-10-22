@@ -7,6 +7,7 @@ use Intervention\Image\Colors\Cmyk\Channels\Key;
 use Intervention\Image\Colors\Cmyk\Channels\Magenta;
 use Intervention\Image\Colors\Cmyk\Channels\Yellow;
 use Intervention\Image\Colors\Cmyk\Color as Color;
+use Intervention\Image\Colors\Cmyk\Colorspace;
 use Intervention\Image\Tests\TestCase;
 
 /**
@@ -19,6 +20,12 @@ class ColorTest extends TestCase
     {
         $color = new Color(0, 0, 0, 0);
         $this->assertInstanceOf(Color::class, $color);
+    }
+
+    public function testColorspace(): void
+    {
+        $color = new Color(0, 0, 0, 0);
+        $this->assertInstanceOf(Colorspace::class, $color->colorspace());
     }
 
     public function testChannels(): void

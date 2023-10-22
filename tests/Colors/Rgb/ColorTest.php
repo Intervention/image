@@ -8,6 +8,7 @@ use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Color as Color;
+use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Tests\TestCase;
 
 /**
@@ -34,6 +35,12 @@ class ColorTest extends TestCase
         $color = Color::create('rgba(10, 20, 30, .2)');
         $this->assertInstanceOf(Color::class, $color);
         $this->assertEquals([10, 20, 30, 51], $color->toArray());
+    }
+
+    public function testColorspace(): void
+    {
+        $color = new Color(0, 0, 0);
+        $this->assertInstanceOf(RgbColorspace::class, $color->colorspace());
     }
 
     public function testChannels(): void

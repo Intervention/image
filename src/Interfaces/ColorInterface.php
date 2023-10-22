@@ -14,6 +14,13 @@ interface ColorInterface
     public static function create(mixed $input): ColorInterface;
 
     /**
+     * Return colorspace of current color
+     *
+     * @return ColorspaceInterface
+     */
+    public function colorspace(): ColorspaceInterface;
+
+    /**
      * Cast color object to string
      *
      * @return string

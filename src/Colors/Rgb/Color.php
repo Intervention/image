@@ -40,6 +40,11 @@ class Color implements ColorInterface
         ];
     }
 
+    public function colorspace(): ColorspaceInterface
+    {
+        return new Colorspace();
+    }
+
     /**
      * {@inheritdoc}
      *

@@ -38,6 +38,11 @@ class Color implements ColorInterface
         })->handle($input);
     }
 
+    public function colorspace(): ColorspaceInterface
+    {
+        return new Colorspace();
+    }
+
     public function toHex(string $prefix = ''): string
     {
         return $this->convertTo(RgbColorspace::class)->toHex($prefix);

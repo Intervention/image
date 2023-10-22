@@ -9,6 +9,27 @@ use Intervention\Image\Interfaces\ColorspaceInterface;
 
 class Colorspace implements ColorspaceInterface
 {
+    public static $channels = [
+        Channels\Cyan::class,
+        Channels\Magenta::class,
+        Channels\Yellow::class,
+        Channels\Key::class
+    ];
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorspaceInterface::createColor()
+     */
+    public function colorFromNormalized(array $normalized): ColorInterface
+    {
+        $values = array_map(function ($classname, $value_normalized) {
+            return (new $classname(normalized: $value_normalized))->value();
+        }, self::$channels, $normalized);
+
+        return new Color(...$values);
+    }
+
     /**
      * {@inheritdoc}
      *

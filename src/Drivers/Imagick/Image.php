@@ -4,9 +4,13 @@ namespace Intervention\Image\Drivers\Imagick;
 
 use Imagick;
 use ImagickException;
+use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
+use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Drivers\Abstract\AbstractImage;
+use Intervention\Image\Drivers\Imagick\Modifiers\ColorspaceModifier;
 use Intervention\Image\Drivers\Imagick\Traits\CanHandleColors;
 use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Iterator;
@@ -19,7 +23,14 @@ class Image extends AbstractImage implements ImageInterface, Iterator
 
     public function __construct(protected Imagick $imagick)
     {
-        //
+        $this->colorspace = match ($imagick->getImageColorspace()) {
+            Imagick::COLORSPACE_RGB, Imagick::COLORSPACE_SRGB => new RgbColorspace(),
+            Imagick::COLORSPACE_CMYK => new CmykColorspace(),
+            default => function () use ($imagick) {
+                $imagick->transformImageColorspace(Imagick::COLORSPACE_SRGB);
+                return new RgbColorspace();
+            }
+        };
     }
 
     public function getImagick(): Imagick
@@ -128,10 +139,29 @@ class Image extends AbstractImage implements ImageInterface, Iterator
     {
         if ($frame = $this->getFrame($frame_key)) {
             return $this->colorFromPixel(
-                $frame->getCore()->getImagePixelColor($x, $y)
+                $frame->getCore()->getImagePixelColor($x, $y),
+                $this->colorspace
             );
         }
 
         return null;
+    }
+
+    public function getColorspace(): ColorspaceInterface
+    {
+        return match ($this->imagick->getImageColorspace()) {
+            Imagick::COLORSPACE_CMYK => new CmykColorspace(),
+            default => new RgbColorspace(),
+        };
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::setColorspace()
+     */
+    public function setColorspace(string|ColorspaceInterface $colorspace): ImageInterface
+    {
+        return $this->modify(new ColorspaceModifier($colorspace));
     }
 }

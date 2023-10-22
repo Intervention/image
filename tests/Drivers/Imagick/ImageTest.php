@@ -4,6 +4,8 @@ namespace Intervention\Image\Tests\Drivers\Imagick;
 
 use Imagick;
 use ImagickPixel;
+use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
+use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
 use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Geometry\Rectangle;
@@ -86,5 +88,37 @@ class ImageTest extends TestCase
     public function testGetSize(): void
     {
         $this->assertInstanceOf(Rectangle::class, $this->image->getSize());
+    }
+
+    public function testGetColorspace(): void
+    {
+        $this->assertInstanceOf(RgbColorspace::class, $this->image->getColorspace());
+    }
+
+    public function testSetColorspace(): void
+    {
+        $result = $this->image->setColorspace('rgb');
+        $this->assertInstanceOf(Image::class, $result);
+        $this->assertInstanceOf(RgbColorspace::class, $result->getColorspace());
+
+        $result = $this->image->setColorspace(RgbColorspace::class);
+        $this->assertInstanceOf(Image::class, $result);
+        $this->assertInstanceOf(RgbColorspace::class, $result->getColorspace());
+
+        $result = $this->image->setColorspace(new RgbColorspace());
+        $this->assertInstanceOf(Image::class, $result);
+        $this->assertInstanceOf(RgbColorspace::class, $result->getColorspace());
+
+        $result = $this->image->setColorspace('cmyk');
+        $this->assertInstanceOf(Image::class, $result);
+        $this->assertInstanceOf(CmykColorspace::class, $result->getColorspace());
+
+        $result = $this->image->setColorspace(CmykColorspace::class);
+        $this->assertInstanceOf(Image::class, $result);
+        $this->assertInstanceOf(CmykColorspace::class, $result->getColorspace());
+
+        $result = $this->image->setColorspace(new CmykColorspace());
+        $this->assertInstanceOf(Image::class, $result);
+        $this->assertInstanceOf(CmykColorspace::class, $result->getColorspace());
     }
 }

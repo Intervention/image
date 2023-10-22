@@ -8,6 +8,27 @@ use Intervention\Image\Interfaces\ColorspaceInterface;
 
 class Colorspace implements ColorspaceInterface
 {
+    public static $channels = [
+        Channels\Red::class,
+        Channels\Green::class,
+        Channels\Blue::class,
+        Channels\Alpha::class
+    ];
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorspaceInterface::createColor()
+     */
+    public function colorFromNormalized(array $normalized): ColorInterface
+    {
+        $values = array_map(function ($classname, $value_normalized) {
+            return (new $classname(normalized: $value_normalized))->value();
+        }, self::$channels, $normalized);
+
+        return new Color(...$values);
+    }
+
     public function convertColor(ColorInterface $color): ColorInterface
     {
         return match (get_class($color)) {

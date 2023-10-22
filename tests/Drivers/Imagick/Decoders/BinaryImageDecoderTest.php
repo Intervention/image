@@ -2,6 +2,8 @@
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Decoders;
 
+use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
+use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Drivers\Imagick\Decoders\BinaryImageDecoder;
 use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Tests\TestCase;
@@ -13,6 +15,7 @@ class BinaryImageDecoderTest extends TestCase
         $decoder = new BinaryImageDecoder();
         $image = $decoder->decode(file_get_contents($this->getTestImagePath('tile.png')));
         $this->assertInstanceOf(Image::class, $image);
+        $this->assertInstanceOf(RgbColorspace::class, $image->getColorspace());
         $this->assertEquals(16, $image->getWidth());
         $this->assertEquals(16, $image->getHeight());
         $this->assertCount(1, $image);
@@ -47,5 +50,13 @@ class BinaryImageDecoderTest extends TestCase
         $this->assertEquals(16, $image->getHeight());
         $this->assertCount(1, $image);
         $this->assertEquals('Oliver Vogel', $image->getExif('IFD0.Artist'));
+    }
+
+    public function testDecodeCmykImage(): void
+    {
+        $decoder = new BinaryImageDecoder();
+        $image = $decoder->decode(file_get_contents($this->getTestImagePath('cmyk.jpg')));
+        $this->assertInstanceOf(Image::class, $image);
+        $this->assertInstanceOf(CmykColorspace::class, $image->getColorspace());
     }
 }

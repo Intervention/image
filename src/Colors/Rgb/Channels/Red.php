@@ -10,13 +10,19 @@ class Red implements ColorChannelInterface
     protected int $value;
 
     /**
-     * Create and validate new instance
+     * {@inheritdoc}
      *
-     * @param  int $value
+     * @see ColorChannelInterface::__construct()
      */
-    public function __construct(int $value)
+    public function __construct(int $value = null, float $normalized = null)
     {
-        $this->value = $this->validate($value);
+        $this->value = $this->validate(
+            match (true) {
+                is_null($value) && is_numeric($normalized) => intval(round($normalized * $this->max())),
+                is_numeric($value) && is_null($normalized) => $value,
+                default => throw new ColorException('Color channels must either have a value or a normalized value')
+            }
+        );
     }
 
     /**

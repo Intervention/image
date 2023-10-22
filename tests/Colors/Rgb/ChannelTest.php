@@ -18,6 +18,18 @@ class ChannelTest extends TestCase
     {
         $channel = new Channel(0);
         $this->assertInstanceOf(Channel::class, $channel);
+
+        $channel = new Channel(value: 0);
+        $this->assertInstanceOf(Channel::class, $channel);
+
+        $channel = new Channel(normalized: 0);
+        $this->assertInstanceOf(Channel::class, $channel);
+
+        $this->expectException(ColorException::class);
+        $channel = new Channel();
+
+        $this->expectException(ColorException::class);
+        $channel = new Channel(normalized: 2);
     }
 
     public function testValue(): void

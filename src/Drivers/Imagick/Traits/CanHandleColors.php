@@ -2,23 +2,37 @@
 
 namespace Intervention\Image\Drivers\Imagick\Traits;
 
+use Imagick;
 use ImagickPixel;
+use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
 use Intervention\Image\Interfaces\ColorInterface;
-use Intervention\Image\Traits\CanHandleInput;
+use Intervention\Image\Interfaces\ColorspaceInterface;
 
 trait CanHandleColors
 {
-    use CanHandleInput;
-
     /**
      * Transforms ImagickPixel to own color object
      *
-     * @param ImagickPixel $pixel
+     * @param ImagickPixel        $pixel
+     * @param ColorspaceInterface $colorspace
      * @return ColorInterface
      */
-    public function colorFromPixel(ImagickPixel $pixel): ColorInterface
+    public function colorFromPixel(ImagickPixel $pixel, ColorspaceInterface $colorspace): ColorInterface
     {
-        return $this->handleInput($pixel->getColorAsString());
+        return match (get_class($colorspace)) {
+            CmykColorspace::class => $colorspace->colorFromNormalized([
+                $pixel->getColorValue(Imagick::COLOR_CYAN),
+                $pixel->getColorValue(Imagick::COLOR_MAGENTA),
+                $pixel->getColorValue(Imagick::COLOR_YELLOW),
+                $pixel->getColorValue(Imagick::COLOR_BLACK),
+            ]),
+            default => $colorspace->colorFromNormalized([
+                $pixel->getColorValue(Imagick::COLOR_RED),
+                $pixel->getColorValue(Imagick::COLOR_GREEN),
+                $pixel->getColorValue(Imagick::COLOR_BLUE),
+                $pixel->getColorValue(Imagick::COLOR_ALPHA),
+            ]),
+        };
     }
 
     /**

@@ -5,6 +5,14 @@ namespace Intervention\Image\Interfaces;
 interface ColorChannelInterface
 {
     /**
+     * Create new instance by either value or normalized value
+     *
+     * @param int|null $value
+     * @param float|null $normalized
+     */
+    public function __construct(int $value = null, float $normalized = null);
+
+    /**
      * Return color channels integer value
      *
      * @return int

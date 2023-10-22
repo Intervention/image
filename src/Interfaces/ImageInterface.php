@@ -141,6 +141,21 @@ interface ImageInterface extends Traversable, Countable
     public function pickColors(int $x, int $y): CollectionInterface;
 
     /**
+     * Get the colorspace of the image
+     *
+     * @return ColorspaceInterface
+     */
+    public function getColorspace(): ColorspaceInterface;
+
+    /**
+     * Transform image to given colorspace
+     *
+     * @param string|ColorspaceInterface $target
+     * @return ImageInterface
+     */
+    public function setColorspace(string|ColorspaceInterface $target): ImageInterface;
+
+    /**
      * Draw text on image
      *
      * @param string        $text

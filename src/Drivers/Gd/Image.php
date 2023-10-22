@@ -3,9 +3,12 @@
 namespace Intervention\Image\Drivers\Gd;
 
 use Intervention\Image\Collection;
+use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Drivers\Abstract\AbstractImage;
 use Intervention\Image\Drivers\Gd\Traits\CanHandleColors;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use IteratorAggregate;
@@ -78,5 +81,28 @@ class Image extends AbstractImage implements ImageInterface, IteratorAggregate
         }
 
         return null;
+    }
+
+    public function getColorspace(): ColorspaceInterface
+    {
+        return new RgbColorspace();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::setColorspace()
+     */
+    public function setColorspace(string|ColorspaceInterface $target): ImageInterface
+    {
+        if (is_string($target) && !in_array($target, ['rgb', RgbColorspace::class])) {
+            throw new NotSupportedException('Only RGB colorspace is supported with GD driver.');
+        }
+
+        if (is_object($target) && !is_a($target, RgbColorspace::class)) {
+            throw new NotSupportedException('Only RGB colorspace is supported with GD driver.');
+        }
+
+        return $this;
     }
 }

@@ -8,6 +8,9 @@ use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Colors\Rgb\Color;
+use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
+use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
+use Intervention\Image\Exceptions\NotSupportedException;
 
 /**
  * @requires extension gd
@@ -118,5 +121,34 @@ class ImageTest extends TestCase
         $this->assertEquals([255, 0, 0, 255], $colors->get(0)->toArray());
         $this->assertEquals([0, 255, 0, 255], $colors->get(1)->toArray());
         $this->assertEquals([0, 0, 255, 255], $colors->get(2)->toArray());
+    }
+
+    public function testGetColorspace(): void
+    {
+        $this->assertInstanceOf(RgbColorspace::class, $this->image->getColorspace());
+    }
+
+    public function testSetColorspace(): void
+    {
+        $result = $this->image->setColorspace('rgb');
+        $this->assertInstanceOf(Image::class, $result);
+        $this->assertInstanceOf(RgbColorspace::class, $result->getColorspace());
+
+        $result = $this->image->setColorspace(RgbColorspace::class);
+        $this->assertInstanceOf(Image::class, $result);
+        $this->assertInstanceOf(RgbColorspace::class, $result->getColorspace());
+
+        $result = $this->image->setColorspace(new RgbColorspace());
+        $this->assertInstanceOf(Image::class, $result);
+        $this->assertInstanceOf(RgbColorspace::class, $result->getColorspace());
+
+        $this->expectException(NotSupportedException::class);
+        $this->image->setColorspace('cmyk');
+
+        $this->expectException(NotSupportedException::class);
+        $this->image->setColorspace(CmykColorspace::class);
+
+        $this->expectException(NotSupportedException::class);
+        $this->image->setColorspace(new CmykColorspace());
     }
 }

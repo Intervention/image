@@ -30,10 +30,6 @@ class JpegEncoder extends AbstractEncoder implements EncoderInterface
         $imagick->setCompressionQuality($this->quality);
         $imagick->setImageCompressionQuality($this->quality);
 
-        if ($imagick->getImageColorspace() != Imagick::COLORSPACE_SRGB) {
-            $imagick->transformImageColorspace(Imagick::COLORSPACE_SRGB);
-        }
-
         return new EncodedImage($imagick->getImagesBlob(), 'image/jpeg');
     }
 }

@@ -11,4 +11,12 @@ interface ColorspaceInterface
      * @return ColorInterface
      */
     public function convertColor(ColorInterface $color): ColorInterface;
+
+    /**
+     * Create new color in colorspace from given normalized channel values
+     *
+     * @param array $normalized
+     * @return ColorInterface
+     */
+    public function colorFromNormalized(array $normalized): ColorInterface;
 }

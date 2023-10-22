@@ -2,8 +2,8 @@
 
 namespace Intervention\Image\Tests;
 
-use Intervention\Image\Colors\Rgb\Color;
-use Intervention\Image\Colors\Rgb\Colorspace;
+use Intervention\Image\Colors\Rgb\Channels\Alpha;
+use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Interfaces\ColorInterface;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
@@ -26,7 +26,8 @@ abstract class TestCase extends MockeryTestCase
 
     protected function assertTransparency(ColorInterface $color)
     {
-        $this->assertInstanceOf(Color::class, $color);
-        $this->assertEquals(0, $color->convertTo(Colorspace::class)->alpha()->value());
+        $this->assertInstanceOf(RgbColor::class, $color);
+        $channel = $color->channel(Alpha::class);
+        $this->assertEquals(0, $channel->value());
     }
 }

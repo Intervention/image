@@ -151,11 +151,6 @@ class Color implements ColorInterface
         return $colorspace->convertColor($this);
     }
 
-    /**
-     * Determine if the current color is fully opaque
-     *
-     * @return bool
-     */
     public function isFullyOpaque(): bool
     {
         return $this->alpha()->value() === 255;

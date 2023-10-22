@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Tests\Drivers\Gd;
 
-use Intervention\Image\Colors\Rgb\Color;
+use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Drivers\Gd\InputHandler;
 use Intervention\Image\Exceptions\DecoderException;
@@ -58,37 +58,37 @@ class GdInputHandlerTest extends TestCase
         $handler = new InputHandler();
         $input = 'ccff33';
         $result = $handler->handle($input);
-        $this->assertInstanceOf(Color::class, $result);
+        $this->assertInstanceOf(RgbColor::class, $result);
         $this->assertEquals([204, 255, 51, 255], $result->toArray());
 
         $handler = new InputHandler();
         $input = 'cf3';
         $result = $handler->handle($input);
-        $this->assertInstanceOf(Color::class, $result);
+        $this->assertInstanceOf(RgbColor::class, $result);
         $this->assertEquals([204, 255, 51, 255], $result->toArray());
 
         $handler = new InputHandler();
         $input = '#123456';
         $result = $handler->handle($input);
-        $this->assertInstanceOf(Color::class, $result);
+        $this->assertInstanceOf(RgbColor::class, $result);
         $this->assertEquals([18, 52, 86, 255], $result->toArray());
 
         $handler = new InputHandler();
         $input = '#333';
         $result = $handler->handle($input);
-        $this->assertInstanceOf(Color::class, $result);
+        $this->assertInstanceOf(RgbColor::class, $result);
         $this->assertEquals([51, 51, 51, 255], $result->toArray());
 
         $handler = new InputHandler();
         $input = '#3333';
         $result = $handler->handle($input);
-        $this->assertInstanceOf(Color::class, $result);
+        $this->assertInstanceOf(RgbColor::class, $result);
         $this->assertEquals([51, 51, 51, 51], $result->toArray());
 
         $handler = new InputHandler();
         $input = '#33333333';
         $result = $handler->handle($input);
-        $this->assertInstanceOf(Color::class, $result);
+        $this->assertInstanceOf(RgbColor::class, $result);
         $this->assertEquals([51, 51, 51, 51], $result->toArray());
     }
 
@@ -96,12 +96,12 @@ class GdInputHandlerTest extends TestCase
     {
         $handler = new InputHandler();
         $result = $handler->handle('rgb(10, 20, 30)');
-        $this->assertInstanceOf(Color::class, $result);
+        $this->assertInstanceOf(RgbColor::class, $result);
         $this->assertEquals([10, 20, 30, 255], $result->toArray());
 
         $handler = new InputHandler();
         $result = $handler->handle('rgba(10, 20, 30, 1.0)');
-        $this->assertInstanceOf(Color::class, $result);
+        $this->assertInstanceOf(RgbColor::class, $result);
         $this->assertEquals([10, 20, 30, 255], $result->toArray());
     }
 
@@ -110,7 +110,7 @@ class GdInputHandlerTest extends TestCase
         $handler = new InputHandler();
         $input = 'transparent';
         $result = $handler->handle($input);
-        $this->assertInstanceOf(Color::class, $result);
+        $this->assertInstanceOf(RgbColor::class, $result);
         $this->assertEquals([0, 0, 0, 0], $result->toArray());
     }
 }

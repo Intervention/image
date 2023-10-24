@@ -65,6 +65,11 @@ abstract class AbstractImage implements ImageInterface
         );
     }
 
+    public function toJpg(int $quality = 75): EncodedImage
+    {
+        return $this->toJpeg($quality);
+    }
+
     public function toWebp(int $quality = 75): EncodedImage
     {
         return $this->encode(

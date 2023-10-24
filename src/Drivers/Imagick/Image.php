@@ -5,10 +5,14 @@ namespace Intervention\Image\Drivers\Imagick;
 use Imagick;
 use ImagickException;
 use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
+use Intervention\Image\Colors\Profile;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Drivers\Abstract\AbstractImage;
 use Intervention\Image\Drivers\Imagick\Modifiers\ColorspaceModifier;
+use Intervention\Image\Drivers\Imagick\Modifiers\ProfileModifier;
+use Intervention\Image\Drivers\Imagick\Modifiers\ProfileRemovalModifier;
 use Intervention\Image\Drivers\Imagick\Traits\CanHandleColors;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\FrameInterface;
@@ -156,5 +160,30 @@ class Image extends AbstractImage implements ImageInterface, Iterator
     public function setColorspace(string|ColorspaceInterface $colorspace): ImageInterface
     {
         return $this->modify(new ColorspaceModifier($colorspace));
+    }
+
+    public function setProfile(string $filepath): ImageInterface
+    {
+        return $this->modify(
+            new ProfileModifier(
+                new Profile(file_get_contents($filepath))
+            )
+        );
+    }
+
+    public function getProfile(): Profile
+    {
+        $profiles = $this->imagick->getImageProfiles('icc');
+
+        if (!array_key_exists('icc', $profiles)) {
+            throw new ColorException('No ICC profile found.');
+        }
+
+        return new Profile($profiles['icc']);
+    }
+
+    public function withoutProfile(): ImageInterface
+    {
+        return $this->modify(new ProfileRemovalModifier());
     }
 }

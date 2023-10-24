@@ -20,6 +20,6 @@ class PadDownModifier extends PadModifier
     protected function getResizeSize(ImageInterface $image): SizeInterface
     {
         return (new Rectangle($this->width, $this->height))
-                ->resizeDown($image->getWidth(), $image->getHeight());
+                ->resizeDown($image->width(), $image->height());
     }
 }

@@ -38,8 +38,8 @@ class PlaceModifier implements ModifierInterface
                 $position->getY(),
                 0,
                 0,
-                $watermark->getWidth(),
-                $watermark->getHeight()
+                $watermark->width(),
+                $watermark->height()
             );
         }
 

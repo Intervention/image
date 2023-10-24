@@ -34,8 +34,8 @@ class AbstractImageTest extends TestCase
                 ->shouldAllowMockingProtectedMethods()
                 ->makePartial();
 
-        $mock->shouldReceive('getWidth')->andReturn(300);
-        $mock->shouldReceive('getHeight')->andReturn(200);
+        $mock->shouldReceive('width')->andReturn(300);
+        $mock->shouldReceive('height')->andReturn(200);
         $mock->shouldReceive('getIterator')->andReturn($collection);
 
         return $mock;

@@ -23,11 +23,11 @@ class GifEncoder extends AbstractEncoder implements EncoderInterface
         return new EncodedImage($data, 'image/gif');
     }
 
-    protected function encodeAnimated($image): EncodedImage
+    protected function encodeAnimated(ImageInterface $image): EncodedImage
     {
         $builder = GifBuilder::canvas(
-            $image->getWidth(),
-            $image->getHeight(),
+            $image->width(),
+            $image->height(),
             $image->getLoops()
         );
 

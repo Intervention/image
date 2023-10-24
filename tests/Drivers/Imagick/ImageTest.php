@@ -77,12 +77,12 @@ class ImageTest extends TestCase
 
     public function testWidth(): void
     {
-        $this->assertEquals(3, $this->image->getWidth());
+        $this->assertEquals(3, $this->image->width());
     }
 
     public function testHeight(): void
     {
-        $this->assertEquals(2, $this->image->getHeight());
+        $this->assertEquals(2, $this->image->height());
     }
 
     public function testGetSize(): void

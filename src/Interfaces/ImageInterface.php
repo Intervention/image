@@ -339,14 +339,14 @@ interface ImageInterface extends Traversable, Countable
      *
      * @return int
      */
-    public function getWidth(): int;
+    public function width(): int;
 
     /**
      * Return image height in pixels
      *
      * @return int
      */
-    public function getHeight(): int;
+    public function height(): int;
 
     /**
      * Destroy current image instance and free up memory

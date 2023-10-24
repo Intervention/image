@@ -62,12 +62,12 @@ class Image extends AbstractImage implements ImageInterface, IteratorAggregate
         return $this;
     }
 
-    public function getWidth(): int
+    public function width(): int
     {
         return imagesx($this->getFrame()->getCore());
     }
 
-    public function getHeight(): int
+    public function height(): int
     {
         return imagesy($this->getFrame()->getCore());
     }

@@ -36,8 +36,8 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
     ): void {
         // create new image
         $modified = imagecreatetruecolor(
-            $resize->getWidth(),
-            $resize->getHeight()
+            $resize->width(),
+            $resize->height()
         );
 
         imagefill($modified, 0, 0, $background);
@@ -57,10 +57,10 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
             $crop->getPivot()->getY(),
             0,
             0,
-            $crop->getWidth(),
-            $crop->getHeight(),
-            $frame->getSize()->getWidth(),
-            $frame->getSize()->getHeight()
+            $crop->width(),
+            $crop->height(),
+            $frame->getSize()->width(),
+            $frame->getSize()->height()
         );
 
         imagedestroy($current);

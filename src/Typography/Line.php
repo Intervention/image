@@ -28,7 +28,7 @@ class Line
 
     public function widthInFont(FontInterface $font): int
     {
-        return $font->getBoxSize($this->text)->getWidth();
+        return $font->getBoxSize($this->text)->width();
     }
 
     public function __toString(): string

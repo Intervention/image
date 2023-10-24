@@ -28,8 +28,8 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
         foreach ($image as $frame) {
             // resize current core
             $frame->getCore()->scaleImage(
-                $crop->getWidth(),
-                $crop->getHeight()
+                $crop->width(),
+                $crop->height()
             );
 
             // create new canvas, to get newly emerged background color
@@ -55,8 +55,8 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
     {
         // build base canvas in target size
         $canvas = $this->imageFactory()->newCore(
-            $resize->getWidth(),
-            $resize->getHeight()
+            $resize->width(),
+            $resize->height()
         );
 
         // draw background color on canvas
@@ -73,8 +73,8 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
         $draw->rectangle(
             $crop->getPivot()->getX(),
             $crop->getPivot()->getY(),
-            $crop->getPivot()->getX() + $crop->getWidth() - 1,
-            $crop->getPivot()->getY() + $crop->getHeight() - 1
+            $crop->getPivot()->getX() + $crop->width() - 1,
+            $crop->getPivot()->getY() + $crop->height() - 1
         );
         $canvas->drawImage($draw);
         $canvas->transparentPaintImage($fill, 0, 0, false);

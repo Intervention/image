@@ -26,8 +26,8 @@ class CropModifier implements ModifierInterface
 
         foreach ($image as $frame) {
             $frame->getCore()->extentImage(
-                $crop->getWidth(),
-                $crop->getHeight(),
+                $crop->width(),
+                $crop->height(),
                 $crop->getPivot()->getX() + $this->offset_x,
                 $crop->getPivot()->getY() + $this->offset_y
             );

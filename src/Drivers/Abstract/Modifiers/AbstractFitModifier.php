@@ -22,8 +22,8 @@ abstract class AbstractFitModifier
 
         $crop = new Rectangle($this->width, $this->height);
         $crop = $crop->contain(
-            $imagesize->getWidth(),
-            $imagesize->getHeight()
+            $imagesize->width(),
+            $imagesize->height()
         )->alignPivotTo($imagesize, $this->position);
 
         return $crop;

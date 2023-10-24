@@ -27,10 +27,10 @@ class PixelateModifier implements ModifierInterface
         $size = $frame->getSize();
 
         $frame->getCore()->scaleImage(
-            round(max(1, ($size->getWidth() / $this->size))),
-            round(max(1, ($size->getHeight() / $this->size)))
+            round(max(1, ($size->width() / $this->size))),
+            round(max(1, ($size->height() / $this->size)))
         );
 
-        $frame->getCore()->scaleImage($size->getWidth(), $size->getHeight());
+        $frame->getCore()->scaleImage($size->width(), $size->height());
     }
 }

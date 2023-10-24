@@ -26,8 +26,8 @@ class FitModifier extends AbstractFitModifier implements ModifierInterface
     {
         // create new image
         $modified = imagecreatetruecolor(
-            $resize->getWidth(),
-            $resize->getHeight()
+            $resize->width(),
+            $resize->height()
         );
 
         // get current image
@@ -53,18 +53,18 @@ class FitModifier extends AbstractFitModifier implements ModifierInterface
             0,
             $crop->getPivot()->getX(),
             $crop->getPivot()->getY(),
-            $resize->getWidth(),
-            $resize->getHeight(),
-            $crop->getWidth(),
-            $crop->getHeight()
+            $resize->width(),
+            $resize->height(),
+            $crop->width(),
+            $crop->height()
         );
 
         imagedestroy($current);
 
         if ($transIndex != -1) { // @todo refactor because of duplication
             imagecolortransparent($modified, $transIndex);
-            for ($y = 0; $y < $resize->getHeight(); ++$y) {
-                for ($x = 0; $x < $resize->getWidth(); ++$x) {
+            for ($y = 0; $y < $resize->height(); ++$y) {
+                for ($x = 0; $x < $resize->width(); ++$x) {
                     if (((imagecolorat($modified, $x, $y) >> 24) & 0x7F) >= 100) {
                         imagesetpixel(
                             $modified,

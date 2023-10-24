@@ -34,8 +34,8 @@ class ResizeModifier implements ModifierInterface
     {
         // create new image
         $modified = imagecreatetruecolor(
-            $resizeTo->getWidth(),
-            $resizeTo->getHeight()
+            $resizeTo->width(),
+            $resizeTo->height()
         );
 
         // get current image
@@ -61,18 +61,18 @@ class ResizeModifier implements ModifierInterface
             $resizeTo->getPivot()->getY(),
             0,
             0,
-            $resizeTo->getWidth(),
-            $resizeTo->getHeight(),
-            $frame->getSize()->getWidth(),
-            $frame->getSize()->getHeight()
+            $resizeTo->width(),
+            $resizeTo->height(),
+            $frame->getSize()->width(),
+            $frame->getSize()->height()
         );
 
         imagedestroy($current);
 
         if ($transIndex != -1) { // @todo refactor because of duplication
             imagecolortransparent($modified, $transIndex);
-            for ($y = 0; $y < $resizeTo->getHeight(); ++$y) {
-                for ($x = 0; $x < $resizeTo->getWidth(); ++$x) {
+            for ($y = 0; $y < $resizeTo->height(); ++$y) {
+                for ($x = 0; $x < $resizeTo->width(); ++$x) {
                     if (((imagecolorat($modified, $x, $y) >> 24) & 0x7F) >= 100) {
                         imagesetpixel(
                             $modified,

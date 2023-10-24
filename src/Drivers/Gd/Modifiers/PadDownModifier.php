@@ -13,7 +13,7 @@ class PadDownModifier extends PadModifier
         $resize = $this->getResizeSize($image);
 
         return $image->size()
-            ->contain($resize->getWidth(), $resize->getHeight())
+            ->contain($resize->width(), $resize->height())
             ->alignPivotTo($resize, $this->position);
     }
 

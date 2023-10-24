@@ -4,8 +4,8 @@ namespace Intervention\Image\Interfaces;
 
 interface SizeInterface
 {
-    public function getWidth(): int;
-    public function getHeight(): int;
+    public function width(): int;
+    public function height(): int;
     public function getPivot(): PointInterface;
     public function setWidth(int $width): SizeInterface;
     public function setHeight(int $height): SizeInterface;

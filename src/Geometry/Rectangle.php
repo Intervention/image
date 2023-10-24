@@ -91,13 +91,13 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
             case 'top-middle':
             case 'center-top':
             case 'middle-top':
-                $x = intval($this->getWidth() / 2) + $offset_x;
+                $x = intval($this->width() / 2) + $offset_x;
                 $y = 0 + $offset_y;
                 break;
 
             case 'top-right':
             case 'right-top':
-                $x = $this->getWidth() - $offset_x;
+                $x = $this->width() - $offset_x;
                 $y = 0 + $offset_y;
                 break;
 
@@ -107,7 +107,7 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
             case 'center-left':
             case 'middle-left':
                 $x = 0 + $offset_x;
-                $y = intval($this->getHeight() / 2) + $offset_y;
+                $y = intval($this->height() / 2) + $offset_y;
                 break;
 
             case 'right':
@@ -115,14 +115,14 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
             case 'right-middle':
             case 'center-right':
             case 'middle-right':
-                $x = $this->getWidth() - $offset_x;
-                $y = intval($this->getHeight() / 2) + $offset_y;
+                $x = $this->width() - $offset_x;
+                $y = intval($this->height() / 2) + $offset_y;
                 break;
 
             case 'bottom-left':
             case 'left-bottom':
                 $x = 0 + $offset_x;
-                $y = $this->getHeight() - $offset_y;
+                $y = $this->height() - $offset_y;
                 break;
 
             case 'bottom':
@@ -130,22 +130,22 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
             case 'bottom-middle':
             case 'center-bottom':
             case 'middle-bottom':
-                $x = intval($this->getWidth() / 2) + $offset_x;
-                $y = $this->getHeight() - $offset_y;
+                $x = intval($this->width() / 2) + $offset_x;
+                $y = $this->height() - $offset_y;
                 break;
 
             case 'bottom-right':
             case 'right-bottom':
-                $x = $this->getWidth() - $offset_x;
-                $y = $this->getHeight() - $offset_y;
+                $x = $this->width() - $offset_x;
+                $y = $this->height() - $offset_y;
                 break;
 
             case 'center':
             case 'middle':
             case 'center-center':
             case 'middle-middle':
-                $x = intval($this->getWidth() / 2) + $offset_x;
-                $y = intval($this->getHeight() / 2) + $offset_y;
+                $x = intval($this->width() / 2) + $offset_x;
+                $y = intval($this->height() / 2) + $offset_y;
                 break;
 
             default:
@@ -163,7 +163,7 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
 
     public function alignPivotTo(SizeInterface $size, string $position): self
     {
-        $reference = new self($size->getWidth(), $size->getHeight());
+        $reference = new self($size->width(), $size->height());
         $reference->movePivot($position);
 
         $this->movePivot($position)->setPivot(
@@ -190,16 +190,16 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
 
     public function getAspectRatio(): float
     {
-        return $this->getWidth() / $this->getHeight();
+        return $this->width() / $this->height();
     }
 
     public function fitsInto(SizeInterface $size): bool
     {
-        if ($this->getWidth() > $size->getWidth()) {
+        if ($this->width() > $size->width()) {
             return false;
         }
 
-        if ($this->getHeight() > $size->getHeight()) {
+        if ($this->height() > $size->height()) {
             return false;
         }
 
@@ -213,7 +213,7 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
      */
     public function isLandscape(): bool
     {
-        return $this->getWidth() > $this->getHeight();
+        return $this->width() > $this->height();
     }
 
     /**
@@ -223,7 +223,7 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
      */
     public function isPortrait(): bool
     {
-        return $this->getWidth() < $this->getHeight();
+        return $this->width() < $this->height();
     }
 
     public function topLeftPoint(): PointInterface

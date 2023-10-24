@@ -72,7 +72,7 @@ class PolygonTest extends TestCase
             new Point(3, 566),
         ]);
 
-        $this->assertEquals($poly->getWidth(), 35);
+        $this->assertEquals($poly->width(), 35);
     }
 
     public function testGetHeight(): void
@@ -83,7 +83,7 @@ class PolygonTest extends TestCase
             new Point(3, 566),
         ]);
 
-        $this->assertEquals(615, $poly->getHeight());
+        $this->assertEquals(615, $poly->height());
 
         $poly = new Polygon([
             new Point(250, 207),
@@ -92,7 +92,7 @@ class PolygonTest extends TestCase
             new Point(250, 250),
         ], new Point(250, 250));
 
-        $this->assertEquals(43, $poly->getHeight());
+        $this->assertEquals(43, $poly->height());
     }
 
     public function testFirst(): void

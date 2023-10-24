@@ -159,7 +159,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
      *
      * @return int
      */
-    public function getWidth(): int
+    public function width(): int
     {
         return abs($this->getMostLeftPoint()->getX() - $this->getMostRightPoint()->getX());
     }
@@ -169,7 +169,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
      *
      * @return int
      */
-    public function getHeight(): int
+    public function height(): int
     {
         return abs($this->getMostBottomPoint()->getY() - $this->getMostTopPoint()->getY());
     }
@@ -270,8 +270,8 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     public function getCenterPoint(): Point
     {
         return new Point(
-            $this->getMostRightPoint()->getX() - (intval(round($this->getWidth() / 2))),
-            $this->getMostTopPoint()->getY() - (intval(round($this->getHeight() / 2)))
+            $this->getMostRightPoint()->getX() - (intval(round($this->width() / 2))),
+            $this->getMostTopPoint()->getY() - (intval(round($this->height() / 2)))
         );
     }
 
@@ -323,12 +323,12 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
                 break;
 
             case 'top':
-                $diff = ($this->getMostTopPoint()->getY() - $this->getPivot()->getY()) - $this->getHeight();
+                $diff = ($this->getMostTopPoint()->getY() - $this->getPivot()->getY()) - $this->height();
                 break;
 
             default:
             case 'bottom':
-                $diff = ($this->getMostBottomPoint()->getY() - $this->getPivot()->getY()) + $this->getHeight();
+                $diff = ($this->getMostBottomPoint()->getY() - $this->getPivot()->getY()) + $this->height();
                 break;
         }
 

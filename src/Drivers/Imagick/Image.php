@@ -55,8 +55,8 @@ class Image extends AbstractImage implements ImageInterface, Iterator
 
         $size = $frame->getSize();
         $imagick->setImagePage(
-            $size->getWidth(),
-            $size->getHeight(),
+            $size->width(),
+            $size->height(),
             $frame->getOffsetLeft(),
             $frame->getOffsetTop()
         );

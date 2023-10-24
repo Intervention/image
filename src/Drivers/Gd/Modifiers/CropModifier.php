@@ -37,8 +37,8 @@ class CropModifier implements ModifierInterface
     {
         // create new image
         $modified = imagecreatetruecolor(
-            $resizeTo->getWidth(),
-            $resizeTo->getHeight()
+            $resizeTo->width(),
+            $resizeTo->height()
         );
 
         // get current image
@@ -64,18 +64,18 @@ class CropModifier implements ModifierInterface
             0,
             $resizeTo->getPivot()->getX() + $this->offset_x,
             $resizeTo->getPivot()->getY() + $this->offset_y,
-            $resizeTo->getWidth(),
-            $resizeTo->getHeight(),
-            $resizeTo->getWidth(),
-            $resizeTo->getHeight(),
+            $resizeTo->width(),
+            $resizeTo->height(),
+            $resizeTo->width(),
+            $resizeTo->height(),
         );
 
         imagedestroy($current);
 
         if ($transIndex != -1) { // @todo refactor because of duplication
             imagecolortransparent($modified, $transIndex);
-            for ($y = 0; $y < $resizeTo->getHeight(); ++$y) {
-                for ($x = 0; $x < $resizeTo->getWidth(); ++$x) {
+            for ($y = 0; $y < $resizeTo->height(); ++$y) {
+                for ($x = 0; $x < $resizeTo->width(); ++$x) {
                     if (((imagecolorat($modified, $x, $y) >> 24) & 0x7F) >= 100) {
                         imagesetpixel(
                             $modified,

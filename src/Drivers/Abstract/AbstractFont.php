@@ -116,11 +116,11 @@ abstract class AbstractFont implements FontInterface
 
     public function capHeight(): int
     {
-        return $this->getBoxSize('T')->getHeight();
+        return $this->getBoxSize('T')->height();
     }
 
     public function fontSizeInPixels(): int
     {
-        return $this->getBoxSize('Hy')->getHeight();
+        return $this->getBoxSize('Hy')->height();
     }
 }

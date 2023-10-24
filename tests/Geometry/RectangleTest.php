@@ -19,32 +19,32 @@ class RectangleTest extends TestCase
         $this->assertEquals(-200, $rectangle[2]->getY());
         $this->assertEquals(0, $rectangle[3]->getX());
         $this->assertEquals(-200, $rectangle[3]->getY());
-        $this->assertEquals(300, $rectangle->getWidth());
-        $this->assertEquals(200, $rectangle->getHeight());
+        $this->assertEquals(300, $rectangle->width());
+        $this->assertEquals(200, $rectangle->height());
     }
 
     public function testSetSize(): void
     {
         $rectangle = new Rectangle(300, 200);
         $rectangle->setSize(12, 34);
-        $this->assertEquals(12, $rectangle->getWidth());
-        $this->assertEquals(34, $rectangle->getHeight());
+        $this->assertEquals(12, $rectangle->width());
+        $this->assertEquals(34, $rectangle->height());
     }
 
     public function testSetWidth(): void
     {
         $rectangle = new Rectangle(300, 200);
-        $this->assertEquals(300, $rectangle->getWidth());
+        $this->assertEquals(300, $rectangle->width());
         $rectangle->setWidth(400);
-        $this->assertEquals(400, $rectangle->getWidth());
+        $this->assertEquals(400, $rectangle->width());
     }
 
     public function testSetHeight(): void
     {
         $rectangle = new Rectangle(300, 200);
-        $this->assertEquals(200, $rectangle->getHeight());
+        $this->assertEquals(200, $rectangle->height());
         $rectangle->setHeight(800);
-        $this->assertEquals(800, $rectangle->getHeight());
+        $this->assertEquals(800, $rectangle->height());
     }
 
     public function testGetAspectRatio()

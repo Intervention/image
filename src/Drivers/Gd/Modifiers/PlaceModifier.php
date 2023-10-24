@@ -48,8 +48,8 @@ class PlaceModifier implements ModifierInterface
 
     protected function getPosition(ImageInterface $image, ImageInterface $watermark): PointInterface
     {
-        $image_size = $image->getSize()->movePivot($this->position, $this->offset_x, $this->offset_y);
-        $watermark_size = $watermark->getSize()->movePivot($this->position);
+        $image_size = $image->size()->movePivot($this->position, $this->offset_x, $this->offset_y);
+        $watermark_size = $watermark->size()->movePivot($this->position);
 
         return $image_size->getRelativePositionTo($watermark_size);
     }

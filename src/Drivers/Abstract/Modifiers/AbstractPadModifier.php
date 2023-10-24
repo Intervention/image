@@ -22,7 +22,7 @@ abstract class AbstractPadModifier
 
     protected function getCropSize(ImageInterface $image): SizeInterface
     {
-        return $image->getSize()
+        return $image->size()
                 ->contain($this->width, $this->height)
                 ->alignPivotTo($this->getResizeSize($image), $this->position);
     }

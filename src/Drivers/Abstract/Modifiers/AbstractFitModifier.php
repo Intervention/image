@@ -18,7 +18,7 @@ abstract class AbstractFitModifier
 
     protected function getCropSize(ImageInterface $image): SizeInterface
     {
-        $imagesize = $image->getSize();
+        $imagesize = $image->size();
 
         $crop = new Rectangle($this->width, $this->height);
         $crop = $crop->contain(

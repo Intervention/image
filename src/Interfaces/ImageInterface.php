@@ -53,7 +53,7 @@ interface ImageInterface extends Traversable, Countable
      *
      * @return SizeInterface
      */
-    public function getSize(): SizeInterface;
+    public function size(): SizeInterface;
 
     /**
      * Return exif data of current image

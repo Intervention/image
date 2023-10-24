@@ -24,7 +24,7 @@ class CropModifier implements ModifierInterface
     {
         $crop = new Rectangle($this->width, $this->height);
         $crop->align($this->position);
-        $crop->alignPivotTo($image->getSize(), $this->position);
+        $crop->alignPivotTo($image->size(), $this->position);
 
         foreach ($image as $frame) {
             $this->cropFrame($frame, $crop);

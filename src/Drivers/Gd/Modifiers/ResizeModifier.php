@@ -27,7 +27,7 @@ class ResizeModifier implements ModifierInterface
 
     protected function getAdjustedSize(ImageInterface $image): SizeInterface
     {
-        return $image->getSize()->resize($this->width, $this->height);
+        return $image->size()->resize($this->width, $this->height);
     }
 
     protected function resizeFrame(FrameInterface $frame, SizeInterface $resizeTo): void

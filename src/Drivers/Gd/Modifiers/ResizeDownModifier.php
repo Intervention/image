@@ -9,6 +9,6 @@ class ResizeDownModifier extends ResizeModifier
 {
     protected function getAdjustedSize(ImageInterface $image): SizeInterface
     {
-        return $image->getSize()->resizeDown($this->width, $this->height);
+        return $image->size()->resizeDown($this->width, $this->height);
     }
 }

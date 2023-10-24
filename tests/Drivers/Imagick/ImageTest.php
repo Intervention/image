@@ -87,7 +87,7 @@ class ImageTest extends TestCase
 
     public function testGetSize(): void
     {
-        $this->assertInstanceOf(Rectangle::class, $this->image->getSize());
+        $this->assertInstanceOf(Rectangle::class, $this->image->size());
     }
 
     public function testGetColorspace(): void

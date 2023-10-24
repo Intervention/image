@@ -38,14 +38,9 @@ abstract class AbstractImage implements ImageInterface
         return $this;
     }
 
-    public function getSize(): SizeInterface
-    {
-        return new Rectangle($this->width(), $this->height());
-    }
-
     public function size(): SizeInterface
     {
-        return $this->getSize();
+        return new Rectangle($this->width(), $this->height());
     }
 
     public function modify(ModifierInterface $modifier): ImageInterface

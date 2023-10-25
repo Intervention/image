@@ -15,9 +15,9 @@ class FilePointerImageDecoder extends BinaryImageDecoder
         }
 
         $contents = '';
-        rewind($input);
+        @rewind($input);
         while (!feof($input)) {
-            $contents .= fread($input, 8192);
+            $contents .= fread($input, 1024);
         }
 
         return parent::decode($contents);

@@ -90,7 +90,7 @@ class Image extends AbstractImage implements ImageInterface, IteratorAggregate
      *
      * @see ImageInterface::getColorspace()
      */
-    public function getColorspace(): ColorspaceInterface
+    public function colorspace(): ColorspaceInterface
     {
         return new RgbColorspace();
     }

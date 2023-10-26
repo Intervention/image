@@ -126,22 +126,22 @@ class ImageTest extends TestCase
 
     public function testGetColorspace(): void
     {
-        $this->assertInstanceOf(RgbColorspace::class, $this->image->getColorspace());
+        $this->assertInstanceOf(RgbColorspace::class, $this->image->colorspace());
     }
 
     public function testSetColorspace(): void
     {
         $result = $this->image->setColorspace('rgb');
         $this->assertInstanceOf(Image::class, $result);
-        $this->assertInstanceOf(RgbColorspace::class, $result->getColorspace());
+        $this->assertInstanceOf(RgbColorspace::class, $result->colorspace());
 
         $result = $this->image->setColorspace(RgbColorspace::class);
         $this->assertInstanceOf(Image::class, $result);
-        $this->assertInstanceOf(RgbColorspace::class, $result->getColorspace());
+        $this->assertInstanceOf(RgbColorspace::class, $result->colorspace());
 
         $result = $this->image->setColorspace(new RgbColorspace());
         $this->assertInstanceOf(Image::class, $result);
-        $this->assertInstanceOf(RgbColorspace::class, $result->getColorspace());
+        $this->assertInstanceOf(RgbColorspace::class, $result->colorspace());
 
         $this->expectException(NotSupportedException::class);
         $this->image->setColorspace('cmyk');

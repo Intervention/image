@@ -143,11 +143,11 @@ class Image extends AbstractImage implements ImageInterface, Iterator
     {
         return $this->pixelToColor(
             $this->frame($frame_key)->getCore()->getImagePixelColor($x, $y),
-            $this->getColorspace()
+            $this->colorspace()
         );
     }
 
-    public function getColorspace(): ColorspaceInterface
+    public function colorspace(): ColorspaceInterface
     {
         return match ($this->imagick->getImageColorspace()) {
             Imagick::COLORSPACE_CMYK => new CmykColorspace(),

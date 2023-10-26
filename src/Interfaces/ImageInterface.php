@@ -161,7 +161,7 @@ interface ImageInterface extends Traversable, Countable
      *
      * @return ColorspaceInterface
      */
-    public function getColorspace(): ColorspaceInterface;
+    public function colorspace(): ColorspaceInterface;
 
     /**
      * Transform image to given colorspace

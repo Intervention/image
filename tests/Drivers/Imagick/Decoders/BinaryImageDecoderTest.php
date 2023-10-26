@@ -15,7 +15,7 @@ class BinaryImageDecoderTest extends TestCase
         $decoder = new BinaryImageDecoder();
         $image = $decoder->decode(file_get_contents($this->getTestImagePath('tile.png')));
         $this->assertInstanceOf(Image::class, $image);
-        $this->assertInstanceOf(RgbColorspace::class, $image->getColorspace());
+        $this->assertInstanceOf(RgbColorspace::class, $image->colorspace());
         $this->assertEquals(16, $image->width());
         $this->assertEquals(16, $image->height());
         $this->assertCount(1, $image);
@@ -57,6 +57,6 @@ class BinaryImageDecoderTest extends TestCase
         $decoder = new BinaryImageDecoder();
         $image = $decoder->decode(file_get_contents($this->getTestImagePath('cmyk.jpg')));
         $this->assertInstanceOf(Image::class, $image);
-        $this->assertInstanceOf(CmykColorspace::class, $image->getColorspace());
+        $this->assertInstanceOf(CmykColorspace::class, $image->colorspace());
     }
 }

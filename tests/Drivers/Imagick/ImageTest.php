@@ -99,39 +99,39 @@ class ImageTest extends TestCase
         $imagick = new Imagick();
         $imagick->readImageBlob($this->getTestImageData('test.jpg'));
         $image = new Image($imagick);
-        $this->assertInstanceOf(RgbColorspace::class, $image->getColorspace());
+        $this->assertInstanceOf(RgbColorspace::class, $image->colorspace());
 
         $imagick = new Imagick();
         $imagick->readImageBlob($this->getTestImageData('cmyk.jpg'));
         $image = new Image($imagick);
-        $this->assertInstanceOf(CmykColorspace::class, $image->getColorspace());
+        $this->assertInstanceOf(CmykColorspace::class, $image->colorspace());
     }
 
     public function testSetColorspace(): void
     {
         $result = $this->image->setColorspace('rgb');
         $this->assertInstanceOf(Image::class, $result);
-        $this->assertInstanceOf(RgbColorspace::class, $result->getColorspace());
+        $this->assertInstanceOf(RgbColorspace::class, $result->colorspace());
 
         $result = $this->image->setColorspace(RgbColorspace::class);
         $this->assertInstanceOf(Image::class, $result);
-        $this->assertInstanceOf(RgbColorspace::class, $result->getColorspace());
+        $this->assertInstanceOf(RgbColorspace::class, $result->colorspace());
 
         $result = $this->image->setColorspace(new RgbColorspace());
         $this->assertInstanceOf(Image::class, $result);
-        $this->assertInstanceOf(RgbColorspace::class, $result->getColorspace());
+        $this->assertInstanceOf(RgbColorspace::class, $result->colorspace());
 
         $result = $this->image->setColorspace('cmyk');
         $this->assertInstanceOf(Image::class, $result);
-        $this->assertInstanceOf(CmykColorspace::class, $result->getColorspace());
+        $this->assertInstanceOf(CmykColorspace::class, $result->colorspace());
 
         $result = $this->image->setColorspace(CmykColorspace::class);
         $this->assertInstanceOf(Image::class, $result);
-        $this->assertInstanceOf(CmykColorspace::class, $result->getColorspace());
+        $this->assertInstanceOf(CmykColorspace::class, $result->colorspace());
 
         $result = $this->image->setColorspace(new CmykColorspace());
         $this->assertInstanceOf(Image::class, $result);
-        $this->assertInstanceOf(CmykColorspace::class, $result->getColorspace());
+        $this->assertInstanceOf(CmykColorspace::class, $result->colorspace());
     }
 
     public function testSetGetProfile(): void

@@ -17,7 +17,7 @@ class DrawLineModifier extends AbstractDrawModifier implements ModifierInterface
         $drawing = new ImagickDraw();
         $drawing->setStrokeWidth($this->line()->getWidth());
         $drawing->setStrokeColor(
-            $this->colorToPixel($this->getBackgroundColor(), $image->getColorspace())
+            $this->colorToPixel($this->getBackgroundColor(), $image->colorspace())
         );
 
         $drawing->line(

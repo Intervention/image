@@ -14,14 +14,14 @@ class FitModifier extends AbstractFitModifier implements ModifierInterface
         $resize = $this->getResizeSize($crop);
 
         foreach ($image as $frame) {
-            $frame->getCore()->extentImage(
+            $frame->core()->extentImage(
                 $crop->width(),
                 $crop->height(),
                 $crop->getPivot()->getX(),
                 $crop->getPivot()->getY()
             );
 
-            $frame->getCore()->scaleImage(
+            $frame->core()->scaleImage(
                 $resize->width(),
                 $resize->height()
             );

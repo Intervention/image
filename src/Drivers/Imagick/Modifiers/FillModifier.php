@@ -40,12 +40,12 @@ class FillModifier implements ModifierInterface
 
     protected function floodFillWithColor(Frame $frame, ImagickPixel $pixel): void
     {
-        $target = $frame->getCore()->getImagePixelColor(
+        $target = $frame->core()->getImagePixelColor(
             $this->position->getX(),
             $this->position->getY()
         );
 
-        $frame->getCore()->floodfillPaintImage(
+        $frame->core()->floodfillPaintImage(
             $pixel,
             100,
             $target,
@@ -63,10 +63,10 @@ class FillModifier implements ModifierInterface
         $draw->rectangle(
             0,
             0,
-            $frame->getCore()->getImageWidth(),
-            $frame->getCore()->getImageHeight()
+            $frame->core()->getImageWidth(),
+            $frame->core()->getImageHeight()
         );
-        $frame->getCore()->drawImage($draw);
+        $frame->core()->drawImage($draw);
     }
 
     protected function hasPosition(): bool

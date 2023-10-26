@@ -10,7 +10,7 @@ class GreyscaleModifier implements ModifierInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            imagefilter($frame->getCore(), IMG_FILTER_GRAYSCALE);
+            imagefilter($frame->core(), IMG_FILTER_GRAYSCALE);
         }
 
         return $image;

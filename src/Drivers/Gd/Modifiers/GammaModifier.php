@@ -15,7 +15,7 @@ class GammaModifier implements ModifierInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            imagegammacorrect($frame->getCore(), 1, $this->gamma);
+            imagegammacorrect($frame->core(), 1, $this->gamma);
         }
 
         return $image;

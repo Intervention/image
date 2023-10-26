@@ -16,7 +16,7 @@ class PixelateModifier implements ModifierInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            imagefilter($frame->getCore(), IMG_FILTER_PIXELATE, $this->size, true);
+            imagefilter($frame->core(), IMG_FILTER_PIXELATE, $this->size, true);
         }
 
         return $image;

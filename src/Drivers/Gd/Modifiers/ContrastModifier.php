@@ -15,7 +15,7 @@ class ContrastModifier implements ModifierInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            imagefilter($frame->getCore(), IMG_FILTER_CONTRAST, ($this->level * -1));
+            imagefilter($frame->core(), IMG_FILTER_CONTRAST, ($this->level * -1));
         }
 
         return $image;

@@ -23,16 +23,16 @@ class DrawPolygonModifier extends AbstractDrawModifier implements ModifierInterf
         return $image->mapFrames(function ($frame) {
             if ($this->polygon()->hasBackgroundColor()) {
                 imagefilledpolygon(
-                    $frame->getCore(),
+                    $frame->core(),
                     $this->polygon()->toArray(),
                     $this->colorToInteger($this->getBackgroundColor())
                 );
             }
 
             if ($this->polygon()->hasBorder()) {
-                imagesetthickness($frame->getCore(), $this->polygon()->getBorderSize());
+                imagesetthickness($frame->core(), $this->polygon()->getBorderSize());
                 imagepolygon(
-                    $frame->getCore(),
+                    $frame->core(),
                     $this->polygon()->toArray(),
                     $this->polygon()->count(),
                     $this->colorToInteger($this->getBorderColor())

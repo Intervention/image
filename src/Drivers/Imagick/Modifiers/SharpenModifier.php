@@ -15,7 +15,7 @@ class SharpenModifier implements ModifierInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $frame->getCore()->unsharpMaskImage(1, 1, $this->amount / 6.25, 0);
+            $frame->core()->unsharpMaskImage(1, 1, $this->amount / 6.25, 0);
         }
 
         return $image;

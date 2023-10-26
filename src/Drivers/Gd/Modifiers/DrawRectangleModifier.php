@@ -17,7 +17,7 @@ class DrawRectangleModifier extends AbstractDrawModifier implements ModifierInte
             // draw background
             if ($this->rectangle()->hasBackgroundColor()) {
                 imagefilledrectangle(
-                    $frame->getCore(),
+                    $frame->core(),
                     $this->position->getX(),
                     $this->position->getY(),
                     $this->position->getX() + $this->rectangle()->bottomRightPoint()->getX(),
@@ -28,9 +28,9 @@ class DrawRectangleModifier extends AbstractDrawModifier implements ModifierInte
 
             if ($this->rectangle()->hasBorder()) {
                 // draw border
-                imagesetthickness($frame->getCore(), $this->rectangle()->getBorderSize());
+                imagesetthickness($frame->core(), $this->rectangle()->getBorderSize());
                 imagerectangle(
-                    $frame->getCore(),
+                    $frame->core(),
                     $this->position->getX(),
                     $this->position->getY(),
                     $this->position->getX() + $this->rectangle()->bottomRightPoint()->getX(),

@@ -43,7 +43,7 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
         imagefill($modified, 0, 0, $background);
 
         // get current image
-        $current = $frame->getCore();
+        $current = $frame->core();
 
         // preserve transparency
         imagealphablending($modified, false);
@@ -59,8 +59,8 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
             0,
             $crop->width(),
             $crop->height(),
-            $frame->getSize()->width(),
-            $frame->getSize()->height()
+            $frame->size()->width(),
+            $frame->size()->height()
         );
 
         imagedestroy($current);

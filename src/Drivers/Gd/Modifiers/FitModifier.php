@@ -31,7 +31,7 @@ class FitModifier extends AbstractFitModifier implements ModifierInterface
         );
 
         // get current image
-        $current = $frame->getCore();
+        $current = $frame->core();
 
         // preserve transparency
         imagealphablending($modified, false);

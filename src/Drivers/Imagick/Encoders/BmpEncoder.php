@@ -15,7 +15,7 @@ class BmpEncoder extends AbstractEncoder implements EncoderInterface
         $format = 'bmp';
         $compression = Imagick::COMPRESSION_NO;
 
-        $imagick = $image->frame()->getCore();
+        $imagick = $image->frame()->core();
         $imagick->setFormat($format);
         $imagick->setImageFormat($format);
         $imagick->setCompression($compression);

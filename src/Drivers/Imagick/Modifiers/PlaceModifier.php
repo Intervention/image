@@ -28,8 +28,8 @@ class PlaceModifier implements ModifierInterface
         $position = $this->getPosition($image, $watermark);
 
         foreach ($image as $frame) {
-            $frame->getCore()->compositeImage(
-                $watermark->frame()->getCore(),
+            $frame->core()->compositeImage(
+                $watermark->frame()->core(),
                 Imagick::COMPOSITE_DEFAULT,
                 $position->getX(),
                 $position->getY()

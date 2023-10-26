@@ -10,7 +10,7 @@ class FlipModifier implements ModifierInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $frame->getCore()->flipImage();
+            $frame->core()->flipImage();
         }
 
         return $image;

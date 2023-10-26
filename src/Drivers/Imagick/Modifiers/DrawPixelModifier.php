@@ -34,7 +34,7 @@ class DrawPixelModifier implements ModifierInterface
         $pixel->point($this->position->getX(), $this->position->getY());
 
         return $image->mapFrames(function ($frame) use ($pixel) {
-            $frame->getCore()->drawImage($pixel);
+            $frame->core()->drawImage($pixel);
         });
     }
 }

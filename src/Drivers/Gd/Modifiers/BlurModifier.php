@@ -25,7 +25,7 @@ class BlurModifier implements ModifierInterface
     protected function blurFrame(FrameInterface $frame): void
     {
         for ($i = 0; $i < $this->amount; $i++) {
-            imagefilter($frame->getCore(), IMG_FILTER_GAUSSIAN_BLUR);
+            imagefilter($frame->core(), IMG_FILTER_GAUSSIAN_BLUR);
         }
     }
 }

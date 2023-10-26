@@ -5,16 +5,16 @@ namespace Intervention\Image\Interfaces;
 interface FrameInterface
 {
     public function toImage(): ImageInterface;
-    public function getCore();
+    public function core();
     public function setCore($core): FrameInterface;
-    public function getSize(): SizeInterface;
-    public function getDelay(): float;
+    public function size(): SizeInterface;
+    public function delay(): float;
     public function setDelay(float $delay): FrameInterface;
-    public function getDispose(): int;
+    public function dispose(): int;
     public function setDispose(int $dispose): FrameInterface;
     public function setOffset(int $left, int $top): FrameInterface;
-    public function getOffsetLeft(): int;
+    public function offsetLeft(): int;
     public function setOffsetLeft(int $offset): FrameInterface;
-    public function getOffsetTop(): int;
+    public function offsetTop(): int;
     public function setOffsetTop(int $offset): FrameInterface;
 }

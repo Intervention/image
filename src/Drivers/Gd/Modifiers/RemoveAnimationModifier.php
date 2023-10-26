@@ -26,7 +26,7 @@ class RemoveAnimationModifier implements ModifierInterface
             if ($this->position == $key) {
                 $frames->push($frame);
             } else {
-                imagedestroy($frame->getCore());
+                imagedestroy($frame->core());
             }
         }
 

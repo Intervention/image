@@ -16,7 +16,7 @@ class SharpenModifier implements ModifierInterface
     {
         $matrix = $this->matrix();
         foreach ($image as $frame) {
-            imageconvolution($frame->getCore(), $matrix, 1, 0);
+            imageconvolution($frame->core(), $matrix, 1, 0);
         }
 
         return $image;

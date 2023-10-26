@@ -70,18 +70,18 @@ class Image extends AbstractImage implements ImageInterface, IteratorAggregate
 
     public function width(): int
     {
-        return imagesx($this->frame()->getCore());
+        return imagesx($this->frame()->core());
     }
 
     public function height(): int
     {
-        return imagesy($this->frame()->getCore());
+        return imagesy($this->frame()->core());
     }
 
     public function pickColor(int $x, int $y, int $frame_key = 0): ColorInterface
     {
         return $this->integerToColor(
-            imagecolorat($this->frame($frame_key)->getCore(), $x, $y)
+            imagecolorat($this->frame($frame_key)->core(), $x, $y)
         );
     }
 

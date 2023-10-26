@@ -36,7 +36,7 @@ class FillModifier implements ModifierInterface
     protected function floodFillWithColor(Frame $frame, int $color): void
     {
         imagefill(
-            $frame->getCore(),
+            $frame->core(),
             $this->position->getX(),
             $this->position->getY(),
             $color
@@ -45,13 +45,13 @@ class FillModifier implements ModifierInterface
 
     protected function fillAllWithColor(Frame $frame, int $color): void
     {
-        imagealphablending($frame->getCore(), true);
+        imagealphablending($frame->core(), true);
         imagefilledrectangle(
-            $frame->getCore(),
+            $frame->core(),
             0,
             0,
-            $frame->getSize()->width() - 1,
-            $frame->getSize()->height() - 1,
+            $frame->size()->width() - 1,
+            $frame->size()->height() - 1,
             $color
         );
     }

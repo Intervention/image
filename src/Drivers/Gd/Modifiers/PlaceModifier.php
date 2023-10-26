@@ -30,10 +30,10 @@ class PlaceModifier implements ModifierInterface
         $position = $this->getPosition($image, $watermark);
 
         foreach ($image as $frame) {
-            imagealphablending($frame->getCore(), true);
+            imagealphablending($frame->core(), true);
             imagecopy(
-                $frame->getCore(),
-                $watermark->frame()->getCore(),
+                $frame->core(),
+                $watermark->frame()->core(),
                 $position->getX(),
                 $position->getY(),
                 0,

@@ -50,17 +50,17 @@ class Image extends AbstractImage implements ImageInterface, Iterator
 
     public function addFrame(FrameInterface $frame): ImageInterface
     {
-        $imagick = $frame->getCore();
+        $imagick = $frame->core();
 
-        $imagick->setImageDelay($frame->getDelay());
-        $imagick->setImageDispose($frame->getDispose());
+        $imagick->setImageDelay($frame->delay());
+        $imagick->setImageDispose($frame->dispose());
 
-        $size = $frame->getSize();
+        $size = $frame->size();
         $imagick->setImagePage(
             $size->width(),
             $size->height(),
-            $frame->getOffsetLeft(),
-            $frame->getOffsetTop()
+            $frame->offsetLeft(),
+            $frame->offsetTop()
         );
 
         $this->imagick->addImage($imagick);
@@ -126,12 +126,12 @@ class Image extends AbstractImage implements ImageInterface, Iterator
 
     public function width(): int
     {
-        return $this->frame()->getCore()->getImageWidth();
+        return $this->frame()->core()->getImageWidth();
     }
 
     public function height(): int
     {
-        return $this->frame()->getCore()->getImageHeight();
+        return $this->frame()->core()->getImageHeight();
     }
 
     /**
@@ -142,7 +142,7 @@ class Image extends AbstractImage implements ImageInterface, Iterator
     public function pickColor(int $x, int $y, int $frame_key = 0): ColorInterface
     {
         return $this->pixelToColor(
-            $this->frame($frame_key)->getCore()->getImagePixelColor($x, $y),
+            $this->frame($frame_key)->core()->getImagePixelColor($x, $y),
             $this->colorspace()
         );
     }

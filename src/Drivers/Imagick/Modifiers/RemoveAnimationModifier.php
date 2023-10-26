@@ -23,8 +23,8 @@ class RemoveAnimationModifier implements ModifierInterface
 
         $imagick = new Imagick();
         foreach ($image as $frame) {
-            if ($frame->getCore()->getIteratorIndex() == $this->position) {
-                $imagick->addImage($frame->getCore()->getImage());
+            if ($frame->core()->getIteratorIndex() == $this->position) {
+                $imagick->addImage($frame->core()->getImage());
             }
         }
 

@@ -24,13 +24,13 @@ class PixelateModifier implements ModifierInterface
 
     protected function pixelateFrame(Frame $frame): void
     {
-        $size = $frame->getSize();
+        $size = $frame->size();
 
-        $frame->getCore()->scaleImage(
+        $frame->core()->scaleImage(
             round(max(1, ($size->width() / $this->size))),
             round(max(1, ($size->height() / $this->size)))
         );
 
-        $frame->getCore()->scaleImage($size->width(), $size->height());
+        $frame->core()->scaleImage($size->width(), $size->height());
     }
 }

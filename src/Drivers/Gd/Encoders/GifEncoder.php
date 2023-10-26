@@ -17,7 +17,7 @@ class GifEncoder extends AbstractEncoder implements EncoderInterface
         }
 
         $data = $this->getBuffered(function () use ($image) {
-            imagegif($image->frame()->getCore());
+            imagegif($image->frame()->core());
         });
 
         return new EncodedImage($data, 'image/gif');
@@ -33,7 +33,7 @@ class GifEncoder extends AbstractEncoder implements EncoderInterface
 
         foreach ($image as $frame) {
             $source = $this->encode($frame->toImage());
-            $builder->addFrame($source, $frame->getDelay());
+            $builder->addFrame($source, $frame->delay());
         }
 
         return new EncodedImage($builder->encode(), 'image/gif');

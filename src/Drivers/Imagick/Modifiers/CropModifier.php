@@ -25,7 +25,7 @@ class CropModifier implements ModifierInterface
         $crop->alignPivotTo($image->size(), $this->position);
 
         foreach ($image as $frame) {
-            $frame->getCore()->extentImage(
+            $frame->core()->extentImage(
                 $crop->width(),
                 $crop->height(),
                 $crop->getPivot()->getX() + $this->offset_x,

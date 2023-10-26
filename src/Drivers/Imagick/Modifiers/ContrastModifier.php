@@ -15,7 +15,7 @@ class ContrastModifier implements ModifierInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $frame->getCore()->sigmoidalContrastImage($this->level > 0, abs($this->level / 4), 0);
+            $frame->core()->sigmoidalContrastImage($this->level > 0, abs($this->level / 4), 0);
         }
 
         return $image;

@@ -18,7 +18,7 @@ class DrawEllipseModifier extends AbstractDrawModifier implements ModifierInterf
                 // slightly smaller ellipse to keep 1px bordered edges clean
                 if ($this->ellipse()->hasBackgroundColor()) {
                     imagefilledellipse(
-                        $frame->getCore(),
+                        $frame->core(),
                         $this->position->getX(),
                         $this->position->getY(),
                         $this->ellipse()->getWidth() - 1,
@@ -27,12 +27,12 @@ class DrawEllipseModifier extends AbstractDrawModifier implements ModifierInterf
                     );
                 }
 
-                imagesetthickness($frame->getCore(), $this->ellipse()->getBorderSize());
+                imagesetthickness($frame->core(), $this->ellipse()->getBorderSize());
 
                 // gd's imageellipse ignores imagesetthickness so i use
                 // imagearc with 360 degrees instead.
                 imagearc(
-                    $frame->getCore(),
+                    $frame->core(),
                     $this->position->getX(),
                     $this->position->getY(),
                     $this->ellipse()->getWidth(),
@@ -43,7 +43,7 @@ class DrawEllipseModifier extends AbstractDrawModifier implements ModifierInterf
                 );
             } else {
                 imagefilledellipse(
-                    $frame->getCore(),
+                    $frame->core(),
                     $this->position->getX(),
                     $this->position->getY(),
                     $this->ellipse()->getWidth(),

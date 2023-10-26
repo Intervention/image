@@ -27,7 +27,7 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
 
         foreach ($image as $frame) {
             // resize current core
-            $frame->getCore()->scaleImage(
+            $frame->core()->scaleImage(
                 $crop->width(),
                 $crop->height()
             );
@@ -37,14 +37,14 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
 
             // place current core onto canvas
             $canvas->compositeImage(
-                $frame->getCore(),
+                $frame->core(),
                 Imagick::COMPOSITE_DEFAULT,
                 $crop->getPivot()->getX(),
                 $crop->getPivot()->getY()
             );
 
             // replace core
-            $frame->getCore()->destroy();
+            $frame->core()->destroy();
             $frame->setCore($canvas);
         }
 

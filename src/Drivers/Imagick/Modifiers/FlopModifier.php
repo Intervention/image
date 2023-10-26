@@ -10,7 +10,7 @@ class FlopModifier implements ModifierInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $frame->getCore()->flopImage();
+            $frame->core()->flopImage();
         }
 
         return $image;

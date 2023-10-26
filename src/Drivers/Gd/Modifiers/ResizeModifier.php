@@ -39,7 +39,7 @@ class ResizeModifier implements ModifierInterface
         );
 
         // get current image
-        $current = $frame->getCore();
+        $current = $frame->core();
 
         // preserve transparency
         imagealphablending($modified, false);
@@ -63,8 +63,8 @@ class ResizeModifier implements ModifierInterface
             0,
             $resizeTo->width(),
             $resizeTo->height(),
-            $frame->getSize()->width(),
-            $frame->getSize()->height()
+            $frame->size()->width(),
+            $frame->size()->height()
         );
 
         imagedestroy($current);

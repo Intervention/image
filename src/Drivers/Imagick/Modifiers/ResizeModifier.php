@@ -18,7 +18,7 @@ class ResizeModifier implements ModifierInterface
         $resizeTo = $this->getAdjustedSize($image);
 
         foreach ($image as $frame) {
-            $frame->getCore()->scaleImage(
+            $frame->core()->scaleImage(
                 $resizeTo->width(),
                 $resizeTo->height()
             );

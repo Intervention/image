@@ -18,7 +18,7 @@ class DestroyModifierTest extends TestCase
     public function testModify(): void
     {
         $image = $this->createTestImage('trim.png');
-        $this->assertInstanceOf(GdImage::class, $image->frame()->getCore());
+        $this->assertInstanceOf(GdImage::class, $image->frame()->core());
         $image->modify(new DestroyModifier());
     }
 }

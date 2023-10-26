@@ -15,7 +15,7 @@ class BlurModifier implements ModifierInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $frame->getCore()->blurImage(1 * $this->amount, 0.5 * $this->amount);
+            $frame->core()->blurImage(1 * $this->amount, 0.5 * $this->amount);
         }
 
         return $image;

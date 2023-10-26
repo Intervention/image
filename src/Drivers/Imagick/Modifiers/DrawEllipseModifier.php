@@ -36,7 +36,7 @@ class DrawEllipseModifier extends AbstractDrawModifier implements ModifierInterf
                 360
             );
 
-            $frame->getCore()->drawImage($drawing);
+            $frame->core()->drawImage($drawing);
         });
     }
 }

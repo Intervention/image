@@ -10,7 +10,7 @@ class InvertModifier implements ModifierInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $frame->getCore()->negateImage(false);
+            $frame->core()->negateImage(false);
         }
 
         return $image;

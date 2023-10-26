@@ -28,7 +28,7 @@ class FrameTest extends TestCase
     public function testGetCore(): void
     {
         $frame = $this->getTestFrame();
-        $this->assertInstanceOf(GdImage::class, $frame->getCore());
+        $this->assertInstanceOf(GdImage::class, $frame->core());
     }
 
     public function testSetCore(): void
@@ -36,68 +36,68 @@ class FrameTest extends TestCase
         $core1 = imagecreatetruecolor(3, 2);
         $core2 = imagecreatetruecolor(3, 3);
         $frame = new Frame($core1);
-        $this->assertEquals(2, $frame->getSize()->height());
+        $this->assertEquals(2, $frame->size()->height());
         $result = $frame->setCore($core2);
         $this->assertInstanceOf(Frame::class, $result);
-        $this->assertEquals(3, $frame->getSize()->height());
+        $this->assertEquals(3, $frame->size()->height());
     }
 
     public function testGetSize(): void
     {
         $frame = $this->getTestFrame();
-        $this->assertInstanceOf(Rectangle::class, $frame->getSize());
+        $this->assertInstanceOf(Rectangle::class, $frame->size());
     }
 
     public function testSetGetDelay()
     {
         $frame = $this->getTestFrame();
-        $this->assertEquals(0, $frame->getDelay());
+        $this->assertEquals(0, $frame->delay());
 
         $result = $frame->setDelay(1.5);
         $this->assertInstanceOf(Frame::class, $result);
-        $this->assertEquals(1.5, $frame->getDelay());
+        $this->assertEquals(1.5, $frame->delay());
     }
 
     public function testSetGetDispose()
     {
         $frame = $this->getTestFrame();
-        $this->assertEquals(1, $frame->getDispose());
+        $this->assertEquals(1, $frame->dispose());
 
         $result = $frame->setDispose(100);
         $this->assertInstanceOf(Frame::class, $result);
-        $this->assertEquals(100, $frame->getDispose());
+        $this->assertEquals(100, $frame->dispose());
     }
 
     public function testSetGetOffsetLeft()
     {
         $frame = $this->getTestFrame();
-        $this->assertEquals(0, $frame->getOffsetLeft());
+        $this->assertEquals(0, $frame->offsetLeft());
 
         $result = $frame->setOffsetLeft(100);
         $this->assertInstanceOf(Frame::class, $result);
-        $this->assertEquals(100, $frame->getOffsetLeft());
+        $this->assertEquals(100, $frame->offsetLeft());
     }
 
     public function testSetGetOffsetTop()
     {
         $frame = $this->getTestFrame();
-        $this->assertEquals(0, $frame->getOffsetTop());
+        $this->assertEquals(0, $frame->offsetTop());
 
         $result = $frame->setOffsetTop(100);
         $this->assertInstanceOf(Frame::class, $result);
-        $this->assertEquals(100, $frame->getOffsetTop());
+        $this->assertEquals(100, $frame->offsetTop());
     }
 
     public function testSetGetOffset()
     {
         $frame = $this->getTestFrame();
-        $this->assertEquals(0, $frame->getOffsetTop());
-        $this->assertEquals(0, $frame->getOffsetLeft());
+        $this->assertEquals(0, $frame->offsetTop());
+        $this->assertEquals(0, $frame->offsetLeft());
 
         $result = $frame->setOffset(100, 200);
         $this->assertInstanceOf(Frame::class, $result);
-        $this->assertEquals(100, $frame->getOffsetLeft());
-        $this->assertEquals(200, $frame->getOffsetTop());
+        $this->assertEquals(100, $frame->offsetLeft());
+        $this->assertEquals(200, $frame->offsetTop());
     }
 
     public function testToImage(): void

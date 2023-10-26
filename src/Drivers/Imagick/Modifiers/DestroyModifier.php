@@ -10,7 +10,7 @@ class DestroyModifier implements ModifierInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $frame->getCore()->clear();
+            $frame->core()->clear();
         }
 
         return $image;

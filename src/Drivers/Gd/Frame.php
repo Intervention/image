@@ -28,7 +28,7 @@ class Frame implements FrameInterface
         return $this;
     }
 
-    public function getCore(): GdImage
+    public function core(): GdImage
     {
         return $this->core;
     }
@@ -38,12 +38,12 @@ class Frame implements FrameInterface
         unset($this->core);
     }
 
-    public function getSize(): SizeInterface
+    public function size(): SizeInterface
     {
         return new Rectangle(imagesx($this->core), imagesy($this->core));
     }
 
-    public function getDelay(): float
+    public function delay(): float
     {
         return $this->delay;
     }
@@ -55,7 +55,7 @@ class Frame implements FrameInterface
         return $this;
     }
 
-    public function getDispose(): int
+    public function dispose(): int
     {
         return $this->dispose;
     }
@@ -75,7 +75,7 @@ class Frame implements FrameInterface
         return $this;
     }
 
-    public function getOffsetLeft(): int
+    public function offsetLeft(): int
     {
         return $this->offset_left;
     }
@@ -87,7 +87,7 @@ class Frame implements FrameInterface
         return $this;
     }
 
-    public function getOffsetTop(): int
+    public function offsetTop(): int
     {
         return $this->offset_top;
     }

@@ -22,12 +22,12 @@ class Frame implements FrameInterface
         return $this;
     }
 
-    public function getCore(): Imagick
+    public function core(): Imagick
     {
         return $this->core;
     }
 
-    public function getSize(): SizeInterface
+    public function size(): SizeInterface
     {
         return new Rectangle(
             $this->core->getImageWidth(),
@@ -35,7 +35,7 @@ class Frame implements FrameInterface
         );
     }
 
-    public function getDelay(): float
+    public function delay(): float
     {
         return $this->core->getImageDelay() / 100;
     }
@@ -47,7 +47,7 @@ class Frame implements FrameInterface
         return $this;
     }
 
-    public function getDispose(): int
+    public function dispose(): int
     {
         return $this->core->getImageDispose();
     }
@@ -71,28 +71,28 @@ class Frame implements FrameInterface
         return $this;
     }
 
-    public function getOffsetLeft(): int
+    public function offsetLeft(): int
     {
         return $this->core->getImagePage()['x'];
     }
 
     public function setOffsetLeft(int $offset): FrameInterface
     {
-        return $this->setOffset($offset, $this->getOffsetTop());
+        return $this->setOffset($offset, $this->offsetTop());
     }
 
-    public function getOffsetTop(): int
+    public function offsetTop(): int
     {
         return $this->core->getImagePage()['y'];
     }
 
     public function setOffsetTop(int $offset): FrameInterface
     {
-        return $this->setOffset($this->getOffsetLeft(), $offset);
+        return $this->setOffset($this->offsetLeft(), $offset);
     }
 
     public function toImage(): ImageInterface
     {
-        return new Image($this->getCore());
+        return new Image($this->core());
     }
 }

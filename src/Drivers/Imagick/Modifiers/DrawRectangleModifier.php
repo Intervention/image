@@ -34,7 +34,7 @@ class DrawRectangleModifier extends AbstractDrawModifier implements ModifierInte
         );
 
         return $image->mapFrames(function ($frame) use ($drawing) {
-            $frame->getCore()->drawImage($drawing);
+            $frame->core()->drawImage($drawing);
         });
     }
 }

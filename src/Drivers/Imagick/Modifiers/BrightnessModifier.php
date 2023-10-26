@@ -15,7 +15,7 @@ class BrightnessModifier implements ModifierInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $frame->getCore()->modulateImage(100 + $this->level, 100, 100);
+            $frame->core()->modulateImage(100 + $this->level, 100, 100);
         }
 
         return $image;

@@ -21,7 +21,7 @@ class TextWriter extends AbstractTextWriter
             if ($this->font->hasFilename()) {
                 foreach ($lines as $line) {
                     imagettftext(
-                        $frame->getCore(),
+                        $frame->core(),
                         $font->getSize(),
                         $font->getAngle() * (-1),
                         $line->getPosition()->getX(),
@@ -34,7 +34,7 @@ class TextWriter extends AbstractTextWriter
             } else {
                 foreach ($lines as $line) {
                     imagestring(
-                        $frame->getCore(),
+                        $frame->core(),
                         $font->getGdFont(),
                         $line->getPosition()->getX(),
                         $line->getPosition()->getY(),

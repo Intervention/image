@@ -17,7 +17,7 @@ class WebpEncoder extends AbstractEncoder implements EncoderInterface
     public function encode(ImageInterface $image): EncodedImage
     {
         $data = $this->getBuffered(function () use ($image) {
-            imagewebp($image->frame()->getCore(), null, $this->quality);
+            imagewebp($image->frame()->core(), null, $this->quality);
         });
 
         return new EncodedImage($data, 'image/webp');

@@ -12,9 +12,9 @@ interface ImageInterface extends Traversable, Countable
      * Get frame of animation image at given position starting with zero
      *
      * @param int $position
-     * @return null|FrameInterface
+     * @return FrameInterface
      */
-    public function getFrame(int $position = 0): ?FrameInterface;
+    public function getFrame(int $position = 0): FrameInterface;
 
     /**
      * Add frame to animated image
@@ -154,6 +154,28 @@ interface ImageInterface extends Traversable, Countable
      * @return ImageInterface
      */
     public function setColorspace(string|ColorspaceInterface $target): ImageInterface;
+
+    /**
+     * Retrieve ICC color profile of image
+     *
+     * @return ProfileInterface
+     */
+    public function profile(): ProfileInterface;
+
+    /**
+     * Set ICC color profile on the current image
+     *
+     * @param string|ProfileInterface $input Path to color profile or profile object
+     * @return ImageInterface
+     */
+    public function setProfile(string|ProfileInterface $input): ImageInterface;
+
+    /**
+     * Remove ICC color profile from the current image
+     *
+     * @return ImageInterface
+     */
+    public function withoutProfile(): ImageInterface;
 
     /**
      * Draw text on image

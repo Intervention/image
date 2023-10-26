@@ -6,11 +6,13 @@ use Intervention\Image\Collection;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Drivers\Abstract\AbstractImage;
 use Intervention\Image\Drivers\Gd\Traits\CanHandleColors;
+use Intervention\Image\Exceptions\AnimationException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\ProfileInterface;
 use IteratorAggregate;
 use Traversable;
 
@@ -50,9 +52,13 @@ class Image extends AbstractImage implements ImageInterface, IteratorAggregate
         return $this;
     }
 
-    public function getFrame(int $position = 0): ?FrameInterface
+    public function getFrame(int $position = 0): FrameInterface
     {
-        return $this->frames->get($position);
+        if ($frame = $this->frames->get($position)) {
+            return $frame;
+        }
+
+        throw new AnimationException('Frame #' . $position . ' is not be found in the image.');
     }
 
     public function addFrame(FrameInterface $frame): ImageInterface
@@ -83,6 +89,11 @@ class Image extends AbstractImage implements ImageInterface, IteratorAggregate
         return null;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::getColorspace()
+     */
     public function getColorspace(): ColorspaceInterface
     {
         return new RgbColorspace();
@@ -104,5 +115,35 @@ class Image extends AbstractImage implements ImageInterface, IteratorAggregate
         }
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::setProfile()
+     */
+    public function setProfile(string|ProfileInterface $input): ImageInterface
+    {
+        throw new NotSupportedException('Color profiles are not supported by GD driver.');
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::profile()
+     */
+    public function profile(): ProfileInterface
+    {
+        throw new NotSupportedException('Color profiles are not supported by GD driver.');
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::withoutProfile()
+     */
+    public function withoutProfile(): ImageInterface
+    {
+        throw new NotSupportedException('Color profiles are not supported by GD driver.');
     }
 }

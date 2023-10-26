@@ -77,7 +77,7 @@ class RectangleResizer
             return $size->width();
         }
 
-        return (int) round($this->height * $size->getAspectRatio());
+        return (int) round($this->height * $size->aspectRatio());
     }
 
     protected function getProportionalHeight(SizeInterface $size): int
@@ -86,7 +86,7 @@ class RectangleResizer
             return $size->height();
         }
 
-        return (int) round($this->width / $size->getAspectRatio());
+        return (int) round($this->width / $size->aspectRatio());
     }
 
     public function resize(SizeInterface $size): SizeInterface

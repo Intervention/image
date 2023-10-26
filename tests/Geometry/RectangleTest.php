@@ -50,13 +50,13 @@ class RectangleTest extends TestCase
     public function testGetAspectRatio()
     {
         $size = new Rectangle(800, 600);
-        $this->assertEquals(1.333, round($size->getAspectRatio(), 3));
+        $this->assertEquals(1.333, round($size->aspectRatio(), 3));
 
         $size = new Rectangle(100, 100);
-        $this->assertEquals(1, $size->getAspectRatio());
+        $this->assertEquals(1, $size->aspectRatio());
 
         $size = new Rectangle(1920, 1080);
-        $this->assertEquals(1.778, round($size->getAspectRatio(), 3));
+        $this->assertEquals(1.778, round($size->aspectRatio(), 3));
     }
 
     public function testFitsInto()

@@ -188,7 +188,7 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
         );
     }
 
-    public function getAspectRatio(): float
+    public function aspectRatio(): float
     {
         return $this->width() / $this->height();
     }

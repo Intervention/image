@@ -219,6 +219,11 @@ abstract class AbstractImage implements ImageInterface
         );
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::pickColors()
+     */
     public function pickColors(int $x, int $y): CollectionInterface
     {
         $colors = new Collection();

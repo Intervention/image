@@ -134,16 +134,17 @@ class Image extends AbstractImage implements ImageInterface, Iterator
         return $this->frame()->getCore()->getImageHeight();
     }
 
-    public function pickColor(int $x, int $y, int $frame_key = 0): ?ColorInterface
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::pickColor()
+     */
+    public function pickColor(int $x, int $y, int $frame_key = 0): ColorInterface
     {
-        if ($frame = $this->frame($frame_key)) {
-            return $this->pixelToColor(
-                $frame->getCore()->getImagePixelColor($x, $y),
-                $this->getColorspace()
-            );
-        }
-
-        return null;
+        return $this->pixelToColor(
+            $this->frame($frame_key)->getCore()->getImagePixelColor($x, $y),
+            $this->getColorspace()
+        );
     }
 
     public function getColorspace(): ColorspaceInterface

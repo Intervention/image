@@ -137,7 +137,23 @@ interface ImageInterface extends Traversable, Countable
      */
     public function toPng(): EncodedImage;
 
-    public function pickColor(int $x, int $y, int $frame_key = 0): ?ColorInterface;
+    /**
+     * Return color of pixel at given position on given frame position
+     *
+     * @param int $x
+     * @param int $y
+     * @param int $frame_key
+     * @return ColorInterface
+     */
+    public function pickColor(int $x, int $y, int $frame_key = 0): ColorInterface;
+
+    /**
+     * Return all colors of pixel at given position for all frames of image
+     *
+     * @param int $x
+     * @param int $y
+     * @return ColorInterface
+     */
     public function pickColors(int $x, int $y): CollectionInterface;
 
     /**

@@ -82,7 +82,7 @@ interface ImageInterface extends Traversable, Countable
      * @param  int $position
      * @return ImageInterface
      */
-    public function withoutAnimation(int $position = 0): ImageInterface;
+    public function removeAnimation(int $position = 0): ImageInterface;
 
     /**
      * Apply given modifier to current image

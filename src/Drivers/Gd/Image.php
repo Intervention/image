@@ -6,6 +6,7 @@ use Intervention\Image\Collection;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Drivers\Abstract\AbstractImage;
 use Intervention\Image\Drivers\Gd\Traits\CanHandleColors;
+use Intervention\Image\Exceptions\AnimationException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
@@ -51,9 +52,13 @@ class Image extends AbstractImage implements ImageInterface, IteratorAggregate
         return $this;
     }
 
-    public function getFrame(int $position = 0): ?FrameInterface
+    public function getFrame(int $position = 0): FrameInterface
     {
-        return $this->frames->get($position);
+        if ($frame = $this->frames->get($position)) {
+            return $frame;
+        }
+
+        throw new AnimationException('Frame #' . $position . ' is not be found in the image.');
     }
 
     public function addFrame(FrameInterface $frame): ImageInterface

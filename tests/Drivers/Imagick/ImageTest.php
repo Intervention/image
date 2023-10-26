@@ -9,6 +9,7 @@ use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
 use Intervention\Image\Colors\Profile;
 use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Drivers\Imagick\Image;
+use Intervention\Image\Exceptions\AnimationException;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Tests\TestCase;
@@ -44,12 +45,13 @@ class ImageTest extends TestCase
     {
         $this->assertInstanceOf(Image::class, $this->image);
     }
-    
+
     public function testGetFrame(): void
     {
         $this->assertInstanceOf(Frame::class, $this->image->getFrame());
         $this->assertInstanceOf(Frame::class, $this->image->getFrame(1));
-        $this->assertNull($this->image->getFrame(2));
+        $this->expectException(AnimationException::class);
+        $this->image->getFrame(2);
     }
 
     public function testAddFrame(): void

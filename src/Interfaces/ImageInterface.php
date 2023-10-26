@@ -12,9 +12,9 @@ interface ImageInterface extends Traversable, Countable
      * Get frame of animation image at given position starting with zero
      *
      * @param int $position
-     * @return null|FrameInterface
+     * @return FrameInterface
      */
-    public function getFrame(int $position = 0): ?FrameInterface;
+    public function getFrame(int $position = 0): FrameInterface;
 
     /**
      * Add frame to animated image

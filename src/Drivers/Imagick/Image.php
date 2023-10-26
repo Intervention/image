@@ -12,6 +12,7 @@ use Intervention\Image\Drivers\Imagick\Modifiers\ColorspaceModifier;
 use Intervention\Image\Drivers\Imagick\Modifiers\ProfileModifier;
 use Intervention\Image\Drivers\Imagick\Modifiers\ProfileRemovalModifier;
 use Intervention\Image\Drivers\Imagick\Traits\CanHandleColors;
+use Intervention\Image\Exceptions\AnimationException;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
@@ -36,7 +37,7 @@ class Image extends AbstractImage implements ImageInterface, Iterator
         return $this->imagick;
     }
 
-    public function getFrame(int $position = 0): ?FrameInterface
+    public function getFrame(int $position = 0): FrameInterface
     {
         foreach ($this->imagick as $core) {
             if ($core->getIteratorIndex() == $position) {
@@ -44,7 +45,7 @@ class Image extends AbstractImage implements ImageInterface, Iterator
             }
         }
 
-        return null;
+        throw new AnimationException('Frame #' . $position . ' is not be found in the image.');
     }
 
     public function addFrame(FrameInterface $frame): ImageInterface

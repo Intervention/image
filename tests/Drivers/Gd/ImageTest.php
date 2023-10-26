@@ -11,6 +11,7 @@ use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Exceptions\AnimationException;
 
 /**
  * @requires extension gd
@@ -109,8 +110,8 @@ class ImageTest extends TestCase
         $this->assertInstanceOf(Color::class, $color);
         $this->assertEquals([0, 0, 255, 255], $color->toArray());
 
-        $color = $this->image->pickColor(0, 0, 3);
-        $this->assertNull($color);
+        $this->expectException(AnimationException::class);
+        $this->image->pickColor(0, 0, 3);
     }
 
     public function testPickColors(): void

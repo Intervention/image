@@ -136,9 +136,9 @@ class Image extends AbstractImage implements ImageInterface, IteratorAggregate
     /**
      * {@inheritdoc}
      *
-     * @see ImageInterface::withoutProfile()
+     * @see ImageInterface::removeProfile()
      */
-    public function withoutProfile(): ImageInterface
+    public function removeProfile(): ImageInterface
     {
         throw new NotSupportedException('Color profiles are not supported by GD driver.');
     }

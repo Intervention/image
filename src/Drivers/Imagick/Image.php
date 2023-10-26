@@ -196,9 +196,9 @@ class Image extends AbstractImage implements ImageInterface, Iterator
     /**
      * {@inheritdoc}
      *
-     * @see ImageInterface::withoutProfile()
+     * @see ImageInterface::removeProfile()
      */
-    public function withoutProfile(): ImageInterface
+    public function removeProfile(): ImageInterface
     {
         return $this->modify(new ProfileRemovalModifier());
     }

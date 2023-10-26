@@ -191,7 +191,7 @@ interface ImageInterface extends Traversable, Countable
      *
      * @return ImageInterface
      */
-    public function withoutProfile(): ImageInterface;
+    public function removeProfile(): ImageInterface;
 
     /**
      * Draw text on image

@@ -145,12 +145,12 @@ class ImageTest extends TestCase
         $this->assertInstanceOf(Image::class, $result);
     }
 
-    public function testWithoutProfile(): void
+    public function testRemoveProfile(): void
     {
         $imagick = new Imagick();
         $imagick->readImageBlob($this->getTestImageData('test.jpg'));
         $image = new Image($imagick);
-        $result = $image->withoutProfile();
+        $result = $image->removeProfile();
         $this->assertInstanceOf(Image::class, $result);
         $this->expectException(ColorException::class);
         $image->profile();

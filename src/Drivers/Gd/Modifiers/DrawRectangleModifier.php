@@ -13,7 +13,7 @@ class DrawRectangleModifier extends AbstractDrawModifier implements ModifierInte
 
     public function apply(ImageInterface $image): ImageInterface
     {
-        $image->eachFrame(function ($frame) {
+        $image->mapFrames(function ($frame) {
             // draw background
             if ($this->rectangle()->hasBackgroundColor()) {
                 imagefilledrectangle(

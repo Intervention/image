@@ -27,7 +27,7 @@ class DrawLineModifier extends AbstractDrawModifier implements ModifierInterface
             $this->line()->getEnd()->getY(),
         );
 
-        return $image->eachFrame(function ($frame) use ($drawing) {
+        return $image->mapFrames(function ($frame) use ($drawing) {
             $frame->getCore()->drawImage($drawing);
         });
     }

@@ -29,7 +29,7 @@ abstract class AbstractImage implements ImageInterface
     protected ColorspaceInterface $colorspace;
     protected Collection $exif;
 
-    public function eachFrame(callable $callback): ImageInterface
+    public function mapFrames(callable $callback): ImageInterface
     {
         foreach ($this as $frame) {
             $callback($frame);

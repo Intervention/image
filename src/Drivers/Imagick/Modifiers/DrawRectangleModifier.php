@@ -33,10 +33,8 @@ class DrawRectangleModifier extends AbstractDrawModifier implements ModifierInte
             $this->position->getY() + $this->rectangle()->bottomRightPoint()->getY()
         );
 
-        $image->eachFrame(function ($frame) use ($drawing) {
+        return $image->mapFrames(function ($frame) use ($drawing) {
             $frame->getCore()->drawImage($drawing);
         });
-
-        return $image;
     }
 }

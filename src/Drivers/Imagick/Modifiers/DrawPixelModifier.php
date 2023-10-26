@@ -33,7 +33,7 @@ class DrawPixelModifier implements ModifierInterface
         $pixel->setFillColor($this->colorToPixel($color, $image->getColorspace()));
         $pixel->point($this->position->getX(), $this->position->getY());
 
-        return $image->eachFrame(function ($frame) use ($pixel) {
+        return $image->mapFrames(function ($frame) use ($pixel) {
             $frame->getCore()->drawImage($pixel);
         });
     }

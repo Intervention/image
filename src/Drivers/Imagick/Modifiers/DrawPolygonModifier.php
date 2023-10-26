@@ -37,7 +37,7 @@ class DrawPolygonModifier extends AbstractDrawModifier implements ModifierInterf
 
         $drawing->polygon($this->points());
 
-        return $image->eachFrame(function ($frame) use ($drawing) {
+        return $image->mapFrames(function ($frame) use ($drawing) {
             $frame->getCore()->drawImage($drawing);
         });
     }

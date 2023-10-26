@@ -13,7 +13,7 @@ class DrawLineModifier extends AbstractDrawModifier implements ModifierInterface
 
     public function apply(ImageInterface $image): ImageInterface
     {
-        return $image->eachFrame(function ($frame) {
+        return $image->mapFrames(function ($frame) {
             imageline(
                 $frame->getCore(),
                 $this->line()->getStart()->getX(),

@@ -31,7 +31,7 @@ interface ImageInterface extends Traversable, Countable
      * @param callable $callback
      * @return ImageInterface
      */
-    public function eachFrame(callable $callback): ImageInterface;
+    public function mapFrames(callable $callback): ImageInterface;
 
     /**
      * Set loop count of animated image

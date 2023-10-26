@@ -13,7 +13,7 @@ class DrawEllipseModifier extends AbstractDrawModifier implements ModifierInterf
 
     public function apply(ImageInterface $image): ImageInterface
     {
-        return $image->eachFrame(function ($frame) {
+        return $image->mapFrames(function ($frame) {
             if ($this->ellipse()->hasBorder()) {
                 // slightly smaller ellipse to keep 1px bordered edges clean
                 if ($this->ellipse()->hasBackgroundColor()) {

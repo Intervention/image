@@ -23,7 +23,7 @@ class DrawPixelModifier implements ModifierInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         $color = $this->handleInput($this->color);
-        return $image->eachFrame(function ($frame) use ($color) {
+        return $image->mapFrames(function ($frame) use ($color) {
             imagesetpixel(
                 $frame->getCore(),
                 $this->position->getX(),

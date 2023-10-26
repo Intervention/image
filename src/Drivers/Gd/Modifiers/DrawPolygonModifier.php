@@ -20,7 +20,7 @@ class DrawPolygonModifier extends AbstractDrawModifier implements ModifierInterf
 
     public function apply(ImageInterface $image): ImageInterface
     {
-        return $image->eachFrame(function ($frame) {
+        return $image->mapFrames(function ($frame) {
             if ($this->polygon()->hasBackgroundColor()) {
                 imagefilledpolygon(
                     $frame->getCore(),

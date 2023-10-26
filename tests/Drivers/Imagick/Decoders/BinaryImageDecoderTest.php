@@ -49,7 +49,7 @@ class BinaryImageDecoderTest extends TestCase
         $this->assertEquals(16, $image->width());
         $this->assertEquals(16, $image->height());
         $this->assertCount(1, $image);
-        $this->assertEquals('Oliver Vogel', $image->getExif('IFD0.Artist'));
+        $this->assertEquals('Oliver Vogel', $image->exif('IFD0.Artist'));
     }
 
     public function testDecodeCmykImage(): void

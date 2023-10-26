@@ -431,8 +431,8 @@ class AbstractImageTest extends TestCase
         $img = $this->abstractImageMock();
         $img->setExif((['test' => 'value']));
 
-        $this->assertInstanceOf(Collection::class, $img->getExif());
-        $this->assertEquals('value', $img->getExif('test'));
+        $this->assertInstanceOf(Collection::class, $img->exif());
+        $this->assertEquals('value', $img->exif('test'));
     }
 
     public function testDestroy(): void

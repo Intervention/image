@@ -47,7 +47,7 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
         $image->setExif($this->decodeExifData($input));
 
         // fix image orientation
-        return match ($image->getExif('IFD0.Orientation')) {
+        return match ($image->exif('IFD0.Orientation')) {
             2 => $image->flip(),
             3 => $image->rotate(180),
             4 => $image->rotate(180)->flip(),

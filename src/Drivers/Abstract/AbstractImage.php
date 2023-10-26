@@ -376,7 +376,7 @@ abstract class AbstractImage implements ImageInterface
         return $this;
     }
 
-    public function getExif(?string $query = null): mixed
+    public function exif(?string $query = null): mixed
     {
         if (!isset($this->exif)) {
             return new Collection();

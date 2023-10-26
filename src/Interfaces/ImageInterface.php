@@ -60,7 +60,7 @@ interface ImageInterface extends Traversable, Countable
      *
      * @return mixed
      */
-    public function getExif(?string $query = null): mixed;
+    public function exif(?string $query = null): mixed;
 
     /**
      * Set exif data on current image (will not be written in final image)

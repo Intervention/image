@@ -209,7 +209,7 @@ class RectangleTest extends TestCase
         $input = new Rectangle(200, 100);
         $container->movePivot('top-left');
         $input->movePivot('top-left');
-        $pos = $container->getRelativePositionTo($input);
+        $pos = $container->relativePositionTo($input);
         $this->assertEquals(0, $pos->getX());
         $this->assertEquals(0, $pos->getY());
 
@@ -217,7 +217,7 @@ class RectangleTest extends TestCase
         $input = new Rectangle(200, 100);
         $container->movePivot('center');
         $input->movePivot('top-left');
-        $pos = $container->getRelativePositionTo($input);
+        $pos = $container->relativePositionTo($input);
         $this->assertEquals(400, $pos->getX());
         $this->assertEquals(300, $pos->getY());
 
@@ -225,7 +225,7 @@ class RectangleTest extends TestCase
         $input = new Rectangle(200, 100);
         $container->movePivot('bottom-right');
         $input->movePivot('top-right');
-        $pos = $container->getRelativePositionTo($input);
+        $pos = $container->relativePositionTo($input);
         $this->assertEquals(600, $pos->getX());
         $this->assertEquals(600, $pos->getY());
 
@@ -233,7 +233,7 @@ class RectangleTest extends TestCase
         $input = new Rectangle(200, 100);
         $container->movePivot('center');
         $input->movePivot('center');
-        $pos = $container->getRelativePositionTo($input);
+        $pos = $container->relativePositionTo($input);
         $this->assertEquals(300, $pos->getX());
         $this->assertEquals(250, $pos->getY());
 
@@ -241,7 +241,7 @@ class RectangleTest extends TestCase
         $input = new Rectangle(100, 100);
         $container->movePivot('center');
         $input->movePivot('center');
-        $pos = $container->getRelativePositionTo($input);
+        $pos = $container->relativePositionTo($input);
         $this->assertEquals(0, $pos->getX());
         $this->assertEquals(50, $pos->getY());
     }

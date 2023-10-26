@@ -44,6 +44,6 @@ class PlaceModifier implements ModifierInterface
         $image_size = $image->size()->movePivot($this->position, $this->offset_x, $this->offset_y);
         $watermark_size = $watermark->size()->movePivot($this->position);
 
-        return $image_size->getRelativePositionTo($watermark_size);
+        return $image_size->relativePositionTo($watermark_size);
     }
 }

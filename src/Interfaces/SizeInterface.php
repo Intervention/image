@@ -16,7 +16,7 @@ interface SizeInterface
     public function isPortrait(): bool;
     public function movePivot(string $position, int $offset_x = 0, int $offset_y = 0): SizeInterface;
     public function alignPivotTo(SizeInterface $size, string $position): SizeInterface;
-    public function getRelativePositionTo(SizeInterface $size): PointInterface;
+    public function relativePositionTo(SizeInterface $size): PointInterface;
     public function resize(?int $width = null, ?int $height = null): SizeInterface;
     public function resizeDown(?int $width = null, ?int $height = null): SizeInterface;
     public function scale(?int $width = null, ?int $height = null): SizeInterface;

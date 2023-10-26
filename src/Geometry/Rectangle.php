@@ -167,7 +167,7 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
         $reference->movePivot($position);
 
         $this->movePivot($position)->setPivot(
-            $reference->getRelativePositionTo($this)
+            $reference->relativePositionTo($this)
         );
 
         return $this;
@@ -180,7 +180,7 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
      * @param  SizeInterface $rectangle
      * @return PointInterface
      */
-    public function getRelativePositionTo(SizeInterface $rectangle): PointInterface
+    public function relativePositionTo(SizeInterface $rectangle): PointInterface
     {
         return new Point(
             $this->pivot()->getX() - $rectangle->pivot()->getX(),

@@ -40,7 +40,7 @@ class Image extends AbstractImage implements ImageInterface, IteratorAggregate
         return $this->count() > 1;
     }
 
-    public function getLoops(): int
+    public function loops(): int
     {
         return $this->loops;
     }

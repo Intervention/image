@@ -70,9 +70,9 @@ class ImageTest extends TestCase
 
     public function testSetGetLoops(): void
     {
-        $this->assertEquals(0, $this->image->getLoops());
+        $this->assertEquals(0, $this->image->loops());
         $result = $this->image->setLoops(12);
-        $this->assertEquals(12, $this->image->getLoops());
+        $this->assertEquals(12, $this->image->loops());
         $this->assertInstanceOf(Image::class, $result);
     }
 

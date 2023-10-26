@@ -46,7 +46,7 @@ interface ImageInterface extends Traversable, Countable
      *
      * @return int
      */
-    public function getLoops(): int;
+    public function loops(): int;
 
     /**
      * Return size of current image

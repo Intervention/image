@@ -76,7 +76,7 @@ class Image extends AbstractImage implements ImageInterface, Iterator
         return $this;
     }
 
-    public function getLoops(): int
+    public function loops(): int
     {
         return $this->imagick->getImageIterations();
     }

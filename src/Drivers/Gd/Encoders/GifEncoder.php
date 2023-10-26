@@ -28,7 +28,7 @@ class GifEncoder extends AbstractEncoder implements EncoderInterface
         $builder = GifBuilder::canvas(
             $image->width(),
             $image->height(),
-            $image->getLoops()
+            $image->loops()
         );
 
         foreach ($image as $frame) {

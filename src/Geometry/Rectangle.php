@@ -62,7 +62,7 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
         return $this;
     }
 
-    public function getPivot(): Point
+    public function pivot(): Point
     {
         return $this->pivot;
     }
@@ -183,8 +183,8 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
     public function getRelativePositionTo(SizeInterface $rectangle): PointInterface
     {
         return new Point(
-            $this->getPivot()->getX() - $rectangle->getPivot()->getX(),
-            $this->getPivot()->getY() - $rectangle->getPivot()->getY()
+            $this->pivot()->getX() - $rectangle->pivot()->getX(),
+            $this->pivot()->getY() - $rectangle->pivot()->getY()
         );
     }
 

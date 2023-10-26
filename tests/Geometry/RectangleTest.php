@@ -117,55 +117,55 @@ class RectangleTest extends TestCase
     public function testSetGetPivot(): void
     {
         $box = new Rectangle(800, 600);
-        $pivot = $box->getPivot();
+        $pivot = $box->pivot();
         $this->assertInstanceOf(Point::class, $pivot);
         $this->assertEquals(0, $pivot->getX());
         $result = $box->setPivot(new Point(10, 0));
         $this->assertInstanceOf(Rectangle::class, $result);
-        $this->assertEquals(10, $box->getPivot()->getX());
+        $this->assertEquals(10, $box->pivot()->getX());
     }
 
     public function testAlignPivot(): void
     {
         $box = new Rectangle(640, 480);
-        $this->assertEquals(0, $box->getPivot()->getX());
-        $this->assertEquals(0, $box->getPivot()->getY());
+        $this->assertEquals(0, $box->pivot()->getX());
+        $this->assertEquals(0, $box->pivot()->getY());
 
         $box->movePivot('top-left', 3, 3);
-        $this->assertEquals(3, $box->getPivot()->getX());
-        $this->assertEquals(3, $box->getPivot()->getY());
+        $this->assertEquals(3, $box->pivot()->getX());
+        $this->assertEquals(3, $box->pivot()->getY());
 
         $box->movePivot('top', 3, 3);
-        $this->assertEquals(323, $box->getPivot()->getX());
-        $this->assertEquals(3, $box->getPivot()->getY());
+        $this->assertEquals(323, $box->pivot()->getX());
+        $this->assertEquals(3, $box->pivot()->getY());
 
         $box->movePivot('top-right', 3, 3);
-        $this->assertEquals(637, $box->getPivot()->getX());
-        $this->assertEquals(3, $box->getPivot()->getY());
+        $this->assertEquals(637, $box->pivot()->getX());
+        $this->assertEquals(3, $box->pivot()->getY());
 
         $box->movePivot('left', 3, 3);
-        $this->assertEquals(3, $box->getPivot()->getX());
-        $this->assertEquals(243, $box->getPivot()->getY());
+        $this->assertEquals(3, $box->pivot()->getX());
+        $this->assertEquals(243, $box->pivot()->getY());
 
         $box->movePivot('center', 3, 3);
-        $this->assertEquals(323, $box->getPivot()->getX());
-        $this->assertEquals(243, $box->getPivot()->getY());
+        $this->assertEquals(323, $box->pivot()->getX());
+        $this->assertEquals(243, $box->pivot()->getY());
 
         $box->movePivot('right', 3, 3);
-        $this->assertEquals(637, $box->getPivot()->getX());
-        $this->assertEquals(243, $box->getPivot()->getY());
+        $this->assertEquals(637, $box->pivot()->getX());
+        $this->assertEquals(243, $box->pivot()->getY());
 
         $box->movePivot('bottom-left', 3, 3);
-        $this->assertEquals(3, $box->getPivot()->getX());
-        $this->assertEquals(477, $box->getPivot()->getY());
+        $this->assertEquals(3, $box->pivot()->getX());
+        $this->assertEquals(477, $box->pivot()->getY());
 
         $box->movePivot('bottom', 3, 3);
-        $this->assertEquals(323, $box->getPivot()->getX());
-        $this->assertEquals(477, $box->getPivot()->getY());
+        $this->assertEquals(323, $box->pivot()->getX());
+        $this->assertEquals(477, $box->pivot()->getY());
 
         $result = $box->movePivot('bottom-right', 3, 3);
-        $this->assertEquals(637, $box->getPivot()->getX());
-        $this->assertEquals(477, $box->getPivot()->getY());
+        $this->assertEquals(637, $box->pivot()->getX());
+        $this->assertEquals(477, $box->pivot()->getY());
 
         $this->assertInstanceOf(Rectangle::class, $result);
     }
@@ -175,32 +175,32 @@ class RectangleTest extends TestCase
         $container = new Rectangle(800, 600);
         $size = new Rectangle(200, 100);
         $size->alignPivotTo($container, 'center');
-        $this->assertEquals(300, $size->getPivot()->getX());
-        $this->assertEquals(250, $size->getPivot()->getY());
+        $this->assertEquals(300, $size->pivot()->getX());
+        $this->assertEquals(250, $size->pivot()->getY());
 
         $container = new Rectangle(800, 600);
         $size = new Rectangle(100, 100);
         $size->alignPivotTo($container, 'center');
-        $this->assertEquals(350, $size->getPivot()->getX());
-        $this->assertEquals(250, $size->getPivot()->getY());
+        $this->assertEquals(350, $size->pivot()->getX());
+        $this->assertEquals(250, $size->pivot()->getY());
 
         $container = new Rectangle(800, 600);
         $size = new Rectangle(800, 600);
         $size->alignPivotTo($container, 'center');
-        $this->assertEquals(0, $size->getPivot()->getX());
-        $this->assertEquals(0, $size->getPivot()->getY());
+        $this->assertEquals(0, $size->pivot()->getX());
+        $this->assertEquals(0, $size->pivot()->getY());
 
         $container = new Rectangle(100, 100);
         $size = new Rectangle(800, 600);
         $size->alignPivotTo($container, 'center');
-        $this->assertEquals(-350, $size->getPivot()->getX());
-        $this->assertEquals(-250, $size->getPivot()->getY());
+        $this->assertEquals(-350, $size->pivot()->getX());
+        $this->assertEquals(-250, $size->pivot()->getY());
 
         $container = new Rectangle(100, 100);
         $size = new Rectangle(800, 600);
         $size->alignPivotTo($container, 'bottom-right');
-        $this->assertEquals(-700, $size->getPivot()->getX());
-        $this->assertEquals(-500, $size->getPivot()->getY());
+        $this->assertEquals(-700, $size->pivot()->getX());
+        $this->assertEquals(-500, $size->pivot()->getY());
     }
 
     public function testgetRelativePositionTo(): void

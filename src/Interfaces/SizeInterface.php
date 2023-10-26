@@ -6,7 +6,7 @@ interface SizeInterface
 {
     public function width(): int;
     public function height(): int;
-    public function getPivot(): PointInterface;
+    public function pivot(): PointInterface;
     public function setWidth(int $width): SizeInterface;
     public function setHeight(int $height): SizeInterface;
     public function setPivot(PointInterface $pivot): SizeInterface;

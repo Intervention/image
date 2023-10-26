@@ -57,8 +57,8 @@ class ResizeModifier implements ModifierInterface
         imagecopyresampled(
             $modified,
             $current,
-            $resizeTo->getPivot()->getX(),
-            $resizeTo->getPivot()->getY(),
+            $resizeTo->pivot()->getX(),
+            $resizeTo->pivot()->getY(),
             0,
             0,
             $resizeTo->width(),

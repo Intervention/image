@@ -53,8 +53,8 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
         imagecopyresampled(
             $modified,
             $current,
-            $crop->getPivot()->getX(),
-            $crop->getPivot()->getY(),
+            $crop->pivot()->getX(),
+            $crop->pivot()->getY(),
             0,
             0,
             $crop->width(),

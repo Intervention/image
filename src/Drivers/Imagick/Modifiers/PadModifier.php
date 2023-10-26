@@ -39,8 +39,8 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
             $canvas->compositeImage(
                 $frame->core(),
                 Imagick::COMPOSITE_DEFAULT,
-                $crop->getPivot()->getX(),
-                $crop->getPivot()->getY()
+                $crop->pivot()->getX(),
+                $crop->pivot()->getY()
             );
 
             // replace core
@@ -71,10 +71,10 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
         $fill = $background->toHex('#') == '#ff0000' ? '#00ff00' : '#ff0000';
         $draw->setFillColor($fill);
         $draw->rectangle(
-            $crop->getPivot()->getX(),
-            $crop->getPivot()->getY(),
-            $crop->getPivot()->getX() + $crop->width() - 1,
-            $crop->getPivot()->getY() + $crop->height() - 1
+            $crop->pivot()->getX(),
+            $crop->pivot()->getY(),
+            $crop->pivot()->getX() + $crop->width() - 1,
+            $crop->pivot()->getY() + $crop->height() - 1
         );
         $canvas->drawImage($draw);
         $canvas->transparentPaintImage($fill, 0, 0, false);

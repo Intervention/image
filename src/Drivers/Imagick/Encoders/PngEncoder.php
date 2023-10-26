@@ -15,7 +15,7 @@ class PngEncoder extends AbstractEncoder implements EncoderInterface
         $format = 'png';
         $compression = Imagick::COMPRESSION_ZIP;
 
-        $imagick = $image->getFrame()->getCore();
+        $imagick = $image->frame()->getCore();
         $imagick->setFormat($format);
         $imagick->setImageFormat($format);
         $imagick->setCompression($compression);

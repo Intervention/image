@@ -47,7 +47,7 @@ class ImageFactory implements FactoryInterface
             {
                 $this->frames->push(
                     $this->handleInput($source)
-                         ->getFrame()
+                         ->frame()
                          ->setDelay($delay)
                 );
 

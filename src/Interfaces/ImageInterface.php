@@ -14,7 +14,7 @@ interface ImageInterface extends Traversable, Countable
      * @param int $position
      * @return FrameInterface
      */
-    public function getFrame(int $position = 0): FrameInterface;
+    public function frame(int $position = 0): FrameInterface;
 
     /**
      * Add frame to animated image

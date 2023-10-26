@@ -12,7 +12,7 @@ class BmpEncoder extends AbstractEncoder implements EncoderInterface
     public function encode(ImageInterface $image): EncodedImage
     {
         $data = $this->getBuffered(function () use ($image) {
-            imagebmp($image->getFrame()->getCore(), null, false);
+            imagebmp($image->frame()->getCore(), null, false);
         });
 
         return new EncodedImage($data, 'image/bmp');

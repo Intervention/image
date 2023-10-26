@@ -56,8 +56,8 @@ class ImageTest extends TestCase
 
     public function testGetFrame(): void
     {
-        $this->assertInstanceOf(Frame::class, $this->image->getFrame());
-        $this->assertInstanceOf(Frame::class, $this->image->getFrame(1));
+        $this->assertInstanceOf(Frame::class, $this->image->frame());
+        $this->assertInstanceOf(Frame::class, $this->image->frame(1));
     }
 
     public function testAddFrame(): void

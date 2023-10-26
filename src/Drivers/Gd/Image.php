@@ -52,7 +52,7 @@ class Image extends AbstractImage implements ImageInterface, IteratorAggregate
         return $this;
     }
 
-    public function getFrame(int $position = 0): FrameInterface
+    public function frame(int $position = 0): FrameInterface
     {
         if ($frame = $this->frames->get($position)) {
             return $frame;
@@ -70,17 +70,17 @@ class Image extends AbstractImage implements ImageInterface, IteratorAggregate
 
     public function width(): int
     {
-        return imagesx($this->getFrame()->getCore());
+        return imagesx($this->frame()->getCore());
     }
 
     public function height(): int
     {
-        return imagesy($this->getFrame()->getCore());
+        return imagesy($this->frame()->getCore());
     }
 
     public function pickColor(int $x, int $y, int $frame_key = 0): ?ColorInterface
     {
-        if ($frame = $this->getFrame($frame_key)) {
+        if ($frame = $this->frame($frame_key)) {
             return $this->integerToColor(
                 imagecolorat($frame->getCore(), $x, $y)
             );

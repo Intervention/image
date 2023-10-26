@@ -33,7 +33,7 @@ class PlaceModifier implements ModifierInterface
             imagealphablending($frame->getCore(), true);
             imagecopy(
                 $frame->getCore(),
-                $watermark->getFrame()->getCore(),
+                $watermark->frame()->getCore(),
                 $position->getX(),
                 $position->getY(),
                 0,

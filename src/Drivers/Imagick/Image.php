@@ -37,7 +37,7 @@ class Image extends AbstractImage implements ImageInterface, Iterator
         return $this->imagick;
     }
 
-    public function getFrame(int $position = 0): FrameInterface
+    public function frame(int $position = 0): FrameInterface
     {
         foreach ($this->imagick as $core) {
             if ($core->getIteratorIndex() == $position) {
@@ -126,17 +126,17 @@ class Image extends AbstractImage implements ImageInterface, Iterator
 
     public function width(): int
     {
-        return $this->getFrame()->getCore()->getImageWidth();
+        return $this->frame()->getCore()->getImageWidth();
     }
 
     public function height(): int
     {
-        return $this->getFrame()->getCore()->getImageHeight();
+        return $this->frame()->getCore()->getImageHeight();
     }
 
     public function pickColor(int $x, int $y, int $frame_key = 0): ?ColorInterface
     {
-        if ($frame = $this->getFrame($frame_key)) {
+        if ($frame = $this->frame($frame_key)) {
             return $this->pixelToColor(
                 $frame->getCore()->getImagePixelColor($x, $y),
                 $this->getColorspace()

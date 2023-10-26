@@ -17,7 +17,7 @@ class GifEncoder extends AbstractEncoder implements EncoderInterface
         }
 
         $data = $this->getBuffered(function () use ($image) {
-            imagegif($image->getFrame()->getCore());
+            imagegif($image->frame()->getCore());
         });
 
         return new EncodedImage($data, 'image/gif');

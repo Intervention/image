@@ -17,7 +17,7 @@ class AvifEncoder extends AbstractEncoder implements EncoderInterface
     public function encode(ImageInterface $image): EncodedImage
     {
         $data = $this->getBuffered(function () use ($image) {
-            imageavif($image->getFrame()->getCore(), null, $this->quality);
+            imageavif($image->frame()->getCore(), null, $this->quality);
         });
 
         return new EncodedImage($data, 'image/avif');

@@ -152,7 +152,7 @@ interface ImageInterface extends Traversable, Countable
      *
      * @param int $x
      * @param int $y
-     * @return ColorInterface
+     * @return CollectionInterface
      */
     public function pickColors(int $x, int $y): CollectionInterface;
 

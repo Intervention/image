@@ -6,8 +6,10 @@ use Imagick;
 use ImagickPixel;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
+use Intervention\Image\Colors\Profile;
 use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Drivers\Imagick\Image;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Tests\TestCase;
 
@@ -128,5 +130,27 @@ class ImageTest extends TestCase
         $result = $this->image->setColorspace(new CmykColorspace());
         $this->assertInstanceOf(Image::class, $result);
         $this->assertInstanceOf(CmykColorspace::class, $result->getColorspace());
+    }
+
+    public function testSetGetProfile(): void
+    {
+        $imagick = new Imagick();
+        $imagick->readImageBlob($this->getTestImageData('test.jpg'));
+        $image = new Image($imagick);
+        $result = $image->profile();
+        $this->assertInstanceOf(Profile::class, $result);
+        $result = $image->setProfile($result);
+        $this->assertInstanceOf(Image::class, $result);
+    }
+
+    public function testWithoutProfile(): void
+    {
+        $imagick = new Imagick();
+        $imagick->readImageBlob($this->getTestImageData('test.jpg'));
+        $image = new Image($imagick);
+        $result = $image->withoutProfile();
+        $this->assertInstanceOf(Image::class, $result);
+        $this->expectException(ColorException::class);
+        $image->profile();
     }
 }

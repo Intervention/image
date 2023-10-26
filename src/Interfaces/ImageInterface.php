@@ -156,6 +156,28 @@ interface ImageInterface extends Traversable, Countable
     public function setColorspace(string|ColorspaceInterface $target): ImageInterface;
 
     /**
+     * Retrieve ICC color profile of image
+     *
+     * @return ProfileInterface
+     */
+    public function profile(): ProfileInterface;
+
+    /**
+     * Set ICC color profile on the current image
+     *
+     * @param string|ProfileInterface $input Path to color profile or profile object
+     * @return ImageInterface
+     */
+    public function setProfile(string|ProfileInterface $input): ImageInterface;
+
+    /**
+     * Remove ICC color profile from the current image
+     *
+     * @return ImageInterface
+     */
+    public function withoutProfile(): ImageInterface;
+
+    /**
      * Draw text on image
      *
      * @param string        $text

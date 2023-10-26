@@ -17,6 +17,7 @@ use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\ProfileInterface;
 use Iterator;
 
 class Image extends AbstractImage implements ImageInterface, Iterator
@@ -162,16 +163,24 @@ class Image extends AbstractImage implements ImageInterface, Iterator
         return $this->modify(new ColorspaceModifier($colorspace));
     }
 
-    public function setProfile(string $filepath): ImageInterface
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::setProfile()
+     */
+    public function setProfile(string|ProfileInterface $input): ImageInterface
     {
-        return $this->modify(
-            new ProfileModifier(
-                new Profile(file_get_contents($filepath))
-            )
-        );
+        $profile = is_object($input) ? $input : new Profile(file_get_contents($input));
+
+        return $this->modify(new ProfileModifier($profile));
     }
 
-    public function getProfile(): Profile
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::profile()
+     */
+    public function profile(): ProfileInterface
     {
         $profiles = $this->imagick->getImageProfiles('icc');
 
@@ -182,6 +191,11 @@ class Image extends AbstractImage implements ImageInterface, Iterator
         return new Profile($profiles['icc']);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::withoutProfile()
+     */
     public function withoutProfile(): ImageInterface
     {
         return $this->modify(new ProfileRemovalModifier());

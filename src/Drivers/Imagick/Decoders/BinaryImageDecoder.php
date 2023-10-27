@@ -26,6 +26,24 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
         $imagick->readImageBlob($input);
         $imagick = $imagick->coalesceImages();
 
+        // fix image orientation
+        switch ($imagick->getImageOrientation()) {
+            case Imagick::ORIENTATION_BOTTOMRIGHT:
+                $imagick->rotateimage("#000", 180);
+                break;
+
+            case Imagick::ORIENTATION_RIGHTTOP:
+                $imagick->rotateimage("#000", 90);
+                break;
+
+            case Imagick::ORIENTATION_LEFTBOTTOM:
+                $imagick->rotateimage("#000", -90);
+                break;
+        }
+
+        // set new orientation in image
+        $imagick->setImageOrientation(Imagick::ORIENTATION_TOPLEFT);
+
         $image = new Image($imagick);
         $image->setLoops($imagick->getImageIterations());
         $image->setExif($this->decodeExifData($input));

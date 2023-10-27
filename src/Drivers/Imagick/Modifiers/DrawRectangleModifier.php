@@ -27,10 +27,10 @@ class DrawRectangleModifier extends AbstractDrawModifier implements ModifierInte
 
         // build rectangle
         $drawing->rectangle(
-            $this->position->getX(),
-            $this->position->getY(),
-            $this->position->getX() + $this->rectangle()->bottomRightPoint()->getX(),
-            $this->position->getY() + $this->rectangle()->bottomRightPoint()->getY()
+            $this->position->x(),
+            $this->position->y(),
+            $this->position->x() + $this->rectangle()->bottomRightPoint()->x(),
+            $this->position->y() + $this->rectangle()->bottomRightPoint()->y()
         );
 
         return $image->mapFrames(function ($frame) use ($drawing) {

@@ -9,12 +9,12 @@ interface PointInterface
      *
      * @return int
      */
-    public function getX(): int;
+    public function x(): int;
 
     /**
      * Return y position
      *
      * @return int
      */
-    public function getY(): int;
+    public function y(): int;
 }

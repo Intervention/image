@@ -26,8 +26,8 @@ class DrawPixelModifier implements ModifierInterface
         return $image->mapFrames(function ($frame) use ($color) {
             imagesetpixel(
                 $frame->core(),
-                $this->position->getX(),
-                $this->position->getY(),
+                $this->position->x(),
+                $this->position->y(),
                 $this->colorToInteger($color)
             );
         });

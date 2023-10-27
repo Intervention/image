@@ -37,8 +37,8 @@ class FillModifier implements ModifierInterface
     {
         imagefill(
             $frame->core(),
-            $this->position->getX(),
-            $this->position->getY(),
+            $this->position->x(),
+            $this->position->y(),
             $color
         );
     }

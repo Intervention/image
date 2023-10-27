@@ -17,8 +17,8 @@ class FitModifier extends AbstractFitModifier implements ModifierInterface
             $frame->core()->extentImage(
                 $crop->width(),
                 $crop->height(),
-                $crop->pivot()->getX(),
-                $crop->pivot()->getY()
+                $crop->pivot()->x(),
+                $crop->pivot()->y()
             );
 
             $frame->core()->scaleImage(

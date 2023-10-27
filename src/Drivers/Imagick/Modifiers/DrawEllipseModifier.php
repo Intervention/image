@@ -28,8 +28,8 @@ class DrawEllipseModifier extends AbstractDrawModifier implements ModifierInterf
             }
 
             $drawing->ellipse(
-                $this->position->getX(),
-                $this->position->getY(),
+                $this->position->x(),
+                $this->position->y(),
                 $this->ellipse()->getWidth() / 2,
                 $this->ellipse()->getHeight() / 2,
                 0,

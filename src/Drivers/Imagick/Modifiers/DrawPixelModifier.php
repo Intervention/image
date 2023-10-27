@@ -31,7 +31,7 @@ class DrawPixelModifier implements ModifierInterface
 
         $pixel = new ImagickDraw();
         $pixel->setFillColor($this->colorToPixel($color, $image->colorspace()));
-        $pixel->point($this->position->getX(), $this->position->getY());
+        $pixel->point($this->position->x(), $this->position->y());
 
         return $image->mapFrames(function ($frame) use ($pixel) {
             $frame->core()->drawImage($pixel);

@@ -31,8 +31,8 @@ class PlaceModifier implements ModifierInterface
             $frame->core()->compositeImage(
                 $watermark->frame()->core(),
                 Imagick::COMPOSITE_DEFAULT,
-                $position->getX(),
-                $position->getY()
+                $position->x(),
+                $position->y()
             );
         }
 

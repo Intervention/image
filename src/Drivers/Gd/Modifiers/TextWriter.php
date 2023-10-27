@@ -24,8 +24,8 @@ class TextWriter extends AbstractTextWriter
                         $frame->core(),
                         $font->getSize(),
                         $font->getAngle() * (-1),
-                        $line->getPosition()->getX(),
-                        $line->getPosition()->getY(),
+                        $line->getPosition()->x(),
+                        $line->getPosition()->y(),
                         $color,
                         $font->getFilename(),
                         $line
@@ -36,8 +36,8 @@ class TextWriter extends AbstractTextWriter
                     imagestring(
                         $frame->core(),
                         $font->getGdFont(),
-                        $line->getPosition()->getX(),
-                        $line->getPosition()->getY(),
+                        $line->getPosition()->x(),
+                        $line->getPosition()->y(),
                         $line,
                         $color
                     );

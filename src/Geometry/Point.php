@@ -28,7 +28,7 @@ class Point implements PointInterface
      *
      * @return integer
      */
-    public function getX(): int
+    public function x(): int
     {
         return $this->x;
     }
@@ -50,7 +50,7 @@ class Point implements PointInterface
      *
      * @return integer
      */
-    public function getY(): int
+    public function y(): int
     {
         return $this->y;
     }

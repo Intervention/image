@@ -48,8 +48,8 @@ abstract class AbstractTextWriter implements ModifierInterface
         $leading = $font->leadingInPixels();
         $blockWidth = $lines->longestLine()->widthInFont($font);
 
-        $x = $pivot->getX();
-        $y = $font->hasFilename() ? $pivot->getY() + $font->capHeight() : $pivot->getY();
+        $x = $pivot->x();
+        $y = $font->hasFilename() ? $pivot->y() + $font->capHeight() : $pivot->y();
         $x_adjustment = 0;
 
         foreach ($lines as $line) {

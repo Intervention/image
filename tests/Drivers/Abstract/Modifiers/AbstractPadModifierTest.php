@@ -33,8 +33,8 @@ final class AbstractPadModifierTest extends TestCase
 
         static::assertSame($expectedWidth, $size->width());
         static::assertSame($expectedHeight, $size->height());
-        static::assertSame($expectedX, $size->getPivot()->getX());
-        static::assertSame($expectedY, $size->getPivot()->getY());
+        static::assertSame($expectedX, $size->getPivot()->x());
+        static::assertSame($expectedY, $size->getPivot()->y());
     }
 
     public function testGetResizeSize(): void
@@ -46,8 +46,8 @@ final class AbstractPadModifierTest extends TestCase
 
         static::assertSame(200, $resize->width());
         static::assertSame(100, $resize->height());
-        static::assertSame(0, $resize->getPivot()->getX());
-        static::assertSame(0, $resize->getPivot()->getY());
+        static::assertSame(0, $resize->getPivot()->x());
+        static::assertSame(0, $resize->getPivot()->y());
     }
 
     private function getModifier(int $width, int $height, $background, string $position): AbstractPadModifier

@@ -46,7 +46,7 @@ class DrawPolygonModifier extends AbstractDrawModifier implements ModifierInterf
     {
         $points = [];
         foreach ($this->polygon() as $point) {
-            $points[] = ['x' => $point->getX(), 'y' => $point->getY()];
+            $points[] = ['x' => $point->x(), 'y' => $point->y()];
         }
 
         return $points;

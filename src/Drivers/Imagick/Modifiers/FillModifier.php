@@ -41,16 +41,16 @@ class FillModifier implements ModifierInterface
     protected function floodFillWithColor(Frame $frame, ImagickPixel $pixel): void
     {
         $target = $frame->core()->getImagePixelColor(
-            $this->position->getX(),
-            $this->position->getY()
+            $this->position->x(),
+            $this->position->y()
         );
 
         $frame->core()->floodfillPaintImage(
             $pixel,
             100,
             $target,
-            $this->position->getX(),
-            $this->position->getY(),
+            $this->position->x(),
+            $this->position->y(),
             false,
             Imagick::CHANNEL_ALL
         );

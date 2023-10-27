@@ -19,8 +19,8 @@ class DrawEllipseModifier extends AbstractDrawModifier implements ModifierInterf
                 if ($this->ellipse()->hasBackgroundColor()) {
                     imagefilledellipse(
                         $frame->core(),
-                        $this->position->getX(),
-                        $this->position->getY(),
+                        $this->position->x(),
+                        $this->position->y(),
                         $this->ellipse()->getWidth() - 1,
                         $this->ellipse()->getHeight() - 1,
                         $this->colorToInteger($this->getBackgroundColor())
@@ -33,8 +33,8 @@ class DrawEllipseModifier extends AbstractDrawModifier implements ModifierInterf
                 // imagearc with 360 degrees instead.
                 imagearc(
                     $frame->core(),
-                    $this->position->getX(),
-                    $this->position->getY(),
+                    $this->position->x(),
+                    $this->position->y(),
                     $this->ellipse()->getWidth(),
                     $this->ellipse()->getHeight(),
                     0,
@@ -44,8 +44,8 @@ class DrawEllipseModifier extends AbstractDrawModifier implements ModifierInterf
             } else {
                 imagefilledellipse(
                     $frame->core(),
-                    $this->position->getX(),
-                    $this->position->getY(),
+                    $this->position->x(),
+                    $this->position->y(),
                     $this->ellipse()->getWidth(),
                     $this->ellipse()->getHeight(),
                     $this->colorToInteger($this->getBackgroundColor())

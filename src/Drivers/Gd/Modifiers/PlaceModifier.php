@@ -34,8 +34,8 @@ class PlaceModifier implements ModifierInterface
             imagecopy(
                 $frame->core(),
                 $watermark->frame()->core(),
-                $position->getX(),
-                $position->getY(),
+                $position->x(),
+                $position->y(),
                 0,
                 0,
                 $watermark->width(),

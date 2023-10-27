@@ -28,8 +28,8 @@ class CropModifier implements ModifierInterface
             $frame->core()->extentImage(
                 $crop->width(),
                 $crop->height(),
-                $crop->pivot()->getX() + $this->offset_x,
-                $crop->pivot()->getY() + $this->offset_y
+                $crop->pivot()->x() + $this->offset_x,
+                $crop->pivot()->y() + $this->offset_y
             );
         }
 

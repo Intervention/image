@@ -21,10 +21,10 @@ class DrawLineModifier extends AbstractDrawModifier implements ModifierInterface
         );
 
         $drawing->line(
-            $this->line()->getStart()->getX(),
-            $this->line()->getStart()->getY(),
-            $this->line()->getEnd()->getX(),
-            $this->line()->getEnd()->getY(),
+            $this->line()->getStart()->x(),
+            $this->line()->getStart()->y(),
+            $this->line()->getEnd()->x(),
+            $this->line()->getEnd()->y(),
         );
 
         return $image->mapFrames(function ($frame) use ($drawing) {

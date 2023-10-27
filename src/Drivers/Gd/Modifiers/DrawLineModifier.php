@@ -16,10 +16,10 @@ class DrawLineModifier extends AbstractDrawModifier implements ModifierInterface
         return $image->mapFrames(function ($frame) {
             imageline(
                 $frame->core(),
-                $this->line()->getStart()->getX(),
-                $this->line()->getStart()->getY(),
-                $this->line()->getEnd()->getX(),
-                $this->line()->getEnd()->getY(),
+                $this->line()->getStart()->x(),
+                $this->line()->getStart()->y(),
+                $this->line()->getEnd()->x(),
+                $this->line()->getEnd()->y(),
                 $this->colorToInteger($this->getBackgroundColor())
             );
         });

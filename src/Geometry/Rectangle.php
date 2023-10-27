@@ -20,10 +20,10 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
         protected ?Point $pivot = null
     ) {
         $this->pivot = $pivot ? $pivot : new Point();
-        $this->addPoint(new Point($this->pivot->getX(), $this->pivot->getY()));
-        $this->addPoint(new Point($this->pivot->getX() + $width, $this->pivot->getY()));
-        $this->addPoint(new Point($this->pivot->getX() + $width, $this->pivot->getY() - $height));
-        $this->addPoint(new Point($this->pivot->getX(), $this->pivot->getY() - $height));
+        $this->addPoint(new Point($this->pivot->x(), $this->pivot->y()));
+        $this->addPoint(new Point($this->pivot->x() + $width, $this->pivot->y()));
+        $this->addPoint(new Point($this->pivot->x() + $width, $this->pivot->y() - $height));
+        $this->addPoint(new Point($this->pivot->x(), $this->pivot->y() - $height));
     }
 
     /**
@@ -48,16 +48,16 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
 
     public function setWidth(int $width): self
     {
-        $this[1]->setX($this[0]->getX() + $width);
-        $this[2]->setX($this[3]->getX() + $width);
+        $this[1]->setX($this[0]->x() + $width);
+        $this[2]->setX($this[3]->x() + $width);
 
         return $this;
     }
 
     public function setHeight(int $height): self
     {
-        $this[2]->setY($this[1]->getY() + $height);
-        $this[3]->setY($this[0]->getY() + $height);
+        $this[2]->setY($this[1]->y() + $height);
+        $this[3]->setY($this[0]->y() + $height);
 
         return $this;
     }
@@ -183,8 +183,8 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
     public function relativePositionTo(SizeInterface $rectangle): PointInterface
     {
         return new Point(
-            $this->pivot()->getX() - $rectangle->pivot()->getX(),
-            $this->pivot()->getY() - $rectangle->pivot()->getY()
+            $this->pivot()->x() - $rectangle->pivot()->x(),
+            $this->pivot()->y() - $rectangle->pivot()->y()
         );
     }
 

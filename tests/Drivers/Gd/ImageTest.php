@@ -12,6 +12,7 @@ use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Exceptions\AnimationException;
+use Intervention\Image\Resolution;
 
 /**
  * @requires extension gd
@@ -151,5 +152,11 @@ class ImageTest extends TestCase
 
         $this->expectException(NotSupportedException::class);
         $this->image->setColorspace(new CmykColorspace());
+    }
+
+    public function testResolution(): void
+    {
+        $result = $this->image->resolution();
+        $this->assertInstanceOf(Resolution::class, $result);
     }
 }

@@ -12,6 +12,7 @@ use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Exceptions\AnimationException;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Resolution;
 use Intervention\Image\Tests\TestCase;
 
 /**
@@ -154,5 +155,11 @@ class ImageTest extends TestCase
         $this->assertInstanceOf(Image::class, $result);
         $this->expectException(ColorException::class);
         $image->profile();
+    }
+
+    public function testResolution(): void
+    {
+        $result = $this->image->resolution();
+        $this->assertInstanceOf(Resolution::class, $result);
     }
 }

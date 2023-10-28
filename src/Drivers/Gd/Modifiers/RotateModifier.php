@@ -14,6 +14,10 @@ class RotateModifier extends AbstractRotateModifier implements ModifierInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
+            // retain resolution because imagerotate() seems to reset density to 96dpi
+            $resolution = imageresolution($frame->core());
+
+            // rotate image
             $frame->setCore(
                 imagerotate(
                     $frame->core(),
@@ -21,6 +25,9 @@ class RotateModifier extends AbstractRotateModifier implements ModifierInterface
                     $this->colorToInteger($this->backgroundColor())
                 )
             );
+
+            // restore original image resolution
+            imageresolution($frame->core(), $resolution[0], $resolution[1]);
         }
 
         return $image;

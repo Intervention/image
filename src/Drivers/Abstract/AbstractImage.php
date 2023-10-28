@@ -385,6 +385,13 @@ abstract class AbstractImage implements ImageInterface
         return is_null($query) ? $this->exif : $this->exif->get($query);
     }
 
+    public function setResolution(float $x, float $y): ImageInterface
+    {
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\ResolutionModifier', $x, $y)
+        );
+    }
+
     public function destroy(): void
     {
         $this->modify(

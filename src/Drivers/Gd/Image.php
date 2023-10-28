@@ -13,6 +13,8 @@ use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ProfileInterface;
+use Intervention\Image\Interfaces\ResolutionInterface;
+use Intervention\Image\Resolution;
 use IteratorAggregate;
 use Traversable;
 
@@ -76,6 +78,16 @@ class Image extends AbstractImage implements ImageInterface, IteratorAggregate
     public function height(): int
     {
         return imagesy($this->frame()->core());
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::resolution()
+     */
+    public function resolution(): ResolutionInterface
+    {
+        return new Resolution(...imageresolution($this->frame()->core()));
     }
 
     public function pickColor(int $x, int $y, int $frame_key = 0): ColorInterface

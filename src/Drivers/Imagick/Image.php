@@ -19,6 +19,8 @@ use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ProfileInterface;
+use Intervention\Image\Interfaces\ResolutionInterface;
+use Intervention\Image\Resolution;
 use Iterator;
 
 class Image extends AbstractImage implements ImageInterface, Iterator
@@ -132,6 +134,16 @@ class Image extends AbstractImage implements ImageInterface, Iterator
     public function height(): int
     {
         return $this->frame()->core()->getImageHeight();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::resolution()
+     */
+    public function resolution(): ResolutionInterface
+    {
+        return new Resolution(...$this->frame()->core()->getImageResolution());
     }
 
     /**

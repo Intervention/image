@@ -387,6 +387,22 @@ interface ImageInterface extends Traversable, Countable
     public function height(): int;
 
     /**
+     * Return image resolution/density
+     *
+     * @return ResolutionInterface
+     */
+    public function resolution(): ResolutionInterface;
+
+    /**
+     * Se the image resolution/density
+     *
+     * @param  float $x
+     * @param  float $y
+     * @return ImageInterface
+     */
+    public function setResolution(float $x, float $y): ImageInterface;
+
+    /**
      * Destroy current image instance and free up memory
      *
      * @return void

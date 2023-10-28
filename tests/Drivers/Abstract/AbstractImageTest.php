@@ -11,6 +11,7 @@ use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
+use Intervention\Image\Resolution;
 use Intervention\Image\Tests\TestCase;
 use Mockery;
 

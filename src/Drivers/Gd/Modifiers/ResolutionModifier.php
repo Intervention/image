@@ -14,8 +14,11 @@ class ResolutionModifier implements ModifierInterface
 
     public function apply(ImageInterface $image): ImageInterface
     {
+        $x = intval(round($this->x));
+        $y = intval(round($this->y));
+
         foreach ($image as $frame) {
-            imageresolution($frame->core(), $this->x, $this->y);
+            imageresolution($frame->core(), $x, $y);
         }
 
         return $image;

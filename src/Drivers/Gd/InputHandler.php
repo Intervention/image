@@ -15,6 +15,7 @@ use Intervention\Image\Drivers\Gd\Decoders\FilePathImageDecoder;
 use Intervention\Image\Drivers\Gd\Decoders\BinaryImageDecoder;
 use Intervention\Image\Drivers\Gd\Decoders\DataUriImageDecoder;
 use Intervention\Image\Drivers\Gd\Decoders\Base64ImageDecoder;
+use Intervention\Image\Drivers\Gd\Decoders\SplFileInfoImageDecoder;
 
 class InputHandler extends AbstractInputHandler
 {
@@ -28,6 +29,7 @@ class InputHandler extends AbstractInputHandler
         HtmlColornameDecoder::class,
         FilePointerImageDecoder::class,
         FilePathImageDecoder::class,
+        SplFileInfoImageDecoder::class,
         BinaryImageDecoder::class,
         DataUriImageDecoder::class,
         Base64ImageDecoder::class,

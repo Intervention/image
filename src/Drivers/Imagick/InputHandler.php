@@ -15,6 +15,7 @@ use Intervention\Image\Drivers\Imagick\Decoders\FilePathImageDecoder;
 use Intervention\Image\Drivers\Imagick\Decoders\BinaryImageDecoder;
 use Intervention\Image\Drivers\Imagick\Decoders\DataUriImageDecoder;
 use Intervention\Image\Drivers\Imagick\Decoders\Base64ImageDecoder;
+use Intervention\Image\Drivers\Imagick\Decoders\SplFileInfoImageDecoder;
 
 class InputHandler extends AbstractInputHandler
 {
@@ -28,6 +29,7 @@ class InputHandler extends AbstractInputHandler
         HtmlColornameDecoder::class,
         FilePointerImageDecoder::class,
         FilePathImageDecoder::class,
+        SplFileInfoImageDecoder::class,
         BinaryImageDecoder::class,
         DataUriImageDecoder::class,
         Base64ImageDecoder::class,

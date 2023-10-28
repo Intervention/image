@@ -7,6 +7,7 @@ use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Drivers\Gd\InputHandler;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Tests\TestCase;
+use SplFileInfo;
 
 /**
  * @requires extension gd
@@ -25,6 +26,14 @@ class GdInputHandlerTest extends TestCase
     {
         $handler = new InputHandler();
         $input = file_get_contents(__DIR__ . '/../../images/animation.gif');
+        $result = $handler->handle($input);
+        $this->assertInstanceOf(Image::class, $result);
+    }
+
+    public function testHandleSplFileInfo(): void
+    {
+        $handler = new InputHandler();
+        $input = new SplFileInfo(__DIR__ . '/../../images/test.jpg');
         $result = $handler->handle($input);
         $this->assertInstanceOf(Image::class, $result);
     }

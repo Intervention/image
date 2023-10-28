@@ -2,6 +2,7 @@
 
 namespace Intervention\Image\Tests\Drivers\Imagick;
 
+use SplFileInfo;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Drivers\Imagick\InputHandler;
@@ -25,6 +26,14 @@ class InputHandlerTest extends TestCase
     {
         $handler = new InputHandler();
         $input = file_get_contents(__DIR__ . '/../../images/animation.gif');
+        $result = $handler->handle($input);
+        $this->assertInstanceOf(Image::class, $result);
+    }
+
+    public function testHandleSplFileInfo(): void
+    {
+        $handler = new InputHandler();
+        $input = new SplFileInfo(__DIR__ . '/../../images/test.jpg');
         $result = $handler->handle($input);
         $this->assertInstanceOf(Image::class, $result);
     }

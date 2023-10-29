@@ -61,6 +61,11 @@ class ImageFactory implements FactoryInterface
         return new Image($animation->imagick);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see FactoryInterface::newCore()
+     */
     public function newCore(int $width, int $height)
     {
         $imagick = new Imagick();
@@ -68,6 +73,7 @@ class ImageFactory implements FactoryInterface
         $imagick->setType(Imagick::IMGTYPE_UNDEFINED);
         $imagick->setImageType(Imagick::IMGTYPE_UNDEFINED);
         $imagick->setColorspace(Imagick::COLORSPACE_RGB);
+        $imagick->setImageResolution(96, 96);
 
         return $imagick;
     }

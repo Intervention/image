@@ -240,7 +240,12 @@ interface ImageInterface extends Traversable, Countable
      * @param int    $offset_y
      * @return ImageInterface
      */
-    public function place($element, string $position = 'top-left', int $offset_x = 0, int $offset_y = 0): ImageInterface;
+    public function place(
+        $element,
+        string $position = 'top-left',
+        int $offset_x = 0,
+        int $offset_y = 0
+    ): ImageInterface;
 
     /**
      * Stretch the image to the desired size
@@ -302,6 +307,12 @@ interface ImageInterface extends Traversable, Countable
     public function fitDown(int $width, int $height, string $position = 'center'): ImageInterface;
 
     /**
+     * Padded resizing means that the original image is scaled until it fits the
+     * defined target size with unchanged aspect ratio. Compared to the fit()
+     * method, this call does not create cropped areas, but new empty areas
+     * on the sides of the result image. These are filled with the specified
+     * background color.
+     *
      * @param int $width
      * @param int $height
      * @param string $background
@@ -311,13 +322,40 @@ interface ImageInterface extends Traversable, Countable
     public function pad(int $width, int $height, $background = 'ffffff', string $position = 'center'): ImageInterface;
 
     /**
+     * This method does the same thing as pad() but does not exceed the size of
+     * the original image. You can use this if you want to prevent up-sampling.
+     *
      * @param int $width
      * @param int $height
      * @param string $background
      * @param string $position
      * @return ImageInterface
      */
-    public function padDown(int $width, int $height, $background = 'ffffff', string $position = 'center'): ImageInterface;
+    public function padDown(
+        int $width,
+        int $height,
+        $background = 'ffffff',
+        string $position = 'center'
+    ): ImageInterface;
+
+    /**
+     * Cut out a rectangular part of the current image with given width and height at a given position.
+     * Define optional x,y offset coordinates to move the cutout by the given amount of pixels.
+     *
+     * @param int $width
+     * @param int $height
+     * @param int $offset_x
+     * @param int $offset_y
+     * @param string $position
+     * @return ImageInterface
+     */
+    public function crop(
+        int $width,
+        int $height,
+        int $offset_x = 0,
+        int $offset_y = 0,
+        string $position = 'top-left'
+    ): ImageInterface;
 
     public function fill($color, ?int $x = null, ?int $y = null): ImageInterface;
     public function pixelate(int $size): ImageInterface;

@@ -13,9 +13,9 @@ class CropModifier implements ModifierInterface
     public function __construct(
         protected int $width,
         protected int $height,
-        protected string $position = 'center',
         protected int $offset_x = 0,
-        protected int $offset_y = 0
+        protected int $offset_y = 0,
+        protected string $position = 'top-left'
     ) {
         //
     }

@@ -17,7 +17,7 @@ class CropModifierTest extends TestCase
     public function testModify(): void
     {
         $image = $this->createTestImage('blocks.png');
-        $image = $image->modify(new CropModifier(200, 200, 'bottom-right'));
+        $image = $image->modify(new CropModifier(200, 200, 0, 0, 'bottom-right'));
         $this->assertEquals(200, $image->width());
         $this->assertEquals(200, $image->height());
         $this->assertColor(255, 0, 0, 255, $image->pickColor(5, 5));

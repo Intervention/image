@@ -353,12 +353,12 @@ abstract class AbstractImage implements ImageInterface
     public function crop(
         int $width,
         int $height,
-        string $position = 'center',
         int $offset_x = 0,
-        int $offset_y = 0
+        int $offset_y = 0,
+        string $position = 'top-left'
     ): ImageInterface {
         return $this->modify(
-            $this->resolveDriverClass('Modifiers\CropModifier', $width, $height, $position, $offset_x, $offset_y)
+            $this->resolveDriverClass('Modifiers\CropModifier', $width, $height, $offset_x, $offset_y, $position)
         );
     }
 

@@ -25,8 +25,6 @@ class RemoveAnimationModifier implements ModifierInterface
         foreach ($image as $key => $frame) {
             if ($this->position == $key) {
                 $frames->push($frame);
-            } else {
-                imagedestroy($frame->core());
             }
         }
 

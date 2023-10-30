@@ -67,8 +67,6 @@ class ResizeModifier implements ModifierInterface
             $frame->size()->height()
         );
 
-        imagedestroy($current);
-
         if ($transIndex != -1) { // @todo refactor because of duplication
             imagecolortransparent($modified, $transIndex);
             for ($y = 0; $y < $resizeTo->height(); ++$y) {

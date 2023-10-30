@@ -59,8 +59,6 @@ class FitModifier extends AbstractFitModifier implements ModifierInterface
             $crop->height()
         );
 
-        imagedestroy($current);
-
         if ($transIndex != -1) { // @todo refactor because of duplication
             imagecolortransparent($modified, $transIndex);
             for ($y = 0; $y < $resize->height(); ++$y) {

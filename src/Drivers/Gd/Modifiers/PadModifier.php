@@ -63,8 +63,6 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
             $frame->size()->height()
         );
 
-        imagedestroy($current);
-
         // set new content as recource
         $frame->setCore($modified);
     }

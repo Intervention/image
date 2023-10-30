@@ -11,7 +11,6 @@ use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\CollectionInterface;
-use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
@@ -26,7 +25,6 @@ abstract class AbstractImage implements ImageInterface
     use CanHandleInput;
     use CanRunCallback;
 
-    protected ColorspaceInterface $colorspace;
     protected Collection $exif;
 
     public function mapFrames(callable $callback): ImageInterface

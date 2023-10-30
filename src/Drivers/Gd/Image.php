@@ -92,9 +92,11 @@ class Image extends AbstractImage implements ImageInterface, IteratorAggregate
 
     public function pickColor(int $x, int $y, int $frame_key = 0): ColorInterface
     {
-        return $this->integerToColor(
-            imagecolorat($this->frame($frame_key)->core(), $x, $y)
-        );
+        $gd = $this->frame($frame_key)->core();
+        $index = imagecolorat($gd, $x, $y);
+        $colors = imagecolorsforindex($gd, $index);
+
+        return $this->arrayToColor($colors);
     }
 
     /**

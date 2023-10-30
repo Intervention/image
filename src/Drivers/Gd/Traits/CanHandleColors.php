@@ -7,6 +7,23 @@ use Intervention\Image\Colors\Rgb\Color;
 trait CanHandleColors
 {
     /**
+     * Transforms array result from imagecolorsforindex() to Color object
+     *
+     * @param array $values
+     * @return Color
+     */
+    protected function arrayToColor(array $values): Color
+    {
+        list($r, $g, $b, $a) = array_values($values);
+
+        // convert gd apha integer to intervention alpha integer
+        // ([opaque]0-127[transparent]) to ([opaque]255-0[transparent])
+        $a = (int) static::convertRange($a, 127, 0, 0, 255);
+
+        return new Color($r, $g, $b, $a);
+    }
+
+    /**
      * Transforms GD Library integer color value to RGB color object
      *
      * @param int $value

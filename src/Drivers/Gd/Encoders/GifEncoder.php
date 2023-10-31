@@ -4,15 +4,13 @@ namespace Intervention\Image\Drivers\Gd\Encoders;
 
 use Intervention\Gif\Builder as GifBuilder;
 use Intervention\Image\Drivers\Abstract\Encoders\AbstractEncoder;
-use Intervention\Image\Drivers\Gd\Traits\CanReduceColors;
+use Intervention\Image\Drivers\Gd\Modifiers\LimitColorsModifier;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
 class GifEncoder extends AbstractEncoder implements EncoderInterface
 {
-    use CanReduceColors;
-
     public function __construct(protected int $color_limit = 0)
     {
         //
@@ -24,9 +22,9 @@ class GifEncoder extends AbstractEncoder implements EncoderInterface
             return $this->encodeAnimated($image);
         }
 
-        $gd = $this->maybeReduceColors($image->frame()->core(), $this->color_limit);
-        $data = $this->getBuffered(function () use ($gd) {
-            imagegif($gd);
+        $image = $image->modify(new LimitColorsModifier($this->color_limit));
+        $data = $this->getBuffered(function () use ($image) {
+            imagegif($image->frame()->core());
         });
 
         return new EncodedImage($data, 'image/gif');

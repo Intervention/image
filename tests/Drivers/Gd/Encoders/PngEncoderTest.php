@@ -7,6 +7,7 @@ use Intervention\Image\Drivers\Gd\Encoders\PngEncoder;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 use Intervention\MimeSniffer\MimeSniffer;
 use Intervention\MimeSniffer\Types\ImagePng;
 
@@ -16,6 +17,8 @@ use Intervention\MimeSniffer\Types\ImagePng;
  */
 class PngEncoderTest extends TestCase
 {
+    use CanCreateGdTestImage;
+
     protected function getTestImage(): Image
     {
         $frame = new Frame(imagecreatetruecolor(3, 2));
@@ -28,6 +31,17 @@ class PngEncoderTest extends TestCase
         $image = $this->getTestImage();
         $encoder = new PngEncoder();
         $result = $encoder->encode($image);
-        $this->assertTrue(MimeSniffer::createFromString($result)->matches(new ImagePng));
+        $this->assertTrue(MimeSniffer::createFromString($result)->matches(ImagePng::class));
+    }
+
+    public function testEncodeReduced(): void
+    {
+        $image = $this->createTestImage('tile.png');
+        $gd = $image->frame()->core();
+        $this->assertEquals(3, imagecolorstotal($gd));
+        $encoder = new PngEncoder(2);
+        $result = $encoder->encode($image);
+        $gd = imagecreatefromstring((string) $result);
+        $this->assertEquals(2, imagecolorstotal($gd));
     }
 }

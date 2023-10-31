@@ -8,6 +8,7 @@ use Imagick;
 use ImagickPixel;
 use Intervention\Image\Drivers\Imagick\Encoders\PngEncoder;
 use Intervention\Image\Drivers\Imagick\Image;
+use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 use Intervention\MimeSniffer\MimeSniffer;
 use Intervention\MimeSniffer\Types\ImagePng;
 use PHPUnit\Framework\TestCase;
@@ -17,6 +18,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class PngEncoderTest extends TestCase
 {
+    use CanCreateImagickTestImage;
+
     protected function getTestImage(): Image
     {
         $imagick = new Imagick();
@@ -31,5 +34,17 @@ final class PngEncoderTest extends TestCase
         $encoder = new PngEncoder(75);
         $result = $encoder->encode($image);
         $this->assertTrue(MimeSniffer::createFromString((string) $result)->matches(new ImagePng()));
+    }
+
+    public function testEncodeReduced(): void
+    {
+        $image = $this->createTestImage('tile.png');
+        $imagick = $image->frame()->core();
+        $this->assertEquals(3, $imagick->getImageColors());
+        $encoder = new PngEncoder(2);
+        $result = $encoder->encode($image);
+        $imagick = new Imagick();
+        $imagick->readImageBlob((string) $result);
+        $this->assertEquals(2, $imagick->getImageColors());
     }
 }

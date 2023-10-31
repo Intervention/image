@@ -6,9 +6,9 @@ use Imagick;
 use ImagickPixel;
 use Intervention\Image\Collection;
 use Intervention\Image\Drivers\Imagick\Encoders\GifEncoder;
-use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 use Intervention\MimeSniffer\MimeSniffer;
 use Intervention\MimeSniffer\Types\ImageGif;
 
@@ -18,6 +18,8 @@ use Intervention\MimeSniffer\Types\ImageGif;
  */
 class GifEncoderTest extends TestCase
 {
+    use CanCreateImagickTestImage;
+
     protected function getTestImage(): Image
     {
         $imagick = new Imagick();
@@ -46,5 +48,17 @@ class GifEncoderTest extends TestCase
         $encoder = new GifEncoder();
         $result = $encoder->encode($image);
         $this->assertTrue(MimeSniffer::createFromString($result)->matches(new ImageGif()));
+    }
+
+    public function testEncodeReduced(): void
+    {
+        $image = $this->createTestImage('gradient.gif');
+        $imagick = $image->frame()->core();
+        $this->assertEquals(15, $imagick->getImageColors());
+        $encoder = new GifEncoder(2);
+        $result = $encoder->encode($image);
+        $imagick = new Imagick();
+        $imagick->readImageBlob((string) $result);
+        $this->assertEquals(2, $imagick->getImageColors());
     }
 }

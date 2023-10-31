@@ -11,7 +11,6 @@ use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
-use Intervention\Image\Resolution;
 use Intervention\Image\Tests\TestCase;
 use Mockery;
 
@@ -120,7 +119,7 @@ class AbstractImageTest extends TestCase
         $encoder->shouldReceive('encode')->with($img)->andReturn($encoded);
 
         $img->shouldReceive('resolveDriverClass')
-                ->with('Encoders\GifEncoder')
+                ->with('Encoders\GifEncoder', 0)
                 ->andReturn($encoder);
 
         $result = $img->toGif();
@@ -136,7 +135,7 @@ class AbstractImageTest extends TestCase
         $encoder->shouldReceive('encode')->with($img)->andReturn($encoded);
 
         $img->shouldReceive('resolveDriverClass')
-                ->with('Encoders\PngEncoder')
+                ->with('Encoders\PngEncoder', 0)
                 ->andReturn($encoder);
 
         $result = $img->toPng();

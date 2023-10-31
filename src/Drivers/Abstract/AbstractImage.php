@@ -70,17 +70,17 @@ abstract class AbstractImage implements ImageInterface
         );
     }
 
-    public function toGif(): EncodedImage
+    public function toGif(int $color_limit = 0): EncodedImage
     {
         return $this->encode(
-            $this->resolveDriverClass('Encoders\GifEncoder')
+            $this->resolveDriverClass('Encoders\GifEncoder', $color_limit)
         );
     }
 
-    public function toPng(): EncodedImage
+    public function toPng(int $color_limit = 0): EncodedImage
     {
         return $this->encode(
-            $this->resolveDriverClass('Encoders\PngEncoder')
+            $this->resolveDriverClass('Encoders\PngEncoder', $color_limit)
         );
     }
 

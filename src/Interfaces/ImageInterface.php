@@ -121,7 +121,7 @@ interface ImageInterface extends Traversable, Countable
      *
      * @return EncodedImage
      */
-    public function toGif(): EncodedImage;
+    public function toGif(int $color_limit = 0): EncodedImage;
 
     /**
      * Encode image to avif format
@@ -135,7 +135,7 @@ interface ImageInterface extends Traversable, Countable
      *
      * @return EncodedImage
      */
-    public function toPng(): EncodedImage;
+    public function toPng(int $color_limit = 0): EncodedImage;
 
     /**
      * Return color of pixel at given position on given frame position

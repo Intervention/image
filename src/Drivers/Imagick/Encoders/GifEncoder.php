@@ -5,6 +5,7 @@ namespace Intervention\Image\Drivers\Imagick\Encoders;
 use Imagick;
 use Intervention\Image\Drivers\Abstract\Encoders\AbstractEncoder;
 use Intervention\Image\Drivers\Imagick\Image;
+use Intervention\Image\Drivers\Imagick\Traits\CanReduceColors;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Exceptions\EncoderException;
 use Intervention\Image\Interfaces\EncoderInterface;
@@ -12,6 +13,13 @@ use Intervention\Image\Interfaces\ImageInterface;
 
 class GifEncoder extends AbstractEncoder implements EncoderInterface
 {
+    use CanReduceColors;
+
+    public function __construct(protected int $color_limit = 0)
+    {
+        //
+    }
+
     public function encode(ImageInterface $image): EncodedImage
     {
         $format = 'gif';
@@ -27,6 +35,7 @@ class GifEncoder extends AbstractEncoder implements EncoderInterface
         $imagick->setCompression($compression);
         $imagick->setImageCompression($compression);
         $imagick->optimizeImageLayers();
+        $this->maybeReduceColors($imagick, $this->color_limit);
         $imagick = $imagick->deconstructImages();
 
         return new EncodedImage($imagick->getImagesBlob(), 'image/gif');

@@ -7,6 +7,7 @@ use Intervention\Image\Drivers\Gd\Encoders\GifEncoder;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 use Intervention\MimeSniffer\MimeSniffer;
 use Intervention\MimeSniffer\Types\ImageGif;
 
@@ -16,6 +17,8 @@ use Intervention\MimeSniffer\Types\ImageGif;
  */
 class GifEncoderTest extends TestCase
 {
+    use CanCreateGdTestImage;
+
     protected function getTestImage(): Image
     {
         $gd1 = imagecreatetruecolor(30, 20);
@@ -40,5 +43,16 @@ class GifEncoderTest extends TestCase
         $encoder = new GifEncoder();
         $result = $encoder->encode($image);
         $this->assertTrue(MimeSniffer::createFromString($result)->matches(new ImageGif()));
+    }
+
+    public function testEncodeReduced(): void
+    {
+        $image = $this->createTestImage('gradient.gif');
+        $gd = $image->frame()->core();
+        $this->assertEquals(15, imagecolorstotal($gd));
+        $encoder = new GifEncoder(2);
+        $result = $encoder->encode($image);
+        $gd = imagecreatefromstring((string) $result);
+        $this->assertEquals(2, imagecolorstotal($gd));
     }
 }

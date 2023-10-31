@@ -128,7 +128,7 @@ interface ImageInterface extends Traversable, Countable
      *
      * @return EncodedImage
      */
-    public function toAvif(): EncodedImage;
+    public function toAvif(int $quality = 75): EncodedImage;
 
     /**
      * Encode image to png format

@@ -96,10 +96,10 @@ abstract class AbstractImage implements ImageInterface
         return $this->toBitmap($color_limit);
     }
 
-    public function toAvif(): EncodedImage
+    public function toAvif(int $quality = 75): EncodedImage
     {
         return $this->encode(
-            $this->resolveDriverClass('Encoders\AvifEncoder')
+            $this->resolveDriverClass('Encoders\AvifEncoder', $quality)
         );
     }
 

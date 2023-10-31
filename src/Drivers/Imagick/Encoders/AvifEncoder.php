@@ -10,6 +10,11 @@ use Intervention\Image\Interfaces\ImageInterface;
 
 class AvifEncoder extends AbstractEncoder implements EncoderInterface
 {
+    public function __construct(int $quality)
+    {
+        $this->quality = $quality;
+    }
+
     public function encode(ImageInterface $image): EncodedImage
     {
         $format = 'AVIF';
@@ -20,6 +25,8 @@ class AvifEncoder extends AbstractEncoder implements EncoderInterface
         $imagick->setImageFormat($format);
         $imagick->setCompression($compression);
         $imagick->setImageCompression($compression);
+        $imagick->setCompressionQuality($this->quality);
+        $imagick->setImageCompressionQuality($this->quality);
 
         return new EncodedImage($imagick->getImagesBlob(), 'image/avif');
     }

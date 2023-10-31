@@ -138,6 +138,13 @@ abstract class AbstractImage implements ImageInterface
         );
     }
 
+    public function colorize(int $red = 0, int $green = 0, int $blue = 0): ImageInterface
+    {
+        return $this->modify(
+            $this->resolveDriverClass('Modifiers\ColorizeModifier', $red, $green, $blue)
+        );
+    }
+
     public function blur(int $amount = 5): ImageInterface
     {
         return $this->modify(

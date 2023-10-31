@@ -218,6 +218,46 @@ interface ImageInterface extends Traversable, Countable
      */
     public function greyscale(): ImageInterface;
 
+    /**
+     * Invert the colors of the current image
+     *
+     * @return ImageInterface
+     */
+    public function invert(): ImageInterface;
+
+    /**
+     * Adjust brightness of the current image
+     *
+     * @param  int $level
+     * @return ImageInterface
+     */
+    public function brightness(int $level): ImageInterface;
+
+    /**
+     * Adjust contrast of the current image
+     *
+     * @param  int $level
+     * @return ImageInterface
+     */
+    public function contrast(int $level): ImageInterface;
+
+    /**
+     * Apply gamma correction on the current image
+     *
+     * @param  float $gamma
+     * @return ImageInterface
+     */
+    public function gamma(float $gamma): ImageInterface;
+
+    /**
+     * Adjust the intensity of the RGB color channels
+     *
+     * @param  int $red
+     * @param  int $green
+     * @param  int $blue
+     * @return ImageInterface
+     */
+    public function colorize(int $red = 0, int $green = 0, int $blue = 0): ImageInterface;
 
     /**
      * Blur current image by given strength

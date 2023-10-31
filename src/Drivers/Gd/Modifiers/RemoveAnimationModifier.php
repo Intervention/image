@@ -7,9 +7,12 @@ use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
+use Intervention\Image\Traits\CanCheckType;
 
 class RemoveAnimationModifier implements ModifierInterface
 {
+    use CanCheckType;
+
     public function __construct(protected int $position = 0)
     {
         //
@@ -21,6 +24,8 @@ class RemoveAnimationModifier implements ModifierInterface
             throw new RuntimeException('Image is not animated.');
         }
 
+        $image = $this->failIfNotClass($image, Image::class);
+
         $frames = new Collection();
         foreach ($image as $key => $frame) {
             if ($this->position == $key) {
@@ -28,6 +33,6 @@ class RemoveAnimationModifier implements ModifierInterface
             }
         }
 
-        return new Image($frames);
+        return $image->setFrames($frames);
     }
 }

@@ -18,7 +18,8 @@ class RemoveAnimationModifierTest extends TestCase
     {
         $image = $this->createTestImage('animation.gif');
         $this->assertEquals(8, count($image));
-        $image = $image->modify(new RemoveAnimationModifier(2));
+        $result = $image->modify(new RemoveAnimationModifier(2));
         $this->assertEquals(1, count($image));
+        $this->assertEquals(1, count($result));
     }
 }

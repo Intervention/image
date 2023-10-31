@@ -39,6 +39,13 @@ class Image extends AbstractImage implements ImageInterface, Iterator
         return $this->imagick;
     }
 
+    public function setImagick(Imagick $imagick): ImageInterface
+    {
+        $this->imagick = $imagick;
+
+        return $this;
+    }
+
     public function frame(int $position = 0): FrameInterface
     {
         foreach ($this->imagick as $core) {

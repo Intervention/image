@@ -27,6 +27,18 @@ class Image extends AbstractImage implements ImageInterface, IteratorAggregate
         //
     }
 
+    public function frames(): Collection
+    {
+        return $this->frames;
+    }
+
+    public function setFrames(Collection $frames): ImageInterface
+    {
+        $this->frames = $frames;
+
+        return $this;
+    }
+
     public function getIterator(): Traversable
     {
         return $this->frames;

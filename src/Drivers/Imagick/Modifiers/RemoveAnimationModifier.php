@@ -3,13 +3,16 @@
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
-use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
+use Intervention\Image\Drivers\Imagick\Image;
+use Intervention\Image\Traits\CanCheckType;
 
 class RemoveAnimationModifier implements ModifierInterface
 {
+    use CanCheckType;
+
     public function __construct(protected int $position = 0)
     {
         //
@@ -21,15 +24,16 @@ class RemoveAnimationModifier implements ModifierInterface
             throw new RuntimeException('Image is not animated.');
         }
 
+        $image = $this->failIfNotClass($image, Image::class);
+
+        // create new imagick with just one image
         $imagick = new Imagick();
-        foreach ($image as $frame) {
-            if ($frame->core()->getIteratorIndex() == $this->position) {
-                $imagick->addImage($frame->core()->getImage());
+        foreach ($image->getImagick() as $key => $core) {
+            if ($key == $this->position) {
+                $imagick->addImage($core->getImage());
             }
         }
 
-        $image->destroy();
-
-        return new Image($imagick);
+        return $image->setImagick($imagick);
     }
 }

@@ -7,6 +7,7 @@ use ImagickPixel;
 use Intervention\Image\Drivers\Imagick\Encoders\BmpEncoder;
 use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 use Intervention\MimeSniffer\MimeSniffer;
 use Intervention\MimeSniffer\Types\ImageBmp;
 
@@ -16,6 +17,8 @@ use Intervention\MimeSniffer\Types\ImageBmp;
  */
 class BmpEncoderTest extends TestCase
 {
+    use CanCreateImagickTestImage;
+
     protected function getTestImage(): Image
     {
         $imagick = new Imagick();
@@ -32,5 +35,17 @@ class BmpEncoderTest extends TestCase
         $this->assertTrue(
             MimeSniffer::createFromString($result)->matches(new ImageBmp())
         );
+    }
+
+    public function testEncodeReduced(): void
+    {
+        $image = $this->createTestImage('gradient.bmp');
+        $imagick = $image->frame()->core();
+        $this->assertEquals(15, $imagick->getImageColors());
+        $encoder = new BmpEncoder(2);
+        $result = $encoder->encode($image);
+        $imagick = new Imagick();
+        $imagick->readImageBlob((string) $result);
+        $this->assertEquals(2, $imagick->getImageColors());
     }
 }

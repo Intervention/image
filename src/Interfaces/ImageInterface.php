@@ -138,6 +138,13 @@ interface ImageInterface extends Traversable, Countable
     public function toPng(int $color_limit = 0): EncodedImage;
 
     /**
+     * Encode image to Windows Bitmap
+     *
+     * @return EncodedImage
+     */
+    public function toBitmap(int $color_limit = 0): EncodedImage;
+
+    /**
      * Return color of pixel at given position on given frame position
      *
      * @param int $x

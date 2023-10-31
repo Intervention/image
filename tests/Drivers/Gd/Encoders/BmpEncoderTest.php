@@ -12,7 +12,7 @@ use Intervention\MimeSniffer\Types\ImageBmp;
 
 /**
  * @requires extension gd
- * @covers \Intervention\Image\Drivers\Gd\Encoders\PngEncoder
+ * @covers \Intervention\Image\Drivers\Gd\Encoders\BmpEncoder
  */
 class BmpEncoderTest extends TestCase
 {
@@ -28,6 +28,6 @@ class BmpEncoderTest extends TestCase
         $image = $this->getTestImage();
         $encoder = new BmpEncoder();
         $result = $encoder->encode($image);
-        $this->assertTrue(MimeSniffer::createFromString($result)->matches(new ImageBmp));
+        $this->assertTrue(MimeSniffer::createFromString($result)->matches(ImageBmp::class));
     }
 }

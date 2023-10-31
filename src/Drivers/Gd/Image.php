@@ -7,6 +7,7 @@ use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Drivers\Abstract\AbstractImage;
 use Intervention\Image\Drivers\Gd\Traits\CanHandleColors;
 use Intervention\Image\Exceptions\AnimationException;
+use Intervention\Image\Exceptions\GeometryException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
@@ -105,7 +106,12 @@ class Image extends AbstractImage implements ImageInterface, IteratorAggregate
     public function pickColor(int $x, int $y, int $frame_key = 0): ColorInterface
     {
         $gd = $this->frame($frame_key)->core();
-        $index = imagecolorat($gd, $x, $y);
+        $index = @imagecolorat($gd, $x, $y);
+
+        if ($index === false) {
+            throw new GeometryException('The specified position is not in the valid image area.');
+        }
+
         $colors = imagecolorsforindex($gd, $index);
 
         return $this->arrayToColor($colors);

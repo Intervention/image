@@ -35,6 +35,6 @@ class ColorizeModifier implements ModifierInterface
 
     private function normalizeLevel(int $level): int
     {
-        return $level > 0 ? round($level / 5) : round(($level + 100) / 100);
+        return $level > 0 ? intval(round($level / 5)) : intval(round(($level + 100) / 100));
     }
 }

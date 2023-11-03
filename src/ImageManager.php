@@ -2,6 +2,7 @@
 
 namespace Intervention\Image;
 
+use Intervention\Image\Exceptions\ConfigurationException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Traits\CanResolveDriverClass;
 
@@ -9,16 +10,53 @@ class ImageManager
 {
     use CanResolveDriverClass;
 
-    private static $required_options = ['driver'];
+    protected const AVAILABLE_DRIVERS = ['gd', 'imagick'];
 
-    public function __construct(protected array $options = ['driver' => 'gd'])
+    /**
+     * Create new ImageManager instance
+     *
+     * @param string $driver
+     * @return void
+     * @throws ConfigurationException
+     */
+    public function __construct(protected string $driver = 'gd')
     {
-        if (count(array_intersect(array_keys($options), self::$required_options)) != count(self::$required_options)) {
-            throw new Exceptions\ConfigurationException(
-                'The following attributes are required to initialize ImageManager: ' .
-                    implode(', ', self::$required_options)
+        if (! in_array(strtolower($driver), self::AVAILABLE_DRIVERS)) {
+            throw new ConfigurationException(
+                'Driver ' . $driver . ' not available.'
             );
         }
+    }
+
+    /**
+     * Static constructor to create ImageManager with given driver
+     *
+     * @param string $driver
+     * @return ImageManager
+     */
+    public static function withDriver(string $driver): self
+    {
+        return new self($driver);
+    }
+
+    /**
+     * Static helper to create ImageManager with GD driver
+     *
+     * @return ImageManager
+     */
+    public static function gd(): self
+    {
+        return new self('gd');
+    }
+
+    /**
+     * Static constructor to create ImageManager with Imagick driver
+     *
+     * @return ImageManager
+     */
+    public static function imagick(): self
+    {
+        return new self('imagick');
     }
 
     /**
@@ -62,6 +100,6 @@ class ImageManager
      */
     protected function getCurrentDriver(): string
     {
-        return strtolower($this->options['driver']);
+        return strtolower($this->driver);
     }
 }

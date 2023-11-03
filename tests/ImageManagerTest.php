@@ -13,20 +13,32 @@ class ImageManagerTest extends TestCase
 {
     public function testConstructor()
     {
-        $manager = new ImageManager(['driver' => 'gd']);
+        $manager = new ImageManager(driver: 'gd');
         $this->assertInstanceOf(ImageManager::class, $manager);
 
         $this->expectException(ConfigurationException::class);
-        $manager = new ImageManager([]);
+        $manager = new ImageManager('foo');
+    }
 
-        $this->expectException(ConfigurationException::class);
-        $manager = new ImageManager(['foo' => 'bar']);
+    public function testWithDriver(): void
+    {
+        $manager = ImageManager::withDriver('gd');
+        $this->assertInstanceOf(ImageManager::class, $manager);
+    }
+
+    public function testDriverStatics(): void
+    {
+        $manager = ImageManager::gd();
+        $this->assertInstanceOf(ImageManager::class, $manager);
+
+        $manager = ImageManager::imagick();
+        $this->assertInstanceOf(ImageManager::class, $manager);
     }
 
     /** @requires extension gd */
     public function testCreateGd()
     {
-        $manager = new ImageManager(['driver' => 'gd']);
+        $manager = new ImageManager('gd');
         $image = $manager->create(5, 4);
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
@@ -34,7 +46,7 @@ class ImageManagerTest extends TestCase
     /** @requires extension gd */
     public function testReadGd()
     {
-        $manager = new ImageManager(['driver' => 'gd']);
+        $manager = new ImageManager('gd');
         $image = $manager->read(__DIR__ . '/images/red.gif');
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
@@ -42,7 +54,7 @@ class ImageManagerTest extends TestCase
     /** @requires extension imagick */
     public function testCreateImagick()
     {
-        $manager = new ImageManager(['driver' => 'imagick']);
+        $manager = new ImageManager('imagick');
         $image = $manager->create(5, 4);
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
@@ -50,7 +62,7 @@ class ImageManagerTest extends TestCase
     /** @requires extension imagick */
     public function testReadImagick()
     {
-        $manager = new ImageManager(['driver' => 'imagick']);
+        $manager = new ImageManager('imagick');
         $image = $manager->read(__DIR__ . '/images/red.gif');
         $this->assertInstanceOf(ImageInterface::class, $image);
     }

@@ -20,7 +20,7 @@ operations.
 
 ```php
 // create image manager with desired driver
-$manager = new ImageManager(['driver' => 'gd']);
+$manager = new ImageManager(driver: 'gd');
 
 // open an image file
 $image = $manager->read('images/example.gif');

@@ -44,7 +44,7 @@ abstract class AbstractDecoder implements DecoderInterface
 
     protected function decodeExifData(string $image_data): array
     {
-        if (! function_exists('exif_read_data')) {
+        if (!function_exists('exif_read_data')) {
             return [];
         }
 
@@ -59,5 +59,14 @@ abstract class AbstractDecoder implements DecoderInterface
         }
 
         return is_array($data) ? $data : [];
+    }
+
+    protected function isValidBase64($input): bool
+    {
+        if (!is_string($input)) {
+            return false;
+        }
+
+        return base64_encode(base64_decode($input)) === str_replace(["\n", "\r"], '', $input);
     }
 }

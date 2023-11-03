@@ -17,15 +17,22 @@ use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Traits\CanHandleInput;
 use Intervention\Image\Traits\CanResolveDriverClass;
-use Intervention\Image\Traits\CanRunCallback;
 
 abstract class AbstractImage implements ImageInterface
 {
     use CanResolveDriverClass;
     use CanHandleInput;
-    use CanRunCallback;
 
     protected Collection $exif;
+
+    protected function runCallback(?callable $callback, object $object): object
+    {
+        if (is_callable($callback)) {
+            $callback($object);
+        }
+
+        return $object;
+    }
 
     public function mapFrames(callable $callback): ImageInterface
     {

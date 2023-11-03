@@ -6,19 +6,16 @@ use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Traits\CanDecodeDataUri;
 
 class DataUriImageDecoder extends BinaryImageDecoder implements DecoderInterface
 {
-    use CanDecodeDataUri;
-
     public function decode($input): ImageInterface|ColorInterface
     {
         if (!is_string($input)) {
             throw new DecoderException('Unable to decode input');
         }
 
-        $uri = $this->decodeDataUri($input);
+        $uri = $this->parseDataUri($input);
 
         if (! $uri->isValid()) {
             throw new DecoderException('Unable to decode input');

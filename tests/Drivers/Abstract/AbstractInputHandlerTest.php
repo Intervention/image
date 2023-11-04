@@ -29,15 +29,16 @@ final class AbstractInputHandlerTest extends TestCase
 
     private function getModifier(AbstractDecoder $chain): AbstractInputHandler
     {
-        return new class ($chain) extends AbstractInputHandler {
-            public function __construct(private AbstractDecoder $chain)
+        return new class ([$chain]) extends AbstractInputHandler
+        {
+            public function __construct(protected array $decoders = [])
             {
                 //
             }
 
             protected function chain(): AbstractDecoder
             {
-                return $this->chain;
+                return $this->decoders[0];
             }
         };
     }

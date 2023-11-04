@@ -6,8 +6,9 @@ use Intervention\Image\Drivers\Abstract\Decoders\AbstractDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\InputHandlerInterface;
 
-abstract class AbstractInputHandler
+abstract class AbstractInputHandler implements InputHandlerInterface
 {
     /**
      * Array of decoders which will be stacked into to the input handler chain
@@ -15,13 +16,23 @@ abstract class AbstractInputHandler
     protected array $decoders = [];
 
     /**
-     * Create new instance
+     * {@inheritdoc}
      *
-     * @param array $decoders
+     * @see InputHandlerInterface::__construct()
      */
     public function __construct(array $decoders = [])
     {
         $this->decoders = count($decoders) ? $decoders : $this->decoders;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see InputHandlerInterface::handle()
+     */
+    public function handle($input): ImageInterface|ColorInterface
+    {
+        return $this->chain()->handle($input);
     }
 
     /**
@@ -45,16 +56,5 @@ abstract class AbstractInputHandler
         }
 
         return $chain;
-    }
-
-    /**
-     * Try to decode the given input with each decoder of the the handler chain
-     *
-     * @param  mixed $input
-     * @return ImageInterface|ColorInterface
-     */
-    public function handle($input): ImageInterface|ColorInterface
-    {
-        return $this->chain()->handle($input);
     }
 }

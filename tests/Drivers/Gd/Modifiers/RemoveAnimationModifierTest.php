@@ -22,4 +22,13 @@ class RemoveAnimationModifierTest extends TestCase
         $this->assertEquals(1, count($image));
         $this->assertEquals(1, count($result));
     }
+
+    public function testApplyPercent(): void
+    {
+        $image = $this->createTestImage('animation.gif');
+        $this->assertEquals(8, count($image));
+        $result = $image->modify(new RemoveAnimationModifier('20%'));
+        $this->assertEquals(1, count($image));
+        $this->assertEquals(1, count($result));
+    }
 }

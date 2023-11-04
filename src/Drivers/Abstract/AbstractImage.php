@@ -374,7 +374,7 @@ abstract class AbstractImage implements ImageInterface
         );
     }
 
-    public function removeAnimation(int $position = 0): ImageInterface
+    public function removeAnimation(int|string $position = 0): ImageInterface
     {
         return $this->modify(
             $this->resolveDriverClass('Modifiers\RemoveAnimationModifier', $position)

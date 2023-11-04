@@ -3,8 +3,9 @@
 namespace Intervention\Image;
 
 use Intervention\Image\Exceptions\NotWritableException;
+use Intervention\Image\Interfaces\GenericDataInterface;
 
-class GenericData
+class GenericData implements GenericDataInterface
 {
     /**
      * Create new instance

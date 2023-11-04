@@ -2,7 +2,9 @@
 
 namespace Intervention\Image;
 
-class EncodedImage extends GenericData
+use Intervention\Image\Interfaces\EncodedImageInterface;
+
+class EncodedImage extends GenericData implements EncodedImageInterface
 {
     /**
      * Create new instance

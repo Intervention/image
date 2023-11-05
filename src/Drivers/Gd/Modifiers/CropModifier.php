@@ -7,9 +7,12 @@ use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Traits\CanBuildNewImage;
 
 class CropModifier implements ModifierInterface
 {
+    use CanBuildNewImage;
+
     public function __construct(
         protected int $width,
         protected int $height,
@@ -36,30 +39,28 @@ class CropModifier implements ModifierInterface
     protected function cropFrame(FrameInterface $frame, SizeInterface $resizeTo): void
     {
         // create new image
-        $modified = imagecreatetruecolor(
+        $modified = $this->imageFactory()->newCore(
             $resizeTo->width(),
             $resizeTo->height()
         );
 
-        // get current image
-        $current = $frame->core();
+        // get original image
+        $original = $frame->core();
 
         // preserve transparency
-        imagealphablending($modified, false);
-        $transIndex = imagecolortransparent($current);
+        $transIndex = imagecolortransparent($original);
 
         if ($transIndex != -1) {
             $rgba = imagecolorsforindex($modified, $transIndex);
             $transColor = imagecolorallocatealpha($modified, $rgba['red'], $rgba['green'], $rgba['blue'], 127);
             imagefill($modified, 0, 0, $transColor);
-        } else {
-            imagesavealpha($modified, true);
+            imagecolortransparent($modified, $transColor);
         }
 
         // copy content from resource
         imagecopyresampled(
             $modified,
-            $current,
+            $original,
             0,
             0,
             $resizeTo->pivot()->x() + $this->offset_x,
@@ -69,22 +70,6 @@ class CropModifier implements ModifierInterface
             $resizeTo->width(),
             $resizeTo->height(),
         );
-
-        if ($transIndex != -1) { // @todo refactor because of duplication
-            imagecolortransparent($modified, $transIndex);
-            for ($y = 0; $y < $resizeTo->height(); ++$y) {
-                for ($x = 0; $x < $resizeTo->width(); ++$x) {
-                    if (((imagecolorat($modified, $x, $y) >> 24) & 0x7F) >= 100) {
-                        imagesetpixel(
-                            $modified,
-                            $x,
-                            $y,
-                            $transIndex
-                        );
-                    }
-                }
-            }
-        }
 
         // set new content as recource
         $frame->setCore($modified);

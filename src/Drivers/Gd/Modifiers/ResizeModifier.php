@@ -37,14 +37,15 @@ class ResizeModifier implements ModifierInterface
         $current = $frame->core();
 
         // preserve transparency
-        imagealphablending($modified, false);
         $transIndex = imagecolortransparent($current);
 
         if ($transIndex != -1) {
             $rgba = imagecolorsforindex($modified, $transIndex);
             $transColor = imagecolorallocatealpha($modified, $rgba['red'], $rgba['green'], $rgba['blue'], 127);
             imagefill($modified, 0, 0, $transColor);
+            imagecolortransparent($modified, $transColor);
         } else {
+            imagealphablending($modified, false);
             imagesavealpha($modified, true);
         }
 
@@ -61,22 +62,6 @@ class ResizeModifier implements ModifierInterface
             $frame->size()->width(),
             $frame->size()->height()
         );
-
-        if ($transIndex != -1) { // @todo refactor because of duplication
-            imagecolortransparent($modified, $transIndex);
-            for ($y = 0; $y < $resizeTo->height(); ++$y) {
-                for ($x = 0; $x < $resizeTo->width(); ++$x) {
-                    if (((imagecolorat($modified, $x, $y) >> 24) & 0x7F) >= 100) {
-                        imagesetpixel(
-                            $modified,
-                            $x,
-                            $y,
-                            $transIndex
-                        );
-                    }
-                }
-            }
-        }
 
         // set new content as recource
         $frame->setCore($modified);

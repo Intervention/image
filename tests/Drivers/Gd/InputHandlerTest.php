@@ -120,6 +120,6 @@ class GdInputHandlerTest extends TestCase
         $input = 'transparent';
         $result = $handler->handle($input);
         $this->assertInstanceOf(RgbColor::class, $result);
-        $this->assertEquals([0, 0, 0, 0], $result->toArray());
+        $this->assertEquals([255, 0, 255, 0], $result->toArray());
     }
 }

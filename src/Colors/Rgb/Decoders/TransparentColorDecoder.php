@@ -18,6 +18,6 @@ class TransparentColorDecoder extends HexColorDecoder
             throw new DecoderException('Unable to decode input');
         }
 
-        return parent::decode('#00000000');
+        return parent::decode('#ff00ff00');
     }
 }

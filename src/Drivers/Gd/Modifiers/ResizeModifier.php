@@ -16,18 +16,13 @@ class ResizeModifier implements ModifierInterface
 
     public function apply(ImageInterface $image): ImageInterface
     {
-        $resizeTo = $this->getAdjustedSize($image);
+        $resizeTo =  $image->size()->resize($this->width, $this->height);
 
         foreach ($image as $frame) {
             $this->resizeFrame($frame, $resizeTo);
         }
 
         return $image;
-    }
-
-    protected function getAdjustedSize(ImageInterface $image): SizeInterface
-    {
-        return $image->size()->resize($this->width, $this->height);
     }
 
     protected function resizeFrame(FrameInterface $frame, SizeInterface $resizeTo): void

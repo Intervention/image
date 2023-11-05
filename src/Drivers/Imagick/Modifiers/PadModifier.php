@@ -4,6 +4,8 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
 use ImagickDraw;
+use ImagickPixel;
+use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Drivers\Abstract\Modifiers\AbstractPadModifier;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Drivers\Imagick\Traits\CanHandleColors;
@@ -21,10 +23,13 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
 
     public function apply(ImageInterface $image): ImageInterface
     {
+        $image = $this->failIfNotClass($image, Image::class);
+
         $resize = $this->getResizeSize($image);
         $crop = $this->getCropSize($image);
         $background = $this->handleInput($this->background);
 
+        $imagick = new Imagick();
         foreach ($image as $frame) {
             // resize current core
             $frame->core()->scaleImage(
@@ -43,12 +48,10 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
                 $crop->pivot()->y()
             );
 
-            // replace core
-            $frame->core()->destroy();
-            $frame->setCore($canvas);
+            $imagick->addImage($canvas);
         }
 
-        return $image;
+        return $image->setImagick($imagick);
     }
 
     protected function buildBaseCanvas(SizeInterface $crop, SizeInterface $resize, Color $background): Imagick
@@ -56,20 +59,15 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
         // build base canvas in target size
         $canvas = $this->imageFactory()->newCore(
             $resize->width(),
-            $resize->height()
+            $resize->height(),
+            $background
         );
-
-        // draw background color on canvas
-        $draw = new ImagickDraw();
-        $draw->setFillColor($this->colorToPixel($background, $canvas->getColorspace()));
-        $draw->rectangle(0, 0, $canvas->getImageWidth(), $canvas->getImageHeight());
-        $canvas->drawImage($draw);
 
         // make area where image is placed transparent to keep
         // transparency even if background-color is set
         $draw = new ImagickDraw();
         $fill = $background->toHex('#') == '#ff0000' ? '#00ff00' : '#ff0000';
-        $draw->setFillColor($fill);
+        $draw->setFillColor(new ImagickPixel($fill));
         $draw->rectangle(
             $crop->pivot()->x(),
             $crop->pivot()->y(),

@@ -24,8 +24,9 @@ interface FactoryInterface
     /**
      * Create new driver specific core image object
      *
-     * @param int $width
-     * @param int $height
+     * @param int                 $width
+     * @param int                 $height
+     * @param null|ColorInterface $background
      */
-    public function newCore(int $width, int $height);
+    public function newCore(int $width, int $height, ?ColorInterface $background = null);
 }

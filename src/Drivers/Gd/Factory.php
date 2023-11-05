@@ -5,6 +5,8 @@ namespace Intervention\Image\Drivers\Gd;
 use Intervention\Image\Collection;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Drivers\Gd\Image;
+use Intervention\Image\Drivers\Gd\Traits\CanHandleColors;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FactoryInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Traits\CanHandleInput;
@@ -12,6 +14,7 @@ use Intervention\Image\Traits\CanHandleInput;
 class Factory implements FactoryInterface
 {
     use CanHandleInput;
+    use CanHandleColors;
 
     /**
      * {@inheritdoc}
@@ -60,10 +63,10 @@ class Factory implements FactoryInterface
         return new Image($frames);
     }
 
-    public function newCore(int $width, int $height)
+    public function newCore(int $width, int $height, ?ColorInterface $background = null)
     {
         $core = imagecreatetruecolor($width, $height);
-        $color = imagecolorallocatealpha($core, 0, 0, 0, 127);
+        $color = $background ? $this->colorToInteger($background) : imagecolorallocatealpha($core, 0, 0, 0, 127);
         imagefill($core, 0, 0, $color);
         imagesavealpha($core, true);
 

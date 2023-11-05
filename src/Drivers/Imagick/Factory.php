@@ -81,7 +81,7 @@ class Factory implements FactoryInterface
         $imagick->newImage($width, $height, $pixel, 'png');
         $imagick->setType(Imagick::IMGTYPE_UNDEFINED);
         $imagick->setImageType(Imagick::IMGTYPE_UNDEFINED);
-        $imagick->setColorspace(Imagick::COLORSPACE_RGB);
+        $imagick->setColorspace(Imagick::COLORSPACE_SRGB);
         $imagick->setImageResolution(96, 96);
 
         return $imagick;

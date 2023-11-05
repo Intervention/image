@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Drivers\Abstract\Modifiers;
 
 use Intervention\Image\Drivers\Abstract\Modifiers\AbstractFitModifier;
-use Intervention\Image\Drivers\Imagick\ImageFactory;
+use Intervention\Image\Drivers\Imagick\Factory;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Tests\TestCase;
@@ -26,7 +26,7 @@ class AbstractFitModifierTest extends TestCase
     {
         $modifier = $this->getModifier(100, 200, 'center');
 
-        $image = (new ImageFactory())->newImage($width, $height);
+        $image = (new Factory())->newImage($width, $height);
         $size = $modifier->getCropSize($image);
 
         static::assertSame($expectedWidth, $size->width());
@@ -39,7 +39,7 @@ class AbstractFitModifierTest extends TestCase
     {
         $modifier = $this->getModifier(200, 100, 'center');
 
-        $image = (new ImageFactory())->newImage(300, 200);
+        $image = (new Factory())->newImage(300, 200);
         $size = $modifier->getCropSize($image);
         $resize = $modifier->getResizeSize($size);
 

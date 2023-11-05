@@ -9,7 +9,7 @@ use Intervention\Image\Interfaces\FactoryInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Traits\CanHandleInput;
 
-class ImageFactory implements FactoryInterface
+class Factory implements FactoryInterface
 {
     use CanHandleInput;
 
@@ -36,7 +36,7 @@ class ImageFactory implements FactoryInterface
     {
         $frames = new Collection();
 
-        $animation = new class ($frames) extends ImageFactory
+        $animation = new class ($frames) extends Factory
         {
             public function __construct(public Collection $frames)
             {

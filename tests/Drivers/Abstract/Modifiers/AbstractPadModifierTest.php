@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Drivers\Abstract\Modifiers;
 
 use Intervention\Image\Drivers\Abstract\Modifiers\AbstractPadModifier;
-use Intervention\Image\Drivers\Imagick\ImageFactory;
+use Intervention\Image\Drivers\Imagick\Factory;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Tests\TestCase;
@@ -28,7 +28,7 @@ final class AbstractPadModifierTest extends TestCase
     {
         $modifier = $this->getModifier(100, 200, 'ffffff', 'center');
 
-        $image = (new ImageFactory())->newImage($width, $height);
+        $image = (new Factory())->newImage($width, $height);
         $size = $modifier->getCropSize($image);
 
         static::assertSame($expectedWidth, $size->width());
@@ -41,7 +41,7 @@ final class AbstractPadModifierTest extends TestCase
     {
         $modifier = $this->getModifier(200, 100, 'ffffff', 'center');
 
-        $image = (new ImageFactory())->newImage(300, 200);
+        $image = (new Factory())->newImage(300, 200);
         $resize = $modifier->getResizeSize($image);
 
         static::assertSame(200, $resize->width());

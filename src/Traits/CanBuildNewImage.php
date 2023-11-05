@@ -10,6 +10,6 @@ trait CanBuildNewImage
 
     public function imageFactory(): FactoryInterface
     {
-        return $this->resolveDriverClass('ImageFactory');
+        return $this->resolveDriverClass('Factory');
     }
 }

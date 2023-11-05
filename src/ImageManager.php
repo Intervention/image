@@ -68,7 +68,7 @@ class ImageManager
      */
     public function create(int $width, int $height): ImageInterface
     {
-        return $this->resolveDriverClass('ImageFactory')->newImage($width, $height);
+        return $this->resolveDriverClass('Factory')->newImage($width, $height);
     }
 
     /**
@@ -79,7 +79,7 @@ class ImageManager
      */
     public function animate(callable $callback): ImageInterface
     {
-        return $this->resolveDriverClass('ImageFactory')->newAnimation($callback);
+        return $this->resolveDriverClass('Factory')->newAnimation($callback);
     }
 
     /**

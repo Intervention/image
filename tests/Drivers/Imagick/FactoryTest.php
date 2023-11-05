@@ -4,25 +4,25 @@ namespace Intervention\Image\Tests\Drivers\Imagick;
 
 use Imagick;
 use Intervention\Image\Drivers\Imagick\Image;
-use Intervention\Image\Drivers\Imagick\ImageFactory;
+use Intervention\Image\Drivers\Imagick\Factory;
 use Intervention\Image\Tests\TestCase;
 
 /**
  * @requires extension imagick
- * @covers \Intervention\Image\Drivers\Imagick\ImageFactory
+ * @covers \Intervention\Image\Drivers\Imagick\Factory
  */
-class ImageFactoryTest extends TestCase
+class FactoryTest extends TestCase
 {
     public function testNewImage(): void
     {
-        $factory = new ImageFactory();
+        $factory = new Factory();
         $image = $factory->newImage(3, 2);
         $this->assertInstanceOf(Image::class, $image);
     }
 
     public function testNewAnimation(): void
     {
-        $factory = new ImageFactory();
+        $factory = new Factory();
         $image = $factory->newAnimation(function ($animation) {
             $animation->add($this->getTestImagePath('blue.gif'), 1.2);
             $animation->add($this->getTestImagePath('red.gif'), 1.2);
@@ -33,7 +33,7 @@ class ImageFactoryTest extends TestCase
 
     protected function testNewCore(): void
     {
-        $factory = new ImageFactory();
+        $factory = new Factory();
         $core = $factory->newCore(3, 2);
         $this->assertInstanceOf(Imagick::class, $core);
     }

@@ -10,7 +10,7 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Traits\CanCheckType;
 use Intervention\Image\Traits\CanHandleInput;
 
-class ImageFactory implements FactoryInterface
+class Factory implements FactoryInterface
 {
     use CanHandleInput;
     use CanCheckType;
@@ -35,7 +35,7 @@ class ImageFactory implements FactoryInterface
         $imagick = new Imagick();
         $imagick->setFormat('gif');
 
-        $animation = new class ($imagick) extends ImageFactory
+        $animation = new class ($imagick) extends Factory
         {
             public function __construct(public Imagick $imagick)
             {

@@ -63,6 +63,11 @@ class Factory implements FactoryInterface
         return new Image($frames);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see FactoryInterface::newCore()
+     */
     public function newCore(int $width, int $height, ?ColorInterface $background = null)
     {
         $core = imagecreatetruecolor($width, $height);

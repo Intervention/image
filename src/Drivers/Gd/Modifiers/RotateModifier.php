@@ -7,12 +7,15 @@ use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Drivers\Abstract\Modifiers\AbstractRotateModifier;
 use Intervention\Image\Drivers\Gd\Traits\CanHandleColors;
+use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Exceptions\MissingDriverComponentException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Traits\CanBuildNewImage;
+use ReflectionException;
 
 class RotateModifier extends AbstractRotateModifier implements ModifierInterface
 {
@@ -30,6 +33,17 @@ class RotateModifier extends AbstractRotateModifier implements ModifierInterface
         return $image;
     }
 
+    /**
+     * Apply rotation modification on given frame, given background
+     * color is used for newly create image areas
+     *
+     * @param FrameInterface $frame
+     * @param ColorInterface $background
+     * @return void
+     * @throws RuntimeException
+     * @throws MissingDriverComponentException
+     * @throws ReflectionException
+     */
     protected function modify(FrameInterface $frame, ColorInterface $background): void
     {
         // rotate original image against transparent background

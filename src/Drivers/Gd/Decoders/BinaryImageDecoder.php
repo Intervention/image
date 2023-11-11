@@ -2,6 +2,7 @@
 
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
+use GdImage;
 use Intervention\Image\Collection;
 use Intervention\Image\Drivers\Abstract\Decoders\AbstractDecoder;
 use Intervention\Image\Drivers\Gd\Frame;
@@ -22,7 +23,7 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
             throw new DecoderException('Unable to decode input');
         }
 
-        if (! $this->inputType($input)->isBinary()) {
+        if (!$this->inputType($input)->isBinary()) {
             throw new DecoderException('Unable to decode input');
         }
 
@@ -30,17 +31,7 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
             return $this->decodeGif($input); // decode (animated) gif
         }
 
-        $gd = @imagecreatefromstring($input);
-
-        if ($gd === false) {
-            throw new DecoderException('Unable to decode input');
-        }
-
-        if (! imageistruecolor($gd)) {
-            imagepalettetotruecolor($gd);
-        }
-
-        imagesavealpha($gd, true);
+        $gd = $this->coreFromString($input);
 
         // build image instance
         $image = new Image(new Collection([new Frame($gd)]));
@@ -59,19 +50,40 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
         };
     }
 
-    protected function decodeGif($input): ImageInterface
+    private function coreFromString(string $input): GdImage
     {
-        $image = new Image(new Collection());
-        $gif = GifDecoder::decode($input);
+        $gd = @imagecreatefromstring($input);
 
-
-        if (!$gif->isAnimated()) {
-            return $image->addFrame(new Frame(@imagecreatefromstring($input)));
+        if ($gd === false) {
+            throw new DecoderException('Unable to decode input');
         }
 
+        if (!imageistruecolor($gd)) {
+            imagepalettetotruecolor($gd);
+        }
+
+        imagesavealpha($gd, true);
+
+        return $gd;
+    }
+
+    private function decodeGif(string $input): ImageInterface
+    {
+        $gif = GifDecoder::decode($input);
+
+        if (!$gif->isAnimated()) {
+            return new Image(
+                new Collection([new Frame(
+                    $this->coreFromString($input)
+                )]),
+            );
+        }
+
+        $image = new Image(new Collection());
         $image->setLoops($gif->getMainApplicationExtension()?->getLoops());
 
         $splitter = GifSplitter::create($gif)->split();
+
         $delays = $splitter->getDelays();
         foreach ($splitter->coalesceToResources() as $key => $gd) {
             $image->addFrame((new Frame($gd))->setDelay($delays[$key] / 100));

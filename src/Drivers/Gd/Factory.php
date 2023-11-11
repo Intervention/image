@@ -3,6 +3,7 @@
 namespace Intervention\Image\Drivers\Gd;
 
 use Intervention\Image\Collection;
+use Intervention\Image\Colors\Rgb\Channels\Alpha;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Drivers\Gd\Traits\CanHandleColors;
@@ -71,13 +72,19 @@ class Factory implements FactoryInterface
         $core = imagecreatetruecolor($width, $height);
 
         $color = match (is_null($background)) {
-            true => imagecolorallocatealpha($core, 0, 0, 0, 127),
+            true => imagecolorallocatealpha($core, 255, 0, 255, 127),
             default => imagecolorallocatealpha(
                 $core,
                 $background->channel(Red::class)->value(),
                 $background->channel(Green::class)->value(),
                 $background->channel(Blue::class)->value(),
-                127
+                $this->convertRange(
+                    $background->channel(Alpha::class)->value(),
+                    0,
+                    255,
+                    127,
+                    0
+                )
             ),
         };
 

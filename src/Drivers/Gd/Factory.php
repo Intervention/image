@@ -10,6 +10,9 @@ use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FactoryInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Traits\CanHandleInput;
+use Intervention\Image\Colors\Rgb\Channels\Blue;
+use Intervention\Image\Colors\Rgb\Channels\Green;
+use Intervention\Image\Colors\Rgb\Channels\Red;
 
 class Factory implements FactoryInterface
 {
@@ -50,8 +53,8 @@ class Factory implements FactoryInterface
             {
                 $this->frames->push(
                     $this->handleInput($source)
-                         ->frame()
-                         ->setDelay($delay)
+                        ->frame()
+                        ->setDelay($delay)
                 );
 
                 return $this;
@@ -66,7 +69,18 @@ class Factory implements FactoryInterface
     public function newCore(int $width, int $height, ?ColorInterface $background = null)
     {
         $core = imagecreatetruecolor($width, $height);
-        $color = $background ? $this->colorToInteger($background) : imagecolorallocatealpha($core, 0, 0, 0, 127);
+
+        $color = match (is_null($background)) {
+            true => imagecolorallocatealpha($core, 0, 0, 0, 127),
+            default => imagecolorallocatealpha(
+                $core,
+                $background->channel(Red::class)->value(),
+                $background->channel(Green::class)->value(),
+                $background->channel(Blue::class)->value(),
+                127
+            ),
+        };
+
         imagefill($core, 0, 0, $color);
         imagesavealpha($core, true);
 

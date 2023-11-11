@@ -2,10 +2,34 @@
 
 namespace Intervention\Image\Drivers\Gd\Traits;
 
+use GdImage;
 use Intervention\Image\Colors\Rgb\Color;
+use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Colors\Rgb\Channels\Alpha;
+use Intervention\Image\Colors\Rgb\Channels\Blue;
+use Intervention\Image\Colors\Rgb\Channels\Green;
+use Intervention\Image\Colors\Rgb\Channels\Red;
 
 trait CanHandleColors
 {
+    /**
+     * Allocate given color in given gd image and return color value/index
+     *
+     * @param GdImage $gd
+     * @param ColorInterface $color
+     * @return int
+     */
+    protected function allocateColor(GdImage $gd, ColorInterface $color): int
+    {
+        return imagecolorallocatealpha(
+            $gd,
+            $color->channel(Red::class)->value(),
+            $color->channel(Green::class)->value(),
+            $color->channel(Blue::class)->value(),
+            $this->convertRange($color->channel(Alpha::class)->value(), 0, 255, 127, 0)
+        );
+    }
+
     /**
      * Transforms array result from imagecolorsforindex() to Color object
      *

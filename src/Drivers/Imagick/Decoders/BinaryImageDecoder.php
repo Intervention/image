@@ -3,6 +3,7 @@
 namespace Intervention\Image\Drivers\Imagick\Decoders;
 
 use Imagick;
+use ImagickException;
 use Intervention\Image\Drivers\Abstract\Decoders\AbstractDecoder;
 use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Exceptions\DecoderException;
@@ -18,12 +19,13 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
             throw new DecoderException('Unable to decode input');
         }
 
-        if (!$this->inputType($input)->isBinary()) {
+        try {
+            $imagick = new Imagick();
+            $imagick->readImageBlob($input);
+        } catch (ImagickException $e) {
             throw new DecoderException('Unable to decode input');
         }
 
-        $imagick = new Imagick();
-        $imagick->readImageBlob($input);
         $imagick = $imagick->coalesceImages();
 
         // fix image orientation

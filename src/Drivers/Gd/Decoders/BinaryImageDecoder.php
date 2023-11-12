@@ -10,7 +10,6 @@ use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\MimeSniffer\Types\ImageGif;
 use Intervention\Gif\Decoder as GifDecoder;
 use Intervention\Gif\Splitter as GifSplitter;
 use Intervention\Image\Exceptions\DecoderException;
@@ -23,11 +22,7 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
             throw new DecoderException('Unable to decode input');
         }
 
-        if (!$this->inputType($input)->isBinary()) {
-            throw new DecoderException('Unable to decode input');
-        }
-
-        if (is_a($this->inputType($input), ImageGif::class)) {
+        if ($this->mediaType($input) == 'image/gif') {
             return $this->decodeGif($input); // decode (animated) gif
         }
 

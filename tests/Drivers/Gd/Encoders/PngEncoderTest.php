@@ -8,8 +8,6 @@ use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
-use Intervention\MimeSniffer\MimeSniffer;
-use Intervention\MimeSniffer\Types\ImagePng;
 
 /**
  * @requires extension gd
@@ -31,7 +29,7 @@ class PngEncoderTest extends TestCase
         $image = $this->getTestImage();
         $encoder = new PngEncoder();
         $result = $encoder->encode($image);
-        $this->assertTrue(MimeSniffer::createFromString($result)->matches(ImagePng::class));
+        $this->assertMimeType('image/png', (string) $result);
     }
 
     public function testEncodeReduced(): void

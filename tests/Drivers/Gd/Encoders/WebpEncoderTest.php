@@ -8,9 +8,7 @@ use Intervention\Image\Collection;
 use Intervention\Image\Drivers\Gd\Encoders\WebpEncoder;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Drivers\Gd\Image;
-use Intervention\MimeSniffer\MimeSniffer;
-use Intervention\MimeSniffer\Types\ImageWebp;
-use PHPUnit\Framework\TestCase;
+use Intervention\Image\Tests\TestCase;
 
 /**
  * @requires extension gd
@@ -29,6 +27,6 @@ final class WebpEncoderTest extends TestCase
         $image = $this->getTestImage();
         $encoder = new WebpEncoder(75);
         $result = $encoder->encode($image);
-        $this->assertTrue(MimeSniffer::createFromString((string) $result)->matches(new ImageWebp()));
+        $this->assertMimeType('image/webp', (string) $result);
     }
 }

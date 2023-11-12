@@ -8,8 +8,6 @@ use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Traits\CanBuildFilePointer;
-use Intervention\MimeSniffer\MimeSniffer;
-use Intervention\MimeSniffer\AbstractType;
 
 abstract class AbstractDecoder implements DecoderInterface
 {
@@ -40,9 +38,19 @@ abstract class AbstractDecoder implements DecoderInterface
         return $this->successor !== null;
     }
 
-    protected function inputType($input): AbstractType
+    /**
+     * Return media type (MIME) of given input
+     *
+     * @param string $input
+     * @return string
+     */
+    protected function mediaType(string $input): string
     {
-        return MimeSniffer::createFromString($input)->getType();
+        $pointer = $this->buildFilePointer($input);
+        $type = mime_content_type($pointer);
+        fclose($pointer);
+
+        return $type;
     }
 
     protected function decodeExifData(string $image_data): array

@@ -8,8 +8,6 @@ use Intervention\Image\Drivers\Imagick\Encoders\BmpEncoder;
 use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
-use Intervention\MimeSniffer\MimeSniffer;
-use Intervention\MimeSniffer\Types\ImageBmp;
 
 /**
  * @requires extension imagick
@@ -32,9 +30,7 @@ class BmpEncoderTest extends TestCase
         $image = $this->getTestImage();
         $encoder = new BmpEncoder();
         $result = $encoder->encode($image);
-        $this->assertTrue(
-            MimeSniffer::createFromString($result)->matches(new ImageBmp())
-        );
+        $this->assertMimeType(['image/bmp', 'image/x-ms-bmp'], (string) $result);
     }
 
     public function testEncodeReduced(): void

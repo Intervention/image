@@ -7,8 +7,6 @@ use Intervention\Image\Drivers\Gd\Encoders\AvifEncoder;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Tests\TestCase;
-use Intervention\MimeSniffer\MimeSniffer;
-use Intervention\MimeSniffer\Types\ImageAvif;
 
 /**
  * @requires extension gd
@@ -28,6 +26,6 @@ class AvifEncoderTest extends TestCase
         $image = $this->getTestImage();
         $encoder = new AvifEncoder(10);
         $result = $encoder->encode($image);
-        $this->assertTrue(MimeSniffer::createFromString($result)->matches(new ImageAvif()));
+        $this->assertMimeType('image/avif', (string) $result);
     }
 }

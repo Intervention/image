@@ -7,8 +7,6 @@ use Intervention\Image\Drivers\Gd\Encoders\BmpEncoder;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Tests\TestCase;
-use Intervention\MimeSniffer\MimeSniffer;
-use Intervention\MimeSniffer\Types\ImageBmp;
 
 /**
  * @requires extension gd
@@ -28,6 +26,6 @@ class BmpEncoderTest extends TestCase
         $image = $this->getTestImage();
         $encoder = new BmpEncoder();
         $result = $encoder->encode($image);
-        $this->assertTrue(MimeSniffer::createFromString($result)->matches(ImageBmp::class));
+        $this->assertMimeType(['image/bmp', 'image/x-ms-bmp'], (string) $result);
     }
 }

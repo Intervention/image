@@ -30,4 +30,16 @@ abstract class TestCase extends MockeryTestCase
         $channel = $color->channel(Alpha::class);
         $this->assertEquals(0, $channel->value());
     }
+
+    protected function assertMimeType(string|array $allowed, string $input): void
+    {
+        $pointer = fopen('php://temp', 'rw');
+        fputs($pointer, $input);
+        rewind($pointer);
+        $detected = mime_content_type($pointer);
+        fclose($pointer);
+
+        $allowed = is_string($allowed) ? [$allowed] : $allowed;
+        $this->assertTrue(in_array($detected, $allowed));
+    }
 }

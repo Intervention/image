@@ -7,8 +7,6 @@ use ImagickPixel;
 use Intervention\Image\Drivers\Imagick\Encoders\AvifEncoder;
 use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Tests\TestCase;
-use Intervention\MimeSniffer\MimeSniffer;
-use Intervention\MimeSniffer\Types\ImageAvif;
 
 /**
  * @requires extension imagick
@@ -29,6 +27,6 @@ class AvifEncoderTest extends TestCase
         $image = $this->getTestImage();
         $encoder = new AvifEncoder(10);
         $result = $encoder->encode($image);
-        $this->assertTrue(MimeSniffer::createFromString($result)->matches(new ImageAvif()));
+        $this->assertMimeType('image/avif', (string) $result);
     }
 }

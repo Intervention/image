@@ -8,8 +8,6 @@ use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
-use Intervention\MimeSniffer\MimeSniffer;
-use Intervention\MimeSniffer\Types\ImageGif;
 
 /**
  * @requires extension gd
@@ -42,7 +40,7 @@ class GifEncoderTest extends TestCase
         $image = $this->getTestImage();
         $encoder = new GifEncoder();
         $result = $encoder->encode($image);
-        $this->assertTrue(MimeSniffer::createFromString($result)->matches(new ImageGif()));
+        $this->assertMimeType('image/gif', (string) $result);
     }
 
     public function testEncodeReduced(): void

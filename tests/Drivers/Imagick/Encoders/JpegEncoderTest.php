@@ -7,8 +7,6 @@ use ImagickPixel;
 use Intervention\Image\Drivers\Imagick\Encoders\JpegEncoder;
 use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Tests\TestCase;
-use Intervention\MimeSniffer\MimeSniffer;
-use Intervention\MimeSniffer\Types\ImageJpeg;
 
 /**
  * @requires extension imagick
@@ -29,6 +27,6 @@ class JpegEncoderTest extends TestCase
         $image = $this->getTestImage();
         $encoder = new JpegEncoder(75);
         $result = $encoder->encode($image);
-        $this->assertTrue(MimeSniffer::createFromString($result)->matches(new ImageJpeg()));
+        $this->assertMimeType('image/jpeg', (string) $result);
     }
 }

@@ -4,13 +4,10 @@ namespace Intervention\Image\Tests\Drivers\Imagick\Encoders;
 
 use Imagick;
 use ImagickPixel;
-use Intervention\Image\Collection;
 use Intervention\Image\Drivers\Imagick\Encoders\GifEncoder;
 use Intervention\Image\Drivers\Imagick\Image;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
-use Intervention\MimeSniffer\MimeSniffer;
-use Intervention\MimeSniffer\Types\ImageGif;
 
 /**
  * @requires extension imagick
@@ -47,7 +44,7 @@ class GifEncoderTest extends TestCase
         $image = $this->getTestImage();
         $encoder = new GifEncoder();
         $result = $encoder->encode($image);
-        $this->assertTrue(MimeSniffer::createFromString($result)->matches(new ImageGif()));
+        $this->assertMimeType('image/gif', (string) $result);
     }
 
     public function testEncodeReduced(): void

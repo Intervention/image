@@ -8,10 +8,8 @@ use Imagick;
 use ImagickPixel;
 use Intervention\Image\Drivers\Imagick\Encoders\PngEncoder;
 use Intervention\Image\Drivers\Imagick\Image;
+use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
-use Intervention\MimeSniffer\MimeSniffer;
-use Intervention\MimeSniffer\Types\ImagePng;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @requires extension imagick
@@ -33,7 +31,7 @@ final class PngEncoderTest extends TestCase
         $image = $this->getTestImage();
         $encoder = new PngEncoder(75);
         $result = $encoder->encode($image);
-        $this->assertTrue(MimeSniffer::createFromString((string) $result)->matches(new ImagePng()));
+        $this->assertMimeType('image/png', (string) $result);
     }
 
     public function testEncodeReduced(): void

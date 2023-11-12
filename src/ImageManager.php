@@ -4,14 +4,9 @@ namespace Intervention\Image;
 
 use Intervention\Image\Exceptions\ConfigurationException;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Traits\CanResolveDriverClass;
 
 class ImageManager
 {
-    use CanResolveDriverClass;
-
-    protected const AVAILABLE_DRIVERS = ['gd', 'imagick'];
-
     /**
      * Create new ImageManager instance
      *
@@ -21,10 +16,8 @@ class ImageManager
      */
     public function __construct(protected string $driver = 'gd')
     {
-        if (! in_array(strtolower($driver), self::AVAILABLE_DRIVERS)) {
-            throw new ConfigurationException(
-                'Driver ' . $driver . ' not available.'
-            );
+        if (!$this->driverExists()) {
+            throw new ConfigurationException('Driver ' . $driver . ' is not available.');
         }
     }
 
@@ -94,12 +87,39 @@ class ImageManager
     }
 
     /**
-     * Return id of current driver
+     * Resolve given classname with configured driver
      *
+     * @return object
+     */
+    private function resolveDriverClass(string $classname): object
+    {
+        $classname = $this->driverClassname($classname);
+
+        return new $classname();
+    }
+
+    /**
+     * Build full namespaced classname of given class for configured driver
+     *
+     * @param string $classname
      * @return string
      */
-    protected function getCurrentDriver(): string
+    private function driverClassname(string $classname): string
     {
-        return strtolower($this->driver);
+        return sprintf(
+            "Intervention\Image\Drivers\%s\%s",
+            ucfirst($this->driver),
+            $classname
+        );
+    }
+
+    /**
+     * Determine if configured driver exists
+     *
+     * @return bool
+     */
+    private function driverExists(): bool
+    {
+        return class_exists($this->driverClassname('Image'));
     }
 }

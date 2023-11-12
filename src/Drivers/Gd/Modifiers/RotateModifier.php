@@ -46,17 +46,23 @@ class RotateModifier extends AbstractRotateModifier implements ModifierInterface
      */
     protected function modify(FrameInterface $frame, ColorInterface $background): void
     {
-        // rotate original image against transparent background
-        $rotated = imagerotate(
-            $frame->core(),
-            $this->rotationAngle(),
-            imagecolorallocatealpha(
+        // get transparent color from frame core
+        $transparent = match ($transparent = imagecolortransparent($frame->core())) {
+            -1 => imagecolorallocatealpha(
                 $frame->core(),
                 $background->channel(Red::class)->value(),
                 $background->channel(Green::class)->value(),
                 $background->channel(Blue::class)->value(),
                 127
-            )
+            ),
+            default => $transparent,
+        };
+
+        // rotate original image against transparent background
+        $rotated = imagerotate(
+            $frame->core(),
+            $this->rotationAngle(),
+            $transparent
         );
 
         // create size from original after rotation
@@ -74,16 +80,12 @@ class RotateModifier extends AbstractRotateModifier implements ModifierInterface
             ->valign('center')
             ->rotate($this->rotationAngle() * -1);
 
-        // create new gd image
+        // create new gd core
         $modified = $this->imageFactory()->newCore(
             imagesx($rotated),
             imagesy($rotated),
             $background
         );
-
-        // define transparent colors
-        $transparent = imagecolorallocatealpha($modified, 255, 0, 255, 127);
-        imagecolortransparent($modified, $transparent);
 
         // draw the cutout on new gd image to have a transparent
         // background where the rotated image will be placed
@@ -91,7 +93,7 @@ class RotateModifier extends AbstractRotateModifier implements ModifierInterface
         imagefilledpolygon(
             $modified,
             $cutout->toArray(),
-            $transparent
+            imagecolortransparent($modified)
         );
 
         // place rotated image on new gd image

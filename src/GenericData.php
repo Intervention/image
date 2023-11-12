@@ -4,9 +4,12 @@ namespace Intervention\Image;
 
 use Intervention\Image\Exceptions\NotWritableException;
 use Intervention\Image\Interfaces\GenericDataInterface;
+use Intervention\Image\Traits\CanBuildFilePointer;
 
 class GenericData implements GenericDataInterface
 {
+    use CanBuildFilePointer;
+
     /**
      * Create new instance
      *
@@ -50,11 +53,7 @@ class GenericData implements GenericDataInterface
      */
     public function toFilePointer()
     {
-        $pointer = fopen('php://temp', 'rw');
-        fputs($pointer, $this->toString());
-        rewind($pointer);
-
-        return $pointer;
+        return $this->buildFilePointer($this->toString());
     }
 
     /**

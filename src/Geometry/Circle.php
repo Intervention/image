@@ -2,15 +2,16 @@
 
 namespace Intervention\Image\Geometry;
 
+use Intervention\Image\Interfaces\PointInterface;
+
 class Circle extends Ellipse
 {
     public function __construct(
         protected int $diameter,
-        protected ?Point $pivot = null
+        protected PointInterface $pivot = new Point()
     ) {
         $this->setWidth($diameter);
         $this->setHeight($diameter);
-        $this->pivot = $pivot ? $pivot : new Point();
     }
 
     public function diameter(int $diameter): self

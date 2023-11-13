@@ -10,6 +10,7 @@ use IteratorAggregate;
 use Intervention\Image\Geometry\Traits\HasBackgroundColor;
 use Intervention\Image\Geometry\Traits\HasBorder;
 use Intervention\Image\Interfaces\DrawableInterface;
+use Intervention\Image\Interfaces\PointInterface;
 
 class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInterface
 {
@@ -18,9 +19,9 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
 
     public function __construct(
         protected array $points = [],
-        protected ?Point $pivot = null
+        protected PointInterface $pivot = new Point()
     ) {
-        $this->pivot = $pivot ? $pivot : new Point();
+        //
     }
 
     public function getIterator(): Traversable
@@ -31,9 +32,9 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     /**
      * Return current pivot point
      *
-     * @return Point
+     * @return PointInterface
      */
-    public function getPivot(): Point
+    public function getPivot(): PointInterface
     {
         return $this->pivot;
     }

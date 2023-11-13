@@ -17,9 +17,8 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
     public function __construct(
         int $width,
         int $height,
-        protected ?Point $pivot = null
+        protected PointInterface $pivot = new Point()
     ) {
-        $this->pivot = $pivot ? $pivot : new Point();
         $this->addPoint(new Point($this->pivot->x(), $this->pivot->y()));
         $this->addPoint(new Point($this->pivot->x() + $width, $this->pivot->y()));
         $this->addPoint(new Point($this->pivot->x() + $width, $this->pivot->y() - $height));
@@ -62,7 +61,7 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
         return $this;
     }
 
-    public function pivot(): Point
+    public function pivot(): PointInterface
     {
         return $this->pivot;
     }

@@ -5,6 +5,7 @@ namespace Intervention\Image\Geometry;
 use Intervention\Image\Geometry\Traits\HasBackgroundColor;
 use Intervention\Image\Geometry\Traits\HasBorder;
 use Intervention\Image\Interfaces\DrawableInterface;
+use Intervention\Image\Interfaces\PointInterface;
 
 class Ellipse implements DrawableInterface
 {
@@ -14,9 +15,9 @@ class Ellipse implements DrawableInterface
     public function __construct(
         protected int $width,
         protected int $height,
-        protected ?Point $pivot = null
+        protected PointInterface $pivot = new Point()
     ) {
-        $this->pivot = $pivot ? $pivot : new Point();
+        //
     }
 
     public function size(int $width, int $height): self

@@ -17,22 +17,15 @@ use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Traits\CanHandleInput;
 use Intervention\Image\Traits\CanResolveDriverClass;
+use Intervention\Image\Traits\CanRunCallback;
 
 abstract class AbstractImage implements ImageInterface
 {
     use CanResolveDriverClass;
     use CanHandleInput;
+    use CanRunCallback;
 
     protected Collection $exif;
-
-    protected function runCallback(?callable $callback, object $object): object
-    {
-        if (is_callable($callback)) {
-            $callback($object);
-        }
-
-        return $object;
-    }
 
     public function mapFrames(callable $callback): ImageInterface
     {
@@ -248,7 +241,7 @@ abstract class AbstractImage implements ImageInterface
 
     public function text(string $text, int $x, int $y, ?callable $init = null): ImageInterface
     {
-        $font = $this->runCallback($init, $this->resolveDriverClass('Font'));
+        $font = $this->maybeRunCallback($init, $this->resolveDriverClass('Font'));
 
         $modifier = $this->resolveDriverClass('Modifiers\TextWriter', new Point($x, $y), $font, $text);
 
@@ -264,7 +257,7 @@ abstract class AbstractImage implements ImageInterface
 
     public function drawRectangle(int $x, int $y, ?callable $init = null): ImageInterface
     {
-        $rectangle = $this->runCallback($init, new Rectangle(0, 0));
+        $rectangle = $this->maybeRunCallback($init, new Rectangle(0, 0));
         $modifier = $this->resolveDriverClass('Modifiers\DrawRectangleModifier', new Point($x, $y), $rectangle);
 
         return $this->modify($modifier);
@@ -272,7 +265,7 @@ abstract class AbstractImage implements ImageInterface
 
     public function drawEllipse(int $x, int $y, ?callable $init = null): ImageInterface
     {
-        $ellipse = $this->runCallback($init, new Ellipse(0, 0));
+        $ellipse = $this->maybeRunCallback($init, new Ellipse(0, 0));
         $modifier = $this->resolveDriverClass('Modifiers\DrawEllipseModifier', new Point($x, $y), $ellipse);
 
         return $this->modify($modifier);
@@ -280,7 +273,7 @@ abstract class AbstractImage implements ImageInterface
 
     public function drawCircle(int $x, int $y, ?callable $init = null): ImageInterface
     {
-        $circle = $this->runCallback($init, new Circle(0));
+        $circle = $this->maybeRunCallback($init, new Circle(0));
         $modifier = $this->resolveDriverClass('Modifiers\DrawEllipseModifier', new Point($x, $y), $circle);
 
         return $this->modify($modifier);
@@ -288,7 +281,7 @@ abstract class AbstractImage implements ImageInterface
 
     public function drawLine(callable $init = null): ImageInterface
     {
-        $line = $this->runCallback($init, new Line(new Point(), new Point()));
+        $line = $this->maybeRunCallback($init, new Line(new Point(), new Point()));
         $modifier = $this->resolveDriverClass('Modifiers\DrawLineModifier', $line->getStart(), $line);
 
         return $this->modify($modifier);
@@ -296,7 +289,7 @@ abstract class AbstractImage implements ImageInterface
 
     public function drawPolygon(callable $init = null): ImageInterface
     {
-        $polygon = $this->runCallback($init, new Polygon());
+        $polygon = $this->maybeRunCallback($init, new Polygon());
         $modifier = $this->resolveDriverClass('Modifiers\DrawPolygonModifier', $polygon);
 
         return $this->modify($modifier);

@@ -8,7 +8,7 @@ use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Traits\CanCheckType;
 use Intervention\Image\Traits\CanHandleInput;
 
-abstract class AbstractRotateModifier
+abstract class DELETE____AbstractRotateModifier
 {
     use CanHandleInput;
     use CanCheckType;

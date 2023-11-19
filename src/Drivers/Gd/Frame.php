@@ -3,8 +3,9 @@
 namespace Intervention\Image\Drivers\Gd;
 
 use GdImage;
-use Intervention\Image\Collection;
 use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Image;
+use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -12,7 +13,7 @@ use Intervention\Image\Interfaces\SizeInterface;
 class Frame implements FrameInterface
 {
     public function __construct(
-        protected GdImage $core,
+        protected GdImage $data,
         protected float $delay = 0,
         protected int $dispose = 1,
         protected int $offset_left = 0,
@@ -21,26 +22,31 @@ class Frame implements FrameInterface
         //
     }
 
-    public function setCore($core): FrameInterface
+    public function toImage(DriverInterface $driver): ImageInterface
     {
-        $this->core = $core;
+        return new Image($driver, new Core([$this]));
+    }
+
+    public function setData($data): FrameInterface
+    {
+        $this->data = $data;
 
         return $this;
     }
 
-    public function core(): GdImage
+    public function data(): GdImage
     {
-        return $this->core;
+        return $this->data;
     }
 
-    public function unsetCore(): void
+    public function unsetData(): void
     {
-        unset($this->core);
+        unset($this->data);
     }
 
     public function size(): SizeInterface
     {
-        return new Rectangle(imagesx($this->core), imagesy($this->core));
+        return new Rectangle(imagesx($this->data), imagesy($this->data));
     }
 
     public function delay(): float
@@ -97,10 +103,5 @@ class Frame implements FrameInterface
         $this->offset_top = $offset;
 
         return $this;
-    }
-
-    public function toImage(): ImageInterface
-    {
-        return new Image(new Collection([$this]));
     }
 }

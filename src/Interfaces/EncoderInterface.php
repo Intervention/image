@@ -2,15 +2,13 @@
 
 namespace Intervention\Image\Interfaces;
 
-use Intervention\Image\EncodedImage;
-
 interface EncoderInterface
 {
     /**
      * Encode given image
      *
      * @param ImageInterface $image
-     * @return EncodedImage
+     * @return EncodedImageInterface
      */
-    public function encode(ImageInterface $image): EncodedImage;
+    public function encode(ImageInterface $image): EncodedImageInterface;
 }

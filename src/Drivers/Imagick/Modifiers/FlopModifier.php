@@ -2,15 +2,15 @@
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
+use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 
-class FlopModifier implements ModifierInterface
+class FlopModifier extends DriverModifier
 {
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $frame->core()->flopImage();
+            $frame->data()->flopImage();
         }
 
         return $image;

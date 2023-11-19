@@ -3,7 +3,7 @@
 namespace Intervention\Image\Colors\Rgb\Decoders;
 
 use Intervention\Image\Colors\Rgb\Color;
-use Intervention\Image\Drivers\Abstract\Decoders\AbstractDecoder;
+use Intervention\Image\Drivers\AbstractDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;

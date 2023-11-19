@@ -11,17 +11,16 @@ class Pixel extends Point
         protected int $x,
         protected int $y
     ) {
-        //
     }
 
-    public function withBackground(ColorInterface $background): self
+    public function setBackgroundColor(ColorInterface $background): self
     {
         $this->background = $background;
 
         return $this;
     }
 
-    public function background(): ColorInterface
+    public function backgroundColor(): ColorInterface
     {
         return $this->background;
     }

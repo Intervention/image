@@ -16,10 +16,9 @@ class Line implements DrawableInterface
         protected Point $end,
         protected int $width = 1
     ) {
-        //
     }
 
-    public function getWidth(): int
+    public function width(): int
     {
         return $this->width;
     }
@@ -31,24 +30,12 @@ class Line implements DrawableInterface
         return $this;
     }
 
-    public function width(int $width): self
-    {
-        return $this->setWidth($width);
-    }
-
-    public function color($color): self
-    {
-        $this->setBackgroundColor($color);
-
-        return $this;
-    }
-
-    public function getStart(): Point
+    public function start(): Point
     {
         return $this->start;
     }
 
-    public function getEnd(): Point
+    public function end(): Point
     {
         return $this->end;
     }
@@ -62,16 +49,16 @@ class Line implements DrawableInterface
 
     public function from(int $x, int $y): self
     {
-        $this->getStart()->setX($x);
-        $this->getStart()->setY($y);
+        $this->start()->setX($x);
+        $this->start()->setY($y);
 
         return $this;
     }
 
     public function to(int $x, int $y): self
     {
-        $this->getEnd()->setX($x);
-        $this->getEnd()->setY($y);
+        $this->end()->setX($x);
+        $this->end()->setY($y);
 
         return $this;
     }

@@ -16,8 +16,8 @@ class PixelTest extends TestCase
     {
         $color = Mockery::mock(ColorInterface::class);
         $pixel = new Pixel($color, 10, 12);
-        $result = $pixel->withBackground($color);
-        $this->assertInstanceOf(ColorInterface::class, $pixel->background());
+        $result = $pixel->setBackgroundColor($color);
+        $this->assertInstanceOf(ColorInterface::class, $pixel->backgroundColor());
         $this->assertInstanceOf(Pixel::class, $result);
     }
 }

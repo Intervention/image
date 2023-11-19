@@ -2,15 +2,15 @@
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
+use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 
-class GreyscaleModifier implements ModifierInterface
+class GreyscaleModifier extends DriverModifier
 {
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $frame->core()->modulateImage(100, 0, 100);
+            $frame->data()->modulateImage(100, 0, 100);
         }
 
         return $image;

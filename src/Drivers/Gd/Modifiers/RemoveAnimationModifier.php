@@ -2,26 +2,21 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Collection;
-use Intervention\Image\Drivers\Abstract\Modifiers\AbstractRemoveAnimationModifier;
+use Intervention\Image\Drivers\DriverModifier;
+use Intervention\Image\Drivers\Gd\Core;
+use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Traits\CanCheckType;
-use Intervention\Image\Drivers\Gd\Image;
 
-class RemoveAnimationModifier extends AbstractRemoveAnimationModifier
+class RemoveAnimationModifier extends DriverModifier
 {
-    use CanCheckType;
-
-    public function __construct(protected int|string $position = 0)
-    {
-        //
-    }
-
     public function apply(ImageInterface $image): ImageInterface
     {
-        $image = $this->failIfNotClass($image, Image::class);
-        return $image->setFrames(new Collection([
-            $this->chosenFrame($image, $this->position)
-        ]));
+        return new Image(
+            $image->driver(),
+            new Core([
+                $this->chosenFrame($image, $this->position)
+            ]),
+            $image->exif()
+        );
     }
 }

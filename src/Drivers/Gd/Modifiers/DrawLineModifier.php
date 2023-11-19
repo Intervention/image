@@ -2,26 +2,27 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\Abstract\Modifiers\AbstractDrawModifier;
-use Intervention\Image\Drivers\Gd\Traits\CanHandleColors;
+use Intervention\Image\Drivers\DrawModifier;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 
-class DrawLineModifier extends AbstractDrawModifier implements ModifierInterface
+class DrawLineModifier extends DrawModifier
 {
-    use CanHandleColors;
-
     public function apply(ImageInterface $image): ImageInterface
     {
-        return $image->mapFrames(function ($frame) {
+        foreach ($image as $frame) {
             imageline(
-                $frame->core(),
-                $this->line()->getStart()->x(),
-                $this->line()->getStart()->y(),
-                $this->line()->getEnd()->x(),
-                $this->line()->getEnd()->y(),
-                $this->colorToInteger($this->getBackgroundColor())
+                $frame->data(),
+                $this->drawable->getStart()->x(),
+                $this->drawable->getStart()->y(),
+                $this->drawable->getEnd()->x(),
+                $this->drawable->getEnd()->y(),
+                $this->driver()->colorToNative(
+                    $this->backgroundColor(),
+                    $image->colorspace()
+                )
             );
-        });
+        }
+
+        return $image;
     }
 }

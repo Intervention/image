@@ -1,6 +1,6 @@
 <?php
 
-namespace Intervention\Image\Drivers\Abstract;
+namespace Intervention\Image\Drivers;
 
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FontInterface;

@@ -2,22 +2,16 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
-class ResizeModifier implements ModifierInterface
+class ResizeModifier extends DriverModifier
 {
-    public function __construct(protected ?int $width = null, protected ?int $height = null)
-    {
-        //
-    }
-
     public function apply(ImageInterface $image): ImageInterface
     {
         $resizeTo =  $this->getAdjustedSize($image);
-
         foreach ($image as $frame) {
             $this->resizeFrame($frame, $resizeTo);
         }
@@ -25,12 +19,7 @@ class ResizeModifier implements ModifierInterface
         return $image;
     }
 
-    protected function getAdjustedSize(ImageInterface $image): SizeInterface
-    {
-        return $image->size()->resize($this->width, $this->height);
-    }
-
-    protected function resizeFrame(FrameInterface $frame, SizeInterface $resizeTo): void
+    private function resizeFrame(FrameInterface $frame, SizeInterface $resizeTo): void
     {
         // create new image
         $modified = imagecreatetruecolor(
@@ -38,8 +27,8 @@ class ResizeModifier implements ModifierInterface
             $resizeTo->height()
         );
 
-        // get current image
-        $current = $frame->core();
+        // get current GDImage
+        $current = $frame->data();
 
         // preserve transparency
         $transIndex = imagecolortransparent($current);
@@ -69,6 +58,11 @@ class ResizeModifier implements ModifierInterface
         );
 
         // set new content as recource
-        $frame->setCore($modified);
+        $frame->setData($modified);
+    }
+
+    protected function getAdjustedSize(ImageInterface $image): SizeInterface
+    {
+        return $image->size()->resize($this->width, $this->height);
     }
 }

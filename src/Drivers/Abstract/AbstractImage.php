@@ -19,7 +19,7 @@ use Intervention\Image\Traits\CanHandleInput;
 use Intervention\Image\Traits\CanResolveDriverClass;
 use Intervention\Image\Traits\CanRunCallback;
 
-abstract class AbstractImage implements ImageInterface
+abstract class DELETE___AbstractImage implements ImageInterface
 {
     use CanResolveDriverClass;
     use CanHandleInput;

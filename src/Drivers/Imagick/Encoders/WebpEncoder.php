@@ -4,24 +4,18 @@ namespace Intervention\Image\Drivers\Imagick\Encoders;
 
 use Imagick;
 use ImagickPixel;
-use Intervention\Image\Drivers\Abstract\Encoders\AbstractEncoder;
+use Intervention\Image\Drivers\DriverEncoder;
 use Intervention\Image\EncodedImage;
-use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
-class WebpEncoder extends AbstractEncoder implements EncoderInterface
+class WebpEncoder extends DriverEncoder
 {
-    public function __construct(int $quality)
-    {
-        $this->quality = $quality;
-    }
-
     public function encode(ImageInterface $image): EncodedImage
     {
         $format = 'webp';
         $compression = Imagick::COMPRESSION_ZIP;
 
-        $imagick = $image->frame()->core();
+        $imagick = $image->core()->native();
         $imagick->setImageBackgroundColor(new ImagickPixel('transparent'));
 
         $imagick = $imagick->mergeImageLayers(Imagick::LAYERMETHOD_MERGE);

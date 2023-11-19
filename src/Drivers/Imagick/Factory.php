@@ -13,7 +13,7 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Traits\CanCheckType;
 use Intervention\Image\Traits\CanHandleInput;
 
-class Factory implements FactoryInterface
+class DELETE___FactoryFactory implements FactoryInterface
 {
     use CanHandleInput;
     use CanCheckType;

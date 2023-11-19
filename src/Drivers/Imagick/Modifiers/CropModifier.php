@@ -2,30 +2,17 @@
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 
-class CropModifier implements ModifierInterface
+class CropModifier extends DriverModifier
 {
-    public function __construct(
-        protected int $width,
-        protected int $height,
-        protected int $offset_x = 0,
-        protected int $offset_y = 0,
-        protected string $position = 'top-left'
-    ) {
-        //
-    }
-
     public function apply(ImageInterface $image): ImageInterface
     {
-        $crop = new Rectangle($this->width, $this->height);
-        $crop->align($this->position);
-        $crop->alignPivotTo($image->size(), $this->position);
+        $crop = $this->crop($image);
 
         foreach ($image as $frame) {
-            $frame->core()->extentImage(
+            $frame->data()->extentImage(
                 $crop->width(),
                 $crop->height(),
                 $crop->pivot()->x() + $this->offset_x,

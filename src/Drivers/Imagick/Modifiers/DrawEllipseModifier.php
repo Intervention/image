@@ -3,40 +3,44 @@
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
-use Intervention\Image\Drivers\Abstract\Modifiers\AbstractDrawModifier;
-use Intervention\Image\Drivers\Imagick\Traits\CanHandleColors;
+use Intervention\Image\Drivers\DrawModifier;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 
-class DrawEllipseModifier extends AbstractDrawModifier implements ModifierInterface
+class DrawEllipseModifier extends DrawModifier
 {
-    use CanHandleColors;
-
     public function apply(ImageInterface $image): ImageInterface
     {
-        $colorspace = $image->colorspace();
-        $background_color = $this->colorToPixel($this->getBackgroundColor(), $colorspace);
-        $border_color = $this->colorToPixel($this->getBorderColor(), $colorspace);
+        $background_color = $this->driver()->colorToNative(
+            $this->backgroundColor(),
+            $image->colorspace()
+        );
 
-        return $image->mapFrames(function ($frame) use ($background_color, $border_color) {
+        $border_color = $this->driver()->colorToNative(
+            $this->borderColor(),
+            $image->colorspace()
+        );
+
+        foreach ($image as $frame) {
             $drawing = new ImagickDraw();
             $drawing->setFillColor($background_color);
 
-            if ($this->ellipse()->hasBorder()) {
-                $drawing->setStrokeWidth($this->ellipse()->getBorderSize());
+            if ($this->drawable->hasBorder()) {
+                $drawing->setStrokeWidth($this->drawable->borderSize());
                 $drawing->setStrokeColor($border_color);
             }
 
             $drawing->ellipse(
-                $this->position->x(),
-                $this->position->y(),
-                $this->ellipse()->getWidth() / 2,
-                $this->ellipse()->getHeight() / 2,
+                $this->position()->x(),
+                $this->position()->y(),
+                $this->drawable->width() / 2,
+                $this->drawable->height() / 2,
                 0,
                 360
             );
 
-            $frame->core()->drawImage($drawing);
-        });
+            $frame->data()->drawImage($drawing);
+        }
+
+        return $image;
     }
 }

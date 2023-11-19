@@ -14,11 +14,6 @@ class Circle extends Ellipse
         $this->setHeight($diameter);
     }
 
-    public function diameter(int $diameter): self
-    {
-        return $this->setDiameter($diameter);
-    }
-
     public function setDiameter(int $diameter): self
     {
         $this->setWidth($diameter);
@@ -27,22 +22,17 @@ class Circle extends Ellipse
         return $this;
     }
 
-    public function getDiameter(): int
+    public function diameter(): int
     {
         return $this->diameter;
     }
 
-    public function radius(int $radius): self
-    {
-        return $this->setRadius($radius);
-    }
-
     public function setRadius(int $radius): self
     {
-        return $this->diameter(intval($radius * 2));
+        return $this->setDiameter(intval($radius * 2));
     }
 
-    public function getRadius(): int
+    public function radius(): int
     {
         return intval($this->diameter / 2);
     }

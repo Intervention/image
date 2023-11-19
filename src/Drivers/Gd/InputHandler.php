@@ -7,7 +7,7 @@ use Intervention\Image\Colors\Rgb\Decoders\StringColorDecoder as RgbStringColorD
 use Intervention\Image\Colors\Rgb\Decoders\HtmlColornameDecoder;
 use Intervention\Image\Colors\Rgb\Decoders\TransparentColorDecoder;
 use Intervention\Image\Colors\Cmyk\Decoders\StringColorDecoder as CmykStringColorDecoder;
-use Intervention\Image\Drivers\Abstract\AbstractInputHandler;
+use Intervention\Image\Drivers\AbstractInputHandler;
 use Intervention\Image\Drivers\Gd\Decoders\ImageObjectDecoder;
 use Intervention\Image\Drivers\Gd\Decoders\ColorObjectDecoder;
 use Intervention\Image\Drivers\Gd\Decoders\FilePointerImageDecoder;

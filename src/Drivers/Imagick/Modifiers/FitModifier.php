@@ -2,11 +2,10 @@
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\Abstract\Modifiers\AbstractFitModifier;
+use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 
-class FitModifier extends AbstractFitModifier implements ModifierInterface
+class FitModifier extends DriverModifier
 {
     public function apply(ImageInterface $image): ImageInterface
     {
@@ -14,14 +13,14 @@ class FitModifier extends AbstractFitModifier implements ModifierInterface
         $resize = $this->getResizeSize($crop);
 
         foreach ($image as $frame) {
-            $frame->core()->extentImage(
+            $frame->data()->extentImage(
                 $crop->width(),
                 $crop->height(),
                 $crop->pivot()->x(),
                 $crop->pivot()->y()
             );
 
-            $frame->core()->scaleImage(
+            $frame->data()->scaleImage(
                 $resize->width(),
                 $resize->height()
             );

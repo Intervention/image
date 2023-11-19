@@ -4,9 +4,11 @@ namespace Intervention\Image\Drivers\Imagick\Decoders;
 
 use Imagick;
 use ImagickException;
-use Intervention\Image\Drivers\Abstract\Decoders\AbstractDecoder;
-use Intervention\Image\Drivers\Imagick\Image;
+use Intervention\Image\Drivers\AbstractDecoder;
+use Intervention\Image\Drivers\Imagick\Core;
+use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -46,9 +48,11 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
         // set new orientation in image
         $imagick->setImageOrientation(Imagick::ORIENTATION_TOPLEFT);
 
-        $image = new Image($imagick);
-        $image->setLoops($imagick->getImageIterations());
-        $image->setExif($this->decodeExifData($input));
+        $image = new Image(
+            new Driver(),
+            new Core($imagick),
+            $this->decodeExifData($input)
+        );
 
         return $image;
     }

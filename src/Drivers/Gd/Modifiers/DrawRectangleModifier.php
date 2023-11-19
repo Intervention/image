@@ -2,43 +2,45 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\Abstract\Modifiers\AbstractDrawModifier;
-use Intervention\Image\Drivers\Gd\Traits\CanHandleColors;
+use Intervention\Image\Drivers\DrawModifier;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 
-class DrawRectangleModifier extends AbstractDrawModifier implements ModifierInterface
+class DrawRectangleModifier extends DrawModifier
 {
-    use CanHandleColors;
-
     public function apply(ImageInterface $image): ImageInterface
     {
-        $image->mapFrames(function ($frame) {
+        foreach ($image as $frame) {
             // draw background
-            if ($this->rectangle()->hasBackgroundColor()) {
+            if ($this->drawable->hasBackgroundColor()) {
                 imagefilledrectangle(
-                    $frame->core(),
+                    $frame->data(),
                     $this->position->x(),
                     $this->position->y(),
-                    $this->position->x() + $this->rectangle()->bottomRightPoint()->x(),
-                    $this->position->y() + $this->rectangle()->bottomRightPoint()->y(),
-                    $this->colorToInteger($this->getBackgroundColor())
+                    $this->position->x() + $this->drawable->width(),
+                    $this->position->y() + $this->drawable->height(),
+                    $this->driver()->colorToNative(
+                        $this->backgroundColor(),
+                        $image->colorspace()
+                    )
                 );
             }
 
-            if ($this->rectangle()->hasBorder()) {
-                // draw border
-                imagesetthickness($frame->core(), $this->rectangle()->getBorderSize());
+            // draw border
+            if ($this->drawable->hasBorder()) {
+                imagesetthickness($frame->data(), $this->drawable->borderSize());
                 imagerectangle(
-                    $frame->core(),
+                    $frame->data(),
                     $this->position->x(),
                     $this->position->y(),
-                    $this->position->x() + $this->rectangle()->bottomRightPoint()->x(),
-                    $this->position->y() + $this->rectangle()->bottomRightPoint()->y(),
-                    $this->colorToInteger($this->getBorderColor())
+                    $this->position->x() + $this->drawable->width(),
+                    $this->position->y() + $this->drawable->height(),
+                    $this->driver()->colorToNative(
+                        $this->borderColor(),
+                        $image->colorspace()
+                    )
                 );
             }
-        });
+        }
 
         return $image;
     }

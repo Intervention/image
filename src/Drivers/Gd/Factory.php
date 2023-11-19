@@ -12,7 +12,7 @@ use Intervention\Image\Interfaces\FactoryInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Traits\CanHandleInput;
 
-class Factory implements FactoryInterface
+class DELETE___Factory implements FactoryInterface
 {
     use CanHandleInput;
     use CanHandleColors;

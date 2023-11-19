@@ -10,7 +10,7 @@ use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 
-trait CanHandleColors
+trait DELETE___CanHandleColors
 {
     /**
      * Allocate given color in given gd image and return color value/index

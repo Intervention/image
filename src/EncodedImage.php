@@ -16,7 +16,6 @@ class EncodedImage extends GenericData implements EncodedImageInterface
         protected string $data,
         protected string $mimetype = 'application/octet-stream'
     ) {
-        //
     }
 
     /**

@@ -6,9 +6,10 @@ use Intervention\Image\Interfaces\PointInterface;
 
 class Point implements PointInterface
 {
-    public function __construct(protected int $x = 0, protected int $y = 0)
-    {
-        //
+    public function __construct(
+        protected int $x = 0,
+        protected int $y = 0
+    ) {
     }
 
     /**

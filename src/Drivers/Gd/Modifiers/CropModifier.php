@@ -2,32 +2,16 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
-use Intervention\Image\Traits\CanBuildNewImage;
 
-class CropModifier implements ModifierInterface
+class CropModifier extends DriverModifier
 {
-    use CanBuildNewImage;
-
-    public function __construct(
-        protected int $width,
-        protected int $height,
-        protected int $offset_x = 0,
-        protected int $offset_y = 0,
-        protected string $position = 'top-left'
-    ) {
-        //
-    }
-
     public function apply(ImageInterface $image): ImageInterface
     {
-        $crop = new Rectangle($this->width, $this->height);
-        $crop->align($this->position);
-        $crop->alignPivotTo($image->size(), $this->position);
+        $crop = $this->crop($image);
 
         foreach ($image as $frame) {
             $this->cropFrame($frame, $crop);
@@ -39,13 +23,13 @@ class CropModifier implements ModifierInterface
     protected function cropFrame(FrameInterface $frame, SizeInterface $resizeTo): void
     {
         // create new image
-        $modified = $this->imageFactory()->newCore(
-            $resizeTo->width(),
-            $resizeTo->height()
-        );
+        $modified = $this->driver()
+            ->createImage($resizeTo->width(), $resizeTo->height())
+            ->core()
+            ->native();
 
         // get original image
-        $original = $frame->core();
+        $original = $frame->data();
 
         // preserve transparency
         $transIndex = imagecolortransparent($original);
@@ -72,6 +56,6 @@ class CropModifier implements ModifierInterface
         );
 
         // set new content as recource
-        $frame->setCore($modified);
+        $frame->setData($modified);
     }
 }

@@ -8,7 +8,7 @@ use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\InputHandlerInterface;
 
-abstract class AbstractInputHandler implements InputHandlerInterface
+abstract class DELETE____AbstractInputHandler implements InputHandlerInterface
 {
     /**
      * Array of decoders which will be stacked into to the input handler chain

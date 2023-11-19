@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
-use Intervention\Image\Drivers\Abstract\Decoders\AbstractDecoder;
+use Intervention\Image\Drivers\AbstractDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;

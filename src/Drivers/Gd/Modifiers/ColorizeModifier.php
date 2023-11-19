@@ -2,19 +2,11 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 
-class ColorizeModifier implements ModifierInterface
+class ColorizeModifier extends DriverModifier
 {
-    public function __construct(
-        protected int $red = 0,
-        protected int $green = 0,
-        protected int $blue = 0
-    ) {
-        //
-    }
-
     public function apply(ImageInterface $image): ImageInterface
     {
         // normalize colorize levels
@@ -23,7 +15,7 @@ class ColorizeModifier implements ModifierInterface
         $blue = round($this->blue * 2.55);
 
         foreach ($image as $frame) {
-            imagefilter($frame->core(), IMG_FILTER_COLORIZE, $red, $green, $blue);
+            imagefilter($frame->data(), IMG_FILTER_COLORIZE, $red, $green, $blue);
         }
 
         return $image;

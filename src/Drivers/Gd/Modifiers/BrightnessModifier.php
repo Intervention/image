@@ -2,20 +2,15 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 
-class BrightnessModifier implements ModifierInterface
+class BrightnessModifier extends DriverModifier
 {
-    public function __construct(protected int $level)
-    {
-        //
-    }
-
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            imagefilter($frame->core(), IMG_FILTER_BRIGHTNESS, intval($this->level * 2.55));
+            imagefilter($frame->data(), IMG_FILTER_BRIGHTNESS, intval($this->level * 2.55));
         }
 
         return $image;

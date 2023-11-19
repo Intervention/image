@@ -4,7 +4,7 @@ namespace Intervention\Image\Drivers\Imagick;
 
 use Imagick;
 use ImagickDraw;
-use Intervention\Image\Drivers\Abstract\AbstractFont;
+use Intervention\Image\Drivers\AbstractFont;
 use Intervention\Image\Drivers\Imagick\Traits\CanHandleColors;
 use Intervention\Image\Exceptions\FontException;
 use Intervention\Image\Geometry\Polygon;

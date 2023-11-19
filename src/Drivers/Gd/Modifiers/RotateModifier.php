@@ -5,29 +5,24 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
-use Intervention\Image\Drivers\Abstract\Modifiers\AbstractRotateModifier;
-use Intervention\Image\Drivers\Gd\Traits\CanHandleColors;
+use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Exceptions\MissingDriverComponentException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
-use Intervention\Image\Traits\CanBuildNewImage;
+use Intervention\Image\Modifiers\FillModifier;
 use ReflectionException;
 
-class RotateModifier extends AbstractRotateModifier implements ModifierInterface
+class RotateModifier extends DriverModifier
 {
-    use CanHandleColors;
-    use CanBuildNewImage;
-
     public function apply(ImageInterface $image): ImageInterface
     {
-        $background = $this->handleInput($this->background);
+        $background = $this->driver()->handleInput($this->background);
 
         foreach ($image as $frame) {
-            $this->modify($frame, $background);
+            $this->modifyFrame($frame, $background);
         }
 
         return $image;
@@ -44,12 +39,12 @@ class RotateModifier extends AbstractRotateModifier implements ModifierInterface
      * @throws MissingDriverComponentException
      * @throws ReflectionException
      */
-    protected function modify(FrameInterface $frame, ColorInterface $background): void
+    protected function modifyFrame(FrameInterface $frame, ColorInterface $background): void
     {
         // get transparent color from frame core
-        $transparent = match ($transparent = imagecolortransparent($frame->core())) {
+        $transparent = match ($transparent = imagecolortransparent($frame->data())) {
             -1 => imagecolorallocatealpha(
-                $frame->core(),
+                $frame->data(),
                 $background->channel(Red::class)->value(),
                 $background->channel(Green::class)->value(),
                 $background->channel(Blue::class)->value(),
@@ -60,7 +55,7 @@ class RotateModifier extends AbstractRotateModifier implements ModifierInterface
 
         // rotate original image against transparent background
         $rotated = imagerotate(
-            $frame->core(),
+            $frame->data(),
             $this->rotationAngle(),
             $transparent
         );
@@ -73,19 +68,20 @@ class RotateModifier extends AbstractRotateModifier implements ModifierInterface
 
         // create size from original and rotate points
         $cutout = (new Rectangle(
-            imagesx($frame->core()),
-            imagesy($frame->core()),
+            imagesx($frame->data()),
+            imagesy($frame->data()),
             $container->pivot()
         ))->align('center')
             ->valign('center')
             ->rotate($this->rotationAngle() * -1);
 
-        // create new gd core
-        $modified = $this->imageFactory()->newCore(
+        // create new gd image
+        $modified = $this->driver()->createImage(
             imagesx($rotated),
-            imagesy($rotated),
-            $background
-        );
+            imagesy($rotated)
+        )->modify(new FillModifier($background))
+            ->core()
+            ->native();
 
         // draw the cutout on new gd image to have a transparent
         // background where the rotated image will be placed
@@ -109,6 +105,6 @@ class RotateModifier extends AbstractRotateModifier implements ModifierInterface
             imagesy($rotated)
         );
 
-        $frame->setCore($modified);
+        $frame->setData($modified);
     }
 }

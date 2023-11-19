@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Drivers\Gd;
 
-use Intervention\Image\Drivers\Abstract\AbstractFont;
+use Intervention\Image\Drivers\AbstractFont;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Rectangle;

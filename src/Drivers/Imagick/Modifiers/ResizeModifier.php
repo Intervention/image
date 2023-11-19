@@ -2,23 +2,18 @@
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
+use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
-class ResizeModifier implements ModifierInterface
+class ResizeModifier extends DriverModifier
 {
-    public function __construct(protected ?int $width = null, protected ?int $height = null)
-    {
-        //
-    }
-
     public function apply(ImageInterface $image): ImageInterface
     {
         $resizeTo = $this->getAdjustedSize($image);
 
         foreach ($image as $frame) {
-            $frame->core()->scaleImage(
+            $frame->data()->scaleImage(
                 $resizeTo->width(),
                 $resizeTo->height()
             );

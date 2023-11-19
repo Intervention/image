@@ -3,29 +3,24 @@
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
-use Intervention\Image\Drivers\Abstract\Modifiers\AbstractRemoveAnimationModifier;
+use Intervention\Image\Drivers\DriverModifier;
+use Intervention\Image\Drivers\Imagick\Core;
+use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Drivers\Imagick\Image;
-use Intervention\Image\Traits\CanCheckType;
 
-class RemoveAnimationModifier extends AbstractRemoveAnimationModifier
+class RemoveAnimationModifier extends DriverModifier
 {
-    use CanCheckType;
-
-    public function __construct(protected int|string $position = 0)
-    {
-        //
-    }
-
     public function apply(ImageInterface $image): ImageInterface
     {
-        $image = $this->failIfNotClass($image, Image::class);
-
         // create new imagick with just one image
         $imagick = new Imagick();
         $frame = $this->chosenFrame($image, $this->position);
-        $imagick->addImage($frame->core()->getImage());
+        $imagick->addImage($frame->data()->getImage());
 
-        return $image->setImagick($imagick);
+        return new Image(
+            $image->driver(),
+            new Core($imagick),
+            $image->exif()
+        );
     }
 }

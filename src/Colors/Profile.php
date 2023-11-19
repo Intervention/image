@@ -7,5 +7,4 @@ use Intervention\Image\Interfaces\ProfileInterface;
 
 class Profile extends GenericData implements ProfileInterface
 {
-    //
 }

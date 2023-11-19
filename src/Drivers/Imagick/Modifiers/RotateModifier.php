@@ -2,29 +2,25 @@
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\Abstract\Modifiers\AbstractRotateModifier;
-use Intervention\Image\Drivers\Imagick\Traits\CanHandleColors;
+use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 
-class RotateModifier extends AbstractRotateModifier implements ModifierInterface
+class RotateModifier extends DriverModifier
 {
-    use CanHandleColors;
-
     public function apply(ImageInterface $image): ImageInterface
     {
+        $background = $this->driver()->colorToNative(
+            $this->driver()->handleInput($this->background),
+            $image->colorspace()
+        );
+
         foreach ($image as $frame) {
-            $frame->core()->rotateImage(
-                $this->colorToPixel($this->backgroundColor(), $image->colorspace()),
-                $this->rotationAngle()
+            $frame->data()->rotateImage(
+                $background,
+                $this->rotationAngle() * -1
             );
         }
 
         return $image;
-    }
-
-    protected function rotationAngle(): float
-    {
-        return parent::rotationAngle() * -1;
     }
 }

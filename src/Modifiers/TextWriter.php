@@ -1,33 +1,18 @@
 <?php
 
-namespace Intervention\Image\Drivers\Abstract;
+namespace Intervention\Image\Modifiers;
 
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\FontInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
-use Intervention\Image\Traits\CanCheckType;
 use Intervention\Image\Typography\TextBlock;
 
-abstract class AbstractTextWriter implements ModifierInterface
+class TextWriter extends AbstractModifier
 {
-    use CanCheckType;
-
     public function __construct(
-        protected Point $position,
-        protected FontInterface $font,
-        protected string $text
+        public Point $position,
+        public FontInterface $font,
+        public string $text
     ) {
-        //
-    }
-
-    protected function getFont(): FontInterface
-    {
-        return $this->font;
-    }
-
-    protected function getPosition(): Point
-    {
-        return $this->position;
     }
 
     /**
@@ -39,8 +24,8 @@ abstract class AbstractTextWriter implements ModifierInterface
     public function getAlignedTextBlock(): TextBlock
     {
         $lines = new TextBlock($this->text);
-        $position = $this->getPosition();
-        $font = $this->getFont();
+        $position = $this->position;
+        $font = $this->font;
 
         $boundingBox = $lines->getBoundingBox($font, $position);
         $pivot = $boundingBox->last();

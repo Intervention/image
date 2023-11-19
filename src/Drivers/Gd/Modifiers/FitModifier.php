@@ -2,17 +2,13 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\Abstract\Modifiers\AbstractFitModifier;
+use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
-use Intervention\Image\Traits\CanBuildNewImage;
 
-class FitModifier extends AbstractFitModifier implements ModifierInterface
+class FitModifier extends DriverModifier
 {
-    use CanBuildNewImage;
-
     public function apply(ImageInterface $image): ImageInterface
     {
         $crop = $this->getCropSize($image);
@@ -28,13 +24,13 @@ class FitModifier extends AbstractFitModifier implements ModifierInterface
     protected function modifyFrame(FrameInterface $frame, SizeInterface $crop, SizeInterface $resize): void
     {
         // create new image
-        $modified = $this->imageFactory()->newCore(
+        $modified = $this->driver()->createImage(
             $resize->width(),
             $resize->height()
-        );
+        )->core()->native();
 
         // get original image
-        $original = $frame->core();
+        $original = $frame->data();
 
         // preserve transparency
         $transIndex = imagecolortransparent($original);
@@ -61,6 +57,6 @@ class FitModifier extends AbstractFitModifier implements ModifierInterface
         );
 
         // set new content as resource
-        $frame->setCore($modified);
+        $frame->setData($modified);
     }
 }

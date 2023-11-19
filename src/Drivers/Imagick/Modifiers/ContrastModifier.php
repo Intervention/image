@@ -2,20 +2,15 @@
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
+use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 
-class ContrastModifier implements ModifierInterface
+class ContrastModifier extends DriverModifier
 {
-    public function __construct(protected int $level)
-    {
-        //
-    }
-
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $frame->core()->sigmoidalContrastImage($this->level > 0, abs($this->level / 4), 0);
+            $frame->data()->sigmoidalContrastImage($this->level > 0, abs($this->level / 4), 0);
         }
 
         return $image;

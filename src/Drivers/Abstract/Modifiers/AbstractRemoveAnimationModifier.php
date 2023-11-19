@@ -6,7 +6,7 @@ use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 
-abstract class AbstractRemoveAnimationModifier implements ModifierInterface
+abstract class DELETE___AbstractRemoveAnimationModifier implements ModifierInterface
 {
     protected function chosenFrame($image, int|string $position): FrameInterface
     {

@@ -9,7 +9,7 @@ use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Traits\CanBuildFilePointer;
 
-abstract class AbstractDecoder implements DecoderInterface
+abstract class DELETE___AbstractDecoder implements DecoderInterface
 {
     use CanBuildFilePointer;
 

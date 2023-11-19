@@ -3,32 +3,33 @@
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
-use Intervention\Image\Drivers\Abstract\Modifiers\AbstractDrawModifier;
-use Intervention\Image\Drivers\Imagick\Traits\CanHandleColors;
+use Intervention\Image\Drivers\DrawModifier;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 
-class DrawLineModifier extends AbstractDrawModifier implements ModifierInterface
+class DrawLineModifier extends DrawModifier
 {
-    use CanHandleColors;
-
     public function apply(ImageInterface $image): ImageInterface
     {
         $drawing = new ImagickDraw();
-        $drawing->setStrokeWidth($this->line()->getWidth());
+        $drawing->setStrokeWidth($this->drawable->getWidth());
         $drawing->setStrokeColor(
-            $this->colorToPixel($this->getBackgroundColor(), $image->colorspace())
+            $this->driver()->colorToNative(
+                $this->backgroundColor(),
+                $image->colorspace()
+            )
         );
 
         $drawing->line(
-            $this->line()->getStart()->x(),
-            $this->line()->getStart()->y(),
-            $this->line()->getEnd()->x(),
-            $this->line()->getEnd()->y(),
+            $this->drawable->getStart()->x(),
+            $this->drawable->getStart()->y(),
+            $this->drawable->getEnd()->x(),
+            $this->drawable->getEnd()->y(),
         );
 
-        return $image->mapFrames(function ($frame) use ($drawing) {
-            $frame->core()->drawImage($drawing);
-        });
+        foreach ($image as $frame) {
+            $frame->data()->drawImage($drawing);
+        }
+
+        return $image;
     }
 }

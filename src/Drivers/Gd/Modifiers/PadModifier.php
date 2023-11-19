@@ -2,27 +2,20 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\Abstract\Modifiers\AbstractPadModifier;
-use Intervention\Image\Drivers\Gd\Traits\CanHandleColors;
+use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
-use Intervention\Image\Traits\CanBuildNewImage;
-use Intervention\Image\Traits\CanHandleInput;
+use Intervention\Image\Modifiers\FillModifier;
 
-class PadModifier extends AbstractPadModifier implements ModifierInterface
+class PadModifier extends DriverModifier
 {
-    use CanHandleInput;
-    use CanHandleColors;
-    use CanBuildNewImage;
-
     public function apply(ImageInterface $image): ImageInterface
     {
         $crop = $this->getCropSize($image);
         $resize = $this->getResizeSize($image);
-        $background = $this->handleInput($this->background);
+        $background = $this->driver()->handleInput($this->background);
 
         foreach ($image as $frame) {
             $this->modify($frame, $crop, $resize, $background);
@@ -38,11 +31,12 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
         ColorInterface $background
     ): void {
         // create new gd image
-        $modified = $this->imageFactory()->newCore(
+        $modified = $this->driver()->createImage(
             $resize->width(),
-            $resize->height(),
-            $background
-        );
+            $resize->height()
+        )->modify(
+            new FillModifier($background)
+        )->core()->native();
 
         // make image area transparent to keep transparency
         // even if background-color is set
@@ -62,7 +56,7 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
         imagealphablending($modified, true);
         imagecopyresampled(
             $modified,
-            $frame->core(),
+            $frame->data(),
             $crop->pivot()->x(),
             $crop->pivot()->y(),
             0,
@@ -74,6 +68,6 @@ class PadModifier extends AbstractPadModifier implements ModifierInterface
         );
 
         // set new content as recource
-        $frame->setCore($modified);
+        $frame->setData($modified);
     }
 }

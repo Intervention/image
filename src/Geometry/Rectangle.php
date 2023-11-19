@@ -3,17 +3,12 @@
 namespace Intervention\Image\Geometry;
 
 use Intervention\Image\Geometry\Tools\RectangleResizer;
-use Intervention\Image\Geometry\Traits\HasBackgroundColor;
-use Intervention\Image\Geometry\Traits\HasBorder;
 use Intervention\Image\Interfaces\DrawableInterface;
 use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
 class Rectangle extends Polygon implements SizeInterface, DrawableInterface
 {
-    use HasBorder;
-    use HasBackgroundColor;
-
     public function __construct(
         int $width,
         int $height,
@@ -35,14 +30,6 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
     public function setSize(int $width, int $height): self
     {
         return $this->setWidth($width)->setHeight($height);
-    }
-
-    /**
-     * Alias of self::setSize()
-     */
-    public function size(int $width, int $height): self
-    {
-        return $this->setSize($width, $height);
     }
 
     public function setWidth(int $width): self
@@ -235,38 +222,38 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
         return $this->points[2];
     }
 
-    protected function getResizer(?int $width = null, ?int $height = null): RectangleResizer
+    protected function resizer(?int $width = null, ?int $height = null): RectangleResizer
     {
         return new RectangleResizer($width, $height);
     }
 
     public function resize(?int $width = null, ?int $height = null): SizeInterface
     {
-        return $this->getResizer($width, $height)->resize($this);
+        return $this->resizer($width, $height)->resize($this);
     }
 
     public function resizeDown(?int $width = null, ?int $height = null): SizeInterface
     {
-        return $this->getResizer($width, $height)->resizeDown($this);
+        return $this->resizer($width, $height)->resizeDown($this);
     }
 
     public function scale(?int $width = null, ?int $height = null): SizeInterface
     {
-        return $this->getResizer($width, $height)->scale($this);
+        return $this->resizer($width, $height)->scale($this);
     }
 
     public function scaleDown(?int $width = null, ?int $height = null): SizeInterface
     {
-        return $this->getResizer($width, $height)->scaleDown($this);
+        return $this->resizer($width, $height)->scaleDown($this);
     }
 
     public function cover(int $width, int $height): SizeInterface
     {
-        return $this->getResizer($width, $height)->cover($this);
+        return $this->resizer($width, $height)->cover($this);
     }
 
     public function contain(int $width, int $height): SizeInterface
     {
-        return $this->getResizer($width, $height)->contain($this);
+        return $this->resizer($width, $height)->contain($this);
     }
 }

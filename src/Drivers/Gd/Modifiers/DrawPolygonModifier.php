@@ -2,42 +2,38 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\Abstract\Modifiers\AbstractDrawModifier;
-use Intervention\Image\Drivers\Gd\Traits\CanHandleColors;
-use Intervention\Image\Interfaces\DrawableInterface;
+use Intervention\Image\Drivers\DrawModifier;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 
-class DrawPolygonModifier extends AbstractDrawModifier implements ModifierInterface
+class DrawPolygonModifier extends DrawModifier
 {
-    use CanHandleColors;
-
-    public function __construct(
-        protected DrawableInterface $drawable
-    ) {
-        //
-    }
-
     public function apply(ImageInterface $image): ImageInterface
     {
-        return $image->mapFrames(function ($frame) {
-            if ($this->polygon()->hasBackgroundColor()) {
+        foreach ($image as $frame) {
+            if ($this->drawable->hasBackgroundColor()) {
                 imagefilledpolygon(
-                    $frame->core(),
-                    $this->polygon()->toArray(),
-                    $this->colorToInteger($this->getBackgroundColor())
+                    $frame->data(),
+                    $this->drawable->toArray(),
+                    $this->driver()->colorToNative(
+                        $this->backgroundColor(),
+                        $image->colorspace()
+                    )
                 );
             }
 
-            if ($this->polygon()->hasBorder()) {
-                imagesetthickness($frame->core(), $this->polygon()->getBorderSize());
+            if ($this->drawable->hasBorder()) {
+                imagesetthickness($frame->data(), $this->drawable->borderSize());
                 imagepolygon(
-                    $frame->core(),
-                    $this->polygon()->toArray(),
-                    $this->polygon()->count(),
-                    $this->colorToInteger($this->getBorderColor())
+                    $frame->data(),
+                    $this->drawable->toArray(),
+                    $this->driver()->colorToNative(
+                        $this->borderColor(),
+                        $image->colorspace()
+                    )
                 );
             }
-        });
+        }
+
+        return $image;
     }
 }

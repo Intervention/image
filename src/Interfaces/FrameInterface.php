@@ -4,9 +4,9 @@ namespace Intervention\Image\Interfaces;
 
 interface FrameInterface
 {
-    public function toImage(): ImageInterface;
-    public function core();
-    public function setCore($core): FrameInterface;
+    public function data();
+    public function toImage(DriverInterface $driver): ImageInterface;
+    public function setData($data): FrameInterface;
     public function size(): SizeInterface;
     public function delay(): float;
     public function setDelay(float $delay): FrameInterface;

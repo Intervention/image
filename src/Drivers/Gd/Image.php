@@ -19,7 +19,7 @@ use Intervention\Image\Resolution;
 use IteratorAggregate;
 use Traversable;
 
-class Image extends AbstractImage implements ImageInterface, IteratorAggregate
+class DELETE__Image extends AbstractImage implements ImageInterface, IteratorAggregate
 {
     use CanHandleColors;
 

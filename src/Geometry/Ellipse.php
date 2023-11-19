@@ -17,12 +17,11 @@ class Ellipse implements DrawableInterface
         protected int $height,
         protected PointInterface $pivot = new Point()
     ) {
-        //
     }
 
-    public function size(int $width, int $height): self
+    public function pivot(): PointInterface
     {
-        return $this->setSize($width, $height);
+        return $this->pivot;
     }
 
     public function setSize(int $width, int $height): self
@@ -44,12 +43,12 @@ class Ellipse implements DrawableInterface
         return $this;
     }
 
-    public function getWidth(): int
+    public function width(): int
     {
         return $this->width;
     }
 
-    public function getHeight(): int
+    public function height(): int
     {
         return $this->height;
     }

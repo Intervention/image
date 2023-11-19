@@ -48,7 +48,7 @@ class PolygonTest extends TestCase
             new Point(0, -20),
         ]);
 
-        $result = $poly->getCenterPoint();
+        $result = $poly->centerPoint();
         $this->assertEquals(10, $result->x());
         $this->assertEquals(-10, $result->y());
 
@@ -59,7 +59,7 @@ class PolygonTest extends TestCase
             new Point(0, -200),
         ], new Point(0, 0));
 
-        $result = $poly->getCenterPoint();
+        $result = $poly->centerPoint();
         $this->assertEquals(150, $result->x());
         $this->assertEquals(-100, $result->y());
     }
@@ -122,7 +122,7 @@ class PolygonTest extends TestCase
     public function testGetPivotPoint(): void
     {
         $poly = new Polygon();
-        $this->assertInstanceOf(Point::class, $poly->getPivot());
+        $this->assertInstanceOf(Point::class, $poly->pivot());
     }
 
     public function testGetMostLeftPoint(): void
@@ -134,7 +134,7 @@ class PolygonTest extends TestCase
             new Point(-32, -200),
         ], new Point(0, 0));
 
-        $result = $poly->getMostLeftPoint();
+        $result = $poly->mostLeftPoint();
         $this->assertEquals(-32, $result->x());
         $this->assertEquals(-200, $result->y());
     }
@@ -148,7 +148,7 @@ class PolygonTest extends TestCase
             new Point(-32, -200),
         ], new Point(0, 0));
 
-        $result = $poly->getMostRightPoint();
+        $result = $poly->mostRightPoint();
         $this->assertEquals(350, $result->x());
         $this->assertEquals(0, $result->y());
     }
@@ -162,7 +162,7 @@ class PolygonTest extends TestCase
             new Point(-32, 200),
         ], new Point(0, 0));
 
-        $result = $poly->getMostTopPoint();
+        $result = $poly->mostTopPoint();
         $this->assertEquals(-32, $result->x());
         $this->assertEquals(200, $result->y());
     }
@@ -176,7 +176,7 @@ class PolygonTest extends TestCase
             new Point(-32, 200),
         ], new Point(0, 0));
 
-        $result = $poly->getMostBottomPoint();
+        $result = $poly->mostBottomPoint();
         $this->assertEquals(300, $result->x());
         $this->assertEquals(-200, $result->y());
     }

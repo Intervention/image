@@ -13,7 +13,6 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
 {
     public function __construct(protected array $items = [])
     {
-        //
     }
 
     /**
@@ -25,6 +24,11 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     public static function create(array $items = []): self
     {
         return new self($items);
+    }
+
+    public function has(int|string $key): bool
+    {
+        return array_key_exists($key, $this->items);
     }
 
     /**

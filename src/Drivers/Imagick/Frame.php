@@ -4,66 +4,72 @@ namespace Intervention\Image\Drivers\Imagick;
 
 use Imagick;
 use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Image;
+use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
 class Frame implements FrameInterface
 {
-    public function __construct(protected Imagick $core)
+    public function __construct(protected Imagick $data)
     {
-        //
     }
 
-    public function setCore($core): FrameInterface
+    public function toImage(DriverInterface $driver): ImageInterface
     {
-        $this->core = $core;
+        return new Image($driver, new Core($this->data()));
+    }
+
+    public function setData($data): FrameInterface
+    {
+        $this->data = $data;
 
         return $this;
     }
 
-    public function core(): Imagick
+    public function data(): Imagick
     {
-        return $this->core;
+        return $this->data;
     }
 
     public function size(): SizeInterface
     {
         return new Rectangle(
-            $this->core->getImageWidth(),
-            $this->core->getImageHeight()
+            $this->data->getImageWidth(),
+            $this->data->getImageHeight()
         );
     }
 
     public function delay(): float
     {
-        return $this->core->getImageDelay() / 100;
+        return $this->data->getImageDelay() / 100;
     }
 
     public function setDelay(float $delay): FrameInterface
     {
-        $this->core->setImageDelay(intval(round($delay * 100)));
+        $this->data->setImageDelay(intval(round($delay * 100)));
 
         return $this;
     }
 
     public function dispose(): int
     {
-        return $this->core->getImageDispose();
+        return $this->data->getImageDispose();
     }
 
     public function setDispose(int $dispose): FrameInterface
     {
-        $this->core->setImageDispose($dispose);
+        $this->data->setImageDispose($dispose);
 
         return $this;
     }
 
     public function setOffset(int $left, int $top): FrameInterface
     {
-        $this->core->setImagePage(
-            $this->core->getImageWidth(),
-            $this->core->getImageHeight(),
+        $this->data->setImagePage(
+            $this->data->getImageWidth(),
+            $this->data->getImageHeight(),
             $left,
             $top
         );
@@ -73,7 +79,7 @@ class Frame implements FrameInterface
 
     public function offsetLeft(): int
     {
-        return $this->core->getImagePage()['x'];
+        return $this->data->getImagePage()['x'];
     }
 
     public function setOffsetLeft(int $offset): FrameInterface
@@ -83,16 +89,11 @@ class Frame implements FrameInterface
 
     public function offsetTop(): int
     {
-        return $this->core->getImagePage()['y'];
+        return $this->data->getImagePage()['y'];
     }
 
     public function setOffsetTop(int $offset): FrameInterface
     {
         return $this->setOffset($this->offsetLeft(), $offset);
-    }
-
-    public function toImage(): ImageInterface
-    {
-        return new Image($this->core());
     }
 }

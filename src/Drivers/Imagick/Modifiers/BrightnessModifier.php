@@ -2,20 +2,15 @@
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
+use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 
-class BrightnessModifier implements ModifierInterface
+class BrightnessModifier extends DriverModifier
 {
-    public function __construct(protected int $level)
-    {
-        //
-    }
-
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $frame->core()->modulateImage(100 + $this->level, 100, 100);
+            $frame->data()->modulateImage(100 + $this->level, 100, 100);
         }
 
         return $image;

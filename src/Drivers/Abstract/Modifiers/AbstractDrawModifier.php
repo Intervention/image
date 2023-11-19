@@ -14,17 +14,10 @@ use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Traits\CanCheckType;
 use Intervention\Image\Traits\CanHandleInput;
 
-class AbstractDrawModifier
+class DELETE__AbstractDrawModifier
 {
     use CanHandleInput;
     use CanCheckType;
-
-    public function __construct(
-        protected PointInterface $position,
-        protected DrawableInterface $drawable
-    ) {
-        //
-    }
 
     public function drawable(): DrawableInterface
     {

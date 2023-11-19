@@ -3,19 +3,13 @@
 namespace Intervention\Image\Drivers\Gd\Encoders;
 
 use Intervention\Gif\Builder as GifBuilder;
-use Intervention\Image\Drivers\Abstract\Encoders\AbstractEncoder;
-use Intervention\Image\Drivers\Gd\Modifiers\LimitColorsModifier;
+use Intervention\Image\Drivers\DriverEncoder;
+use Intervention\Image\Modifiers\LimitColorsModifier;
 use Intervention\Image\EncodedImage;
-use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
-class GifEncoder extends AbstractEncoder implements EncoderInterface
+class GifEncoder extends DriverEncoder
 {
-    public function __construct(protected int $color_limit = 0)
-    {
-        //
-    }
-
     public function encode(ImageInterface $image): EncodedImage
     {
         if ($image->isAnimated()) {
@@ -23,8 +17,9 @@ class GifEncoder extends AbstractEncoder implements EncoderInterface
         }
 
         $image = $image->modify(new LimitColorsModifier($this->color_limit));
-        $data = $this->getBuffered(function () use ($image) {
-            imagegif($image->frame()->core());
+        $gd = $image->core()->native();
+        $data = $this->getBuffered(function () use ($gd) {
+            imagegif($gd);
         });
 
         return new EncodedImage($data, 'image/gif');
@@ -40,7 +35,7 @@ class GifEncoder extends AbstractEncoder implements EncoderInterface
 
         foreach ($image as $frame) {
             $builder->addFrame(
-                $this->encode($frame->toImage()),
+                $this->encode($frame->toImage($image->driver())),
                 $frame->delay()
             );
         }

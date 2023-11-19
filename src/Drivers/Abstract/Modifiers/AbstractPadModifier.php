@@ -7,7 +7,7 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Traits\CanCheckType;
 
-abstract class AbstractPadModifier
+abstract class DELETE___AbstractPadModifier
 {
     use CanCheckType;
 
@@ -20,14 +20,14 @@ abstract class AbstractPadModifier
         //
     }
 
-    protected function getCropSize(ImageInterface $image): SizeInterface
+    public function getCropSize(ImageInterface $image): SizeInterface
     {
         return $image->size()
                 ->contain($this->width, $this->height)
                 ->alignPivotTo($this->getResizeSize($image), $this->position);
     }
 
-    protected function getResizeSize(ImageInterface $image): SizeInterface
+    public function getResizeSize(ImageInterface $image): SizeInterface
     {
         return new Rectangle($this->width, $this->height);
     }

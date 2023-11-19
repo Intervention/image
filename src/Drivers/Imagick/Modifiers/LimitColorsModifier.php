@@ -2,20 +2,11 @@
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
+use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
-use Intervention\Image\Traits\CanCheckType;
-use Intervention\Image\Drivers\Imagick\Image;
 
-class LimitColorsModifier implements ModifierInterface
+class LimitColorsModifier extends DriverModifier
 {
-    use CanCheckType;
-
-    public function __construct(protected int $limit = 0, protected $threshold = 256)
-    {
-        //
-    }
-
     public function apply(ImageInterface $image): ImageInterface
     {
         // no color limit: no reduction
@@ -28,11 +19,10 @@ class LimitColorsModifier implements ModifierInterface
             return $image;
         }
 
-        $image = $this->failIfNotClass($image, Image::class);
-        foreach ($image->getImagick() as $core) {
-            $core->quantizeImage(
+        foreach ($image as $frame) {
+            $frame->data()->quantizeImage(
                 $this->limit,
-                $core->getImageColorspace(),
+                $frame->data()->getImageColorspace(),
                 0,
                 false,
                 false

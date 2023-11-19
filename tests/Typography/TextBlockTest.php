@@ -73,7 +73,7 @@ class TextBlockTest extends TestCase
         $box = $block->getBoundingBox($font, new Point(10, 15));
         $this->assertEquals(300, $box->width());
         $this->assertEquals(82, $box->height());
-        $this->assertEquals(10, $box->getPivot()->x());
-        $this->assertEquals(15, $box->getPivot()->y());
+        $this->assertEquals(10, $box->pivot()->x());
+        $this->assertEquals(15, $box->pivot()->y());
     }
 }

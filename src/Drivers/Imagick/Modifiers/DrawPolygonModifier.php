@@ -3,49 +3,47 @@
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
-use Intervention\Image\Drivers\Abstract\Modifiers\AbstractDrawModifier;
-use Intervention\Image\Drivers\Imagick\Traits\CanHandleColors;
-use Intervention\Image\Interfaces\DrawableInterface;
+use Intervention\Image\Drivers\DrawModifier;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 
-class DrawPolygonModifier extends AbstractDrawModifier implements ModifierInterface
+class DrawPolygonModifier extends DrawModifier
 {
-    use CanHandleColors;
-
-    public function __construct(
-        protected DrawableInterface $drawable
-    ) {
-        //
-    }
-
     public function apply(ImageInterface $image): ImageInterface
     {
         $drawing = new ImagickDraw();
-        $colorspace = $image->colorspace();
-        $background_color = $this->colorToPixel($this->getBackgroundColor(), $colorspace);
-        $border_color = $this->colorToPixel($this->getBorderColor(), $colorspace);
 
-        if ($this->polygon()->hasBackgroundColor()) {
+        if ($this->drawable->hasBackgroundColor()) {
+            $background_color = $this->driver()->colorToNative(
+                $this->backgroundColor(),
+                $image->colorspace()
+            );
+
             $drawing->setFillColor($background_color);
         }
 
-        if ($this->polygon()->hasBorder()) {
+        if ($this->drawable->hasBorder()) {
+            $border_color = $this->driver()->colorToNative(
+                $this->borderColor(),
+                $image->colorspace()
+            );
+
             $drawing->setStrokeColor($border_color);
-            $drawing->setStrokeWidth($this->polygon()->getBorderSize());
+            $drawing->setStrokeWidth($this->drawable->borderSize());
         }
 
         $drawing->polygon($this->points());
 
-        return $image->mapFrames(function ($frame) use ($drawing) {
-            $frame->core()->drawImage($drawing);
-        });
+        foreach ($image as $frame) {
+            $frame->data()->drawImage($drawing);
+        }
+
+        return $image;
     }
 
     private function points(): array
     {
         $points = [];
-        foreach ($this->polygon() as $point) {
+        foreach ($this->drawable as $point) {
             $points[] = ['x' => $point->x(), 'y' => $point->y()];
         }
 

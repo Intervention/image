@@ -5,27 +5,16 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use Imagick;
 use ImagickDraw;
 use ImagickPixel;
+use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Drivers\Imagick\Frame;
-use Intervention\Image\Drivers\Imagick\Traits\CanHandleColors;
-use Intervention\Image\Geometry\Point;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 
-class FillModifier implements ModifierInterface
+class FillModifier extends DriverModifier
 {
-    use CanHandleColors;
-
-    public function __construct(
-        protected ColorInterface $color,
-        protected ?Point $position = null
-    ) {
-        //
-    }
-
     public function apply(ImageInterface $image): ImageInterface
     {
-        $pixel = $this->colorToPixel($this->color, $image->colorspace());
+        $color = $this->driver()->handleInput($this->color);
+        $pixel = $this->driver()->colorToNative($color, $image->colorspace());
 
         foreach ($image as $frame) {
             if ($this->hasPosition()) {
@@ -38,14 +27,14 @@ class FillModifier implements ModifierInterface
         return $image;
     }
 
-    protected function floodFillWithColor(Frame $frame, ImagickPixel $pixel): void
+    private function floodFillWithColor(Frame $frame, ImagickPixel $pixel): void
     {
-        $target = $frame->core()->getImagePixelColor(
+        $target = $frame->data()->getImagePixelColor(
             $this->position->x(),
             $this->position->y()
         );
 
-        $frame->core()->floodfillPaintImage(
+        $frame->data()->floodfillPaintImage(
             $pixel,
             100,
             $target,
@@ -56,21 +45,16 @@ class FillModifier implements ModifierInterface
         );
     }
 
-    protected function fillAllWithColor(Frame $frame, ImagickPixel $pixel): void
+    private function fillAllWithColor(Frame $frame, ImagickPixel $pixel): void
     {
         $draw = new ImagickDraw();
         $draw->setFillColor($pixel);
         $draw->rectangle(
             0,
             0,
-            $frame->core()->getImageWidth(),
-            $frame->core()->getImageHeight()
+            $frame->data()->getImageWidth(),
+            $frame->data()->getImageHeight()
         );
-        $frame->core()->drawImage($draw);
-    }
-
-    protected function hasPosition(): bool
-    {
-        return !empty($this->position);
+        $frame->data()->drawImage($draw);
     }
 }

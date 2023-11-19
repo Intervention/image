@@ -2,20 +2,15 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 
-class GammaModifier implements ModifierInterface
+class GammaModifier extends DriverModifier
 {
-    public function __construct(protected float $gamma)
-    {
-        //
-    }
-
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            imagegammacorrect($frame->core(), 1, $this->gamma);
+            imagegammacorrect($frame->data(), 1, $this->gamma);
         }
 
         return $image;

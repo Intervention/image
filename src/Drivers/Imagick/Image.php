@@ -23,7 +23,7 @@ use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Resolution;
 use Iterator;
 
-class Image extends AbstractImage implements ImageInterface, Iterator
+class DELETE__Image extends AbstractImage implements ImageInterface, Iterator
 {
     use CanHandleColors;
 

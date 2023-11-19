@@ -2,25 +2,15 @@
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Colors\Profile;
-use Intervention\Image\Drivers\Imagick\Image;
+use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
-use Intervention\Image\Traits\CanCheckType;
 
-class ProfileModifier implements ModifierInterface
+class ProfileModifier extends DriverModifier
 {
-    use CanCheckType;
-
-    public function __construct(protected Profile $profile)
-    {
-        //
-    }
-
     public function apply(ImageInterface $image): ImageInterface
     {
-        $imagick = $this->failIfNotClass($image, Image::class)->getImagick();
+        $imagick = $image->core()->native();
         $result = $imagick->profileImage('icc', (string) $this->profile);
 
         if ($result === false) {

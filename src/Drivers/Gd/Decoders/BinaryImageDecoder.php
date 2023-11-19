@@ -2,17 +2,17 @@
 
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
-use GdImage;
-use Intervention\Image\Collection;
-use Intervention\Image\Drivers\Abstract\Decoders\AbstractDecoder;
+use Intervention\Image\Drivers\AbstractDecoder;
 use Intervention\Image\Drivers\Gd\Frame;
-use Intervention\Image\Drivers\Gd\Image;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Gif\Decoder as GifDecoder;
 use Intervention\Gif\Splitter as GifSplitter;
+use Intervention\Image\Drivers\Gd\Core;
+use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Image;
 
 class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
 {
@@ -26,40 +26,45 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
             return $this->decodeGif($input); // decode (animated) gif
         }
 
-        $gd = $this->coreFromString($input);
-
         // build image instance
-        $image = new Image(new Collection([new Frame($gd)]));
-        $image->setExif($this->decodeExifData($input));
+        $image =  new Image(
+            new Driver(),
+            $this->coreFromString($input),
+            $this->decodeExifData($input)
+        );
+
+        return $image;
 
         // fix image orientation
-        return match ($image->exif('IFD0.Orientation')) {
-            2 => $image->flip(),
-            3 => $image->rotate(180),
-            4 => $image->rotate(180)->flip(),
-            5 => $image->rotate(270)->flip(),
-            6 => $image->rotate(270),
-            7 => $image->rotate(90)->flip(),
-            8 => $image->rotate(90),
-            default => $image
-        };
+        // return match ($image->exif('IFD0.Orientation')) {
+        //     2 => $image->flip(),
+        //     3 => $image->rotate(180),
+        //     4 => $image->rotate(180)->flip(),
+        //     5 => $image->rotate(270)->flip(),
+        //     6 => $image->rotate(270),
+        //     7 => $image->rotate(90)->flip(),
+        //     8 => $image->rotate(90),
+        //     default => $image
+        // };
     }
 
-    private function coreFromString(string $input): GdImage
+    private function coreFromString(string $input): Core
     {
-        $gd = @imagecreatefromstring($input);
+        $data = @imagecreatefromstring($input);
 
-        if ($gd === false) {
+        if ($data === false) {
             throw new DecoderException('Unable to decode input');
         }
 
-        if (!imageistruecolor($gd)) {
-            imagepalettetotruecolor($gd);
+        if (!imageistruecolor($data)) {
+            imagepalettetotruecolor($data);
         }
 
-        imagesavealpha($gd, true);
+        imagesavealpha($data, true);
 
-        return $gd;
+        return new Core([
+            new Frame($data)
+        ]);
     }
 
     private function decodeGif(string $input): ImageInterface
@@ -68,22 +73,26 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
 
         if (!$gif->isAnimated()) {
             return new Image(
-                new Collection([new Frame(
-                    $this->coreFromString($input)
-                )]),
+                new Driver(),
+                $this->coreFromString($input)
             );
         }
 
-        $image = new Image(new Collection());
-        $image->setLoops($gif->getMainApplicationExtension()?->getLoops());
-
         $splitter = GifSplitter::create($gif)->split();
-
         $delays = $splitter->getDelays();
-        foreach ($splitter->coalesceToResources() as $key => $gd) {
-            $image->addFrame((new Frame($gd))->setDelay($delays[$key] / 100));
+
+        // build core
+        $core = new Core();
+        $core->setLoops($gif->getMainApplicationExtension()?->getLoops());
+        foreach ($splitter->coalesceToResources() as $key => $data) {
+            $core->push(
+                (new Frame($data))->setDelay($delays[$key] / 100)
+            );
         }
 
-        return $image;
+        return new Image(
+            new Driver(),
+            $core
+        );
     }
 }

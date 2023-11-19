@@ -2,124 +2,51 @@
 
 namespace Intervention\Image;
 
-use Intervention\Image\Exceptions\ConfigurationException;
+use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Drivers\Gd\Driver as GdDriver;
+use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 
-class ImageManager
+final class ImageManager
 {
-    /**
-     * Create new ImageManager instance
-     *
-     * @param string $driver
-     * @return void
-     * @throws ConfigurationException
-     */
-    public function __construct(protected string $driver = 'gd')
+    protected DriverInterface $driver;
+
+    public function __construct(string|DriverInterface $driver)
     {
-        if (!$this->driverExists()) {
-            throw new ConfigurationException('Driver ' . $driver . ' is not available.');
-        }
+        $this->driver = $this->resolveDriver($driver);
     }
 
-    /**
-     * Static constructor to create ImageManager with given driver
-     *
-     * @param string $driver
-     * @return ImageManager
-     */
-    public static function withDriver(string $driver): self
+    public static function withDriver(string|DriverInterface $driver): self
     {
-        return new self($driver);
+        return new self(self::resolveDriver($driver));
     }
 
-    /**
-     * Static helper to create ImageManager with GD driver
-     *
-     * @return ImageManager
-     */
     public static function gd(): self
     {
-        return new self('gd');
+        return self::withDriver(GdDriver::class);
     }
 
-    /**
-     * Static constructor to create ImageManager with Imagick driver
-     *
-     * @return ImageManager
-     */
     public static function imagick(): self
     {
-        return new self('imagick');
+        return self::withDriver(ImagickDriver::class);
     }
 
-    /**
-     * Create new image instance from scratch
-     *
-     * @param  int    $width
-     * @param  int    $height
-     * @return ImageInterface
-     */
     public function create(int $width, int $height): ImageInterface
     {
-        return $this->resolveDriverClass('Factory')->newImage($width, $height);
+        return $this->driver->createImage($width, $height);
     }
 
-    /**
-     * Create new animated image from sources
-     *
-     * @param  callable $callback
-     * @return ImageInterface
-     */
-    public function animate(callable $callback): ImageInterface
+    public function read(mixed $input): ImageInterface
     {
-        return $this->resolveDriverClass('Factory')->newAnimation($callback);
+        return $this->driver->handleInput($input);
     }
 
-    /**
-     * Create new image instance from source
-     *
-     * @param  mixed $source
-     * @return ImageInterface
-     */
-    public function read($source): ImageInterface
+    private static function resolveDriver(string|DriverInterface $driver): DriverInterface
     {
-        return $this->resolveDriverClass('InputHandler')->handle($source);
-    }
+        if (is_object($driver)) {
+            return $driver;
+        }
 
-    /**
-     * Resolve given classname with configured driver
-     *
-     * @return object
-     */
-    private function resolveDriverClass(string $classname): object
-    {
-        $classname = $this->driverClassname($classname);
-
-        return new $classname();
-    }
-
-    /**
-     * Build full namespaced classname of given class for configured driver
-     *
-     * @param string $classname
-     * @return string
-     */
-    private function driverClassname(string $classname): string
-    {
-        return sprintf(
-            "Intervention\Image\Drivers\%s\%s",
-            ucfirst($this->driver),
-            $classname
-        );
-    }
-
-    /**
-     * Determine if configured driver exists
-     *
-     * @return bool
-     */
-    private function driverExists(): bool
-    {
-        return class_exists($this->driverClassname('Image'));
+        return new $driver();
     }
 }

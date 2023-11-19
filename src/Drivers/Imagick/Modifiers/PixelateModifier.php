@@ -2,17 +2,12 @@
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
+use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 
-class PixelateModifier implements ModifierInterface
+class PixelateModifier extends DriverModifier
 {
-    public function __construct(protected int $size)
-    {
-        //
-    }
-
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
@@ -26,11 +21,11 @@ class PixelateModifier implements ModifierInterface
     {
         $size = $frame->size();
 
-        $frame->core()->scaleImage(
+        $frame->data()->scaleImage(
             round(max(1, ($size->width() / $this->size))),
             round(max(1, ($size->height() / $this->size)))
         );
 
-        $frame->core()->scaleImage($size->width(), $size->height());
+        $frame->data()->scaleImage($size->width(), $size->height());
     }
 }

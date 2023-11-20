@@ -23,11 +23,11 @@ class LineTest extends TestCase
     public function testSetGetPosition(): void
     {
         $line = new Line('foo');
-        $this->assertEquals(0, $line->getPosition()->x());
-        $this->assertEquals(0, $line->getPosition()->y());
+        $this->assertEquals(0, $line->position()->x());
+        $this->assertEquals(0, $line->position()->y());
 
         $line->setPosition(new Point(10, 11));
-        $this->assertEquals(10, $line->getPosition()->x());
-        $this->assertEquals(11, $line->getPosition()->y());
+        $this->assertEquals(10, $line->position()->x());
+        $this->assertEquals(11, $line->position()->y());
     }
 }

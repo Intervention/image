@@ -429,8 +429,8 @@ class RectangleResizerTest extends TestCase
         $resized = $resizer->crop($origin, $position);
         $this->assertEquals($result->width(), $resized->width());
         $this->assertEquals($result->height(), $resized->height());
-        $this->assertEquals($result->getPivot()->x(), $resized->pivot()->x());
-        $this->assertEquals($result->getPivot()->y(), $resized->pivot()->y());
+        $this->assertEquals($result->pivot()->x(), $resized->pivot()->x());
+        $this->assertEquals($result->pivot()->y(), $resized->pivot()->y());
     }
 
     public function cropDataProvider(): array

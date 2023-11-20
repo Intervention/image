@@ -36,9 +36,9 @@ class TextBlockTest extends TestCase
     public function testGetLine(): void
     {
         $block = $this->getTestBlock();
-        $this->assertEquals('foo', $block->getLine(0));
-        $this->assertEquals('FooBar', $block->getLine(1));
-        $this->assertEquals('bar', $block->getLine(2));
+        $this->assertEquals('foo', $block->line(0));
+        $this->assertEquals('FooBar', $block->line(1));
+        $this->assertEquals('bar', $block->line(2));
     }
 
     public function testLongestLine(): void
@@ -65,12 +65,12 @@ class TextBlockTest extends TestCase
         );
 
         $font->shouldReceive('leadingInPixels')->andReturn(30);
-        $font->shouldReceive('getAlign')->andReturn('left');
-        $font->shouldReceive('getValign')->andReturn('bottom');
-        $font->shouldReceive('getAngle')->andReturn(0);
+        $font->shouldReceive('alignment')->andReturn('left');
+        $font->shouldReceive('valignment')->andReturn('bottom');
+        $font->shouldReceive('angle')->andReturn(0);
         $font->shouldReceive('capHeight')->andReturn(22);
 
-        $box = $block->getBoundingBox($font, new Point(10, 15));
+        $box = $block->boundingBox($font, new Point(10, 15));
         $this->assertEquals(300, $box->width());
         $this->assertEquals(82, $box->height());
         $this->assertEquals(10, $box->pivot()->x());

@@ -10,15 +10,15 @@ class FontTest extends TestCase
     public function testGetSize(): void
     {
         $font = new Font();
-        $font->size(12);
-        $this->assertEquals(9, $font->getSize());
+        $font->setSize(12);
+        $this->assertEquals(9, $font->size());
     }
 
     public function testGetGdFont(): void
     {
         $font = new Font();
         $this->assertEquals(1, $font->getGdFont());
-        $font->filename(12);
+        $font->setFilename(12);
         $this->assertEquals(12, $font->getGdFont());
     }
 

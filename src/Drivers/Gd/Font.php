@@ -9,9 +9,9 @@ use Intervention\Image\Geometry\Rectangle;
 
 class Font extends AbstractFont
 {
-    public function getSize(): float
+    public function size(): float
     {
-        return floatval(ceil(parent::getSize() * 0.75));
+        return floatval(ceil(parent::size() * 0.75));
     }
 
     /**
@@ -34,9 +34,9 @@ class Font extends AbstractFont
 
         // calculate box size from font file with angle 0
         $box = imageftbbox(
-            $this->getSize(),
+            $this->size(),
             0,
-            $this->getFilename(),
+            $this->filename(),
             $text
         );
 

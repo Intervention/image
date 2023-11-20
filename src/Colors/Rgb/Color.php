@@ -7,7 +7,7 @@ use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Channels\Alpha;
 use Intervention\Image\Colors\Traits\CanHandleChannels;
-use Intervention\Image\Drivers\Abstract\AbstractInputHandler;
+use Intervention\Image\Drivers\AbstractInputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;

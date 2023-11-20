@@ -17,7 +17,7 @@ class TextBlock extends Collection
         }
     }
 
-    public function getBoundingBox(FontInterface $font, Point $pivot = null): Polygon
+    public function boundingBox(FontInterface $font, Point $pivot = null): Polygon
     {
         $pivot = $pivot ? $pivot : new Point();
 
@@ -31,10 +31,10 @@ class TextBlock extends Collection
         $box->setPivot($pivot);
 
         // align
-        $box->align($font->getAlign());
-        $box->valign($font->getValign());
+        $box->align($font->alignment());
+        $box->valign($font->valignment());
 
-        $box->rotate($font->getAngle());
+        $box->rotate($font->angle());
 
         return $box;
     }
@@ -49,7 +49,7 @@ class TextBlock extends Collection
         return $this->items;
     }
 
-    public function getLine($key): ?Line
+    public function line($key): ?Line
     {
         if (!array_key_exists($key, $this->lines())) {
             return null;

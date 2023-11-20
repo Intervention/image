@@ -30,10 +30,10 @@ class DrawRectangleModifier extends DrawModifier
 
         // build rectangle
         $drawing->rectangle(
-            $this->position->x(),
-            $this->position->y(),
-            $this->position->x() + $this->drawable->width(),
-            $this->position->y() + $this->drawable->height()
+            $this->position()->x(),
+            $this->position()->y(),
+            $this->position()->x() + $this->drawable->width(),
+            $this->position()->y() + $this->drawable->height()
         );
 
         foreach ($image as $frame) {

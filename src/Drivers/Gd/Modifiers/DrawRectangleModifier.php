@@ -14,10 +14,10 @@ class DrawRectangleModifier extends DrawModifier
             if ($this->drawable->hasBackgroundColor()) {
                 imagefilledrectangle(
                     $frame->data(),
-                    $this->position->x(),
-                    $this->position->y(),
-                    $this->position->x() + $this->drawable->width(),
-                    $this->position->y() + $this->drawable->height(),
+                    $this->position()->x(),
+                    $this->position()->y(),
+                    $this->position()->x() + $this->drawable->width(),
+                    $this->position()->y() + $this->drawable->height(),
                     $this->driver()->colorToNative(
                         $this->backgroundColor(),
                         $image->colorspace()
@@ -30,10 +30,10 @@ class DrawRectangleModifier extends DrawModifier
                 imagesetthickness($frame->data(), $this->drawable->borderSize());
                 imagerectangle(
                     $frame->data(),
-                    $this->position->x(),
-                    $this->position->y(),
-                    $this->position->x() + $this->drawable->width(),
-                    $this->position->y() + $this->drawable->height(),
+                    $this->position()->x(),
+                    $this->position()->y(),
+                    $this->position()->x() + $this->drawable->width(),
+                    $this->position()->y() + $this->drawable->height(),
                     $this->driver()->colorToNative(
                         $this->borderColor(),
                         $image->colorspace()

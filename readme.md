@@ -16,6 +16,18 @@ operations.
 - Framework-agnostic
 - PSR-12 compliant
 
+## Installation
+
+```bash
+composer require intervention/image
+```
+
+## Getting started
+
+Learn the [basics](https://image.intervention.io/v3/basics/instantiation/) on
+how to use Intervention Image and more with the [official
+documentation](https://image.intervention.io/v3/).
+
 ## Code Examples
 
 ```php
@@ -46,18 +58,6 @@ $encoded->save('images/example.jpg');
 
 - GD Library
 - Imagick PHP extension
-
-## Installation
-
-```bash
-composer require intervention/image
-```
-
-## Getting started
-
-Learn the [basics](https://image.intervention.io/v3/basics/instantiation/) on
-how to use Intervention Image and more with the [official
-documentation](https://image.intervention.io/v3/).
 
 ## Development & Testing
 

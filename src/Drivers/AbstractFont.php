@@ -20,38 +20,38 @@ abstract class AbstractFont implements FontInterface
     protected $valign = 'bottom';
     protected $lineHeight = 1.25;
 
-    public function size(float $size): FontInterface
+    public function setSize(float $size): FontInterface
     {
         $this->size = $size;
 
         return $this;
     }
 
-    public function getSize(): float
+    public function size(): float
     {
         return $this->size;
     }
 
-    public function angle(float $angle): FontInterface
+    public function setAngle(float $angle): FontInterface
     {
         $this->angle = $angle;
 
         return $this;
     }
 
-    public function getAngle(): float
+    public function angle(): float
     {
         return $this->angle;
     }
 
-    public function filename(string $filename): FontInterface
+    public function setFilename(string $filename): FontInterface
     {
         $this->filename = $filename;
 
         return $this;
     }
 
-    public function getFilename(): ?string
+    public function filename(): ?string
     {
         return $this->filename;
     }
@@ -61,57 +61,57 @@ abstract class AbstractFont implements FontInterface
         return !is_null($this->filename) && is_file($this->filename);
     }
 
-    public function color($color): FontInterface
+    public function setColor($color): FontInterface
     {
         $this->color = $color;
 
         return $this;
     }
 
-    public function getColor(): ColorInterface
+    public function color(): ColorInterface
     {
         return $this->handleInput($this->color);
     }
 
-    public function align(string $align): FontInterface
+    public function setAlignment(string $align): FontInterface
     {
         $this->align = $align;
 
         return $this;
     }
 
-    public function getValign(): string
+    public function valignment(): string
     {
         return $this->valign;
     }
 
-    public function valign(string $valign): FontInterface
+    public function setValignment(string $valign): FontInterface
     {
         $this->valign = $valign;
 
         return $this;
     }
 
-    public function getAlign(): string
+    public function alignment(): string
     {
         return $this->align;
     }
 
-    public function lineHeight(float $height): FontInterface
+    public function setLineHeight(float $height): FontInterface
     {
         $this->lineHeight = $height;
 
         return $this;
     }
 
-    public function getLineHeight(): float
+    public function lineHeight(): float
     {
         return $this->lineHeight;
     }
 
     public function leadingInPixels(): int
     {
-        return intval(round($this->fontSizeInPixels() * $this->getLineHeight()));
+        return intval(round($this->fontSizeInPixels() * $this->lineHeight()));
     }
 
     public function capHeight(): int

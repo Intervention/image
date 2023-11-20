@@ -3,10 +3,10 @@
 namespace Intervention\Image;
 
 use Intervention\Image\Exceptions\NotWritableException;
-use Intervention\Image\Interfaces\GenericDataInterface;
+use Intervention\Image\Interfaces\FileInterface;
 use Intervention\Image\Traits\CanBuildFilePointer;
 
-class GenericData implements GenericDataInterface
+class File implements FileInterface
 {
     use CanBuildFilePointer;
 

@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Interfaces;
 
-interface EncodedImageInterface extends GenericDataInterface
+interface EncodedImageInterface extends FileInterface
 {
     /**
      * Return Media (MIME) Type of encoded image

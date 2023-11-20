@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Tests;
 
-use Intervention\Image\Drivers\Gd\Modifiers\GreyscaleModifier;
+use Intervention\Image\Modifiers\GreyscaleModifier;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\ModifierStack;

@@ -4,17 +4,17 @@ namespace Intervention\Image\Typography;
 
 use Intervention\Image\Interfaces\FontInterface;
 use Intervention\Image\Geometry\Point;
+use Intervention\Image\Interfaces\PointInterface;
 
 class Line
 {
-    protected $position;
-
-    public function __construct(protected string $text)
-    {
-        $this->position = new Point();
+    public function __construct(
+        protected string $text,
+        protected PointInterface $position = new Point()
+    ) {
     }
 
-    public function getPosition(): Point
+    public function position(): Point
     {
         return $this->position;
     }

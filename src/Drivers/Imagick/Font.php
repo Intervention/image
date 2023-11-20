@@ -24,13 +24,13 @@ class Font extends AbstractFont
         $draw = new ImagickDraw();
         $draw->setStrokeAntialias(true);
         $draw->setTextAntialias(true);
-        $draw->setFont($this->getFilename());
-        $draw->setFontSize($this->getSize());
+        $draw->setFont($this->filename());
+        $draw->setFontSize($this->size());
         $draw->setTextAlignment(Imagick::ALIGN_LEFT);
 
         if ($colorspace) {
             $draw->setFillColor(
-                $this->colorToPixel($this->getColor(), $colorspace)
+                $this->colorToPixel($this->color(), $colorspace)
             );
         }
 

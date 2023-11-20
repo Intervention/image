@@ -2,9 +2,9 @@
 
 namespace Intervention\Image\Colors;
 
-use Intervention\Image\GenericData;
+use Intervention\Image\File;
 use Intervention\Image\Interfaces\ProfileInterface;
 
-class Profile extends GenericData implements ProfileInterface
+class Profile extends File implements ProfileInterface
 {
 }

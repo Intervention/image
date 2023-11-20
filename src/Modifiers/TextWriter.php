@@ -27,7 +27,7 @@ class TextWriter extends AbstractModifier
         $position = $this->position;
         $font = $this->font;
 
-        $boundingBox = $lines->getBoundingBox($font, $position);
+        $boundingBox = $lines->boundingBox($font, $position);
         $pivot = $boundingBox->last();
 
         $leading = $font->leadingInPixels();
@@ -38,11 +38,11 @@ class TextWriter extends AbstractModifier
         $x_adjustment = 0;
 
         foreach ($lines as $line) {
-            $x_adjustment = $font->getAlign() == 'left' ? 0 : $blockWidth - $line->widthInFont($font);
-            $x_adjustment = $font->getAlign() == 'right' ? intval(round($x_adjustment)) : $x_adjustment;
-            $x_adjustment = $font->getAlign() == 'center' ? intval(round($x_adjustment / 2)) : $x_adjustment;
+            $x_adjustment = $font->alignment() == 'left' ? 0 : $blockWidth - $line->widthInFont($font);
+            $x_adjustment = $font->alignment() == 'right' ? intval(round($x_adjustment)) : $x_adjustment;
+            $x_adjustment = $font->alignment() == 'center' ? intval(round($x_adjustment / 2)) : $x_adjustment;
             $position = new Point($x + $x_adjustment, $y);
-            $position->rotate($font->getAngle(), $pivot);
+            $position->rotate($font->angle(), $pivot);
             $line->setPosition($position);
             $y += $leading;
         }

@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Interfaces;
 
-interface GenericDataInterface
+interface FileInterface
 {
     /**
      * Save data in given path in file system

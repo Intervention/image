@@ -4,6 +4,13 @@ namespace Intervention\Image\Traits;
 
 trait CanRunCallback
 {
+    protected function runCallback(callable $callback, object $object): object
+    {
+        $callback($object);
+
+        return $object;
+    }
+
     /**
      * Runs given callback against given object and returns object
      *
@@ -14,7 +21,7 @@ trait CanRunCallback
     protected function maybeRunCallback(?callable $callback, object $object): object
     {
         if (is_callable($callback)) {
-            $callback($object);
+            return $this->runCallback($callback, $object);
         }
 
         return $object;

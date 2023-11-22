@@ -28,7 +28,7 @@ class ResizeModifier extends DriverModifier
         );
 
         // get current GDImage
-        $current = $frame->data();
+        $current = $frame->native();
 
         // preserve transparency
         $transIndex = imagecolortransparent($current);
@@ -58,7 +58,7 @@ class ResizeModifier extends DriverModifier
         );
 
         // set new content as recource
-        $frame->setData($modified);
+        $frame->setNative($modified);
     }
 
     protected function getAdjustedSize(ImageInterface $image): SizeInterface

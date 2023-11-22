@@ -35,7 +35,7 @@ class FillModifier extends DriverModifier
     private function floodFillWithColor(Frame $frame, int $color): void
     {
         imagefill(
-            $frame->data(),
+            $frame->native(),
             $this->position->x(),
             $this->position->y(),
             $color
@@ -44,9 +44,9 @@ class FillModifier extends DriverModifier
 
     private function fillAllWithColor(Frame $frame, int $color): void
     {
-        imagealphablending($frame->data(), true);
+        imagealphablending($frame->native(), true);
         imagefilledrectangle(
-            $frame->data(),
+            $frame->native(),
             0,
             0,
             $frame->size()->width() - 1,

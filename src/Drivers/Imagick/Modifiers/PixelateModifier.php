@@ -21,11 +21,11 @@ class PixelateModifier extends DriverModifier
     {
         $size = $frame->size();
 
-        $frame->data()->scaleImage(
+        $frame->native()->scaleImage(
             round(max(1, ($size->width() / $this->size))),
             round(max(1, ($size->height() / $this->size)))
         );
 
-        $frame->data()->scaleImage($size->width(), $size->height());
+        $frame->native()->scaleImage($size->width(), $size->height());
     }
 }

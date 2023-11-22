@@ -30,7 +30,7 @@ class FitModifier extends DriverModifier
         )->core()->native();
 
         // get original image
-        $original = $frame->data();
+        $original = $frame->native();
 
         // preserve transparency
         $transIndex = imagecolortransparent($original);
@@ -57,6 +57,6 @@ class FitModifier extends DriverModifier
         );
 
         // set new content as resource
-        $frame->setData($modified);
+        $frame->setNative($modified);
     }
 }

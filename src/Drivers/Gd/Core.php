@@ -14,7 +14,7 @@ class Core extends Collection implements CoreInterface
 
     public function native()
     {
-        return $this->first()->data();
+        return $this->first()->native();
     }
 
     public function width(): int

@@ -56,7 +56,7 @@ class PadModifier extends DriverModifier
         imagealphablending($modified, true);
         imagecopyresampled(
             $modified,
-            $frame->data(),
+            $frame->native(),
             $crop->pivot()->x(),
             $crop->pivot()->y(),
             0,
@@ -68,6 +68,6 @@ class PadModifier extends DriverModifier
         );
 
         // set new content as recource
-        $frame->setData($modified);
+        $frame->setNative($modified);
     }
 }

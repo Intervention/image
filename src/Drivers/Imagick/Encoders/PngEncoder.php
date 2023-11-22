@@ -16,7 +16,7 @@ class PngEncoder extends DriverEncoder
         $compression = Imagick::COMPRESSION_ZIP;
 
         $image = $image->modify(new LimitColorsModifier($this->color_limit));
-        $imagick = $image->core()->frame()->data();
+        $imagick = $image->core()->frame()->native();
         $imagick->setFormat($format);
         $imagick->setImageFormat($format);
         $imagick->setCompression($compression);

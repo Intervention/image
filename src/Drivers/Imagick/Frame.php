@@ -12,64 +12,64 @@ use Intervention\Image\Interfaces\SizeInterface;
 
 class Frame implements FrameInterface
 {
-    public function __construct(protected Imagick $data)
+    public function __construct(protected Imagick $native)
     {
     }
 
     public function toImage(DriverInterface $driver): ImageInterface
     {
-        return new Image($driver, new Core($this->data()));
+        return new Image($driver, new Core($this->native()));
     }
 
-    public function setData($data): FrameInterface
+    public function setNative($native): FrameInterface
     {
-        $this->data = $data;
+        $this->native = $native;
 
         return $this;
     }
 
-    public function data(): Imagick
+    public function native(): Imagick
     {
-        return $this->data;
+        return $this->native;
     }
 
     public function size(): SizeInterface
     {
         return new Rectangle(
-            $this->data->getImageWidth(),
-            $this->data->getImageHeight()
+            $this->native->getImageWidth(),
+            $this->native->getImageHeight()
         );
     }
 
     public function delay(): float
     {
-        return $this->data->getImageDelay() / 100;
+        return $this->native->getImageDelay() / 100;
     }
 
     public function setDelay(float $delay): FrameInterface
     {
-        $this->data->setImageDelay(intval(round($delay * 100)));
+        $this->native->setImageDelay(intval(round($delay * 100)));
 
         return $this;
     }
 
     public function dispose(): int
     {
-        return $this->data->getImageDispose();
+        return $this->native->getImageDispose();
     }
 
     public function setDispose(int $dispose): FrameInterface
     {
-        $this->data->setImageDispose($dispose);
+        $this->native->setImageDispose($dispose);
 
         return $this;
     }
 
     public function setOffset(int $left, int $top): FrameInterface
     {
-        $this->data->setImagePage(
-            $this->data->getImageWidth(),
-            $this->data->getImageHeight(),
+        $this->native->setImagePage(
+            $this->native->getImageWidth(),
+            $this->native->getImageHeight(),
             $left,
             $top
         );
@@ -79,7 +79,7 @@ class Frame implements FrameInterface
 
     public function offsetLeft(): int
     {
-        return $this->data->getImagePage()['x'];
+        return $this->native->getImagePage()['x'];
     }
 
     public function setOffsetLeft(int $offset): FrameInterface
@@ -89,7 +89,7 @@ class Frame implements FrameInterface
 
     public function offsetTop(): int
     {
-        return $this->data->getImagePage()['y'];
+        return $this->native->getImagePage()['y'];
     }
 
     public function setOffsetTop(int $offset): FrameInterface

@@ -42,9 +42,9 @@ class RotateModifier extends DriverModifier
     protected function modifyFrame(FrameInterface $frame, ColorInterface $background): void
     {
         // get transparent color from frame core
-        $transparent = match ($transparent = imagecolortransparent($frame->data())) {
+        $transparent = match ($transparent = imagecolortransparent($frame->native())) {
             -1 => imagecolorallocatealpha(
-                $frame->data(),
+                $frame->native(),
                 $background->channel(Red::class)->value(),
                 $background->channel(Green::class)->value(),
                 $background->channel(Blue::class)->value(),
@@ -55,7 +55,7 @@ class RotateModifier extends DriverModifier
 
         // rotate original image against transparent background
         $rotated = imagerotate(
-            $frame->data(),
+            $frame->native(),
             $this->rotationAngle(),
             $transparent
         );
@@ -68,8 +68,8 @@ class RotateModifier extends DriverModifier
 
         // create size from original and rotate points
         $cutout = (new Rectangle(
-            imagesx($frame->data()),
-            imagesy($frame->data()),
+            imagesx($frame->native()),
+            imagesy($frame->native()),
             $container->pivot()
         ))->align('center')
             ->valign('center')
@@ -105,6 +105,6 @@ class RotateModifier extends DriverModifier
             imagesy($rotated)
         );
 
-        $frame->setData($modified);
+        $frame->setNative($modified);
     }
 }

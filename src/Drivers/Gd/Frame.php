@@ -13,7 +13,7 @@ use Intervention\Image\Interfaces\SizeInterface;
 class Frame implements FrameInterface
 {
     public function __construct(
-        protected GdImage $data,
+        protected GdImage $native,
         protected float $delay = 0,
         protected int $dispose = 1,
         protected int $offset_left = 0,
@@ -27,26 +27,26 @@ class Frame implements FrameInterface
         return new Image($driver, new Core([$this]));
     }
 
-    public function setData($data): FrameInterface
+    public function setNative($native): FrameInterface
     {
-        $this->data = $data;
+        $this->native = $native;
 
         return $this;
     }
 
-    public function data(): GdImage
+    public function native(): GdImage
     {
-        return $this->data;
+        return $this->native;
     }
 
     public function unsetData(): void
     {
-        unset($this->data);
+        unset($this->native);
     }
 
     public function size(): SizeInterface
     {
-        return new Rectangle(imagesx($this->data), imagesy($this->data));
+        return new Rectangle(imagesx($this->native), imagesy($this->native));
     }
 
     public function delay(): float

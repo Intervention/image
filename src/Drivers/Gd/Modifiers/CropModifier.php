@@ -29,7 +29,7 @@ class CropModifier extends DriverModifier
             ->native();
 
         // get original image
-        $original = $frame->data();
+        $original = $frame->native();
 
         // preserve transparency
         $transIndex = imagecolortransparent($original);
@@ -56,6 +56,6 @@ class CropModifier extends DriverModifier
         );
 
         // set new content as recource
-        $frame->setData($modified);
+        $frame->setNative($modified);
     }
 }

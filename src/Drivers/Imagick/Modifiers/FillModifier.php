@@ -29,12 +29,12 @@ class FillModifier extends DriverModifier
 
     private function floodFillWithColor(Frame $frame, ImagickPixel $pixel): void
     {
-        $target = $frame->data()->getImagePixelColor(
+        $target = $frame->native()->getImagePixelColor(
             $this->position->x(),
             $this->position->y()
         );
 
-        $frame->data()->floodfillPaintImage(
+        $frame->native()->floodfillPaintImage(
             $pixel,
             100,
             $target,
@@ -52,9 +52,9 @@ class FillModifier extends DriverModifier
         $draw->rectangle(
             0,
             0,
-            $frame->data()->getImageWidth(),
-            $frame->data()->getImageHeight()
+            $frame->native()->getImageWidth(),
+            $frame->native()->getImageHeight()
         );
-        $frame->data()->drawImage($draw);
+        $frame->native()->drawImage($draw);
     }
 }

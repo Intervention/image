@@ -3,8 +3,6 @@
 namespace Intervention\Image\Drivers\Gd;
 
 use Intervention\Image\Collection;
-use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
-use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\CoreInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 
@@ -15,16 +13,6 @@ class Core extends Collection implements CoreInterface
     public function native()
     {
         return $this->first()->native();
-    }
-
-    public function width(): int
-    {
-        return imagesx($this->native());
-    }
-
-    public function height(): int
-    {
-        return imagesy($this->native());
     }
 
     public function frame(int $position): FrameInterface
@@ -42,10 +30,5 @@ class Core extends Collection implements CoreInterface
         $this->loops = $loops;
 
         return $this;
-    }
-
-    public function colorspace(): ColorspaceInterface
-    {
-        return new RgbColorspace();
     }
 }

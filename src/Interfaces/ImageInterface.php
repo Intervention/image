@@ -15,6 +15,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function size(): SizeInterface;
     public function encode(EncoderInterface $encoder): EncodedImage;
     public function modify(ModifierInterface $modifier): ImageInterface;
+    public function analyze(AnalyzerInterface $analyzer): mixed;
     public function isAnimated(): bool;
     public function loops(): int;
     public function exif(?string $query = null): mixed;

@@ -2,6 +2,7 @@
 
 namespace Intervention\Image\Drivers;
 
+use Intervention\Image\Exceptions\MissingDriverComponentException;
 use Intervention\Image\Interfaces\DriverInterface;
 use ReflectionClass;
 
@@ -17,6 +18,7 @@ abstract class AbstractDriver implements DriverInterface
         $department = match ($department) {
             'Modifier', 'Writer' => 'Modifiers',
             'Encoder' => 'Encoders',
+            'Analyzer' => 'Analyzers',
             default => null,
         };
 
@@ -27,6 +29,12 @@ abstract class AbstractDriver implements DriverInterface
         ], function ($dept) {
             return !empty($dept);
         }));
+
+        if (! class_exists($specialized)) {
+            throw new MissingDriverComponentException(
+                $classname . " is not supported by " . $this->id() . " driver."
+            );
+        }
 
         return new $specialized($input, $this);
     }

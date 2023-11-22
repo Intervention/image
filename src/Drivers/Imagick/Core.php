@@ -5,10 +5,7 @@ namespace Intervention\Image\Drivers\Imagick;
 use Imagick;
 use ImagickException;
 use Iterator;
-use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\CoreInterface;
-use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
-use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Exceptions\AnimationException;
 use Intervention\Image\Interfaces\FrameInterface;
 
@@ -63,16 +60,6 @@ class Core implements CoreInterface, Iterator
         return $this->imagick;
     }
 
-    public function width(): int
-    {
-        return $this->imagick->getImageWidth();
-    }
-
-    public function height(): int
-    {
-        return $this->imagick->getImageHeight();
-    }
-
     public function frame(int $position): FrameInterface
     {
         foreach ($this->imagick as $core) {
@@ -95,13 +82,5 @@ class Core implements CoreInterface, Iterator
         $this->imagick->setImageIterations($loops);
 
         return $this;
-    }
-
-    public function colorspace(): ColorspaceInterface
-    {
-        return match ($this->imagick->getImageColorspace()) {
-            Imagick::COLORSPACE_CMYK => new CmykColorspace(),
-            default => new RgbColorspace(),
-        };
     }
 }

@@ -10,7 +10,7 @@ class SharpenModifier extends DriverModifier
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $frame->data()->unsharpMaskImage(1, 1, $this->amount / 6.25, 0);
+            $frame->native()->unsharpMaskImage(1, 1, $this->amount / 6.25, 0);
         }
 
         return $image;

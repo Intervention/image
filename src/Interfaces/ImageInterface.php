@@ -20,4 +20,8 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function loops(): int;
     public function exif(?string $query = null): mixed;
     public function colorspace(): ColorspaceInterface;
+    public function pickColor(int $x, int $y, int $frame_key = 0): ColorInterface;
+    public function pickColors(int $x, int $y): CollectionInterface;
+    public function profile(): ProfileInterface;
+    public function sharpen(int $amount = 10): ImageInterface;
 }

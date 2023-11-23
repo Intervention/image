@@ -2,13 +2,13 @@
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\Gd\Modifiers\BlurModifier;
+use Intervention\Image\Modifiers\BlurModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 /**
  * @requires extension gd
- * @covers \Intervention\Image\Drivers\Gd\Modifiers\BlurModifier
+ * @covers \Intervention\Image\Modifiers\BlurModifier
  */
 class BlurModifierTest extends TestCase
 {

@@ -2,13 +2,13 @@
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\Gd\Modifiers\InvertModifier;
+use Intervention\Image\Modifiers\InvertModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 /**
  * @requires extension gd
- * @covers \Intervention\Image\Drivers\Gd\Modifiers\InvertModifier
+ * @covers \Intervention\Image\Modifiers\InvertModifier
  */
 class InvertModifierTest extends TestCase
 {

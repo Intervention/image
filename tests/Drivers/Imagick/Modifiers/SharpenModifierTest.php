@@ -2,13 +2,13 @@
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\Imagick\Modifiers\SharpenModifier;
+use Intervention\Image\Modifiers\SharpenModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 /**
  * @requires extension imagick
- * @covers \Intervention\Image\Drivers\Imagick\Modifiers\SharpenModifier
+ * @covers \Intervention\Image\Modifiers\SharpenModifier
  */
 class SharpenModifierTest extends TestCase
 {

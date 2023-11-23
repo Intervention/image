@@ -10,9 +10,14 @@ class Core extends Collection implements CoreInterface
 {
     protected int $loops = 0;
 
-    public function native()
+    public function native(): mixed
     {
         return $this->first()->native();
+    }
+
+    public function setNative(mixed $native): self
+    {
+        return $this->empty()->push(new Frame($native));
     }
 
     public function frame(int $position): FrameInterface

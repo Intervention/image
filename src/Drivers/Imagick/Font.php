@@ -5,7 +5,6 @@ namespace Intervention\Image\Drivers\Imagick;
 use Imagick;
 use ImagickDraw;
 use Intervention\Image\Drivers\AbstractFont;
-use Intervention\Image\Drivers\Imagick\Traits\CanHandleColors;
 use Intervention\Image\Exceptions\FontException;
 use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Rectangle;
@@ -13,8 +12,6 @@ use Intervention\Image\Interfaces\ColorspaceInterface;
 
 class Font extends AbstractFont
 {
-    use CanHandleColors;
-
     public function toImagickDraw(?ColorspaceInterface $colorspace = null): ImagickDraw
     {
         if (!$this->hasFilename()) {

@@ -2,13 +2,13 @@
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\Imagick\Modifiers\ColorizeModifier;
+use Intervention\Image\Modifiers\ColorizeModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 /**
  * @requires extension gd
- * @covers \Intervention\Image\Drivers\Imagick\Modifiers\ColorizeModifier
+ * @covers \Intervention\Image\Modifiers\ColorizeModifier
  */
 class ColorizeModifierTest extends TestCase
 {

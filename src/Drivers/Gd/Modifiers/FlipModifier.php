@@ -10,7 +10,7 @@ class FlipModifier extends DriverModifier
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            imageflip($frame->data(), IMG_FLIP_VERTICAL);
+            imageflip($frame->native(), IMG_FLIP_VERTICAL);
         }
 
         return $image;

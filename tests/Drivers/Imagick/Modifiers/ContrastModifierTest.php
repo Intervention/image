@@ -2,13 +2,13 @@
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\Imagick\Modifiers\ContrastModifier;
+use Intervention\Image\Modifiers\ContrastModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 /**
  * @requires extension imagick
- * @covers \Intervention\Image\Drivers\Imagick\Modifiers\ContrastModifier
+ * @covers \Intervention\Image\Modifiers\ContrastModifier
  */
 class ContrastModifierTest extends TestCase
 {

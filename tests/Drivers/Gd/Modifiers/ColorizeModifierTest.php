@@ -2,13 +2,13 @@
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\Gd\Modifiers\ColorizeModifier;
+use Intervention\Image\Modifiers\ColorizeModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 /**
  * @requires extension gd
- * @covers \Intervention\Image\Drivers\Gd\Modifiers\ColorizeModifier
+ * @covers \Intervention\Image\Modifiers\ColorizeModifier
  */
 class ColorizeModifierTest extends TestCase
 {

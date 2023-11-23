@@ -14,7 +14,7 @@ class PlaceModifier extends DriverModifier
         $position = $this->getPosition($image, $watermark);
 
         foreach ($image as $frame) {
-            $frame->data()->compositeImage(
+            $frame->native()->compositeImage(
                 $watermark->core()->native(),
                 Imagick::COMPOSITE_DEFAULT,
                 $position->x(),

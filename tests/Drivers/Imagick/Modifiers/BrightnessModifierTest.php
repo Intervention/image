@@ -2,13 +2,13 @@
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\Imagick\Modifiers\BrightnessModifier;
+use Intervention\Image\Modifiers\BrightnessModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 /**
  * @requires extension imagick
- * @covers \Intervention\Image\Drivers\Imagick\Modifiers\BrightnessModifier
+ * @covers \Intervention\Image\Modifiers\BrightnessModifier
  */
 class BrightnessModifierTest extends TestCase
 {

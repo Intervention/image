@@ -24,7 +24,7 @@ class PadModifier extends DriverModifier
         $imagick = new Imagick();
         foreach ($image as $frame) {
             // resize current core
-            $frame->data()->scaleImage(
+            $frame->native()->scaleImage(
                 $crop->width(),
                 $crop->height()
             );
@@ -34,7 +34,7 @@ class PadModifier extends DriverModifier
 
             // place current core onto canvas
             $canvas->compositeImage(
-                $frame->data(),
+                $frame->native(),
                 Imagick::COMPOSITE_DEFAULT,
                 $crop->pivot()->x(),
                 $crop->pivot()->y()

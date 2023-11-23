@@ -2,13 +2,13 @@
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\Gd\Modifiers\CropModifier;
+use Intervention\Image\Modifiers\CropModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 /**
  * @requires extension gd
- * @covers \Intervention\Image\Drivers\Gd\Modifiers\CropModifier
+ * @covers \Intervention\Image\Modifiers\CropModifier
  */
 class CropModifierTest extends TestCase
 {

@@ -2,13 +2,13 @@
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\Imagick\Modifiers\CropModifier;
+use Intervention\Image\Modifiers\CropModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 /**
  * @requires extension gd
- * @covers \Intervention\Image\Drivers\Imagick\Modifiers\CropModifier
+ * @covers \Intervention\Image\Modifiers\CropModifier
  */
 class CropModifierTest extends TestCase
 {

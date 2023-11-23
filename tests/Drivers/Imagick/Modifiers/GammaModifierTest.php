@@ -2,13 +2,13 @@
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\Imagick\Modifiers\GammaModifier;
+use Intervention\Image\Modifiers\GammaModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 /**
  * @requires extension imagick
- * @covers \Intervention\Image\Drivers\Imagick\Modifiers\GammaModifier
+ * @covers \Intervention\Image\Modifiers\GammaModifier
  */
 class GammaModifierTest extends TestCase
 {

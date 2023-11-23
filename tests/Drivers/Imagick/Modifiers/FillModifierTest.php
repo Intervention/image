@@ -3,14 +3,14 @@
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
 use Intervention\Image\Colors\Rgb\Color;
-use Intervention\Image\Drivers\Imagick\Modifiers\FillModifier;
+use Intervention\Image\Modifiers\FillModifier;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 /**
  * @requires extension imagick
- * @covers \Intervention\Image\Drivers\Imagick\Modifiers\FillModifier
+ * @covers \Intervention\Image\Modifiers\FillModifier
  */
 class FillModifierTest extends TestCase
 {

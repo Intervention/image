@@ -13,7 +13,7 @@ class ResolutionModifier extends DriverModifier
         $y = intval(round($this->y));
 
         foreach ($image as $frame) {
-            imageresolution($frame->data(), $x, $y);
+            imageresolution($frame->native(), $x, $y);
         }
 
         return $image;

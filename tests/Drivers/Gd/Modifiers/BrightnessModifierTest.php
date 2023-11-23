@@ -2,13 +2,13 @@
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\Gd\Modifiers\BrightnessModifier;
+use Intervention\Image\Modifiers\BrightnessModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 /**
  * @requires extension gd
- * @covers \Intervention\Image\Drivers\Gd\Modifiers\BrightnessModifier
+ * @covers \Intervention\Image\Modifiers\BrightnessModifier
  */
 class BrightnessModifierTest extends TestCase
 {

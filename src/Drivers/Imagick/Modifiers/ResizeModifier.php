@@ -13,7 +13,7 @@ class ResizeModifier extends DriverModifier
         $resizeTo = $this->getAdjustedSize($image);
 
         foreach ($image as $frame) {
-            $frame->data()->scaleImage(
+            $frame->native()->scaleImage(
                 $resizeTo->width(),
                 $resizeTo->height()
             );

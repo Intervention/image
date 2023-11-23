@@ -10,7 +10,7 @@ class ContrastModifier extends DriverModifier
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            imagefilter($frame->data(), IMG_FILTER_CONTRAST, ($this->level * -1));
+            imagefilter($frame->native(), IMG_FILTER_CONTRAST, ($this->level * -1));
         }
 
         return $image;

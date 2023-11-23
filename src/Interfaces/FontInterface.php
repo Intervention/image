@@ -3,12 +3,11 @@
 namespace Intervention\Image\Interfaces;
 
 use Intervention\Image\Geometry\Polygon;
-use Intervention\Image\Interfaces\ColorInterface;
 
 interface FontInterface
 {
-    public function setColor($color): self;
-    public function color(): ColorInterface;
+    public function setColor(mixed $color): self;
+    public function color(): mixed;
     public function setSize(float $size): self;
     public function size(): float;
     public function setAngle(float $angle): self;

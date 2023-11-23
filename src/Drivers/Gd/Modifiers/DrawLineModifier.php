@@ -11,7 +11,7 @@ class DrawLineModifier extends DrawModifier
     {
         foreach ($image as $frame) {
             imageline(
-                $frame->data(),
+                $frame->native(),
                 $this->drawable->getStart()->x(),
                 $this->drawable->getStart()->y(),
                 $this->drawable->getEnd()->x(),

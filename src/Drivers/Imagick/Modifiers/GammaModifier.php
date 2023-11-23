@@ -10,7 +10,7 @@ class GammaModifier extends DriverModifier
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $frame->data()->gammaImage($this->gamma);
+            $frame->native()->gammaImage($this->gamma);
         }
 
         return $image;

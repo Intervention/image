@@ -20,9 +20,9 @@ class LimitColorsModifier extends DriverModifier
         }
 
         foreach ($image as $frame) {
-            $frame->data()->quantizeImage(
+            $frame->native()->quantizeImage(
                 $this->limit,
-                $frame->data()->getImageColorspace(),
+                $frame->native()->getImageColorspace(),
                 0,
                 false,
                 false

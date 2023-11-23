@@ -34,7 +34,7 @@ class DrawPolygonModifier extends DrawModifier
         $drawing->polygon($this->points());
 
         foreach ($image as $frame) {
-            $frame->data()->drawImage($drawing);
+            $frame->native()->drawImage($drawing);
         }
 
         return $image;

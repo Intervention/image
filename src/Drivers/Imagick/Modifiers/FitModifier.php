@@ -13,14 +13,14 @@ class FitModifier extends DriverModifier
         $resize = $this->getResizeSize($crop);
 
         foreach ($image as $frame) {
-            $frame->data()->extentImage(
+            $frame->native()->extentImage(
                 $crop->width(),
                 $crop->height(),
                 $crop->pivot()->x(),
                 $crop->pivot()->y()
             );
 
-            $frame->data()->scaleImage(
+            $frame->native()->scaleImage(
                 $resize->width(),
                 $resize->height()
             );

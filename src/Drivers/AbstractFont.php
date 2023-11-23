@@ -2,23 +2,17 @@
 
 namespace Intervention\Image\Drivers;
 
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FontInterface;
-use Intervention\Image\Traits\CanCheckType;
-use Intervention\Image\Traits\CanHandleInput;
 
 abstract class AbstractFont implements FontInterface
 {
-    use CanHandleInput;
-    use CanCheckType;
-
-    protected $size = 12;
-    protected $angle = 0;
-    protected $color = '000000';
-    protected $filename;
-    protected $align = 'left';
-    protected $valign = 'bottom';
-    protected $lineHeight = 1.25;
+    protected float $size = 12;
+    protected float $angle = 0;
+    protected mixed $color = '000000';
+    protected ?string $filename = null;
+    protected string $align = 'left';
+    protected string $valign = 'bottom';
+    protected float $lineHeight = 1.25;
 
     public function setSize(float $size): FontInterface
     {
@@ -61,16 +55,16 @@ abstract class AbstractFont implements FontInterface
         return !is_null($this->filename) && is_file($this->filename);
     }
 
-    public function setColor($color): FontInterface
+    public function setColor(mixed $color): FontInterface
     {
         $this->color = $color;
 
         return $this;
     }
 
-    public function color(): ColorInterface
+    public function color(): mixed
     {
-        return $this->handleInput($this->color);
+        return $this->color;
     }
 
     public function setAlignment(string $align): FontInterface

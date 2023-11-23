@@ -13,9 +13,9 @@ class PlaceModifier extends DriverModifier
         $position = $this->getPosition($image, $watermark);
 
         foreach ($image as $frame) {
-            imagealphablending($frame->data(), true);
+            imagealphablending($frame->native(), true);
             imagecopy(
-                $frame->data(),
+                $frame->native(),
                 $watermark->core()->native(),
                 $position->x(),
                 $position->y(),

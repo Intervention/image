@@ -16,7 +16,7 @@ class DrawPixelModifier extends DriverModifier
 
         foreach ($image as $frame) {
             imagesetpixel(
-                $frame->data(),
+                $frame->native(),
                 $this->position->x(),
                 $this->position->y(),
                 $color

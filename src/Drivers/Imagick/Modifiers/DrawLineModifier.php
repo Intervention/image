@@ -27,7 +27,7 @@ class DrawLineModifier extends DrawModifier
         );
 
         foreach ($image as $frame) {
-            $frame->data()->drawImage($drawing);
+            $frame->native()->drawImage($drawing);
         }
 
         return $image;

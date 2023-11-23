@@ -10,7 +10,7 @@ class GreyscaleModifier extends DriverModifier
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $frame->data()->modulateImage(100, 0, 100);
+            $frame->native()->modulateImage(100, 0, 100);
         }
 
         return $image;

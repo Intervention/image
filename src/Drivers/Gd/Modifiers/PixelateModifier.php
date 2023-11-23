@@ -10,7 +10,7 @@ class PixelateModifier extends DriverModifier
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            imagefilter($frame->data(), IMG_FILTER_PIXELATE, $this->size, true);
+            imagefilter($frame->native(), IMG_FILTER_PIXELATE, $this->size, true);
         }
 
         return $image;

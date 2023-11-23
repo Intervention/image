@@ -12,7 +12,7 @@ class DrawPolygonModifier extends DrawModifier
         foreach ($image as $frame) {
             if ($this->drawable->hasBackgroundColor()) {
                 imagefilledpolygon(
-                    $frame->data(),
+                    $frame->native(),
                     $this->drawable->toArray(),
                     $this->driver()->colorToNative(
                         $this->backgroundColor(),
@@ -22,9 +22,9 @@ class DrawPolygonModifier extends DrawModifier
             }
 
             if ($this->drawable->hasBorder()) {
-                imagesetthickness($frame->data(), $this->drawable->borderSize());
+                imagesetthickness($frame->native(), $this->drawable->borderSize());
                 imagepolygon(
-                    $frame->data(),
+                    $frame->native(),
                     $this->drawable->toArray(),
                     $this->driver()->colorToNative(
                         $this->borderColor(),

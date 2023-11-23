@@ -2,13 +2,13 @@
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\Gd\Modifiers\FitModifier;
+use Intervention\Image\Modifiers\FitModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 /**
  * @requires extension gd
- * @covers \Intervention\Image\Drivers\Gd\Modifiers\FitModifier
+ * @covers \Intervention\Image\Modifiers\FitModifier
  */
 class FitModifierTest extends TestCase
 {

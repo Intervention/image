@@ -11,7 +11,7 @@ class SharpenModifier extends DriverModifier
     {
         $matrix = $this->matrix();
         foreach ($image as $frame) {
-            imageconvolution($frame->data(), $matrix, 1, 0);
+            imageconvolution($frame->native(), $matrix, 1, 0);
         }
 
         return $image;

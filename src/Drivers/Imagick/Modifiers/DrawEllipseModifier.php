@@ -38,7 +38,7 @@ class DrawEllipseModifier extends DrawModifier
                 360
             );
 
-            $frame->data()->drawImage($drawing);
+            $frame->native()->drawImage($drawing);
         }
 
         return $image;

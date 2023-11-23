@@ -15,7 +15,7 @@ class RotateModifier extends DriverModifier
         );
 
         foreach ($image as $frame) {
-            $frame->data()->rotateImage(
+            $frame->native()->rotateImage(
                 $background,
                 $this->rotationAngle() * -1
             );

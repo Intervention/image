@@ -4,8 +4,6 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
 use Intervention\Image\Drivers\DriverModifier;
-use Intervention\Image\Drivers\Imagick\Core;
-use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ImageInterface;
 
 class RemoveAnimationModifier extends DriverModifier
@@ -15,12 +13,11 @@ class RemoveAnimationModifier extends DriverModifier
         // create new imagick with just one image
         $imagick = new Imagick();
         $frame = $this->chosenFrame($image, $this->position);
-        $imagick->addImage($frame->data()->getImage());
+        $imagick->addImage($frame->native()->getImage());
 
-        return new Image(
-            $image->driver(),
-            new Core($imagick),
-            $image->exif()
-        );
+        // set new imagick to image
+        $image->core()->setNative($imagick);
+
+        return $image;
     }
 }

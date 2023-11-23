@@ -10,7 +10,7 @@ class BlurModifier extends DriverModifier
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $frame->data()->blurImage(1 * $this->amount, 0.5 * $this->amount);
+            $frame->native()->blurImage(1 * $this->amount, 0.5 * $this->amount);
         }
 
         return $image;

@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\Imagick\Modifiers\DrawEllipseModifier;
+use Intervention\Image\Modifiers\DrawEllipseModifier;
 use Intervention\Image\Geometry\Ellipse;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\TestCase;

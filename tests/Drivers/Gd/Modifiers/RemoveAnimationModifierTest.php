@@ -2,13 +2,13 @@
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\Gd\Modifiers\RemoveAnimationModifier;
+use Intervention\Image\Modifiers\RemoveAnimationModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 /**
  * @requires extension gd
- * @covers \Intervention\Image\Drivers\Gd\Modifiers\RemoveAnimationModifier
+ * @covers \Intervention\Image\Modifiers\RemoveAnimationModifier
  */
 class RemoveAnimationModifierTest extends TestCase
 {

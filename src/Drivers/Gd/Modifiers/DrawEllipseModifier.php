@@ -14,7 +14,7 @@ class DrawEllipseModifier extends DrawModifier
                 // slightly smaller ellipse to keep 1px bordered edges clean
                 if ($this->drawable->hasBackgroundColor()) {
                     imagefilledellipse(
-                        $frame->data(),
+                        $frame->native(),
                         $this->position()->x(),
                         $this->position()->y(),
                         $this->drawable->width() - 1,
@@ -29,12 +29,12 @@ class DrawEllipseModifier extends DrawModifier
                 // gd's imageellipse ignores imagesetthickness
                 // so i use imagearc with 360 degrees instead.
                 imagesetthickness(
-                    $frame->data(),
+                    $frame->native(),
                     $this->drawable->borderSize(),
                 );
 
                 imagearc(
-                    $frame->data(),
+                    $frame->native(),
                     $this->position()->x(),
                     $this->position()->y(),
                     $this->drawable->width(),
@@ -48,7 +48,7 @@ class DrawEllipseModifier extends DrawModifier
                 );
             } else {
                 imagefilledellipse(
-                    $frame->data(),
+                    $frame->native(),
                     $this->position()->x(),
                     $this->position()->y(),
                     $this->drawable->width(),

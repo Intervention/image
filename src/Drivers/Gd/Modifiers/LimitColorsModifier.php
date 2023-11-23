@@ -38,15 +38,15 @@ class LimitColorsModifier extends DriverModifier
             imagecolortransparent($reduced, $matte);
 
             // copy original image
-            imagecopy($reduced, $frame->data(), 0, 0, 0, 0, $width, $height);
+            imagecopy($reduced, $frame->native(), 0, 0, 0, 0, $width, $height);
 
             // reduce limit by one to include possible transparency in palette
-            $limit = imagecolortransparent($frame->data()) === -1 ? $this->limit : $this->limit - 1;
+            $limit = imagecolortransparent($frame->native()) === -1 ? $this->limit : $this->limit - 1;
 
             // decrease colors
             imagetruecolortopalette($reduced, true, $limit);
 
-            $frame->setData($reduced);
+            $frame->setNative($reduced);
         }
 
 

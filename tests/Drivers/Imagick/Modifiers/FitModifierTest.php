@@ -2,13 +2,13 @@
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\Imagick\Modifiers\FitModifier;
+use Intervention\Image\Modifiers\FitModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 /**
  * @requires extension imagick
- * @covers \Intervention\Image\Drivers\Imagick\Modifiers\FitModifier
+ * @covers \Intervention\Image\Modifiers\FitModifier
  */
 class FitModifierTest extends TestCase
 {

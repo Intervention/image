@@ -20,7 +20,7 @@ class DrawPixelModifier extends DriverModifier
         $pixel->point($this->position->x(), $this->position->y());
 
         foreach ($image as $frame) {
-            $frame->data()->drawImage($pixel);
+            $frame->native()->drawImage($pixel);
         }
 
         return $image;

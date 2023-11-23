@@ -184,4 +184,11 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
 
         return $this;
     }
+
+    public function empty(): CollectionInterface
+    {
+        $this->items = [];
+
+        return $this;
+    }
 }

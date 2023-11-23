@@ -11,7 +11,7 @@ class BlurModifier extends DriverModifier
     {
         foreach ($image as $frame) {
             for ($i = 0; $i < $this->amount; $i++) {
-                imagefilter($frame->data(), IMG_FILTER_GAUSSIAN_BLUR);
+                imagefilter($frame->native(), IMG_FILTER_GAUSSIAN_BLUR);
             }
         }
 

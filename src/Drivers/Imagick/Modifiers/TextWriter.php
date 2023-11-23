@@ -14,7 +14,7 @@ class TextWriter extends DriverModifier
 
         foreach ($image as $frame) {
             foreach ($lines as $line) {
-                $frame->data()->annotateImage(
+                $frame->native()->annotateImage(
                     $font->toImagickDraw($image->colorspace()),
                     $line->getPosition()->x(),
                     $line->getPosition()->y(),

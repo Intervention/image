@@ -13,4 +13,5 @@ interface CollectionInterface extends Traversable
     public function first();
     public function last();
     public function count(): int;
+    // public function empty(): CollectionInterface;
 }

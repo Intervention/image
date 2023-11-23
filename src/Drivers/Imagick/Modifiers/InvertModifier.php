@@ -10,7 +10,7 @@ class InvertModifier extends DriverModifier
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $frame->data()->negateImage(false);
+            $frame->native()->negateImage(false);
         }
 
         return $image;

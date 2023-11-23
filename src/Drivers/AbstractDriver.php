@@ -10,29 +10,13 @@ abstract class AbstractDriver implements DriverInterface
 {
     public function resolve(object $input): object
     {
-        $ns = (new ReflectionClass($this))->getNamespaceName();
-        $classname = (new ReflectionClass($input))->getShortName();
-
-        preg_match("/(?P<dept>[A-Z][a-z]+)$/", $classname, $matches);
-        $department = array_key_exists('dept', $matches) ? $matches['dept'] : null;
-        $department = match ($department) {
-            'Modifier', 'Writer' => 'Modifiers',
-            'Encoder' => 'Encoders',
-            'Analyzer' => 'Analyzers',
-            default => null,
-        };
-
-        $specialized = implode("\\", array_filter([
-            $ns,
-            $department,
-            $classname
-        ], function ($dept) {
-            return !empty($dept);
-        }));
+        $driver_namespace = (new ReflectionClass($this))->getNamespaceName();
+        $class_path = substr(get_class($input), strlen("Intervention\\Image\\"));
+        $specialized = $driver_namespace . "\\" . $class_path;
 
         if (! class_exists($specialized)) {
             throw new MissingDriverComponentException(
-                $classname . " is not supported by " . $this->id() . " driver."
+                "Class '" . $class_path . "' is not supported by " . $this->id() . " driver."
             );
         }
 

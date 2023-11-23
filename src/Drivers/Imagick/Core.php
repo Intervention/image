@@ -55,9 +55,16 @@ class Core implements CoreInterface, Iterator
         $this->iteratorIndex = 0;
     }
 
-    public function native()
+    public function native(): mixed
     {
         return $this->imagick;
+    }
+
+    public function setNative(mixed $native): CoreInterface
+    {
+        $this->imagick = $native;
+
+        return $this;
     }
 
     public function frame(int $position): FrameInterface

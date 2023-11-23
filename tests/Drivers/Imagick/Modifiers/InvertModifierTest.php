@@ -2,13 +2,13 @@
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\Imagick\Modifiers\InvertModifier;
+use Intervention\Image\Modifiers\InvertModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 /**
  * @requires extension imagick
- * @covers \Intervention\Image\Drivers\Imagick\Modifiers\InvertModifier
+ * @covers \Intervention\Image\Modifiers\InvertModifier
  */
 class InvertModifierTest extends TestCase
 {

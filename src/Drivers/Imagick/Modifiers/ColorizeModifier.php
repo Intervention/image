@@ -15,10 +15,10 @@ class ColorizeModifier extends DriverModifier
         $blue = $this->normalizeLevel($this->blue);
 
         foreach ($image as $frame) {
-            $qrange = $frame->data()->getQuantumRange();
-            $frame->data()->levelImage(0, $red, $qrange['quantumRangeLong'], Imagick::CHANNEL_RED);
-            $frame->data()->levelImage(0, $green, $qrange['quantumRangeLong'], Imagick::CHANNEL_GREEN);
-            $frame->data()->levelImage(0, $blue, $qrange['quantumRangeLong'], Imagick::CHANNEL_BLUE);
+            $qrange = $frame->native()->getQuantumRange();
+            $frame->native()->levelImage(0, $red, $qrange['quantumRangeLong'], Imagick::CHANNEL_RED);
+            $frame->native()->levelImage(0, $green, $qrange['quantumRangeLong'], Imagick::CHANNEL_GREEN);
+            $frame->native()->levelImage(0, $blue, $qrange['quantumRangeLong'], Imagick::CHANNEL_BLUE);
         }
 
         return $image;

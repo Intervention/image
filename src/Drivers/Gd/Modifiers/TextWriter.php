@@ -20,7 +20,7 @@ class TextWriter extends DriverModifier
             if ($this->font->hasFilename()) {
                 foreach ($lines as $line) {
                     imagettftext(
-                        $frame->data(),
+                        $frame->native(),
                         $font->getSize(),
                         $font->getAngle() * (-1),
                         $line->getPosition()->x(),
@@ -33,7 +33,7 @@ class TextWriter extends DriverModifier
             } else {
                 foreach ($lines as $line) {
                     imagestring(
-                        $frame->data(),
+                        $frame->native(),
                         $font->getGdFont(),
                         $line->getPosition()->x(),
                         $line->getPosition()->y(),

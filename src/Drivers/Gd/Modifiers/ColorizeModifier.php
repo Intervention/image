@@ -15,7 +15,7 @@ class ColorizeModifier extends DriverModifier
         $blue = round($this->blue * 2.55);
 
         foreach ($image as $frame) {
-            imagefilter($frame->data(), IMG_FILTER_COLORIZE, $red, $green, $blue);
+            imagefilter($frame->native(), IMG_FILTER_COLORIZE, $red, $green, $blue);
         }
 
         return $image;

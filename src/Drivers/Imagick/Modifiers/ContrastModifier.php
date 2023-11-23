@@ -10,7 +10,7 @@ class ContrastModifier extends DriverModifier
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $frame->data()->sigmoidalContrastImage($this->level > 0, abs($this->level / 4), 0);
+            $frame->native()->sigmoidalContrastImage($this->level > 0, abs($this->level / 4), 0);
         }
 
         return $image;

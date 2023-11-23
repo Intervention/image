@@ -12,7 +12,7 @@ class CropModifier extends DriverModifier
         $crop = $this->crop($image);
 
         foreach ($image as $frame) {
-            $frame->data()->extentImage(
+            $frame->native()->extentImage(
                 $crop->width(),
                 $crop->height(),
                 $crop->pivot()->x() + $this->offset_x,

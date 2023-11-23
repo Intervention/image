@@ -135,4 +135,13 @@ class CollectionTest extends TestCase
         $this->assertEquals('default', $collection->get('baz.test3.no', 'default'));
         $this->assertEquals(['example' => 'value'], $collection->get('baz.test3'));
     }
+
+    public function testEmpty(): void
+    {
+        $collection = new Collection([1, 2, 3]);
+        $this->assertEquals(3, $collection->count());
+        $result = $collection->empty();
+        $this->assertEquals(0, $collection->count());
+        $this->assertEquals(0, $result->count());
+    }
 }

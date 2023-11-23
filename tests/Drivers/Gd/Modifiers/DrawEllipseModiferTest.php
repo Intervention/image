@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\Gd\Modifiers\DrawEllipseModifier;
+use Intervention\Image\Modifiers\DrawEllipseModifier;
 use Intervention\Image\Geometry\Ellipse;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\TestCase;
@@ -10,7 +10,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 /**
  * @requires extension gd
- * @covers \Intervention\Image\Drivers\Gd\Modifiers\DrawPixelModifier
+ * @covers \Intervention\Image\Modifiers\DrawPixelModifier
  */
 class DrawEllipseModifierTest extends TestCase
 {

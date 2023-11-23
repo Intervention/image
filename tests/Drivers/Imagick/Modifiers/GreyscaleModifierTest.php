@@ -2,13 +2,13 @@
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\Imagick\Modifiers\GreyscaleModifier;
+use Intervention\Image\Modifiers\GreyscaleModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 /**
  * @requires extension imagick
- * @covers \Intervention\Image\Drivers\Imagick\Modifiers\GreyscaleModifier
+ * @covers \Intervention\Image\Modifiers\GreyscaleModifier
  */
 class GreyscaleModifierTest extends TestCase
 {

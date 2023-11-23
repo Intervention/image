@@ -2,15 +2,15 @@
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\Gd\Modifiers\FlipModifier;
-use Intervention\Image\Drivers\Gd\Modifiers\FlopModifier;
+use Intervention\Image\Modifiers\FlipModifier;
+use Intervention\Image\Modifiers\FlopModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 /**
  * @requires extension gd
- * @covers \Intervention\Image\Drivers\Gd\Modifiers\FlipModifier
- * @covers \Intervention\Image\Drivers\Gd\Modifiers\FlopModifier
+ * @covers \Intervention\Image\Modifiers\FlipModifier
+ * @covers \Intervention\Image\Modifiers\FlopModifier
  */
 class FlipFlopModifierTest extends TestCase
 {

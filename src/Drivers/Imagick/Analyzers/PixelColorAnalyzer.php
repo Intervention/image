@@ -23,7 +23,7 @@ class PixelColorAnalyzer extends DriverAnalyzer
         return $this->driver()
             ->colorProcessor($colorspace)
             ->nativeToColor(
-                $imagick->getImagePixelColor($this->x, $this->x)
+                $imagick->getImagePixelColor($this->x, $this->y)
             );
     }
 }

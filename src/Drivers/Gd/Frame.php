@@ -39,11 +39,6 @@ class Frame implements FrameInterface
         return $this->native;
     }
 
-    public function unsetData(): void
-    {
-        unset($this->native);
-    }
-
     public function size(): SizeInterface
     {
         return new Rectangle(imagesx($this->native), imagesy($this->native));

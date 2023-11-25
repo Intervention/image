@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Tests\Drivers\Abstract;
+namespace Intervention\Image\Tests\Drivers;
 
-use Intervention\Image\Drivers\Abstract\AbstractInputHandler;
-use Intervention\Image\Drivers\Abstract\Decoders\AbstractDecoder;
+use Intervention\Image\Drivers\AbstractDecoder;
+use Intervention\Image\Drivers\AbstractInputHandler;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Tests\TestCase;
 use Mockery;
 
 /**
- * @covers \Intervention\Image\Drivers\Abstract\AbstractInputHandler
+ * @covers \Intervention\Image\Drivers\AbstractInputHandler
  */
 final class AbstractInputHandlerTest extends TestCase
 {

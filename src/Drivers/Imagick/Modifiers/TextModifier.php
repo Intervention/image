@@ -11,7 +11,7 @@ class TextModifier extends DriverModifier
     public function apply(ImageInterface $image): ImageInterface
     {
         $processor = $this->fontProcessor();
-        $lines = $processor->getAlignedTextBlock($this->position, $this->text);
+        $lines = $processor->alignedTextBlock($this->position, $this->text);
 
         $color = $this->driver()->colorToNative(
             $this->driver()->handleInput($this->font->color()),

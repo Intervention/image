@@ -3,6 +3,7 @@
 namespace Intervention\Image;
 
 use Countable;
+use Traversable;
 use Intervention\Image\Analyzers\ColorspaceAnalyzer;
 use Intervention\Image\Analyzers\HeightAnalyzer;
 use Intervention\Image\Analyzers\PixelColorAnalyzer;
@@ -11,7 +12,6 @@ use Intervention\Image\Analyzers\ProfileAnalyzer;
 use Intervention\Image\Analyzers\ResolutionAnalyzer;
 use Intervention\Image\Analyzers\WidthAnalyzer;
 use Intervention\Image\Geometry\Point;
-use Traversable;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\CollectionInterface;

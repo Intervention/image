@@ -9,7 +9,7 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\PngEncoder;
-use Intervention\Image\Exceptions\MissingDriverComponentException;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
@@ -125,7 +125,7 @@ class ImageTest extends TestCase
 
     public function testProfile(): void
     {
-        $this->expectException(MissingDriverComponentException::class);
+        $this->expectException(NotSupportedException::class);
         $this->image->profile();
     }
 

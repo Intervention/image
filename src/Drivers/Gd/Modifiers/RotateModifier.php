@@ -6,14 +6,11 @@ use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Drivers\DriverModifier;
-use Intervention\Image\Exceptions\RuntimeException;
-use Intervention\Image\Exceptions\MissingDriverComponentException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Modifiers\FillModifier;
-use ReflectionException;
 
 class RotateModifier extends DriverModifier
 {
@@ -35,9 +32,6 @@ class RotateModifier extends DriverModifier
      * @param FrameInterface $frame
      * @param ColorInterface $background
      * @return void
-     * @throws RuntimeException
-     * @throws MissingDriverComponentException
-     * @throws ReflectionException
      */
     protected function modifyFrame(FrameInterface $frame, ColorInterface $background): void
     {

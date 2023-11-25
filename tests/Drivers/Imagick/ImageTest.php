@@ -11,7 +11,6 @@ use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Exceptions\MissingDriverComponentException;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
@@ -19,7 +18,6 @@ use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Modifiers\GreyscaleModifier;
 use Intervention\Image\Tests\TestCase;
-use Intervention\Image\Typography\Font;
 
 class ImageTest extends TestCase
 {

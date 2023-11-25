@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\Imagick\Modifiers\DrawRectangleModifier;
+use Intervention\Image\Modifiers\DrawRectangleModifier;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Tests\TestCase;
@@ -16,9 +16,9 @@ class DrawRectangleModifierTest extends TestCase
     {
         $image = $this->createTestImage('trim.png');
         $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
-        $rectangle = new Rectangle(300, 200);
-        $rectangle->background('ffffff');
-        $image->modify(new DrawRectangleModifier(new Point(14, 14), $rectangle));
+        $rectangle = new Rectangle(300, 200, new Point(14, 14));
+        $rectangle->setBackgroundColor('ffffff');
+        $image->modify(new DrawRectangleModifier($rectangle));
         $this->assertEquals('ffffff', $image->pickColor(14, 14)->toHex());
     }
 }

@@ -2,10 +2,11 @@
 
 namespace Intervention\Image\Tests\Drivers\Gd\Encoders;
 
-use Intervention\Image\Collection;
-use Intervention\Image\Drivers\Gd\Encoders\PngEncoder;
+use Intervention\Image\Drivers\Gd\Core;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Drivers\Gd\Frame;
-use Intervention\Image\Drivers\Gd\Image;
+use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
@@ -19,9 +20,12 @@ class PngEncoderTest extends TestCase
 
     protected function getTestImage(): Image
     {
-        $frame = new Frame(imagecreatetruecolor(3, 2));
-
-        return new Image(new Collection([$frame]));
+        return new Image(
+            new Driver(),
+            new Core([
+                new Frame(imagecreatetruecolor(3, 2))
+            ])
+        );
     }
 
     public function testEncode(): void
@@ -35,7 +39,7 @@ class PngEncoderTest extends TestCase
     public function testEncodeReduced(): void
     {
         $image = $this->createTestImage('tile.png');
-        $gd = $image->frame()->core();
+        $gd = $image->core()->native();
         $this->assertEquals(3, imagecolorstotal($gd));
         $encoder = new PngEncoder(2);
         $result = $encoder->encode($image);

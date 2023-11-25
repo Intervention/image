@@ -2,10 +2,11 @@
 
 namespace Intervention\Image\Tests\Drivers\Gd\Encoders;
 
-use Intervention\Image\Collection;
-use Intervention\Image\Drivers\Gd\Encoders\GifEncoder;
+use Intervention\Image\Drivers\Gd\Core;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Encoders\GifEncoder;
 use Intervention\Image\Drivers\Gd\Frame;
-use Intervention\Image\Drivers\Gd\Image;
+use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
@@ -32,7 +33,10 @@ class GifEncoderTest extends TestCase
         $frame3 = new Frame($gd3);
         $frame3->setDelay(1);
 
-        return new Image(new Collection([$frame1, $frame2, $frame3]));
+        return new Image(
+            new Driver(),
+            new Core([$frame1, $frame2, $frame3])
+        );
     }
 
     public function testEncode(): void
@@ -46,7 +50,7 @@ class GifEncoderTest extends TestCase
     public function testEncodeReduced(): void
     {
         $image = $this->createTestImage('gradient.gif');
-        $gd = $image->frame()->core();
+        $gd = $image->core()->native();
         $this->assertEquals(15, imagecolorstotal($gd));
         $encoder = new GifEncoder(2);
         $result = $encoder->encode($image);

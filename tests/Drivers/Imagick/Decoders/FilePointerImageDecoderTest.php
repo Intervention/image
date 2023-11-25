@@ -3,7 +3,7 @@
 namespace Intervention\Image\Tests\Drivers\Imagick\Decoders;
 
 use Intervention\Image\Drivers\Imagick\Decoders\FilePointerImageDecoder;
-use Intervention\Image\Drivers\Imagick\Image;
+use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 

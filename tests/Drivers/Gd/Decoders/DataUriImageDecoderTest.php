@@ -3,7 +3,7 @@
 namespace Intervention\Image\Tests\Drivers\Gd\Decoders;
 
 use Intervention\Image\Drivers\Gd\Decoders\DataUriImageDecoder;
-use Intervention\Image\Drivers\Gd\Image;
+use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 

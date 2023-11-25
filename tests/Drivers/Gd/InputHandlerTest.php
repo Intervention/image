@@ -3,7 +3,7 @@
 namespace Intervention\Image\Tests\Drivers\Gd;
 
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
-use Intervention\Image\Drivers\Gd\Image;
+use Intervention\Image\Image;
 use Intervention\Image\Drivers\Gd\InputHandler;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Tests\TestCase;

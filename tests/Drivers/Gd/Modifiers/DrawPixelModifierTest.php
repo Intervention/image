@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\Gd\Modifiers\DrawPixelModifier;
+use Intervention\Image\Modifiers\DrawPixelModifier;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;

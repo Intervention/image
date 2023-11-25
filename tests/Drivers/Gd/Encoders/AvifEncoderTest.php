@@ -2,10 +2,11 @@
 
 namespace Intervention\Image\Tests\Drivers\Gd\Encoders;
 
-use Intervention\Image\Collection;
-use Intervention\Image\Drivers\Gd\Encoders\AvifEncoder;
+use Intervention\Image\Drivers\Gd\Core;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Encoders\AvifEncoder;
 use Intervention\Image\Drivers\Gd\Frame;
-use Intervention\Image\Drivers\Gd\Image;
+use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 
 /**
@@ -16,9 +17,12 @@ class AvifEncoderTest extends TestCase
 {
     protected function getTestImage(): Image
     {
-        return new Image(new Collection([
-            new Frame(imagecreatetruecolor(3, 2))
-        ]));
+        return new Image(
+            new Driver(),
+            new Core([
+                new Frame(imagecreatetruecolor(3, 2))
+            ])
+        );
     }
 
     public function testEncode(): void

@@ -4,8 +4,10 @@ namespace Intervention\Image\Tests\Drivers\Imagick\Encoders;
 
 use Imagick;
 use ImagickPixel;
-use Intervention\Image\Drivers\Imagick\Encoders\GifEncoder;
-use Intervention\Image\Drivers\Imagick\Image;
+use Intervention\Image\Drivers\Imagick\Core;
+use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\Encoders\GifEncoder;
+use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
@@ -36,7 +38,10 @@ class GifEncoderTest extends TestCase
         $frame->setImageDelay(50);
         $imagick->addImage($frame);
 
-        return new Image($imagick);
+        return new Image(
+            new Driver(),
+            new Core($imagick)
+        );
     }
 
     public function testEncode(): void
@@ -50,7 +55,7 @@ class GifEncoderTest extends TestCase
     public function testEncodeReduced(): void
     {
         $image = $this->createTestImage('gradient.gif');
-        $imagick = $image->frame()->core();
+        $imagick = $image->core()->native();
         $this->assertEquals(15, $imagick->getImageColors());
         $encoder = new GifEncoder(2);
         $result = $encoder->encode($image);

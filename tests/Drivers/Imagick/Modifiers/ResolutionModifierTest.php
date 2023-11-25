@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\Imagick\Modifiers\ResolutionModifier;
+use Intervention\Image\Modifiers\ResolutionModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 

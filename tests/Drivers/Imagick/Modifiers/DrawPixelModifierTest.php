@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\Imagick\Modifiers\DrawPixelModifier;
+use Intervention\Image\Modifiers\DrawPixelModifier;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;

@@ -11,7 +11,7 @@ class DrawLineModifier extends DrawModifier
     public function apply(ImageInterface $image): ImageInterface
     {
         $drawing = new ImagickDraw();
-        $drawing->setStrokeWidth($this->drawable->getWidth());
+        $drawing->setStrokeWidth($this->drawable->width());
         $drawing->setStrokeColor(
             $this->driver()->colorToNative(
                 $this->backgroundColor(),
@@ -20,10 +20,10 @@ class DrawLineModifier extends DrawModifier
         );
 
         $drawing->line(
-            $this->drawable->getStart()->x(),
-            $this->drawable->getStart()->y(),
-            $this->drawable->getEnd()->x(),
-            $this->drawable->getEnd()->y(),
+            $this->drawable->start()->x(),
+            $this->drawable->start()->y(),
+            $this->drawable->end()->x(),
+            $this->drawable->end()->y(),
         );
 
         foreach ($image as $frame) {

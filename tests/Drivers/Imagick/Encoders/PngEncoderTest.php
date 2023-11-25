@@ -6,8 +6,10 @@ namespace Intervention\Image\Tests\Drivers\Imagick\Encoders;
 
 use Imagick;
 use ImagickPixel;
-use Intervention\Image\Drivers\Imagick\Encoders\PngEncoder;
-use Intervention\Image\Drivers\Imagick\Image;
+use Intervention\Image\Drivers\Imagick\Core;
+use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\Encoders\PngEncoder;
+use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
@@ -23,7 +25,10 @@ final class PngEncoderTest extends TestCase
         $imagick = new Imagick();
         $imagick->newImage(3, 2, new ImagickPixel('red'), 'jpg');
 
-        return new Image($imagick);
+        return new Image(
+            new Driver(),
+            new Core($imagick)
+        );
     }
 
     public function testEncode(): void
@@ -37,7 +42,7 @@ final class PngEncoderTest extends TestCase
     public function testEncodeReduced(): void
     {
         $image = $this->createTestImage('tile.png');
-        $imagick = $image->frame()->core();
+        $imagick = $image->core()->native();
         $this->assertEquals(3, $imagick->getImageColors());
         $encoder = new PngEncoder(2);
         $result = $encoder->encode($image);

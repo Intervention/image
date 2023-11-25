@@ -3,8 +3,9 @@
 namespace Intervention\Image\Tests\Drivers\Gd;
 
 use GdImage;
+use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Drivers\Gd\Frame;
-use Intervention\Image\Drivers\Gd\Image;
+use Intervention\Image\Image;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Tests\TestCase;
 
@@ -25,10 +26,10 @@ class FrameTest extends TestCase
         $this->assertInstanceOf(Frame::class, $frame);
     }
 
-    public function testGetCore(): void
+    public function testGetNative(): void
     {
         $frame = $this->getTestFrame();
-        $this->assertInstanceOf(GdImage::class, $frame->core());
+        $this->assertInstanceOf(GdImage::class, $frame->native());
     }
 
     public function testSetCore(): void
@@ -37,7 +38,7 @@ class FrameTest extends TestCase
         $core2 = imagecreatetruecolor(3, 3);
         $frame = new Frame($core1);
         $this->assertEquals(2, $frame->size()->height());
-        $result = $frame->setCore($core2);
+        $result = $frame->setNative($core2);
         $this->assertInstanceOf(Frame::class, $result);
         $this->assertEquals(3, $frame->size()->height());
     }
@@ -103,6 +104,6 @@ class FrameTest extends TestCase
     public function testToImage(): void
     {
         $frame = $this->getTestFrame();
-        $this->assertInstanceOf(Image::class, $frame->toImage());
+        $this->assertInstanceOf(Image::class, $frame->toImage(new Driver()));
     }
 }

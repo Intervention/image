@@ -4,8 +4,10 @@ namespace Intervention\Image\Tests\Drivers\Imagick\Encoders;
 
 use Imagick;
 use ImagickPixel;
-use Intervention\Image\Drivers\Imagick\Encoders\BmpEncoder;
-use Intervention\Image\Drivers\Imagick\Image;
+use Intervention\Image\Drivers\Imagick\Core;
+use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\Encoders\BmpEncoder;
+use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
@@ -22,7 +24,10 @@ class BmpEncoderTest extends TestCase
         $imagick = new Imagick();
         $imagick->newImage(3, 2, new ImagickPixel('red'), 'png');
 
-        return new Image($imagick);
+        return new Image(
+            new Driver(),
+            new Core($imagick)
+        );
     }
 
     public function testEncode(): void
@@ -36,7 +41,7 @@ class BmpEncoderTest extends TestCase
     public function testEncodeReduced(): void
     {
         $image = $this->createTestImage('gradient.bmp');
-        $imagick = $image->frame()->core();
+        $imagick = $image->core()->native();
         $this->assertEquals(15, $imagick->getImageColors());
         $encoder = new BmpEncoder(2);
         $result = $encoder->encode($image);

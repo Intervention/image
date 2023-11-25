@@ -5,7 +5,9 @@ namespace Intervention\Image\Tests;
 use Intervention\Image\Colors\Rgb\Colorspace;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Image;
+use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\CollectionInterface;
+use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\CoreInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\EncodedImageInterface;
@@ -20,6 +22,7 @@ class ImageTest extends TestCase
 {
     protected $modifier_mock;
     protected $encoder_mock;
+    protected $analyzer_mock;
 
     public function setUp(): void
     {
@@ -33,8 +36,14 @@ class ImageTest extends TestCase
             new EncodedImage('foo')
         );
 
+        $analyzer = Mockery::mock(AnalyzerInterface::class);
+        $analyzer->shouldReceive('analyze')->andReturn(
+            Mockery::mock(ColorspaceInterface::class)
+        );
+
         $this->encoder_mock = $encoder;
         $this->modifier_mock = $modifier;
+        $this->analyzer_mock = $analyzer;
     }
 
     private function testImage(): Image
@@ -44,12 +53,12 @@ class ImageTest extends TestCase
         $core->shouldReceive('height')->andReturn(200);
         $core->shouldReceive('count')->andReturn(12);
         $core->shouldReceive('loops')->andReturn(12);
-        $core->shouldReceive('colorspace')->andReturn(new Colorspace());
         $core->shouldReceive('resolve')->andReturn(new GreyscaleModifier());
 
         $driver = Mockery::mock(DriverInterface::class);
         $driver->shouldReceive('resolve')->with($this->modifier_mock)->andReturn($this->modifier_mock);
         $driver->shouldReceive('resolve')->with($this->encoder_mock)->andReturn($this->encoder_mock);
+        $driver->shouldReceive('resolve')->with($this->analyzer_mock)->andReturn($this->analyzer_mock);
 
         $exif = Mockery::mock(CollectionInterface::class);
 

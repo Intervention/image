@@ -5,7 +5,7 @@ namespace Intervention\Image\Tests\Drivers\Imagick\Decoders;
 use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Drivers\Imagick\Decoders\BinaryImageDecoder;
-use Intervention\Image\Drivers\Imagick\Image;
+use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 
 class BinaryImageDecoderTest extends TestCase

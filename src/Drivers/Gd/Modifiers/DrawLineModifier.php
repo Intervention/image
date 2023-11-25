@@ -12,10 +12,10 @@ class DrawLineModifier extends DrawModifier
         foreach ($image as $frame) {
             imageline(
                 $frame->native(),
-                $this->drawable->getStart()->x(),
-                $this->drawable->getStart()->y(),
-                $this->drawable->getEnd()->x(),
-                $this->drawable->getEnd()->y(),
+                $this->drawable->start()->x(),
+                $this->drawable->start()->y(),
+                $this->drawable->end()->x(),
+                $this->drawable->end()->y(),
                 $this->driver()->colorToNative(
                     $this->backgroundColor(),
                     $image->colorspace()

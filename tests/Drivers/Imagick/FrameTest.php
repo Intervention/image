@@ -4,8 +4,9 @@ namespace Intervention\Image\Tests\Drivers\Imagick;
 
 use Imagick;
 use ImagickPixel;
+use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Drivers\Imagick\Frame;
-use Intervention\Image\Drivers\Imagick\Image;
+use Intervention\Image\Image;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Tests\TestCase;
 
@@ -46,7 +47,7 @@ class FrameTest extends TestCase
         $result = $frame->setDelay(2.5);
         $this->assertInstanceOf(Frame::class, $result);
         $this->assertEquals(2.5, $frame->delay());
-        $this->assertEquals(250, $frame->core()->getImageDelay());
+        $this->assertEquals(250, $frame->native()->getImageDelay());
     }
 
     public function testSetGetDispose()
@@ -94,6 +95,6 @@ class FrameTest extends TestCase
     public function testToImage(): void
     {
         $frame = $this->getTestFrame();
-        $this->assertInstanceOf(Image::class, $frame->toImage());
+        $this->assertInstanceOf(Image::class, $frame->toImage(new Driver()));
     }
 }

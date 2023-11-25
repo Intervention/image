@@ -6,8 +6,10 @@ namespace Intervention\Image\Tests\Drivers\Imagick\Encoders;
 
 use Imagick;
 use ImagickPixel;
-use Intervention\Image\Drivers\Imagick\Encoders\WebpEncoder;
-use Intervention\Image\Drivers\Imagick\Image;
+use Intervention\Image\Drivers\Imagick\Core;
+use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\Encoders\WebpEncoder;
+use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 
 /**
@@ -20,7 +22,10 @@ final class WebpEncoderTest extends TestCase
         $imagick = new Imagick();
         $imagick->newImage(3, 2, new ImagickPixel('red'), 'png');
 
-        return new Image($imagick);
+        return new Image(
+            new Driver(),
+            new Core($imagick)
+        );
     }
 
     public function testEncode(): void

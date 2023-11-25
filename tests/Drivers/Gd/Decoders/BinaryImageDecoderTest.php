@@ -3,7 +3,7 @@
 namespace Intervention\Image\Tests\Drivers\Gd\Decoders;
 
 use Intervention\Image\Drivers\Gd\Decoders\BinaryImageDecoder;
-use Intervention\Image\Drivers\Gd\Image;
+use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 
 /**

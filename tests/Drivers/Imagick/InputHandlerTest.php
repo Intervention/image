@@ -4,7 +4,7 @@ namespace Intervention\Image\Tests\Drivers\Imagick;
 
 use SplFileInfo;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
-use Intervention\Image\Drivers\Imagick\Image;
+use Intervention\Image\Image;
 use Intervention\Image\Drivers\Imagick\InputHandler;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Tests\TestCase;

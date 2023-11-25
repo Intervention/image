@@ -2,26 +2,21 @@
 
 namespace Intervention\Image\Drivers\Gd;
 
-use Intervention\Image\Drivers\AbstractFont;
+use Intervention\Image\Drivers\AbstractFontProcessor;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Rectangle;
 
-class Font extends AbstractFont
+class FontProcessor extends AbstractFontProcessor
 {
-    public function size(): float
-    {
-        return floatval(ceil(parent::size() * 0.75));
-    }
-
     /**
      * Calculate size of bounding box of given text
      *
      * @return Polygon
      */
-    public function getBoxSize(string $text): Polygon
+    public function boxSize(string $text): Polygon
     {
-        if (!$this->hasFilename()) {
+        if (!$this->font->hasFilename()) {
             // calculate box size from gd font
             $box = new Rectangle(0, 0);
             $chars = mb_strlen($text);
@@ -34,9 +29,9 @@ class Font extends AbstractFont
 
         // calculate box size from font file with angle 0
         $box = imageftbbox(
-            $this->size(),
+            $this->adjustedSize(),
             0,
-            $this->filename(),
+            $this->font->filename(),
             $text
         );
 
@@ -50,10 +45,15 @@ class Font extends AbstractFont
         return $polygon;
     }
 
+    public function adjustedSize(): int
+    {
+        return floatval(ceil($this->font->size() * .75));
+    }
+
     public function getGdFont(): int
     {
-        if (is_numeric($this->filename)) {
-            return $this->filename;
+        if (is_numeric($this->font->filename())) {
+            return $this->font->filename();
         }
 
         return 1;

@@ -1,18 +1,23 @@
 <?php
 
-namespace Intervention\Image\Drivers;
+namespace Intervention\Image\Typography;
 
 use Intervention\Image\Interfaces\FontInterface;
 
-abstract class AbstractFont implements FontInterface
+class Font implements FontInterface
 {
     protected float $size = 12;
     protected float $angle = 0;
     protected mixed $color = '000000';
     protected ?string $filename = null;
-    protected string $align = 'left';
-    protected string $valign = 'bottom';
+    protected string $alignment = 'left';
+    protected string $valignment = 'bottom';
     protected float $lineHeight = 1.25;
+
+    public function __construct(?string $filename = null)
+    {
+        $this->filename = $filename;
+    }
 
     public function setSize(float $size): FontInterface
     {
@@ -67,28 +72,28 @@ abstract class AbstractFont implements FontInterface
         return $this->color;
     }
 
-    public function setAlignment(string $align): FontInterface
+    public function alignment(): string
     {
-        $this->align = $align;
+        return $this->alignment;
+    }
+
+    public function setAlignment(string $value): FontInterface
+    {
+        $this->alignment = $value;
 
         return $this;
     }
 
     public function valignment(): string
     {
-        return $this->valign;
+        return $this->valignment;
     }
 
-    public function setValignment(string $valign): FontInterface
+    public function setValignment(string $value): FontInterface
     {
-        $this->valign = $valign;
+        $this->valignment = $value;
 
         return $this;
-    }
-
-    public function alignment(): string
-    {
-        return $this->align;
     }
 
     public function setLineHeight(float $height): FontInterface
@@ -101,20 +106,5 @@ abstract class AbstractFont implements FontInterface
     public function lineHeight(): float
     {
         return $this->lineHeight;
-    }
-
-    public function leadingInPixels(): int
-    {
-        return intval(round($this->fontSizeInPixels() * $this->lineHeight()));
-    }
-
-    public function capHeight(): int
-    {
-        return $this->getBoxSize('T')->height();
-    }
-
-    public function fontSizeInPixels(): int
-    {
-        return $this->getBoxSize('Hy')->height();
     }
 }

@@ -2,31 +2,34 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Colors\Rgb\Colorspace;
 use Intervention\Image\Drivers\DriverModifier;
-use Intervention\Image\Drivers\Gd\Traits\CanHandleColors;
+use Intervention\Image\Drivers\Gd\FontProcessor;
 use Intervention\Image\Interfaces\ImageInterface;
 
-class TextWriter extends DriverModifier
+class TextModifier extends DriverModifier
 {
-    use CanHandleColors;
-
     public function apply(ImageInterface $image): ImageInterface
     {
-        $lines = $this->getAlignedTextBlock();
-        $font = $this->font;
-        $color = $this->colorToInteger($font->getColor());
+        $processor = $this->fontProcessor();
+        $lines = $processor->getAlignedTextBlock($this->position, $this->text);
+
+        $color = $this->driver()->colorToNative(
+            $this->driver()->handleInput($this->font->color()),
+            new Colorspace()
+        );
 
         foreach ($image as $frame) {
             if ($this->font->hasFilename()) {
                 foreach ($lines as $line) {
                     imagettftext(
                         $frame->native(),
-                        $font->getSize(),
-                        $font->getAngle() * (-1),
-                        $line->getPosition()->x(),
-                        $line->getPosition()->y(),
+                        $processor->adjustedSize(),
+                        $this->font->angle() * -1,
+                        $line->position()->x(),
+                        $line->position()->y(),
                         $color,
-                        $font->getFilename(),
+                        $this->font->filename(),
                         $line
                     );
                 }
@@ -34,7 +37,7 @@ class TextWriter extends DriverModifier
                 foreach ($lines as $line) {
                     imagestring(
                         $frame->native(),
-                        $font->getGdFont(),
+                        $processor->getGdFont(),
                         $line->getPosition()->x(),
                         $line->getPosition()->y(),
                         $line,
@@ -45,5 +48,10 @@ class TextWriter extends DriverModifier
         }
 
         return $image;
+    }
+
+    private function fontProcessor(): FontProcessor
+    {
+        return $this->driver()->fontProcessor($this->font);
     }
 }

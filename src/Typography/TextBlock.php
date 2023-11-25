@@ -3,10 +3,6 @@
 namespace Intervention\Image\Typography;
 
 use Intervention\Image\Collection;
-use Intervention\Image\Geometry\Point;
-use Intervention\Image\Geometry\Polygon;
-use Intervention\Image\Geometry\Rectangle;
-use Intervention\Image\Interfaces\FontInterface;
 
 class TextBlock extends Collection
 {
@@ -15,28 +11,6 @@ class TextBlock extends Collection
         foreach (explode("\n", $text) as $line) {
             $this->push(new Line($line));
         }
-    }
-
-    public function boundingBox(FontInterface $font, Point $pivot = null): Polygon
-    {
-        $pivot = $pivot ? $pivot : new Point();
-
-        // bounding box
-        $box = (new Rectangle(
-            $this->longestLine()->widthInFont($font),
-            $font->leadingInPixels() * ($this->count() - 1) + $font->capHeight()
-        ));
-
-        // set pivot
-        $box->setPivot($pivot);
-
-        // align
-        $box->align($font->alignment());
-        $box->valign($font->valignment());
-
-        $box->rotate($font->angle());
-
-        return $box;
     }
 
     /**

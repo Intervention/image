@@ -10,6 +10,7 @@ use Intervention\Image\Analyzers\PixelColorsAnalyzer;
 use Intervention\Image\Analyzers\ProfileAnalyzer;
 use Intervention\Image\Analyzers\ResolutionAnalyzer;
 use Intervention\Image\Analyzers\WidthAnalyzer;
+use Intervention\Image\Geometry\Point;
 use Traversable;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\AnalyzerInterface;
@@ -19,12 +20,15 @@ use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\CoreInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
+use Intervention\Image\Interfaces\FontInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\ProfileInterface;
 use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Modifiers\SharpenModifier;
+use Intervention\Image\Modifiers\TextModifier;
+use Intervention\Image\Typography\FontFactory;
 
 class Image implements ImageInterface, Countable
 {
@@ -128,5 +132,16 @@ class Image implements ImageInterface, Countable
     public function sharpen(int $amount = 10): ImageInterface
     {
         return $this->modify(new SharpenModifier($amount));
+    }
+
+    public function text(string $text, int $x, int $y, callable|FontInterface $font): ImageInterface
+    {
+        return $this->modify(
+            new TextModifier(
+                $text,
+                new Point($x, $y),
+                call_user_func(new FontFactory($font)),
+            ),
+        );
     }
 }

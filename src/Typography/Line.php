@@ -2,7 +2,6 @@
 
 namespace Intervention\Image\Typography;
 
-use Intervention\Image\Interfaces\FontInterface;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\PointInterface;
 
@@ -24,11 +23,6 @@ class Line
         $this->position = $point;
 
         return $this;
-    }
-
-    public function widthInFont(FontInterface $font): int
-    {
-        return $font->getBoxSize($this->text)->width();
     }
 
     public function __toString(): string

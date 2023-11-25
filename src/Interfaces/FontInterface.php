@@ -2,8 +2,6 @@
 
 namespace Intervention\Image\Interfaces;
 
-use Intervention\Image\Geometry\Polygon;
-
 interface FontInterface
 {
     public function setColor(mixed $color): self;
@@ -21,8 +19,4 @@ interface FontInterface
     public function valignment(): string;
     public function setLineHeight(float $value): self;
     public function lineHeight(): float;
-    public function leadingInPixels(): int;
-    public function fontSizeInPixels(): int;
-    public function capHeight(): int;
-    public function getBoxSize(string $text): Polygon;
 }

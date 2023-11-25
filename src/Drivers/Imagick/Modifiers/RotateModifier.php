@@ -9,9 +9,8 @@ class RotateModifier extends DriverModifier
 {
     public function apply(ImageInterface $image): ImageInterface
     {
-        $background = $this->driver()->colorToNative(
-            $this->driver()->handleInput($this->background),
-            $image->colorspace()
+        $background = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+            $this->driver()->handleInput($this->background)
         );
 
         foreach ($image as $frame) {

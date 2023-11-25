@@ -9,9 +9,8 @@ class DrawPixelModifier extends DriverModifier
 {
     public function apply(ImageInterface $image): ImageInterface
     {
-        $color = $this->driver()->colorToNative(
-            $this->driver()->handleInput($this->color),
-            $image->colorspace()
+        $color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+            $this->driver()->handleInput($this->color)
         );
 
         foreach ($image as $frame) {

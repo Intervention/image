@@ -14,7 +14,9 @@ class FillModifier extends DriverModifier
     public function apply(ImageInterface $image): ImageInterface
     {
         $color = $this->driver()->handleInput($this->color);
-        $pixel = $this->driver()->colorToNative($color, $image->colorspace());
+        $pixel = $this->driver()
+            ->colorProcessor($image->colorspace())
+            ->colorToNative($color, $image->colorspace());
 
         foreach ($image as $frame) {
             if ($this->hasPosition()) {

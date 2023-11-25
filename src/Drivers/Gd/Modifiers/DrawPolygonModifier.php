@@ -14,9 +14,8 @@ class DrawPolygonModifier extends DrawModifier
                 imagefilledpolygon(
                     $frame->native(),
                     $this->drawable->toArray(),
-                    $this->driver()->colorToNative(
-                        $this->backgroundColor(),
-                        $image->colorspace()
+                    $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                        $this->backgroundColor()
                     )
                 );
             }
@@ -26,9 +25,8 @@ class DrawPolygonModifier extends DrawModifier
                 imagepolygon(
                     $frame->native(),
                     $this->drawable->toArray(),
-                    $this->driver()->colorToNative(
-                        $this->borderColor(),
-                        $image->colorspace()
+                    $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                        $this->borderColor()
                     )
                 );
             }

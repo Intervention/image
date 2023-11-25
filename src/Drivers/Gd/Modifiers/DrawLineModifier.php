@@ -16,9 +16,8 @@ class DrawLineModifier extends DrawModifier
                 $this->drawable->start()->y(),
                 $this->drawable->end()->x(),
                 $this->drawable->end()->y(),
-                $this->driver()->colorToNative(
-                    $this->backgroundColor(),
-                    $image->colorspace()
+                $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                    $this->backgroundColor()
                 )
             );
         }

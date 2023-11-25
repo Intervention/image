@@ -12,14 +12,12 @@ class DrawRectangleModifier extends DrawModifier
     {
         $drawing = new ImagickDraw();
 
-        $background_color = $this->driver()->colorToNative(
-            $this->backgroundColor(),
-            $image->colorspace(),
+        $background_color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+            $this->backgroundColor()
         );
 
-        $border_color = $this->driver()->colorToNative(
-            $this->borderColor(),
-            $image->colorspace(),
+        $border_color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+            $this->borderColor()
         );
 
         $drawing->setFillColor($background_color);

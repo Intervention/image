@@ -19,9 +19,8 @@ class DrawEllipseModifier extends DrawModifier
                         $this->position()->y(),
                         $this->drawable->width() - 1,
                         $this->drawable->height() - 1,
-                        $this->driver()->colorToNative(
-                            $this->backgroundColor(),
-                            $image->colorspace()
+                        $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                            $this->backgroundColor()
                         )
                     );
                 }
@@ -41,9 +40,8 @@ class DrawEllipseModifier extends DrawModifier
                     $this->drawable->height(),
                     0,
                     360,
-                    $this->driver()->colorToNative(
-                        $this->borderColor(),
-                        $image->colorspace()
+                    $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                        $this->borderColor()
                     )
                 );
             } else {
@@ -53,9 +51,8 @@ class DrawEllipseModifier extends DrawModifier
                     $this->position()->y(),
                     $this->drawable->width(),
                     $this->drawable->height(),
-                    $this->driver()->colorToNative(
-                        $this->backgroundColor(),
-                        $image->colorspace()
+                    $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                        $this->backgroundColor()
                     )
                 );
             }

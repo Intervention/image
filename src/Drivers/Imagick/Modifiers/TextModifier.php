@@ -13,9 +13,8 @@ class TextModifier extends DriverModifier
         $processor = $this->fontProcessor();
         $lines = $processor->alignedTextBlock($this->position, $this->text);
 
-        $color = $this->driver()->colorToNative(
-            $this->driver()->handleInput($this->font->color()),
-            $image->colorspace()
+        $color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+            $this->driver()->handleInput($this->font->color())
         );
 
         $draw = $processor->toImagickDraw($color);

@@ -18,9 +18,8 @@ class DrawRectangleModifier extends DrawModifier
                     $this->position()->y(),
                     $this->position()->x() + $this->drawable->width(),
                     $this->position()->y() + $this->drawable->height(),
-                    $this->driver()->colorToNative(
-                        $this->backgroundColor(),
-                        $image->colorspace()
+                    $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                        $this->backgroundColor()
                     )
                 );
             }
@@ -34,9 +33,8 @@ class DrawRectangleModifier extends DrawModifier
                     $this->position()->y(),
                     $this->position()->x() + $this->drawable->width(),
                     $this->position()->y() + $this->drawable->height(),
-                    $this->driver()->colorToNative(
-                        $this->borderColor(),
-                        $image->colorspace()
+                    $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                        $this->borderColor()
                     )
                 );
             }

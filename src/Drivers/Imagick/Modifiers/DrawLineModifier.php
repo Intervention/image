@@ -13,9 +13,8 @@ class DrawLineModifier extends DrawModifier
         $drawing = new ImagickDraw();
         $drawing->setStrokeWidth($this->drawable->width());
         $drawing->setStrokeColor(
-            $this->driver()->colorToNative(
-                $this->backgroundColor(),
-                $image->colorspace()
+            $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                $this->backgroundColor()
             )
         );
 

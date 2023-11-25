@@ -10,5 +10,4 @@ interface DriverInterface
     public function handleInput(mixed $input): ImageInterface|ColorInterface;
     public function colorProcessor(ColorspaceInterface $colorspace): ColorProcessorInterface;
     public function fontProcessor(FontInterface $font): FontProcessorInterface;
-    public function colorToNative(ColorInterface $color, ColorspaceInterface $colorspace): mixed;
 }

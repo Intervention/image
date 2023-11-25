@@ -13,18 +13,16 @@ class DrawPolygonModifier extends DrawModifier
         $drawing = new ImagickDraw();
 
         if ($this->drawable->hasBackgroundColor()) {
-            $background_color = $this->driver()->colorToNative(
-                $this->backgroundColor(),
-                $image->colorspace()
+            $background_color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                $this->backgroundColor()
             );
 
             $drawing->setFillColor($background_color);
         }
 
         if ($this->drawable->hasBorder()) {
-            $border_color = $this->driver()->colorToNative(
-                $this->borderColor(),
-                $image->colorspace()
+            $border_color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                $this->borderColor()
             );
 
             $drawing->setStrokeColor($border_color);

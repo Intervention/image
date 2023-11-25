@@ -48,9 +48,4 @@ class Driver extends AbstractDriver
     {
         return new FontProcessor($font);
     }
-
-    public function colorToNative(ColorInterface $color, ColorspaceInterface $colorspace): mixed
-    {
-        return (new ColorProcessor($colorspace))->colorToNative($color);
-    }
 }

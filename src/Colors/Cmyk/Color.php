@@ -8,7 +8,7 @@ use Intervention\Image\Colors\Cmyk\Channels\Yellow;
 use Intervention\Image\Colors\Cmyk\Channels\Key;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Colors\Traits\CanHandleChannels;
-use Intervention\Image\Drivers\Abstract\AbstractInputHandler;
+use Intervention\Image\Drivers\AbstractInputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;

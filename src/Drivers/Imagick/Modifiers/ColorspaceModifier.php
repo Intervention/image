@@ -7,6 +7,8 @@ use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
+use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 
 class ColorspaceModifier extends DriverModifier
 {

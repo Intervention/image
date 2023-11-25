@@ -17,7 +17,9 @@ class Core extends Collection implements CoreInterface
 
     public function setNative(mixed $native): self
     {
-        return $this->empty()->push(new Frame($native));
+        $this->empty()->push(new Frame($native));
+
+        return $this;
     }
 
     public function frame(int $position): FrameInterface

@@ -13,7 +13,7 @@ class Line
     ) {
     }
 
-    public function position(): Point
+    public function position(): PointInterface
     {
         return $this->position;
     }

@@ -58,7 +58,7 @@ abstract class AbstractDecoder implements DecoderInterface
     protected function decodeExifData(string $image_data): CollectionInterface
     {
         if (!function_exists('exif_read_data')) {
-            return [];
+            return new Collection();
         }
 
         try {

@@ -6,6 +6,9 @@ use Intervention\Image\Drivers\DriverEncoder;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Interfaces\ImageInterface;
 
+/**
+ * @property int $quality
+ */
 class WebpEncoder extends DriverEncoder
 {
     public function encode(ImageInterface $image): EncodedImage

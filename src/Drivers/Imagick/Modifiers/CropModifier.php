@@ -4,7 +4,13 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\SizeInterface;
 
+/**
+ * @method SizeInterface crop(ImageInterface $image)
+ * @property int $offset_x
+ * @property int $offset_y
+ */
 class CropModifier extends DriverModifier
 {
     public function apply(ImageInterface $image): ImageInterface

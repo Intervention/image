@@ -7,6 +7,10 @@ use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
+/**
+ * @property null|int $width
+ * @property null|int $height
+ */
 class ResizeModifier extends DriverModifier
 {
     public function apply(ImageInterface $image): ImageInterface

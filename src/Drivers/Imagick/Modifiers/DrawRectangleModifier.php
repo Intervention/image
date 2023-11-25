@@ -5,7 +5,16 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use ImagickDraw;
 use Intervention\Image\Drivers\DrawModifier;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Geometry\Point;
+use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Geometry\Rectangle;
 
+/**
+ * @method Point position()
+ * @method ColorInterface backgroundColor()
+ * @method ColorInterface borderColor()
+ * @property Rectangle $drawable
+ */
 class DrawRectangleModifier extends DrawModifier
 {
     public function apply(ImageInterface $image): ImageInterface

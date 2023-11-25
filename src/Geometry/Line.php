@@ -5,6 +5,7 @@ namespace Intervention\Image\Geometry;
 use Intervention\Image\Geometry\Traits\HasBackgroundColor;
 use Intervention\Image\Geometry\Traits\HasBorder;
 use Intervention\Image\Interfaces\DrawableInterface;
+use Intervention\Image\Interfaces\PointInterface;
 
 class Line implements DrawableInterface
 {
@@ -16,6 +17,11 @@ class Line implements DrawableInterface
         protected Point $end,
         protected int $width = 1
     ) {
+    }
+
+    public function position(): PointInterface
+    {
+        return $this->start;
     }
 
     public function width(): int

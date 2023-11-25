@@ -5,7 +5,12 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use ImagickDraw;
 use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\PointInterface;
 
+/**
+ * @property PointInterface $position
+ * @property mixed $color
+ */
 class DrawPixelModifier extends DriverModifier
 {
     public function apply(ImageInterface $image): ImageInterface

@@ -5,12 +5,16 @@ namespace Intervention\Image\Drivers;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Interfaces\DrawableInterface;
 
+/**
+ * @property DrawableInterface $drawable
+ */
 abstract class DrawModifier extends DriverModifier
 {
     public function position(): Point
     {
-        return $this->drawable->pivot();
+        return $this->drawable->position();
     }
 
     public function backgroundColor(): ColorInterface

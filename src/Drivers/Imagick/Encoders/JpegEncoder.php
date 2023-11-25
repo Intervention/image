@@ -7,6 +7,9 @@ use Intervention\Image\Drivers\DriverEncoder;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Interfaces\ImageInterface;
 
+/**
+ * @property int $quality
+ */
 class JpegEncoder extends DriverEncoder
 {
     public function encode(ImageInterface $image): EncodedImage

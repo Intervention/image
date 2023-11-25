@@ -5,6 +5,13 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Interfaces\ImageInterface;
 
+/**
+ * @method mixed getPosition(ImageInterface $image, ImageInterface $watermark)
+ * @property mixed $element
+ * @property string $position
+ * @property int $offset_x
+ * @property int $offset_y
+ */
 class PlaceModifier extends DriverModifier
 {
     public function apply(ImageInterface $image): ImageInterface

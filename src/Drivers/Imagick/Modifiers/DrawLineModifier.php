@@ -4,8 +4,14 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
 use Intervention\Image\Drivers\DrawModifier;
+use Intervention\Image\Geometry\Line;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\ColorInterface;
 
+/**
+ * @method ColorInterface backgroundColor()
+ * @property Line $drawable
+ */
 class DrawLineModifier extends DrawModifier
 {
     public function apply(ImageInterface $image): ImageInterface

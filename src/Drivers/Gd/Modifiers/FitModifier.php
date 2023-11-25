@@ -7,6 +7,10 @@ use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
+/**
+ * @method SizeInterface getResizeSize(ImageInterface $image)
+ * @method SizeInterface getCropSize(ImageInterface $image)
+ */
 class FitModifier extends DriverModifier
 {
     public function apply(ImageInterface $image): ImageInterface

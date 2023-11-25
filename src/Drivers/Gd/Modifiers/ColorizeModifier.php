@@ -5,6 +5,11 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Interfaces\ImageInterface;
 
+/**
+ * @property int $red
+ * @property int $green
+ * @property int $blue
+ */
 class ColorizeModifier extends DriverModifier
 {
     public function apply(ImageInterface $image): ImageInterface

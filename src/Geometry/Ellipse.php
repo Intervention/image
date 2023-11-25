@@ -19,6 +19,11 @@ class Ellipse implements DrawableInterface
     ) {
     }
 
+    public function position(): PointInterface
+    {
+        return $this->pivot;
+    }
+
     public function pivot(): PointInterface
     {
         return $this->pivot;

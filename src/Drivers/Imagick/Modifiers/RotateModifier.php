@@ -5,6 +5,10 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Interfaces\ImageInterface;
 
+/**
+ * @method mixed rotationAngle()
+ * @property mixed $background
+ */
 class RotateModifier extends DriverModifier
 {
     public function apply(ImageInterface $image): ImageInterface

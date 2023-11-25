@@ -6,6 +6,9 @@ use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Interfaces\ImageInterface;
 
+/**
+ * @property int $size
+ */
 class PixelateModifier extends DriverModifier
 {
     public function apply(ImageInterface $image): ImageInterface

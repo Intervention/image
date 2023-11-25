@@ -4,8 +4,15 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Drivers\Imagick\FontProcessor;
+use Intervention\Image\Geometry\Point;
+use Intervention\Image\Interfaces\FontInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
+/**
+ * @property Point $position
+ * @property string $text
+ * @property FontInterface $font
+ */
 class TextModifier extends DriverModifier
 {
     public function apply(ImageInterface $image): ImageInterface

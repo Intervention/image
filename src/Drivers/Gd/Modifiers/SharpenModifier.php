@@ -5,6 +5,9 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Interfaces\ImageInterface;
 
+/**
+ * @property int $amount
+ */
 class SharpenModifier extends DriverModifier
 {
     public function apply(ImageInterface $image): ImageInterface

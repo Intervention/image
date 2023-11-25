@@ -9,6 +9,14 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Modifiers\FillModifier;
 
+/**
+ * @method SizeInterface getCropSize(ImageInterface $image)
+ * @method SizeInterface getResizeSize(ImageInterface $image)
+ * @property int $width
+ * @property int $height
+ * @property mixed $background
+ * @property string $position
+ */
 class PadModifier extends DriverModifier
 {
     public function apply(ImageInterface $image): ImageInterface

@@ -3,8 +3,12 @@
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\DrawModifier;
+use Intervention\Image\Geometry\Ellipse;
 use Intervention\Image\Interfaces\ImageInterface;
 
+/**
+ * @property Ellipse $drawable
+ */
 class DrawEllipseModifier extends DrawModifier
 {
     public function apply(ImageInterface $image): ImageInterface

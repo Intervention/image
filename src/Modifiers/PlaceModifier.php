@@ -8,7 +8,7 @@ use Intervention\Image\Interfaces\PointInterface;
 class PlaceModifier extends AbstractModifier
 {
     public function __construct(
-        public $element,
+        public mixed $element,
         public string $position,
         public int $offset_x,
         public int $offset_y

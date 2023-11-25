@@ -5,7 +5,14 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Drivers\Gd\FontProcessor;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Geometry\Point;
+use Intervention\Image\Interfaces\FontInterface;
 
+/**
+ * @property Point $position
+ * @property string $text
+ * @property FontInterface $font
+ */
 class TextModifier extends DriverModifier
 {
     public function apply(ImageInterface $image): ImageInterface

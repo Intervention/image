@@ -23,6 +23,11 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     ) {
     }
 
+    public function position(): PointInterface
+    {
+        return $this->pivot;
+    }
+
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->points);

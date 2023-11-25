@@ -9,6 +9,11 @@ use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
+/**
+ * @property int $x
+ * @property int $y
+ * @property int $frame_key
+ */
 class PixelColorAnalyzer extends DriverAnalyzer
 {
     public function analyze(ImageInterface $image): mixed

@@ -4,6 +4,7 @@ namespace Intervention\Image\Interfaces;
 
 interface DrawableInterface
 {
+    public function position(): PointInterface;
     public function setBackgroundColor(mixed $color);
     public function backgroundColor(): mixed;
     public function hasBackgroundColor(): bool;

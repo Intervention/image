@@ -8,7 +8,13 @@ use ImagickPixel;
 use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Geometry\Point;
 
+/**
+ * @method bool hasPosition()
+ * @property mixed $color
+ * @property null|Point $position
+ */
 class FillModifier extends DriverModifier
 {
     public function apply(ImageInterface $image): ImageInterface
@@ -16,7 +22,7 @@ class FillModifier extends DriverModifier
         $color = $this->driver()->handleInput($this->color);
         $pixel = $this->driver()
             ->colorProcessor($image->colorspace())
-            ->colorToNative($color, $image->colorspace());
+            ->colorToNative($color);
 
         foreach ($image as $frame) {
             if ($this->hasPosition()) {

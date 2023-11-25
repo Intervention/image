@@ -12,6 +12,10 @@ use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Modifiers\FillModifier;
 
+/**
+ * @method mixed rotationAngle()
+ * @property mixed $background
+ */
 class RotateModifier extends DriverModifier
 {
     public function apply(ImageInterface $image): ImageInterface

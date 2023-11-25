@@ -10,6 +10,9 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 
+/**
+ * @method ColorspaceInterface targetColorspace()
+ */
 class ColorspaceModifier extends DriverModifier
 {
     protected static $mapping = [

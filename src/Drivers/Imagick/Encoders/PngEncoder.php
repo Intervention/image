@@ -8,6 +8,9 @@ use Intervention\Image\Modifiers\LimitColorsModifier;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Interfaces\ImageInterface;
 
+/**
+ * @property int $color_limit
+ */
 class PngEncoder extends DriverEncoder
 {
     public function encode(ImageInterface $image): EncodedImage

@@ -7,6 +7,9 @@ use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ImageInterface;
 
+/**
+ * @method ColorspaceInterface targetColorspace()
+ */
 class ColorspaceModifier extends DriverModifier
 {
     public function apply(ImageInterface $image): ImageInterface

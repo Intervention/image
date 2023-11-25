@@ -3,8 +3,17 @@
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\DrawModifier;
+use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Geometry\Point;
 
+/**
+ * @method Point position()
+ * @method ColorInterface backgroundColor()
+ * @method ColorInterface borderColor()
+ * @property Rectangle $drawable
+ */
 class DrawRectangleModifier extends DrawModifier
 {
     public function apply(ImageInterface $image): ImageInterface

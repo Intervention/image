@@ -5,6 +5,10 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Interfaces\ImageInterface;
 
+/**
+ * @property int $limit
+ * @property int $threshold
+ */
 class LimitColorsModifier extends DriverModifier
 {
     public function apply(ImageInterface $image): ImageInterface

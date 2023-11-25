@@ -11,7 +11,7 @@ class PadModifier extends AbstractModifier
     public function __construct(
         public int $width,
         public int $height,
-        public $background = 'ffffff',
+        public mixed $background = 'ffffff',
         public string $position = 'center'
     ) {
     }

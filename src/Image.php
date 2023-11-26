@@ -26,6 +26,8 @@ use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\ProfileInterface;
 use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Modifiers\GreyscaleModifier;
+use Intervention\Image\Modifiers\PixelateModifier;
 use Intervention\Image\Modifiers\SharpenModifier;
 use Intervention\Image\Modifiers\TextModifier;
 use Intervention\Image\Typography\FontFactory;
@@ -132,6 +134,16 @@ class Image implements ImageInterface, Countable
     public function sharpen(int $amount = 10): ImageInterface
     {
         return $this->modify(new SharpenModifier($amount));
+    }
+
+    public function pixelate(int $size): ImageInterface
+    {
+        return $this->modify(new PixelateModifier($size));
+    }
+
+    public function greyscale(): ImageInterface
+    {
+        return $this->modify(new GreyscaleModifier());
     }
 
     public function text(string $text, int $x, int $y, callable|FontInterface $font): ImageInterface

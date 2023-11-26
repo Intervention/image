@@ -29,7 +29,7 @@ class TextModifier extends AbstractTextModifier
                 foreach ($lines as $line) {
                     imagettftext(
                         $frame->native(),
-                        $this->adjustedSize(),
+                        $this->adjustedFontSize(),
                         $this->font->angle() * -1,
                         $line->position()->x(),
                         $line->position()->y(),
@@ -75,7 +75,7 @@ class TextModifier extends AbstractTextModifier
 
         // calculate box size from font file with angle 0
         $box = imageftbbox(
-            $this->adjustedSize(),
+            $this->adjustedFontSize(),
             0,
             $this->font->filename(),
             $text
@@ -91,7 +91,7 @@ class TextModifier extends AbstractTextModifier
         return $polygon;
     }
 
-    private function adjustedSize(): float
+    private function adjustedFontSize(): float
     {
         return floatval(ceil($this->font->size() * .75));
     }

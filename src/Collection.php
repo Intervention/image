@@ -74,7 +74,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
      *
      * @return mixed
      */
-    public function first()
+    public function first(): mixed
     {
         if ($item = reset($this->items)) {
             return $item;
@@ -88,7 +88,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
      *
      * @return mixed
      */
-    public function last()
+    public function last(): mixed
     {
         if ($item = end($this->items)) {
             return $item;
@@ -103,7 +103,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
      * @param  integer $key
      * @return mixed
      */
-    public function getAtPosition(int $key = 0, $default = null)
+    public function getAtPosition(int $key = 0, $default = null): mixed
     {
         if ($this->count() == 0) {
             return $default;
@@ -117,7 +117,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
         return $positions[$key];
     }
 
-    public function get(int|string $query, $default = null)
+    public function get(int|string $query, $default = null): mixed
     {
         if ($this->count() == 0) {
             return $default;

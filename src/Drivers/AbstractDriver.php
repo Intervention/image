@@ -11,6 +11,13 @@ use ReflectionClass;
 
 abstract class AbstractDriver implements DriverInterface
 {
+    /**
+     * Return a specialized version for the current driver of the given object
+     *
+     * @param object $input
+     * @return object
+     * @throws NotSupportedException
+     */
     public function resolve(object $input): object
     {
         if ($this->isExternal($input)) {
@@ -30,6 +37,12 @@ abstract class AbstractDriver implements DriverInterface
         return new $specialized($input, $this);
     }
 
+    /**
+     * Determine if given object is external custom modifier, analyzer or encoder
+     *
+     * @param object $input
+     * @return bool
+     */
     private function isExternal(object $input): bool
     {
         if ($input instanceof AbstractModifier) {

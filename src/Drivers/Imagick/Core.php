@@ -110,4 +110,14 @@ class Core implements CoreInterface, Iterator
 
         return $this;
     }
+
+    public function first(): FrameInterface
+    {
+        return $this->frame(0);
+    }
+
+    public function last(): FrameInterface
+    {
+        return $this->frame($this->count());
+    }
 }

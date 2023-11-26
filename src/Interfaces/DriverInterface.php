@@ -29,6 +29,14 @@ interface DriverInterface
     public function createImage(int $width, int $height): ImageInterface;
 
     /**
+     * Create new animated image
+     *
+     * @param callable $init
+     * @return ImageInterface
+     */
+    public function createAnimation(callable $init): ImageInterface;
+
+    /**
      * Handle given input by decoding it to ImageInterface or ColorInterface
      *
      * @param mixed $input

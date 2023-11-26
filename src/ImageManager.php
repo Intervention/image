@@ -41,6 +41,11 @@ final class ImageManager
         return $this->driver->handleInput($input);
     }
 
+    public function animate(callable $init): ImageInterface
+    {
+        return $this->driver->createAnimation($init);
+    }
+
     private static function resolveDriver(string|DriverInterface $driver): DriverInterface
     {
         if (is_object($driver)) {

@@ -95,6 +95,14 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function loops(): int;
 
     /**
+     * Set loop count of animated image
+     *
+     * @param int $loops
+     * @return ImageInterface
+     */
+    public function setLoops(int $loops): ImageInterface;
+
+    /**
      * Return exif data of current image
      *
      * @return mixed

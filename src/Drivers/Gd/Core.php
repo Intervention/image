@@ -45,4 +45,14 @@ class Core extends Collection implements CoreInterface
 
         return $this;
     }
+
+    public function first(): FrameInterface
+    {
+        return parent::first();
+    }
+
+    public function last(): FrameInterface
+    {
+        return parent::last();
+    }
 }

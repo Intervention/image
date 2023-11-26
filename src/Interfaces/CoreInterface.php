@@ -59,4 +59,6 @@ interface CoreInterface extends Traversable
      * @return CoreInterface
      */
     public function setLoops(int $loops): CoreInterface;
+
+    public function first(): FrameInterface;
 }

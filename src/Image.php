@@ -145,6 +145,18 @@ final class Image implements ImageInterface, Countable
     /**
      * {@inheritdoc}
      *
+     * @see ImageInterface::setLoops()
+     */
+    public function setLoops(int $loops): ImageInterface
+    {
+        $this->core->setLoops($loops);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see ImageInterface::exif()
      */
     public function exif(?string $query = null): mixed

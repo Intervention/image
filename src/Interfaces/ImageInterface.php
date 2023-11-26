@@ -27,5 +27,6 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function sharpen(int $amount = 10): ImageInterface;
     public function greyscale(): ImageInterface;
     public function pixelate(int $size): ImageInterface;
+    public function rotate(float $angle, mixed $background = 'ffffff'): ImageInterface;
     public function text(string $text, int $x, int $y, callable|FontInterface $font): ImageInterface;
 }

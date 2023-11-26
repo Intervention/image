@@ -6,15 +6,15 @@ use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\FontInterface;
-use Intervention\Image\Interfaces\FontProcessorInterface;
-use Intervention\Image\Typography\Line;
 use Intervention\Image\Typography\TextBlock;
+use Intervention\Image\Typography\Line;
 
-abstract class AbstractFontProcessor implements FontProcessorInterface
+/**
+ * @property FontInterface $font
+ */
+abstract class AbstractTextModifier extends DriverModifier
 {
-    public function __construct(protected FontInterface $font)
-    {
-    }
+    abstract protected function boxSize(string $text): Polygon;
 
     public function leadingInPixels(): int
     {

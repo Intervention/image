@@ -9,5 +9,4 @@ interface DriverInterface
     public function createImage(int $width, int $height): ImageInterface;
     public function handleInput(mixed $input): ImageInterface|ColorInterface;
     public function colorProcessor(ColorspaceInterface $colorspace): ColorProcessorInterface;
-    public function fontProcessor(FontInterface $font): FontProcessorInterface;
 }

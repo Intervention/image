@@ -7,8 +7,6 @@ use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorProcessorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
-use Intervention\Image\Interfaces\FontInterface;
-use Intervention\Image\Interfaces\FontProcessorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
 class Driver extends AbstractDriver
@@ -44,10 +42,5 @@ class Driver extends AbstractDriver
     public function colorProcessor(ColorspaceInterface $colorspace): ColorProcessorInterface
     {
         return new ColorProcessor($colorspace);
-    }
-
-    public function fontProcessor(FontInterface $font): FontProcessorInterface
-    {
-        return new FontProcessor($font);
     }
 }

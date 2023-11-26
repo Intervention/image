@@ -19,6 +19,11 @@ class Font implements FontInterface
         $this->filename = $filename;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::setSize()
+     */
     public function setSize(float $size): FontInterface
     {
         $this->size = $size;
@@ -26,11 +31,21 @@ class Font implements FontInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::size()
+     */
     public function size(): float
     {
         return $this->size;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::setAngle()
+     */
     public function setAngle(float $angle): FontInterface
     {
         $this->angle = $angle;
@@ -38,11 +53,21 @@ class Font implements FontInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::angle()
+     */
     public function angle(): float
     {
         return $this->angle;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::setFilename()
+     */
     public function setFilename(string $filename): FontInterface
     {
         $this->filename = $filename;
@@ -50,16 +75,31 @@ class Font implements FontInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::filename()
+     */
     public function filename(): ?string
     {
         return $this->filename;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::hasFilename()
+     */
     public function hasFilename(): bool
     {
         return !is_null($this->filename) && is_file($this->filename);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::setColor()
+     */
     public function setColor(mixed $color): FontInterface
     {
         $this->color = $color;
@@ -67,16 +107,31 @@ class Font implements FontInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::color()
+     */
     public function color(): mixed
     {
         return $this->color;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::alignment()
+     */
     public function alignment(): string
     {
         return $this->alignment;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::setAlignment()
+     */
     public function setAlignment(string $value): FontInterface
     {
         $this->alignment = $value;
@@ -84,11 +139,21 @@ class Font implements FontInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::valignment()
+     */
     public function valignment(): string
     {
         return $this->valignment;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::setValignment()
+     */
     public function setValignment(string $value): FontInterface
     {
         $this->valignment = $value;
@@ -96,6 +161,11 @@ class Font implements FontInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::setLineHeight()
+     */
     public function setLineHeight(float $height): FontInterface
     {
         $this->lineHeight = $height;
@@ -103,6 +173,11 @@ class Font implements FontInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::lineHeight()
+     */
     public function lineHeight(): float
     {
         return $this->lineHeight;

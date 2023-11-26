@@ -72,181 +72,361 @@ final class Image implements ImageInterface, Countable
     ) {
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::driver()
+     */
     public function driver(): DriverInterface
     {
         return $this->driver;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::core()
+     */
     public function core(): CoreInterface
     {
         return $this->core;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::count()
+     */
     public function count(): int
     {
         return $this->core->count();
     }
 
+    /**
+     * Implementation of IteratorAggregate
+     *
+     * @return Traversable
+     */
     public function getIterator(): Traversable
     {
         return $this->core;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::isAnimated()
+     */
     public function isAnimated(): bool
     {
         return $this->count() > 1;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::removeAnimation(
+     */
     public function removeAnimation(int|string $position = 0): ImageInterface
     {
         return $this->modify(new RemoveAnimationModifier($position));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::loops()
+     */
     public function loops(): int
     {
         return $this->core->loops();
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::exif()
+     */
     public function exif(?string $query = null): mixed
     {
         return is_null($query) ? $this->exif : $this->exif->get($query);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::modify()
+     */
     public function modify(ModifierInterface $modifier): ImageInterface
     {
         return $this->driver->resolve($modifier)->apply($this);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::analyze()
+     */
     public function analyze(AnalyzerInterface $analyzer): mixed
     {
         return $this->driver->resolve($analyzer)->analyze($this);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::encode()
+     */
     public function encode(EncoderInterface $encoder): EncodedImage
     {
         return $this->driver->resolve($encoder)->encode($this);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::width()
+     */
     public function width(): int
     {
         return $this->analyze(new WidthAnalyzer());
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::height()
+     */
     public function height(): int
     {
         return $this->analyze(new HeightAnalyzer());
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::size()
+     */
     public function size(): SizeInterface
     {
         return new Rectangle($this->width(), $this->height());
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::colorspace()
+     */
     public function colorspace(): ColorspaceInterface
     {
         return $this->analyze(new ColorspaceAnalyzer());
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::setColorspace()
+     */
     public function setColorspace(string|ColorspaceInterface $colorspace): ImageInterface
     {
         return $this->modify(new ColorspaceModifier($colorspace));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::resolution()
+     */
     public function resolution(): ResolutionInterface
     {
         return $this->analyze(new ResolutionAnalyzer());
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::setResolution()
+     */
     public function setResolution(float $x, float $y): ImageInterface
     {
         return $this->modify(new ResolutionModifier($x, $y));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::pickColor()
+     */
     public function pickColor(int $x, int $y, int $frame_key = 0): ColorInterface
     {
         return $this->analyze(new PixelColorAnalyzer($x, $y, $frame_key));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::pickColors()
+     */
     public function pickColors(int $x, int $y): CollectionInterface
     {
         return $this->analyze(new PixelColorsAnalyzer($x, $y));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::profile()
+     */
     public function profile(): ProfileInterface
     {
         return $this->analyze(new ProfileAnalyzer());
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::setProfile()
+     */
     public function setProfile(ProfileInterface $profile): ImageInterface
     {
         return $this->modify(new ProfileModifier($profile));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::removeProfile()
+     */
     public function removeProfile(): ImageInterface
     {
         return $this->modify(new ProfileRemovalModifier());
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::sharpen()
+     */
     public function sharpen(int $amount = 10): ImageInterface
     {
         return $this->modify(new SharpenModifier($amount));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::invert()
+     */
     public function invert(): ImageInterface
     {
         return $this->modify(new InvertModifier());
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::pixelate()
+     */
     public function pixelate(int $size): ImageInterface
     {
         return $this->modify(new PixelateModifier($size));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::greyscale()
+     */
     public function greyscale(): ImageInterface
     {
         return $this->modify(new GreyscaleModifier());
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::brightness()
+     */
     public function brightness(int $level): ImageInterface
     {
         return $this->modify(new BrightnessModifier($level));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::contrast()
+     */
     public function contrast(int $level): ImageInterface
     {
         return $this->modify(new ContrastModifier($level));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::gamma()
+     */
     public function gamma(float $gamma): ImageInterface
     {
         return $this->modify(new GammaModifier($gamma));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::colorize()
+     */
     public function colorize(int $red = 0, int $green = 0, int $blue = 0): ImageInterface
     {
         return $this->modify(new ColorizeModifier($red, $green, $blue));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::flip()
+     */
     public function flip(): ImageInterface
     {
         return $this->modify(new FlipModifier());
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::flop()
+     */
     public function flop(): ImageInterface
     {
         return $this->modify(new FlopModifier());
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::blur()
+     */
     public function blur(int $amount = 5): ImageInterface
     {
         return $this->modify(new BlurModifier($amount));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::rotate()
+     */
     public function rotate(float $angle, mixed $background = 'ffffff'): ImageInterface
     {
         return $this->modify(new RotateModifier($angle, $background));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::text()
+     */
     public function text(string $text, int $x, int $y, callable|FontInterface $font): ImageInterface
     {
         return $this->modify(
@@ -258,41 +438,71 @@ final class Image implements ImageInterface, Countable
         );
     }
 
-    public function toJpeg(int $quality = 75): EncodedImageInterface
-    {
-        return $this->encode(new JpegEncoder($quality));
-    }
-
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::resize()
+     */
     public function resize(?int $width = null, ?int $height = null): ImageInterface
     {
         return $this->modify(new ResizeModifier($width, $height));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::resizeDown()
+     */
     public function resizeDown(?int $width = null, ?int $height = null): ImageInterface
     {
         return $this->modify(new ResizeDownModifier($width, $height));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::scale()
+     */
     public function scale(?int $width = null, ?int $height = null): ImageInterface
     {
         return $this->modify(new ScaleModifier($width, $height));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::scaleDown()
+     */
     public function scaleDown(?int $width = null, ?int $height = null): ImageInterface
     {
         return $this->modify(new ScaleDownModifier($width, $height));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::fit()
+     */
     public function fit(int $width, int $height, string $position = 'center'): ImageInterface
     {
         return $this->modify(new FitModifier($width, $height, $position));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::fitDown()
+     */
     public function fitDown(int $width, int $height, string $position = 'center'): ImageInterface
     {
         return $this->modify(new FitDownModifier($width, $height, $position));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::pad()
+     */
     public function pad(
         int $width,
         int $height,
@@ -302,6 +512,11 @@ final class Image implements ImageInterface, Countable
         return $this->modify(new PadModifier($width, $height, $background, $position));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::padDown()
+     */
     public function padDown(
         int $width,
         int $height,
@@ -311,6 +526,11 @@ final class Image implements ImageInterface, Countable
         return $this->modify(new PadModifier($width, $height, $background, $position));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::crop()
+     */
     public function crop(
         int $width,
         int $height,
@@ -321,6 +541,11 @@ final class Image implements ImageInterface, Countable
         return $this->modify(new CropModifier($width, $height, $offset_x, $offset_y, $position));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::place()
+     */
     public function place(
         mixed $element,
         string $position = 'top-left',
@@ -330,41 +555,93 @@ final class Image implements ImageInterface, Countable
         return $this->modify(new PlaceModifier($element, $position, $offset_x, $offset_y));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::fill()
+     */
     public function fill(mixed $color, ?int $x = null, ?int $y = null): ImageInterface
     {
         return $this->modify(new FillModifier($color, new Point($x, $y)));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::toJpeg()
+     */
+    public function toJpeg(int $quality = 75): EncodedImageInterface
+    {
+        return $this->encode(new JpegEncoder($quality));
+    }
+
+    /**
+     * Alias of self::toJpeg()
+     *
+     * @param int $quality
+     * @return EncodedImageInterface
+     */
     public function toJpg(int $quality = 75): EncodedImageInterface
     {
         return $this->toJpeg($quality);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::toPng()
+     */
     public function toPng(int $color_limit = 0): EncodedImageInterface
     {
         return $this->encode(new PngEncoder($color_limit));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::toGif()
+     */
     public function toGif(int $color_limit = 0): EncodedImageInterface
     {
         return $this->encode(new GifEncoder($color_limit));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::toWebp()
+     */
     public function toWebp(int $quality = 75): EncodedImageInterface
     {
         return $this->encode(new WebpEncoder($quality));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::toBitmap()
+     */
     public function toBitmap(int $color_limit = 0): EncodedImageInterface
     {
         return $this->encode(new BmpEncoder($color_limit));
     }
 
+    /**
+     * Alias if self::toBitmap()
+     *
+     * @param int $color_limit
+     * @return EncodedImageInterface
+     */
     public function toBmp(int $color_limit = 0): EncodedImageInterface
     {
         return $this->toBitmap($color_limit);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::toAvif()
+     */
     public function toAvif(int $quality = 75): EncodedImageInterface
     {
         return $this->encode(new AvifEncoder($quality));

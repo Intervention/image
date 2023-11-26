@@ -4,6 +4,7 @@ namespace Intervention\Image\Interfaces;
 
 use Countable;
 use Intervention\Image\EncodedImage;
+use Intervention\Image\Modifiers\ColorspaceModifier;
 use IteratorAggregate;
 
 interface ImageInterface extends IteratorAggregate, Countable
@@ -95,12 +96,30 @@ interface ImageInterface extends IteratorAggregate, Countable
      */
     public function resolution(): ResolutionInterface;
 
+
+    /**
+     * Set image resolution
+     *
+     * @param float $x
+     * @param float $y
+     * @return ImageInterface
+     */
+    public function setResolution(float $x, float $y): ImageInterface;
+
     /**
      * Get the colorspace of the image
      *
      * @return ColorspaceInterface
      */
     public function colorspace(): ColorspaceInterface;
+
+    /**
+     * Transform image to given colorspace
+     *
+     * @param string|ColorspaceInterface $colorspace
+     * @return ImageInterface
+     */
+    public function setColorspace(string|ColorspaceInterface $colorspace): ImageInterface;
 
     /**
      * Return color of pixel at given position on given frame position
@@ -127,6 +146,14 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @return ProfileInterface
      */
     public function profile(): ProfileInterface;
+
+    /**
+     * Set given icc color profile to image
+     *
+     * @param  ProfileInterface $profile
+     * @return ImageInterface
+     */
+    public function setProfile(ProfileInterface $profile): ImageInterface;
 
     /**
      * Sharpen the current image with given strength

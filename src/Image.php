@@ -26,8 +26,11 @@ use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\ProfileInterface;
 use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Modifiers\ColorspaceModifier;
 use Intervention\Image\Modifiers\GreyscaleModifier;
 use Intervention\Image\Modifiers\PixelateModifier;
+use Intervention\Image\Modifiers\ProfileModifier;
+use Intervention\Image\Modifiers\ResolutionModifier;
 use Intervention\Image\Modifiers\RotateModifier;
 use Intervention\Image\Modifiers\SharpenModifier;
 use Intervention\Image\Modifiers\TextModifier;
@@ -112,9 +115,19 @@ class Image implements ImageInterface, Countable
         return $this->analyze(new ColorspaceAnalyzer());
     }
 
+    public function setColorspace(string|ColorspaceInterface $colorspace): ImageInterface
+    {
+        return $this->modify(new ColorspaceModifier($colorspace));
+    }
+
     public function resolution(): ResolutionInterface
     {
         return $this->analyze(new ResolutionAnalyzer());
+    }
+
+    public function setResolution(float $x, float $y): ImageInterface
+    {
+        return $this->modify(new ResolutionModifier($x, $y));
     }
 
     public function pickColor(int $x, int $y, int $frame_key = 0): ColorInterface
@@ -130,6 +143,11 @@ class Image implements ImageInterface, Countable
     public function profile(): ProfileInterface
     {
         return $this->analyze(new ProfileAnalyzer());
+    }
+
+    public function setProfile(ProfileInterface $profile): ImageInterface
+    {
+        return $this->modify(new ProfileModifier($profile));
     }
 
     public function sharpen(int $amount = 10): ImageInterface

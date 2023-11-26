@@ -61,7 +61,7 @@ use Intervention\Image\Modifiers\SharpenModifier;
 use Intervention\Image\Modifiers\TextModifier;
 use Intervention\Image\Typography\FontFactory;
 
-class Image implements ImageInterface, Countable
+final class Image implements ImageInterface, Countable
 {
     public function __construct(
         protected DriverInterface $driver,

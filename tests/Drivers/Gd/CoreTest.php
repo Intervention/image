@@ -17,6 +17,17 @@ class CoreTest extends TestCase
         $this->assertInstanceOf(GdImage::class, $core->native());
     }
 
+    public function testAdd(): void
+    {
+        $gd1 = imagecreatetruecolor(3, 2);
+        $gd2 = imagecreatetruecolor(3, 2);
+        $core = new Core([new Frame($gd1)]);
+        $this->assertEquals(1, $core->count());
+        $result = $core->add(new Frame($gd2));
+        $this->assertEquals(2, $core->count());
+        $this->assertInstanceOf(Core::class, $result);
+    }
+
     public function testSetNative(): void
     {
         $gd1 = imagecreatetruecolor(3, 2);

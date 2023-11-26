@@ -10,6 +10,13 @@ class Core extends Collection implements CoreInterface
 {
     protected int $loops = 0;
 
+    public function add(FrameInterface $frame): CoreInterface
+    {
+        $this->push($frame);
+
+        return $this;
+    }
+
     public function native(): mixed
     {
         return $this->first()->native();

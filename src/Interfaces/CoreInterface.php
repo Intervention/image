@@ -37,6 +37,14 @@ interface CoreInterface extends Traversable
     public function frame(int $position): FrameInterface;
 
     /**
+     * Add new frame to core
+     *
+     * @param FrameInterface $frame
+     * @return CoreInterface
+     */
+    public function add(FrameInterface $frame): CoreInterface;
+
+    /**
      * Return number of repetitions of an animated image
      *
      * @return int

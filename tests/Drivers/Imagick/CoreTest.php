@@ -17,6 +17,17 @@ class CoreTest extends TestCase
         $this->assertInstanceOf(Core::class, $core);
     }
 
+    public function testAdd(): void
+    {
+        $imagick = new Imagick();
+        $imagick->newImage(100, 100, new ImagickPixel('red'));
+        $core = new Core($imagick);
+        $this->assertEquals(1, $core->count());
+        $result = $core->add(new Frame(clone $imagick));
+        $this->assertEquals(2, $core->count());
+        $this->assertInstanceOf(Core::class, $result);
+    }
+
     public function testCount(): void
     {
         $imagick = new Imagick();

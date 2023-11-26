@@ -17,6 +17,26 @@ class Core implements CoreInterface, Iterator
     {
     }
 
+    public function add(FrameInterface $frame): CoreInterface
+    {
+        $imagick = $frame->native();
+
+        $imagick->setImageDelay($frame->delay());
+        $imagick->setImageDispose($frame->dispose());
+
+        $size = $frame->size();
+        $imagick->setImagePage(
+            $size->width(),
+            $size->height(),
+            $frame->offsetLeft(),
+            $frame->offsetTop()
+        );
+
+        $this->imagick->addImage($imagick);
+
+        return $this;
+    }
+
     public function count(): int
     {
         return $this->imagick->getNumberImages();

@@ -437,6 +437,62 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function fill(mixed $color, ?int $x = null, ?int $y = null): ImageInterface;
 
     /**
+     * Draw a single pixel at given position defined by the coordinates x and y in a given color.
+     *
+     * @param int   $x
+     * @param int   $y
+     * @param mixed $color
+     * @return ImageInterface
+     */
+    public function drawPixel(int $x, int $y, mixed $color): ImageInterface;
+
+    /**
+     * Draw a rectangle on the current image
+     *
+     * @param int $x
+     * @param int $y
+     * @param callable $init
+     * @return ImageInterface
+     */
+    public function drawRectangle(int $x, int $y, callable $init): ImageInterface;
+
+    /**
+     * Draw ellipse on the current image
+     *
+     * @param int $x
+     * @param int $y
+     * @param callable $init
+     * @return ImageInterface
+     */
+    public function drawEllipse(int $x, int $y, callable $init): ImageInterface;
+
+    /**
+     * Draw circle on the current image
+     *
+     * @param int $x
+     * @param int $y
+     * @param callable $init
+     * @return ImageInterface
+     */
+    public function drawCircle(int $x, int $y, callable $init): ImageInterface;
+
+    /**
+     * Draw a polygon on the current image
+     *
+     * @param callable $init
+     * @return ImageInterface
+     */
+    public function drawPolygon(callable $init): ImageInterface;
+
+    /**
+     * Draw a line on the current image
+     *
+     * @param callable $init
+     * @return ImageInterface
+     */
+    public function drawLine(callable $init): ImageInterface;
+
+    /**
      * Encode image to JPEG format
      *
      * @param int $quality

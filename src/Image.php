@@ -17,6 +17,11 @@ use Intervention\Image\Encoders\GifEncoder;
 use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
+use Intervention\Image\Geometry\Factories\CircleFactory;
+use Intervention\Image\Geometry\Factories\EllipseFactory;
+use Intervention\Image\Geometry\Factories\LineFactory;
+use Intervention\Image\Geometry\Factories\PolygonFactory;
+use Intervention\Image\Geometry\Factories\RectangleFactory;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\AnalyzerInterface;
@@ -39,6 +44,11 @@ use Intervention\Image\Modifiers\ColorizeModifier;
 use Intervention\Image\Modifiers\ColorspaceModifier;
 use Intervention\Image\Modifiers\ContrastModifier;
 use Intervention\Image\Modifiers\CropModifier;
+use Intervention\Image\Modifiers\DrawEllipseModifier;
+use Intervention\Image\Modifiers\DrawLineModifier;
+use Intervention\Image\Modifiers\DrawPixelModifier;
+use Intervention\Image\Modifiers\DrawPolygonModifier;
+use Intervention\Image\Modifiers\DrawRectangleModifier;
 use Intervention\Image\Modifiers\FillModifier;
 use Intervention\Image\Modifiers\FitDownModifier;
 use Intervention\Image\Modifiers\FitModifier;
@@ -575,6 +585,76 @@ final class Image implements ImageInterface, Countable
     public function fill(mixed $color, ?int $x = null, ?int $y = null): ImageInterface
     {
         return $this->modify(new FillModifier($color, new Point($x, $y)));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::drawPixel()
+     */
+    public function drawPixel(int $x, int $y, mixed $color): ImageInterface
+    {
+        return $this->modify(new DrawPixelModifier(new Point($x, $y), $color));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::drawRectangle()
+     */
+    public function drawRectangle(int $x, int $y, callable|Rectangle $init): ImageInterface
+    {
+        return $this->modify(
+            new DrawRectangleModifier(
+                call_user_func(new RectangleFactory(new Point($x, $y), $init)),
+            ),
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::drawEllipse()
+     */
+    public function drawEllipse(int $x, int $y, callable $init): ImageInterface
+    {
+        return $this->modify(
+            new DrawEllipseModifier(
+                call_user_func(new EllipseFactory(new Point($x, $y), $init)),
+            ),
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::drawCircle()
+     */
+    public function drawCircle(int $x, int $y, callable $init): ImageInterface
+    {
+        return $this->modify(
+            new DrawEllipseModifier(
+                call_user_func(new CircleFactory(new Point($x, $y), $init)),
+            ),
+        );
+    }
+
+    public function drawPolygon(callable $init): ImageInterface
+    {
+        return $this->modify(
+            new DrawPolygonModifier(
+                call_user_func(new PolygonFactory($init)),
+            ),
+        );
+    }
+
+    public function drawLine(callable $init): ImageInterface
+    {
+        return $this->modify(
+            new DrawLineModifier(
+                call_user_func(new LineFactory($init)),
+            ),
+        );
     }
 
     /**

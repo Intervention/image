@@ -263,22 +263,22 @@ final class Image implements ImageInterface, Countable
         return $this->encode(new JpegEncoder($quality));
     }
 
-    public function resize(?int $width, ?int $height): ImageInterface
+    public function resize(?int $width = null, ?int $height = null): ImageInterface
     {
         return $this->modify(new ResizeModifier($width, $height));
     }
 
-    public function resizeDown(?int $width, ?int $height): ImageInterface
+    public function resizeDown(?int $width = null, ?int $height = null): ImageInterface
     {
         return $this->modify(new ResizeDownModifier($width, $height));
     }
 
-    public function scale(?int $width, ?int $height): ImageInterface
+    public function scale(?int $width = null, ?int $height = null): ImageInterface
     {
         return $this->modify(new ScaleModifier($width, $height));
     }
 
-    public function scaleDown(?int $width, ?int $height): ImageInterface
+    public function scaleDown(?int $width = null, ?int $height = null): ImageInterface
     {
         return $this->modify(new ScaleDownModifier($width, $height));
     }

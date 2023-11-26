@@ -287,7 +287,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|int $height
      * @return ImageInterface
      */
-    public function resize(?int $width, ?int $height): ImageInterface;
+    public function resize(?int $width = null, ?int $height = null): ImageInterface;
 
     /**
      * Resize image to the given width and/or height without exceeding the original dimensions
@@ -296,7 +296,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|int $height
      * @return ImageInterface
      */
-    public function resizeDown(?int $width, ?int $height): ImageInterface;
+    public function resizeDown(?int $width = null, ?int $height = null): ImageInterface;
 
     /**
      * Resize image to the given width and/or height and keep the original aspect ratio
@@ -305,7 +305,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|int $height
      * @return ImageInterface
      */
-    public function scale(?int $width, ?int $height): ImageInterface;
+    public function scale(?int $width = null, ?int $height = null): ImageInterface;
 
     /**
      * Resize image to the given width and/or height, keep the original aspect ratio
@@ -315,7 +315,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|int $height
      * @return ImageInterface
      */
-    public function scaleDown(?int $width, ?int $height): ImageInterface;
+    public function scaleDown(?int $width = null, ?int $height = null): ImageInterface;
 
     /**
      * Takes the given dimensions and scales it to the largest possible size matching

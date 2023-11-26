@@ -45,7 +45,7 @@ class FontProcessor extends AbstractFontProcessor
         return $polygon;
     }
 
-    public function adjustedSize(): int
+    public function adjustedSize(): float
     {
         return floatval(ceil($this->font->size() * .75));
     }
@@ -53,7 +53,7 @@ class FontProcessor extends AbstractFontProcessor
     public function getGdFont(): int
     {
         if (is_numeric($this->font->filename())) {
-            return $this->font->filename();
+            return intval($this->font->filename());
         }
 
         return 1;

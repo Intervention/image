@@ -3,16 +3,16 @@
 namespace Intervention\Image\Drivers;
 
 use Intervention\Image\Exceptions\DecoderException;
-use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
+use Intervention\Image\Interfaces\PointInterface;
 
 /**
  * @property DrawableInterface $drawable
  */
 abstract class DrawModifier extends DriverModifier
 {
-    public function position(): Point
+    public function position(): PointInterface
     {
         return $this->drawable->position();
     }

@@ -2,6 +2,6 @@
 
 namespace Intervention\Image\Modifiers;
 
-class ProfileModifier extends AbstractModifier
+class ProfileRemovalModifier extends AbstractModifier
 {
 }

@@ -51,6 +51,7 @@ use Intervention\Image\Modifiers\PadModifier;
 use Intervention\Image\Modifiers\PixelateModifier;
 use Intervention\Image\Modifiers\PlaceModifier;
 use Intervention\Image\Modifiers\ProfileModifier;
+use Intervention\Image\Modifiers\ProfileRemovalModifier;
 use Intervention\Image\Modifiers\RemoveAnimationModifier;
 use Intervention\Image\Modifiers\ResizeDownModifier;
 use Intervention\Image\Modifiers\ResizeModifier;
@@ -179,6 +180,11 @@ final class Image implements ImageInterface, Countable
     public function setProfile(ProfileInterface $profile): ImageInterface
     {
         return $this->modify(new ProfileModifier($profile));
+    }
+
+    public function removeProfile(): ImageInterface
+    {
+        return $this->modify(new ProfileRemovalModifier());
     }
 
     public function sharpen(int $amount = 10): ImageInterface

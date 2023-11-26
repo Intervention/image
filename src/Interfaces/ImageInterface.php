@@ -168,6 +168,13 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function setProfile(ProfileInterface $profile): ImageInterface;
 
     /**
+     * Remove ICC color profile from the current image
+     *
+     * @return ImageInterface
+     */
+    public function removeProfile(): ImageInterface;
+
+    /**
      * Sharpen the current image with given strength
      *
      * @param  int $amount

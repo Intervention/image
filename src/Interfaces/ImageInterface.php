@@ -405,6 +405,23 @@ interface ImageInterface extends IteratorAggregate, Countable
     ): ImageInterface;
 
     /**
+     * Fill image with given color
+     *
+     * If coordinates are transferred in the form of X and Y values, the function
+     * is executed as a flood fill. This means that the color at the specified
+     * position is taken as a reference and all adjacent pixels are also filled
+     * with the same color.
+     *
+     * If no coordinates are specified, the entire image area is filled.
+     *
+     * @param mixed $color
+     * @param null|int $x
+     * @param null|int $y
+     * @return ImageInterface
+     */
+    public function fill(mixed $color, ?int $x = null, ?int $y = null): ImageInterface;
+
+    /**
      * Encode image to JPEG format
      *
      * @param int $quality

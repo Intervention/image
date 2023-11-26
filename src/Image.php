@@ -39,6 +39,7 @@ use Intervention\Image\Modifiers\ColorizeModifier;
 use Intervention\Image\Modifiers\ColorspaceModifier;
 use Intervention\Image\Modifiers\ContrastModifier;
 use Intervention\Image\Modifiers\CropModifier;
+use Intervention\Image\Modifiers\FillModifier;
 use Intervention\Image\Modifiers\FitDownModifier;
 use Intervention\Image\Modifiers\FitModifier;
 use Intervention\Image\Modifiers\FlipModifier;
@@ -321,6 +322,11 @@ final class Image implements ImageInterface, Countable
         int $offset_y = 0
     ): ImageInterface {
         return $this->modify(new PlaceModifier($element, $position, $offset_x, $offset_y));
+    }
+
+    public function fill(mixed $color, ?int $x = null, ?int $y = null): ImageInterface
+    {
+        return $this->modify(new FillModifier($color, new Point($x, $y)));
     }
 
     public function toJpg(int $quality = 75): EncodedImageInterface

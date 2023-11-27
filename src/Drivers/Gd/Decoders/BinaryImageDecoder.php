@@ -33,19 +33,17 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
             $this->decodeExifData($input)
         );
 
-        return $image;
-
         // fix image orientation
-        // return match ($image->exif('IFD0.Orientation')) {
-        //     2 => $image->flip(),
-        //     3 => $image->rotate(180),
-        //     4 => $image->rotate(180)->flip(),
-        //     5 => $image->rotate(270)->flip(),
-        //     6 => $image->rotate(270),
-        //     7 => $image->rotate(90)->flip(),
-        //     8 => $image->rotate(90),
-        //     default => $image
-        // };
+        return match ($image->exif('IFD0.Orientation')) {
+            2 => $image->flip(),
+            3 => $image->rotate(180),
+            4 => $image->rotate(180)->flip(),
+            5 => $image->rotate(270)->flip(),
+            6 => $image->rotate(270),
+            7 => $image->rotate(90)->flip(),
+            8 => $image->rotate(90),
+            default => $image
+        };
     }
 
     private function coreFromString(string $input): Core

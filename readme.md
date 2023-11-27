@@ -79,4 +79,4 @@ docker-compose run --rm --build analysis
 
 Intervention Image is licensed under the [MIT License](http://opensource.org/licenses/MIT).
 
-Copyright 2022 Oliver Vogel
+Copyright 2023 Oliver Vogel

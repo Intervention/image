@@ -20,13 +20,6 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
         $this->addPoint(new Point($this->pivot->x(), $this->pivot->y() - $height));
     }
 
-    /**
-     * Set the rectangle dimensions to given width & height
-     *
-     * @param int $width
-     * @param int $height
-     * @return Rectangle
-     */
     public function setSize(int $width, int $height): self
     {
         return $this->setWidth($width)->setHeight($height);
@@ -60,15 +53,6 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
         return $this;
     }
 
-    /**
-     * Move current pivot of current rectangle to given position
-     * and moves point automatically by offset.
-     *
-     * @param  string  $position
-     * @param  int     $offset_x
-     * @param  int     $offset_y
-     * @return Rectangle
-     */
     public function movePivot(string $position, int $offset_x = 0, int $offset_y = 0): self
     {
         switch (strtolower($position)) {
@@ -159,13 +143,6 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
         return $this;
     }
 
-    /**
-     * Calculate the relative position to another Size
-     * based on the pivot point settings of both sizes.
-     *
-     * @param  SizeInterface $rectangle
-     * @return PointInterface
-     */
     public function relativePositionTo(SizeInterface $rectangle): PointInterface
     {
         return new Point(
@@ -192,21 +169,11 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
         return true;
     }
 
-    /**
-     * Determine if size is landscape format
-     *
-     * @return boolean
-     */
     public function isLandscape(): bool
     {
         return $this->width() > $this->height();
     }
 
-    /**
-     * Determine if size is portrait format
-     *
-     * @return boolean
-     */
     public function isPortrait(): bool
     {
         return $this->width() < $this->height();

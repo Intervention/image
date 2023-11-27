@@ -16,11 +16,21 @@ class Frame implements FrameInterface
     {
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see DriverInterface::toImage()
+     */
     public function toImage(DriverInterface $driver): ImageInterface
     {
         return new Image($driver, new Core($this->native()));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see DriverInterface::setNative()
+     */
     public function setNative($native): FrameInterface
     {
         $this->native = $native;
@@ -28,11 +38,21 @@ class Frame implements FrameInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see DriverInterface::native()
+     */
     public function native(): Imagick
     {
         return $this->native;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see DriverInterface::size()
+     */
     public function size(): SizeInterface
     {
         return new Rectangle(
@@ -41,11 +61,21 @@ class Frame implements FrameInterface
         );
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see DriverInterface::delay()
+     */
     public function delay(): float
     {
         return $this->native->getImageDelay() / 100;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see DriverInterface::setDelay()
+     */
     public function setDelay(float $delay): FrameInterface
     {
         $this->native->setImageDelay(intval(round($delay * 100)));
@@ -53,11 +83,21 @@ class Frame implements FrameInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see DriverInterface::dispose()
+     */
     public function dispose(): int
     {
         return $this->native->getImageDispose();
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see DriverInterface::setDispose()
+     */
     public function setDispose(int $dispose): FrameInterface
     {
         $this->native->setImageDispose($dispose);
@@ -65,6 +105,11 @@ class Frame implements FrameInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see DriverInterface::setOffset()
+     */
     public function setOffset(int $left, int $top): FrameInterface
     {
         $this->native->setImagePage(
@@ -77,21 +122,41 @@ class Frame implements FrameInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see DriverInterface::offsetLeft()
+     */
     public function offsetLeft(): int
     {
         return $this->native->getImagePage()['x'];
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see DriverInterface::setOffsetLeft()
+     */
     public function setOffsetLeft(int $offset): FrameInterface
     {
         return $this->setOffset($offset, $this->offsetTop());
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see DriverInterface::offsetTop()
+     */
     public function offsetTop(): int
     {
         return $this->native->getImagePage()['y'];
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see DriverInterface::setOffsetTop()
+     */
     public function setOffsetTop(int $offset): FrameInterface
     {
         return $this->setOffset($this->offsetLeft(), $offset);

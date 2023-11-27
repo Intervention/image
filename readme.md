@@ -6,11 +6,11 @@
 [![Monthly Downloads](https://img.shields.io/packagist/dm/intervention/image.svg)](https://packagist.org/packages/intervention/image/stats)
 
 Intervention Image is a **image handling and manipulation library written in
-PHP** providing an easier and expressive way to create, edit, and compose
+PHP** providing an easy and expressive way to create, edit, and compose
 images. GD library or Imagick can be selected as the base layer for all
 operations.
 
-- Simple interface for common tasks
+- Simple interface for common image manipulation tasks
 - Interchangable driver architecture
 - Support for animated images
 - Framework-agnostic
@@ -32,7 +32,9 @@ documentation](https://image.intervention.io/v3/).
 
 ```php
 // create image manager with desired driver
-$manager = new ImageManager(driver: 'gd');
+$manager = new ImageManager(
+    new Intervention\Image\Drivers\Gd\Driver()
+);
 
 // open an image file
 $image = $manager->read('images/example.gif');

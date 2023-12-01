@@ -4,6 +4,8 @@ namespace Intervention\Image\Colors\Cmyk;
 
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
+use Intervention\Image\Colors\Hsv\Color as HsvColor;
+use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 
@@ -39,6 +41,7 @@ class Colorspace implements ColorspaceInterface
     {
         return match (get_class($color)) {
             RgbColor::class => $this->convertRgbColor($color),
+            HsvColor::class => $this->convertRgbColor($color->convertTo(RgbColorspace::class)),
             default => $color,
         };
     }

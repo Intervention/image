@@ -8,9 +8,4 @@ class Alpha extends Red
     {
         return strval(round($this->normalize(), 6));
     }
-
-    public function __toString(): string
-    {
-        return $this->toString();
-    }
 }

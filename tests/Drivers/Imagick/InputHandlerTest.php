@@ -2,12 +2,14 @@
 
 namespace Intervention\Image\Tests\Drivers\Imagick;
 
-use SplFileInfo;
+use Intervention\Image\Colors\Cmyk\Color as CmykColor;
+use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
-use Intervention\Image\Image;
 use Intervention\Image\Drivers\Imagick\InputHandler;
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
+use SplFileInfo;
 
 /**
  * @requires extension imagick
@@ -112,6 +114,22 @@ class InputHandlerTest extends TestCase
         $result = $handler->handle('rgba(10, 20, 30, 1.0)');
         $this->assertInstanceOf(RgbColor::class, $result);
         $this->assertEquals([10, 20, 30, 255], $result->toArray());
+    }
+
+    public function testHandleCmykString(): void
+    {
+        $handler = new InputHandler();
+        $result = $handler->handle('cmyk(10, 20, 30, 40)');
+        $this->assertInstanceOf(CmykColor::class, $result);
+        $this->assertEquals([10, 20, 30, 40], $result->toArray());
+    }
+
+    public function testHandleHsvString(): void
+    {
+        $handler = new InputHandler();
+        $result = $handler->handle('hsv(10, 20, 30)');
+        $this->assertInstanceOf(HsvColor::class, $result);
+        $this->assertEquals([10, 20, 30], $result->toArray());
     }
 
     public function testHandleTransparent(): void

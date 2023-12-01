@@ -1,10 +1,10 @@
 <?php
 
-namespace Intervention\Image\Colors\Rgb\Channels;
+namespace Intervention\Image\Colors\Hsv\Channels;
 
 use Intervention\Image\Colors\AbstractColorChannel;
 
-class Red extends AbstractColorChannel
+class Saturation extends AbstractColorChannel
 {
     /**
      * {@inheritdoc}
@@ -23,6 +23,6 @@ class Red extends AbstractColorChannel
      */
     public function max(): int
     {
-        return 255;
+        return 100;
     }
 }

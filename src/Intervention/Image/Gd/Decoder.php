@@ -71,6 +71,15 @@ class Decoder extends \Intervention\Image\AbstractDecoder
                 $core = @imagecreatefrombmp($path);
                 break;
 
+            case 'image/avif':
+                if ( ! function_exists('imagecreatefromavif')) {
+                    throw new NotReadableException(
+                        "Unsupported image type. GD/PHP installation does not support AVIF format."
+                    );
+                }
+                $core = @imagecreatefromavif($path);
+                break;
+            
             default:
                 throw new NotReadableException(
                     sprintf("Unsupported image type %s. GD driver is only able to decode JPG, PNG, GIF, BMP or WebP files.", strtolower($mime))

@@ -39,7 +39,7 @@ class Colorspace implements ColorspaceInterface
         };
     }
 
-    protected function convertRgbColor(RgbColor $color): Color
+    protected function convertRgbColor(RgbColor $color): ColorInterface
     {
         // percentage values of rgb channels
         $values = array_map(function ($channel) {

@@ -44,7 +44,7 @@ class Colorspace implements ColorspaceInterface
         };
     }
 
-    protected function convertCmykColor(CmykColor $color): Color
+    protected function convertCmykColor(CmykColor $color): ColorInterface
     {
         return new Color(
             (int) (255 * (1 - $color->cyan()->normalize()) * (1 - $color->key()->normalize())),
@@ -53,7 +53,7 @@ class Colorspace implements ColorspaceInterface
         );
     }
 
-    protected function convertHsvColor(HsvColor $color): Color
+    protected function convertHsvColor(HsvColor $color): ColorInterface
     {
         $chroma = $color->value()->normalize() * $color->saturation()->normalize();
         $hue = $color->hue()->normalize() * 6;

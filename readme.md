@@ -18,6 +18,8 @@ operations.
 
 ## Installation
 
+You can install this package easily with [Composer](https://getcomposer.org/). Just require the package with the following command:
+
 ```bash
 composer require intervention/image
 ```
@@ -81,4 +83,4 @@ docker-compose run --rm --build analysis
 
 Intervention Image is licensed under the [MIT License](http://opensource.org/licenses/MIT).
 
-Copyright 2023 Oliver Vogel
+Copyright 2020 [Oliver Vogel](http://intervention.io/)

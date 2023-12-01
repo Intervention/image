@@ -21,6 +21,10 @@ class ColorProcessor implements ColorProcessorInterface
 
     public function colorToNative(ColorInterface $color): int
     {
+        // convert color to image colorspace
+        $color = $color->convertTo($this->colorspace);
+
+        // gd only supports rgb so the channels can be accessed directly
         $r = $color->channel(Red::class)->value();
         $g = $color->channel(Green::class)->value();
         $b = $color->channel(Blue::class)->value();

@@ -17,6 +17,16 @@ use Intervention\Image\Tests\TestCase;
  */
 class ColorspaceTest extends TestCase
 {
+    public function testColorFromNormalized(): void
+    {
+        $colorspace = new Colorspace();
+        $result = $colorspace->colorFromNormalized([1, 0, 1]);
+        $this->assertInstanceOf(HslColor::class, $result);
+        $this->assertEquals(360, $result->channel(Hue::class)->value());
+        $this->assertEquals(0, $result->channel(Saturation::class)->value());
+        $this->assertEquals(100, $result->channel(Luminance::class)->value());
+    }
+
     public function testImportRgbColor(): void
     {
         $colorspace = new Colorspace();

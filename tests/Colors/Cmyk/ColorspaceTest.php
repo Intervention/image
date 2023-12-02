@@ -18,6 +18,17 @@ use Intervention\Image\Tests\TestCase;
  */
 class ColorspaceTest extends TestCase
 {
+    public function testColorFromNormalized(): void
+    {
+        $colorspace = new Colorspace();
+        $result = $colorspace->colorFromNormalized([0, 1, 0, 1]);
+        $this->assertInstanceOf(CmykColor::class, $result);
+        $this->assertEquals(0, $result->channel(Cyan::class)->value());
+        $this->assertEquals(100, $result->channel(Magenta::class)->value());
+        $this->assertEquals(0, $result->channel(Yellow::class)->value());
+        $this->assertEquals(100, $result->channel(Key::class)->value());
+    }
+
     public function testImportRgbColor(): void
     {
         $colorspace = new Colorspace();

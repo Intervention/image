@@ -9,6 +9,7 @@ use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
+use Intervention\Image\Colors\Rgb\Channels\Alpha;
 use Intervention\Image\Colors\Rgb\Colorspace;
 use Intervention\Image\Tests\TestCase;
 
@@ -17,6 +18,18 @@ use Intervention\Image\Tests\TestCase;
  */
 class ColorspaceTest extends TestCase
 {
+    public function testColorFromNormalized(): void
+    {
+        $colorspace = new Colorspace();
+
+        $result = $colorspace->colorFromNormalized([1, 0, 1, 1]);
+        $this->assertInstanceOf(RgbColor::class, $result);
+        $this->assertEquals(255, $result->channel(Red::class)->value());
+        $this->assertEquals(0, $result->channel(Green::class)->value());
+        $this->assertEquals(255, $result->channel(Blue::class)->value());
+        $this->assertEquals(255, $result->channel(Alpha::class)->value());
+    }
+
     public function testImportCmykColor(): void
     {
         $colorspace = new Colorspace();

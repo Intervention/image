@@ -10,7 +10,7 @@ interface ColorspaceInterface
      * @param  ColorInterface $color
      * @return ColorInterface
      */
-    public function convertColor(ColorInterface $color): ColorInterface;
+    public function importColor(ColorInterface $color): ColorInterface;
 
     /**
      * Create new color in colorspace from given normalized channel values

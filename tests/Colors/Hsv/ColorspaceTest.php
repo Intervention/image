@@ -20,7 +20,7 @@ class ColorspaceTest extends TestCase
     public function testConvertRgbColor(): void
     {
         $colorspace = new Colorspace();
-        $result = $colorspace->convertColor(new RgbColor(26, 26, 128));
+        $result = $colorspace->importColor(new RgbColor(26, 26, 128));
         $this->assertInstanceOf(HsvColor::class, $result);
         $this->assertEquals(240, $result->channel(Hue::class)->value());
         $this->assertEquals(80, $result->channel(Saturation::class)->value());
@@ -30,7 +30,7 @@ class ColorspaceTest extends TestCase
     public function testConvertCmykColor(): void
     {
         $colorspace = new Colorspace();
-        $result = $colorspace->convertColor(new CmykColor(100, 0, 100, 0));
+        $result = $colorspace->importColor(new CmykColor(100, 0, 100, 0));
         $this->assertInstanceOf(HsvColor::class, $result);
         $this->assertEquals(120, $result->channel(Hue::class)->value());
         $this->assertEquals(100, $result->channel(Saturation::class)->value());

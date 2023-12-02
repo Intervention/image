@@ -30,16 +30,21 @@ class Colorspace implements ColorspaceInterface
         return new Color(...$values);
     }
 
-    public function convertColor(ColorInterface $color): ColorInterface
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorspaceInterface::importColor()
+     */
+    public function importColor(ColorInterface $color): ColorInterface
     {
         return match (get_class($color)) {
-            CmykColor::class => $this->convertRgbColor($color->convertTo(RgbColorspace::class)),
-            RgbColor::class => $this->convertRgbColor($color),
+            CmykColor::class => $this->importRgbColor($color->convertTo(RgbColorspace::class)),
+            RgbColor::class => $this->importRgbColor($color),
             default => $color,
         };
     }
 
-    protected function convertRgbColor(RgbColor $color): ColorInterface
+    protected function importRgbColor(RgbColor $color): ColorInterface
     {
         // percentage values of rgb channels
         $values = array_map(function ($channel) {

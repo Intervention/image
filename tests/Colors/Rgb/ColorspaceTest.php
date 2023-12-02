@@ -22,7 +22,7 @@ class ColorspaceTest extends TestCase
         $colorspace = new Colorspace();
         $this->assertInstanceOf(
             RgbColor::class,
-            $colorspace->convertColor(
+            $colorspace->importColor(
                 new CmykColor(0, 0, 0, 0)
             )
         );
@@ -31,7 +31,7 @@ class ColorspaceTest extends TestCase
     public function testConvertHsvColor(): void
     {
         $colorspace = new Colorspace();
-        $result = $colorspace->convertColor(new HsvColor(240, 80, 50));
+        $result = $colorspace->importColor(new HsvColor(240, 80, 50));
         $this->assertInstanceOf(RgbColor::class, $result);
         $this->assertEquals(26, $result->channel(Red::class)->value());
         $this->assertEquals(26, $result->channel(Green::class)->value());

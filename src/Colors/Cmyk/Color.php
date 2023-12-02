@@ -90,7 +90,7 @@ class Color implements ColorInterface
             default => new $colorspace(),
         };
 
-        return $colorspace->convertColor($this);
+        return $colorspace->importColor($this);
     }
 
     public function toString(): string

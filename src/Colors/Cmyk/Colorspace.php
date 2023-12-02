@@ -35,18 +35,18 @@ class Colorspace implements ColorspaceInterface
     /**
      * {@inheritdoc}
      *
-     * @see ColorspaceInterface::convertColor()
+     * @see ColorspaceInterface::importColor()
      */
-    public function convertColor(ColorInterface $color): ColorInterface
+    public function importColor(ColorInterface $color): ColorInterface
     {
         return match (get_class($color)) {
-            RgbColor::class => $this->convertRgbColor($color),
-            HsvColor::class => $this->convertRgbColor($color->convertTo(RgbColorspace::class)),
+            RgbColor::class => $this->importRgbColor($color),
+            HsvColor::class => $this->importRgbColor($color->convertTo(RgbColorspace::class)),
             default => $color,
         };
     }
 
-    protected function convertRgbColor(RgbColor $color): CmykColor
+    protected function importRgbColor(RgbColor $color): CmykColor
     {
         $c = (255 - $color->red()->value()) / 255.0 * 100;
         $m = (255 - $color->green()->value()) / 255.0 * 100;

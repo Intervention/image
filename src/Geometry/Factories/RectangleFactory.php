@@ -25,6 +25,20 @@ class RectangleFactory
         return $this;
     }
 
+    public function width(int $width): self
+    {
+        $this->rectangle->setWidth($width);
+
+        return $this;
+    }
+
+    public function height(int $height): self
+    {
+        $this->rectangle->setHeight($height);
+
+        return $this;
+    }
+
     public function background(mixed $color): self
     {
         $this->rectangle->setBackgroundColor($color);

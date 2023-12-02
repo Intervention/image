@@ -1,19 +1,19 @@
 <?php
 
-namespace Intervention\Image\Tests\Colors\Hsv;
+namespace Intervention\Image\Tests\Colors\Hsl;
 
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
-use Intervention\Image\Colors\Hsv\Channels\Hue;
-use Intervention\Image\Colors\Hsv\Channels\Saturation;
-use Intervention\Image\Colors\Hsv\Channels\Value;
-use Intervention\Image\Colors\Hsv\Color as HsvColor;
-use Intervention\Image\Colors\Rgb\Color as RgbColor;
+use Intervention\Image\Colors\Hsl\Channels\Hue;
+use Intervention\Image\Colors\Hsl\Channels\Luminance;
+use Intervention\Image\Colors\Hsl\Channels\Saturation;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
-use Intervention\Image\Colors\Hsv\Colorspace;
+use Intervention\Image\Colors\Rgb\Color as RgbColor;
+use Intervention\Image\Colors\Hsv\Color as HsvColor;
+use Intervention\Image\Colors\Hsl\Colorspace;
 use Intervention\Image\Tests\TestCase;
 
 /**
- * @covers \Intervention\Image\Colors\Hsv\Colorspace
+ * @covers \Intervention\Image\Colors\Hsl\Colorspace
  */
 class ColorspaceTest extends TestCase
 {
@@ -22,16 +22,16 @@ class ColorspaceTest extends TestCase
         $colorspace = new Colorspace();
 
         $result = $colorspace->importColor(new RgbColor(255, 0, 255));
-        $this->assertInstanceOf(HsvColor::class, $result);
+        $this->assertInstanceOf(HslColor::class, $result);
         $this->assertEquals(300, $result->channel(Hue::class)->value());
         $this->assertEquals(100, $result->channel(Saturation::class)->value());
-        $this->assertEquals(100, $result->channel(Value::class)->value());
+        $this->assertEquals(50, $result->channel(Luminance::class)->value());
 
         $result = $colorspace->importColor(new RgbColor(127, 127, 127));
-        $this->assertInstanceOf(HsvColor::class, $result);
+        $this->assertInstanceOf(HslColor::class, $result);
         $this->assertEquals(0, $result->channel(Hue::class)->value());
         $this->assertEquals(0, $result->channel(Saturation::class)->value());
-        $this->assertEquals(50, $result->channel(Value::class)->value());
+        $this->assertEquals(50, $result->channel(Luminance::class)->value());
     }
 
     public function testImportCmykColor(): void
@@ -39,32 +39,32 @@ class ColorspaceTest extends TestCase
         $colorspace = new Colorspace();
 
         $result = $colorspace->importColor(new CmykColor(0, 100, 0, 0));
-        $this->assertInstanceOf(HsvColor::class, $result);
+        $this->assertInstanceOf(HslColor::class, $result);
         $this->assertEquals(300, $result->channel(Hue::class)->value());
         $this->assertEquals(100, $result->channel(Saturation::class)->value());
-        $this->assertEquals(100, $result->channel(Value::class)->value());
+        $this->assertEquals(50, $result->channel(Luminance::class)->value());
 
         $result = $colorspace->importColor(new CmykColor(0, 0, 0, 50));
-        $this->assertInstanceOf(HsvColor::class, $result);
+        $this->assertInstanceOf(HslColor::class, $result);
         $this->assertEquals(0, $result->channel(Hue::class)->value());
         $this->assertEquals(0, $result->channel(Saturation::class)->value());
-        $this->assertEquals(50, $result->channel(Value::class)->value());
+        $this->assertEquals(50, $result->channel(Luminance::class)->value());
     }
 
-    public function testImportHslColor(): void
+    public function testImportHsvColor(): void
     {
         $colorspace = new Colorspace();
 
-        $result = $colorspace->importColor(new HslColor(300, 100, 50));
-        $this->assertInstanceOf(HsvColor::class, $result);
+        $result = $colorspace->importColor(new HsvColor(300, 100, 100));
+        $this->assertInstanceOf(HslColor::class, $result);
         $this->assertEquals(300, $result->channel(Hue::class)->value());
         $this->assertEquals(100, $result->channel(Saturation::class)->value());
-        $this->assertEquals(100, $result->channel(Value::class)->value());
+        $this->assertEquals(50, $result->channel(Luminance::class)->value());
 
-        $result = $colorspace->importColor(new HslColor(0, 0, 50));
-        $this->assertInstanceOf(HsvColor::class, $result);
+        $result = $colorspace->importColor(new HsvColor(0, 0, 50));
+        $this->assertInstanceOf(HslColor::class, $result);
         $this->assertEquals(0, $result->channel(Hue::class)->value());
         $this->assertEquals(0, $result->channel(Saturation::class)->value());
-        $this->assertEquals(50, $result->channel(Value::class)->value());
+        $this->assertEquals(50, $result->channel(Luminance::class)->value());
     }
 }

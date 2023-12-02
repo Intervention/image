@@ -1,0 +1,148 @@
+<?php
+
+namespace Intervention\Image\Colors\Hsl;
+
+use Intervention\Image\Colors\Hsl\Channels\Hue;
+use Intervention\Image\Colors\Hsl\Channels\Luminance;
+use Intervention\Image\Colors\Hsl\Channels\Saturation;
+use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
+use Intervention\Image\Colors\Traits\CanHandleChannels;
+use Intervention\Image\Drivers\AbstractInputHandler;
+use Intervention\Image\Interfaces\ColorChannelInterface;
+use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Interfaces\ColorspaceInterface;
+
+class Color implements ColorInterface
+{
+    use CanHandleChannels;
+
+    /**
+     * Color channels
+     */
+    protected array $channels;
+
+    public function __construct(int $h, int $s, int $l)
+    {
+        $this->channels = [
+            new Hue($h),
+            new Saturation($s),
+            new Luminance($l),
+        ];
+    }
+
+    public function colorspace(): ColorspaceInterface
+    {
+        return new Colorspace();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::create()
+     */
+    public static function create(mixed $input): ColorInterface
+    {
+        return (new class ([
+            Decoders\StringColorDecoder::class,
+        ]) extends AbstractInputHandler
+        {
+        })->handle($input);
+    }
+
+    /**
+     * Return the Hue channel
+     *
+     * @return ColorChannelInterface
+     */
+    public function hue(): ColorChannelInterface
+    {
+        return $this->channel(Hue::class);
+    }
+
+    /**
+     * Return the Saturation channel
+     *
+     * @return ColorChannelInterface
+     */
+    public function saturation(): ColorChannelInterface
+    {
+        return $this->channel(Saturation::class);
+    }
+
+    /**
+     * Return the Luminance channel
+     *
+     * @return ColorChannelInterface
+     */
+    public function luminance(): ColorChannelInterface
+    {
+        return $this->channel(Luminance::class);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::toArray()
+     */
+    public function toArray(): array
+    {
+        return array_map(function (ColorChannelInterface $channel) {
+            return $channel->value();
+        }, $this->channels());
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::convertTo()
+     */
+    public function convertTo(string|ColorspaceInterface $colorspace): ColorInterface
+    {
+        $colorspace = match (true) {
+            is_object($colorspace) => $colorspace,
+            default => new $colorspace(),
+        };
+
+        return $colorspace->importColor($this);
+    }
+
+    public function toHex(string $prefix = ''): string
+    {
+        return $this->convertTo(RgbColorspace::class)->toHex($prefix);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::toString()
+     */
+    public function toString(): string
+    {
+        return sprintf(
+            'hsl(%d, %d%%, %d%%)',
+            $this->hue()->value(),
+            $this->saturation()->value(),
+            $this->luminance()->value()
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::isGreyscale()
+     */
+    public function isGreyscale(): bool
+    {
+        return $this->saturation()->value() == 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::__toString()
+     */
+    public function __toString(): string
+    {
+        return $this->toString();
+    }
+}

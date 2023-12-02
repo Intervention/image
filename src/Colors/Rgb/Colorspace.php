@@ -3,6 +3,7 @@
 namespace Intervention\Image\Colors\Rgb;
 
 use Intervention\Image\Colors\Hsv\Color as HsvColor;
+use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
@@ -40,6 +41,7 @@ class Colorspace implements ColorspaceInterface
         return match (get_class($color)) {
             CmykColor::class => $this->importCmykColor($color),
             HsvColor::class => $this->importHsvColor($color),
+            HslColor::class => $this->importHslColor($color),
             default => $color,
         };
     }
@@ -72,6 +74,35 @@ class Colorspace implements ColorspaceInterface
         // add to each value
         $values = array_map(function ($value) use ($color, $chroma) {
             return $value + ($color->value()->normalize() - $chroma);
+        }, $values);
+
+        array_push($values, 1); // append alpha channel value
+
+        return $this->colorFromNormalized($values);
+    }
+
+    protected function importHslColor(HslColor $color): ColorInterface
+    {
+        // normalized values of hsl channels
+        list($h, $s, $l) = array_map(function ($channel) {
+            return $channel->normalize();
+        }, $color->channels());
+
+        $c = (1 - abs(2 * $l - 1)) * $s;
+        $x = $c * (1 - abs(fmod($h * 6, 2) - 1));
+        $m = $l - $c / 2;
+
+        $values = match (true) {
+            $h < 1 / 6 => [$c, $x, 0],
+            $h < 2 / 6 => [$x, $c, 0],
+            $h < 3 / 6 => [0, $c, $x],
+            $h < 4 / 6 => [0, $x, $c],
+            $h < 5 / 6 => [$x, 0, $c],
+            default => [$c, 0, $x],
+        };
+
+        $values = array_map(function ($value) use ($m) {
+            return $value + $m;
         }, $values);
 
         array_push($values, 1); // append alpha channel value

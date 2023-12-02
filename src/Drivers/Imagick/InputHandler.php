@@ -8,6 +8,7 @@ use Intervention\Image\Colors\Rgb\Decoders\HtmlColornameDecoder;
 use Intervention\Image\Colors\Rgb\Decoders\TransparentColorDecoder;
 use Intervention\Image\Colors\Cmyk\Decoders\StringColorDecoder as CmykStringColorDecoder;
 use Intervention\Image\Colors\Hsv\Decoders\StringColorDecoder as HsvStringColorDecoder;
+use Intervention\Image\Colors\Hsl\Decoders\StringColorDecoder as HslStringColorDecoder;
 use Intervention\Image\Drivers\AbstractInputHandler;
 use Intervention\Image\Drivers\Imagick\Decoders\ImageObjectDecoder;
 use Intervention\Image\Drivers\Imagick\Decoders\ColorObjectDecoder;
@@ -27,6 +28,7 @@ class InputHandler extends AbstractInputHandler
         RgbStringColorDecoder::class,
         CmykStringColorDecoder::class,
         HsvStringColorDecoder::class,
+        HslStringColorDecoder::class,
         TransparentColorDecoder::class,
         HtmlColornameDecoder::class,
         FilePointerImageDecoder::class,

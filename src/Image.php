@@ -57,6 +57,7 @@ use Intervention\Image\Modifiers\FlopModifier;
 use Intervention\Image\Modifiers\GammaModifier;
 use Intervention\Image\Modifiers\GreyscaleModifier;
 use Intervention\Image\Modifiers\InvertModifier;
+use Intervention\Image\Modifiers\PadDownModifier;
 use Intervention\Image\Modifiers\PadModifier;
 use Intervention\Image\Modifiers\PixelateModifier;
 use Intervention\Image\Modifiers\PlaceModifier;
@@ -545,7 +546,7 @@ final class Image implements ImageInterface, Countable
         mixed $background = 'ffffff',
         string $position = 'center'
     ): ImageInterface {
-        return $this->modify(new PadModifier($width, $height, $background, $position));
+        return $this->modify(new PadDownModifier($width, $height, $background, $position));
     }
 
     /**

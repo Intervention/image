@@ -2,25 +2,18 @@
 
 namespace Intervention\Image\Colors\Rgb;
 
+use Intervention\Image\Colors\AbstractColor;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Channels\Alpha;
-use Intervention\Image\Colors\Traits\CanHandleChannels;
 use Intervention\Image\Drivers\AbstractInputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 
-class Color implements ColorInterface
+class Color extends AbstractColor
 {
-    use CanHandleChannels;
-
-    /**
-     * Color channels
-     */
-    protected array $channels;
-
     /**
      * Create new instance
      *
@@ -105,18 +98,6 @@ class Color implements ColorInterface
     /**
      * {@inheritdoc}
      *
-     * @see ColorInterface::toArray()
-     */
-    public function toArray(): array
-    {
-        return array_map(function (ColorChannelInterface $channel) {
-            return $channel->value();
-        }, $this->channels());
-    }
-
-    /**
-     * {@inheritdoc}
-     *
      * @see ColorInterface::toHex()
      */
     public function toHex(string $prefix = ''): string
@@ -139,21 +120,6 @@ class Color implements ColorInterface
             $this->blue()->value(),
             $this->alpha()->value()
         );
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ColorInterface::convertTo()
-     */
-    public function convertTo(string|ColorspaceInterface $colorspace): ColorInterface
-    {
-        $colorspace = match (true) {
-            is_object($colorspace) => $colorspace,
-            default => new $colorspace(),
-        };
-
-        return $colorspace->importColor($this);
     }
 
     public function isFullyOpaque(): bool
@@ -196,15 +162,5 @@ class Color implements ColorInterface
         $values = [$this->red()->value(), $this->green()->value(), $this->blue()->value()];
 
         return count(array_unique($values, SORT_REGULAR)) === 1;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ColorInterface::__toString()
-     */
-    public function __toString(): string
-    {
-        return $this->toString();
     }
 }

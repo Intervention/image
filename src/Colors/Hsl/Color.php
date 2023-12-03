@@ -2,25 +2,18 @@
 
 namespace Intervention\Image\Colors\Hsl;
 
+use Intervention\Image\Colors\AbstractColor;
 use Intervention\Image\Colors\Hsl\Channels\Hue;
 use Intervention\Image\Colors\Hsl\Channels\Luminance;
 use Intervention\Image\Colors\Hsl\Channels\Saturation;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
-use Intervention\Image\Colors\Traits\CanHandleChannels;
 use Intervention\Image\Drivers\AbstractInputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 
-class Color implements ColorInterface
+class Color extends AbstractColor
 {
-    use CanHandleChannels;
-
-    /**
-     * Color channels
-     */
-    protected array $channels;
-
     public function __construct(int $h, int $s, int $l)
     {
         $this->channels = [
@@ -79,33 +72,6 @@ class Color implements ColorInterface
         return $this->channel(Luminance::class);
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @see ColorInterface::toArray()
-     */
-    public function toArray(): array
-    {
-        return array_map(function (ColorChannelInterface $channel) {
-            return $channel->value();
-        }, $this->channels());
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ColorInterface::convertTo()
-     */
-    public function convertTo(string|ColorspaceInterface $colorspace): ColorInterface
-    {
-        $colorspace = match (true) {
-            is_object($colorspace) => $colorspace,
-            default => new $colorspace(),
-        };
-
-        return $colorspace->importColor($this);
-    }
-
     public function toHex(string $prefix = ''): string
     {
         return $this->convertTo(RgbColorspace::class)->toHex($prefix);
@@ -134,15 +100,5 @@ class Color implements ColorInterface
     public function isGreyscale(): bool
     {
         return $this->saturation()->value() == 0;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ColorInterface::__toString()
-     */
-    public function __toString(): string
-    {
-        return $this->toString();
     }
 }

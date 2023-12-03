@@ -223,4 +223,9 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
     {
         return $this->resizer($width, $height)->contain($this);
     }
+
+    public function containMax(int $width, int $height): SizeInterface
+    {
+        return $this->resizer($width, $height)->containDown($this);
+    }
 }

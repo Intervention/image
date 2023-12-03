@@ -349,10 +349,12 @@ interface ImageInterface extends IteratorAggregate, Countable
 
     /**
      * Padded resizing means that the original image is scaled until it fits the
-     * defined target size with unchanged aspect ratio. Compared to the fit()
-     * method, this call does not create cropped areas, but new empty areas
-     * on the sides of the result image. These are filled with the specified
-     * background color.
+     * defined target size with unchanged aspect ratio. The original image is
+     * not scaled up but only down.
+     *
+     * Compared to the fit() method, this method does not create cropped areas,
+     * but possibly new empty areas on the sides of the result image. These are
+     * filled with the specified background color.
      *
      * @param int $width
      * @param int $height
@@ -368,8 +370,8 @@ interface ImageInterface extends IteratorAggregate, Countable
     ): ImageInterface;
 
     /**
-     * This method does the same thing as pad() but does not exceed the size of
-     * the original image. You can use this if you want to prevent up-sampling.
+     * This method does the same as pad(), but the original image is also scaled
+     * up if the target size exceeds the original size.
      *
      * @param int $width
      * @param int $height
@@ -377,7 +379,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param string $position
      * @return ImageInterface
      */
-    public function padDown(
+    public function contain(
         int $width,
         int $height,
         mixed $background = 'ffffff',
@@ -385,8 +387,9 @@ interface ImageInterface extends IteratorAggregate, Countable
     ): ImageInterface;
 
     /**
-     * Cut out a rectangular part of the current image with given width and height at a given position.
-     * Define optional x,y offset coordinates to move the cutout by the given amount of pixels.
+     * Cut out a rectangular part of the current image with given width and
+     * height at a given position. Define optional x,y offset coordinates
+     * to move the cutout by the given amount of pixels.
      *
      * @param int $width
      * @param int $height

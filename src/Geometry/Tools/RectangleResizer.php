@@ -73,7 +73,7 @@ class RectangleResizer
 
     protected function getProportionalWidth(SizeInterface $size): int
     {
-        if (! $this->hasTargetHeight()) {
+        if (!$this->hasTargetHeight()) {
             return $size->width();
         }
 
@@ -82,7 +82,7 @@ class RectangleResizer
 
     protected function getProportionalHeight(SizeInterface $size): int
     {
-        if (! $this->hasTargetWidth()) {
+        if (!$this->hasTargetWidth()) {
             return $size->height();
         }
 
@@ -226,6 +226,38 @@ class RectangleResizer
             // auto width
             $resized->setWidth($this->getProportionalWidth($size));
             $resized->setHeight($this->getTargetHeight());
+        }
+
+        return $resized;
+    }
+
+    /**
+     * Scale given size to contain target size but prevent upsizing
+     *
+     * @param  SizeInterface $size Size to be resized
+     * @return SizeInterface
+     */
+    public function containDown(SizeInterface $size): SizeInterface
+    {
+        $resized = new Rectangle($size->width(), $size->height());
+
+        // auto height
+        $resized->setWidth(
+            min($size->width(), $this->getTargetWidth())
+        );
+
+        $resized->setHeight(
+            min($size->height(), $this->getProportionalHeight($size))
+        );
+
+        if (!$resized->fitsInto($this->getTargetSize())) {
+            // auto width
+            $resized->setWidth(
+                min($size->width(), $this->getProportionalWidth($size))
+            );
+            $resized->setHeight(
+                min($size->height(), $this->getTargetHeight())
+            );
         }
 
         return $resized;

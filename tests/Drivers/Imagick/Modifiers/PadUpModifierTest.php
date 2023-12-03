@@ -2,15 +2,15 @@
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Modifiers\PadModifier;
+use Intervention\Image\Modifiers\ContainModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 /**
  * @requires extension imagick
- * @covers \Intervention\Image\Modifiers\PadModifier
+ * @covers \Intervention\Image\Modifiers\ContainModifier
  */
-class PadModifierTest extends TestCase
+class ContainModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;
 
@@ -19,7 +19,7 @@ class PadModifierTest extends TestCase
         $image = $this->createTestImage('blocks.png');
         $this->assertEquals(640, $image->width());
         $this->assertEquals(480, $image->height());
-        $result = $image->modify(new PadModifier(200, 100, 'ff0'));
+        $result = $image->modify(new ContainModifier(200, 100, 'ff0'));
         $this->assertEquals(200, $image->width());
         $this->assertEquals(100, $image->height());
         $this->assertColor(255, 255, 0, 255, $image->pickColor(0, 0));

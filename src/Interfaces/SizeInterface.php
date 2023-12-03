@@ -103,4 +103,5 @@ interface SizeInterface
     public function scaleDown(?int $width = null, ?int $height = null): SizeInterface;
     public function cover(int $width, int $height): SizeInterface;
     public function contain(int $width, int $height): SizeInterface;
+    public function containMax(int $width, int $height): SizeInterface;
 }

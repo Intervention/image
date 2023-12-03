@@ -42,6 +42,7 @@ use Intervention\Image\Modifiers\BlurModifier;
 use Intervention\Image\Modifiers\BrightnessModifier;
 use Intervention\Image\Modifiers\ColorizeModifier;
 use Intervention\Image\Modifiers\ColorspaceModifier;
+use Intervention\Image\Modifiers\ContainModifier;
 use Intervention\Image\Modifiers\ContrastModifier;
 use Intervention\Image\Modifiers\CropModifier;
 use Intervention\Image\Modifiers\DrawEllipseModifier;
@@ -57,7 +58,6 @@ use Intervention\Image\Modifiers\FlopModifier;
 use Intervention\Image\Modifiers\GammaModifier;
 use Intervention\Image\Modifiers\GreyscaleModifier;
 use Intervention\Image\Modifiers\InvertModifier;
-use Intervention\Image\Modifiers\PadDownModifier;
 use Intervention\Image\Modifiers\PadModifier;
 use Intervention\Image\Modifiers\PixelateModifier;
 use Intervention\Image\Modifiers\PlaceModifier;
@@ -524,7 +524,7 @@ final class Image implements ImageInterface, Countable
     /**
      * {@inheritdoc}
      *
-     * @see ImageInterface::pad()
+     * @see ImageInterface::padDown()
      */
     public function pad(
         int $width,
@@ -538,15 +538,15 @@ final class Image implements ImageInterface, Countable
     /**
      * {@inheritdoc}
      *
-     * @see ImageInterface::padDown()
+     * @see ImageInterface::pad()
      */
-    public function padDown(
+    public function contain(
         int $width,
         int $height,
         mixed $background = 'ffffff',
         string $position = 'center'
     ): ImageInterface {
-        return $this->modify(new PadDownModifier($width, $height, $background, $position));
+        return $this->modify(new ContainModifier($width, $height, $background, $position));
     }
 
     /**

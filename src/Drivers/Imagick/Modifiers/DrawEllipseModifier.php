@@ -3,14 +3,14 @@
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
-use Intervention\Image\Drivers\DrawModifier;
+use Intervention\Image\Drivers\AbstractDrawModifier;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Geometry\Ellipse;
 
 /**
  * @property Ellipse $drawable
  */
-class DrawEllipseModifier extends DrawModifier
+class DrawEllipseModifier extends AbstractDrawModifier
 {
     public function apply(ImageInterface $image): ImageInterface
     {

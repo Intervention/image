@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\DrawModifier;
+use Intervention\Image\Drivers\AbstractDrawModifier;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Geometry\Line;
@@ -11,7 +11,7 @@ use Intervention\Image\Geometry\Line;
  * @method ColorInterface backgroundColor()
  * @property Line $drawable
  */
-class DrawLineModifier extends DrawModifier
+class DrawLineModifier extends AbstractDrawModifier
 {
     public function apply(ImageInterface $image): ImageInterface
     {

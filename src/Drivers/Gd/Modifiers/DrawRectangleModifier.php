@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\DrawModifier;
+use Intervention\Image\Drivers\AbstractDrawModifier;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -14,7 +14,7 @@ use Intervention\Image\Geometry\Point;
  * @method ColorInterface borderColor()
  * @property Rectangle $drawable
  */
-class DrawRectangleModifier extends DrawModifier
+class DrawRectangleModifier extends AbstractDrawModifier
 {
     public function apply(ImageInterface $image): ImageInterface
     {

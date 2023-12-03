@@ -3,7 +3,7 @@
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
-use Intervention\Image\Drivers\DrawModifier;
+use Intervention\Image\Drivers\AbstractDrawModifier;
 use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -14,7 +14,7 @@ use Intervention\Image\Interfaces\ColorInterface;
  * @method ColorInterface borderColor()
  * @property Polygon $drawable
  */
-class DrawPolygonModifier extends DrawModifier
+class DrawPolygonModifier extends AbstractDrawModifier
 {
     public function apply(ImageInterface $image): ImageInterface
     {

@@ -584,7 +584,12 @@ final class Image implements ImageInterface, Countable
      */
     public function fill(mixed $color, ?int $x = null, ?int $y = null): ImageInterface
     {
-        return $this->modify(new FillModifier($color, new Point($x, $y)));
+        return $this->modify(
+            new FillModifier(
+                $color,
+                (is_null($x) || is_null($y)) ? null : new Point($x, $y),
+            ),
+        );
     }
 
     /**

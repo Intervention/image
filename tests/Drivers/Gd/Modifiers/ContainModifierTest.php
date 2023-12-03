@@ -23,7 +23,7 @@ class ContainModifierTest extends TestCase
         $this->assertEquals(200, $image->width());
         $this->assertEquals(100, $image->height());
         $this->assertColor(255, 255, 0, 255, $image->pickColor(0, 0));
-        $this->assertColor(255, 0, 255, 0, $image->pickColor(140, 10));
+        $this->assertColor(255, 255, 0, 0, $image->pickColor(140, 10)); // transparent
         $this->assertColor(255, 255, 0, 255, $image->pickColor(175, 10));
     }
 }

@@ -2,6 +2,9 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Colors\Rgb\Channels\Blue;
+use Intervention\Image\Colors\Rgb\Channels\Green;
+use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Drivers\DriverModifier;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
@@ -48,7 +51,13 @@ class ContainModifier extends DriverModifier
 
         // make image area transparent to keep transparency
         // even if background-color is set
-        $transparent = imagecolorallocatealpha($modified, 255, 0, 255, 127);
+        $transparent = imagecolorallocatealpha(
+            $modified,
+            $background->channel(Red::class)->value(),
+            $background->channel(Green::class)->value(),
+            $background->channel(Blue::class)->value(),
+            127,
+        );
         imagealphablending($modified, false); // do not blend / just overwrite
         imagecolortransparent($modified, $transparent);
         imagefilledrectangle(

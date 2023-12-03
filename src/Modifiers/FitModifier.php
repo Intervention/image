@@ -9,9 +9,9 @@ use Intervention\Image\Interfaces\SizeInterface;
 class FitModifier extends AbstractModifier
 {
     public function __construct(
-        protected int $width,
-        protected int $height,
-        protected string $position = 'center'
+        public int $width,
+        public int $height,
+        public string $position = 'center'
     ) {
     }
 

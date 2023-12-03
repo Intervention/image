@@ -9,7 +9,7 @@ use Intervention\Image\Exceptions\NotSupportedException;
 
 class ColorspaceModifier extends AbstractModifier
 {
-    public function __construct(protected string|ColorspaceInterface $target)
+    public function __construct(public string|ColorspaceInterface $target)
     {
     }
 

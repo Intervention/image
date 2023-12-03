@@ -3,14 +3,14 @@
 namespace Intervention\Image\Drivers\Imagick\Encoders;
 
 use Imagick;
-use Intervention\Image\Drivers\DriverEncoder;
+use Intervention\Image\Drivers\DriverSpecializedEncoder;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Interfaces\ImageInterface;
 
 /**
  * @property int $quality
  */
-class JpegEncoder extends DriverEncoder
+class JpegEncoder extends DriverSpecializedEncoder
 {
     public function encode(ImageInterface $image): EncodedImage
     {

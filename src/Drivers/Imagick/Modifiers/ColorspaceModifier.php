@@ -3,7 +3,7 @@
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
-use Intervention\Image\Drivers\DriverModifier;
+use Intervention\Image\Drivers\DriverSpecializedModifier;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -13,7 +13,7 @@ use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 /**
  * @method ColorspaceInterface targetColorspace()
  */
-class ColorspaceModifier extends DriverModifier
+class ColorspaceModifier extends DriverSpecializedModifier
 {
     protected static $mapping = [
         RgbColorspace::class => Imagick::COLORSPACE_SRGB,

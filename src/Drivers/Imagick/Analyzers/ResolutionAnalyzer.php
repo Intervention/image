@@ -2,11 +2,11 @@
 
 namespace Intervention\Image\Drivers\Imagick\Analyzers;
 
-use Intervention\Image\Drivers\DriverAnalyzer;
+use Intervention\Image\Drivers\DriverSpecializedAnalyzer;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Resolution;
 
-class ResolutionAnalyzer extends DriverAnalyzer
+class ResolutionAnalyzer extends DriverSpecializedAnalyzer
 {
     public function analyze(ImageInterface $image): mixed
     {

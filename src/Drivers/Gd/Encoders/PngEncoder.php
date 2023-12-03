@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Drivers\Gd\Encoders;
 
-use Intervention\Image\Drivers\DriverEncoder;
+use Intervention\Image\Drivers\DriverSpecializedEncoder;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Modifiers\LimitColorsModifier;
@@ -10,7 +10,7 @@ use Intervention\Image\Modifiers\LimitColorsModifier;
 /**
  * @property int $color_limit
  */
-class PngEncoder extends DriverEncoder
+class PngEncoder extends DriverSpecializedEncoder
 {
     public function encode(ImageInterface $image): EncodedImage
     {

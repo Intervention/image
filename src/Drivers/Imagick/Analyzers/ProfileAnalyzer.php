@@ -3,11 +3,11 @@
 namespace Intervention\Image\Drivers\Imagick\Analyzers;
 
 use Intervention\Image\Colors\Profile;
-use Intervention\Image\Drivers\DriverAnalyzer;
+use Intervention\Image\Drivers\DriverSpecializedAnalyzer;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Interfaces\ImageInterface;
 
-class ProfileAnalyzer extends DriverAnalyzer
+class ProfileAnalyzer extends DriverSpecializedAnalyzer
 {
     public function analyze(ImageInterface $image): mixed
     {

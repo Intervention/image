@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\DriverModifier;
+use Intervention\Image\Drivers\DriverSpecializedModifier;
 use Intervention\Image\Interfaces\ImageInterface;
 
 /**
@@ -12,7 +12,7 @@ use Intervention\Image\Interfaces\ImageInterface;
  * @property int $offset_x
  * @property int $offset_y
  */
-class PlaceModifier extends DriverModifier
+class PlaceModifier extends DriverSpecializedModifier
 {
     public function apply(ImageInterface $image): ImageInterface
     {

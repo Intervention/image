@@ -4,14 +4,14 @@ namespace Intervention\Image\Drivers\Imagick\Encoders;
 
 use Imagick;
 use ImagickPixel;
-use Intervention\Image\Drivers\DriverEncoder;
+use Intervention\Image\Drivers\DriverSpecializedEncoder;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Interfaces\ImageInterface;
 
 /**
  * @property int $quality
  */
-class WebpEncoder extends DriverEncoder
+class WebpEncoder extends DriverSpecializedEncoder
 {
     public function encode(ImageInterface $image): EncodedImage
     {

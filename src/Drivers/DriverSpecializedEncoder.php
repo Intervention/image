@@ -5,7 +5,7 @@ namespace Intervention\Image\Drivers;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
 
-abstract class DriverEncoder implements EncoderInterface
+abstract class DriverSpecializedEncoder implements EncoderInterface
 {
     public function __construct(
         protected EncoderInterface $encoder,

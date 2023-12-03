@@ -5,7 +5,7 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
-use Intervention\Image\Drivers\DriverModifier;
+use Intervention\Image\Drivers\DriverSpecializedModifier;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -20,7 +20,7 @@ use Intervention\Image\Modifiers\FillModifier;
  * @property mixed $background
  * @property string $position
  */
-class ContainModifier extends DriverModifier
+class ContainModifier extends DriverSpecializedModifier
 {
     public function apply(ImageInterface $image): ImageInterface
     {

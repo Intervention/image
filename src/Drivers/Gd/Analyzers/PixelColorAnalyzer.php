@@ -3,7 +3,7 @@
 namespace Intervention\Image\Drivers\Gd\Analyzers;
 
 use GdImage;
-use Intervention\Image\Drivers\DriverAnalyzer;
+use Intervention\Image\Drivers\DriverSpecializedAnalyzer;
 use Intervention\Image\Exceptions\GeometryException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
@@ -14,7 +14,7 @@ use Intervention\Image\Interfaces\ImageInterface;
  * @property int $y
  * @property int $frame_key
  */
-class PixelColorAnalyzer extends DriverAnalyzer
+class PixelColorAnalyzer extends DriverSpecializedAnalyzer
 {
     public function analyze(ImageInterface $image): mixed
     {

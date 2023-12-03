@@ -2,14 +2,14 @@
 
 namespace Intervention\Image\Drivers\Gd\Encoders;
 
-use Intervention\Image\Drivers\DriverEncoder;
+use Intervention\Image\Drivers\DriverSpecializedEncoder;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Interfaces\ImageInterface;
 
 /**
  * @property int $quality
  */
-class AvifEncoder extends DriverEncoder
+class AvifEncoder extends DriverSpecializedEncoder
 {
     public function encode(ImageInterface $image): EncodedImage
     {

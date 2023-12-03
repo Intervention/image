@@ -5,7 +5,7 @@ namespace Intervention\Image\Drivers;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 
-abstract class DriverModifier implements ModifierInterface
+abstract class DriverSpecializedModifier implements ModifierInterface
 {
     public function __construct(
         protected ModifierInterface $modifier,

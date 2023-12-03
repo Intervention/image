@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\DriverModifier;
+use Intervention\Image\Drivers\DriverSpecializedModifier;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -11,7 +11,7 @@ use Intervention\Image\Interfaces\SizeInterface;
  * @property null|int $width
  * @property null|int $height
  */
-class ResizeModifier extends DriverModifier
+class ResizeModifier extends DriverSpecializedModifier
 {
     public function apply(ImageInterface $image): ImageInterface
     {

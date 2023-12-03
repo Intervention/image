@@ -12,7 +12,7 @@ use Intervention\Image\Typography\Line;
 /**
  * @property FontInterface $font
  */
-abstract class AbstractTextModifier extends DriverModifier
+abstract class AbstractTextModifier extends DriverSpecializedModifier
 {
     abstract protected function boxSize(string $text): Polygon;
 

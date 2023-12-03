@@ -10,7 +10,7 @@ use Intervention\Image\Interfaces\PointInterface;
 /**
  * @property DrawableInterface $drawable
  */
-abstract class AbstractDrawModifier extends DriverModifier
+abstract class AbstractDrawModifier extends DriverSpecializedModifier
 {
     public function position(): PointInterface
     {

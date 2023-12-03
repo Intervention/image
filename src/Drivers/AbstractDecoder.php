@@ -72,7 +72,13 @@ abstract class AbstractDecoder implements DecoderInterface
         return new Collection(is_array($data) ? $data : []);
     }
 
-    protected function isValidBase64($input): bool
+    /**
+     * Determine if given input is base64 encoded data
+     *
+     * @param mixed $input
+     * @return bool
+     */
+    protected function isValidBase64(mixed $input): bool
     {
         if (!is_string($input)) {
             return false;

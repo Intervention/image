@@ -51,7 +51,7 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
         $image = new Image(
             new Driver(),
             new Core($imagick),
-            $this->decodeExifData($input)
+            $this->extractExifData($input)
         );
 
         return $image;

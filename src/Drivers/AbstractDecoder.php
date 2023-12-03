@@ -20,6 +20,13 @@ abstract class AbstractDecoder implements DecoderInterface
         //
     }
 
+    /**
+     * Try to decode given input to image or color object
+     *
+     * @param mixed $input
+     * @return ImageInterface|ColorInterface
+     * @throws DecoderException
+     */
     final public function handle($input): ImageInterface|ColorInterface
     {
         try {
@@ -35,6 +42,11 @@ abstract class AbstractDecoder implements DecoderInterface
         return $decoded;
     }
 
+    /**
+     * Determine if current decoder has a successor
+     *
+     * @return bool
+     */
     protected function hasSuccessor(): bool
     {
         return $this->successor !== null;
@@ -55,7 +67,13 @@ abstract class AbstractDecoder implements DecoderInterface
         return $type;
     }
 
-    protected function decodeExifData(string $image_data): CollectionInterface
+    /**
+     * Extract and return EXIF data from given image data string
+     *
+     * @param string $image_data
+     * @return CollectionInterface
+     */
+    protected function extractExifData(string $image_data): CollectionInterface
     {
         if (!function_exists('exif_read_data')) {
             return new Collection();

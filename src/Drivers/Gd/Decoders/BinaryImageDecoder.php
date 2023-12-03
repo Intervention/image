@@ -30,7 +30,7 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
         $image =  new Image(
             new Driver(),
             $this->coreFromString($input),
-            $this->decodeExifData($input)
+            $this->extractExifData($input)
         );
 
         // fix image orientation

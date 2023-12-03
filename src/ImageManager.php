@@ -68,7 +68,7 @@ final class ImageManager
      * - Raw binary image data
      * - Base64 encoded image data
      * - Data Uri
-     * - Intervention Image Instance
+     * - Intervention\Image\Image Instance
      *
      * @param mixed $input
      * @return ImageInterface

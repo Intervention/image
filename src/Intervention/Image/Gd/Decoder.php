@@ -82,7 +82,7 @@ class Decoder extends \Intervention\Image\AbstractDecoder
             
             default:
                 throw new NotReadableException(
-                    sprintf("Unsupported image type %s. GD driver is only able to decode JPG, PNG, GIF, BMP or WebP files.", strtolower($mime))
+                    sprintf("Unsupported image type %s. GD driver is only able to decode JPG, PNG, GIF, BMP, WebP or AVIF files.", strtolower($mime))
                 );
         }
 

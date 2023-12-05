@@ -51,8 +51,8 @@ use Intervention\Image\Modifiers\DrawPixelModifier;
 use Intervention\Image\Modifiers\DrawPolygonModifier;
 use Intervention\Image\Modifiers\DrawRectangleModifier;
 use Intervention\Image\Modifiers\FillModifier;
-use Intervention\Image\Modifiers\FitDownModifier;
-use Intervention\Image\Modifiers\FitModifier;
+use Intervention\Image\Modifiers\CoverDownModifier;
+use Intervention\Image\Modifiers\CoverModifier;
 use Intervention\Image\Modifiers\FlipModifier;
 use Intervention\Image\Modifiers\FlopModifier;
 use Intervention\Image\Modifiers\GammaModifier;
@@ -504,21 +504,21 @@ final class Image implements ImageInterface, Countable
     /**
      * {@inheritdoc}
      *
-     * @see ImageInterface::fit()
+     * @see ImageInterface::cover()
      */
-    public function fit(int $width, int $height, string $position = 'center'): ImageInterface
+    public function cover(int $width, int $height, string $position = 'center'): ImageInterface
     {
-        return $this->modify(new FitModifier($width, $height, $position));
+        return $this->modify(new CoverModifier($width, $height, $position));
     }
 
     /**
      * {@inheritdoc}
      *
-     * @see ImageInterface::fitDown()
+     * @see ImageInterface::coverDown()
      */
-    public function fitDown(int $width, int $height, string $position = 'center'): ImageInterface
+    public function coverDown(int $width, int $height, string $position = 'center'): ImageInterface
     {
-        return $this->modify(new FitDownModifier($width, $height, $position));
+        return $this->modify(new CoverDownModifier($width, $height, $position));
     }
 
     /**

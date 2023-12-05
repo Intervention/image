@@ -335,24 +335,24 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param string $position
      * @return ImageInterface
      */
-    public function fit(int $width, int $height, string $position = 'center'): ImageInterface;
+    public function cover(int $width, int $height, string $position = 'center'): ImageInterface;
 
     /**
-     * Same as fit() but do not exceed the original image size
+     * Same as cover() but do not exceed the original image size
      *
      * @param int $width
      * @param int $height
      * @param string $position
      * @return ImageInterface
      */
-    public function fitDown(int $width, int $height, string $position = 'center'): ImageInterface;
+    public function coverDown(int $width, int $height, string $position = 'center'): ImageInterface;
 
     /**
      * Padded resizing means that the original image is scaled until it fits the
      * defined target size with unchanged aspect ratio. The original image is
      * not scaled up but only down.
      *
-     * Compared to the fit() method, this method does not create cropped areas,
+     * Compared to the cover() method, this method does not create cropped areas,
      * but possibly new empty areas on the sides of the result image. These are
      * filled with the specified background color.
      *

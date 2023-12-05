@@ -2,15 +2,15 @@
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Modifiers\FitModifier;
+use Intervention\Image\Modifiers\CoverModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 /**
  * @requires extension imagick
- * @covers \Intervention\Image\Modifiers\FitModifier
+ * @covers \Intervention\Image\Modifiers\CoverModifier
  */
-class FitModifierTest extends TestCase
+class CoverModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;
 
@@ -19,7 +19,7 @@ class FitModifierTest extends TestCase
         $image = $this->createTestImage('blocks.png');
         $this->assertEquals(640, $image->width());
         $this->assertEquals(480, $image->height());
-        $image->modify(new FitModifier(100, 100, 'center'));
+        $image->modify(new CoverModifier(100, 100, 'center'));
         $this->assertEquals(100, $image->width());
         $this->assertEquals(100, $image->height());
         $this->assertColor(255, 0, 0, 255, $image->pickColor(90, 90));

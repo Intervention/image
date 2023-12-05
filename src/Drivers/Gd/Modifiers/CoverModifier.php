@@ -11,7 +11,7 @@ use Intervention\Image\Interfaces\SizeInterface;
  * @method SizeInterface getResizeSize(ImageInterface $image)
  * @method SizeInterface getCropSize(ImageInterface $image)
  */
-class FitModifier extends DriverSpecializedModifier
+class CoverModifier extends DriverSpecializedModifier
 {
     public function apply(ImageInterface $image): ImageInterface
     {

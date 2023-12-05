@@ -20,7 +20,6 @@ class ContainModifier extends DriverSpecializedModifier
 {
     public function apply(ImageInterface $image): ImageInterface
     {
-
         $crop = $this->getCropSize($image);
         $resize = $this->getResizeSize($image);
         $transparent = new ImagickPixel('transparent');
@@ -48,13 +47,14 @@ class ContainModifier extends DriverSpecializedModifier
                 // fill new emerged background
                 $draw = new ImagickDraw();
                 $draw->setFillColor($background);
-                $draw->rectangle(
-                    0,
-                    0,
-                    $crop->pivot()->x() - 1,
-                    $resize->height()
-                );
-                $frame->native()->drawImage($draw);
+                if ($crop->pivot()->x() > 0) {
+                    $draw->rectangle(
+                        0,
+                        0,
+                        $crop->pivot()->x(),
+                        $resize->height()
+                    );
+                }
                 $draw->rectangle(
                     $crop->pivot()->x() + $crop->width(),
                     0,
@@ -68,13 +68,14 @@ class ContainModifier extends DriverSpecializedModifier
                 // fill new emerged background
                 $draw = new ImagickDraw();
                 $draw->setFillColor($background);
-                $draw->rectangle(
-                    0,
-                    0,
-                    $resize->width(),
-                    $crop->pivot()->y() - 1
-                );
-                $frame->native()->drawImage($draw);
+                if ($crop->pivot()->y() > 0) {
+                    $draw->rectangle(
+                        0,
+                        0,
+                        $resize->width(),
+                        $crop->pivot()->y(),
+                    );
+                }
                 $draw->rectangle(
                     0,
                     $crop->pivot()->y() + $crop->height(),

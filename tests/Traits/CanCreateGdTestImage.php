@@ -17,6 +17,19 @@ trait CanCreateGdTestImage
         );
     }
 
+    public function createTestImage(int $width, int $height): Image
+    {
+        $gd = imagecreatetruecolor($width, $height);
+        imagefill($gd, 0, 0, imagecolorallocate($gd, 255, 0, 0));
+
+        return new Image(
+            new Driver(),
+            new Core([
+                new Frame($gd)
+            ])
+        );
+    }
+
     public function createTestAnimation(): Image
     {
         $gd1 = imagecreatetruecolor(3, 2);

@@ -16,6 +16,19 @@ class ResizeCanvasModifierTest extends TestCase
 
     public function testModify(): void
     {
+        $image = $this->createTestImage(1, 1);
+        $this->assertEquals(1, $image->width());
+        $this->assertEquals(1, $image->height());
+        $image->modify(new ResizeCanvasModifier(3, 3, 'ff0', 'center'));
+        $this->assertEquals(3, $image->width());
+        $this->assertEquals(3, $image->height());
+        $this->assertColor(255, 255, 0, 255, $image->pickColor(0, 0));
+        $this->assertColor(255, 0, 0, 255, $image->pickColor(1, 1));
+        $this->assertColor(255, 255, 0, 255, $image->pickColor(2, 2));
+    }
+
+    public function testModifyWithTransparency(): void
+    {
         $image = $this->readTestImage('tile.png');
         $this->assertEquals(16, $image->width());
         $this->assertEquals(16, $image->height());

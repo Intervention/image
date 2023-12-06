@@ -65,6 +65,7 @@ use Intervention\Image\Modifiers\ProfileModifier;
 use Intervention\Image\Modifiers\ProfileRemovalModifier;
 use Intervention\Image\Modifiers\RemoveAnimationModifier;
 use Intervention\Image\Modifiers\ResizeCanvasModifier;
+use Intervention\Image\Modifiers\ResizeCanvasRelativeModifier;
 use Intervention\Image\Modifiers\ResizeDownModifier;
 use Intervention\Image\Modifiers\ResizeModifier;
 use Intervention\Image\Modifiers\ResolutionModifier;
@@ -528,12 +529,21 @@ final class Image implements ImageInterface, Countable
      * @see ImageInterface::resizeCanvas()
      */
     public function resizeCanvas(
-        int $width,
-        int $height,
+        ?int $width = null,
+        ?int $height = null,
         mixed $background = 'ffffff',
         string $position = 'center'
     ): ImageInterface {
         return $this->modify(new ResizeCanvasModifier($width, $height, $background, $position));
+    }
+
+    public function resizeCanvasRelative(
+        ?int $width = null,
+        ?int $height = null,
+        mixed $background = 'ffffff',
+        string $position = 'center',
+    ): ImageInterface {
+        return $this->modify(new ResizeCanvasRelativeModifier($width, $height, $background, $position));
     }
 
     /**

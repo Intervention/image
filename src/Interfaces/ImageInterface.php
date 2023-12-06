@@ -353,15 +353,33 @@ interface ImageInterface extends IteratorAggregate, Countable
      * image the resizing is going to happen. A background color can be passed
      * to define the color of the new emerging areas.
      *
-     * @param int $width
-     * @param int $height
+     * @param null|int $width
+     * @param null|int $height
      * @param string $position
      * @param mixed $background
      * @return ImageInterface
      */
     public function resizeCanvas(
-        int $width,
-        int $height,
+        ?int $width = null,
+        ?int $height = null,
+        mixed $background = 'ffffff',
+        string $position = 'center'
+    ): ImageInterface;
+
+    /**
+     * Resize canvas in the same way as resizeCanvas() but takes relative values
+     * for the width and height, which will be added or subtracted to the
+     * original image size.
+     *
+     * @param null|int $width
+     * @param null|int $height
+     * @param string $position
+     * @param mixed $background
+     * @return ImageInterface
+     */
+    public function resizeCanvasRelative(
+        ?int $width = null,
+        ?int $height = null,
         mixed $background = 'ffffff',
         string $position = 'center'
     ): ImageInterface;

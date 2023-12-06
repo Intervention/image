@@ -64,6 +64,7 @@ use Intervention\Image\Modifiers\PlaceModifier;
 use Intervention\Image\Modifiers\ProfileModifier;
 use Intervention\Image\Modifiers\ProfileRemovalModifier;
 use Intervention\Image\Modifiers\RemoveAnimationModifier;
+use Intervention\Image\Modifiers\ResizeCanvasModifier;
 use Intervention\Image\Modifiers\ResizeDownModifier;
 use Intervention\Image\Modifiers\ResizeModifier;
 use Intervention\Image\Modifiers\ResolutionModifier;
@@ -519,6 +520,20 @@ final class Image implements ImageInterface, Countable
     public function coverDown(int $width, int $height, string $position = 'center'): ImageInterface
     {
         return $this->modify(new CoverDownModifier($width, $height, $position));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::resizeCanvas()
+     */
+    public function resizeCanvas(
+        int $width,
+        int $height,
+        mixed $background = 'ffffff',
+        string $position = 'center'
+    ): ImageInterface {
+        return $this->modify(new ResizeCanvasModifier($width, $height, $background, $position));
     }
 
     /**

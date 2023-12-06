@@ -54,7 +54,7 @@ class GifEncoderTest extends TestCase
 
     public function testEncodeReduced(): void
     {
-        $image = $this->createTestImage('gradient.gif');
+        $image = $this->readTestImage('gradient.gif');
         $imagick = $image->core()->native();
         $this->assertEquals(15, $imagick->getImageColors());
         $encoder = new GifEncoder(2);

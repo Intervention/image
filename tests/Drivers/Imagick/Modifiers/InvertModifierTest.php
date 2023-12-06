@@ -16,7 +16,7 @@ class InvertModifierTest extends TestCase
 
     public function testApply(): void
     {
-        $image = $this->createTestImage('trim.png');
+        $image = $this->readTestImage('trim.png');
         $this->assertEquals('00aef0', $image->pickColor(0, 0)->toHex());
         $this->assertEquals('ffa601', $image->pickColor(25, 25)->toHex());
         $image->modify(new InvertModifier());

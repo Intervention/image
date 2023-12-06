@@ -16,7 +16,7 @@ class ContainModifierTest extends TestCase
 
     public function testModify(): void
     {
-        $image = $this->createTestImage('blocks.png');
+        $image = $this->readTestImage('blocks.png');
         $this->assertEquals(640, $image->width());
         $this->assertEquals(480, $image->height());
         $result = $image->modify(new ContainModifier(200, 100, 'ff0'));

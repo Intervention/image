@@ -16,7 +16,7 @@ class PixelateModifierTest extends TestCase
 
     public function testModify(): void
     {
-        $image = $this->createTestImage('trim.png');
+        $image = $this->readTestImage('trim.png');
         $this->assertEquals('00aef0', $image->pickColor(0, 0)->toHex());
         $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
         $image->modify(new PixelateModifier(10));

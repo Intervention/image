@@ -16,7 +16,7 @@ class CoverModifierTest extends TestCase
 
     public function testModify(): void
     {
-        $image = $this->createTestImage('blocks.png');
+        $image = $this->readTestImage('blocks.png');
         $this->assertEquals(640, $image->width());
         $this->assertEquals(480, $image->height());
         $image->modify(new CoverModifier(100, 100, 'center'));

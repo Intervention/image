@@ -13,7 +13,7 @@ class ColorspaceAnalyzerTest extends TestCase
 
     public function testAnalyze(): void
     {
-        $image = $this->createTestImage('tile.png');
+        $image = $this->readTestImage('tile.png');
         $analyzer = new ColorspaceAnalyzer();
         $result = $analyzer->analyze($image);
         $this->assertInstanceOf(ColorspaceInterface::class, $result);

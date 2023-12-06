@@ -16,7 +16,7 @@ class ResolutionModifierTest extends TestCase
 
     public function testResolutionChange(): void
     {
-        $image = $this->createTestImage('test.jpg');
+        $image = $this->readTestImage('test.jpg');
         $this->assertEquals(72.0, $image->resolution()->x());
         $this->assertEquals(72.0, $image->resolution()->y());
         $image->modify(new ResolutionModifier(1, 2));

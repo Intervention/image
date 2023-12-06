@@ -10,7 +10,7 @@ use Intervention\Image\Image;
 
 trait CanCreateGdTestImage
 {
-    public function createTestImage($filename = 'test.jpg'): Image
+    public function readTestImage($filename = 'test.jpg'): Image
     {
         return (new FilePathImageDecoder())->handle(
             $this->getTestImagePath($filename)

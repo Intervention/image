@@ -7,7 +7,7 @@ use Intervention\Image\Image;
 
 trait CanCreateImagickTestImage
 {
-    public function createTestImage($filename = 'test.jpg'): Image
+    public function readTestImage($filename = 'test.jpg'): Image
     {
         return (new FilePathImageDecoder())->handle(
             sprintf('%s/../images/%s', __DIR__, $filename)

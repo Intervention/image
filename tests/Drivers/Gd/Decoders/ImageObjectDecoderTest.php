@@ -18,7 +18,7 @@ class ImageObjectDecoderTest extends TestCase
     public function testDecode(): void
     {
         $decoder = new ImageObjectDecoder();
-        $result = $decoder->decode($this->createTestImage('blue.gif'));
+        $result = $decoder->decode($this->readTestImage('blue.gif'));
         $this->assertInstanceOf(Image::class, $result);
     }
 }

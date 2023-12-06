@@ -41,7 +41,7 @@ final class PngEncoderTest extends TestCase
 
     public function testEncodeReduced(): void
     {
-        $image = $this->createTestImage('tile.png');
+        $image = $this->readTestImage('tile.png');
         $imagick = $image->core()->native();
         $this->assertEquals(3, $imagick->getImageColors());
         $encoder = new PngEncoder(2);

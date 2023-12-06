@@ -13,7 +13,7 @@ class PixelColorAnalyzerTest extends TestCase
 
     public function testAnalyze(): void
     {
-        $image = $this->createTestImage('tile.png');
+        $image = $this->readTestImage('tile.png');
         $analyzer = new PixelColorAnalyzer(0, 0);
         $result = $analyzer->analyze($image);
         $this->assertInstanceOf(ColorInterface::class, $result);

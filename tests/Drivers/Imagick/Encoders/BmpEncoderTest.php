@@ -40,7 +40,7 @@ class BmpEncoderTest extends TestCase
 
     public function testEncodeReduced(): void
     {
-        $image = $this->createTestImage('gradient.bmp');
+        $image = $this->readTestImage('gradient.bmp');
         $imagick = $image->core()->native();
         $this->assertEquals(15, $imagick->getImageColors());
         $encoder = new BmpEncoder(2);

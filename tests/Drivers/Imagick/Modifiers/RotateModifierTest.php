@@ -16,7 +16,7 @@ class RotateModifierTest extends TestCase
 
     public function testRotate(): void
     {
-        $image = $this->createTestImage('test.jpg');
+        $image = $this->readTestImage('test.jpg');
         $this->assertEquals(320, $image->width());
         $this->assertEquals(240, $image->height());
         $image->modify(new RotateModifier(90, 'fff'));

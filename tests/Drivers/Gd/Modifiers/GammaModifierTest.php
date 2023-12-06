@@ -16,7 +16,7 @@ class GammaModifierTest extends TestCase
 
     public function testModifier(): void
     {
-        $image = $this->createTestImage('trim.png');
+        $image = $this->readTestImage('trim.png');
         $this->assertEquals('00aef0', $image->pickColor(0, 0)->toHex());
         $image->modify(new GammaModifier(2.1));
         $this->assertEquals('00d5f8', $image->pickColor(0, 0)->toHex());

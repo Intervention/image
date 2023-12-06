@@ -18,7 +18,7 @@ class DrawEllipseModifierTest extends TestCase
 
     public function testApply(): void
     {
-        $image = $this->createTestImage('trim.png');
+        $image = $this->readTestImage('trim.png');
         $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
         $drawable = new Ellipse(10, 10, new Point(14, 14));
         $drawable->setBackgroundColor('b53717');

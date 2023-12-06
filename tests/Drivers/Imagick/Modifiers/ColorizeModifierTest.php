@@ -16,7 +16,7 @@ class ColorizeModifierTest extends TestCase
 
     public function testModify(): void
     {
-        $image = $this->createTestImage('tile.png');
+        $image = $this->readTestImage('tile.png');
         $image = $image->modify(new ColorizeModifier(100, -100, -100));
         $this->assertColor(251, 0, 0, 255, $image->pickColor(5, 5));
         $this->assertColor(239, 0, 0, 255, $image->pickColor(15, 15));

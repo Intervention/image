@@ -16,7 +16,7 @@ class ResizeCanvasModifierTest extends TestCase
 
     public function testModify(): void
     {
-        $image = $this->createTestImage('tile.png');
+        $image = $this->readTestImage('tile.png');
         $this->assertEquals(16, $image->width());
         $this->assertEquals(16, $image->height());
         $image->modify(new ResizeCanvasModifier(18, 18, 'ff0', 'center'));

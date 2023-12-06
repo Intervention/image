@@ -13,7 +13,7 @@ class ProfleAnalyzerTest extends TestCase
 
     public function testAnalyze(): void
     {
-        $image = $this->createTestImage('tile.png');
+        $image = $this->readTestImage('tile.png');
         $analyzer = new ProfileAnalyzer();
         $this->expectException(ColorException::class);
         $analyzer->analyze($image);

@@ -18,7 +18,7 @@ class FillModifierTest extends TestCase
 
     public function testFloodFillColor(): void
     {
-        $image = $this->createTestImage('blocks.png');
+        $image = $this->readTestImage('blocks.png');
         $this->assertEquals('0000ff', $image->pickColor(420, 270)->toHex());
         $this->assertEquals('ff0000', $image->pickColor(540, 400)->toHex());
         $image->modify(new FillModifier(new Color(204, 204, 204), new Point(540, 400)));
@@ -28,7 +28,7 @@ class FillModifierTest extends TestCase
 
     public function testFillAllColor(): void
     {
-        $image = $this->createTestImage('blocks.png');
+        $image = $this->readTestImage('blocks.png');
         $this->assertEquals('0000ff', $image->pickColor(420, 270)->toHex());
         $this->assertEquals('ff0000', $image->pickColor(540, 400)->toHex());
         $image->modify(new FillModifier(new Color(204, 204, 204)));

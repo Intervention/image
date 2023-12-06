@@ -16,7 +16,7 @@ class RemoveAnimationModifierTest extends TestCase
 
     public function testApply(): void
     {
-        $image = $this->createTestImage('animation.gif');
+        $image = $this->readTestImage('animation.gif');
         $this->assertEquals(8, count($image));
         $result = $image->modify(new RemoveAnimationModifier(2));
         $this->assertEquals(1, count($image));
@@ -25,7 +25,7 @@ class RemoveAnimationModifierTest extends TestCase
 
     public function testApplyPercent(): void
     {
-        $image = $this->createTestImage('animation.gif');
+        $image = $this->readTestImage('animation.gif');
         $this->assertEquals(8, count($image));
         $result = $image->modify(new RemoveAnimationModifier('20%'));
         $this->assertEquals(1, count($image));

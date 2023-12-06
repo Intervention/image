@@ -18,7 +18,7 @@ class DrawRectangleModifierTest extends TestCase
 
     public function testApply(): void
     {
-        $image = $this->createTestImage('trim.png');
+        $image = $this->readTestImage('trim.png');
         $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
         $rectangle = new Rectangle(300, 200, new Point(14, 14));
         $rectangle->setBackgroundColor('ffffff');

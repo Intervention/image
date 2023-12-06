@@ -16,7 +16,7 @@ class SharpenModifierTest extends TestCase
 
     public function testModify(): void
     {
-        $image = $this->createTestImage('trim.png');
+        $image = $this->readTestImage('trim.png');
         $this->assertEquals('60ab96', $image->pickColor(15, 14)->toHex());
         $image->modify(new SharpenModifier(10));
         $this->assertEquals('4faca6', $image->pickColor(15, 14)->toHex());

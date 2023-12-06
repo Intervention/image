@@ -12,7 +12,7 @@ class WidthAnalyzerTest extends TestCase
 
     public function testAnalyze(): void
     {
-        $image = $this->createTestImage('tile.png');
+        $image = $this->readTestImage('tile.png');
         $analyzer = new WidthAnalyzer();
         $result = $analyzer->analyze($image);
         $this->assertEquals(16, $result);

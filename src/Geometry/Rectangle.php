@@ -61,7 +61,7 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
             case 'top-middle':
             case 'center-top':
             case 'middle-top':
-                $x = intval($this->width() / 2) + $offset_x;
+                $x = intval(round($this->width() / 2)) + $offset_x;
                 $y = 0 + $offset_y;
                 break;
 
@@ -77,7 +77,7 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
             case 'center-left':
             case 'middle-left':
                 $x = 0 + $offset_x;
-                $y = intval($this->height() / 2) + $offset_y;
+                $y = intval(round($this->height() / 2)) + $offset_y;
                 break;
 
             case 'right':
@@ -86,7 +86,7 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
             case 'center-right':
             case 'middle-right':
                 $x = $this->width() - $offset_x;
-                $y = intval($this->height() / 2) + $offset_y;
+                $y = intval(round($this->height() / 2)) + $offset_y;
                 break;
 
             case 'bottom-left':
@@ -100,7 +100,7 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
             case 'bottom-middle':
             case 'center-bottom':
             case 'middle-bottom':
-                $x = intval($this->width() / 2) + $offset_x;
+                $x = intval(round($this->width() / 2)) + $offset_x;
                 $y = $this->height() - $offset_y;
                 break;
 
@@ -114,8 +114,8 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
             case 'middle':
             case 'center-center':
             case 'middle-middle':
-                $x = intval($this->width() / 2) + $offset_x;
-                $y = intval($this->height() / 2) + $offset_y;
+                $x = intval(round($this->width() / 2)) + $offset_x;
+                $y = intval(round($this->height() / 2)) + $offset_y;
                 break;
 
             default:

@@ -47,20 +47,25 @@ class ContainModifier extends DriverSpecializedModifier
                 // fill new emerged background
                 $draw = new ImagickDraw();
                 $draw->setFillColor($background);
-                if ($crop->pivot()->x() > 0) {
+
+                $delta = abs($crop->pivot()->x());
+
+                if ($delta > 0) {
                     $draw->rectangle(
                         0,
                         0,
-                        $crop->pivot()->x(),
+                        $delta - 1,
                         $resize->height()
                     );
                 }
+
                 $draw->rectangle(
-                    $crop->pivot()->x() + $crop->width(),
+                    $crop->width() + $delta,
                     0,
                     $resize->width(),
                     $resize->height()
                 );
+
                 $frame->native()->drawImage($draw);
             }
 
@@ -68,20 +73,25 @@ class ContainModifier extends DriverSpecializedModifier
                 // fill new emerged background
                 $draw = new ImagickDraw();
                 $draw->setFillColor($background);
-                if ($crop->pivot()->y() > 0) {
+
+                $delta = abs($crop->pivot()->y());
+
+                if ($delta > 0) {
                     $draw->rectangle(
                         0,
                         0,
                         $resize->width(),
-                        $crop->pivot()->y(),
+                        $delta - 1
                     );
                 }
+
                 $draw->rectangle(
                     0,
-                    $crop->pivot()->y() + $crop->height(),
+                    $crop->height() + $delta,
                     $resize->width(),
                     $resize->height()
                 );
+
                 $frame->native()->drawImage($draw);
             }
         }

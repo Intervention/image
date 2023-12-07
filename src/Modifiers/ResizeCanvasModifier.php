@@ -24,17 +24,7 @@ class ResizeCanvasModifier extends AbstractModifier
         return (new Rectangle($width, $height))
             ->alignPivotTo(
                 $image->size(),
-                $this->position()
+                $this->position
             );
-    }
-
-    protected function position(): string
-    {
-        return strtr($this->position, [
-            'left' => 'right',
-            'right' => 'left',
-            'top' => 'bottom',
-            'bottom' => 'top',
-        ]);
     }
 }

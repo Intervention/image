@@ -349,9 +349,9 @@ interface ImageInterface extends IteratorAggregate, Countable
 
     /**
      * Resize the boundaries of the current image to given width and height.
-     * An anchor position can be defined to determine from what point of the
-     * image the resizing is going to happen. A background color can be passed
-     * to define the color of the new emerging areas.
+     * An anchor position can be defined to determine where the original image
+     * is fixed. A background color can be passed to define the color of the
+     * new emerging areas.
      *
      * @param null|int $width
      * @param null|int $height

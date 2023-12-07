@@ -19,12 +19,28 @@ class ContainModifier extends AbstractModifier
     public function getCropSize(ImageInterface $image): SizeInterface
     {
         return $image->size()
-            ->contain($this->width, $this->height)
-            ->alignPivotTo($this->getResizeSize($image), $this->position);
+            ->contain(
+                $this->width,
+                $this->height
+            )
+            ->alignPivotTo(
+                $this->getResizeSize($image),
+                $this->position()
+            );
     }
 
     public function getResizeSize(ImageInterface $image): SizeInterface
     {
         return new Rectangle($this->width, $this->height);
+    }
+
+    protected function position(): string
+    {
+        return strtr($this->position, [
+            'left' => 'right',
+            'right' => 'left',
+            'top' => 'bottom',
+            'bottom' => 'top',
+        ]);
     }
 }

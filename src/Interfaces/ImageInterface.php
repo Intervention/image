@@ -403,7 +403,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         int $width,
         int $height,
         mixed $background = 'ffffff',
-        string $position = 'center',
+        string $position = 'center'
     ): ImageInterface;
 
     /**
@@ -420,7 +420,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         int $width,
         int $height,
         mixed $background = 'ffffff',
-        string $position = 'center',
+        string $position = 'center'
     ): ImageInterface;
 
     /**
@@ -440,7 +440,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         int $height,
         int $offset_x = 0,
         int $offset_y = 0,
-        string $position = 'top-left',
+        string $position = 'top-left'
     ): ImageInterface;
 
     /**

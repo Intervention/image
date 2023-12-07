@@ -14,6 +14,9 @@ class ResizeCanvasRelativeModifier extends ResizeCanvasModifier
         $height = is_null($this->height) ? $image->height() : $image->height() + $this->height;
 
         return (new Rectangle($width, $height))
-            ->alignPivotTo($image->size(), $this->position());
+            ->alignPivotTo(
+                $image->size(),
+                $this->position()
+            );
     }
 }

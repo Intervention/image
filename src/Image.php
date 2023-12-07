@@ -537,11 +537,16 @@ final class Image implements ImageInterface, Countable
         return $this->modify(new ResizeCanvasModifier($width, $height, $background, $position));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::resizeCanvasRelative()
+     */
     public function resizeCanvasRelative(
         ?int $width = null,
         ?int $height = null,
         mixed $background = 'ffffff',
-        string $position = 'center',
+        string $position = 'center'
     ): ImageInterface {
         return $this->modify(new ResizeCanvasRelativeModifier($width, $height, $background, $position));
     }

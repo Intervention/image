@@ -41,4 +41,15 @@ class ResizeCanvasModifierTest extends TestCase
         $this->assertColor(255, 255, 0, 255, $image->pickColor(17, 17));
         $this->assertTransparency($image->pickColor(12, 1));
     }
+
+    public function testModifyEdge(): void
+    {
+        $image = $this->createTestImage(1, 1);
+        $this->assertColor(255, 0, 0, 255, $image->pickColor(0, 0));
+        $image->modify(new ResizeCanvasModifier(null, 2, 'ff0', 'top'));
+        $this->assertEquals(1, $image->width());
+        $this->assertEquals(2, $image->height());
+        $this->assertColor(255, 255, 0, 255, $image->pickColor(0, 0));
+        $this->assertColor(255, 0, 0, 255, $image->pickColor(0, 1));
+    }
 }

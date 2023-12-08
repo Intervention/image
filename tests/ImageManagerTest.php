@@ -1,40 +1,73 @@
 <?php
 
-use Intervention\Image\ImageManager;
-use PHPUnit\Framework\TestCase;
+namespace Intervention\Image\Tests;
 
+use Intervention\Image\Drivers\Gd\Driver as GdDriver;
+use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Interfaces\ImageInterface;
+
+/**
+ * @covers \Intervention\Image\ImageManager
+ */
 class ImageManagerTest extends TestCase
 {
-    public function tearDown()
-    {
-        Mockery::close();
-    }
-
     public function testConstructor()
     {
-        $config = ['driver' => 'foo', 'bar' => 'baz'];
-        $manager = new ImageManager($config);
-        $this->assertEquals('foo', $manager->config['driver']);
-        $this->assertEquals('baz', $manager->config['bar']);
+        $manager = new ImageManager(new GdDriver());
+        $this->assertInstanceOf(ImageManager::class, $manager);
+
+        $manager = new ImageManager(GdDriver::class);
+        $this->assertInstanceOf(ImageManager::class, $manager);
     }
 
-    public function testConfigure()
+    public function testWithDriver(): void
     {
-        $overwrite = ['driver' => 'none', 'bar' => 'none'];
-        $config = ['driver' => 'foo', 'bar' => 'baz'];
-        $manager = new ImageManager($overwrite);
-        $manager->configure($config);
-        $this->assertEquals('foo', $manager->config['driver']);
-        $this->assertEquals('baz', $manager->config['bar']);
+        $manager = ImageManager::withDriver(new GdDriver());
+        $this->assertInstanceOf(ImageManager::class, $manager);
+
+        $manager = ImageManager::withDriver(GdDriver::class);
+        $this->assertInstanceOf(ImageManager::class, $manager);
     }
 
-    public function testConfigureObject()
+    public function testDriverStatics(): void
     {
-        $config = ['driver' => new Intervention\Image\Imagick\Driver()];
-        $manager = new ImageManager($config);
+        $manager = ImageManager::gd();
+        $this->assertInstanceOf(ImageManager::class, $manager);
 
-        $image = $manager->make('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
-        $this->assertInstanceOf('Intervention\Image\Image', $image);
-        $this->assertInstanceOf('Imagick', $image->getCore());
+        $manager = ImageManager::imagick();
+        $this->assertInstanceOf(ImageManager::class, $manager);
+    }
+
+    /** @requires extension gd */
+    public function testCreateGd()
+    {
+        $manager = new ImageManager(GdDriver::class);
+        $image = $manager->create(5, 4);
+        $this->assertInstanceOf(ImageInterface::class, $image);
+    }
+
+    /** @requires extension gd */
+    public function testReadGd()
+    {
+        $manager = new ImageManager(GdDriver::class);
+        $image = $manager->read(__DIR__ . '/images/red.gif');
+        $this->assertInstanceOf(ImageInterface::class, $image);
+    }
+
+    /** @requires extension imagick */
+    public function testCreateImagick()
+    {
+        $manager = new ImageManager(ImagickDriver::class);
+        $image = $manager->create(5, 4);
+        $this->assertInstanceOf(ImageInterface::class, $image);
+    }
+
+    /** @requires extension imagick */
+    public function testReadImagick()
+    {
+        $manager = new ImageManager(ImagickDriver::class);
+        $image = $manager->read(__DIR__ . '/images/red.gif');
+        $this->assertInstanceOf(ImageInterface::class, $image);
     }
 }

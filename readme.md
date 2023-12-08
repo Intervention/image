@@ -79,6 +79,10 @@ Run the static analyzer on the code base.
 docker-compose run --rm --build analysis
 ```
 
+## Security
+
+If you discover any security related issues, please email oliver@intervention.io directly.
+
 ## License
 
 Intervention Image is licensed under the [MIT License](http://opensource.org/licenses/MIT).

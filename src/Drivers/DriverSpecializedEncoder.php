@@ -19,7 +19,7 @@ abstract class DriverSpecializedEncoder implements EncoderInterface
     }
 
     /**
-     * Magic method to read attributes of underlying endcoder
+     * Magic method to read attributes of underlying encoder
      *
      * @param string $name
      * @return mixed

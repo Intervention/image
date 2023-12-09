@@ -13,6 +13,7 @@
     ],
     "require": {
         "php": "^8.1",
+        "ext-mbstring": "*",
         "intervention/gif": "^3"
     },
     "require-dev": {

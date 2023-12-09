@@ -1,4 +1,4 @@
-FROM php:8-cli
+FROM php:8.1-cli
 
 RUN apt update \
         && apt install -y \

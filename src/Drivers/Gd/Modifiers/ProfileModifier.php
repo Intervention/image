@@ -1,6 +1,6 @@
 <?php
 
-namespace Intervention\Image\Drivers\Imagick\Modifiers;
+namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\DriverSpecializedModifier;
 use Intervention\Image\Exceptions\NotSupportedException;

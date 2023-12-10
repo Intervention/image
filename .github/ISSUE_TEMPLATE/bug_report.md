@@ -22,4 +22,5 @@ If applicable, add problematic images or screenshots to help explain your proble
 **Environment (please complete the following information):**
  - PHP Version:
  - OS:
+ - Intervention Image Version:
  - GD or Imagick:

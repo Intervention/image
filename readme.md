@@ -33,6 +33,8 @@ documentation](https://image.intervention.io/v3/).
 ## Code Examples
 
 ```php
+use Intervention\Image\ImageManager;
+
 // create image manager with desired driver
 $manager = new ImageManager(
     new Intervention\Image\Drivers\Gd\Driver()
@@ -87,4 +89,4 @@ If you discover any security related issues, please email oliver@intervention.io
 
 Intervention Image is licensed under the [MIT License](http://opensource.org/licenses/MIT).
 
-Copyright 2020 [Oliver Vogel](http://intervention.io/)
+Copyright 2023 [Oliver Vogel](http://intervention.io/)

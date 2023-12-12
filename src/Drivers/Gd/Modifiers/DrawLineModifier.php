@@ -16,6 +16,7 @@ class DrawLineModifier extends AbstractDrawModifier
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
+            imageantialias($frame->native(), true);
             imageline(
                 $frame->native(),
                 $this->drawable->start()->x(),

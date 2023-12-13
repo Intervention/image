@@ -3,6 +3,11 @@
 namespace Intervention\Image\Tests\Drivers\Imagick;
 
 use Imagick;
+use ImagickPixel;
+use Intervention\Image\Colors\Rgb\Channels\Alpha;
+use Intervention\Image\Colors\Rgb\Channels\Blue;
+use Intervention\Image\Colors\Rgb\Channels\Green;
+use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Analyzers\WidthAnalyzer;
 use Intervention\Image\Collection;
 use Intervention\Image\Drivers\Imagick\Core;
@@ -18,9 +23,12 @@ use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Modifiers\GreyscaleModifier;
 use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 class ImageTest extends TestCase
 {
+    use CanCreateImagickTestImage;
+
     protected Image $image;
 
     public function setUp(): void
@@ -34,6 +42,25 @@ class ImageTest extends TestCase
                 'test' => 'foo'
             ]),
         );
+    }
+
+    public function testClone(): void
+    {
+        $image = $this->readTestImage('gradient.gif');
+        $clone = clone $image;
+
+        $this->assertEquals(16, $image->width());
+        $this->assertEquals(16, $clone->width());
+        $result = $clone->crop(4, 4);
+        $this->assertEquals(16, $image->width());
+        $this->assertEquals(4, $clone->width());
+        $this->assertEquals(4, $result->width());
+
+        $this->assertEquals('ff0000', $image->pickColor(0, 0)->toHex());
+        $this->assertEquals('00000000', $image->pickColor(1, 0)->toHex());
+
+        $this->assertEquals('ff0000', $clone->pickColor(0, 0)->toHex());
+        $this->assertEquals('00000000', $clone->pickColor(1, 0)->toHex());
     }
 
     public function testDriver(): void

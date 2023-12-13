@@ -774,4 +774,16 @@ final class Image implements ImageInterface, Countable
     {
         return $this->encode(new AvifEncoder($quality));
     }
+
+    /**
+     * Clone image
+     *
+     * @return void
+     */
+    public function __clone(): void
+    {
+        $this->driver = clone $this->driver;
+        $this->core = clone $this->core;
+        $this->exif = clone $this->exif;
+    }
 }

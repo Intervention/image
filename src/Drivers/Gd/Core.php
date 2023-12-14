@@ -55,4 +55,11 @@ class Core extends Collection implements CoreInterface
     {
         return parent::last();
     }
+
+    public function __clone(): void
+    {
+        foreach ($this->items as $key => $frame) {
+            $this->items[$key] = clone $frame;
+        }
+    }
 }

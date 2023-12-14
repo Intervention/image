@@ -120,4 +120,9 @@ class Core implements CoreInterface, Iterator
     {
         return $this->frame($this->count());
     }
+
+    public function __clone(): void
+    {
+        $this->imagick = clone $this->imagick;
+    }
 }

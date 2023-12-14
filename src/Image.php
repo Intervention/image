@@ -78,6 +78,8 @@ use Intervention\Image\Typography\FontFactory;
 
 final class Image implements ImageInterface, Countable
 {
+    protected Origin $origin;
+
     public function __construct(
         protected DriverInterface $driver,
         protected CoreInterface $core,
@@ -103,6 +105,28 @@ final class Image implements ImageInterface, Countable
     public function core(): CoreInterface
     {
         return $this->core;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::origin()
+     */
+    public function origin(): Origin
+    {
+        return $this->origin;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::setOrigin()
+     */
+    public function setOrigin(Origin $origin): ImageInterface
+    {
+        $this->origin = $origin;
+
+        return $this;
     }
 
     /**

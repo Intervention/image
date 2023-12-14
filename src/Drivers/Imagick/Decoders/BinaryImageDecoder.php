@@ -12,6 +12,7 @@ use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Origin;
 
 class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
 {
@@ -53,6 +54,11 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
             new Core($imagick),
             $this->extractExifData($input)
         );
+
+        $image->setOrigin(new Origin(
+            $imagick->getImageMimeType(),
+            $imagick->getImageColors()
+        ));
 
         return $image;
     }

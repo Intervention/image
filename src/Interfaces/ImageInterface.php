@@ -4,6 +4,7 @@ namespace Intervention\Image\Interfaces;
 
 use Countable;
 use Intervention\Image\EncodedImage;
+use Intervention\Image\Origin;
 use IteratorAggregate;
 
 interface ImageInterface extends IteratorAggregate, Countable
@@ -21,6 +22,21 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @return CoreInterface
      */
     public function core(): CoreInterface;
+
+    /**
+     * Return the origin of the image
+     *
+     * @return Origin
+     */
+    public function origin(): Origin;
+
+    /**
+     * Set the origin of the image
+     *
+     * @param Origin $origin
+     * @return ImageInterface
+     */
+    public function setOrigin(Origin $origin): ImageInterface;
 
     /**
      * Return width of current image

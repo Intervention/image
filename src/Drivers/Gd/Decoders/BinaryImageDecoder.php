@@ -13,6 +13,7 @@ use Intervention\Image\Drivers\Gd\Core;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
+use Intervention\Image\Origin;
 
 class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
 {
@@ -26,12 +27,40 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
             return $this->decodeGif($input); // decode (animated) gif
         }
 
+        return $this->decodeString($input);
+    }
+
+    private function decodeString(string $input): ImageInterface
+    {
+        $gd = @imagecreatefromstring($input);
+
+        if ($gd === false) {
+            throw new DecoderException('Unable to decode input');
+        }
+
+        if (!imageistruecolor($gd)) {
+            imagepalettetotruecolor($gd);
+        }
+
+        imagesavealpha($gd, true);
+
         // build image instance
         $image =  new Image(
             new Driver(),
-            $this->coreFromString($input),
+            new Core([
+                new Frame($gd)
+            ]),
             $this->extractExifData($input)
         );
+
+        if ($info = getimagesizefromstring($input)) {
+            $image->setOrigin(
+                new Origin(
+                    $info['mime'],
+                    imagecolorstotal($gd)
+                ),
+            );
+        }
 
         // fix image orientation
         return match ($image->exif('IFD0.Orientation')) {
@@ -46,34 +75,12 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
         };
     }
 
-    private function coreFromString(string $input): Core
-    {
-        $data = @imagecreatefromstring($input);
-
-        if ($data === false) {
-            throw new DecoderException('Unable to decode input');
-        }
-
-        if (!imageistruecolor($data)) {
-            imagepalettetotruecolor($data);
-        }
-
-        imagesavealpha($data, true);
-
-        return new Core([
-            new Frame($data)
-        ]);
-    }
-
     private function decodeGif(string $input): ImageInterface
     {
         $gif = GifDecoder::decode($input);
 
         if (!$gif->isAnimated()) {
-            return new Image(
-                new Driver(),
-                $this->coreFromString($input)
-            );
+            return $this->decodeString($input);
         }
 
         $splitter = GifSplitter::create($gif)->split();

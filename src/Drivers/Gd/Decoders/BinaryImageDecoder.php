@@ -22,7 +22,7 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
             throw new DecoderException('Unable to decode input');
         }
 
-        if ($this->mediaType($input) == 'image/gif') {
+        if ($this->isGifFormat($input)) {
             return $this->decodeGif($input); // decode (animated) gif
         }
 

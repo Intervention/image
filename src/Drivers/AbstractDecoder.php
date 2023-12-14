@@ -53,18 +53,17 @@ abstract class AbstractDecoder implements DecoderInterface
     }
 
     /**
-     * Return media type (MIME) of given input
+     * Determine if the given input is GIF data format
      *
      * @param string $input
-     * @return string
+     * @return bool
      */
-    protected function mediaType(string $input): string
+    protected function isGifFormat(string $input): bool
     {
-        $pointer = $this->buildFilePointer($input);
-        $type = mime_content_type($pointer);
-        fclose($pointer);
-
-        return $type;
+        return preg_match(
+            "/^47494638(37|39)61/",
+            strtoupper(substr(bin2hex($input), 0, 32))
+        );
     }
 
     /**
@@ -118,7 +117,7 @@ abstract class AbstractDecoder implements DecoderInterface
 
         $result = preg_match($pattern, $value, $matches);
 
-        return new class ($matches, $result)
+        return new class($matches, $result)
         {
             private $matches;
             private $result;

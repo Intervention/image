@@ -20,6 +20,7 @@ class AutoEncoder implements EncoderInterface
                 'image/bmp' => new BmpEncoder(),
                 'image/gif' => new GifEncoder(),
                 'image/png' => new PngEncoder(),
+                'image/tiff' => new TiffEncoder(),
                 default => throw new EncoderException('No encoder found for media type (' . $type . ').'),
             }
         );

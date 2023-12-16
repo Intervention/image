@@ -17,6 +17,7 @@ use Intervention\Image\Encoders\BmpEncoder;
 use Intervention\Image\Encoders\GifEncoder;
 use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\Encoders\PngEncoder;
+use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
 use Intervention\Image\Geometry\Factories\CircleFactory;
 use Intervention\Image\Geometry\Factories\EllipseFactory;
@@ -822,6 +823,27 @@ final class Image implements ImageInterface, Countable
     public function toAvif(int $quality = 75): EncodedImageInterface
     {
         return $this->encode(new AvifEncoder($quality));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::toTiff()
+     */
+    public function toTiff(int $quality = 75): EncodedImageInterface
+    {
+        return $this->encode(new TiffEncoder($quality));
+    }
+
+    /**
+     * Alias of self::toTiff()
+     *
+     * @param int $quality
+     * @return EncodedImageInterface
+     */
+    public function toTif(int $quality = 75): EncodedImageInterface
+    {
+        return $this->toTiff($quality);
     }
 
     /**

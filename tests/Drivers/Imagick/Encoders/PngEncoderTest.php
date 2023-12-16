@@ -38,16 +38,4 @@ final class PngEncoderTest extends TestCase
         $result = $encoder->encode($image);
         $this->assertMimeType('image/png', (string) $result);
     }
-
-    public function testEncodeReduced(): void
-    {
-        $image = $this->readTestImage('tile.png');
-        $imagick = $image->core()->native();
-        $this->assertEquals(3, $imagick->getImageColors());
-        $encoder = new PngEncoder(2);
-        $result = $encoder->encode($image);
-        $imagick = new Imagick();
-        $imagick->readImageBlob((string) $result);
-        $this->assertEquals(2, $imagick->getImageColors());
-    }
 }

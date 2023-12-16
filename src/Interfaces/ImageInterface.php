@@ -567,26 +567,23 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Encode image to PNG format
      *
-     * @param int $color_limit
      * @return EncodedImageInterface
      */
-    public function toPng(int $color_limit = 0): EncodedImageInterface;
+    public function toPng(): EncodedImageInterface;
 
     /**
      * Encode image to GIF format
      *
-     * @param int $color_limit
      * @return EncodedImageInterface
      */
-    public function toGif(int $color_limit = 0): EncodedImageInterface;
+    public function toGif(): EncodedImageInterface;
 
     /**
      * Encode image to Bitmap format
      *
-     * @param int $color_limit
      * @return EncodedImageInterface
      */
-    public function toBitmap(int $color_limit = 0): EncodedImageInterface;
+    public function toBitmap(): EncodedImageInterface;
 
     /**
      * Encode image to AVIF format

@@ -35,15 +35,4 @@ class PngEncoderTest extends TestCase
         $result = $encoder->encode($image);
         $this->assertMimeType('image/png', (string) $result);
     }
-
-    public function testEncodeReduced(): void
-    {
-        $image = $this->readTestImage('tile.png');
-        $gd = $image->core()->native();
-        $this->assertEquals(3, imagecolorstotal($gd));
-        $encoder = new PngEncoder(2);
-        $result = $encoder->encode($image);
-        $gd = imagecreatefromstring((string) $result);
-        $this->assertEquals(2, imagecolorstotal($gd));
-    }
 }

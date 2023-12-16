@@ -11,6 +11,7 @@ use Intervention\Image\Analyzers\PixelColorsAnalyzer;
 use Intervention\Image\Analyzers\ProfileAnalyzer;
 use Intervention\Image\Analyzers\ResolutionAnalyzer;
 use Intervention\Image\Analyzers\WidthAnalyzer;
+use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\Encoders\AvifEncoder;
 use Intervention\Image\Encoders\BmpEncoder;
 use Intervention\Image\Encoders\GifEncoder;
@@ -78,13 +79,27 @@ use Intervention\Image\Typography\FontFactory;
 
 final class Image implements ImageInterface, Countable
 {
+    /**
+     * The origin from which the image was created
+     *
+     * @var Origin
+     */
     protected Origin $origin;
 
+    /**
+     * Create new instance
+     *
+     * @param DriverInterface $driver
+     * @param CoreInterface $core
+     * @param CollectionInterface $exif
+     * @return void
+     */
     public function __construct(
         protected DriverInterface $driver,
         protected CoreInterface $core,
         protected CollectionInterface $exif = new Collection()
     ) {
+        $this->origin = new Origin();
     }
 
     /**
@@ -226,7 +241,7 @@ final class Image implements ImageInterface, Countable
      *
      * @see ImageInterface::encode()
      */
-    public function encode(EncoderInterface $encoder): EncodedImage
+    public function encode(EncoderInterface $encoder = new AutoEncoder()): EncodedImage
     {
         return $this->driver->resolve($encoder)->encode($this);
     }
@@ -743,9 +758,9 @@ final class Image implements ImageInterface, Countable
      *
      * @see ImageInterface::toPng()
      */
-    public function toPng(int $color_limit = 0): EncodedImageInterface
+    public function toPng(): EncodedImageInterface
     {
-        return $this->encode(new PngEncoder($color_limit));
+        return $this->encode(new PngEncoder());
     }
 
     /**
@@ -753,9 +768,9 @@ final class Image implements ImageInterface, Countable
      *
      * @see ImageInterface::toGif()
      */
-    public function toGif(int $color_limit = 0): EncodedImageInterface
+    public function toGif(): EncodedImageInterface
     {
-        return $this->encode(new GifEncoder($color_limit));
+        return $this->encode(new GifEncoder());
     }
 
     /**
@@ -773,20 +788,19 @@ final class Image implements ImageInterface, Countable
      *
      * @see ImageInterface::toBitmap()
      */
-    public function toBitmap(int $color_limit = 0): EncodedImageInterface
+    public function toBitmap(): EncodedImageInterface
     {
-        return $this->encode(new BmpEncoder($color_limit));
+        return $this->encode(new BmpEncoder());
     }
 
     /**
      * Alias if self::toBitmap()
      *
-     * @param int $color_limit
      * @return EncodedImageInterface
      */
-    public function toBmp(int $color_limit = 0): EncodedImageInterface
+    public function toBmp(): EncodedImageInterface
     {
-        return $this->toBitmap($color_limit);
+        return $this->toBitmap();
     }
 
     /**

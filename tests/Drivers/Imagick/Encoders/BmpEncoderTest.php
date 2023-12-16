@@ -37,16 +37,4 @@ class BmpEncoderTest extends TestCase
         $result = $encoder->encode($image);
         $this->assertMimeType(['image/bmp', 'image/x-ms-bmp'], (string) $result);
     }
-
-    public function testEncodeReduced(): void
-    {
-        $image = $this->readTestImage('gradient.bmp');
-        $imagick = $image->core()->native();
-        $this->assertEquals(15, $imagick->getImageColors());
-        $encoder = new BmpEncoder(2);
-        $result = $encoder->encode($image);
-        $imagick = new Imagick();
-        $imagick->readImageBlob((string) $result);
-        $this->assertEquals(2, $imagick->getImageColors());
-    }
 }

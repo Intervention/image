@@ -4,13 +4,9 @@ namespace Intervention\Image\Drivers\Gd\Encoders;
 
 use Intervention\Gif\Builder as GifBuilder;
 use Intervention\Image\Drivers\DriverSpecializedEncoder;
-use Intervention\Image\Modifiers\LimitColorsModifier;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Interfaces\ImageInterface;
 
-/**
- * @property int $color_limit
- */
 class GifEncoder extends DriverSpecializedEncoder
 {
     public function encode(ImageInterface $image): EncodedImage
@@ -19,7 +15,6 @@ class GifEncoder extends DriverSpecializedEncoder
             return $this->encodeAnimated($image);
         }
 
-        $image = $image->modify(new LimitColorsModifier($this->color_limit));
         $gd = $image->core()->native();
         $data = $this->getBuffered(function () use ($gd) {
             imagegif($gd);

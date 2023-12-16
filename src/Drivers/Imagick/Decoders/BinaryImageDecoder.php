@@ -56,8 +56,7 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
         );
 
         $image->setOrigin(new Origin(
-            $imagick->getImageMimeType(),
-            $imagick->getImageColors()
+            $imagick->getImageMimeType()
         ));
 
         return $image;

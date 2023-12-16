@@ -55,10 +55,7 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
 
         if ($info = getimagesizefromstring($input)) {
             $image->setOrigin(
-                new Origin(
-                    $info['mime'],
-                    imagecolorstotal($gd)
-                ),
+                new Origin($info['mime'])
             );
         }
 
@@ -95,9 +92,10 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
             );
         }
 
-        return new Image(
-            new Driver(),
-            $core
+        $image = new Image(new Driver(), $core);
+
+        return $image->setOrigin(
+            new Origin('image/gif')
         );
     }
 }

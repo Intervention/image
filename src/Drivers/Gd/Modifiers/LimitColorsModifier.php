@@ -27,8 +27,11 @@ class LimitColorsModifier extends DriverSpecializedModifier
         $height = $image->height();
 
         foreach ($image as $frame) {
-            // create empty gd
-            $reduced = imagecreatetruecolor($width, $height);
+            // limitied color image must be palette (indexed) GDImage
+            $reduced = imagecreate($width, $height);
+
+            // save alpha channel
+            imagesavealpha($reduced, true);
 
             // create matte
             $matte = imagecolorallocatealpha($reduced, 255, 255, 255, 127);
@@ -36,23 +39,23 @@ class LimitColorsModifier extends DriverSpecializedModifier
             // fill with matte
             imagefill($reduced, 0, 0, $matte);
 
+            // disable alpha blending for the copy process
             imagealphablending($reduced, false);
 
             // set transparency and get transparency index
             imagecolortransparent($reduced, $matte);
 
-            // copy original image
+            // copy original image (colors are limited automatically in the copy process)
             imagecopy($reduced, $frame->native(), 0, 0, 0, 0, $width, $height);
 
             // reduce limit by one to include possible transparency in palette
-            $limit = imagecolortransparent($frame->native()) === -1 ? $this->limit : $this->limit - 1;
+            // $limit = imagecolortransparent($frame->native()) === -1 ? $this->limit : $this->limit - 1;
 
             // decrease colors
-            imagetruecolortopalette($reduced, true, $limit);
+            // imagetruecolortopalette($reduced, true, $limit);
 
             $frame->setNative($reduced);
         }
-
 
         return $image;
     }

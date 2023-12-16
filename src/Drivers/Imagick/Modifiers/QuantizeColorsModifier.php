@@ -3,23 +3,23 @@
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Intervention\Image\Drivers\DriverSpecializedModifier;
+use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Interfaces\ImageInterface;
 
 /**
  * @property int $limit
- * @property int $threshold
+ * @property mixed $background
  */
-class LimitColorsModifier extends DriverSpecializedModifier
+class QuantizeColorsModifier extends DriverSpecializedModifier
 {
     public function apply(ImageInterface $image): ImageInterface
     {
-        // no color limit: no reduction
-        if ($this->limit === 0) {
-            return $image;
+        if ($this->limit <= 0) {
+            throw new InputException('Quantization limit must be greater than 0.');
         }
 
-        // limit is over threshold: no reduction
-        if ($this->limit > $this->threshold) {
+        // no color reduction if the limit is higher than the colors in the img
+        if ($this->limit > $image->core()->native()->getImageColors()) {
             return $image;
         }
 

@@ -64,6 +64,7 @@ use Intervention\Image\Modifiers\PixelateModifier;
 use Intervention\Image\Modifiers\PlaceModifier;
 use Intervention\Image\Modifiers\ProfileModifier;
 use Intervention\Image\Modifiers\ProfileRemovalModifier;
+use Intervention\Image\Modifiers\QuantizeColorsModifier;
 use Intervention\Image\Modifiers\RemoveAnimationModifier;
 use Intervention\Image\Modifiers\ResizeCanvasModifier;
 use Intervention\Image\Modifiers\ResizeCanvasRelativeModifier;
@@ -364,6 +365,16 @@ final class Image implements ImageInterface, Countable
     public function removeProfile(): ImageInterface
     {
         return $this->modify(new ProfileRemovalModifier());
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::reduceColors()
+     */
+    public function reduceColors(int $limit, mixed $background = 'transparent'): ImageInterface
+    {
+        return $this->modify(new QuantizeColorsModifier($limit, $background));
     }
 
     /**

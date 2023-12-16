@@ -199,6 +199,14 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function removeProfile(): ImageInterface;
 
     /**
+     * Apply color quantization to the current image
+     *
+     * @param int $limit
+     * @return ImageInterface
+     */
+    public function reduceColors(int $limit): ImageInterface;
+
+    /**
      * Sharpen the current image with given strength
      *
      * @param  int $amount

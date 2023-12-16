@@ -10,5 +10,5 @@ interface DecoderInterface
      * @param mixed $input
      * @return ImageInterface|ColorInterface
      */
-    public function decode($input): ImageInterface|ColorInterface;
+    public function decode(mixed $input): ImageInterface|ColorInterface;
 }

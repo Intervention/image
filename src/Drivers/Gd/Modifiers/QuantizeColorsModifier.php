@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\DriverSpecializedModifier;
+use Intervention\Image\Drivers\Gd\SpecializedModifier;
 use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Interfaces\ImageInterface;
 
@@ -10,7 +10,7 @@ use Intervention\Image\Interfaces\ImageInterface;
  * @property int $limit
  * @property mixed $background
  */
-class QuantizeColorsModifier extends DriverSpecializedModifier
+class QuantizeColorsModifier extends SpecializedModifier
 {
     public function apply(ImageInterface $image): ImageInterface
     {
@@ -34,6 +34,9 @@ class QuantizeColorsModifier extends DriverSpecializedModifier
         foreach ($image as $frame) {
             // create new image for color quantization
             $reduced = imagecreatetruecolor($width, $height);
+
+            // retain resolution
+            $this->copyResolution($frame->native(), $reduced);
 
             // fill with background
             imagefill($reduced, 0, 0, $background);

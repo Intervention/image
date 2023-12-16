@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\DriverSpecializedModifier;
+use Intervention\Image\Drivers\Gd\SpecializedModifier;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -11,7 +11,7 @@ use Intervention\Image\Interfaces\SizeInterface;
  * @method SizeInterface getResizeSize(ImageInterface $image)
  * @method SizeInterface getCropSize(ImageInterface $image)
  */
-class CoverModifier extends DriverSpecializedModifier
+class CoverModifier extends SpecializedModifier
 {
     public function apply(ImageInterface $image): ImageInterface
     {
@@ -35,6 +35,9 @@ class CoverModifier extends DriverSpecializedModifier
 
         // get original image
         $original = $frame->native();
+
+        // retain resolution
+        $this->copyResolution($original, $modified);
 
         // preserve transparency
         $transIndex = imagecolortransparent($original);

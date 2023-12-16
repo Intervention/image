@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\DriverSpecializedModifier;
+use Intervention\Image\Drivers\Gd\SpecializedModifier;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -11,7 +11,7 @@ use Intervention\Image\Interfaces\SizeInterface;
  * @property null|int $width
  * @property null|int $height
  */
-class ResizeModifier extends DriverSpecializedModifier
+class ResizeModifier extends SpecializedModifier
 {
     public function apply(ImageInterface $image): ImageInterface
     {
@@ -33,6 +33,9 @@ class ResizeModifier extends DriverSpecializedModifier
 
         // get current GDImage
         $current = $frame->native();
+
+        // retain resolution
+        $this->copyResolution($current, $modified);
 
         // preserve transparency
         $transIndex = imagecolortransparent($current);

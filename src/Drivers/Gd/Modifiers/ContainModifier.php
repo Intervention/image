@@ -5,7 +5,7 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
-use Intervention\Image\Drivers\DriverSpecializedModifier;
+use Intervention\Image\Drivers\Gd\SpecializedModifier;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -20,7 +20,7 @@ use Intervention\Image\Modifiers\FillModifier;
  * @property mixed $background
  * @property string $position
  */
-class ContainModifier extends DriverSpecializedModifier
+class ContainModifier extends SpecializedModifier
 {
     public function apply(ImageInterface $image): ImageInterface
     {
@@ -48,6 +48,9 @@ class ContainModifier extends DriverSpecializedModifier
         )->modify(
             new FillModifier($background)
         )->core()->native();
+
+        // retain resolution
+        $this->copyResolution($frame->native(), $modified);
 
         // make image area transparent to keep transparency
         // even if background-color is set

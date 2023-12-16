@@ -2,7 +2,6 @@
 
 namespace Intervention\Image\Drivers\Gd;
 
-use GdImage;
 use Intervention\Image\Drivers\AbstractDriver;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;

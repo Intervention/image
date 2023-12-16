@@ -202,9 +202,10 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Apply color quantization to the current image
      *
      * @param int $limit
+     * @param mixed $background
      * @return ImageInterface
      */
-    public function reduceColors(int $limit): ImageInterface;
+    public function reduceColors(int $limit, mixed $background = 'transparent'): ImageInterface;
 
     /**
      * Sharpen the current image with given strength

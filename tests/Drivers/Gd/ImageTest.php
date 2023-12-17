@@ -4,10 +4,6 @@ namespace Intervention\Image\Tests\Drivers\Gd;
 
 use Intervention\Image\Analyzers\WidthAnalyzer;
 use Intervention\Image\Collection;
-use Intervention\Image\Colors\Rgb\Channels\Alpha;
-use Intervention\Image\Colors\Rgb\Channels\Blue;
-use Intervention\Image\Colors\Rgb\Channels\Green;
-use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Drivers\Gd\Core;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Drivers\Gd\Frame;
@@ -117,6 +113,13 @@ class ImageTest extends TestCase
     {
         $result = $this->image->encode(new PngEncoder());
         $this->assertInstanceOf(EncodedImage::class, $result);
+    }
+
+    public function testAutoEncode(): void
+    {
+        $result = $this->readTestImage('blue.gif')->encode();
+        $this->assertInstanceOf(EncodedImage::class, $result);
+        $this->assertMediaType('image/gif', (string) $result);
     }
 
     public function testWidthHeightSize(): void

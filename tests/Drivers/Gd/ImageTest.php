@@ -122,6 +122,17 @@ class ImageTest extends TestCase
         $this->assertMediaType('image/gif', (string) $result);
     }
 
+    public function testToMediaType(): void
+    {
+        $result = $this->readTestImage('blue.gif')->toMediaType();
+        $this->assertInstanceOf(EncodedImage::class, $result);
+        $this->assertMediaType('image/gif', (string) $result);
+
+        $result = $this->readTestImage('blue.gif')->toMediaType('image/png');
+        $this->assertInstanceOf(EncodedImage::class, $result);
+        $this->assertMediaType('image/png', (string) $result);
+    }
+
     public function testWidthHeightSize(): void
     {
         $this->assertEquals(3, $this->image->width());

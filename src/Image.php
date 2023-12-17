@@ -16,6 +16,7 @@ use Intervention\Image\Encoders\AvifEncoder;
 use Intervention\Image\Encoders\BmpEncoder;
 use Intervention\Image\Encoders\GifEncoder;
 use Intervention\Image\Encoders\JpegEncoder;
+use Intervention\Image\Encoders\MediaTypeEncoder;
 use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
@@ -742,6 +743,16 @@ final class Image implements ImageInterface, Countable
                 call_user_func(new LineFactory($init)),
             ),
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::toMediaType()
+     */
+    public function toMediaType(?string $type = null): EncodedImageInterface
+    {
+        return $this->encode(new MediaTypeEncoder($type));
     }
 
     /**

@@ -558,6 +558,15 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function drawLine(callable $init): ImageInterface;
 
     /**
+     * Encode image to given media (mime) type. If no type is given the image
+     * will be encoded to the format of the originally read image.
+     *
+     * @param null|string $type
+     * @return EncodedImageInterface
+     */
+    public function toMediaType(?string $type = null): EncodedImageInterface;
+
+    /**
      * Encode image to JPEG format
      *
      * @param int $quality

@@ -17,7 +17,6 @@ abstract class AbstractDecoder implements DecoderInterface
 
     public function __construct(protected ?AbstractDecoder $successor = null)
     {
-        //
     }
 
     /**
@@ -27,7 +26,7 @@ abstract class AbstractDecoder implements DecoderInterface
      * @return ImageInterface|ColorInterface
      * @throws DecoderException
      */
-    final public function handle($input): ImageInterface|ColorInterface
+    final public function handle(mixed $input): ImageInterface|ColorInterface
     {
         try {
             $decoded = $this->decode($input);
@@ -117,7 +116,7 @@ abstract class AbstractDecoder implements DecoderInterface
 
         $result = preg_match($pattern, $value, $matches);
 
-        return new class($matches, $result)
+        return new class ($matches, $result)
         {
             private $matches;
             private $result;

@@ -32,6 +32,6 @@ class JpegEncoderTest extends TestCase
         $image = $this->getTestImage();
         $encoder = new JpegEncoder(75);
         $result = $encoder->encode($image);
-        $this->assertMimeType('image/jpeg', (string) $result);
+        $this->assertMediaType('image/jpeg', (string) $result);
     }
 }

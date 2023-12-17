@@ -49,6 +49,6 @@ class GifEncoderTest extends TestCase
         $image = $this->getTestImage();
         $encoder = new GifEncoder();
         $result = $encoder->encode($image);
-        $this->assertMimeType('image/gif', (string) $result);
+        $this->assertMediaType('image/gif', (string) $result);
     }
 }

@@ -33,6 +33,6 @@ class PngEncoderTest extends TestCase
         $image = $this->getTestImage();
         $encoder = new PngEncoder();
         $result = $encoder->encode($image);
-        $this->assertMimeType('image/png', (string) $result);
+        $this->assertMediaType('image/png', (string) $result);
     }
 }

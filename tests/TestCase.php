@@ -31,7 +31,7 @@ abstract class TestCase extends MockeryTestCase
         $this->assertEquals(0, $channel->value());
     }
 
-    protected function assertMimeType(string|array $allowed, string $input): void
+    protected function assertMediaType(string|array $allowed, string $input): void
     {
         $pointer = fopen('php://temp', 'rw');
         fputs($pointer, $input);

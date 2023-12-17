@@ -32,6 +32,6 @@ class AvifEncoderTest extends TestCase
         $image = $this->getTestImage();
         $encoder = new AvifEncoder(10);
         $result = $encoder->encode($image);
-        $this->assertMimeType('image/avif', (string) $result);
+        $this->assertMediaType('image/avif', (string) $result);
     }
 }

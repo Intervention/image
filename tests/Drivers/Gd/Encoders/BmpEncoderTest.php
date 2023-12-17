@@ -30,6 +30,6 @@ class BmpEncoderTest extends TestCase
         $image = $this->getTestImage();
         $encoder = new BmpEncoder();
         $result = $encoder->encode($image);
-        $this->assertMimeType(['image/bmp', 'image/x-ms-bmp'], (string) $result);
+        $this->assertMediaType(['image/bmp', 'image/x-ms-bmp'], (string) $result);
     }
 }

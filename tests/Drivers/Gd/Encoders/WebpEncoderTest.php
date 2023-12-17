@@ -31,6 +31,6 @@ final class WebpEncoderTest extends TestCase
         $image = $this->getTestImage();
         $encoder = new WebpEncoder(75);
         $result = $encoder->encode($image);
-        $this->assertMimeType('image/webp', (string) $result);
+        $this->assertMediaType('image/webp', (string) $result);
     }
 }

@@ -11,7 +11,7 @@ class AutoEncoder implements EncoderInterface
 {
     public function encode(ImageInterface $image): EncodedImageInterface
     {
-        $type = $image->origin()->mimetype();
+        $type = $image->origin()->mediaType();
         return $image->encode(
             match ($type) {
                 'image/webp' => new WebpEncoder(),

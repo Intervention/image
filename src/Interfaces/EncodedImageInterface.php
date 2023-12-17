@@ -9,6 +9,13 @@ interface EncodedImageInterface extends FileInterface
      *
      * @return string
      */
+    public function mediaType(): string;
+
+    /**
+     * Alias of self::mediaType()
+     *
+     * @return string
+     */
     public function mimetype(): string;
 
     /**

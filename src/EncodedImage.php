@@ -10,22 +10,32 @@ class EncodedImage extends File implements EncodedImageInterface
      * Create new instance
      *
      * @param  string $data
-     * @param  string $mimetype
+     * @param  string $mediaType
      */
     public function __construct(
         protected string $data,
-        protected string $mimetype = 'application/octet-stream'
+        protected string $mediaType = 'application/octet-stream'
     ) {
     }
 
     /**
-     * Return mime type of encoed image data
+     * Return media (mime) type of encoed image data
+     *
+     * @return string
+     */
+    public function mediaType(): string
+    {
+        return $this->mediaType;
+    }
+
+    /**
+     * Alias of self::mediaType(
      *
      * @return string
      */
     public function mimetype(): string
     {
-        return $this->mimetype;
+        return $this->mediaType();
     }
 
     /**
@@ -35,6 +45,6 @@ class EncodedImage extends File implements EncodedImageInterface
      */
     public function toDataUri(): string
     {
-        return sprintf('data:%s;base64,%s', $this->mimetype, base64_encode($this->data));
+        return sprintf('data:%s;base64,%s', $this->mediaType, base64_encode($this->data));
     }
 }

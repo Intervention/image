@@ -7,16 +7,21 @@ class Origin
     /**
      * Create new origin instance
      *
-     * @param string $mimetype
+     * @param string $mediaType
      * @return void
      */
     public function __construct(
-        protected string $mimetype = 'application/octet-stream'
+        protected string $mediaType = 'application/octet-stream'
     ) {
+    }
+
+    public function mediaType(): string
+    {
+        return $this->mediaType;
     }
 
     public function mimetype(): string
     {
-        return $this->mimetype;
+        return $this->mediaType();
     }
 }

@@ -6,6 +6,13 @@ use Intervention\Image\Interfaces\PointInterface;
 
 class Point implements PointInterface
 {
+    /**
+     * Create new point instance
+     *
+     * @param int $x
+     * @param int $y
+     * @return void
+     */
     public function __construct(
         protected int $x = 0,
         protected int $y = 0

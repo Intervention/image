@@ -6,6 +6,11 @@ trait HasBackgroundColor
 {
     protected mixed $backgroundColor = null;
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see DrawableInterface::setBackgroundColor()
+     */
     public function setBackgroundColor(mixed $color): self
     {
         $this->backgroundColor = $color;
@@ -13,11 +18,21 @@ trait HasBackgroundColor
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see DrawableInterface::backgroundColor()
+     */
     public function backgroundColor(): mixed
     {
         return $this->backgroundColor;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see DrawableInterface::hasBackgroundColor()
+     */
     public function hasBackgroundColor(): bool
     {
         return !empty($this->backgroundColor);

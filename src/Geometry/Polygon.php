@@ -17,17 +17,34 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     use HasBorder;
     use HasBackgroundColor;
 
+    /**
+     * Create new polygon instance
+     *
+     * @param array $points
+     * @param PointInterface $pivot
+     * @return void
+     */
     public function __construct(
         protected array $points = [],
         protected PointInterface $pivot = new Point()
     ) {
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see DrawableInterface::position()
+     */
     public function position(): PointInterface
     {
         return $this->pivot;
     }
 
+    /**
+     * Implement iteration through all points of polygon
+     *
+     * @return Traversable
+     */
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->points);

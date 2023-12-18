@@ -9,6 +9,14 @@ use Intervention\Image\Interfaces\SizeInterface;
 
 class Rectangle extends Polygon implements SizeInterface, DrawableInterface
 {
+    /**
+     * Create new rectangle instance
+     *
+     * @param int $width
+     * @param int $height
+     * @param PointInterface $pivot
+     * @return void
+     */
     public function __construct(
         int $width,
         int $height,
@@ -20,11 +28,24 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
         $this->addPoint(new Point($this->pivot->x(), $this->pivot->y() - $height));
     }
 
+    /**
+     * Set size of rectangle
+     *
+     * @param int $width
+     * @param int $height
+     * @return Rectangle
+     */
     public function setSize(int $width, int $height): self
     {
         return $this->setWidth($width)->setHeight($height);
     }
 
+    /**
+     * Set width of rectangle
+     *
+     * @param int $width
+     * @return Rectangle
+     */
     public function setWidth(int $width): self
     {
         $this[1]->setX($this[0]->x() + $width);
@@ -33,6 +54,12 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
         return $this;
     }
 
+    /**
+     * Set height of rectangle
+     *
+     * @param int $height
+     * @return Rectangle
+     */
     public function setHeight(int $height): self
     {
         $this[2]->setY($this[1]->y() + $height);
@@ -41,11 +68,22 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
         return $this;
     }
 
+    /**
+     * Return pivot point of rectangle
+     *
+     * @return PointInterface
+     */
     public function pivot(): PointInterface
     {
         return $this->pivot;
     }
 
+    /**
+     * Set pivot point of rectangle
+     *
+     * @param PointInterface $pivot
+     * @return Rectangle
+     */
     public function setPivot(PointInterface $pivot): self
     {
         $this->pivot = $pivot;
@@ -53,6 +91,15 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
         return $this;
     }
 
+    /**
+     * Move pivot to the given position in the rectangle and adjust the new
+     * position by given offset values.
+     *
+     * @param string $position
+     * @param int $offset_x
+     * @param int $offset_y
+     * @return Rectangle
+     */
     public function movePivot(string $position, int $offset_x = 0, int $offset_y = 0): self
     {
         switch (strtolower($position)) {
@@ -131,6 +178,13 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
         return $this;
     }
 
+    /**
+     * Align pivot relative to given size at given position
+     *
+     * @param SizeInterface $size
+     * @param string $position
+     * @return Rectangle
+     */
     public function alignPivotTo(SizeInterface $size, string $position): self
     {
         $reference = new self($size->width(), $size->height());
@@ -143,6 +197,12 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
         return $this;
     }
 
+    /**
+     * Return relative position to given rectangle
+     *
+     * @param SizeInterface $rectangle
+     * @return PointInterface
+     */
     public function relativePositionTo(SizeInterface $rectangle): PointInterface
     {
         return new Point(
@@ -151,11 +211,22 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
         );
     }
 
+    /**
+     * Return aspect ration of rectangle
+     *
+     * @return float
+     */
     public function aspectRatio(): float
     {
         return $this->width() / $this->height();
     }
 
+    /**
+     * Determine if rectangle fits into given rectangle
+     *
+     * @param SizeInterface $size
+     * @return bool
+     */
     public function fitsInto(SizeInterface $size): bool
     {
         if ($this->width() > $size->width()) {
@@ -169,21 +240,41 @@ class Rectangle extends Polygon implements SizeInterface, DrawableInterface
         return true;
     }
 
+    /**
+     * Determine if rectangle has landscape format
+     *
+     * @return bool
+     */
     public function isLandscape(): bool
     {
         return $this->width() > $this->height();
     }
 
+    /**
+     * Determine if rectangle has landscape format
+     *
+     * @return bool
+     */
     public function isPortrait(): bool
     {
         return $this->width() < $this->height();
     }
 
+    /**
+     * Return most top left point of rectangle
+     *
+     * @return PointInterface
+     */
     public function topLeftPoint(): PointInterface
     {
         return $this->points[0];
     }
 
+    /**
+     * Return bottom right point of rectangle
+     *
+     * @return PointInterface
+     */
     public function bottomRightPoint(): PointInterface
     {
         return $this->points[2];

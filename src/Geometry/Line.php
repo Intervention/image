@@ -12,6 +12,14 @@ class Line implements DrawableInterface
     use HasBorder;
     use HasBackgroundColor;
 
+    /**
+     * Create new line instance
+     *
+     * @param Point $start
+     * @param Point $end
+     * @param int $width
+     * @return void
+     */
     public function __construct(
         protected Point $start,
         protected Point $end,
@@ -19,16 +27,32 @@ class Line implements DrawableInterface
     ) {
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see DrawableInterface::position()
+     */
     public function position(): PointInterface
     {
         return $this->start;
     }
 
+    /**
+     * Return line width
+     *
+     * @return int
+     */
     public function width(): int
     {
         return $this->width;
     }
 
+    /**
+     * Set line width
+     *
+     * @param int $width
+     * @return Line
+     */
     public function setWidth(int $width): self
     {
         $this->width = $width;
@@ -36,16 +60,32 @@ class Line implements DrawableInterface
         return $this;
     }
 
+    /**
+     * Get starting point of line
+     *
+     * @return Point
+     */
     public function start(): Point
     {
         return $this->start;
     }
 
+    /**
+     * get end point of line
+     *
+     * @return Point
+     */
     public function end(): Point
     {
         return $this->end;
     }
 
+    /**
+     * Set starting point of line
+     *
+     * @param Point $start
+     * @return Line
+     */
     public function setStart(Point $start): self
     {
         $this->start = $start;
@@ -53,6 +93,13 @@ class Line implements DrawableInterface
         return $this;
     }
 
+    /**
+     * Set starting point of line by coordinates
+     *
+     * @param int $x
+     * @param int $y
+     * @return Line
+     */
     public function from(int $x, int $y): self
     {
         $this->start()->setX($x);
@@ -61,6 +108,13 @@ class Line implements DrawableInterface
         return $this;
     }
 
+    /**
+     * Set end point of line by coordinates
+     *
+     * @param int $x
+     * @param int $y
+     * @return Line
+     */
     public function to(int $x, int $y): self
     {
         $this->end()->setX($x);
@@ -69,6 +123,12 @@ class Line implements DrawableInterface
         return $this;
     }
 
+    /**
+     * Set end point of line
+     *
+     * @param Point $end
+     * @return Line
+     */
     public function setEnd(Point $end): self
     {
         $this->end = $end;

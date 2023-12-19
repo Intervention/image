@@ -13,9 +13,8 @@ class WebpEncoder extends DriverSpecializedEncoder
 {
     public function encode(ImageInterface $image): EncodedImage
     {
-        $gd = $image->core()->native();
-        $data = $this->getBuffered(function () use ($gd) {
-            imagewebp($gd, null, $this->quality);
+        $data = $this->getBuffered(function () use ($image) {
+            imagewebp($image->core()->native(), null, $this->quality);
         });
 
         return new EncodedImage($data, 'image/webp');

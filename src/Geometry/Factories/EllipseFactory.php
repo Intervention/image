@@ -25,6 +25,20 @@ class EllipseFactory
         return $this;
     }
 
+    public function width(int $width): self
+    {
+        $this->ellipse->setWidth($width);
+
+        return $this;
+    }
+
+    public function height(int $height): self
+    {
+        $this->ellipse->setHeight($height);
+
+        return $this;
+    }
+
     public function background(mixed $color): self
     {
         $this->ellipse->setBackgroundColor($color);

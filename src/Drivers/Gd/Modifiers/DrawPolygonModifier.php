@@ -19,6 +19,7 @@ class DrawPolygonModifier extends AbstractDrawModifier
     {
         foreach ($image as $frame) {
             if ($this->drawable->hasBackgroundColor()) {
+                imagealphablending($frame->native(), true);
                 imagefilledpolygon(
                     $frame->native(),
                     $this->drawable->toArray(),
@@ -29,6 +30,7 @@ class DrawPolygonModifier extends AbstractDrawModifier
             }
 
             if ($this->drawable->hasBorder()) {
+                imagealphablending($frame->native(), true);
                 imagesetthickness($frame->native(), $this->drawable->borderSize());
                 imagepolygon(
                     $frame->native(),

@@ -21,6 +21,7 @@ class DrawRectangleModifier extends AbstractDrawModifier
         foreach ($image as $frame) {
             // draw background
             if ($this->drawable->hasBackgroundColor()) {
+                imagealphablending($frame->native(), true);
                 imagefilledrectangle(
                     $frame->native(),
                     $this->position()->x(),
@@ -35,6 +36,7 @@ class DrawRectangleModifier extends AbstractDrawModifier
 
             // draw border
             if ($this->drawable->hasBorder()) {
+                imagealphablending($frame->native(), true);
                 imagesetthickness($frame->native(), $this->drawable->borderSize());
                 imagerectangle(
                     $frame->native(),

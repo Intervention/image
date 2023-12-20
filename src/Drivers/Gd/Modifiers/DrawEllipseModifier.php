@@ -15,6 +15,8 @@ class DrawEllipseModifier extends AbstractDrawModifier
     {
         foreach ($image as $frame) {
             if ($this->drawable->hasBorder()) {
+                imagealphablending($frame->native(), true);
+
                 // slightly smaller ellipse to keep 1px bordered edges clean
                 if ($this->drawable->hasBackgroundColor()) {
                     imagefilledellipse(
@@ -49,6 +51,7 @@ class DrawEllipseModifier extends AbstractDrawModifier
                     )
                 );
             } else {
+                imagealphablending($frame->native(), true);
                 imagefilledellipse(
                     $frame->native(),
                     $this->position()->x(),

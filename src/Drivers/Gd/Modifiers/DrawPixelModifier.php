@@ -19,6 +19,7 @@ class DrawPixelModifier extends DriverSpecializedModifier
         );
 
         foreach ($image as $frame) {
+            imagealphablending($frame->native(), true);
             imagesetpixel(
                 $frame->native(),
                 $this->position->x(),

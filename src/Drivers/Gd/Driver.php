@@ -3,6 +3,7 @@
 namespace Intervention\Image\Drivers\Gd;
 
 use Intervention\Image\Drivers\AbstractDriver;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorProcessorInterface;
@@ -20,6 +21,20 @@ class Driver extends AbstractDriver
     public function id(): string
     {
         return 'GD';
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DriverInterface::checkHealth()
+     */
+    public function checkHealth(): void
+    {
+        if (!extension_loaded('gd') || !function_exists('gd_info')) {
+            throw new RuntimeException(
+                'GD Library extension not available with this PHP installation.'
+            );
+        }
     }
 
     /**

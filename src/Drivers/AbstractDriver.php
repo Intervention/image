@@ -11,6 +11,11 @@ use ReflectionClass;
 
 abstract class AbstractDriver implements DriverInterface
 {
+    public function __construct()
+    {
+        $this->checkHealth();
+    }
+
     /**
      * Return a specialized version for the current driver of the given object
      *

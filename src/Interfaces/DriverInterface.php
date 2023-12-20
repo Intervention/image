@@ -51,4 +51,11 @@ interface DriverInterface
      * @return ColorProcessorInterface
      */
     public function colorProcessor(ColorspaceInterface $colorspace): ColorProcessorInterface;
+
+    /**
+     * Check whether all requirements for operating the driver are met
+     *
+     * @return void
+     */
+    public function checkHealth(): void;
 }

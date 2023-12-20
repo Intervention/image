@@ -53,8 +53,10 @@ interface DriverInterface
     public function colorProcessor(ColorspaceInterface $colorspace): ColorProcessorInterface;
 
     /**
-     * Check whether all requirements for operating the driver are met
+     * Check whether all requirements for operating the driver are met and
+     * throw exception if the check fails.
      *
+     * @throws \Intervention\Image\Exceptions\RuntimeException
      * @return void
      */
     public function checkHealth(): void;

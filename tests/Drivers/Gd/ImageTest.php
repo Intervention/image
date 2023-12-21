@@ -122,15 +122,47 @@ class ImageTest extends TestCase
         $this->assertMediaType('image/gif', (string) $result);
     }
 
-    public function testToMediaType(): void
+    public function testEncodeByMediaType(): void
     {
-        $result = $this->readTestImage('blue.gif')->toMediaType();
+        $result = $this->readTestImage('blue.gif')->encodeByMediaType();
         $this->assertInstanceOf(EncodedImage::class, $result);
         $this->assertMediaType('image/gif', (string) $result);
 
-        $result = $this->readTestImage('blue.gif')->toMediaType('image/png');
+        $result = $this->readTestImage('blue.gif')->encodeByMediaType('image/png');
         $this->assertInstanceOf(EncodedImage::class, $result);
         $this->assertMediaType('image/png', (string) $result);
+    }
+
+    public function testEncodeByExtension(): void
+    {
+        $result = $this->readTestImage('blue.gif')->encodeByExtension();
+        $this->assertInstanceOf(EncodedImage::class, $result);
+        $this->assertMediaType('image/gif', (string) $result);
+
+        $result = $this->readTestImage('blue.gif')->encodeByExtension('png');
+        $this->assertInstanceOf(EncodedImage::class, $result);
+        $this->assertMediaType('image/png', (string) $result);
+    }
+
+    public function testEncodeByPath(): void
+    {
+        $result = $this->readTestImage('blue.gif')->encodeByPath();
+        $this->assertInstanceOf(EncodedImage::class, $result);
+        $this->assertMediaType('image/gif', (string) $result);
+
+        $result = $this->readTestImage('blue.gif')->encodeByPath('foo/bar.png');
+        $this->assertInstanceOf(EncodedImage::class, $result);
+        $this->assertMediaType('image/png', (string) $result);
+    }
+
+    public function testSaveAsFormat(): void
+    {
+        $path = __DIR__ . '/tmp.png';
+        $result = $this->readTestImage('blue.gif')->save($path);
+        $this->assertInstanceOf(Image::class, $result);
+        $this->assertFileExists($path);
+        $this->assertMediaType('image/png', file_get_contents($path));
+        unlink($path);
     }
 
     public function testWidthHeightSize(): void

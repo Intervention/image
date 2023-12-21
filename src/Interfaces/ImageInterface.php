@@ -68,6 +68,15 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function encode(EncoderInterface $encoder): EncodedImage;
 
     /**
+     * Save the image to the specified path in the file system. If no path is
+     * given, the image will be saved at its original location.
+     *
+     * @param null|string $path
+     * @return ImageInterface
+     */
+    public function save(?string $path = null): ImageInterface;
+
+    /**
      * Apply given modifier to current image
      *
      * @param ModifierInterface $modifier
@@ -564,7 +573,27 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|string $type
      * @return EncodedImageInterface
      */
-    public function toMediaType(?string $type = null): EncodedImageInterface;
+    public function encodeByMediaType(?string $type = null): EncodedImageInterface;
+
+    /**
+     * Encode the image into the format represented by the given extension. If no
+     * extension is given the image will be encoded to the format of the
+     * originally read image.
+     *
+     * @param null|string $extension
+     * @return EncodedImageInterface
+     */
+    public function encodeByExtension(?string $extension = null): EncodedImageInterface;
+
+    /**
+     * Encode the image into the format represented by the given extension of
+     * the given file path extension is given the image will be encoded to
+     * the format of the originally read image.
+     *
+     * @param null|string $path
+     * @return EncodedImageInterface
+     */
+    public function encodeByPath(?string $path = null): EncodedImageInterface;
 
     /**
      * Encode image to JPEG format

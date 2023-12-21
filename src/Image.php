@@ -748,9 +748,9 @@ final class Image implements ImageInterface, Countable
     /**
      * {@inheritdoc}
      *
-     * @see ImageInterface::toMediaType()
+     * @see ImageInterface::encodeByMediaType()
      */
-    public function toMediaType(?string $type = null): EncodedImageInterface
+    public function encodeByMediaType(?string $type = null): EncodedImageInterface
     {
         return $this->encode(new MediaTypeEncoder($type));
     }

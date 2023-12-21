@@ -564,7 +564,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|string $type
      * @return EncodedImageInterface
      */
-    public function toMediaType(?string $type = null): EncodedImageInterface;
+    public function encodeByMediaType(?string $type = null): EncodedImageInterface;
 
     /**
      * Encode image to JPEG format

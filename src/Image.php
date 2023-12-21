@@ -17,6 +17,7 @@ use Intervention\Image\Encoders\BmpEncoder;
 use Intervention\Image\Encoders\FileExtensionEncoder;
 use Intervention\Image\Encoders\FilePathEncoder;
 use Intervention\Image\Encoders\GifEncoder;
+use Intervention\Image\Encoders\Jpeg2000Encoder;
 use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\Encoders\MediaTypeEncoder;
 use Intervention\Image\Encoders\PngEncoder;
@@ -810,6 +811,27 @@ final class Image implements ImageInterface, Countable
     public function toJpg(int $quality = 75): EncodedImageInterface
     {
         return $this->toJpeg($quality);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::toJpeg()
+     */
+    public function toJpeg2000(int $quality = 75): EncodedImageInterface
+    {
+        return $this->encode(new Jpeg2000Encoder($quality));
+    }
+
+    /**
+     * ALias of self::toJpeg2000()
+     *
+     * @param  int $quality
+     * @return EncodedImageInterface
+     */
+    public function toJp2(int $quality = 75): EncodedImageInterface
+    {
+        return $this->toJpeg2000($quality);
     }
 
     /**

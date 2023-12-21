@@ -14,6 +14,7 @@ use Intervention\Image\Analyzers\WidthAnalyzer;
 use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\Encoders\AvifEncoder;
 use Intervention\Image\Encoders\BmpEncoder;
+use Intervention\Image\Encoders\FileExtensionEncoder;
 use Intervention\Image\Encoders\GifEncoder;
 use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\Encoders\MediaTypeEncoder;
@@ -753,6 +754,16 @@ final class Image implements ImageInterface, Countable
     public function encodeByMediaType(?string $type = null): EncodedImageInterface
     {
         return $this->encode(new MediaTypeEncoder($type));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::encodeByExtension()
+     */
+    public function encodeByExtension(?string $extension = null): EncodedImageInterface
+    {
+        return $this->encode(new FileExtensionEncoder($extension));
     }
 
     /**

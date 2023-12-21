@@ -567,6 +567,16 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function encodeByMediaType(?string $type = null): EncodedImageInterface;
 
     /**
+     * Encode the image into the format represented by the given extension. If no
+     * extension is given the image will be encoded to the format of the
+     * originally read image.
+     *
+     * @param null|string $extension
+     * @return EncodedImageInterface
+     */
+    public function encodeByExtension(?string $extension = null): EncodedImageInterface;
+
+    /**
      * Encode image to JPEG format
      *
      * @param int $quality

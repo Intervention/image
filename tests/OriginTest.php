@@ -14,4 +14,13 @@ class OriginTest extends TestCase
         $origin = new Origin('image/gif');
         $this->assertEquals('image/gif', $origin->mediaType());
     }
+
+    public function testFileExtension(): void
+    {
+        $origin = new Origin('image/jpeg', __DIR__ . '/tests/images/example.jpg');
+        $this->assertEquals('jpg', $origin->fileExtension());
+
+        $origin = new Origin('image/jpeg');
+        $this->assertEquals('', $origin->fileExtension());
+    }
 }

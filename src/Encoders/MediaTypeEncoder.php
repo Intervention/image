@@ -13,9 +13,10 @@ class MediaTypeEncoder implements EncoderInterface
      * Create new encoder instance to encode given media (mime) type
      *
      * @param null|string $type
+     * @param int $quality
      * @return void
      */
-    public function __construct(protected ?string $type = null)
+    public function __construct(protected ?string $type = null, protected int $quality = 75)
     {
     }
 
@@ -43,13 +44,13 @@ class MediaTypeEncoder implements EncoderInterface
     protected function encoderByMediaType(string $type): EncoderInterface
     {
         return match ($type) {
-            'image/webp' => new WebpEncoder(),
-            'image/avif' => new AvifEncoder(),
-            'image/jpeg' => new JpegEncoder(),
+            'image/webp' => new WebpEncoder($this->quality),
+            'image/avif' => new AvifEncoder($this->quality),
+            'image/jpeg' => new JpegEncoder($this->quality),
             'image/bmp' => new BmpEncoder(),
             'image/gif' => new GifEncoder(),
             'image/png' => new PngEncoder(),
-            'image/tiff' => new TiffEncoder(),
+            'image/tiff' => new TiffEncoder($this->quality),
             default => throw new EncoderException('No encoder found for media type (' . $type . ').'),
         };
     }

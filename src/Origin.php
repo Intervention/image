@@ -36,6 +36,16 @@ class Origin
     }
 
     /**
+     * Return file path of origin
+     *
+     * @return null|string
+     */
+    public function filePath(): ?string
+    {
+        return $this->filePath;
+    }
+
+    /**
      * Set file path for origin
      *
      * @param string $path

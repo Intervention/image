@@ -33,8 +33,19 @@ class FileExtensionEncoder extends AutoEncoder
         );
     }
 
-    protected function encoderByFileExtension(string $extension): EncoderInterface
+    /**
+     * Create matching encoder for given file extension
+     *
+     * @param string $extension
+     * @return EncoderInterface
+     * @throws EncoderException
+     */
+    protected function encoderByFileExtension(?string $extension): EncoderInterface
     {
+        if (empty($extension)) {
+            throw new EncoderException('No encoder found for empty file extension.');
+        }
+
         return match ($extension) {
             'webp' => new WebpEncoder(),
             'avif' => new AvifEncoder(),

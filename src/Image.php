@@ -15,6 +15,7 @@ use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\Encoders\AvifEncoder;
 use Intervention\Image\Encoders\BmpEncoder;
 use Intervention\Image\Encoders\FileExtensionEncoder;
+use Intervention\Image\Encoders\FilePathEncoder;
 use Intervention\Image\Encoders\GifEncoder;
 use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\Encoders\MediaTypeEncoder;
@@ -248,6 +249,20 @@ final class Image implements ImageInterface, Countable
     public function encode(EncoderInterface $encoder = new AutoEncoder()): EncodedImage
     {
         return $this->driver->resolve($encoder)->encode($this);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::save()
+     */
+    public function save(?string $path = null): ImageInterface
+    {
+        $path = is_null($path) ? $this->origin()->filePath() : $path;
+
+        $this->encodeByPath($path)->save($path);
+
+        return $this;
     }
 
     /**
@@ -764,6 +779,16 @@ final class Image implements ImageInterface, Countable
     public function encodeByExtension(?string $extension = null): EncodedImageInterface
     {
         return $this->encode(new FileExtensionEncoder($extension));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::encodeByPath()
+     */
+    public function encodeByPath(?string $path = null): EncodedImageInterface
+    {
+        return $this->encode(new FilePathEncoder($path));
     }
 
     /**

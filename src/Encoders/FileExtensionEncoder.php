@@ -55,6 +55,7 @@ class FileExtensionEncoder extends AutoEncoder
             'gif' => new GifEncoder(),
             'png' => new PngEncoder(),
             'tiff', 'tif' => new TiffEncoder($this->quality),
+            'jp2', 'j2k', 'jpf', 'jpm', 'jpg2', 'j2c', 'jpc', 'jpx' => new Jpeg2000Encoder($this->quality),
             default => throw new EncoderException('No encoder found for file extension (' . $extension . ').'),
         };
     }

@@ -51,6 +51,7 @@ class MediaTypeEncoder implements EncoderInterface
             'image/gif' => new GifEncoder(),
             'image/png' => new PngEncoder(),
             'image/tiff' => new TiffEncoder($this->quality),
+            'image/jp2', 'image/jpx', 'image/jpm' => new Jpeg2000Encoder($this->quality),
             default => throw new EncoderException('No encoder found for media type (' . $type . ').'),
         };
     }

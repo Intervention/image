@@ -7,6 +7,5 @@
 /.gitignore export-ignore
 /phpunit.xml export-ignore
 /phpunit.xml.dist export-ignore
-/readme.md export-ignore
 /docker-compose.yml export-ignore
 /Dockerfile export-ignore

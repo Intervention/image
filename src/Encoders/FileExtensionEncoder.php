@@ -47,7 +47,7 @@ class FileExtensionEncoder extends AutoEncoder
             throw new EncoderException('No encoder found for empty file extension.');
         }
 
-        return match ($extension) {
+        return match (strtolower($extension)) {
             'webp' => new WebpEncoder($this->quality),
             'avif' => new AvifEncoder($this->quality),
             'jpeg', 'jpg' => new JpegEncoder($this->quality),

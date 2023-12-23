@@ -43,7 +43,7 @@ class MediaTypeEncoder implements EncoderInterface
      */
     protected function encoderByMediaType(string $type): EncoderInterface
     {
-        return match ($type) {
+        return match (strtolower($type)) {
             'image/webp' => new WebpEncoder($this->quality),
             'image/avif' => new AvifEncoder($this->quality),
             'image/jpeg' => new JpegEncoder($this->quality),

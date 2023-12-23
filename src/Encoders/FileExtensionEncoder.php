@@ -13,9 +13,10 @@ class FileExtensionEncoder extends AutoEncoder
      * Create new encoder instance to encode to format of given file extension
      *
      * @param null|string $extension
+     * @param int $quality
      * @return void
      */
-    public function __construct(protected ?string $extension = null)
+    public function __construct(protected ?string $extension = null, protected int $quality = 75)
     {
     }
 
@@ -47,13 +48,13 @@ class FileExtensionEncoder extends AutoEncoder
         }
 
         return match ($extension) {
-            'webp' => new WebpEncoder(),
-            'avif' => new AvifEncoder(),
-            'jpeg', 'jpg' => new JpegEncoder(),
+            'webp' => new WebpEncoder($this->quality),
+            'avif' => new AvifEncoder($this->quality),
+            'jpeg', 'jpg' => new JpegEncoder($this->quality),
             'bmp' => new BmpEncoder(),
             'gif' => new GifEncoder(),
             'png' => new PngEncoder(),
-            'tiff', 'tif' => new TiffEncoder(),
+            'tiff', 'tif' => new TiffEncoder($this->quality),
             default => throw new EncoderException('No encoder found for file extension (' . $extension . ').'),
         };
     }

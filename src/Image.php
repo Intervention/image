@@ -256,11 +256,11 @@ final class Image implements ImageInterface, Countable
      *
      * @see ImageInterface::save()
      */
-    public function save(?string $path = null): ImageInterface
+    public function save(?string $path = null, int $quality = 75): ImageInterface
     {
         $path = is_null($path) ? $this->origin()->filePath() : $path;
 
-        $this->encodeByPath($path)->save($path);
+        $this->encodeByPath($path, $quality)->save($path);
 
         return $this;
     }
@@ -766,9 +766,9 @@ final class Image implements ImageInterface, Countable
      *
      * @see ImageInterface::encodeByMediaType()
      */
-    public function encodeByMediaType(?string $type = null): EncodedImageInterface
+    public function encodeByMediaType(?string $type = null, int $quality = 75): EncodedImageInterface
     {
-        return $this->encode(new MediaTypeEncoder($type));
+        return $this->encode(new MediaTypeEncoder($type, $quality));
     }
 
     /**
@@ -776,9 +776,9 @@ final class Image implements ImageInterface, Countable
      *
      * @see ImageInterface::encodeByExtension()
      */
-    public function encodeByExtension(?string $extension = null): EncodedImageInterface
+    public function encodeByExtension(?string $extension = null, int $quality = 75): EncodedImageInterface
     {
-        return $this->encode(new FileExtensionEncoder($extension));
+        return $this->encode(new FileExtensionEncoder($extension, $quality));
     }
 
     /**
@@ -786,9 +786,9 @@ final class Image implements ImageInterface, Countable
      *
      * @see ImageInterface::encodeByPath()
      */
-    public function encodeByPath(?string $path = null): EncodedImageInterface
+    public function encodeByPath(?string $path = null, int $quality = 75): EncodedImageInterface
     {
-        return $this->encode(new FilePathEncoder($path));
+        return $this->encode(new FilePathEncoder($path, $quality));
     }
 
     /**

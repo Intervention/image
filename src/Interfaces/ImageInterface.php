@@ -74,7 +74,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|string $path
      * @return ImageInterface
      */
-    public function save(?string $path = null): ImageInterface;
+    public function save(?string $path = null, int $quality = 75): ImageInterface;
 
     /**
      * Apply given modifier to current image
@@ -573,7 +573,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|string $type
      * @return EncodedImageInterface
      */
-    public function encodeByMediaType(?string $type = null): EncodedImageInterface;
+    public function encodeByMediaType(?string $type = null, int $quality = 75): EncodedImageInterface;
 
     /**
      * Encode the image into the format represented by the given extension. If no
@@ -583,7 +583,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|string $extension
      * @return EncodedImageInterface
      */
-    public function encodeByExtension(?string $extension = null): EncodedImageInterface;
+    public function encodeByExtension(?string $extension = null, int $quality = 75): EncodedImageInterface;
 
     /**
      * Encode the image into the format represented by the given extension of
@@ -593,7 +593,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|string $path
      * @return EncodedImageInterface
      */
-    public function encodeByPath(?string $path = null): EncodedImageInterface;
+    public function encodeByPath(?string $path = null, int $quality = 75): EncodedImageInterface;
 
     /**
      * Encode image to JPEG format

@@ -28,6 +28,21 @@ class File implements FileInterface
      */
     public function save(string $filepath): void
     {
+        $dir = pathinfo($filepath, PATHINFO_DIRNAME);
+
+        if (!is_dir($dir)) {
+            throw new NotWritableException(
+                "Can't write image to path. Directory does not exist."
+            );
+        }
+
+        if (!is_writable($dir)) {
+            throw new NotWritableException(
+                "Can't write image to path. Directory is not writable."
+            );
+        }
+
+        // write date
         $saved = @file_put_contents($filepath, (string) $this);
         if ($saved === false) {
             throw new NotWritableException(

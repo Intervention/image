@@ -604,6 +604,14 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function toJpeg(int $quality = 75): EncodedImageInterface;
 
     /**
+     * Encode image to Jpeg2000 format
+     *
+     * @param int $quality
+     * @return EncodedImageInterface
+     */
+    public function toJpeg2000(int $quality = 75): EncodedImageInterface;
+
+    /**
      * Encode image to Webp format
      *
      * @param int $quality

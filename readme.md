@@ -1,14 +1,14 @@
 # Intervention Image
-## PHP Image Manipulation
+## PHP Image Processing
 
 [![Latest Version](https://img.shields.io/packagist/v/intervention/image.svg)](https://packagist.org/packages/intervention/image)
 [![Build Status](https://github.com/Intervention/image/actions/workflows/run-tests.yml/badge.svg)](https://github.com/Intervention/image/actions)
 [![Monthly Downloads](https://img.shields.io/packagist/dm/intervention/image.svg)](https://packagist.org/packages/intervention/image/stats)
 
-Intervention Image is an **image handling and manipulation library written in
-PHP** that provides an easy and expressive way to create, edit and compose
-images. The GD library or Imagick can be selected as the base layer for all
-operations.
+Intervention Image is a **PHP image processing library** that provides a simple
+and expressive way to create, edit, and compose images. It features a unified
+API for the two most popular image manipulation extensions. You can choose
+between the GD library or Imagick as the base layer for all operations.
 
 - Simple interface for common image editing tasks
 - Interchangable driver architecture

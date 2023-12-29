@@ -3,6 +3,7 @@
 namespace Intervention\Image;
 
 use Countable;
+use Intervention\Gif\Exception\EncoderException;
 use Traversable;
 use Intervention\Image\Analyzers\ColorspaceAnalyzer;
 use Intervention\Image\Analyzers\HeightAnalyzer;
@@ -261,7 +262,19 @@ final class Image implements ImageInterface, Countable
     {
         $path = is_null($path) ? $this->origin()->filePath() : $path;
 
-        $this->encodeByPath($path, $quality)->save($path);
+        if (is_null($path)) {
+            throw new EncoderException('Could not determine file path to save.');
+        }
+
+        try {
+            // try to determine encoding format by file extension of the path
+            $encoded = $this->encodeByPath($path, $quality);
+        } catch (EncoderException) {
+            // fallback to encoding format by media type
+            $encoded = $this->encodeByMediaType(quality: $quality);
+        }
+
+        $encoded->save($path);
 
         return $this;
     }

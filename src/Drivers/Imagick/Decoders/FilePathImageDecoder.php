@@ -20,7 +20,7 @@ class FilePathImageDecoder extends BinaryImageDecoder implements DecoderInterfac
             if (!@is_file($input)) {
                 throw new DecoderException('Unable to decode input');
             }
-        } catch (Exception $e) {
+        } catch (Exception) {
             throw new DecoderException('Unable to decode input');
         }
 

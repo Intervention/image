@@ -25,7 +25,7 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
         try {
             $imagick = new Imagick();
             $imagick->readImageBlob($input);
-        } catch (ImagickException $e) {
+        } catch (ImagickException) {
             throw new DecoderException('Unable to decode input');
         }
 

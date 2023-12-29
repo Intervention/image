@@ -21,7 +21,7 @@ abstract class AbstractDrawModifier extends DriverSpecializedModifier
     {
         try {
             $color = $this->driver()->handleInput($this->drawable->backgroundColor());
-        } catch (DecoderException $e) {
+        } catch (DecoderException) {
             return $this->driver()->handleInput('transparent');
         }
 
@@ -32,7 +32,7 @@ abstract class AbstractDrawModifier extends DriverSpecializedModifier
     {
         try {
             $color = $this->driver()->handleInput($this->drawable->borderColor());
-        } catch (DecoderException $e) {
+        } catch (DecoderException) {
             return $this->driver()->handleInput('transparent');
         }
 

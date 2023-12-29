@@ -63,7 +63,7 @@ class Core implements CoreInterface, Iterator
     {
         try {
             $result = $this->imagick->setIteratorIndex($this->iteratorIndex);
-        } catch (ImagickException $e) {
+        } catch (ImagickException) {
             return false;
         }
 

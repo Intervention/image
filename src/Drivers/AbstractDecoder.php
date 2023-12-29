@@ -81,7 +81,7 @@ abstract class AbstractDecoder implements DecoderInterface
             $pointer = $this->buildFilePointer($image_data);
             $data = @exif_read_data($pointer, null, true);
             fclose($pointer);
-        } catch (Exception $e) {
+        } catch (Exception) {
             $data = [];
         }
 

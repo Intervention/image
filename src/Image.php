@@ -83,7 +83,7 @@ use Intervention\Image\Modifiers\SharpenModifier;
 use Intervention\Image\Modifiers\TextModifier;
 use Intervention\Image\Typography\FontFactory;
 
-final class Image implements ImageInterface, Countable
+final class Image implements ImageInterface
 {
     /**
      * The origin from which the image was created

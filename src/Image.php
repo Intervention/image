@@ -2,9 +2,8 @@
 
 namespace Intervention\Image;
 
-use Countable;
-use Intervention\Gif\Exception\EncoderException;
 use Traversable;
+use Intervention\Gif\Exception\EncoderException;
 use Intervention\Image\Analyzers\ColorspaceAnalyzer;
 use Intervention\Image\Analyzers\HeightAnalyzer;
 use Intervention\Image\Analyzers\PixelColorAnalyzer;
@@ -84,7 +83,7 @@ use Intervention\Image\Modifiers\SharpenModifier;
 use Intervention\Image\Modifiers\TextModifier;
 use Intervention\Image\Typography\FontFactory;
 
-final class Image implements ImageInterface, Countable
+final class Image implements ImageInterface
 {
     /**
      * The origin from which the image was created

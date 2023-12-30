@@ -2,7 +2,6 @@
 
 namespace Intervention\Image;
 
-use Countable;
 use Traversable;
 use Intervention\Image\Analyzers\ColorspaceAnalyzer;
 use Intervention\Image\Analyzers\HeightAnalyzer;

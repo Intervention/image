@@ -229,7 +229,7 @@ final class Image implements ImageInterface
      */
     public function modify(ModifierInterface $modifier): ImageInterface
     {
-        return $this->driver->resolve($modifier)->apply($this);
+        return $this->driver->specialize($modifier)->apply($this);
     }
 
     /**
@@ -239,7 +239,7 @@ final class Image implements ImageInterface
      */
     public function analyze(AnalyzerInterface $analyzer): mixed
     {
-        return $this->driver->resolve($analyzer)->analyze($this);
+        return $this->driver->specialize($analyzer)->analyze($this);
     }
 
     /**
@@ -249,7 +249,7 @@ final class Image implements ImageInterface
      */
     public function encode(EncoderInterface $encoder = new AutoEncoder()): EncodedImage
     {
-        return $this->driver->resolve($encoder)->encode($this);
+        return $this->driver->specialize($encoder)->encode($this);
     }
 
     /**

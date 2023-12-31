@@ -17,7 +17,7 @@ interface DriverInterface
      * @param object $input
      * @return object
      */
-    public function resolve(object $input): object;
+    public function specialize(object $input): object;
 
     /**
      * Create new image instance with the current driver in given dimensions

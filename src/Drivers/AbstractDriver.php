@@ -23,7 +23,7 @@ abstract class AbstractDriver implements DriverInterface
      * @return object
      * @throws NotSupportedException
      */
-    public function resolve(object $input): object
+    public function specialize(object $input): object
     {
         if ($this->isExternal($input)) {
             return $input;
@@ -31,15 +31,18 @@ abstract class AbstractDriver implements DriverInterface
 
         $driver_namespace = (new ReflectionClass($this))->getNamespaceName();
         $class_path = substr(get_class($input), strlen("Intervention\\Image\\"));
-        $specialized = $driver_namespace . "\\" . $class_path;
+        $classname = $driver_namespace . "\\" . $class_path;
 
-        if (! class_exists($specialized)) {
+        if (!class_exists($classname)) {
             throw new NotSupportedException(
                 "Class '" . $class_path . "' is not supported by " . $this->id() . " driver."
             );
         }
 
-        return new $specialized($input, $this);
+        return forward_static_call([
+            $classname,
+            'buildSpecialized'
+        ], $input, $this);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace Intervention\Image\Drivers;
 
 use Intervention\Image\Analyzers\AbstractAnalyzer;
+use Intervention\Image\Decoders\AbstractDecoder;
 use Intervention\Image\Encoders\AbstractEncoder;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\AnalyzerInterface;
@@ -66,6 +67,10 @@ abstract class AbstractDriver implements DriverInterface
         }
 
         if ($input instanceof AbstractEncoder) {
+            return false;
+        }
+
+        if ($input instanceof AbstractDecoder) {
             return false;
         }
 

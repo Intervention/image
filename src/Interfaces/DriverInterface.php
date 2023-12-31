@@ -40,9 +40,10 @@ interface DriverInterface
      * Handle given input by decoding it to ImageInterface or ColorInterface
      *
      * @param mixed $input
+     * @param array $decoders
      * @return ImageInterface|ColorInterface
      */
-    public function handleInput(mixed $input): ImageInterface|ColorInterface;
+    public function handleInput(mixed $input, array $decoders = []): ImageInterface|ColorInterface;
 
     /**
      * Return color processor for the given colorspace

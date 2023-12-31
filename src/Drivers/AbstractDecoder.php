@@ -11,7 +11,7 @@ use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Traits\CanBuildFilePointer;
 
-abstract class AbstractDecoder implements DecoderInterface
+abstract class AbstractDecoder extends DriverSpecialized implements DecoderInterface
 {
     use CanBuildFilePointer;
 

@@ -15,9 +15,9 @@ interface DriverInterface
      * Resolve given object into a specialized version for the current driver
      *
      * @param object $input
-     * @return object
+     * @return ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface
      */
-    public function specialize(object $input): object;
+    public function specialize(object $input): ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface;
 
     /**
      * Create new image instance with the current driver in given dimensions

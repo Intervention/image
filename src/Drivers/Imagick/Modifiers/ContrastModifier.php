@@ -2,13 +2,14 @@
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\DriverSpecializedModifier;
+use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\ModifierInterface;
 
 /**
  * @property int $level
  */
-class ContrastModifier extends DriverSpecializedModifier
+class ContrastModifier extends DriverSpecialized implements ModifierInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

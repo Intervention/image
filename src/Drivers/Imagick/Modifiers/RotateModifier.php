@@ -2,14 +2,15 @@
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\DriverSpecializedModifier;
+use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\ModifierInterface;
 
 /**
  * @method mixed rotationAngle()
  * @property mixed $background
  */
-class RotateModifier extends DriverSpecializedModifier
+class RotateModifier extends DriverSpecialized implements ModifierInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

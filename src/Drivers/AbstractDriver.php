@@ -5,7 +5,11 @@ namespace Intervention\Image\Drivers;
 use Intervention\Image\Analyzers\AbstractAnalyzer;
 use Intervention\Image\Encoders\AbstractEncoder;
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Interfaces\AnalyzerInterface;
+use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\DriverInterface;
+use Intervention\Image\Interfaces\EncoderInterface;
+use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Modifiers\AbstractModifier;
 use ReflectionClass;
 
@@ -20,10 +24,10 @@ abstract class AbstractDriver implements DriverInterface
      * Return a specialized version for the current driver of the given object
      *
      * @param object $input
-     * @return object
+     * @return ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface
      * @throws NotSupportedException
      */
-    public function specialize(object $input): object
+    public function specialize(object $input): ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface
     {
         if ($this->isExternal($input)) {
             return $input;

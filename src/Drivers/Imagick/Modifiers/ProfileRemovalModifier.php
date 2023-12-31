@@ -2,11 +2,12 @@
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\DriverSpecializedModifier;
+use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\ModifierInterface;
 
-class ProfileRemovalModifier extends DriverSpecializedModifier
+class ProfileRemovalModifier extends DriverSpecialized implements ModifierInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

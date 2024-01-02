@@ -12,7 +12,17 @@ class RectangleResizer
         protected ?int $width = null,
         protected ?int $height = null,
     ) {
-        //
+        if (is_int($width) && $width < 1) {
+            throw new GeometryException(
+                'The width you specify must be greater than or equal to 1.'
+            );
+        }
+
+        if (is_int($height) && $height < 1) {
+            throw new GeometryException(
+                'The height you specify must be greater than or equal to 1.'
+            );
+        }
     }
 
     public static function to(...$arguments): self

@@ -67,4 +67,13 @@ interface CollectionInterface extends Traversable
      * @return CollectionInterface
      */
     public function empty(): CollectionInterface;
+
+    /**
+     * Keep a slice of items and remove the rest from the collection
+     *
+     * @param int $offset
+     * @param null|int $length
+     * @return CollectionInterface
+     */
+    public function slice(int $offset, ?int $length = 0): CollectionInterface;
 }

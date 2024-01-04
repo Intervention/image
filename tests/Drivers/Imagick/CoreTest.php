@@ -66,4 +66,77 @@ class CoreTest extends TestCase
         $this->assertEquals(12, $core->loops());
         $this->assertInstanceOf(Core::class, $result);
     }
+
+    public function testHas(): void
+    {
+        $imagick = new Imagick();
+        $imagick->newImage(100, 100, new ImagickPixel('red'));
+        $imagick->addImage(clone $imagick);
+        $core = new Core($imagick);
+        $this->assertTrue($core->has(0));
+        $this->assertTrue($core->has(1));
+        $this->assertFalse($core->has(2));
+    }
+
+    public function testPush(): void
+    {
+        $imagick = new Imagick();
+        $imagick->newImage(100, 100, new ImagickPixel('red'));
+        $imagick->addImage(clone $imagick);
+        $core = new Core($imagick);
+        $this->assertEquals(2, $core->count());
+
+        $im = new Imagick();
+        $im->newImage(100, 100, new ImagickPixel('green'));
+        $result = $core->push(new Frame($im));
+        $this->assertEquals(3, $core->count());
+        $this->assertEquals(3, $result->count());
+    }
+
+    public function testGet(): void
+    {
+        $imagick = new Imagick();
+        $imagick->newImage(100, 100, new ImagickPixel('red'));
+        $imagick->addImage(clone $imagick);
+        $core = new Core($imagick);
+        $this->assertInstanceOf(Frame::class, $core->get(0));
+        $this->assertInstanceOf(Frame::class, $core->get(1));
+        $this->assertNull($core->get(2));
+        $this->assertEquals('foo', $core->get(2, 'foo'));
+    }
+
+    public function testEmpty(): void
+    {
+        $imagick = new Imagick();
+        $imagick->newImage(100, 100, new ImagickPixel('red'));
+        $imagick->addImage(clone $imagick);
+        $core = new Core($imagick);
+        $this->assertEquals(2, $core->count());
+        $result = $core->empty();
+        $this->assertEquals(0, $core->count());
+        $this->assertEquals(0, $result->count());
+    }
+
+    public function testSlice(): void
+    {
+        $imagick = new Imagick();
+
+        $im = new Imagick();
+        $im->newImage(10, 10, new ImagickPixel('red'));
+        $imagick->addImage($im);
+
+        $im = new Imagick();
+        $im->newImage(10, 10, new ImagickPixel('green'));
+        $imagick->addImage($im);
+
+        $im = new Imagick();
+        $im->newImage(10, 10, new ImagickPixel('blue'));
+        $imagick->addImage($im);
+
+        $core = new Core($imagick);
+        $this->assertEquals(3, $core->count());
+        $result = $core->slice(1, 2);
+        $this->assertEquals(2, $core->count());
+        $this->assertEquals(2, $result->count());
+    }
 }

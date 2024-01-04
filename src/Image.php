@@ -80,6 +80,7 @@ use Intervention\Image\Modifiers\RotateModifier;
 use Intervention\Image\Modifiers\ScaleDownModifier;
 use Intervention\Image\Modifiers\ScaleModifier;
 use Intervention\Image\Modifiers\SharpenModifier;
+use Intervention\Image\Modifiers\SliceAnimationModifier;
 use Intervention\Image\Modifiers\TextModifier;
 use Intervention\Image\Typography\FontFactory;
 
@@ -188,6 +189,11 @@ final class Image implements ImageInterface
     public function removeAnimation(int|string $position = 0): ImageInterface
     {
         return $this->modify(new RemoveAnimationModifier($position));
+    }
+
+    public function sliceAnimation(int $offset = 0, ?int $length = null): ImageInterface
+    {
+        return $this->modify(new SliceAnimationModifier($offset, $length));
     }
 
     /**

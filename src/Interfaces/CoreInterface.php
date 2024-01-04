@@ -2,9 +2,7 @@
 
 namespace Intervention\Image\Interfaces;
 
-use Traversable;
-
-interface CoreInterface extends Traversable
+interface CoreInterface extends CollectionInterface
 {
     /**
      * return driver's representation of the image core.
@@ -60,5 +58,10 @@ interface CoreInterface extends Traversable
      */
     public function setLoops(int $loops): CoreInterface;
 
+    /**
+     * Get first frame in core
+     *
+     * @return FrameInterface
+     */
     public function first(): FrameInterface;
 }

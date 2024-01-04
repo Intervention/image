@@ -69,7 +69,7 @@ interface CollectionInterface extends Traversable
     public function empty(): CollectionInterface;
 
     /**
-     * Keep a slice of items and remove the rest from the collection
+     * Extract items based on given values and discard the rest.
      *
      * @param int $offset
      * @param null|int $length

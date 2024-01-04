@@ -113,7 +113,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function removeAnimation(int|string $position = 0): ImageInterface;
 
     /**
-     * Keep a slice of the animated frame and remove the rest
+     * Extract animation frames based on given values and discard the rest
      *
      * @param int $offset
      * @param null|int $length

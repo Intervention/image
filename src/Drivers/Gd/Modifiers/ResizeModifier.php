@@ -46,7 +46,12 @@ class ResizeModifier extends SpecializedModifier
             imagefill($modified, 0, 0, $transColor);
             imagecolortransparent($modified, $transColor);
         } else {
-            imagealphablending($modified, false);
+            $transColor = imagecolorallocatealpha($modified, 255, 255, 255, 127);
+            imagealphablending($modified, true);
+            imagefill($modified, 0, 0, $transColor);
+            imagecolortransparent($modified, $transColor);
+
+            imagealphablending($modified, true);
             imagesavealpha($modified, true);
         }
 
@@ -63,6 +68,7 @@ class ResizeModifier extends SpecializedModifier
             $frame->size()->width(),
             $frame->size()->height()
         );
+
 
         // set new content as recource
         $frame->setNative($modified);

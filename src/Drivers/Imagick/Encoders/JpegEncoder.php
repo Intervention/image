@@ -18,14 +18,15 @@ class JpegEncoder extends DriverSpecializedEncoder
         $compression = Imagick::COMPRESSION_JPEG;
 
         $imagick = $image->core()->native();
-        $imagick->setImageBackgroundColor('white');
-        $imagick->setBackgroundColor('white');
         $imagick->setFormat($format);
         $imagick->setImageFormat($format);
         $imagick->setCompression($compression);
         $imagick->setImageCompression($compression);
         $imagick->setCompressionQuality($this->quality);
         $imagick->setImageCompressionQuality($this->quality);
+        $imagick->setImageBackgroundColor('white');
+        $imagick->setBackgroundColor('white');
+        $imagick->setImageAlphaChannel(Imagick::ALPHACHANNEL_REMOVE);
 
         return new EncodedImage($imagick->getImagesBlob(), 'image/jpeg');
     }

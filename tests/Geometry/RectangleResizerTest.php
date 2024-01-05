@@ -269,6 +269,13 @@ class RectangleResizerTest extends TestCase
         $result = $resizer->scale($size);
         $this->assertEquals(4000, $result->width());
         $this->assertEquals(2000, $result->height());
+
+        $size = new Rectangle(3, 3000);
+        $resizer = new RectangleResizer();
+        $resizer->toHeight(300);
+        $result = $resizer->scale($size);
+        $this->assertEquals(1, $result->width());
+        $this->assertEquals(300, $result->height());
     }
 
     public function testScaleDown()
@@ -363,6 +370,13 @@ class RectangleResizerTest extends TestCase
         $result = $resizer->scaleDown($size);
         $this->assertEquals(13, $result->width());
         $this->assertEquals(10, $result->height());
+
+        $size = new Rectangle(3, 3000);
+        $resizer = new RectangleResizer();
+        $resizer->toHeight(300);
+        $result = $resizer->scale($size);
+        $this->assertEquals(1, $result->width());
+        $this->assertEquals(300, $result->height());
     }
 
     /**

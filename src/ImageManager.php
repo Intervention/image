@@ -77,6 +77,9 @@ final class ImageManager
      * decodedable with one of the decoders passed. It is also possible to pass
      * a single object or class name of a decoder.
      *
+     * All decoders that implement the `DecoderInterface::class` can be passed. Usually
+     * a selection of classes of the namespace `Intervention\Image\Decoders`
+     *
      * If the second parameter is not set, an attempt to decode the input is made
      * with all available decoders of the driver.
      *

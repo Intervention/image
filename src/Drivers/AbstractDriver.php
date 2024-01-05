@@ -19,20 +19,18 @@ abstract class AbstractDriver implements DriverInterface
     }
 
     /**
-     * Return a specialized version for the current driver of the given object
+     * {@inheritdoc}
      *
-     * @param object $input
-     * @return ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface
-     * @throws NotSupportedException
+     * @see DriverInterface::specialize()
      */
-    public function specialize(object $input): ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface
+    public function specialize(object $object): ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface
     {
-        if (!($input instanceof SpecializableInterface)) {
-            return $input;
+        if (!($object instanceof SpecializableInterface)) {
+            return $object;
         }
 
         $driver_namespace = (new ReflectionClass($this))->getNamespaceName();
-        $class_path = substr(get_class($input), strlen("Intervention\\Image\\"));
+        $class_path = substr(get_class($object), strlen("Intervention\\Image\\"));
         $classname = $driver_namespace . "\\" . $class_path;
 
         if (!class_exists($classname)) {
@@ -44,6 +42,18 @@ abstract class AbstractDriver implements DriverInterface
         return forward_static_call([
             $classname,
             'buildSpecialized'
-        ], $input, $this);
+        ], $object, $this);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DriverInterface::specializeMultiple()
+     */
+    public function specializeMultiple(array $objects): array
+    {
+        return array_map(function ($classname) {
+            return $this->specialize(new $classname());
+        }, $objects);
     }
 }

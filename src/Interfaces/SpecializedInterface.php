@@ -4,6 +4,8 @@ namespace Intervention\Image\Interfaces;
 
 interface SpecializedInterface
 {
+    public function __construct();
+
     /**
      * Return current driver instance
      *

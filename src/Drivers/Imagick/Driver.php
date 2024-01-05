@@ -105,9 +105,9 @@ class Driver extends AbstractDriver
      *
      * @see DriverInterface::handleInput()
      */
-    public function handleInput(mixed $input): ImageInterface|ColorInterface
+    public function handleInput(mixed $input, array $decoders = []): ImageInterface|ColorInterface
     {
-        return (new InputHandler())->handle($input);
+        return (new InputHandler($decoders))->handle($input);
     }
 
     /**

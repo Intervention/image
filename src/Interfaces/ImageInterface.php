@@ -63,9 +63,9 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Encode image with given encoder
      *
      * @param EncoderInterface $encoder
-     * @return EncodedImage
+     * @return EncodedImageInterface
      */
-    public function encode(EncoderInterface $encoder): EncodedImage;
+    public function encode(EncoderInterface $encoder): EncodedImageInterface;
 
     /**
      * Save the image to the specified path in the file system. If no path is

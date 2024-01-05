@@ -5,10 +5,14 @@ namespace Intervention\Image\Drivers;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 
-class DriverSpecialized implements SpecializedInterface
+abstract class DriverSpecialized implements SpecializedInterface
 {
     protected DriverInterface $driver;
     protected object $generic;
+
+    public function __construct()
+    {
+    }
 
     public static function buildSpecialized(object $generic, DriverInterface $driver): SpecializedInterface
     {

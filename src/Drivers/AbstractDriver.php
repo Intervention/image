@@ -2,16 +2,13 @@
 
 namespace Intervention\Image\Drivers;
 
-use Intervention\Image\Analyzers\AbstractAnalyzer;
-use Intervention\Image\Decoders\AbstractDecoder;
-use Intervention\Image\Encoders\AbstractEncoder;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
-use Intervention\Image\Modifiers\AbstractModifier;
+use Intervention\Image\Interfaces\SpecializableInterface;
 use ReflectionClass;
 
 abstract class AbstractDriver implements DriverInterface
@@ -30,7 +27,7 @@ abstract class AbstractDriver implements DriverInterface
      */
     public function specialize(object $input): ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface
     {
-        if ($this->isExternal($input)) {
+        if (!($input instanceof SpecializableInterface)) {
             return $input;
         }
 
@@ -48,32 +45,5 @@ abstract class AbstractDriver implements DriverInterface
             $classname,
             'buildSpecialized'
         ], $input, $this);
-    }
-
-    /**
-     * Determine if given object is external custom modifier, analyzer or encoder
-     *
-     * @param object $input
-     * @return bool
-     */
-    private function isExternal(object $input): bool
-    {
-        if ($input instanceof AbstractModifier) {
-            return false;
-        }
-
-        if ($input instanceof AbstractAnalyzer) {
-            return false;
-        }
-
-        if ($input instanceof AbstractEncoder) {
-            return false;
-        }
-
-        if ($input instanceof AbstractDecoder) {
-            return false;
-        }
-
-        return true;
     }
 }

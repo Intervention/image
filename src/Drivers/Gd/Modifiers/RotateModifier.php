@@ -8,9 +8,9 @@ use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Drivers\Gd\SpecializedModifier;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Modifiers\FillModifier;
 
 /**
  * @method mixed rotationAngle()
@@ -23,7 +23,7 @@ class RotateModifier extends SpecializedModifier
         $background = $this->driver()->handleInput($this->background);
 
         foreach ($image as $frame) {
-            $this->modifyFrame($frame, $background);
+            $this->modifyFrame($frame, $background, $image->colorspace());
         }
 
         return $image;
@@ -35,10 +35,14 @@ class RotateModifier extends SpecializedModifier
      *
      * @param FrameInterface $frame
      * @param ColorInterface $background
+     * @param ColorspaceInterface $colorspace
      * @return void
      */
-    protected function modifyFrame(FrameInterface $frame, ColorInterface $background): void
-    {
+    protected function modifyFrame(
+        FrameInterface $frame,
+        ColorInterface $background,
+        ColorspaceInterface $colorspace
+    ): void {
         // get transparent color from frame core
         $transparent = match ($transparent = imagecolortransparent($frame->native())) {
             -1 => imagecolorallocatealpha(
@@ -74,12 +78,16 @@ class RotateModifier extends SpecializedModifier
             ->rotate($this->rotationAngle() * -1);
 
         // create new gd image
-        $modified = $this->driver()->createImage(
+        $modified = imagecreatetruecolor(
             imagesx($rotated),
             imagesy($rotated)
-        )->modify(new FillModifier($background))
-            ->core()
-            ->native();
+        );
+
+        // fill new gd with background color
+        $transColor = $this->driver()->colorProcessor($colorspace)->colorToNative($background);
+        imagealphablending($modified, true);
+        imagefill($modified, 0, 0, $transColor);
+        imagecolortransparent($modified, $transColor);
 
         // retain resolution
         $this->copyResolution($frame->native(), $modified);

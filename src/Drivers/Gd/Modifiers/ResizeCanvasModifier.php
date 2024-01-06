@@ -5,6 +5,7 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
+use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Drivers\Gd\SpecializedModifier;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
@@ -35,16 +36,8 @@ class ResizeCanvasModifier extends SpecializedModifier
         SizeInterface $resize,
         ColorInterface $background,
     ): void {
-        // create new gd image
-        $modified = $this->driver()->createImage(
-            $resize->width(),
-            $resize->height()
-        )->modify(
-            new FillModifier($background)
-        )->core()->native();
-
-        // retain resolution
-        $this->copyResolution($frame->native(), $modified);
+        // create new canvas with target size & target background color
+        $modified = Cloner::cloneEmpty($frame->native(), $resize, $background);
 
         // make image area transparent to keep transparency
         // even if background-color is set
@@ -57,7 +50,7 @@ class ResizeCanvasModifier extends SpecializedModifier
         );
 
         imagealphablending($modified, false); // do not blend / just overwrite
-        imagecolortransparent($modified, $transparent);
+        // imagecolortransparent($modified, $transparent);
         imagefilledrectangle(
             $modified,
             $resize->pivot()->x() * -1,

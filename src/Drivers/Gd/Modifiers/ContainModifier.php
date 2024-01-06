@@ -5,12 +5,12 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
+use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Drivers\Gd\SpecializedModifier;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
-use Intervention\Image\Modifiers\FillModifier;
 
 /**
  * @method SizeInterface getCropSize(ImageInterface $image)
@@ -27,9 +27,10 @@ class ContainModifier extends SpecializedModifier
         $crop = $this->getCropSize($image);
         $resize = $this->getResizeSize($image);
         $background = $this->driver()->handleInput($this->background);
+        $blendingColor = $image->blendingColor();
 
         foreach ($image as $frame) {
-            $this->modify($frame, $crop, $resize, $background);
+            $this->modify($frame, $crop, $resize, $background, $blendingColor);
         }
 
         return $image;
@@ -39,26 +40,19 @@ class ContainModifier extends SpecializedModifier
         FrameInterface $frame,
         SizeInterface $crop,
         SizeInterface $resize,
-        ColorInterface $background
+        ColorInterface $background,
+        ColorInterface $blendingColor
     ): void {
         // create new gd image
-        $modified = $this->driver()->createImage(
-            $resize->width(),
-            $resize->height()
-        )->modify(
-            new FillModifier($background)
-        )->core()->native();
-
-        // retain resolution
-        $this->copyResolution($frame->native(), $modified);
+        $modified = Cloner::cloneEmpty($frame->native(), $resize, $background);
 
         // make image area transparent to keep transparency
         // even if background-color is set
         $transparent = imagecolorallocatealpha(
             $modified,
-            $background->channel(Red::class)->value(),
-            $background->channel(Green::class)->value(),
-            $background->channel(Blue::class)->value(),
+            $blendingColor->channel(Red::class)->value(),
+            $blendingColor->channel(Green::class)->value(),
+            $blendingColor->channel(Blue::class)->value(),
             127,
         );
         imagealphablending($modified, false); // do not blend / just overwrite

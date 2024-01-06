@@ -2,6 +2,7 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Drivers\Gd\SpecializedModifier;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -28,31 +29,12 @@ class CropModifier extends SpecializedModifier
     protected function cropFrame(FrameInterface $frame, SizeInterface $resizeTo): void
     {
         // create new image
-        $modified = $this->driver()
-            ->createImage($resizeTo->width(), $resizeTo->height())
-            ->core()
-            ->native();
-
-        // get original image
-        $original = $frame->native();
-
-        // retain resolution
-        $this->copyResolution($original, $modified);
-
-        // preserve transparency
-        $transIndex = imagecolortransparent($original);
-
-        if ($transIndex != -1) {
-            $rgba = imagecolorsforindex($modified, $transIndex);
-            $transColor = imagecolorallocatealpha($modified, $rgba['red'], $rgba['green'], $rgba['blue'], 127);
-            imagefill($modified, 0, 0, $transColor);
-            imagecolortransparent($modified, $transColor);
-        }
+        $modified = Cloner::cloneEmpty($frame->native(), $resizeTo);
 
         // copy content from resource
         imagecopyresampled(
             $modified,
-            $original,
+            $frame->native(),
             0,
             0,
             $resizeTo->pivot()->x() + $this->offset_x,

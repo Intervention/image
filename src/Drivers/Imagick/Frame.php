@@ -3,6 +3,7 @@
 namespace Intervention\Image\Drivers\Imagick;
 
 use Imagick;
+use ImagickPixel;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\DriverInterface;
@@ -14,6 +15,9 @@ class Frame implements FrameInterface
 {
     public function __construct(protected Imagick $native)
     {
+        $background = new ImagickPixel('rgba(255, 255, 255, 0)');
+        $this->native->setImageBackgroundColor($background);
+        $this->native->setBackgroundColor($background);
     }
 
     /**

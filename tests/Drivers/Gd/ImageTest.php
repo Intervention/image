@@ -4,6 +4,7 @@ namespace Intervention\Image\Tests\Drivers\Gd;
 
 use Intervention\Image\Analyzers\WidthAnalyzer;
 use Intervention\Image\Collection;
+use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Drivers\Gd\Core;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Drivers\Gd\Frame;
@@ -53,10 +54,10 @@ class ImageTest extends TestCase
         $this->assertEquals(4, $result->width());
 
         $this->assertEquals('ff0000', $image->pickColor(0, 0)->toHex());
-        $this->assertEquals('00000000', $image->pickColor(1, 0)->toHex());
+        $this->assertTransparency($image->pickColor(1, 0));
 
         $this->assertEquals('ff0000', $clone->pickColor(0, 0)->toHex());
-        $this->assertEquals('00000000', $clone->pickColor(1, 0)->toHex());
+        $this->assertTransparency($image->pickColor(1, 0));
     }
 
     public function testDriver(): void
@@ -209,5 +210,15 @@ class ImageTest extends TestCase
     public function testText(): void
     {
         $this->assertInstanceOf(Image::class, $this->image->text('test', 0, 0, new Font()));
+    }
+
+    public function testSetGetBlendingColor(): void
+    {
+        $image = $this->readTestImage('gradient.gif');
+        $this->assertInstanceOf(ColorInterface::class, $image->blendingColor());
+        $this->assertColor(255, 255, 255, 0, $image->blendingColor());
+        $result = $image->setBlendingColor(new Color(1, 2, 3, 4));
+        $this->assertColor(1, 2, 3, 4, $result->blendingColor());
+        $this->assertColor(1, 2, 3, 4, $image->blendingColor());
     }
 }

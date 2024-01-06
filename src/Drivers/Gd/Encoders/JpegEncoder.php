@@ -3,6 +3,7 @@
 namespace Intervention\Image\Drivers\Gd\Encoders;
 
 use Intervention\Image\Drivers\DriverSpecializedEncoder;
+use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Interfaces\ImageInterface;
 
@@ -13,9 +14,10 @@ class JpegEncoder extends DriverSpecializedEncoder
 {
     public function encode(ImageInterface $image): EncodedImage
     {
-        $gd = $image->core()->native();
-        $data = $this->getBuffered(function () use ($gd) {
-            imagejpeg($gd, null, $this->quality);
+        $output = Cloner::cloneBlended($image->core()->native(), background: $image->blendingColor());
+
+        $data = $this->getBuffered(function () use ($output) {
+            imagejpeg($output, null, $this->quality);
         });
 
         return new EncodedImage($data, 'image/jpeg');

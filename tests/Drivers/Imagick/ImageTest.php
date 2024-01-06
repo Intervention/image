@@ -5,6 +5,7 @@ namespace Intervention\Image\Tests\Drivers\Imagick;
 use Imagick;
 use Intervention\Image\Analyzers\WidthAnalyzer;
 use Intervention\Image\Collection;
+use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Drivers\Imagick\Frame;
@@ -203,5 +204,15 @@ class ImageTest extends TestCase
     public function testSharpen(): void
     {
         $this->assertInstanceOf(Image::class, $this->image->sharpen(12));
+    }
+
+    public function testSetGetBlendingColor(): void
+    {
+        $image = $this->readTestImage('gradient.gif');
+        $this->assertInstanceOf(ColorInterface::class, $image->blendingColor());
+        $this->assertColor(255, 255, 255, 0, $image->blendingColor());
+        $result = $image->setBlendingColor(new Color(1, 2, 3, 4));
+        $this->assertColor(1, 2, 3, 4, $result->blendingColor());
+        $this->assertColor(1, 2, 3, 4, $image->blendingColor());
     }
 }

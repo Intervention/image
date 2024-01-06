@@ -11,6 +11,7 @@ use Intervention\Image\Analyzers\PixelColorsAnalyzer;
 use Intervention\Image\Analyzers\ProfileAnalyzer;
 use Intervention\Image\Analyzers\ResolutionAnalyzer;
 use Intervention\Image\Analyzers\WidthAnalyzer;
+use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\Encoders\AvifEncoder;
 use Intervention\Image\Encoders\BmpEncoder;
@@ -93,6 +94,14 @@ final class Image implements ImageInterface
     protected Origin $origin;
 
     /**
+     * Color is mixed with transparent areas when converting to a format which
+     * does not support transparency.
+     *
+     * @var ColorInterface
+     */
+    protected ColorInterface $blendingColor;
+
+    /**
      * Create new instance
      *
      * @param DriverInterface $driver
@@ -106,6 +115,9 @@ final class Image implements ImageInterface
         protected CollectionInterface $exif = new Collection()
     ) {
         $this->origin = new Origin();
+        $this->blendingColor = $this->colorspace()->importColor(
+            new Color(255, 255, 255, 0)
+        );
     }
 
     /**
@@ -366,6 +378,28 @@ final class Image implements ImageInterface
     public function pickColors(int $x, int $y): CollectionInterface
     {
         return $this->analyze(new PixelColorsAnalyzer($x, $y));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::blendingColor()
+     */
+    public function blendingColor(): ColorInterface
+    {
+        return $this->blendingColor;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::setBlendingColor()
+     */
+    public function setBlendingColor(mixed $color): ImageInterface
+    {
+        $this->blendingColor = $this->driver()->handleInput($color);
+
+        return $this;
     }
 
     /**

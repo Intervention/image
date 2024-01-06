@@ -203,6 +203,14 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function setBlendingColor(mixed $color): ImageInterface;
 
     /**
+     * Replace transparent areas of the image with given color
+     *
+     * @param mixed $color
+     * @return ImageInterface
+     */
+    public function blendTransparency(mixed $color = null): ImageInterface;
+
+    /**
      * Retrieve ICC color profile of image
      *
      * @return ProfileInterface

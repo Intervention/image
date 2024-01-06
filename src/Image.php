@@ -45,6 +45,7 @@ use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\ProfileInterface;
 use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Modifiers\BlendTransparencyModifier;
 use Intervention\Image\Modifiers\BlurModifier;
 use Intervention\Image\Modifiers\BrightnessModifier;
 use Intervention\Image\Modifiers\ColorizeModifier;
@@ -400,6 +401,16 @@ final class Image implements ImageInterface
         $this->blendingColor = $this->driver()->handleInput($color);
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::blendTransparency()
+     */
+    public function blendTransparency(mixed $color = null): ImageInterface
+    {
+        return $this->modify(new BlendTransparencyModifier($color));
     }
 
     /**

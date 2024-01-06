@@ -22,6 +22,10 @@ class JpegEncoder extends DriverSpecializedEncoder
             ->colorProcessor($image->colorspace())
             ->colorToNative($image->blendingColor());
 
+        // set alpha value to 1 because Imagick renders
+        // possible full transparent colors as black
+        $background->setColorValue(Imagick::COLOR_ALPHA, 1);
+
         $imagick = $image->core()->native();
         $imagick->setImageBackgroundColor($background);
         $imagick->setBackgroundColor($background);

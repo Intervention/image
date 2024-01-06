@@ -6,6 +6,9 @@ use Imagick;
 use Intervention\Image\Drivers\DriverSpecializedModifier;
 use Intervention\Image\Interfaces\ImageInterface;
 
+/**
+ * @property mixed $color
+ */
 class BlendTransparencyModifier extends DriverSpecializedModifier
 {
     public function apply(ImageInterface $image): ImageInterface

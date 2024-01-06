@@ -9,7 +9,6 @@ use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Gif\Decoder as GifDecoder;
 use Intervention\Gif\Splitter as GifSplitter;
-use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Drivers\Gd\Core;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Exceptions\DecoderException;
@@ -39,15 +38,16 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
             throw new DecoderException('Unable to decode input');
         }
 
-        // clone image to normalize transparency to #ffffff00
-        $normalized = Cloner::clone($gd);
-        imagedestroy($gd);
+        if (!imageistruecolor($gd)) {
+            imagepalettetotruecolor($gd);
+        }
+        imagesavealpha($gd, true);
 
         // build image instance
         $image =  new Image(
             new Driver(),
             new Core([
-                new Frame($normalized)
+                new Frame($gd)
             ]),
             $this->extractExifData($input)
         );

@@ -46,7 +46,7 @@ class Driver extends AbstractDriver
      */
     public function createImage(int $width, int $height): ImageInterface
     {
-        $background = new ImagickPixel('rgba(0, 0, 0, 0)');
+        $background = new ImagickPixel('rgba(255, 255, 255, 0)');
 
         $imagick = new Imagick();
         $imagick->newImage($width, $height, $background, 'png');
@@ -54,6 +54,7 @@ class Driver extends AbstractDriver
         $imagick->setImageType(Imagick::IMGTYPE_UNDEFINED);
         $imagick->setColorspace(Imagick::COLORSPACE_SRGB);
         $imagick->setImageResolution(96, 96);
+        $imagick->setImageBackgroundColor($background);
 
         return new Image($this, new Core($imagick));
     }

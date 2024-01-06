@@ -47,7 +47,7 @@ class Driver extends AbstractDriver
         // build new transparent GDImage
         $data = imagecreatetruecolor($width, $height);
         imagesavealpha($data, true);
-        $background = imagecolorallocatealpha($data, 255, 0, 255, 127);
+        $background = imagecolorallocatealpha($data, 255, 255, 255, 127);
         imagealphablending($data, false);
         imagefill($data, 0, 0, $background);
         imagecolortransparent($data, $background);

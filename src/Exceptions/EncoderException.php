@@ -2,6 +2,6 @@
 
 namespace Intervention\Image\Exceptions;
 
-class RuntimeException extends \RuntimeException
+class EncoderException extends \RuntimeException
 {
 }

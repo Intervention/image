@@ -3,7 +3,6 @@
 namespace Intervention\Image;
 
 use Traversable;
-use Intervention\Gif\Exception\EncoderException;
 use Intervention\Image\Analyzers\ColorspaceAnalyzer;
 use Intervention\Image\Analyzers\HeightAnalyzer;
 use Intervention\Image\Analyzers\PixelColorAnalyzer;
@@ -24,6 +23,7 @@ use Intervention\Image\Encoders\MediaTypeEncoder;
 use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
+use Intervention\Image\Exceptions\EncoderException;
 use Intervention\Image\Geometry\Factories\CircleFactory;
 use Intervention\Image\Geometry\Factories\EllipseFactory;
 use Intervention\Image\Geometry\Factories\LineFactory;

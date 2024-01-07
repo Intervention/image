@@ -27,8 +27,7 @@ class GifEncoder extends DriverSpecializedEncoder
     {
         $builder = GifBuilder::canvas(
             $image->width(),
-            $image->height(),
-            $image->loops()
+            $image->height()
         );
 
         foreach ($image as $frame) {
@@ -37,6 +36,8 @@ class GifEncoder extends DriverSpecializedEncoder
                 $frame->delay()
             );
         }
+
+        $builder->setLoops($image->loops());
 
         return new EncodedImage($builder->encode(), 'image/gif');
     }

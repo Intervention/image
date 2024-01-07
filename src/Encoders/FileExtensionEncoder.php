@@ -2,7 +2,6 @@
 
 namespace Intervention\Image\Encoders;
 
-use Intervention\Gif\Exception\EncoderException;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;

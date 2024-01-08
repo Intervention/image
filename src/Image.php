@@ -715,9 +715,10 @@ final class Image implements ImageInterface
         int $height,
         int $offset_x = 0,
         int $offset_y = 0,
+        mixed $background = 'ffffff',
         string $position = 'top-left'
     ): ImageInterface {
-        return $this->modify(new CropModifier($width, $height, $offset_x, $offset_y, $position));
+        return $this->modify(new CropModifier($width, $height, $offset_x, $offset_y, $background, $position));
     }
 
     /**

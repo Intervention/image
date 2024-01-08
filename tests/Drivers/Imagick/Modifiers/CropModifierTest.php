@@ -17,11 +17,23 @@ class CropModifierTest extends TestCase
     public function testModify(): void
     {
         $image = $this->readTestImage('blocks.png');
-        $image = $image->modify(new CropModifier(200, 200, 0, 0, 'bottom-right'));
+        $image = $image->modify(new CropModifier(200, 200, 0, 0, 'ffffff', 'bottom-right'));
         $this->assertEquals(200, $image->width());
         $this->assertEquals(200, $image->height());
         $this->assertColor(255, 0, 0, 255, $image->pickColor(5, 5));
         $this->assertColor(255, 0, 0, 255, $image->pickColor(100, 100));
         $this->assertColor(255, 0, 0, 255, $image->pickColor(190, 190));
+    }
+
+    public function testModifyExtend(): void
+    {
+        $image = $this->readTestImage('blocks.png');
+        $image = $image->modify(new CropModifier(800, 100, -10, -10, 'ff0000', 'top-left'));
+        $this->assertEquals(800, $image->width());
+        $this->assertEquals(100, $image->height());
+        $this->assertColor(255, 0, 0, 255, $image->pickColor(9, 9));
+        $this->assertColor(0, 0, 255, 255, $image->pickColor(16, 16));
+        $this->assertColor(0, 0, 255, 255, $image->pickColor(445, 16));
+        $this->assertTransparency($image->pickColor(460, 16));
     }
 }

@@ -491,6 +491,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $height
      * @param int $offset_x
      * @param int $offset_y
+     * @param mixed $background
      * @param string $position
      * @return ImageInterface
      */
@@ -499,6 +500,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         int $height,
         int $offset_x = 0,
         int $offset_y = 0,
+        mixed $background = 'ffffff',
         string $position = 'top-left'
     ): ImageInterface;
 

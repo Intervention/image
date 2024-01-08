@@ -35,6 +35,14 @@ class CropModifier extends DriverSpecializedModifier
                 $crop->pivot()->y() + $this->offset_y
             );
 
+            // repage
+            $frame->native()->setImagePage(
+                $crop->width(),
+                $crop->height(),
+                0,
+                0,
+            );
+
             // cover the possible newly created areas with background color
             if ($crop->width() > $originalSize->width() || $this->offset_x > 0) {
                 $draw->rectangle(

@@ -61,12 +61,12 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
 
         // fix image orientation
         return match ($image->exif('IFD0.Orientation')) {
-            2 => $image->flip(),
+            2 => $image->flop(),
             3 => $image->rotate(180),
-            4 => $image->rotate(180)->flip(),
-            5 => $image->rotate(270)->flip(),
+            4 => $image->rotate(180)->flop(),
+            5 => $image->rotate(270)->flop(),
             6 => $image->rotate(270),
-            7 => $image->rotate(90)->flip(),
+            7 => $image->rotate(90)->flop(),
             8 => $image->rotate(90),
             default => $image
         };

@@ -36,7 +36,7 @@ class CropModifier extends DriverSpecializedModifier
             );
 
             // cover the possible newly created areas with background color
-            if ($crop->width() > $originalSize->width()) {
+            if ($crop->width() > $originalSize->width() || $this->offset_x > 0) {
                 $draw->rectangle(
                     $originalSize->width() + ($this->offset_x * -1),
                     0,
@@ -47,7 +47,7 @@ class CropModifier extends DriverSpecializedModifier
             }
 
             // cover the possible newly created areas with background color
-            if ($crop->height() > $originalSize->height()) {
+            if ($crop->height() > $originalSize->height() || $this->offset_y > 0) {
                 $draw->rectangle(
                     0,
                     $originalSize->height() + ($this->offset_y * -1),

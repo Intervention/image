@@ -29,6 +29,11 @@ class FontFactory
         return $this;
     }
 
+    public function file(string $value): self
+    {
+        return $this->filename($value);
+    }
+
     public function color(mixed $value): self
     {
         $this->font->setColor($value);

@@ -27,6 +27,7 @@ class TextModifier extends AbstractTextModifier
         foreach ($image as $frame) {
             if ($this->font->hasFilename()) {
                 foreach ($lines as $line) {
+                    imagealphablending($frame->native(), true);
                     imagettftext(
                         $frame->native(),
                         $this->adjustedFontSize(),

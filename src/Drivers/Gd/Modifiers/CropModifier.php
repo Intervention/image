@@ -2,12 +2,8 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Colors\Rgb\Channels\Blue;
-use Intervention\Image\Colors\Rgb\Channels\Green;
-use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Drivers\Gd\SpecializedModifier;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -24,7 +20,9 @@ class CropModifier extends SpecializedModifier
     {
         $originalSize = $image->size();
         $crop = $this->crop($image);
-        $background = $this->driver()->handleInput($this->background);
+        $background = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+            $this->driver()->handleInput($this->background)
+        );
 
         foreach ($image as $frame) {
             $this->cropFrame($frame, $originalSize, $crop, $background);
@@ -37,10 +35,10 @@ class CropModifier extends SpecializedModifier
         FrameInterface $frame,
         SizeInterface $originalSize,
         SizeInterface $resizeTo,
-        ColorInterface $background
+        int $background
     ): void {
-        // create new image
-        $modified = Cloner::cloneEmpty($frame->native(), $resizeTo, $background);
+        // create new image with transparent background
+        $modified = Cloner::cloneEmpty($frame->native(), $resizeTo);
 
         // define offset
         $offset_x = ($resizeTo->pivot()->x() + $this->offset_x);
@@ -51,26 +49,6 @@ class CropModifier extends SpecializedModifier
         $targetHeight = min($resizeTo->height(), $originalSize->height());
         $targetWidth = $targetWidth < $originalSize->width() ? $targetWidth + $offset_x : $targetWidth;
         $targetHeight = $targetHeight < $originalSize->height() ? $targetHeight + $offset_y : $targetHeight;
-
-        // make image area transparent to keep transparency
-        // even if background-color is set
-        $transparent = imagecolorallocatealpha(
-            $modified,
-            $background->channel(Red::class)->value(),
-            $background->channel(Green::class)->value(),
-            $background->channel(Blue::class)->value(),
-            127,
-        );
-
-        imagealphablending($modified, false); // do not blend / just overwrite
-        imagefilledrectangle(
-            $modified,
-            $offset_x * -1,
-            $offset_y * -1,
-            $targetWidth - $this->offset_x - 1,
-            $targetHeight - $this->offset_y - 1,
-            $transparent
-        );
 
         // copy content from resource
         imagecopyresampled(
@@ -85,6 +63,55 @@ class CropModifier extends SpecializedModifier
             $targetWidth,
             $targetHeight
         );
+
+        imagealphablending($modified, false);
+        // cover the possible newly created areas with background color
+        if ($resizeTo->width() > $originalSize->width() || $this->offset_x > 0) {
+            imagefilledrectangle(
+                $modified,
+                $originalSize->width() + ($this->offset_x * -1),
+                0,
+                $resizeTo->width(),
+                $resizeTo->height(),
+                $background
+            );
+        }
+
+        // cover the possible newly created areas with background color
+        if ($resizeTo->width() > $originalSize->height() || $this->offset_y > 0) {
+            imagefilledrectangle(
+                $modified,
+                ($this->offset_x * -1),
+                $originalSize->height() + ($this->offset_y * -1),
+                ($this->offset_x * -1) + $originalSize->width() - 1,
+                $resizeTo->height(),
+                $background
+            );
+        }
+
+        // cover the possible newly created areas with background color
+        if ($this->offset_x < 0) {
+            imagefilledrectangle(
+                $modified,
+                0,
+                0,
+                ($this->offset_x * -1) - 1,
+                $resizeTo->height(),
+                $background
+            );
+        }
+
+        // cover the possible newly created areas with background color
+        if ($this->offset_y < 0) {
+            imagefilledrectangle(
+                $modified,
+                $this->offset_x * -1,
+                0,
+                ($this->offset_x * -1) + $originalSize->width() - 1,
+                ($this->offset_y * -1) - 1,
+                $background
+            );
+        }
 
         // set new content as recource
         $frame->setNative($modified);

@@ -43,18 +43,16 @@ class CropModifier extends DriverSpecializedModifier
                     $crop->width(),
                     $crop->height()
                 );
-                $frame->native()->drawImage($draw);
             }
 
             // cover the possible newly created areas with background color
             if ($crop->height() > $originalSize->height() || $this->offset_y > 0) {
                 $draw->rectangle(
-                    0,
+                    ($this->offset_x * -1),
                     $originalSize->height() + ($this->offset_y * -1),
-                    $crop->width(),
+                    ($this->offset_x * -1) + $originalSize->width() - 1,
                     $crop->height()
                 );
-                $frame->native()->drawImage($draw);
             }
 
             // cover the possible newly created areas with background color
@@ -63,21 +61,21 @@ class CropModifier extends DriverSpecializedModifier
                     0,
                     0,
                     ($this->offset_x * -1) - 1,
-                    $originalSize->height() + ($this->offset_y * -1)
+                    $crop->height()
                 );
-                $frame->native()->drawImage($draw);
             }
 
             // cover the possible newly created areas with background color
             if ($this->offset_y < 0) {
                 $draw->rectangle(
+                    $this->offset_x * -1,
                     0,
-                    0,
-                    $crop->width(),
+                    ($this->offset_x * -1) + $originalSize->width() - 1,
                     ($this->offset_y * -1) - 1,
                 );
-                $frame->native()->drawImage($draw);
             }
+
+            $frame->native()->drawImage($draw);
         }
 
         return $image;

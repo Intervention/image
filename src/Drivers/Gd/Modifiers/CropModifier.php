@@ -63,13 +63,12 @@ class CropModifier extends SpecializedModifier
         );
 
         imagealphablending($modified, false); // do not blend / just overwrite
-        // imagecolortransparent($modified, $transparent);
         imagefilledrectangle(
             $modified,
             $offset_x * -1,
             $offset_y * -1,
-            $targetWidth,
-            $targetHeight,
+            $targetWidth - $this->offset_x - 1,
+            $targetHeight - $this->offset_y - 1,
             $transparent
         );
 
@@ -86,8 +85,6 @@ class CropModifier extends SpecializedModifier
             $targetWidth,
             $targetHeight
         );
-
-        imagealphablending($modified, true);
 
         // set new content as recource
         $frame->setNative($modified);

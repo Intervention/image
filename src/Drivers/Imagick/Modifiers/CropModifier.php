@@ -3,6 +3,7 @@
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
+use ImagickPixel;
 use Intervention\Image\Drivers\DriverSpecializedModifier;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -23,10 +24,15 @@ class CropModifier extends DriverSpecializedModifier
             $this->driver()->handleInput($this->background)
         );
 
+        $transparent = new ImagickPixel('transparent');
+
         $draw = new ImagickDraw();
         $draw->setFillColor($background);
 
         foreach ($image as $frame) {
+            $frame->native()->setBackgroundColor($transparent);
+            $frame->native()->setImageBackgroundColor($transparent);
+
             // crop image
             $frame->native()->extentImage(
                 $crop->width(),

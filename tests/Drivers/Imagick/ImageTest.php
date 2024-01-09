@@ -53,10 +53,10 @@ class ImageTest extends TestCase
         $this->assertEquals(4, $result->width());
 
         $this->assertEquals('ff0000', $image->pickColor(0, 0)->toHex());
-        $this->assertEquals('00000000', $image->pickColor(1, 0)->toHex());
+        $this->assertTransparency($image->pickColor(1, 0));
 
         $this->assertEquals('ff0000', $clone->pickColor(0, 0)->toHex());
-        $this->assertEquals('00000000', $clone->pickColor(1, 0)->toHex());
+        $this->assertTransparency($clone->pickColor(1, 0));
     }
 
     public function testDriver(): void

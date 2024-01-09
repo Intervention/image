@@ -92,7 +92,7 @@ class CropModifier extends SpecializedModifier
         }
 
         // cover the possible newly created areas with background color
-        if ($this->offset_x < 0 || $resizeTo->pivot()->x() != 0) {
+        if ((($this->offset_x * -1) - $resizeTo->pivot()->x() - 1) > 0) {
             imagefilledrectangle(
                 $modified,
                 0,
@@ -104,7 +104,7 @@ class CropModifier extends SpecializedModifier
         }
 
         // cover the possible newly created areas with background color
-        if ($this->offset_y < 0 || $resizeTo->pivot()->y() != 0) {
+        if ((($this->offset_y * -1) - $resizeTo->pivot()->y() - 1) > 0) {
             imagefilledrectangle(
                 $modified,
                 ($this->offset_x * -1) - $resizeTo->pivot()->x(),

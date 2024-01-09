@@ -64,7 +64,7 @@ class CropModifier extends DriverSpecializedModifier
             }
 
             // cover the possible newly created areas with background color
-            if ($this->offset_x < 0 || $crop->pivot()->x() != 0) {
+            if ((($this->offset_x * -1) - $crop->pivot()->x() - 1) > 0) {
                 $draw->rectangle(
                     0,
                     0,
@@ -74,7 +74,7 @@ class CropModifier extends DriverSpecializedModifier
             }
 
             // cover the possible newly created areas with background color
-            if ($this->offset_y < 0 || $crop->pivot()->y() != 0) {
+            if ((($this->offset_y * -1) - $crop->pivot()->y() - 1) > 0) {
                 $draw->rectangle(
                     ($this->offset_x * -1) - $crop->pivot()->x(),
                     0,

@@ -46,7 +46,7 @@ class CropModifier extends DriverSpecializedModifier
             // cover the possible newly created areas with background color
             if ($crop->width() > $originalSize->width() || $this->offset_x > 0) {
                 $draw->rectangle(
-                    $originalSize->width() + ($this->offset_x * -1),
+                    $originalSize->width() + ($this->offset_x * -1) - $crop->pivot()->x(),
                     0,
                     $crop->width(),
                     $crop->height()
@@ -56,30 +56,30 @@ class CropModifier extends DriverSpecializedModifier
             // cover the possible newly created areas with background color
             if ($crop->height() > $originalSize->height() || $this->offset_y > 0) {
                 $draw->rectangle(
-                    ($this->offset_x * -1),
-                    $originalSize->height() + ($this->offset_y * -1),
-                    ($this->offset_x * -1) + $originalSize->width() - 1,
+                    ($this->offset_x * -1) - $crop->pivot()->x(),
+                    $originalSize->height() + ($this->offset_y * -1) - $crop->pivot()->y(),
+                    ($this->offset_x * -1) + $originalSize->width() - 1 - $crop->pivot()->x(),
                     $crop->height()
                 );
             }
 
             // cover the possible newly created areas with background color
-            if ($this->offset_x < 0) {
+            if ($this->offset_x < 0 || $crop->pivot()->x() != 0) {
                 $draw->rectangle(
                     0,
                     0,
-                    ($this->offset_x * -1) - 1,
+                    ($this->offset_x * -1) - $crop->pivot()->x() - 1,
                     $crop->height()
                 );
             }
 
             // cover the possible newly created areas with background color
-            if ($this->offset_y < 0) {
+            if ($this->offset_y < 0 || $crop->pivot()->y() != 0) {
                 $draw->rectangle(
-                    $this->offset_x * -1,
+                    ($this->offset_x * -1) - $crop->pivot()->x(),
                     0,
-                    ($this->offset_x * -1) + $originalSize->width() - 1,
-                    ($this->offset_y * -1) - 1,
+                    ($this->offset_x * -1) + $originalSize->width() - $crop->pivot()->x() - 1,
+                    ($this->offset_y * -1) - $crop->pivot()->y() - 1,
                 );
             }
 

@@ -64,12 +64,14 @@ class CropModifier extends SpecializedModifier
             $targetHeight
         );
 
+        // don't alpha blend for covering areas
         imagealphablending($modified, false);
+
         // cover the possible newly created areas with background color
         if ($resizeTo->width() > $originalSize->width() || $this->offset_x > 0) {
             imagefilledrectangle(
                 $modified,
-                $originalSize->width() + ($this->offset_x * -1),
+                $originalSize->width() + ($this->offset_x * -1) - $resizeTo->pivot()->x(),
                 0,
                 $resizeTo->width(),
                 $resizeTo->height(),
@@ -78,37 +80,37 @@ class CropModifier extends SpecializedModifier
         }
 
         // cover the possible newly created areas with background color
-        if ($resizeTo->width() > $originalSize->height() || $this->offset_y > 0) {
+        if ($resizeTo->height() > $originalSize->height() || $this->offset_y > 0) {
             imagefilledrectangle(
                 $modified,
-                ($this->offset_x * -1),
-                $originalSize->height() + ($this->offset_y * -1),
-                ($this->offset_x * -1) + $originalSize->width() - 1,
+                ($this->offset_x * -1) - $resizeTo->pivot()->x(),
+                $originalSize->height() + ($this->offset_y * -1) - $resizeTo->pivot()->y(),
+                ($this->offset_x * -1) + $originalSize->width() - 1 - $resizeTo->pivot()->x(),
                 $resizeTo->height(),
                 $background
             );
         }
 
         // cover the possible newly created areas with background color
-        if ($this->offset_x < 0) {
+        if ($this->offset_x < 0 || $resizeTo->pivot()->x() != 0) {
             imagefilledrectangle(
                 $modified,
                 0,
                 0,
-                ($this->offset_x * -1) - 1,
+                ($this->offset_x * -1) - $resizeTo->pivot()->x() - 1,
                 $resizeTo->height(),
                 $background
             );
         }
 
         // cover the possible newly created areas with background color
-        if ($this->offset_y < 0) {
+        if ($this->offset_y < 0 || $resizeTo->pivot()->y() != 0) {
             imagefilledrectangle(
                 $modified,
-                $this->offset_x * -1,
+                ($this->offset_x * -1) - $resizeTo->pivot()->x(),
                 0,
-                ($this->offset_x * -1) + $originalSize->width() - 1,
-                ($this->offset_y * -1) - 1,
+                ($this->offset_x * -1) + $originalSize->width() - $resizeTo->pivot()->x() - 1,
+                ($this->offset_y * -1) - $resizeTo->pivot()->y() - 1,
                 $background
             );
         }

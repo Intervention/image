@@ -7,6 +7,9 @@ use Intervention\Image\EncodedImage;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 
+/**
+ * @property int $quality
+ */
 class HeicEncoder extends DriverSpecializedEncoder
 {
     public function encode(ImageInterface $image): EncodedImageInterface

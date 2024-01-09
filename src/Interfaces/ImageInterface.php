@@ -655,4 +655,12 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @return EncodedImageInterface
      */
     public function toTiff(int $quality = 75): EncodedImageInterface;
+
+    /**
+     * Encode image to HEIC format
+     *
+     * @param int $quality
+     * @return EncodedImageInterface
+     */
+    public function toHeic(int $quality = 75): EncodedImageInterface;
 }

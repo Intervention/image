@@ -12,8 +12,25 @@ abstract class AbstractEncoder implements EncoderInterface
     public const DEFAULT_COMPRESSION = 0;
     public const DEFAULT_BIT_DEPTH = 8;
 
+    /**
+     * Target quality of encoder
+     *
+     * @param int $quality
+     */
     public int $quality = self::DEFAULT_QUALITY;
+
+    /**
+     * Compression type of encoder
+     *
+     * @param int $compression
+     */
     public int $compression = self::DEFAULT_COMPRESSION;
+
+    /**
+     * Bit depth per channel at which the images are encoded
+     *
+     * @param int $bitDepth
+     */
     public int $bitDepth = self::DEFAULT_BIT_DEPTH;
 
     /**

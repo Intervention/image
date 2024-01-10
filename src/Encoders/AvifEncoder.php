@@ -2,9 +2,8 @@
 
 namespace Intervention\Image\Encoders;
 
-class AvifEncoder extends AbstractEncoder
+use Intervention\Image\Interfaces\SpecializableInterface;
+
+class AvifEncoder extends AbstractEncoder implements SpecializableInterface
 {
-    public function __construct(public int $quality = 75)
-    {
-    }
 }

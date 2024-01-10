@@ -13,11 +13,12 @@ class FileExtensionEncoder extends AutoEncoder
      * Create new encoder instance to encode to format of given file extension
      *
      * @param null|string $extension
-     * @param int $quality
+     * @param mixed $options
      * @return void
      */
-    public function __construct(protected ?string $extension = null, protected int $quality = 75)
+    public function __construct(protected ?string $extension = null, mixed ...$options)
     {
+        parent::__construct(null, ...$options);
     }
 
     /**

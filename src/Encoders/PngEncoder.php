@@ -2,6 +2,8 @@
 
 namespace Intervention\Image\Encoders;
 
-class PngEncoder extends AbstractEncoder
+use Intervention\Image\Interfaces\SpecializableInterface;
+
+class PngEncoder extends AbstractEncoder implements SpecializableInterface
 {
 }

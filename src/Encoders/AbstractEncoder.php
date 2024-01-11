@@ -9,8 +9,6 @@ use Intervention\Image\Interfaces\ImageInterface;
 abstract class AbstractEncoder implements EncoderInterface
 {
     public const DEFAULT_QUALITY = 75;
-    public const DEFAULT_COMPRESSION = 0;
-    public const DEFAULT_BIT_DEPTH = 8;
 
     /**
      * Target quality of encoder
@@ -18,20 +16,6 @@ abstract class AbstractEncoder implements EncoderInterface
      * @param int $quality
      */
     public int $quality = self::DEFAULT_QUALITY;
-
-    /**
-     * Compression type of encoder
-     *
-     * @param int $compression
-     */
-    public int $compression = self::DEFAULT_COMPRESSION;
-
-    /**
-     * Bit depth per channel at which the images are encoded
-     *
-     * @param int $bitDepth
-     */
-    public int $bitDepth = self::DEFAULT_BIT_DEPTH;
 
     /**
      * Create new encoder instance
@@ -43,12 +27,8 @@ abstract class AbstractEncoder implements EncoderInterface
     {
         if (is_array($options) && array_is_list($options)) {
             $this->quality = $options[0] ?? self::DEFAULT_QUALITY;
-            $this->compression = $options[1] ?? self::DEFAULT_COMPRESSION;
-            $this->bitDepth = $options[2] ?? self::DEFAULT_BIT_DEPTH;
         } else {
             $this->quality = $options['quality'] ?? self::DEFAULT_QUALITY;
-            $this->compression = $options['compression'] ?? self::DEFAULT_COMPRESSION;
-            $this->bitDepth = $options['bitDepth'] ?? self::DEFAULT_BIT_DEPTH;
         }
     }
 

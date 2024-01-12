@@ -35,4 +35,42 @@ class FillModifierTest extends TestCase
         $this->assertEquals('cccccc', $image->pickColor(420, 270)->toHex());
         $this->assertEquals('cccccc', $image->pickColor(540, 400)->toHex());
     }
+
+    public function testFloodFillImage(): void
+    {
+        $image = $this->readTestImage('blocks.png');
+        $this->assertTransparency($image->pickColor(445, 11));
+        $this->assertTransparency($image->pickColor(454, 4));
+        $this->assertTransparency($image->pickColor(460, 28));
+        $this->assertTransparency($image->pickColor(470, 20));
+        $this->assertTransparency($image->pickColor(470, 30));
+        $image->modify(new FillModifier($this->getTestImagePath('tile.png'), new Point(500, 0)));
+        $this->assertEquals('445160', $image->pickColor(445, 11)->toHex());
+        $this->assertEquals('b4e000', $image->pickColor(454, 4)->toHex());
+        $this->assertEquals('445160', $image->pickColor(460, 28)->toHex());
+        $this->assertEquals('b4e000', $image->pickColor(470, 20)->toHex());
+        $this->assertTransparency($image->pickColor(470, 30));
+    }
+
+    public function testFillAllImage(): void
+    {
+        $image = $this->readTestImage('blocks.png');
+        $this->assertEquals('0000ff', $image->pickColor(0, 0)->toHex());
+        $this->assertEquals('0000ff', $image->pickColor(12, 5)->toHex());
+        $this->assertEquals('0000ff', $image->pickColor(12, 12)->toHex());
+        $this->assertTransparency($image->pickColor(445, 11));
+        $this->assertTransparency($image->pickColor(454, 4));
+        $this->assertTransparency($image->pickColor(460, 28));
+        $this->assertTransparency($image->pickColor(470, 20));
+        $this->assertTransparency($image->pickColor(470, 30));
+        $image->modify(new FillModifier($this->getTestImagePath('tile.png')));
+        $this->assertEquals('b4e000', $image->pickColor(0, 0)->toHex());
+        $this->assertEquals('0000ff', $image->pickColor(12, 5)->toHex());
+        $this->assertEquals('445160', $image->pickColor(12, 12)->toHex());
+        $this->assertEquals('445160', $image->pickColor(445, 11)->toHex());
+        $this->assertEquals('b4e000', $image->pickColor(454, 4)->toHex());
+        $this->assertEquals('445160', $image->pickColor(460, 28)->toHex());
+        $this->assertEquals('b4e000', $image->pickColor(470, 20)->toHex());
+        $this->assertTransparency($image->pickColor(470, 30));
+    }
 }

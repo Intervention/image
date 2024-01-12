@@ -2,60 +2,119 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use GdImage;
 use Intervention\Image\Drivers\DriverSpecializedModifier;
+use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Geometry\Point;
+use Intervention\Image\Interfaces\ColorInterface;
 
 /**
  * @method bool hasPosition()
- * @property mixed $color
+ * @property mixed $filling
  * @property null|Point $position
  */
 class FillModifier extends DriverSpecializedModifier
 {
     public function apply(ImageInterface $image): ImageInterface
     {
-        $color = $this->color($image);
+        $filling = $this->resolveFilling($image);
 
         foreach ($image as $frame) {
-            if ($this->hasPosition()) {
-                $this->floodFillWithColor($frame, $color);
+            if (is_int($filling)) {
+                $this->fillWithColor($frame, $filling);
             } else {
-                $this->fillAllWithColor($frame, $color);
+                $this->fillWithImage($frame, $filling);
             }
         }
 
         return $image;
     }
 
-    private function color(ImageInterface $image): int
+    /**
+     * Resolve filling to its native version which can either be a
+     * color (integer) or an image (GdImage)
+     *
+     * @param ImageInterface $image
+     * @return GdImage|int
+     */
+    private function resolveFilling(ImageInterface $image): int|GdImage
     {
-        return $this->driver()->colorProcessor($image->colorspace())->colorToNative(
-            $this->driver()->handleInput($this->color)
-        );
+        $filling = $this->driver()->handleInput($this->filling);
+
+        return match (true) {
+            $filling instanceof ColorInterface => $this->driver()
+                ->colorProcessor($image->colorspace())
+                ->colorToNative($filling),
+            default => $filling->core()->native(),
+        };
     }
 
-    private function floodFillWithColor(Frame $frame, int $color): void
+    /**
+     * Fill frame with given color
+     *
+     * @param Frame $frame
+     * @param int $color
+     * @return void
+     */
+    private function fillWithColor(Frame $frame, int $color): void
     {
-        imagefill(
-            $frame->native(),
-            $this->position->x(),
-            $this->position->y(),
-            $color
-        );
+        if ($this->hasPosition()) {
+            // flood fill if position is set
+            imagefill(
+                $frame->native(),
+                $this->position->x(),
+                $this->position->y(),
+                $color
+            );
+        } else {
+            // fill image completely if no position is set
+            imagealphablending($frame->native(), true);
+            imagefilledrectangle(
+                $frame->native(),
+                0,
+                0,
+                $frame->size()->width() - 1,
+                $frame->size()->height() - 1,
+                $color
+            );
+        }
     }
 
-    private function fillAllWithColor(Frame $frame, int $color): void
+    /**
+     * Fill frame with given image texture
+     *
+     * @param Frame $frame
+     * @param GdImage $gd
+     * @return void
+     */
+    private function fillWithImage(Frame $frame, GdImage $gd): void
     {
         imagealphablending($frame->native(), true);
-        imagefilledrectangle(
-            $frame->native(),
-            0,
-            0,
-            $frame->size()->width() - 1,
-            $frame->size()->height() - 1,
-            $color
-        );
+
+        imagesettile($frame->native(), $gd);
+        $filling = IMG_COLOR_TILED;
+
+        $width = imagesx($frame->native());
+        $height = imagesy($frame->native());
+
+        // flood fill if position is set
+        if ($this->hasPosition()) {
+            // create new image
+            $base = Cloner::clone($frame->native());
+
+            // flood fill at exact position
+            imagefill($frame->native(), $this->position->x(), $this->position->y(), $filling);
+
+            // copy filled original over base
+            imagecopy($base, $frame->native(), 0, 0, 0, 0, $width, $height);
+
+            // set base as new resource-core
+            $frame->setNative($base);
+        } else {
+            // fill image completely if no position is set
+            imagefilledrectangle($frame->native(), 0, 0, $width - 1, $height - 1, $filling);
+        }
     }
 }

@@ -21,6 +21,10 @@
         "mockery/mockery": "^1.6",
         "phpstan/phpstan": "^1"
     },
+    "suggest": {
+        "ext-exif": "Recommended to be able to read EXIF data properly."
+
+    },
     "autoload": {
         "psr-4": {
             "Intervention\\Image\\": "src"

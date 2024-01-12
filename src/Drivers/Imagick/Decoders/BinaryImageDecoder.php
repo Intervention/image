@@ -31,7 +31,7 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
 
         // For some JPEG formats, the "coalesceImages()" call leads to an image
         // completely filled with background color. The logic behind this is
-        // incomprehensible; could be an imagemagick bug.
+        // incomprehensible for me; could be an imagick bug.
         if ($imagick->getImageFormat() != 'JPEG') {
             $imagick = $imagick->coalesceImages();
         }

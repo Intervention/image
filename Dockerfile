@@ -7,6 +7,8 @@ RUN apt update \
             libwebp-dev \
             libpng-dev \
             libavif-dev \
+            git \
+            zip \
         && pecl install imagick \
         && pecl install xdebug \
         && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp --with-avif \

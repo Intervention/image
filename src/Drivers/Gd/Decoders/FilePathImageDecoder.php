@@ -12,12 +12,16 @@ class FilePathImageDecoder extends BinaryImageDecoder implements DecoderInterfac
 {
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
-        if (! is_string($input)) {
+        if (!is_string($input)) {
+            throw new DecoderException('Unable to decode input');
+        }
+
+        if (strlen($input) > PHP_MAXPATHLEN) {
             throw new DecoderException('Unable to decode input');
         }
 
         try {
-            if (! @is_file($input)) {
+            if (!@is_file($input)) {
                 throw new DecoderException('Unable to decode input');
             }
         } catch (Exception) {

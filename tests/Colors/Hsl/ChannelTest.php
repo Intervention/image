@@ -11,7 +11,7 @@ use Intervention\Image\Tests\TestCase;
 /**
  * @covers \Intervention\Image\Colors\Hsl\Channels\Hue
  * @covers \Intervention\Image\Colors\Hsl\Channels\Saturation
- * @covers \Intervention\Image\Colors\Hsl\Channels\Value
+ * @covers \Intervention\Image\Colors\Hsl\Channels\Luminance
  */
 class ChannelTest extends TestCase
 {

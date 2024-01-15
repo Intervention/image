@@ -9,6 +9,7 @@ use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Color as Color;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Tests\TestCase;
 
 /**
@@ -58,6 +59,13 @@ class ColorTest extends TestCase
         $this->assertEquals(10, $channel->value());
     }
 
+    public function testChannelNotFound(): void
+    {
+        $color = new Color(10, 20, 30);
+        $this->expectException(ColorException::class);
+        $color->channel('none');
+    }
+
     public function testRedGreenBlue(): void
     {
         $color = new Color(10, 20, 30);
@@ -80,6 +88,9 @@ class ColorTest extends TestCase
         $color = new Color(181, 55, 23);
         $this->assertEquals('b53717', $color->toHex());
         $this->assertEquals('#b53717', $color->toHex('#'));
+
+        $color = new Color(181, 55, 23, 51);
+        $this->assertEquals('b5371733', $color->toHex());
     }
 
     public function testNormalize(): void
@@ -125,5 +136,14 @@ class ColorTest extends TestCase
         $converted = $color->convertTo(CmykColorspace::class);
         $this->assertInstanceOf(CmykColor::class, $converted);
         $this->assertEquals([0, 20, 20, 0], $converted->toArray());
+    }
+
+    public function testIsGreyscale(): void
+    {
+        $color = new Color(255, 0, 100);
+        $this->assertFalse($color->isGreyscale());
+
+        $color = new Color(50, 50, 50);
+        $this->assertTrue($color->isGreyscale());
     }
 }

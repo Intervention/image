@@ -7,6 +7,7 @@ use Intervention\Image\Colors\Hsl\Channels\Luminance;
 use Intervention\Image\Colors\Hsl\Channels\Saturation;
 use Intervention\Image\Colors\Hsl\Color;
 use Intervention\Image\Colors\Hsl\Colorspace;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Tests\TestCase;
 
 /**
@@ -17,6 +18,12 @@ class ColorTest extends TestCase
     public function testConstructor(): void
     {
         $color = new Color(0, 0, 0);
+        $this->assertInstanceOf(Color::class, $color);
+    }
+
+    public function testCreate(): void
+    {
+        $color = Color::create('hsl(10, 20, 30)');
         $this->assertInstanceOf(Color::class, $color);
     }
 
@@ -41,6 +48,13 @@ class ColorTest extends TestCase
         $this->assertEquals(10, $channel->value());
     }
 
+    public function testChannelNotFound(): void
+    {
+        $color = new Color(10, 20, 30);
+        $this->expectException(ColorException::class);
+        $color->channel('none');
+    }
+
     public function testHueSaturationLuminanceKey(): void
     {
         $color = new Color(10, 20, 30);
@@ -56,6 +70,12 @@ class ColorTest extends TestCase
     {
         $color = new Color(10, 20, 30);
         $this->assertEquals([10, 20, 30], $color->toArray());
+    }
+
+    public function testToHex(): void
+    {
+        $color = new Color(16, 100, 50);
+        $this->assertEquals('ff4400', $color->toHex());
     }
 
     public function testNormalize(): void

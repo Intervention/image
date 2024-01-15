@@ -33,6 +33,25 @@ class ChannelTest extends TestCase
         $channel = new Hue(normalized: 2);
     }
 
+    public function testConstructorFail(): void
+    {
+        $this->expectException(ColorException::class);
+        new Hue(400);
+    }
+
+    public function testToInt(): void
+    {
+        $channel = new Hue(10);
+        $this->assertEquals(10, $channel->toInt());
+    }
+
+    public function testToString(): void
+    {
+        $channel = new Hue(10);
+        $this->assertEquals("10", $channel->toString());
+        $this->assertEquals("10", (string) $channel);
+    }
+
     public function testValue(): void
     {
         $channel = new Hue(10);

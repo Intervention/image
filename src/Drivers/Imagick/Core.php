@@ -216,7 +216,7 @@ class Core implements CoreInterface, Iterator
 
     public function last(): FrameInterface
     {
-        return $this->frame($this->count());
+        return $this->frame($this->count() - 1);
     }
 
     public function __clone(): void

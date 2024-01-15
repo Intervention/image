@@ -3,6 +3,7 @@
 namespace Intervention\Image\Tests\Geometry;
 
 use Intervention\Image\Geometry\{Point, Polygon};
+use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Tests\TestCase;
 
 /**
@@ -107,6 +108,12 @@ class PolygonTest extends TestCase
         $this->assertEquals(45, $poly->first()->y());
     }
 
+    public function testFirstEmpty(): void
+    {
+        $poly = new Polygon();
+        $this->assertNull($poly->first());
+    }
+
     public function testLast(): void
     {
         $poly = new Polygon([
@@ -119,10 +126,46 @@ class PolygonTest extends TestCase
         $this->assertEquals(566, $poly->last()->y());
     }
 
-    public function testGetPivotPoint(): void
+    public function testLastEmpty(): void
+    {
+        $poly = new Polygon();
+        $this->assertNull($poly->last());
+    }
+
+    public function testOffsetExists(): void
+    {
+        $poly = new Polygon();
+        $this->assertFalse($poly->offsetExists(0));
+        $this->assertFalse($poly->offsetExists(1));
+        $poly->addPoint(new Point(0, 0));
+        $this->assertTrue($poly->offsetExists(0));
+        $this->assertFalse($poly->offsetExists(1));
+    }
+
+    public function testOffsetSetUnset(): void
+    {
+        $poly = new Polygon();
+        $poly->offsetSet(0, new Point());
+        $poly->offsetSet(2, new Point());
+        $this->assertTrue($poly->offsetExists(0));
+        $this->assertFalse($poly->offsetExists(1));
+        $this->assertTrue($poly->offsetExists(2));
+        $poly->offsetUnset(2);
+        $this->assertTrue($poly->offsetExists(0));
+        $this->assertFalse($poly->offsetExists(1));
+        $this->assertFalse($poly->offsetExists(2));
+    }
+
+    public function testGetSetPivotPoint(): void
     {
         $poly = new Polygon();
         $this->assertInstanceOf(Point::class, $poly->pivot());
+        $this->assertEquals(0, $poly->pivot()->x());
+        $this->assertEquals(0, $poly->pivot()->y());
+        $result = $poly->setPivot(new Point(12, 34));
+        $this->assertInstanceOf(Polygon::class, $result);
+        $this->assertEquals(12, $poly->pivot()->x());
+        $this->assertEquals(34, $poly->pivot()->y());
     }
 
     public function testGetMostLeftPoint(): void
@@ -324,6 +367,48 @@ class PolygonTest extends TestCase
         $this->assertEquals(205, $result[2]->y());
         $this->assertEquals(0, $result[3]->x());
         $this->assertEquals(318, $result[3]->y());
+    }
+
+    public function testValignTop(): void
+    {
+        $poly = new Polygon([
+            new Point(-21, -22),
+            new Point(91, -135),
+            new Point(113, -113),
+            new Point(0, 0),
+        ], new Point(250, 250));
+
+        $result = $poly->valign('top');
+
+        $this->assertInstanceOf(Polygon::class, $result);
+        $this->assertEquals(-21, $result[0]->x());
+        $this->assertEquals(363, $result[0]->y());
+        $this->assertEquals(91, $result[1]->x());
+        $this->assertEquals(250, $result[1]->y());
+        $this->assertEquals(113, $result[2]->x());
+        $this->assertEquals(272, $result[2]->y());
+        $this->assertEquals(0, $result[3]->x());
+        $this->assertEquals(385, $result[3]->y());
+    }
+
+    public function testMovePoints(): void
+    {
+        $poly = new Polygon([
+            new Point(10, 20),
+            new Point(30, 40)
+        ]);
+
+        $result = $poly->movePointsX(100);
+        $this->assertEquals(110, $result[0]->x());
+        $this->assertEquals(20, $result[0]->y());
+        $this->assertEquals(130, $result[1]->x());
+        $this->assertEquals(40, $result[1]->y());
+
+        $result = $poly->movePointsY(200);
+        $this->assertEquals(110, $result[0]->x());
+        $this->assertEquals(220, $result[0]->y());
+        $this->assertEquals(130, $result[1]->x());
+        $this->assertEquals(240, $result[1]->y());
     }
 
     public function testRotate(): void

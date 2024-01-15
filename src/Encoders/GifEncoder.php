@@ -2,6 +2,8 @@
 
 namespace Intervention\Image\Encoders;
 
-class GifEncoder extends AbstractEncoder
+use Intervention\Image\Interfaces\SpecializableInterface;
+
+class GifEncoder extends AbstractEncoder implements SpecializableInterface
 {
 }

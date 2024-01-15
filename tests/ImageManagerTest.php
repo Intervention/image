@@ -2,6 +2,7 @@
 
 namespace Intervention\Image\Tests;
 
+use Intervention\Image\Decoders\FilePathImageDecoder;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 use Intervention\Image\ImageManager;
@@ -55,6 +56,38 @@ class ImageManagerTest extends TestCase
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
+    /** @requires extension gd */
+    public function testReadGdWithDecoderClassname(): void
+    {
+        $manager = new ImageManager(GdDriver::class);
+        $image = $manager->read(__DIR__ . '/images/red.gif', FilePathImageDecoder::class);
+        $this->assertInstanceOf(ImageInterface::class, $image);
+    }
+
+    /** @requires extension gd */
+    public function testReadGdWithDecoderInstance(): void
+    {
+        $manager = new ImageManager(GdDriver::class);
+        $image = $manager->read(__DIR__ . '/images/red.gif', new FilePathImageDecoder());
+        $this->assertInstanceOf(ImageInterface::class, $image);
+    }
+
+    /** @requires extension gd */
+    public function testReadGdWithDecoderClassnameArray(): void
+    {
+        $manager = new ImageManager(GdDriver::class);
+        $image = $manager->read(__DIR__ . '/images/red.gif', [FilePathImageDecoder::class]);
+        $this->assertInstanceOf(ImageInterface::class, $image);
+    }
+
+    /** @requires extension gd */
+    public function testReadGdWithDecoderInstanceArray(): void
+    {
+        $manager = new ImageManager(GdDriver::class);
+        $image = $manager->read(__DIR__ . '/images/red.gif', [new FilePathImageDecoder()]);
+        $this->assertInstanceOf(ImageInterface::class, $image);
+    }
+
     /** @requires extension imagick */
     public function testCreateImagick()
     {
@@ -68,6 +101,38 @@ class ImageManagerTest extends TestCase
     {
         $manager = new ImageManager(ImagickDriver::class);
         $image = $manager->read(__DIR__ . '/images/red.gif');
+        $this->assertInstanceOf(ImageInterface::class, $image);
+    }
+
+    /** @requires extension imagick */
+    public function testReadImagickWithDecoderClassname(): void
+    {
+        $manager = new ImageManager(ImagickDriver::class);
+        $image = $manager->read(__DIR__ . '/images/red.gif', FilePathImageDecoder::class);
+        $this->assertInstanceOf(ImageInterface::class, $image);
+    }
+
+    /** @requires extension imagick */
+    public function testReadImagickWithDecoderInstance(): void
+    {
+        $manager = new ImageManager(ImagickDriver::class);
+        $image = $manager->read(__DIR__ . '/images/red.gif', new FilePathImageDecoder());
+        $this->assertInstanceOf(ImageInterface::class, $image);
+    }
+
+    /** @requires extension imagick */
+    public function testReadImagickWithDecoderClassnameArray(): void
+    {
+        $manager = new ImageManager(ImagickDriver::class);
+        $image = $manager->read(__DIR__ . '/images/red.gif', [FilePathImageDecoder::class]);
+        $this->assertInstanceOf(ImageInterface::class, $image);
+    }
+
+    /** @requires extension imagick */
+    public function testReadImagickWithDecoderInstanceArray(): void
+    {
+        $manager = new ImageManager(ImagickDriver::class);
+        $image = $manager->read(__DIR__ . '/images/red.gif', [new FilePathImageDecoder()]);
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 }

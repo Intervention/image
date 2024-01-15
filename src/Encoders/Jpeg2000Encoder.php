@@ -2,9 +2,8 @@
 
 namespace Intervention\Image\Encoders;
 
-class Jpeg2000Encoder extends AbstractEncoder
+use Intervention\Image\Interfaces\SpecializableInterface;
+
+class Jpeg2000Encoder extends AbstractEncoder implements SpecializableInterface
 {
-    public function __construct(public int $quality = 75)
-    {
-    }
 }

@@ -4,8 +4,9 @@ namespace Intervention\Image\Analyzers;
 
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\SpecializableInterface;
 
-abstract class AbstractAnalyzer implements AnalyzerInterface
+abstract class AbstractAnalyzer implements AnalyzerInterface, SpecializableInterface
 {
     /**
      * {@inheritdoc}

@@ -3,8 +3,9 @@
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
-use Intervention\Image\Drivers\DriverSpecializedModifier;
+use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\ModifierInterface;
 
 /**
  * @method mixed getPosition(ImageInterface $image, ImageInterface $watermark)
@@ -13,7 +14,7 @@ use Intervention\Image\Interfaces\ImageInterface;
  * @property int $offset_x
  * @property int $offset_y
  */
-class PlaceModifier extends DriverSpecializedModifier
+class PlaceModifier extends DriverSpecialized implements ModifierInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

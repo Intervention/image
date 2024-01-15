@@ -6,13 +6,14 @@ use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\FontInterface;
+use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Typography\TextBlock;
 use Intervention\Image\Typography\Line;
 
 /**
  * @property FontInterface $font
  */
-abstract class AbstractTextModifier extends DriverSpecializedModifier
+abstract class AbstractTextModifier extends DriverSpecialized implements ModifierInterface
 {
     abstract protected function boxSize(string $text): Polygon;
 

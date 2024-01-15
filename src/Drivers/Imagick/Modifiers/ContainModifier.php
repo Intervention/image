@@ -4,8 +4,9 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
 use ImagickPixel;
-use Intervention\Image\Drivers\DriverSpecializedModifier;
+use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
 /**
@@ -16,7 +17,7 @@ use Intervention\Image\Interfaces\SizeInterface;
  * @property mixed $background
  * @property string $position
  */
-class ContainModifier extends DriverSpecializedModifier
+class ContainModifier extends DriverSpecialized implements ModifierInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

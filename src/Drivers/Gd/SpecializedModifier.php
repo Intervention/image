@@ -3,9 +3,10 @@
 namespace Intervention\Image\Drivers\Gd;
 
 use GdImage;
-use Intervention\Image\Drivers\DriverSpecializedModifier;
+use Intervention\Image\Drivers\DriverSpecialized;
+use Intervention\Image\Interfaces\ModifierInterface;
 
-abstract class SpecializedModifier extends DriverSpecializedModifier
+abstract class SpecializedModifier extends DriverSpecialized implements ModifierInterface
 {
     protected function copyResolution(GdImage $source, GdImage $target): void
     {

@@ -2,6 +2,8 @@
 
 namespace Intervention\Image\Encoders;
 
-class BmpEncoder extends AbstractEncoder
+use Intervention\Image\Interfaces\SpecializableInterface;
+
+class BmpEncoder extends AbstractEncoder implements SpecializableInterface
 {
 }

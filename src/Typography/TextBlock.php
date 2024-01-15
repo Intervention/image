@@ -23,6 +23,12 @@ class TextBlock extends Collection
         return $this->items;
     }
 
+    /**
+     * Get line by given key
+     *
+     * @param mixed $key
+     * @return null|Line
+     */
     public function line($key): ?Line
     {
         if (!array_key_exists($key, $this->lines())) {

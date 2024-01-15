@@ -42,7 +42,7 @@ class File implements FileInterface
             );
         }
 
-        // write date
+        // write data
         $saved = @file_put_contents($filepath, (string) $this);
         if ($saved === false) {
             throw new NotWritableException(

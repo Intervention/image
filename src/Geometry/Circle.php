@@ -14,11 +14,10 @@ class Circle extends Ellipse
      * @return void
      */
     public function __construct(
-        protected int $diameter,
-        protected PointInterface $pivot = new Point()
+        int $diameter,
+        PointInterface $pivot = new Point()
     ) {
-        $this->setWidth($diameter);
-        $this->setHeight($diameter);
+        parent::__construct($diameter, $diameter, $pivot);
     }
 
     /**
@@ -42,7 +41,7 @@ class Circle extends Ellipse
      */
     public function diameter(): int
     {
-        return $this->diameter;
+        return $this->width();
     }
 
     /**
@@ -63,6 +62,6 @@ class Circle extends Ellipse
      */
     public function radius(): int
     {
-        return intval($this->diameter / 2);
+        return intval(round($this->diameter() / 2));
     }
 }

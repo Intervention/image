@@ -16,6 +16,7 @@ use Intervention\Image\Encoders\BmpEncoder;
 use Intervention\Image\Encoders\FileExtensionEncoder;
 use Intervention\Image\Encoders\FilePathEncoder;
 use Intervention\Image\Encoders\GifEncoder;
+use Intervention\Image\Encoders\HeicEncoder;
 use Intervention\Image\Encoders\Jpeg2000Encoder;
 use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\Encoders\MediaTypeEncoder;
@@ -925,6 +926,16 @@ final class Image implements ImageInterface
     public function toTif(mixed ...$options): EncodedImageInterface
     {
         return $this->toTiff(...$options);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::toHeic()
+     */
+    public function toHeic(int $quality = 75): EncodedImageInterface
+    {
+        return $this->encode(new HeicEncoder($quality));
     }
 
     /**

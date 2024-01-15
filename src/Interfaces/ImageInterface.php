@@ -659,4 +659,12 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @return EncodedImageInterface
      */
     public function toTiff(mixed ...$options): EncodedImageInterface;
+
+    /**
+     * Encode image to HEIC format
+     *
+     * @param mixed $options
+     * @return EncodedImageInterface
+     */
+    public function toHeic(mixed ...$options): EncodedImageInterface;
 }

@@ -3,6 +3,7 @@
 namespace Intervention\Image\Drivers;
 
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\DriverInterface;
@@ -50,10 +51,18 @@ abstract class AbstractDriver implements DriverInterface
      *
      * @see DriverInterface::specializeMultiple()
      */
-    public function specializeMultiple(array $objects): array
+    public function specializeMultiple(array $specializables): array
     {
-        return array_map(function ($classname) {
-            return $this->specialize(new $classname());
-        }, $objects);
+        return array_map(function ($specializable) {
+            return $this->specialize(
+                match (true) {
+                    is_string($specializable) => new $specializable(),
+                    is_object($specializable) => $specializable,
+                    default => throw new RuntimeException(
+                        'Specializable item must be either a class name or an object.'
+                    )
+                }
+            );
+        }, $specializables);
     }
 }

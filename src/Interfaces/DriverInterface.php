@@ -20,12 +20,12 @@ interface DriverInterface
     public function specialize(object $object): ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface;
 
     /**
-     * Resolve each object in given array into a specialized version for the current driver
+     * Resolve array of classnames or objects into their specialized version for the current driver
      *
-     * @param array $objects
+     * @param array $specializables
      * @return array
      */
-    public function specializeMultiple(array $objects): array;
+    public function specializeMultiple(array $specializables): array;
 
     /**
      * Create new image instance with the current driver in given dimensions

@@ -2,7 +2,8 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\Gd\SpecializedModifier;
+use Intervention\Image\Drivers\DriverSpecialized;
+use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -11,57 +12,108 @@ use Intervention\Image\Interfaces\SizeInterface;
  * @method SizeInterface crop(ImageInterface $image)
  * @property int $offset_x
  * @property int $offset_y
+ * @property mixed $background
  */
-class CropModifier extends SpecializedModifier
+class CropModifier extends DriverSpecialized
 {
     public function apply(ImageInterface $image): ImageInterface
     {
+        $originalSize = $image->size();
         $crop = $this->crop($image);
+        $background = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+            $this->driver()->handleInput($this->background)
+        );
 
         foreach ($image as $frame) {
-            $this->cropFrame($frame, $crop);
+            $this->cropFrame($frame, $originalSize, $crop, $background);
         }
 
         return $image;
     }
 
-    protected function cropFrame(FrameInterface $frame, SizeInterface $resizeTo): void
-    {
-        // create new image
-        $modified = $this->driver()
-            ->createImage($resizeTo->width(), $resizeTo->height())
-            ->core()
-            ->native();
+    protected function cropFrame(
+        FrameInterface $frame,
+        SizeInterface $originalSize,
+        SizeInterface $resizeTo,
+        int $background
+    ): void {
+        // create new image with transparent background
+        $modified = Cloner::cloneEmpty($frame->native(), $resizeTo);
 
-        // get original image
-        $original = $frame->native();
+        // define offset
+        $offset_x = ($resizeTo->pivot()->x() + $this->offset_x);
+        $offset_y = ($resizeTo->pivot()->y() + $this->offset_y);
 
-        // retain resolution
-        $this->copyResolution($original, $modified);
-
-        // preserve transparency
-        $transIndex = imagecolortransparent($original);
-
-        if ($transIndex != -1) {
-            $rgba = imagecolorsforindex($modified, $transIndex);
-            $transColor = imagecolorallocatealpha($modified, $rgba['red'], $rgba['green'], $rgba['blue'], 127);
-            imagefill($modified, 0, 0, $transColor);
-            imagecolortransparent($modified, $transColor);
-        }
+        // define target width & height
+        $targetWidth = min($resizeTo->width(), $originalSize->width());
+        $targetHeight = min($resizeTo->height(), $originalSize->height());
+        $targetWidth = $targetWidth < $originalSize->width() ? $targetWidth + $offset_x : $targetWidth;
+        $targetHeight = $targetHeight < $originalSize->height() ? $targetHeight + $offset_y : $targetHeight;
 
         // copy content from resource
         imagecopyresampled(
             $modified,
-            $original,
+            $frame->native(),
+            $offset_x * -1,
+            $offset_y * -1,
             0,
             0,
-            $resizeTo->pivot()->x() + $this->offset_x,
-            $resizeTo->pivot()->y() + $this->offset_y,
-            $resizeTo->width(),
-            $resizeTo->height(),
-            $resizeTo->width(),
-            $resizeTo->height(),
+            $targetWidth,
+            $targetHeight,
+            $targetWidth,
+            $targetHeight
         );
+
+        // don't alpha blend for covering areas
+        imagealphablending($modified, false);
+
+        // cover the possible newly created areas with background color
+        if ($resizeTo->width() > $originalSize->width() || $this->offset_x > 0) {
+            imagefilledrectangle(
+                $modified,
+                $originalSize->width() + ($this->offset_x * -1) - $resizeTo->pivot()->x(),
+                0,
+                $resizeTo->width(),
+                $resizeTo->height(),
+                $background
+            );
+        }
+
+        // cover the possible newly created areas with background color
+        if ($resizeTo->height() > $originalSize->height() || $this->offset_y > 0) {
+            imagefilledrectangle(
+                $modified,
+                ($this->offset_x * -1) - $resizeTo->pivot()->x(),
+                $originalSize->height() + ($this->offset_y * -1) - $resizeTo->pivot()->y(),
+                ($this->offset_x * -1) + $originalSize->width() - 1 - $resizeTo->pivot()->x(),
+                $resizeTo->height(),
+                $background
+            );
+        }
+
+        // cover the possible newly created areas with background color
+        if ((($this->offset_x * -1) - $resizeTo->pivot()->x() - 1) > 0) {
+            imagefilledrectangle(
+                $modified,
+                0,
+                0,
+                ($this->offset_x * -1) - $resizeTo->pivot()->x() - 1,
+                $resizeTo->height(),
+                $background
+            );
+        }
+
+        // cover the possible newly created areas with background color
+        if ((($this->offset_y * -1) - $resizeTo->pivot()->y() - 1) > 0) {
+            imagefilledrectangle(
+                $modified,
+                ($this->offset_x * -1) - $resizeTo->pivot()->x(),
+                0,
+                ($this->offset_x * -1) + $originalSize->width() - $resizeTo->pivot()->x() - 1,
+                ($this->offset_y * -1) - $resizeTo->pivot()->y() - 1,
+                $background
+            );
+        }
 
         // set new content as recource
         $frame->setNative($modified);

@@ -107,35 +107,6 @@ class Frame implements FrameInterface
      */
     public function __clone(): void
     {
-        // create new clone image
-        $width = imagesx($this->native);
-        $height = imagesy($this->native);
-        $clone = match (imageistruecolor($this->native)) {
-            true => imagecreatetruecolor($width, $height),
-            default => imagecreate($width, $height),
-        };
-
-        // transfer resolution to clone
-        $resolution = imageresolution($this->native);
-        if (is_array($resolution) && array_key_exists(0, $resolution) && array_key_exists(1, $resolution)) {
-            imageresolution($clone, $resolution[0], $resolution[1]);
-        }
-
-        // transfer transparency to clone
-        $transIndex = imagecolortransparent($this->native);
-        if ($transIndex != -1) {
-            $rgba = imagecolorsforindex($clone, $transIndex);
-            $transColor = imagecolorallocatealpha($clone, $rgba['red'], $rgba['green'], $rgba['blue'], 127);
-            imagefill($clone, 0, 0, $transColor);
-            imagecolortransparent($clone, $transColor);
-        } else {
-            imagealphablending($clone, false);
-            imagesavealpha($clone, true);
-        }
-
-        // transfer actual image to clone
-        imagecopy($clone, $this->native, 0, 0, 0, 0, $width, $height);
-
-        $this->native = $clone;
+        $this->native = Cloner::clone($this->native);
     }
 }

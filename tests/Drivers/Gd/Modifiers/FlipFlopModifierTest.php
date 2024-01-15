@@ -21,7 +21,7 @@ class FlipFlopModifierTest extends TestCase
         $image = $this->readTestImage('tile.png');
         $this->assertEquals('b4e000', $image->pickColor(0, 0)->toHex());
         $image->modify(new FlipModifier());
-        $this->assertEquals('00000000', $image->pickColor(0, 0)->toHex());
+        $this->assertTransparency($image->pickColor(0, 0));
     }
 
     public function testFlopImage(): void
@@ -29,6 +29,6 @@ class FlipFlopModifierTest extends TestCase
         $image = $this->readTestImage('tile.png');
         $this->assertEquals('b4e000', $image->pickColor(0, 0)->toHex());
         $image->modify(new FlopModifier());
-        $this->assertEquals('00000000', $image->pickColor(0, 0)->toHex());
+        $this->assertTransparency($image->pickColor(0, 0));
     }
 }

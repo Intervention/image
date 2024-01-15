@@ -2,7 +2,8 @@
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\Gd\SpecializedModifier;
+use Intervention\Image\Drivers\DriverSpecialized;
+use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -11,7 +12,7 @@ use Intervention\Image\Interfaces\SizeInterface;
  * @method SizeInterface getResizeSize(ImageInterface $image)
  * @method SizeInterface getCropSize(ImageInterface $image)
  */
-class CoverModifier extends SpecializedModifier
+class CoverModifier extends DriverSpecialized
 {
     public function apply(ImageInterface $image): ImageInterface
     {
@@ -28,31 +29,12 @@ class CoverModifier extends SpecializedModifier
     protected function modifyFrame(FrameInterface $frame, SizeInterface $crop, SizeInterface $resize): void
     {
         // create new image
-        $modified = $this->driver()->createImage(
-            $resize->width(),
-            $resize->height()
-        )->core()->native();
-
-        // get original image
-        $original = $frame->native();
-
-        // retain resolution
-        $this->copyResolution($original, $modified);
-
-        // preserve transparency
-        $transIndex = imagecolortransparent($original);
-
-        if ($transIndex != -1) {
-            $rgba = imagecolorsforindex($modified, $transIndex);
-            $transColor = imagecolorallocatealpha($modified, $rgba['red'], $rgba['green'], $rgba['blue'], 127);
-            imagefill($modified, 0, 0, $transColor);
-            imagecolortransparent($modified, $transColor);
-        }
+        $modified = Cloner::cloneEmpty($frame->native(), $resize);
 
         // copy content from resource
         imagecopyresampled(
             $modified,
-            $original,
+            $frame->native(),
             0,
             0,
             $crop->pivot()->x(),

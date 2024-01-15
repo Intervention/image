@@ -10,6 +10,7 @@ use Intervention\Image\Analyzers\PixelColorsAnalyzer;
 use Intervention\Image\Analyzers\ProfileAnalyzer;
 use Intervention\Image\Analyzers\ResolutionAnalyzer;
 use Intervention\Image\Analyzers\WidthAnalyzer;
+use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\Encoders\AvifEncoder;
 use Intervention\Image\Encoders\BmpEncoder;
@@ -45,6 +46,7 @@ use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\ProfileInterface;
 use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Modifiers\BlendTransparencyModifier;
 use Intervention\Image\Modifiers\BlurModifier;
 use Intervention\Image\Modifiers\BrightnessModifier;
 use Intervention\Image\Modifiers\ColorizeModifier;
@@ -94,6 +96,14 @@ final class Image implements ImageInterface
     protected Origin $origin;
 
     /**
+     * Color is mixed with transparent areas when converting to a format which
+     * does not support transparency.
+     *
+     * @var ColorInterface
+     */
+    protected ColorInterface $blendingColor;
+
+    /**
      * Create new instance
      *
      * @param DriverInterface $driver
@@ -107,6 +117,9 @@ final class Image implements ImageInterface
         protected CollectionInterface $exif = new Collection()
     ) {
         $this->origin = new Origin();
+        $this->blendingColor = $this->colorspace()->importColor(
+            new Color(255, 255, 255, 0)
+        );
     }
 
     /**
@@ -367,6 +380,38 @@ final class Image implements ImageInterface
     public function pickColors(int $x, int $y): CollectionInterface
     {
         return $this->analyze(new PixelColorsAnalyzer($x, $y));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::blendingColor()
+     */
+    public function blendingColor(): ColorInterface
+    {
+        return $this->blendingColor;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::setBlendingColor()
+     */
+    public function setBlendingColor(mixed $color): ImageInterface
+    {
+        $this->blendingColor = $this->driver()->handleInput($color);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::blendTransparency()
+     */
+    public function blendTransparency(mixed $color = null): ImageInterface
+    {
+        return $this->modify(new BlendTransparencyModifier($color));
     }
 
     /**
@@ -671,9 +716,10 @@ final class Image implements ImageInterface
         int $height,
         int $offset_x = 0,
         int $offset_y = 0,
+        mixed $background = 'ffffff',
         string $position = 'top-left'
     ): ImageInterface {
-        return $this->modify(new CropModifier($width, $height, $offset_x, $offset_y, $position));
+        return $this->modify(new CropModifier($width, $height, $offset_x, $offset_y, $background, $position));
     }
 
     /**

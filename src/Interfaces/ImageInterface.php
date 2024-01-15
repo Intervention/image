@@ -186,6 +186,31 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function pickColors(int $x, int $y): CollectionInterface;
 
     /**
+     * Return color that is mixed with transparent areas when converting to a format which
+     * does not support transparency.
+     *
+     * @return ColorInterface
+     */
+    public function blendingColor(): ColorInterface;
+
+    /**
+     * Set blending color will have no effect unless image is converted into a format
+     * which does not support transparency.
+     *
+     * @param  mixed $color
+     * @return ImageInterface
+     */
+    public function setBlendingColor(mixed $color): ImageInterface;
+
+    /**
+     * Replace transparent areas of the image with given color
+     *
+     * @param mixed $color
+     * @return ImageInterface
+     */
+    public function blendTransparency(mixed $color = null): ImageInterface;
+
+    /**
      * Retrieve ICC color profile of image
      *
      * @return ProfileInterface
@@ -466,6 +491,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $height
      * @param int $offset_x
      * @param int $offset_y
+     * @param mixed $background
      * @param string $position
      * @return ImageInterface
      */
@@ -474,6 +500,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         int $height,
         int $offset_x = 0,
         int $offset_y = 0,
+        mixed $background = 'ffffff',
         string $position = 'top-left'
     ): ImageInterface;
 

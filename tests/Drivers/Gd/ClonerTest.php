@@ -1,0 +1,69 @@
+<?php
+
+namespace Intervention\Image\Tests\Drivers\Gd;
+
+use Intervention\Image\Colors\Rgb\Color;
+use Intervention\Image\Drivers\Gd\Cloner;
+use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Tests\TestCase;
+
+class ClonerTest extends TestCase
+{
+    public function testClone(): void
+    {
+        $gd = imagecreatefromgif($this->getTestImagePath('gradient.gif'));
+        $clone = Cloner::clone($gd);
+
+        $this->assertEquals(16, imagesx($gd));
+        $this->assertEquals(16, imagesy($gd));
+        $this->assertEquals(16, imagesx($clone));
+        $this->assertEquals(16, imagesy($clone));
+
+        $this->assertEquals(
+            imagecolorsforindex($gd, imagecolorat($gd, 10, 10)),
+            imagecolorsforindex($clone, imagecolorat($clone, 10, 10))
+        );
+    }
+
+    public function testCloneEmpty(): void
+    {
+        $gd = imagecreatefromgif($this->getTestImagePath('gradient.gif'));
+        $clone = Cloner::cloneEmpty($gd, new Rectangle(12, 12), new Color(255, 0, 0, 0));
+
+        $this->assertEquals(16, imagesx($gd));
+        $this->assertEquals(16, imagesy($gd));
+        $this->assertEquals(12, imagesx($clone));
+        $this->assertEquals(12, imagesy($clone));
+
+        $this->assertEquals(
+            ['red' => 0, 'green' => 255, 'blue' => 2, 'alpha' => 0],
+            imagecolorsforindex($gd, imagecolorat($gd, 10, 10)),
+        );
+
+        $this->assertEquals(
+            ['red' => 255, 'green' => 0, 'blue' => 0, 'alpha' => 127],
+            imagecolorsforindex($clone, imagecolorat($clone, 10, 10))
+        );
+    }
+
+    public function testCLoneBlended(): void
+    {
+        $gd = imagecreatefromgif($this->getTestImagePath('gradient.gif'));
+        $clone = Cloner::cloneBlended($gd, new Color(255, 0, 255, 255));
+
+        $this->assertEquals(16, imagesx($gd));
+        $this->assertEquals(16, imagesy($gd));
+        $this->assertEquals(16, imagesx($clone));
+        $this->assertEquals(16, imagesy($clone));
+
+        $this->assertEquals(
+            ['red' => 0, 'green' => 0, 'blue' => 0, 'alpha' => 127],
+            imagecolorsforindex($gd, imagecolorat($gd, 1, 0)),
+        );
+
+        $this->assertEquals(
+            ['red' => 255, 'green' => 0, 'blue' => 255, 'alpha' => 0],
+            imagecolorsforindex($clone, imagecolorat($clone, 1, 0))
+        );
+    }
+}

@@ -41,7 +41,6 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
         if (!imageistruecolor($gd)) {
             imagepalettetotruecolor($gd);
         }
-
         imagesavealpha($gd, true);
 
         // build image instance

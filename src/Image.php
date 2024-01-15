@@ -205,6 +205,11 @@ final class Image implements ImageInterface
         return $this->modify(new RemoveAnimationModifier($position));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::sliceAnimation()
+     */
     public function sliceAnimation(int $offset = 0, ?int $length = null): ImageInterface
     {
         return $this->modify(new SliceAnimationModifier($offset, $length));

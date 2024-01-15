@@ -273,4 +273,94 @@ class ImageTest extends TestCase
         $this->assertColor(1, 2, 3, 4, $result->blendingColor());
         $this->assertColor(1, 2, 3, 4, $image->blendingColor());
     }
+
+    public function testToJpeg(): void
+    {
+        $this->assertMediaType('image/jpeg', $this->image->toJpeg());
+        $this->assertMediaType('image/jpeg', $this->image->toJpg());
+    }
+
+    public function testToJpeg2000(): void
+    {
+        $this->expectException(NotSupportedException::class);
+        $this->image->toJpeg2000();
+    }
+
+    public function testToPng(): void
+    {
+        $this->assertMediaType('image/png', $this->image->toPng());
+    }
+
+    public function testToGif(): void
+    {
+        $this->assertMediaType('image/gif', $this->image->toGif());
+    }
+
+    public function testToWebp(): void
+    {
+        $this->assertMediaType('image/webp', $this->image->toWebp());
+    }
+
+    public function testToBitmap(): void
+    {
+        $this->assertMediaType('image/x-ms-bmp', $this->image->toBitmap());
+        $this->assertMediaType('image/x-ms-bmp', $this->image->toBmp());
+    }
+
+    public function testToAvif(): void
+    {
+        $this->assertMediaType('image/avif', $this->image->toAvif());
+    }
+
+    public function testToTiff(): void
+    {
+        $this->expectException(NotSupportedException::class);
+        $this->image->toTiff();
+    }
+
+    public function testToHeic(): void
+    {
+        $this->expectException(NotSupportedException::class);
+        $this->image->toHeic();
+    }
+
+    public function testInvert(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $this->assertEquals('00aef0', $image->pickColor(0, 0)->toHex());
+        $this->assertEquals('ffa601', $image->pickColor(25, 25)->toHex());
+        $result = $image->invert();
+        $this->assertInstanceOf(ImageInterface::class, $result);
+        $this->assertEquals('ff510f', $image->pickColor(0, 0)->toHex());
+        $this->assertEquals('0059fe', $image->pickColor(25, 25)->toHex());
+    }
+
+    public function testPixelate(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $this->assertEquals('00aef0', $image->pickColor(0, 0)->toHex());
+        $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
+        $result = $image->pixelate(10);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+        $this->assertEquals('00aef0', $image->pickColor(0, 0)->toHex());
+        $this->assertEquals('6aaa8b', $image->pickColor(14, 14)->toHex());
+    }
+
+    public function testGreyscale(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $this->assertFalse($image->pickColor(0, 0)->isGreyscale());
+        $result = $image->greyscale();
+        $this->assertInstanceOf(ImageInterface::class, $result);
+        $this->assertTrue($image->pickColor(0, 0)->isGreyscale());
+    }
+
+    public function testBrightness(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
+        $result = $image->brightness(30);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+        $this->assertEquals('4cfaff', $image->pickColor(14, 14)->toHex());
+    }
 }

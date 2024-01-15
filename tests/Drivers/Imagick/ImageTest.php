@@ -5,7 +5,6 @@ namespace Intervention\Image\Tests\Drivers\Imagick;
 use Imagick;
 use Intervention\Image\Analyzers\WidthAnalyzer;
 use Intervention\Image\Collection;
-use Intervention\Image\Colors\Hsl\Colorspace as HslColorspace;
 use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
@@ -266,5 +265,103 @@ class ImageTest extends TestCase
         $result = $image->setBlendingColor(new Color(1, 2, 3, 4));
         $this->assertColor(1, 2, 3, 4, $result->blendingColor());
         $this->assertColor(1, 2, 3, 4, $image->blendingColor());
+    }
+
+    public function testToJpeg(): void
+    {
+        $this->assertMediaType('image/jpeg', $this->image->toJpeg());
+        $this->assertMediaType('image/jpeg', $this->image->toJpg());
+    }
+
+    public function testToJpeg2000(): void
+    {
+        $this->assertMediaType('image/jp2', $this->image->toJpeg2000());
+        $this->assertMediaType('image/jp2', $this->image->toJp2());
+    }
+
+    public function testToPng(): void
+    {
+        $this->assertMediaType('image/png', $this->image->toPng());
+    }
+
+    public function testToGif(): void
+    {
+        $this->assertMediaType('image/gif', $this->image->toGif());
+    }
+
+    public function testToWebp(): void
+    {
+        $this->assertMediaType('image/webp', $this->image->toWebp());
+    }
+
+    public function testToBitmap(): void
+    {
+        $this->assertMediaType('image/x-ms-bmp', $this->image->toBitmap());
+        $this->assertMediaType('image/x-ms-bmp', $this->image->toBmp());
+    }
+
+    public function testToAvif(): void
+    {
+        $this->assertMediaType('image/avif', $this->image->toAvif());
+    }
+
+    public function testToTiff(): void
+    {
+        $this->assertMediaType('image/tiff', $this->image->toTiff());
+        $this->assertMediaType('image/tiff', $this->image->toTif());
+    }
+
+    public function testToHeic(): void
+    {
+        $this->assertMediaType('image/heic', $this->image->toHeic());
+    }
+
+    public function testInvert(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $this->assertEquals('00aef0', $image->pickColor(0, 0)->toHex());
+        $this->assertEquals('ffa601', $image->pickColor(25, 25)->toHex());
+        $result = $image->invert();
+        $this->assertInstanceOf(ImageInterface::class, $result);
+        $this->assertEquals('ff510f', $image->pickColor(0, 0)->toHex());
+        $this->assertEquals('0059fe', $image->pickColor(25, 25)->toHex());
+    }
+
+    public function testPixelate(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $this->assertEquals('00aef0', $image->pickColor(0, 0)->toHex());
+        $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
+
+        $result = $image->pixelate(10);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+
+        list($r, $g, $b) = $image->pickColor(0, 0)->toArray();
+        $this->assertEquals(0, $r);
+        $this->assertEquals(174, $g);
+        $this->assertEquals(240, $b);
+
+        list($r, $g, $b) = $image->pickColor(14, 14)->toArray();
+        $this->assertEquals(107, $r);
+        $this->assertEquals(171, $g);
+        $this->assertEquals(140, $b);
+    }
+
+    public function testGreyscale(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $this->assertFalse($image->pickColor(0, 0)->isGreyscale());
+        $result = $image->greyscale();
+        $this->assertInstanceOf(ImageInterface::class, $result);
+        $this->assertTrue($image->pickColor(0, 0)->isGreyscale());
+    }
+
+    public function testBrightness(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
+        $result = $image->brightness(30);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+        $this->assertEquals('39c9ff', $image->pickColor(14, 14)->toHex());
     }
 }

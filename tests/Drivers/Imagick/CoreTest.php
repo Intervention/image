@@ -6,6 +6,7 @@ use Imagick;
 use ImagickPixel;
 use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\Imagick\Frame;
+use Intervention\Image\Exceptions\AnimationException;
 use Intervention\Image\Tests\TestCase;
 
 class CoreTest extends TestCase
@@ -56,6 +57,29 @@ class CoreTest extends TestCase
     public function testNative(): void
     {
         $this->assertInstanceOf(Imagick::class, $this->core->native());
+    }
+
+    public function testSetNative(): void
+    {
+        $imagick1 = new Imagick();
+        $imagick1->newImage(10, 10, new ImagickPixel('red'));
+
+        $imagick2 = new Imagick();
+        $imagick2->newImage(10, 10, new ImagickPixel('red'));
+
+        $core = new Core($imagick1);
+        $this->assertEquals($imagick1, $core->native());
+        $core->setNative($imagick2);
+        $this->assertEquals($imagick2, $core->native());
+    }
+
+    public function testFrame(): void
+    {
+        $this->assertInstanceOf(Frame::class, $this->core->frame(0));
+        $this->assertInstanceOf(Frame::class, $this->core->frame(1));
+        $this->assertInstanceOf(Frame::class, $this->core->frame(2));
+        $this->expectException(AnimationException::class);
+        $this->core->frame(3);
     }
 
     public function testSetGetLoops(): void

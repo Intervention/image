@@ -10,22 +10,27 @@ use Intervention\Image\Tests\TestCase;
 
 class CoreTest extends TestCase
 {
-    public function testNative(): void
+    protected Core $core;
+
+    public function setUp(): void
     {
-        $core = new Core([
-            new Frame(imagecreatetruecolor(3, 2))
+        $this->core = new Core([
+            new Frame(imagecreatetruecolor(3, 2)),
+            new Frame(imagecreatetruecolor(3, 2)),
+            new Frame(imagecreatetruecolor(3, 2)),
         ]);
-        $this->assertInstanceOf(GdImage::class, $core->native());
+    }
+
+    public function getTestFrame(): Frame
+    {
+        return new Frame(imagecreatetruecolor(3, 2));
     }
 
     public function testAdd(): void
     {
-        $gd1 = imagecreatetruecolor(3, 2);
-        $gd2 = imagecreatetruecolor(3, 2);
-        $core = new Core([new Frame($gd1)]);
-        $this->assertEquals(1, $core->count());
-        $result = $core->add(new Frame($gd2));
-        $this->assertEquals(2, $core->count());
+        $this->assertEquals(3, $this->core->count());
+        $result = $this->core->add($this->getTestFrame());
+        $this->assertEquals(4, $this->core->count());
         $this->assertInstanceOf(Core::class, $result);
     }
 
@@ -39,38 +44,87 @@ class CoreTest extends TestCase
         $this->assertEquals($gd2, $core->native());
     }
 
+    public function testCount(): void
+    {
+        $this->assertEquals(3, $this->core->count());
+    }
+
+    public function testIterator(): void
+    {
+        foreach ($this->core as $frame) {
+            $this->assertInstanceOf(Frame::class, $frame);
+        }
+    }
+
+    public function testNative(): void
+    {
+        $this->assertInstanceOf(GdImage::class, $this->core->native());
+    }
+
     public function testFrame(): void
     {
-        $core = new Core([
-            new Frame(imagecreatetruecolor(3, 2)),
-            new Frame(imagecreatetruecolor(3, 2)),
-        ]);
-        $this->assertInstanceOf(Frame::class, $core->frame(0));
-        $this->assertInstanceOf(Frame::class, $core->frame(1));
+        $this->assertInstanceOf(Frame::class, $this->core->frame(0));
+        $this->assertInstanceOf(Frame::class, $this->core->frame(1));
+        $this->assertInstanceOf(Frame::class, $this->core->frame(2));
         $this->expectException(AnimationException::class);
-        $core->frame(10);
+        $this->core->frame(3);
     }
 
     public function testSetGetLoops(): void
     {
-        $core = new Core([
-            new Frame(imagecreatetruecolor(3, 2))
-        ]);
-
-        $this->assertEquals(0, $core->loops());
-        $result = $core->setLoops(12);
+        $this->assertEquals(0, $this->core->loops());
+        $result = $this->core->setLoops(12);
         $this->assertInstanceOf(Core::class, $result);
-        $this->assertEquals(12, $core->loops());
+        $this->assertEquals(12, $this->core->loops());
+    }
+
+    public function testHas(): void
+    {
+        $this->assertTrue($this->core->has(0));
+        $this->assertTrue($this->core->has(1));
+        $this->assertTrue($this->core->has(2));
+        $this->assertFalse($this->core->has(3));
+    }
+
+    public function testPush(): void
+    {
+        $this->assertEquals(3, $this->core->count());
+        $result = $this->core->push($this->getTestFrame());
+        $this->assertEquals(4, $this->core->count());
+        $this->assertEquals(4, $result->count());
+    }
+
+    public function testGet(): void
+    {
+        $this->assertInstanceOf(Frame::class, $this->core->get(0));
+        $this->assertInstanceOf(Frame::class, $this->core->get(1));
+        $this->assertInstanceOf(Frame::class, $this->core->get(2));
+        $this->assertNull($this->core->get(3));
+        $this->assertEquals('foo', $this->core->get(3, 'foo'));
+    }
+
+    public function testEmpty(): void
+    {
+        $result = $this->core->empty();
+        $this->assertEquals(0, $this->core->count());
+        $this->assertEquals(0, $result->count());
+    }
+
+    public function testSlice(): void
+    {
+        $this->assertEquals(3, $this->core->count());
+        $result = $this->core->slice(1, 2);
+        $this->assertEquals(2, $this->core->count());
+        $this->assertEquals(2, $result->count());
+    }
+
+    public function testFirst(): void
+    {
+        $this->assertInstanceOf(Frame::class, $this->core->first());
     }
 
     public function testLast(): void
     {
-        $core = new Core([
-            new Frame(imagecreatetruecolor(3, 2)),
-            new Frame(imagecreatetruecolor(3, 2)),
-        ]);
-
-        $result = $core->last();
-        $this->assertInstanceOf(Frame::class, $result);
+        $this->assertInstanceOf(Frame::class, $this->core->last());
     }
 }

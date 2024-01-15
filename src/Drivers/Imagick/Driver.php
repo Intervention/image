@@ -34,7 +34,7 @@ class Driver extends AbstractDriver
     {
         if (!extension_loaded('imagick') || !class_exists('Imagick')) {
             throw new RuntimeException(
-                'ImageMagick extension not available with this PHP installation.'
+                'Imagick PHP extension must be installed to use this driver.'
             );
         }
     }

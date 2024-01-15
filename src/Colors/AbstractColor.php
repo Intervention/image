@@ -26,7 +26,7 @@ abstract class AbstractColor implements ColorInterface
         });
 
         if (count($channels) == 0) {
-            throw new ColorException('Channel ' . $classname . ' could not be found.');
+            throw new ColorException('Color channel ' . $classname . ' could not be found.');
         }
 
         return reset($channels);

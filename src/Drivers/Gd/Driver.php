@@ -32,7 +32,7 @@ class Driver extends AbstractDriver
     {
         if (!extension_loaded('gd') || !function_exists('gd_info')) {
             throw new RuntimeException(
-                'GD Library extension not available with this PHP installation.'
+                'GD PHP extension must be installed to use this driver.'
             );
         }
     }

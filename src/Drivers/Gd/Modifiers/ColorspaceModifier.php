@@ -16,7 +16,7 @@ class ColorspaceModifier extends DriverSpecializedModifier
     {
         if (!is_a($this->targetColorspace(), RgbColorspace::class)) {
             throw new NotSupportedException(
-                'Only RGB colorspace is supported with GD driver.'
+                'Only RGB colorspace is supported by GD driver.'
             );
         }
 

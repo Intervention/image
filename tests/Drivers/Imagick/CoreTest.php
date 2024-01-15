@@ -139,4 +139,25 @@ class CoreTest extends TestCase
         $this->assertEquals(2, $core->count());
         $this->assertEquals(2, $result->count());
     }
+
+    public function testLast(): void
+    {
+        $imagick = new Imagick();
+
+        $im = new Imagick();
+        $im->newImage(10, 10, new ImagickPixel('red'));
+        $imagick->addImage($im);
+
+        $im = new Imagick();
+        $im->newImage(10, 10, new ImagickPixel('green'));
+        $imagick->addImage($im);
+
+        $im = new Imagick();
+        $im->newImage(10, 10, new ImagickPixel('blue'));
+        $imagick->addImage($im);
+
+        $core = new Core($imagick);
+        $result = $core->last();
+        $this->assertInstanceOf(Frame::class, $result);
+    }
 }

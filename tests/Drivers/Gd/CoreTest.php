@@ -5,6 +5,7 @@ namespace Intervention\Image\Tests\Drivers\Gd;
 use GdImage;
 use Intervention\Image\Drivers\Gd\Core;
 use Intervention\Image\Drivers\Gd\Frame;
+use Intervention\Image\Exceptions\AnimationException;
 use Intervention\Image\Tests\TestCase;
 
 class CoreTest extends TestCase
@@ -46,6 +47,8 @@ class CoreTest extends TestCase
         ]);
         $this->assertInstanceOf(Frame::class, $core->frame(0));
         $this->assertInstanceOf(Frame::class, $core->frame(1));
+        $this->expectException(AnimationException::class);
+        $core->frame(10);
     }
 
     public function testSetGetLoops(): void
@@ -58,5 +61,16 @@ class CoreTest extends TestCase
         $result = $core->setLoops(12);
         $this->assertInstanceOf(Core::class, $result);
         $this->assertEquals(12, $core->loops());
+    }
+
+    public function testLast(): void
+    {
+        $core = new Core([
+            new Frame(imagecreatetruecolor(3, 2)),
+            new Frame(imagecreatetruecolor(3, 2)),
+        ]);
+
+        $result = $core->last();
+        $this->assertInstanceOf(Frame::class, $result);
     }
 }

@@ -185,9 +185,30 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see CollectionInterface::empty()
+     */
     public function empty(): CollectionInterface
     {
         $this->items = [];
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see CollectionInterface::slice()
+     */
+    public function slice(int $offset, ?int $length = null): CollectionInterface
+    {
+        if ($offset >= count($this->items)) {
+            throw new RuntimeException('Offset exceeds the maximum value.');
+        }
+
+        $this->items = array_slice($this->items, $offset, $length);
 
         return $this;
     }

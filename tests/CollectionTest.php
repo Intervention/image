@@ -3,6 +3,7 @@
 namespace Intervention\Image\Tests;
 
 use Intervention\Image\Collection;
+use Intervention\Image\Exceptions\RuntimeException;
 
 /**
  * @covers \Intervention\Image\Collection
@@ -143,5 +144,29 @@ class CollectionTest extends TestCase
         $result = $collection->empty();
         $this->assertEquals(0, $collection->count());
         $this->assertEquals(0, $result->count());
+    }
+
+    public function testSlice(): void
+    {
+        $collection = new Collection(['a', 'b', 'c', 'd', 'e', 'f']);
+        $this->assertEquals(6, $collection->count());
+        $result = $collection->slice(0, 3);
+        $this->assertEquals(['a', 'b', 'c'], $collection->toArray());
+        $this->assertEquals(['a', 'b', 'c'], $result->toArray());
+        $this->assertEquals('a', $result->get(0));
+        $this->assertEquals('b', $result->get(1));
+        $this->assertEquals('c', $result->get(2));
+
+        $result = $collection->slice(2, 1);
+        $this->assertEquals(['c'], $collection->toArray());
+        $this->assertEquals(['c'], $result->toArray());
+        $this->assertEquals('c', $result->get(0));
+    }
+
+    public function testSliceOutOfBounds(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $collection = new Collection(['a', 'b', 'c']);
+        $collection->slice(6);
     }
 }

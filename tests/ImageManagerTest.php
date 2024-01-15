@@ -2,6 +2,7 @@
 
 namespace Intervention\Image\Tests;
 
+use Intervention\Image\Decoders\BinaryImageDecoder;
 use Intervention\Image\Decoders\FilePathImageDecoder;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
@@ -88,6 +89,14 @@ class ImageManagerTest extends TestCase
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
+    /** @requires extension gd */
+    public function testReadGdWithDecoderInstanceArrayMultiple(): void
+    {
+        $manager = new ImageManager(GdDriver::class);
+        $image = $manager->read(__DIR__ . '/images/red.gif', [new BinaryImageDecoder(), new FilePathImageDecoder()]);
+        $this->assertInstanceOf(ImageInterface::class, $image);
+    }
+
     /** @requires extension imagick */
     public function testCreateImagick()
     {
@@ -133,6 +142,14 @@ class ImageManagerTest extends TestCase
     {
         $manager = new ImageManager(ImagickDriver::class);
         $image = $manager->read(__DIR__ . '/images/red.gif', [new FilePathImageDecoder()]);
+        $this->assertInstanceOf(ImageInterface::class, $image);
+    }
+
+    /** @requires extension imagick */
+    public function testReadImagickWithDecoderInstanceArrayMultiple(): void
+    {
+        $manager = new ImageManager(ImagickDriver::class);
+        $image = $manager->read(__DIR__ . '/images/red.gif', [new BinaryImageDecoder(), new FilePathImageDecoder()]);
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 }

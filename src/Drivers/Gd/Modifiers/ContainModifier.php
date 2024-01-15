@@ -10,6 +10,7 @@ use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
 /**
@@ -20,7 +21,7 @@ use Intervention\Image\Interfaces\SizeInterface;
  * @property mixed $background
  * @property string $position
  */
-class ContainModifier extends DriverSpecialized
+class ContainModifier extends DriverSpecialized implements ModifierInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

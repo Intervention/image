@@ -5,11 +5,12 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use Imagick;
 use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\ModifierInterface;
 
 /**
  * @property mixed $color
  */
-class BlendTransparencyModifier extends DriverSpecialized
+class BlendTransparencyModifier extends DriverSpecialized implements ModifierInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

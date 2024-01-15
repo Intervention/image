@@ -985,9 +985,9 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::toHeic()
      */
-    public function toHeic(int $quality = 75): EncodedImageInterface
+    public function toHeic(mixed ...$options): EncodedImageInterface
     {
-        return $this->encode(new HeicEncoder($quality));
+        return $this->encode(new HeicEncoder(...$options));
     }
 
     /**

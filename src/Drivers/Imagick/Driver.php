@@ -29,6 +29,7 @@ class Driver extends AbstractDriver
      * {@inheritdoc}
      *
      * @see DriverInterface::checkHealth()
+     * @codeCoverageIgnore
      */
     public function checkHealth(): void
     {

@@ -2,6 +2,6 @@
 
 namespace Intervention\Image\Decoders;
 
-class FilePathImageDecoder extends AbstractDecoder
+class FilePathImageDecoder extends SpecializableDecoder
 {
 }

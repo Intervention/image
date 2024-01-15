@@ -2,6 +2,6 @@
 
 namespace Intervention\Image\Decoders;
 
-class BinaryImageDecoder extends AbstractDecoder
+class BinaryImageDecoder extends SpecializableDecoder
 {
 }

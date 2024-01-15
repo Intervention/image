@@ -2,6 +2,6 @@
 
 namespace Intervention\Image\Decoders;
 
-class SplFileInfoImageDecoder extends AbstractDecoder
+class SplFileInfoImageDecoder extends SpecializableDecoder
 {
 }

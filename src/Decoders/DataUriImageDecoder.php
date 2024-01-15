@@ -2,6 +2,6 @@
 
 namespace Intervention\Image\Decoders;
 
-class DataUriImageDecoder extends AbstractDecoder
+class DataUriImageDecoder extends SpecializableDecoder
 {
 }

@@ -8,7 +8,7 @@ use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializableInterface;
 
-abstract class AbstractDecoder implements DecoderInterface, SpecializableInterface
+abstract class SpecializableDecoder implements DecoderInterface, SpecializableInterface
 {
     public function decode(mixed $input): ImageInterface|ColorInterface
     {

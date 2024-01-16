@@ -2,7 +2,6 @@
 
 namespace Intervention\Image\Drivers\Imagick;
 
-use Collectable;
 use Imagick;
 use ImagickException;
 use Iterator;
@@ -16,6 +15,12 @@ class Core implements CoreInterface, Iterator
 {
     protected int $iteratorIndex = 0;
 
+    /**
+     * Create new core instance
+     *
+     * @param Imagick $imagick
+     * @return void
+     */
     public function __construct(protected Imagick $imagick)
     {
     }
@@ -116,6 +121,11 @@ class Core implements CoreInterface, Iterator
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see CoreInterface::add()
+     */
     public function add(FrameInterface $frame): CoreInterface
     {
         $imagick = $frame->native();
@@ -136,11 +146,21 @@ class Core implements CoreInterface, Iterator
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see CoreInterface::count()
+     */
     public function count(): int
     {
         return $this->imagick->getNumberImages();
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see Interator::rewind()
+     */
     public function current(): mixed
     {
         $this->imagick->setIteratorIndex($this->iteratorIndex);
@@ -148,16 +168,31 @@ class Core implements CoreInterface, Iterator
         return new Frame($this->imagick->current());
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see Interator::rewind()
+     */
     public function next(): void
     {
         $this->iteratorIndex = $this->iteratorIndex + 1;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see Interator::rewind()
+     */
     public function key(): mixed
     {
         return $this->iteratorIndex;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see Interator::rewind()
+     */
     public function valid(): bool
     {
         try {
@@ -169,16 +204,31 @@ class Core implements CoreInterface, Iterator
         return $result;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see Interator::rewind()
+     */
     public function rewind(): void
     {
         $this->iteratorIndex = 0;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see CoreInterface::native()
+     */
     public function native(): mixed
     {
         return $this->imagick;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see CoreInterface::setNative()
+     */
     public function setNative(mixed $native): CoreInterface
     {
         $this->imagick = $native;
@@ -186,6 +236,11 @@ class Core implements CoreInterface, Iterator
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see CoreInterface::frame()
+     */
     public function frame(int $position): FrameInterface
     {
         foreach ($this->imagick as $core) {
@@ -197,11 +252,21 @@ class Core implements CoreInterface, Iterator
         throw new AnimationException('Frame #' . $position . ' could not be found in the image.');
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see CoreInterface::loops()
+     */
     public function loops(): int
     {
         return $this->imagick->getImageIterations();
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see CoreInterface::setLoops()
+     */
     public function setLoops(int $loops): CoreInterface
     {
         $this->imagick = $this->imagick->coalesceImages();
@@ -246,6 +311,11 @@ class Core implements CoreInterface, Iterator
         return $frames;
     }
 
+    /**
+     * Clone instance
+     *
+     * @return void
+     */
     public function __clone(): void
     {
         $this->imagick = clone $this->imagick;

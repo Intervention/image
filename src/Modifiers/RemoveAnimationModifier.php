@@ -6,7 +6,7 @@ use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
-class RemoveAnimationModifier extends AbstractModifier
+class RemoveAnimationModifier extends SpecializableModifier
 {
     public function __construct(public int|string $position = 0)
     {

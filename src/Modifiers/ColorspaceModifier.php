@@ -7,7 +7,7 @@ use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Exceptions\NotSupportedException;
 
-class ColorspaceModifier extends AbstractModifier
+class ColorspaceModifier extends SpecializableModifier
 {
     public function __construct(public string|ColorspaceInterface $target)
     {

@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Modifiers;
 
-class BlendTransparencyModifier extends AbstractModifier
+class BlendTransparencyModifier extends SpecializableModifier
 {
     public function __construct(public mixed $color = null)
     {

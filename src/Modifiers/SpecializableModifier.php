@@ -6,7 +6,7 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SpecializableInterface;
 
-abstract class AbstractModifier implements ModifierInterface, SpecializableInterface
+abstract class SpecializableModifier implements ModifierInterface, SpecializableInterface
 {
     /**
      * {@inheritdoc}

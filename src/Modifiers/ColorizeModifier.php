@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Modifiers;
 
-class ColorizeModifier extends AbstractModifier
+class ColorizeModifier extends SpecializableModifier
 {
     public function __construct(
         public int $red = 0,

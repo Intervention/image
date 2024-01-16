@@ -4,7 +4,7 @@ namespace Intervention\Image\Modifiers;
 
 use Intervention\Image\Interfaces\PointInterface;
 
-class DrawPixelModifier extends AbstractModifier
+class DrawPixelModifier extends SpecializableModifier
 {
     public function __construct(
         public PointInterface $position,

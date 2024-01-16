@@ -2,6 +2,6 @@
 
 namespace Intervention\Image\Modifiers;
 
-class InvertModifier extends AbstractModifier
+class InvertModifier extends SpecializableModifier
 {
 }

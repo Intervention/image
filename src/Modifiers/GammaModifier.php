@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Modifiers;
 
-class GammaModifier extends AbstractModifier
+class GammaModifier extends SpecializableModifier
 {
     public function __construct(public float $gamma)
     {

@@ -6,7 +6,7 @@ use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
-class CoverModifier extends AbstractModifier
+class CoverModifier extends SpecializableModifier
 {
     public function __construct(
         public int $width,

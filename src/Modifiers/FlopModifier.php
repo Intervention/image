@@ -2,6 +2,6 @@
 
 namespace Intervention\Image\Modifiers;
 
-class FlopModifier extends AbstractModifier
+class FlopModifier extends SpecializableModifier
 {
 }

@@ -6,7 +6,7 @@ use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
-class ResizeCanvasModifier extends AbstractModifier
+class ResizeCanvasModifier extends SpecializableModifier
 {
     public function __construct(
         public ?int $width = null,

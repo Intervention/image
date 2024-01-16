@@ -2,6 +2,6 @@
 
 namespace Intervention\Image\Modifiers;
 
-class FlipModifier extends AbstractModifier
+class FlipModifier extends SpecializableModifier
 {
 }

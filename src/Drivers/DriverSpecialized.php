@@ -16,6 +16,13 @@ abstract class DriverSpecialized implements SpecializedInterface
     {
     }
 
+    /**
+     * Builds specialized version of the given generic object for a given driver
+     *
+     * @param object $generic
+     * @param DriverInterface $driver
+     * @return SpecializedInterface
+     */
     public static function buildSpecialized(object $generic, DriverInterface $driver): SpecializedInterface
     {
         $specialized = new static();
@@ -25,18 +32,28 @@ abstract class DriverSpecialized implements SpecializedInterface
         return $specialized;
     }
 
+    /**
+     * Driver for which the object will be specialized
+     *
+     * @return DriverInterface
+     */
     public function driver(): DriverInterface
     {
         return $this->driver;
     }
 
+    /**
+     * Underlying generic object which will be specialized for the driver
+     *
+     * @return object
+     */
     public function generic(): object
     {
         return $this->generic;
     }
 
     /**
-     * Magic method to read attributes of underlying modifier
+     * Magic method to read attributes of underlying generic object
      *
      * @param string $name
      * @return mixed
@@ -47,7 +64,7 @@ abstract class DriverSpecialized implements SpecializedInterface
     }
 
     /**
-     * Magic method to call methods of underlying modifier
+     * Magic method to call methods of underlying generic object
      *
      * @param string $name
      * @param array $arguments

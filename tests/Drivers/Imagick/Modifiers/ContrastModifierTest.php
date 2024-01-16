@@ -9,6 +9,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 /**
  * @requires extension imagick
  * @covers \Intervention\Image\Modifiers\ContrastModifier
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\ContrastModifier
  */
 class ContrastModifierTest extends TestCase
 {

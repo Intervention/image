@@ -9,6 +9,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 /**
  * @requires extension imagick
  * @covers \Intervention\Image\Modifiers\GreyscaleModifier
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\GreyscaleModifier
  */
 class GreyscaleModifierTest extends TestCase
 {

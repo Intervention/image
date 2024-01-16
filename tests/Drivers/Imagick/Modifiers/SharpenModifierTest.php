@@ -9,6 +9,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 /**
  * @requires extension imagick
  * @covers \Intervention\Image\Modifiers\SharpenModifier
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\SharpenModifier
  */
 class SharpenModifierTest extends TestCase
 {

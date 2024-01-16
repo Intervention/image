@@ -9,6 +9,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 /**
  * @requires extension imagick
  * @covers \Intervention\Image\Modifiers\ResizeModifier
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\ResizeModifier
  */
 class ResizeModifierTest extends TestCase
 {

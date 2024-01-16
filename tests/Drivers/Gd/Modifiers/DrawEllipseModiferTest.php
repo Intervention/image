@@ -10,6 +10,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 /**
  * @requires extension gd
+ * @covers \Intervention\Image\Modifiers\DrawEllipseModifier
  * @covers \Intervention\Image\Drivers\Gd\Modifiers\DrawEllipseModifier
  */
 class DrawEllipseModifierTest extends TestCase

@@ -9,6 +9,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 /**
  * @requires extension gd
  * @covers \Intervention\Image\Modifiers\InvertModifier
+ * @covers \Intervention\Image\Drivers\Gd\Modifiers\InvertModifier
  */
 class InvertModifierTest extends TestCase
 {

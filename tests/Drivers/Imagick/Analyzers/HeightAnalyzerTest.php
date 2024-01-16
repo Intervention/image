@@ -6,6 +6,11 @@ use Intervention\Image\Analyzers\HeightAnalyzer;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
+/**
+ * @requires extension imagick
+ * @covers \Intervention\Image\Analyzers\HeightAnalyzer
+ * @covers \Intervention\Image\Drivers\Imagick\Analyzers\HeightAnalyzer
+ */
 class HeightAnalyzerTest extends TestCase
 {
     use CanCreateImagickTestImage;

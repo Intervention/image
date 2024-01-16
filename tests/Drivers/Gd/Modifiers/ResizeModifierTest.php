@@ -9,6 +9,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 /**
  * @requires extension gd
  * @covers \Intervention\Image\Modifiers\ResizeModifier
+ * @covers \Intervention\Image\Drivers\Gd\Modifiers\ResizeModifier
  */
 class ResizeModifierTest extends TestCase
 {

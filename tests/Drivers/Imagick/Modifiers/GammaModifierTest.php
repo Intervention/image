@@ -9,6 +9,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 /**
  * @requires extension imagick
  * @covers \Intervention\Image\Modifiers\GammaModifier
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\GammaModifier
  */
 class GammaModifierTest extends TestCase
 {

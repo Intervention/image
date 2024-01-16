@@ -9,6 +9,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 /**
  * @requires extension gd
  * @covers \Intervention\Image\Modifiers\RemoveAnimationModifier
+ * @covers \Intervention\Image\Drivers\Gd\Modifiers\RemoveAnimationModifier
  */
 class RemoveAnimationModifierTest extends TestCase
 {

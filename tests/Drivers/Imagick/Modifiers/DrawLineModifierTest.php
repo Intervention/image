@@ -8,6 +8,11 @@ use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
+/**
+ * @requires extension imagick
+ * @covers \Intervention\Image\Modifiers\DrawLineModifier
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\DrawLineModifier
+ */
 class DrawLineModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;

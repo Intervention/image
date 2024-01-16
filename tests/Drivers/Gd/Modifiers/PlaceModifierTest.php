@@ -9,6 +9,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 /**
  * @requires extension gd
  * @covers \Intervention\Image\Modifiers\PlaceModifier
+ * @covers \Intervention\Image\Drivers\Gd\Modifiers\PlaceModifier
  */
 class PlaceModifierTest extends TestCase
 {

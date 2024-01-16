@@ -9,6 +9,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 /**
  * @requires extension imagick
  * @covers \Intervention\Image\Modifiers\ContainModifier
+ * @covers \Intervention\Image\Drivers\Gd\Modifiers\ContainModifier
  */
 class ContainModifierTest extends TestCase
 {

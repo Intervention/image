@@ -7,8 +7,9 @@ use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 /**
- * @requires extension gd
+ * @requires extension imagick
  * @covers \Intervention\Image\Modifiers\ResizeCanvasModifier
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\ResizeCanvasModifier
  */
 class ResizeCanvasModifierTest extends TestCase
 {

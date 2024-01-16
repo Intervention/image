@@ -9,6 +9,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 /**
  * @requires extension imagick
  * @covers \Intervention\Image\Modifiers\CoverModifier
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\CoverModifier
  */
 class CoverModifierTest extends TestCase
 {

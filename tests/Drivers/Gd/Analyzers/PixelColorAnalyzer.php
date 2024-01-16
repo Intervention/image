@@ -7,6 +7,11 @@ use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
+/**
+ * @requires extension gd
+ * @covers \Intervention\Image\Analyzers\PixelColorAnalyzer
+ * @covers \Intervention\Image\Drivers\Imagick\Analyzers\PixelColorAnalyzer
+ */
 class PixelColorAnalyzerTest extends TestCase
 {
     use CanCreateGdTestImage;

@@ -11,6 +11,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 /**
  * @requires extension imagick
  * @covers \Intervention\Image\Modifiers\FillModifier
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\FillModifier
  */
 class FillModifierTest extends TestCase
 {

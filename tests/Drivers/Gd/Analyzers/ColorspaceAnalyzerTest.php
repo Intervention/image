@@ -7,6 +7,11 @@ use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
+/**
+ * @requires extension gd
+ * @covers \Intervention\Image\Analyzers\ColorspaceAnalyzer
+ * @covers \Intervention\Image\Drivers\Imagick\Analyzers\ColorspaceAnalyzer
+ */
 class ColorspaceAnalyzerTest extends TestCase
 {
     use CanCreateGdTestImage;

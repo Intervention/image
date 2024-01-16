@@ -9,6 +9,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 /**
  * @requires extension gd
  * @covers \Intervention\Image\Modifiers\BlurModifier
+ * @covers \Intervention\Image\Drivers\Gd\Modifiers\BlurModifier
  */
 class BlurModifierTest extends TestCase
 {

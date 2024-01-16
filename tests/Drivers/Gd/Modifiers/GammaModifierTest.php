@@ -9,6 +9,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 /**
  * @requires extension gd
  * @covers \Intervention\Image\Modifiers\GammaModifier
+ * @covers \Intervention\Image\Drivers\Gd\Modifiers\GammaModifier
  */
 class GammaModifierTest extends TestCase
 {

@@ -9,6 +9,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 /**
  * @requires extension imagick
  * @covers \Intervention\Image\Modifiers\QuantizeColorsModifier
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\QuantizeColorsModifier
  */
 class QuantizeColorsModifierTest extends TestCase
 {

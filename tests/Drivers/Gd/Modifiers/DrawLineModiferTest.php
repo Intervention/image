@@ -10,6 +10,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 /**
  * @requires extension gd
+ * @covers \Intervention\Image\Modifiers\DrawLineModifier
  * @covers \Intervention\Image\Drivers\Gd\Modifiers\DrawLineModifier
  */
 class DrawLineModifierTest extends TestCase

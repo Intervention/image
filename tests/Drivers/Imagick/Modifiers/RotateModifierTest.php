@@ -9,6 +9,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 /**
  * @requires extension imagick
  * @covers \Intervention\Image\Modifiers\RotateModifier
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\RotateModifier
  */
 class RotateModifierTest extends TestCase
 {

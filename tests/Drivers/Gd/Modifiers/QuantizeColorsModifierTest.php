@@ -10,6 +10,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 /**
  * @requires extension gd
  * @covers \Intervention\Image\Modifiers\QuantizeColorsModifier
+ * @covers \Intervention\Image\Drivers\Gd\Modifiers\QuantizeColorsModifier
  */
 class QuantizeColorsModifierTest extends TestCase
 {

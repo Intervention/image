@@ -9,6 +9,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 /**
  * @requires extension imagick
  * @covers \Intervention\Image\Modifiers\RemoveAnimationModifier
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\RemoveAnimationModifier
  */
 class RemoveAnimationModifierTest extends TestCase
 {

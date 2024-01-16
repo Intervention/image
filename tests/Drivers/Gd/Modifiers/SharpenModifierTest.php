@@ -9,6 +9,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 /**
  * @requires extension gd
  * @covers \Intervention\Image\Modifiers\SharpenModifier
+ * @covers \Intervention\Image\Drivers\Gd\Modifiers\SharpenModifier
  */
 class SharpenModifierTest extends TestCase
 {

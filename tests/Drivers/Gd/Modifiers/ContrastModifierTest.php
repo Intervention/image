@@ -9,6 +9,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 /**
  * @requires extension gd
  * @covers \Intervention\Image\Modifiers\ContrastModifier
+ * @covers \Intervention\Image\Drivers\Gd\Modifiers\ContrastModifier
  */
 class ContrastModifierTest extends TestCase
 {

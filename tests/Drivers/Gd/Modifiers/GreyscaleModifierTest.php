@@ -9,6 +9,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 /**
  * @requires extension gd
  * @covers \Intervention\Image\Modifiers\GreyscaleModifier
+ * @covers \Intervention\Image\Drivers\Gd\Modifiers\GreyscaleModifier
  */
 class GreyscaleModifierTest extends TestCase
 {

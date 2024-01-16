@@ -7,6 +7,11 @@ use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
+/**
+ * @requires extension imagick
+ * @covers \Intervention\Image\Analyzers\ProfileAnalyzer
+ * @covers \Intervention\Image\Drivers\Imagick\Analyzers\ProfileAnalyzer
+ */
 class ProfleAnalyzerTest extends TestCase
 {
     use CanCreateImagickTestImage;

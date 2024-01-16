@@ -11,6 +11,8 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
  * @requires extension imagick
  * @covers \Intervention\Image\Modifiers\FlipModifier
  * @covers \Intervention\Image\Modifiers\FlopModifier
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\FlipModifier
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\FlopModifier
  */
 class FlipFlopModifierTest extends TestCase
 {

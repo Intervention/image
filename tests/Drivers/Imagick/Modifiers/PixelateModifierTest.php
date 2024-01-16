@@ -9,6 +9,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 /**
  * @requires extension imagick
  * @covers \Intervention\Image\Modifiers\PixelateModifier
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\PixelateModifier
  */
 class PixelateModifierTest extends TestCase
 {

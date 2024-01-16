@@ -9,6 +9,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 /**
  * @requires extension gd
  * @covers \Intervention\Image\Modifiers\CoverModifier
+ * @covers \Intervention\Image\Drivers\Gd\Modifiers\CoverModifier
  */
 class CoverModifierTest extends TestCase
 {

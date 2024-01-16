@@ -2,6 +2,7 @@
 
 namespace Intervention\Image\Drivers\Imagick;
 
+use Collectable;
 use Imagick;
 use ImagickException;
 use Iterator;
@@ -209,14 +210,40 @@ class Core implements CoreInterface, Iterator
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see CollectionInterface::first()
+     */
     public function first(): FrameInterface
     {
         return $this->frame(0);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see CollectableInterface::last()
+     */
     public function last(): FrameInterface
     {
         return $this->frame($this->count() - 1);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see CollectionInterface::toArray()
+     */
+    public function toArray(): array
+    {
+        $frames = [];
+
+        foreach ($this as $frame) {
+            $frames[] = $frame;
+        }
+
+        return $frames;
     }
 
     public function __clone(): void

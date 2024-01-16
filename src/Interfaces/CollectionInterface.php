@@ -69,6 +69,13 @@ interface CollectionInterface extends Traversable
     public function empty(): CollectionInterface;
 
     /**
+     * Transform collection as array
+     *
+     * @return array
+     */
+    public function toArray(): array;
+
+    /**
      * Extract items based on given values and discard the rest.
      *
      * @param int $offset

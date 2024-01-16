@@ -117,6 +117,11 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
         return $positions[$key];
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see CollectionInterface::get()
+     */
     public function get(int|string $query, $default = null): mixed
     {
         if ($this->count() == 0) {

@@ -15,6 +15,8 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 /**
  * @requires extension imagick
+ * @covers \Intervention\Image\Encoders\PngEncoder
+ * @covers \Intervention\Image\Drivers\Imagick\Encoders\PngEncoder
  */
 final class PngEncoderTest extends TestCase
 {

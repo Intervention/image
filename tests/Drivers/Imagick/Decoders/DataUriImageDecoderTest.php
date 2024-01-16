@@ -1,16 +1,16 @@
 <?php
 
-namespace Intervention\Image\Tests\Drivers\Gd\Decoders;
+namespace Intervention\Image\Tests\Drivers\Imagick\Decoders;
 
-use Intervention\Image\Drivers\Gd\Decoders\DataUriImageDecoder;
+use Intervention\Image\Drivers\Imagick\Decoders\DataUriImageDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 use stdClass;
 
 /**
- * @requires extension gd
- * @covers \Intervention\Image\Drivers\Gd\Decoders\DataUriImageDecoder
+ * @requires extension imagick
+ * @covers \Intervention\Image\Drivers\Imagick\Decoders\DataUriImageDecoder
  */
 class DataUriImageDecoderTest extends TestCase
 {

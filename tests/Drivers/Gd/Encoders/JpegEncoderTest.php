@@ -11,6 +11,7 @@ use Intervention\Image\Tests\TestCase;
 
 /**
  * @requires extension gd
+ * @covers \Intervention\Image\Encoders\JpegEncoder
  * @covers \Intervention\Image\Drivers\Gd\Encoders\JpegEncoder
  */
 class JpegEncoderTest extends TestCase

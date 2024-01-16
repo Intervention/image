@@ -11,6 +11,7 @@ use Intervention\Image\Tests\TestCase;
 
 /**
  * @requires extension gd
+ * @covers \Intervention\Image\Encoders\AvifEncoder
  * @covers \Intervention\Image\Drivers\Gd\Encoders\AvifEncoder
  */
 class AvifEncoderTest extends TestCase

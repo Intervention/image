@@ -13,7 +13,8 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 /**
  * @requires extension imagick
- * @covers \Intervention\Image\Drivers\Imagick\Encoders\JpegEncoder
+ * @covers \Intervention\Image\Encoders\BmpEncoder
+ * @covers \Intervention\Image\Drivers\Imagick\Encoders\BmpEncoder
  */
 class BmpEncoderTest extends TestCase
 {

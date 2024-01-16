@@ -15,6 +15,8 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 /**
  * @requires extension imagick
+ * @covers \Intervention\Image\Encoders\HeicEncoder
+ * @covers \Intervention\Image\Drivers\Imagick\Encoders\HeicEncoder
  */
 final class HeicEncoderTest extends TestCase
 {

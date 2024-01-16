@@ -6,16 +6,16 @@ use Imagick;
 use ImagickPixel;
 use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\Imagick\Driver;
-use Intervention\Image\Encoders\AvifEncoder;
+use Intervention\Image\Encoders\Jpeg2000Encoder;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 
 /**
  * @requires extension imagick
- * @covers \Intervention\Image\Encoders\AvifEncoder
- * @covers \Intervention\Image\Drivers\Imagick\Encoders\AvifEncoder
+ * @covers \Intervention\Image\Encoders\Jpeg2000Encoder
+ * @covers \Intervention\Image\Drivers\Imagick\Encoders\Jpeg2000Encoder
  */
-class AvifEncoderTest extends TestCase
+class Jpeg2000EncoderTest extends TestCase
 {
     protected function getTestImage(): Image
     {
@@ -31,8 +31,8 @@ class AvifEncoderTest extends TestCase
     public function testEncode(): void
     {
         $image = $this->getTestImage();
-        $encoder = new AvifEncoder(10);
+        $encoder = new Jpeg2000Encoder(75);
         $result = $encoder->encode($image);
-        $this->assertMediaType('image/avif', (string) $result);
+        $this->assertMediaType('image/jp2', (string) $result);
     }
 }

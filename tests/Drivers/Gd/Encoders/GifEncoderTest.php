@@ -12,6 +12,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 /**
  * @requires extension gd
+ * @covers \Intervention\Image\Encoders\GifEncoder
  * @covers \Intervention\Image\Drivers\Gd\Encoders\GifEncoder
  */
 class GifEncoderTest extends TestCase

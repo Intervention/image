@@ -13,6 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 /**
  * @requires extension imagick
+ * @covers \Intervention\Image\Encoders\GifEncoder
  * @covers \Intervention\Image\Drivers\Imagick\Encoders\GifEncoder
  */
 class GifEncoderTest extends TestCase

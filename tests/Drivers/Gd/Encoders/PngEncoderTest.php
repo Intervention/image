@@ -12,6 +12,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 /**
  * @requires extension gd
+ * @covers \Intervention\Image\Encoders\PngEncoder
  * @covers \Intervention\Image\Drivers\Gd\Encoders\PngEncoder
  */
 class PngEncoderTest extends TestCase

@@ -12,6 +12,7 @@ use Intervention\Image\Tests\TestCase;
 
 /**
  * @requires extension imagick
+ * @covers \Intervention\Image\Encoders\JpegEncoder
  * @covers \Intervention\Image\Drivers\Imagick\Encoders\JpegEncoder
  */
 class JpegEncoderTest extends TestCase

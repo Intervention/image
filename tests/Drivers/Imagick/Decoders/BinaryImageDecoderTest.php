@@ -5,8 +5,10 @@ namespace Intervention\Image\Tests\Drivers\Imagick\Decoders;
 use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Drivers\Imagick\Decoders\BinaryImageDecoder;
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
+use stdClass;
 
 class BinaryImageDecoderTest extends TestCase
 {
@@ -58,5 +60,12 @@ class BinaryImageDecoderTest extends TestCase
         $image = $decoder->decode(file_get_contents($this->getTestImagePath('cmyk.jpg')));
         $this->assertInstanceOf(Image::class, $image);
         $this->assertInstanceOf(CmykColorspace::class, $image->colorspace());
+    }
+
+    public function testDecodeNonString(): void
+    {
+        $decoder = new BinaryImageDecoder();
+        $this->expectException(DecoderException::class);
+        $decoder->decode(new stdClass());
     }
 }

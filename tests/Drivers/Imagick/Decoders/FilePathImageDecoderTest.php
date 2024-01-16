@@ -1,16 +1,16 @@
 <?php
 
-namespace Intervention\Image\Tests\Drivers\Gd\Decoders;
+namespace Intervention\Image\Tests\Drivers\Imagick\Decoders;
 
-use Intervention\Image\Drivers\Gd\Decoders\FilePathImageDecoder;
+use Intervention\Image\Drivers\Imagick\Decoders\FilePathImageDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 use stdClass;
 
 /**
- * @requires extension gd
- * @covers \Intervention\Image\Drivers\Gd\Decoders\FilePathImageDecoder
+ * @requires extension imagick
+ * @covers \Intervention\Image\Drivers\Imagick\Decoders\FilePathImageDecoder
  */
 class FilePathImageDecoderTest extends TestCase
 {

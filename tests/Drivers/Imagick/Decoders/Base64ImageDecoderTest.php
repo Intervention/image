@@ -1,15 +1,15 @@
 <?php
 
-namespace Intervention\Image\Tests\Drivers\Gd\Decoders;
+namespace Intervention\Image\Tests\Drivers\Imagick\Decoders;
 
-use Intervention\Image\Drivers\Gd\Decoders\Base64ImageDecoder;
+use Intervention\Image\Drivers\Imagick\Decoders\Base64ImageDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 
 /**
- * @requires extension gd
- * @covers \Intervention\Image\Drivers\Gd\Decoders\Base64ImageDecoder
+ * @requires extension imagick
+ * @covers \Intervention\Image\Drivers\Imagick\Decoders\Base64ImageDecoder
  */
 class Base64ImageDecoderTest extends TestCase
 {

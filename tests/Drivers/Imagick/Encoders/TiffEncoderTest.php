@@ -1,21 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Imagick\Encoders;
 
 use Imagick;
 use ImagickPixel;
 use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\Imagick\Driver;
-use Intervention\Image\Encoders\AvifEncoder;
+use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 
 /**
  * @requires extension imagick
- * @covers \Intervention\Image\Encoders\AvifEncoder
- * @covers \Intervention\Image\Drivers\Imagick\Encoders\AvifEncoder
+ * @covers \Intervention\Image\Encoders\TiffEncoder
+ * @covers \Intervention\Image\Drivers\Imagick\Encoders\TiffEncoder
  */
-class AvifEncoderTest extends TestCase
+final class TiffEncoderTest extends TestCase
 {
     protected function getTestImage(): Image
     {
@@ -31,8 +33,8 @@ class AvifEncoderTest extends TestCase
     public function testEncode(): void
     {
         $image = $this->getTestImage();
-        $encoder = new AvifEncoder(10);
+        $encoder = new TiffEncoder();
         $result = $encoder->encode($image);
-        $this->assertMediaType('image/avif', (string) $result);
+        $this->assertMediaType('image/tiff', (string) $result);
     }
 }

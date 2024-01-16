@@ -11,6 +11,7 @@ use Intervention\Image\Tests\TestCase;
 
 /**
  * @requires extension gd
+ * @covers \Intervention\Image\Encoders\BmpEncoder
  * @covers \Intervention\Image\Drivers\Gd\Encoders\BmpEncoder
  */
 class BmpEncoderTest extends TestCase

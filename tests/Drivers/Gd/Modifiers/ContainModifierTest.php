@@ -7,7 +7,7 @@ use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 /**
- * @requires extension imagick
+ * @requires extension gd
  * @covers \Intervention\Image\Modifiers\ContainModifier
  * @covers \Intervention\Image\Drivers\Gd\Modifiers\ContainModifier
  */

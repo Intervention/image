@@ -50,6 +50,16 @@ class ImageManagerTest extends TestCase
     }
 
     /** @requires extension gd */
+    public function testAnimateGd(): void
+    {
+        $manager = new ImageManager(GdDriver::class);
+        $image = $manager->animate(function ($animation) {
+            $animation->add($this->getTestImagePath('red.gif'), .25);
+        });
+        $this->assertInstanceOf(ImageInterface::class, $image);
+    }
+
+    /** @requires extension gd */
     public function testReadGd()
     {
         $manager = new ImageManager(GdDriver::class);
@@ -102,6 +112,16 @@ class ImageManagerTest extends TestCase
     {
         $manager = new ImageManager(ImagickDriver::class);
         $image = $manager->create(5, 4);
+        $this->assertInstanceOf(ImageInterface::class, $image);
+    }
+
+    /** @requires extension imagick */
+    public function testAnimateImagick(): void
+    {
+        $manager = new ImageManager(ImagickDriver::class);
+        $image = $manager->animate(function ($animation) {
+            $animation->add($this->getTestImagePath('red.gif'), .25);
+        });
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 

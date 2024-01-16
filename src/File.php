@@ -17,12 +17,12 @@ class File implements FileInterface
      */
     public function __construct(protected string $data)
     {
-        //
     }
 
     /**
      * Save encoded image data in file system
      *
+     * @codeCoverageIgnore
      * @param  string $filepath
      * @return void
      */

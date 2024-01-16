@@ -106,15 +106,15 @@ abstract class AbstractDecoder extends DriverSpecialized implements DecoderInter
     /**
      * Parse data uri
      *
-     * @param mixed $value
+     * @param mixed $input
      * @return object
      */
-    protected function parseDataUri($value): object
+    protected function parseDataUri(mixed $input): object
     {
         $pattern = "/^data:(?P<mediatype>\w+\/[-+.\w]+)?" .
             "(?P<parameters>(;[-\w]+=[-\w]+)*)(?P<base64>;base64)?,(?P<data>.*)/";
 
-        $result = preg_match($pattern, $value, $matches);
+        $result = preg_match($pattern, $input, $matches);
 
         return new class ($matches, $result)
         {

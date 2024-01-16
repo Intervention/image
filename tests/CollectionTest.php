@@ -76,17 +76,6 @@ class CollectionTest extends TestCase
         $this->assertInstanceOf(Collection::class, $result);
     }
 
-    public function testPushEach()
-    {
-        $collection = Collection::create()->pushEach(['foo', 'bar', 'baz'], function ($item) {
-            return strtoupper($item);
-        });
-        $this->assertEquals(3, $collection->count());
-        $this->assertEquals('FOO', $collection->get(0));
-        $this->assertEquals('BAR', $collection->get(1));
-        $this->assertEquals('BAZ', $collection->get(2));
-    }
-
     public function testToArray()
     {
         $collection = new Collection(['foo', 'bar', 'baz']);
@@ -135,6 +124,16 @@ class CollectionTest extends TestCase
         $this->assertEquals('value', $collection->get('baz.test3.example', 'default'));
         $this->assertEquals('default', $collection->get('baz.test3.no', 'default'));
         $this->assertEquals(['example' => 'value'], $collection->get('baz.test3'));
+    }
+
+    public function testGetAtPosition(): void
+    {
+        $collection = new Collection([1, 2, 'foo' => 'bar']);
+        $this->assertEquals(1, $collection->getAtPosition(0));
+        $this->assertEquals(2, $collection->getAtPosition(1));
+        $this->assertEquals('bar', $collection->getAtPosition(2));
+        $this->assertNull($collection->getAtPosition(3));
+        $this->assertEquals('default', $collection->getAtPosition(3, 'default'));
     }
 
     public function testEmpty(): void

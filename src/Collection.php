@@ -177,19 +177,6 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
         return new self($items);
     }
 
-    public function pushEach(array $data, ?callable $callback = null): CollectionInterface
-    {
-        if (! is_iterable($data)) {
-            throw new RuntimeException('Unable to iterate given data.');
-        }
-
-        foreach ($data as $item) {
-            $this->push(is_callable($callback) ? $callback($item) : $item);
-        }
-
-        return $this;
-    }
-
     /**
      * {@inheritdoc}
      *

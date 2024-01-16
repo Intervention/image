@@ -7,7 +7,7 @@ use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
-class MediaTypeEncoder extends AbstractEncoder implements EncoderInterface
+class MediaTypeEncoder extends SpecializableEncoder implements EncoderInterface
 {
     public function __construct(protected ?string $type = null, ...$options)
     {

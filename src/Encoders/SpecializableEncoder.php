@@ -6,7 +6,7 @@ use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
-abstract class AbstractEncoder implements EncoderInterface
+abstract class SpecializableEncoder implements EncoderInterface
 {
     public const DEFAULT_QUALITY = 75;
 

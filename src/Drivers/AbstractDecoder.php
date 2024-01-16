@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers;
 
 use Exception;
@@ -59,7 +61,7 @@ abstract class AbstractDecoder extends DriverSpecialized implements DecoderInter
      */
     protected function isGifFormat(string $input): bool
     {
-        return preg_match(
+        return 1 === preg_match(
             "/^47494638(37|39)61/",
             strtoupper(substr(bin2hex($input), 0, 32))
         );

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Imagick\Analyzers;
 
 use Intervention\Image\Analyzers\PixelColorsAnalyzer;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Colors\Hsl\Decoders;
 
 use Intervention\Image\Colors\Hsl\Color;

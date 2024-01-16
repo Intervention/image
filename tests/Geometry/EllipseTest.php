@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Geometry;
 
 use Intervention\Image\Geometry\Ellipse;

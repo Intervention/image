@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers\Imagick;
 
 use Imagick;
@@ -81,7 +83,7 @@ class Driver extends AbstractDriver
             public function add($source, float $delay = 1): self
             {
                 $native = $this->driver->handleInput($source)->core()->native();
-                $native->setImageDelay($delay * 100);
+                $native->setImageDelay(intval(round($delay * 100)));
 
                 $this->imagick->addImage($native);
 

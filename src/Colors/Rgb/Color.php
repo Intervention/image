@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Colors\Rgb;
 
 use Intervention\Image\Colors\AbstractColor;

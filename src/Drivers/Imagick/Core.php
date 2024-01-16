@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers\Imagick;
 
 use Imagick;
@@ -130,7 +132,10 @@ class Core implements CoreInterface, Iterator
     {
         $imagick = $frame->native();
 
-        $imagick->setImageDelay($frame->delay());
+        $imagick->setImageDelay(
+            (int) round($frame->delay() * 100)
+        );
+
         $imagick->setImageDispose($frame->dispose());
 
         $size = $frame->size();

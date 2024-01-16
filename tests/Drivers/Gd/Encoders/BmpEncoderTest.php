@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Gd\Encoders;
 
 use Intervention\Image\Drivers\Gd\Core;

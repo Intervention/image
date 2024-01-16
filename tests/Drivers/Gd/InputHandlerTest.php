@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Gd;
 
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;

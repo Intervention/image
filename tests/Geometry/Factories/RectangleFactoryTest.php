@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Geometry\Factories;
 
 use Intervention\Image\Geometry\Factories\RectangleFactory;

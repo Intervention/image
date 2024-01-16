@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Colors\Rgb\Channels;
 
 use Intervention\Image\Colors\Rgb\Channels\Alpha;

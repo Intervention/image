@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Gd;
 
 use Intervention\Image\Analyzers\WidthAnalyzer;
@@ -276,8 +278,8 @@ class ImageTest extends TestCase
 
     public function testToJpeg(): void
     {
-        $this->assertMediaType('image/jpeg', $this->image->toJpeg());
-        $this->assertMediaType('image/jpeg', $this->image->toJpg());
+        $this->assertMediaType('image/jpeg', (string) $this->image->toJpeg());
+        $this->assertMediaType('image/jpeg', (string) $this->image->toJpg());
     }
 
     public function testToJpeg2000(): void
@@ -288,28 +290,28 @@ class ImageTest extends TestCase
 
     public function testToPng(): void
     {
-        $this->assertMediaType('image/png', $this->image->toPng());
+        $this->assertMediaType('image/png', (string) $this->image->toPng());
     }
 
     public function testToGif(): void
     {
-        $this->assertMediaType('image/gif', $this->image->toGif());
+        $this->assertMediaType('image/gif', (string) $this->image->toGif());
     }
 
     public function testToWebp(): void
     {
-        $this->assertMediaType('image/webp', $this->image->toWebp());
+        $this->assertMediaType('image/webp', (string) $this->image->toWebp());
     }
 
     public function testToBitmap(): void
     {
-        $this->assertMediaType('image/x-ms-bmp', $this->image->toBitmap());
-        $this->assertMediaType('image/x-ms-bmp', $this->image->toBmp());
+        $this->assertMediaType('image/x-ms-bmp', (string) $this->image->toBitmap());
+        $this->assertMediaType('image/x-ms-bmp', (string) $this->image->toBmp());
     }
 
     public function testToAvif(): void
     {
-        $this->assertMediaType('image/avif', $this->image->toAvif());
+        $this->assertMediaType('image/avif', (string) $this->image->toAvif());
     }
 
     public function testToTiff(): void

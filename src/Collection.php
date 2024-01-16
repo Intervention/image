@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image;
 
 use Intervention\Image\Exceptions\RuntimeException;
@@ -136,7 +138,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
             return array_key_exists($query, $this->items) ? $this->items[$query] : $default;
         }
 
-        $query = explode('.', $query);
+        $query = explode('.', (string) $query);
 
         $result = $default;
         $items = $this->items;

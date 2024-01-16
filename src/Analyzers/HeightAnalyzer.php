@@ -2,6 +2,6 @@
 
 namespace Intervention\Image\Analyzers;
 
-class HeightAnalyzer extends AbstractAnalyzer
+class HeightAnalyzer extends SpecializableAnalyzer
 {
 }

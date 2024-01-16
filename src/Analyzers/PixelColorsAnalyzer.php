@@ -2,7 +2,7 @@
 
 namespace Intervention\Image\Analyzers;
 
-class PixelColorsAnalyzer extends AbstractAnalyzer
+class PixelColorsAnalyzer extends SpecializableAnalyzer
 {
     public function __construct(
         public int $x,

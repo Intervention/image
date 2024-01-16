@@ -2,6 +2,6 @@
 
 namespace Intervention\Image\Analyzers;
 
-class WidthAnalyzer extends AbstractAnalyzer
+class WidthAnalyzer extends SpecializableAnalyzer
 {
 }

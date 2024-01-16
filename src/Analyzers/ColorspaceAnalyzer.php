@@ -2,6 +2,6 @@
 
 namespace Intervention\Image\Analyzers;
 
-class ColorspaceAnalyzer extends AbstractAnalyzer
+class ColorspaceAnalyzer extends SpecializableAnalyzer
 {
 }

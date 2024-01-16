@@ -2,6 +2,6 @@
 
 namespace Intervention\Image\Analyzers;
 
-class ProfileAnalyzer extends AbstractAnalyzer
+class ProfileAnalyzer extends SpecializableAnalyzer
 {
 }

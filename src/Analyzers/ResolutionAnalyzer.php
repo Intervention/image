@@ -2,6 +2,6 @@
 
 namespace Intervention\Image\Analyzers;
 
-class ResolutionAnalyzer extends AbstractAnalyzer
+class ResolutionAnalyzer extends SpecializableAnalyzer
 {
 }

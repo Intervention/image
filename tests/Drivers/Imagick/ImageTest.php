@@ -298,8 +298,8 @@ class ImageTest extends TestCase
 
     public function testToBitmap(): void
     {
-        $this->assertMediaType('image/x-ms-bmp', (string) $this->image->toBitmap());
-        $this->assertMediaType('image/x-ms-bmp', (string) $this->image->toBmp());
+        $this->assertMediaTypeBitmap((string) $this->image->toBitmap());
+        $this->assertMediaTypeBitmap((string) $this->image->toBmp());
     }
 
     public function testToAvif(): void

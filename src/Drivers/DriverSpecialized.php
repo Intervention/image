@@ -17,11 +17,9 @@ abstract class DriverSpecialized implements SpecializedInterface
     }
 
     /**
-     * Builds specialized version of the given generic object for a given driver
+     * {@inheritdoc}
      *
-     * @param object $generic
-     * @param DriverInterface $driver
-     * @return SpecializedInterface
+     * @see SpecializedInterface::buildSpecialized()
      */
     public static function buildSpecialized(object $generic, DriverInterface $driver): SpecializedInterface
     {
@@ -33,9 +31,9 @@ abstract class DriverSpecialized implements SpecializedInterface
     }
 
     /**
-     * Driver for which the object will be specialized
+     * {@inheritdoc}
      *
-     * @return DriverInterface
+     * @see SpecializedInterface::driver()
      */
     public function driver(): DriverInterface
     {
@@ -43,9 +41,9 @@ abstract class DriverSpecialized implements SpecializedInterface
     }
 
     /**
-     * Underlying generic object which will be specialized for the driver
+     * {@inheritdoc}
      *
-     * @return object
+     * @see SpecializedInterface::generic()
      */
     public function generic(): object
     {

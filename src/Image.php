@@ -87,6 +87,7 @@ use Intervention\Image\Modifiers\ScaleModifier;
 use Intervention\Image\Modifiers\SharpenModifier;
 use Intervention\Image\Modifiers\SliceAnimationModifier;
 use Intervention\Image\Modifiers\TextModifier;
+use Intervention\Image\Modifiers\TrimModifier;
 use Intervention\Image\Typography\FontFactory;
 
 final class Image implements ImageInterface
@@ -747,6 +748,15 @@ final class Image implements ImageInterface
         int $offset_y = 0
     ): ImageInterface {
         return $this->modify(new PlaceModifier($element, $position, $offset_x, $offset_y));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::trim()
+     */
+    public function trim(int $tolerance = 0): ImageInterface {
+        return $this->modify(new TrimModifier($tolerance));
     }
 
     /**

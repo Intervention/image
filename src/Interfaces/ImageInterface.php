@@ -6,6 +6,8 @@ namespace Intervention\Image\Interfaces;
 
 use Countable;
 use Intervention\Image\EncodedImage;
+use Intervention\Image\Exceptions\InputException;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Origin;
 use IteratorAggregate;
 
@@ -530,6 +532,18 @@ interface ImageInterface extends IteratorAggregate, Countable
         int $offset_x = 0,
         int $offset_y = 0
     ): ImageInterface;
+
+
+    /**
+     * Trims the image by removing all single-colored border areas.
+     * 
+     * @param int $tolerance Tolerance level in percent for the trim operation.
+     * @return ImageInterface
+     * 
+     * @throws InputException if the tolerance is not between 0 and 100.
+     * @throws NotSupportedException if the image format does not support trimming
+     */
+    public function trim(int $tolerance = 0): ImageInterface;
 
     /**
      * Fill image with given color

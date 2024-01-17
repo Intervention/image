@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<ruleset name="Intervention/image">
+
+  <rule ref="PSR12"/>
+
+  <rule ref="Generic.Files.LineLength">
+    <severity>0</severity>
+  </rule>
+
+  <file>src/</file>
+</ruleset>

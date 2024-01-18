@@ -61,7 +61,8 @@ class InputHandlerTest extends TestCase
     public function testHandleDataUriImage(): void
     {
         $handler = new InputHandler();
-        $input = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
+        $input = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACN' .
+            'byblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
         $result = $handler->handle($input);
         $this->assertInstanceOf(Image::class, $result);
     }

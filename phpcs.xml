@@ -3,10 +3,6 @@
 
   <rule ref="PSR12"/>
 
-  <rule ref="Generic.Files.LineLength">
-    <severity>0</severity>
-  </rule>
-
   <file>src/</file>
   <file>tests/</file>
 </ruleset>

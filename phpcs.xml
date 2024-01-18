@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<ruleset name="Intervention/image">
+
+  <rule ref="PSR12"/>
+
+  <file>src/</file>
+  <file>tests/</file>
+</ruleset>

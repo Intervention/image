@@ -13,7 +13,8 @@ class PlaceModifier extends SpecializableModifier
         public mixed $element,
         public string $position,
         public int $offset_x,
-        public int $offset_y
+        public int $offset_y,
+        public int $opacity = 100
     ) {
     }
 

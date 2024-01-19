@@ -36,7 +36,7 @@ class PlaceModifier extends DriverSpecialized implements ModifierInterface
         foreach ($image as $frame) {
             $frame->native()->compositeImage(
                 $watermark->core()->native(),
-                Imagick::COMPOSITE_OVER,
+                Imagick::COMPOSITE_DEFAULT,
                 $position->x(),
                 $position->y()
             );

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Interfaces;
 
 use Traversable;
@@ -67,4 +69,20 @@ interface CollectionInterface extends Traversable
      * @return CollectionInterface
      */
     public function empty(): CollectionInterface;
+
+    /**
+     * Transform collection as array
+     *
+     * @return array
+     */
+    public function toArray(): array;
+
+    /**
+     * Extract items based on given values and discard the rest.
+     *
+     * @param int $offset
+     * @param null|int $length
+     * @return CollectionInterface
+     */
+    public function slice(int $offset, ?int $length = 0): CollectionInterface;
 }

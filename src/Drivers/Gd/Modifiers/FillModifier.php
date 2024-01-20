@@ -1,21 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use GdImage;
-use Intervention\Image\Drivers\DriverSpecializedModifier;
 use Intervention\Image\Drivers\Gd\Cloner;
+use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Interfaces\ModifierInterface;
 
 /**
  * @method bool hasPosition()
  * @property mixed $filling
  * @property null|Point $position
  */
-class FillModifier extends DriverSpecializedModifier
+class FillModifier extends DriverSpecialized implements ModifierInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Typography;
 
 use Intervention\Image\Interfaces\FontInterface;
@@ -21,6 +23,7 @@ class FontFactoryTest extends TestCase
     {
         $factory = new FontFactory(function ($font) {
             $font->filename('foo.ttf');
+            $font->file('bar.ttf');
             $font->color('#b01735');
             $font->size(70);
             $font->align('center');
@@ -31,7 +34,7 @@ class FontFactoryTest extends TestCase
 
         $result = $factory();
         $this->assertInstanceOf(FontInterface::class, $result);
-        $this->assertEquals('foo.ttf', $result->filename());
+        $this->assertEquals('bar.ttf', $result->filename());
         $this->assertEquals('#b01735', $result->color());
         $this->assertEquals(70, $result->size());
         $this->assertEquals('center', $result->alignment());

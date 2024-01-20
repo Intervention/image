@@ -6,6 +6,7 @@ namespace Intervention\Image\Tests\Drivers;
 
 use Intervention\Image\Drivers\AbstractDecoder;
 use Intervention\Image\Drivers\AbstractInputHandler;
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Tests\TestCase;
 use Mockery;
@@ -25,6 +26,16 @@ final class AbstractInputHandlerTest extends TestCase
 
         $modifier = $this->getModifier($chain);
         $modifier->handle('test image');
+    }
+
+    public function testChainNoItems(): void
+    {
+        $handler = new class () extends AbstractInputHandler
+        {
+        };
+
+        $this->expectException(DecoderException::class);
+        $handler->handle('test');
     }
 
     private function getModifier(AbstractDecoder $chain): AbstractInputHandler

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image;
 
 use Intervention\Image\Exceptions\NotWritableException;
@@ -17,12 +19,12 @@ class File implements FileInterface
      */
     public function __construct(protected string $data)
     {
-        //
     }
 
     /**
      * Save encoded image data in file system
      *
+     * @codeCoverageIgnore
      * @param  string $filepath
      * @return void
      */
@@ -42,7 +44,7 @@ class File implements FileInterface
             );
         }
 
-        // write date
+        // write data
         $saved = @file_put_contents($filepath, (string) $this);
         if ($saved === false) {
             throw new NotWritableException(

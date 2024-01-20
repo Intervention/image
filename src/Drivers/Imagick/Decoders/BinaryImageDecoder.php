@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers\Imagick\Decoders;
 
 use Imagick;
@@ -29,7 +31,12 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
             throw new DecoderException('Unable to decode input');
         }
 
-        $imagick = $imagick->coalesceImages();
+        // For some JPEG formats, the "coalesceImages()" call leads to an image
+        // completely filled with background color. The logic behind this is
+        // incomprehensible for me; could be an imagick bug.
+        if ($imagick->getImageFormat() != 'JPEG') {
+            $imagick = $imagick->coalesceImages();
+        }
 
         // fix image orientation
         switch ($imagick->getImageOrientation()) {

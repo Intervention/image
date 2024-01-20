@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Encoders;
 
-class BmpEncoder extends AbstractEncoder
+use Intervention\Image\Interfaces\SpecializableInterface;
+
+class BmpEncoder extends SpecializableEncoder implements SpecializableInterface
 {
 }

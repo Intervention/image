@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image;
 
 use Intervention\Image\Exceptions\RuntimeException;
@@ -117,6 +119,11 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
         return $positions[$key];
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see CollectionInterface::get()
+     */
     public function get(int|string $query, $default = null): mixed
     {
         if ($this->count() == 0) {
@@ -131,7 +138,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
             return array_key_exists($query, $this->items) ? $this->items[$query] : $default;
         }
 
-        $query = explode('.', $query);
+        $query = explode('.', (string) $query);
 
         $result = $default;
         $items = $this->items;
@@ -172,22 +179,30 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
         return new self($items);
     }
 
-    public function pushEach(array $data, ?callable $callback = null): CollectionInterface
+    /**
+     * {@inheritdoc}
+     *
+     * @see CollectionInterface::empty()
+     */
+    public function empty(): CollectionInterface
     {
-        if (! is_iterable($data)) {
-            throw new RuntimeException('Unable to iterate given data.');
-        }
-
-        foreach ($data as $item) {
-            $this->push(is_callable($callback) ? $callback($item) : $item);
-        }
+        $this->items = [];
 
         return $this;
     }
 
-    public function empty(): CollectionInterface
+    /**
+     * {@inheritdoc}
+     *
+     * @see CollectionInterface::slice()
+     */
+    public function slice(int $offset, ?int $length = null): CollectionInterface
     {
-        $this->items = [];
+        if ($offset >= count($this->items)) {
+            throw new RuntimeException('Offset exceeds the maximum value.');
+        }
+
+        $this->items = array_slice($this->items, $offset, $length);
 
         return $this;
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers;
 
 use Exception;
@@ -11,7 +13,7 @@ use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Traits\CanBuildFilePointer;
 
-abstract class AbstractDecoder implements DecoderInterface
+abstract class AbstractDecoder extends DriverSpecialized implements DecoderInterface
 {
     use CanBuildFilePointer;
 
@@ -59,7 +61,7 @@ abstract class AbstractDecoder implements DecoderInterface
      */
     protected function isGifFormat(string $input): bool
     {
-        return preg_match(
+        return 1 === preg_match(
             "/^47494638(37|39)61/",
             strtoupper(substr(bin2hex($input), 0, 32))
         );
@@ -106,15 +108,15 @@ abstract class AbstractDecoder implements DecoderInterface
     /**
      * Parse data uri
      *
-     * @param mixed $value
+     * @param mixed $input
      * @return object
      */
-    protected function parseDataUri($value): object
+    protected function parseDataUri(mixed $input): object
     {
         $pattern = "/^data:(?P<mediatype>\w+\/[-+.\w]+)?" .
             "(?P<parameters>(;[-\w]+=[-\w]+)*)(?P<base64>;base64)?,(?P<data>.*)/";
 
-        $result = preg_match($pattern, $value, $matches);
+        $result = preg_match($pattern, $input, $matches);
 
         return new class ($matches, $result)
         {

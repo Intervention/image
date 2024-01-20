@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\DriverSpecializedModifier;
+use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
 /**
  * @method SizeInterface getResizeSize(ImageInterface $image)
  * @method SizeInterface getCropSize(ImageInterface $image)
  */
-class CoverModifier extends DriverSpecializedModifier
+class CoverModifier extends DriverSpecialized implements ModifierInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

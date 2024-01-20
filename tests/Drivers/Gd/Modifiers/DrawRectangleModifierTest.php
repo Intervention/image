@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Modifiers\DrawRectangleModifier;
@@ -10,6 +12,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 /**
  * @requires extension gd
+ * @covers \Intervention\Image\Modifiers\DrawRectangleModifier
  * @covers \Intervention\Image\Drivers\Gd\Modifiers\DrawRectangleModifier
  */
 class DrawRectangleModifierTest extends TestCase

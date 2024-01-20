@@ -1,7 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Modifiers;
 
-class FlopModifier extends AbstractModifier
+class FlopModifier extends SpecializableModifier
 {
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
 use Intervention\Image\Modifiers\DrawPixelModifier;
@@ -8,8 +10,9 @@ use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 /**
- * @requires extension gd
- * @covers \Intervention\Image\Drivers\Gd\Modifiers\DrawPixelModifier
+ * @requires extension imagick
+ * @covers \Intervention\Image\Modifiers\DrawPixelModifier
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\DrawPixelModifier
  */
 class DrawPixelModifierTest extends TestCase
 {

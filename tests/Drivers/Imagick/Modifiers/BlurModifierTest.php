@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
 use Intervention\Image\Modifiers\BlurModifier;
@@ -9,6 +11,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 /**
  * @requires extension imagick
  * @covers \Intervention\Image\Modifiers\BlurModifier
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\BlurModifier
  */
 class BlurModifierTest extends TestCase
 {

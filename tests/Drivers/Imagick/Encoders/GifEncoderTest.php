@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Imagick\Encoders;
 
 use Imagick;
@@ -13,6 +15,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 /**
  * @requires extension imagick
+ * @covers \Intervention\Image\Encoders\GifEncoder
  * @covers \Intervention\Image\Drivers\Imagick\Encoders\GifEncoder
  */
 class GifEncoderTest extends TestCase

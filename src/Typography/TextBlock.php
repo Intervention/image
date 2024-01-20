@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Typography;
 
 use Intervention\Image\Collection;
@@ -23,6 +25,12 @@ class TextBlock extends Collection
         return $this->items;
     }
 
+    /**
+     * Get line by given key
+     *
+     * @param mixed $key
+     * @return null|Line
+     */
     public function line($key): ?Line
     {
         if (!array_key_exists($key, $this->lines())) {
@@ -40,11 +48,11 @@ class TextBlock extends Collection
     public function longestLine(): Line
     {
         $lines = $this->lines();
-        usort($lines, function ($a, $b) {
-            if (mb_strlen($a) === mb_strlen($b)) {
+        usort($lines, function (Line $a, Line $b) {
+            if (mb_strlen((string) $a) === mb_strlen((string) $b)) {
                 return 0;
             }
-            return (mb_strlen($a) > mb_strlen($b)) ? -1 : 1;
+            return (mb_strlen((string) $a) > mb_strlen((string) $b)) ? -1 : 1;
         });
 
         return $lines[0];

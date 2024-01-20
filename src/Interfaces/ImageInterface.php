@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Interfaces;
 
 use Countable;
-use Intervention\Image\EncodedImage;
 use Intervention\Image\Origin;
 use IteratorAggregate;
 
@@ -63,9 +64,9 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Encode image with given encoder
      *
      * @param EncoderInterface $encoder
-     * @return EncodedImage
+     * @return EncodedImageInterface
      */
-    public function encode(EncoderInterface $encoder): EncodedImage;
+    public function encode(EncoderInterface $encoder): EncodedImageInterface;
 
     /**
      * Save the image to the specified path in the file system. If no path is
@@ -74,7 +75,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|string $path
      * @return ImageInterface
      */
-    public function save(?string $path = null, int $quality = 75): ImageInterface;
+    public function save(?string $path = null, ...$options): ImageInterface;
 
     /**
      * Apply given modifier to current image
@@ -111,6 +112,15 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @return ImageInterface
      */
     public function removeAnimation(int|string $position = 0): ImageInterface;
+
+    /**
+     * Extract animation frames based on given values and discard the rest
+     *
+     * @param int $offset
+     * @param null|int $length
+     * @return ImageInterface
+     */
+    public function sliceAnimation(int $offset = 0, ?int $length = null): ImageInterface;
 
     /**
      * Return loop count of animated image
@@ -511,13 +521,15 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param string $position
      * @param int    $offset_x
      * @param int    $offset_y
+     * @param int    $opacity
      * @return ImageInterface
      */
     public function place(
         mixed $element,
         string $position = 'top-left',
         int $offset_x = 0,
-        int $offset_y = 0
+        int $offset_y = 0,
+        int $opacity = 100
     ): ImageInterface;
 
     /**
@@ -600,7 +612,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|string $type
      * @return EncodedImageInterface
      */
-    public function encodeByMediaType(?string $type = null, int $quality = 75): EncodedImageInterface;
+    public function encodeByMediaType(?string $type = null, ...$options): EncodedImageInterface;
 
     /**
      * Encode the image into the format represented by the given extension. If no
@@ -610,7 +622,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|string $extension
      * @return EncodedImageInterface
      */
-    public function encodeByExtension(?string $extension = null, int $quality = 75): EncodedImageInterface;
+    public function encodeByExtension(?string $extension = null, mixed ...$options): EncodedImageInterface;
 
     /**
      * Encode the image into the format represented by the given extension of
@@ -620,66 +632,78 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|string $path
      * @return EncodedImageInterface
      */
-    public function encodeByPath(?string $path = null, int $quality = 75): EncodedImageInterface;
+    public function encodeByPath(?string $path = null, mixed ...$options): EncodedImageInterface;
 
     /**
      * Encode image to JPEG format
      *
-     * @param int $quality
+     * @param mixed $options
      * @return EncodedImageInterface
      */
-    public function toJpeg(int $quality = 75): EncodedImageInterface;
+
+    public function toJpeg(mixed ...$options): EncodedImageInterface;
 
     /**
      * Encode image to Jpeg2000 format
      *
-     * @param int $quality
+     * @param mixed $options
      * @return EncodedImageInterface
      */
-    public function toJpeg2000(int $quality = 75): EncodedImageInterface;
+    public function toJpeg2000(mixed ...$options): EncodedImageInterface;
 
     /**
      * Encode image to Webp format
      *
-     * @param int $quality
+     * @param mixed $options
      * @return EncodedImageInterface
      */
-    public function toWebp(int $quality = 75): EncodedImageInterface;
+    public function toWebp(mixed ...$options): EncodedImageInterface;
 
     /**
      * Encode image to PNG format
      *
+     * @param mixed $options
      * @return EncodedImageInterface
      */
-    public function toPng(): EncodedImageInterface;
+    public function toPng(mixed ...$options): EncodedImageInterface;
 
     /**
      * Encode image to GIF format
      *
+     * @param mixed $options
      * @return EncodedImageInterface
      */
-    public function toGif(): EncodedImageInterface;
+    public function toGif(mixed ...$options): EncodedImageInterface;
 
     /**
      * Encode image to Bitmap format
      *
+     * @param mixed $options
      * @return EncodedImageInterface
      */
-    public function toBitmap(): EncodedImageInterface;
+    public function toBitmap(mixed ...$options): EncodedImageInterface;
 
     /**
      * Encode image to AVIF format
      *
-     * @param int $quality
+     * @param mixed $options
      * @return EncodedImageInterface
      */
-    public function toAvif(int $quality = 75): EncodedImageInterface;
+    public function toAvif(mixed ...$options): EncodedImageInterface;
 
     /**
      * Encode image to TIFF format
      *
-     * @param int $quality
+     * @param mixed $options
      * @return EncodedImageInterface
      */
-    public function toTiff(int $quality = 75): EncodedImageInterface;
+    public function toTiff(mixed ...$options): EncodedImageInterface;
+
+    /**
+     * Encode image to HEIC format
+     *
+     * @param mixed $options
+     * @return EncodedImageInterface
+     */
+    public function toHeic(mixed ...$options): EncodedImageInterface;
 }

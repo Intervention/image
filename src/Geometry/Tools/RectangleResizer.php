@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Geometry\Tools;
 
 use Intervention\Image\Exceptions\GeometryException;

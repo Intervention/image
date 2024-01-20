@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Colors\Hsl;
 
 use Intervention\Image\Colors\Hsl\Channels\Hue;
@@ -11,7 +13,7 @@ use Intervention\Image\Tests\TestCase;
 /**
  * @covers \Intervention\Image\Colors\Hsl\Channels\Hue
  * @covers \Intervention\Image\Colors\Hsl\Channels\Saturation
- * @covers \Intervention\Image\Colors\Hsl\Channels\Value
+ * @covers \Intervention\Image\Colors\Hsl\Channels\Luminance
  */
 class ChannelTest extends TestCase
 {
@@ -31,6 +33,25 @@ class ChannelTest extends TestCase
 
         $this->expectException(ColorException::class);
         $channel = new Hue(normalized: 2);
+    }
+
+    public function testConstructorFail(): void
+    {
+        $this->expectException(ColorException::class);
+        new Hue(400);
+    }
+
+    public function testToInt(): void
+    {
+        $channel = new Hue(10);
+        $this->assertEquals(10, $channel->toInt());
+    }
+
+    public function testToString(): void
+    {
+        $channel = new Hue(10);
+        $this->assertEquals("10", $channel->toString());
+        $this->assertEquals("10", (string) $channel);
     }
 
     public function testValue(): void

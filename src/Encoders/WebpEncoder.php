@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Encoders;
 
-class WebpEncoder extends AbstractEncoder
+use Intervention\Image\Interfaces\SpecializableInterface;
+
+class WebpEncoder extends SpecializableEncoder implements SpecializableInterface
 {
-    public function __construct(public int $quality = 75)
-    {
-    }
 }

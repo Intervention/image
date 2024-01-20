@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Encoders;
 
-class PngEncoder extends AbstractEncoder
+use Intervention\Image\Interfaces\SpecializableInterface;
+
+class PngEncoder extends SpecializableEncoder implements SpecializableInterface
 {
 }

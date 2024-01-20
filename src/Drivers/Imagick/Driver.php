@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers\Imagick;
 
 use Imagick;
@@ -29,12 +31,13 @@ class Driver extends AbstractDriver
      * {@inheritdoc}
      *
      * @see DriverInterface::checkHealth()
+     * @codeCoverageIgnore
      */
     public function checkHealth(): void
     {
         if (!extension_loaded('imagick') || !class_exists('Imagick')) {
             throw new RuntimeException(
-                'ImageMagick extension not available with this PHP installation.'
+                'Imagick PHP extension must be installed to use this driver.'
             );
         }
     }
@@ -80,7 +83,7 @@ class Driver extends AbstractDriver
             public function add($source, float $delay = 1): self
             {
                 $native = $this->driver->handleInput($source)->core()->native();
-                $native->setImageDelay($delay * 100);
+                $native->setImageDelay(intval(round($delay * 100)));
 
                 $this->imagick->addImage($native);
 
@@ -106,9 +109,9 @@ class Driver extends AbstractDriver
      *
      * @see DriverInterface::handleInput()
      */
-    public function handleInput(mixed $input): ImageInterface|ColorInterface
+    public function handleInput(mixed $input, array $decoders = []): ImageInterface|ColorInterface
     {
-        return (new InputHandler())->handle($input);
+        return (new InputHandler($this->specializeMultiple($decoders)))->handle($input);
     }
 
     /**

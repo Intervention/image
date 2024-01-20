@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
 use Intervention\Image\Modifiers\DrawPolygonModifier;
@@ -8,6 +10,11 @@ use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
+/**
+ * @requires extension imagick
+ * @covers \Intervention\Image\Modifiers\DrawPolygonModifier
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\DrawPolygonModifier
+ */
 class DrawPolygonModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;

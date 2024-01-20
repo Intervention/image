@@ -1,7 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Modifiers;
 
-class GreyscaleModifier extends AbstractModifier
+class GreyscaleModifier extends SpecializableModifier
 {
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers\Gd\Encoders;
 
 use Intervention\Gif\Builder as GifBuilder;
@@ -32,7 +34,7 @@ class GifEncoder extends DriverSpecializedEncoder
 
         foreach ($image as $frame) {
             $builder->addFrame(
-                $this->encode($frame->toImage($image->driver())),
+                (string) $this->encode($frame->toImage($image->driver())),
                 $frame->delay()
             );
         }

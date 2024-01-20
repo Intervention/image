@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Geometry;
 
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Tests\TestCase;
 
 class RectangleTest extends TestCase
@@ -244,5 +247,80 @@ class RectangleTest extends TestCase
         $pos = $container->relativePositionTo($input);
         $this->assertEquals(0, $pos->x());
         $this->assertEquals(50, $pos->y());
+    }
+
+    public function testTopLeftPoint(): void
+    {
+        $rectangle = new Rectangle(800, 600);
+        $this->assertInstanceOf(PointInterface::class, $rectangle->topLeftPoint());
+    }
+
+    public function testBottomRightPoint(): void
+    {
+        $rectangle = new Rectangle(800, 600);
+        $this->assertInstanceOf(PointInterface::class, $rectangle->bottomRightPoint());
+    }
+
+    public function testResize(): void
+    {
+        $rectangle = new Rectangle(800, 600);
+        $result = $rectangle->resize(300, 200);
+        $this->assertInstanceOf(Rectangle::class, $result);
+        $this->assertEquals(300, $result->width());
+        $this->assertEquals(200, $result->height());
+    }
+
+    public function testResizeDown(): void
+    {
+        $rectangle = new Rectangle(800, 600);
+        $result = $rectangle->resizeDown(3000, 200);
+        $this->assertInstanceOf(Rectangle::class, $result);
+        $this->assertEquals(800, $result->width());
+        $this->assertEquals(200, $result->height());
+    }
+
+    public function testScale(): void
+    {
+        $rectangle = new Rectangle(800, 600);
+        $result = $rectangle->scale(height: 1200);
+        $this->assertInstanceOf(Rectangle::class, $result);
+        $this->assertEquals(800 * 2, $result->width());
+        $this->assertEquals(600 * 2, $result->height());
+    }
+
+    public function testScaleDown(): void
+    {
+        $rectangle = new Rectangle(800, 600);
+        $result = $rectangle->scaleDown(height: 1200);
+        $this->assertInstanceOf(Rectangle::class, $result);
+        $this->assertEquals(800, $result->width());
+        $this->assertEquals(600, $result->height());
+    }
+
+    public function testCover(): void
+    {
+        $rectangle = new Rectangle(800, 600);
+        $result = $rectangle->cover(400, 100);
+        $this->assertInstanceOf(Rectangle::class, $result);
+        $this->assertEquals(400, $result->width());
+        $this->assertEquals(300, $result->height());
+    }
+
+    public function testContain(): void
+    {
+        $rectangle = new Rectangle(800, 600);
+        $result = $rectangle->contain(1600, 1200);
+        $this->assertInstanceOf(Rectangle::class, $result);
+        $this->assertEquals(1600, $result->width());
+        $this->assertEquals(1200, $result->height());
+    }
+
+    public function testContainMax(): void
+    {
+        $rectangle = new Rectangle(800, 600);
+        $result = $rectangle->containMax(1600, 1200);
+        $this->assertInstanceOf(Rectangle::class, $result);
+        $this->assertEquals(800, $result->width());
+        $this->assertEquals(600, $result->height());
     }
 }

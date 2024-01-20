@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Modifiers;
 
 use Intervention\Image\Geometry\Point;
 
-class FillModifier extends AbstractModifier
+class FillModifier extends SpecializableModifier
 {
     public function __construct(
         public mixed $filling,

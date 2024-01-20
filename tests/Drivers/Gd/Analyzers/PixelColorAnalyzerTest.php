@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Gd\Analyzers;
 
 use Intervention\Image\Analyzers\PixelColorsAnalyzer;
@@ -8,6 +10,11 @@ use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
+/**
+ * @requires extension gd
+ * @covers \Intervention\Image\Analyzers\PixelColorsAnalyzer
+ * @covers \Intervention\Image\Drivers\Imagick\Analyzers\PixelColorsAnalyzer
+ */
 class PixelColorsAnalyzerTest extends TestCase
 {
     use CanCreateGdTestImage;

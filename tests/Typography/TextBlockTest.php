@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Typography;
 
 use Intervention\Image\Tests\TestCase;
@@ -35,6 +37,7 @@ class TextBlockTest extends TestCase
         $this->assertEquals('foo', $block->line(0));
         $this->assertEquals('FooBar', $block->line(1));
         $this->assertEquals('bar', $block->line(2));
+        $this->assertNull($block->line(20));
     }
 
     public function testLongestLine(): void

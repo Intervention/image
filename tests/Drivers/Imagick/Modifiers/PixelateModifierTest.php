@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
 use Intervention\Image\Modifiers\PixelateModifier;
@@ -9,6 +11,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 /**
  * @requires extension imagick
  * @covers \Intervention\Image\Modifiers\PixelateModifier
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\PixelateModifier
  */
 class PixelateModifierTest extends TestCase
 {

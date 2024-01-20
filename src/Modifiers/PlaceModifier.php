@@ -1,17 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Modifiers;
 
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\PointInterface;
 
-class PlaceModifier extends AbstractModifier
+class PlaceModifier extends SpecializableModifier
 {
     public function __construct(
         public mixed $element,
         public string $position,
         public int $offset_x,
-        public int $offset_y
+        public int $offset_y,
+        public int $opacity = 100
     ) {
     }
 

@@ -1,17 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
-use Intervention\Image\Drivers\DriverSpecializedModifier;
+use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\PointInterface;
 
 /**
  * @property PointInterface $position
  * @property mixed $color
  */
-class DrawPixelModifier extends DriverSpecializedModifier
+class DrawPixelModifier extends DriverSpecialized implements ModifierInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

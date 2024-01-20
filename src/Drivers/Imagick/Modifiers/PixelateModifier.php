@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\DriverSpecializedModifier;
+use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\ModifierInterface;
 
 /**
  * @property int $size
  */
-class PixelateModifier extends DriverSpecializedModifier
+class PixelateModifier extends DriverSpecialized implements ModifierInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {
@@ -25,8 +28,8 @@ class PixelateModifier extends DriverSpecializedModifier
         $size = $frame->size();
 
         $frame->native()->scaleImage(
-            round(max(1, ($size->width() / $this->size))),
-            round(max(1, ($size->height() / $this->size)))
+            (int) round(max(1, ($size->width() / $this->size))),
+            (int) round(max(1, ($size->height() / $this->size)))
         );
 
         $frame->native()->scaleImage($size->width(), $size->height());

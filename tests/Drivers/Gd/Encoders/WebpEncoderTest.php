@@ -13,6 +13,8 @@ use Intervention\Image\Tests\TestCase;
 
 /**
  * @requires extension gd
+ * @covers \Intervention\Image\Encoders\WebpEncoder
+ * @covers \Intervention\Image\Drivers\Gd\Encoders\WebpEncoder
  */
 final class WebpEncoderTest extends TestCase
 {

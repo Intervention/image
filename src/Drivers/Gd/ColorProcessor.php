@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers\Gd;
 
 use Intervention\Image\Colors\Rgb\Channels\Alpha;
@@ -40,7 +42,7 @@ class ColorProcessor implements ColorProcessorInterface
     public function nativeToColor(mixed $value): ColorInterface
     {
         if (! is_int($value)) {
-            throw new ColorException("GD driver can only decode colors in integer format.");
+            throw new ColorException('GD driver can only decode colors in integer format.');
         }
 
         $a = ($value >> 24) & 0xFF;

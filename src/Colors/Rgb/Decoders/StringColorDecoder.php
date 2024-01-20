@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Colors\Rgb\Decoders;
 
 use Intervention\Image\Colors\Rgb\Color;
@@ -19,11 +21,12 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
      */
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
-        if (! is_string($input)) {
+        if (!is_string($input)) {
             throw new DecoderException('Unable to decode input');
         }
 
-        $pattern = '/^s?rgba?\((?P<r>[0-9\.]+%?), ?(?P<g>[0-9\.]+%?), ?(?P<b>[0-9\.]+%?)(?:, ?(?P<a>(?:1)|(?:1\.0*)|(?:0)|(?:0?\.\d+%?)|(?:\d{1,3}%)))?\)$/i';
+        $pattern = '/^s?rgba?\((?P<r>[0-9\.]+%?), ?(?P<g>[0-9\.]+%?), ?(?P<b>[0-9\.]+%?)' .
+            '(?:, ?(?P<a>(?:1)|(?:1\.0*)|(?:0)|(?:0?\.\d+%?)|(?:\d{1,3}%)))?\)$/i';
         if (preg_match($pattern, $input, $matches) != 1) {
             throw new DecoderException('Unable to decode input');
         }

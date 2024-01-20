@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Gd\Decoders;
 
 use Intervention\Image\Drivers\Gd\Decoders\Base64ImageDecoder;
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
-use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 /**
  * @requires extension gd
@@ -13,14 +15,25 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
  */
 class Base64ImageDecoderTest extends TestCase
 {
-    use CanCreateGdTestImage;
+    protected Base64ImageDecoder $decoder;
+
+    public function setUp(): void
+    {
+        $this->decoder = new Base64ImageDecoder();
+    }
 
     public function testDecode(): void
     {
-        $decoder = new Base64ImageDecoder();
-        $result = $decoder->decode(
+        $result = $this->decoder->decode(
             base64_encode($this->getTestImageData('blue.gif'))
         );
+
         $this->assertInstanceOf(Image::class, $result);
+    }
+
+    public function testDecoderInvalid(): void
+    {
+        $this->expectException(DecoderException::class);
+        $this->decoder->decode('test');
     }
 }

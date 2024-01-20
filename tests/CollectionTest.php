@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests;
 
 use Intervention\Image\Collection;
+use Intervention\Image\Exceptions\RuntimeException;
 
 /**
  * @covers \Intervention\Image\Collection
@@ -75,17 +78,6 @@ class CollectionTest extends TestCase
         $this->assertInstanceOf(Collection::class, $result);
     }
 
-    public function testPushEach()
-    {
-        $collection = Collection::create()->pushEach(['foo', 'bar', 'baz'], function ($item) {
-            return strtoupper($item);
-        });
-        $this->assertEquals(3, $collection->count());
-        $this->assertEquals('FOO', $collection->get(0));
-        $this->assertEquals('BAR', $collection->get(1));
-        $this->assertEquals('BAZ', $collection->get(2));
-    }
-
     public function testToArray()
     {
         $collection = new Collection(['foo', 'bar', 'baz']);
@@ -136,6 +128,16 @@ class CollectionTest extends TestCase
         $this->assertEquals(['example' => 'value'], $collection->get('baz.test3'));
     }
 
+    public function testGetAtPosition(): void
+    {
+        $collection = new Collection([1, 2, 'foo' => 'bar']);
+        $this->assertEquals(1, $collection->getAtPosition(0));
+        $this->assertEquals(2, $collection->getAtPosition(1));
+        $this->assertEquals('bar', $collection->getAtPosition(2));
+        $this->assertNull($collection->getAtPosition(3));
+        $this->assertEquals('default', $collection->getAtPosition(3, 'default'));
+    }
+
     public function testEmpty(): void
     {
         $collection = new Collection([1, 2, 3]);
@@ -143,5 +145,29 @@ class CollectionTest extends TestCase
         $result = $collection->empty();
         $this->assertEquals(0, $collection->count());
         $this->assertEquals(0, $result->count());
+    }
+
+    public function testSlice(): void
+    {
+        $collection = new Collection(['a', 'b', 'c', 'd', 'e', 'f']);
+        $this->assertEquals(6, $collection->count());
+        $result = $collection->slice(0, 3);
+        $this->assertEquals(['a', 'b', 'c'], $collection->toArray());
+        $this->assertEquals(['a', 'b', 'c'], $result->toArray());
+        $this->assertEquals('a', $result->get(0));
+        $this->assertEquals('b', $result->get(1));
+        $this->assertEquals('c', $result->get(2));
+
+        $result = $collection->slice(2, 1);
+        $this->assertEquals(['c'], $collection->toArray());
+        $this->assertEquals(['c'], $result->toArray());
+        $this->assertEquals('c', $result->get(0));
+    }
+
+    public function testSliceOutOfBounds(): void
+    {
+        $this->expectException(RuntimeException::class);
+        $collection = new Collection(['a', 'b', 'c']);
+        $collection->slice(6);
     }
 }

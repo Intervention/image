@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Colors\Hsv\Decoders;
 
 use Intervention\Image\Colors\Hsv\Color;

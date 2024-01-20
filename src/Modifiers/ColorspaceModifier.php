@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Modifiers;
 
 use Intervention\Image\Interfaces\ColorspaceInterface;
@@ -7,7 +9,7 @@ use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Exceptions\NotSupportedException;
 
-class ColorspaceModifier extends AbstractModifier
+class ColorspaceModifier extends SpecializableModifier
 {
     public function __construct(public string|ColorspaceInterface $target)
     {

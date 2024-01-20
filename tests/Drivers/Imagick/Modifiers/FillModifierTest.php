@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
 use Intervention\Image\Colors\Rgb\Color;
@@ -11,6 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 /**
  * @requires extension imagick
  * @covers \Intervention\Image\Modifiers\FillModifier
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\FillModifier
  */
 class FillModifierTest extends TestCase
 {

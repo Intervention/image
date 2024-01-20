@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Modifiers\CoverModifier;
@@ -9,6 +11,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 /**
  * @requires extension gd
  * @covers \Intervention\Image\Modifiers\CoverModifier
+ * @covers \Intervention\Image\Drivers\Gd\Modifiers\CoverModifier
  */
 class CoverModifierTest extends TestCase
 {

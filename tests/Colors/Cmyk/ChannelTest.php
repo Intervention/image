@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Colors\Cmyk;
 
 use Intervention\Image\Colors\Cmyk\Channels\Cyan as Channel;
@@ -31,6 +33,25 @@ class ChannelTest extends TestCase
 
         $this->expectException(ColorException::class);
         $channel = new Channel(normalized: 2);
+    }
+
+    public function testConstructorFail(): void
+    {
+        $this->expectException(ColorException::class);
+        new Channel(200);
+    }
+
+    public function testToInt(): void
+    {
+        $channel = new Channel(10);
+        $this->assertEquals(10, $channel->toInt());
+    }
+
+    public function testToString(): void
+    {
+        $channel = new Channel(10);
+        $this->assertEquals("10", $channel->toString());
+        $this->assertEquals("10", (string) $channel);
     }
 
     public function testValue(): void

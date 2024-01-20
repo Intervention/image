@@ -14,6 +14,8 @@ use Intervention\Image\Tests\TestCase;
 
 /**
  * @requires extension imagick
+ * @covers \Intervention\Image\Encoders\WebpEncoder
+ * @covers \Intervention\Image\Drivers\Imagick\Encoders\WebpEncoder
  */
 final class WebpEncoderTest extends TestCase
 {

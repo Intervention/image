@@ -1,19 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
-use Intervention\Image\Drivers\DriverSpecializedModifier;
+use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
+use Intervention\Image\Interfaces\ModifierInterface;
 
 /**
  * @method ColorspaceInterface targetColorspace()
  */
-class ColorspaceModifier extends DriverSpecializedModifier
+class ColorspaceModifier extends DriverSpecialized implements ModifierInterface
 {
     protected static $mapping = [
         RgbColorspace::class => Imagick::COLORSPACE_SRGB,

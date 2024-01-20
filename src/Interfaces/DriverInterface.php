@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Interfaces;
 
 interface DriverInterface
@@ -14,10 +16,18 @@ interface DriverInterface
     /**
      * Resolve given object into a specialized version for the current driver
      *
-     * @param object $input
-     * @return object
+     * @param object $object
+     * @return ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface
      */
-    public function resolve(object $input): object;
+    public function specialize(object $object): ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface;
+
+    /**
+     * Resolve array of classnames or objects into their specialized version for the current driver
+     *
+     * @param array $specializables
+     * @return array
+     */
+    public function specializeMultiple(array $specializables): array;
 
     /**
      * Create new image instance with the current driver in given dimensions
@@ -40,9 +50,10 @@ interface DriverInterface
      * Handle given input by decoding it to ImageInterface or ColorInterface
      *
      * @param mixed $input
+     * @param array $decoders
      * @return ImageInterface|ColorInterface
      */
-    public function handleInput(mixed $input): ImageInterface|ColorInterface;
+    public function handleInput(mixed $input, array $decoders = []): ImageInterface|ColorInterface;
 
     /**
      * Return color processor for the given colorspace

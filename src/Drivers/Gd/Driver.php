@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers\Gd;
 
 use Intervention\Image\Drivers\AbstractDriver;
@@ -27,12 +29,13 @@ class Driver extends AbstractDriver
      * {@inheritdoc}
      *
      * @see DriverInterface::checkHealth()
+     * @codeCoverageIgnore
      */
     public function checkHealth(): void
     {
         if (!extension_loaded('gd') || !function_exists('gd_info')) {
             throw new RuntimeException(
-                'GD Library extension not available with this PHP installation.'
+                'GD PHP extension must be installed to use this driver.'
             );
         }
     }
@@ -103,9 +106,9 @@ class Driver extends AbstractDriver
      *
      * @see DriverInterface::handleInput()
      */
-    public function handleInput(mixed $input): ImageInterface|ColorInterface
+    public function handleInput(mixed $input, array $decoders = []): ImageInterface|ColorInterface
     {
-        return (new InputHandler())->handle($input);
+        return (new InputHandler($this->specializeMultiple($decoders)))->handle($input);
     }
 
     /**

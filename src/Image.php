@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image;
 
 use Traversable;
@@ -17,6 +19,7 @@ use Intervention\Image\Encoders\BmpEncoder;
 use Intervention\Image\Encoders\FileExtensionEncoder;
 use Intervention\Image\Encoders\FilePathEncoder;
 use Intervention\Image\Encoders\GifEncoder;
+use Intervention\Image\Encoders\HeicEncoder;
 use Intervention\Image\Encoders\Jpeg2000Encoder;
 use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\Encoders\MediaTypeEncoder;
@@ -82,6 +85,7 @@ use Intervention\Image\Modifiers\RotateModifier;
 use Intervention\Image\Modifiers\ScaleDownModifier;
 use Intervention\Image\Modifiers\ScaleModifier;
 use Intervention\Image\Modifiers\SharpenModifier;
+use Intervention\Image\Modifiers\SliceAnimationModifier;
 use Intervention\Image\Modifiers\TextModifier;
 use Intervention\Image\Typography\FontFactory;
 
@@ -206,6 +210,16 @@ final class Image implements ImageInterface
     /**
      * {@inheritdoc}
      *
+     * @see ImageInterface::sliceAnimation()
+     */
+    public function sliceAnimation(int $offset = 0, ?int $length = null): ImageInterface
+    {
+        return $this->modify(new SliceAnimationModifier($offset, $length));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see ImageInterface::loops()
      */
     public function loops(): int
@@ -242,7 +256,7 @@ final class Image implements ImageInterface
      */
     public function modify(ModifierInterface $modifier): ImageInterface
     {
-        return $this->driver->resolve($modifier)->apply($this);
+        return $this->driver->specialize($modifier)->apply($this);
     }
 
     /**
@@ -252,7 +266,7 @@ final class Image implements ImageInterface
      */
     public function analyze(AnalyzerInterface $analyzer): mixed
     {
-        return $this->driver->resolve($analyzer)->analyze($this);
+        return $this->driver->specialize($analyzer)->analyze($this);
     }
 
     /**
@@ -260,9 +274,9 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::encode()
      */
-    public function encode(EncoderInterface $encoder = new AutoEncoder()): EncodedImage
+    public function encode(EncoderInterface $encoder = new AutoEncoder()): EncodedImageInterface
     {
-        return $this->driver->resolve($encoder)->encode($this);
+        return $this->driver->specialize($encoder)->encode($this);
     }
 
     /**
@@ -270,7 +284,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::save()
      */
-    public function save(?string $path = null, int $quality = 75): ImageInterface
+    public function save(?string $path = null, ...$options): ImageInterface
     {
         $path = is_null($path) ? $this->origin()->filePath() : $path;
 
@@ -280,10 +294,10 @@ final class Image implements ImageInterface
 
         try {
             // try to determine encoding format by file extension of the path
-            $encoded = $this->encodeByPath($path, $quality);
+            $encoded = $this->encodeByPath($path, ...$options);
         } catch (EncoderException) {
             // fallback to encoding format by media type
-            $encoded = $this->encodeByMediaType(quality: $quality);
+            $encoded = $this->encodeByMediaType(null, ...$options);
         }
 
         $encoded->save($path);
@@ -730,9 +744,10 @@ final class Image implements ImageInterface
         mixed $element,
         string $position = 'top-left',
         int $offset_x = 0,
-        int $offset_y = 0
+        int $offset_y = 0,
+        int $opacity = 100
     ): ImageInterface {
-        return $this->modify(new PlaceModifier($element, $position, $offset_x, $offset_y));
+        return $this->modify(new PlaceModifier($element, $position, $offset_x, $offset_y, $opacity));
     }
 
     /**
@@ -825,9 +840,9 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::encodeByMediaType()
      */
-    public function encodeByMediaType(?string $type = null, int $quality = 75): EncodedImageInterface
+    public function encodeByMediaType(?string $type = null, ...$options): EncodedImageInterface
     {
-        return $this->encode(new MediaTypeEncoder($type, $quality));
+        return $this->encode(new MediaTypeEncoder($type, ...$options));
     }
 
     /**
@@ -835,9 +850,9 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::encodeByExtension()
      */
-    public function encodeByExtension(?string $extension = null, int $quality = 75): EncodedImageInterface
+    public function encodeByExtension(?string $extension = null, mixed ...$options): EncodedImageInterface
     {
-        return $this->encode(new FileExtensionEncoder($extension, $quality));
+        return $this->encode(new FileExtensionEncoder($extension, ...$options));
     }
 
     /**
@@ -845,9 +860,9 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::encodeByPath()
      */
-    public function encodeByPath(?string $path = null, int $quality = 75): EncodedImageInterface
+    public function encodeByPath(?string $path = null, mixed ...$options): EncodedImageInterface
     {
-        return $this->encode(new FilePathEncoder($path, $quality));
+        return $this->encode(new FilePathEncoder($path, ...$options));
     }
 
     /**
@@ -855,20 +870,20 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::toJpeg()
      */
-    public function toJpeg(int $quality = 75): EncodedImageInterface
+    public function toJpeg(mixed ...$options): EncodedImageInterface
     {
-        return $this->encode(new JpegEncoder($quality));
+        return $this->encode(new JpegEncoder(...$options));
     }
 
     /**
      * Alias of self::toJpeg()
      *
-     * @param int $quality
+     * @param mixed $options
      * @return EncodedImageInterface
      */
-    public function toJpg(int $quality = 75): EncodedImageInterface
+    public function toJpg(mixed ...$options): EncodedImageInterface
     {
-        return $this->toJpeg($quality);
+        return $this->toJpeg(...$options);
     }
 
     /**
@@ -876,20 +891,20 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::toJpeg()
      */
-    public function toJpeg2000(int $quality = 75): EncodedImageInterface
+    public function toJpeg2000(mixed ...$options): EncodedImageInterface
     {
-        return $this->encode(new Jpeg2000Encoder($quality));
+        return $this->encode(new Jpeg2000Encoder(...$options));
     }
 
     /**
      * ALias of self::toJpeg2000()
      *
-     * @param  int $quality
+     * @param  mixed $options
      * @return EncodedImageInterface
      */
-    public function toJp2(int $quality = 75): EncodedImageInterface
+    public function toJp2(mixed ...$options): EncodedImageInterface
     {
-        return $this->toJpeg2000($quality);
+        return $this->toJpeg2000(...$options);
     }
 
     /**
@@ -897,9 +912,9 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::toPng()
      */
-    public function toPng(): EncodedImageInterface
+    public function toPng(mixed ...$options): EncodedImageInterface
     {
-        return $this->encode(new PngEncoder());
+        return $this->encode(new PngEncoder(...$options));
     }
 
     /**
@@ -907,9 +922,9 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::toGif()
      */
-    public function toGif(): EncodedImageInterface
+    public function toGif(mixed ...$options): EncodedImageInterface
     {
-        return $this->encode(new GifEncoder());
+        return $this->encode(new GifEncoder(...$options));
     }
 
     /**
@@ -917,9 +932,9 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::toWebp()
      */
-    public function toWebp(int $quality = 75): EncodedImageInterface
+    public function toWebp(mixed ...$options): EncodedImageInterface
     {
-        return $this->encode(new WebpEncoder($quality));
+        return $this->encode(new WebpEncoder(...$options));
     }
 
     /**
@@ -927,9 +942,9 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::toBitmap()
      */
-    public function toBitmap(): EncodedImageInterface
+    public function toBitmap(mixed ...$options): EncodedImageInterface
     {
-        return $this->encode(new BmpEncoder());
+        return $this->encode(new BmpEncoder(...$options));
     }
 
     /**
@@ -937,9 +952,9 @@ final class Image implements ImageInterface
      *
      * @return EncodedImageInterface
      */
-    public function toBmp(): EncodedImageInterface
+    public function toBmp(mixed ...$options): EncodedImageInterface
     {
-        return $this->toBitmap();
+        return $this->toBitmap(...$options);
     }
 
     /**
@@ -947,9 +962,9 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::toAvif()
      */
-    public function toAvif(int $quality = 75): EncodedImageInterface
+    public function toAvif(mixed ...$options): EncodedImageInterface
     {
-        return $this->encode(new AvifEncoder($quality));
+        return $this->encode(new AvifEncoder(...$options));
     }
 
     /**
@@ -957,20 +972,30 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::toTiff()
      */
-    public function toTiff(int $quality = 75): EncodedImageInterface
+    public function toTiff(mixed ...$options): EncodedImageInterface
     {
-        return $this->encode(new TiffEncoder($quality));
+        return $this->encode(new TiffEncoder(...$options));
     }
 
     /**
      * Alias of self::toTiff()
      *
-     * @param int $quality
+     * @param mixed $options
      * @return EncodedImageInterface
      */
-    public function toTif(int $quality = 75): EncodedImageInterface
+    public function toTif(mixed ...$options): EncodedImageInterface
     {
-        return $this->toTiff($quality);
+        return $this->toTiff(...$options);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::toHeic()
+     */
+    public function toHeic(mixed ...$options): EncodedImageInterface
+    {
+        return $this->encode(new HeicEncoder(...$options));
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Modifiers\RotateModifier;
@@ -9,6 +11,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 /**
  * @requires extension gd
  * @covers \Intervention\Image\Modifiers\RotateModifier
+ * @covers \Intervention\Image\Drivers\Gd\Modifiers\RotateModifier
  */
 class RotateModifierTest extends TestCase
 {

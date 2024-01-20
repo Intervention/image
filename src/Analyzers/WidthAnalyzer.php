@@ -1,7 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Analyzers;
 
-class WidthAnalyzer extends AbstractAnalyzer
+class WidthAnalyzer extends SpecializableAnalyzer
 {
 }

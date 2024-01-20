@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
 use Intervention\Image\Modifiers\ResolutionModifier;
@@ -7,7 +9,8 @@ use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 /**
- * @requires extension gd
+ * @requires extension imagick
+ * @covers \Intervention\Image\Modifiers\ResolutionModifier
  * @covers \Intervention\Image\Drivers\Imagick\Modifiers\ResolutionModifier
  */
 class ResolutionModifierTest extends TestCase

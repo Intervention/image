@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Imagick\Decoders;
 
 use Intervention\Image\Drivers\Imagick\Decoders\ImageObjectDecoder;

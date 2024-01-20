@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Colors\Rgb\Color;
@@ -11,6 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 /**
  * @requires extension gd
  * @covers \Intervention\Image\Modifiers\FillModifier
+ * @covers \Intervention\Image\Drivers\Gd\Modifiers\FillModifier
  */
 class FillModifierTest extends TestCase
 {

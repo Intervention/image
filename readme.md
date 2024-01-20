@@ -18,7 +18,7 @@ between the GD library or Imagick as the base layer for all operations.
 
 ## Installation
 
-You can easily install this package using [Composer](https://getcomposer.org).
+You can easily install this library using [Composer](https://getcomposer.org).
 Just request the package with the following command:
 
 ```bash

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Gd;
 
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
@@ -59,7 +61,8 @@ class GdInputHandlerTest extends TestCase
     public function testHandleDataUriImage(): void
     {
         $handler = new InputHandler();
-        $input = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
+        $input = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNb' .
+            'yblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==';
         $result = $handler->handle($input);
         $this->assertInstanceOf(Image::class, $result);
     }

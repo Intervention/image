@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Modifiers\DrawPolygonModifier;
@@ -10,6 +12,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 /**
  * @requires extension gd
+ * @covers \Intervention\Image\Modifiers\DrawPixelModifier
  * @covers \Intervention\Image\Drivers\Gd\Modifiers\DrawPixelModifier
  */
 class DrawPolygonModifierTest extends TestCase

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Modifiers\FlipModifier;
@@ -10,7 +12,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 /**
  * @requires extension gd
  * @covers \Intervention\Image\Modifiers\FlipModifier
- * @covers \Intervention\Image\Modifiers\FlopModifier
+ * @covers \Intervention\Image\Drivers\Gd\Modifiers\FlipModifier
  */
 class FlipFlopModifierTest extends TestCase
 {

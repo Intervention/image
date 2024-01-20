@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
 use Intervention\Image\Modifiers\FlipModifier;
@@ -11,6 +13,8 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
  * @requires extension imagick
  * @covers \Intervention\Image\Modifiers\FlipModifier
  * @covers \Intervention\Image\Modifiers\FlopModifier
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\FlipModifier
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\FlopModifier
  */
 class FlipFlopModifierTest extends TestCase
 {

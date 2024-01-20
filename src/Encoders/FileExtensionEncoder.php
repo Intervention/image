@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Encoders;
 
 use Intervention\Image\Exceptions\EncoderException;
@@ -13,11 +15,12 @@ class FileExtensionEncoder extends AutoEncoder
      * Create new encoder instance to encode to format of given file extension
      *
      * @param null|string $extension
-     * @param int $quality
+     * @param mixed $options
      * @return void
      */
-    public function __construct(protected ?string $extension = null, protected int $quality = 75)
+    public function __construct(protected ?string $extension = null, mixed ...$options)
     {
+        parent::__construct(null, ...$options);
     }
 
     /**
@@ -48,14 +51,15 @@ class FileExtensionEncoder extends AutoEncoder
         }
 
         return match (strtolower($extension)) {
-            'webp' => new WebpEncoder($this->quality),
-            'avif' => new AvifEncoder($this->quality),
-            'jpeg', 'jpg' => new JpegEncoder($this->quality),
+            'webp' => new WebpEncoder(quality: $this->quality),
+            'avif' => new AvifEncoder(quality: $this->quality),
+            'jpeg', 'jpg' => new JpegEncoder(quality: $this->quality),
             'bmp' => new BmpEncoder(),
             'gif' => new GifEncoder(),
             'png' => new PngEncoder(),
-            'tiff', 'tif' => new TiffEncoder($this->quality),
-            'jp2', 'j2k', 'jpf', 'jpm', 'jpg2', 'j2c', 'jpc', 'jpx' => new Jpeg2000Encoder($this->quality),
+            'tiff', 'tif' => new TiffEncoder(quality: $this->quality),
+            'jp2', 'j2k', 'jpf', 'jpm', 'jpg2', 'j2c', 'jpc', 'jpx' => new Jpeg2000Encoder(quality: $this->quality),
+            'heic', 'heif' => new HeicEncoder(quality: $this->quality),
             default => throw new EncoderException('No encoder found for file extension (' . $extension . ').'),
         };
     }

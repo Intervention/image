@@ -1,36 +1,24 @@
 FROM php:8.1-cli
 
+# install dependencies
 RUN apt update \
         && apt install -y \
-            libpng-dev \
-            libicu-dev \
-            libavif-dev \
-            libpq-dev \
-            libzip-dev \
-            zip \
-            zlib1g-dev \
-            locales \
-            locales-all \
             libmagickwand-dev \
             libwebp-dev \
-        && pecl install imagick \
-        && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp --with-avif \
-        && docker-php-ext-enable imagick \
-        && docker-php-ext-install \
-            intl \
-            opcache \
-            pdo \
-            pdo_pgsql \
-            pdo_mysql \
-            pgsql \
-            fileinfo \
-            mysqli \
-            gd \
-            bcmath \
-            exif \
+            libpng-dev \
+            libavif-dev \
+            git \
             zip \
+        && pecl install imagick \
+        && pecl install xdebug \
+        && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp --with-avif \
+        && docker-php-ext-enable \
+            imagick \
+            xdebug \
+        && docker-php-ext-install \
+            gd \
+            exif \
         && apt-get clean
 
 # install composer
-#
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+COPY --from=composer /usr/bin/composer /usr/bin/composer

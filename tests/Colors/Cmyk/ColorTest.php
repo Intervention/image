@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Colors\Cmyk;
 
 use Intervention\Image\Colors\Cmyk\Channels\Cyan;
@@ -8,6 +10,7 @@ use Intervention\Image\Colors\Cmyk\Channels\Magenta;
 use Intervention\Image\Colors\Cmyk\Channels\Yellow;
 use Intervention\Image\Colors\Cmyk\Color as Color;
 use Intervention\Image\Colors\Cmyk\Colorspace;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Tests\TestCase;
 
 /**
@@ -19,6 +22,12 @@ class ColorTest extends TestCase
     public function testConstructor(): void
     {
         $color = new Color(0, 0, 0, 0);
+        $this->assertInstanceOf(Color::class, $color);
+    }
+
+    public function testCreate(): void
+    {
+        $color = Color::create('cmyk(10, 20, 30, 40)');
         $this->assertInstanceOf(Color::class, $color);
     }
 
@@ -43,6 +52,13 @@ class ColorTest extends TestCase
         $this->assertEquals(10, $channel->value());
     }
 
+    public function testChannelNotFound(): void
+    {
+        $color = new Color(10, 20, 30, 30);
+        $this->expectException(ColorException::class);
+        $color->channel('none');
+    }
+
     public function testCyanMagentaYellowKey(): void
     {
         $color = new Color(10, 20, 30, 40);
@@ -60,6 +76,22 @@ class ColorTest extends TestCase
     {
         $color = new Color(10, 20, 30, 40);
         $this->assertEquals([10, 20, 30, 40], $color->toArray());
+    }
+
+    public function testToHex(): void
+    {
+        $color = new Color(0, 73, 100, 0);
+        $this->assertEquals('ff4400', $color->toHex());
+        $this->assertEquals('#ff4400', $color->toHex('#'));
+    }
+
+    public function testIsGreyscale(): void
+    {
+        $color = new Color(0, 73, 100, 0);
+        $this->assertFalse($color->isGreyscale());
+
+        $color = new Color(0, 0, 0, 50);
+        $this->assertTrue($color->isGreyscale());
     }
 
     public function testNormalize(): void

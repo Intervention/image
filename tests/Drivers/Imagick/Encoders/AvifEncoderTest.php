@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Imagick\Encoders;
 
 use Imagick;
@@ -12,6 +14,7 @@ use Intervention\Image\Tests\TestCase;
 
 /**
  * @requires extension imagick
+ * @covers \Intervention\Image\Encoders\AvifEncoder
  * @covers \Intervention\Image\Drivers\Imagick\Encoders\AvifEncoder
  */
 class AvifEncoderTest extends TestCase

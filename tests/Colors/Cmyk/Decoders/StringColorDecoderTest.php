@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Colors\Cmyk\Decoders;
 
 use Intervention\Image\Colors\Cmyk\Color;

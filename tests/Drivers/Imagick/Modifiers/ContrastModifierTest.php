@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
 use Intervention\Image\Modifiers\ContrastModifier;
@@ -9,6 +11,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 /**
  * @requires extension imagick
  * @covers \Intervention\Image\Modifiers\ContrastModifier
+ * @covers \Intervention\Image\Drivers\Imagick\Modifiers\ContrastModifier
  */
 class ContrastModifierTest extends TestCase
 {

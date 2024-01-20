@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Encoders;
 
-class TiffEncoder extends AbstractEncoder
+use Intervention\Image\Interfaces\SpecializableInterface;
+
+class TiffEncoder extends SpecializableEncoder implements SpecializableInterface
 {
-    public function __construct(public int $quality = 75)
-    {
-    }
 }

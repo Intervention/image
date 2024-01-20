@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Intervention\Image\Interfaces;
 
 use Countable;
-use Intervention\Image\EncodedImage;
 use Intervention\Image\Origin;
 use IteratorAggregate;
 
@@ -522,13 +521,15 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param string $position
      * @param int    $offset_x
      * @param int    $offset_y
+     * @param int    $opacity
      * @return ImageInterface
      */
     public function place(
         mixed $element,
         string $position = 'top-left',
         int $offset_x = 0,
-        int $offset_y = 0
+        int $offset_y = 0,
+        int $opacity = 100
     ): ImageInterface;
 
     /**

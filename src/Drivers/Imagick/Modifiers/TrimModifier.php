@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Intervention\Image\Drivers\DriverSpecialized;
@@ -6,9 +9,13 @@ use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 
-class TrimModifier extends DriverSpecialized implements ModifierInterface {
-
-    public function apply(ImageInterface $image): ImageInterface {
+/**
+ * @property int $tolerance
+ */
+class TrimModifier extends DriverSpecialized implements ModifierInterface
+{
+    public function apply(ImageInterface $image): ImageInterface
+    {
         if ($image->isAnimated()) {
             throw new NotSupportedException('Animated Images do not support trim operation');
         }
@@ -23,7 +30,8 @@ class TrimModifier extends DriverSpecialized implements ModifierInterface {
         return $image;
     }
 
-    protected function determineFuzz(\Imagick &$im, int $tolerance):float {
+    protected function determineFuzz(\Imagick &$im, int $tolerance): float
+    {
         return ($tolerance / 100) * $im::getQuantum();
     }
 }

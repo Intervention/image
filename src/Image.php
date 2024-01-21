@@ -756,7 +756,8 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::trim()
      */
-    public function trim(int $tolerance = 0): ImageInterface {
+    public function trim(int $tolerance = 0): ImageInterface
+    {
         return $this->modify(new TrimModifier($tolerance));
     }
 

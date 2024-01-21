@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
+namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Modifiers\TrimModifier;
 use Intervention\Image\Tests\TestCase;
-use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
+use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 /**
- * @requires extension imagick
+ * @requires extension gd
  * @covers \Intervention\Image\Modifiers\TrimModifier
- * @covers \Intervention\Image\Drivers\Imagick\Modifiers\TrimModifier
+ * @covers \Intervention\Image\Drivers\Gd\Modifiers\TrimModifier
  */
 class TrimModifierTest extends TestCase
 {
-    use CanCreateImagickTestImage;
+    use CanCreateGdTestImage;
 
     public function testTrimImage(): void
     {

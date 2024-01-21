@@ -524,22 +524,24 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param string $position
      * @param int    $offset_x
      * @param int    $offset_y
+     * @param int    $opacity
      * @return ImageInterface
      */
     public function place(
         mixed $element,
         string $position = 'top-left',
         int $offset_x = 0,
-        int $offset_y = 0
+        int $offset_y = 0,
+        int $opacity = 100
     ): ImageInterface;
 
 
     /**
      * Trims the image by removing all single-colored border areas.
-     * 
+     *
      * @param int $tolerance Tolerance level in percent for the trim operation.
      * @return ImageInterface
-     * 
+     *
      * @throws InputException if the tolerance is not between 0 and 100.
      * @throws NotSupportedException if the image format does not support trimming
      */

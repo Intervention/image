@@ -1,6 +1,6 @@
 version: '3'
 
-services: 
+services:
   tests:
     build: ./
     working_dir: /project
@@ -19,5 +19,11 @@ services:
     build: ./
     working_dir: /project
     command: bash -c "composer install && ./vendor/bin/phpstan analyze --memory-limit=512M --level=4 ./src"
+    volumes:
+      - ./:/project
+  standards:
+    build: ./
+    working_dir: /project
+    command: bash -c "composer install && ./vendor/bin/phpcs"
     volumes:
       - ./:/project

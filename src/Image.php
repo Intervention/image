@@ -745,9 +745,10 @@ final class Image implements ImageInterface
         mixed $element,
         string $position = 'top-left',
         int $offset_x = 0,
-        int $offset_y = 0
+        int $offset_y = 0,
+        int $opacity = 100
     ): ImageInterface {
-        return $this->modify(new PlaceModifier($element, $position, $offset_x, $offset_y));
+        return $this->modify(new PlaceModifier($element, $position, $offset_x, $offset_y, $opacity));
     }
 
     /**

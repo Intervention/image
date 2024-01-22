@@ -16,13 +16,5 @@ class TrimModifier extends SpecializableModifier
      *
      * @param int $tolerance Tolerance level for trim operation
      */
-    public function __construct(
-        /**
-         * Tolerance level for trim operation
-         *
-         * @var int
-         */
-        public int $tolerance = 0,
-    ) {
-    }
+    public function __construct(public int $tolerance = 0) {}
 }

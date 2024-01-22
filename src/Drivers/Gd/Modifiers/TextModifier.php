@@ -38,7 +38,7 @@ class TextModifier extends AbstractTextModifier
                         $line->position()->y(),
                         $color,
                         $this->font->filename(),
-                        $line
+                        (string) $line
                     );
                 }
             } else {

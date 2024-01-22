@@ -68,21 +68,29 @@ abstract class AbstractDecoder extends DriverSpecialized implements DecoderInter
     }
 
     /**
-     * Extract and return EXIF data from given image data string
+     * Extract and return EXIF data from given input which can be binary image
+     * data or a file path.
      *
-     * @param string $image_data
+     * @param string $path_or_data
      * @return CollectionInterface
      */
-    protected function extractExifData(string $image_data): CollectionInterface
+    protected function extractExifData(string $path_or_data): CollectionInterface
     {
         if (!function_exists('exif_read_data')) {
             return new Collection();
         }
 
         try {
-            $pointer = $this->buildFilePointer($image_data);
-            $data = @exif_read_data($pointer, null, true);
-            fclose($pointer);
+            $input = match (true) {
+                (strlen($path_or_data) <= PHP_MAXPATHLEN && is_file($path_or_data)) => $path_or_data, // path
+                default => $this->buildFilePointer($path_or_data), // data
+            };
+
+            // extract exif data via file path
+            $data = @exif_read_data($input, null, true);
+            if (is_resource($input)) {
+                fclose($input);
+            }
         } catch (Exception) {
             $data = [];
         }
@@ -118,7 +126,7 @@ abstract class AbstractDecoder extends DriverSpecialized implements DecoderInter
 
         $result = preg_match($pattern, $input, $matches);
 
-        return new class ($matches, $result)
+        return new class($matches, $result)
         {
             private $matches;
             private $result;

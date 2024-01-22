@@ -252,6 +252,18 @@ final class Image implements ImageInterface
     /**
      * {@inheritdoc}
      *
+     * @see ImgageInterface::setExif()
+     */
+    public function setExif(CollectionInterface $exif): ImageInterface
+    {
+        $this->exif = $exif;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see ImageInterface::modify()
      */
     public function modify(ModifierInterface $modifier): ImageInterface

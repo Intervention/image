@@ -39,7 +39,7 @@ class TextModifier extends AbstractTextModifier
                     $line->position()->x(),
                     $line->position()->y(),
                     $this->font->angle(),
-                    $line
+                    (string) $line
                 );
             }
         }

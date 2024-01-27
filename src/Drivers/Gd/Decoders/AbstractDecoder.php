@@ -33,7 +33,7 @@ abstract class AbstractDecoder extends GenericAbstractDecoder
     /**
      * Return media (mime) type of the given image data
      *
-     * @param string $filepath
+     * @param string $data
      * @return string
      */
     protected function getMediaTypeByBinary(string $data): string

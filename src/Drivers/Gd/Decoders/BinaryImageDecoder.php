@@ -15,7 +15,7 @@ use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
 use Intervention\Image\Modifiers\AlignRotationModifier;
 
-class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
+class BinaryImageDecoder extends GdImageDecoder implements DecoderInterface
 {
     use CanDecodeGif;
 
@@ -53,19 +53,11 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
             throw new DecoderException('Unable to decode input');
         }
 
-        if (!imageistruecolor($gd)) {
-            imagepalettetotruecolor($gd);
-        }
-        imagesavealpha($gd, true);
+        // create image instance
+        $image = parent::decode($gd);
 
-        // build image instance
-        $image =  new Image(
-            new Driver(),
-            new Core([
-                new Frame($gd)
-            ]),
-            $this->extractExifData($input)
-        );
+        // extract & set exif data
+        $image->setExif($this->extractExifData($input));
 
         try {
             // set mediaType on origin

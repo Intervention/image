@@ -276,6 +276,15 @@ class ImageTest extends TestCase
         $this->assertColor(1, 2, 3, 4, $image->blendingColor());
     }
 
+    public function testBlendTransparency(): void
+    {
+        $image = $this->readTestImage('gradient.gif');
+        $this->assertColor(0, 0, 0, 0, $image->pickColor(1, 0));
+        $result = $image->blendTransparency('ff5500');
+        $this->assertColor(255, 85, 0, 255, $image->pickColor(1, 0));
+        $this->assertColor(255, 85, 0, 255, $result->pickColor(1, 0));
+    }
+
     public function testToJpeg(): void
     {
         $this->assertMediaType('image/jpeg', (string) $this->image->toJpeg());

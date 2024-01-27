@@ -14,7 +14,6 @@ use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Modifiers\AlignRotationModifier;
-use Intervention\Image\Origin;
 
 class ImagickImageDecoder extends AbstractDecoder implements DecoderInterface
 {
@@ -43,9 +42,8 @@ class ImagickImageDecoder extends AbstractDecoder implements DecoderInterface
         // adjust image rotatation
         $image->modify(new AlignRotationModifier());
 
-        $image->setOrigin(new Origin(
-            $input->getImageMimeType()
-        ));
+        // set media type on origin
+        $image->origin()->setMediaType($input->getImageMimeType());
 
         return $image;
     }

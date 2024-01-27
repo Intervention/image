@@ -138,6 +138,13 @@ class CollectionTest extends TestCase
         $this->assertEquals('default', $collection->getAtPosition(3, 'default'));
     }
 
+    public function testGetAtPositionEmpty(): void
+    {
+        $collection = new Collection();
+        $this->assertNull($collection->getAtPosition());
+        $this->assertEquals('default', $collection->getAtPosition(3, 'default'));
+    }
+
     public function testEmpty(): void
     {
         $collection = new Collection([1, 2, 3]);

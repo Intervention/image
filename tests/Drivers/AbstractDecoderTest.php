@@ -91,18 +91,31 @@ class AbstractDecoderTest extends TestCase
         };
 
         $result = $decoder->parse(
-            'data:image/gif;base64,R0lGODdhAwADAKIAAAQyrKTy/ByS7AQytLT2/AAAAAAAAAAAACwAAAAAAwADAAADBhgU0gMgAQA7'
+            'data:image/gif;foo=bar;base64,R0lGODdhAwADAKIAAAQyrKTy/ByS7AQytLT2/AAAAAAAAAAAACwAAAAAAwADAAADBhgU0gMgAQA7'
         );
 
         $this->assertTrue($result->isValid());
         $this->assertEquals('image/gif', $result->mediaType());
         $this->assertTrue($result->hasMediaType());
         $this->assertTrue($result->isBase64Encoded());
-        $this->assertEquals([], $result->parameters());
         $this->assertEquals(
             'R0lGODdhAwADAKIAAAQyrKTy/ByS7AQytLT2/AAAAAAAAAAAACwAAAAAAwADAAADBhgU0gMgAQA7',
             $result->data()
         );
+
+        $result = $decoder->parse('data:text/plain;charset=utf-8,test');
+        $this->assertTrue($result->isValid());
+        $this->assertEquals('text/plain', $result->mediaType());
+        $this->assertTrue($result->hasMediaType());
+        $this->assertFalse($result->isBase64Encoded());
+        $this->assertEquals('test', $result->data());
+
+        $result = $decoder->parse('data:;charset=utf-8,');
+        $this->assertTrue($result->isValid());
+        $this->assertNull($result->mediaType());
+        $this->assertFalse($result->hasMediaType());
+        $this->assertFalse($result->isBase64Encoded());
+        $this->assertNull($result->data());
     }
 
     public function testIsValidBase64(): void

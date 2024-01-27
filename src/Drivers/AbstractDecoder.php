@@ -156,15 +156,6 @@ abstract class AbstractDecoder extends DriverSpecialized implements DecoderInter
                 return !empty($this->mediaType());
             }
 
-            public function parameters(): array
-            {
-                if (isset($this->matches['parameters']) && !empty($this->matches['parameters'])) {
-                    return explode(';', trim($this->matches['parameters'], ';'));
-                }
-
-                return [];
-            }
-
             public function isBase64Encoded(): bool
             {
                 if (isset($this->matches['base64']) && $this->matches['base64'] === ';base64') {

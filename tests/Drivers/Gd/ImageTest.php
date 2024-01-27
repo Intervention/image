@@ -256,6 +256,13 @@ class ImageTest extends TestCase
         $this->image->profile();
     }
 
+    public function testReduceColors(): void
+    {
+        $image = $this->readTestImage();
+        $result = $image->reduceColors(8);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
     public function testSharpen(): void
     {
         $this->assertInstanceOf(Image::class, $this->image->sharpen(12));

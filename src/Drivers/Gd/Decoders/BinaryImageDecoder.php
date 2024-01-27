@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
-use Intervention\Image\Drivers\AbstractDecoder;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
@@ -68,9 +67,12 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
             $this->extractExifData($input)
         );
 
-        // set mediaType on origin
-        if ($info = getimagesizefromstring($input)) {
-            $image->origin()->setMediaType($info['mime']);
+        try {
+            // set mediaType on origin
+            $image->origin()->setMediaType(
+                $this->getMediaTypeByBinary($input)
+            );
+        } catch (DecoderException) {
         }
 
         // adjust image orientation

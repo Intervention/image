@@ -37,8 +37,9 @@ class FilePathImageDecoder extends GdImageDecoder implements DecoderInterface
         // detect media (mime) type
         $mediaType = $this->getMediaTypeByFilePath($input);
 
-        // gif files might be animated and therefore cannot be handled by the standard GD decoder.
         $image = match ($mediaType) {
+            // gif files might be animated and therefore cannot
+            // be handled by the standard GD decoder.
             'image/gif' => $this->decodeGif($input),
             default => parent::decode(match ($mediaType) {
                 'image/jpeg', 'image/jpg', 'image/pjpeg' => imagecreatefromjpeg($input),
@@ -68,26 +69,5 @@ class FilePathImageDecoder extends GdImageDecoder implements DecoderInterface
         $image->modify(new AlignRotationModifier());
 
         return $image;
-    }
-
-    /**
-     * Return media (mime) type of the file at given file path
-     *
-     * @param string $filepath
-     * @return string
-     */
-    private function getMediaTypeByFilePath(string $filepath): string
-    {
-        $info = getimagesize($filepath);
-
-        if (!is_array($info)) {
-            throw new DecoderException('Unable to decode input');
-        }
-
-        if (!array_key_exists('mime', $info)) {
-            throw new DecoderException('Unable to decode input');
-        }
-
-        return $info['mime'];
     }
 }

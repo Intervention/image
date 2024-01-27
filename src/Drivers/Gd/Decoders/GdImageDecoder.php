@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
 use GdImage;
-use Intervention\Image\Drivers\AbstractDecoder;
 use Intervention\Image\Drivers\Gd\Core;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Drivers\Gd\Frame;

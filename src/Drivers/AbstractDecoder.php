@@ -86,7 +86,7 @@ abstract class AbstractDecoder extends DriverSpecialized implements DecoderInter
                 default => $this->buildFilePointer($path_or_data), // data
             };
 
-            // extract exif data via file path
+            // extract exif data
             $data = @exif_read_data($source, null, true);
             if (is_resource($source)) {
                 fclose($source);

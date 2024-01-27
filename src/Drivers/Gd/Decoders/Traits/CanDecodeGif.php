@@ -41,6 +41,12 @@ trait CanDecodeGif
             );
         }
 
-        return new Image(new Driver(), $core);
+        // create image
+        $image = new Image(new Driver(), $core);
+
+        // set media type
+        $image->origin()->setMediaType('image/gif');
+
+        return $image;
     }
 }

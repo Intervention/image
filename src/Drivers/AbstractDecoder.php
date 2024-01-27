@@ -99,26 +99,6 @@ abstract class AbstractDecoder extends DriverSpecialized implements DecoderInter
     }
 
     /**
-     * Adjust image rotation of given image according to the exif data
-     *
-     * @param ImageInterface $image
-     * @return ImageInterface
-     */
-    protected function adjustImageRotation(ImageInterface $image): ImageInterface
-    {
-        return match ($image->exif('IFD0.Orientation')) {
-            2 => $image->flop(),
-            3 => $image->rotate(180),
-            4 => $image->rotate(180)->flop(),
-            5 => $image->rotate(270)->flop(),
-            6 => $image->rotate(270),
-            7 => $image->rotate(90)->flop(),
-            8 => $image->rotate(90),
-            default => $image
-        };
-    }
-
-    /**
      * Determine if given input is base64 encoded data
      *
      * @param mixed $input

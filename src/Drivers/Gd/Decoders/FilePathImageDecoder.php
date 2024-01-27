@@ -10,6 +10,7 @@ use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Modifiers\AlignRotationModifier;
 
 class FilePathImageDecoder extends GdImageDecoder implements DecoderInterface
 {
@@ -63,8 +64,10 @@ class FilePathImageDecoder extends GdImageDecoder implements DecoderInterface
         // extract exif
         $image->setExif($this->extractExifData($input));
 
-        // fix image orientation
-        return $this->adjustImageRotation($image);
+        // adjust image orientation
+        $image->modify(new AlignRotationModifier());
+
+        return $image;
     }
 
     /**

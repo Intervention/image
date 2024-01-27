@@ -13,6 +13,7 @@ use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Modifiers\AlignRotationModifier;
 use Intervention\Image\Origin;
 
 class ImagickImageDecoder extends AbstractDecoder implements DecoderInterface
@@ -34,47 +35,13 @@ class ImagickImageDecoder extends AbstractDecoder implements DecoderInterface
             $input = $input->coalesceImages();
         }
 
-        // fix image orientation
-        switch ($input->getImageOrientation()) {
-            case Imagick::ORIENTATION_TOPRIGHT: // 2
-                $input->flopImage();
-                break;
-
-            case Imagick::ORIENTATION_BOTTOMRIGHT: // 3
-                $input->rotateimage("#000", 180);
-                break;
-
-            case Imagick::ORIENTATION_BOTTOMLEFT: // 4
-                $input->rotateimage("#000", 180);
-                $input->flopImage();
-                break;
-
-            case Imagick::ORIENTATION_LEFTTOP: // 5
-                $input->rotateimage("#000", -270);
-                $input->flopImage();
-                break;
-
-            case Imagick::ORIENTATION_RIGHTTOP: // 6
-                $input->rotateimage("#000", -270);
-                break;
-
-            case Imagick::ORIENTATION_RIGHTBOTTOM: // 7
-                $input->rotateimage("#000", -90);
-                $input->flopImage();
-                break;
-
-            case Imagick::ORIENTATION_LEFTBOTTOM: // 8
-                $input->rotateimage("#000", -90);
-                break;
-        }
-
-        // set new orientation in image
-        $input->setImageOrientation(Imagick::ORIENTATION_TOPLEFT);
-
         $image = new Image(
             new Driver(),
             new Core($input)
         );
+
+        // adjust image rotatation
+        $image->modify(new AlignRotationModifier());
 
         $image->setOrigin(new Origin(
             $input->getImageMimeType()

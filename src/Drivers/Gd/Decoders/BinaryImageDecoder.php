@@ -14,6 +14,7 @@ use Intervention\Image\Drivers\Gd\Decoders\Traits\CanDecodeGif;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
+use Intervention\Image\Modifiers\AlignRotationModifier;
 
 class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
 {
@@ -72,7 +73,9 @@ class BinaryImageDecoder extends AbstractDecoder implements DecoderInterface
             $image->origin()->setMediaType($info['mime']);
         }
 
-        // fix image orientation
-        return $this->adjustImageRotation($image);
+        // adjust image orientation
+        $image->modify(new AlignRotationModifier());
+
+        return $image;
     }
 }

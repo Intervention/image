@@ -81,21 +81,41 @@ abstract class AbstractDecoder extends DriverSpecialized implements DecoderInter
         }
 
         try {
-            $input = match (true) {
+            $source = match (true) {
                 (strlen($path_or_data) <= PHP_MAXPATHLEN && is_file($path_or_data)) => $path_or_data, // path
                 default => $this->buildFilePointer($path_or_data), // data
             };
 
             // extract exif data via file path
-            $data = @exif_read_data($input, null, true);
-            if (is_resource($input)) {
-                fclose($input);
+            $data = @exif_read_data($source, null, true);
+            if (is_resource($source)) {
+                fclose($source);
             }
         } catch (Exception) {
             $data = [];
         }
 
         return new Collection(is_array($data) ? $data : []);
+    }
+
+    /**
+     * Adjust image rotation of given image according to the exif data
+     *
+     * @param ImageInterface $image
+     * @return ImageInterface
+     */
+    protected function adjustImageRotation(ImageInterface $image): ImageInterface
+    {
+        return match ($image->exif('IFD0.Orientation')) {
+            2 => $image->flop(),
+            3 => $image->rotate(180),
+            4 => $image->rotate(180)->flop(),
+            5 => $image->rotate(270)->flop(),
+            6 => $image->rotate(270),
+            7 => $image->rotate(90)->flop(),
+            8 => $image->rotate(90),
+            default => $image
+        };
     }
 
     /**
@@ -126,7 +146,7 @@ abstract class AbstractDecoder extends DriverSpecialized implements DecoderInter
 
         $result = preg_match($pattern, $input, $matches);
 
-        return new class($matches, $result)
+        return new class ($matches, $result)
         {
             private $matches;
             private $result;

@@ -145,6 +145,14 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function exif(?string $query = null): mixed;
 
     /**
+     * Set exif data for the image object
+     *
+     * @param CollectionInterface $exif
+     * @return ImageInterface
+     */
+    public function setExif(CollectionInterface $exif): ImageInterface;
+
+    /**
      * Return image resolution/density
      *
      * @return ResolutionInterface

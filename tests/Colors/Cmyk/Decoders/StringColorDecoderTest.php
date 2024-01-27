@@ -6,6 +6,7 @@ namespace Intervention\Image\Tests\Colors\Cmyk\Decoders;
 
 use Intervention\Image\Colors\Cmyk\Color;
 use Intervention\Image\Colors\Cmyk\Decoders\StringColorDecoder;
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Tests\TestCase;
 
 /**
@@ -29,9 +30,15 @@ class StringColorDecoderTest extends TestCase
         $this->assertInstanceOf(Color::class, $result);
         $this->assertEquals([0, 100, 100, 0], $result->toArray());
 
-
         $result = $decoder->decode('cmyk(0%, 100%, 100%, 0%)');
         $this->assertInstanceOf(Color::class, $result);
         $this->assertEquals([0, 100, 100, 0], $result->toArray());
+    }
+
+    public function testDecodeInvalid(): void
+    {
+        $decoder = new StringColorDecoder();
+        $this->expectException(DecoderException::class);
+        $decoder->decode(null);
     }
 }

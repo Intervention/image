@@ -38,6 +38,19 @@ class Origin
     }
 
     /**
+     * Set media type of current instance
+     *
+     * @param string $type
+     * @return Origin
+     */
+    public function setMediaType(string $type): self
+    {
+        $this->mediaType = $type;
+
+        return $this;
+    }
+
+    /**
      * Return file path of origin
      *
      * @return null|string

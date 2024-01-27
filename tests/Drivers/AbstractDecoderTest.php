@@ -7,6 +7,7 @@ namespace Intervention\Image\Tests\Drivers;
 use Exception;
 use Intervention\Image\Drivers\AbstractDecoder;
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Tests\TestCase;
@@ -49,6 +50,29 @@ class AbstractDecoderTest extends TestCase
         $decoder->shouldReceive('decode')->with('test input')->andThrow(DecoderException::class);
 
         $decoder->handle('test input');
+    }
+
+    public function testIsGifFormat(): void
+    {
+        $decoder = Mockery::mock(AbstractDecoder::class)->makePartial();
+        $this->assertFalse($decoder->isGifFormat($this->getTestImageData('exif.jpg')));
+        $this->assertTrue($decoder->isGifFormat($this->getTestImageData('red.gif')));
+    }
+
+    public function testExtractExifDataFromBinary(): void
+    {
+        $decoder = Mockery::mock(AbstractDecoder::class)->makePartial();
+        $result = $decoder->extractExifData($this->getTestImageData('exif.jpg'));
+        $this->assertInstanceOf(CollectionInterface::class, $result);
+        $this->assertEquals('Oliver Vogel', $result->get('IFD0.Artist'));
+    }
+
+    public function testExtractExifDataFromPath(): void
+    {
+        $decoder = Mockery::mock(AbstractDecoder::class)->makePartial();
+        $result = $decoder->extractExifData($this->getTestImagePath('exif.jpg'));
+        $this->assertInstanceOf(CollectionInterface::class, $result);
+        $this->assertEquals('Oliver Vogel', $result->get('IFD0.Artist'));
     }
 
     public function testParseDataUri(): void

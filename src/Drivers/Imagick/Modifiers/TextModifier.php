@@ -6,6 +6,8 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
 use ImagickDraw;
+use ImagickDrawException;
+use ImagickException;
 use ImagickPixel;
 use Intervention\Image\Drivers\AbstractTextModifier;
 use Intervention\Image\Exceptions\FontException;
@@ -48,9 +50,9 @@ class TextModifier extends AbstractTextModifier
     }
 
     /**
-     * Calculate box size of current font
+     * {@inheritdoc}
      *
-     * @return Polygon
+     * @see AbstractTextModifier::boxSize()
      */
     protected function boxSize(string $text): Polygon
     {
@@ -70,6 +72,17 @@ class TextModifier extends AbstractTextModifier
         ));
     }
 
+    /**
+     * Imagick::annotateImage() needs an ImagickDraw object - this method takes
+     * the text color as the base and adds the text modifiers font settings
+     * to the new ImagickDraw object.
+     *
+     * @param null|ImagickPixel $color
+     * @return ImagickDraw
+     * @throws FontException
+     * @throws ImagickDrawException
+     * @throws ImagickException
+     */
     private function toImagickDraw(?ImagickPixel $color = null): ImagickDraw
     {
         if (!$this->font->hasFilename()) {

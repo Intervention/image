@@ -59,9 +59,9 @@ class TextModifier extends AbstractTextModifier
     }
 
     /**
-     * Calculate size of bounding box of given text
+     * {@inheritdoc}
      *
-     * @return Polygon
+     * @see AbstractTextModifier::boxSize()
      */
     protected function boxSize(string $text): Polygon
     {

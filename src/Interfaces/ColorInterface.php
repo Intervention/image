@@ -7,7 +7,8 @@ namespace Intervention\Image\Interfaces;
 interface ColorInterface
 {
     /**
-     * Static color factory method that passed input to color decoding input handler
+     * Static color factory method that takes any supported color format
+     * and returns a corresponding color object
      *
      * @param mixed $input
      * @return ColorInterface

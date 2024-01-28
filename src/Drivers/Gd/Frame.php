@@ -18,7 +18,7 @@ class Frame implements FrameInterface
      * Create new frame instance
      *
      * @param GdImage $native
-     * @param float|int $delay
+     * @param float $delay
      * @param int $dispose
      * @param int $offset_left
      * @param int $offset_top

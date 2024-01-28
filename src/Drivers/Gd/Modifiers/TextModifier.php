@@ -94,11 +94,21 @@ class TextModifier extends AbstractTextModifier
         return $polygon;
     }
 
+    /**
+     * Calculate font size for `imagettftext` from given font size
+     *
+     * @return float
+     */
     private function adjustedFontSize(): float
     {
         return floatval(ceil($this->font->size() * .75));
     }
 
+    /**
+     * Return GD's internal font size (if no ttf file is set)
+     *
+     * @return int
+     */
     private function getGdFont(): int
     {
         if (is_numeric($this->font->filename())) {
@@ -108,11 +118,21 @@ class TextModifier extends AbstractTextModifier
         return 1;
     }
 
+    /**
+     * Font width to calculate box size, only applicable when no ttf file is set
+     *
+     * @return int
+     */
     private function getGdFontWidth(): int
     {
         return $this->getGdFont() + 4;
     }
 
+    /**
+     * Font height to calculate box size, only applicable when no ttf file is set
+     *
+     * @return int
+     */
     private function getGdFontHeight(): int
     {
         switch ($this->getGdFont()) {

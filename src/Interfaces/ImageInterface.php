@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Interfaces;
 
 use Countable;
+use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\Origin;
 use IteratorAggregate;
 

@@ -16,7 +16,7 @@ interface ResolutionInterface
     /**
      * Set resolution on x-axix
      *
-     * @param  float $x
+     * @param float $x
      * @return ResolutionInterface
      */
     public function setX(float $x): ResolutionInterface;
@@ -31,7 +31,7 @@ interface ResolutionInterface
     /**
      * Set resolution on y-axis
      *
-     * @param  float $y
+     * @param float $y
      * @return ResolutionInterface
      */
     public function setY(float $y): ResolutionInterface;

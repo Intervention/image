@@ -95,7 +95,7 @@ interface SizeInterface
      * Calculate the relative position to another Size
      * based on the pivot point settings of both sizes.
      *
-     * @param  SizeInterface $size
+     * @param SizeInterface $size
      * @return PointInterface
      */
     public function relativePositionTo(SizeInterface $size): PointInterface;

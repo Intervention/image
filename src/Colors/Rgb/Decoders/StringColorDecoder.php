@@ -16,7 +16,7 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
     /**
      * Decode rgb color strings
      *
-     * @param  mixed $input
+     * @param mixed $input
      * @return ImageInterface|ColorInterface
      */
     public function decode(mixed $input): ImageInterface|ColorInterface

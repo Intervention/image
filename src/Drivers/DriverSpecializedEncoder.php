@@ -11,7 +11,7 @@ abstract class DriverSpecializedEncoder extends DriverSpecialized implements Enc
     /**
      * Get return value of callback through output buffer
      *
-     * @param  callable $callback
+     * @param callable $callback
      * @return string
      */
     protected function getBuffered(callable $callback): string

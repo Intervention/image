@@ -116,7 +116,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     /**
      * Determine if point exists at given offset
      *
-     * @param  mixed $offset
+     * @param mixed $offset
      * @return bool
      */
     public function offsetExists($offset): bool
@@ -397,7 +397,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     /**
      * Move all points by given amount on the x-axis
      *
-     * @param  int $amount
+     * @param int $amount
      * @return Polygon
      */
     public function movePointsX(int $amount): self

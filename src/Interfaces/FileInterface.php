@@ -9,7 +9,7 @@ interface FileInterface
     /**
      * Save data in given path in file system
      *
-     * @param  string $filepath
+     * @param string $filepath
      * @return void
      */
     public function save(string $filepath): void;

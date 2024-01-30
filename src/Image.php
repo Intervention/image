@@ -772,7 +772,7 @@ final class Image implements ImageInterface
         return $this->modify(
             new FillModifier(
                 $color,
-                (is_null($x) || is_null($y)) ? null : new Point($x, $y),
+                is_null($x) || is_null($y) ? null : new Point($x, $y),
             ),
         );
     }

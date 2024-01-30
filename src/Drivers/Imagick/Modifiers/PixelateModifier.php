@@ -28,8 +28,8 @@ class PixelateModifier extends DriverSpecialized implements ModifierInterface
         $size = $frame->size();
 
         $frame->native()->scaleImage(
-            (int) round(max(1, ($size->width() / $this->size))),
-            (int) round(max(1, ($size->height() / $this->size)))
+            (int) round(max(1, $size->width() / $this->size)),
+            (int) round(max(1, $size->height() / $this->size))
         );
 
         $frame->native()->scaleImage($size->width(), $size->height());

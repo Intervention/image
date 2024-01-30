@@ -75,7 +75,7 @@ class Colorspace implements ColorspaceInterface
 
         // add to each value
         $values = array_map(function ($value) use ($color, $chroma) {
-            return $value + ($color->value()->normalize() - $chroma);
+            return $value + $color->value()->normalize() - $chroma;
         }, $values);
 
         array_push($values, 1); // append alpha channel value

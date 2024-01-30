@@ -52,7 +52,7 @@ class TextBlock extends Collection
             if (mb_strlen((string) $a) === mb_strlen((string) $b)) {
                 return 0;
             }
-            return (mb_strlen((string) $a) > mb_strlen((string) $b)) ? -1 : 1;
+            return mb_strlen((string) $a) > mb_strlen((string) $b) ? -1 : 1;
         });
 
         return $lines[0];

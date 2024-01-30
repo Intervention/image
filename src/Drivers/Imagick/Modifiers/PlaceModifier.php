@@ -28,7 +28,7 @@ class PlaceModifier extends DriverSpecialized implements ModifierInterface
         if ($this->opacity < 100) {
             $watermark->core()->native()->evaluateImage(
                 Imagick::EVALUATE_DIVIDE,
-                $this->opacity > 0 ? (100 / $this->opacity) : 1000,
+                $this->opacity > 0 ? 100 / $this->opacity : 1000,
                 Imagick::CHANNEL_ALPHA,
             );
         }

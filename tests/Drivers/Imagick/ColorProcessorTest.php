@@ -22,6 +22,6 @@ class ColorProcessorTest extends TestCase
     public function testNativeToColor(): void
     {
         $processor = new ColorProcessor(new Colorspace());
-        $result = $processor->nativeToColor(new ImagickPixel('rgb(255, 55, 0)'));
+        $processor->nativeToColor(new ImagickPixel('rgb(255, 55, 0)'));
     }
 }

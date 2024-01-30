@@ -20,6 +20,7 @@ class DrawLineModifier extends AbstractDrawModifier
         foreach ($image as $frame) {
             imagealphablending($frame->native(), true);
             imageantialias($frame->native(), true);
+            imagesetthickness($frame->native(), $this->drawable->width());
             imageline(
                 $frame->native(),
                 $this->drawable->start()->x(),

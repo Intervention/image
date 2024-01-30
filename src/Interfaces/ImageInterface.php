@@ -109,7 +109,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * string values must represent a percentage value between '0%' and '100%'
      * and the respective frame position is only determined approximately.
      *
-     * @param  int|string $position
+     * @param int|string $position
      * @return ImageInterface
      */
     public function removeAnimation(int|string $position = 0): ImageInterface;
@@ -216,7 +216,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Set blending color will have no effect unless image is converted into a format
      * which does not support transparency.
      *
-     * @param  mixed $color
+     * @param mixed $color
      * @return ImageInterface
      */
     public function setBlendingColor(mixed $color): ImageInterface;
@@ -239,7 +239,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Set given icc color profile to image
      *
-     * @param  ProfileInterface $profile
+     * @param ProfileInterface $profile
      * @return ImageInterface
      */
     public function setProfile(ProfileInterface $profile): ImageInterface;
@@ -263,7 +263,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Sharpen the current image with given strength
      *
-     * @param  int $amount
+     * @param int $amount
      * @return ImageInterface
      */
     public function sharpen(int $amount = 10): ImageInterface;
@@ -278,7 +278,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Adjust brightness of the current image
      *
-     * @param  int $level
+     * @param int $level
      * @return ImageInterface
      */
     public function brightness(int $level): ImageInterface;
@@ -286,7 +286,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Adjust color contrast of the current image
      *
-     * @param  int $level
+     * @param int $level
      * @return ImageInterface
      */
     public function contrast(int $level): ImageInterface;
@@ -294,7 +294,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Apply gamma correction on the current image
      *
-     * @param  float $gamma
+     * @param float $gamma
      * @return ImageInterface
      */
     public function gamma(float $gamma): ImageInterface;
@@ -302,9 +302,9 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Adjust the intensity of the RGB color channels
      *
-     * @param  int $red
-     * @param  int $green
-     * @param  int $blue
+     * @param int $red
+     * @param int $green
+     * @param int $blue
      * @return ImageInterface
      */
     public function colorize(int $red = 0, int $green = 0, int $blue = 0): ImageInterface;
@@ -349,18 +349,18 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Rotate current image by given angle
      *
-     * @param float  $angle
+     * @param float $angle
      * @param string $background
-     * @return       ImageInterface
+     * @return ImageInterface
      */
     public function rotate(float $angle, mixed $background = 'ffffff'): ImageInterface;
 
     /**
      * Draw text on image
      *
-     * @param string                 $text
-     * @param int                    $x
-     * @param int                    $y
+     * @param string $text
+     * @param int $x
+     * @param int $y
      * @param callable|FontInterface $font
      * @return ImageInterface
      */
@@ -526,11 +526,11 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Place another image into the current image instance
      *
-     * @param mixed  $element
+     * @param mixed $element
      * @param string $position
-     * @param int    $offset_x
-     * @param int    $offset_y
-     * @param int    $opacity
+     * @param int $offset_x
+     * @param int $offset_y
+     * @param int $opacity
      * @return ImageInterface
      */
     public function place(
@@ -561,8 +561,8 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Draw a single pixel at given position defined by the coordinates x and y in a given color.
      *
-     * @param int   $x
-     * @param int   $y
+     * @param int $x
+     * @param int $y
      * @param mixed $color
      * @return ImageInterface
      */

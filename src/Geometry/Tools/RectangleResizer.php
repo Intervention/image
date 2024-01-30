@@ -200,7 +200,7 @@ class RectangleResizer
     /**
      * Scale given size to cover target size
      *
-     * @param  SizeInterface $size Size to be resized
+     * @param SizeInterface $size Size to be resized
      * @return SizeInterface
      */
     public function cover(SizeInterface $size): SizeInterface
@@ -223,7 +223,7 @@ class RectangleResizer
     /**
      * Scale given size to contain target size
      *
-     * @param  SizeInterface $size Size to be resized
+     * @param SizeInterface $size Size to be resized
      * @return SizeInterface
      */
     public function contain(SizeInterface $size): SizeInterface
@@ -246,7 +246,7 @@ class RectangleResizer
     /**
      * Scale given size to contain target size but prevent upsizing
      *
-     * @param  SizeInterface $size Size to be resized
+     * @param SizeInterface $size Size to be resized
      * @return SizeInterface
      */
     public function containDown(SizeInterface $size): SizeInterface
@@ -278,8 +278,8 @@ class RectangleResizer
     /**
      * Crop target size out of given size at given position (i.e. move the pivot point)
      *
-     * @param  SizeInterface $size
-     * @param  string        $position
+     * @param SizeInterface $size
+     * @param string $position
      * @return SizeInterface
      */
     public function crop(SizeInterface $size, string $position = 'top-left'): SizeInterface

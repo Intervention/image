@@ -61,7 +61,7 @@ interface ColorInterface
     /**
      * Retrieve the color channel by its classname
      *
-     * @param  string $classname
+     * @param string $classname
      * @return ColorChannelInterface
      */
     public function channel(string $classname): ColorChannelInterface;

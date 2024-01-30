@@ -911,7 +911,7 @@ final class Image implements ImageInterface
     /**
      * ALias of self::toJpeg2000()
      *
-     * @param  mixed $options
+     * @param mixed $options
      * @return EncodedImageInterface
      */
     public function toJp2(mixed ...$options): EncodedImageInterface

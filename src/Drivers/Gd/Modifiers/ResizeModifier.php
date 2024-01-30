@@ -19,7 +19,7 @@ class ResizeModifier extends DriverSpecialized implements ModifierInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {
-        $resizeTo =  $this->getAdjustedSize($image);
+        $resizeTo = $this->getAdjustedSize($image);
         foreach ($image as $frame) {
             $this->resizeFrame($frame, $resizeTo);
         }

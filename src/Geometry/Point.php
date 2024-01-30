@@ -97,8 +97,8 @@ class Point implements PointInterface
     /**
      * Sets both X and Y coordinate
      *
-     * @param  integer $x
-     * @param  integer $y
+     * @param integer $x
+     * @param integer $y
      * @return Point
      */
     public function setPosition(int $x, int $y): self
@@ -112,8 +112,8 @@ class Point implements PointInterface
     /**
      * Rotate point ccw around pivot
      *
-     * @param  float $angle
-     * @param  Point $pivot
+     * @param float $angle
+     * @param Point $pivot
      * @return Point
      */
     public function rotate(float $angle, Point $pivot): self

@@ -16,7 +16,7 @@ interface DrawableInterface
     /**
      * Set the background color of the drawable object
      *
-     * @param  mixed $color
+     * @param mixed $color
      * @return DrawableInterface
      */
     public function setBackgroundColor(mixed $color): DrawableInterface;

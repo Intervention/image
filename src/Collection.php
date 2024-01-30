@@ -20,7 +20,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     /**
      * Static constructor
      *
-     * @param  array  $items
+     * @param array $items
      * @return self
      */
     public static function create(array $items = []): self
@@ -61,7 +61,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     /**
      * Append new item to collection
      *
-     * @param  mixed $item
+     * @param mixed $item
      * @return CollectionInterface
      */
     public function push($item): CollectionInterface
@@ -102,7 +102,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     /**
      * Return item at given position starting at 0
      *
-     * @param  integer $key
+     * @param integer $key
      * @return mixed
      */
     public function getAtPosition(int $key = 0, $default = null): mixed

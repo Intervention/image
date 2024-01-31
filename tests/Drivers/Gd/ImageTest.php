@@ -256,6 +256,13 @@ class ImageTest extends TestCase
         $this->image->profile();
     }
 
+    public function testReduceColors(): void
+    {
+        $image = $this->readTestImage();
+        $result = $image->reduceColors(8);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
     public function testSharpen(): void
     {
         $this->assertInstanceOf(Image::class, $this->image->sharpen(12));
@@ -274,6 +281,15 @@ class ImageTest extends TestCase
         $result = $image->setBlendingColor(new Color(1, 2, 3, 4));
         $this->assertColor(1, 2, 3, 4, $result->blendingColor());
         $this->assertColor(1, 2, 3, 4, $image->blendingColor());
+    }
+
+    public function testBlendTransparency(): void
+    {
+        $image = $this->readTestImage('gradient.gif');
+        $this->assertColor(0, 0, 0, 0, $image->pickColor(1, 0));
+        $result = $image->blendTransparency('ff5500');
+        $this->assertColor(255, 85, 0, 255, $image->pickColor(1, 0));
+        $this->assertColor(255, 85, 0, 255, $result->pickColor(1, 0));
     }
 
     public function testToJpeg(): void

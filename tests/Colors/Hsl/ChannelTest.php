@@ -29,10 +29,10 @@ class ChannelTest extends TestCase
         $this->assertInstanceOf(Hue::class, $channel);
 
         $this->expectException(ColorException::class);
-        $channel = new Hue();
+        new Hue();
 
         $this->expectException(ColorException::class);
-        $channel = new Hue(normalized: 2);
+        new Hue(normalized: 2);
     }
 
     public function testConstructorFail(): void

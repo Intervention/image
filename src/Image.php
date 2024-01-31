@@ -252,6 +252,18 @@ final class Image implements ImageInterface
     /**
      * {@inheritdoc}
      *
+     * @see ImgageInterface::setExif()
+     */
+    public function setExif(CollectionInterface $exif): ImageInterface
+    {
+        $this->exif = $exif;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see ImageInterface::modify()
      */
     public function modify(ModifierInterface $modifier): ImageInterface
@@ -760,7 +772,7 @@ final class Image implements ImageInterface
         return $this->modify(
             new FillModifier(
                 $color,
-                (is_null($x) || is_null($y)) ? null : new Point($x, $y),
+                is_null($x) || is_null($y) ? null : new Point($x, $y),
             ),
         );
     }
@@ -899,7 +911,7 @@ final class Image implements ImageInterface
     /**
      * ALias of self::toJpeg2000()
      *
-     * @param  mixed $options
+     * @param mixed $options
      * @return EncodedImageInterface
      */
     public function toJp2(mixed ...$options): EncodedImageInterface

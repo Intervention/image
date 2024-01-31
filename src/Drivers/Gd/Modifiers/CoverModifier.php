@@ -12,8 +12,8 @@ use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
 /**
- * @method SizeInterface getResizeSize(ImageInterface $image)
  * @method SizeInterface getCropSize(ImageInterface $image)
+ * @method SizeInterface getResizeSize(SizeInterface $size)
  */
 class CoverModifier extends DriverSpecialized implements ModifierInterface
 {

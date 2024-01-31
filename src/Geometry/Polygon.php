@@ -116,7 +116,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     /**
      * Determine if point exists at given offset
      *
-     * @param  mixed $offset
+     * @param mixed $offset
      * @return bool
      */
     public function offsetExists($offset): bool
@@ -207,7 +207,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
             if ($a->x() === $b->x()) {
                 return 0;
             }
-            return ($a->x() < $b->x()) ? -1 : 1;
+            return $a->x() < $b->x() ? -1 : 1;
         });
 
         return $points[0];
@@ -229,7 +229,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
             if ($a->x() === $b->x()) {
                 return 0;
             }
-            return ($a->x() > $b->x()) ? -1 : 1;
+            return $a->x() > $b->x() ? -1 : 1;
         });
 
         return $points[0];
@@ -251,7 +251,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
             if ($a->y() === $b->y()) {
                 return 0;
             }
-            return ($a->y() > $b->y()) ? -1 : 1;
+            return $a->y() > $b->y() ? -1 : 1;
         });
 
         return $points[0];
@@ -273,7 +273,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
             if ($a->y() === $b->y()) {
                 return 0;
             }
-            return ($a->y() < $b->y()) ? -1 : 1;
+            return $a->y() < $b->y() ? -1 : 1;
         });
 
         return $points[0];
@@ -303,16 +303,16 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
         switch (strtolower($position)) {
             case 'center':
             case 'middle':
-                $diff = ($this->centerPoint()->x() - $this->pivot()->x());
+                $diff = $this->centerPoint()->x() - $this->pivot()->x();
                 break;
 
             case 'right':
-                $diff = ($this->mostRightPoint()->x() - $this->pivot()->x());
+                $diff = $this->mostRightPoint()->x() - $this->pivot()->x();
                 break;
 
             default:
             case 'left':
-                $diff = ($this->mostLeftPoint()->x() - $this->pivot()->x());
+                $diff = $this->mostLeftPoint()->x() - $this->pivot()->x();
                 break;
         }
 
@@ -336,16 +336,16 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
         switch (strtolower($position)) {
             case 'center':
             case 'middle':
-                $diff = ($this->centerPoint()->y() - $this->pivot()->y());
+                $diff = $this->centerPoint()->y() - $this->pivot()->y();
                 break;
 
             case 'top':
-                $diff = ($this->mostTopPoint()->y() - $this->pivot()->y()) - $this->height();
+                $diff = $this->mostTopPoint()->y() - $this->pivot()->y() - $this->height();
                 break;
 
             default:
             case 'bottom':
-                $diff = ($this->mostBottomPoint()->y() - $this->pivot()->y()) + $this->height();
+                $diff = $this->mostBottomPoint()->y() - $this->pivot()->y() + $this->height();
                 break;
         }
 
@@ -397,7 +397,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     /**
      * Move all points by given amount on the x-axis
      *
-     * @param  int $amount
+     * @param int $amount
      * @return Polygon
      */
     public function movePointsX(int $amount): self

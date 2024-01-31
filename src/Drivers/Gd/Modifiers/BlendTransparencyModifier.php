@@ -17,7 +17,7 @@ class BlendTransparencyModifier extends DriverSpecialized implements ModifierInt
     public function apply(ImageInterface $image): ImageInterface
     {
         // decode blending color
-        $color =  $this->driver()->handleInput(
+        $color = $this->driver()->handleInput(
             $this->color ? $this->color : $image->blendingColor()
         );
 

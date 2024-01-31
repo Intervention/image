@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
+use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Modifiers\RemoveAnimationModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
@@ -33,5 +34,12 @@ class RemoveAnimationModifierTest extends TestCase
         $result = $image->modify(new RemoveAnimationModifier('20%'));
         $this->assertEquals(1, count($image));
         $this->assertEquals(1, count($result));
+    }
+
+    public function testApplyInvalid(): void
+    {
+        $image = $this->readTestImage('animation.gif');
+        $this->expectException(InputException::class);
+        $image->modify(new RemoveAnimationModifier('test'));
     }
 }

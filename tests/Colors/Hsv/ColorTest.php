@@ -7,7 +7,7 @@ namespace Intervention\Image\Tests\Colors\Hsv;
 use Intervention\Image\Colors\Hsv\Channels\Hue;
 use Intervention\Image\Colors\Hsv\Channels\Saturation;
 use Intervention\Image\Colors\Hsv\Channels\Value;
-use Intervention\Image\Colors\Hsv\Color as Color;
+use Intervention\Image\Colors\Hsv\Color;
 use Intervention\Image\Colors\Hsv\Colorspace;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Tests\TestCase;

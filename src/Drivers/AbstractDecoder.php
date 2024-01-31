@@ -17,7 +17,7 @@ abstract class AbstractDecoder extends DriverSpecialized implements DecoderInter
 {
     use CanBuildFilePointer;
 
-    public function __construct(protected ?AbstractDecoder $successor = null)
+    public function __construct(protected ?self $successor = null)
     {
     }
 
@@ -68,21 +68,29 @@ abstract class AbstractDecoder extends DriverSpecialized implements DecoderInter
     }
 
     /**
-     * Extract and return EXIF data from given image data string
+     * Extract and return EXIF data from given input which can be binary image
+     * data or a file path.
      *
-     * @param string $image_data
+     * @param string $path_or_data
      * @return CollectionInterface
      */
-    protected function extractExifData(string $image_data): CollectionInterface
+    protected function extractExifData(string $path_or_data): CollectionInterface
     {
         if (!function_exists('exif_read_data')) {
             return new Collection();
         }
 
         try {
-            $pointer = $this->buildFilePointer($image_data);
-            $data = @exif_read_data($pointer, null, true);
-            fclose($pointer);
+            $source = match (true) {
+                (strlen($path_or_data) <= PHP_MAXPATHLEN && is_file($path_or_data)) => $path_or_data, // path
+                default => $this->buildFilePointer($path_or_data), // data
+            };
+
+            // extract exif data
+            $data = @exif_read_data($source, null, true);
+            if (is_resource($source)) {
+                fclose($source);
+            }
         } catch (Exception) {
             $data = [];
         }
@@ -146,15 +154,6 @@ abstract class AbstractDecoder extends DriverSpecialized implements DecoderInter
             public function hasMediaType(): bool
             {
                 return !empty($this->mediaType());
-            }
-
-            public function parameters(): array
-            {
-                if (isset($this->matches['parameters']) && !empty($this->matches['parameters'])) {
-                    return explode(';', trim($this->matches['parameters'], ';'));
-                }
-
-                return [];
             }
 
             public function isBase64Encoded(): bool

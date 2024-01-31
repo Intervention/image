@@ -19,7 +19,7 @@ class DataUriImageDecoder extends BinaryImageDecoder implements DecoderInterface
 
         $uri = $this->parseDataUri($input);
 
-        if (! $uri->isValid()) {
+        if (!$uri->isValid()) {
             throw new DecoderException('Unable to decode input');
         }
 

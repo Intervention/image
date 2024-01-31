@@ -15,7 +15,7 @@ class File implements FileInterface
     /**
      * Create new instance
      *
-     * @param  string $data
+     * @param string $data
      */
     public function __construct(protected string $data)
     {
@@ -25,7 +25,7 @@ class File implements FileInterface
      * Save encoded image data in file system
      *
      * @codeCoverageIgnore
-     * @param  string $filepath
+     * @param string $filepath
      * @return void
      */
     public function save(string $filepath): void

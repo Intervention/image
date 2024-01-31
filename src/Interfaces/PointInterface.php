@@ -23,9 +23,9 @@ interface PointInterface
     /**
      * Set position of point
      *
-     * @param  int $x
-     * @param  int $y
+     * @param int $x
+     * @param int $y
      * @return PointInterface
      */
-    public function setPosition(int $x, int $y): PointInterface;
+    public function setPosition(int $x, int $y): self;
 }

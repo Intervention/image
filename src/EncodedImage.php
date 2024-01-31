@@ -11,8 +11,8 @@ class EncodedImage extends File implements EncodedImageInterface
     /**
      * Create new instance
      *
-     * @param  string $data
-     * @param  string $mediaType
+     * @param string $data
+     * @param string $mediaType
      */
     public function __construct(
         protected string $data,

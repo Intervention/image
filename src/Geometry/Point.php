@@ -24,7 +24,7 @@ class Point implements PointInterface
     /**
      * Sets X coordinate
      *
-     * @param integer $x
+     * @param int $x
      */
     public function setX(int $x): self
     {
@@ -36,7 +36,7 @@ class Point implements PointInterface
     /**
      * Get X coordinate
      *
-     * @return integer
+     * @return int
      */
     public function x(): int
     {
@@ -46,7 +46,7 @@ class Point implements PointInterface
     /**
      * Sets Y coordinate
      *
-     * @param integer $y
+     * @param int $y
      */
     public function setY(int $y): self
     {
@@ -58,7 +58,7 @@ class Point implements PointInterface
     /**
      * Get Y coordinate
      *
-     * @return integer
+     * @return int
      */
     public function y(): int
     {
@@ -68,7 +68,7 @@ class Point implements PointInterface
     /**
      * Move X coordinate
      *
-     * @param integer $value
+     * @param int $value
      */
     public function moveX(int $value): self
     {
@@ -80,7 +80,7 @@ class Point implements PointInterface
     /**
      * Move Y coordinate
      *
-     * @param integer $value
+     * @param int $value
      */
     public function moveY(int $value): self
     {
@@ -97,8 +97,8 @@ class Point implements PointInterface
     /**
      * Sets both X and Y coordinate
      *
-     * @param  integer $x
-     * @param  integer $y
+     * @param int $x
+     * @param int $y
      * @return Point
      */
     public function setPosition(int $x, int $y): self
@@ -112,11 +112,11 @@ class Point implements PointInterface
     /**
      * Rotate point ccw around pivot
      *
-     * @param  float $angle
-     * @param  Point $pivot
+     * @param float $angle
+     * @param Point $pivot
      * @return Point
      */
-    public function rotate(float $angle, Point $pivot): self
+    public function rotate(float $angle, self $pivot): self
     {
         $sin = round(sin(deg2rad($angle)), 6);
         $cos = round(cos(deg2rad($angle)), 6);

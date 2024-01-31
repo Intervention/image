@@ -8,7 +8,7 @@ use Intervention\Image\Colors\Cmyk\Channels\Cyan;
 use Intervention\Image\Colors\Cmyk\Channels\Key;
 use Intervention\Image\Colors\Cmyk\Channels\Magenta;
 use Intervention\Image\Colors\Cmyk\Channels\Yellow;
-use Intervention\Image\Colors\Cmyk\Color as Color;
+use Intervention\Image\Colors\Cmyk\Color;
 use Intervention\Image\Colors\Cmyk\Colorspace;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Tests\TestCase;

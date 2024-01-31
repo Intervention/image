@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Checkout project
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -34,7 +34,7 @@ jobs:
           sudo apt-get install -y libmagickwand-dev
 
       - name: Cache ImageMagick
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         id: cache-imagemagick
         with:
           path: /home/runner/im/imagemagick-${{ matrix.imagemagick }}
@@ -42,7 +42,7 @@ jobs:
           restore-keys: ${{ runner.os }}-ImageMagick-${{ matrix.imagemagick }}-
 
       - name: Check ImageMagick cache exists
-        uses: andstor/file-existence-action@v1
+        uses: andstor/file-existence-action@v2
         id: cache-imagemagick-exists
         with:
           files: /home/runner/im/imagemagick-${{ matrix.imagemagick }}
@@ -80,7 +80,7 @@ jobs:
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Cache composer dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ matrix.stability }}-${{ hashFiles('**/composer.json') }}

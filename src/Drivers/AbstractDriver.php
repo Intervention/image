@@ -33,7 +33,7 @@ abstract class AbstractDriver implements DriverInterface
         }
 
         $driver_namespace = (new ReflectionClass($this))->getNamespaceName();
-        $class_path = substr(get_class($object), strlen("Intervention\\Image\\"));
+        $class_path = substr($object::class, strlen("Intervention\\Image\\"));
         $classname = $driver_namespace . "\\" . $class_path;
 
         if (!class_exists($classname)) {

@@ -40,7 +40,7 @@ class Colorspace implements ColorspaceInterface
      */
     public function importColor(ColorInterface $color): ColorInterface
     {
-        return match (get_class($color)) {
+        return match ($color::class) {
             CmykColor::class => $this->importRgbColor($color->convertTo(RgbColorspace::class)),
             RgbColor::class => $this->importRgbColor($color),
             HslColor::class => $this->importHslColor($color),

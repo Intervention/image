@@ -22,7 +22,7 @@ interface CollectionInterface extends Traversable
      * @param mixed $item
      * @return CollectionInterface
      */
-    public function push($item): CollectionInterface;
+    public function push($item): self;
 
     /**
      * Return item for given key or return default is key does not exist
@@ -68,7 +68,7 @@ interface CollectionInterface extends Traversable
      *
      * @return CollectionInterface
      */
-    public function empty(): CollectionInterface;
+    public function empty(): self;
 
     /**
      * Transform collection as array
@@ -84,5 +84,5 @@ interface CollectionInterface extends Traversable
      * @param null|int $length
      * @return CollectionInterface
      */
-    public function slice(int $offset, ?int $length = 0): CollectionInterface;
+    public function slice(int $offset, ?int $length = 0): self;
 }

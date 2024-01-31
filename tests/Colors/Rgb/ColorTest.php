@@ -9,7 +9,7 @@ use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
-use Intervention\Image\Colors\Rgb\Color as Color;
+use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Tests\TestCase;

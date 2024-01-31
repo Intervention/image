@@ -9,41 +9,38 @@ use Intervention\Image\Typography\TextBlock;
 
 class TextBlockTest extends TestCase
 {
-    protected function getTestBlock(): TextBlock
+    protected TextBlock $block;
+
+    public function setUp(): void
     {
-        return new TextBlock(<<<EOF
+        $this->block = new TextBlock(<<<EOF
             foo
             FooBar
             bar
             EOF);
     }
 
-    public function testConstructor(): void
+    public function testCount(): void
     {
-        $block = $this->getTestBlock();
-        $this->assertInstanceOf(TextBlock::class, $block);
-        $this->assertEquals(3, $block->count());
+        $this->assertEquals(3, $this->block->count());
     }
 
     public function testLines(): void
     {
-        $block = $this->getTestBlock();
-        $this->assertCount(3, $block->lines());
+        $this->assertCount(3, $this->block->lines());
     }
 
     public function testGetLine(): void
     {
-        $block = $this->getTestBlock();
-        $this->assertEquals('foo', $block->line(0));
-        $this->assertEquals('FooBar', $block->line(1));
-        $this->assertEquals('bar', $block->line(2));
-        $this->assertNull($block->line(20));
+        $this->assertEquals('foo', $this->block->line(0));
+        $this->assertEquals('FooBar', $this->block->line(1));
+        $this->assertEquals('bar', $this->block->line(2));
+        $this->assertNull($this->block->line(20));
     }
 
     public function testLongestLine(): void
     {
-        $block = $this->getTestBlock();
-        $result = $block->longestLine();
+        $result = $this->block->longestLine();
         $this->assertEquals('FooBar', (string) $result);
     }
 }

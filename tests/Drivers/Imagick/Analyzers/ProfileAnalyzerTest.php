@@ -14,7 +14,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
  * @covers \Intervention\Image\Analyzers\ProfileAnalyzer
  * @covers \Intervention\Image\Drivers\Imagick\Analyzers\ProfileAnalyzer
  */
-class ProfleAnalyzerTest extends TestCase
+class ProfileAnalyzerTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

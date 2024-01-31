@@ -109,6 +109,14 @@ class ImageManagerTest extends TestCase
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
+    /** @requires extension gd */
+    public function testReadGdWithRotationAdjustment(): void
+    {
+        $manager = new ImageManager(GdDriver::class);
+        $image = $manager->read(__DIR__ . '/images/orientation.jpg');
+        $this->assertColor(255, 255, 255, 255, $image->pickColor(0, 24));
+    }
+
     /** @requires extension imagick */
     public function testCreateImagick()
     {
@@ -173,5 +181,13 @@ class ImageManagerTest extends TestCase
         $manager = new ImageManager(ImagickDriver::class);
         $image = $manager->read(__DIR__ . '/images/red.gif', [new BinaryImageDecoder(), new FilePathImageDecoder()]);
         $this->assertInstanceOf(ImageInterface::class, $image);
+    }
+
+    /** @requires extension imagick */
+    public function testReadImagickWithRotationAdjustment(): void
+    {
+        $manager = new ImageManager(ImagickDriver::class);
+        $image = $manager->read(__DIR__ . '/images/orientation.jpg');
+        $this->assertColor(255, 255, 255, 255, $image->pickColor(0, 24));
     }
 }

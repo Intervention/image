@@ -29,7 +29,6 @@ class Ellipse implements DrawableInterface
     ) {
     }
 
-
     /**
      * {@inheritdoc}
      *

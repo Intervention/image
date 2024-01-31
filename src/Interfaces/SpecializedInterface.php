@@ -29,5 +29,5 @@ interface SpecializedInterface
      * @param DriverInterface $driver
      * @return SpecializedInterface
      */
-    public static function buildSpecialized(object $generic, DriverInterface $driver): SpecializedInterface;
+    public static function buildSpecialized(object $generic, DriverInterface $driver): self;
 }

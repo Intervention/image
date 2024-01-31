@@ -26,7 +26,7 @@ class ColorProcessor implements ColorProcessorInterface
 
     public function nativeToColor(mixed $native): ColorInterface
     {
-        return match (get_class($this->colorspace)) {
+        return match ($this->colorspace::class) {
             CmykColorspace::class => $this->colorspace->colorFromNormalized([
                 $native->getColorValue(Imagick::COLOR_CYAN),
                 $native->getColorValue(Imagick::COLOR_MAGENTA),

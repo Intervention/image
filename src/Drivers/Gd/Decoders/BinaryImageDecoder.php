@@ -4,15 +4,11 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
-use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Drivers\Gd\Core;
 use Intervention\Image\Drivers\Gd\Decoders\Traits\CanDecodeGif;
-use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Exceptions\DecoderException;
-use Intervention\Image\Image;
 use Intervention\Image\Modifiers\AlignRotationModifier;
 
 class BinaryImageDecoder extends GdImageDecoder implements DecoderInterface

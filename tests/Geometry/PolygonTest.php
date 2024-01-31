@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Geometry;
 
-use Intervention\Image\Geometry\{Point, Polygon};
-use Intervention\Image\Interfaces\PointInterface;
+use Intervention\Image\Geometry\Point;
+use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Tests\TestCase;
 
 /**

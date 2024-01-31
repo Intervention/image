@@ -38,7 +38,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param Origin $origin
      * @return ImageInterface
      */
-    public function setOrigin(Origin $origin): ImageInterface;
+    public function setOrigin(Origin $origin): self;
 
     /**
      * Return width of current image
@@ -76,7 +76,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|string $path
      * @return ImageInterface
      */
-    public function save(?string $path = null, ...$options): ImageInterface;
+    public function save(?string $path = null, ...$options): self;
 
     /**
      * Apply given modifier to current image
@@ -84,7 +84,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param ModifierInterface $modifier
      * @return ImageInterface
      */
-    public function modify(ModifierInterface $modifier): ImageInterface;
+    public function modify(ModifierInterface $modifier): self;
 
     /**
      * Analyzer current image with given analyzer
@@ -112,7 +112,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int|string $position
      * @return ImageInterface
      */
-    public function removeAnimation(int|string $position = 0): ImageInterface;
+    public function removeAnimation(int|string $position = 0): self;
 
     /**
      * Extract animation frames based on given values and discard the rest
@@ -121,7 +121,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|int $length
      * @return ImageInterface
      */
-    public function sliceAnimation(int $offset = 0, ?int $length = null): ImageInterface;
+    public function sliceAnimation(int $offset = 0, ?int $length = null): self;
 
     /**
      * Return loop count of animated image
@@ -136,7 +136,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $loops
      * @return ImageInterface
      */
-    public function setLoops(int $loops): ImageInterface;
+    public function setLoops(int $loops): self;
 
     /**
      * Return exif data of current image
@@ -151,7 +151,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param CollectionInterface $exif
      * @return ImageInterface
      */
-    public function setExif(CollectionInterface $exif): ImageInterface;
+    public function setExif(CollectionInterface $exif): self;
 
     /**
      * Return image resolution/density
@@ -167,7 +167,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param float $y
      * @return ImageInterface
      */
-    public function setResolution(float $x, float $y): ImageInterface;
+    public function setResolution(float $x, float $y): self;
 
     /**
      * Get the colorspace of the image
@@ -182,7 +182,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param string|ColorspaceInterface $colorspace
      * @return ImageInterface
      */
-    public function setColorspace(string|ColorspaceInterface $colorspace): ImageInterface;
+    public function setColorspace(string|ColorspaceInterface $colorspace): self;
 
     /**
      * Return color of pixel at given position on given frame position
@@ -218,7 +218,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param mixed $color
      * @return ImageInterface
      */
-    public function setBlendingColor(mixed $color): ImageInterface;
+    public function setBlendingColor(mixed $color): self;
 
     /**
      * Replace transparent areas of the image with given color
@@ -226,7 +226,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param mixed $color
      * @return ImageInterface
      */
-    public function blendTransparency(mixed $color = null): ImageInterface;
+    public function blendTransparency(mixed $color = null): self;
 
     /**
      * Retrieve ICC color profile of image
@@ -241,14 +241,14 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param ProfileInterface $profile
      * @return ImageInterface
      */
-    public function setProfile(ProfileInterface $profile): ImageInterface;
+    public function setProfile(ProfileInterface $profile): self;
 
     /**
      * Remove ICC color profile from the current image
      *
      * @return ImageInterface
      */
-    public function removeProfile(): ImageInterface;
+    public function removeProfile(): self;
 
     /**
      * Apply color quantization to the current image
@@ -257,7 +257,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param mixed $background
      * @return ImageInterface
      */
-    public function reduceColors(int $limit, mixed $background = 'transparent'): ImageInterface;
+    public function reduceColors(int $limit, mixed $background = 'transparent'): self;
 
     /**
      * Sharpen the current image with given strength
@@ -265,14 +265,14 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $amount
      * @return ImageInterface
      */
-    public function sharpen(int $amount = 10): ImageInterface;
+    public function sharpen(int $amount = 10): self;
 
     /**
      * Turn image into a greyscale version
      *
      * @return ImageInterface
      */
-    public function greyscale(): ImageInterface;
+    public function greyscale(): self;
 
     /**
      * Adjust brightness of the current image
@@ -280,7 +280,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $level
      * @return ImageInterface
      */
-    public function brightness(int $level): ImageInterface;
+    public function brightness(int $level): self;
 
     /**
      * Adjust color contrast of the current image
@@ -288,7 +288,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $level
      * @return ImageInterface
      */
-    public function contrast(int $level): ImageInterface;
+    public function contrast(int $level): self;
 
     /**
      * Apply gamma correction on the current image
@@ -296,7 +296,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param float $gamma
      * @return ImageInterface
      */
-    public function gamma(float $gamma): ImageInterface;
+    public function gamma(float $gamma): self;
 
     /**
      * Adjust the intensity of the RGB color channels
@@ -306,21 +306,21 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $blue
      * @return ImageInterface
      */
-    public function colorize(int $red = 0, int $green = 0, int $blue = 0): ImageInterface;
+    public function colorize(int $red = 0, int $green = 0, int $blue = 0): self;
 
     /**
      * Mirror the current image horizontally
      *
      * @return ImageInterface
      */
-    public function flip(): ImageInterface;
+    public function flip(): self;
 
     /**
      * Mirror the current image vertically
      *
      * @return ImageInterface
      */
-    public function flop(): ImageInterface;
+    public function flop(): self;
 
     /**
      * Blur current image by given strength
@@ -328,14 +328,14 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $amount
      * @return ImageInterface
      */
-    public function blur(int $amount = 5): ImageInterface;
+    public function blur(int $amount = 5): self;
 
     /**
      * Invert the colors of the current image
      *
      * @return ImageInterface
      */
-    public function invert(): ImageInterface;
+    public function invert(): self;
 
     /**
      * Apply pixelation filter effect on current image
@@ -343,7 +343,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $size
      * @return ImageInterface
      */
-    public function pixelate(int $size): ImageInterface;
+    public function pixelate(int $size): self;
 
     /**
      * Rotate current image by given angle
@@ -352,7 +352,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param string $background
      * @return ImageInterface
      */
-    public function rotate(float $angle, mixed $background = 'ffffff'): ImageInterface;
+    public function rotate(float $angle, mixed $background = 'ffffff'): self;
 
     /**
      * Draw text on image
@@ -363,7 +363,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param callable|FontInterface $font
      * @return ImageInterface
      */
-    public function text(string $text, int $x, int $y, callable|FontInterface $font): ImageInterface;
+    public function text(string $text, int $x, int $y, callable|FontInterface $font): self;
 
     /**
      * Resize image to the given width and/or height
@@ -372,7 +372,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|int $height
      * @return ImageInterface
      */
-    public function resize(?int $width = null, ?int $height = null): ImageInterface;
+    public function resize(?int $width = null, ?int $height = null): self;
 
     /**
      * Resize image to the given width and/or height without exceeding the original dimensions
@@ -381,7 +381,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|int $height
      * @return ImageInterface
      */
-    public function resizeDown(?int $width = null, ?int $height = null): ImageInterface;
+    public function resizeDown(?int $width = null, ?int $height = null): self;
 
     /**
      * Resize image to the given width and/or height and keep the original aspect ratio
@@ -390,7 +390,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|int $height
      * @return ImageInterface
      */
-    public function scale(?int $width = null, ?int $height = null): ImageInterface;
+    public function scale(?int $width = null, ?int $height = null): self;
 
     /**
      * Resize image to the given width and/or height, keep the original aspect ratio
@@ -400,7 +400,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|int $height
      * @return ImageInterface
      */
-    public function scaleDown(?int $width = null, ?int $height = null): ImageInterface;
+    public function scaleDown(?int $width = null, ?int $height = null): self;
 
     /**
      * Takes the given dimensions and scales it to the largest possible size matching
@@ -412,7 +412,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param string $position
      * @return ImageInterface
      */
-    public function cover(int $width, int $height, string $position = 'center'): ImageInterface;
+    public function cover(int $width, int $height, string $position = 'center'): self;
 
     /**
      * Same as cover() but do not exceed the original image size
@@ -422,7 +422,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param string $position
      * @return ImageInterface
      */
-    public function coverDown(int $width, int $height, string $position = 'center'): ImageInterface;
+    public function coverDown(int $width, int $height, string $position = 'center'): self;
 
     /**
      * Resize the boundaries of the current image to given width and height.
@@ -441,7 +441,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         ?int $height = null,
         mixed $background = 'ffffff',
         string $position = 'center'
-    ): ImageInterface;
+    ): self;
 
     /**
      * Resize canvas in the same way as resizeCanvas() but takes relative values
@@ -459,7 +459,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         ?int $height = null,
         mixed $background = 'ffffff',
         string $position = 'center'
-    ): ImageInterface;
+    ): self;
 
     /**
      * Padded resizing means that the original image is scaled until it fits the
@@ -481,7 +481,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         int $height,
         mixed $background = 'ffffff',
         string $position = 'center'
-    ): ImageInterface;
+    ): self;
 
     /**
      * This method does the same as pad(), but the original image is also scaled
@@ -498,7 +498,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         int $height,
         mixed $background = 'ffffff',
         string $position = 'center'
-    ): ImageInterface;
+    ): self;
 
     /**
      * Cut out a rectangular part of the current image with given width and
@@ -520,7 +520,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         int $offset_y = 0,
         mixed $background = 'ffffff',
         string $position = 'top-left'
-    ): ImageInterface;
+    ): self;
 
     /**
      * Place another image into the current image instance
@@ -538,7 +538,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         int $offset_x = 0,
         int $offset_y = 0,
         int $opacity = 100
-    ): ImageInterface;
+    ): self;
 
     /**
      * Fill image with given color
@@ -555,7 +555,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|int $y
      * @return ImageInterface
      */
-    public function fill(mixed $color, ?int $x = null, ?int $y = null): ImageInterface;
+    public function fill(mixed $color, ?int $x = null, ?int $y = null): self;
 
     /**
      * Draw a single pixel at given position defined by the coordinates x and y in a given color.
@@ -565,7 +565,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param mixed $color
      * @return ImageInterface
      */
-    public function drawPixel(int $x, int $y, mixed $color): ImageInterface;
+    public function drawPixel(int $x, int $y, mixed $color): self;
 
     /**
      * Draw a rectangle on the current image
@@ -575,7 +575,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param callable $init
      * @return ImageInterface
      */
-    public function drawRectangle(int $x, int $y, callable $init): ImageInterface;
+    public function drawRectangle(int $x, int $y, callable $init): self;
 
     /**
      * Draw ellipse on the current image
@@ -585,7 +585,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param callable $init
      * @return ImageInterface
      */
-    public function drawEllipse(int $x, int $y, callable $init): ImageInterface;
+    public function drawEllipse(int $x, int $y, callable $init): self;
 
     /**
      * Draw circle on the current image
@@ -595,7 +595,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param callable $init
      * @return ImageInterface
      */
-    public function drawCircle(int $x, int $y, callable $init): ImageInterface;
+    public function drawCircle(int $x, int $y, callable $init): self;
 
     /**
      * Draw a polygon on the current image
@@ -603,7 +603,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param callable $init
      * @return ImageInterface
      */
-    public function drawPolygon(callable $init): ImageInterface;
+    public function drawPolygon(callable $init): self;
 
     /**
      * Draw a line on the current image
@@ -611,7 +611,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param callable $init
      * @return ImageInterface
      */
-    public function drawLine(callable $init): ImageInterface;
+    public function drawLine(callable $init): self;
 
     /**
      * Encode image to given media (mime) type. If no type is given the image

@@ -17,7 +17,7 @@ abstract class AbstractDecoder extends DriverSpecialized implements DecoderInter
 {
     use CanBuildFilePointer;
 
-    public function __construct(protected ?AbstractDecoder $successor = null)
+    public function __construct(protected ?self $successor = null)
     {
     }
 

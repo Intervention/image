@@ -14,7 +14,7 @@ interface ColorInterface
      * @return ColorInterface
      * @throws \Intervention\Image\Exceptions\DecoderException
      */
-    public static function create(mixed $input): ColorInterface;
+    public static function create(mixed $input): self;
 
     /**
      * Return colorspace of current color
@@ -71,7 +71,7 @@ interface ColorInterface
      *
      * @return ColorInterface
      */
-    public function convertTo(string|ColorspaceInterface $colorspace): ColorInterface;
+    public function convertTo(string|ColorspaceInterface $colorspace): self;
 
     /**
      * Determine if the current color is gray

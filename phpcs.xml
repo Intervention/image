@@ -3,15 +3,15 @@
 
   <rule ref="PSR12"/>
 
-  <!-- <rule ref="Generic.Arrays.ArrayIndent"/>  -->
+  <rule ref="Generic.Arrays.ArrayIndent"/>
   <rule ref="Generic.ControlStructures.InlineControlStructure"/>
   <rule ref="Generic.Formatting.SpaceAfterCast"/>
 
-  <!-- <rule ref="Generic.Formatting.SpaceAfterNot"> -->
-  <!--   <properties> -->
-  <!--     <property name="spacing" value="0" /> -->
-  <!--   </properties> -->
-  <!-- </rule> -->
+  <rule ref="Generic.Formatting.SpaceAfterNot">
+    <properties>
+      <property name="spacing" value="0" />
+    </properties>
+  </rule>
 
   <rule ref="Generic.Metrics.NestingLevel"/>
 
@@ -19,11 +19,11 @@
   <rule ref="SlevomatCodingStandard.Classes.ClassConstantVisibility"/>
   <rule ref="SlevomatCodingStandard.Classes.ClassMemberSpacing"/>
   <!-- <rule ref="SlevomatCodingStandard.Classes.ClassStructure"/> -->
-  <!-- <rule ref="SlevomatCodingStandard.Classes.ConstantSpacing"/> -->
-  <!-- <rule ref="SlevomatCodingStandard.Classes.MethodSpacing"/> -->
+  <rule ref="SlevomatCodingStandard.Classes.ConstantSpacing"/>
+  <rule ref="SlevomatCodingStandard.Classes.MethodSpacing"/>
   <!-- <rule ref="SlevomatCodingStandard.Classes.ModernClassNameReference"/> -->
-  <!-- <rule ref="SlevomatCodingStandard.Classes.ParentCallSpacing"/> -->
-  <!-- <rule ref="SlevomatCodingStandard.Classes.PropertyDeclaration"/> -->
+  <rule ref="SlevomatCodingStandard.Classes.ParentCallSpacing"/>
+  <rule ref="SlevomatCodingStandard.Classes.PropertyDeclaration"/>
   <!-- <rule ref="SlevomatCodingStandard.Classes.RequireSelfReference"/> -->
   <rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
     <properties>

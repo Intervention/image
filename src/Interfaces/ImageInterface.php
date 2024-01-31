@@ -160,7 +160,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      */
     public function resolution(): ResolutionInterface;
 
-
     /**
      * Set image resolution
      *

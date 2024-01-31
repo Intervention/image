@@ -112,7 +112,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
         }
 
         $positions = array_values($this->items);
-        if (! array_key_exists($key, $positions)) {
+        if (!array_key_exists($key, $positions)) {
             return $default;
         }
 

@@ -41,7 +41,7 @@ class ColorProcessor implements ColorProcessorInterface
 
     public function nativeToColor(mixed $value): ColorInterface
     {
-        if (! is_int($value)) {
+        if (!is_int($value)) {
             throw new ColorException('GD driver can only decode colors in integer format.');
         }
 

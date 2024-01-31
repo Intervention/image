@@ -1,27 +1,26 @@
 <?xml version="1.0"?>
-<ruleset name="Intervention/image">
+<ruleset name="Intervention">
+  <file>src/</file>
+  <file>tests/</file>
+  <arg name="colors"/>
+  <arg value="p"/>
 
   <rule ref="PSR12"/>
-
   <rule ref="Generic.Arrays.ArrayIndent"/>
   <rule ref="Generic.ControlStructures.InlineControlStructure"/>
   <rule ref="Generic.Formatting.SpaceAfterCast"/>
-
   <rule ref="Generic.Formatting.SpaceAfterNot">
     <properties>
       <property name="spacing" value="0" />
     </properties>
   </rule>
-
   <rule ref="Generic.Metrics.NestingLevel"/>
-
   <rule ref="SlevomatCodingStandard.Arrays.SingleLineArrayWhitespace"/>
   <rule ref="SlevomatCodingStandard.Classes.ClassConstantVisibility"/>
   <rule ref="SlevomatCodingStandard.Classes.ClassMemberSpacing"/>
-  <!-- <rule ref="SlevomatCodingStandard.Classes.ClassStructure"/> -->
   <rule ref="SlevomatCodingStandard.Classes.ConstantSpacing"/>
   <rule ref="SlevomatCodingStandard.Classes.MethodSpacing"/>
-  <!-- <rule ref="SlevomatCodingStandard.Classes.ModernClassNameReference"/> -->
+  <rule ref="SlevomatCodingStandard.Classes.ModernClassNameReference"/>
   <rule ref="SlevomatCodingStandard.Classes.ParentCallSpacing"/>
   <rule ref="SlevomatCodingStandard.Classes.PropertyDeclaration"/>
   <rule ref="SlevomatCodingStandard.Classes.RequireSelfReference"/>
@@ -54,10 +53,4 @@
   <rule ref="SlevomatCodingStandard.PHP.UselessSemicolon"/>
   <rule ref="SlevomatCodingStandard.Whitespaces.DuplicateSpaces"/>
   <rule ref="SlevomatCodingStandard.Variables.UnusedVariable"/>
-
-  <arg name="colors"/>
-  <arg value="p"/>
-
-  <file>src/</file>
-  <file>tests/</file>
 </ruleset>

@@ -37,10 +37,10 @@ class ColorspaceModifier extends DriverSpecialized implements ModifierInterface
 
     private function getImagickColorspace(ColorspaceInterface $colorspace): int
     {
-        if (!array_key_exists(get_class($colorspace), self::$mapping)) {
+        if (!array_key_exists($colorspace::class, self::$mapping)) {
             throw new NotSupportedException('Given colorspace is not supported.');
         }
 
-        return self::$mapping[get_class($colorspace)];
+        return self::$mapping[$colorspace::class];
     }
 }

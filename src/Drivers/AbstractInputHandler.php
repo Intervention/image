@@ -36,7 +36,7 @@ abstract class AbstractInputHandler implements InputHandlerInterface
     protected function chain(): AbstractDecoder
     {
         if (count($this->decoders) == 0) {
-            throw new DecoderException('No decoders found in ' . get_class($this));
+            throw new DecoderException('No decoders found in ' . $this::class);
         }
 
         // get instance of last decoder in stack

@@ -24,7 +24,7 @@ abstract class AbstractColor implements ColorInterface
     public function channel(string $classname): ColorChannelInterface
     {
         $channels = array_filter($this->channels(), function (ColorChannelInterface $channel) use ($classname) {
-            return get_class($channel) == $classname;
+            return $channel::class == $classname;
         });
 
         if (count($channels) == 0) {

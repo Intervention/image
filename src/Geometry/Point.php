@@ -116,7 +116,7 @@ class Point implements PointInterface
      * @param Point $pivot
      * @return Point
      */
-    public function rotate(float $angle, Point $pivot): self
+    public function rotate(float $angle, self $pivot): self
     {
         $sin = round(sin(deg2rad($angle)), 6);
         $cos = round(cos(deg2rad($angle)), 6);

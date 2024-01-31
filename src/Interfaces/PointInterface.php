@@ -27,5 +27,5 @@ interface PointInterface
      * @param int $y
      * @return PointInterface
      */
-    public function setPosition(int $x, int $y): PointInterface;
+    public function setPosition(int $x, int $y): self;
 }

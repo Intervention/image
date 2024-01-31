@@ -19,7 +19,7 @@ interface ResolutionInterface
      * @param float $x
      * @return ResolutionInterface
      */
-    public function setX(float $x): ResolutionInterface;
+    public function setX(float $x): self;
 
     /**
      * Return resolution on y-axis
@@ -34,21 +34,21 @@ interface ResolutionInterface
      * @param float $y
      * @return ResolutionInterface
      */
-    public function setY(float $y): ResolutionInterface;
+    public function setY(float $y): self;
 
     /**
      * Convert the resolution to DPI
      *
      * @return ResolutionInterface
      */
-    public function perInch(): ResolutionInterface;
+    public function perInch(): self;
 
     /**
      * Convert the resolution to DPCM
      *
      * @return ResolutionInterface
      */
-    public function perCm(): ResolutionInterface;
+    public function perCm(): self;
 
     /**
      * Return string representation of unit

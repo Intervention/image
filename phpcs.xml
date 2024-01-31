@@ -24,7 +24,7 @@
   <!-- <rule ref="SlevomatCodingStandard.Classes.ModernClassNameReference"/> -->
   <rule ref="SlevomatCodingStandard.Classes.ParentCallSpacing"/>
   <rule ref="SlevomatCodingStandard.Classes.PropertyDeclaration"/>
-  <!-- <rule ref="SlevomatCodingStandard.Classes.RequireSelfReference"/> -->
+  <rule ref="SlevomatCodingStandard.Classes.RequireSelfReference"/>
   <rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
     <properties>
       <property name="rootNamespaces" type="array">
@@ -33,24 +33,27 @@
       </property>
     </properties>
   </rule>
-  <!-- <rule ref="SlevomatCodingStandard.Namespaces.DisallowGroupUse"/> -->
-  <!-- <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses"/> -->
-  <!-- <rule ref="SlevomatCodingStandard.Namespaces.UseDoesNotStartWithBackslash"/> -->
-  <!-- <rule ref="SlevomatCodingStandard.Namespaces.UseFromSameNamespace"/> -->
-  <!-- <rule ref="SlevomatCodingStandard.Namespaces.UseSpacing"/> -->
-  <!-- <rule ref="SlevomatCodingStandard.Namespaces.UselessAlias"/> -->
-  <!-- <rule ref="SlevomatCodingStandard.Strings.DisallowVariableParsing"/> -->
+  <rule ref="SlevomatCodingStandard.Namespaces.DisallowGroupUse"/>
+  <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
+    <properties>
+      <property name="searchAnnotations" value="true" />
+    </properties>
+  </rule>
+  <rule ref="SlevomatCodingStandard.Namespaces.UseDoesNotStartWithBackslash"/>
+  <rule ref="SlevomatCodingStandard.Namespaces.UseFromSameNamespace"/>
+  <rule ref="SlevomatCodingStandard.Namespaces.UseSpacing"/>
+  <rule ref="SlevomatCodingStandard.Namespaces.UselessAlias"/>
+  <rule ref="SlevomatCodingStandard.Strings.DisallowVariableParsing"/>
   <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
     <properties>
       <property name="spacesCountAroundEqualsSign" value="0" />
     </properties>
   </rule>
-  <!-- <rule ref="SlevomatCodingStandard.TypeHints.LongTypeHints"/> -->
-  <!-- <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing"/> -->
-  <!-- <rule ref="SlevomatCodingStandard.PHP.UselessParentheses"/> -->
+  <rule ref="SlevomatCodingStandard.TypeHints.LongTypeHints"/>
+  <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing"/>
   <rule ref="SlevomatCodingStandard.PHP.UselessSemicolon"/>
-  <!-- <rule ref="SlevomatCodingStandard.Whitespaces.DuplicateSpaces"/> -->
-  <!-- <rule ref="SlevomatCodingStandard.Variables.UnusedVariable"/> -->
+  <rule ref="SlevomatCodingStandard.Whitespaces.DuplicateSpaces"/>
+  <rule ref="SlevomatCodingStandard.Variables.UnusedVariable"/>
 
   <arg name="colors"/>
   <arg value="p"/>

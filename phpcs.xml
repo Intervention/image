@@ -16,6 +16,7 @@
   </rule>
   <rule ref="Generic.Metrics.NestingLevel"/>
   <rule ref="SlevomatCodingStandard.Arrays.SingleLineArrayWhitespace"/>
+  <rule ref="SlevomatCodingStandard.Arrays.DisallowImplicitArrayCreation"/>
   <rule ref="SlevomatCodingStandard.Classes.ClassConstantVisibility"/>
   <rule ref="SlevomatCodingStandard.Classes.ClassMemberSpacing"/>
   <rule ref="SlevomatCodingStandard.Classes.ConstantSpacing"/>
@@ -24,6 +25,7 @@
   <rule ref="SlevomatCodingStandard.Classes.ParentCallSpacing"/>
   <rule ref="SlevomatCodingStandard.Classes.PropertyDeclaration"/>
   <rule ref="SlevomatCodingStandard.Classes.RequireSelfReference"/>
+  <rule ref="SlevomatCodingStandard.Classes.TraitUseDeclaration"/>
   <rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
     <properties>
       <property name="rootNamespaces" type="array">
@@ -33,6 +35,7 @@
     </properties>
   </rule>
   <rule ref="SlevomatCodingStandard.Namespaces.DisallowGroupUse"/>
+  <rule ref="SlevomatCodingStandard.Namespaces.MultipleUsesPerLine"/>
   <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
     <properties>
       <property name="searchAnnotations" value="true" />
@@ -49,8 +52,17 @@
     </properties>
   </rule>
   <rule ref="SlevomatCodingStandard.TypeHints.LongTypeHints"/>
+  <rule ref="SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue"/>
+  <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHintSpacing"/>
   <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing"/>
+  <rule ref="SlevomatCodingStandard.TypeHints.UnionTypeHintFormat">
+    <properties>
+      <property name="withSpaces" value="no" />
+      <property name="nullPosition" value="first" />
+    </properties>
+  </rule>
   <rule ref="SlevomatCodingStandard.PHP.UselessSemicolon"/>
   <rule ref="SlevomatCodingStandard.Whitespaces.DuplicateSpaces"/>
   <rule ref="SlevomatCodingStandard.Variables.UnusedVariable"/>
+  <rule ref="SlevomatCodingStandard.Variables.UselessVariable"/>
 </ruleset>

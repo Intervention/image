@@ -97,7 +97,7 @@ abstract class AbstractTextModifier extends DriverSpecialized implements Modifie
      * @param Point|null $pivot
      * @return Polygon
      */
-    public function boundingBox(TextBlock $block, Point $pivot = null): Polygon
+    public function boundingBox(TextBlock $block, ?Point $pivot = null): Polygon
     {
         $pivot = $pivot ? $pivot : new Point();
 

@@ -26,12 +26,10 @@ class BinaryImageDecoder extends GdImageDecoder implements DecoderInterface
             throw new DecoderException('Unable to decode input');
         }
 
-        $image = match ($this->isGifFormat($input)) {
+        return match ($this->isGifFormat($input)) {
             true => $this->decodeGif($input),
             default => $this->decodeBinary($input),
         };
-
-        return $image;
     }
 
     /**

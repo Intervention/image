@@ -12,7 +12,7 @@ interface ColorChannelInterface
      * @param int|null $value
      * @param float|null $normalized
      */
-    public function __construct(int $value = null, float $normalized = null);
+    public function __construct(?int $value = null, ?float $normalized = null);
 
     /**
      * Return color channels integer value

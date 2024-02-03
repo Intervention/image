@@ -10,7 +10,6 @@ use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\FontInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Typography\TextBlock;
-use Intervention\Image\Typography\Line;
 
 /**
  * @property FontInterface $font
@@ -62,21 +61,25 @@ abstract class AbstractTextModifier extends DriverSpecialized implements Modifie
      * @param string $text
      * @return TextBlock
      */
-    public function alignedTextBlock(Point $position, string $text): TextBlock
+    public function alignedTextBlock(Point $position, string $text, ?int $width = null): TextBlock
     {
         $lines = new TextBlock($text);
+
+        // wrap lines
+        $lines = $lines->wrap($width);
+
         $boundingBox = $this->boundingBox($lines, $position);
         $pivot = $boundingBox->last();
 
         $leading = $this->leadingInPixels();
-        $blockWidth = $this->lineWidth($lines->longestLine());
+        $blockWidth = $this->boxSize((string) $lines->longestLine())->width();
 
         $x = $pivot->x();
         $y = $this->font->hasFilename() ? $pivot->y() + $this->capHeight() : $pivot->y();
         $x_adjustment = 0;
 
         foreach ($lines as $line) {
-            $line_width = $this->lineWidth($line);
+            $line_width = $this->boxSize((string) $line)->width();
             $x_adjustment = $this->font->alignment() == 'left' ? 0 : $blockWidth - $line_width;
             $x_adjustment = $this->font->alignment() == 'right' ? intval(round($x_adjustment)) : $x_adjustment;
             $x_adjustment = $this->font->alignment() == 'center' ? intval(round($x_adjustment / 2)) : $x_adjustment;
@@ -103,7 +106,7 @@ abstract class AbstractTextModifier extends DriverSpecialized implements Modifie
 
         // bounding box
         $box = (new Rectangle(
-            $this->lineWidth($block->longestLine()),
+            $this->boxSize((string) $block->longestLine())->width(),
             $this->leadingInPixels() * ($block->count() - 1) + $this->capHeight()
         ));
 
@@ -117,16 +120,5 @@ abstract class AbstractTextModifier extends DriverSpecialized implements Modifie
         $box->rotate($this->font->angle());
 
         return $box;
-    }
-
-    /**
-     * Calculates the width of the given line in pixels
-     *
-     * @param Line $line
-     * @return int
-     */
-    private function lineWidth(Line $line): int
-    {
-        return $this->boxSize((string) $line)->width();
     }
 }

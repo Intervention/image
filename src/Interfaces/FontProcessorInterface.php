@@ -16,8 +16,8 @@ interface FontProcessorInterface
     public function boxSize(string $text, FontInterface $font): SizeInterface;
 
     /**
-     * Build TextBlock object from text string and align every line
-     * according to text modifier's font object and position.
+     * Build TextBlock object from text string and align every line according
+     * to text modifier's font object and position.
      *
      * @param string $text
      * @param FontInterface $font

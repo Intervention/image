@@ -9,6 +9,7 @@ use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\FontInterface;
 use Intervention\Image\Interfaces\FontProcessorInterface;
 use Intervention\Image\Interfaces\PointInterface;
+use Intervention\Image\Typography\Line;
 use Intervention\Image\Typography\TextBlock;
 
 abstract class AbstractFontProcessor implements FontProcessorInterface
@@ -20,7 +21,7 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
      */
     public function textBlock(string $text, FontInterface $font, PointInterface $position): TextBlock
     {
-        $lines = new TextBlock($text);
+        $lines = $this->wrapTextBlock(new TextBlock($text), $font);
         $pivot = $this->buildPivot($lines, $font, $position);
 
         $leading = $this->leading($font);
@@ -72,6 +73,58 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
     public function leading(FontInterface $font): int
     {
         return intval(round($this->typographicalSize($font) * $font->lineHeight()));
+    }
+
+    /**
+     * Reformat a text block by wrapping each line before the given maximum width
+     *
+     * @param TextBlock $block
+     * @param FontInterface $font
+     * @return TextBlock
+     */
+    protected function wrapTextBlock(TextBlock $block, FontInterface $font): TextBlock
+    {
+        $newLines = [];
+        foreach ($block as $line) {
+            foreach ($this->wrapLine($line, $font) as $newLine) {
+                $newLines[] = $newLine;
+            }
+        }
+
+        return $block->setLines($newLines);
+    }
+
+    /**
+     * Check if a line exceeds the given maximum width and wrap it if necessary.
+     * The output will be an array of formatted lines that are all within the
+     * maximum width.
+     *
+     * @param Line $line
+     * @param FontInterface $font
+     * @return array
+     */
+    protected function wrapLine(Line $line, FontInterface $font): array
+    {
+        // no wrap width - no wrapping
+        if (is_null($font->wrapWidth())) {
+            return [$line];
+        }
+
+        $wrapped = [];
+        $formatedLine = new Line();
+
+        foreach ($line as $word) {
+            if ($font->wrapWidth() >= $this->boxSize((string) $formatedLine . ' ' . $word, $font)->width()) {
+                $formatedLine->add($word);
+            } else {
+                $wrapped[] = $formatedLine;
+                $formatedLine = new Line($word);
+            }
+        }
+
+        $wrapped[] = $formatedLine;
+
+        return $wrapped;
     }
 
     /**

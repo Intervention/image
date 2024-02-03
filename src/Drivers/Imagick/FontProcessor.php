@@ -40,6 +40,11 @@ class FontProcessor extends AbstractFontProcessor
         );
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontProcessorInterface::nativeFontSize()
+     */
     public function nativeFontSize(FontInterface $font): float
     {
         return $font->size();

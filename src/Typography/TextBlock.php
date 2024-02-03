@@ -26,6 +26,19 @@ class TextBlock extends Collection
     }
 
     /**
+     * Set lines of the text block
+     *
+     * @param array $lines
+     * @return self
+     */
+    public function setLines(array $lines): self
+    {
+        $this->items = $lines;
+
+        return $this;
+    }
+
+    /**
      * Get line by given key
      *
      * @param mixed $key

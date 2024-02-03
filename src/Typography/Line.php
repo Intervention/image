@@ -10,6 +10,11 @@ use Intervention\Image\Interfaces\PointInterface;
 class Line
 {
     /**
+     * Segments (usually individual words) of the line
+     */
+    protected array $segments = [];
+
+    /**
      * Create new text line object with given text & position
      *
      * @param string $text
@@ -17,9 +22,10 @@ class Line
      * @return void
      */
     public function __construct(
-        protected string $text,
+        string $text,
         protected PointInterface $position = new Point()
     ) {
+        $this->segments = explode(" ", $text);
     }
 
     /**
@@ -46,12 +52,22 @@ class Line
     }
 
     /**
+     * Count segments of line
+     *
+     * @return int
+     */
+    public function count(): int
+    {
+        return count($this->segments);
+    }
+
+    /**
      * Cast line to string
      *
      * @return string
      */
     public function __toString(): string
     {
-        return $this->text;
+        return implode(" ", $this->segments);
     }
 }

@@ -32,4 +32,13 @@ class LineTest extends TestCase
         $this->assertEquals(10, $line->position()->x());
         $this->assertEquals(11, $line->position()->y());
     }
+
+    public function testCount(): void
+    {
+        $line = new Line("foo");
+        $this->assertEquals(1, $line->count());
+
+        $line = new Line("foo bar");
+        $this->assertEquals(2, $line->count());
+    }
 }

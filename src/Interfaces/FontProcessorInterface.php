@@ -49,7 +49,7 @@ interface FontProcessorInterface
     public function capHeight(FontInterface $font): int;
 
     /**
-     * Calculates typographical leanding
+     * Calculates typographical leading size
      *
      * @param FontInterface $font
      * @return int

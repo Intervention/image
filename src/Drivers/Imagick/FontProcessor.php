@@ -41,16 +41,6 @@ class FontProcessor extends AbstractFontProcessor
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @see FontProcessorInterface::nativeFontSize()
-     */
-    public function nativeFontSize(FontInterface $font): float
-    {
-        return $font->size();
-    }
-
-    /**
      * Imagick::annotateImage() needs an ImagickDraw object - this method takes
      * the font object as the base and adds an optional passed color to the new
      * ImagickDraw object.

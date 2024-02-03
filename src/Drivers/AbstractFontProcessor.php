@@ -48,6 +48,16 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
     /**
      * {@inheritdoc}
      *
+     * @see FontProcessorInterface::nativeFontSize()
+     */
+    public function nativeFontSize(FontInterface $font): float
+    {
+        return $font->size();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see FontProcessorInterface::typographicalSize()
      */
     public function typographicalSize(FontInterface $font): int

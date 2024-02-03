@@ -57,7 +57,17 @@ class FontProcessor extends AbstractFontProcessor
      */
     public function nativeFontSize(FontInterface $font): float
     {
-        return floatval(ceil($font->size() * .75));
+        return floatval(round($font->size() * .76, 6));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontProcessorInterface::leading()
+     */
+    public function leading(FontInterface $font): int
+    {
+        return (int) round(parent::leading($font) * .8);
     }
 
     /**

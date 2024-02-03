@@ -62,7 +62,7 @@ class FontProcessorTest extends TestCase
     {
         $processor = new FontProcessor();
         $size = $processor->nativeFontSize(new Font('5'));
-        $this->assertEquals(9.0, $size);
+        $this->assertEquals(9.12, $size);
     }
 
     public function testTextBlock(): void
@@ -90,6 +90,6 @@ class FontProcessorTest extends TestCase
     {
         $processor = new FontProcessor();
         $result = $processor->leading(new Font());
-        $this->assertEquals(10, $result);
+        $this->assertEquals(8, $result);
     }
 }

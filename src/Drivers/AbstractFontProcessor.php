@@ -124,10 +124,19 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
         $formatedLine = new Line();
 
         foreach ($line as $word) {
-            if ($font->wrapWidth() >= $this->boxSize((string) $formatedLine . ' ' . $word, $font)->width()) {
+            // calculate width of newly formated line
+            $lineWidth = $this->boxSize(match ($formatedLine->count()) {
+                0 => $word,
+                default => (string) $formatedLine . ' ' . $word,
+            }, $font)->width();
+
+            // decide if word fits on current line or a new line must be created
+            if ($line->count() === 1 || $lineWidth <= $font->wrapWidth()) {
                 $formatedLine->add($word);
             } else {
-                $wrapped[] = $formatedLine;
+                if ($formatedLine->count()) {
+                    $wrapped[] = $formatedLine;
+                }
                 $formatedLine = new Line($word);
             }
         }

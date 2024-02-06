@@ -26,10 +26,27 @@ class TextModifier extends AbstractTextModifier
             $this->driver()->handleInput($this->font->color())
         );
 
+        $outlineColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+            $this->driver()->handleInput($this->font->strokeColor())
+        );
+        $outlineWidth = $this->font->strokeWidth();
+
         foreach ($image as $frame) {
             if ($this->font->hasFilename()) {
                 foreach ($lines as $line) {
                     imagealphablending($frame->native(), true);
+                    for ($ox = -$outlineWidth; $ox <= $outlineWidth; $ox++) {
+                        for ($oy = -$outlineWidth; $oy <= $outlineWidth; $oy++) {
+                            imagettftext(
+                                $frame->native(), 
+                                $this->adjustedFontSize(), 
+                                $this->font->angle() * -1, 
+                                $line->position()->x() + $ox, 
+                                $line->position()->y() + $oy, 
+                                $outlineColor, $this->font->filename(), 
+                                (string) $line);
+                        }
+                    }
                     imagettftext(
                         $frame->native(),
                         $this->adjustedFontSize(),
@@ -40,6 +57,9 @@ class TextModifier extends AbstractTextModifier
                         $this->font->filename(),
                         (string) $line
                     );
+
+                    
+
                 }
             } else {
                 foreach ($lines as $line) {

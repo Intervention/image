@@ -42,6 +42,19 @@ class FontFactory
 
         return $this;
     }
+    public function strokeWidth(mixed $width): self
+    {
+        $this->font->setStrokeWidth($width);
+
+        return $this;
+    }
+
+    public function strokeColor(mixed $color): self
+    {
+        $this->font->setStrokeColor($color);
+
+        return $this;
+    }
 
     public function size(float $value): self
     {

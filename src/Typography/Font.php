@@ -186,6 +186,11 @@ class Font implements FontInterface
         return $this->lineHeight;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::setWrapWidth()
+     */
     public function setWrapWidth(?int $width): FontInterface
     {
         $this->wrapWidth = $width;
@@ -193,6 +198,11 @@ class Font implements FontInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::wrapWidth()
+     */
     public function wrapWidth(): ?int
     {
         return $this->wrapWidth;

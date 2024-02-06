@@ -11,8 +11,8 @@ class Font implements FontInterface
     protected float $size = 12;
     protected float $angle = 0;
     protected mixed $color = '000000';
-    protected mixed $strokeWidth = 1;
-    protected mixed $strokeColor = '000000';
+    protected int $strokeWidth = 0;
+    protected mixed $strokeColor = 'ffffff';
     protected ?string $filename = null;
     protected string $alignment = 'left';
     protected string $valignment = 'bottom';
@@ -111,12 +111,23 @@ class Font implements FontInterface
         return $this;
     }
 
-    public function setStrokeWidth(mixed $width): FontInterface
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::setStrokeWidth()
+     */
+    public function setStrokeWidth(int $width): FontInterface
     {
         $this->strokeWidth = $width;
 
         return $this;
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::setStrokeColor()
+     */
     public function setStrokeColor(mixed $color): FontInterface
     {
         $this->strokeColor = $color;
@@ -134,10 +145,20 @@ class Font implements FontInterface
         return $this->color;
     }
 
-    public function strokeWidth(): mixed
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::strokeWidth()
+     */
+    public function strokeWidth(): int
     {
         return $this->strokeWidth;
     }
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::strokeColor()
+     */
     public function strokeColor(): mixed
     {
         return $this->strokeColor;

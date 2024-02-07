@@ -39,6 +39,7 @@ class TextModifier extends AbstractTextModifier
                         for ($oy = -$outlineWidth; $oy <= $outlineWidth; $oy++) {
                             if ($ox !== 0 || $oy !== 0) { // Skip drawing the main text
                                 imagealphablending($frame->native(), true);
+                                
                                 imagettftext(
                                     $frame->native(), 
                                     $this->adjustedFontSize(), 

@@ -59,7 +59,10 @@ class FontProcessor extends AbstractFontProcessor
         }
 
         $draw = new ImagickDraw();
+        $draw->setStrokeColor($font->strokeColor());
+        $draw->setStrokeWidth($font->strokeWidth());
         $draw->setStrokeAntialias(true);
+        
         $draw->setTextAntialias(true);
         $draw->setFont($font->filename());
         $draw->setFontSize($this->nativeFontSize($font));

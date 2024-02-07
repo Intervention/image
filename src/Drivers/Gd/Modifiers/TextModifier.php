@@ -34,21 +34,26 @@ class TextModifier extends AbstractTextModifier
         foreach ($image as $frame) {
             if ($this->font->hasFilename()) {
                 foreach ($lines as $line) {
-                    imagealphablending($frame->native(), true);
+                    // Draw the outline around the text
                     for ($ox = -$outlineWidth; $ox <= $outlineWidth; $ox++) {
                         for ($oy = -$outlineWidth; $oy <= $outlineWidth; $oy++) {
-                            if ($ox !== 0 || $oy !== 0) { // Skip drawing outline for the main text
+                            if ($ox !== 0 || $oy !== 0) { // Skip drawing the main text
+                                imagealphablending($frame->native(), true);
                                 imagettftext(
                                     $frame->native(), 
                                     $this->adjustedFontSize(), 
                                     $this->font->angle() * -1, 
                                     $line->position()->x() + $ox, 
                                     $line->position()->y() + $oy, 
-                                    $outlineColor, $this->font->filename(), 
-                                    (string) $line);
+                                    $outlineColor, 
+                                    $this->font->filename(), 
+                                    (string) $line
+                                );
                             }
                         }
                     }
+                    imagealphablending($frame->native(), true);
+                    // Draw the main text in the center
                     imagettftext(
                         $frame->native(),
                         $this->adjustedFontSize(),
@@ -59,10 +64,10 @@ class TextModifier extends AbstractTextModifier
                         $this->font->filename(),
                         (string) $line
                     );
-
-                    
-
                 }
+                
+                
+                
             } else {
                 foreach ($lines as $line) {
                     imagestring(

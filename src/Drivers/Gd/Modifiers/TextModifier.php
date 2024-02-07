@@ -37,14 +37,16 @@ class TextModifier extends AbstractTextModifier
                     imagealphablending($frame->native(), true);
                     for ($ox = -$outlineWidth; $ox <= $outlineWidth; $ox++) {
                         for ($oy = -$outlineWidth; $oy <= $outlineWidth; $oy++) {
-                            imagettftext(
-                                $frame->native(), 
-                                $this->adjustedFontSize(), 
-                                $this->font->angle() * -1, 
-                                $line->position()->x() + $ox, 
-                                $line->position()->y() + $oy, 
-                                $outlineColor, $this->font->filename(), 
-                                (string) $line);
+                            if ($ox !== 0 || $oy !== 0) { // Skip drawing outline for the main text
+                                imagettftext(
+                                    $frame->native(), 
+                                    $this->adjustedFontSize(), 
+                                    $this->font->angle() * -1, 
+                                    $line->position()->x() + $ox, 
+                                    $line->position()->y() + $oy, 
+                                    $outlineColor, $this->font->filename(), 
+                                    (string) $line);
+                            }
                         }
                     }
                     imagettftext(

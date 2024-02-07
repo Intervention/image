@@ -64,6 +64,13 @@ interface DriverInterface
     public function colorProcessor(ColorspaceInterface $colorspace): ColorProcessorInterface;
 
     /**
+     * Return font processor of the current driver
+     *
+     * @return FontProcessorInterface
+     */
+    public function fontProcessor(): FontProcessorInterface;
+
+    /**
      * Check whether all requirements for operating the driver are met and
      * throw exception if the check fails.
      *

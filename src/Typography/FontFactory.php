@@ -85,4 +85,11 @@ class FontFactory
 
         return $this;
     }
+
+    public function wrap(int $width): self
+    {
+        $this->font->setWrapWidth($width);
+
+        return $this;
+    }
 }

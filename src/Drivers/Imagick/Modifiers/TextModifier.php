@@ -4,35 +4,35 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
-use Imagick;
-use ImagickDraw;
-use ImagickDrawException;
-use ImagickException;
-use ImagickPixel;
-use Intervention\Image\Drivers\AbstractTextModifier;
+use Intervention\Image\Drivers\DriverSpecialized;
+use Intervention\Image\Drivers\Imagick\FontProcessor;
 use Intervention\Image\Exceptions\FontException;
 use Intervention\Image\Geometry\Point;
-use Intervention\Image\Geometry\Polygon;
-use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\FontInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\ModifierInterface;
 
 /**
  * @property Point $position
  * @property string $text
  * @property FontInterface $font
  */
-class TextModifier extends AbstractTextModifier
+class TextModifier extends DriverSpecialized implements ModifierInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
-        $lines = $this->alignedTextBlock($this->position, $this->text);
-
+        $fontProcessor = $this->processor();
+        $lines = $fontProcessor->textBlock($this->text, $this->font, $this->position);
         $color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
             $this->driver()->handleInput($this->font->color())
         );
 
-        $draw = $this->toImagickDraw($color);
+        $draw = $fontProcessor->toImagickDraw($this->font, $color);
 
         foreach ($image as $frame) {
             foreach ($lines as $line) {
@@ -50,56 +50,18 @@ class TextModifier extends AbstractTextModifier
     }
 
     /**
-     * {@inheritdoc}
+     * Return imagick font processor
      *
-     * @see AbstractTextModifier::boxSize()
+     * @return FontProcessor
      */
-    protected function boxSize(string $text): Polygon
+    private function processor(): FontProcessor
     {
-        // no text - no box size
-        if (mb_strlen($text) === 0) {
-            return (new Rectangle(0, 0));
+        $processor = $this->driver()->fontProcessor();
+
+        if (!($processor instanceof FontProcessor)) {
+            throw new FontException('Font processor does not match the driver.');
         }
 
-        $draw = $this->toImagickDraw();
-        $draw->setStrokeAntialias(true);
-        $draw->setTextAntialias(true);
-        $dimensions = (new Imagick())->queryFontMetrics($draw, $text);
-
-        return (new Rectangle(
-            intval(round($dimensions['textWidth'])),
-            intval(round($dimensions['ascender'] + $dimensions['descender'])),
-        ));
-    }
-
-    /**
-     * Imagick::annotateImage() needs an ImagickDraw object - this method takes
-     * the text color as the base and adds the text modifiers font settings
-     * to the new ImagickDraw object.
-     *
-     * @param null|ImagickPixel $color
-     * @return ImagickDraw
-     * @throws FontException
-     * @throws ImagickDrawException
-     * @throws ImagickException
-     */
-    private function toImagickDraw(?ImagickPixel $color = null): ImagickDraw
-    {
-        if (!$this->font->hasFilename()) {
-            throw new FontException('No font file specified.');
-        }
-
-        $draw = new ImagickDraw();
-        $draw->setStrokeAntialias(true);
-        $draw->setTextAntialias(true);
-        $draw->setFont($this->font->filename());
-        $draw->setFontSize($this->font->size());
-        $draw->setTextAlignment(Imagick::ALIGN_LEFT);
-
-        if ($color) {
-            $draw->setFillColor($color);
-        }
-
-        return $draw;
+        return $processor;
     }
 }

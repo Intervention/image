@@ -18,8 +18,8 @@ class LineTest extends TestCase
 
     public function testToString(): void
     {
-        $line = new Line('foo');
-        $this->assertEquals('foo', (string) $line);
+        $line = new Line('foo bar');
+        $this->assertEquals('foo bar', (string) $line);
     }
 
     public function testSetGetPosition(): void
@@ -31,5 +31,31 @@ class LineTest extends TestCase
         $line->setPosition(new Point(10, 11));
         $this->assertEquals(10, $line->position()->x());
         $this->assertEquals(11, $line->position()->y());
+    }
+
+    public function testCount(): void
+    {
+        $line = new Line();
+        $this->assertEquals(0, $line->count());
+
+        $line = new Line("foo");
+        $this->assertEquals(1, $line->count());
+
+        $line = new Line("foo bar");
+        $this->assertEquals(2, $line->count());
+    }
+
+    public function testAdd(): void
+    {
+        $line = new Line();
+        $this->assertEquals(0, $line->count());
+
+        $result = $line->add('foo');
+        $this->assertEquals(1, $line->count());
+        $this->assertEquals(1, $result->count());
+
+        $result = $line->add('bar');
+        $this->assertEquals(2, $line->count());
+        $this->assertEquals(2, $result->count());
     }
 }

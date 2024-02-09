@@ -52,14 +52,14 @@ class FontProcessor extends AbstractFontProcessor
      * @throws ImagickDrawException
      * @throws ImagickException
      */
-    public function toImagickDraw(FontInterface $font, ?ImagickPixel $color = null): ImagickDraw
+    public function toImagickDraw(FontInterface $font, ?ImagickPixel $color = null, ?ImagickPixel $strokeColor = null): ImagickDraw
     {
         if (!$font->hasFilename()) {
             throw new FontException('No font file specified.');
         }
 
         $draw = new ImagickDraw();
-        $draw->setStrokeColor($font->strokeColor());
+        $draw->setStrokeColor($strokeColor);
         $draw->setStrokeWidth($font->strokeWidth());
         $draw->setStrokeAntialias(true);
         

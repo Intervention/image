@@ -31,8 +31,11 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
         $color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
             $this->driver()->handleInput($this->font->color())
         );
+        $strokeColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+            $this->driver()->handleInput($this->font->strokeColor())
+        );
 
-        $draw = $fontProcessor->toImagickDraw($this->font, $color);
+        $draw = $fontProcessor->toImagickDraw($this->font, $color, $strokeColor);
 
         foreach ($image as $frame) {
             foreach ($lines as $line) {

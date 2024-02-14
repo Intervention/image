@@ -30,8 +30,6 @@ class FontProcessor extends AbstractFontProcessor
         }
 
         $draw = $this->toImagickDraw($font);
-        $draw->setStrokeAntialias(true);
-        $draw->setTextAntialias(true);
         $dimensions = (new Imagick())->queryFontMetrics($draw, $text);
 
         return new Rectangle(

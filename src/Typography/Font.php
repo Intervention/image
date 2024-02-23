@@ -12,7 +12,7 @@ class Font implements FontInterface
     protected float $angle = 0;
     protected mixed $color = '000000';
     protected mixed $strokeColor = 'ffffff';
-    protected ?int $strokeWidth = 0;
+    protected int $strokeWidth = 0;
     protected ?string $filename = null;
     protected string $alignment = 'left';
     protected string $valignment = 'bottom';

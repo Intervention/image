@@ -129,7 +129,7 @@ class Font implements FontInterface
      */
     public function setStrokeColor(mixed $color): FontInterface
     {
-        $this->strokeColor = $strokeColor;
+        $this->strokeColor = $color;
 
         return $this;
     }

@@ -50,7 +50,7 @@ interface FontInterface
      *
      * @return int
      */
-    public function strokeWidth(): ?int;
+    public function strokeWidth(): int;
 
     /**
      * Set font size

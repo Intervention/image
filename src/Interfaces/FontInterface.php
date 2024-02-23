@@ -40,7 +40,7 @@ interface FontInterface
     /**
      * Set stroke width of font
      *
-     * @param mixed $strokeWidth
+     * @param int $strokeWidth
      * @return FontInterface
      */
     public function setStrokeWidth(?int $strokeWidth): self;
@@ -48,7 +48,7 @@ interface FontInterface
     /**
      * Get stroke width of font
      *
-     * @return mixed
+     * @return int
      */
     public function strokeWidth(): ?int;
 

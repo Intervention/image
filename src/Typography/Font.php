@@ -162,7 +162,7 @@ class Font implements FontInterface
      *
      * @see FontInterface::strokeWidth()
      */
-    public function strokeWidth(): ?int
+    public function strokeWidth(): int
     {
         return $this->strokeWidth;
     }

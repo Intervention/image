@@ -27,7 +27,7 @@ interface FontInterface
      * @param mixed $strokeColor
      * @return FontInterface
      */
-    public function setStrokeColor(mixed $strokeColor): self;
+    public function setStrokeColor(mixed $color): self;
 
     /**
      * Get stroke color of font

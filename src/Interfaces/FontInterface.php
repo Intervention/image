@@ -20,6 +20,7 @@ interface FontInterface
      * @return mixed
      */
     public function color(): mixed;
+    public function strokeWidth(): ?int;
 
     /**
      * Set font size

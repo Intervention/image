@@ -29,11 +29,36 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
         $color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
             $this->driver()->handleInput($this->font->color())
         );
-
+        
+        $strokeWidth = $this->font->strokeWidth();
+        $strokeColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+            $this->driver()->handleInput( 'red' )
+        );
+    
         foreach ($image as $frame) {
             if ($this->font->hasFilename()) {
                 foreach ($lines as $line) {
                     imagealphablending($frame->native(), true);
+                    
+                    if ( $strokeWidth > 0 )
+                    {
+                        for ($x = -1; $x <= 1; $x++) {
+                            for ($y = -1; $y <= 1; $y++) {
+                                
+                                imagettftext(
+                                    $frame->native(),
+                                    $fontProcessor->nativeFontSize($this->font),
+                                    $this->font->angle() * -1,
+                                    $line->position()->x() + $x * $strokeWidth,
+                                    $line->position()->y() + $y * $strokeWidth,
+                                    $strokeColor,
+                                    $this->font->filename(),
+                                    (string) $line
+                                );
+                            }
+                        }
+                    }
+                    
                     imagettftext(
                         $frame->native(),
                         $fontProcessor->nativeFontSize($this->font),
@@ -44,9 +69,28 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
                         $this->font->filename(),
                         (string) $line
                     );
+                    
                 }
             } else {
                 foreach ($lines as $line) {
+                    
+                    if ( $strokeWidth > 0 )
+                    {
+                        for ($x = -1; $x <= 1; $x++) {
+                            for ($y = -1; $y <= 1; $y++) {
+                                
+                                imagestring(
+                                    $frame->native(),
+                                    $this->gdFont(),
+                                    $line->position()->x() + $x * $strokeWidth,
+                                    $line->position()->y() + $y * $strokeWidth,
+                                    (string) $line,
+                                    $color
+                                );
+                            }
+                        }
+                    }
+                    
                     imagestring(
                         $frame->native(),
                         $this->gdFont(),

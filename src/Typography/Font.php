@@ -152,7 +152,7 @@ class Font implements FontInterface
      */
     public function setStrokeWidth(int $width): FontInterface
     {
-        $this->strokeWidth = $strokeWidth;
+        $this->strokeWidth = $width;
 
         return $this;
     }

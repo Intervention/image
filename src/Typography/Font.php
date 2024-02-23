@@ -127,7 +127,7 @@ class Font implements FontInterface
      *
      * @see FontInterface::setStrokeColor()
      */
-    public function setStrokeColor(mixed $strokeColor): FontInterface
+    public function setStrokeColor(mixed $color): FontInterface
     {
         $this->strokeColor = $strokeColor;
 

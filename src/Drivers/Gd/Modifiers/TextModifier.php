@@ -32,7 +32,7 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
         
         $strokeWidth = $this->font->strokeWidth();
         $strokeColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
-            $this->driver()->handleInput( 'red' )
+            $this->driver()->handleInput($this->font->strokeColor())
         );
     
         foreach ($image as $frame) {

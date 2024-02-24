@@ -31,14 +31,38 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
         $color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
             $this->driver()->handleInput($this->font->color())
         );
+        
+        $strokeLimit = $this->font->strokeLimit();
+        $strokeWidth = $this->font->strokeWidth();
         $strokeColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
             $this->driver()->handleInput($this->font->strokeColor())
         );
         
-        $draw = $fontProcessor->toImagickDraw($this->font, $color, $strokeColor );
+        if ( $strokeWidth && $strokeWidth > $strokeLimit )
+            $strokeWidth = $strokeLimit;
+        
+        $draw = $fontProcessor->toImagickDraw($this->font, $color);
 
         foreach ($image as $frame) {
             foreach ($lines as $line) {
+                
+                if ( $strokeColor && $strokeWidth > 0 )
+                {
+                    $drawStroke = $fontProcessor->toImagickDraw($this->font, $strokeColor);
+                    
+                    for ($x = -1; $x <= 1; $x++) {
+                        for ($y = -1; $y <= 1; $y++) {
+                            $frame->native()->annotateImage(
+                                $drawStroke,
+                                $line->position()->x() + $x * $strokeWidth,
+                                $line->position()->y() + $y * $strokeWidth,
+                                $this->font->angle(),
+                                (string) $line
+                            );
+                        }
+                    }
+                }
+                
                 $frame->native()->annotateImage(
                     $draw,
                     $line->position()->x(),
@@ -46,6 +70,7 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
                     $this->font->angle(),
                     (string) $line
                 );
+                
             }
         }
 

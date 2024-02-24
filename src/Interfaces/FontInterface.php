@@ -51,6 +51,20 @@ interface FontInterface
      * @return int
      */
     public function strokeWidth(): int;
+    
+    /**
+     * Set stroke limit to prevent the outline of the text from being too excessive
+     *
+     * @return int
+     */
+    public function setStrokeLimit(int $width): self;
+    
+    /**
+     * Get stroke limit to prevent the outline of the text from being too excessive
+     *
+     * @return int
+     */
+    public function strokeLimit(): int;
 
     /**
      * Set font size

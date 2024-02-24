@@ -36,10 +36,11 @@ class FontFactory
         return $this->filename($value);
     }
 
-    public function stroke(int $width, mixed $color = 'ffffff'): self
+    public function stroke(int $width, mixed $color = 'ffffff',int $limit = 5): self
     {
         $this->font->setStrokeWidth($width);
         $this->font->setStrokeColor($color);
+        $this->font->setStrokeLimit($limit);
         
         return $this;
     }

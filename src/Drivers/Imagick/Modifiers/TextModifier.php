@@ -38,18 +38,21 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
             $this->driver()->handleInput($this->font->strokeColor())
         );
         
-        if ( $strokeWidth && $strokeWidth > $strokeLimit )
+        if ( $strokeWidth && $strokeWidth > $strokeLimit ){
             $strokeWidth = $strokeLimit;
+        }
         
         $draw = $fontProcessor->toImagickDraw($this->font, $color);
+        
+        if ( $strokeColor && $strokeWidth > 0 ){
+            $drawStroke = $fontProcessor->toImagickDraw($this->font, $strokeColor);
+        }
 
         foreach ($image as $frame) {
             foreach ($lines as $line) {
                 
                 if ( $strokeColor && $strokeWidth > 0 )
-                {
-                    $drawStroke = $fontProcessor->toImagickDraw($this->font, $strokeColor);
-                    
+                {                    
                     for ($x = -1; $x <= 1; $x++) {
                         for ($y = -1; $y <= 1; $y++) {
                             $frame->native()->annotateImage(

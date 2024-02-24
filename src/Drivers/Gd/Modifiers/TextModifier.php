@@ -36,8 +36,9 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
             $this->driver()->handleInput($this->font->strokeColor())
         );
         
-        if ( $strokeWidth && $strokeWidth > $strokeLimit )
+        if ( $strokeWidth && $strokeWidth > $strokeLimit ){
             $strokeWidth = $strokeLimit;
+        }
     
         foreach ($image as $frame) {
             if ($this->font->hasFilename()) {

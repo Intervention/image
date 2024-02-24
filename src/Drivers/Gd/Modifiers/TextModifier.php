@@ -30,32 +30,32 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
             $this->driver()->handleInput($this->font->color())
         );
         
-        $strokeLimit = $this->font->strokeLimit();
         $strokeWidth = $this->font->strokeWidth();
         $strokeColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
             $this->driver()->handleInput($this->font->strokeColor())
         );
-        
-        if ( $strokeWidth && $strokeWidth > $strokeLimit ){
-            $strokeWidth = $strokeLimit;
-        }
-    
+            
         foreach ($image as $frame) {
             if ($this->font->hasFilename()) {
                 foreach ($lines as $line) {
                     imagealphablending($frame->native(), true);
                     
-                    if ( $strokeWidth > 0 )
+                    if ( $strokeColor && $strokeWidth > 0 )
                     {
-                        for ($x = -1; $x <= 1; $x++) {
-                            for ($y = -1; $y <= 1; $y++) {
+                        // Hard limit, above numbers would work fine but will start eating resources considerably
+                        if ( $strokeWidth > 10 ){
+                            $strokeWidth    = 10; 
+                        }
+                        
+                        for ($x = -$strokeWidth; $x <= $strokeWidth; $x++) {
+                            for ($y = -$strokeWidth; $y <= $strokeWidth; $y++) {
                                 
                                 imagettftext(
                                     $frame->native(),
                                     $fontProcessor->nativeFontSize($this->font),
                                     $this->font->angle() * -1,
-                                    $line->position()->x() + $x * $strokeWidth,
-                                    $line->position()->y() + $y * $strokeWidth,
+                                    $line->position()->x() + $x,
+                                    $line->position()->y() + $y,
                                     $strokeColor,
                                     $this->font->filename(),
                                     (string) $line
@@ -81,14 +81,14 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
                     
                     if ( $strokeWidth > 0 )
                     {
-                        for ($x = -1; $x <= 1; $x++) {
-                            for ($y = -1; $y <= 1; $y++) {
+                        for ($x = -$strokeWidth; $x <= $strokeWidth; $x++) {
+                            for ($y = -$strokeWidth; $y <= $strokeWidth; $y++) {
                                 
                                 imagestring(
                                     $frame->native(),
                                     $this->gdFont(),
-                                    $line->position()->x() + $x * $strokeWidth,
-                                    $line->position()->y() + $y * $strokeWidth,
+                                    $line->position()->x() + $x,
+                                    $line->position()->y() + $y,
                                     (string) $line,
                                     $color
                                 );

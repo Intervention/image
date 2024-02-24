@@ -13,7 +13,6 @@ class Font implements FontInterface
     protected mixed $color = '000000';
     protected mixed $strokeColor = 'ffffff';
     protected int $strokeWidth = 0;
-    protected int $strokeLimit = 5; 
     protected ?string $filename = null;
     protected string $alignment = 'left';
     protected string $valignment = 'bottom';
@@ -168,28 +167,6 @@ class Font implements FontInterface
         return $this->strokeWidth;
     }
     
-    /**
-     * {@inheritdoc}
-     *
-     * @see FontInterface::setStrokeWidth()
-     */
-    public function setStrokeLimit(int $width): FontInterface
-    {
-        $this->strokeLimit = $width;
-
-        return $this;
-    }
-    
-    /**
-     * {@inheritdoc}
-     *
-     * @see FontInterface::strokeLimit()
-     */
-    public function strokeLimit(): int
-    {
-        return $this->strokeLimit;
-    }
-
     /**
      * {@inheritdoc}
      *

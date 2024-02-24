@@ -32,16 +32,11 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
             $this->driver()->handleInput($this->font->color())
         );
         
-        $strokeLimit = $this->font->strokeLimit();
         $strokeWidth = $this->font->strokeWidth();
         $strokeColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
             $this->driver()->handleInput($this->font->strokeColor())
         );
-        
-        if ( $strokeWidth && $strokeWidth > $strokeLimit ){
-            $strokeWidth = $strokeLimit;
-        }
-        
+                
         $draw = $fontProcessor->toImagickDraw($this->font, $color);
         
         if ( $strokeColor && $strokeWidth > 0 ){
@@ -52,13 +47,19 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
             foreach ($lines as $line) {
                 
                 if ( $strokeColor && $strokeWidth > 0 )
-                {                    
-                    for ($x = -1; $x <= 1; $x++) {
-                        for ($y = -1; $y <= 1; $y++) {
+                {         
+                    // Hard limit, above numbers would work fine but will start eating resources considerably
+                    if ( $strokeWidth > 10 ){
+                        $strokeWidth    = 10; 
+                    }
+                    
+                    for ($x = -$strokeWidth; $x <= $strokeWidth; $x++) {
+                        for ($y = -$strokeWidth; $y <= $strokeWidth; $y++) {
+
                             $frame->native()->annotateImage(
                                 $drawStroke,
-                                $line->position()->x() + $x * $strokeWidth,
-                                $line->position()->y() + $y * $strokeWidth,
+                                $line->position()->x() + $x,
+                                $line->position()->y() + $y,
                                 $this->font->angle(),
                                 (string) $line
                             );

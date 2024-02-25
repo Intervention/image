@@ -31,28 +31,27 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
         $color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
             $this->driver()->handleInput($this->font->color())
         );
-        
-        $strokeWidth = $this->font->strokeWidth();
-        $strokeColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
-            $this->driver()->handleInput($this->font->strokeColor())
-        );
-                
+                        
         $draw = $fontProcessor->toImagickDraw($this->font, $color);
+        $strokeWidth = $this->font->strokeWidth();
         
-        if ( $strokeColor && $strokeWidth > 0 ){
+        if ( $strokeWidth > 0 ){
+            $strokeColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                $this->driver()->handleInput($this->font->strokeColor())
+            );
+            
+            if ( $strokeWidth > 10 ){
+                throw new FontException( 'Stroke width cannot be thicker than 10, please pick lower number.' );
+            }
+            
             $drawStroke = $fontProcessor->toImagickDraw($this->font, $strokeColor);
         }
 
         foreach ($image as $frame) {
             foreach ($lines as $line) {
                 
-                if ( $strokeColor && $strokeWidth > 0 )
+                if ( $strokeWidth > 0 )
                 {         
-                    // Hard limit, above numbers would work fine but will start eating resources considerably
-                    if ( $strokeWidth > 10 ){
-                        $strokeWidth    = 10; 
-                    }
-                    
                     for ($x = -$strokeWidth; $x <= $strokeWidth; $x++) {
                         for ($y = -$strokeWidth; $y <= $strokeWidth; $y++) {
 

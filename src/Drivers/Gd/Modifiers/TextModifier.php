@@ -31,22 +31,24 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
         );
         
         $strokeWidth = $this->font->strokeWidth();
-        $strokeColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
-            $this->driver()->handleInput($this->font->strokeColor())
-        );
+        
+        if ( $strokeWidth > 0 ) {
+            $strokeColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                $this->driver()->handleInput($this->font->strokeColor())
+            );
+            
+            if ( $strokeWidth > 10 ){
+                throw new FontException( 'Stroke width cannot be thicker than 10, please pick lower number.' );
+            }
+        }
             
         foreach ($image as $frame) {
             if ($this->font->hasFilename()) {
                 foreach ($lines as $line) {
                     imagealphablending($frame->native(), true);
                     
-                    if ( $strokeColor && $strokeWidth > 0 )
+                    if ( $strokeWidth > 0 )
                     {
-                        // Hard limit, above numbers would work fine but will start eating resources considerably
-                        if ( $strokeWidth > 10 ){
-                            $strokeWidth    = 10; 
-                        }
-                        
                         for ($x = -$strokeWidth; $x <= $strokeWidth; $x++) {
                             for ($y = -$strokeWidth; $y <= $strokeWidth; $y++) {
                                 

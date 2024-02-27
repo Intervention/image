@@ -11,7 +11,7 @@ use Intervention\Image\Exceptions\RuntimeException;
 #[CoversClass(\Intervention\Image\Collection::class)]
 class CollectionTest extends TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $collection = new Collection(['foo', 'bar', 'baz']);
         $this->assertInstanceOf(Collection::class, $collection);
@@ -20,7 +20,7 @@ class CollectionTest extends TestCase
         $this->assertInstanceOf(Collection::class, $collection);
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $collection = new Collection(['foo', 'bar', 'baz']);
         foreach ($collection as $key => $item) {
@@ -40,14 +40,14 @@ class CollectionTest extends TestCase
         }
     }
 
-    public function testCount()
+    public function testCount(): void
     {
         $collection = new Collection(['foo', 'bar', 'baz']);
         $this->assertEquals(3, $collection->count());
         $this->assertEquals(3, count($collection));
     }
 
-    public function testFilter()
+    public function testFilter(): void
     {
         $collection = new Collection(['foo', 'bar', 'baz']);
         $this->assertEquals(3, $collection->count());
@@ -57,7 +57,7 @@ class CollectionTest extends TestCase
         $this->assertEquals(2, $collection->count());
     }
 
-    public function testFirstLast()
+    public function testFirstLast(): void
     {
         $collection = new Collection(['foo', 'bar', 'baz']);
         $this->assertEquals('foo', $collection->first());
@@ -68,7 +68,7 @@ class CollectionTest extends TestCase
         $this->assertNull($collection->last());
     }
 
-    public function testPush()
+    public function testPush(): void
     {
         $collection = new Collection(['foo', 'bar', 'baz']);
         $this->assertEquals(3, $collection->count());
@@ -77,7 +77,7 @@ class CollectionTest extends TestCase
         $this->assertInstanceOf(Collection::class, $result);
     }
 
-    public function testToArray()
+    public function testToArray(): void
     {
         $collection = new Collection(['foo', 'bar', 'baz']);
         $this->assertEquals(['foo', 'bar', 'baz'], $collection->toArray());

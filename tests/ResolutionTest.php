@@ -10,7 +10,7 @@ use Intervention\Image\Resolution;
 #[CoversClass(\Intervention\Image\Resolution::class)]
 class ResolutionTest extends TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $resolution = new Resolution(1, 2);
         $this->assertInstanceOf(Resolution::class, $resolution);

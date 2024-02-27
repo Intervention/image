@@ -11,7 +11,7 @@ use Intervention\Image\Tests\TestCase;
 #[CoversClass(\Intervention\Image\Geometry\Point::class)]
 class PointTest extends TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $point = new Point();
         $this->assertInstanceOf(Point::class, $point);
@@ -19,7 +19,7 @@ class PointTest extends TestCase
         $this->assertEquals(0, $point->y());
     }
 
-    public function testConstructorWithParameters()
+    public function testConstructorWithParameters(): void
     {
         $point = new Point(40, 50);
         $this->assertInstanceOf(Point::class, $point);
@@ -27,7 +27,7 @@ class PointTest extends TestCase
         $this->assertEquals(50, $point->y());
     }
 
-    public function testGetSetX()
+    public function testGetSetX(): void
     {
         $point = new Point(0, 0);
         $point->setX(100);
@@ -35,7 +35,7 @@ class PointTest extends TestCase
         $this->assertEquals(0, $point->y());
     }
 
-    public function testGetSetY()
+    public function testGetSetY(): void
     {
         $point = new Point(0, 0);
         $point->setY(100);
@@ -43,7 +43,7 @@ class PointTest extends TestCase
         $this->assertEquals(100, $point->y());
     }
 
-    public function testmoveX()
+    public function testmoveX(): void
     {
         $point = new Point(50, 50);
         $point->moveX(100);
@@ -51,7 +51,7 @@ class PointTest extends TestCase
         $this->assertEquals(50, $point->y());
     }
 
-    public function testmoveY()
+    public function testmoveY(): void
     {
         $point = new Point(50, 50);
         $point->moveY(100);
@@ -59,7 +59,7 @@ class PointTest extends TestCase
         $this->assertEquals(150, $point->y());
     }
 
-    public function testSetPosition()
+    public function testSetPosition(): void
     {
         $point = new Point(0, 0);
         $point->setPosition(100, 200);
@@ -67,7 +67,7 @@ class PointTest extends TestCase
         $this->assertEquals(200, $point->y());
     }
 
-    public function testRotate()
+    public function testRotate(): void
     {
         $point = new Point(30, 0);
         $point->rotate(90, new Point(0, 0));

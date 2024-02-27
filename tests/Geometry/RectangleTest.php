@@ -50,7 +50,7 @@ class RectangleTest extends TestCase
         $this->assertEquals(800, $rectangle->height());
     }
 
-    public function testGetAspectRatio()
+    public function testGetAspectRatio(): void
     {
         $size = new Rectangle(800, 600);
         $this->assertEquals(1.333, round($size->aspectRatio(), 3));
@@ -62,7 +62,7 @@ class RectangleTest extends TestCase
         $this->assertEquals(1.778, round($size->aspectRatio(), 3));
     }
 
-    public function testFitsInto()
+    public function testFitsInto(): void
     {
         $box = new Rectangle(800, 600);
         $fits = $box->fitsInto(new Rectangle(100, 100));
@@ -93,7 +93,7 @@ class RectangleTest extends TestCase
         $this->assertFalse($fits);
     }
 
-    public function testIsLandscape()
+    public function testIsLandscape(): void
     {
         $box = new Rectangle(100, 100);
         $this->assertFalse($box->isLandscape());
@@ -105,7 +105,7 @@ class RectangleTest extends TestCase
         $this->assertTrue($box->isLandscape());
     }
 
-    public function testIsPortrait()
+    public function testIsPortrait(): void
     {
         $box = new Rectangle(100, 100);
         $this->assertFalse($box->isPortrait());

@@ -41,7 +41,7 @@ class FrameTest extends TestCase
         $this->assertInstanceOf(Rectangle::class, $frame->size());
     }
 
-    public function testSetGetDelay()
+    public function testSetGetDelay(): void
     {
         $frame = $this->getTestFrame();
         $this->assertEquals(1.25, $frame->delay());
@@ -52,7 +52,7 @@ class FrameTest extends TestCase
         $this->assertEquals(250, $frame->native()->getImageDelay());
     }
 
-    public function testSetGetDispose()
+    public function testSetGetDispose(): void
     {
         $frame = $this->getTestFrame();
         $this->assertEquals(5, $frame->dispose());
@@ -62,7 +62,7 @@ class FrameTest extends TestCase
         $this->assertEquals(100, $frame->dispose());
     }
 
-    public function testSetGetOffsetLeft()
+    public function testSetGetOffsetLeft(): void
     {
         $frame = $this->getTestFrame();
         $this->assertEquals(8, $frame->offsetLeft());
@@ -72,7 +72,7 @@ class FrameTest extends TestCase
         $this->assertEquals(100, $frame->offsetLeft());
     }
 
-    public function testSetGetOffsetTop()
+    public function testSetGetOffsetTop(): void
     {
         $frame = $this->getTestFrame();
         $this->assertEquals(9, $frame->offsetTop());
@@ -82,7 +82,7 @@ class FrameTest extends TestCase
         $this->assertEquals(100, $frame->offsetTop());
     }
 
-    public function testSetGetOffset()
+    public function testSetGetOffset(): void
     {
         $frame = $this->getTestFrame();
         $this->assertEquals(8, $frame->offsetLeft());

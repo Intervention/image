@@ -50,7 +50,7 @@ class RectangleResizerTest extends TestCase
         $this->assertInstanceOf(RectangleResizer::class, $resizer);
     }
 
-    public function testResize()
+    public function testResize(): void
     {
         $size = new Rectangle(300, 200);
         $resizer = new RectangleResizer();
@@ -80,7 +80,7 @@ class RectangleResizerTest extends TestCase
         $this->assertEquals(10, $result->height());
     }
 
-    public function testResizeDown()
+    public function testResizeDown(): void
     {
         // 800x600 > 1000x2000 = 800x600
         $size = new Rectangle(800, 600);
@@ -135,7 +135,7 @@ class RectangleResizerTest extends TestCase
         $this->assertEquals(600, $result->height());
     }
 
-    public function testScale()
+    public function testScale(): void
     {
         // 800x600 > 1000x2000 = 1000x750
         $size = new Rectangle(800, 600);
@@ -280,7 +280,7 @@ class RectangleResizerTest extends TestCase
         $this->assertEquals(300, $result->height());
     }
 
-    public function testScaleDown()
+    public function testScaleDown(): void
     {
         $size = new Rectangle(800, 600);
         $resizer = new RectangleResizer();

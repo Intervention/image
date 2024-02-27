@@ -10,7 +10,7 @@ use Intervention\Image\EncodedImage;
 #[CoversClass(\Intervention\Image\EncodedImage::class)]
 class EncodedImageTest extends TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $image = new EncodedImage('foo', 'bar');
         $this->assertInstanceOf(EncodedImage::class, $image);

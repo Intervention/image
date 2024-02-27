@@ -16,7 +16,7 @@ use Intervention\Image\Interfaces\ImageInterface;
 #[CoversClass(\Intervention\Image\ImageManager::class)]
 class ImageManagerTest extends TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $manager = new ImageManager(new GdDriver());
         $this->assertInstanceOf(ImageManager::class, $manager);
@@ -44,7 +44,7 @@ class ImageManagerTest extends TestCase
     }
 
     #[Requires('extension gd')]
-    public function testCreateGd()
+    public function testCreateGd(): void
     {
         $manager = new ImageManager(GdDriver::class);
         $image = $manager->create(5, 4);
@@ -62,7 +62,7 @@ class ImageManagerTest extends TestCase
     }
 
     #[Requires('extension gd')]
-    public function testReadGd()
+    public function testReadGd(): void
     {
         $manager = new ImageManager(GdDriver::class);
         $image = $manager->read(__DIR__ . '/images/red.gif');
@@ -118,7 +118,7 @@ class ImageManagerTest extends TestCase
     }
 
     #[Requires('extension imagick')]
-    public function testCreateImagick()
+    public function testCreateImagick(): void
     {
         $manager = new ImageManager(ImagickDriver::class);
         $image = $manager->create(5, 4);
@@ -136,7 +136,7 @@ class ImageManagerTest extends TestCase
     }
 
     #[Requires('extension imagick')]
-    public function testReadImagick()
+    public function testReadImagick(): void
     {
         $manager = new ImageManager(ImagickDriver::class);
         $image = $manager->read(__DIR__ . '/images/red.gif');

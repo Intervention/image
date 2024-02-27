@@ -11,7 +11,7 @@ use Intervention\Image\Tests\TestCase;
 use Mockery;
 
 #[CoversClass(\Intervention\Image\Geometry\Pixel::class)]
-class PixelTest extends TestCase
+final class PixelTest extends TestCase
 {
     public function testSetGetBackground(): void
     {

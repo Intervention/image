@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\RotateModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\RotateModifier::class)]
-class RotateModifierTest extends TestCase
+final class RotateModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

@@ -12,7 +12,7 @@ use Intervention\Image\Tests\TestCase;
 
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Colors\Hsv\Decoders\StringColorDecoder::class)]
-class StringColorDecoderTest extends TestCase
+final class StringColorDecoderTest extends TestCase
 {
     public function testDecodeHsv(): void
     {

@@ -9,7 +9,7 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Tests\TestCase;
 use Mockery;
 
-class CanDecodeGifTest extends TestCase
+final class CanDecodeGifTest extends TestCase
 {
     public function testDecodeGifFromBinaryAnimation(): void
     {

@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\PixelateModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\PixelateModifier::class)]
-class PixelateModifierTest extends TestCase
+final class PixelateModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

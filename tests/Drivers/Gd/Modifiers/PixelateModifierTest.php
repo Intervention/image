@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Modifiers\PixelateModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\PixelateModifier::class)]
-class PixelateModifierTest extends TestCase
+final class PixelateModifierTest extends TestCase
 {
     use CanCreateGdTestImage;
 

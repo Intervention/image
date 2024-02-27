@@ -12,7 +12,7 @@ use Intervention\Image\Tests\TestCase;
 
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder::class)]
-class HexColorDecoderTest extends TestCase
+final class HexColorDecoderTest extends TestCase
 {
     public function testDecode(): void
     {

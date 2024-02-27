@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Modifiers\BlurModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\BlurModifier::class)]
-class BlurModifierTest extends TestCase
+final class BlurModifierTest extends TestCase
 {
     use CanCreateGdTestImage;
 

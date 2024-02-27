@@ -15,7 +15,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\DrawPolygonModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\DrawPolygonModifier::class)]
-class DrawPolygonModifierTest extends TestCase
+final class DrawPolygonModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

@@ -18,7 +18,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Encoders\GifEncoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Encoders\GifEncoder::class)]
-class GifEncoderTest extends TestCase
+final class GifEncoderTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

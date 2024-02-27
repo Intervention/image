@@ -10,7 +10,7 @@ use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Tests\TestCase;
 
 #[CoversClass(\Intervention\Image\Geometry\Polygon::class)]
-class PolygonTest extends TestCase
+final class PolygonTest extends TestCase
 {
     public function testConstructor(): void
     {

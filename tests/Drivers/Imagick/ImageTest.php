@@ -27,7 +27,7 @@ use Intervention\Image\Modifiers\GreyscaleModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
-class ImageTest extends TestCase
+final class ImageTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

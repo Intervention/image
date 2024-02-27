@@ -17,7 +17,7 @@ use Intervention\Image\Tests\TestCase;
 
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Colors\Cmyk\Color::class)]
-class ColorTest extends TestCase
+final class ColorTest extends TestCase
 {
     public function testConstructor(): void
     {

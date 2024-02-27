@@ -14,7 +14,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\QuantizeColorsModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\QuantizeColorsModifier::class)]
-class QuantizeColorsModifierTest extends TestCase
+final class QuantizeColorsModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

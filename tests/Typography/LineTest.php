@@ -8,7 +8,7 @@ use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Typography\Line;
 
-class LineTest extends TestCase
+final class LineTest extends TestCase
 {
     public function testConstructor(): void
     {

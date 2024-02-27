@@ -14,7 +14,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Analyzers\ColorspaceAnalyzer::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Analyzers\ColorspaceAnalyzer::class)]
-class ColorspaceAnalyzerTest extends TestCase
+final class ColorspaceAnalyzerTest extends TestCase
 {
     use CanCreateGdTestImage;
 

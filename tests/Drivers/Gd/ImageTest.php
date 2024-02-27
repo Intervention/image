@@ -26,7 +26,7 @@ use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 use Intervention\Image\Typography\Font;
 
-class ImageTest extends TestCase
+final class ImageTest extends TestCase
 {
     use CanCreateGdTestImage;
 

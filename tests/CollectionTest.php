@@ -9,7 +9,7 @@ use Intervention\Image\Collection;
 use Intervention\Image\Exceptions\RuntimeException;
 
 #[CoversClass(\Intervention\Image\Collection::class)]
-class CollectionTest extends TestCase
+final class CollectionTest extends TestCase
 {
     public function testConstructor(): void
     {

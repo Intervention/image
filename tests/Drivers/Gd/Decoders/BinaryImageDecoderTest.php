@@ -12,7 +12,7 @@ use Intervention\Image\Tests\TestCase;
 
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Decoders\BinaryImageDecoder::class)]
-class BinaryImageDecoderTest extends TestCase
+final class BinaryImageDecoderTest extends TestCase
 {
     public function testDecodePng(): void
     {

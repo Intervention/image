@@ -14,7 +14,7 @@ use stdClass;
 
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Decoders\DataUriImageDecoder::class)]
-class DataUriImageDecoderTest extends TestCase
+final class DataUriImageDecoderTest extends TestCase
 {
     protected DataUriImageDecoder $decoder;
 

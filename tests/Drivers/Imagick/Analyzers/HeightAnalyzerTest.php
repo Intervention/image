@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Analyzers\HeightAnalyzer::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Analyzers\HeightAnalyzer::class)]
-class HeightAnalyzerTest extends TestCase
+final class HeightAnalyzerTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

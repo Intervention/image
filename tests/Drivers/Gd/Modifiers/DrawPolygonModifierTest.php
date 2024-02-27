@@ -15,7 +15,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Modifiers\DrawPixelModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\DrawPixelModifier::class)]
-class DrawPolygonModifierTest extends TestCase
+final class DrawPolygonModifierTest extends TestCase
 {
     use CanCreateGdTestImage;
 

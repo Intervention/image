@@ -13,7 +13,7 @@ use SplFileInfo;
 
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Decoders\SplFileInfoImageDecoder::class)]
-class SplFileInfoImageDecoderTest extends TestCase
+final class SplFileInfoImageDecoderTest extends TestCase
 {
     public function testDecode(): void
     {

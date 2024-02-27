@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Modifiers\GammaModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\GammaModifier::class)]
-class GammaModifierTest extends TestCase
+final class GammaModifierTest extends TestCase
 {
     use CanCreateGdTestImage;
 

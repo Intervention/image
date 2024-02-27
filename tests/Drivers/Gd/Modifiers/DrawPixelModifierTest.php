@@ -14,7 +14,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Modifiers\DrawPixelModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\DrawPixelModifier::class)]
-class DrawPixelModifierTest extends TestCase
+final class DrawPixelModifierTest extends TestCase
 {
     use CanCreateGdTestImage;
 

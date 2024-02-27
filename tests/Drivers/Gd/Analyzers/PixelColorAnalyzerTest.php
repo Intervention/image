@@ -14,7 +14,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Analyzers\PixelColorAnalyzer::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Analyzers\PixelColorAnalyzer::class)]
-class PixelColorAnalyzerTest extends TestCase
+final class PixelColorAnalyzerTest extends TestCase
 {
     use CanCreateGdTestImage;
 

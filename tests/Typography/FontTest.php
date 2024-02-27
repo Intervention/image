@@ -7,7 +7,7 @@ namespace Intervention\Image\Tests\Typography;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Typography\Font;
 
-class FontTest extends TestCase
+final class FontTest extends TestCase
 {
     public function testConstructor(): void
     {

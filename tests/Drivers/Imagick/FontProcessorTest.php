@@ -8,7 +8,7 @@ use Intervention\Image\Drivers\Imagick\FontProcessor;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Typography\Font;
 
-class FontProcessorTest extends TestCase
+final class FontProcessorTest extends TestCase
 {
     public function testNativeFontSize(): void
     {

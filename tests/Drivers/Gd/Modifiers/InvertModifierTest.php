@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Modifiers\InvertModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\InvertModifier::class)]
-class InvertModifierTest extends TestCase
+final class InvertModifierTest extends TestCase
 {
     use CanCreateGdTestImage;
 

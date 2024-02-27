@@ -15,7 +15,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\DrawEllipseModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\DrawEllipseModifier::class)]
-class DrawEllipseModifierTest extends TestCase
+final class DrawEllipseModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

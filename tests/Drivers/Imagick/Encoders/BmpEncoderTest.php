@@ -18,7 +18,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Encoders\BmpEncoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Encoders\BmpEncoder::class)]
-class BmpEncoderTest extends TestCase
+final class BmpEncoderTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

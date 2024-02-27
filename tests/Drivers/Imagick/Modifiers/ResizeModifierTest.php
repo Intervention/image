@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\ResizeModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\ResizeModifier::class)]
-class ResizeModifierTest extends TestCase
+final class ResizeModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

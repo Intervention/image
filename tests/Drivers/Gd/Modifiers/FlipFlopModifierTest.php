@@ -14,7 +14,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Modifiers\FlipModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\FlipModifier::class)]
-class FlipFlopModifierTest extends TestCase
+final class FlipFlopModifierTest extends TestCase
 {
     use CanCreateGdTestImage;
 

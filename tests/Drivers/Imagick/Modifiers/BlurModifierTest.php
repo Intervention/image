@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\BlurModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\BlurModifier::class)]
-class BlurModifierTest extends TestCase
+final class BlurModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

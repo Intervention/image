@@ -15,7 +15,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\FillModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\FillModifier::class)]
-class FillModifierTest extends TestCase
+final class FillModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

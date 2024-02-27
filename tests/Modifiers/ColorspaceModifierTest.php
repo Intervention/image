@@ -10,7 +10,7 @@ use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Modifiers\ColorspaceModifier;
 use Intervention\Image\Tests\TestCase;
 
-class ColorspaceModifierTest extends TestCase
+final class ColorspaceModifierTest extends TestCase
 {
     public function testTargetColorspace(): void
     {

@@ -8,7 +8,7 @@ use Intervention\Image\Drivers\Gd\Decoders\AbstractDecoder;
 use Intervention\Image\Tests\TestCase;
 use Mockery;
 
-class AbstractDecoderTest extends TestCase
+final class AbstractDecoderTest extends TestCase
 {
     public function testGetMediaTypeFromFilePath(): void
     {

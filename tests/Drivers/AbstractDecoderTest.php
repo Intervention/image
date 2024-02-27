@@ -15,7 +15,7 @@ use Intervention\Image\Tests\TestCase;
 use Mockery;
 
 #[CoversClass(\Intervention\Image\Drivers\AbstractDecoder::class)]
-class AbstractDecoderTest extends TestCase
+final class AbstractDecoderTest extends TestCase
 {
     public function testHandle(): void
     {

@@ -13,7 +13,7 @@ use SplFileInfo;
 
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Decoders\SplFileInfoImageDecoder::class)]
-class SplFileInfoImageDecoderTest extends TestCase
+final class SplFileInfoImageDecoderTest extends TestCase
 {
     public function testDecode(): void
     {

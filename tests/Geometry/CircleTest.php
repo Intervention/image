@@ -8,7 +8,7 @@ use Intervention\Image\Geometry\Circle;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\TestCase;
 
-class CircleTest extends TestCase
+final class CircleTest extends TestCase
 {
     public function testConstructor(): void
     {

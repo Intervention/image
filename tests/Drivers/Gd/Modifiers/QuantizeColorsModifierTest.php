@@ -15,7 +15,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Modifiers\QuantizeColorsModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\QuantizeColorsModifier::class)]
-class QuantizeColorsModifierTest extends TestCase
+final class QuantizeColorsModifierTest extends TestCase
 {
     use CanCreateGdTestImage;
 

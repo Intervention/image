@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\GammaModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\GammaModifier::class)]
-class GammaModifierTest extends TestCase
+final class GammaModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

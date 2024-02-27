@@ -7,7 +7,7 @@ namespace Intervention\Image\Tests\Colors\Hsv\Channels;
 use Intervention\Image\Colors\Hsv\Channels\Value;
 use Intervention\Image\Tests\TestCase;
 
-class ValueTest extends TestCase
+final class ValueTest extends TestCase
 {
     public function testMinMax(): void
     {

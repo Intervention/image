@@ -15,7 +15,7 @@ use Intervention\Image\Tests\TestCase;
 
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Frame::class)]
-class FrameTest extends TestCase
+final class FrameTest extends TestCase
 {
     protected function getTestFrame(): Frame
     {

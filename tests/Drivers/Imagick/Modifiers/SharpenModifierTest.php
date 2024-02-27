@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\SharpenModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\SharpenModifier::class)]
-class SharpenModifierTest extends TestCase
+final class SharpenModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

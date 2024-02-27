@@ -13,7 +13,7 @@ use Intervention\Image\Tests\TestCase;
 
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Decoders\Base64ImageDecoder::class)]
-class Base64ImageDecoderTest extends TestCase
+final class Base64ImageDecoderTest extends TestCase
 {
     protected Base64ImageDecoder $decoder;
 

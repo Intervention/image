@@ -15,7 +15,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Modifiers\DrawEllipseModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\DrawEllipseModifier::class)]
-class DrawEllipseModifierTest extends TestCase
+final class DrawEllipseModifierTest extends TestCase
 {
     use CanCreateGdTestImage;
 

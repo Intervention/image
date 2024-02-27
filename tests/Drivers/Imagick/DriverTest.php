@@ -12,7 +12,7 @@ use Intervention\Image\Interfaces\ColorProcessorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Tests\TestCase;
 
-class DriverTest extends TestCase
+final class DriverTest extends TestCase
 {
     protected Driver $driver;
 

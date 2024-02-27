@@ -17,7 +17,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Encoders\GifEncoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Encoders\GifEncoder::class)]
-class GifEncoderTest extends TestCase
+final class GifEncoderTest extends TestCase
 {
     use CanCreateGdTestImage;
 

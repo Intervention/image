@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Decoders\ImageObjectDecoder::class)]
-class ImageObjectDecoderTest extends TestCase
+final class ImageObjectDecoderTest extends TestCase
 {
     use CanCreateGdTestImage;
 

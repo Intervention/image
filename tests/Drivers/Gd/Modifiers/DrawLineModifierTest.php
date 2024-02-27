@@ -15,7 +15,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Modifiers\DrawLineModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\DrawLineModifier::class)]
-class DrawLineModifierTest extends TestCase
+final class DrawLineModifierTest extends TestCase
 {
     use CanCreateGdTestImage;
 

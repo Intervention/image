@@ -9,7 +9,7 @@ use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Typography\Font;
 use Intervention\Image\Typography\FontFactory;
 
-class FontFactoryTest extends TestCase
+final class FontFactoryTest extends TestCase
 {
     public function testBuildWithFont(): void
     {

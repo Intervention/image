@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\CropModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\CropModifier::class)]
-class CropModifierTest extends TestCase
+final class CropModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

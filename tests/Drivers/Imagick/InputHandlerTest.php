@@ -17,7 +17,7 @@ use SplFileInfo;
 
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\InputHandler::class)]
-class InputHandlerTest extends TestCase
+final class InputHandlerTest extends TestCase
 {
     public function testHandleEmptyString(): void
     {

@@ -14,7 +14,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Modifiers\RemoveAnimationModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\RemoveAnimationModifier::class)]
-class RemoveAnimationModifierTest extends TestCase
+final class RemoveAnimationModifierTest extends TestCase
 {
     use CanCreateGdTestImage;
 

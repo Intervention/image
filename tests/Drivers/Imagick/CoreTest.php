@@ -11,7 +11,7 @@ use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Exceptions\AnimationException;
 use Intervention\Image\Tests\TestCase;
 
-class CoreTest extends TestCase
+final class CoreTest extends TestCase
 {
     protected Core $core;
 

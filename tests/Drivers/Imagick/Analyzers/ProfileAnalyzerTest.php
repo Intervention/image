@@ -14,7 +14,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Analyzers\ProfileAnalyzer::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Analyzers\ProfileAnalyzer::class)]
-class ProfileAnalyzerTest extends TestCase
+final class ProfileAnalyzerTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

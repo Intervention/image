@@ -14,7 +14,7 @@ use stdClass;
 
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Decoders\FilePathImageDecoder::class)]
-class FilePathImageDecoderTest extends TestCase
+final class FilePathImageDecoderTest extends TestCase
 {
     protected FilePathImageDecoder $decoder;
 

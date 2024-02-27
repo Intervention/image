@@ -8,7 +8,7 @@ use Intervention\Image\Geometry\Factories\LineFactory;
 use Intervention\Image\Geometry\Line;
 use Intervention\Image\Tests\TestCase;
 
-class LineFactoryTest extends TestCase
+final class LineFactoryTest extends TestCase
 {
     public function testFactoryCallback(): void
     {

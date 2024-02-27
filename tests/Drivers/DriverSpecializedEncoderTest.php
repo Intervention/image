@@ -14,7 +14,7 @@ use Mockery;
  * @internal
  */
 #[CoversClass(\Intervention\Image\Drivers\DriverSpecializedEncoder::class)]
-class DriverSpecializedEncoderTest extends TestCase
+final class DriverSpecializedEncoderTest extends TestCase
 {
     public function testGetBuffered(): void
     {

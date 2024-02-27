@@ -16,7 +16,7 @@ use Mockery;
  * @internal
  */
 #[CoversClass(\Intervention\Image\Drivers\DriverSpecialized::class)]
-class DriverSpecializedTest extends TestCase
+final class DriverSpecializedTest extends TestCase
 {
     public function testBuildSpecialized(): void
     {

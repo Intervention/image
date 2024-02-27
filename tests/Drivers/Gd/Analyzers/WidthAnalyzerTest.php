@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Analyzers\WidthAnalyzer::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Analyzers\WidthAnalyzer::class)]
-class WidthAnalyzerTest extends TestCase
+final class WidthAnalyzerTest extends TestCase
 {
     use CanCreateGdTestImage;
 

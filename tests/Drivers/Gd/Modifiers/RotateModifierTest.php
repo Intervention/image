@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Modifiers\RotateModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\RotateModifier::class)]
-class RotateModifierTest extends TestCase
+final class RotateModifierTest extends TestCase
 {
     use CanCreateGdTestImage;
 

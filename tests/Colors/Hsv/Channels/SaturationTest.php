@@ -7,7 +7,7 @@ namespace Intervention\Image\Tests\Colors\Hsv\Channels;
 use Intervention\Image\Colors\Hsv\Channels\Saturation;
 use Intervention\Image\Tests\TestCase;
 
-class SaturationTest extends TestCase
+final class SaturationTest extends TestCase
 {
     public function testMinMax(): void
     {

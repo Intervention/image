@@ -15,7 +15,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Analyzers\PixelColorsAnalyzer::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Analyzers\PixelColorsAnalyzer::class)]
-class PixelColorsAnalyzerTest extends TestCase
+final class PixelColorsAnalyzerTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

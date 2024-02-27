@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Modifiers\SharpenModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\SharpenModifier::class)]
-class SharpenModifierTest extends TestCase
+final class SharpenModifierTest extends TestCase
 {
     use CanCreateGdTestImage;
 

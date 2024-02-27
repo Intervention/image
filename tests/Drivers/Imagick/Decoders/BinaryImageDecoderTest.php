@@ -12,7 +12,7 @@ use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 use stdClass;
 
-class BinaryImageDecoderTest extends TestCase
+final class BinaryImageDecoderTest extends TestCase
 {
     public function testDecodePng(): void
     {

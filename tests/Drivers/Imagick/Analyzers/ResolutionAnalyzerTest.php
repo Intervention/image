@@ -14,7 +14,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Analyzers\ResolutionAnalyzer::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Analyzers\ResolutionAnalyzer::class)]
-class ResolutionAnalyzerTest extends TestCase
+final class ResolutionAnalyzerTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

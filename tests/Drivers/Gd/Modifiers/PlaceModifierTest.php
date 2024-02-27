@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Modifiers\PlaceModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\PlaceModifier::class)]
-class PlaceModifierTest extends TestCase
+final class PlaceModifierTest extends TestCase
 {
     use CanCreateGdTestImage;
 

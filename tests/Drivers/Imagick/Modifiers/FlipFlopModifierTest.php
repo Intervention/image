@@ -16,7 +16,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[CoversClass(\Intervention\Image\Modifiers\FlopModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\FlipModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\FlopModifier::class)]
-class FlipFlopModifierTest extends TestCase
+final class FlipFlopModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

@@ -7,7 +7,7 @@ namespace Intervention\Image\Tests\Geometry\Traits;
 use Intervention\Image\Geometry\Traits\HasBackgroundColor;
 use Intervention\Image\Tests\TestCase;
 
-class HasBackgroundColorTest extends TestCase
+final class HasBackgroundColorTest extends TestCase
 {
     public function getTestObject(): object
     {

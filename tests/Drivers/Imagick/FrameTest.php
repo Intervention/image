@@ -16,7 +16,7 @@ use Intervention\Image\Tests\TestCase;
 
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Frame::class)]
-class FrameTest extends TestCase
+final class FrameTest extends TestCase
 {
     protected function getTestFrame(): Frame
     {

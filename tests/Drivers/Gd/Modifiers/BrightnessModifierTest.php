@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Modifiers\BrightnessModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\BrightnessModifier::class)]
-class BrightnessModifierTest extends TestCase
+final class BrightnessModifierTest extends TestCase
 {
     use CanCreateGdTestImage;
 

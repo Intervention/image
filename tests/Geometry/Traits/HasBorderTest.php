@@ -7,7 +7,7 @@ namespace Intervention\Image\Tests\Geometry\Traits;
 use Intervention\Image\Geometry\Traits\HasBorder;
 use Intervention\Image\Tests\TestCase;
 
-class HasBorderTest extends TestCase
+final class HasBorderTest extends TestCase
 {
     public function getTestObject(): object
     {

@@ -11,7 +11,7 @@ use Intervention\Image\Modifiers\PadModifier;
 use Intervention\Image\Tests\TestCase;
 use Mockery;
 
-class PadModifierTest extends TestCase
+final class PadModifierTest extends TestCase
 {
     public function testGetCropSize(): void
     {

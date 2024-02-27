@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Modifiers\ResizeModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\ResizeModifier::class)]
-class ResizeModifierTest extends TestCase
+final class ResizeModifierTest extends TestCase
 {
     use CanCreateGdTestImage;
 

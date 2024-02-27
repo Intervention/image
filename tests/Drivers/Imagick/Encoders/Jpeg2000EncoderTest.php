@@ -17,7 +17,7 @@ use Intervention\Image\Tests\TestCase;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Encoders\Jpeg2000Encoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Encoders\Jpeg2000Encoder::class)]
-class Jpeg2000EncoderTest extends TestCase
+final class Jpeg2000EncoderTest extends TestCase
 {
     protected function getTestImage(): Image
     {

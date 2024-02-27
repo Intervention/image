@@ -15,7 +15,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\DrawLineModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\DrawLineModifier::class)]
-class DrawLineModifierTest extends TestCase
+final class DrawLineModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

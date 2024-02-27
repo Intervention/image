@@ -9,7 +9,7 @@ use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Tests\TestCase;
 
-class RectangleFactoryTest extends TestCase
+final class RectangleFactoryTest extends TestCase
 {
     public function testFactoryCallback(): void
     {

@@ -17,7 +17,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Encoders\PngEncoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Encoders\PngEncoder::class)]
-class PngEncoderTest extends TestCase
+final class PngEncoderTest extends TestCase
 {
     use CanCreateGdTestImage;
 

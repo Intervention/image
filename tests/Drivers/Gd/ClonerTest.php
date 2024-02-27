@@ -9,7 +9,7 @@ use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Tests\TestCase;
 
-class ClonerTest extends TestCase
+final class ClonerTest extends TestCase
 {
     public function testClone(): void
     {

@@ -12,7 +12,7 @@ use Intervention\Image\Tests\TestCase;
 
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Colors\Rgb\Decoders\HtmlColorNameDecoder::class)]
-class HtmlColornameDecoderTest extends TestCase
+final class HtmlColornameDecoderTest extends TestCase
 {
     public function testDecode(): void
     {

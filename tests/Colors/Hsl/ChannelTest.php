@@ -14,7 +14,7 @@ use Intervention\Image\Tests\TestCase;
 #[CoversClass(\Intervention\Image\Colors\Hsl\Channels\Hue::class)]
 #[CoversClass(\Intervention\Image\Colors\Hsl\Channels\Saturation::class)]
 #[CoversClass(\Intervention\Image\Colors\Hsl\Channels\Luminance::class)]
-class ChannelTest extends TestCase
+final class ChannelTest extends TestCase
 {
     public function testConstructor(): void
     {

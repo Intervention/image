@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Modifiers\CropModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\CropModifier::class)]
-class CropModifierTest extends TestCase
+final class CropModifierTest extends TestCase
 {
     use CanCreateGdTestImage;
 

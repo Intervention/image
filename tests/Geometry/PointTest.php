@@ -9,7 +9,7 @@ use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\TestCase;
 
 #[CoversClass(\Intervention\Image\Geometry\Point::class)]
-class PointTest extends TestCase
+final class PointTest extends TestCase
 {
     public function testConstructor(): void
     {

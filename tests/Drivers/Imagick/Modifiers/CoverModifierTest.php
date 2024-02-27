@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\CoverModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\CoverModifier::class)]
-class CoverModifierTest extends TestCase
+final class CoverModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

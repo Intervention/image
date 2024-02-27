@@ -14,7 +14,7 @@ use stdClass;
 
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Decoders\FilePathImageDecoder::class)]
-class FilePathImageDecoderTest extends TestCase
+final class FilePathImageDecoderTest extends TestCase
 {
     protected FilePathImageDecoder $decoder;
 

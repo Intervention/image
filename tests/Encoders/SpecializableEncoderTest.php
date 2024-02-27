@@ -10,7 +10,7 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Tests\TestCase;
 use Mockery;
 
-class SpecializableEncoderTest extends TestCase
+final class SpecializableEncoderTest extends TestCase
 {
     public function testConstructorDefault(): void
     {

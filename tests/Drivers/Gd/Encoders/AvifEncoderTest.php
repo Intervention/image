@@ -16,7 +16,7 @@ use Intervention\Image\Tests\TestCase;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Encoders\AvifEncoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Encoders\AvifEncoder::class)]
-class AvifEncoderTest extends TestCase
+final class AvifEncoderTest extends TestCase
 {
     protected function getTestImage(): Image
     {

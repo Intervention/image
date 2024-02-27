@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\BrightnessModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\BrightnessModifier::class)]
-class BrightnessModifierTest extends TestCase
+final class BrightnessModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

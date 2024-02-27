@@ -13,7 +13,7 @@ use Intervention\Image\Drivers\Gd\ColorProcessor;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Tests\TestCase;
 
-class ColorProcessorTest extends TestCase
+final class ColorProcessorTest extends TestCase
 {
     public function testColorToNative(): void
     {

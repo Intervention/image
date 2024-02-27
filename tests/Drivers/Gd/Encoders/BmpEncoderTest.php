@@ -16,7 +16,7 @@ use Intervention\Image\Tests\TestCase;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Encoders\BmpEncoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Encoders\BmpEncoder::class)]
-class BmpEncoderTest extends TestCase
+final class BmpEncoderTest extends TestCase
 {
     protected function getTestImage(): Image
     {

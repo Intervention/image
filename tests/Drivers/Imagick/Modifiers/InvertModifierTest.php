@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\InvertModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\InvertModifier::class)]
-class InvertModifierTest extends TestCase
+final class InvertModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

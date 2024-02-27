@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\ContrastModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\ContrastModifier::class)]
-class ContrastModifierTest extends TestCase
+final class ContrastModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

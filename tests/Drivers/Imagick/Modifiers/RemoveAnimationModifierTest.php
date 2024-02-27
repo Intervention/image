@@ -14,7 +14,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\RemoveAnimationModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\RemoveAnimationModifier::class)]
-class RemoveAnimationModifierTest extends TestCase
+final class RemoveAnimationModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

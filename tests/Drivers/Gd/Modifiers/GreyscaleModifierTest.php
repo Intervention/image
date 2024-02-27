@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Modifiers\GreyscaleModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\GreyscaleModifier::class)]
-class GreyscaleModifierTest extends TestCase
+final class GreyscaleModifierTest extends TestCase
 {
     use CanCreateGdTestImage;
 

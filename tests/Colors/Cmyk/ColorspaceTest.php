@@ -17,7 +17,7 @@ use Intervention\Image\Colors\Cmyk\Colorspace;
 use Intervention\Image\Tests\TestCase;
 
 #[CoversClass(\Intervention\Image\Colors\Cmyk\Colorspace::class)]
-class ColorspaceTest extends TestCase
+final class ColorspaceTest extends TestCase
 {
     public function testColorFromNormalized(): void
     {

@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Decoders\FilePointerImageDecoder::class)]
-class FilePointerImageDecoderTest extends TestCase
+final class FilePointerImageDecoderTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

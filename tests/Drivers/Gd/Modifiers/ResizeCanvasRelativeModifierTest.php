@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Modifiers\ResizeCanvasRelativeModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\ResizeCanvasRelativeModifier::class)]
-class ResizeCanvasRelativeModifierTest extends TestCase
+final class ResizeCanvasRelativeModifierTest extends TestCase
 {
     use CanCreateGdTestImage;
 

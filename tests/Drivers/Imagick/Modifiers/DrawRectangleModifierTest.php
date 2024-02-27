@@ -15,7 +15,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\DrawRectangleModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\DrawRectangleModifier::class)]
-class DrawRectangleModifierTest extends TestCase
+final class DrawRectangleModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

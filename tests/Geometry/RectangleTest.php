@@ -9,7 +9,7 @@ use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Tests\TestCase;
 
-class RectangleTest extends TestCase
+final class RectangleTest extends TestCase
 {
     public function testConstructor(): void
     {

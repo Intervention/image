@@ -18,7 +18,7 @@ use Intervention\Image\Exceptions\EncoderException;
 use Intervention\Image\Tests\TestCase;
 use Mockery;
 
-class FileExtensionEncoderTest extends TestCase
+final class FileExtensionEncoderTest extends TestCase
 {
     public function testEncoderByFileExtension(): void
     {

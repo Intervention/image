@@ -10,7 +10,7 @@ use Intervention\Image\Colors\Rgb\Colorspace;
 use Intervention\Image\Drivers\Imagick\ColorProcessor;
 use Intervention\Image\Tests\TestCase;
 
-class ColorProcessorTest extends TestCase
+final class ColorProcessorTest extends TestCase
 {
     public function testColorToNative(): void
     {

@@ -9,7 +9,7 @@ use Intervention\Image\Geometry\Factories\CircleFactory;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\TestCase;
 
-class CircleFactoryTest extends TestCase
+final class CircleFactoryTest extends TestCase
 {
     public function testFactoryCallback(): void
     {

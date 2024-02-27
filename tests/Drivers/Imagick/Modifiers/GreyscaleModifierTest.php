@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\GreyscaleModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\GreyscaleModifier::class)]
-class GreyscaleModifierTest extends TestCase
+final class GreyscaleModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;
 

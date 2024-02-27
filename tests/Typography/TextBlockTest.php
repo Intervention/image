@@ -7,7 +7,7 @@ namespace Intervention\Image\Tests\Typography;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Typography\TextBlock;
 
-class TextBlockTest extends TestCase
+final class TextBlockTest extends TestCase
 {
     protected TextBlock $block;
 

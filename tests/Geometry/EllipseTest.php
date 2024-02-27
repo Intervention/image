@@ -8,7 +8,7 @@ use Intervention\Image\Geometry\Ellipse;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\TestCase;
 
-class EllipseTest extends TestCase
+final class EllipseTest extends TestCase
 {
     public function testConstructor(): void
     {

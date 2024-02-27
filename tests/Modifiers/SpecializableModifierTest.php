@@ -9,7 +9,7 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Tests\TestCase;
 use Mockery;
 
-class SpecializableModifierTest extends TestCase
+final class SpecializableModifierTest extends TestCase
 {
     public function testApply(): void
     {

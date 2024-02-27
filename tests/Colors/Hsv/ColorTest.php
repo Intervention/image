@@ -14,7 +14,7 @@ use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Tests\TestCase;
 
 #[CoversClass(\Intervention\Image\Colors\Hsv\Color::class)]
-class ColorTest extends TestCase
+final class ColorTest extends TestCase
 {
     public function testConstructor(): void
     {

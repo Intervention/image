@@ -11,7 +11,7 @@ use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Typography\Font;
 use Intervention\Image\Typography\TextBlock;
 
-class FontProcessorTest extends TestCase
+final class FontProcessorTest extends TestCase
 {
     public function testBoxSizeGdOne(): void
     {

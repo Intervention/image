@@ -9,7 +9,7 @@ use Intervention\Image\Colors\Rgb\Channels\Alpha;
 use Intervention\Image\Tests\TestCase;
 
 #[CoversClass(\Intervention\Image\Colors\Rgb\Channels\Alpha::class)]
-class AlphaTest extends TestCase
+final class AlphaTest extends TestCase
 {
     public function testToString(): void
     {

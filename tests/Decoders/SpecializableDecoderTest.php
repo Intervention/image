@@ -9,7 +9,7 @@ use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Tests\TestCase;
 use Mockery;
 
-class SpecializableDecoderTest extends TestCase
+final class SpecializableDecoderTest extends TestCase
 {
     public function testDecode(): void
     {

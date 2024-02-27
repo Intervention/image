@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Modifiers\ResolutionModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\ResolutionModifier::class)]
-class ResolutionModifierTest extends TestCase
+final class ResolutionModifierTest extends TestCase
 {
     use CanCreateGdTestImage;
 

@@ -14,7 +14,7 @@ use stdClass;
 
 #[Requires('extension imagick')]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Decoders\DataUriImageDecoder::class)]
-class DataUriImageDecoderTest extends TestCase
+final class DataUriImageDecoderTest extends TestCase
 {
     protected DataUriImageDecoder $decoder;
 

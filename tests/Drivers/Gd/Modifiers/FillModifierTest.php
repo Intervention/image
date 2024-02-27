@@ -15,7 +15,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Modifiers\FillModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\FillModifier::class)]
-class FillModifierTest extends TestCase
+final class FillModifierTest extends TestCase
 {
     use CanCreateGdTestImage;
 

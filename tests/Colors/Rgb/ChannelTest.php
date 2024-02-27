@@ -14,7 +14,7 @@ use Intervention\Image\Tests\TestCase;
 #[CoversClass(\Intervention\Image\Colors\Rgb\Channels\Red::class)]
 #[CoversClass(\Intervention\Image\Colors\Rgb\Channels\Green::class)]
 #[CoversClass(\Intervention\Image\Colors\Rgb\Channels\Blue::class)]
-class ChannelTest extends TestCase
+final class ChannelTest extends TestCase
 {
     public function testConstructor(): void
     {

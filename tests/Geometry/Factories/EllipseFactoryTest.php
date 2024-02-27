@@ -9,7 +9,7 @@ use Intervention\Image\Geometry\Factories\EllipseFactory;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\TestCase;
 
-class EllipseFactoryTest extends TestCase
+final class EllipseFactoryTest extends TestCase
 {
     public function testFactoryCallback(): void
     {

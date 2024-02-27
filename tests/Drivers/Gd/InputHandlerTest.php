@@ -17,7 +17,7 @@ use SplFileInfo;
 
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Drivers\Gd\InputHandler::class)]
-class InputHandlerTest extends TestCase
+final class InputHandlerTest extends TestCase
 {
     public function testHandleEmptyString(): void
     {

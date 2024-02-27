@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 #[Requires('extension gd')]
 #[CoversClass(\Intervention\Image\Modifiers\ContrastModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\ContrastModifier::class)]
-class ContrastModifierTest extends TestCase
+final class ContrastModifierTest extends TestCase
 {
     use CanCreateGdTestImage;
 

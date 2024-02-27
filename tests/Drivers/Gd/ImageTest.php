@@ -32,7 +32,7 @@ class ImageTest extends TestCase
 
     protected Image $image;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->image = new Image(
             new Driver(),

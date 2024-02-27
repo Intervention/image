@@ -18,7 +18,7 @@ class FilePathImageDecoderTest extends TestCase
 {
     protected FilePathImageDecoder $decoder;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->decoder = new FilePathImageDecoder();
     }

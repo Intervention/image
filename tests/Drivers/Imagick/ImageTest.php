@@ -33,7 +33,7 @@ class ImageTest extends TestCase
 
     protected Image $image;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $imagick = new Imagick();
         $imagick->readImage(__DIR__ . '/../../images/animation.gif');

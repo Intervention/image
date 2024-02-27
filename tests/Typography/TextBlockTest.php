@@ -11,7 +11,7 @@ class TextBlockTest extends TestCase
 {
     protected TextBlock $block;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->block = new TextBlock(<<<EOF
             foo

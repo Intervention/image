@@ -18,7 +18,7 @@ class DataUriImageDecoderTest extends TestCase
 {
     protected DataUriImageDecoder $decoder;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->decoder = new DataUriImageDecoder();
     }

@@ -17,7 +17,7 @@ class Base64ImageDecoderTest extends TestCase
 {
     protected Base64ImageDecoder $decoder;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->decoder = new Base64ImageDecoder();
     }

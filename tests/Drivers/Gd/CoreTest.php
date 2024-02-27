@@ -14,7 +14,7 @@ class CoreTest extends TestCase
 {
     protected Core $core;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->core = new Core([
             new Frame(imagecreatetruecolor(3, 2)),

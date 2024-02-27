@@ -16,7 +16,7 @@ class DriverTest extends TestCase
 {
     protected Driver $driver;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->driver = new Driver();
     }

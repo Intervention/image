@@ -1,51 +1,51 @@
 {
-  "name": "intervention/image",
-  "description": "PHP image manipulation",
-  "homepage": "https://image.intervention.io/",
-  "keywords": [
-    "image",
-    "gd",
-    "imagick",
-    "watermark",
-    "thumbnail",
-    "resize"
-  ],
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Oliver Vogel",
-      "email": "oliver@intervention.io",
-      "homepage": "https://intervention.io/"
+    "name": "intervention/image",
+    "description": "PHP image manipulation",
+    "homepage": "https://image.intervention.io/",
+    "keywords": [
+        "image",
+        "gd",
+        "imagick",
+        "watermark",
+        "thumbnail",
+        "resize"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Oliver Vogel",
+            "email": "oliver@intervention.io",
+            "homepage": "https://intervention.io/"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "ext-mbstring": "*",
+        "intervention/gif": "^4.0.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0",
+        "mockery/mockery": "^1.6",
+        "phpstan/phpstan": "^1",
+        "squizlabs/php_codesniffer": "^3.8",
+        "slevomat/coding-standard": "~8.0"
+    },
+    "suggest": {
+        "ext-exif": "Recommended to be able to read EXIF data properly."
+    },
+    "autoload": {
+        "psr-4": {
+            "Intervention\\Image\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Intervention\\Image\\Tests\\": "tests"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
-  ],
-  "require": {
-    "php": "^8.1",
-    "ext-mbstring": "*",
-    "intervention/gif": "^4.0.1"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^9",
-    "mockery/mockery": "^1.6",
-    "phpstan/phpstan": "^1",
-    "squizlabs/php_codesniffer": "^3.8",
-    "slevomat/coding-standard": "~8.0"
-  },
-  "suggest": {
-    "ext-exif": "Recommended to be able to read EXIF data properly."
-  },
-  "autoload": {
-    "psr-4": {
-      "Intervention\\Image\\": "src"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Intervention\\Image\\Tests\\": "tests"
-    }
-  },
-  "config": {
-    "allow-plugins": {
-      "dealerdirect/phpcodesniffer-composer-installer": true
-    }
-  }
 }

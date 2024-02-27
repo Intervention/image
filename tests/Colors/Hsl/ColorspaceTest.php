@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Colors\Hsl;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
 use Intervention\Image\Colors\Hsl\Channels\Hue;
 use Intervention\Image\Colors\Hsl\Channels\Luminance;
@@ -14,9 +15,7 @@ use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Hsl\Colorspace;
 use Intervention\Image\Tests\TestCase;
 
-/**
- * @covers \Intervention\Image\Colors\Hsl\Colorspace
- */
+#[CoversClass(\Intervention\Image\Colors\Hsl\Colorspace::class)]
 class ColorspaceTest extends TestCase
 {
     public function testColorFromNormalized(): void

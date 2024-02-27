@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Geometry;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Geometry\Pixel;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Tests\TestCase;
 use Mockery;
 
-/**
- * @covers \Intervention\Image\Geometry\Pixel
- */
+#[CoversClass(\Intervention\Image\Geometry\Pixel::class)]
 class PixelTest extends TestCase
 {
     public function testSetGetBackground(): void

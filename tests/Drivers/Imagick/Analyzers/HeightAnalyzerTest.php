@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Analyzers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Analyzers\HeightAnalyzer;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
-/**
- * @requires extension imagick
- * @covers \Intervention\Image\Analyzers\HeightAnalyzer
- * @covers \Intervention\Image\Drivers\Imagick\Analyzers\HeightAnalyzer
- */
+#[Requires('extension imagick')]
+#[CoversClass(\Intervention\Image\Analyzers\HeightAnalyzer::class)]
+#[CoversClass(\Intervention\Image\Drivers\Imagick\Analyzers\HeightAnalyzer::class)]
 class HeightAnalyzerTest extends TestCase
 {
     use CanCreateImagickTestImage;

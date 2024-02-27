@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Modifiers\GammaModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
-/**
- * @requires extension imagick
- * @covers \Intervention\Image\Modifiers\GammaModifier
- * @covers \Intervention\Image\Drivers\Imagick\Modifiers\GammaModifier
- */
+#[Requires('extension imagick')]
+#[CoversClass(\Intervention\Image\Modifiers\GammaModifier::class)]
+#[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\GammaModifier::class)]
 class GammaModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;

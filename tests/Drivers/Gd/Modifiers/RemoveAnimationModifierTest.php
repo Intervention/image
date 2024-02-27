@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Modifiers\RemoveAnimationModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
-/**
- * @requires extension gd
- * @covers \Intervention\Image\Modifiers\RemoveAnimationModifier
- * @covers \Intervention\Image\Drivers\Gd\Modifiers\RemoveAnimationModifier
- */
+#[Requires('extension gd')]
+#[CoversClass(\Intervention\Image\Modifiers\RemoveAnimationModifier::class)]
+#[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\RemoveAnimationModifier::class)]
 class RemoveAnimationModifierTest extends TestCase
 {
     use CanCreateGdTestImage;

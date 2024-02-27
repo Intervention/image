@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Modifiers\FlipModifier;
 use Intervention\Image\Modifiers\FlopModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
-/**
- * @requires extension gd
- * @covers \Intervention\Image\Modifiers\FlipModifier
- * @covers \Intervention\Image\Drivers\Gd\Modifiers\FlipModifier
- */
+#[Requires('extension gd')]
+#[CoversClass(\Intervention\Image\Modifiers\FlipModifier::class)]
+#[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\FlipModifier::class)]
 class FlipFlopModifierTest extends TestCase
 {
     use CanCreateGdTestImage;

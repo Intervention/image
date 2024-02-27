@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Modifiers\InvertModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
-/**
- * @requires extension gd
- * @covers \Intervention\Image\Modifiers\InvertModifier
- * @covers \Intervention\Image\Drivers\Gd\Modifiers\InvertModifier
- */
+#[Requires('extension gd')]
+#[CoversClass(\Intervention\Image\Modifiers\InvertModifier::class)]
+#[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\InvertModifier::class)]
 class InvertModifierTest extends TestCase
 {
     use CanCreateGdTestImage;

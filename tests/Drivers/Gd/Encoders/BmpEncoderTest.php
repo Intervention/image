@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Gd\Encoders;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Drivers\Gd\Core;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Encoders\BmpEncoder;
@@ -11,11 +13,9 @@ use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 
-/**
- * @requires extension gd
- * @covers \Intervention\Image\Encoders\BmpEncoder
- * @covers \Intervention\Image\Drivers\Gd\Encoders\BmpEncoder
- */
+#[Requires('extension gd')]
+#[CoversClass(\Intervention\Image\Encoders\BmpEncoder::class)]
+#[CoversClass(\Intervention\Image\Drivers\Gd\Encoders\BmpEncoder::class)]
 class BmpEncoderTest extends TestCase
 {
     protected function getTestImage(): Image

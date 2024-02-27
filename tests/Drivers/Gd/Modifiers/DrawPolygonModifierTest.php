@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Modifiers\DrawPolygonModifier;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
-/**
- * @requires extension gd
- * @covers \Intervention\Image\Modifiers\DrawPixelModifier
- * @covers \Intervention\Image\Drivers\Gd\Modifiers\DrawPixelModifier
- */
+#[Requires('extension gd')]
+#[CoversClass(\Intervention\Image\Modifiers\DrawPixelModifier::class)]
+#[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\DrawPixelModifier::class)]
 class DrawPolygonModifierTest extends TestCase
 {
     use CanCreateGdTestImage;

@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Modifiers\ContainModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
-/**
- * @requires extension gd
- * @covers \Intervention\Image\Modifiers\ContainModifier
- * @covers \Intervention\Image\Drivers\Gd\Modifiers\ContainModifier
- */
+#[Requires('extension gd')]
+#[CoversClass(\Intervention\Image\Modifiers\ContainModifier::class)]
+#[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\ContainModifier::class)]
 class ContainModifierTest extends TestCase
 {
     use CanCreateGdTestImage;

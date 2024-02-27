@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Collection;
 use Intervention\Image\Exceptions\RuntimeException;
 
-/**
- * @covers \Intervention\Image\Collection
- */
+#[CoversClass(\Intervention\Image\Collection::class)]
 class CollectionTest extends TestCase
 {
     public function testConstructor()

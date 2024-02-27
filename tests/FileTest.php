@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\File;
 
-/**
- * @covers \Intervention\Image\File
- */
+#[CoversClass(\Intervention\Image\File::class)]
 class FileTest extends TestCase
 {
     public function testConstructor(): void

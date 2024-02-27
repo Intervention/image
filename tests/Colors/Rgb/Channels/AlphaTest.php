@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Colors\Rgb\Channels;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Colors\Rgb\Channels\Alpha;
 use Intervention\Image\Tests\TestCase;
 
-/**
- * @covers \Intervention\Image\Colors\Rgb\Channels\Alpha
- */
+#[CoversClass(\Intervention\Image\Colors\Rgb\Channels\Alpha::class)]
 class AlphaTest extends TestCase
 {
     public function testToString(): void

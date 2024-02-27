@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Modifiers\GreyscaleModifier;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\ModifierStack;
 use Mockery;
 
-/**
- * @covers \Intervention\Image\ModifierStack
- */
+#[CoversClass(\Intervention\Image\ModifierStack::class)]
 class ModifierStackTest extends TestCase
 {
     public function testConstructor(): void

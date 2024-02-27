@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Decoders;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Drivers\Imagick\Decoders\Base64ImageDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 
-/**
- * @requires extension imagick
- * @covers \Intervention\Image\Drivers\Imagick\Decoders\Base64ImageDecoder
- */
+#[Requires('extension imagick')]
+#[CoversClass(\Intervention\Image\Drivers\Imagick\Decoders\Base64ImageDecoder::class)]
 class Base64ImageDecoderTest extends TestCase
 {
     protected Base64ImageDecoder $decoder;

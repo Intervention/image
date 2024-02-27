@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\EncodedImage;
 
-/**
- * @covers \Intervention\Image\EncodedImage
- */
+#[CoversClass(\Intervention\Image\EncodedImage::class)]
 class EncodedImageTest extends TestCase
 {
     public function testConstructor()

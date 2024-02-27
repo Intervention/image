@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Gd\Analyzers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Analyzers\ResolutionAnalyzer;
 use Intervention\Image\Resolution;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
-/**
- * @requires extension gd
- * @covers \Intervention\Image\Analyzers\ResolutionAnalyzer
- * @covers \Intervention\Image\Drivers\Imagick\Analyzers\ResolutionAnalyzer
- */
+#[Requires('extension gd')]
+#[CoversClass(\Intervention\Image\Analyzers\ResolutionAnalyzer::class)]
+#[CoversClass(\Intervention\Image\Drivers\Imagick\Analyzers\ResolutionAnalyzer::class)]
 class ResolutionAnalyzerTest extends TestCase
 {
     use CanCreateGdTestImage;

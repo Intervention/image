@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Modifiers\FlipModifier;
 use Intervention\Image\Modifiers\FlopModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
-/**
- * @requires extension imagick
- * @covers \Intervention\Image\Modifiers\FlipModifier
- * @covers \Intervention\Image\Modifiers\FlopModifier
- * @covers \Intervention\Image\Drivers\Imagick\Modifiers\FlipModifier
- * @covers \Intervention\Image\Drivers\Imagick\Modifiers\FlopModifier
- */
+#[Requires('extension imagick')]
+#[CoversClass(\Intervention\Image\Modifiers\FlipModifier::class)]
+#[CoversClass(\Intervention\Image\Modifiers\FlopModifier::class)]
+#[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\FlipModifier::class)]
+#[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\FlopModifier::class)]
 class FlipFlopModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;

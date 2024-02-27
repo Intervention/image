@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Colors\Rgb\Decoders;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder;
 use Intervention\Image\Tests\TestCase;
 
-/**
- * @requires extension gd
- * @covers \Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder
- */
+#[Requires('extension gd')]
+#[CoversClass(\Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder::class)]
 class HexColorDecoderTest extends TestCase
 {
     public function testDecode(): void

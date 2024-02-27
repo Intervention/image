@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Drivers\AbstractDecoder;
 use Intervention\Image\Drivers\AbstractInputHandler;
 use Intervention\Image\Exceptions\DecoderException;
@@ -11,9 +12,7 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Tests\TestCase;
 use Mockery;
 
-/**
- * @covers \Intervention\Image\Drivers\AbstractInputHandler
- */
+#[CoversClass(\Intervention\Image\Drivers\AbstractInputHandler::class)]
 final class AbstractInputHandlerTest extends TestCase
 {
     public function testHandle(): void

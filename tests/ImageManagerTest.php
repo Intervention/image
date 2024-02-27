@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Decoders\BinaryImageDecoder;
 use Intervention\Image\Decoders\FilePathImageDecoder;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
@@ -11,9 +13,7 @@ use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Interfaces\ImageInterface;
 
-/**
- * @covers \Intervention\Image\ImageManager
- */
+#[CoversClass(\Intervention\Image\ImageManager::class)]
 class ImageManagerTest extends TestCase
 {
     public function testConstructor()
@@ -43,7 +43,7 @@ class ImageManagerTest extends TestCase
         $this->assertInstanceOf(ImageManager::class, $manager);
     }
 
-    /** @requires extension gd */
+    #[Requires('extension gd')]
     public function testCreateGd()
     {
         $manager = new ImageManager(GdDriver::class);
@@ -51,7 +51,7 @@ class ImageManagerTest extends TestCase
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
-    /** @requires extension gd */
+    #[Requires('extension gd')]
     public function testAnimateGd(): void
     {
         $manager = new ImageManager(GdDriver::class);
@@ -61,7 +61,7 @@ class ImageManagerTest extends TestCase
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
-    /** @requires extension gd */
+    #[Requires('extension gd')]
     public function testReadGd()
     {
         $manager = new ImageManager(GdDriver::class);
@@ -69,7 +69,7 @@ class ImageManagerTest extends TestCase
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
-    /** @requires extension gd */
+    #[Requires('extension gd')]
     public function testReadGdWithDecoderClassname(): void
     {
         $manager = new ImageManager(GdDriver::class);
@@ -77,7 +77,7 @@ class ImageManagerTest extends TestCase
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
-    /** @requires extension gd */
+    #[Requires('extension gd')]
     public function testReadGdWithDecoderInstance(): void
     {
         $manager = new ImageManager(GdDriver::class);
@@ -85,7 +85,7 @@ class ImageManagerTest extends TestCase
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
-    /** @requires extension gd */
+    #[Requires('extension gd')]
     public function testReadGdWithDecoderClassnameArray(): void
     {
         $manager = new ImageManager(GdDriver::class);
@@ -93,7 +93,7 @@ class ImageManagerTest extends TestCase
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
-    /** @requires extension gd */
+    #[Requires('extension gd')]
     public function testReadGdWithDecoderInstanceArray(): void
     {
         $manager = new ImageManager(GdDriver::class);
@@ -101,7 +101,7 @@ class ImageManagerTest extends TestCase
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
-    /** @requires extension gd */
+    #[Requires('extension gd')]
     public function testReadGdWithDecoderInstanceArrayMultiple(): void
     {
         $manager = new ImageManager(GdDriver::class);
@@ -109,7 +109,7 @@ class ImageManagerTest extends TestCase
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
-    /** @requires extension gd */
+    #[Requires('extension gd')]
     public function testReadGdWithRotationAdjustment(): void
     {
         $manager = new ImageManager(GdDriver::class);
@@ -117,7 +117,7 @@ class ImageManagerTest extends TestCase
         $this->assertColor(255, 255, 255, 255, $image->pickColor(0, 24));
     }
 
-    /** @requires extension imagick */
+    #[Requires('extension imagick')]
     public function testCreateImagick()
     {
         $manager = new ImageManager(ImagickDriver::class);
@@ -125,7 +125,7 @@ class ImageManagerTest extends TestCase
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
-    /** @requires extension imagick */
+    #[Requires('extension imagick')]
     public function testAnimateImagick(): void
     {
         $manager = new ImageManager(ImagickDriver::class);
@@ -135,7 +135,7 @@ class ImageManagerTest extends TestCase
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
-    /** @requires extension imagick */
+    #[Requires('extension imagick')]
     public function testReadImagick()
     {
         $manager = new ImageManager(ImagickDriver::class);
@@ -143,7 +143,7 @@ class ImageManagerTest extends TestCase
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
-    /** @requires extension imagick */
+    #[Requires('extension imagick')]
     public function testReadImagickWithDecoderClassname(): void
     {
         $manager = new ImageManager(ImagickDriver::class);
@@ -151,7 +151,7 @@ class ImageManagerTest extends TestCase
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
-    /** @requires extension imagick */
+    #[Requires('extension imagick')]
     public function testReadImagickWithDecoderInstance(): void
     {
         $manager = new ImageManager(ImagickDriver::class);
@@ -159,7 +159,7 @@ class ImageManagerTest extends TestCase
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
-    /** @requires extension imagick */
+    #[Requires('extension imagick')]
     public function testReadImagickWithDecoderClassnameArray(): void
     {
         $manager = new ImageManager(ImagickDriver::class);
@@ -167,7 +167,7 @@ class ImageManagerTest extends TestCase
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
-    /** @requires extension imagick */
+    #[Requires('extension imagick')]
     public function testReadImagickWithDecoderInstanceArray(): void
     {
         $manager = new ImageManager(ImagickDriver::class);
@@ -175,7 +175,7 @@ class ImageManagerTest extends TestCase
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
-    /** @requires extension imagick */
+    #[Requires('extension imagick')]
     public function testReadImagickWithDecoderInstanceArrayMultiple(): void
     {
         $manager = new ImageManager(ImagickDriver::class);
@@ -183,7 +183,7 @@ class ImageManagerTest extends TestCase
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
-    /** @requires extension imagick */
+    #[Requires('extension imagick')]
     public function testReadImagickWithRotationAdjustment(): void
     {
         $manager = new ImageManager(ImagickDriver::class);

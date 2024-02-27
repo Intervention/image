@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Modifiers\PixelateModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
-/**
- * @requires extension imagick
- * @covers \Intervention\Image\Modifiers\PixelateModifier
- * @covers \Intervention\Image\Drivers\Imagick\Modifiers\PixelateModifier
- */
+#[Requires('extension imagick')]
+#[CoversClass(\Intervention\Image\Modifiers\PixelateModifier::class)]
+#[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\PixelateModifier::class)]
 class PixelateModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;

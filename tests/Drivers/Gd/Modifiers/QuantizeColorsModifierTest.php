@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Modifiers\QuantizeColorsModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
-/**
- * @requires extension gd
- * @covers \Intervention\Image\Modifiers\QuantizeColorsModifier
- * @covers \Intervention\Image\Drivers\Gd\Modifiers\QuantizeColorsModifier
- */
+#[Requires('extension gd')]
+#[CoversClass(\Intervention\Image\Modifiers\QuantizeColorsModifier::class)]
+#[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\QuantizeColorsModifier::class)]
 class QuantizeColorsModifierTest extends TestCase
 {
     use CanCreateGdTestImage;

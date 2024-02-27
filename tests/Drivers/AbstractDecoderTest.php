@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use Exception;
 use Intervention\Image\Drivers\AbstractDecoder;
 use Intervention\Image\Exceptions\DecoderException;
@@ -13,9 +14,7 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Tests\TestCase;
 use Mockery;
 
-/**
- * @covers \Intervention\Image\Drivers\AbstractDecoder
- */
+#[CoversClass(\Intervention\Image\Drivers\AbstractDecoder::class)]
 class AbstractDecoderTest extends TestCase
 {
     public function testHandle(): void

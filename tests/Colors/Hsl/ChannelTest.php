@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Colors\Hsl;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Colors\Hsl\Channels\Hue;
 use Intervention\Image\Colors\Hsl\Channels\Saturation;
 use Intervention\Image\Colors\Hsl\Channels\Luminance;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Tests\TestCase;
 
-/**
- * @covers \Intervention\Image\Colors\Hsl\Channels\Hue
- * @covers \Intervention\Image\Colors\Hsl\Channels\Saturation
- * @covers \Intervention\Image\Colors\Hsl\Channels\Luminance
- */
+#[CoversClass(\Intervention\Image\Colors\Hsl\Channels\Hue::class)]
+#[CoversClass(\Intervention\Image\Colors\Hsl\Channels\Saturation::class)]
+#[CoversClass(\Intervention\Image\Colors\Hsl\Channels\Luminance::class)]
 class ChannelTest extends TestCase
 {
     public function testConstructor(): void

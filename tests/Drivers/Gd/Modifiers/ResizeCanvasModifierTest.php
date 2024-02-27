@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Modifiers\ResizeCanvasModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
-/**
- * @requires extension gd
- * @covers \Intervention\Image\Modifiers\ResizeCanvasModifier
- * @covers \Intervention\Image\Drivers\Gd\Modifiers\ResizeCanvasModifier
- */
+#[Requires('extension gd')]
+#[CoversClass(\Intervention\Image\Modifiers\ResizeCanvasModifier::class)]
+#[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\ResizeCanvasModifier::class)]
 class ResizeCanvasModifierTest extends TestCase
 {
     use CanCreateGdTestImage;

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Gd;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use GdImage;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Drivers\Gd\Frame;
@@ -11,10 +13,8 @@ use Intervention\Image\Image;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Tests\TestCase;
 
-/**
- * @requires extension gd
- * @covers \Intervention\Image\Drivers\Gd\Frame
- */
+#[Requires('extension gd')]
+#[CoversClass(\Intervention\Image\Drivers\Gd\Frame::class)]
 class FrameTest extends TestCase
 {
     protected function getTestFrame(): Frame

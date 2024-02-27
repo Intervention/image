@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Gd\Decoders;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Drivers\Gd\Decoders\SplFileInfoImageDecoder;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 use SplFileInfo;
 
-/**
- * @requires extension gd
- * @covers \Intervention\Image\Drivers\Gd\Decoders\SplFileInfoImageDecoder
- */
+#[Requires('extension gd')]
+#[CoversClass(\Intervention\Image\Drivers\Gd\Decoders\SplFileInfoImageDecoder::class)]
 class SplFileInfoImageDecoderTest extends TestCase
 {
     public function testDecode(): void

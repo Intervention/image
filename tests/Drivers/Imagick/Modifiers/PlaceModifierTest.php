@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Modifiers\PlaceModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
-/**
- * @requires extension imagick
- * @covers \Intervention\Image\Modifiers\BlurModifier
- * @covers \Intervention\Image\Drivers\Imagick\Modifiers\PlaceModifier
- */
+#[Requires('extension imagick')]
+#[CoversClass(\Intervention\Image\Modifiers\BlurModifier::class)]
+#[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\PlaceModifier::class)]
 class PlaceModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;

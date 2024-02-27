@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Analyzers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Analyzers\PixelColorAnalyzer;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
-/**
- * @requires extension imagick
- * @covers \Intervention\Image\Analyzers\PixelColorAnalyzer
- * @covers \Intervention\Image\Drivers\Imagick\Analyzers\PixelColorAnalyzer
- */
+#[Requires('extension imagick')]
+#[CoversClass(\Intervention\Image\Analyzers\PixelColorAnalyzer::class)]
+#[CoversClass(\Intervention\Image\Drivers\Imagick\Analyzers\PixelColorAnalyzer::class)]
 class PixelColorAnalyzerTest extends TestCase
 {
     use CanCreateImagickTestImage;

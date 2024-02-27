@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Modifiers\PlaceModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
-/**
- * @requires extension gd
- * @covers \Intervention\Image\Modifiers\PlaceModifier
- * @covers \Intervention\Image\Drivers\Gd\Modifiers\PlaceModifier
- */
+#[Requires('extension gd')]
+#[CoversClass(\Intervention\Image\Modifiers\PlaceModifier::class)]
+#[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\PlaceModifier::class)]
 class PlaceModifierTest extends TestCase
 {
     use CanCreateGdTestImage;

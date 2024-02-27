@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Drivers\DriverSpecializedEncoder;
 use Intervention\Image\Tests\TestCase;
 use Mockery;
 
 /**
- * @covers \Intervention\Image\Drivers\DriverSpecializedEncoder
  *
  * @internal
  */
+#[CoversClass(\Intervention\Image\Drivers\DriverSpecializedEncoder::class)]
 class DriverSpecializedEncoderTest extends TestCase
 {
     public function testGetBuffered(): void

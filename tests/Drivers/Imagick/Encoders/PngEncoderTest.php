@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Encoders;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Imagick;
 use ImagickPixel;
 use Intervention\Image\Drivers\Imagick\Core;
@@ -13,11 +15,9 @@ use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
-/**
- * @requires extension imagick
- * @covers \Intervention\Image\Encoders\PngEncoder
- * @covers \Intervention\Image\Drivers\Imagick\Encoders\PngEncoder
- */
+#[Requires('extension imagick')]
+#[CoversClass(\Intervention\Image\Encoders\PngEncoder::class)]
+#[CoversClass(\Intervention\Image\Drivers\Imagick\Encoders\PngEncoder::class)]
 final class PngEncoderTest extends TestCase
 {
     use CanCreateImagickTestImage;

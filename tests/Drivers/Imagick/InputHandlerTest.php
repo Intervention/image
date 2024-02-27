@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Imagick;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
 use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
@@ -13,10 +15,8 @@ use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 use SplFileInfo;
 
-/**
- * @requires extension imagick
- * @covers \Intervention\Image\Drivers\Imagick\InputHandler
- */
+#[Requires('extension imagick')]
+#[CoversClass(\Intervention\Image\Drivers\Imagick\InputHandler::class)]
 class InputHandlerTest extends TestCase
 {
     public function testHandleEmptyString(): void

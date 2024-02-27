@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Decoders;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Drivers\Imagick\Decoders\DataUriImageDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 use stdClass;
 
-/**
- * @requires extension imagick
- * @covers \Intervention\Image\Drivers\Imagick\Decoders\DataUriImageDecoder
- */
+#[Requires('extension imagick')]
+#[CoversClass(\Intervention\Image\Drivers\Imagick\Decoders\DataUriImageDecoder::class)]
 class DataUriImageDecoderTest extends TestCase
 {
     protected DataUriImageDecoder $decoder;

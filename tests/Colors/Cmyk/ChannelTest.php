@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Colors\Cmyk;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Colors\Cmyk\Channels\Cyan as Channel;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Tests\TestCase;
 
-/**
- * @requires extension gd
- * @covers \Intervention\Image\Colors\Cmyk\Channels\Cyan
- * @covers \Intervention\Image\Colors\Cmyk\Channels\Magenta
- * @covers \Intervention\Image\Colors\Cmyk\Channels\Yellow
- * @covers \Intervention\Image\Colors\Cmyk\Channels\Key
- */
+#[Requires('extension gd')]
+#[CoversClass(\Intervention\Image\Colors\Cmyk\Channels\Cyan::class)]
+#[CoversClass(\Intervention\Image\Colors\Cmyk\Channels\Magenta::class)]
+#[CoversClass(\Intervention\Image\Colors\Cmyk\Channels\Yellow::class)]
+#[CoversClass(\Intervention\Image\Colors\Cmyk\Channels\Key::class)]
 class ChannelTest extends TestCase
 {
     public function testConstructor(): void

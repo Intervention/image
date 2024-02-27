@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Geometry;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Tests\TestCase;
 
-/**
- * @covers \Intervention\Image\Geometry\Polygon
- */
+#[CoversClass(\Intervention\Image\Geometry\Polygon::class)]
 class PolygonTest extends TestCase
 {
     public function testConstructor(): void

@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Modifiers\ContrastModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
-/**
- * @requires extension imagick
- * @covers \Intervention\Image\Modifiers\ContrastModifier
- * @covers \Intervention\Image\Drivers\Imagick\Modifiers\ContrastModifier
- */
+#[Requires('extension imagick')]
+#[CoversClass(\Intervention\Image\Modifiers\ContrastModifier::class)]
+#[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\ContrastModifier::class)]
 class ContrastModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;

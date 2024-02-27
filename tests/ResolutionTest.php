@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Resolution;
 
-/**
- * @covers \Intervention\Image\Resolution
- */
+#[CoversClass(\Intervention\Image\Resolution::class)]
 class ResolutionTest extends TestCase
 {
     public function testConstructor()

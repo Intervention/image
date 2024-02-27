@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Modifiers\FillModifier;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
-/**
- * @requires extension imagick
- * @covers \Intervention\Image\Modifiers\FillModifier
- * @covers \Intervention\Image\Drivers\Imagick\Modifiers\FillModifier
- */
+#[Requires('extension imagick')]
+#[CoversClass(\Intervention\Image\Modifiers\FillModifier::class)]
+#[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\FillModifier::class)]
 class FillModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;

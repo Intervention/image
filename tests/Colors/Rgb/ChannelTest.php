@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Colors\Rgb;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Colors\Rgb\Channels\Red as Channel;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Tests\TestCase;
 
-/**
- * @requires extension gd
- * @covers \Intervention\Image\Colors\Rgb\Channels\Red
- * @covers \Intervention\Image\Colors\Rgb\Channels\Green
- * @covers \Intervention\Image\Colors\Rgb\Channels\Blue
- */
+#[Requires('extension gd')]
+#[CoversClass(\Intervention\Image\Colors\Rgb\Channels\Red::class)]
+#[CoversClass(\Intervention\Image\Colors\Rgb\Channels\Green::class)]
+#[CoversClass(\Intervention\Image\Colors\Rgb\Channels\Blue::class)]
 class ChannelTest extends TestCase
 {
     public function testConstructor(): void

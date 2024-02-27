@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Modifiers\BrightnessModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
-/**
- * @requires extension imagick
- * @covers \Intervention\Image\Modifiers\BrightnessModifier
- * @covers \Intervention\Image\Drivers\Imagick\Modifiers\BrightnessModifier
- */
+#[Requires('extension imagick')]
+#[CoversClass(\Intervention\Image\Modifiers\BrightnessModifier::class)]
+#[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\BrightnessModifier::class)]
 class BrightnessModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;

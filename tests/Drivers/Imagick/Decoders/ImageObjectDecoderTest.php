@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Decoders;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Drivers\Imagick\Decoders\ImageObjectDecoder;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
-/**
- * @requires extension imagick
- * @covers \Intervention\Image\Drivers\Imagick\Decoders\ImageObjectDecoder
- */
+#[Requires('extension imagick')]
+#[CoversClass(\Intervention\Image\Drivers\Imagick\Decoders\ImageObjectDecoder::class)]
 class ImageObjectDecoderTest extends TestCase
 {
     use CanCreateImagickTestImage;

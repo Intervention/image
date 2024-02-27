@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Colors\Hsv\Decoders;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Colors\Hsv\Color;
 use Intervention\Image\Colors\Hsv\Decoders\StringColorDecoder;
 use Intervention\Image\Tests\TestCase;
 
-/**
- * @requires extension gd
- * @covers \Intervention\Image\Colors\Hsv\Decoders\StringColorDecoder
- */
+#[Requires('extension gd')]
+#[CoversClass(\Intervention\Image\Colors\Hsv\Decoders\StringColorDecoder::class)]
 class StringColorDecoderTest extends TestCase
 {
     public function testDecodeHsv(): void

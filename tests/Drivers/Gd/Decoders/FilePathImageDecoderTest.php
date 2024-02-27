@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Gd\Decoders;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Drivers\Gd\Decoders\FilePathImageDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 use stdClass;
 
-/**
- * @requires extension gd
- * @covers \Intervention\Image\Drivers\Gd\Decoders\FilePathImageDecoder
- */
+#[Requires('extension gd')]
+#[CoversClass(\Intervention\Image\Drivers\Gd\Decoders\FilePathImageDecoder::class)]
 class FilePathImageDecoderTest extends TestCase
 {
     protected FilePathImageDecoder $decoder;

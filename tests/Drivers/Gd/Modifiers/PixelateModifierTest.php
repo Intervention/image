@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Modifiers\PixelateModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
-/**
- * @requires extension gd
- * @covers \Intervention\Image\Modifiers\PixelateModifier
- * @covers \Intervention\Image\Drivers\Gd\Modifiers\PixelateModifier
- */
+#[Requires('extension gd')]
+#[CoversClass(\Intervention\Image\Modifiers\PixelateModifier::class)]
+#[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\PixelateModifier::class)]
 class PixelateModifierTest extends TestCase
 {
     use CanCreateGdTestImage;

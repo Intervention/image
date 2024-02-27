@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Modifiers\BrightnessModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
-/**
- * @requires extension gd
- * @covers \Intervention\Image\Modifiers\BrightnessModifier
- * @covers \Intervention\Image\Drivers\Gd\Modifiers\BrightnessModifier
- */
+#[Requires('extension gd')]
+#[CoversClass(\Intervention\Image\Modifiers\BrightnessModifier::class)]
+#[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\BrightnessModifier::class)]
 class BrightnessModifierTest extends TestCase
 {
     use CanCreateGdTestImage;

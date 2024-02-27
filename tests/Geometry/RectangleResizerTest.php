@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Geometry;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Geometry\Tools\RectangleResizer;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Intervention\Image\Geometry\Tools\RectangleResizer
- */
+#[CoversClass(\Intervention\Image\Geometry\Tools\RectangleResizer::class)]
 class RectangleResizerTest extends TestCase
 {
     public function testMake(): void
@@ -381,9 +381,7 @@ class RectangleResizerTest extends TestCase
         $this->assertEquals(300, $result->height());
     }
 
-    /**
-     * @dataProvider coverDataProvider
-    */
+    #[DataProvider('coverDataProvider')]
     public function testCover($origin, $target, $result): void
     {
         $resizer = new RectangleResizer();
@@ -408,9 +406,7 @@ class RectangleResizerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider containDataProvider
-    */
+    #[DataProvider('containDataProvider')]
     public function testContain($origin, $target, $result): void
     {
         $resizer = new RectangleResizer();
@@ -435,9 +431,7 @@ class RectangleResizerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider cropDataProvider
-    */
+    #[DataProvider('cropDataProvider')]
     public function testCrop($origin, $target, $position, $result): void
     {
         $resizer = new RectangleResizer();

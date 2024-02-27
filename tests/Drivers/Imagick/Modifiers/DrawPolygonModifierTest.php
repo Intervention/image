@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Modifiers\DrawPolygonModifier;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
-/**
- * @requires extension imagick
- * @covers \Intervention\Image\Modifiers\DrawPolygonModifier
- * @covers \Intervention\Image\Drivers\Imagick\Modifiers\DrawPolygonModifier
- */
+#[Requires('extension imagick')]
+#[CoversClass(\Intervention\Image\Modifiers\DrawPolygonModifier::class)]
+#[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\DrawPolygonModifier::class)]
 class DrawPolygonModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;

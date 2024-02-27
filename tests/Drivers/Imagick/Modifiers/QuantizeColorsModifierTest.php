@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Modifiers\QuantizeColorsModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
-/**
- * @requires extension imagick
- * @covers \Intervention\Image\Modifiers\QuantizeColorsModifier
- * @covers \Intervention\Image\Drivers\Imagick\Modifiers\QuantizeColorsModifier
- */
+#[Requires('extension imagick')]
+#[CoversClass(\Intervention\Image\Modifiers\QuantizeColorsModifier::class)]
+#[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\QuantizeColorsModifier::class)]
 class QuantizeColorsModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;

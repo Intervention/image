@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Imagick;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Imagick;
 use ImagickPixel;
 use Intervention\Image\Drivers\Imagick\Driver;
@@ -12,10 +14,8 @@ use Intervention\Image\Image;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Tests\TestCase;
 
-/**
- * @requires extension imagick
- * @covers \Intervention\Image\Drivers\Imagick\Frame
- */
+#[Requires('extension imagick')]
+#[CoversClass(\Intervention\Image\Drivers\Imagick\Frame::class)]
 class FrameTest extends TestCase
 {
     protected function getTestFrame(): Frame

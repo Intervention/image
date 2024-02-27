@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Requires;
 use Intervention\Image\Modifiers\ResizeModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
-/**
- * @requires extension imagick
- * @covers \Intervention\Image\Modifiers\ResizeModifier
- * @covers \Intervention\Image\Drivers\Imagick\Modifiers\ResizeModifier
- */
+#[Requires('extension imagick')]
+#[CoversClass(\Intervention\Image\Modifiers\ResizeModifier::class)]
+#[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\ResizeModifier::class)]
 class ResizeModifierTest extends TestCase
 {
     use CanCreateImagickTestImage;

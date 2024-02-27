@@ -391,7 +391,7 @@ class RectangleResizerTest extends TestCase
         $this->assertEquals($result->height(), $resized->height());
     }
 
-    public function coverDataProvider(): array
+    public static function coverDataProvider(): array
     {
         return [
             [new Rectangle(800, 600), new Rectangle(100, 100), new Rectangle(133, 100)],
@@ -416,7 +416,7 @@ class RectangleResizerTest extends TestCase
         $this->assertEquals($result->height(), $resized->height());
     }
 
-    public function containDataProvider(): array
+    public static function containDataProvider(): array
     {
         return [
             [new Rectangle(800, 600), new Rectangle(100, 100), new Rectangle(100, 75)],
@@ -443,7 +443,7 @@ class RectangleResizerTest extends TestCase
         $this->assertEquals($result->pivot()->y(), $resized->pivot()->y());
     }
 
-    public function cropDataProvider(): array
+    public static function cropDataProvider(): array
     {
         return [
             [new Rectangle(800, 600), new Rectangle(100, 100), 'center', new Rectangle(100, 100, new Point(350, 250))],

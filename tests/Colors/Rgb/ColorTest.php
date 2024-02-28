@@ -14,11 +14,11 @@ use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Colors\Rgb\Color::class)]
-final class ColorTest extends TestCase
+final class ColorTest extends BaseTestCase
 {
     public function testConstructor(): void
     {

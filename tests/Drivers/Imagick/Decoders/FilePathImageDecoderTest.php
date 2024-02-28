@@ -9,12 +9,12 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Drivers\Imagick\Decoders\FilePathImageDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use stdClass;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Decoders\FilePathImageDecoder::class)]
-final class FilePathImageDecoderTest extends TestCase
+final class FilePathImageDecoderTest extends BaseTestCase
 {
     protected FilePathImageDecoder $decoder;
 

@@ -9,13 +9,13 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\DrawLineModifier;
 use Intervention\Image\Geometry\Line;
 use Intervention\Image\Geometry\Point;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Modifiers\DrawLineModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\DrawLineModifier::class)]
-final class DrawLineModifierTest extends TestCase
+final class DrawLineModifierTest extends BaseTestCase
 {
     use CanCreateGdTestImage;
 

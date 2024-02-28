@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Drivers\Gd\Decoders;
 
 use Intervention\Image\Drivers\Gd\Decoders\AbstractDecoder;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
 
-final class AbstractDecoderTest extends TestCase
+final class AbstractDecoderTest extends BaseTestCase
 {
     public function testGetMediaTypeFromFilePath(): void
     {

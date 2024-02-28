@@ -11,12 +11,12 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Encoders\WebpEncoder;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Image;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Encoders\WebpEncoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Encoders\WebpEncoder::class)]
-final class WebpEncoderTest extends TestCase
+final class WebpEncoderTest extends BaseTestCase
 {
     protected function getTestImage(): Image
     {

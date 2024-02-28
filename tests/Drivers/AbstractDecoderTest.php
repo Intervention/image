@@ -11,11 +11,11 @@ use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
 
 #[CoversClass(\Intervention\Image\Drivers\AbstractDecoder::class)]
-final class AbstractDecoderTest extends TestCase
+final class AbstractDecoderTest extends BaseTestCase
 {
     public function testHandle(): void
     {

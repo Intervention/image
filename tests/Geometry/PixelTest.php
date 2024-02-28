@@ -7,11 +7,11 @@ namespace Intervention\Image\Tests\Geometry;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Geometry\Pixel;
 use Intervention\Image\Interfaces\ColorInterface;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
 
 #[CoversClass(\Intervention\Image\Geometry\Pixel::class)]
-final class PixelTest extends TestCase
+final class PixelTest extends BaseTestCase
 {
     public function testSetGetBackground(): void
     {

@@ -12,11 +12,11 @@ use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Image;
 use Intervention\Image\Geometry\Rectangle;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Frame::class)]
-final class FrameTest extends TestCase
+final class FrameTest extends BaseTestCase
 {
     protected function getTestFrame(): Frame
     {

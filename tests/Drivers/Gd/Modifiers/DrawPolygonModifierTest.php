@@ -9,13 +9,13 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\DrawPolygonModifier;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Modifiers\DrawPixelModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\DrawPixelModifier::class)]
-final class DrawPolygonModifierTest extends TestCase
+final class DrawPolygonModifierTest extends BaseTestCase
 {
     use CanCreateGdTestImage;
 

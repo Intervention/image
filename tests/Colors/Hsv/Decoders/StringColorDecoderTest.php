@@ -8,11 +8,11 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Colors\Hsv\Color;
 use Intervention\Image\Colors\Hsv\Decoders\StringColorDecoder;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Colors\Hsv\Decoders\StringColorDecoder::class)]
-final class StringColorDecoderTest extends TestCase
+final class StringColorDecoderTest extends BaseTestCase
 {
     public function testDecodeHsv(): void
     {

@@ -6,7 +6,7 @@ namespace Intervention\Image\Tests;
 
 use Intervention\Image\Origin;
 
-final class OriginTest extends TestCase
+final class OriginTest extends BaseTestCase
 {
     public function testFilePath(): void
     {

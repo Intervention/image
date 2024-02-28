@@ -7,10 +7,10 @@ namespace Intervention\Image\Tests\Encoders;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\SpecializableEncoder;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
 
-final class SpecializableEncoderTest extends TestCase
+final class SpecializableEncoderTest extends BaseTestCase
 {
     public function testConstructorDefault(): void
     {

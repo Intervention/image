@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Colors\Hsl\Channels;
 
 use Intervention\Image\Colors\Hsl\Channels\Saturation;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
-final class SaturationTest extends TestCase
+final class SaturationTest extends BaseTestCase
 {
     public function testMinMax(): void
     {

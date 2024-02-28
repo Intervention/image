@@ -6,10 +6,10 @@ namespace Intervention\Image\Tests\Modifiers;
 
 use Intervention\Image\Modifiers\SpecializableModifier;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
 
-final class SpecializableModifierTest extends TestCase
+final class SpecializableModifierTest extends BaseTestCase
 {
     public function testApply(): void
     {

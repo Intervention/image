@@ -9,11 +9,11 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Drivers\Imagick\Decoders\Base64ImageDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Decoders\Base64ImageDecoder::class)]
-final class Base64ImageDecoderTest extends TestCase
+final class Base64ImageDecoderTest extends BaseTestCase
 {
     protected Base64ImageDecoder $decoder;
 

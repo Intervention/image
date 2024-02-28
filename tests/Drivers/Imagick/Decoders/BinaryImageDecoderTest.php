@@ -9,10 +9,10 @@ use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Drivers\Imagick\Decoders\BinaryImageDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use stdClass;
 
-final class BinaryImageDecoderTest extends TestCase
+final class BinaryImageDecoderTest extends BaseTestCase
 {
     public function testDecodePng(): void
     {

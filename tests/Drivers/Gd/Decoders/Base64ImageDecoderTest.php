@@ -9,11 +9,11 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Drivers\Gd\Decoders\Base64ImageDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Decoders\Base64ImageDecoder::class)]
-final class Base64ImageDecoderTest extends TestCase
+final class Base64ImageDecoderTest extends BaseTestCase
 {
     protected Base64ImageDecoder $decoder;
 

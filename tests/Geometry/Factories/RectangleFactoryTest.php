@@ -7,9 +7,9 @@ namespace Intervention\Image\Tests\Geometry\Factories;
 use Intervention\Image\Geometry\Factories\RectangleFactory;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
-final class RectangleFactoryTest extends TestCase
+final class RectangleFactoryTest extends BaseTestCase
 {
     public function testFactoryCallback(): void
     {

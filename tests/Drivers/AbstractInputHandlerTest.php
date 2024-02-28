@@ -9,11 +9,11 @@ use Intervention\Image\Drivers\AbstractDecoder;
 use Intervention\Image\Drivers\AbstractInputHandler;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
 
 #[CoversClass(\Intervention\Image\Drivers\AbstractInputHandler::class)]
-final class AbstractInputHandlerTest extends TestCase
+final class AbstractInputHandlerTest extends BaseTestCase
 {
     public function testHandle(): void
     {

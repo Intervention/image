@@ -9,13 +9,13 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\DrawRectangleModifier;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Modifiers\DrawRectangleModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\DrawRectangleModifier::class)]
-final class DrawRectangleModifierTest extends TestCase
+final class DrawRectangleModifierTest extends BaseTestCase
 {
     use CanCreateGdTestImage;
 

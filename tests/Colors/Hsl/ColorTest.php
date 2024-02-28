@@ -11,10 +11,10 @@ use Intervention\Image\Colors\Hsl\Channels\Saturation;
 use Intervention\Image\Colors\Hsl\Color;
 use Intervention\Image\Colors\Hsl\Colorspace;
 use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
 #[CoversClass(\Intervention\Image\Colors\Hsl\Color::class)]
-final class ColorTest extends TestCase
+final class ColorTest extends BaseTestCase
 {
     public function testConstructor(): void
     {

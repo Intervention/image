@@ -11,11 +11,11 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Image;
 use Intervention\Image\Geometry\Rectangle;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Frame::class)]
-final class FrameTest extends TestCase
+final class FrameTest extends BaseTestCase
 {
     protected function getTestFrame(): Frame
     {

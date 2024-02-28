@@ -8,13 +8,13 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Analyzers\ColorspaceAnalyzer;
 use Intervention\Image\Interfaces\ColorspaceInterface;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Analyzers\ColorspaceAnalyzer::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Analyzers\ColorspaceAnalyzer::class)]
-final class ColorspaceAnalyzerTest extends TestCase
+final class ColorspaceAnalyzerTest extends BaseTestCase
 {
     use CanCreateImagickTestImage;
 

@@ -7,13 +7,13 @@ namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\SharpenModifier;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Modifiers\SharpenModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\SharpenModifier::class)]
-final class SharpenModifierTest extends TestCase
+final class SharpenModifierTest extends BaseTestCase
 {
     use CanCreateGdTestImage;
 

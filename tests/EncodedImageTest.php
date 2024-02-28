@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\EncodedImage;
 
 #[CoversClass(\Intervention\Image\EncodedImage::class)]
-final class EncodedImageTest extends TestCase
+final class EncodedImageTest extends BaseTestCase
 {
     public function testConstructor(): void
     {

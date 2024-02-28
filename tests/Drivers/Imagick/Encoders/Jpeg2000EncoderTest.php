@@ -12,12 +12,12 @@ use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Encoders\Jpeg2000Encoder;
 use Intervention\Image\Image;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Encoders\Jpeg2000Encoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Encoders\Jpeg2000Encoder::class)]
-final class Jpeg2000EncoderTest extends TestCase
+final class Jpeg2000EncoderTest extends BaseTestCase
 {
     protected function getTestImage(): Image
     {

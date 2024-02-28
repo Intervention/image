@@ -6,10 +6,10 @@ namespace Intervention\Image\Tests\Geometry;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Geometry\Point;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
 #[CoversClass(\Intervention\Image\Geometry\Point::class)]
-final class PointTest extends TestCase
+final class PointTest extends BaseTestCase
 {
     public function testConstructor(): void
     {

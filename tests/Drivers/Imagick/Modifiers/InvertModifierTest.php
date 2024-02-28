@@ -7,13 +7,13 @@ namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\InvertModifier;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\InvertModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\InvertModifier::class)]
-final class InvertModifierTest extends TestCase
+final class InvertModifierTest extends BaseTestCase
 {
     use CanCreateImagickTestImage;
 

@@ -8,13 +8,13 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Colors\Rgb\Channels\Red as Channel;
 use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Colors\Rgb\Channels\Red::class)]
 #[CoversClass(\Intervention\Image\Colors\Rgb\Channels\Green::class)]
 #[CoversClass(\Intervention\Image\Colors\Rgb\Channels\Blue::class)]
-final class ChannelTest extends TestCase
+final class ChannelTest extends BaseTestCase
 {
     public function testConstructor(): void
     {

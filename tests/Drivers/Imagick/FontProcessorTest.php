@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Drivers\Imagick;
 
 use Intervention\Image\Drivers\Imagick\FontProcessor;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Typography\Font;
 
-final class FontProcessorTest extends TestCase
+final class FontProcessorTest extends BaseTestCase
 {
     public function testNativeFontSize(): void
     {

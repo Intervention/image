@@ -15,10 +15,10 @@ use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
 use Intervention\Image\Exceptions\EncoderException;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
 
-final class FileExtensionEncoderTest extends TestCase
+final class FileExtensionEncoderTest extends BaseTestCase
 {
     public function testEncoderByFileExtension(): void
     {

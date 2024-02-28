@@ -8,14 +8,14 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Colors\Cmyk\Channels\Cyan as Channel;
 use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Colors\Cmyk\Channels\Cyan::class)]
 #[CoversClass(\Intervention\Image\Colors\Cmyk\Channels\Magenta::class)]
 #[CoversClass(\Intervention\Image\Colors\Cmyk\Channels\Yellow::class)]
 #[CoversClass(\Intervention\Image\Colors\Cmyk\Channels\Key::class)]
-final class ChannelTest extends TestCase
+final class ChannelTest extends BaseTestCase
 {
     public function testConstructor(): void
     {

@@ -7,13 +7,13 @@ namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\BlurModifier;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\BlurModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\BlurModifier::class)]
-final class BlurModifierTest extends TestCase
+final class BlurModifierTest extends BaseTestCase
 {
     use CanCreateImagickTestImage;
 

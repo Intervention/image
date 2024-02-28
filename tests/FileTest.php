@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\File;
 
 #[CoversClass(\Intervention\Image\File::class)]
-final class FileTest extends TestCase
+final class FileTest extends BaseTestCase
 {
     public function testConstructor(): void
     {

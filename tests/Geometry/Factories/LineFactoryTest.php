@@ -6,9 +6,9 @@ namespace Intervention\Image\Tests\Geometry\Factories;
 
 use Intervention\Image\Geometry\Factories\LineFactory;
 use Intervention\Image\Geometry\Line;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
-final class LineFactoryTest extends TestCase
+final class LineFactoryTest extends BaseTestCase
 {
     public function testFactoryCallback(): void
     {

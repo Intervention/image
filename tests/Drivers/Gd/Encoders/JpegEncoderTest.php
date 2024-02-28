@@ -11,12 +11,12 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Image;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Encoders\JpegEncoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Encoders\JpegEncoder::class)]
-final class JpegEncoderTest extends TestCase
+final class JpegEncoderTest extends BaseTestCase
 {
     protected function getTestImage(): Image
     {

@@ -8,13 +8,13 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\DrawPixelModifier;
 use Intervention\Image\Geometry\Point;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Modifiers\DrawPixelModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\DrawPixelModifier::class)]
-final class DrawPixelModifierTest extends TestCase
+final class DrawPixelModifierTest extends BaseTestCase
 {
     use CanCreateGdTestImage;
 

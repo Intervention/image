@@ -6,9 +6,9 @@ namespace Intervention\Image\Tests\Geometry;
 
 use Intervention\Image\Geometry\Ellipse;
 use Intervention\Image\Geometry\Point;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
-final class EllipseTest extends TestCase
+final class EllipseTest extends BaseTestCase
 {
     public function testConstructor(): void
     {

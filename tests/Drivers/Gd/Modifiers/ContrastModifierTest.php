@@ -7,13 +7,13 @@ namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\ContrastModifier;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Modifiers\ContrastModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\ContrastModifier::class)]
-final class ContrastModifierTest extends TestCase
+final class ContrastModifierTest extends BaseTestCase
 {
     use CanCreateGdTestImage;
 

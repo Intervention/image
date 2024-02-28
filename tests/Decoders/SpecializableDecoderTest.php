@@ -6,10 +6,10 @@ namespace Intervention\Image\Tests\Decoders;
 
 use Intervention\Image\Decoders\SpecializableDecoder;
 use Intervention\Image\Exceptions\DecoderException;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
 
-final class SpecializableDecoderTest extends TestCase
+final class SpecializableDecoderTest extends BaseTestCase
 {
     public function testDecode(): void
     {

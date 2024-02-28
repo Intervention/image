@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\FlipModifier;
 use Intervention\Image\Modifiers\FlopModifier;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 #[RequiresPhpExtension('imagick')]
@@ -16,7 +16,7 @@ use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 #[CoversClass(\Intervention\Image\Modifiers\FlopModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\FlipModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\FlopModifier::class)]
-final class FlipFlopModifierTest extends TestCase
+final class FlipFlopModifierTest extends BaseTestCase
 {
     use CanCreateImagickTestImage;
 

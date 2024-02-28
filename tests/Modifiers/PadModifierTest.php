@@ -8,10 +8,10 @@ use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Modifiers\PadModifier;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
 
-final class PadModifierTest extends TestCase
+final class PadModifierTest extends BaseTestCase
 {
     public function testGetCropSize(): void
     {

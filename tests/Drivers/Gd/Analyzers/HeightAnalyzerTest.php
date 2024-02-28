@@ -7,13 +7,13 @@ namespace Intervention\Image\Tests\Drivers\Gd\Analyzers;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Analyzers\HeightAnalyzer;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Analyzers\HeightAnalyzer::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Analyzers\HeightAnalyzer::class)]
-final class HeightAnalyzerTest extends TestCase
+final class HeightAnalyzerTest extends BaseTestCase
 {
     use CanCreateGdTestImage;
 

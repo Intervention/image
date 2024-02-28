@@ -14,10 +14,10 @@ use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Cmyk\Colorspace;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
 #[CoversClass(\Intervention\Image\Colors\Cmyk\Colorspace::class)]
-final class ColorspaceTest extends TestCase
+final class ColorspaceTest extends BaseTestCase
 {
     public function testColorFromNormalized(): void
     {

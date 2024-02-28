@@ -7,13 +7,13 @@ namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\ResizeCanvasModifier;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\ResizeCanvasModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\ResizeCanvasModifier::class)]
-final class ResizeCanvasModifierTest extends TestCase
+final class ResizeCanvasModifierTest extends BaseTestCase
 {
     use CanCreateImagickTestImage;
 

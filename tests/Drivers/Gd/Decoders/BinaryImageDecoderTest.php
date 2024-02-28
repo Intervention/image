@@ -8,11 +8,11 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Drivers\Gd\Decoders\BinaryImageDecoder;
 use Intervention\Image\Image;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Decoders\BinaryImageDecoder::class)]
-final class BinaryImageDecoderTest extends TestCase
+final class BinaryImageDecoderTest extends BaseTestCase
 {
     public function testDecodePng(): void
     {

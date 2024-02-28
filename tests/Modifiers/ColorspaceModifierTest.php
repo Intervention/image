@@ -8,9 +8,9 @@ use Intervention\Image\Colors\Rgb\Colorspace;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Modifiers\ColorspaceModifier;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
-final class ColorspaceModifierTest extends TestCase
+final class ColorspaceModifierTest extends BaseTestCase
 {
     public function testTargetColorspace(): void
     {

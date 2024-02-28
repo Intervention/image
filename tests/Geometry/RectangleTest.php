@@ -7,9 +7,9 @@ namespace Intervention\Image\Tests\Geometry;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\PointInterface;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
-final class RectangleTest extends TestCase
+final class RectangleTest extends BaseTestCase
 {
     public function testConstructor(): void
     {

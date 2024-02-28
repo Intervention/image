@@ -6,10 +6,10 @@ namespace Intervention\Image\Tests\Analyzers;
 
 use Intervention\Image\Analyzers\SpecializableAnalyzer;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
 
-final class SpecializableAnalyzerTest extends TestCase
+final class SpecializableAnalyzerTest extends BaseTestCase
 {
     public function testAnalyzer(): void
     {

@@ -8,13 +8,13 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Modifiers\RemoveAnimationModifier;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\RemoveAnimationModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\RemoveAnimationModifier::class)]
-final class RemoveAnimationModifierTest extends TestCase
+final class RemoveAnimationModifierTest extends BaseTestCase
 {
     use CanCreateImagickTestImage;
 

@@ -12,12 +12,12 @@ use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Encoders\WebpEncoder;
 use Intervention\Image\Image;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Encoders\WebpEncoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Encoders\WebpEncoder::class)]
-final class WebpEncoderTest extends TestCase
+final class WebpEncoderTest extends BaseTestCase
 {
     protected function getTestImage(): Image
     {

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Typography;
 
 use Intervention\Image\Interfaces\FontInterface;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Typography\Font;
 use Intervention\Image\Typography\FontFactory;
 
-final class FontFactoryTest extends TestCase
+final class FontFactoryTest extends BaseTestCase
 {
     public function testBuildWithFont(): void
     {

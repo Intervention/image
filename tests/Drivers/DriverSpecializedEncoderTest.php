@@ -6,7 +6,7 @@ namespace Intervention\Image\Tests\Drivers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Drivers\DriverSpecializedEncoder;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
 
 /**
@@ -14,7 +14,7 @@ use Mockery;
  * @internal
  */
 #[CoversClass(\Intervention\Image\Drivers\DriverSpecializedEncoder::class)]
-final class DriverSpecializedEncoderTest extends TestCase
+final class DriverSpecializedEncoderTest extends BaseTestCase
 {
     public function testGetBuffered(): void
     {

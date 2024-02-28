@@ -6,10 +6,10 @@ namespace Intervention\Image\Tests\Colors\Rgb\Channels;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Colors\Rgb\Channels\Alpha;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
 #[CoversClass(\Intervention\Image\Colors\Rgb\Channels\Alpha::class)]
-final class AlphaTest extends TestCase
+final class AlphaTest extends BaseTestCase
 {
     public function testToString(): void
     {

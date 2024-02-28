@@ -6,9 +6,9 @@ namespace Intervention\Image\Tests\Geometry;
 
 use Intervention\Image\Geometry\Line;
 use Intervention\Image\Geometry\Point;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
-final class LineTest extends TestCase
+final class LineTest extends BaseTestCase
 {
     public function testConstructor(): void
     {

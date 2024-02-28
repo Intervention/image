@@ -10,9 +10,9 @@ use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorProcessorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
-final class DriverTest extends TestCase
+final class DriverTest extends BaseTestCase
 {
     protected Driver $driver;
 

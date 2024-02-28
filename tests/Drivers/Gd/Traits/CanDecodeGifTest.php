@@ -6,10 +6,10 @@ namespace Intervention\Image\Tests\Drivers\Gd\Traits;
 
 use Intervention\Image\Drivers\Gd\Decoders\Traits\CanDecodeGif;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
 
-final class CanDecodeGifTest extends TestCase
+final class CanDecodeGifTest extends BaseTestCase
 {
     public function testDecodeGifFromBinaryAnimation(): void
     {

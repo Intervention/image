@@ -9,12 +9,12 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Drivers\Gd\Decoders\DataUriImageDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use stdClass;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Decoders\DataUriImageDecoder::class)]
-final class DataUriImageDecoderTest extends TestCase
+final class DataUriImageDecoderTest extends BaseTestCase
 {
     protected DataUriImageDecoder $decoder;
 

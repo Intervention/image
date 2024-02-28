@@ -7,13 +7,13 @@ namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\ContainModifier;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Modifiers\ContainModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\ContainModifier::class)]
-final class ContainModifierTest extends TestCase
+final class ContainModifierTest extends BaseTestCase
 {
     use CanCreateGdTestImage;
 

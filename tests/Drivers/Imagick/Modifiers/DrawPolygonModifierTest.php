@@ -9,13 +9,13 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\DrawPolygonModifier;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\DrawPolygonModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\DrawPolygonModifier::class)]
-final class DrawPolygonModifierTest extends TestCase
+final class DrawPolygonModifierTest extends BaseTestCase
 {
     use CanCreateImagickTestImage;
 

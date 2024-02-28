@@ -12,13 +12,13 @@ use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Encoders\GifEncoder;
 use Intervention\Image\Image;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Encoders\GifEncoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Encoders\GifEncoder::class)]
-final class GifEncoderTest extends TestCase
+final class GifEncoderTest extends BaseTestCase
 {
     use CanCreateImagickTestImage;
 

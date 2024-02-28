@@ -12,13 +12,13 @@ use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Encoders\HeicEncoder;
 use Intervention\Image\Image;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Encoders\HeicEncoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Encoders\HeicEncoder::class)]
-final class HeicEncoderTest extends TestCase
+final class HeicEncoderTest extends BaseTestCase
 {
     use CanCreateImagickTestImage;
 

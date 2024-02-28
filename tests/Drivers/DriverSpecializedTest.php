@@ -7,7 +7,7 @@ namespace Intervention\Image\Tests\Drivers;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\Interfaces\DriverInterface;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Drivers\DriverSpecialized;
 use Mockery;
 
@@ -16,7 +16,7 @@ use Mockery;
  * @internal
  */
 #[CoversClass(\Intervention\Image\Drivers\DriverSpecialized::class)]
-final class DriverSpecializedTest extends TestCase
+final class DriverSpecializedTest extends BaseTestCase
 {
     public function testBuildSpecialized(): void
     {

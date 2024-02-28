@@ -8,13 +8,13 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\FlipModifier;
 use Intervention\Image\Modifiers\FlopModifier;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Modifiers\FlipModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\FlipModifier::class)]
-final class FlipFlopModifierTest extends TestCase
+final class FlipFlopModifierTest extends BaseTestCase
 {
     use CanCreateGdTestImage;
 

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Typography;
 
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Typography\TextBlock;
 
-final class TextBlockTest extends TestCase
+final class TextBlockTest extends BaseTestCase
 {
     protected TextBlock $block;
 

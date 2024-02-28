@@ -9,13 +9,13 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\DrawEllipseModifier;
 use Intervention\Image\Geometry\Ellipse;
 use Intervention\Image\Geometry\Point;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\DrawEllipseModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\DrawEllipseModifier::class)]
-final class DrawEllipseModifierTest extends TestCase
+final class DrawEllipseModifierTest extends BaseTestCase
 {
     use CanCreateImagickTestImage;
 

@@ -8,12 +8,12 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Drivers\Imagick\Decoders\FilePointerImageDecoder;
 use Intervention\Image\Image;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Decoders\FilePointerImageDecoder::class)]
-final class FilePointerImageDecoderTest extends TestCase
+final class FilePointerImageDecoderTest extends BaseTestCase
 {
     use CanCreateImagickTestImage;
 

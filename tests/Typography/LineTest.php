@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Typography;
 
 use Intervention\Image\Geometry\Point;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Typography\Line;
 
-final class LineTest extends TestCase
+final class LineTest extends BaseTestCase
 {
     public function testConstructor(): void
     {

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Colors\Hsv\Channels;
 
 use Intervention\Image\Colors\Hsv\Channels\Value;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
-final class ValueTest extends TestCase
+final class ValueTest extends BaseTestCase
 {
     public function testMinMax(): void
     {

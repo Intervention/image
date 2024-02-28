@@ -10,13 +10,13 @@ use Intervention\Image\Colors\Hsv\Channels\Hue;
 use Intervention\Image\Colors\Hsv\Channels\Saturation;
 use Intervention\Image\Colors\Hsv\Channels\Value;
 use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Colors\Hsv\Channels\Hue::class)]
 #[CoversClass(\Intervention\Image\Colors\Hsv\Channels\Saturation::class)]
 #[CoversClass(\Intervention\Image\Colors\Hsv\Channels\Value::class)]
-final class ChannelTest extends TestCase
+final class ChannelTest extends BaseTestCase
 {
     public function testConstructor(): void
     {

@@ -9,13 +9,13 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Modifiers\QuantizeColorsModifier;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Modifiers\QuantizeColorsModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\QuantizeColorsModifier::class)]
-final class QuantizeColorsModifierTest extends TestCase
+final class QuantizeColorsModifierTest extends BaseTestCase
 {
     use CanCreateGdTestImage;
 

@@ -8,9 +8,9 @@ use ImagickPixel;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Colors\Rgb\Colorspace;
 use Intervention\Image\Drivers\Imagick\ColorProcessor;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
-final class ColorProcessorTest extends TestCase
+final class ColorProcessorTest extends BaseTestCase
 {
     public function testColorToNative(): void
     {

@@ -12,12 +12,12 @@ use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Encoders\AvifEncoder;
 use Intervention\Image\Image;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Encoders\AvifEncoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Encoders\AvifEncoder::class)]
-final class AvifEncoderTest extends TestCase
+final class AvifEncoderTest extends BaseTestCase
 {
     protected function getTestImage(): Image
     {

@@ -12,12 +12,12 @@ use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Drivers\Imagick\InputHandler;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use SplFileInfo;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\InputHandler::class)]
-final class InputHandlerTest extends TestCase
+final class InputHandlerTest extends BaseTestCase
 {
     public function testHandleEmptyString(): void
     {

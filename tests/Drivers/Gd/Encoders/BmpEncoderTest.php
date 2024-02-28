@@ -11,12 +11,12 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Encoders\BmpEncoder;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Image;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Encoders\BmpEncoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Encoders\BmpEncoder::class)]
-final class BmpEncoderTest extends TestCase
+final class BmpEncoderTest extends BaseTestCase
 {
     protected function getTestImage(): Image
     {

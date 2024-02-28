@@ -9,7 +9,7 @@ use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Interfaces\ColorInterface;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
-abstract class TestCase extends MockeryTestCase
+abstract class BaseTestCase extends MockeryTestCase
 {
     public function getTestImagePath($filename = 'test.jpg'): string
     {

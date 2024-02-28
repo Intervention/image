@@ -14,7 +14,7 @@ use Intervention\Image\ImageManager;
 use Intervention\Image\Interfaces\ImageInterface;
 
 #[CoversClass(\Intervention\Image\ImageManager::class)]
-final class ImageManagerTest extends TestCase
+final class ImageManagerTest extends BaseTestCase
 {
     public function testConstructor(): void
     {

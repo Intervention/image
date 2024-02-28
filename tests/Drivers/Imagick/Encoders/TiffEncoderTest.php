@@ -12,12 +12,12 @@ use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Image;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Encoders\TiffEncoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Encoders\TiffEncoder::class)]
-final class TiffEncoderTest extends TestCase
+final class TiffEncoderTest extends BaseTestCase
 {
     protected function getTestImage(): Image
     {

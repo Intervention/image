@@ -11,12 +11,12 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Encoders\AvifEncoder;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Image;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Encoders\AvifEncoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Encoders\AvifEncoder::class)]
-final class AvifEncoderTest extends TestCase
+final class AvifEncoderTest extends BaseTestCase
 {
     protected function getTestImage(): Image
     {

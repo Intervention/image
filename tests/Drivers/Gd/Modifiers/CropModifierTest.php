@@ -7,13 +7,13 @@ namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\CropModifier;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Modifiers\CropModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\CropModifier::class)]
-final class CropModifierTest extends TestCase
+final class CropModifierTest extends BaseTestCase
 {
     use CanCreateGdTestImage;
 

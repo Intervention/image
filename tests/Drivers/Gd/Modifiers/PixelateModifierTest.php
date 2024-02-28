@@ -7,13 +7,13 @@ namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\PixelateModifier;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Modifiers\PixelateModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\PixelateModifier::class)]
-final class PixelateModifierTest extends TestCase
+final class PixelateModifierTest extends BaseTestCase
 {
     use CanCreateGdTestImage;
 

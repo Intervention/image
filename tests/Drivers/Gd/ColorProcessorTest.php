@@ -11,9 +11,9 @@ use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Drivers\Gd\ColorProcessor;
 use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
-final class ColorProcessorTest extends TestCase
+final class ColorProcessorTest extends BaseTestCase
 {
     public function testColorToNative(): void
     {

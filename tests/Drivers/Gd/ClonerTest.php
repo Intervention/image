@@ -7,9 +7,9 @@ namespace Intervention\Image\Tests\Drivers\Gd;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Geometry\Rectangle;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
-final class ClonerTest extends TestCase
+final class ClonerTest extends BaseTestCase
 {
     public function testClone(): void
     {

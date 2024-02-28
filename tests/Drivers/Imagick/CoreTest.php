@@ -9,9 +9,9 @@ use ImagickPixel;
 use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Exceptions\AnimationException;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
-final class CoreTest extends TestCase
+final class CoreTest extends BaseTestCase
 {
     protected Core $core;
 

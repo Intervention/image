@@ -7,11 +7,11 @@ namespace Intervention\Image\Tests\Drivers\Gd;
 use Intervention\Image\Drivers\Gd\FontProcessor;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\SizeInterface;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Typography\Font;
 use Intervention\Image\Typography\TextBlock;
 
-final class FontProcessorTest extends TestCase
+final class FontProcessorTest extends BaseTestCase
 {
     public function testBoxSizeGdOne(): void
     {

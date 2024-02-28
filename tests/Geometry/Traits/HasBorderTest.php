@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Geometry\Traits;
 
 use Intervention\Image\Geometry\Traits\HasBorder;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
-final class HasBorderTest extends TestCase
+final class HasBorderTest extends BaseTestCase
 {
     public function getTestObject(): object
     {

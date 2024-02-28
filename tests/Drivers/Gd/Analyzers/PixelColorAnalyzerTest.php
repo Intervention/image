@@ -8,13 +8,13 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Analyzers\PixelColorAnalyzer;
 use Intervention\Image\Interfaces\ColorInterface;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Analyzers\PixelColorAnalyzer::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Analyzers\PixelColorAnalyzer::class)]
-final class PixelColorAnalyzerTest extends TestCase
+final class PixelColorAnalyzerTest extends BaseTestCase
 {
     use CanCreateGdTestImage;
 

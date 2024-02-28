@@ -6,9 +6,9 @@ namespace Intervention\Image\Tests\Geometry\Factories;
 
 use Intervention\Image\Geometry\Factories\PolygonFactory;
 use Intervention\Image\Geometry\Polygon;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
-final class PolygonFactoryTest extends TestCase
+final class PolygonFactoryTest extends BaseTestCase
 {
     public function testFactoryCallback(): void
     {

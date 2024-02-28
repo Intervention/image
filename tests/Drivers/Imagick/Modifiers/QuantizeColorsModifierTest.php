@@ -8,13 +8,13 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Modifiers\QuantizeColorsModifier;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\QuantizeColorsModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\QuantizeColorsModifier::class)]
-final class QuantizeColorsModifierTest extends TestCase
+final class QuantizeColorsModifierTest extends BaseTestCase
 {
     use CanCreateImagickTestImage;
 

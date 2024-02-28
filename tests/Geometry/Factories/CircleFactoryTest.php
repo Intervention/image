@@ -7,9 +7,9 @@ namespace Intervention\Image\Tests\Geometry\Factories;
 use Intervention\Image\Geometry\Ellipse;
 use Intervention\Image\Geometry\Factories\CircleFactory;
 use Intervention\Image\Geometry\Point;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
-final class CircleFactoryTest extends TestCase
+final class CircleFactoryTest extends BaseTestCase
 {
     public function testFactoryCallback(): void
     {

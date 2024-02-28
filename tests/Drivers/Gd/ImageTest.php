@@ -22,11 +22,11 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Modifiers\GreyscaleModifier;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 use Intervention\Image\Typography\Font;
 
-final class ImageTest extends TestCase
+final class ImageTest extends BaseTestCase
 {
     use CanCreateGdTestImage;
 

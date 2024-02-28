@@ -13,11 +13,11 @@ use Intervention\Image\Colors\Cmyk\Channels\Yellow;
 use Intervention\Image\Colors\Cmyk\Color;
 use Intervention\Image\Colors\Cmyk\Colorspace;
 use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Colors\Cmyk\Color::class)]
-final class ColorTest extends TestCase
+final class ColorTest extends BaseTestCase
 {
     public function testConstructor(): void
     {

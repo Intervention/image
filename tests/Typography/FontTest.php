@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Typography;
 
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Typography\Font;
 
-final class FontTest extends TestCase
+final class FontTest extends BaseTestCase
 {
     public function testConstructor(): void
     {

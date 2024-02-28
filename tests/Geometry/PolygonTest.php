@@ -7,10 +7,10 @@ namespace Intervention\Image\Tests\Geometry;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
-use Intervention\Image\Tests\TestCase;
+use Intervention\Image\Tests\BaseTestCase;
 
 #[CoversClass(\Intervention\Image\Geometry\Polygon::class)]
-final class PolygonTest extends TestCase
+final class PolygonTest extends BaseTestCase
 {
     public function testConstructor(): void
     {

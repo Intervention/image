@@ -29,7 +29,7 @@ final class InputHandlerTest extends BaseTestCase
     public function testHandleBinaryImage(): void
     {
         $handler = new InputHandler();
-        $input = file_get_contents(__DIR__ . '/../../images/animation.gif');
+        $input = file_get_contents($this->getTestImagePath('animation.gif'));
         $result = $handler->handle($input);
         $this->assertInstanceOf(Image::class, $result);
     }
@@ -37,7 +37,7 @@ final class InputHandlerTest extends BaseTestCase
     public function testHandleSplFileInfo(): void
     {
         $handler = new InputHandler();
-        $input = new SplFileInfo(__DIR__ . '/../../images/test.jpg');
+        $input = new SplFileInfo($this->getTestImagePath('test.jpg'));
         $result = $handler->handle($input);
         $this->assertInstanceOf(Image::class, $result);
     }
@@ -45,7 +45,7 @@ final class InputHandlerTest extends BaseTestCase
     public function testHandleFilePathImage(): void
     {
         $handler = new InputHandler();
-        $input = __DIR__ . '/../../images/animation.gif';
+        $input = $this->getTestImagePath('animation.gif');
         $result = $handler->handle($input);
         $this->assertInstanceOf(Image::class, $result);
     }
@@ -53,7 +53,7 @@ final class InputHandlerTest extends BaseTestCase
     public function testHandleBase64Image(): void
     {
         $handler = new InputHandler();
-        $input = base64_encode(file_get_contents(__DIR__ . '/../../images/animation.gif'));
+        $input = base64_encode(file_get_contents($this->getTestImagePath('animation.gif')));
         $result = $handler->handle($input);
         $this->assertInstanceOf(Image::class, $result);
     }

@@ -11,13 +11,13 @@ final class OriginTest extends BaseTestCase
 {
     public function testFilePath(): void
     {
-        $origin = new Origin('image/jpeg', __DIR__ . '/tests/images/example.jpg');
-        $this->assertEquals(__DIR__ . '/tests/images/example.jpg', $origin->filePath());
+        $origin = new Origin('image/jpeg', $this->getTestImagePath('example.jpg'));
+        $this->assertEquals($this->getTestImagePath('example.jpg'), $origin->filePath());
     }
 
     public function testFileExtension(): void
     {
-        $origin = new Origin('image/jpeg', __DIR__ . '/tests/images/example.jpg');
+        $origin = new Origin('image/jpeg', $this->getTestImagePath('example.jpg'));
         $this->assertEquals('jpg', $origin->fileExtension());
 
         $origin = new Origin('image/jpeg');

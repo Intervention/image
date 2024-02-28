@@ -36,7 +36,7 @@ final class ImageTest extends BaseTestCase
     protected function setUp(): void
     {
         $imagick = new Imagick();
-        $imagick->readImage(__DIR__ . '/../../images/animation.gif');
+        $imagick->readImage($this->getTestImagePath('animation.gif'));
         $this->image = new Image(
             new Driver(),
             new Core($imagick),

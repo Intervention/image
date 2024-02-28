@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Drivers\Imagick\Encoders;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\Requires;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Imagick;
 use ImagickPixel;
 use Intervention\Image\Drivers\Imagick\Core;
@@ -14,7 +14,7 @@ use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 
-#[Requires('extension imagick')]
+#[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Encoders\TiffEncoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Encoders\TiffEncoder::class)]
 final class TiffEncoderTest extends TestCase

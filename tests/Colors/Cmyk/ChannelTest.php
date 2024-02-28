@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Colors\Cmyk;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\Requires;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Colors\Cmyk\Channels\Cyan as Channel;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Tests\TestCase;
 
-#[Requires('extension gd')]
+#[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Colors\Cmyk\Channels\Cyan::class)]
 #[CoversClass(\Intervention\Image\Colors\Cmyk\Channels\Magenta::class)]
 #[CoversClass(\Intervention\Image\Colors\Cmyk\Channels\Yellow::class)]

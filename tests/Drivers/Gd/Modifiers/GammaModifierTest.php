@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Drivers\Gd\Modifiers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\Requires;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\GammaModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
-#[Requires('extension gd')]
+#[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Modifiers\GammaModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\GammaModifier::class)]
 final class GammaModifierTest extends TestCase

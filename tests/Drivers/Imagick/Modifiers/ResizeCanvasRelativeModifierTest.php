@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Drivers\Imagick\Modifiers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\Requires;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\ResizeCanvasRelativeModifier;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
-#[Requires('extension imagick')]
+#[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\ResizeCanvasRelativeModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\ResizeCanvasRelativeModifier::class)]
 final class ResizeCanvasRelativeModifierTest extends TestCase

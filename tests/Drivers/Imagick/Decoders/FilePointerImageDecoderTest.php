@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Drivers\Imagick\Decoders;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\Requires;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Drivers\Imagick\Decoders\FilePointerImageDecoder;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
 
-#[Requires('extension imagick')]
+#[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Decoders\FilePointerImageDecoder::class)]
 final class FilePointerImageDecoderTest extends TestCase
 {

@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Drivers\Gd\Analyzers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\Requires;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Analyzers\PixelColorsAnalyzer;
 use Intervention\Image\Collection;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Tests\TestCase;
 use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
 
-#[Requires('extension gd')]
+#[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Analyzers\PixelColorsAnalyzer::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Analyzers\PixelColorsAnalyzer::class)]
 final class PixelColorsAnalyzerTest extends TestCase

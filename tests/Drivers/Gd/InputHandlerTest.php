@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Drivers\Gd;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\Requires;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
 use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
@@ -15,7 +15,7 @@ use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Tests\TestCase;
 use SplFileInfo;
 
-#[Requires('extension gd')]
+#[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Drivers\Gd\InputHandler::class)]
 final class InputHandlerTest extends TestCase
 {

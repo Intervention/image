@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Colors\Rgb\Decoders;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\Requires;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Colors\Rgb\Decoders\StringColorDecoder;
 use Intervention\Image\Tests\TestCase;
 
-#[Requires('extension gd')]
+#[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Colors\Rgb\Decoders\StringColorDecoder::class)]
 final class StringColorDecoderTest extends TestCase
 {

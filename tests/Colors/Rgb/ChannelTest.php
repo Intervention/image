@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Colors\Rgb;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\Requires;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Colors\Rgb\Channels\Red as Channel;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Tests\TestCase;
 
-#[Requires('extension gd')]
+#[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Colors\Rgb\Channels\Red::class)]
 #[CoversClass(\Intervention\Image\Colors\Rgb\Channels\Green::class)]
 #[CoversClass(\Intervention\Image\Colors\Rgb\Channels\Blue::class)]

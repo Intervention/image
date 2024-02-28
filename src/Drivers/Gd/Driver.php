@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd;
 
 use Intervention\Image\Drivers\AbstractDriver;
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -79,6 +80,9 @@ class Driver extends AbstractDriver
             ) {
             }
 
+            /**
+             * @throws DecoderException
+             */
             public function add($source, float $delay = 1): self
             {
                 $this->core->add(

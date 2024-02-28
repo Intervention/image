@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
+use Intervention\Image\Exceptions\RuntimeException;
 use Traversable;
 use Intervention\Image\Analyzers\ColorspaceAnalyzer;
 use Intervention\Image\Analyzers\HeightAnalyzer;
@@ -892,6 +893,7 @@ final class Image implements ImageInterface
      *
      * @param mixed $options
      * @return EncodedImageInterface
+     * @throws RuntimeException
      */
     public function toJpg(mixed ...$options): EncodedImageInterface
     {
@@ -913,6 +915,7 @@ final class Image implements ImageInterface
      *
      * @param mixed $options
      * @return EncodedImageInterface
+     * @throws RuntimeException
      */
     public function toJp2(mixed ...$options): EncodedImageInterface
     {
@@ -963,6 +966,7 @@ final class Image implements ImageInterface
      * Alias if self::toBitmap()
      *
      * @return EncodedImageInterface
+     * @throws RuntimeException
      */
     public function toBmp(mixed ...$options): EncodedImageInterface
     {
@@ -994,6 +998,7 @@ final class Image implements ImageInterface
      *
      * @param mixed $options
      * @return EncodedImageInterface
+     * @throws RuntimeException
      */
     public function toTif(mixed ...$options): EncodedImageInterface
     {

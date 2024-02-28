@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
+use Intervention\Image\Exceptions\DecoderException;
+
 interface ModifierInterface
 {
     /**
@@ -11,6 +13,7 @@ interface ModifierInterface
      *
      * @param ImageInterface $image
      * @return ImageInterface
+     * @throws DecoderException
      */
     public function apply(ImageInterface $image): ImageInterface;
 }

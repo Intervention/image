@@ -14,6 +14,7 @@ abstract class AbstractDecoder extends GenericAbstractDecoder
      *
      * @param string $filepath
      * @return string
+     * @throws DecoderException
      */
     protected function getMediaTypeByFilePath(string $filepath): string
     {
@@ -35,6 +36,7 @@ abstract class AbstractDecoder extends GenericAbstractDecoder
      *
      * @param string $data
      * @return string
+     * @throws DecoderException
      */
     protected function getMediaTypeByBinary(string $data): string
     {

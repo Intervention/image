@@ -7,6 +7,7 @@ namespace Intervention\Image\Drivers\Gd\Encoders;
 use Intervention\Gif\Builder as GifBuilder;
 use Intervention\Image\Drivers\DriverSpecializedEncoder;
 use Intervention\Image\EncodedImage;
+use Intervention\Image\Exceptions\EncoderException;
 use Intervention\Image\Interfaces\ImageInterface;
 
 class GifEncoder extends DriverSpecializedEncoder
@@ -25,6 +26,9 @@ class GifEncoder extends DriverSpecializedEncoder
         return new EncodedImage($data, 'image/gif');
     }
 
+    /**
+     * @throws EncoderException
+     */
     protected function encodeAnimated(ImageInterface $image): EncodedImage
     {
         $builder = GifBuilder::canvas(

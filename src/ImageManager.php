@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
@@ -88,6 +89,7 @@ final class ImageManager
      * @param mixed $input
      * @param string|array|DecoderInterface $decoders
      * @return ImageInterface
+     * @throws DecoderException
      */
     public function read(mixed $input, string|array|DecoderInterface $decoders = []): ImageInterface
     {

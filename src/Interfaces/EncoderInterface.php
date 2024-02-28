@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
+use Intervention\Image\Exceptions\EncoderException;
+
 interface EncoderInterface
 {
     /**
@@ -11,6 +13,7 @@ interface EncoderInterface
      *
      * @param ImageInterface $image
      * @return EncodedImageInterface
+     * @throws EncoderException
      */
     public function encode(ImageInterface $image): EncodedImageInterface;
 }

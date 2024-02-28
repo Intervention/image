@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
+use Intervention\Image\Exceptions\DecoderException;
+
 interface DecoderInterface
 {
     /**
@@ -11,6 +13,7 @@ interface DecoderInterface
      *
      * @param mixed $input
      * @return ImageInterface|ColorInterface
+     * @throws DecoderException
      */
     public function decode(mixed $input): ImageInterface|ColorInterface;
 }

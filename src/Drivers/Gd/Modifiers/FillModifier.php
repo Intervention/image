@@ -6,6 +6,7 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Drivers\Gd\Frame;
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\ModifierInterface;
@@ -32,6 +33,9 @@ class FillModifier extends DriverSpecialized implements ModifierInterface
         return $image;
     }
 
+    /**
+     * @throws DecoderException
+     */
     private function color(ImageInterface $image): int
     {
         return $this->driver()->colorProcessor($image->colorspace())->colorToNative(

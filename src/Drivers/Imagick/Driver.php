@@ -7,6 +7,7 @@ namespace Intervention\Image\Drivers\Imagick;
 use Imagick;
 use ImagickPixel;
 use Intervention\Image\Drivers\AbstractDriver;
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -81,6 +82,9 @@ class Driver extends AbstractDriver
             ) {
             }
 
+            /**
+             * @throws DecoderException
+             */
             public function add($source, float $delay = 1): self
             {
                 $native = $this->driver->handleInput($source)->core()->native();

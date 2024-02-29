@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Modifiers;
 
+use Intervention\Image\Exceptions\GeometryException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -18,6 +20,9 @@ class ContainModifier extends SpecializableModifier
     ) {
     }
 
+    /**
+     * @throws RuntimeException
+     */
     public function getCropSize(ImageInterface $image): SizeInterface
     {
         return $image->size()

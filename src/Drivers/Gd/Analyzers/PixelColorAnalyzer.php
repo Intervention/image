@@ -27,6 +27,9 @@ class PixelColorAnalyzer extends DriverSpecialized implements AnalyzerInterface
         );
     }
 
+    /**
+     * @throws GeometryException
+     */
     protected function colorAt(ColorspaceInterface $colorspace, GdImage $gd): ColorInterface
     {
         $index = @imagecolorat($gd, $this->x, $this->y);

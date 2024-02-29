@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Modifiers;
 
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -18,6 +19,9 @@ class ResizeCanvasModifier extends SpecializableModifier
     ) {
     }
 
+    /**
+     * @throws RuntimeException
+     */
     public function cropSize(ImageInterface $image): SizeInterface
     {
         $width = is_null($this->width) ? $image->width() : $this->width;

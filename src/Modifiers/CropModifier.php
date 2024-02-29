@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Modifiers;
 
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -20,6 +21,9 @@ class CropModifier extends SpecializableModifier
     ) {
     }
 
+    /**
+     * @throws RuntimeException
+     */
     public function crop(ImageInterface $image): SizeInterface
     {
         $crop = new Rectangle($this->width, $this->height);

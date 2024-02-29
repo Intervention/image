@@ -93,6 +93,9 @@ class Driver extends AbstractDriver
                 return $this;
             }
 
+            /**
+             * @throws RuntimeException
+             */
             public function __invoke(): ImageInterface
             {
                 return new Image(

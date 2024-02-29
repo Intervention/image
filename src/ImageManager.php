@@ -57,6 +57,7 @@ final class ImageManager
      *
      * @param int $width
      * @param int $height
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function create(int $width, int $height): ImageInterface

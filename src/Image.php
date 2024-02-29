@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
+use Intervention\Image\Exceptions\RuntimeException;
 use Traversable;
 use Intervention\Image\Analyzers\ColorspaceAnalyzer;
 use Intervention\Image\Analyzers\HeightAnalyzer;
@@ -112,6 +113,7 @@ final class Image implements ImageInterface
      * @param DriverInterface $driver
      * @param CoreInterface $core
      * @param CollectionInterface $exif
+     * @throws RuntimeException
      * @return void
      */
     public function __construct(
@@ -891,7 +893,7 @@ final class Image implements ImageInterface
      * Alias of self::toJpeg()
      *
      * @param mixed $options
-     * @throws EncoderException
+     * @throws RuntimeException
      * @return EncodedImageInterface
      */
     public function toJpg(mixed ...$options): EncodedImageInterface
@@ -913,7 +915,7 @@ final class Image implements ImageInterface
      * ALias of self::toJpeg2000()
      *
      * @param mixed $options
-     * @throws EncoderException
+     * @throws RuntimeException
      * @return EncodedImageInterface
      */
     public function toJp2(mixed ...$options): EncodedImageInterface
@@ -964,7 +966,7 @@ final class Image implements ImageInterface
     /**
      * Alias if self::toBitmap()
      *
-     * @throws EncoderException
+     * @throws RuntimeException
      * @return EncodedImageInterface
      */
     public function toBmp(mixed ...$options): EncodedImageInterface
@@ -996,7 +998,7 @@ final class Image implements ImageInterface
      * Alias of self::toTiff()
      *
      * @param mixed $options
-     * @throws EncoderException
+     * @throws RuntimeException
      * @return EncodedImageInterface
      */
     public function toTif(mixed ...$options): EncodedImageInterface

@@ -6,8 +6,6 @@ namespace Intervention\Image\Interfaces;
 
 use Countable;
 use Intervention\Image\Encoders\AutoEncoder;
-use Intervention\Image\Exceptions\DecoderException;
-use Intervention\Image\Exceptions\EncoderException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Origin;
 use IteratorAggregate;
@@ -46,6 +44,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Return width of current image
      *
+     * @throws RuntimeException
      * @return int
      */
     public function width(): int;
@@ -53,6 +52,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Return height of current image
      *
+     * @throws RuntimeException
      * @return int
      */
     public function height(): int;
@@ -60,6 +60,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Return size of current image
      *
+     * @throws RuntimeException
      * @return SizeInterface
      */
     public function size(): SizeInterface;
@@ -68,7 +69,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Encode image with given encoder
      *
      * @param EncoderInterface $encoder
-     * @throws EncoderException
+     * @throws RuntimeException
      * @return EncodedImageInterface
      */
     public function encode(EncoderInterface $encoder = new AutoEncoder()): EncodedImageInterface;
@@ -96,6 +97,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Analyzer current image with given analyzer
      *
      * @param AnalyzerInterface $analyzer
+     * @throws RuntimeException
      * @return mixed
      */
     public function analyze(AnalyzerInterface $analyzer): mixed;
@@ -164,6 +166,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Return image resolution/density
      *
+     * @throws RuntimeException
      * @return ResolutionInterface
      */
     public function resolution(): ResolutionInterface;
@@ -181,6 +184,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Get the colorspace of the image
      *
+     * @throws RuntimeException
      * @return ColorspaceInterface
      */
     public function colorspace(): ColorspaceInterface;
@@ -200,6 +204,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $x
      * @param int $y
      * @param int $frame_key
+     * @throws RuntimeException
      * @return ColorInterface
      */
     public function pickColor(int $x, int $y, int $frame_key = 0): ColorInterface;
@@ -209,6 +214,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @param int $x
      * @param int $y
+     * @throws RuntimeException
      * @return CollectionInterface
      */
     public function pickColors(int $x, int $y): CollectionInterface;
@@ -243,6 +249,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Retrieve ICC color profile of image
      *
+     * @throws RuntimeException
      * @return ProfileInterface
      */
     public function profile(): ProfileInterface;
@@ -665,7 +672,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * will be encoded to the format of the originally read image.
      *
      * @param null|string $type
-     * @throws EncoderException
+     * @throws RuntimeException
      * @return EncodedImageInterface
      */
     public function encodeByMediaType(?string $type = null, ...$options): EncodedImageInterface;
@@ -676,7 +683,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * originally read image.
      *
      * @param null|string $extension
-     * @throws EncoderException
+     * @throws RuntimeException
      * @return EncodedImageInterface
      */
     public function encodeByExtension(?string $extension = null, mixed ...$options): EncodedImageInterface;
@@ -687,7 +694,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * the format of the originally read image.
      *
      * @param null|string $path
-     * @throws EncoderException
+     * @throws RuntimeException
      * @return EncodedImageInterface
      */
     public function encodeByPath(?string $path = null, mixed ...$options): EncodedImageInterface;
@@ -696,7 +703,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Encode image to JPEG format
      *
      * @param mixed $options
-     * @throws EncoderException
+     * @throws RuntimeException
      * @return EncodedImageInterface
      */
 
@@ -706,7 +713,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Encode image to Jpeg2000 format
      *
      * @param mixed $options
-     * @throws EncoderException
+     * @throws RuntimeException
      * @return EncodedImageInterface
      */
     public function toJpeg2000(mixed ...$options): EncodedImageInterface;
@@ -715,7 +722,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Encode image to Webp format
      *
      * @param mixed $options
-     * @throws EncoderException
+     * @throws RuntimeException
      * @return EncodedImageInterface
      */
     public function toWebp(mixed ...$options): EncodedImageInterface;
@@ -724,7 +731,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Encode image to PNG format
      *
      * @param mixed $options
-     * @throws EncoderException
+     * @throws RuntimeException
      * @return EncodedImageInterface
      */
     public function toPng(mixed ...$options): EncodedImageInterface;
@@ -733,7 +740,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Encode image to GIF format
      *
      * @param mixed $options
-     * @throws EncoderException
+     * @throws RuntimeException
      * @return EncodedImageInterface
      */
     public function toGif(mixed ...$options): EncodedImageInterface;
@@ -742,7 +749,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Encode image to Bitmap format
      *
      * @param mixed $options
-     * @throws EncoderException
+     * @throws RuntimeException
      * @return EncodedImageInterface
      */
     public function toBitmap(mixed ...$options): EncodedImageInterface;
@@ -751,7 +758,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Encode image to AVIF format
      *
      * @param mixed $options
-     * @throws EncoderException
+     * @throws RuntimeException
      * @return EncodedImageInterface
      */
     public function toAvif(mixed ...$options): EncodedImageInterface;
@@ -760,7 +767,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Encode image to TIFF format
      *
      * @param mixed $options
-     * @throws EncoderException
+     * @throws RuntimeException
      * @return EncodedImageInterface
      */
     public function toTiff(mixed ...$options): EncodedImageInterface;
@@ -769,7 +776,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Encode image to HEIC format
      *
      * @param mixed $options
-     * @throws EncoderException
+     * @throws RuntimeException
      * @return EncodedImageInterface
      */
     public function toHeic(mixed ...$options): EncodedImageInterface;

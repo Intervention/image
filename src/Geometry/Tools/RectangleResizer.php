@@ -10,6 +10,9 @@ use Intervention\Image\Interfaces\SizeInterface;
 
 class RectangleResizer
 {
+    /**
+     * @throws GeometryException
+     */
     public function __construct(
         protected ?int $width = null,
         protected ?int $height = null,
@@ -27,6 +30,9 @@ class RectangleResizer
         }
     }
 
+    /**
+     * @throws GeometryException
+     */
     public static function to(...$arguments): self
     {
         return new self(...$arguments);
@@ -52,6 +58,9 @@ class RectangleResizer
         return $this->hasTargetHeight() ? $this->height : null;
     }
 
+    /**
+     * @throws GeometryException
+     */
     protected function getTargetSize(): SizeInterface
     {
         if (!$this->hasTargetWidth() || !$this->hasTargetHeight()) {
@@ -201,6 +210,7 @@ class RectangleResizer
      * Scale given size to cover target size
      *
      * @param SizeInterface $size Size to be resized
+     * @throws GeometryException
      * @return SizeInterface
      */
     public function cover(SizeInterface $size): SizeInterface
@@ -224,6 +234,7 @@ class RectangleResizer
      * Scale given size to contain target size
      *
      * @param SizeInterface $size Size to be resized
+     * @throws GeometryException
      * @return SizeInterface
      */
     public function contain(SizeInterface $size): SizeInterface
@@ -247,6 +258,7 @@ class RectangleResizer
      * Scale given size to contain target size but prevent upsizing
      *
      * @param SizeInterface $size Size to be resized
+     * @throws GeometryException
      * @return SizeInterface
      */
     public function containDown(SizeInterface $size): SizeInterface

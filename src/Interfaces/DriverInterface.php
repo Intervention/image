@@ -38,6 +38,7 @@ interface DriverInterface
      *
      * @param int $width
      * @param int $height
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function createImage(int $width, int $height): ImageInterface;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers;
 
+use Intervention\Image\Exceptions\FontException;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\FontInterface;
@@ -90,6 +91,7 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
      *
      * @param TextBlock $block
      * @param FontInterface $font
+     * @throws FontException
      * @return TextBlock
      */
     protected function wrapTextBlock(TextBlock $block, FontInterface $font): TextBlock
@@ -111,6 +113,7 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
      *
      * @param Line $line
      * @param FontInterface $font
+     * @throws FontException
      * @return array
      */
     protected function wrapLine(Line $line, FontInterface $font): array
@@ -152,6 +155,7 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
      * @param TextBlock $block
      * @param FontInterface $font
      * @param PointInterface $position
+     * @throws FontException
      * @return PointInterface
      */
     protected function buildPivot(TextBlock $block, FontInterface $font, PointInterface $position): PointInterface

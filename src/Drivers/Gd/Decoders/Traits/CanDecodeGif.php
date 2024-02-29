@@ -9,6 +9,8 @@ use Intervention\Gif\Splitter as GifSplitter;
 use Intervention\Image\Drivers\Gd\Core;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Drivers\Gd\Frame;
+use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ImageInterface;
 
@@ -18,6 +20,7 @@ trait CanDecodeGif
      * Decode image from given GIF source which can be either a file path or binary data
      *
      * @param mixed $input
+     * @throws DriverException
      * @return ImageInterface
      */
     protected function decodeGif(mixed $input): ImageInterface

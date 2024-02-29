@@ -8,7 +8,6 @@ parameters:
         uncheckedExceptionClasses:
             - Intervention\Image\Exceptions\AnimationException
             - Intervention\Image\Exceptions\ColorException
-            - Intervention\Image\Exceptions\DriverException
             - Intervention\Image\Exceptions\GeometryException
             - Intervention\Image\Exceptions\FontException
             - Intervention\Image\Exceptions\InputException

@@ -43,7 +43,11 @@ class GifEncoder extends DriverSpecializedEncoder
             );
         }
 
-        $builder->setLoops($image->loops());
+        try {
+            $builder->setLoops($image->loops());
+        } catch (\Exception $e) {
+            throw new EncoderException($e->getMessage(), $e->getCode(), $e);
+        }
 
         return new EncodedImage($builder->encode(), 'image/gif');
     }

@@ -20,6 +20,9 @@ abstract class AbstractDrawModifier extends DriverSpecialized implements Modifie
         return $this->drawable->position();
     }
 
+    /**
+     * @throws DecoderException
+     */
     public function backgroundColor(): ColorInterface
     {
         try {
@@ -31,6 +34,9 @@ abstract class AbstractDrawModifier extends DriverSpecialized implements Modifie
         return $color;
     }
 
+    /**
+     * @throws DecoderException
+     */
     public function borderColor(): ColorInterface
     {
         try {

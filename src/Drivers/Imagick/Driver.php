@@ -8,7 +8,7 @@ use Imagick;
 use ImagickPixel;
 use Intervention\Image\Drivers\AbstractDriver;
 use Intervention\Image\Exceptions\DecoderException;
-use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorProcessorInterface;
@@ -38,7 +38,7 @@ class Driver extends AbstractDriver
     public function checkHealth(): void
     {
         if (!extension_loaded('imagick') || !class_exists('Imagick')) {
-            throw new RuntimeException(
+            throw new DriverException(
                 'Imagick PHP extension must be installed to use this driver.'
             );
         }

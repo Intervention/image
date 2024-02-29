@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Interfaces;
 
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\RuntimeException;
 
 interface DriverInterface
@@ -78,7 +79,7 @@ interface DriverInterface
      * Check whether all requirements for operating the driver are met and
      * throw exception if the check fails.
      *
-     * @throws RuntimeException
+     * @throws DriverException
      * @return void
      */
     public function checkHealth(): void;

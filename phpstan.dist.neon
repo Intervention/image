@@ -13,7 +13,6 @@ parameters:
             - Intervention\Image\Exceptions\FontException
             - Intervention\Image\Exceptions\InputException
             - Intervention\Image\Exceptions\NotSupportedException
-            - Intervention\Image\Exceptions\NotWritableException
             - ImagickException
             - ImagickDrawException
             - ImagickPixelException

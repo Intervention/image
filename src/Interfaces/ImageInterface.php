@@ -8,6 +8,7 @@ use Countable;
 use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\EncoderException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Origin;
 use IteratorAggregate;
 
@@ -77,7 +78,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * given, the image will be saved at its original location.
      *
      * @param null|string $path
-     * @throws EncoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function save(?string $path = null, ...$options): self;
@@ -86,7 +87,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Apply given modifier to current image
      *
      * @param ModifierInterface $modifier
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function modify(ModifierInterface $modifier): self;
@@ -115,7 +116,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * and the respective frame position is only determined approximately.
      *
      * @param int|string $position
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function removeAnimation(int|string $position = 0): self;
@@ -125,7 +126,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @param int $offset
      * @param null|int $length
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function sliceAnimation(int $offset = 0, ?int $length = null): self;
@@ -172,7 +173,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @param float $x
      * @param float $y
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function setResolution(float $x, float $y): self;
@@ -188,7 +189,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Transform image to given colorspace
      *
      * @param string|ColorspaceInterface $colorspace
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function setColorspace(string|ColorspaceInterface $colorspace): self;
@@ -225,7 +226,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * which does not support transparency.
      *
      * @param mixed $color
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function setBlendingColor(mixed $color): self;
@@ -234,7 +235,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Replace transparent areas of the image with given color
      *
      * @param mixed $color
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function blendTransparency(mixed $color = null): self;
@@ -250,7 +251,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Set given icc color profile to image
      *
      * @param ProfileInterface $profile
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function setProfile(ProfileInterface $profile): self;
@@ -258,7 +259,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Remove ICC color profile from the current image
      *
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function removeProfile(): self;
@@ -268,7 +269,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @param int $limit
      * @param mixed $background
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function reduceColors(int $limit, mixed $background = 'transparent'): self;
@@ -277,7 +278,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Sharpen the current image with given strength
      *
      * @param int $amount
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function sharpen(int $amount = 10): self;
@@ -285,7 +286,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Turn image into a greyscale version
      *
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function greyscale(): self;
@@ -294,7 +295,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Adjust brightness of the current image
      *
      * @param int $level
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function brightness(int $level): self;
@@ -303,7 +304,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Adjust color contrast of the current image
      *
      * @param int $level
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function contrast(int $level): self;
@@ -312,7 +313,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Apply gamma correction on the current image
      *
      * @param float $gamma
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function gamma(float $gamma): self;
@@ -323,7 +324,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $red
      * @param int $green
      * @param int $blue
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function colorize(int $red = 0, int $green = 0, int $blue = 0): self;
@@ -331,7 +332,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Mirror the current image horizontally
      *
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function flip(): self;
@@ -339,7 +340,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Mirror the current image vertically
      *
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function flop(): self;
@@ -348,7 +349,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Blur current image by given strength
      *
      * @param int $amount
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function blur(int $amount = 5): self;
@@ -356,7 +357,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Invert the colors of the current image
      *
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function invert(): self;
@@ -365,7 +366,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Apply pixelation filter effect on current image
      *
      * @param int $size
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function pixelate(int $size): self;
@@ -375,7 +376,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @param float $angle
      * @param string $background
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function rotate(float $angle, mixed $background = 'ffffff'): self;
@@ -387,7 +388,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $x
      * @param int $y
      * @param callable|FontInterface $font
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function text(string $text, int $x, int $y, callable|FontInterface $font): self;
@@ -397,7 +398,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @param null|int $width
      * @param null|int $height
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function resize(?int $width = null, ?int $height = null): self;
@@ -407,7 +408,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @param null|int $width
      * @param null|int $height
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function resizeDown(?int $width = null, ?int $height = null): self;
@@ -417,7 +418,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @param null|int $width
      * @param null|int $height
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function scale(?int $width = null, ?int $height = null): self;
@@ -428,7 +429,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @param null|int $width
      * @param null|int $height
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function scaleDown(?int $width = null, ?int $height = null): self;
@@ -441,7 +442,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $width
      * @param int $height
      * @param string $position
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function cover(int $width, int $height, string $position = 'center'): self;
@@ -452,7 +453,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $width
      * @param int $height
      * @param string $position
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function coverDown(int $width, int $height, string $position = 'center'): self;
@@ -467,7 +468,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|int $height
      * @param string $position
      * @param mixed $background
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function resizeCanvas(
@@ -486,7 +487,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|int $height
      * @param string $position
      * @param mixed $background
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function resizeCanvasRelative(
@@ -509,7 +510,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $height
      * @param string $background
      * @param string $position
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function pad(
@@ -527,7 +528,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $height
      * @param string $background
      * @param string $position
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function contain(
@@ -548,7 +549,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $offset_y
      * @param mixed $background
      * @param string $position
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function crop(
@@ -568,7 +569,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $offset_x
      * @param int $offset_y
      * @param int $opacity
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function place(
@@ -592,7 +593,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param mixed $color
      * @param null|int $x
      * @param null|int $y
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function fill(mixed $color, ?int $x = null, ?int $y = null): self;
@@ -603,7 +604,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $x
      * @param int $y
      * @param mixed $color
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function drawPixel(int $x, int $y, mixed $color): self;
@@ -614,7 +615,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $x
      * @param int $y
      * @param callable $init
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function drawRectangle(int $x, int $y, callable $init): self;
@@ -625,7 +626,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $x
      * @param int $y
      * @param callable $init
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function drawEllipse(int $x, int $y, callable $init): self;
@@ -636,7 +637,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $x
      * @param int $y
      * @param callable $init
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function drawCircle(int $x, int $y, callable $init): self;
@@ -645,7 +646,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Draw a polygon on the current image
      *
      * @param callable $init
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function drawPolygon(callable $init): self;
@@ -654,7 +655,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Draw a line on the current image
      *
      * @param callable $init
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function drawLine(callable $init): self;

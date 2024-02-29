@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Encoders;
 
+use Exception;
 use Intervention\Gif\Builder as GifBuilder;
 use Intervention\Image\Drivers\DriverSpecializedEncoder;
 use Intervention\Image\EncodedImage;
@@ -45,7 +46,7 @@ class GifEncoder extends DriverSpecializedEncoder
 
         try {
             $builder->setLoops($image->loops());
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new EncoderException($e->getMessage(), $e->getCode(), $e);
         }
 

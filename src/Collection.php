@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
-use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\CollectionInterface;
 use ArrayIterator;
 use Countable;
@@ -198,10 +197,6 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
      */
     public function slice(int $offset, ?int $length = null): CollectionInterface
     {
-        if ($offset >= count($this->items)) {
-            throw new RuntimeException('Offset exceeds the maximum value.');
-        }
-
         $this->items = array_slice($this->items, $offset, $length);
 
         return $this;

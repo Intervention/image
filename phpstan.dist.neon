@@ -1,0 +1,20 @@
+parameters:
+    level: 4
+    paths:
+        - src
+    exceptions:
+        check:
+            missingCheckedExceptionInThrows: true
+        uncheckedExceptionClasses:
+            - Intervention\Image\Exceptions\AnimationException
+            - Intervention\Image\Exceptions\ColorException
+            - Intervention\Image\Exceptions\DriverException
+            - Intervention\Image\Exceptions\GeometryException
+            - Intervention\Image\Exceptions\FontException
+            - Intervention\Image\Exceptions\InputException
+            - Intervention\Image\Exceptions\NotSupportedException
+            - Intervention\Image\Exceptions\NotWritableException
+            - ImagickException
+            - ImagickDrawException
+            - ImagickPixelException
+            - Error

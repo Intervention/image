@@ -99,7 +99,7 @@ jobs:
         run: vendor/bin/phpunit --no-coverage
 
       - name: Run analyzer
-        run: vendor/bin/phpstan analyze --level=4 ./src
+        run: vendor/bin/phpstan
 
       - name: Validate coding standards
         run: vendor/bin/phpcs

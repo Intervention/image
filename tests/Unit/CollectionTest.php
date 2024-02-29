@@ -6,10 +6,9 @@ namespace Intervention\Image\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Collection;
-use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Tests\BaseTestCase;
 
-#[CoversClass(\Intervention\Image\Collection::class)]
+#[CoversClass(Collection::class)]
 final class CollectionTest extends BaseTestCase
 {
     public function testConstructor(): void
@@ -173,8 +172,9 @@ final class CollectionTest extends BaseTestCase
 
     public function testSliceOutOfBounds(): void
     {
-        $this->expectException(RuntimeException::class);
         $collection = new Collection(['a', 'b', 'c']);
-        $collection->slice(6);
+        $result = $collection->slice(6);
+        $this->assertEquals(0, $result->count());
+        $this->assertEquals([], $result->toArray());
     }
 }

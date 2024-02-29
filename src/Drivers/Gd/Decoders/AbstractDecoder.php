@@ -13,8 +13,8 @@ abstract class AbstractDecoder extends GenericAbstractDecoder
      * Return media (mime) type of the file at given file path
      *
      * @param string $filepath
-     * @return string
      * @throws DecoderException
+     * @return string
      */
     protected function getMediaTypeByFilePath(string $filepath): string
     {
@@ -35,8 +35,8 @@ abstract class AbstractDecoder extends GenericAbstractDecoder
      * Return media (mime) type of the given image data
      *
      * @param string $data
-     * @return string
      * @throws DecoderException
+     * @return string
      */
     protected function getMediaTypeByBinary(string $data): string
     {

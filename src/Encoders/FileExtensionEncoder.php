@@ -41,8 +41,8 @@ class FileExtensionEncoder extends AutoEncoder
      * Create matching encoder for given file extension
      *
      * @param string $extension
-     * @return EncoderInterface
      * @throws EncoderException
+     * @return EncoderInterface
      */
     protected function encoderByFileExtension(?string $extension): EncoderInterface
     {

@@ -45,10 +45,10 @@ class FontProcessor extends AbstractFontProcessor
      *
      * @param FontInterface $font
      * @param null|ImagickPixel $color
-     * @return ImagickDraw
      * @throws FontException
      * @throws ImagickDrawException
      * @throws ImagickException
+     * @return ImagickDraw
      */
     public function toImagickDraw(FontInterface $font, ?ImagickPixel $color = null): ImagickDraw
     {

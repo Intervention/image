@@ -12,8 +12,8 @@ interface EncoderInterface
      * Encode given image
      *
      * @param ImageInterface $image
-     * @return EncodedImageInterface
      * @throws EncoderException
+     * @return EncodedImageInterface
      */
     public function encode(ImageInterface $image): EncodedImageInterface;
 }

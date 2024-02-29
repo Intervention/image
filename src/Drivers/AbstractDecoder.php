@@ -25,8 +25,8 @@ abstract class AbstractDecoder extends DriverSpecialized implements DecoderInter
      * Try to decode given input to image or color object
      *
      * @param mixed $input
-     * @return ImageInterface|ColorInterface
      * @throws DecoderException
+     * @return ImageInterface|ColorInterface
      */
     final public function handle(mixed $input): ImageInterface|ColorInterface
     {

@@ -88,8 +88,8 @@ final class ImageManager
      *
      * @param mixed $input
      * @param string|array|DecoderInterface $decoders
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function read(mixed $input, string|array|DecoderInterface $decoders = []): ImageInterface
     {

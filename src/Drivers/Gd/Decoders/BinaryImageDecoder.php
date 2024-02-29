@@ -36,8 +36,8 @@ class BinaryImageDecoder extends GdImageDecoder implements DecoderInterface
      * Decode image from given binary data
      *
      * @param string $input
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     private function decodeBinary(string $input): ImageInterface
     {

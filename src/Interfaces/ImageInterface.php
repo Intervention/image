@@ -67,8 +67,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Encode image with given encoder
      *
      * @param EncoderInterface $encoder
-     * @return EncodedImageInterface
      * @throws EncoderException
+     * @return EncodedImageInterface
      */
     public function encode(EncoderInterface $encoder = new AutoEncoder()): EncodedImageInterface;
 
@@ -77,8 +77,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * given, the image will be saved at its original location.
      *
      * @param null|string $path
-     * @return ImageInterface
      * @throws EncoderException
+     * @return ImageInterface
      */
     public function save(?string $path = null, ...$options): self;
 
@@ -86,8 +86,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Apply given modifier to current image
      *
      * @param ModifierInterface $modifier
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function modify(ModifierInterface $modifier): self;
 
@@ -115,8 +115,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * and the respective frame position is only determined approximately.
      *
      * @param int|string $position
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function removeAnimation(int|string $position = 0): self;
 
@@ -125,8 +125,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @param int $offset
      * @param null|int $length
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function sliceAnimation(int $offset = 0, ?int $length = null): self;
 
@@ -172,8 +172,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @param float $x
      * @param float $y
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function setResolution(float $x, float $y): self;
 
@@ -188,8 +188,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Transform image to given colorspace
      *
      * @param string|ColorspaceInterface $colorspace
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function setColorspace(string|ColorspaceInterface $colorspace): self;
 
@@ -225,8 +225,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * which does not support transparency.
      *
      * @param mixed $color
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function setBlendingColor(mixed $color): self;
 
@@ -234,8 +234,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Replace transparent areas of the image with given color
      *
      * @param mixed $color
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function blendTransparency(mixed $color = null): self;
 
@@ -250,16 +250,16 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Set given icc color profile to image
      *
      * @param ProfileInterface $profile
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function setProfile(ProfileInterface $profile): self;
 
     /**
      * Remove ICC color profile from the current image
      *
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function removeProfile(): self;
 
@@ -268,8 +268,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @param int $limit
      * @param mixed $background
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function reduceColors(int $limit, mixed $background = 'transparent'): self;
 
@@ -277,16 +277,16 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Sharpen the current image with given strength
      *
      * @param int $amount
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function sharpen(int $amount = 10): self;
 
     /**
      * Turn image into a greyscale version
      *
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function greyscale(): self;
 
@@ -294,8 +294,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Adjust brightness of the current image
      *
      * @param int $level
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function brightness(int $level): self;
 
@@ -303,8 +303,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Adjust color contrast of the current image
      *
      * @param int $level
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function contrast(int $level): self;
 
@@ -312,8 +312,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Apply gamma correction on the current image
      *
      * @param float $gamma
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function gamma(float $gamma): self;
 
@@ -323,24 +323,24 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $red
      * @param int $green
      * @param int $blue
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function colorize(int $red = 0, int $green = 0, int $blue = 0): self;
 
     /**
      * Mirror the current image horizontally
      *
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function flip(): self;
 
     /**
      * Mirror the current image vertically
      *
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function flop(): self;
 
@@ -348,16 +348,16 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Blur current image by given strength
      *
      * @param int $amount
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function blur(int $amount = 5): self;
 
     /**
      * Invert the colors of the current image
      *
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function invert(): self;
 
@@ -365,8 +365,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Apply pixelation filter effect on current image
      *
      * @param int $size
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function pixelate(int $size): self;
 
@@ -375,8 +375,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @param float $angle
      * @param string $background
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function rotate(float $angle, mixed $background = 'ffffff'): self;
 
@@ -387,8 +387,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $x
      * @param int $y
      * @param callable|FontInterface $font
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function text(string $text, int $x, int $y, callable|FontInterface $font): self;
 
@@ -397,8 +397,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @param null|int $width
      * @param null|int $height
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function resize(?int $width = null, ?int $height = null): self;
 
@@ -407,8 +407,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @param null|int $width
      * @param null|int $height
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function resizeDown(?int $width = null, ?int $height = null): self;
 
@@ -417,8 +417,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @param null|int $width
      * @param null|int $height
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function scale(?int $width = null, ?int $height = null): self;
 
@@ -428,8 +428,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @param null|int $width
      * @param null|int $height
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function scaleDown(?int $width = null, ?int $height = null): self;
 
@@ -441,8 +441,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $width
      * @param int $height
      * @param string $position
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function cover(int $width, int $height, string $position = 'center'): self;
 
@@ -452,8 +452,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $width
      * @param int $height
      * @param string $position
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function coverDown(int $width, int $height, string $position = 'center'): self;
 
@@ -467,8 +467,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|int $height
      * @param string $position
      * @param mixed $background
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function resizeCanvas(
         ?int $width = null,
@@ -486,8 +486,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param null|int $height
      * @param string $position
      * @param mixed $background
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function resizeCanvasRelative(
         ?int $width = null,
@@ -509,8 +509,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $height
      * @param string $background
      * @param string $position
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function pad(
         int $width,
@@ -527,8 +527,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $height
      * @param string $background
      * @param string $position
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function contain(
         int $width,
@@ -548,8 +548,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $offset_y
      * @param mixed $background
      * @param string $position
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function crop(
         int $width,
@@ -568,8 +568,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $offset_x
      * @param int $offset_y
      * @param int $opacity
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function place(
         mixed $element,
@@ -592,8 +592,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param mixed $color
      * @param null|int $x
      * @param null|int $y
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function fill(mixed $color, ?int $x = null, ?int $y = null): self;
 
@@ -603,8 +603,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $x
      * @param int $y
      * @param mixed $color
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function drawPixel(int $x, int $y, mixed $color): self;
 
@@ -614,8 +614,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $x
      * @param int $y
      * @param callable $init
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function drawRectangle(int $x, int $y, callable $init): self;
 
@@ -625,8 +625,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $x
      * @param int $y
      * @param callable $init
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function drawEllipse(int $x, int $y, callable $init): self;
 
@@ -636,8 +636,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param int $x
      * @param int $y
      * @param callable $init
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function drawCircle(int $x, int $y, callable $init): self;
 
@@ -645,8 +645,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Draw a polygon on the current image
      *
      * @param callable $init
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function drawPolygon(callable $init): self;
 
@@ -654,8 +654,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Draw a line on the current image
      *
      * @param callable $init
-     * @return ImageInterface
      * @throws DecoderException
+     * @return ImageInterface
      */
     public function drawLine(callable $init): self;
 
@@ -664,8 +664,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * will be encoded to the format of the originally read image.
      *
      * @param null|string $type
-     * @return EncodedImageInterface
      * @throws EncoderException
+     * @return EncodedImageInterface
      */
     public function encodeByMediaType(?string $type = null, ...$options): EncodedImageInterface;
 
@@ -675,8 +675,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * originally read image.
      *
      * @param null|string $extension
-     * @return EncodedImageInterface
      * @throws EncoderException
+     * @return EncodedImageInterface
      */
     public function encodeByExtension(?string $extension = null, mixed ...$options): EncodedImageInterface;
 
@@ -686,8 +686,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * the format of the originally read image.
      *
      * @param null|string $path
-     * @return EncodedImageInterface
      * @throws EncoderException
+     * @return EncodedImageInterface
      */
     public function encodeByPath(?string $path = null, mixed ...$options): EncodedImageInterface;
 
@@ -695,8 +695,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Encode image to JPEG format
      *
      * @param mixed $options
-     * @return EncodedImageInterface
      * @throws EncoderException
+     * @return EncodedImageInterface
      */
 
     public function toJpeg(mixed ...$options): EncodedImageInterface;
@@ -705,8 +705,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Encode image to Jpeg2000 format
      *
      * @param mixed $options
-     * @return EncodedImageInterface
      * @throws EncoderException
+     * @return EncodedImageInterface
      */
     public function toJpeg2000(mixed ...$options): EncodedImageInterface;
 
@@ -714,8 +714,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Encode image to Webp format
      *
      * @param mixed $options
-     * @return EncodedImageInterface
      * @throws EncoderException
+     * @return EncodedImageInterface
      */
     public function toWebp(mixed ...$options): EncodedImageInterface;
 
@@ -723,8 +723,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Encode image to PNG format
      *
      * @param mixed $options
-     * @return EncodedImageInterface
      * @throws EncoderException
+     * @return EncodedImageInterface
      */
     public function toPng(mixed ...$options): EncodedImageInterface;
 
@@ -732,8 +732,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Encode image to GIF format
      *
      * @param mixed $options
-     * @return EncodedImageInterface
      * @throws EncoderException
+     * @return EncodedImageInterface
      */
     public function toGif(mixed ...$options): EncodedImageInterface;
 
@@ -741,8 +741,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Encode image to Bitmap format
      *
      * @param mixed $options
-     * @return EncodedImageInterface
      * @throws EncoderException
+     * @return EncodedImageInterface
      */
     public function toBitmap(mixed ...$options): EncodedImageInterface;
 
@@ -750,8 +750,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Encode image to AVIF format
      *
      * @param mixed $options
-     * @return EncodedImageInterface
      * @throws EncoderException
+     * @return EncodedImageInterface
      */
     public function toAvif(mixed ...$options): EncodedImageInterface;
 
@@ -759,8 +759,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Encode image to TIFF format
      *
      * @param mixed $options
-     * @return EncodedImageInterface
      * @throws EncoderException
+     * @return EncodedImageInterface
      */
     public function toTiff(mixed ...$options): EncodedImageInterface;
 
@@ -768,8 +768,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Encode image to HEIC format
      *
      * @param mixed $options
-     * @return EncodedImageInterface
      * @throws EncoderException
+     * @return EncodedImageInterface
      */
     public function toHeic(mixed ...$options): EncodedImageInterface;
 }

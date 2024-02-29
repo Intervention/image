@@ -31,8 +31,8 @@ abstract class AbstractInputHandler implements InputHandlerInterface
     /**
      * Stack the decoder array into a nested decoder object
      *
-     * @return AbstractDecoder
      * @throws DecoderException
+     * @return AbstractDecoder
      */
     protected function chain(): AbstractDecoder
     {

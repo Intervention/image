@@ -34,8 +34,8 @@ class MediaTypeEncoder extends SpecializableEncoder implements EncoderInterface
      * Return new encoder by given media (MIME) type
      *
      * @param string $type
-     * @return EncoderInterface
      * @throws EncoderException
+     * @return EncoderInterface
      */
     protected function encoderByMediaType(string $type): EncoderInterface
     {

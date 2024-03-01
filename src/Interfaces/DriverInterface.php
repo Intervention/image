@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
-use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\RuntimeException;
 

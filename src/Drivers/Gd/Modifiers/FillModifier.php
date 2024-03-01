@@ -6,7 +6,6 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Drivers\Gd\Frame;
-use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Geometry\Point;

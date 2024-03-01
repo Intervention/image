@@ -6,6 +6,7 @@ namespace Intervention\Image\Drivers\Imagick\Analyzers;
 
 use Imagick;
 use Intervention\Image\Drivers\DriverSpecialized;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
@@ -26,6 +27,9 @@ class PixelColorAnalyzer extends DriverSpecialized implements AnalyzerInterface
         );
     }
 
+    /**
+     * @throws ColorException
+     */
     protected function colorAt(ColorspaceInterface $colorspace, Imagick $imagick): ColorInterface
     {
         return $this->driver()

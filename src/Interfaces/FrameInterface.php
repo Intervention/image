@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
+use Intervention\Image\Exceptions\RuntimeException;
+
 interface FrameInterface
 {
     /**
@@ -25,6 +27,7 @@ interface FrameInterface
      * Transform frame into an image
      *
      * @param DriverInterface $driver
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function toImage(DriverInterface $driver): ImageInterface;

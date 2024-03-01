@@ -52,6 +52,7 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
     /**
      * Return imagick font processor
      *
+     * @throws FontException
      * @return FontProcessor
      */
     private function processor(): FontProcessor

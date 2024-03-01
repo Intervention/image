@@ -9,6 +9,7 @@ use Intervention\Gif\Builder as GifBuilder;
 use Intervention\Image\Drivers\DriverSpecializedEncoder;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Exceptions\EncoderException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ImageInterface;
 
 class GifEncoder extends DriverSpecializedEncoder
@@ -28,7 +29,7 @@ class GifEncoder extends DriverSpecializedEncoder
     }
 
     /**
-     * @throws EncoderException
+     * @throws RuntimeException
      */
     protected function encodeAnimated(ImageInterface $image): EncodedImage
     {

@@ -7,8 +7,8 @@ namespace Intervention\Image\Drivers\Imagick;
 use Imagick;
 use ImagickPixel;
 use Intervention\Image\Drivers\AbstractDriver;
-use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorProcessorInterface;
@@ -83,7 +83,7 @@ class Driver extends AbstractDriver
             }
 
             /**
-             * @throws DecoderException
+             * @throws RuntimeException
              */
             public function add($source, float $delay = 1): self
             {
@@ -95,6 +95,9 @@ class Driver extends AbstractDriver
                 return $this;
             }
 
+            /**
+             * @throws RuntimeException
+             */
             public function __invoke(): ImageInterface
             {
                 return new Image(

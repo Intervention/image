@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
-use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\RuntimeException;
 
 interface ColorInterface
 {
@@ -13,7 +13,7 @@ interface ColorInterface
      * and returns a corresponding color object
      *
      * @param mixed $input
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ColorInterface
      */
     public static function create(mixed $input): self;

@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
+use Intervention\Image\Exceptions\AnimationException;
+
 interface CoreInterface extends CollectionInterface
 {
     /**
      * return driver's representation of the image core.
      *
+     * @throws AnimationException
      * @return mixed
      */
     public function native(): mixed;
@@ -32,6 +35,7 @@ interface CoreInterface extends CollectionInterface
      * Return frame of given position in an animated image
      *
      * @param int $position
+     * @throws AnimationException
      * @return FrameInterface
      */
     public function frame(int $position): FrameInterface;
@@ -63,7 +67,16 @@ interface CoreInterface extends CollectionInterface
     /**
      * Get first frame in core
      *
+     * @throws AnimationException
      * @return FrameInterface
      */
     public function first(): FrameInterface;
+
+    /**
+     * Get last frame in core
+     *
+     * @throws AnimationException
+     * @return FrameInterface
+     */
+    public function last(): FrameInterface;
 }

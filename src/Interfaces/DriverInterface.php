@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
-use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\RuntimeException;
 
 interface DriverInterface
 {
@@ -37,6 +37,7 @@ interface DriverInterface
      *
      * @param int $width
      * @param int $height
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function createImage(int $width, int $height): ImageInterface;
@@ -54,7 +55,7 @@ interface DriverInterface
      *
      * @param mixed $input
      * @param array $decoders
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface|ColorInterface
      */
     public function handleInput(mixed $input, array $decoders = []): ImageInterface|ColorInterface;

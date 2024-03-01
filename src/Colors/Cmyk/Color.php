@@ -19,6 +19,7 @@ class Color extends AbstractColor
 {
     public function __construct(int $c, int $m, int $y, int $k)
     {
+        /** @throws void */
         $this->channels = [
             new Cyan($c),
             new Magenta($m),
@@ -48,21 +49,25 @@ class Color extends AbstractColor
 
     public function cyan(): ColorChannelInterface
     {
+        /** @throws void */
         return $this->channel(Cyan::class);
     }
 
     public function magenta(): ColorChannelInterface
     {
+        /** @throws void */
         return $this->channel(Magenta::class);
     }
 
     public function yellow(): ColorChannelInterface
     {
+        /** @throws void */
         return $this->channel(Yellow::class);
     }
 
     public function key(): ColorChannelInterface
     {
+        /** @throws void */
         return $this->channel(Key::class);
     }
 

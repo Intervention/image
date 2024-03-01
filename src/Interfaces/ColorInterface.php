@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\RuntimeException;
 
 interface ColorInterface
@@ -64,6 +65,7 @@ interface ColorInterface
      * Retrieve the color channel by its classname
      *
      * @param string $classname
+     * @throws ColorException
      * @return ColorChannelInterface
      */
     public function channel(string $classname): ColorChannelInterface;

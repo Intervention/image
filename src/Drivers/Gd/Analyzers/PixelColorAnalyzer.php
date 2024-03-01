@@ -6,6 +6,7 @@ namespace Intervention\Image\Drivers\Gd\Analyzers;
 
 use GdImage;
 use Intervention\Image\Drivers\DriverSpecialized;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\GeometryException;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -29,6 +30,7 @@ class PixelColorAnalyzer extends DriverSpecialized implements AnalyzerInterface
 
     /**
      * @throws GeometryException
+     * @throws ColorException
      */
     protected function colorAt(ColorspaceInterface $colorspace, GdImage $gd): ColorInterface
     {

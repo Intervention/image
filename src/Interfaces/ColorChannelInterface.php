@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
+use Intervention\Image\Exceptions\ColorException;
+
 interface ColorChannelInterface
 {
     /**
@@ -11,6 +13,7 @@ interface ColorChannelInterface
      *
      * @param int|null $value
      * @param float|null $normalized
+     * @throws ColorException
      */
     public function __construct(?int $value = null, ?float $normalized = null);
 
@@ -32,6 +35,7 @@ interface ColorChannelInterface
      * Throw exception if the given value is not applicable for channel
      * otherwise the value is returned unchanged.
      *
+     * @throws ColorException
      * @return mixed
      */
     public function validate(mixed $value): mixed;

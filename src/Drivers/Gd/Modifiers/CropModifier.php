@@ -6,6 +6,7 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Drivers\Gd\Cloner;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
@@ -34,6 +35,9 @@ class CropModifier extends DriverSpecialized implements ModifierInterface
         return $image;
     }
 
+    /**
+     * @throws ColorException
+     */
     protected function cropFrame(
         FrameInterface $frame,
         SizeInterface $originalSize,

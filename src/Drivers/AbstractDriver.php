@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers;
 
+use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\AnalyzerInterface;
@@ -16,6 +17,9 @@ use ReflectionClass;
 
 abstract class AbstractDriver implements DriverInterface
 {
+    /**
+     * @throws DriverException
+     */
     public function __construct()
     {
         $this->checkHealth();

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers;
 
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
@@ -21,7 +22,7 @@ abstract class AbstractDrawModifier extends DriverSpecialized implements Modifie
     }
 
     /**
-     * @throws DecoderException
+     * @throws RuntimeException
      */
     public function backgroundColor(): ColorInterface
     {
@@ -35,7 +36,7 @@ abstract class AbstractDrawModifier extends DriverSpecialized implements Modifie
     }
 
     /**
-     * @throws DecoderException
+     * @throws RuntimeException
      */
     public function borderColor(): ColorInterface
     {

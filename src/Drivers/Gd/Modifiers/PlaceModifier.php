@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\DriverSpecialized;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
@@ -44,6 +45,7 @@ class PlaceModifier extends DriverSpecialized implements ModifierInterface
      * @param FrameInterface $frame
      * @param ImageInterface $watermark
      * @param PointInterface $position
+     * @throws RuntimeException
      * @return void
      */
     private function placeOpaque(FrameInterface $frame, ImageInterface $watermark, PointInterface $position): void
@@ -76,6 +78,7 @@ class PlaceModifier extends DriverSpecialized implements ModifierInterface
      * @param FrameInterface $frame
      * @param ImageInterface $watermark
      * @param PointInterface $position
+     * @throws RuntimeException
      * @return void
      */
     private function placeTransparent(FrameInterface $frame, ImageInterface $watermark, PointInterface $position): void

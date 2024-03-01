@@ -6,6 +6,7 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Drivers\Gd\Cloner;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
@@ -50,6 +51,9 @@ class ResizeModifier extends DriverSpecialized implements ModifierInterface
         $frame->setNative($modified);
     }
 
+    /**
+     * @throws RuntimeException
+     */
     protected function getAdjustedSize(ImageInterface $image): SizeInterface
     {
         return $image->size()->resize($this->width, $this->height);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -36,7 +37,7 @@ class BinaryImageDecoder extends GdImageDecoder implements DecoderInterface
      * Decode image from given binary data
      *
      * @param string $input
-     * @throws DecoderException
+     * @throws RuntimeException
      * @return ImageInterface
      */
     private function decodeBinary(string $input): ImageInterface

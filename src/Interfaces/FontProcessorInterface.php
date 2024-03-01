@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
+use Intervention\Image\Exceptions\FontException;
 use Intervention\Image\Typography\TextBlock;
 
 interface FontProcessorInterface
@@ -11,6 +12,7 @@ interface FontProcessorInterface
     /**
      * Calculate size of bounding box of given text in conjuction with the given font
      *
+     * @throws FontException
      * @return SizeInterface
      */
     public function boxSize(string $text, FontInterface $font): SizeInterface;
@@ -22,6 +24,7 @@ interface FontProcessorInterface
      * @param string $text
      * @param FontInterface $font
      * @param PointInterface $position
+     * @throws FontException
      * @return TextBlock
      */
     public function textBlock(string $text, FontInterface $font, PointInterface $position): TextBlock;
@@ -36,6 +39,7 @@ interface FontProcessorInterface
     /**
      * Calculate the typographical font size in pixels
      *
+     * @throws FontException
      * @return int
      */
     public function typographicalSize(FontInterface $font): int;
@@ -44,6 +48,7 @@ interface FontProcessorInterface
      * Calculates typographical cap height
      *
      * @param FontInterface $font
+     * @throws FontException
      * @return int
      */
     public function capHeight(FontInterface $font): int;
@@ -52,6 +57,7 @@ interface FontProcessorInterface
      * Calculates typographical leading size
      *
      * @param FontInterface $font
+     * @throws FontException
      * @return int
      */
     public function leading(FontInterface $font): int;

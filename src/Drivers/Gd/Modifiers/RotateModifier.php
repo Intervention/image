@@ -9,6 +9,7 @@ use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Drivers\Gd\Cloner;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
@@ -37,6 +38,7 @@ class RotateModifier extends DriverSpecialized implements ModifierInterface
      * color is used for newly create image areas
      *
      * @param FrameInterface $frame
+     * @throws ColorException
      * @param ColorInterface $background
      * @return void
      */

@@ -6,6 +6,7 @@ namespace Intervention\Image\Drivers\Gd;
 
 use GdImage;
 use Intervention\Image\Colors\Rgb\Color;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -16,6 +17,7 @@ class Cloner
      * Create a clone of the given GdImage
      *
      * @param GdImage $gd
+     * @throws ColorException
      * @return GdImage
      */
     public static function clone(GdImage $gd): GdImage
@@ -39,6 +41,7 @@ class Cloner
      * @param GdImage $gd
      * @param null|SizeInterface $size
      * @param ColorInterface $background
+     * @throws ColorException
      * @return GdImage
      */
     public static function cloneEmpty(
@@ -76,6 +79,7 @@ class Cloner
      *
      * @param GdImage $gd
      * @param ColorInterface $background
+     * @throws ColorException
      * @return GdImage
      */
     public static function cloneBlended(GdImage $gd, ColorInterface $background): GdImage

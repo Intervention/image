@@ -6,6 +6,7 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Drivers\Gd\Cloner;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -28,6 +29,9 @@ class ResizeModifier extends DriverSpecialized implements ModifierInterface
         return $image;
     }
 
+    /**
+     * @throws ColorException
+     */
     private function resizeFrame(FrameInterface $frame, SizeInterface $resizeTo): void
     {
         // create empty canvas in target size

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Interfaces;
 
 use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Exceptions\RuntimeException;
 
 interface DriverInterface
@@ -20,6 +21,7 @@ interface DriverInterface
      * Resolve given object into a specialized version for the current driver
      *
      * @param object $object
+     * @throws NotSupportedException
      * @return ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface
      */
     public function specialize(object $object): ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface;

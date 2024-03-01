@@ -9,6 +9,7 @@ use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Drivers\Gd\Cloner;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -39,6 +40,9 @@ class ContainModifier extends DriverSpecialized implements ModifierInterface
         return $image;
     }
 
+    /**
+     * @throws ColorException
+     */
     protected function modify(
         FrameInterface $frame,
         SizeInterface $crop,

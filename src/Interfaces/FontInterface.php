@@ -19,12 +19,12 @@ interface FontInterface
      *
      * @return mixed
      */
-    public function color(): mixed;    
-    
+    public function color(): mixed;
+
     /**
      * Set stroke color of font
      *
-     * @param mixed $strokeColor
+     * @param mixed $color
      * @return FontInterface
      */
     public function setStrokeColor(mixed $color): self;
@@ -40,7 +40,7 @@ interface FontInterface
     /**
      * Set stroke width of font
      *
-     * @param int $strokeWidth
+     * @param int $width
      * @return FontInterface
      */
     public function setStrokeWidth(int $width): self;
@@ -51,7 +51,7 @@ interface FontInterface
      * @return int
      */
     public function strokeWidth(): int;
-    
+
     /**
      * Set font size
      *

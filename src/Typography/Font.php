@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Typography;
 
+use Intervention\Image\Exceptions\FontException;
 use Intervention\Image\Interfaces\FontInterface;
 
 class Font implements FontInterface
@@ -11,6 +12,8 @@ class Font implements FontInterface
     protected float $size = 12;
     protected float $angle = 0;
     protected mixed $color = '000000';
+    protected mixed $strokeColor = 'ffffff';
+    protected int $strokeWidth = 0;
     protected ?string $filename = null;
     protected string $alignment = 'left';
     protected string $valignment = 'bottom';
@@ -118,6 +121,66 @@ class Font implements FontInterface
     public function color(): mixed
     {
         return $this->color;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::setStrokeColor()
+     */
+    public function setStrokeColor(mixed $color): FontInterface
+    {
+        $this->strokeColor = $color;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::strokeColor()
+     */
+    public function strokeColor(): mixed
+    {
+        return $this->strokeColor;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::setStrokeWidth()
+     */
+    public function setStrokeWidth(int $width): FontInterface
+    {
+        if (!in_array($width, range(0, 10))) {
+            throw new FontException(
+                'The stroke width must be in the range from 0 to 10.'
+            );
+        }
+
+        $this->strokeWidth = $width;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::strokeWidth()
+     */
+    public function strokeWidth(): int
+    {
+        return $this->strokeWidth;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see FontInterface::hasStrokeEffect()
+     */
+    public function hasStrokeEffect(): bool
+    {
+        return $this->strokeWidth > 0;
     }
 
     /**

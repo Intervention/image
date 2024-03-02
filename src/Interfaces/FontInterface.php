@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
+use Intervention\Image\Exceptions\FontException;
+
 interface FontInterface
 {
     /**
@@ -20,6 +22,45 @@ interface FontInterface
      * @return mixed
      */
     public function color(): mixed;
+
+    /**
+     * Set stroke color of font
+     *
+     * @param mixed $color
+     * @return FontInterface
+     */
+    public function setStrokeColor(mixed $color): self;
+
+    /**
+     * Get stroke color of font
+     *
+     * @return mixed
+     */
+    public function strokeColor(): mixed;
+
+    /**
+    /**
+     * Set stroke width of font
+     *
+     * @param int $width
+     * @throws FontException
+     * @return FontInterface
+     */
+    public function setStrokeWidth(int $width): self;
+
+    /**
+     * Get stroke width of font
+     *
+     * @return int
+     */
+    public function strokeWidth(): int;
+
+    /**
+     * Determine if the font is drawn with outline stroke effect
+     *
+     * @return bool
+     */
+    public function hasStrokeEffect(): bool;
 
     /**
      * Set font size

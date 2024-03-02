@@ -43,6 +43,12 @@ final class ColorspaceTest extends BaseTestCase
         $this->assertEquals(0, $result->channel(Hue::class)->value());
         $this->assertEquals(0, $result->channel(Saturation::class)->value());
         $this->assertEquals(50, $result->channel(Value::class)->value());
+
+        $result = $colorspace->importColor(new RgbColor(127, 127, 127, 85));
+        $this->assertInstanceOf(HsvColor::class, $result);
+        $this->assertEquals(0, $result->channel(Hue::class)->value());
+        $this->assertEquals(0, $result->channel(Saturation::class)->value());
+        $this->assertEquals(50, $result->channel(Value::class)->value());
     }
 
     public function testImportCmykColor(): void

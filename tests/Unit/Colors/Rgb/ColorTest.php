@@ -148,4 +148,19 @@ final class ColorTest extends BaseTestCase
         $color = new Color(50, 50, 50);
         $this->assertTrue($color->isGreyscale());
     }
+
+    public function testIsTransparent(): void
+    {
+        $color = new Color(255, 255, 255);
+        $this->assertFalse($color->isTransparent());
+
+        $color = new Color(255, 255, 255, 255);
+        $this->assertFalse($color->isTransparent());
+
+        $color = new Color(255, 255, 255, 85);
+        $this->assertTrue($color->isTransparent());
+
+        $color = new Color(255, 255, 255, 0);
+        $this->assertTrue($color->isTransparent());
+    }
 }

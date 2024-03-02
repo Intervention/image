@@ -26,6 +26,11 @@ class Color extends AbstractColor
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::colorspace()
+     */
     public function colorspace(): ColorspaceInterface
     {
         return new Colorspace();
@@ -106,5 +111,15 @@ class Color extends AbstractColor
     public function isGreyscale(): bool
     {
         return $this->saturation()->value() == 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::isTransparent()
+     */
+    public function isTransparent(): bool
+    {
+        return false;
     }
 }

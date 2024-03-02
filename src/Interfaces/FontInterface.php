@@ -56,6 +56,13 @@ interface FontInterface
     public function strokeWidth(): int;
 
     /**
+     * Determine if the font is drawn with outline stroke effect
+     *
+     * @return bool
+     */
+    public function hasStrokeEffect(): bool;
+
+    /**
      * Set font size
      *
      * @param float $size

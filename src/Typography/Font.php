@@ -176,6 +176,16 @@ class Font implements FontInterface
     /**
      * {@inheritdoc}
      *
+     * @see FontInterface::hasStrokeEffect()
+     */
+    public function hasStrokeEffect(): bool
+    {
+        return $this->strokeWidth > 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see FontInterface::alignment()
      */
     public function alignment(): string

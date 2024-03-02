@@ -66,9 +66,15 @@ class TextModifier extends AbstractTextModifier implements ModifierInterface
      */
     private function imagickDrawText(ImageInterface $image, FontInterface $font): ImagickDraw
     {
-        $color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
-            $this->driver()->handleInput($font->color())
-        );
+        $color = $this->driver()->handleInput($font->color());
+
+        if ($font->hasStrokeEffect() && $color->isTransparent()) {
+            throw new ColorException(
+                'The text color must be fully opaque when using the stroke effect.'
+            );
+        }
+
+        $color = $this->driver()->colorProcessor($image->colorspace())->colorToNative($color);
 
         return $this->processor()->toImagickDraw($font, $color);
     }
@@ -87,15 +93,21 @@ class TextModifier extends AbstractTextModifier implements ModifierInterface
      */
     private function imagickDrawStroke(ImageInterface $image, FontInterface $font): ?ImagickDraw
     {
-        if ($font->strokeWidth() <= 0) {
+        if (!$font->hasStrokeEffect()) {
             return null;
         }
 
-        $strokeColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
-            $this->driver()->handleInput($font->strokeColor())
-        );
+        $color = $this->driver()->handleInput($font->strokeColor());
 
-        return $this->processor()->toImagickDraw($font, $strokeColor);
+        if ($color->isTransparent()) {
+            throw new ColorException(
+                'The stroke color must be fully opaque.'
+            );
+        }
+
+        $color = $this->driver()->colorProcessor($image->colorspace())->colorToNative($color);
+
+        return $this->processor()->toImagickDraw($font, $color);
     }
 
     /**

@@ -126,13 +126,15 @@ class TextModifier extends AbstractTextModifier implements ModifierInterface
         ?ImagickDraw $draw = null,
         Point $offset = new Point(),
     ): void {
-        $frame->native()->annotateImage(
-            $draw,
-            $textline->position()->x() + $offset->x(),
-            $textline->position()->y() + $offset->y(),
-            $this->font->angle(),
-            (string) $textline
-        );
+        if ($draw !== null) {
+            $frame->native()->annotateImage(
+                $draw,
+                $textline->position()->x() + $offset->x(),
+                $textline->position()->y() + $offset->y(),
+                $this->font->angle(),
+                (string) $textline
+            );
+        }
     }
 
     /**

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\DriverSpecialized;
+use Intervention\Image\Exceptions\FontException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\FontInterface;

@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\DriverSpecialized;
-use Intervention\Image\Exceptions\FontException;
+use Intervention\Image\Drivers\AbstractTextModifier;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\FontInterface;
@@ -16,7 +15,7 @@ use Intervention\Image\Interfaces\ModifierInterface;
  * @property string $text
  * @property FontInterface $font
  */
-class TextModifier extends DriverSpecialized implements ModifierInterface
+class TextModifier extends AbstractTextModifier implements ModifierInterface
 {
     /**
      * {@inheritdoc}
@@ -27,42 +26,40 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
     {
         $fontProcessor = $this->driver()->fontProcessor();
         $lines = $fontProcessor->textBlock($this->text, $this->font, $this->position);
+
+        // decode text color
         $color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
             $this->driver()->handleInput($this->font->color())
         );
 
-        $strokeWidth = $this->font->strokeWidth();
-
-        if ($strokeWidth > 0) {
-            $strokeColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
-                $this->driver()->handleInput($this->font->strokeColor())
-            );
-
-            if ($strokeWidth > 10) {
-                throw new FontException('Stroke width cannot be thicker than 10, please pick lower number.');
-            }
-        }
+        // decode color for outline stroke effect only if the stroke width is above 0.
+        // If the width is below 0 and not applicable, no outline effect is drawn and
+        // the stroke color remains unused. The default value is therefore set to 0.
+        $strokeColor = match (true) {
+            $this->font->strokeWidth() > 0 => $this
+                ->driver()
+                ->colorProcessor($image->colorspace())
+                ->colorToNative(
+                    $this->driver()->handleInput($this->font->strokeColor())
+                ),
+            default => 0,
+        };
 
         foreach ($image as $frame) {
+            imagealphablending($frame->native(), true);
             if ($this->font->hasFilename()) {
                 foreach ($lines as $line) {
-                    imagealphablending($frame->native(), true);
-
-                    if ($strokeWidth > 0) {
-                        for ($x = -$strokeWidth; $x <= $strokeWidth; $x++) {
-                            for ($y = -$strokeWidth; $y <= $strokeWidth; $y++) {
-                                imagettftext(
-                                    $frame->native(),
-                                    $fontProcessor->nativeFontSize($this->font),
-                                    $this->font->angle() * -1,
-                                    $line->position()->x() + $x,
-                                    $line->position()->y() + $y,
-                                    $strokeColor,
-                                    $this->font->filename(),
-                                    (string) $line
-                                );
-                            }
-                        }
+                    foreach ($this->strokeOffsets($this->font) as $offset) {
+                        imagettftext(
+                            $frame->native(),
+                            $fontProcessor->nativeFontSize($this->font),
+                            $this->font->angle() * -1,
+                            $line->position()->x() + $offset->x(),
+                            $line->position()->y() + $offset->y(),
+                            $strokeColor,
+                            $this->font->filename(),
+                            (string) $line
+                        );
                     }
 
                     imagettftext(
@@ -78,19 +75,15 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
                 }
             } else {
                 foreach ($lines as $line) {
-                    if ($strokeWidth > 0) {
-                        for ($x = -$strokeWidth; $x <= $strokeWidth; $x++) {
-                            for ($y = -$strokeWidth; $y <= $strokeWidth; $y++) {
-                                imagestring(
-                                    $frame->native(),
-                                    $this->gdFont(),
-                                    $line->position()->x() + $x,
-                                    $line->position()->y() + $y,
-                                    (string) $line,
-                                    $color
-                                );
-                            }
-                        }
+                    foreach ($this->strokeOffsets($this->font) as $offset) {
+                        imagestring(
+                            $frame->native(),
+                            $this->gdFont(),
+                            $line->position()->x() + $offset->x(),
+                            $line->position()->y() + $offset->y(),
+                            (string) $line,
+                            $color
+                        );
                     }
 
                     imagestring(

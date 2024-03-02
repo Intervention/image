@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Typography;
 
+use Intervention\Image\Exceptions\FontException;
 use Intervention\Image\Interfaces\FontInterface;
 
 class Font implements FontInterface
@@ -151,6 +152,12 @@ class Font implements FontInterface
      */
     public function setStrokeWidth(int $width): FontInterface
     {
+        if (!in_array($width, range(0, 10))) {
+            throw new FontException(
+                'The stroke width must be in the range from 0 to 10.'
+            );
+        }
+
         $this->strokeWidth = $width;
 
         return $this;

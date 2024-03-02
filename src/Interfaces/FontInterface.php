@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
+use Intervention\Image\Exceptions\FontException;
+
 interface FontInterface
 {
     /**
@@ -41,6 +43,7 @@ interface FontInterface
      * Set stroke width of font
      *
      * @param int $width
+     * @throws FontException
      * @return FontInterface
      */
     public function setStrokeWidth(int $width): self;

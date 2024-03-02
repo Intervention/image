@@ -41,11 +41,11 @@ class TextModifier extends AbstractTextModifier implements ModifierInterface
             foreach ($lines as $line) {
                 foreach ($this->strokeOffsets($this->font) as $offset) {
                     // Draw the stroke outline under the actual text
-                    $this->maybeDrawText($frame, $line, $drawStroke, $offset);
+                    $this->maybeDrawTextline($frame, $line, $drawStroke, $offset);
                 }
 
                 // Draw the actual text
-                $this->maybeDrawText($frame, $line, $drawText);
+                $this->maybeDrawTextline($frame, $line, $drawText);
             }
         }
 
@@ -120,7 +120,7 @@ class TextModifier extends AbstractTextModifier implements ModifierInterface
      * @param Point $offset
      * @return void
      */
-    private function maybeDrawText(
+    private function maybeDrawTextline(
         Frame $frame,
         Line $textline,
         ?ImagickDraw $draw = null,

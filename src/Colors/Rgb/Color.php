@@ -36,6 +36,11 @@ class Color extends AbstractColor
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::colorspace()
+     */
     public function colorspace(): ColorspaceInterface
     {
         return new Colorspace();

@@ -30,29 +30,27 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
         $color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
             $this->driver()->handleInput($this->font->color())
         );
-        
+
         $strokeWidth = $this->font->strokeWidth();
-        
-        if ( $strokeWidth > 0 ) {
+
+        if ($strokeWidth > 0) {
             $strokeColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
                 $this->driver()->handleInput($this->font->strokeColor())
             );
-            
-            if ( $strokeWidth > 10 ){
-                throw new FontException( 'Stroke width cannot be thicker than 10, please pick lower number.' );
+
+            if ($strokeWidth > 10) {
+                throw new FontException('Stroke width cannot be thicker than 10, please pick lower number.');
             }
         }
-            
+
         foreach ($image as $frame) {
             if ($this->font->hasFilename()) {
                 foreach ($lines as $line) {
                     imagealphablending($frame->native(), true);
-                    
-                    if ( $strokeWidth > 0 )
-                    {
+
+                    if ($strokeWidth > 0) {
                         for ($x = -$strokeWidth; $x <= $strokeWidth; $x++) {
                             for ($y = -$strokeWidth; $y <= $strokeWidth; $y++) {
-                                
                                 imagettftext(
                                     $frame->native(),
                                     $fontProcessor->nativeFontSize($this->font),
@@ -66,7 +64,7 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
                             }
                         }
                     }
-                    
+
                     imagettftext(
                         $frame->native(),
                         $fontProcessor->nativeFontSize($this->font),
@@ -77,16 +75,12 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
                         $this->font->filename(),
                         (string) $line
                     );
-                    
                 }
             } else {
                 foreach ($lines as $line) {
-                    
-                    if ( $strokeWidth > 0 )
-                    {
+                    if ($strokeWidth > 0) {
                         for ($x = -$strokeWidth; $x <= $strokeWidth; $x++) {
                             for ($y = -$strokeWidth; $y <= $strokeWidth; $y++) {
-                                
                                 imagestring(
                                     $frame->native(),
                                     $this->gdFont(),
@@ -98,7 +92,7 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
                             }
                         }
                     }
-                    
+
                     imagestring(
                         $frame->native(),
                         $this->gdFont(),
@@ -114,7 +108,7 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
         return $image;
     }
 
-     /**
+    /**
      * Return GD's internal font size (if no ttf file is set)
      *
      * @return int

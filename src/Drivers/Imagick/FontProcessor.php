@@ -66,7 +66,7 @@ class FontProcessor extends AbstractFontProcessor
         if ($color) {
             $draw->setFillColor($color);
         }
-               
+
         return $draw;
     }
 }

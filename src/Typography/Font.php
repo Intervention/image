@@ -144,7 +144,6 @@ class Font implements FontInterface
         return $this->strokeColor;
     }
 
-    
     /**
      * {@inheritdoc}
      *
@@ -156,7 +155,7 @@ class Font implements FontInterface
 
         return $this;
     }
-        
+
     /**
      * {@inheritdoc}
      *
@@ -166,7 +165,7 @@ class Font implements FontInterface
     {
         return $this->strokeWidth;
     }
-    
+
     /**
      * {@inheritdoc}
      *

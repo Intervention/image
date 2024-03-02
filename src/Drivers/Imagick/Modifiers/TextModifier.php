@@ -31,30 +31,27 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
         $color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
             $this->driver()->handleInput($this->font->color())
         );
-                        
+
         $draw = $fontProcessor->toImagickDraw($this->font, $color);
         $strokeWidth = $this->font->strokeWidth();
-        
-        if ( $strokeWidth > 0 ){
+
+        if ($strokeWidth > 0) {
             $strokeColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
                 $this->driver()->handleInput($this->font->strokeColor())
             );
-            
-            if ( $strokeWidth > 10 ){
-                throw new FontException( 'Stroke width cannot be thicker than 10, please pick lower number.' );
+
+            if ($strokeWidth > 10) {
+                throw new FontException('Stroke width cannot be thicker than 10, please pick lower number.');
             }
-            
+
             $drawStroke = $fontProcessor->toImagickDraw($this->font, $strokeColor);
         }
 
         foreach ($image as $frame) {
             foreach ($lines as $line) {
-                
-                if ( $strokeWidth > 0 )
-                {         
+                if ($strokeWidth > 0) {
                     for ($x = -$strokeWidth; $x <= $strokeWidth; $x++) {
                         for ($y = -$strokeWidth; $y <= $strokeWidth; $y++) {
-
                             $frame->native()->annotateImage(
                                 $drawStroke,
                                 $line->position()->x() + $x,
@@ -65,7 +62,7 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
                         }
                     }
                 }
-                
+
                 $frame->native()->annotateImage(
                     $draw,
                     $line->position()->x(),
@@ -73,7 +70,6 @@ class TextModifier extends DriverSpecialized implements ModifierInterface
                     $this->font->angle(),
                     (string) $line
                 );
-                
             }
         }
 

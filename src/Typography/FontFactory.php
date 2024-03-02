@@ -40,7 +40,7 @@ class FontFactory
     {
         $this->font->setStrokeWidth($width);
         $this->font->setStrokeColor($color);
-        
+
         return $this;
     }
 

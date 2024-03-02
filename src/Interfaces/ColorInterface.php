@@ -83,4 +83,11 @@ interface ColorInterface
      * @return bool
      */
     public function isGreyscale(): bool;
+
+    /**
+     * Determine if the current color is (semi) transparent
+     *
+     * @return bool
+     */
+    public function isTransparent(): bool;
 }

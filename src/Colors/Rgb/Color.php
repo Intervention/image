@@ -109,29 +109,24 @@ class Color extends AbstractColor
      */
     public function toHex(string $prefix = ''): string
     {
-        if ($this->isFullyOpaque()) {
+        if ($this->isTransparent()) {
             return sprintf(
-                '%s%02x%02x%02x',
+                '%s%02x%02x%02x%02x',
                 $prefix,
                 $this->red()->value(),
                 $this->green()->value(),
-                $this->blue()->value()
+                $this->blue()->value(),
+                $this->alpha()->value()
             );
         }
 
         return sprintf(
-            '%s%02x%02x%02x%02x',
+            '%s%02x%02x%02x',
             $prefix,
             $this->red()->value(),
             $this->green()->value(),
-            $this->blue()->value(),
-            $this->alpha()->value()
+            $this->blue()->value()
         );
-    }
-
-    public function isFullyOpaque(): bool
-    {
-        return $this->alpha()->value() === 255;
     }
 
     /**
@@ -141,21 +136,21 @@ class Color extends AbstractColor
      */
     public function toString(): string
     {
-        if ($this->isFullyOpaque()) {
+        if ($this->isTransparent()) {
             return sprintf(
-                'rgb(%d, %d, %d)',
+                'rgba(%d, %d, %d, %.1F)',
                 $this->red()->value(),
                 $this->green()->value(),
-                $this->blue()->value()
+                $this->blue()->value(),
+                $this->alpha()->normalize(),
             );
         }
 
         return sprintf(
-            'rgba(%d, %d, %d, %.1F)',
+            'rgb(%d, %d, %d)',
             $this->red()->value(),
             $this->green()->value(),
-            $this->blue()->value(),
-            $this->alpha()->normalize(),
+            $this->blue()->value()
         );
     }
 
@@ -169,5 +164,15 @@ class Color extends AbstractColor
         $values = [$this->red()->value(), $this->green()->value(), $this->blue()->value()];
 
         return count(array_unique($values, SORT_REGULAR)) === 1;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::isTransparent()
+     */
+    public function isTransparent(): bool
+    {
+        return $this->alpha()->value() < $this->alpha()->max();
     }
 }

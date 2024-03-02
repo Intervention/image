@@ -107,4 +107,14 @@ class Color extends AbstractColor
     {
         return $this->saturation()->value() == 0;
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::isTransparent()
+     */
+    public function isTransparent(): bool
+    {
+        return false;
+    }
 }

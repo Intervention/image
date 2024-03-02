@@ -90,4 +90,9 @@ class Color extends AbstractColor
             $this->yellow()->value(),
         ]);
     }
+
+    public function isTransparent(): bool
+    {
+        return false;
+    }
 }

@@ -25,7 +25,7 @@ Just request the package with the following command:
 composer require intervention/image
 ```
 
-## Getting started
+## Getting Started
 
 Learn the [basics](https://image.intervention.io/v3/basics/instantiation/) on
 how to use Intervention Image and more with the [official

@@ -15,6 +15,10 @@ final class ImageManager
 {
     protected DriverInterface $driver;
 
+    /**
+     * @link https://image.intervention.io/v3/basics/image-manager#create-a-new-image-manager-instance
+     * @param string|DriverInterface $driver
+     */
     public function __construct(string|DriverInterface $driver)
     {
         $this->driver = $this->resolveDriver($driver);
@@ -23,6 +27,7 @@ final class ImageManager
     /**
      * Create image mangager with given driver
      *
+     * @link https://image.intervention.io/v3/basics/image-manager
      * @param string|DriverInterface $driver
      * @return ImageManager
      */
@@ -34,6 +39,7 @@ final class ImageManager
     /**
      * Create image manager with GD driver
      *
+     * @link https://image.intervention.io/v3/basics/image-manager#static-gd-driver-constructor
      * @return ImageManager
      */
     public static function gd(): self
@@ -44,6 +50,7 @@ final class ImageManager
     /**
      * Create image manager with Imagick driver
      *
+     * @link https://image.intervention.io/v3/basics/image-manager#static-imagick-driver-constructor
      * @return ImageManager
      */
     public static function imagick(): self
@@ -54,6 +61,7 @@ final class ImageManager
     /**
      * Create new image instance with given width & height
      *
+     * @link https://image.intervention.io/v3/basics/instantiation#creating-new-images
      * @param int $width
      * @param int $height
      * @throws RuntimeException
@@ -87,6 +95,7 @@ final class ImageManager
      * If the second parameter is not set, an attempt to decode the input is made
      * with all available decoders of the driver.
      *
+     * @link https://image.intervention.io/v3/basics/instantiation#reading-images
      * @param mixed $input
      * @param string|array|DecoderInterface $decoders
      * @throws RuntimeException
@@ -106,6 +115,7 @@ final class ImageManager
     /**
      * Create new animated image by given callback
      *
+     * @link https://image.intervention.io/v3/basics/instantiation#creating-animations
      * @param callable $init
      * @return ImageInterface
      */

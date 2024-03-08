@@ -58,6 +58,13 @@ final class AbstractDecoderTest extends BaseTestCase
         $this->assertTrue($decoder->isGifFormat($this->getTestImageData('red.gif')));
     }
 
+    public function testIsFile(): void
+    {
+        $decoder = Mockery::mock(AbstractDecoder::class)->makePartial();
+        $this->assertTrue($decoder->isFile($this->getTestImagePath()));
+        $this->assertFalse($decoder->isFile('non-existent-file'));
+    }
+
     public function testExtractExifDataFromBinary(): void
     {
         $decoder = Mockery::mock(AbstractDecoder::class)->makePartial();

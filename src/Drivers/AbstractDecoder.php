@@ -69,6 +69,33 @@ abstract class AbstractDecoder extends DriverSpecialized implements DecoderInter
     }
 
     /**
+     * Determine if given input is a path to an existing regular file
+     *
+     * @param mixed $input
+     * @return bool
+     */
+    protected function isFile(mixed $input): bool
+    {
+        if (!is_string($input)) {
+            return false;
+        }
+
+        if (strlen($input) > PHP_MAXPATHLEN) {
+            return false;
+        }
+
+        try {
+            if (!@is_file($input)) {
+                return false;
+            }
+        } catch (Exception) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Extract and return EXIF data from given input which can be binary image
      * data or a file path.
      *

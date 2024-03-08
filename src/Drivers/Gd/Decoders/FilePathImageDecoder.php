@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
-use Exception;
 use Intervention\Image\Drivers\Gd\Decoders\Traits\CanDecodeGif;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -18,19 +17,7 @@ class FilePathImageDecoder extends GdImageDecoder implements DecoderInterface
 
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
-        if (!is_string($input)) {
-            throw new DecoderException('Unable to decode input');
-        }
-
-        if (strlen($input) > PHP_MAXPATHLEN) {
-            throw new DecoderException('Unable to decode input');
-        }
-
-        try {
-            if (!@is_file($input)) {
-                throw new DecoderException('Unable to decode input');
-            }
-        } catch (Exception) {
+        if (!$this->isFile($input)) {
             throw new DecoderException('Unable to decode input');
         }
 

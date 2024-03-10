@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Typography;
 
+use Intervention\Image\Exceptions\FontException;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Typography\Font;
 
@@ -80,5 +81,30 @@ final class FontTest extends BaseTestCase
         $result = $font->setLineHeight(3.2);
         $this->assertInstanceOf(Font::class, $result);
         $this->assertEquals(3.2, $font->lineHeight());
+    }
+
+    public function testSetGetStrokeColor(): void
+    {
+        $font = new Font();
+        $this->assertEquals('ffffff', $font->strokeColor());
+        $result = $font->setStrokeColor('000000');
+        $this->assertInstanceOf(Font::class, $result);
+        $this->assertEquals('000000', $font->strokeColor());
+    }
+
+    public function testSetGetStrokeWidth(): void
+    {
+        $font = new Font();
+        $this->assertEquals(0, $font->strokeWidth());
+        $result = $font->setStrokeWidth(4);
+        $this->assertInstanceOf(Font::class, $result);
+        $this->assertEquals(4, $font->strokeWidth());
+    }
+
+    public function testSetStrokeWidthOutOfRange(): void
+    {
+        $font = new Font();
+        $this->expectException(FontException::class);
+        $font->setStrokeWidth(11);
     }
 }

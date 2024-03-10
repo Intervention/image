@@ -23,7 +23,6 @@ class Resolution implements ResolutionInterface
         protected float $y,
         protected int $per_unit = self::PER_INCH
     ) {
-        //
     }
 
     /**

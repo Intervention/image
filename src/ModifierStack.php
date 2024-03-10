@@ -17,7 +17,6 @@ class ModifierStack implements ModifierInterface
      */
     public function __construct(protected array $modifiers)
     {
-        //
     }
 
     /**

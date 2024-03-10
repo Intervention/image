@@ -24,14 +24,12 @@ class CoverModifier extends SpecializableModifier
     public function getCropSize(ImageInterface $image): SizeInterface
     {
         $imagesize = $image->size();
-
         $crop = new Rectangle($this->width, $this->height);
-        $crop = $crop->contain(
+
+        return $crop->contain(
             $imagesize->width(),
             $imagesize->height()
         )->alignPivotTo($imagesize, $this->position);
-
-        return $crop;
     }
 
     /**

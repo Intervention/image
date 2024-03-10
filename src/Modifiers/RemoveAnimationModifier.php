@@ -13,7 +13,6 @@ class RemoveAnimationModifier extends SpecializableModifier
 {
     public function __construct(public int|string $position = 0)
     {
-        //
     }
 
     /**

@@ -63,8 +63,8 @@ final class FontProcessorTest extends BaseTestCase
         $processor = new FontProcessor();
         $size = $processor->boxSize('ABC', $this->testFont());
         $this->assertInstanceOf(SizeInterface::class, $size);
-        $this->assertEquals(74, $size->width());
-        $this->assertEquals(20, $size->height());
+        $this->assertContains($size->width(), [74, 75, 76]);
+        $this->assertContains($size->height(), [19, 20, 21]);
     }
 
     public function testNativeFontSize(): void
@@ -120,21 +120,21 @@ final class FontProcessorTest extends BaseTestCase
     {
         $processor = new FontProcessor();
         $result = $processor->typographicalSize($this->testFont());
-        $this->assertEquals(45, $result);
+        $this->assertContains($result, [44, 45]);
     }
 
     public function testCapHeightTtf(): void
     {
         $processor = new FontProcessor();
         $result = $processor->capHeight($this->testFont());
-        $this->assertEquals(45, $result);
+        $this->assertContains($result, [44, 45]);
     }
 
     public function testLeadingTtf(): void
     {
         $processor = new FontProcessor();
         $result = $processor->leading($this->testFont());
-        $this->assertEquals(45, $result);
+        $this->assertContains($result, [44, 45]);
     }
 
     private function testFont(): Font

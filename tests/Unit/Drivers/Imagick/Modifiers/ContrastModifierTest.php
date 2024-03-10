@@ -7,16 +7,13 @@ namespace Intervention\Image\Tests\Unit\Drivers\Imagick\Modifiers;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\ContrastModifier;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
+use Intervention\Image\Tests\ImagickTestCase;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\ContrastModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\ContrastModifier::class)]
-final class ContrastModifierTest extends BaseTestCase
+final class ContrastModifierTest extends ImagickTestCase
 {
-    use CanCreateImagickTestImage;
-
     public function testApply(): void
     {
         $image = $this->readTestImage('trim.png');

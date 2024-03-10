@@ -7,16 +7,13 @@ namespace Intervention\Image\Tests\Unit\Drivers\Gd\Modifiers;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\ResizeCanvasRelativeModifier;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
+use Intervention\Image\Tests\GdTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Modifiers\ResizeCanvasRelativeModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\ResizeCanvasRelativeModifier::class)]
-final class ResizeCanvasRelativeModifierTest extends BaseTestCase
+final class ResizeCanvasRelativeModifierTest extends GdTestCase
 {
-    use CanCreateGdTestImage;
-
     public function testModify(): void
     {
         $image = $this->createTestImage(1, 1);

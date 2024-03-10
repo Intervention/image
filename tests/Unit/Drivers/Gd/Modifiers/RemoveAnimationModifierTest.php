@@ -8,16 +8,13 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Modifiers\RemoveAnimationModifier;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
+use Intervention\Image\Tests\GdTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Modifiers\RemoveAnimationModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\RemoveAnimationModifier::class)]
-final class RemoveAnimationModifierTest extends BaseTestCase
+final class RemoveAnimationModifierTest extends GdTestCase
 {
-    use CanCreateGdTestImage;
-
     public function testApply(): void
     {
         $image = $this->readTestImage('animation.gif');

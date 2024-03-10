@@ -9,16 +9,13 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\DrawEllipseModifier;
 use Intervention\Image\Geometry\Ellipse;
 use Intervention\Image\Geometry\Point;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
+use Intervention\Image\Tests\GdTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Modifiers\DrawEllipseModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\DrawEllipseModifier::class)]
-final class DrawEllipseModifierTest extends BaseTestCase
+final class DrawEllipseModifierTest extends GdTestCase
 {
-    use CanCreateGdTestImage;
-
     public function testApply(): void
     {
         $image = $this->readTestImage('trim.png');

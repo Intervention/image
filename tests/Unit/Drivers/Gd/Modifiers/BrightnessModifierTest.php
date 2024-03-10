@@ -7,16 +7,13 @@ namespace Intervention\Image\Tests\Unit\Drivers\Gd\Modifiers;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\BrightnessModifier;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
+use Intervention\Image\Tests\GdTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Modifiers\BrightnessModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\BrightnessModifier::class)]
-final class BrightnessModifierTest extends BaseTestCase
+final class BrightnessModifierTest extends GdTestCase
 {
-    use CanCreateGdTestImage;
-
     public function testApply(): void
     {
         $image = $this->readTestImage('trim.png');

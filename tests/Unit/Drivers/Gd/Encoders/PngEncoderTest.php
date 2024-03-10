@@ -11,16 +11,13 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Image;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
+use Intervention\Image\Tests\GdTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Encoders\PngEncoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Encoders\PngEncoder::class)]
-final class PngEncoderTest extends BaseTestCase
+final class PngEncoderTest extends GdTestCase
 {
-    use CanCreateGdTestImage;
-
     protected function getTestImage(): Image
     {
         return new Image(

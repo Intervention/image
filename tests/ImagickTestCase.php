@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Tests\Traits;
+namespace Intervention\Image\Tests;
 
 use Imagick;
 use ImagickPixel;
@@ -11,12 +11,12 @@ use Intervention\Image\Drivers\Imagick\Decoders\FilePathImageDecoder;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Image;
 
-trait CanCreateImagickTestImage
+abstract class ImagickTestCase extends BaseTestCase
 {
     public function readTestImage($filename = 'test.jpg'): Image
     {
         return (new FilePathImageDecoder())->handle(
-            sprintf('%s/../images/%s', __DIR__, $filename)
+            $this->getTestImagePath($filename)
         );
     }
 

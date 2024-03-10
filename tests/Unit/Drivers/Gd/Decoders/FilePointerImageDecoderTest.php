@@ -8,15 +8,12 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Drivers\Gd\Decoders\FilePointerImageDecoder;
 use Intervention\Image\Image;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
+use Intervention\Image\Tests\GdTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Decoders\FilePointerImageDecoder::class)]
-final class FilePointerImageDecoderTest extends BaseTestCase
+final class FilePointerImageDecoderTest extends GdTestCase
 {
-    use CanCreateGdTestImage;
-
     public function testDecode(): void
     {
         $decoder = new FilePointerImageDecoder();

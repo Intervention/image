@@ -7,16 +7,13 @@ namespace Intervention\Image\Tests\Unit\Drivers\Imagick\Modifiers;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\GammaModifier;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
+use Intervention\Image\Tests\ImagickTestCase;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\GammaModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\GammaModifier::class)]
-final class GammaModifierTest extends BaseTestCase
+final class GammaModifierTest extends ImagickTestCase
 {
-    use CanCreateImagickTestImage;
-
     public function testModifier(): void
     {
         $image = $this->readTestImage('trim.png');

@@ -8,16 +8,13 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Analyzers\ResolutionAnalyzer;
 use Intervention\Image\Resolution;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
+use Intervention\Image\Tests\ImagickTestCase;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Analyzers\ResolutionAnalyzer::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Analyzers\ResolutionAnalyzer::class)]
-final class ResolutionAnalyzerTest extends BaseTestCase
+final class ResolutionAnalyzerTest extends ImagickTestCase
 {
-    use CanCreateImagickTestImage;
-
     public function testAnalyze(): void
     {
         $image = $this->readTestImage('tile.png');

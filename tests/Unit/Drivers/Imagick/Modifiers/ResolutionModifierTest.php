@@ -7,16 +7,13 @@ namespace Intervention\Image\Tests\Unit\Drivers\Imagick\Modifiers;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\ResolutionModifier;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
+use Intervention\Image\Tests\ImagickTestCase;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\ResolutionModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\ResolutionModifier::class)]
-final class ResolutionModifierTest extends BaseTestCase
+final class ResolutionModifierTest extends ImagickTestCase
 {
-    use CanCreateImagickTestImage;
-
     public function testResolutionChange(): void
     {
         $image = $this->readTestImage('test.jpg');

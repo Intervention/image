@@ -24,13 +24,10 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Modifiers\GreyscaleModifier;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
+use Intervention\Image\Tests\ImagickTestCase;
 
-final class ImageTest extends BaseTestCase
+final class ImageTest extends ImagickTestCase
 {
-    use CanCreateImagickTestImage;
-
     protected Image $image;
 
     protected function setUp(): void

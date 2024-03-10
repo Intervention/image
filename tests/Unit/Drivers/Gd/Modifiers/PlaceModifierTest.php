@@ -7,16 +7,13 @@ namespace Intervention\Image\Tests\Unit\Drivers\Gd\Modifiers;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\PlaceModifier;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
+use Intervention\Image\Tests\GdTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Modifiers\PlaceModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\PlaceModifier::class)]
-final class PlaceModifierTest extends BaseTestCase
+final class PlaceModifierTest extends GdTestCase
 {
-    use CanCreateGdTestImage;
-
     public function testColorChange(): void
     {
         $image = $this->readTestImage('test.jpg');

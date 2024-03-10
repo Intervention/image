@@ -9,16 +9,13 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Modifiers\FillModifier;
 use Intervention\Image\Geometry\Point;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
+use Intervention\Image\Tests\ImagickTestCase;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\FillModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\FillModifier::class)]
-final class FillModifierTest extends BaseTestCase
+final class FillModifierTest extends ImagickTestCase
 {
-    use CanCreateImagickTestImage;
-
     public function testFloodFillColor(): void
     {
         $image = $this->readTestImage('blocks.png');

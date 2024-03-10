@@ -9,16 +9,13 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\DrawLineModifier;
 use Intervention\Image\Geometry\Line;
 use Intervention\Image\Geometry\Point;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
+use Intervention\Image\Tests\ImagickTestCase;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\DrawLineModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\DrawLineModifier::class)]
-final class DrawLineModifierTest extends BaseTestCase
+final class DrawLineModifierTest extends ImagickTestCase
 {
-    use CanCreateImagickTestImage;
-
     public function testApply(): void
     {
         $image = $this->readTestImage('trim.png');

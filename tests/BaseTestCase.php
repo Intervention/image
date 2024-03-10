@@ -13,7 +13,7 @@ abstract class BaseTestCase extends MockeryTestCase
 {
     public function getTestImagePath($filename = 'test.jpg'): string
     {
-        return sprintf('%s/images/%s', __DIR__, $filename);
+        return sprintf('%s/resources/%s', __DIR__, $filename);
     }
 
     public function getTestImageData($filename = 'test.jpg'): string

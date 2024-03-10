@@ -8,18 +8,15 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\FlipModifier;
 use Intervention\Image\Modifiers\FlopModifier;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
+use Intervention\Image\Tests\ImagickTestCase;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\FlipModifier::class)]
 #[CoversClass(\Intervention\Image\Modifiers\FlopModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\FlipModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\FlopModifier::class)]
-final class FlipFlopModifierTest extends BaseTestCase
+final class FlipFlopModifierTest extends ImagickTestCase
 {
-    use CanCreateImagickTestImage;
-
     public function testFlipImage(): void
     {
         $image = $this->readTestImage('tile.png');

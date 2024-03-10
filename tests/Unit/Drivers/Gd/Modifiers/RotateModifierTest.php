@@ -7,16 +7,13 @@ namespace Intervention\Image\Tests\Unit\Drivers\Gd\Modifiers;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\RotateModifier;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
+use Intervention\Image\Tests\GdTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Modifiers\RotateModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\RotateModifier::class)]
-final class RotateModifierTest extends BaseTestCase
+final class RotateModifierTest extends GdTestCase
 {
-    use CanCreateGdTestImage;
-
     public function testRotate(): void
     {
         $image = $this->readTestImage('test.jpg');

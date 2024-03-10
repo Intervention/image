@@ -9,16 +9,13 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Modifiers\QuantizeColorsModifier;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
+use Intervention\Image\Tests\GdTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Modifiers\QuantizeColorsModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\QuantizeColorsModifier::class)]
-final class QuantizeColorsModifierTest extends BaseTestCase
+final class QuantizeColorsModifierTest extends GdTestCase
 {
-    use CanCreateGdTestImage;
-
     public function testColorChange(): void
     {
         $image = $this->readTestImage('gradient.bmp');

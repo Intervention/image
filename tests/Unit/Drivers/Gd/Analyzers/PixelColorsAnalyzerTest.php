@@ -9,16 +9,13 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Analyzers\PixelColorsAnalyzer;
 use Intervention\Image\Collection;
 use Intervention\Image\Interfaces\ColorInterface;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
+use Intervention\Image\Tests\GdTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Analyzers\PixelColorsAnalyzer::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Analyzers\PixelColorsAnalyzer::class)]
-final class PixelColorsAnalyzerTest extends BaseTestCase
+final class PixelColorsAnalyzerTest extends GdTestCase
 {
-    use CanCreateGdTestImage;
-
     public function testAnalyze(): void
     {
         $image = $this->readTestImage('tile.png');

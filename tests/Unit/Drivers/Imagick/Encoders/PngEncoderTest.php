@@ -12,16 +12,13 @@ use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Image;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
+use Intervention\Image\Tests\ImagickTestCase;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Encoders\PngEncoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Encoders\PngEncoder::class)]
-final class PngEncoderTest extends BaseTestCase
+final class PngEncoderTest extends ImagickTestCase
 {
-    use CanCreateImagickTestImage;
-
     protected function getTestImage(): Image
     {
         $imagick = new Imagick();

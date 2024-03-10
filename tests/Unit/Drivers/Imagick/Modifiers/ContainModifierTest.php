@@ -7,16 +7,13 @@ namespace Intervention\Image\Tests\Unit\Drivers\Imagick\Modifiers;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\ContainModifier;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
+use Intervention\Image\Tests\ImagickTestCase;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\ContainModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\ContainModifier::class)]
-final class ContainModifierTest extends BaseTestCase
+final class ContainModifierTest extends ImagickTestCase
 {
-    use CanCreateImagickTestImage;
-
     public function testModify(): void
     {
         $image = $this->readTestImage('blocks.png');

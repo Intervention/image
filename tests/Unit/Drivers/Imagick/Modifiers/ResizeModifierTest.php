@@ -7,16 +7,13 @@ namespace Intervention\Image\Tests\Unit\Drivers\Imagick\Modifiers;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\ResizeModifier;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
+use Intervention\Image\Tests\ImagickTestCase;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\ResizeModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\ResizeModifier::class)]
-final class ResizeModifierTest extends BaseTestCase
+final class ResizeModifierTest extends ImagickTestCase
 {
-    use CanCreateImagickTestImage;
-
     public function testModify(): void
     {
         $image = $this->readTestImage('blocks.png');

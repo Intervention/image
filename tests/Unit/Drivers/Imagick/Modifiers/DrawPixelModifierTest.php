@@ -8,16 +8,13 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\DrawPixelModifier;
 use Intervention\Image\Geometry\Point;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
+use Intervention\Image\Tests\ImagickTestCase;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\DrawPixelModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\DrawPixelModifier::class)]
-final class DrawPixelModifierTest extends BaseTestCase
+final class DrawPixelModifierTest extends ImagickTestCase
 {
-    use CanCreateImagickTestImage;
-
     public function testApply(): void
     {
         $image = $this->readTestImage('trim.png');

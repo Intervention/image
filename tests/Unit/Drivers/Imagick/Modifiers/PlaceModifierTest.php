@@ -7,16 +7,13 @@ namespace Intervention\Image\Tests\Unit\Drivers\Imagick\Modifiers;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\PlaceModifier;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateImagickTestImage;
+use Intervention\Image\Tests\ImagickTestCase;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Modifiers\BlurModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\PlaceModifier::class)]
-final class PlaceModifierTest extends BaseTestCase
+final class PlaceModifierTest extends ImagickTestCase
 {
-    use CanCreateImagickTestImage;
-
     public function testColorChange(): void
     {
         $image = $this->readTestImage('test.jpg');

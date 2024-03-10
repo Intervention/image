@@ -11,16 +11,13 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Encoders\GifEncoder;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Image;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
+use Intervention\Image\Tests\GdTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Encoders\GifEncoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Encoders\GifEncoder::class)]
-final class GifEncoderTest extends BaseTestCase
+final class GifEncoderTest extends GdTestCase
 {
-    use CanCreateGdTestImage;
-
     protected function getTestImage(): Image
     {
         $gd1 = imagecreatetruecolor(30, 20);

@@ -9,16 +9,13 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Modifiers\FillModifier;
 use Intervention\Image\Geometry\Point;
-use Intervention\Image\Tests\BaseTestCase;
-use Intervention\Image\Tests\Traits\CanCreateGdTestImage;
+use Intervention\Image\Tests\GdTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Modifiers\FillModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\FillModifier::class)]
-final class FillModifierTest extends BaseTestCase
+final class FillModifierTest extends GdTestCase
 {
-    use CanCreateGdTestImage;
-
     public function testFloodFillColor(): void
     {
         $image = $this->readTestImage('blocks.png');

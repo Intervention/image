@@ -21,7 +21,7 @@ final class FontFactoryTest extends BaseTestCase
 
     public function testBuildWithCallback(): void
     {
-        $factory = new FontFactory(function ($font) {
+        $factory = new FontFactory(function (FontFactory $font) {
             $font->filename('foo.ttf');
             $font->file('bar.ttf');
             $font->color('#b01735');
@@ -30,6 +30,8 @@ final class FontFactoryTest extends BaseTestCase
             $font->valign('middle');
             $font->lineHeight(1.6);
             $font->angle(10);
+            $font->wrap(100);
+            $font->stroke('ff5500', 4);
         });
 
         $result = $factory();
@@ -41,5 +43,8 @@ final class FontFactoryTest extends BaseTestCase
         $this->assertEquals('middle', $result->valignment());
         $this->assertEquals(1.6, $result->lineHeight());
         $this->assertEquals(10, $result->angle());
+        $this->assertEquals(100, $result->wrapWidth());
+        $this->assertEquals(4, $result->strokeWidth());
+        $this->assertEquals('ff5500', $result->strokeColor());
     }
 }

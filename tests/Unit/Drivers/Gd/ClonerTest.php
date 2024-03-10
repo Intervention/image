@@ -13,7 +13,7 @@ final class ClonerTest extends BaseTestCase
 {
     public function testClone(): void
     {
-        $gd = imagecreatefromgif($this->getTestImagePath('gradient.gif'));
+        $gd = imagecreatefromgif($this->getTestResourcePath('gradient.gif'));
         $clone = Cloner::clone($gd);
 
         $this->assertEquals(16, imagesx($gd));
@@ -29,7 +29,7 @@ final class ClonerTest extends BaseTestCase
 
     public function testCloneEmpty(): void
     {
-        $gd = imagecreatefromgif($this->getTestImagePath('gradient.gif'));
+        $gd = imagecreatefromgif($this->getTestResourcePath('gradient.gif'));
         $clone = Cloner::cloneEmpty($gd, new Rectangle(12, 12), new Color(255, 0, 0, 0));
 
         $this->assertEquals(16, imagesx($gd));
@@ -50,7 +50,7 @@ final class ClonerTest extends BaseTestCase
 
     public function testCLoneBlended(): void
     {
-        $gd = imagecreatefromgif($this->getTestImagePath('gradient.gif'));
+        $gd = imagecreatefromgif($this->getTestResourcePath('gradient.gif'));
         $clone = Cloner::cloneBlended($gd, new Color(255, 0, 255, 255));
 
         $this->assertEquals(16, imagesx($gd));

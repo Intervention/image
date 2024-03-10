@@ -18,7 +18,7 @@ final class PlaceModifierTest extends GdTestCase
     {
         $image = $this->readTestImage('test.jpg');
         $this->assertEquals('febc44', $image->pickColor(300, 25)->toHex());
-        $image->modify(new PlaceModifier($this->getTestImagePath('circle.png'), 'top-right', 0, 0));
+        $image->modify(new PlaceModifier($this->getTestResourcePath('circle.png'), 'top-right', 0, 0));
         $this->assertEquals('32250d', $image->pickColor(300, 25)->toHex());
     }
 
@@ -26,7 +26,7 @@ final class PlaceModifierTest extends GdTestCase
     {
         $image = $this->readTestImage('test.jpg');
         $this->assertEquals('febc44', $image->pickColor(300, 25)->toHex());
-        $image->modify(new PlaceModifier($this->getTestImagePath('circle.png'), 'top-right', 0, 0, 50));
+        $image->modify(new PlaceModifier($this->getTestResourcePath('circle.png'), 'top-right', 0, 0, 50));
         $this->assertEquals('987028', $image->pickColor(300, 25)->toHex());
     }
 }

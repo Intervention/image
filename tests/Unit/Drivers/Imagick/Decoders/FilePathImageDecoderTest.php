@@ -26,7 +26,7 @@ final class FilePathImageDecoderTest extends BaseTestCase
     public function testDecode(): void
     {
         $result = $this->decoder->decode(
-            $this->getTestImagePath()
+            $this->getTestResourcePath()
         );
 
         $this->assertInstanceOf(Image::class, $result);

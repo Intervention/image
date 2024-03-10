@@ -19,7 +19,7 @@ final class SplFileInfoImageDecoderTest extends BaseTestCase
     {
         $decoder = new SplFileInfoImageDecoder();
         $result = $decoder->decode(
-            new SplFileInfo($this->getTestImagePath('blue.gif'))
+            new SplFileInfo($this->getTestResourcePath('blue.gif'))
         );
         $this->assertInstanceOf(Image::class, $result);
     }

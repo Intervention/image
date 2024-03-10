@@ -13,12 +13,12 @@ final class AbstractDecoderTest extends BaseTestCase
     public function testGetMediaTypeFromFilePath(): void
     {
         $decoder = Mockery::mock(AbstractDecoder::class)->makePartial();
-        $this->assertEquals('image/jpeg', $decoder->getMediaTypeByFilePath($this->getTestImagePath('test.jpg')));
+        $this->assertEquals('image/jpeg', $decoder->getMediaTypeByFilePath($this->getTestResourcePath('test.jpg')));
     }
 
     public function testGetMediaTypeFromFileBinary(): void
     {
         $decoder = Mockery::mock(AbstractDecoder::class)->makePartial();
-        $this->assertEquals('image/jpeg', $decoder->getMediaTypeByBinary($this->getTestImageData('test.jpg')));
+        $this->assertEquals('image/jpeg', $decoder->getMediaTypeByBinary($this->getTestResourceData('test.jpg')));
     }
 }

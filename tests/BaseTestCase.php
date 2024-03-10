@@ -11,14 +11,14 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 abstract class BaseTestCase extends MockeryTestCase
 {
-    public function getTestImagePath($filename = 'test.jpg'): string
+    public function getTestResourcePath($filename = 'test.jpg'): string
     {
         return sprintf('%s/resources/%s', __DIR__, $filename);
     }
 
-    public function getTestImageData($filename = 'test.jpg'): string
+    public function getTestResourceData($filename = 'test.jpg'): string
     {
-        return file_get_contents($this->getTestImagePath($filename));
+        return file_get_contents($this->getTestResourcePath($filename));
     }
 
     protected function assertColor($r, $g, $b, $a, ColorInterface $color)

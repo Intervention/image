@@ -37,8 +37,8 @@ final class DriverTest extends BaseTestCase
     public function testCreateAnimation(): void
     {
         $image = $this->driver->createAnimation(function ($animation) {
-            $animation->add($this->getTestImagePath('red.gif'), .25);
-            $animation->add($this->getTestImagePath('green.gif'), .25);
+            $animation->add($this->getTestResourcePath('red.gif'), .25);
+            $animation->add($this->getTestResourcePath('green.gif'), .25);
         })->setLoops(5);
         $this->assertInstanceOf(ImageInterface::class, $image);
 
@@ -50,7 +50,7 @@ final class DriverTest extends BaseTestCase
 
     public function testHandleInputImage(): void
     {
-        $result = $this->driver->handleInput($this->getTestImagePath('test.jpg'));
+        $result = $this->driver->handleInput($this->getTestResourcePath('test.jpg'));
         $this->assertInstanceOf(ImageInterface::class, $result);
     }
 

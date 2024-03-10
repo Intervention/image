@@ -26,7 +26,7 @@ final class DataUriImageDecoderTest extends BaseTestCase
     public function testDecode(): void
     {
         $result = $this->decoder->decode(
-            sprintf('data:image/jpeg;base64,%s', base64_encode($this->getTestImageData('blue.gif')))
+            sprintf('data:image/jpeg;base64,%s', base64_encode($this->getTestResourceData('blue.gif')))
         );
 
         $this->assertInstanceOf(Image::class, $result);

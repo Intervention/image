@@ -39,7 +39,7 @@ final class FontTest extends BaseTestCase
         $font = new Font();
         $this->assertEquals(null, $font->filename());
         $this->assertFalse($font->hasFilename());
-        $filename = $this->getTestImagePath();
+        $filename = $this->getTestResourcePath();
         $result = $font->setFilename($filename);
         $this->assertTrue($font->hasFilename());
         $this->assertInstanceOf(Font::class, $result);

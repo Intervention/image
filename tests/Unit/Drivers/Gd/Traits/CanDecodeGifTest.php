@@ -17,7 +17,7 @@ final class CanDecodeGifTest extends BaseTestCase
             use CanDecodeGif;
         })->makePartial();
 
-        $result = $decoder->decodeGif($this->getTestImageData('animation.gif'));
+        $result = $decoder->decodeGif($this->getTestResourceData('animation.gif'));
         $this->assertInstanceOf(ImageInterface::class, $result);
         $this->assertEquals('image/gif', $result->origin()->mediaType());
     }
@@ -28,7 +28,7 @@ final class CanDecodeGifTest extends BaseTestCase
             use CanDecodeGif;
         })->makePartial();
 
-        $result = $decoder->decodeGif($this->getTestImageData('red.gif'));
+        $result = $decoder->decodeGif($this->getTestResourceData('red.gif'));
         $this->assertInstanceOf(ImageInterface::class, $result);
         $this->assertEquals('image/gif', $result->origin()->mediaType());
     }
@@ -39,7 +39,7 @@ final class CanDecodeGifTest extends BaseTestCase
             use CanDecodeGif;
         })->makePartial();
 
-        $result = $decoder->decodeGif($this->getTestImagePath('animation.gif'));
+        $result = $decoder->decodeGif($this->getTestResourcePath('animation.gif'));
         $this->assertInstanceOf(ImageInterface::class, $result);
         $this->assertEquals('image/gif', $result->origin()->mediaType());
     }
@@ -50,7 +50,7 @@ final class CanDecodeGifTest extends BaseTestCase
             use CanDecodeGif;
         })->makePartial();
 
-        $result = $decoder->decodeGif($this->getTestImagePath('red.gif'));
+        $result = $decoder->decodeGif($this->getTestResourcePath('red.gif'));
         $this->assertInstanceOf(ImageInterface::class, $result);
         $this->assertEquals('image/gif', $result->origin()->mediaType());
     }

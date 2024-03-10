@@ -57,7 +57,7 @@ final class ImageManagerTest extends BaseTestCase
     {
         $manager = new ImageManager(GdDriver::class);
         $image = $manager->animate(function ($animation) {
-            $animation->add($this->getTestImagePath('red.gif'), .25);
+            $animation->add($this->getTestResourcePath('red.gif'), .25);
         });
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
@@ -66,7 +66,7 @@ final class ImageManagerTest extends BaseTestCase
     public function testReadGd(): void
     {
         $manager = new ImageManager(GdDriver::class);
-        $image = $manager->read($this->getTestImagePath('red.gif'));
+        $image = $manager->read($this->getTestResourcePath('red.gif'));
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
@@ -74,7 +74,7 @@ final class ImageManagerTest extends BaseTestCase
     public function testReadGdWithDecoderClassname(): void
     {
         $manager = new ImageManager(GdDriver::class);
-        $image = $manager->read($this->getTestImagePath('red.gif'), FilePathImageDecoder::class);
+        $image = $manager->read($this->getTestResourcePath('red.gif'), FilePathImageDecoder::class);
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
@@ -82,7 +82,7 @@ final class ImageManagerTest extends BaseTestCase
     public function testReadGdWithDecoderInstance(): void
     {
         $manager = new ImageManager(GdDriver::class);
-        $image = $manager->read($this->getTestImagePath('red.gif'), new FilePathImageDecoder());
+        $image = $manager->read($this->getTestResourcePath('red.gif'), new FilePathImageDecoder());
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
@@ -90,7 +90,7 @@ final class ImageManagerTest extends BaseTestCase
     public function testReadGdWithDecoderClassnameArray(): void
     {
         $manager = new ImageManager(GdDriver::class);
-        $image = $manager->read($this->getTestImagePath('red.gif'), [FilePathImageDecoder::class]);
+        $image = $manager->read($this->getTestResourcePath('red.gif'), [FilePathImageDecoder::class]);
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
@@ -98,7 +98,7 @@ final class ImageManagerTest extends BaseTestCase
     public function testReadGdWithDecoderInstanceArray(): void
     {
         $manager = new ImageManager(GdDriver::class);
-        $image = $manager->read($this->getTestImagePath('red.gif'), [new FilePathImageDecoder()]);
+        $image = $manager->read($this->getTestResourcePath('red.gif'), [new FilePathImageDecoder()]);
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
@@ -106,7 +106,7 @@ final class ImageManagerTest extends BaseTestCase
     public function testReadGdWithDecoderInstanceArrayMultiple(): void
     {
         $manager = new ImageManager(GdDriver::class);
-        $image = $manager->read($this->getTestImagePath('red.gif'), [
+        $image = $manager->read($this->getTestResourcePath('red.gif'), [
             new BinaryImageDecoder(),
             new FilePathImageDecoder(),
         ]);
@@ -117,7 +117,7 @@ final class ImageManagerTest extends BaseTestCase
     public function testReadGdWithRotationAdjustment(): void
     {
         $manager = new ImageManager(GdDriver::class);
-        $image = $manager->read($this->getTestImagePath('orientation.jpg'));
+        $image = $manager->read($this->getTestResourcePath('orientation.jpg'));
         $this->assertColor(255, 255, 255, 255, $image->pickColor(0, 24));
     }
 
@@ -134,7 +134,7 @@ final class ImageManagerTest extends BaseTestCase
     {
         $manager = new ImageManager(ImagickDriver::class);
         $image = $manager->animate(function ($animation) {
-            $animation->add($this->getTestImagePath('red.gif'), .25);
+            $animation->add($this->getTestResourcePath('red.gif'), .25);
         });
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
@@ -143,7 +143,7 @@ final class ImageManagerTest extends BaseTestCase
     public function testReadImagick(): void
     {
         $manager = new ImageManager(ImagickDriver::class);
-        $image = $manager->read($this->getTestImagePath('red.gif'));
+        $image = $manager->read($this->getTestResourcePath('red.gif'));
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
@@ -151,7 +151,7 @@ final class ImageManagerTest extends BaseTestCase
     public function testReadImagickWithDecoderClassname(): void
     {
         $manager = new ImageManager(ImagickDriver::class);
-        $image = $manager->read($this->getTestImagePath('red.gif'), FilePathImageDecoder::class);
+        $image = $manager->read($this->getTestResourcePath('red.gif'), FilePathImageDecoder::class);
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
@@ -159,7 +159,7 @@ final class ImageManagerTest extends BaseTestCase
     public function testReadImagickWithDecoderInstance(): void
     {
         $manager = new ImageManager(ImagickDriver::class);
-        $image = $manager->read($this->getTestImagePath('red.gif'), new FilePathImageDecoder());
+        $image = $manager->read($this->getTestResourcePath('red.gif'), new FilePathImageDecoder());
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
@@ -167,7 +167,7 @@ final class ImageManagerTest extends BaseTestCase
     public function testReadImagickWithDecoderClassnameArray(): void
     {
         $manager = new ImageManager(ImagickDriver::class);
-        $image = $manager->read($this->getTestImagePath('red.gif'), [FilePathImageDecoder::class]);
+        $image = $manager->read($this->getTestResourcePath('red.gif'), [FilePathImageDecoder::class]);
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
@@ -175,7 +175,7 @@ final class ImageManagerTest extends BaseTestCase
     public function testReadImagickWithDecoderInstanceArray(): void
     {
         $manager = new ImageManager(ImagickDriver::class);
-        $image = $manager->read($this->getTestImagePath('red.gif'), [new FilePathImageDecoder()]);
+        $image = $manager->read($this->getTestResourcePath('red.gif'), [new FilePathImageDecoder()]);
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
@@ -183,7 +183,7 @@ final class ImageManagerTest extends BaseTestCase
     public function testReadImagickWithDecoderInstanceArrayMultiple(): void
     {
         $manager = new ImageManager(ImagickDriver::class);
-        $image = $manager->read($this->getTestImagePath('red.gif'), [
+        $image = $manager->read($this->getTestResourcePath('red.gif'), [
             new BinaryImageDecoder(),
             new FilePathImageDecoder(),
         ]);
@@ -194,7 +194,7 @@ final class ImageManagerTest extends BaseTestCase
     public function testReadImagickWithRotationAdjustment(): void
     {
         $manager = new ImageManager(ImagickDriver::class);
-        $image = $manager->read($this->getTestImagePath('orientation.jpg'));
+        $image = $manager->read($this->getTestResourcePath('orientation.jpg'));
         $this->assertColor(255, 255, 255, 255, $image->pickColor(0, 24));
     }
 }

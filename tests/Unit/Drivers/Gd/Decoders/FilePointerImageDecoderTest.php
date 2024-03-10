@@ -17,7 +17,7 @@ final class FilePointerImageDecoderTest extends GdTestCase
     public function testDecode(): void
     {
         $decoder = new FilePointerImageDecoder();
-        $fp = fopen($this->getTestImagePath('test.jpg'), 'r');
+        $fp = fopen($this->getTestResourcePath('test.jpg'), 'r');
         $result = $decoder->decode($fp);
         $this->assertInstanceOf(Image::class, $result);
     }

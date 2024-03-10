@@ -16,7 +16,7 @@ abstract class ImagickTestCase extends BaseTestCase
     public function readTestImage($filename = 'test.jpg'): Image
     {
         return (new FilePathImageDecoder())->handle(
-            $this->getTestImagePath($filename)
+            $this->getTestResourcePath($filename)
         );
     }
 

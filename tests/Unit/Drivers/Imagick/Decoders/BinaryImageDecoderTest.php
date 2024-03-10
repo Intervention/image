@@ -17,7 +17,7 @@ final class BinaryImageDecoderTest extends BaseTestCase
     public function testDecodePng(): void
     {
         $decoder = new BinaryImageDecoder();
-        $image = $decoder->decode(file_get_contents($this->getTestImagePath('tile.png')));
+        $image = $decoder->decode(file_get_contents($this->getTestResourcePath('tile.png')));
         $this->assertInstanceOf(Image::class, $image);
         $this->assertInstanceOf(RgbColorspace::class, $image->colorspace());
         $this->assertEquals(16, $image->width());
@@ -28,7 +28,7 @@ final class BinaryImageDecoderTest extends BaseTestCase
     public function testDecodeGif(): void
     {
         $decoder = new BinaryImageDecoder();
-        $image = $decoder->decode(file_get_contents($this->getTestImagePath('red.gif')));
+        $image = $decoder->decode(file_get_contents($this->getTestResourcePath('red.gif')));
         $this->assertInstanceOf(Image::class, $image);
         $this->assertEquals(16, $image->width());
         $this->assertEquals(16, $image->height());
@@ -38,7 +38,7 @@ final class BinaryImageDecoderTest extends BaseTestCase
     public function testDecodeAnimatedGif(): void
     {
         $decoder = new BinaryImageDecoder();
-        $image = $decoder->decode(file_get_contents($this->getTestImagePath('cats.gif')));
+        $image = $decoder->decode(file_get_contents($this->getTestResourcePath('cats.gif')));
         $this->assertInstanceOf(Image::class, $image);
         $this->assertEquals(75, $image->width());
         $this->assertEquals(50, $image->height());
@@ -48,7 +48,7 @@ final class BinaryImageDecoderTest extends BaseTestCase
     public function testDecodeJpegWithExif(): void
     {
         $decoder = new BinaryImageDecoder();
-        $image = $decoder->decode(file_get_contents($this->getTestImagePath('exif.jpg')));
+        $image = $decoder->decode(file_get_contents($this->getTestResourcePath('exif.jpg')));
         $this->assertInstanceOf(Image::class, $image);
         $this->assertEquals(16, $image->width());
         $this->assertEquals(16, $image->height());
@@ -59,7 +59,7 @@ final class BinaryImageDecoderTest extends BaseTestCase
     public function testDecodeCmykImage(): void
     {
         $decoder = new BinaryImageDecoder();
-        $image = $decoder->decode(file_get_contents($this->getTestImagePath('cmyk.jpg')));
+        $image = $decoder->decode(file_get_contents($this->getTestResourcePath('cmyk.jpg')));
         $this->assertInstanceOf(Image::class, $image);
         $this->assertInstanceOf(CmykColorspace::class, $image->colorspace());
     }

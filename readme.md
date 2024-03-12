@@ -90,4 +90,4 @@ If you discover any security related issues, please email oliver@intervention.io
 
 Intervention Image is licensed under the [MIT License](http://opensource.org/licenses/MIT).
 
-Copyright 2023 [Oliver Vogel](http://intervention.io/)
+Copyright 2024 [Oliver Vogel](http://intervention.io/)

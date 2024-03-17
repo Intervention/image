@@ -731,7 +731,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @throws RuntimeException
      * @return EncodedImageInterface
      */
-    public function encodeByMediaType(?string $type = null, ...$options): EncodedImageInterface;
+    public function encodeByMediaType(?string $type = null, mixed ...$options): EncodedImageInterface;
 
     /**
      * Encode the image into the format represented by the given extension. If no

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Modifiers;
 
+use Intervention\Image\Drivers\Specializable;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
-use Intervention\Image\Interfaces\SpecializableInterface;
 
-abstract class SpecializableModifier implements ModifierInterface, SpecializableInterface
+abstract class SpecializableModifier extends Specializable implements ModifierInterface
 {
     /**
      * {@inheritdoc}

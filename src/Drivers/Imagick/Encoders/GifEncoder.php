@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Encoders;
 
 use Imagick;
-use Intervention\Image\Drivers\DriverSpecializedEncoder;
+use Intervention\Image\Drivers\AbstractEncoder;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Interfaces\ImageInterface;
 
-class GifEncoder extends DriverSpecializedEncoder
+class GifEncoder extends AbstractEncoder
 {
     public function encode(ImageInterface $image): EncodedImage
     {

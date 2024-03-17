@@ -7,21 +7,24 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
-use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\ResizeCanvasModifier as GenericResizeCanvasModifier;
+use Intervention\Image\Traits\IsDriverSpecialized;
 
 /**
  * @method SizeInterface cropSize(ImageInterface $image)
  * @property mixed $background
  */
-class ResizeCanvasModifier extends DriverSpecialized implements ModifierInterface
+class ResizeCanvasModifier extends GenericResizeCanvasModifier implements SpecializedInterface
 {
+    use IsDriverSpecialized;
+
     public function apply(ImageInterface $image): ImageInterface
     {
         $resize = $this->cropSize($image);

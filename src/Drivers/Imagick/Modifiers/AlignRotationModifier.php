@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
-use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 
-class AlignRotationModifier extends DriverSpecialized implements ModifierInterface
+class AlignRotationModifier implements ModifierInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

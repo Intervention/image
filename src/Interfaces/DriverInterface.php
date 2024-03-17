@@ -20,19 +20,21 @@ interface DriverInterface
     /**
      * Resolve given object into a specialized version for the current driver
      *
-     * @param object $object
+     * @param ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface $object
      * @throws NotSupportedException
      * @return ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface
      */
-    public function specialize(object $object): ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface;
+    public function specialize(
+        ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface $object
+    ): ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface;
 
     /**
      * Resolve array of classnames or objects into their specialized version for the current driver
      *
-     * @param array $specializables
+     * @param array $objects
      * @return array
      */
-    public function specializeMultiple(array $specializables): array;
+    public function specializeMultiple(array $objects): array;
 
     /**
      * Create new image instance with the current driver in given dimensions

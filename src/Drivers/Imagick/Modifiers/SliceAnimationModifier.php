@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Exceptions\AnimationException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
@@ -13,7 +12,7 @@ use Intervention\Image\Interfaces\ModifierInterface;
  * @property int $offset
  * @property null|int $length
  */
-class SliceAnimationModifier extends DriverSpecialized implements ModifierInterface
+class SliceAnimationModifier implements ModifierInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

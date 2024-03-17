@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Drivers;
+namespace Intervention\Image\Traits;
 
-use Intervention\Image\Interfaces\EncoderInterface;
-
-abstract class DriverSpecializedEncoder extends DriverSpecialized implements EncoderInterface
+trait CanBufferOutput
 {
     /**
      * Get return value of callback through output buffer

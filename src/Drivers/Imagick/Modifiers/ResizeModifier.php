@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
@@ -14,7 +13,7 @@ use Intervention\Image\Interfaces\SizeInterface;
  * @property null|int $width
  * @property null|int $height
  */
-class ResizeModifier extends DriverSpecialized implements ModifierInterface
+class ResizeModifier implements ModifierInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

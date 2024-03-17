@@ -7,7 +7,6 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use Imagick;
 use ImagickDraw;
 use ImagickPixel;
-use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Geometry\Point;
@@ -18,7 +17,7 @@ use Intervention\Image\Interfaces\ModifierInterface;
  * @property mixed $color
  * @property null|Point $position
  */
-class FillModifier extends DriverSpecialized implements ModifierInterface
+class FillModifier implements ModifierInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

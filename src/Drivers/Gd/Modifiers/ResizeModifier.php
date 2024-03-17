@@ -4,21 +4,24 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\ResizeModifier as GenericResizeModifier;
+use Intervention\Image\Traits\IsDriverSpecialized;
 
 /**
  * @property null|int $width
  * @property null|int $height
  */
-class ResizeModifier extends DriverSpecialized implements ModifierInterface
+class ResizeModifier extends GenericResizeModifier implements SpecializedInterface
 {
+    use IsDriverSpecialized;
+
     public function apply(ImageInterface $image): ImageInterface
     {
         $resizeTo = $this->getAdjustedSize($image);

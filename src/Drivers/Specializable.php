@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Encoders;
+namespace Intervention\Image\Drivers;
 
 use Intervention\Image\Interfaces\SpecializableInterface;
 use Intervention\Image\Traits\CanBeDriverSpecialized;
 
-class SpecializableEncoder extends AbstractEncoder implements SpecializableInterface
+class Specializable implements SpecializableInterface
 {
     use CanBeDriverSpecialized;
 }

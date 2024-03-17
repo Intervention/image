@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Encoders;
 
 use Imagick;
-use Intervention\Image\Drivers\DriverSpecializedEncoder;
+use Intervention\Image\Drivers\AbstractEncoder;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\EncodedImageInterface;
@@ -13,7 +13,7 @@ use Intervention\Image\Interfaces\EncodedImageInterface;
 /**
  * @property int $quality
  */
-class Jpeg2000Encoder extends DriverSpecializedEncoder
+class Jpeg2000Encoder extends AbstractEncoder
 {
     public function encode(ImageInterface $image): EncodedImageInterface
     {

@@ -6,14 +6,20 @@ namespace Intervention\Image\Drivers\Gd\Encoders;
 
 use Exception;
 use Intervention\Gif\Builder as GifBuilder;
-use Intervention\Image\Drivers\DriverSpecializedEncoder;
 use Intervention\Image\EncodedImage;
+use Intervention\Image\Encoders\GifEncoder as GenericGifEncoder;
 use Intervention\Image\Exceptions\EncoderException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Traits\CanBufferOutput;
+use Intervention\Image\Traits\IsDriverSpecialized;
 
-class GifEncoder extends DriverSpecializedEncoder
+class GifEncoder extends GenericGifEncoder implements SpecializedInterface
 {
+    use CanBufferOutput;
+    use IsDriverSpecialized;
+
     public function encode(ImageInterface $image): EncodedImage
     {
         if ($image->isAnimated()) {

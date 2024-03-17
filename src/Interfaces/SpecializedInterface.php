@@ -6,28 +6,18 @@ namespace Intervention\Image\Interfaces;
 
 interface SpecializedInterface
 {
-    public function __construct();
-
     /**
-     * Return current driver instance
+     * Return the driver for which the object was specialized
      *
      * @return DriverInterface
      */
     public function driver(): DriverInterface;
 
     /**
-     * Return driverless generic object
+     * Set the driver for which the object is specialized
      *
-     * @return object
-     */
-    public function generic(): object;
-
-    /**
-     * Build driver specialized version of given generic object for given driver
-     *
-     * @param object $generic
      * @param DriverInterface $driver
-     * @return SpecializedInterface
+     * @return SpecializableInterface
      */
-    public static function buildSpecialized(object $generic, DriverInterface $driver): self;
+    public function setDriver(DriverInterface $driver): self;
 }

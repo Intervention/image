@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Encoders;
 
-use Intervention\Image\Interfaces\SpecializableInterface;
-
-class Jpeg2000Encoder extends SpecializableEncoder implements SpecializableInterface
+class Jpeg2000Encoder extends SpecializableEncoder
 {
+    public function __construct(public int $quality = self::DEFAULT_QUALITY)
+    {
+    }
 }

@@ -7,7 +7,7 @@ namespace Intervention\Image\Drivers;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\FontInterface;
 
-abstract class AbstractTextModifier extends DriverSpecialized
+abstract class AbstractTextModifier
 {
     /**
      * Return array of offset points to draw text stroke effect below the actual text

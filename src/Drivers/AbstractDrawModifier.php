@@ -14,7 +14,7 @@ use Intervention\Image\Interfaces\PointInterface;
 /**
  * @property DrawableInterface $drawable
  */
-abstract class AbstractDrawModifier extends DriverSpecialized implements ModifierInterface
+abstract class AbstractDrawModifier implements ModifierInterface
 {
     public function position(): PointInterface
     {

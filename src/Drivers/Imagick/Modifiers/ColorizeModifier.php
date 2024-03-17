@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
-use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 
@@ -14,7 +13,7 @@ use Intervention\Image\Interfaces\ModifierInterface;
  * @property int $green
  * @property int $blue
  */
-class ColorizeModifier extends DriverSpecialized implements ModifierInterface
+class ColorizeModifier implements ModifierInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

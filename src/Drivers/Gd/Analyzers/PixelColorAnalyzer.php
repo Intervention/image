@@ -5,21 +5,24 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Analyzers;
 
 use GdImage;
-use Intervention\Image\Drivers\DriverSpecialized;
+use Intervention\Image\Analyzers\PixelColorAnalyzer as GenericPixelColorAnalyzer;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\GeometryException;
-use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Traits\IsDriverSpecialized;
 
 /**
  * @property int $x
  * @property int $y
  * @property int $frame_key
  */
-class PixelColorAnalyzer extends DriverSpecialized implements AnalyzerInterface
+class PixelColorAnalyzer extends GenericPixelColorAnalyzer implements SpecializedInterface
 {
+    use IsDriverSpecialized;
+
     public function analyze(ImageInterface $image): mixed
     {
         return $this->colorAt(

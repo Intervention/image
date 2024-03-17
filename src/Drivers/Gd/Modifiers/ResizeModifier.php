@@ -12,16 +12,9 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\ResizeModifier as GenericResizeModifier;
-use Intervention\Image\Traits\IsDriverSpecialized;
 
-/**
- * @property null|int $width
- * @property null|int $height
- */
 class ResizeModifier extends GenericResizeModifier implements SpecializedInterface
 {
-    use IsDriverSpecialized;
-
     public function apply(ImageInterface $image): ImageInterface
     {
         $resizeTo = $this->getAdjustedSize($image);

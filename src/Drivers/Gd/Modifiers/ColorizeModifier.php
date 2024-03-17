@@ -7,17 +7,9 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\ColorizeModifier as GenericColorizeModifier;
-use Intervention\Image\Traits\IsDriverSpecialized;
 
-/**
- * @property int $red
- * @property int $green
- * @property int $blue
- */
 class ColorizeModifier extends GenericColorizeModifier implements SpecializedInterface
 {
-    use IsDriverSpecialized;
-
     public function apply(ImageInterface $image): ImageInterface
     {
         // normalize colorize levels

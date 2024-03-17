@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Tests\Unit\Modifiers;
+namespace Intervention\Image\Tests\Unit\Drivers;
 
-use Intervention\Image\Modifiers\SpecializableModifier;
+use Intervention\Image\Drivers\SpecializableModifier;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Tests\BaseTestCase;
 use Mockery;

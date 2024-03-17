@@ -10,12 +10,10 @@ use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
-use Intervention\Image\Interfaces\ModifierInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\ColorspaceModifier as GenericColorspaceModifier;
 
-/**
- * @method ColorspaceInterface targetColorspace()
- */
-class ColorspaceModifier implements ModifierInterface
+class ColorspaceModifier extends GenericColorspaceModifier implements SpecializedInterface
 {
     protected static $mapping = [
         RgbColorspace::class => Imagick::COLORSPACE_SRGB,

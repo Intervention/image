@@ -6,14 +6,11 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\ResizeModifier as GenericResizeModifier;
 
-/**
- * @property null|int $width
- * @property null|int $height
- */
-class ResizeModifier implements ModifierInterface
+class ResizeModifier extends GenericResizeModifier implements SpecializedInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

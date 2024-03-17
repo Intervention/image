@@ -15,65 +15,76 @@ use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
 use Intervention\Image\Exceptions\EncoderException;
+use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Tests\BaseTestCase;
-use Mockery;
 
 final class FileExtensionEncoderTest extends BaseTestCase
 {
+    private function testEncoder(string $extension): EncoderInterface
+    {
+        $encoder = new class () extends FileExtensionEncoder
+        {
+            public function test($extension)
+            {
+                return $this->encoderByFileExtension($extension);
+            }
+        };
+
+        return $encoder->test($extension);
+    }
+
     public function testEncoderByFileExtension(): void
     {
-        $encoder = Mockery::mock(FileExtensionEncoder::class);
 
         $this->assertInstanceOf(
             WebpEncoder::class,
-            $encoder->encoderByFileExtension('webp')
+            $this->testEncoder('webp')
         );
 
         $this->assertInstanceOf(
             AvifEncoder::class,
-            $encoder->encoderByFileExtension('avif')
+            $this->testEncoder('avif')
         );
 
         $this->assertInstanceOf(
             JpegEncoder::class,
-            $encoder->encoderByFileExtension('jpeg')
+            $this->testEncoder('jpeg')
         );
 
         $this->assertInstanceOf(
             BmpEncoder::class,
-            $encoder->encoderByFileExtension('bmp')
+            $this->testEncoder('bmp')
         );
 
         $this->assertInstanceOf(
             GifEncoder::class,
-            $encoder->encoderByFileExtension('gif')
+            $this->testEncoder('gif')
         );
 
         $this->assertInstanceOf(
             PngEncoder::class,
-            $encoder->encoderByFileExtension('png')
+            $this->testEncoder('png')
         );
 
         $this->assertInstanceOf(
             TiffEncoder::class,
-            $encoder->encoderByFileExtension('tiff')
+            $this->testEncoder('tiff')
         );
 
         $this->assertInstanceOf(
             Jpeg2000Encoder::class,
-            $encoder->encoderByFileExtension('jp2')
+            $this->testEncoder('jp2')
         );
 
         $this->assertInstanceOf(
             HeicEncoder::class,
-            $encoder->encoderByFileExtension('heic')
+            $this->testEncoder('heic')
         );
     }
 
     public function testEncoderByFileExtensionUnknown(): void
     {
-        $encoder = Mockery::mock(FileExtensionEncoder::class);
         $this->expectException(EncoderException::class);
-        $encoder->encoderByFileExtension('test');
+        $this->testEncoder('test');
     }
 }

@@ -4,20 +4,13 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\AbstractTextModifier;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Geometry\Point;
-use Intervention\Image\Interfaces\FontInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\TextModifier as GenericTextModifier;
 
-/**
- * @property Point $position
- * @property string $text
- * @property FontInterface $font
- */
-class TextModifier extends AbstractTextModifier implements ModifierInterface
+class TextModifier extends GenericTextModifier implements SpecializedInterface
 {
     /**
      * {@inheritdoc}
@@ -30,8 +23,8 @@ class TextModifier extends AbstractTextModifier implements ModifierInterface
         $lines = $fontProcessor->textBlock($this->text, $this->font, $this->position);
 
         // decode text colors
-        $textColor = $this->textColor($image);
-        $strokeColor = $this->strokeColor($image);
+        $textColor = $this->gdTextColor($image);
+        $strokeColor = $this->gdStrokeColor($image);
 
         foreach ($image as $frame) {
             imagealphablending($frame->native(), true);
@@ -90,46 +83,36 @@ class TextModifier extends AbstractTextModifier implements ModifierInterface
     }
 
     /**
-     * Decode text color
-     *
-     * The text outline effect is drawn with a trick by plotting additional text
-     * under the actual text with an offset in the color of the outline effect.
-     * For this reason, no colors with transparency can be used for the text
-     * color or the color of the stroke effect, as this would be superimposed.
+     * Decode text color in GD compatible format
      *
      * @param ImageInterface $image
+     * @return int
      * @throws RuntimeException
      * @throws ColorException
-     * @return int
      */
-    protected function textColor(ImageInterface $image): int
+    protected function gdTextColor(ImageInterface $image): int
     {
-        $color = $this->driver()->handleInput($this->font->color());
-
-        if ($this->font->hasStrokeEffect() && $color->isTransparent()) {
-            throw new ColorException(
-                'The text color must be fully opaque when using the stroke effect.'
-            );
-        }
-
-        return $this->driver()->colorProcessor($image->colorspace())->colorToNative($color);
+        return $this
+            ->driver()
+            ->colorProcessor($image->colorspace())
+            ->colorToNative(parent::textColor());
     }
 
     /**
-     * Decode outline stroke color
+     * Decode color for stroke (outline) effect in GD compatible format
      *
      * @param ImageInterface $image
+     * @return int
      * @throws RuntimeException
      * @throws ColorException
-     * @return int
      */
-    protected function strokeColor(ImageInterface $image): int
+    protected function gdStrokeColor(ImageInterface $image): int
     {
         if (!$this->font->hasStrokeEffect()) {
             return 0;
         }
 
-        $color = $this->driver()->handleInput($this->font->strokeColor());
+        $color = parent::strokeColor();
 
         if ($color->isTransparent()) {
             throw new ColorException(
@@ -137,7 +120,10 @@ class TextModifier extends AbstractTextModifier implements ModifierInterface
             );
         }
 
-        return $this->driver()->colorProcessor($image->colorspace())->colorToNative($color);
+        return $this
+            ->driver()
+            ->colorProcessor($image->colorspace())
+            ->colorToNative($color);
     }
 
     /**

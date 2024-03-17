@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Analyzers;
+namespace Intervention\Image\Drivers;
 
-use Intervention\Image\Drivers\Specializable;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Encoders;
 
+use Intervention\Image\Drivers\AbstractEncoder;
 use Intervention\Image\Exceptions\EncoderException;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\EncoderInterface;

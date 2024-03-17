@@ -7,15 +7,9 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\PixelateModifier as GenericPixelateModifier;
-use Intervention\Image\Traits\IsDriverSpecialized;
 
-/**
- * @property int $size
- */
 class PixelateModifier extends GenericPixelateModifier implements SpecializedInterface
 {
-    use IsDriverSpecialized;
-
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {

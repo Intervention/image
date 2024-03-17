@@ -5,14 +5,10 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
-use Intervention\Image\Interfaces\PointInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\DrawPixelModifier as GenericDrawPixelModifier;
 
-/**
- * @property PointInterface $position
- * @property mixed $color
- */
-class DrawPixelModifier implements ModifierInterface
+class DrawPixelModifier extends GenericDrawPixelModifier implements SpecializedInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

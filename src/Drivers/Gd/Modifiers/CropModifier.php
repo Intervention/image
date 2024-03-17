@@ -11,18 +11,9 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\CropModifier as GenericCropModifier;
-use Intervention\Image\Traits\IsDriverSpecialized;
 
-/**
- * @method SizeInterface crop(ImageInterface $image)
- * @property int $offset_x
- * @property int $offset_y
- * @property mixed $background
- */
 class CropModifier extends GenericCropModifier implements SpecializedInterface
 {
-    use IsDriverSpecialized;
-
     public function apply(ImageInterface $image): ImageInterface
     {
         $originalSize = $image->size();

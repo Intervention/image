@@ -5,20 +5,16 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
-use Intervention\Image\Drivers\AbstractDrawModifier;
+use RuntimeException;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Geometry\Point;
-use Intervention\Image\Interfaces\ColorInterface;
-use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\DrawRectangleModifier as GenericDrawRectangleModifier;
 
-/**
- * @method Point position()
- * @method ColorInterface backgroundColor()
- * @method ColorInterface borderColor()
- * @property Rectangle $drawable
- */
-class DrawRectangleModifier extends AbstractDrawModifier
+class DrawRectangleModifier extends GenericDrawRectangleModifier implements SpecializedInterface
 {
+    /**
+     * @throws RuntimeException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $drawing = new ImagickDraw();
@@ -39,10 +35,10 @@ class DrawRectangleModifier extends AbstractDrawModifier
 
         // build rectangle
         $drawing->rectangle(
-            $this->position()->x(),
-            $this->position()->y(),
-            $this->position()->x() + $this->drawable->width(),
-            $this->position()->y() + $this->drawable->height()
+            $this->drawable->position()->x(),
+            $this->drawable->position()->y(),
+            $this->drawable->position()->x() + $this->drawable->width(),
+            $this->drawable->position()->y() + $this->drawable->height()
         );
 
         foreach ($image as $frame) {

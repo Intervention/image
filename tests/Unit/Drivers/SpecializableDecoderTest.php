@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Tests\Unit\Decoders;
+namespace Intervention\Image\Tests\Unit\Drivers;
 
-use Intervention\Image\Decoders\SpecializableDecoder;
+use Intervention\Image\Drivers\SpecializableDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Tests\BaseTestCase;
 use Mockery;

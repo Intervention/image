@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\SharpenModifier as GenericSharpenModifier;
 
-/**
- * @property int $amount
- */
-class SharpenModifier implements ModifierInterface
+class SharpenModifier extends GenericSharpenModifier implements SpecializedInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

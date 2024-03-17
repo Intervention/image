@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Encoders;
+namespace Intervention\Image\Drivers;
 
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
@@ -20,5 +20,21 @@ abstract class AbstractEncoder implements EncoderInterface
     public function encode(ImageInterface $image): EncodedImageInterface
     {
         return $image->encode($this);
+    }
+
+    /**
+     * Get return value of callback through output buffer
+     *
+     * @param callable $callback
+     * @return string
+     */
+    protected function buffered(callable $callback): string
+    {
+        ob_start();
+        $callback();
+        $buffer = ob_get_contents();
+        ob_end_clean();
+
+        return $buffer;
     }
 }

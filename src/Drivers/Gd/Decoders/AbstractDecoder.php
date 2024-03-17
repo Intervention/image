@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
-use Intervention\Image\Drivers\AbstractDecoder as GenericAbstractDecoder;
+use Intervention\Image\Drivers\SpecializableDecoder;
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Interfaces\SpecializedInterface;
 
-abstract class AbstractDecoder extends GenericAbstractDecoder
+abstract class AbstractDecoder extends SpecializableDecoder implements SpecializedInterface
 {
     /**
      * Return media (mime) type of the file at given file path

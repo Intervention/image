@@ -6,13 +6,10 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Intervention\Image\Exceptions\AnimationException;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\SliceAnimationModifier as GenericSliceAnimationModifier;
 
-/**
- * @property int $offset
- * @property null|int $length
- */
-class SliceAnimationModifier implements ModifierInterface
+class SliceAnimationModifier extends GenericSliceAnimationModifier implements SpecializedInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

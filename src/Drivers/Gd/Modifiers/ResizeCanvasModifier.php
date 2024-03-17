@@ -15,16 +15,9 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\ResizeCanvasModifier as GenericResizeCanvasModifier;
-use Intervention\Image\Traits\IsDriverSpecialized;
 
-/**
- * @method SizeInterface cropSize(ImageInterface $image)
- * @property mixed $background
- */
 class ResizeCanvasModifier extends GenericResizeCanvasModifier implements SpecializedInterface
 {
-    use IsDriverSpecialized;
-
     public function apply(ImageInterface $image): ImageInterface
     {
         $resize = $this->cropSize($image);
@@ -58,8 +51,7 @@ class ResizeCanvasModifier extends GenericResizeCanvasModifier implements Specia
             127,
         );
 
-        imagealphablending($modified, false); // do not blend / just overwrite
-        // imagecolortransparent($modified, $transparent);
+        imagealphablending($modified, false); // do not blend - just overwrite
         imagefilledrectangle(
             $modified,
             $resize->pivot()->x() * -1,

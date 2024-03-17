@@ -7,15 +7,9 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\SharpenModifier as GenericSharpenModifier;
-use Intervention\Image\Traits\IsDriverSpecialized;
 
-/**
- * @property int $amount
- */
 class SharpenModifier extends GenericSharpenModifier implements SpecializedInterface
 {
-    use IsDriverSpecialized;
-
     public function apply(ImageInterface $image): ImageInterface
     {
         $matrix = $this->matrix();

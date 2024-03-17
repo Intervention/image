@@ -24,7 +24,6 @@ class FilePathEncoder extends FileExtensionEncoder
         );
     }
 
-
     /**
      * {@inheritdoc}
      *

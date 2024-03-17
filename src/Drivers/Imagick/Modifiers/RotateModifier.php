@@ -5,13 +5,10 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\RotateModifier as GenericRotateModifier;
 
-/**
- * @method mixed rotationAngle()
- * @property mixed $background
- */
-class RotateModifier implements ModifierInterface
+class RotateModifier extends GenericRotateModifier implements SpecializedInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

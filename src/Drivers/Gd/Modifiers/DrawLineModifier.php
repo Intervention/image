@@ -4,19 +4,22 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\AbstractDrawModifier;
+use RuntimeException;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ColorInterface;
-use Intervention\Image\Geometry\Line;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\DrawLineModifier as GenericDrawLineModifier;
 
-/**
- * @method ColorInterface backgroundColor()
- * @property Line $drawable
- */
-class DrawLineModifier extends AbstractDrawModifier
+class DrawLineModifier extends GenericDrawLineModifier implements SpecializedInterface
 {
+    /**
+     * @throws RuntimeException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
+        $color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+            $this->backgroundColor()
+        );
+
         foreach ($image as $frame) {
             imagealphablending($frame->native(), true);
             imageantialias($frame->native(), true);
@@ -27,9 +30,7 @@ class DrawLineModifier extends AbstractDrawModifier
                 $this->drawable->start()->y(),
                 $this->drawable->end()->x(),
                 $this->drawable->end()->y(),
-                $this->driver()->colorProcessor($image->colorspace())->colorToNative(
-                    $this->backgroundColor()
-                )
+                $color
             );
         }
 

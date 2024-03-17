@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Modifiers;
+namespace Intervention\Image\Drivers;
 
-use Intervention\Image\Drivers\Specializable;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 

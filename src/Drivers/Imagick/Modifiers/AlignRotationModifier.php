@@ -6,9 +6,10 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\AlignRotationModifier as GenericAlignRotationModifier;
 
-class AlignRotationModifier implements ModifierInterface
+class AlignRotationModifier extends GenericAlignRotationModifier implements SpecializedInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

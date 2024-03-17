@@ -11,16 +11,9 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\CoverModifier as GenericCoverModifier;
-use Intervention\Image\Traits\IsDriverSpecialized;
 
-/**
- * @method SizeInterface getCropSize(ImageInterface $image)
- * @method SizeInterface getResizeSize(SizeInterface $size)
- */
 class CoverModifier extends GenericCoverModifier implements SpecializedInterface
 {
-    use IsDriverSpecialized;
-
     public function apply(ImageInterface $image): ImageInterface
     {
         $crop = $this->getCropSize($image);

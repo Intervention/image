@@ -6,13 +6,10 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\RemoveAnimationModifier as GenericRemoveAnimationModifier;
 
-/**
- * @method mixed chosenFrame(ImageInterface $image, int|string $position)
- * @property int|string $position
- */
-class RemoveAnimationModifier implements ModifierInterface
+class RemoveAnimationModifier extends GenericRemoveAnimationModifier implements SpecializedInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

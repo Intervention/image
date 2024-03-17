@@ -9,16 +9,9 @@ use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\QuantizeColorsModifier as GenericQuantizeColorsModifier;
-use Intervention\Image\Traits\IsDriverSpecialized;
 
-/**
- * @property int $limit
- * @property mixed $background
- */
 class QuantizeColorsModifier extends GenericQuantizeColorsModifier implements SpecializedInterface
 {
-    use IsDriverSpecialized;
-
     public function apply(ImageInterface $image): ImageInterface
     {
         if ($this->limit <= 0) {

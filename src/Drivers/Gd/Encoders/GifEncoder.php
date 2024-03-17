@@ -12,14 +12,9 @@ use Intervention\Image\Exceptions\EncoderException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
-use Intervention\Image\Traits\CanBufferOutput;
-use Intervention\Image\Traits\IsDriverSpecialized;
 
 class GifEncoder extends GenericGifEncoder implements SpecializedInterface
 {
-    use CanBufferOutput;
-    use IsDriverSpecialized;
-
     public function encode(ImageInterface $image): EncodedImage
     {
         if ($image->isAnimated()) {
@@ -27,7 +22,7 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
         }
 
         $gd = $image->core()->native();
-        $data = $this->getBuffered(function () use ($gd) {
+        $data = $this->buffered(function () use ($gd) {
             imagegif($gd);
         });
 

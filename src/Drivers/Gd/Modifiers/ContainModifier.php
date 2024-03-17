@@ -15,20 +15,9 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\ContainModifier as GenericContainModifier;
-use Intervention\Image\Traits\IsDriverSpecialized;
 
-/**
- * @method SizeInterface getCropSize(ImageInterface $image)
- * @method SizeInterface getResizeSize(ImageInterface $image)
- * @property int $width
- * @property int $height
- * @property mixed $background
- * @property string $position
- */
 class ContainModifier extends GenericContainModifier implements SpecializedInterface
 {
-    use IsDriverSpecialized;
-
     public function apply(ImageInterface $image): ImageInterface
     {
         $crop = $this->getCropSize($image);

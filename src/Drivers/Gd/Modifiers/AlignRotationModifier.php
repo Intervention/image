@@ -7,12 +7,9 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\AlignRotationModifier as GenericAlignRotationModifier;
-use Intervention\Image\Traits\IsDriverSpecialized;
 
 class AlignRotationModifier extends GenericAlignRotationModifier implements SpecializedInterface
 {
-    use IsDriverSpecialized;
-
     public function apply(ImageInterface $image): ImageInterface
     {
         return match ($image->exif('IFD0.Orientation')) {

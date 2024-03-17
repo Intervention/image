@@ -6,17 +6,10 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\PlaceModifier as GenericPlaceModifier;
 
-/**
- * @method mixed getPosition(ImageInterface $image, ImageInterface $watermark)
- * @property mixed $element
- * @property string $position
- * @property int $offset_x
- * @property int $offset_y
- * @property int $opacity
- */
-class PlaceModifier implements ModifierInterface
+class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

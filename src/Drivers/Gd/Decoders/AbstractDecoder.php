@@ -18,7 +18,7 @@ abstract class AbstractDecoder extends GenericAbstractDecoder
      */
     protected function getMediaTypeByFilePath(string $filepath): string
     {
-        $info = getimagesize($filepath);
+        $info = @getimagesize($filepath);
 
         if (!is_array($info)) {
             throw new DecoderException('Unable to decode input');
@@ -40,7 +40,7 @@ abstract class AbstractDecoder extends GenericAbstractDecoder
      */
     protected function getMediaTypeByBinary(string $data): string
     {
-        $info = getimagesizefromstring($data);
+        $info = @getimagesizefromstring($data);
 
         if (!is_array($info)) {
             throw new DecoderException('Unable to decode input');

@@ -13,6 +13,7 @@ use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
+use stdClass;
 
 #[CoversClass(\Intervention\Image\Drivers\AbstractDecoder::class)]
 final class AbstractDecoderTest extends BaseTestCase
@@ -63,6 +64,9 @@ final class AbstractDecoderTest extends BaseTestCase
         $decoder = Mockery::mock(AbstractDecoder::class)->makePartial();
         $this->assertTrue($decoder->isFile($this->getTestResourcePath()));
         $this->assertFalse($decoder->isFile('non-existent-file'));
+        $this->assertFalse($decoder->isFile(new stdClass()));
+        $this->assertFalse($decoder->isFile(str_repeat('o', PHP_MAXPATHLEN + 1)));
+        $this->assertFalse($decoder->isFile(__DIR__));
     }
 
     public function testExtractExifDataFromBinary(): void
@@ -144,6 +148,10 @@ final class AbstractDecoderTest extends BaseTestCase
         );
         $this->assertFalse(
             $decoder->isValid('foo')
+        );
+
+        $this->assertFalse(
+            $decoder->isValid(new stdClass())
         );
     }
 }

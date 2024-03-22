@@ -12,6 +12,13 @@ use Intervention\Image\Interfaces\ImageInterface;
 
 class MediaTypeEncoder extends AbstractEncoder
 {
+    /**
+     * Create new encoder instance
+     *
+     * @param null|string $mediaType Target media type for example "image/jpeg"
+     * @param int $quality
+     * @return void
+     */
     public function __construct(
         public ?string $mediaType = null,
         public int $quality = self::DEFAULT_QUALITY

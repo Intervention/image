@@ -14,7 +14,7 @@ class FileExtensionEncoder extends AutoEncoder
     /**
      * Create new encoder instance to encode to format of given file extension
      *
-     * @param null|string $extension
+     * @param null|string $extension Target file extension for example "png"
      * @param int $quality
      * @return void
      */

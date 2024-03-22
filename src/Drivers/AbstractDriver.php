@@ -44,6 +44,7 @@ abstract class AbstractDriver implements DriverInterface
             return $object;
         }
 
+        // resolve classname for specializable object
         $driver_namespace = (new ReflectionClass($this))->getNamespaceName();
         $object_path = substr($object::class, strlen("Intervention\\Image\\"));
         $specialized_classname = $driver_namespace . "\\" . $object_path;
@@ -54,7 +55,11 @@ abstract class AbstractDriver implements DriverInterface
             );
         }
 
-        return (new $specialized_classname(...$object->specializable()))->setDriver($this);
+        // create driver specialized object with specializable properties of generic object
+        $specialized = (new $specialized_classname(...$object->specializable()));
+
+        // attach driver
+        return $specialized->setDriver($this);
     }
 
     /**

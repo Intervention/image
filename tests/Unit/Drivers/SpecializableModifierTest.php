@@ -16,7 +16,6 @@ final class SpecializableModifierTest extends BaseTestCase
         $modifier = Mockery::mock(SpecializableModifier::class)->makePartial();
         $image = Mockery::mock(ImageInterface::class);
         $image->shouldReceive('modify')->andReturn($image);
-
         $result = $modifier->apply($image);
         $this->assertInstanceOf(ImageInterface::class, $result);
     }

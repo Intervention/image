@@ -110,7 +110,7 @@ abstract class AbstractDecoder implements DecoderInterface
 
         try {
             $source = match (true) {
-                (strlen($path_or_data) <= PHP_MAXPATHLEN && is_file($path_or_data)) => $path_or_data, // path
+                $this->isFile($path_or_data) => $path_or_data, // path
                 default => $this->buildFilePointer($path_or_data), // data
             };
 

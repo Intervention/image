@@ -20,7 +20,6 @@ final class AbstractEncoderTest extends BaseTestCase
         $image = Mockery::mock(ImageInterface::class);
         $encoded = Mockery::mock(EncodedImage::class);
         $image->shouldReceive('encode')->andReturn($encoded);
-
         $result = $encoder->encode($image);
         $this->assertInstanceOf(EncodedImage::class, $result);
     }

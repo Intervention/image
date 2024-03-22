@@ -16,7 +16,6 @@ final class SpecializableAnalyzerTest extends BaseTestCase
         $analyzer = Mockery::mock(SpecializableAnalyzer::class)->makePartial();
         $image = Mockery::mock(ImageInterface::class);
         $image->shouldReceive('analyze')->andReturn('test');
-
         $result = $analyzer->analyze($image);
         $this->assertEquals('test', $result);
     }

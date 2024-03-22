@@ -21,47 +21,42 @@ final class AbstractDecoderTest extends BaseTestCase
     public function testHandle(): void
     {
         $result = Mockery::mock(ColorInterface::class);
-        $decoder = Mockery::mock(AbstractDecoder::class)->makePartial();
+        $decoder = Mockery::mock(AbstractDecoder::class);
         $decoder->shouldReceive('decode')->with('test input')->andReturn($result);
-
         $decoder->handle('test input');
     }
 
     public function testHandleFail(): void
     {
-        $decoder = Mockery::mock(AbstractDecoder::class, [])->makePartial()->shouldAllowMockingProtectedMethods();
+        $decoder = Mockery::mock(AbstractDecoder::class, []);
         $decoder->shouldReceive('decode')->with('test input')->andThrow(DecoderException::class);
-
         $this->expectException(DecoderException::class);
-
         $decoder->handle('test input');
     }
 
     public function testHandleFailWithSuccessor(): void
     {
         $result = Mockery::mock(ColorInterface::class);
-        $successor = Mockery::mock(AbstractDecoder::class)->makePartial();
+        $successor = Mockery::mock(AbstractDecoder::class);
         $successor->shouldReceive('decode')->with('test input')->andReturn($result);
-
         $decoder = Mockery::mock(
             AbstractDecoder::class,
             [$successor]
-        )->makePartial()->shouldAllowMockingProtectedMethods();
+        );
         $decoder->shouldReceive('decode')->with('test input')->andThrow(DecoderException::class);
-
         $decoder->handle('test input');
     }
 
     public function testIsGifFormat(): void
     {
-        $decoder = Mockery::mock(AbstractDecoder::class)->makePartial();
+        $decoder = Mockery::mock(AbstractDecoder::class);
         $this->assertFalse($decoder->isGifFormat($this->getTestResourceData('exif.jpg')));
         $this->assertTrue($decoder->isGifFormat($this->getTestResourceData('red.gif')));
     }
 
     public function testIsFile(): void
     {
-        $decoder = Mockery::mock(AbstractDecoder::class)->makePartial();
+        $decoder = Mockery::mock(AbstractDecoder::class);
         $this->assertTrue($decoder->isFile($this->getTestResourcePath()));
         $this->assertFalse($decoder->isFile('non-existent-file'));
         $this->assertFalse($decoder->isFile(new stdClass()));
@@ -71,15 +66,18 @@ final class AbstractDecoderTest extends BaseTestCase
 
     public function testExtractExifDataFromBinary(): void
     {
-        $decoder = Mockery::mock(AbstractDecoder::class)->makePartial();
-        $result = $decoder->extractExifData($this->getTestResourceData('exif.jpg'));
+        $source = $this->getTestResourceData('exif.jpg');
+        $pointer = $this->getTestResourcePointer('exif.jpg');
+        $decoder = Mockery::mock(AbstractDecoder::class);
+        $decoder->shouldReceive('buildFilePointer')->with($source)->andReturn($pointer);
+        $result = $decoder->extractExifData($source);
         $this->assertInstanceOf(CollectionInterface::class, $result);
         $this->assertEquals('Oliver Vogel', $result->get('IFD0.Artist'));
     }
 
     public function testExtractExifDataFromPath(): void
     {
-        $decoder = Mockery::mock(AbstractDecoder::class)->makePartial();
+        $decoder = Mockery::mock(AbstractDecoder::class);
         $result = $decoder->extractExifData($this->getTestResourcePath('exif.jpg'));
         $this->assertInstanceOf(CollectionInterface::class, $result);
         $this->assertEquals('Oliver Vogel', $result->get('IFD0.Artist'));

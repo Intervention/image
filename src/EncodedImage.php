@@ -31,7 +31,7 @@ class EncodedImage extends File implements EncodedImageInterface
     }
 
     /**
-     * Alias of self::mediaType(
+     * Alias of self::mediaType()
      *
      * @return string
      */

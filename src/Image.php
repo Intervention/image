@@ -831,6 +831,11 @@ final class Image implements ImageInterface
         );
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::drawPolygon()
+     */
     public function drawPolygon(callable $init): ImageInterface
     {
         return $this->modify(
@@ -840,6 +845,11 @@ final class Image implements ImageInterface
         );
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::drawLine()
+     */
     public function drawLine(callable $init): ImageInterface
     {
         return $this->modify(

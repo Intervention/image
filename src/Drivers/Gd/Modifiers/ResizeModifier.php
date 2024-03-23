@@ -47,7 +47,7 @@ class ResizeModifier extends GenericResizeModifier implements SpecializedInterfa
             $frame->size()->height()
         );
 
-        // set new content as recource
+        // set new content as resource
         $frame->setNative($modified);
     }
 

@@ -116,7 +116,7 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
             );
         }
 
-        // set new content as recource
+        // set new content as resource
         $frame->setNative($modified);
     }
 }

@@ -25,7 +25,7 @@ final class ImageManager
     }
 
     /**
-     * Create image mangager with given driver
+     * Create image manager with given driver
      *
      * @link https://image.intervention.io/v3/basics/image-manager
      * @param string|DriverInterface $driver

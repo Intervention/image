@@ -254,7 +254,7 @@ final class Image implements ImageInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImgageInterface::setExif()
+     * @see ImageInterface::setExif()
      */
     public function setExif(CollectionInterface $exif): ImageInterface
     {

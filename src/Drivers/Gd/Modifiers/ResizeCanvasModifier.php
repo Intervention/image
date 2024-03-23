@@ -76,7 +76,7 @@ class ResizeCanvasModifier extends GenericResizeCanvasModifier implements Specia
             $frame->size()->height()
         );
 
-        // set new content as recource
+        // set new content as resource
         $frame->setNative($modified);
     }
 }

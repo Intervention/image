@@ -159,7 +159,7 @@ class Core implements CoreInterface, Iterator
     /**
      * {@inheritdoc}
      *
-     * @see Interator::rewind()
+     * @see Iterator::rewind()
      */
     public function current(): mixed
     {
@@ -171,7 +171,7 @@ class Core implements CoreInterface, Iterator
     /**
      * {@inheritdoc}
      *
-     * @see Interator::rewind()
+     * @see Iterator::rewind()
      */
     public function next(): void
     {
@@ -181,7 +181,7 @@ class Core implements CoreInterface, Iterator
     /**
      * {@inheritdoc}
      *
-     * @see Interator::rewind()
+     * @see Iterator::rewind()
      */
     public function key(): mixed
     {
@@ -191,7 +191,7 @@ class Core implements CoreInterface, Iterator
     /**
      * {@inheritdoc}
      *
-     * @see Interator::rewind()
+     * @see Iterator::rewind()
      */
     public function valid(): bool
     {
@@ -207,7 +207,7 @@ class Core implements CoreInterface, Iterator
     /**
      * {@inheritdoc}
      *
-     * @see Interator::rewind()
+     * @see Iterator::rewind()
      */
     public function rewind(): void
     {

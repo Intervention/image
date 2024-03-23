@@ -6,6 +6,7 @@ namespace Intervention\Image\Interfaces;
 
 use Countable;
 use Intervention\Image\Encoders\AutoEncoder;
+use Intervention\Image\Exceptions\AnimationException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Origin;
 use IteratorAggregate;
@@ -614,6 +615,16 @@ interface ImageInterface extends IteratorAggregate, Countable
         mixed $background = 'ffffff',
         string $position = 'top-left'
     ): self;
+
+    /**
+     * Trim the image by removing border areas with similar colors within a tolerance of 0 to 100
+     *
+     * @param int $tolerance
+     * @throws RuntimeException
+     * @throws AnimationException
+     * @return ImageInterface
+     */
+    public function trim(int $tolerance = 0): self;
 
     /**
      * Place another image into the current image instance

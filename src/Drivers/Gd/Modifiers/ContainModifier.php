@@ -80,7 +80,7 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
             $frame->size()->height()
         );
 
-        // set new content as recource
+        // set new content as resource
         $frame->setNative($modified);
     }
 }

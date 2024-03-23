@@ -11,7 +11,7 @@ API for the two most popular image manipulation extensions. You can choose
 between the GD library or Imagick as the base layer for all operations.
 
 - Simple interface for common image editing tasks
-- Interchangable driver architecture
+- Interchangeable driver architecture
 - Support for animated images
 - Framework-agnostic
 - PSR-12 compliant

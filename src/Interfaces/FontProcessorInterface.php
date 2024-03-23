@@ -10,7 +10,7 @@ use Intervention\Image\Typography\TextBlock;
 interface FontProcessorInterface
 {
     /**
-     * Calculate size of bounding box of given text in conjuction with the given font
+     * Calculate size of bounding box of given text in conjunction with the given font
      *
      * @throws FontException
      * @return SizeInterface

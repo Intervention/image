@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Encoders;
 
-use Intervention\Image\Interfaces\SpecializableInterface;
+use Intervention\Image\Drivers\SpecializableEncoder;
 
-class BmpEncoder extends SpecializableEncoder implements SpecializableInterface
+class BmpEncoder extends SpecializableEncoder
 {
+    public function __construct()
+    {
+    }
 }

@@ -2,24 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Drivers;
+namespace Intervention\Image\Modifiers;
 
+use Intervention\Image\Drivers\SpecializableModifier;
 use Intervention\Image\Exceptions\DecoderException;
-use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
-use Intervention\Image\Interfaces\PointInterface;
+use RuntimeException;
 
-/**
- * @property DrawableInterface $drawable
- */
-abstract class AbstractDrawModifier extends DriverSpecialized implements ModifierInterface
+abstract class AbstractDrawModifier extends SpecializableModifier
 {
-    public function position(): PointInterface
-    {
-        return $this->drawable->position();
-    }
+    /**
+     * Return the drawable object which will be rendered by the modifier
+     *
+     * @return DrawableInterface
+     */
+    abstract public function drawable(): DrawableInterface;
 
     /**
      * @throws RuntimeException
@@ -27,7 +25,7 @@ abstract class AbstractDrawModifier extends DriverSpecialized implements Modifie
     public function backgroundColor(): ColorInterface
     {
         try {
-            $color = $this->driver()->handleInput($this->drawable->backgroundColor());
+            $color = $this->driver()->handleInput($this->drawable()->backgroundColor());
         } catch (DecoderException) {
             return $this->driver()->handleInput('transparent');
         }
@@ -41,7 +39,7 @@ abstract class AbstractDrawModifier extends DriverSpecialized implements Modifie
     public function borderColor(): ColorInterface
     {
         try {
-            $color = $this->driver()->handleInput($this->drawable->borderColor());
+            $color = $this->driver()->handleInput($this->drawable()->borderColor());
         } catch (DecoderException) {
             return $this->driver()->handleInput('transparent');
         }

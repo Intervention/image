@@ -7,6 +7,7 @@ namespace Intervention\Image\Modifiers;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
+use Intervention\Image\Drivers\SpecializableModifier;
 use Intervention\Image\Exceptions\NotSupportedException;
 
 class ColorspaceModifier extends SpecializableModifier

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\GreyscaleModifier as GenericGreyscaleModifier;
 
-class GreyscaleModifier extends DriverSpecialized implements ModifierInterface
+class GreyscaleModifier extends GenericGreyscaleModifier implements SpecializedInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

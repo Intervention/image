@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\ContrastModifier as GenericContrastModifier;
 
-/**
- * @property int $level
- */
-class ContrastModifier extends DriverSpecialized implements ModifierInterface
+class ContrastModifier extends GenericContrastModifier implements SpecializedInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\PixelateModifier as GenericPixelateModifier;
 
-/**
- * @property int $size
- */
-class PixelateModifier extends DriverSpecialized implements ModifierInterface
+class PixelateModifier extends GenericPixelateModifier implements SpecializedInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

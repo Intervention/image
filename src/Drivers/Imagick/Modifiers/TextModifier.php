@@ -7,7 +7,6 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use ImagickDraw;
 use ImagickDrawException;
 use ImagickException;
-use Intervention\Image\Drivers\AbstractTextModifier;
 use Intervention\Image\Drivers\Imagick\FontProcessor;
 use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Exceptions\ColorException;
@@ -16,15 +15,11 @@ use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\FontInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\TextModifier as GenericTextModifier;
 use Intervention\Image\Typography\Line;
 
-/**
- * @property Point $position
- * @property string $text
- * @property FontInterface $font
- */
-class TextModifier extends AbstractTextModifier implements ModifierInterface
+class TextModifier extends GenericTextModifier implements SpecializedInterface
 {
     /**
      * {@inheritdoc}

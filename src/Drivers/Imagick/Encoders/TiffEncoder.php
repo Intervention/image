@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Encoders;
 
-use Intervention\Image\Drivers\DriverSpecializedEncoder;
 use Intervention\Image\EncodedImage;
+use Intervention\Image\Encoders\TiffEncoder as GenericTiffEncoder;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\EncodedImageInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
 
-/**
- * @property int $quality
- */
-class TiffEncoder extends DriverSpecializedEncoder
+class TiffEncoder extends GenericTiffEncoder implements SpecializedInterface
 {
     public function encode(ImageInterface $image): EncodedImageInterface
     {

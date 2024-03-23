@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\SharpenModifier as GenericSharpenModifier;
 
-/**
- * @property int $amount
- */
-class SharpenModifier extends DriverSpecialized implements ModifierInterface
+class SharpenModifier extends GenericSharpenModifier implements SpecializedInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

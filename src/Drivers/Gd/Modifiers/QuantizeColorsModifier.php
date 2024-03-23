@@ -4,17 +4,13 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\QuantizeColorsModifier as GenericQuantizeColorsModifier;
 
-/**
- * @property int $limit
- * @property mixed $background
- */
-class QuantizeColorsModifier extends DriverSpecialized implements ModifierInterface
+class QuantizeColorsModifier extends GenericQuantizeColorsModifier implements SpecializedInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

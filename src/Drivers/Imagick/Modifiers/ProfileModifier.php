@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
-use Intervention\Image\Interfaces\ProfileInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\ProfileModifier as GenericProfileModifier;
 
-/**
- * @property ProfileInterface $profile
- */
-class ProfileModifier extends DriverSpecialized implements ModifierInterface
+class ProfileModifier extends GenericProfileModifier implements SpecializedInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

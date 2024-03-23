@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Analyzers;
+namespace Intervention\Image\Drivers;
 
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\SpecializableInterface;
 
-abstract class SpecializableAnalyzer implements AnalyzerInterface, SpecializableInterface
+abstract class SpecializableAnalyzer extends Specializable implements AnalyzerInterface
 {
     /**
      * {@inheritdoc}

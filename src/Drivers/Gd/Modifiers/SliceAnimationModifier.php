@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Exceptions\AnimationException;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\SliceAnimationModifier as GenericSliceAnimationModifier;
 
-/**
- * @property int $offset
- * @property null|int $length
- */
-class SliceAnimationModifier extends DriverSpecialized implements ModifierInterface
+class SliceAnimationModifier extends GenericSliceAnimationModifier implements SpecializedInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

@@ -7,24 +7,16 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
-use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\ContainModifier as GenericContainModifier;
 
-/**
- * @method SizeInterface getCropSize(ImageInterface $image)
- * @method SizeInterface getResizeSize(ImageInterface $image)
- * @property int $width
- * @property int $height
- * @property mixed $background
- * @property string $position
- */
-class ContainModifier extends DriverSpecialized implements ModifierInterface
+class ContainModifier extends GenericContainModifier implements SpecializedInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

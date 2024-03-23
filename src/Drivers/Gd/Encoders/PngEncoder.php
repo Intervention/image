@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Encoders;
 
-use Intervention\Image\Drivers\DriverSpecializedEncoder;
 use Intervention\Image\EncodedImage;
+use Intervention\Image\Encoders\PngEncoder as GenericPngEncoder;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
 
-class PngEncoder extends DriverSpecializedEncoder
+class PngEncoder extends GenericPngEncoder implements SpecializedInterface
 {
     public function encode(ImageInterface $image): EncodedImage
     {
-        $data = $this->getBuffered(function () use ($image) {
+        $data = $this->buffered(function () use ($image) {
             imagepng($image->core()->native(), null, -1);
         });
 

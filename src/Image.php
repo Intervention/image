@@ -864,7 +864,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::encodeByMediaType()
      */
-    public function encodeByMediaType(?string $type = null, ...$options): EncodedImageInterface
+    public function encodeByMediaType(?string $type = null, mixed ...$options): EncodedImageInterface
     {
         return $this->encode(new MediaTypeEncoder($type, ...$options));
     }

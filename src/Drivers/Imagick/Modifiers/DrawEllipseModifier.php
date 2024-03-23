@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
-use Intervention\Image\Drivers\AbstractDrawModifier;
+use RuntimeException;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Geometry\Ellipse;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\DrawEllipseModifier as GenericDrawEllipseModifier;
 
-/**
- * @property Ellipse $drawable
- */
-class DrawEllipseModifier extends AbstractDrawModifier
+class DrawEllipseModifier extends GenericDrawEllipseModifier implements SpecializedInterface
 {
+    /**
+     * @throws RuntimeException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $background_color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
@@ -34,8 +35,8 @@ class DrawEllipseModifier extends AbstractDrawModifier
             }
 
             $drawing->ellipse(
-                $this->position()->x(),
-                $this->position()->y(),
+                $this->drawable->position()->x(),
+                $this->drawable->position()->y(),
                 $this->drawable->width() / 2,
                 $this->drawable->height() / 2,
                 0,

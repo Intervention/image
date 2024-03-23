@@ -14,7 +14,7 @@ use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Traits\CanBuildFilePointer;
 
-abstract class AbstractDecoder extends DriverSpecialized implements DecoderInterface
+abstract class AbstractDecoder implements DecoderInterface
 {
     use CanBuildFilePointer;
 
@@ -110,7 +110,7 @@ abstract class AbstractDecoder extends DriverSpecialized implements DecoderInter
 
         try {
             $source = match (true) {
-                (strlen($path_or_data) <= PHP_MAXPATHLEN && is_file($path_or_data)) => $path_or_data, // path
+                $this->isFile($path_or_data) => $path_or_data, // path
                 default => $this->buildFilePointer($path_or_data), // data
             };
 

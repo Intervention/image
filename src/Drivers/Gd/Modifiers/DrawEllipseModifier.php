@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\AbstractDrawModifier;
-use Intervention\Image\Geometry\Ellipse;
+use RuntimeException;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\DrawEllipseModifier as GenericDrawEllipseModifier;
 
-/**
- * @property Ellipse $drawable
- */
-class DrawEllipseModifier extends AbstractDrawModifier
+class DrawEllipseModifier extends GenericDrawEllipseModifier implements SpecializedInterface
 {
+    /**
+     * @throws RuntimeException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
@@ -23,8 +24,8 @@ class DrawEllipseModifier extends AbstractDrawModifier
                 if ($this->drawable->hasBackgroundColor()) {
                     imagefilledellipse(
                         $frame->native(),
-                        $this->position()->x(),
-                        $this->position()->y(),
+                        $this->drawable()->position()->x(),
+                        $this->drawable->position()->y(),
                         $this->drawable->width() - 1,
                         $this->drawable->height() - 1,
                         $this->driver()->colorProcessor($image->colorspace())->colorToNative(
@@ -42,8 +43,8 @@ class DrawEllipseModifier extends AbstractDrawModifier
 
                 imagearc(
                     $frame->native(),
-                    $this->position()->x(),
-                    $this->position()->y(),
+                    $this->drawable()->position()->x(),
+                    $this->drawable()->position()->y(),
                     $this->drawable->width(),
                     $this->drawable->height(),
                     0,
@@ -56,8 +57,8 @@ class DrawEllipseModifier extends AbstractDrawModifier
                 imagealphablending($frame->native(), true);
                 imagefilledellipse(
                     $frame->native(),
-                    $this->position()->x(),
-                    $this->position()->y(),
+                    $this->drawable()->position()->x(),
+                    $this->drawable()->position()->y(),
                     $this->drawable->width(),
                     $this->drawable->height(),
                     $this->driver()->colorProcessor($image->colorspace())->colorToNative(

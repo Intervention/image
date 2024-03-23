@@ -5,16 +5,11 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
-use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
-use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\ResizeCanvasModifier as GenericResizeCanvasModifier;
 
-/**
- * @method SizeInterface cropSize(ImageInterface $image)
- * @property mixed $background
- */
-class ResizeCanvasModifier extends DriverSpecialized implements ModifierInterface
+class ResizeCanvasModifier extends GenericResizeCanvasModifier implements SpecializedInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

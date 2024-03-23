@@ -8,10 +8,9 @@ use Imagick;
 use ImagickException;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
-use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
-class FilePathImageDecoder extends ImagickImageDecoder implements DecoderInterface
+class FilePathImageDecoder extends ImagickImageDecoder
 {
     public function decode(mixed $input): ImageInterface|ColorInterface
     {

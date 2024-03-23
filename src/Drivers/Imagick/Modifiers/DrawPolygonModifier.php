@@ -5,19 +5,16 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
-use Intervention\Image\Drivers\AbstractDrawModifier;
-use Intervention\Image\Geometry\Polygon;
+use RuntimeException;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\DrawPolygonModifier as GenericDrawPolygonModifier;
 
-/**
- * @method Point position()
- * @method ColorInterface backgroundColor()
- * @method ColorInterface borderColor()
- * @property Polygon $drawable
- */
-class DrawPolygonModifier extends AbstractDrawModifier
+class DrawPolygonModifier extends GenericDrawPolygonModifier implements SpecializedInterface
 {
+    /**
+     * @throws RuntimeException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $drawing = new ImagickDraw();

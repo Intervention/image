@@ -13,6 +13,7 @@ use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SpecializableInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
 use ReflectionClass;
 
 abstract class AbstractDriver implements DriverInterface
@@ -30,26 +31,35 @@ abstract class AbstractDriver implements DriverInterface
      *
      * @see DriverInterface::specialize()
      */
-    public function specialize(object $object): ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface
-    {
+    public function specialize(
+        ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface $object
+    ): ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface {
+        // return object directly if no specializing is possible
         if (!($object instanceof SpecializableInterface)) {
             return $object;
         }
 
-        $driver_namespace = (new ReflectionClass($this))->getNamespaceName();
-        $class_path = substr($object::class, strlen("Intervention\\Image\\"));
-        $classname = $driver_namespace . "\\" . $class_path;
+        // return directly if object is already specialized
+        if ($object instanceof SpecializedInterface) {
+            return $object;
+        }
 
-        if (!class_exists($classname)) {
+        // resolve classname for specializable object
+        $driver_namespace = (new ReflectionClass($this))->getNamespaceName();
+        $object_path = substr($object::class, strlen("Intervention\\Image\\"));
+        $specialized_classname = $driver_namespace . "\\" . $object_path;
+
+        if (!class_exists($specialized_classname)) {
             throw new NotSupportedException(
-                "Class '" . $class_path . "' is not supported by " . $this->id() . " driver."
+                "Class '" . $object_path . "' is not supported by " . $this->id() . " driver."
             );
         }
 
-        return forward_static_call([
-            $classname,
-            'buildSpecialized'
-        ], $object, $this);
+        // create driver specialized object with specializable properties of generic object
+        $specialized = (new $specialized_classname(...$object->specializable()));
+
+        // attach driver
+        return $specialized->setDriver($this);
     }
 
     /**
@@ -57,18 +67,18 @@ abstract class AbstractDriver implements DriverInterface
      *
      * @see DriverInterface::specializeMultiple()
      */
-    public function specializeMultiple(array $specializables): array
+    public function specializeMultiple(array $objects): array
     {
-        return array_map(function ($specializable) {
+        return array_map(function ($object) {
             return $this->specialize(
                 match (true) {
-                    is_string($specializable) => new $specializable(),
-                    is_object($specializable) => $specializable,
+                    is_string($object) => new $object(),
+                    is_object($object) => $object,
                     default => throw new RuntimeException(
                         'Specializable item must be either a class name or an object.'
                     )
                 }
             );
-        }, $specializables);
+        }, $objects);
     }
 }

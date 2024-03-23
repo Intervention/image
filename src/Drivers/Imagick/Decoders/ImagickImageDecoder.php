@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Decoders;
 
 use Imagick;
-use Intervention\Image\Drivers\AbstractDecoder;
 use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\Drivers\SpecializableDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;
-use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Modifiers\AlignRotationModifier;
 
-class ImagickImageDecoder extends AbstractDecoder implements DecoderInterface
+class ImagickImageDecoder extends SpecializableDecoder
 {
     public function decode(mixed $input): ImageInterface|ColorInterface
     {

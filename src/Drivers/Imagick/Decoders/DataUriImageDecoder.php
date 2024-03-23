@@ -6,10 +6,9 @@ namespace Intervention\Image\Drivers\Imagick\Decoders;
 
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
-use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
-class DataUriImageDecoder extends BinaryImageDecoder implements DecoderInterface
+class DataUriImageDecoder extends BinaryImageDecoder
 {
     public function decode(mixed $input): ImageInterface|ColorInterface
     {

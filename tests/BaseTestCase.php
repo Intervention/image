@@ -21,6 +21,15 @@ abstract class BaseTestCase extends MockeryTestCase
         return file_get_contents($this->getTestResourcePath($filename));
     }
 
+    public function getTestResourcePointer($filename = 'test.jpg')
+    {
+        $pointer = fopen('php://temp', 'rw');
+        fputs($pointer, $this->getTestResourceData($filename));
+        rewind($pointer);
+
+        return $pointer;
+    }
+
     protected function assertColor($r, $g, $b, $a, ColorInterface $color)
     {
         $this->assertEquals([$r, $g, $b, $a], $color->toArray());

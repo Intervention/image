@@ -6,18 +6,11 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
 use ImagickPixel;
-use Intervention\Image\Drivers\DriverSpecialized;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ModifierInterface;
-use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\CropModifier as GenericCropModifier;
 
-/**
- * @method SizeInterface crop(ImageInterface $image)
- * @property int $offset_x
- * @property int $offset_y
- * @property mixed $background
- */
-class CropModifier extends DriverSpecialized implements ModifierInterface
+class CropModifier extends GenericCropModifier implements SpecializedInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

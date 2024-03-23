@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Tests\Unit\Modifiers;
+namespace Intervention\Image\Tests\Unit\Drivers;
 
-use Intervention\Image\Modifiers\SpecializableModifier;
+use Intervention\Image\Drivers\SpecializableModifier;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
@@ -16,7 +16,6 @@ final class SpecializableModifierTest extends BaseTestCase
         $modifier = Mockery::mock(SpecializableModifier::class)->makePartial();
         $image = Mockery::mock(ImageInterface::class);
         $image->shouldReceive('modify')->andReturn($image);
-
         $result = $modifier->apply($image);
         $this->assertInstanceOf(ImageInterface::class, $result);
     }

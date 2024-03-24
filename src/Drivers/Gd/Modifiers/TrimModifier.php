@@ -27,6 +27,8 @@ class TrimModifier extends GenericTrimModifier implements SpecializedInterface
             $this->trimColor($image)
         );
 
+        // if the tolerance is very high, it is possible that no image is left.
+        // imagick returns a 1x1 pixel image in this case. this does the same.
         if ($trimmed === false) {
             $trimmed = $this->driver()->createImage(1, 1)->core()->native();
         }

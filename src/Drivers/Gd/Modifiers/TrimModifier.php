@@ -20,6 +20,8 @@ class TrimModifier extends GenericTrimModifier implements SpecializedInterface
             throw new NotSupportedException('Trim modifier cannot be applied to animated images.');
         }
 
+        // apply tolerance with a min. value of .5 because the default tolerance of '0' should
+        // already trim away similar colors which is not the case with imagecropauto.
         $trimmed = imagecropauto(
             $image->core()->native(),
             IMG_CROP_THRESHOLD,

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Exceptions\NotSupportedException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\TrimModifier;
@@ -43,5 +44,12 @@ final class TrimModifierTest extends GdTestCase
         $this->assertEquals(1, $image->width());
         $this->assertEquals(1, $image->height());
         $this->assertColor(255, 255, 255, 0, $image->pickColor(0, 0));
+    }
+
+    public function testTrimAnimated(): void
+    {
+        $image = $this->readTestImage('animation.gif');
+        $this->expectException(NotSupportedException::class);
+        $image->modify(new TrimModifier());
     }
 }

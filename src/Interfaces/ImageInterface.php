@@ -617,7 +617,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     ): self;
 
     /**
-     * Trim the image by removing border areas with similar colors within a tolerance of 0 to 100
+     * Trim the image by removing border areas of similar color within a the given tolerance
      *
      * @param int $tolerance
      * @throws RuntimeException

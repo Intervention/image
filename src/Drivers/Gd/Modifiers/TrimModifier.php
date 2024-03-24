@@ -23,7 +23,7 @@ class TrimModifier extends GenericTrimModifier implements SpecializedInterface
         $trimmed = imagecropauto(
             $image->core()->native(),
             IMG_CROP_THRESHOLD,
-            max([.5, $this->tolerance / 10]),
+            max([.5, $this->tolerance / 5]),
             $this->trimColor($image)
         );
 

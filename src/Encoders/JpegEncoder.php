@@ -8,7 +8,9 @@ use Intervention\Image\Drivers\SpecializableEncoder;
 
 class JpegEncoder extends SpecializableEncoder
 {
-    public function __construct(public int $quality = self::DEFAULT_QUALITY)
-    {
+    public function __construct(
+        public int $quality = self::DEFAULT_QUALITY,
+        public bool $progressive = false
+    ) {
     }
 }

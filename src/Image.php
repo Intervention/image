@@ -88,6 +88,7 @@ use Intervention\Image\Modifiers\ScaleModifier;
 use Intervention\Image\Modifiers\SharpenModifier;
 use Intervention\Image\Modifiers\SliceAnimationModifier;
 use Intervention\Image\Modifiers\TextModifier;
+use Intervention\Image\Modifiers\TrimModifier;
 use Intervention\Image\Typography\FontFactory;
 
 final class Image implements ImageInterface
@@ -747,6 +748,16 @@ final class Image implements ImageInterface
         string $position = 'top-left'
     ): ImageInterface {
         return $this->modify(new CropModifier($width, $height, $offset_x, $offset_y, $background, $position));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::trim()
+     */
+    public function trim(int $tolerance = 0): ImageInterface
+    {
+        return $this->modify(new TrimModifier($tolerance));
     }
 
     /**

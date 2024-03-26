@@ -8,7 +8,7 @@ use Intervention\Image\Drivers\SpecializableEncoder;
 
 class GifEncoder extends SpecializableEncoder
 {
-    public function __construct()
+    public function __construct(public bool $interlaced = false)
     {
     }
 }

@@ -23,7 +23,9 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
 
         $gd = $image->core()->native();
         $data = $this->buffered(function () use ($gd) {
+            imageinterlace($gd, $this->interlaced);
             imagegif($gd);
+            imageinterlace($gd, false);
         });
 
         return new EncodedImage($data, 'image/gif');

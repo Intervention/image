@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Drivers\Imagick\Encoders;
 
+use Intervention\Gif\Decoder;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Encoders\GifEncoder;
@@ -20,5 +21,19 @@ final class GifEncoderTest extends ImagickTestCase
         $encoder = new GifEncoder();
         $result = $encoder->encode($image);
         $this->assertMediaType('image/gif', (string) $result);
+        $this->assertFalse(
+            Decoder::decode((string) $result)->getFirstFrame()->getImageDescriptor()->isInterlaced()
+        );
+    }
+
+    public function testEncodeInterlaced(): void
+    {
+        $image = $this->createTestImage(3, 2);
+        $encoder = new GifEncoder(interlaced: true);
+        $result = $encoder->encode($image);
+        $this->assertMediaType('image/gif', (string) $result);
+        $this->assertTrue(
+            Decoder::decode((string) $result)->getFirstFrame()->getImageDescriptor()->isInterlaced()
+        );
     }
 }

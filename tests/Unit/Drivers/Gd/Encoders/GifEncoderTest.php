@@ -36,4 +36,15 @@ final class GifEncoderTest extends GdTestCase
             Decoder::decode((string) $result)->getFirstFrame()->getImageDescriptor()->isInterlaced()
         );
     }
+
+    public function testEncodeInterlacedAnimation(): void
+    {
+        $image = $this->createTestAnimation(3, 2);
+        $encoder = new GifEncoder(interlaced: true);
+        $result = $encoder->encode($image);
+        $this->assertMediaType('image/gif', (string) $result);
+        $this->assertTrue(
+            Decoder::decode((string) $result)->getFirstFrame()->getImageDescriptor()->isInterlaced()
+        );
+    }
 }

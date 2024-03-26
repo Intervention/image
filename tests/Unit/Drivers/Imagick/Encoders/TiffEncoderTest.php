@@ -6,33 +6,17 @@ namespace Intervention\Image\Tests\Unit\Drivers\Imagick\Encoders;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
-use Imagick;
-use ImagickPixel;
-use Intervention\Image\Drivers\Imagick\Core;
-use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Encoders\TiffEncoder;
-use Intervention\Image\Image;
-use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\ImagickTestCase;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Encoders\TiffEncoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Encoders\TiffEncoder::class)]
-final class TiffEncoderTest extends BaseTestCase
+final class TiffEncoderTest extends ImagickTestCase
 {
-    protected function getTestImage(): Image
-    {
-        $imagick = new Imagick();
-        $imagick->newImage(3, 2, new ImagickPixel('red'), 'png');
-
-        return new Image(
-            new Driver(),
-            new Core($imagick)
-        );
-    }
-
     public function testEncode(): void
     {
-        $image = $this->getTestImage();
+        $image = $this->createTestImage(3, 2);
         $encoder = new TiffEncoder();
         $result = $encoder->encode($image);
         $this->assertMediaType('image/tiff', (string) $result);

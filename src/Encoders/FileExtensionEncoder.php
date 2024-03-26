@@ -11,17 +11,17 @@ use Intervention\Image\Interfaces\ImageInterface;
 
 class FileExtensionEncoder extends AutoEncoder
 {
+    protected array $options = [];
+
     /**
      * Create new encoder instance to encode to format of given file extension
      *
      * @param null|string $extension Target file extension for example "png"
-     * @param int $quality
      * @return void
      */
-    public function __construct(
-        public ?string $extension = null,
-        public int $quality = self::DEFAULT_QUALITY
-    ) {
+    public function __construct(public ?string $extension = null, mixed ...$options)
+    {
+        $this->options = $options;
     }
 
     /**
@@ -52,15 +52,15 @@ class FileExtensionEncoder extends AutoEncoder
         }
 
         return match (strtolower($extension)) {
-            'webp' => new WebpEncoder(quality: $this->quality),
-            'avif' => new AvifEncoder(quality: $this->quality),
-            'jpeg', 'jpg' => new JpegEncoder(quality: $this->quality),
-            'bmp' => new BmpEncoder(),
-            'gif' => new GifEncoder(),
-            'png' => new PngEncoder(),
-            'tiff', 'tif' => new TiffEncoder(quality: $this->quality),
-            'jp2', 'j2k', 'jpf', 'jpm', 'jpg2', 'j2c', 'jpc', 'jpx' => new Jpeg2000Encoder(quality: $this->quality),
-            'heic', 'heif' => new HeicEncoder(quality: $this->quality),
+            'webp' => new WebpEncoder(...$this->options),
+            'avif' => new AvifEncoder(...$this->options),
+            'jpeg', 'jpg' => new JpegEncoder(...$this->options),
+            'bmp' => new BmpEncoder(...$this->options),
+            'gif' => new GifEncoder(...$this->options),
+            'png' => new PngEncoder(...$this->options),
+            'tiff', 'tif' => new TiffEncoder(...$this->options),
+            'jp2', 'j2k', 'jpf', 'jpm', 'jpg2', 'j2c', 'jpc', 'jpx' => new Jpeg2000Encoder(...$this->options),
+            'heic', 'heif' => new HeicEncoder(...$this->options),
             default => throw new EncoderException('No encoder found for file extension (' . $extension . ').'),
         };
     }

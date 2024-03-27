@@ -8,10 +8,23 @@ use Intervention\Image\Collection;
 
 class TextBlock extends Collection
 {
+    private $isArabic;
     public function __construct(string $text)
     {
         foreach (explode("\n", $text) as $line) {
             $this->push(new Line($line));
+        }
+        $this->isArabic = $this->isArabic($text);
+    }
+    private function isArabic($text) {
+        // Regular expression pattern to match Arabic characters
+        $pattern = '/\p{Arabic}/u';
+
+        // Check if the text contains Arabic characters
+        if (preg_match($pattern, $text)) {
+            return true; // Text contains Arabic characters
+        } else {
+            return false; // Text does not contain Arabic characters
         }
     }
 
@@ -33,10 +46,17 @@ class TextBlock extends Collection
      */
     public function setLines(array $lines): self
     {
-        $this->items = $lines;
 
+        if($this->isArabic)
+        {
+            $this->items = array_reverse($lines);
+        }else{
+            $this->items = $lines;
+        }
+        
         return $this;
     }
+
 
     /**
      * Get line by given key

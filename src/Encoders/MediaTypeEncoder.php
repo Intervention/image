@@ -12,17 +12,17 @@ use Intervention\Image\Interfaces\ImageInterface;
 
 class MediaTypeEncoder extends AbstractEncoder
 {
+    protected array $options = [];
+
     /**
      * Create new encoder instance
      *
      * @param null|string $mediaType Target media type for example "image/jpeg"
-     * @param int $quality
      * @return void
      */
-    public function __construct(
-        public ?string $mediaType = null,
-        public int $quality = self::DEFAULT_QUALITY
-    ) {
+    public function __construct(public ?string $mediaType = null, mixed ...$options)
+    {
+        $this->options = $options;
     }
 
     /**
@@ -50,12 +50,12 @@ class MediaTypeEncoder extends AbstractEncoder
     {
         return match (strtolower($mediaType)) {
             'image/webp',
-            'image/x-webp' => new WebpEncoder(quality: $this->quality),
+            'image/x-webp' => new WebpEncoder(...$this->options),
             'image/avif',
-            'image/x-avif' => new AvifEncoder(quality: $this->quality),
+            'image/x-avif' => new AvifEncoder(...$this->options),
             'image/jpeg',
             'image/jpg',
-            'image/pjpeg' => new JpegEncoder(quality: $this->quality),
+            'image/pjpeg' => new JpegEncoder(...$this->options),
             'image/bmp',
             'image/ms-bmp',
             'image/x-bitmap',
@@ -63,16 +63,16 @@ class MediaTypeEncoder extends AbstractEncoder
             'image/x-ms-bmp',
             'image/x-win-bitmap',
             'image/x-windows-bmp',
-            'image/x-xbitmap' => new BmpEncoder(),
-            'image/gif' => new GifEncoder(),
+            'image/x-xbitmap' => new BmpEncoder(...$this->options),
+            'image/gif' => new GifEncoder(...$this->options),
             'image/png',
-            'image/x-png' => new PngEncoder(),
-            'image/tiff' => new TiffEncoder(quality: $this->quality),
+            'image/x-png' => new PngEncoder(...$this->options),
+            'image/tiff' => new TiffEncoder(...$this->options),
             'image/jp2',
             'image/jpx',
-            'image/jpm' => new Jpeg2000Encoder(quality: $this->quality),
+            'image/jpm' => new Jpeg2000Encoder(...$this->options),
             'image/heic',
-            'image/heif', => new HeicEncoder(quality: $this->quality),
+            'image/heif', => new HeicEncoder(...$this->options),
             default => throw new EncoderException('No encoder found for media type (' . $mediaType . ').'),
         };
     }

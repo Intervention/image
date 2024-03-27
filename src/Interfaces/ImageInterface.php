@@ -88,7 +88,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @throws RuntimeException
      * @return ImageInterface
      */
-    public function save(?string $path = null, ...$options): self;
+    public function save(?string $path = null, mixed ...$options): self;
 
     /**
      * Apply given modifier to current image

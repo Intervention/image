@@ -328,6 +328,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Adjust brightness of the current image
      *
+     * @link https://image.intervention.io/v3/modifying/effects#changing-the-brightness
      * @param int $level
      * @throws RuntimeException
      * @return ImageInterface
@@ -337,7 +338,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Adjust color contrast of the current image
      *
-     * @link https://image.intervention.io/v3/modifying/effects#changing-the-brightness
+     * @link https://image.intervention.io/v3/modifying/effects#changing-the-contrast
      * @param int $level
      * @throws RuntimeException
      * @return ImageInterface

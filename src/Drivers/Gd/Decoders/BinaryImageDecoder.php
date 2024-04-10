@@ -12,7 +12,7 @@ use Intervention\Image\Drivers\Gd\Decoders\Traits\CanDecodeGif;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Modifiers\AlignRotationModifier;
 
-class BinaryImageDecoder extends GdImageDecoder implements DecoderInterface
+class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
 {
     use CanDecodeGif;
 

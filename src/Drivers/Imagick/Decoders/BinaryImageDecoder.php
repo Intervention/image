@@ -10,7 +10,7 @@ use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
-class BinaryImageDecoder extends ImagickImageDecoder
+class BinaryImageDecoder extends NativeObjectDecoder
 {
     public function decode(mixed $input): ImageInterface|ColorInterface
     {

@@ -19,11 +19,13 @@ use Intervention\Image\Drivers\Imagick\Decoders\FilePathImageDecoder;
 use Intervention\Image\Drivers\Imagick\Decoders\BinaryImageDecoder;
 use Intervention\Image\Drivers\Imagick\Decoders\DataUriImageDecoder;
 use Intervention\Image\Drivers\Imagick\Decoders\Base64ImageDecoder;
+use Intervention\Image\Drivers\Imagick\Decoders\NativeObjectDecoder;
 use Intervention\Image\Drivers\Imagick\Decoders\SplFileInfoImageDecoder;
 
 class InputHandler extends AbstractInputHandler
 {
     protected array $decoders = [
+        NativeObjectDecoder::class,
         ImageObjectDecoder::class,
         ColorObjectDecoder::class,
         RgbHexColorDecoder::class,

@@ -11,7 +11,7 @@ use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Modifiers\AlignRotationModifier;
 
-class FilePathImageDecoder extends GdImageDecoder implements DecoderInterface
+class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterface
 {
     use CanDecodeGif;
 

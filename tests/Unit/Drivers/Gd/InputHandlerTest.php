@@ -34,6 +34,13 @@ final class InputHandlerTest extends BaseTestCase
         $this->assertInstanceOf(Image::class, $result);
     }
 
+    public function testHandleGdImage(): void
+    {
+        $handler = new InputHandler();
+        $result = $handler->handle(imagecreatetruecolor(3, 2));
+        $this->assertInstanceOf(Image::class, $result);
+    }
+
     public function testHandleSplFileInfo(): void
     {
         $handler = new InputHandler();

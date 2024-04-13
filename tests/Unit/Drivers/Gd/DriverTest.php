@@ -196,6 +196,11 @@ final class DriverTest extends BaseTestCase
             [false, 'image/heic'],
             [false, 'image/heif'],
 
+            [false, 'tga'],
+            [false, 'image/tga'],
+            [false, 'image/x-targa'],
+            [false, 'foo'],
+            [false, ''],
         ];
     }
 }

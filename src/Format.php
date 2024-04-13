@@ -57,7 +57,7 @@ enum Format
      * @param array $options
      * @return EncoderInterface
      */
-    public function encoder(array $options = []): EncoderInterface
+    public function encoder(mixed ...$options): EncoderInterface
     {
         return match ($this) {
             self::AVIF => new AvifEncoder(...$options),

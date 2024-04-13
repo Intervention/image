@@ -8,6 +8,8 @@ use Countable;
 use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\Exceptions\AnimationException;
 use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\FileExtension;
+use Intervention\Image\MediaType;
 use Intervention\Image\Origin;
 use IteratorAggregate;
 
@@ -739,11 +741,11 @@ interface ImageInterface extends IteratorAggregate, Countable
      * will be encoded to the format of the originally read image.
      *
      * @link https://image.intervention.io/v3/basics/image-output#encode-images-by-media-mime-type
-     * @param null|string $type
+     * @param null|string|MediaType $type
      * @throws RuntimeException
      * @return EncodedImageInterface
      */
-    public function encodeByMediaType(?string $type = null, mixed ...$options): EncodedImageInterface;
+    public function encodeByMediaType(null|string|MediaType $type = null, mixed ...$options): EncodedImageInterface;
 
     /**
      * Encode the image into the format represented by the given extension. If no
@@ -751,11 +753,14 @@ interface ImageInterface extends IteratorAggregate, Countable
      * originally read image.
      *
      * @link https://image.intervention.io/v3/basics/image-output#encode-images-by-file-extension
-     * @param null|string $extension
+     * @param null|string|FileExtension $extension
      * @throws RuntimeException
      * @return EncodedImageInterface
      */
-    public function encodeByExtension(?string $extension = null, mixed ...$options): EncodedImageInterface;
+    public function encodeByExtension(
+        null|string|FileExtension $extension = null,
+        mixed ...$options
+    ): EncodedImageInterface;
 
     /**
      * Encode the image into the format represented by the given extension of

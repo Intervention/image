@@ -9,24 +9,39 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Colors\Rgb\Decoders\HtmlColornameDecoder;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Colors\Rgb\Decoders\HtmlColorNameDecoder::class)]
 final class HtmlColornameDecoderTest extends BaseTestCase
 {
-    public function testDecode(): void
+    #[DataProvider('decodeDataProvier')]
+    public function testDecode(string $input, string $classname, array $channelValues): void
     {
         $decoder = new HtmlColornameDecoder();
-        $result = $decoder->decode('salmon');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([250, 128, 114, 255], $result->toArray());
+        $result = $decoder->decode($input);
+        $this->assertInstanceOf($classname, $result);
+        $this->assertEquals($channelValues, $result->toArray());
+    }
 
-        $result = $decoder->decode('khaki');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([240, 230, 140, 255], $result->toArray());
-
-        $result = $decoder->decode('peachpuff');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([255, 218, 185, 255], $result->toArray());
+    public static function decodeDataProvier(): array
+    {
+        return [
+            [
+                'salmon',
+                Color::class,
+                [250, 128, 114, 255],
+            ],
+            [
+                'khaki',
+                Color::class,
+                [240, 230, 140, 255],
+            ],
+            [
+                'peachpuff',
+                Color::class,
+                [255, 218, 185, 255],
+            ]
+        ];
     }
 }

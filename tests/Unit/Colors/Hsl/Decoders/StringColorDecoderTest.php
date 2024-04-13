@@ -9,29 +9,44 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Colors\Hsl\Color;
 use Intervention\Image\Colors\Hsl\Decoders\StringColorDecoder;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Colors\Hsl\Decoders\StringColorDecoder::class)]
 final class StringColorDecoderTest extends BaseTestCase
 {
-    public function testDecode(): void
+    #[DataProvider('decodeDataProvier')]
+    public function testDecode(string $input, string $classname, array $channelValues): void
     {
         $decoder = new StringColorDecoder();
+        $result = $decoder->decode($input);
+        $this->assertInstanceOf($classname, $result);
+        $this->assertEquals($channelValues, $result->toArray());
+    }
 
-        $result = $decoder->decode('hsl(0,0,0)');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([0, 0, 0], $result->toArray());
-
-        $result = $decoder->decode('hsl(0, 100, 50)');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([0, 100, 50], $result->toArray());
-
-        $result = $decoder->decode('hsl(360, 100, 50)');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([360, 100, 50], $result->toArray());
-
-        $result = $decoder->decode('hsl(180, 100%, 50%)');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([180, 100, 50], $result->toArray());
+    public static function decodeDataProvier(): array
+    {
+        return [
+            [
+                'hsl(0,0,0)',
+                Color::class,
+                [0, 0, 0],
+            ],
+            [
+                'hsl(0, 100, 50)',
+                Color::class,
+                [0, 100, 50],
+            ],
+            [
+                'hsl(360, 100, 50)',
+                Color::class,
+                [360, 100, 50],
+            ],
+            [
+                'hsl(180, 100%, 50%)',
+                Color::class,
+                [180, 100, 50],
+            ]
+        ];
     }
 }

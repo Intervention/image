@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Encoders;
 
+use Error;
 use Intervention\Image\Drivers\AbstractEncoder;
 use Intervention\Image\Exceptions\EncoderException;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\MediaType;
 
 class MediaTypeEncoder extends AbstractEncoder
 {
@@ -17,10 +19,10 @@ class MediaTypeEncoder extends AbstractEncoder
     /**
      * Create new encoder instance
      *
-     * @param null|string $mediaType Target media type for example "image/jpeg"
+     * @param null|string|MediaType $mediaType Target media type for example "image/jpeg"
      * @return void
      */
-    public function __construct(public ?string $mediaType = null, mixed ...$options)
+    public function __construct(public null|string|MediaType $mediaType = null, mixed ...$options)
     {
         $this->options = $options;
     }
@@ -42,38 +44,18 @@ class MediaTypeEncoder extends AbstractEncoder
     /**
      * Return new encoder by given media (MIME) type
      *
-     * @param string $mediaType
+     * @param string|MediaType $mediaType
      * @throws EncoderException
      * @return EncoderInterface
      */
-    protected function encoderByMediaType(string $mediaType): EncoderInterface
+    protected function encoderByMediaType(string|MediaType $mediaType): EncoderInterface
     {
-        return match (strtolower($mediaType)) {
-            'image/webp',
-            'image/x-webp' => new WebpEncoder(...$this->options),
-            'image/avif',
-            'image/x-avif' => new AvifEncoder(...$this->options),
-            'image/jpeg',
-            'image/jpg',
-            'image/pjpeg' => new JpegEncoder(...$this->options),
-            'image/bmp',
-            'image/ms-bmp',
-            'image/x-bitmap',
-            'image/x-bmp',
-            'image/x-ms-bmp',
-            'image/x-win-bitmap',
-            'image/x-windows-bmp',
-            'image/x-xbitmap' => new BmpEncoder(...$this->options),
-            'image/gif' => new GifEncoder(...$this->options),
-            'image/png',
-            'image/x-png' => new PngEncoder(...$this->options),
-            'image/tiff' => new TiffEncoder(...$this->options),
-            'image/jp2',
-            'image/jpx',
-            'image/jpm' => new Jpeg2000Encoder(...$this->options),
-            'image/heic',
-            'image/heif', => new HeicEncoder(...$this->options),
-            default => throw new EncoderException('No encoder found for media type (' . $mediaType . ').'),
-        };
+        try {
+            $mediaType = is_string($mediaType) ? MediaType::from($mediaType) : $mediaType;
+        } catch (Error) {
+            throw new EncoderException('No encoder found for media type (' . $mediaType . ').');
+        }
+
+        return $mediaType->format()->encoder(...$this->options);
     }
 }

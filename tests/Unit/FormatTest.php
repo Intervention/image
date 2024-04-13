@@ -13,11 +13,31 @@ use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
+use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\FileExtension;
 use Intervention\Image\Format;
+use Intervention\Image\MediaType;
 use Intervention\Image\Tests\BaseTestCase;
 
 final class FormatTest extends BaseTestCase
 {
+    public function testCreate(): void
+    {
+        $this->assertEquals(Format::JPEG, Format::create(Format::JPEG));
+        $this->assertEquals(Format::JPEG, Format::create('jpg'));
+        $this->assertEquals(Format::JPEG, Format::create('jpeg'));
+        $this->assertEquals(Format::JPEG, Format::create('image/jpeg'));
+        $this->assertEquals(Format::GIF, Format::create('image/gif'));
+        $this->assertEquals(Format::PNG, Format::create(FileExtension::PNG));
+        $this->assertEquals(Format::WEBP, Format::create(MediaType::IMAGE_WEBP));
+    }
+
+    public function testCreateUnknown(): void
+    {
+        $this->expectException(NotSupportedException::class);
+        Format::create('foo');
+    }
+
     public function testMediaTypesJpeg(): void
     {
         $format = Format::JPEG;
@@ -76,7 +96,7 @@ final class FormatTest extends BaseTestCase
 
     public function testMediaTypesJpeg2000(): void
     {
-        $format = Format::JPEG2000;
+        $format = Format::JP2;
         $mediaTypes = $format->mediaTypes();
         $this->assertIsArray($mediaTypes);
         $this->assertCount(3, $mediaTypes);
@@ -134,7 +154,7 @@ final class FormatTest extends BaseTestCase
 
     public function testEncoderJpep2000(): void
     {
-        $format = Format::JPEG2000;
+        $format = Format::JP2;
         $this->assertInstanceOf(Jpeg2000Encoder::class, $format->encoder());
     }
 

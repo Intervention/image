@@ -60,7 +60,7 @@ enum MediaType: string
             self::IMAGE_TIFF => Format::TIFF,
             self::IMAGE_JP2,
             self::IMAGE_JPX,
-            self::IMAGE_JPM => Format::JPEG2000,
+            self::IMAGE_JPM => Format::JP2,
             self::IMAGE_HEIF,
             self::IMAGE_HEIC => Format::HEIC,
         };

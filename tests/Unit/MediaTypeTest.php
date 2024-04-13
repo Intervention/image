@@ -82,13 +82,13 @@ final class MediaTypeTest extends BaseTestCase
     public function testFormatJpeg2000(): void
     {
         $mime = MediaType::IMAGE_JPM;
-        $this->assertEquals(Format::JPEG2000, $mime->format());
+        $this->assertEquals(Format::JP2, $mime->format());
 
         $mime = MediaType::IMAGE_JPX;
-        $this->assertEquals(Format::JPEG2000, $mime->format());
+        $this->assertEquals(Format::JP2, $mime->format());
 
         $mime = MediaType::IMAGE_JP2;
-        $this->assertEquals(Format::JPEG2000, $mime->format());
+        $this->assertEquals(Format::JP2, $mime->format());
     }
 
     public function testFormatHeic(): void

@@ -50,7 +50,7 @@ enum FileExtension: string
             self::JPG2,
             self::J2C,
             self::JPC,
-            self::JPX => Format::JPEG2000,
+            self::JPX => Format::JP2,
             self::HEIC,
             self::HEIF => Format::HEIC,
         };

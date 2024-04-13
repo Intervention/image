@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
+use Error;
 use Intervention\Image\Encoders\AvifEncoder;
 use Intervention\Image\Encoders\BmpEncoder;
 use Intervention\Image\Encoders\GifEncoder;
@@ -13,6 +14,7 @@ use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\EncoderInterface;
 
 enum Format
@@ -21,11 +23,45 @@ enum Format
     case BMP;
     case GIF;
     case HEIC;
-    case JPEG2000;
+    case JP2;
     case JPEG;
     case PNG;
     case TIFF;
     case WEBP;
+
+    /**
+     * Create format from given identifier
+     *
+     * @param string|Format|MediaType|FileExtension $identifier
+     * @throws NotSupportedException
+     * @return Format
+     */
+    public static function create(string|self|MediaType|FileExtension $identifier): self
+    {
+        if ($identifier instanceof self) {
+            return $identifier;
+        }
+
+        if ($identifier instanceof MediaType) {
+            return $identifier->format();
+        }
+
+        if ($identifier instanceof FileExtension) {
+            return $identifier->format();
+        }
+
+        try {
+            $format = MediaType::from(strtolower($identifier))->format();
+        } catch (Error) {
+            try {
+                $format = FileExtension::from(strtolower($identifier))->format();
+            } catch (Error) {
+                throw new NotSupportedException('Unable to create format from "' . $identifier . '".');
+            }
+        }
+
+        return $format;
+    }
 
     /**
      * Return the possible media (MIME) types for the current format
@@ -64,7 +100,7 @@ enum Format
             self::BMP => new BmpEncoder(...$options),
             self::GIF => new GifEncoder(...$options),
             self::HEIC => new HeicEncoder(...$options),
-            self::JPEG2000 => new Jpeg2000Encoder(...$options),
+            self::JP2 => new Jpeg2000Encoder(...$options),
             self::JPEG => new JpegEncoder(...$options),
             self::PNG => new PngEncoder(...$options),
             self::TIFF => new TiffEncoder(...$options),

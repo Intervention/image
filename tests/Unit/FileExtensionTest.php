@@ -61,16 +61,16 @@ final class FileExtensionTest extends BaseTestCase
     public function testFormatJpeg2000(): void
     {
         $ext = FileExtension::JP2;
-        $this->assertEquals(Format::JPEG2000, $ext->format());
+        $this->assertEquals(Format::JP2, $ext->format());
 
         $ext = FileExtension::J2K;
-        $this->assertEquals(Format::JPEG2000, $ext->format());
+        $this->assertEquals(Format::JP2, $ext->format());
 
         $ext = FileExtension::J2C;
-        $this->assertEquals(Format::JPEG2000, $ext->format());
+        $this->assertEquals(Format::JP2, $ext->format());
 
         $ext = FileExtension::JPG2;
-        $this->assertEquals(Format::JPEG2000, $ext->format());
+        $this->assertEquals(Format::JP2, $ext->format());
     }
 
     public function testFormatHeic(): void

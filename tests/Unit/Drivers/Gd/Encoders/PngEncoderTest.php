@@ -23,6 +23,7 @@ final class PngEncoderTest extends GdTestCase
         $encoder = new PngEncoder();
         $result = $encoder->encode($image);
         $this->assertMediaType('image/png', (string) $result);
+        $this->assertFalse($this->isInterlacedPng((string) $result));
     }
 
     public function testEncodeInterlaced(): void

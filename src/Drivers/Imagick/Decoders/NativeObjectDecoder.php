@@ -14,7 +14,7 @@ use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Modifiers\AlignRotationModifier;
 
-class ImagickImageDecoder extends SpecializableDecoder
+class NativeObjectDecoder extends SpecializableDecoder
 {
     public function decode(mixed $input): ImageInterface|ColorInterface
     {

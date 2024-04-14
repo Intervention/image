@@ -22,11 +22,9 @@ class File implements FileInterface
     }
 
     /**
-     * Save encoded image data in file system
+     * {@inheritdoc}
      *
-     * @codeCoverageIgnore
-     * @param string $filepath
-     * @return void
+     * @see FileInterface::save()
      */
     public function save(string $filepath): void
     {
@@ -54,9 +52,9 @@ class File implements FileInterface
     }
 
     /**
-     * Cast encoded image object to string
+     * {@inheritdoc}
      *
-     * @return string
+     * @see FilterInterface::toString()
      */
     public function toString(): string
     {
@@ -64,9 +62,9 @@ class File implements FileInterface
     }
 
     /**
-     * Create file pointer from encoded image
+     * {@inheritdoc}
      *
-     * @return resource
+     * @see FilterInterface::toFilePointer()
      */
     public function toFilePointer()
     {
@@ -74,9 +72,9 @@ class File implements FileInterface
     }
 
     /**
-     * Return byte size of encoded image
+     * {@inheritdoc}
      *
-     * @return int
+     * @see FileInterface::size()
      */
     public function size(): int
     {
@@ -84,9 +82,9 @@ class File implements FileInterface
     }
 
     /**
-     * Cast encoded image object to string
+     * {@inheritdoc}
      *
-     * @return string
+     * @see FileInterface::__toString()
      */
     public function __toString(): string
     {

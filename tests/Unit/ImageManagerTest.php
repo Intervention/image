@@ -35,6 +35,13 @@ final class ImageManagerTest extends BaseTestCase
         $this->assertInstanceOf(ImageManager::class, $manager);
     }
 
+    public function testDriver(): void
+    {
+        $driver = new GdDriver();
+        $manager = ImageManager::withDriver($driver);
+        $this->assertEquals($driver, $manager->driver());
+    }
+
     public function testDriverStatics(): void
     {
         $manager = ImageManager::gd();

@@ -13,8 +13,13 @@ use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 
-class GdImageDecoder extends AbstractDecoder
+class NativeObjectDecoder extends AbstractDecoder
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see DecoderInterface::decode()
+     */
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_object($input)) {

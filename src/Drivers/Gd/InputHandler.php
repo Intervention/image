@@ -19,11 +19,13 @@ use Intervention\Image\Drivers\Gd\Decoders\FilePathImageDecoder;
 use Intervention\Image\Drivers\Gd\Decoders\BinaryImageDecoder;
 use Intervention\Image\Drivers\Gd\Decoders\DataUriImageDecoder;
 use Intervention\Image\Drivers\Gd\Decoders\Base64ImageDecoder;
+use Intervention\Image\Drivers\Gd\Decoders\NativeObjectDecoder;
 use Intervention\Image\Drivers\Gd\Decoders\SplFileInfoImageDecoder;
 
 class InputHandler extends AbstractInputHandler
 {
     protected array $decoders = [
+        NativeObjectDecoder::class,
         ImageObjectDecoder::class,
         ColorObjectDecoder::class,
         RgbHexColorDecoder::class,

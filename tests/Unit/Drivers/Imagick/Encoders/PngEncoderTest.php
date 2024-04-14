@@ -6,35 +6,32 @@ namespace Intervention\Image\Tests\Unit\Drivers\Imagick\Encoders;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
-use Imagick;
-use ImagickPixel;
-use Intervention\Image\Drivers\Imagick\Core;
-use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Encoders\PngEncoder;
-use Intervention\Image\Image;
 use Intervention\Image\Tests\ImagickTestCase;
+use Intervention\Image\Tests\Traits\CanDetectInterlacedPng;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Encoders\PngEncoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Encoders\PngEncoder::class)]
 final class PngEncoderTest extends ImagickTestCase
 {
-    protected function getTestImage(): Image
-    {
-        $imagick = new Imagick();
-        $imagick->newImage(3, 2, new ImagickPixel('red'), 'jpg');
-
-        return new Image(
-            new Driver(),
-            new Core($imagick)
-        );
-    }
+    use CanDetectInterlacedPng;
 
     public function testEncode(): void
     {
-        $image = $this->getTestImage();
-        $encoder = new PngEncoder(75);
+        $image = $this->createTestImage(3, 2);
+        $encoder = new PngEncoder();
         $result = $encoder->encode($image);
         $this->assertMediaType('image/png', (string) $result);
+        $this->assertFalse($this->isInterlacedPng((string) $result));
+    }
+
+    public function testEncodeInterlaced(): void
+    {
+        $image = $this->createTestImage(3, 2);
+        $encoder = new PngEncoder(interlaced: true);
+        $result = $encoder->encode($image);
+        $this->assertMediaType('image/png', (string) $result);
+        $this->assertTrue($this->isInterlacedPng((string) $result));
     }
 }

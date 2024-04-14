@@ -23,7 +23,9 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
 
         $gd = $image->core()->native();
         $data = $this->buffered(function () use ($gd) {
+            imageinterlace($gd, $this->interlaced);
             imagegif($gd);
+            imageinterlace($gd, false);
         });
 
         return new EncodedImage($data, 'image/gif');
@@ -41,8 +43,9 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
 
         foreach ($image as $frame) {
             $builder->addFrame(
-                (string) $this->encode($frame->toImage($image->driver())),
-                $frame->delay()
+                source: (string) $this->encode($frame->toImage($image->driver())),
+                delay: $frame->delay(),
+                interlaced: $this->interlaced
             );
         }
 

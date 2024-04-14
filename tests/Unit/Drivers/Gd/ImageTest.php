@@ -15,12 +15,14 @@ use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Exceptions\EncoderException;
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\FileExtension;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\MediaType;
 use Intervention\Image\Modifiers\GreyscaleModifier;
 use Intervention\Image\Tests\GdTestCase;
 use Intervention\Image\Typography\Font;
@@ -153,6 +155,10 @@ final class ImageTest extends GdTestCase
         $result = $this->readTestImage('blue.gif')->encodeByMediaType('image/png');
         $this->assertInstanceOf(EncodedImage::class, $result);
         $this->assertMediaType('image/png', (string) $result);
+
+        $result = $this->readTestImage('blue.gif')->encodeByMediaType(MediaType::IMAGE_PNG);
+        $this->assertInstanceOf(EncodedImage::class, $result);
+        $this->assertMediaType('image/png', (string) $result);
     }
 
     public function testEncodeByExtension(): void
@@ -162,6 +168,10 @@ final class ImageTest extends GdTestCase
         $this->assertMediaType('image/gif', (string) $result);
 
         $result = $this->readTestImage('blue.gif')->encodeByExtension('png');
+        $this->assertInstanceOf(EncodedImage::class, $result);
+        $this->assertMediaType('image/png', (string) $result);
+
+        $result = $this->readTestImage('blue.gif')->encodeByExtension(FileExtension::PNG);
         $this->assertInstanceOf(EncodedImage::class, $result);
         $this->assertMediaType('image/png', (string) $result);
     }

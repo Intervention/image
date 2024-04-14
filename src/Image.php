@@ -88,6 +88,7 @@ use Intervention\Image\Modifiers\ScaleModifier;
 use Intervention\Image\Modifiers\SharpenModifier;
 use Intervention\Image\Modifiers\SliceAnimationModifier;
 use Intervention\Image\Modifiers\TextModifier;
+use Intervention\Image\Modifiers\TrimModifier;
 use Intervention\Image\Typography\FontFactory;
 
 final class Image implements ImageInterface
@@ -298,7 +299,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::save()
      */
-    public function save(?string $path = null, ...$options): ImageInterface
+    public function save(?string $path = null, mixed ...$options): ImageInterface
     {
         $path = is_null($path) ? $this->origin()->filePath() : $path;
 
@@ -752,6 +753,16 @@ final class Image implements ImageInterface
     /**
      * {@inheritdoc}
      *
+     * @see ImageInterface::trim()
+     */
+    public function trim(int $tolerance = 0): ImageInterface
+    {
+        return $this->modify(new TrimModifier($tolerance));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see ImageInterface::place()
      */
     public function place(
@@ -864,7 +875,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::encodeByMediaType()
      */
-    public function encodeByMediaType(?string $type = null, mixed ...$options): EncodedImageInterface
+    public function encodeByMediaType(null|string|MediaType $type = null, mixed ...$options): EncodedImageInterface
     {
         return $this->encode(new MediaTypeEncoder($type, ...$options));
     }
@@ -874,8 +885,10 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::encodeByExtension()
      */
-    public function encodeByExtension(?string $extension = null, mixed ...$options): EncodedImageInterface
-    {
+    public function encodeByExtension(
+        null|string|FileExtension $extension = null,
+        mixed ...$options
+    ): EncodedImageInterface {
         return $this->encode(new FileExtensionEncoder($extension, ...$options));
     }
 

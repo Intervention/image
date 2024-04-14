@@ -6,7 +6,10 @@ namespace Intervention\Image\Interfaces;
 
 use Countable;
 use Intervention\Image\Encoders\AutoEncoder;
+use Intervention\Image\Exceptions\AnimationException;
 use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\FileExtension;
+use Intervention\Image\MediaType;
 use Intervention\Image\Origin;
 use IteratorAggregate;
 
@@ -87,7 +90,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @throws RuntimeException
      * @return ImageInterface
      */
-    public function save(?string $path = null, ...$options): self;
+    public function save(?string $path = null, mixed ...$options): self;
 
     /**
      * Apply given modifier to current image
@@ -327,6 +330,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Adjust brightness of the current image
      *
+     * @link https://image.intervention.io/v3/modifying/effects#changing-the-brightness
      * @param int $level
      * @throws RuntimeException
      * @return ImageInterface
@@ -336,7 +340,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Adjust color contrast of the current image
      *
-     * @link https://image.intervention.io/v3/modifying/effects#changing-the-brightness
+     * @link https://image.intervention.io/v3/modifying/effects#changing-the-contrast
      * @param int $level
      * @throws RuntimeException
      * @return ImageInterface
@@ -616,6 +620,16 @@ interface ImageInterface extends IteratorAggregate, Countable
     ): self;
 
     /**
+     * Trim the image by removing border areas of similar color within a the given tolerance
+     *
+     * @param int $tolerance
+     * @throws RuntimeException
+     * @throws AnimationException
+     * @return ImageInterface
+     */
+    public function trim(int $tolerance = 0): self;
+
+    /**
      * Place another image into the current image instance
      *
      * @link https://image.intervention.io/v3/modifying/inserting
@@ -727,11 +741,11 @@ interface ImageInterface extends IteratorAggregate, Countable
      * will be encoded to the format of the originally read image.
      *
      * @link https://image.intervention.io/v3/basics/image-output#encode-images-by-media-mime-type
-     * @param null|string $type
+     * @param null|string|MediaType $type
      * @throws RuntimeException
      * @return EncodedImageInterface
      */
-    public function encodeByMediaType(?string $type = null, mixed ...$options): EncodedImageInterface;
+    public function encodeByMediaType(null|string|MediaType $type = null, mixed ...$options): EncodedImageInterface;
 
     /**
      * Encode the image into the format represented by the given extension. If no
@@ -739,11 +753,14 @@ interface ImageInterface extends IteratorAggregate, Countable
      * originally read image.
      *
      * @link https://image.intervention.io/v3/basics/image-output#encode-images-by-file-extension
-     * @param null|string $extension
+     * @param null|string|FileExtension $extension
      * @throws RuntimeException
      * @return EncodedImageInterface
      */
-    public function encodeByExtension(?string $extension = null, mixed ...$options): EncodedImageInterface;
+    public function encodeByExtension(
+        null|string|FileExtension $extension = null,
+        mixed ...$options
+    ): EncodedImageInterface;
 
     /**
      * Encode the image into the format represented by the given extension of

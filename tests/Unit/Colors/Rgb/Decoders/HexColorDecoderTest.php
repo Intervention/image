@@ -9,52 +9,74 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder::class)]
 final class HexColorDecoderTest extends BaseTestCase
 {
-    public function testDecode(): void
+    #[DataProvider('decodeDataProvier')]
+    public function testDecode(string $input, string $classname, array $channelValues): void
     {
         $decoder = new HexColorDecoder();
-        $result = $decoder->decode('ccc');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([204, 204, 204, 255], $result->toArray());
+        $result = $decoder->decode($input);
+        $this->assertInstanceOf($classname, $result);
+        $this->assertEquals($channelValues, $result->toArray());
+    }
 
-        $result = $decoder->decode('ccff33');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([204, 255, 51, 255], $result->toArray());
-
-        $result = $decoder->decode('#ccc');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([204, 204, 204, 255], $result->toArray());
-
-        $result = $decoder->decode('cccccc');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([204, 204, 204, 255], $result->toArray());
-
-        $result = $decoder->decode('#cccccc');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([204, 204, 204, 255], $result->toArray());
-
-        $result = $decoder->decode('#ccccccff');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([204, 204, 204, 255], $result->toArray());
-
-        $result = $decoder->decode('#cccf');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([204, 204, 204, 255], $result->toArray());
-
-        $result = $decoder->decode('ccccccff');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([204, 204, 204, 255], $result->toArray());
-
-        $result = $decoder->decode('cccf');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([204, 204, 204, 255], $result->toArray());
-
-        $result = $decoder->decode('#b53717aa');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([181, 55, 23, 170], $result->toArray());
+    public static function decodeDataProvier(): array
+    {
+        return [
+            [
+                'ccc',
+                Color::class,
+                [204, 204, 204, 255]
+            ],
+            [
+                'ccff33',
+                Color::class,
+                [204, 255, 51, 255],
+            ],
+            [
+                '#ccc',
+                Color::class,
+                [204, 204, 204, 255],
+            ],
+            [
+                'cccccc',
+                Color::class,
+                [204, 204, 204, 255],
+            ],
+            [
+                '#cccccc',
+                Color::class,
+                [204, 204, 204, 255],
+            ],
+            [
+                '#ccccccff',
+                Color::class,
+                [204, 204, 204, 255],
+            ],
+            [
+                '#cccf',
+                Color::class,
+                [204, 204, 204, 255],
+            ],
+            [
+                'ccccccff',
+                Color::class,
+                [204, 204, 204, 255],
+            ],
+            [
+                'cccf',
+                Color::class,
+                [204, 204, 204, 255],
+            ],
+            [
+                '#b53717aa',
+                Color::class,
+                [181, 55, 23, 170],
+            ],
+        ];
     }
 }

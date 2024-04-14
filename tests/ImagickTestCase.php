@@ -35,4 +35,22 @@ abstract class ImagickTestCase extends BaseTestCase
             new Core($imagick)
         );
     }
+
+    public function createTestAnimation(): Image
+    {
+        $imagick = new Imagick();
+        $imagick->setFormat('gif');
+
+        for ($i = 0; $i < 3; $i++) {
+            $frame = new Imagick();
+            $frame->newImage(3, 2, new ImagickPixel('rgb(255, 0, 0)'), 'gif');
+            $frame->setImageDelay(10);
+            $imagick->addImage($frame);
+        }
+
+        return new Image(
+            new Driver(),
+            new Core($imagick)
+        );
+    }
 }

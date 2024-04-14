@@ -21,9 +21,9 @@ class EncodedImage extends File implements EncodedImageInterface
     }
 
     /**
-     * Return media (mime) type of encoed image data
+     * {@inheritdoc}
      *
-     * @return string
+     * @see EncodedImageInterface::mediaType()
      */
     public function mediaType(): string
     {
@@ -31,9 +31,9 @@ class EncodedImage extends File implements EncodedImageInterface
     }
 
     /**
-     * Alias of self::mediaType()
+     * {@inheritdoc}
      *
-     * @return string
+     * @see EncodedImageInterface::mimetype()
      */
     public function mimetype(): string
     {
@@ -41,9 +41,9 @@ class EncodedImage extends File implements EncodedImageInterface
     }
 
     /**
-     * Transform encoded image data into an data uri string
+     * {@inheritdoc}
      *
-     * @return string
+     * @see EncodedImageInterface::toDataUri()
      */
     public function toDataUri(): string
     {

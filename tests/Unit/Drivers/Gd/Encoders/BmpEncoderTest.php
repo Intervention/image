@@ -6,31 +6,17 @@ namespace Intervention\Image\Tests\Unit\Drivers\Gd\Encoders;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
-use Intervention\Image\Drivers\Gd\Core;
-use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Encoders\BmpEncoder;
-use Intervention\Image\Drivers\Gd\Frame;
-use Intervention\Image\Image;
-use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\GdTestCase;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Encoders\BmpEncoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Encoders\BmpEncoder::class)]
-final class BmpEncoderTest extends BaseTestCase
+final class BmpEncoderTest extends GdTestCase
 {
-    protected function getTestImage(): Image
-    {
-        return new Image(
-            new Driver(),
-            new Core([
-                new Frame(imagecreatetruecolor(3, 2))
-            ])
-        );
-    }
-
     public function testEncode(): void
     {
-        $image = $this->getTestImage();
+        $image = $this->createTestImage(3, 2);
         $encoder = new BmpEncoder();
         $result = $encoder->encode($image);
         $this->assertMediaType(['image/bmp', 'image/x-ms-bmp'], (string) $result);

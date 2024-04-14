@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Drivers\Imagick;
 
+use Imagick;
+use ImagickPixel;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
@@ -31,6 +33,15 @@ final class InputHandlerTest extends BaseTestCase
         $handler = new InputHandler();
         $input = file_get_contents($this->getTestResourcePath('animation.gif'));
         $result = $handler->handle($input);
+        $this->assertInstanceOf(Image::class, $result);
+    }
+
+    public function testHandleImagick(): void
+    {
+        $imagick = new Imagick();
+        $imagick->newImage(3, 2, new ImagickPixel('rgba(255, 255, 255, 255)'), 'png');
+        $handler = new InputHandler();
+        $result = $handler->handle($imagick);
         $this->assertInstanceOf(Image::class, $result);
     }
 

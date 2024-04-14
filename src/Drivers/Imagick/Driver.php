@@ -8,7 +8,10 @@ use Imagick;
 use ImagickPixel;
 use Intervention\Image\Drivers\AbstractDriver;
 use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Format;
+use Intervention\Image\FileExtension;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorProcessorInterface;
@@ -16,6 +19,7 @@ use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\FontProcessorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\MediaType;
 
 class Driver extends AbstractDriver
 {
@@ -140,5 +144,16 @@ class Driver extends AbstractDriver
     public function fontProcessor(): FontProcessorInterface
     {
         return new FontProcessor();
+    }
+
+    public function supports(string|Format|FileExtension|MediaType $identifier): bool
+    {
+        try {
+            $format = Format::create($identifier);
+        } catch (NotSupportedException) {
+            return false;
+        }
+
+        return count(Imagick::queryFormats($format->name)) >= 1;
     }
 }

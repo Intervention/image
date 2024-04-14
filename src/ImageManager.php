@@ -125,6 +125,16 @@ final class ImageManager
     }
 
     /**
+     * Return currently used driver
+     *
+     * @return DriverInterface
+     */
+    public function driver(): DriverInterface
+    {
+        return $this->driver;
+    }
+
+    /**
      * Return driver object
      *
      * @param string|DriverInterface $driver

@@ -9,44 +9,64 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Colors\Rgb\Decoders\StringColorDecoder;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Colors\Rgb\Decoders\StringColorDecoder::class)]
 final class StringColorDecoderTest extends BaseTestCase
 {
-    public function testDecode(): void
+    #[DataProvider('decodeDataProvier')]
+    public function testDecode(string $input, string $classname, array $channelValues): void
     {
         $decoder = new StringColorDecoder();
-        $result = $decoder->decode('rgb(204, 204, 204)');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([204, 204, 204, 255], $result->toArray());
+        $result = $decoder->decode($input);
+        $this->assertInstanceOf($classname, $result);
+        $this->assertEquals($channelValues, $result->toArray());
+    }
 
-        $result = $decoder->decode('rgb(204,204,204)');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([204, 204, 204, 255], $result->toArray());
-
-        $result = $decoder->decode('rgb(100%,20%,0%)');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([255, 51, 0, 255], $result->toArray());
-
-        $result = $decoder->decode('rgb(100%,19.8064%,0.1239483%)');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([255, 51, 0, 255], $result->toArray());
-
-        $result = $decoder->decode('rgba(204, 204, 204, 1)');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([204, 204, 204, 255], $result->toArray());
-
-        $result = $decoder->decode('rgba(204,204,204,.2)');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([204, 204, 204, 51], $result->toArray());
-
-        $result = $decoder->decode('rgba(204,204,204,0.2)');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([204, 204, 204, 51], $result->toArray());
-
-        $result = $decoder->decode('srgb(255, 0, 0)');
-        $this->assertInstanceOf(Color::class, $result);
-        $this->assertEquals([255, 0, 0, 255], $result->toArray());
+    public static function decodeDataProvier(): array
+    {
+        return [
+            [
+                'rgb(204, 204, 204)',
+                Color::class,
+                [204, 204, 204, 255],
+            ],
+            [
+                'rgb(204,204,204)',
+                Color::class,
+                [204, 204, 204, 255],
+            ],
+            [
+                'rgb(100%,20%,0%)',
+                Color::class,
+                [255, 51, 0, 255],
+            ],
+            [
+                'rgb(100%,19.8064%,0.1239483%)',
+                Color::class,
+                [255, 51, 0, 255],
+            ],
+            [
+                'rgba(204, 204, 204, 1)',
+                Color::class,
+                [204, 204, 204, 255],
+            ],
+            [
+                'rgba(204,204,204,.2)',
+                Color::class,
+                [204, 204, 204, 51],
+            ],
+            [
+                'rgba(204,204,204,0.2)',
+                Color::class,
+                [204, 204, 204, 51],
+            ],
+            [
+                'srgb(255, 0, 0)',
+                Color::class,
+                [255, 0, 0, 255],
+            ],
+        ];
     }
 }

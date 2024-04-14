@@ -13,14 +13,13 @@ class FilePathEncoder extends FileExtensionEncoder
      * Create new encoder instance to encode to format of file extension in given path
      *
      * @param null|string $path
-     * @param int $quality
      * @return void
      */
-    public function __construct(protected ?string $path = null, public int $quality = self::DEFAULT_QUALITY)
+    public function __construct(protected ?string $path = null, mixed ...$options)
     {
         parent::__construct(
             is_null($path) ? $path : pathinfo($path, PATHINFO_EXTENSION),
-            $quality
+            ...$options
         );
     }
 

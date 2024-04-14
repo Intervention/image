@@ -13,8 +13,11 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
 {
     public function encode(ImageInterface $image): EncodedImage
     {
-        $data = $this->buffered(function () use ($image) {
-            imagepng($image->core()->native(), null, -1);
+        $gd = $image->core()->native();
+        $data = $this->buffered(function () use ($gd) {
+            imageinterlace($gd, $this->interlaced);
+            imagepng($gd, null, -1);
+            imageinterlace($gd, false);
         });
 
         return new EncodedImage($data, 'image/png');

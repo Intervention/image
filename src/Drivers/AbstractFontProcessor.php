@@ -156,9 +156,9 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
      * @param FontInterface $font
      * @param PointInterface $position
      * @throws FontException
-     * @return PointInterface
+     * @return Point
      */
-    protected function buildPivot(TextBlock $block, FontInterface $font, PointInterface $position): PointInterface
+    protected function buildPivot(TextBlock $block, FontInterface $font, PointInterface $position): Point
     {
         // bounding box
         $box = (new Rectangle(

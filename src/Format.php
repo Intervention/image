@@ -112,9 +112,10 @@ enum Format
         $parameters = [];
         $reflectionClass = new ReflectionClass($classname);
         if ($constructor = $reflectionClass->getConstructor()) {
-            foreach ($constructor->getParameters() as $parameter) {
-                $parameters[] = $parameter->getName();
-            }
+            $parameters = array_map(
+                fn ($parameter) => $parameter->getName(),
+                $constructor->getParameters(),
+            );
         }
 
         // filter only allowed options

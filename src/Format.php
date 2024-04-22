@@ -119,7 +119,11 @@ enum Format
         }
 
         // filter only allowed options
-        $options = array_filter($options, fn ($key) => in_array($key, $parameters), ARRAY_FILTER_USE_KEY);
+        $options = array_filter(
+            $options,
+            fn ($key) => in_array($key, $parameters),
+            ARRAY_FILTER_USE_KEY,
+        );
 
         return new $classname(...$options);
     }

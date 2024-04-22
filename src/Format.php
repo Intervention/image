@@ -16,6 +16,7 @@ use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\EncoderInterface;
+use ReflectionClass;
 
 enum Format
 {
@@ -95,16 +96,32 @@ enum Format
      */
     public function encoder(mixed ...$options): EncoderInterface
     {
-        return match ($this) {
-            self::AVIF => new AvifEncoder(...$options),
-            self::BMP => new BmpEncoder(...$options),
-            self::GIF => new GifEncoder(...$options),
-            self::HEIC => new HeicEncoder(...$options),
-            self::JP2 => new Jpeg2000Encoder(...$options),
-            self::JPEG => new JpegEncoder(...$options),
-            self::PNG => new PngEncoder(...$options),
-            self::TIFF => new TiffEncoder(...$options),
-            self::WEBP => new WebpEncoder(...$options),
+        $classname = match ($this) {
+            self::AVIF => AvifEncoder::class,
+            self::BMP => BmpEncoder::class,
+            self::GIF => GifEncoder::class,
+            self::HEIC => HeicEncoder::class,
+            self::JP2 => Jpeg2000Encoder::class,
+            self::JPEG => JpegEncoder::class,
+            self::PNG => PngEncoder::class,
+            self::TIFF => TiffEncoder::class,
+            self::WEBP => WebpEncoder::class,
         };
+
+        // get allowed parameters of target encoder
+        $parameters = [];
+        $reflectionClass = new ReflectionClass($classname);
+        if ($constructor = $reflectionClass->getConstructor()) {
+            foreach ($constructor->getParameters() as $parameter) {
+                $parameters[] = $parameter->getName();
+            }
+        }
+
+        // filter only allowed options
+        $options = array_filter($options, function ($key) use ($parameters) {
+            return in_array($key, $parameters);
+        }, ARRAY_FILTER_USE_KEY);
+
+        return new $classname(...$options);
     }
 }

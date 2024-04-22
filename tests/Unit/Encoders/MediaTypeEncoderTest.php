@@ -44,30 +44,42 @@ final class MediaTypeEncoderTest extends BaseTestCase
     public function testEncoderByFileExtensionString(
         string $mediaType,
         string $targetEncoderClassname,
-        array $options,
     ): void {
         $this->assertInstanceOf(
             $targetEncoderClassname,
-            $this->testEncoder($mediaType, $options)
+            $this->testEncoder($mediaType)
         );
     }
 
     public static function targetEncoderProvider(): array
     {
         return [
-            ['image/webp', WebpEncoder::class, []],
-            ['image/avif', AvifEncoder::class, []],
-            ['image/jpeg', JpegEncoder::class, []],
-            ['image/bmp', BmpEncoder::class, []],
-            ['image/gif', GifEncoder::class, []],
-            ['image/png', PngEncoder::class, []],
-            ['image/png', PngEncoder::class, ['quality' => 10]],
-            ['image/tiff', TiffEncoder::class, []],
-            ['image/jp2', Jpeg2000Encoder::class, []],
-            ['image/heic', HeicEncoder::class, []],
+            ['image/webp', WebpEncoder::class],
+            ['image/avif', AvifEncoder::class],
+            ['image/jpeg', JpegEncoder::class],
+            ['image/bmp', BmpEncoder::class],
+            ['image/gif', GifEncoder::class],
+            ['image/png', PngEncoder::class],
+            ['image/png', PngEncoder::class],
+            ['image/tiff', TiffEncoder::class],
+            ['image/jp2', Jpeg2000Encoder::class],
+            ['image/heic', HeicEncoder::class],
         ];
     }
 
+    public function testArgumentsNotSupportedByTargetEncoder(): void
+    {
+        $encoder = $this->testEncoder(
+            'image/png',
+            [
+                'interlaced' => true, // is not ignored
+                'quality' => 10, // is ignored because png encoder has no quality argument
+            ],
+        );
+
+        $this->assertInstanceOf(PngEncoder::class, $encoder);
+        $this->assertTrue($encoder->interlaced);
+    }
 
     public function testEncoderByFileExtensionUnknown(): void
     {

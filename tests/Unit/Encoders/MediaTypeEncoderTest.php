@@ -41,7 +41,7 @@ final class MediaTypeEncoderTest extends BaseTestCase
     }
 
     #[DataProvider('targetEncoderProvider')]
-    public function testEncoderByFileExtensionString(
+    public function testEncoderByMediaType(
         string $mediaType,
         string $targetEncoderClassname,
     ): void {

@@ -108,7 +108,7 @@ enum Format
             self::WEBP => WebpEncoder::class,
         };
 
-        // get allowed parameters of target encoder
+        // get parameters of target encoder
         $parameters = [];
         $reflectionClass = new ReflectionClass($classname);
         if ($constructor = $reflectionClass->getConstructor()) {
@@ -118,7 +118,7 @@ enum Format
             );
         }
 
-        // filter only allowed options
+        // filter out unavailable options for target encoder
         $options = array_filter(
             $options,
             fn ($key) => in_array($key, $parameters),

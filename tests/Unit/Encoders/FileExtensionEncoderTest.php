@@ -18,13 +18,19 @@ use Intervention\Image\Exceptions\EncoderException;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class FileExtensionEncoderTest extends BaseTestCase
 {
-    private function testEncoder(string|FileExtension $extension): EncoderInterface
+    private function testEncoder(string|FileExtension $extension, array $options = []): EncoderInterface
     {
-        $encoder = new class () extends FileExtensionEncoder
+        $encoder = new class ($extension, ...$options) extends FileExtensionEncoder
         {
+            public function __construct($mediaType, ...$options)
+            {
+                parent::__construct($mediaType, ...$options);
+            }
+
             public function test($extension)
             {
                 return $this->encoderByFileExtension($extension);
@@ -34,100 +40,56 @@ final class FileExtensionEncoderTest extends BaseTestCase
         return $encoder->test($extension);
     }
 
-    public function testEncoderByFileExtensionString(): void
-    {
+    #[DataProvider('targetEncoderProvider')]
+    public function testEncoderByFileExtensionString(
+        string|FileExtension $fileExtension,
+        string $targetEncoderClassname,
+    ): void {
         $this->assertInstanceOf(
-            WebpEncoder::class,
-            $this->testEncoder('webp')
-        );
-
-        $this->assertInstanceOf(
-            AvifEncoder::class,
-            $this->testEncoder('avif')
-        );
-
-        $this->assertInstanceOf(
-            JpegEncoder::class,
-            $this->testEncoder('jpeg')
-        );
-
-        $this->assertInstanceOf(
-            BmpEncoder::class,
-            $this->testEncoder('bmp')
-        );
-
-        $this->assertInstanceOf(
-            GifEncoder::class,
-            $this->testEncoder('gif')
-        );
-
-        $this->assertInstanceOf(
-            PngEncoder::class,
-            $this->testEncoder('png')
-        );
-
-        $this->assertInstanceOf(
-            TiffEncoder::class,
-            $this->testEncoder('tiff')
-        );
-
-        $this->assertInstanceOf(
-            Jpeg2000Encoder::class,
-            $this->testEncoder('jp2')
-        );
-
-        $this->assertInstanceOf(
-            HeicEncoder::class,
-            $this->testEncoder('heic')
+            $targetEncoderClassname,
+            $this->testEncoder($fileExtension),
         );
     }
 
-    public function testEncoderByFileExtensionEnumMember(): void
+    public static function targetEncoderProvider(): array
     {
-        $this->assertInstanceOf(
-            WebpEncoder::class,
-            $this->testEncoder(FileExtension::WEBP)
+        return [
+            ['webp', WebpEncoder::class],
+            ['avif', AvifEncoder::class],
+            ['jpeg', JpegEncoder::class],
+            ['jpg', JpegEncoder::class],
+            ['bmp', BmpEncoder::class],
+            ['gif', GifEncoder::class],
+            ['png', PngEncoder::class],
+            ['tiff', TiffEncoder::class],
+            ['tif', TiffEncoder::class],
+            ['jp2', Jpeg2000Encoder::class],
+            ['heic', HeicEncoder::class],
+            [FileExtension::WEBP, WebpEncoder::class],
+            [FileExtension::AVIF, AvifEncoder::class],
+            [FileExtension::JPG, JpegEncoder::class],
+            [FileExtension::BMP, BmpEncoder::class],
+            [FileExtension::GIF, GifEncoder::class],
+            [FileExtension::PNG, PngEncoder::class],
+            [FileExtension::TIF, TiffEncoder::class],
+            [FileExtension::TIFF, TiffEncoder::class],
+            [FileExtension::JP2, Jpeg2000Encoder::class],
+            [FileExtension::HEIC, HeicEncoder::class],
+        ];
+    }
+
+    public function testArgumentsNotSupportedByTargetEncoder(): void
+    {
+        $encoder = $this->testEncoder(
+            'png',
+            [
+                'interlaced' => true, // is not ignored
+                'quality' => 10, // is ignored because png encoder has no quality argument
+            ],
         );
 
-        $this->assertInstanceOf(
-            AvifEncoder::class,
-            $this->testEncoder(FileExtension::AVIF)
-        );
-
-        $this->assertInstanceOf(
-            JpegEncoder::class,
-            $this->testEncoder(FileExtension::JPG)
-        );
-
-        $this->assertInstanceOf(
-            BmpEncoder::class,
-            $this->testEncoder(FileExtension::BMP)
-        );
-
-        $this->assertInstanceOf(
-            GifEncoder::class,
-            $this->testEncoder(FileExtension::GIF)
-        );
-
-        $this->assertInstanceOf(
-            PngEncoder::class,
-            $this->testEncoder(FileExtension::PNG)
-        );
-
-        $this->assertInstanceOf(
-            TiffEncoder::class,
-            $this->testEncoder(FileExtension::TIF)
-        );
-
-        $this->assertInstanceOf(
-            Jpeg2000Encoder::class,
-            $this->testEncoder(FileExtension::JPG2)
-        );
-
-        $this->assertInstanceOf(
-            HeicEncoder::class,
-            $this->testEncoder(FileExtension::HEIC)
-        );
+        $this->assertInstanceOf(PngEncoder::class, $encoder);
+        $this->assertTrue($encoder->interlaced);
     }
 
     public function testEncoderByFileExtensionUnknown(): void

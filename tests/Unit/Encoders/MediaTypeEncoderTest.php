@@ -42,7 +42,7 @@ final class MediaTypeEncoderTest extends BaseTestCase
 
     #[DataProvider('targetEncoderProvider')]
     public function testEncoderByMediaType(
-        string $mediaType,
+        string|MediaType $mediaType,
         string $targetEncoderClassname,
     ): void {
         $this->assertInstanceOf(
@@ -64,6 +64,16 @@ final class MediaTypeEncoderTest extends BaseTestCase
             ['image/tiff', TiffEncoder::class],
             ['image/jp2', Jpeg2000Encoder::class],
             ['image/heic', HeicEncoder::class],
+            [MediaType::IMAGE_WEBP, WebpEncoder::class],
+            [MediaType::IMAGE_AVIF, AvifEncoder::class],
+            [MediaType::IMAGE_JPEG, JpegEncoder::class],
+            [MediaType::IMAGE_BMP, BmpEncoder::class],
+            [MediaType::IMAGE_GIF, GifEncoder::class],
+            [MediaType::IMAGE_PNG, PngEncoder::class],
+            [MediaType::IMAGE_TIFF, TiffEncoder::class],
+            [MediaType::IMAGE_JP2, Jpeg2000Encoder::class],
+            [MediaType::IMAGE_HEIC, HeicEncoder::class],
+            [MediaType::IMAGE_HEIF, HeicEncoder::class],
         ];
     }
 

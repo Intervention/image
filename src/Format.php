@@ -89,7 +89,7 @@ enum Format
     }
 
     /**
-     * Create an encoder instance that matches the format
+     * Create an encoder instance with given options that matches the format
      *
      * @param mixed $options
      * @return EncoderInterface

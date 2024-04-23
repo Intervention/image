@@ -113,17 +113,17 @@ class Point implements PointInterface
      * Rotate point ccw around pivot
      *
      * @param float $angle
-     * @param Point $pivot
+     * @param PointInterface $pivot
      * @return Point
      */
-    public function rotate(float $angle, self $pivot): self
+    public function rotate(float $angle, PointInterface $pivot): self
     {
         $sin = round(sin(deg2rad($angle)), 6);
         $cos = round(cos(deg2rad($angle)), 6);
 
         return $this->setPosition(
-            intval($cos * ($this->x - $pivot->x) - $sin * ($this->y - $pivot->y) + $pivot->x),
-            intval($sin * ($this->x - $pivot->x) + $cos * ($this->y - $pivot->y) + $pivot->y)
+            intval($cos * ($this->x() - $pivot->x()) - $sin * ($this->y() - $pivot->y()) + $pivot->x()),
+            intval($sin * ($this->x() - $pivot->x()) + $cos * ($this->y() - $pivot->y()) + $pivot->y())
         );
     }
 }

@@ -8,6 +8,7 @@ use Intervention\Image\Colors\Cmyk\Color as CmykColor;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 
@@ -33,6 +34,11 @@ class Colorspace implements ColorspaceInterface
         return new Color(...$values);
     }
 
+    /**
+     * @param ColorInterface $color
+     * @return ColorInterface
+     * @throws ColorException
+     */
     public function importColor(ColorInterface $color): ColorInterface
     {
         return match ($color::class) {
@@ -43,8 +49,17 @@ class Colorspace implements ColorspaceInterface
         };
     }
 
-    protected function importRgbColor(RgbColor $color): ColorInterface
+    /**
+     * @param ColorInterface $color
+     * @return ColorInterface
+     * @throws ColorException
+     */
+    protected function importRgbColor(ColorInterface $color): ColorInterface
     {
+        if (!($color instanceof RgbColor)) {
+            throw new ColorException('Unabled to import color of type ' . $color::class . '.');
+        }
+
         // normalized values of rgb channels
         $values = array_map(function ($channel) {
             return $channel->normalize();
@@ -84,8 +99,17 @@ class Colorspace implements ColorspaceInterface
         );
     }
 
-    protected function importHsvColor(HsvColor $color): ColorInterface
+    /**
+     * @param ColorInterface $color
+     * @return ColorInterface
+     * @throws ColorException
+     */
+    protected function importHsvColor(ColorInterface $color): ColorInterface
     {
+        if (!($color instanceof HsvColor)) {
+            throw new ColorException('Unabled to import color of type ' . $color::class . '.');
+        }
+
         // normalized values of hsv channels
         list($h, $s, $v) = array_map(function ($channel) {
             return $channel->normalize();

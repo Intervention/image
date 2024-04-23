@@ -18,7 +18,7 @@ services:
   analysis:
     build: ./
     working_dir: /project
-    command: bash -c "composer install && ./vendor/bin/phpstan analyze --memory-limit=512M --level=4 ./src"
+    command: bash -c "composer install && ./vendor/bin/phpstan analyze --memory-limit=512M ./src"
     volumes:
       - ./:/project
   standards:

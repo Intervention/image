@@ -91,7 +91,7 @@ enum Format
     /**
      * Create an encoder instance that matches the format
      *
-     * @param array $options
+     * @param mixed $options
      * @return EncoderInterface
      */
     public function encoder(mixed ...$options): EncoderInterface

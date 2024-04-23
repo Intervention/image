@@ -96,6 +96,7 @@ enum Format
      */
     public function encoder(mixed ...$options): EncoderInterface
     {
+        // get classname of target encoder from current format
         $classname = match ($this) {
             self::AVIF => AvifEncoder::class,
             self::BMP => BmpEncoder::class,
@@ -118,7 +119,7 @@ enum Format
             );
         }
 
-        // filter out unavailable options for target encoder
+        // filter out unavailable options of target encoder
         $options = array_filter(
             $options,
             fn ($key) => in_array($key, $parameters),

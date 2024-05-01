@@ -42,7 +42,7 @@ jobs:
           restore-keys: ${{ runner.os }}-ImageMagick-${{ matrix.imagemagick }}-
 
       - name: Check ImageMagick cache exists
-        uses: andstor/file-existence-action@v2
+        uses: andstor/file-existence-action@v3
         id: cache-imagemagick-exists
         with:
           files: /home/runner/im/imagemagick-${{ matrix.imagemagick }}

@@ -33,7 +33,7 @@ class RectangleResizer
     /**
      * @throws GeometryException
      */
-    public static function to(...$arguments): self
+    public static function to(mixed ...$arguments): self
     {
         return new self(...$arguments);
     }

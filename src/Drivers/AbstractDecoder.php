@@ -156,10 +156,10 @@ abstract class AbstractDecoder implements DecoderInterface
 
         return new class ($matches, $result)
         {
-            private $matches;
-            private $result;
+            private array $matches;
+            private int|false $result;
 
-            public function __construct($matches, $result)
+            public function __construct(array $matches, int|false $result)
             {
                 $this->matches = $matches;
                 $this->result = $result;

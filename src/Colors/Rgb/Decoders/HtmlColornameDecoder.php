@@ -11,7 +11,7 @@ use Intervention\Image\Interfaces\ImageInterface;
 
 class HtmlColornameDecoder extends HexColorDecoder implements DecoderInterface
 {
-    protected static $names = [
+    protected static array $names = [
         'lightsalmon' => '#ffa07a',
         'salmon' => '#fa8072',
         'darksalmon' => '#e9967a',

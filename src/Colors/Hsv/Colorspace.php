@@ -14,7 +14,7 @@ use Intervention\Image\Interfaces\ColorspaceInterface;
 
 class Colorspace implements ColorspaceInterface
 {
-    public static $channels = [
+    public static array $channels = [
         Channels\Hue::class,
         Channels\Saturation::class,
         Channels\Value::class

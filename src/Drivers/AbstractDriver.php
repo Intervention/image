@@ -6,7 +6,6 @@ namespace Intervention\Image\Drivers;
 
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\NotSupportedException;
-use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\DriverInterface;

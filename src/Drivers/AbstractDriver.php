@@ -6,7 +6,6 @@ namespace Intervention\Image\Drivers;
 
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\NotSupportedException;
-use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\DriverInterface;
@@ -74,9 +73,6 @@ abstract class AbstractDriver implements DriverInterface
                 match (true) {
                     is_string($object) => new $object(),
                     is_object($object) => $object,
-                    default => throw new RuntimeException(
-                        'Specializable item must be either a class name or an object.'
-                    )
                 }
             );
         }, $objects);

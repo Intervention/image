@@ -17,7 +17,7 @@ interface ColorspaceInterface
     /**
      * Create new color in colorspace from given normalized channel values
      *
-     * @param array $normalized
+     * @param array<float> $normalized
      * @return ColorInterface
      */
     public function colorFromNormalized(array $normalized): ColorInterface;

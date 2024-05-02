@@ -12,6 +12,9 @@ use Intervention\Image\Exceptions\AnimationException;
 use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 
+/**
+ * @implements Iterator<FrameInterface>
+ */
 class Core implements CoreInterface, Iterator
 {
     protected int $iteratorIndex = 0;

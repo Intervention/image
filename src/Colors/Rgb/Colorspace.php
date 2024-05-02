@@ -13,6 +13,11 @@ use Intervention\Image\Interfaces\ColorspaceInterface;
 
 class Colorspace implements ColorspaceInterface
 {
+    /**
+     * Channel class names of colorspace
+     *
+     * @var array<string>
+     */
     public static array $channels = [
         Channels\Red::class,
         Channels\Green::class,

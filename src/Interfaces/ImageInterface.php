@@ -13,6 +13,9 @@ use Intervention\Image\MediaType;
 use Intervention\Image\Origin;
 use IteratorAggregate;
 
+/**
+ * @extends IteratorAggregate<FrameInterface>
+ */
 interface ImageInterface extends IteratorAggregate, Countable
 {
     /**

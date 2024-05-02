@@ -89,7 +89,7 @@ class Driver extends AbstractDriver
             /**
              * @throws RuntimeException
              */
-            public function add($source, float $delay = 1): self
+            public function add(mixed $source, float $delay = 1): self
             {
                 $native = $this->driver->handleInput($source)->core()->native();
                 $native->setImageDelay(intval(round($delay * 100)));

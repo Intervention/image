@@ -14,6 +14,10 @@ use Intervention\Image\Geometry\Traits\HasBorder;
 use Intervention\Image\Interfaces\DrawableInterface;
 use Intervention\Image\Interfaces\PointInterface;
 
+/**
+ * @implements IteratorAggregate<Point>
+ * @implements ArrayAccess<int, Point>
+ */
 class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInterface
 {
     use HasBorder;
@@ -22,7 +26,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     /**
      * Create new polygon instance
      *
-     * @param array $points
+     * @param array<Point> $points
      * @param PointInterface $pivot
      * @return void
      */
@@ -45,7 +49,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     /**
      * Implement iteration through all points of polygon
      *
-     * @return Traversable
+     * @return Traversable<Point>
      */
     public function getIterator(): Traversable
     {
@@ -427,7 +431,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     /**
      * Return array of all x/y values of all points of polygon
      *
-     * @return array
+     * @return array<int>
      */
     public function toArray(): array
     {

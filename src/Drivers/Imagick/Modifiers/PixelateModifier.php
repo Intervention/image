@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\Imagick\Frame;
+use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\PixelateModifier as GenericPixelateModifier;
@@ -20,7 +20,7 @@ class PixelateModifier extends GenericPixelateModifier implements SpecializedInt
         return $image;
     }
 
-    protected function pixelateFrame(Frame $frame): void
+    protected function pixelateFrame(FrameInterface $frame): void
     {
         $size = $frame->size();
 

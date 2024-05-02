@@ -69,7 +69,7 @@ class TextModifier extends SpecializableModifier
      * Return array of offset points to draw text stroke effect below the actual text
      *
      * @param FontInterface $font
-     * @return array
+     * @return array<Point>
      */
     protected function strokeOffsets(FontInterface $font): array
     {

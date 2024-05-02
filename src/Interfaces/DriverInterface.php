@@ -34,8 +34,8 @@ interface DriverInterface
     /**
      * Resolve array of classnames or objects into their specialized version for the current driver
      *
-     * @param array $objects
-     * @return array
+     * @param array<string|object> $objects
+     * @return array<object>
      */
     public function specializeMultiple(array $objects): array;
 
@@ -61,7 +61,7 @@ interface DriverInterface
      * Handle given input by decoding it to ImageInterface or ColorInterface
      *
      * @param mixed $input
-     * @param array $decoders
+     * @param array<string|DecoderInterface> $decoders
      * @throws RuntimeException
      * @return ImageInterface|ColorInterface
      */

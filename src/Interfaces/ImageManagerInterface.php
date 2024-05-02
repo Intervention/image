@@ -44,7 +44,7 @@ interface ImageManagerInterface
      *
      * @link https://image.intervention.io/v3/basics/instantiation#reading-images
      * @param mixed $input
-     * @param string|array|DecoderInterface $decoders
+     * @param string|array<DecoderInterface>|DecoderInterface $decoders
      * @throws RuntimeException
      * @return ImageInterface
      */

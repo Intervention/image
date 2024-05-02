@@ -6,6 +6,9 @@ namespace Intervention\Image\Interfaces;
 
 use Traversable;
 
+/**
+ * @extends Traversable<int|string, mixed>
+ */
 interface CollectionInterface extends Traversable
 {
     /**
@@ -20,7 +23,7 @@ interface CollectionInterface extends Traversable
      * Add item to collection
      *
      * @param mixed $item
-     * @return CollectionInterface
+     * @return CollectionInterface<int|string, mixed>
      */
     public function push($item): self;
 
@@ -66,14 +69,14 @@ interface CollectionInterface extends Traversable
     /**
      * Empty collection
      *
-     * @return CollectionInterface
+     * @return CollectionInterface<int|string, mixed>
      */
     public function empty(): self;
 
     /**
      * Transform collection as array
      *
-     * @return array
+     * @return array<int|string, mixed>
      */
     public function toArray(): array;
 
@@ -82,7 +85,7 @@ interface CollectionInterface extends Traversable
      *
      * @param int $offset
      * @param null|int $length
-     * @return CollectionInterface
+     * @return CollectionInterface<int|string, mixed>
      */
     public function slice(int $offset, ?int $length = 0): self;
 }

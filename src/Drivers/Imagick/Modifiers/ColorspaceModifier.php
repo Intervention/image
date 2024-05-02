@@ -15,6 +15,11 @@ use Intervention\Image\Modifiers\ColorspaceModifier as GenericColorspaceModifier
 
 class ColorspaceModifier extends GenericColorspaceModifier implements SpecializedInterface
 {
+    /**
+     * Map own colorspace classname to Imagick classnames
+     *
+     * @var array<string, int>
+     */
     protected static array $mapping = [
         RgbColorspace::class => Imagick::COLORSPACE_SRGB,
         CmykColorspace::class => Imagick::COLORSPACE_CMYK,

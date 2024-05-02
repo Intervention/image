@@ -44,6 +44,7 @@ use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\FontInterface;
+use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\ProfileInterface;
@@ -183,7 +184,7 @@ final class Image implements ImageInterface
     /**
      * Implementation of IteratorAggregate
      *
-     * @return Traversable
+     * @return Traversable<FrameInterface>
      */
     public function getIterator(): Traversable
     {

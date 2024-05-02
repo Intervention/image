@@ -10,7 +10,7 @@ interface SpecializableInterface
      * Return an array of constructor parameters, which is usually passed from
      * the generic object to the specialized object
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function specializable(): array;
 

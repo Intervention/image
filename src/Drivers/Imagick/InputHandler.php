@@ -24,6 +24,11 @@ use Intervention\Image\Drivers\Imagick\Decoders\SplFileInfoImageDecoder;
 
 class InputHandler extends AbstractInputHandler
 {
+    /**
+     * Decoders in hierarchical order
+     *
+     * @var array<string>
+     */
     protected array $decoders = [
         NativeObjectDecoder::class,
         ImageObjectDecoder::class,

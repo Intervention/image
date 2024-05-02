@@ -11,8 +11,19 @@ use Intervention\Image\Interfaces\InputHandlerInterface;
 
 abstract class AbstractInputHandler implements InputHandlerInterface
 {
+    /**
+     * Decoder classnames in hierarchical order
+     *
+     * @var array<string>
+     */
     protected array $decoders = [];
 
+    /**
+     * Create new input handler instance with given decoder classnames
+     *
+     * @param array<string> $decoders
+     * @return void
+     */
     public function __construct(array $decoders = [])
     {
         $this->decoders = count($decoders) ? $decoders : $this->decoders;

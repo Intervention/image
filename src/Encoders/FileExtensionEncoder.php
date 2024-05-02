@@ -13,6 +13,11 @@ use Intervention\Image\Interfaces\ImageInterface;
 
 class FileExtensionEncoder extends AutoEncoder
 {
+    /**
+     * Encoder options
+     *
+     * @var array<string, mixed>
+     */
     protected array $options = [];
 
     /**

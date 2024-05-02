@@ -14,6 +14,11 @@ use Intervention\Image\MediaType;
 
 class MediaTypeEncoder extends AbstractEncoder
 {
+    /**
+     * Encoder options
+     *
+     * @var array<string, mixed>
+     */
     protected array $options = [];
 
     /**

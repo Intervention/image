@@ -18,7 +18,7 @@ class TextBlock extends Collection
     /**
      * Return array of lines in text block
      *
-     * @return array
+     * @return array<Line>
      */
     public function lines(): array
     {
@@ -28,7 +28,7 @@ class TextBlock extends Collection
     /**
      * Set lines of the text block
      *
-     * @param array $lines
+     * @param array<Line> $lines
      * @return self
      */
     public function setLines(array $lines): self

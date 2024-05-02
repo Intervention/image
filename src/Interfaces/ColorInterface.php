@@ -43,7 +43,7 @@ interface ColorInterface
     /**
      * Cast color object to array
      *
-     * @return array
+     * @return array<int>
      */
     public function toArray(): array;
 
@@ -57,9 +57,16 @@ interface ColorInterface
     /**
      * Return array of all color channels
      *
-     * @return array
+     * @return array<ColorChannelInterface>
      */
     public function channels(): array;
+
+    /**
+     * Return array of normalized color channel values
+     *
+     * @return array<float>
+     */
+    public function normalize(): array;
 
     /**
      * Retrieve the color channel by its classname

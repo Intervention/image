@@ -20,6 +20,11 @@ class SharpenModifier extends GenericSharpenModifier implements SpecializedInter
         return $image;
     }
 
+    /**
+     * Create matrix to be used by imageconvolution()
+     *
+     * @return array<array<float>>
+     */
     private function matrix(): array
     {
         $min = $this->amount >= 10 ? $this->amount * -0.01 : 0;

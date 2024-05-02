@@ -61,7 +61,7 @@ interface DriverInterface
      * Handle given input by decoding it to ImageInterface or ColorInterface
      *
      * @param mixed $input
-     * @param array<string|object> $decoders
+     * @param array<string|DecoderInterface> $decoders
      * @throws RuntimeException
      * @return ImageInterface|ColorInterface
      */

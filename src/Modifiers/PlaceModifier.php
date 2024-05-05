@@ -13,9 +13,9 @@ class PlaceModifier extends SpecializableModifier
 {
     public function __construct(
         public mixed $element,
-        public string $position,
-        public int $offset_x,
-        public int $offset_y,
+        public string $position = 'top-left',
+        public int $offset_x = 0,
+        public int $offset_y = 0,
         public int $opacity = 100
     ) {
     }

@@ -22,11 +22,19 @@ final class PlaceModifierTest extends ImagickTestCase
         $this->assertEquals('33260e', $image->pickColor(300, 25)->toHex());
     }
 
-    public function testColorChangeOpacity(): void
+    public function testColorChangeOpacityPng(): void
     {
         $image = $this->readTestImage('test.jpg');
         $this->assertEquals('febc44', $image->pickColor(300, 25)->toHex());
         $image->modify(new PlaceModifier($this->getTestResourcePath('circle.png'), 'top-right', 0, 0, 50));
-        $this->assertEquals('987129', $image->pickColor(300, 25)->toHex());
+        $this->assertEquals('7f5e22', $image->pickColor(300, 25)->toHex());
+    }
+
+    public function testColorChangeOpacityJpeg(): void
+    {
+        $image = $this->createTestImage(16, 16)->fill('0000ff');
+        $this->assertEquals('0000ff', $image->pickColor(10, 10)->toHex());
+        $image->modify(new PlaceModifier($this->getTestResourcePath('exif.jpg'), opacity: 50));
+        $this->assertColor(127, 83, 127, 255, $image->pickColor(10, 10), tolerance: 1);
     }
 }

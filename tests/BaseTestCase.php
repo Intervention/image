@@ -5,9 +5,14 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests;
 
 use Intervention\Image\Colors\Rgb\Channels\Alpha;
+use Intervention\Image\Colors\Rgb\Channels\Blue;
+use Intervention\Image\Colors\Rgb\Channels\Green;
+use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
+use Intervention\Image\Colors\Rgb\Colorspace;
 use Intervention\Image\Interfaces\ColorInterface;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use PHPUnit\Framework\ExpectationFailedException;
 
 abstract class BaseTestCase extends MockeryTestCase
 {
@@ -30,9 +35,55 @@ abstract class BaseTestCase extends MockeryTestCase
         return $pointer;
     }
 
-    protected function assertColor($r, $g, $b, $a, ColorInterface $color)
+    /**
+     * Assert that given color equals the given color channel values in the given optional tolerance
+     *
+     * @param int $r
+     * @param int $g
+     * @param int $b
+     * @param int $a
+     * @param ColorInterface $color
+     * @param int $tolerance
+     * @throws ExpectationFailedException
+     * @return void
+     */
+    protected function assertColor(int $r, int $g, int $b, int $a, ColorInterface $color, int $tolerance = 0)
     {
-        $this->assertEquals([$r, $g, $b, $a], $color->toArray());
+        $this->assertContains(
+            $color->channel(Red::class)->value(),
+            range(max($r - $tolerance, 0), min($r + $tolerance, 255)),
+            'Failed asserting that color ' .
+                $color->convertTo(Colorspace::class)->toString() .
+                ' equals '
+                . $color->convertTo(Colorspace::class)->toString()
+        );
+
+        $this->assertContains(
+            $color->channel(Green::class)->value(),
+            range(max($g - $tolerance, 0), min($g + $tolerance, 255)),
+            'Failed asserting that color ' .
+                $color->convertTo(Colorspace::class)->toString() .
+                ' equals '
+                . $color->convertTo(Colorspace::class)->toString()
+        );
+
+        $this->assertContains(
+            $color->channel(Blue::class)->value(),
+            range(max($b - $tolerance, 0), min($b + $tolerance, 255)),
+            'Failed asserting that color ' .
+                $color->convertTo(Colorspace::class)->toString() .
+                ' equals '
+                . $color->convertTo(Colorspace::class)->toString()
+        );
+
+        $this->assertContains(
+            $color->channel(Alpha::class)->value(),
+            range(max($a - $tolerance, 0), min($a + $tolerance, 255)),
+            'Failed asserting that color ' .
+                $color->convertTo(Colorspace::class)->toString() .
+                ' equals '
+                . $color->convertTo(Colorspace::class)->toString()
+        );
     }
 
     protected function assertTransparency(ColorInterface $color)

@@ -33,6 +33,6 @@ final class DrawLineModifierTest extends GdTestCase
         $line = new Line(new Point(0, 5), new Point(10, 5), 4);
         $line->setBackgroundColor('fff4');
         $image->modify(new DrawLineModifier($line));
-        $this->assertColor(255, 136, 77, 255, $image->pickColor(5, 5));
+        $this->assertColor(255, 129, 66, 255, $image->pickColor(5, 5));
     }
 }

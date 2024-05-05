@@ -35,6 +35,6 @@ final class PlaceModifierTest extends GdTestCase
         $image = $this->createTestImage(16, 16)->fill('0000ff');
         $this->assertEquals('0000ff', $image->pickColor(10, 10)->toHex());
         $image->modify(new PlaceModifier($this->getTestResourcePath('exif.jpg'), opacity: 50));
-        $this->assertEquals('7f537f', $image->pickColor(10, 10)->toHex());
+        $this->assertColor(127, 83, 127, 255, $image->pickColor(10, 10), tolerance: 0);
     }
 }

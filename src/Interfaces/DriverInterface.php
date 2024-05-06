@@ -21,6 +21,13 @@ interface DriverInterface
     public function id(): string;
 
     /**
+     * Get driver configuration
+     *
+     * @return ConfigInterface
+     */
+    public function config(): ConfigInterface;
+
+    /**
      * Resolve given object into a specialized version for the current driver
      *
      * @param ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface $object

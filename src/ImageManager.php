@@ -40,22 +40,24 @@ final class ImageManager implements ImageManagerInterface
      * Create image manager with GD driver
      *
      * @link https://image.intervention.io/v3/basics/image-manager#static-gd-driver-constructor
+     * @param mixed $options
      * @return ImageManager
      */
-    public static function gd(): self
+    public static function gd(mixed ...$options): self
     {
-        return self::withDriver(GdDriver::class);
+        return self::withDriver(new GdDriver(new Config(...$options)));
     }
 
     /**
      * Create image manager with Imagick driver
      *
      * @link https://image.intervention.io/v3/basics/image-manager#static-imagick-driver-constructor
+     * @param mixed $options
      * @return ImageManager
      */
-    public static function imagick(): self
+    public static function imagick(mixed ...$options): self
     {
-        return self::withDriver(ImagickDriver::class);
+        return self::withDriver(new ImagickDriver(new Config(...$options)));
     }
 
     /**

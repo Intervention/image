@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers;
 
+use Intervention\Image\Config;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Interfaces\ConfigInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
@@ -21,11 +23,23 @@ use ReflectionClass;
 abstract class AbstractDriver implements DriverInterface
 {
     /**
+     * @param ConfigInterface $config
      * @throws DriverException
+     * @return void
      */
-    public function __construct()
+    public function __construct(protected ConfigInterface $config = new Config())
     {
         $this->checkHealth();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DriverInterface::config()
+     */
+    public function config(): ConfigInterface
+    {
+        return $this->config;
     }
 
     /**

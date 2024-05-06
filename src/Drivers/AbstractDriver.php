@@ -6,10 +6,13 @@ namespace Intervention\Image\Drivers;
 
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\AnalyzerInterface;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
+use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SpecializableInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
@@ -23,6 +26,16 @@ abstract class AbstractDriver implements DriverInterface
     public function __construct()
     {
         $this->checkHealth();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DriverInterface::handleInput()
+     */
+    public function handleInput(mixed $input, array $decoders = []): ImageInterface|ColorInterface
+    {
+        return (new InputHandler($decoders, $this))->handle($input);
     }
 
     /**

@@ -89,7 +89,10 @@ jobs:
       - name: Install dependencies
         run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
-      - name: Which Imagick Version
+      - name: GD Version
+        run: php -r 'var_dump(gd_info());'
+
+      - name: Imagick Version
         run: php -r 'var_dump(Imagick::getVersion());'
 
       - name: Supported Imagick Formats

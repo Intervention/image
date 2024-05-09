@@ -9,9 +9,9 @@ use Intervention\Image\Interfaces\ConfigInterface;
 class Config implements ConfigInterface
 {
     public function __construct(
-        protected bool $autoOrientate = true,
+        protected bool $autoOrientation = true,
         protected bool $decodeAnimation = true,
-        protected mixed $blendingColor = 'ffffffff',
+        protected mixed $blendingColor = 'ffffff00',
     ) {
     }
 
@@ -20,13 +20,34 @@ class Config implements ConfigInterface
         return $this->decodeAnimation;
     }
 
-    public function autoOrientate(): bool
+    public function setDecodeAnimation(bool $status): self
     {
-        return $this->autoOrientate;
+        $this->decodeAnimation = $status;
+
+        return $this;
+    }
+
+    public function autoOrientation(): bool
+    {
+        return $this->autoOrientation;
+    }
+
+    public function setAutoOrientation(bool $status): self
+    {
+        $this->autoOrientation = $status;
+
+        return $this;
     }
 
     public function blendingColor(): mixed
     {
         return $this->blendingColor;
+    }
+
+    public function setBlendingColor(mixed $color): self
+    {
+        $this->blendingColor = $color;
+
+        return $this;
     }
 }

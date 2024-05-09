@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
-use Intervention\Image\Drivers\Gd\Decoders\Traits\CanDecodeGif;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
@@ -13,8 +12,6 @@ use Intervention\Image\Modifiers\AlignRotationModifier;
 
 class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterface
 {
-    use CanDecodeGif;
-
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!$this->isFile($input)) {
@@ -53,7 +50,9 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
         $image->setExif($this->extractExifData($input));
 
         // adjust image orientation
-        $image->modify(new AlignRotationModifier());
+        if ($this->driver()->config()->autoOrientation()) {
+            $image->modify(new AlignRotationModifier());
+        }
 
         return $image;
     }

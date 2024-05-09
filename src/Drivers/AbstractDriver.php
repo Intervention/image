@@ -65,8 +65,10 @@ abstract class AbstractDriver implements DriverInterface
             return $object;
         }
 
-        // return directly if object is already specialized
-        if ($object instanceof SpecializedInterface) {
+        // return directly and only attach driver if object is already specialized
+        if (($object instanceof SpecializedInterface)) {
+            $object->setDriver($this);
+
             return $object;
         }
 
@@ -81,7 +83,7 @@ abstract class AbstractDriver implements DriverInterface
             );
         }
 
-        // create driver specialized object with specializable properties of generic object
+        // create a driver specialized object with the specializable properties of generic object
         $specialized = (new $specialized_classname(...$object->specializable()));
 
         // attach driver

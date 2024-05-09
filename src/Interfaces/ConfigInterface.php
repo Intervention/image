@@ -7,6 +7,10 @@ namespace Intervention\Image\Interfaces;
 interface ConfigInterface
 {
     public function decodeAnimation(): bool;
-    public function autoOrientate(): bool;
+
+    public function autoOrientation(): bool;
+
     public function blendingColor(): mixed;
+
+    public function setBlendingColor(mixed $color): mixed;
 }

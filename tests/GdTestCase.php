@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests;
 
+use Intervention\Image\Decoders\FilePathImageDecoder;
 use Intervention\Image\Drivers\Gd\Core;
-use Intervention\Image\Drivers\Gd\Decoders\FilePathImageDecoder;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Image;
@@ -14,7 +14,7 @@ abstract class GdTestCase extends BaseTestCase
 {
     public function readTestImage($filename = 'test.jpg'): Image
     {
-        return (new FilePathImageDecoder())->decode(
+        return (new Driver())->specialize(new FilePathImageDecoder())->decode(
             $this->getTestResourcePath($filename)
         );
     }

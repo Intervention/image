@@ -248,6 +248,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * does not support transparency.
      *
      * @link https://image.intervention.io/v3/basics/colors#transparency
+     * @throws RuntimeException
      * @return ColorInterface
      */
     public function blendingColor(): ColorInterface;
@@ -429,6 +430,14 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @return ImageInterface
      */
     public function rotate(float $angle, mixed $background = 'ffffff'): self;
+
+    /**
+     * Rotate the image to be upright according to exif information
+     *
+     * @throws RuntimeException
+     * @return ImageInterface
+     */
+    public function orient(): self;
 
     /**
      * Draw text on image

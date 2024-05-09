@@ -32,6 +32,7 @@ interface DriverInterface
      *
      * @param ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface $object
      * @throws NotSupportedException
+     * @throws DriverException
      * @return ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface
      */
     public function specialize(

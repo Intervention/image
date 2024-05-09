@@ -8,6 +8,7 @@ use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
+use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageManagerInterface;
 
@@ -41,6 +42,7 @@ final class ImageManager implements ImageManagerInterface
      *
      * @link https://image.intervention.io/v3/basics/image-manager#static-gd-driver-constructor
      * @param mixed $options
+     * @throws DriverException
      * @return ImageManager
      */
     public static function gd(mixed ...$options): self
@@ -53,6 +55,7 @@ final class ImageManager implements ImageManagerInterface
      *
      * @link https://image.intervention.io/v3/basics/image-manager#static-imagick-driver-constructor
      * @param mixed $options
+     * @throws DriverException
      * @return ImageManager
      */
     public static function imagick(mixed ...$options): self

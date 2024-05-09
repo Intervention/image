@@ -18,8 +18,10 @@ use Intervention\Image\Decoders\DataUriImageDecoder;
 use Intervention\Image\Decoders\FilePathImageDecoder;
 use Intervention\Image\Decoders\FilePointerImageDecoder;
 use Intervention\Image\Decoders\ImageObjectDecoder;
+use Intervention\Image\Decoders\NativeObjectDecoder;
 use Intervention\Image\Decoders\SplFileInfoImageDecoder;
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
@@ -35,7 +37,7 @@ class InputHandler implements InputHandlerInterface
      * @var array<string|DecoderInterface>
      */
     protected array $decoders = [
-        // NativeObjectDecoder::class,
+        NativeObjectDecoder::class,
         ImageObjectDecoder::class,
         ColorObjectDecoder::class,
         RgbHexColorDecoder::class,
@@ -80,9 +82,9 @@ class InputHandler implements InputHandlerInterface
      */
     public function handle($input): ImageInterface|ColorInterface
     {
-        foreach ($this->decoders as $decoderClassname) {
+        foreach ($this->decoders as $decoder) {
             // resolve river specialized decoder
-            $decoder = $this->resolve($decoderClassname);
+            $decoder = $this->resolve($decoder);
 
             try {
                 return $decoder->decode($input);
@@ -98,11 +100,20 @@ class InputHandler implements InputHandlerInterface
      * Resolve the given classname to an decoder object
      *
      * @param string|DecoderInterface $decoder
-     * @return DecoderInterface
+     * @throws DriverException
      * @throws NotSupportedException
+     * @return DecoderInterface
      */
     private function resolve(string|DecoderInterface $decoder): DecoderInterface
     {
+        if (($decoder instanceof DecoderInterface) && empty($this->driver)) {
+            return $decoder;
+        }
+
+        if (($decoder instanceof DecoderInterface) && !empty($this->driver)) {
+            return $this->driver->specialize($decoder);
+        }
+
         if (empty($this->driver)) {
             return new $decoder();
         }

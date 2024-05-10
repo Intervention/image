@@ -19,6 +19,7 @@ final class ImageManager implements ImageManagerInterface
     /**
      * @link https://image.intervention.io/v3/basics/image-manager#create-a-new-image-manager-instance
      * @param string|DriverInterface $driver
+     * @param mixed $options
      */
     public function __construct(string|DriverInterface $driver, mixed ...$options)
     {
@@ -30,6 +31,7 @@ final class ImageManager implements ImageManagerInterface
      *
      * @link https://image.intervention.io/v3/basics/image-manager
      * @param string|DriverInterface $driver
+     * @param mixed $options
      * @return ImageManager
      */
     public static function withDriver(string|DriverInterface $driver, mixed ...$options): self
@@ -113,6 +115,7 @@ final class ImageManager implements ImageManagerInterface
      * Return driver object
      *
      * @param string|DriverInterface $driver
+     * @param mixed $options
      * @return DriverInterface
      */
     private static function resolveDriver(string|DriverInterface $driver, mixed ...$options): DriverInterface

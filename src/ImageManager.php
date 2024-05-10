@@ -20,9 +20,9 @@ final class ImageManager implements ImageManagerInterface
      * @link https://image.intervention.io/v3/basics/image-manager#create-a-new-image-manager-instance
      * @param string|DriverInterface $driver
      */
-    public function __construct(string|DriverInterface $driver)
+    public function __construct(string|DriverInterface $driver, mixed ...$options)
     {
-        $this->driver = $this->resolveDriver($driver);
+        $this->driver = $this->resolveDriver($driver, ...$options);
     }
 
     /**
@@ -32,9 +32,9 @@ final class ImageManager implements ImageManagerInterface
      * @param string|DriverInterface $driver
      * @return ImageManager
      */
-    public static function withDriver(string|DriverInterface $driver): self
+    public static function withDriver(string|DriverInterface $driver, mixed ...$options): self
     {
-        return new self(self::resolveDriver($driver));
+        return new self(self::resolveDriver($driver, ...$options));
     }
 
     /**
@@ -47,7 +47,7 @@ final class ImageManager implements ImageManagerInterface
      */
     public static function gd(mixed ...$options): self
     {
-        return self::withDriver(new GdDriver(new Config(...$options)));
+        return self::withDriver(new GdDriver(), ...$options);
     }
 
     /**
@@ -60,7 +60,7 @@ final class ImageManager implements ImageManagerInterface
      */
     public static function imagick(mixed ...$options): self
     {
-        return self::withDriver(new ImagickDriver(new Config(...$options)));
+        return self::withDriver(new ImagickDriver(), ...$options);
     }
 
     /**
@@ -115,12 +115,11 @@ final class ImageManager implements ImageManagerInterface
      * @param string|DriverInterface $driver
      * @return DriverInterface
      */
-    private static function resolveDriver(string|DriverInterface $driver): DriverInterface
+    private static function resolveDriver(string|DriverInterface $driver, mixed ...$options): DriverInterface
     {
-        if (is_object($driver)) {
-            return $driver;
-        }
+        $driver = is_string($driver) ? new $driver() : $driver;
+        $driver->config()->setOptions(...$options);
 
-        return new $driver();
+        return $driver;
     }
 }

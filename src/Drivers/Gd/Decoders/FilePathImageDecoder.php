@@ -50,7 +50,7 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
         $image->setExif($this->extractExifData($input));
 
         // adjust image orientation
-        if ($this->driver()->config()->autoOrientation()) {
+        if ($this->driver()->config()->option('autoOrientation') === true) {
             $image->modify(new AlignRotationModifier());
         }
 

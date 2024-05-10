@@ -408,7 +408,7 @@ final class Image implements ImageInterface
     public function blendingColor(): ColorInterface
     {
         return $this->driver()->handleInput(
-            $this->driver()->config()->blendingColor()
+            $this->driver()->config()->option('blendingColor')
         );
     }
 
@@ -419,7 +419,8 @@ final class Image implements ImageInterface
      */
     public function setBlendingColor(mixed $color): ImageInterface
     {
-        $this->driver()->config()->setBlendingColor(
+        $this->driver()->config()->setOption(
+            'blendingColor',
             $this->driver()->handleInput($color)
         );
 

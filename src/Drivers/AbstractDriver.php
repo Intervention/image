@@ -23,12 +23,17 @@ use ReflectionClass;
 abstract class AbstractDriver implements DriverInterface
 {
     /**
-     * @param ConfigInterface $config
+     * Driver options
+     */
+    protected ConfigInterface $config;
+
+    /**
      * @throws DriverException
      * @return void
      */
-    public function __construct(protected ConfigInterface $config = new Config())
+    public function __construct()
     {
+        $this->config = new Config();
         $this->checkHealth();
     }
 

@@ -4,10 +4,19 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
+use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Interfaces\ConfigInterface;
 
 class Config implements ConfigInterface
 {
+    /**
+     * Create config object instance
+     *
+     * @param bool $autoOrientation
+     * @param bool $decodeAnimation
+     * @param mixed $blendingColor
+     * @return void
+     */
     public function __construct(
         protected bool $autoOrientation = true,
         protected bool $decodeAnimation = true,
@@ -15,38 +24,46 @@ class Config implements ConfigInterface
     ) {
     }
 
-    public function decodeAnimation(): bool
+    /**
+     * {@inheritdoc}
+     *
+     * @see ConfigInterface::option()
+     */
+    public function option(string $name, mixed $default = null): mixed
     {
-        return $this->decodeAnimation;
+        if (!property_exists($this, $name)) {
+            return $default;
+        }
+
+        return $this->{$name};
     }
 
-    public function setDecodeAnimation(bool $status): self
+    /**
+     * {@inheritdoc}
+     *
+     * @see ConfigInterface::setOption()
+     */
+    public function setOption(string $name, mixed $value): self
     {
-        $this->decodeAnimation = $status;
+        if (!property_exists($this, $name)) {
+            throw new InputException('Property ' . $name . ' does not exists for ' . $this::class . '.');
+        }
+
+        $this->{$name} = $value;
 
         return $this;
     }
 
-    public function autoOrientation(): bool
+    /**
+     * {@inheritdoc}
+     *
+     * @see COnfigInterface::setOptions()
+     */
+    public function setOptions(mixed ...$options): self
     {
-        return $this->autoOrientation;
-    }
-
-    public function setAutoOrientation(bool $status): self
-    {
-        $this->autoOrientation = $status;
-
-        return $this;
-    }
-
-    public function blendingColor(): mixed
-    {
-        return $this->blendingColor;
-    }
-
-    public function setBlendingColor(mixed $color): self
-    {
-        $this->blendingColor = $color;
+        foreach ($options as $name => $value) {
+            $this->setOption($name, $value);
+        }
 
         return $this;
     }

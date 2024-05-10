@@ -40,12 +40,12 @@ class NativeObjectDecoder extends SpecializableDecoder
         );
 
         // discard animation depending on config
-        if (!$this->driver()->config()->decodeAnimation()) {
+        if (!$this->driver()->config()->option('decodeAnimation') === true) {
             $image->modify(new RemoveAnimationModifier());
         }
 
         // adjust image rotatation
-        if ($this->driver()->config()->autoOrientation()) {
+        if ($this->driver()->config()->option('autoOrientation') === true) {
             $image->modify(new AlignRotationModifier());
         }
 

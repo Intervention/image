@@ -60,7 +60,7 @@ class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
         }
 
         // adjust image orientation
-        if ($this->driver()->config()->autoOrientation === true) {
+        if ($this->driver()->config()->autoOrientation) {
             $image->modify(new AlignRotationModifier());
         }
 

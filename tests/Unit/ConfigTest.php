@@ -58,5 +58,9 @@ final class ConfigTest extends BaseTestCase
         $this->assertFalse($config->autoOrientation);
         $this->assertFalse($config->decodeAnimation);
         $this->assertEquals('000', $config->blendingColor);
+
+        $this->assertFalse($result->autoOrientation);
+        $this->assertFalse($result->decodeAnimation);
+        $this->assertEquals('000', $result->blendingColor);
     }
 }

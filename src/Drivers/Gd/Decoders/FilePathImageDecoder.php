@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
+use Intervention\Image\Config;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
@@ -50,7 +51,7 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
         $image->setExif($this->extractExifData($input));
 
         // adjust image orientation
-        if ($this->driver()->config()->option('autoOrientation') === true) {
+        if ($this->driver()->config()->option(Config::AUTO_ORIENTATION) === true) {
             $image->modify(new AlignRotationModifier());
         }
 

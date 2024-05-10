@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Decoders;
 
 use Imagick;
+use Intervention\Image\Config;
 use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\SpecializableDecoder;
 use Intervention\Image\Exceptions\DecoderException;
@@ -40,12 +41,12 @@ class NativeObjectDecoder extends SpecializableDecoder
         );
 
         // discard animation depending on config
-        if (!$this->driver()->config()->option('decodeAnimation') === true) {
+        if (!$this->driver()->config()->option(Config::DECODE_ANIMATION) === true) {
             $image->modify(new RemoveAnimationModifier());
         }
 
         // adjust image rotatation
-        if ($this->driver()->config()->option('autoOrientation') === true) {
+        if ($this->driver()->config()->option(Config::AUTO_ORIENTATION) === true) {
             $image->modify(new AlignRotationModifier());
         }
 

@@ -9,6 +9,10 @@ use Intervention\Image\Interfaces\ConfigInterface;
 
 class Config implements ConfigInterface
 {
+    public const AUTO_ORIENTATION = 'autoOrientation';
+    public const DECODE_ANIMATION = 'decodeAnimation';
+    public const BLENDING_COLOR = 'blendingColor';
+
     /**
      * Create config object instance
      *

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
+use Intervention\Image\Config;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
@@ -60,7 +61,7 @@ class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
         }
 
         // adjust image orientation
-        if ($this->driver()->config()->option('autoOrientation') === true) {
+        if ($this->driver()->config()->option(Config::AUTO_ORIENTATION) === true) {
             $image->modify(new AlignRotationModifier());
         }
 

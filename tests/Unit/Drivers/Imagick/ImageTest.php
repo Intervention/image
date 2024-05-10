@@ -8,7 +8,6 @@ use Imagick;
 use Intervention\Image\Analyzers\WidthAnalyzer;
 use Intervention\Image\Collection;
 use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
-use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\Imagick\Driver;
@@ -263,17 +262,16 @@ final class ImageTest extends ImagickTestCase
         $this->assertInstanceOf(Image::class, $this->image->sharpen(12));
     }
 
-    public function testSetGetBlendingColor(): void
+    public function testBlendTransparencyDefault(): void
     {
         $image = $this->readTestImage('gradient.gif');
-        $this->assertInstanceOf(ColorInterface::class, $image->blendingColor());
-        $this->assertColor(255, 255, 255, 0, $image->blendingColor());
-        $result = $image->setBlendingColor(new Color(1, 2, 3, 4));
-        $this->assertColor(1, 2, 3, 4, $result->blendingColor());
-        $this->assertColor(1, 2, 3, 4, $image->blendingColor());
+        $this->assertColor(0, 0, 0, 0, $image->pickColor(1, 0));
+        $result = $image->blendTransparency();
+        $this->assertColor(255, 255, 255, 255, $image->pickColor(1, 0));
+        $this->assertColor(255, 255, 255, 255, $result->pickColor(1, 0));
     }
 
-    public function testBlendTransparency(): void
+    public function testBlendTransparencyArgument(): void
     {
         $image = $this->readTestImage('gradient.gif');
         $this->assertColor(0, 0, 0, 0, $image->pickColor(1, 0));

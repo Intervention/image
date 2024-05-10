@@ -9,14 +9,6 @@ use Intervention\Image\Exceptions\InputException;
 interface ConfigInterface
 {
     /**
-     * Return value of given config option
-     *
-     * @param string $name
-     * @return mixed
-     */
-    public function option(string $name, mixed $default = null): mixed;
-
-    /**
      * Set value of given config option
      *
      * @param string $name

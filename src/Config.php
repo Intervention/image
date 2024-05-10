@@ -9,10 +9,6 @@ use Intervention\Image\Interfaces\ConfigInterface;
 
 class Config implements ConfigInterface
 {
-    public const AUTO_ORIENTATION = 'autoOrientation';
-    public const DECODE_ANIMATION = 'decodeAnimation';
-    public const BLENDING_COLOR = 'blendingColor';
-
     /**
      * Create config object instance
      *
@@ -22,24 +18,10 @@ class Config implements ConfigInterface
      * @return void
      */
     public function __construct(
-        protected bool $autoOrientation = true,
-        protected bool $decodeAnimation = true,
-        protected mixed $blendingColor = 'ffffff00',
+        public bool $autoOrientation = true,
+        public bool $decodeAnimation = true,
+        public mixed $blendingColor = 'ffffff',
     ) {
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ConfigInterface::option()
-     */
-    public function option(string $name, mixed $default = null): mixed
-    {
-        if (!property_exists($this, $name)) {
-            return $default;
-        }
-
-        return $this->{$name};
     }
 
     /**

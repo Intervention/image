@@ -7,7 +7,6 @@ namespace Intervention\Image\Drivers\Gd\Decoders;
 use GdImage;
 use Intervention\Gif\Decoder as GifDecoder;
 use Intervention\Gif\Splitter as GifSplitter;
-use Intervention\Image\Config;
 use Intervention\Image\Drivers\Gd\Core;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Exceptions\DecoderException;
@@ -61,7 +60,7 @@ class NativeObjectDecoder extends AbstractDecoder
     protected function decodeGif(mixed $input): ImageInterface
     {
         // create non-animated image depending on config
-        if (!$this->driver()->config()->option(Config::DECODE_ANIMATION) === true) {
+        if (!$this->driver()->config()->decodeAnimation === true) {
             $native = match (true) {
                 $this->isGifFormat($input) => @imagecreatefromstring($input),
                 default => @imagecreatefromgif($input),

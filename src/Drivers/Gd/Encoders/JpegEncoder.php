@@ -14,7 +14,14 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
 {
     public function encode(ImageInterface $image): EncodedImage
     {
-        $output = Cloner::cloneBlended($image->core()->native(), background: $image->blendingColor());
+        $blendingColor = $this->driver()->handleInput(
+            $this->driver()->config()->blendingColor
+        );
+
+        $output = Cloner::cloneBlended(
+            $image->core()->native(),
+            background: $blendingColor
+        );
 
         $data = $this->buffered(function () use ($output) {
             imageinterlace($output, $this->progressive);

@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Intervention\Image;
 
 use Intervention\Image\Exceptions\InputException;
-use Intervention\Image\Interfaces\ConfigInterface;
 
-class Config implements ConfigInterface
+class Config
 {
     /**
      * Create config object instance
@@ -25,30 +24,20 @@ class Config implements ConfigInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Set values of given config options
      *
-     * @see ConfigInterface::setOption()
-     */
-    public function setOption(string $name, mixed $value): self
-    {
-        if (!property_exists($this, $name)) {
-            throw new InputException('Property ' . $name . ' does not exists for ' . $this::class . '.');
-        }
-
-        $this->{$name} = $value;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see COnfigInterface::setOptions()
+     * @param mixed $options
+     * @throws InputException
+     * @return Config
      */
     public function setOptions(mixed ...$options): self
     {
         foreach ($options as $name => $value) {
-            $this->setOption($name, $value);
+            if (!property_exists($this, $name)) {
+                throw new InputException('Property ' . $name . ' does not exists for ' . $this::class . '.');
+            }
+
+            $this->{$name} = $value;
         }
 
         return $this;

@@ -10,7 +10,6 @@ use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ColorInterface;
-use Intervention\Image\Interfaces\ConfigInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
@@ -25,7 +24,7 @@ abstract class AbstractDriver implements DriverInterface
     /**
      * Driver options
      */
-    protected ConfigInterface $config;
+    protected Config $config;
 
     /**
      * @throws DriverException
@@ -42,7 +41,7 @@ abstract class AbstractDriver implements DriverInterface
      *
      * @see DriverInterface::config()
      */
-    public function config(): ConfigInterface
+    public function config(): Config
     {
         return $this->config;
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
+use Intervention\Image\Config;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Exceptions\RuntimeException;
@@ -23,9 +24,9 @@ interface DriverInterface
     /**
      * Get driver configuration
      *
-     * @return ConfigInterface
+     * @return Config
      */
-    public function config(): ConfigInterface;
+    public function config(): Config;
 
     /**
      * Resolve given object into a specialized version for the current driver

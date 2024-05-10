@@ -247,7 +247,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Return color that is mixed with transparent areas when converting to a format which
      * does not support transparency.
      *
-     * @link https://image.intervention.io/v3/basics/colors#transparency
+     * @deprecated
      * @throws RuntimeException
      * @return ColorInterface
      */
@@ -257,7 +257,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Set blending color will have no effect unless image is converted into a format
      * which does not support transparency.
      *
-     * @link https://image.intervention.io/v3/basics/colors#transparency
+     * @deprecated
      * @param mixed $color
      * @throws RuntimeException
      * @return ImageInterface

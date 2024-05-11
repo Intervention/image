@@ -36,7 +36,8 @@ class RectangleResizer
     /**
      * Static factory method to create resizer with given target size
      *
-     * @param array $arguments
+     * @param mixed $arguments
+     * @throws GeometryException
      * @return RectangleResizer
      */
     public static function to(mixed ...$arguments): self

@@ -53,12 +53,12 @@ class Color extends AbstractColor
      */
     public static function create(mixed $input): ColorInterface
     {
-        return (new InputHandler([
+        return InputHandler::withDecoders([
             Decoders\HexColorDecoder::class,
             Decoders\StringColorDecoder::class,
             Decoders\TransparentColorDecoder::class,
             Decoders\HtmlColornameDecoder::class,
-        ]))->handle($input);
+        ])->handle($input);
     }
 
     /**

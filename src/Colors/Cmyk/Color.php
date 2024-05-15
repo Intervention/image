@@ -44,9 +44,9 @@ class Color extends AbstractColor
      */
     public static function create(mixed $input): ColorInterface
     {
-        return (new InputHandler([
+        return InputHandler::withDecoders([
             Decoders\StringColorDecoder::class,
-        ]))->handle($input);
+        ])->handle($input);
     }
 
     /**

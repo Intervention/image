@@ -76,6 +76,18 @@ class InputHandler implements InputHandlerInterface
     }
 
     /**
+     * Static factory method
+     *
+     * @param array<string|DecoderInterface> $decoders
+     * @param null|DriverInterface $driver
+     * @return InputHandler
+     */
+    public static function withDecoders(array $decoders, ?DriverInterface $driver = null): self
+    {
+        return new self($decoders, $driver);
+    }
+
+    /**
      * {@inheritdoc}
      *
      * @see InputHandlerInterface::handle()

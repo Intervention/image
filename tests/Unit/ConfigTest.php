@@ -63,4 +63,21 @@ final class ConfigTest extends BaseTestCase
         $this->assertFalse($result->decodeAnimation);
         $this->assertEquals('000', $result->blendingColor);
     }
+
+    public function testSetOptionsWithArray(): void
+    {
+        $config = new Config();
+        $result = $config->setOptions([
+            'autoOrientation' => false,
+            'decodeAnimation' => false,
+            'blendingColor' => 'f00',
+        ]);
+
+        $this->assertFalse($config->autoOrientation);
+        $this->assertFalse($config->decodeAnimation);
+        $this->assertEquals('f00', $config->blendingColor);
+        $this->assertFalse($result->autoOrientation);
+        $this->assertFalse($result->decodeAnimation);
+        $this->assertEquals('f00', $result->blendingColor);
+    }
 }

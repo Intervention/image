@@ -23,6 +23,7 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Modifiers\GreyscaleModifier;
+use Intervention\Image\Origin;
 use Intervention\Image\Tests\ImagickTestCase;
 
 final class ImageTest extends ImagickTestCase
@@ -94,6 +95,16 @@ final class ImageTest extends ImagickTestCase
         $result = $this->image->setLoops(10);
         $this->assertInstanceOf(ImageInterface::class, $result);
         $this->assertEquals(10, $this->image->loops());
+    }
+
+    public function testSetGetOrigin(): void
+    {
+        $origin = $this->image->origin();
+        $this->assertInstanceOf(Origin::class, $origin);
+        $this->image->setOrigin(new Origin('test1', 'test2'));
+        $this->assertInstanceOf(Origin::class, $this->image->origin());
+        $this->assertEquals('test1', $this->image->origin()->mimetype());
+        $this->assertEquals('test2', $this->image->origin()->filePath());
     }
 
     public function testRemoveAnimation(): void

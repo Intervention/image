@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit;
 
+use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 use Intervention\Image\Exceptions\DecoderException;
@@ -58,5 +59,16 @@ class InputHandlerTest extends BaseTestCase
         }
 
         return $data;
+    }
+
+    public function testResolveWithoutDriver(): void
+    {
+        $handler = new InputHandler([new HexColorDecoder()]);
+        $result = $handler->handle('fff');
+        $this->assertInstanceOf(ColorInterface::class, $result);
+
+        $handler = new InputHandler([HexColorDecoder::class]);
+        $result = $handler->handle('fff');
+        $this->assertInstanceOf(ColorInterface::class, $result);
     }
 }

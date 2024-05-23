@@ -55,6 +55,7 @@ interface ImageManagerInterface
      *
      * @link https://image.intervention.io/v3/basics/instantiation#creating-animations
      * @param callable $init
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function animate(callable $init): ImageInterface;

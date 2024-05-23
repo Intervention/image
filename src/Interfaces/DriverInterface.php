@@ -35,6 +35,7 @@ interface DriverInterface
      * Resolve array of classnames or objects into their specialized version for the current driver
      *
      * @param array<string|object> $objects
+     * @throws NotSupportedException
      * @return array<object>
      */
     public function specializeMultiple(array $objects): array;
@@ -53,6 +54,7 @@ interface DriverInterface
      * Create new animated image
      *
      * @param callable $init
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function createAnimation(callable $init): ImageInterface;

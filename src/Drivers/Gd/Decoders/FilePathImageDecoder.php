@@ -29,10 +29,10 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
             // be handled by the standard GD decoder.
             'image/gif' => $this->decodeGif($input),
             default => parent::decode(match ($mediaType) {
-                'image/jpeg', 'image/jpg', 'image/pjpeg' => imagecreatefromjpeg($input),
-                'image/webp', 'image/x-webp' => imagecreatefromwebp($input),
-                'image/png', 'image/x-png' => imagecreatefrompng($input),
-                'image/avif', 'image/x-avif' => imagecreatefromavif($input),
+                'image/jpeg', 'image/jpg', 'image/pjpeg' => @imagecreatefromjpeg($input),
+                'image/webp', 'image/x-webp' => @imagecreatefromwebp($input),
+                'image/png', 'image/x-png' => @imagecreatefrompng($input),
+                'image/avif', 'image/x-avif' => @imagecreatefromavif($input),
                 'image/bmp',
                 'image/ms-bmp',
                 'image/x-bitmap',
@@ -40,7 +40,7 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
                 'image/x-ms-bmp',
                 'image/x-win-bitmap',
                 'image/x-windows-bmp',
-                'image/x-xbitmap' => imagecreatefrombmp($input),
+                'image/x-xbitmap' => @imagecreatefrombmp($input),
                 default => throw new DecoderException('Unable to decode input'),
             }),
         };

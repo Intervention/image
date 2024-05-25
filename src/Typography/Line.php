@@ -86,13 +86,23 @@ class Line implements IteratorAggregate, Countable
     }
 
     /**
-     * Count segments of line
-     *
+     * Count segments (individual words including punctuation marks) of line
+    *
      * @return int
      */
     public function count(): int
     {
         return count($this->segments);
+    }
+
+    /**
+     * Count characters of line
+     *
+     * @return int
+     */
+    public function length(): int
+    {
+        return mb_strlen((string) $this);
     }
 
     /**

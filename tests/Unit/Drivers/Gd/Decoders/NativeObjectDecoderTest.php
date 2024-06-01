@@ -6,24 +6,29 @@ namespace Intervention\Image\Tests\Unit\Drivers\Gd\Decoders;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
-use Intervention\Image\Drivers\Gd\Decoders\SplFileInfoImageDecoder;
+use Intervention\Image\Drivers\Gd\Decoders\NativeObjectDecoder;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\BaseTestCase;
-use SplFileInfo;
 
 #[RequiresPhpExtension('gd')]
-#[CoversClass(\Intervention\Image\Drivers\Gd\Decoders\SplFileInfoImageDecoder::class)]
-final class SplFileInfoImageDecoderTest extends BaseTestCase
+#[CoversClass(NativeObjectDecoder::class)]
+final class NativeObjectDecoderTest extends BaseTestCase
 {
+    protected NativeObjectDecoder $decoder;
+
+    protected function setUp(): void
+    {
+        $this->decoder = new NativeObjectDecoder();
+        $this->decoder->setDriver(new Driver());
+    }
+
     public function testDecode(): void
     {
-        $decoder = new SplFileInfoImageDecoder();
-        $decoder->setDriver(new Driver());
-
-        $result = $decoder->decode(
-            new SplFileInfo($this->getTestResourcePath('blue.gif'))
+        $result = $this->decoder->decode(
+            imagecreatetruecolor(3, 2)
         );
+
         $this->assertInstanceOf(Image::class, $result);
     }
 }

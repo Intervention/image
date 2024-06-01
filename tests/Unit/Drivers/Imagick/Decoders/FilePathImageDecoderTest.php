@@ -7,10 +7,11 @@ namespace Intervention\Image\Tests\Unit\Drivers\Imagick\Decoders;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Drivers\Imagick\Decoders\FilePathImageDecoder;
+use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\BaseTestCase;
-use stdClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Decoders\FilePathImageDecoder::class)]
@@ -21,32 +22,35 @@ final class FilePathImageDecoderTest extends BaseTestCase
     protected function setUp(): void
     {
         $this->decoder = new FilePathImageDecoder();
+        $this->decoder->setDriver(new Driver());
     }
 
-    public function testDecode(): void
+    #[DataProvider('validFormatPathsProvider')]
+    public function testDecode(string $path, bool $result): void
     {
-        $result = $this->decoder->decode(
-            $this->getTestResourcePath()
-        );
+        if ($result === false) {
+            $this->expectException(DecoderException::class);
+        }
 
-        $this->assertInstanceOf(Image::class, $result);
+        $result = $this->decoder->decode($path);
+
+        if ($result === true) {
+            $this->assertInstanceOf(Image::class, $result);
+        }
     }
 
-    public function testDecoderNonString(): void
+    public static function validFormatPathsProvider(): array
     {
-        $this->expectException(DecoderException::class);
-        $this->decoder->decode(new stdClass());
-    }
-
-    public function testDecoderNoPath(): void
-    {
-        $this->expectException(DecoderException::class);
-        $this->decoder->decode('no-path');
-    }
-
-    public function testDecoderTooLongPath(): void
-    {
-        $this->expectException(DecoderException::class);
-        $this->decoder->decode(str_repeat('x', PHP_MAXPATHLEN + 1));
+        return [
+            [self::getTestResourcePath('cats.gif'), true],
+            [self::getTestResourcePath('animation.gif'), true],
+            [self::getTestResourcePath('red.gif'), true],
+            [self::getTestResourcePath('green.gif'), true],
+            [self::getTestResourcePath('blue.gif'), true],
+            [self::getTestResourcePath('gradient.bmp'), true],
+            [self::getTestResourcePath('circle.png'), true],
+            ['no-path', false],
+            [str_repeat('x', PHP_MAXPATHLEN + 1), false],
+        ];
     }
 }

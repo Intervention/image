@@ -7,6 +7,7 @@ namespace Intervention\Image\Tests\Unit\Drivers\Gd\Decoders;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Drivers\Gd\Decoders\Base64ImageDecoder;
+use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\BaseTestCase;
@@ -20,6 +21,7 @@ final class Base64ImageDecoderTest extends BaseTestCase
     protected function setUp(): void
     {
         $this->decoder = new Base64ImageDecoder();
+        $this->decoder->setDriver(new Driver());
     }
 
     public function testDecode(): void

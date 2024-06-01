@@ -12,7 +12,7 @@ class AlignRotationModifier extends GenericAlignRotationModifier implements Spec
 {
     public function apply(ImageInterface $image): ImageInterface
     {
-        return match ($image->exif('IFD0.Orientation')) {
+        $image = match ($image->exif('IFD0.Orientation')) {
             2 => $image->flop(),
             3 => $image->rotate(180),
             4 => $image->rotate(180)->flop(),
@@ -22,5 +22,29 @@ class AlignRotationModifier extends GenericAlignRotationModifier implements Spec
             8 => $image->rotate(90),
             default => $image
         };
+
+        return $this->markAligned($image);
+    }
+
+    /**
+     * Set exif data of image to top-left orientation, marking the image as
+     * aligned and making sure the rotation correction process is not
+     * performed again.
+     *
+     * @param ImageInterface $image
+     * @return ImageInterface
+     */
+    private function markAligned(ImageInterface $image): ImageInterface
+    {
+        $exif = $image->exif()->map(function ($item) {
+            if (is_array($item) && array_key_exists('Orientation', $item)) {
+                $item['Orientation'] = 1;
+                return $item;
+            }
+
+            return $item;
+        });
+
+        return $image->setExif($exif);
     }
 }

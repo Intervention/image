@@ -23,7 +23,9 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
         $crop = $this->getCropSize($image);
         $resize = $this->getResizeSize($image);
         $background = $this->driver()->handleInput($this->background);
-        $blendingColor = $image->blendingColor();
+        $blendingColor = $this->driver()->handleInput(
+            $this->driver()->config()->blendingColor
+        );
 
         foreach ($image as $frame) {
             $this->modify($frame, $crop, $resize, $background, $blendingColor);

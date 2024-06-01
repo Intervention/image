@@ -15,20 +15,20 @@ use PHPUnit\Framework\ExpectationFailedException;
 
 abstract class BaseTestCase extends MockeryTestCase
 {
-    public function getTestResourcePath($filename = 'test.jpg'): string
+    public static function getTestResourcePath($filename = 'test.jpg'): string
     {
         return sprintf('%s/resources/%s', __DIR__, $filename);
     }
 
-    public function getTestResourceData($filename = 'test.jpg'): string
+    public static function getTestResourceData($filename = 'test.jpg'): string
     {
-        return file_get_contents($this->getTestResourcePath($filename));
+        return file_get_contents(self::getTestResourcePath($filename));
     }
 
     public function getTestResourcePointer($filename = 'test.jpg')
     {
         $pointer = fopen('php://temp', 'rw');
-        fputs($pointer, $this->getTestResourceData($filename));
+        fputs($pointer, self::getTestResourceData($filename));
         rewind($pointer);
 
         return $pointer;

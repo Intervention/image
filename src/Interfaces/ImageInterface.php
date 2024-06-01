@@ -247,7 +247,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Return color that is mixed with transparent areas when converting to a format which
      * does not support transparency.
      *
-     * @link https://image.intervention.io/v3/basics/colors#transparency
+     * @deprecated Use configuration options of image manager instead
+     * @throws RuntimeException
      * @return ColorInterface
      */
     public function blendingColor(): ColorInterface;
@@ -256,7 +257,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Set blending color will have no effect unless image is converted into a format
      * which does not support transparency.
      *
-     * @link https://image.intervention.io/v3/basics/colors#transparency
+     * @deprecated Use configuration options of image manager instead
      * @param mixed $color
      * @throws RuntimeException
      * @return ImageInterface
@@ -431,9 +432,18 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function rotate(float $angle, mixed $background = 'ffffff'): self;
 
     /**
+     * Rotate the image to be upright according to exif information
+     *
+     * @link https://image.intervention.io/v3/modifying/effects#image-orientation-according-to-exif-data
+     * @throws RuntimeException
+     * @return ImageInterface
+     */
+    public function orient(): self;
+
+    /**
      * Draw text on image
      *
-     * @ink https://image.intervention.io/v3/modifying/text-fonts
+     * @link https://image.intervention.io/v3/modifying/text-fonts
      * @param string $text
      * @param int $x
      * @param int $y

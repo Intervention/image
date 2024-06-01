@@ -16,11 +16,14 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
     {
         $format = 'jpeg';
         $compression = Imagick::COMPRESSION_JPEG;
+        $blendingColor = $this->driver()->handleInput(
+            $this->driver()->config()->blendingColor
+        );
 
         // resolve blending color because jpeg has no transparency
         $background = $this->driver()
             ->colorProcessor($image->colorspace())
-            ->colorToNative($image->blendingColor());
+            ->colorToNative($blendingColor);
 
         // set alpha value to 1 because Imagick renders
         // possible full transparent colors as black

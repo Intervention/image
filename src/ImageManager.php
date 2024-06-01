@@ -8,6 +8,7 @@ use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
+use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageManagerInterface;
 
@@ -18,10 +19,11 @@ final class ImageManager implements ImageManagerInterface
     /**
      * @link https://image.intervention.io/v3/basics/image-manager#create-a-new-image-manager-instance
      * @param string|DriverInterface $driver
+     * @param mixed $options
      */
-    public function __construct(string|DriverInterface $driver)
+    public function __construct(string|DriverInterface $driver, mixed ...$options)
     {
-        $this->driver = $this->resolveDriver($driver);
+        $this->driver = $this->resolveDriver($driver, ...$options);
     }
 
     /**
@@ -29,33 +31,38 @@ final class ImageManager implements ImageManagerInterface
      *
      * @link https://image.intervention.io/v3/basics/image-manager
      * @param string|DriverInterface $driver
+     * @param mixed $options
      * @return ImageManager
      */
-    public static function withDriver(string|DriverInterface $driver): self
+    public static function withDriver(string|DriverInterface $driver, mixed ...$options): self
     {
-        return new self(self::resolveDriver($driver));
+        return new self(self::resolveDriver($driver, ...$options));
     }
 
     /**
      * Create image manager with GD driver
      *
      * @link https://image.intervention.io/v3/basics/image-manager#static-gd-driver-constructor
+     * @param mixed $options
+     * @throws DriverException
      * @return ImageManager
      */
-    public static function gd(): self
+    public static function gd(mixed ...$options): self
     {
-        return self::withDriver(GdDriver::class);
+        return self::withDriver(new GdDriver(), ...$options);
     }
 
     /**
      * Create image manager with Imagick driver
      *
      * @link https://image.intervention.io/v3/basics/image-manager#static-imagick-driver-constructor
+     * @param mixed $options
+     * @throws DriverException
      * @return ImageManager
      */
-    public static function imagick(): self
+    public static function imagick(mixed ...$options): self
     {
-        return self::withDriver(ImagickDriver::class);
+        return self::withDriver(new ImagickDriver(), ...$options);
     }
 
     /**
@@ -108,14 +115,14 @@ final class ImageManager implements ImageManagerInterface
      * Return driver object
      *
      * @param string|DriverInterface $driver
+     * @param mixed $options
      * @return DriverInterface
      */
-    private static function resolveDriver(string|DriverInterface $driver): DriverInterface
+    private static function resolveDriver(string|DriverInterface $driver, mixed ...$options): DriverInterface
     {
-        if (is_object($driver)) {
-            return $driver;
-        }
+        $driver = is_string($driver) ? new $driver() : $driver;
+        $driver->config()->setOptions(...$options);
 
-        return new $driver();
+        return $driver;
     }
 }

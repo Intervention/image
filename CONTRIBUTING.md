@@ -68,7 +68,7 @@ testing, it must also run without errors.
 Check the analyzer by running the following command.
 
 ```bash
-./vendor/bin/phpstan analyze --memory-limit=512M --level=4 ./src
+./vendor/bin/phpstan analyze --memory-limit=512M ./src
 ```
 
 Or by using the project's Docker environment.

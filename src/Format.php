@@ -67,7 +67,7 @@ enum Format
     /**
      * Return the possible media (MIME) types for the current format
      *
-     * @return array
+     * @return array<MediaType>
      */
     public function mediaTypes(): array
     {
@@ -79,7 +79,7 @@ enum Format
     /**
      * Return the possible file extension for the current format
      *
-     * @return array
+     * @return array<FileExtension>
      */
     public function fileExtensions(): array
     {

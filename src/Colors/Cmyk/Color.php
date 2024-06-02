@@ -10,7 +10,7 @@ use Intervention\Image\Colors\Cmyk\Channels\Magenta;
 use Intervention\Image\Colors\Cmyk\Channels\Yellow;
 use Intervention\Image\Colors\Cmyk\Channels\Key;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
-use Intervention\Image\Drivers\AbstractInputHandler;
+use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
@@ -44,11 +44,9 @@ class Color extends AbstractColor
      */
     public static function create(mixed $input): ColorInterface
     {
-        return (new class ([
+        return InputHandler::withDecoders([
             Decoders\StringColorDecoder::class,
-        ]) extends AbstractInputHandler
-        {
-        })->handle($input);
+        ])->handle($input);
     }
 
     /**

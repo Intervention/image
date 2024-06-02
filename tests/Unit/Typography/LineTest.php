@@ -45,6 +45,21 @@ final class LineTest extends BaseTestCase
         $this->assertEquals(2, $line->count());
     }
 
+    public function testLength(): void
+    {
+        $line = new Line();
+        $this->assertEquals(0, $line->length());
+
+        $line = new Line("foo");
+        $this->assertEquals(3, $line->length());
+
+        $line = new Line("foo bar.");
+        $this->assertEquals(8, $line->length());
+
+        $line = new Line("🫷🙂🫸");
+        $this->assertEquals(3, $line->length());
+    }
+
     public function testAdd(): void
     {
         $line = new Line();

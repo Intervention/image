@@ -31,9 +31,13 @@ class QuantizeColorsModifier extends GenericQuantizeColorsModifier implements Sp
             $this->driver()->handleInput($this->background)
         );
 
+        $blendingColor = $this->driver()->handleInput(
+            $this->driver()->config()->blendingColor
+        );
+
         foreach ($image as $frame) {
             // create new image for color quantization
-            $reduced = Cloner::cloneEmpty($frame->native(), background: $image->blendingColor());
+            $reduced = Cloner::cloneEmpty($frame->native(), background: $blendingColor);
 
             // fill with background
             imagefill($reduced, 0, 0, $background);

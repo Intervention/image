@@ -114,7 +114,7 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
      * @param Line $line
      * @param FontInterface $font
      * @throws FontException
-     * @return array
+     * @return array<Line>
      */
     protected function wrapLine(Line $line, FontInterface $font): array
     {

@@ -7,7 +7,7 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use Imagick;
 use ImagickDraw;
 use ImagickPixel;
-use Intervention\Image\Drivers\Imagick\Frame;
+use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\FillModifier as ModifiersFillModifier;
@@ -32,7 +32,7 @@ class FillModifier extends ModifiersFillModifier implements SpecializedInterface
         return $image;
     }
 
-    private function floodFillWithColor(Frame $frame, ImagickPixel $pixel): void
+    private function floodFillWithColor(FrameInterface $frame, ImagickPixel $pixel): void
     {
         $target = $frame->native()->getImagePixelColor(
             $this->position->x(),
@@ -50,7 +50,7 @@ class FillModifier extends ModifiersFillModifier implements SpecializedInterface
         );
     }
 
-    private function fillAllWithColor(Frame $frame, ImagickPixel $pixel): void
+    private function fillAllWithColor(FrameInterface $frame, ImagickPixel $pixel): void
     {
         $draw = new ImagickDraw();
         $draw->setFillColor($pixel);

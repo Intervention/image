@@ -45,6 +45,11 @@ class DrawPolygonModifier extends GenericDrawPolygonModifier implements Speciali
         return $image;
     }
 
+    /**
+     * Return points of drawable in processable form for ImagickDraw
+     *
+     * @return array<array<string, int>>
+     */
     private function points(): array
     {
         $points = [];

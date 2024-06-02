@@ -13,14 +13,26 @@ abstract class AbstractColor implements ColorInterface
 {
     /**
      * Color channels
+     *
+     * @var array<ColorChannelInterface>
      */
     protected array $channels;
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::channels()
+     */
     public function channels(): array
     {
         return $this->channels;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::channel()
+     */
     public function channel(string $classname): ColorChannelInterface
     {
         $channels = array_filter($this->channels(), function (ColorChannelInterface $channel) use ($classname) {
@@ -34,6 +46,11 @@ abstract class AbstractColor implements ColorInterface
         return reset($channels);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::normalize()
+     */
     public function normalize(): array
     {
         return array_map(function (ColorChannelInterface $channel) {

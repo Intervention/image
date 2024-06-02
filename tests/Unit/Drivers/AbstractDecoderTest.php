@@ -7,7 +7,6 @@ namespace Intervention\Image\Tests\Unit\Drivers;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Exception;
 use Intervention\Image\Drivers\AbstractDecoder;
-use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -18,35 +17,6 @@ use stdClass;
 #[CoversClass(\Intervention\Image\Drivers\AbstractDecoder::class)]
 final class AbstractDecoderTest extends BaseTestCase
 {
-    public function testHandle(): void
-    {
-        $result = Mockery::mock(ColorInterface::class);
-        $decoder = Mockery::mock(AbstractDecoder::class);
-        $decoder->shouldReceive('decode')->with('test input')->andReturn($result);
-        $decoder->handle('test input');
-    }
-
-    public function testHandleFail(): void
-    {
-        $decoder = Mockery::mock(AbstractDecoder::class, []);
-        $decoder->shouldReceive('decode')->with('test input')->andThrow(DecoderException::class);
-        $this->expectException(DecoderException::class);
-        $decoder->handle('test input');
-    }
-
-    public function testHandleFailWithSuccessor(): void
-    {
-        $result = Mockery::mock(ColorInterface::class);
-        $successor = Mockery::mock(AbstractDecoder::class);
-        $successor->shouldReceive('decode')->with('test input')->andReturn($result);
-        $decoder = Mockery::mock(
-            AbstractDecoder::class,
-            [$successor]
-        );
-        $decoder->shouldReceive('decode')->with('test input')->andThrow(DecoderException::class);
-        $decoder->handle('test input');
-    }
-
     public function testIsGifFormat(): void
     {
         $decoder = Mockery::mock(AbstractDecoder::class);

@@ -7,6 +7,7 @@ namespace Intervention\Image\Tests\Unit\Drivers\Gd\Decoders;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Drivers\Gd\Decoders\BinaryImageDecoder;
+use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\BaseTestCase;
 
@@ -14,10 +15,17 @@ use Intervention\Image\Tests\BaseTestCase;
 #[CoversClass(\Intervention\Image\Drivers\Gd\Decoders\BinaryImageDecoder::class)]
 final class BinaryImageDecoderTest extends BaseTestCase
 {
+    protected BinaryImageDecoder $decoder;
+
+    protected function setUp(): void
+    {
+        $this->decoder = new BinaryImageDecoder();
+        $this->decoder->setDriver(new Driver());
+    }
+
     public function testDecodePng(): void
     {
-        $decoder = new BinaryImageDecoder();
-        $image = $decoder->decode(file_get_contents($this->getTestResourcePath('tile.png')));
+        $image = $this->decoder->decode(file_get_contents($this->getTestResourcePath('tile.png')));
         $this->assertInstanceOf(Image::class, $image);
         $this->assertEquals(16, $image->width());
         $this->assertEquals(16, $image->height());
@@ -26,8 +34,7 @@ final class BinaryImageDecoderTest extends BaseTestCase
 
     public function testDecodeGif(): void
     {
-        $decoder = new BinaryImageDecoder();
-        $image = $decoder->decode(file_get_contents($this->getTestResourcePath('red.gif')));
+        $image = $this->decoder->decode(file_get_contents($this->getTestResourcePath('red.gif')));
         $this->assertInstanceOf(Image::class, $image);
         $this->assertEquals(16, $image->width());
         $this->assertEquals(16, $image->height());
@@ -36,8 +43,7 @@ final class BinaryImageDecoderTest extends BaseTestCase
 
     public function testDecodeAnimatedGif(): void
     {
-        $decoder = new BinaryImageDecoder();
-        $image = $decoder->decode(file_get_contents($this->getTestResourcePath('cats.gif')));
+        $image = $this->decoder->decode(file_get_contents($this->getTestResourcePath('cats.gif')));
         $this->assertInstanceOf(Image::class, $image);
         $this->assertEquals(75, $image->width());
         $this->assertEquals(50, $image->height());
@@ -46,8 +52,7 @@ final class BinaryImageDecoderTest extends BaseTestCase
 
     public function testDecodeJpegWithExif(): void
     {
-        $decoder = new BinaryImageDecoder();
-        $image = $decoder->decode(file_get_contents($this->getTestResourcePath('exif.jpg')));
+        $image = $this->decoder->decode(file_get_contents($this->getTestResourcePath('exif.jpg')));
         $this->assertInstanceOf(Image::class, $image);
         $this->assertEquals(16, $image->width());
         $this->assertEquals(16, $image->height());

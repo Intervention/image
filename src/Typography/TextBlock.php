@@ -18,7 +18,7 @@ class TextBlock extends Collection
     /**
      * Return array of lines in text block
      *
-     * @return array
+     * @return array<Line>
      */
     public function lines(): array
     {
@@ -28,7 +28,7 @@ class TextBlock extends Collection
     /**
      * Set lines of the text block
      *
-     * @param array $lines
+     * @param array<Line> $lines
      * @return self
      */
     public function setLines(array $lines): self
@@ -62,10 +62,10 @@ class TextBlock extends Collection
     {
         $lines = $this->lines();
         usort($lines, function (Line $a, Line $b) {
-            if (mb_strlen((string) $a) === mb_strlen((string) $b)) {
+            if ($a->length() === $b->length()) {
                 return 0;
             }
-            return mb_strlen((string) $a) > mb_strlen((string) $b) ? -1 : 1;
+            return $a->length() > $b->length() ? -1 : 1;
         });
 
         return $lines[0];

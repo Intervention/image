@@ -13,7 +13,6 @@ use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Format;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Image;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorProcessorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\DriverInterface;
@@ -89,7 +88,7 @@ class Driver extends AbstractDriver
             /**
              * @throws RuntimeException
              */
-            public function add($source, float $delay = 1): self
+            public function add(mixed $source, float $delay = 1): self
             {
                 $native = $this->driver->handleInput($source)->core()->native();
                 $native->setImageDelay(intval(round($delay * 100)));
@@ -114,16 +113,6 @@ class Driver extends AbstractDriver
         $init($animation);
 
         return call_user_func($animation);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see DriverInterface::handleInput()
-     */
-    public function handleInput(mixed $input, array $decoders = []): ImageInterface|ColorInterface
-    {
-        return (new InputHandler($this->specializeMultiple($decoders)))->handle($input);
     }
 
     /**

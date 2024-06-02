@@ -8,14 +8,11 @@ use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Drivers\Gd\Decoders\Traits\CanDecodeGif;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Modifiers\AlignRotationModifier;
 
 class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
 {
-    use CanDecodeGif;
-
     /**
      * {@inheritdoc}
      *
@@ -63,7 +60,9 @@ class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
         }
 
         // adjust image orientation
-        $image->modify(new AlignRotationModifier());
+        if ($this->driver()->config()->autoOrientation) {
+            $image->modify(new AlignRotationModifier());
+        }
 
         return $image;
     }

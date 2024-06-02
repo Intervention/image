@@ -6,53 +6,13 @@ namespace Intervention\Image\Drivers;
 
 use Exception;
 use Intervention\Image\Collection;
-use Intervention\Image\Exceptions\DecoderException;
-use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\CollectionInterface;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
-use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Traits\CanBuildFilePointer;
 
 abstract class AbstractDecoder implements DecoderInterface
 {
     use CanBuildFilePointer;
-
-    public function __construct(protected ?self $successor = null)
-    {
-    }
-
-    /**
-     * Try to decode given input to image or color object
-     *
-     * @param mixed $input
-     * @throws RuntimeException
-     * @return ImageInterface|ColorInterface
-     */
-    final public function handle(mixed $input): ImageInterface|ColorInterface
-    {
-        try {
-            $decoded = $this->decode($input);
-        } catch (DecoderException $e) {
-            if (!$this->hasSuccessor()) {
-                throw new DecoderException($e->getMessage());
-            }
-
-            return $this->successor->handle($input);
-        }
-
-        return $decoded;
-    }
-
-    /**
-     * Determine if current decoder has a successor
-     *
-     * @return bool
-     */
-    protected function hasSuccessor(): bool
-    {
-        return $this->successor !== null;
-    }
 
     /**
      * Determine if the given input is GIF data format
@@ -100,7 +60,7 @@ abstract class AbstractDecoder implements DecoderInterface
      * data or a file path.
      *
      * @param string $path_or_data
-     * @return CollectionInterface
+     * @return CollectionInterface<string, mixed>
      */
     protected function extractExifData(string $path_or_data): CollectionInterface
     {
@@ -156,10 +116,18 @@ abstract class AbstractDecoder implements DecoderInterface
 
         return new class ($matches, $result)
         {
-            private $matches;
-            private $result;
+            /**
+             * @var array<mixed>
+             */
+            private array $matches;
+            private int|false $result;
 
-            public function __construct($matches, $result)
+            /**
+             * @param array<mixed> $matches
+             * @param int|false $result
+             * @return void
+             */
+            public function __construct(array $matches, int|false $result)
             {
                 $this->matches = $matches;
                 $this->result = $result;

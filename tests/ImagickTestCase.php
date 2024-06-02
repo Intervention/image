@@ -6,8 +6,8 @@ namespace Intervention\Image\Tests;
 
 use Imagick;
 use ImagickPixel;
+use Intervention\Image\Decoders\FilePathImageDecoder;
 use Intervention\Image\Drivers\Imagick\Core;
-use Intervention\Image\Drivers\Imagick\Decoders\FilePathImageDecoder;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Image;
 
@@ -15,7 +15,7 @@ abstract class ImagickTestCase extends BaseTestCase
 {
     public function readTestImage($filename = 'test.jpg'): Image
     {
-        return (new FilePathImageDecoder())->handle(
+        return (new Driver())->specialize(new FilePathImageDecoder())->decode(
             $this->getTestResourcePath($filename)
         );
     }

@@ -20,7 +20,7 @@ interface CoreInterface extends CollectionInterface
      * Set driver's representation of the image core.
      *
      * @param mixed $native
-     * @return CoreInterface
+     * @return CoreInterface<FrameInterface>
      */
     public function setNative(mixed $native): self;
 
@@ -44,7 +44,7 @@ interface CoreInterface extends CollectionInterface
      * Add new frame to core
      *
      * @param FrameInterface $frame
-     * @return CoreInterface
+     * @return CoreInterface<FrameInterface>
      */
     public function add(FrameInterface $frame): self;
 
@@ -60,7 +60,7 @@ interface CoreInterface extends CollectionInterface
      * value of 0 means infinite repetition.
      *
      * @param int $loops
-     * @return CoreInterface
+     * @return CoreInterface<FrameInterface>
      */
     public function setLoops(int $loops): self;
 

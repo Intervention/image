@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
+use Intervention\Image\Config;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Exceptions\RuntimeException;
@@ -21,10 +22,18 @@ interface DriverInterface
     public function id(): string;
 
     /**
+     * Get driver configuration
+     *
+     * @return Config
+     */
+    public function config(): Config;
+
+    /**
      * Resolve given object into a specialized version for the current driver
      *
      * @param ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface $object
      * @throws NotSupportedException
+     * @throws DriverException
      * @return ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface
      */
     public function specialize(
@@ -34,8 +43,10 @@ interface DriverInterface
     /**
      * Resolve array of classnames or objects into their specialized version for the current driver
      *
-     * @param array $objects
-     * @return array
+     * @param array<string|object> $objects
+     * @throws NotSupportedException
+     * @throws DriverException
+     * @return array<object>
      */
     public function specializeMultiple(array $objects): array;
 
@@ -53,6 +64,7 @@ interface DriverInterface
      * Create new animated image
      *
      * @param callable $init
+     * @throws RuntimeException
      * @return ImageInterface
      */
     public function createAnimation(callable $init): ImageInterface;
@@ -61,7 +73,7 @@ interface DriverInterface
      * Handle given input by decoding it to ImageInterface or ColorInterface
      *
      * @param mixed $input
-     * @param array $decoders
+     * @param array<string|DecoderInterface> $decoders
      * @throws RuntimeException
      * @return ImageInterface|ColorInterface
      */

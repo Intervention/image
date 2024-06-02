@@ -6,12 +6,12 @@ namespace Intervention\Image\Tests\Unit\Drivers\Gd\Decoders;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
-use Intervention\Image\Drivers\Gd\Decoders\ImageObjectDecoder;
+use Intervention\Image\Decoders\ImageObjectDecoder;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\GdTestCase;
 
 #[RequiresPhpExtension('gd')]
-#[CoversClass(\Intervention\Image\Drivers\Gd\Decoders\ImageObjectDecoder::class)]
+#[CoversClass(\Intervention\Image\Decoders\ImageObjectDecoder::class)]
 final class ImageObjectDecoderTest extends GdTestCase
 {
     public function testDecode(): void

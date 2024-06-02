@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
-use Intervention\Image\Drivers\Gd\Decoders\Traits\CanDecodeGif;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
@@ -13,8 +12,6 @@ use Intervention\Image\Modifiers\AlignRotationModifier;
 
 class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterface
 {
-    use CanDecodeGif;
-
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!$this->isFile($input)) {
@@ -29,10 +26,10 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
             // be handled by the standard GD decoder.
             'image/gif' => $this->decodeGif($input),
             default => parent::decode(match ($mediaType) {
-                'image/jpeg', 'image/jpg', 'image/pjpeg' => imagecreatefromjpeg($input),
-                'image/webp', 'image/x-webp' => imagecreatefromwebp($input),
-                'image/png', 'image/x-png' => imagecreatefrompng($input),
-                'image/avif', 'image/x-avif' => imagecreatefromavif($input),
+                'image/jpeg', 'image/jpg', 'image/pjpeg' => @imagecreatefromjpeg($input),
+                'image/webp', 'image/x-webp' => @imagecreatefromwebp($input),
+                'image/png', 'image/x-png' => @imagecreatefrompng($input),
+                'image/avif', 'image/x-avif' => @imagecreatefromavif($input),
                 'image/bmp',
                 'image/ms-bmp',
                 'image/x-bitmap',
@@ -40,7 +37,7 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
                 'image/x-ms-bmp',
                 'image/x-win-bitmap',
                 'image/x-windows-bmp',
-                'image/x-xbitmap' => imagecreatefrombmp($input),
+                'image/x-xbitmap' => @imagecreatefrombmp($input),
                 default => throw new DecoderException('Unable to decode input'),
             }),
         };
@@ -53,7 +50,9 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
         $image->setExif($this->extractExifData($input));
 
         // adjust image orientation
-        $image->modify(new AlignRotationModifier());
+        if ($this->driver()->config()->autoOrientation) {
+            $image->modify(new AlignRotationModifier());
+        }
 
         return $image;
     }

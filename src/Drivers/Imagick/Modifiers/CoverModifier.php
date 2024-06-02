@@ -16,7 +16,7 @@ class CoverModifier extends GenericCoverModifier implements SpecializedInterface
         $resize = $this->getResizeSize($crop);
 
         foreach ($image as $frame) {
-            $frame->native()->extentImage(
+            $frame->native()->cropImage(
                 $crop->width(),
                 $crop->height(),
                 $crop->pivot()->x(),
@@ -27,6 +27,8 @@ class CoverModifier extends GenericCoverModifier implements SpecializedInterface
                 $resize->width(),
                 $resize->height()
             );
+
+            $frame->native()->setImagePage(0, 0, 0, 0);
         }
 
         return $image;

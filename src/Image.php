@@ -27,18 +27,24 @@ use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
 use Intervention\Image\Exceptions\EncoderException;
+use Intervention\Image\Exceptions\GeometryException;
+use Intervention\Image\Geometry\Circle;
+use Intervention\Image\Geometry\Ellipse;
 use Intervention\Image\Geometry\Factories\CircleFactory;
 use Intervention\Image\Geometry\Factories\EllipseFactory;
 use Intervention\Image\Geometry\Factories\LineFactory;
 use Intervention\Image\Geometry\Factories\PolygonFactory;
 use Intervention\Image\Geometry\Factories\RectangleFactory;
+use Intervention\Image\Geometry\Line;
 use Intervention\Image\Geometry\Point;
+use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\CoreInterface;
+use Intervention\Image\Interfaces\DrawableInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
@@ -872,6 +878,23 @@ final class Image implements ImageInterface
                 call_user_func(new LineFactory($init)),
             ),
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::draw()
+     */
+    public function draw(DrawableInterface $drawable): ImageInterface
+    {
+        return $this->modify(match ($drawable::class) {
+            Polygon::class => new DrawPolygonModifier($drawable),
+            Line::class => new DrawLineModifier($drawable),
+            Circle::class, Ellipse::class => new DrawEllipseModifier($drawable),
+            Rectangle::class => new DrawRectangleModifier($drawable),
+            Line::class => new DrawLineModifier($drawable),
+            default => throw new GeometryException('Unable to draw' . $drawable::class . ' object.'),
+        });
     }
 
     /**

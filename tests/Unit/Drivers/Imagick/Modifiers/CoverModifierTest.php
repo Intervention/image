@@ -27,4 +27,12 @@ final class CoverModifierTest extends ImagickTestCase
         $this->assertColor(0, 0, 255, 255, $image->pickColor(70, 52));
         $this->assertTransparency($image->pickColor(90, 30));
     }
+
+    public function testModifyOddSize(): void
+    {
+        $image = $this->createTestImage(375, 250);
+        $image->modify(new CoverModifier(240, 90, 'center'));
+        $this->assertEquals(240, $image->width());
+        $this->assertEquals(90, $image->height());
+    }
 }

@@ -98,6 +98,7 @@ abstract class AbstractDriver implements DriverInterface
      * {@inheritdoc}
      *
      * @throws NotSupportedException
+     * @throws DriverException
      * @see DriverInterface::specializeMultiple()
      */
     public function specializeMultiple(array $objects): array

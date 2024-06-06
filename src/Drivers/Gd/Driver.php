@@ -72,6 +72,7 @@ class Driver extends AbstractDriver
     /**
      * {@inheritdoc}
      *
+     * @throws RuntimeException
      * @see DriverInterface::createAnimation()
      */
     public function createAnimation(callable $init): ImageInterface

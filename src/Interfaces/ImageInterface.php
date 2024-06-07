@@ -753,10 +753,10 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Draw the given geometric object on the current image
      *
      * @link https://image.intervention.io/v3/modifying/drawing#draw-objects
-     * @param DrawableInterface $drawable
+     * @param DrawableInterface|DrawableFactoryInterface $drawable
      * @return ImageInterface
      */
-    public function draw(DrawableInterface $drawable): self;
+    public function draw(DrawableInterface|DrawableFactoryInterface $drawable): self;
 
     /**
      * Encode image to given media (mime) type. If no type is given the image

@@ -41,6 +41,17 @@ final class EllipseTest extends BaseTestCase
         $this->assertEquals(200, $ellipse->height());
     }
 
+    public function testSetGetPivot(): void
+    {
+        $ellipse = new Ellipse(10, 20, new Point(100, 200));
+        $this->assertEquals(100, $ellipse->pivot()->x());
+        $this->assertEquals(200, $ellipse->pivot()->y());
+        $result = $ellipse->setPivot(new Point(1000, 2000));
+        $this->assertInstanceOf(Ellipse::class, $result);
+        $this->assertEquals(1000, $ellipse->pivot()->x());
+        $this->assertEquals(2000, $ellipse->pivot()->y());
+    }
+
     public function testSetWidthHeight(): void
     {
         $ellipse = new Ellipse(10, 20, new Point(100, 200));

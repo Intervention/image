@@ -44,6 +44,7 @@ use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\CoreInterface;
+use Intervention\Image\Interfaces\DrawableFactoryInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\EncodedImageInterface;
@@ -883,10 +884,14 @@ final class Image implements ImageInterface
     /**
      * {@inheritdoc}
      *
+     * @throws RuntimeException
+     * @throws GeometryException
      * @see ImageInterface::draw()
      */
-    public function draw(DrawableInterface $drawable): ImageInterface
+    public function draw(DrawableInterface|DrawableFactoryInterface $drawable): ImageInterface
     {
+        $drawable = $drawable instanceof DrawableFactoryInterface ? $drawable() : $drawable;
+
         return $this->modify(match ($drawable::class) {
             Polygon::class => new DrawPolygonModifier($drawable),
             Line::class => new DrawLineModifier($drawable),

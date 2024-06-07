@@ -6,8 +6,10 @@ namespace Intervention\Image\Geometry\Factories;
 
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Line;
+use Intervention\Image\Interfaces\DrawableFactoryInterface;
+use Intervention\Image\Interfaces\DrawableInterface;
 
-class LineFactory
+class LineFactory implements DrawableFactoryInterface
 {
     protected Line $line;
 
@@ -17,13 +19,18 @@ class LineFactory
      * @param callable|Line $init
      * @return void
      */
-    public function __construct(callable|Line $init)
+    final public function __construct(null|callable|Line $init = null)
     {
         $this->line = is_a($init, Line::class) ? $init : new Line(new Point(), new Point());
 
         if (is_callable($init)) {
             $init($this);
         }
+    }
+
+    public static function create(null|callable|DrawableInterface $init = null): DrawableFactoryInterface
+    {
+        return new static($init);
     }
 
     /**

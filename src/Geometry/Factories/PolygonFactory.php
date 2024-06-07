@@ -6,24 +6,31 @@ namespace Intervention\Image\Geometry\Factories;
 
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
+use Intervention\Image\Interfaces\DrawableFactoryInterface;
+use Intervention\Image\Interfaces\DrawableInterface;
 
-class PolygonFactory
+class PolygonFactory implements DrawableFactoryInterface
 {
     protected Polygon $polygon;
 
     /**
      * Create new factory instance
      *
-     * @param callable|Polygon $init
+     * @param null|callable|Polygon $init
      * @return void
      */
-    public function __construct(callable|Polygon $init)
+    final public function __construct(null|callable|Polygon $init = null)
     {
         $this->polygon = is_a($init, Polygon::class) ? $init : new Polygon([]);
 
         if (is_callable($init)) {
             $init($this);
         }
+    }
+
+    public static function create(null|callable|DrawableInterface $init = null): DrawableFactoryInterface
+    {
+        return new static($init);
     }
 
     /**

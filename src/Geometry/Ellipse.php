@@ -50,6 +50,19 @@ class Ellipse implements DrawableInterface
     }
 
     /**
+     * Set pivot point of ellipse
+     *
+     * @param PointInterface $pivot
+     * @return Ellipse
+     */
+    public function setPivot(PointInterface $pivot): self
+    {
+        $this->pivot = $pivot;
+
+        return $this;
+    }
+
+    /**
      * Set size of Ellipse
      *
      * @param int $width

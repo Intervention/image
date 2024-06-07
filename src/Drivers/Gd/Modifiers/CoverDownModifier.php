@@ -14,6 +14,6 @@ class CoverDownModifier extends CoverModifier
      */
     public function getResizeSize(SizeInterface $size): SizeInterface
     {
-        return $size->scaleDown($this->width, $this->height);
+        return $size->resizeDown($this->width, $this->height);
     }
 }

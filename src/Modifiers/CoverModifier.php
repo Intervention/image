@@ -38,6 +38,6 @@ class CoverModifier extends SpecializableModifier
      */
     public function getResizeSize(SizeInterface $size): SizeInterface
     {
-        return $size->scale($this->width, $this->height);
+        return $size->resize($this->width, $this->height);
     }
 }

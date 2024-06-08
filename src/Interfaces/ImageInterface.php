@@ -752,7 +752,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Draw a bezier curve on the current image
      *
-     * @link
+     * @link https://image.intervention.io/v3/modifying/drawing#draw-bezier-curves
      * @param callable $init
      * @throws RuntimeException
      * @return ImageInterface

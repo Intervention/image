@@ -85,7 +85,7 @@ class DrawBezierModifier extends ModifiersDrawBezierModifier implements Speciali
      * @param float $t
      * @return array{'x': float, 'y': float}
      */
-    public function calculateQuadraticBezierInterpolationPoint(float $t = 0.05): array
+    private function calculateQuadraticBezierInterpolationPoint(float $t = 0.05): array
     {
         $remainder = 1 - $t;
         $control_point_1_multiplier = $remainder * $remainder;
@@ -112,7 +112,7 @@ class DrawBezierModifier extends ModifiersDrawBezierModifier implements Speciali
      * @param float $t
      * @return array{'x': float, 'y': float}
      */
-    public function calculateCubicBezierInterpolationPoint(float $t = 0.05): array
+    private function calculateCubicBezierInterpolationPoint(float $t = 0.05): array
     {
         $remainder = 1 - $t;
         $t_squared = $t * $t;
@@ -144,7 +144,7 @@ class DrawBezierModifier extends ModifiersDrawBezierModifier implements Speciali
      * @throws GeometryException
      * @return array{0: array<mixed>, 1: array<mixed>}
      */
-    public function calculateBezierPoints(): array
+    private function calculateBezierPoints(): array
     {
         if ($this->drawable->count() !== 3 && $this->drawable->count() !== 4) {
             throw new GeometryException('You must specify either 3 or 4 points to create a bezier curve');

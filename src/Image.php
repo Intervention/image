@@ -27,6 +27,7 @@ use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
 use Intervention\Image\Exceptions\EncoderException;
+use Intervention\Image\Geometry\Factories\BezierFactory;
 use Intervention\Image\Geometry\Factories\CircleFactory;
 use Intervention\Image\Geometry\Factories\EllipseFactory;
 use Intervention\Image\Geometry\Factories\LineFactory;
@@ -58,6 +59,7 @@ use Intervention\Image\Modifiers\ColorspaceModifier;
 use Intervention\Image\Modifiers\ContainModifier;
 use Intervention\Image\Modifiers\ContrastModifier;
 use Intervention\Image\Modifiers\CropModifier;
+use Intervention\Image\Modifiers\DrawBezierModifier;
 use Intervention\Image\Modifiers\DrawEllipseModifier;
 use Intervention\Image\Modifiers\DrawLineModifier;
 use Intervention\Image\Modifiers\DrawPixelModifier;
@@ -870,6 +872,20 @@ final class Image implements ImageInterface
         return $this->modify(
             new DrawLineModifier(
                 call_user_func(new LineFactory($init)),
+            ),
+        );
+    }
+
+     /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::drawBezier()
+     */
+    public function drawBezier(callable $init): ImageInterface
+    {
+        return $this->modify(
+            new DrawBezierModifier(
+                call_user_func(new BezierFactory($init)),
             ),
         );
     }

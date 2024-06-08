@@ -750,6 +750,16 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function drawLine(callable $init): self;
 
     /**
+     * Draw a bezier curve on the current image
+     *
+     * @link
+     * @param callable $init
+     * @throws RuntimeException
+     * @return ImageInterface
+     */
+    public function drawBezier(callable $init): self;
+
+    /**
      * Encode image to given media (mime) type. If no type is given the image
      * will be encoded to the format of the originally read image.
      *

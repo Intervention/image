@@ -16,15 +16,23 @@ use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\EncoderException;
+use Intervention\Image\Geometry\Circle;
+use Intervention\Image\Geometry\Ellipse;
+use Intervention\Image\Geometry\Line;
+use Intervention\Image\Geometry\Point;
+use Intervention\Image\Geometry\Polygon;
+use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
+use Intervention\Image\Interfaces\DrawableInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Modifiers\GreyscaleModifier;
 use Intervention\Image\Origin;
 use Intervention\Image\Tests\ImagickTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class ImageTest extends ImagickTestCase
 {
@@ -387,5 +395,23 @@ final class ImageTest extends ImagickTestCase
         $result = $image->brightness(30);
         $this->assertInstanceOf(ImageInterface::class, $result);
         $this->assertEquals('39c9ff', $image->pickColor(14, 14)->toHex());
+    }
+
+    #[DataProvider('testDrawProvider')]
+    public function testDraw(DrawableInterface $drawable): void
+    {
+        $result = $this->createTestImage(100, 100)->draw($drawable);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public static function testDrawProvider(): array
+    {
+        return [
+            [new Circle(20, new Point(50, 50))],
+            [new Ellipse(20, 10, new Point(50, 50))],
+            [new Line(new Point(10, 10), new Point(20, 20))],
+            [new Rectangle(10, 20)],
+            [new Polygon([new Point(10, 10), new Point(20, 20), new Point(30, 30)])],
+        ];
     }
 }

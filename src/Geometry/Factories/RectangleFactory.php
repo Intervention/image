@@ -11,6 +11,9 @@ use Intervention\Image\Interfaces\DrawableInterface;
 
 class RectangleFactory implements DrawableFactoryInterface
 {
+    /**
+     * Finished product of factory
+     */
     protected Rectangle $rectangle;
 
     /**
@@ -36,9 +39,9 @@ class RectangleFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::create()
      */
-    public static function create(null|callable|DrawableInterface $init = null): DrawableFactoryInterface
+    public function create(): DrawableInterface
     {
-        return new static(init: $init);
+        return $this();
     }
 
     /**

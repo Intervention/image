@@ -11,6 +11,9 @@ use Intervention\Image\Interfaces\DrawableInterface;
 
 class EllipseFactory implements DrawableFactoryInterface
 {
+    /**
+     * Finished product of factory
+     */
     protected Ellipse $ellipse;
 
     /**
@@ -36,9 +39,9 @@ class EllipseFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::create()
      */
-    public static function create(null|callable|DrawableInterface $init = null): DrawableFactoryInterface
+    public function create(): DrawableInterface
     {
-        return new static(init: $init);
+        return $this();
     }
 
     /**

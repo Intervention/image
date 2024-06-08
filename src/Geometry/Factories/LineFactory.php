@@ -11,6 +11,9 @@ use Intervention\Image\Interfaces\DrawableInterface;
 
 class LineFactory implements DrawableFactoryInterface
 {
+    /**
+     * Finished product of factory
+     */
     protected Line $line;
 
     /**
@@ -33,9 +36,9 @@ class LineFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::create()
      */
-    public static function create(null|callable|DrawableInterface $init = null): DrawableFactoryInterface
+    public function create(): DrawableInterface
     {
-        return new static($init);
+        return $this();
     }
 
     /**

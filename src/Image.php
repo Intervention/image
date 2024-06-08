@@ -888,16 +888,13 @@ final class Image implements ImageInterface
      * @throws GeometryException
      * @see ImageInterface::draw()
      */
-    public function draw(DrawableInterface|DrawableFactoryInterface $drawable): ImageInterface
+    public function draw(DrawableInterface $drawable): ImageInterface
     {
-        $drawable = $drawable instanceof DrawableFactoryInterface ? $drawable() : $drawable;
-
         return $this->modify(match ($drawable::class) {
-            Polygon::class => new DrawPolygonModifier($drawable),
-            Line::class => new DrawLineModifier($drawable),
             Circle::class, Ellipse::class => new DrawEllipseModifier($drawable),
-            Rectangle::class => new DrawRectangleModifier($drawable),
             Line::class => new DrawLineModifier($drawable),
+            Polygon::class => new DrawPolygonModifier($drawable),
+            Rectangle::class => new DrawRectangleModifier($drawable),
             default => throw new GeometryException('Unable to draw' . $drawable::class . ' object.'),
         });
     }

@@ -752,7 +752,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Draw the given geometric object on the current image
      *
-     * @link https://image.intervention.io/v3/modifying/drawing#draw-objects
+     * @link https://image.intervention.io/v3/modifying/drawing#universal-draw-method
      * @param DrawableInterface $drawable
      * @return ImageInterface
      */

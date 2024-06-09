@@ -27,13 +27,18 @@ use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
 use Intervention\Image\Exceptions\EncoderException;
+use Intervention\Image\Geometry\Bezier;
+use Intervention\Image\Geometry\Circle;
+use Intervention\Image\Geometry\Ellipse;
 use Intervention\Image\Geometry\Factories\BezierFactory;
 use Intervention\Image\Geometry\Factories\CircleFactory;
 use Intervention\Image\Geometry\Factories\EllipseFactory;
 use Intervention\Image\Geometry\Factories\LineFactory;
 use Intervention\Image\Geometry\Factories\PolygonFactory;
 use Intervention\Image\Geometry\Factories\RectangleFactory;
+use Intervention\Image\Geometry\Line;
 use Intervention\Image\Geometry\Point;
+use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\CollectionInterface;
@@ -825,7 +830,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawEllipse()
      */
-    public function drawEllipse(int $x, int $y, callable $init): ImageInterface
+    public function drawEllipse(int $x, int $y, callable|Ellipse $init): ImageInterface
     {
         return $this->modify(
             new DrawEllipseModifier(
@@ -839,7 +844,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawCircle()
      */
-    public function drawCircle(int $x, int $y, callable $init): ImageInterface
+    public function drawCircle(int $x, int $y, callable|Circle $init): ImageInterface
     {
         return $this->modify(
             new DrawEllipseModifier(
@@ -853,7 +858,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawPolygon()
      */
-    public function drawPolygon(callable $init): ImageInterface
+    public function drawPolygon(callable|Polygon $init): ImageInterface
     {
         return $this->modify(
             new DrawPolygonModifier(
@@ -867,7 +872,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawLine()
      */
-    public function drawLine(callable $init): ImageInterface
+    public function drawLine(callable|Line $init): ImageInterface
     {
         return $this->modify(
             new DrawLineModifier(
@@ -881,7 +886,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawBezier()
      */
-    public function drawBezier(callable $init): ImageInterface
+    public function drawBezier(callable|Bezier $init): ImageInterface
     {
         return $this->modify(
             new DrawBezierModifier(

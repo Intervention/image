@@ -25,7 +25,8 @@ class EllipseFactory implements DrawableFactoryInterface
         protected PointInterface $pivot = new Point(),
         null|callable|Ellipse $init = null,
     ) {
-        $this->ellipse = is_a($init, Ellipse::class) ? $init : new Ellipse(0, 0, $pivot);
+        $this->ellipse = is_a($init, Ellipse::class) ? $init : new Ellipse(0, 0);
+        $this->ellipse->setPosition($pivot);
 
         if (is_callable($init)) {
             $init($this);

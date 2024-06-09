@@ -14,6 +14,7 @@ use Intervention\Image\Geometry\Circle;
 use Intervention\Image\Geometry\Ellipse;
 use Intervention\Image\Geometry\Line;
 use Intervention\Image\Geometry\Polygon;
+use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\MediaType;
 use Intervention\Image\Origin;
 use IteratorAggregate;
@@ -704,11 +705,11 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @link https://image.intervention.io/v3/modifying/drawing#drawing-a-rectangle
      * @param int $x
      * @param int $y
-     * @param callable $init
+     * @param callable|Rectangle $init
      * @throws RuntimeException
      * @return ImageInterface
      */
-    public function drawRectangle(int $x, int $y, callable $init): self;
+    public function drawRectangle(int $x, int $y, callable|Rectangle $init): self;
 
     /**
      * Draw ellipse on the current image

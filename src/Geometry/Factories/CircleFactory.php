@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Geometry\Factories;
 
+use Closure;
 use Intervention\Image\Geometry\Circle;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\DrawableFactoryInterface;
@@ -18,12 +19,12 @@ class CircleFactory implements DrawableFactoryInterface
      * Create new factory instance
      *
      * @param PointInterface $pivot
-     * @param null|callable|Circle $init
+     * @param null|Closure|Circle $init
      * @return void
      */
     public function __construct(
         protected PointInterface $pivot = new Point(),
-        null|callable|Circle $init = null,
+        null|Closure|Circle $init = null,
     ) {
         $this->circle = is_a($init, Circle::class) ? $init : new Circle(0);
         $this->circle->setPosition($pivot);
@@ -38,7 +39,7 @@ class CircleFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::init()
      */
-    public static function init(null|callable|DrawableInterface $init = null): self
+    public static function init(null|Closure|DrawableInterface $init = null): self
     {
         return new self(init: $init);
     }

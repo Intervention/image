@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Geometry\Factories;
 
+use Closure;
 use Intervention\Image\Geometry\Ellipse;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\DrawableFactoryInterface;
@@ -18,12 +19,12 @@ class EllipseFactory implements DrawableFactoryInterface
      * Create new factory instance
      *
      * @param PointInterface $pivot
-     * @param null|callable|Ellipse $init
+     * @param null|Closure|Ellipse $init
      * @return void
      */
     public function __construct(
         protected PointInterface $pivot = new Point(),
-        null|callable|Ellipse $init = null,
+        null|Closure|Ellipse $init = null,
     ) {
         $this->ellipse = is_a($init, Ellipse::class) ? $init : new Ellipse(0, 0);
         $this->ellipse->setPosition($pivot);
@@ -38,7 +39,7 @@ class EllipseFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::init()
      */
-    public static function init(null|callable|DrawableInterface $init = null): self
+    public static function init(null|Closure|DrawableInterface $init = null): self
     {
         return new self(init: $init);
     }

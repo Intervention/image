@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Geometry\Factories;
 
+use Closure;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Line;
 use Intervention\Image\Interfaces\DrawableFactoryInterface;
@@ -16,10 +17,10 @@ class LineFactory implements DrawableFactoryInterface
     /**
      * Create the factory instance
      *
-     * @param null|callable|Line $init
+     * @param null|Closure|Line $init
      * @return void
      */
-    public function __construct(null|callable|Line $init = null)
+    public function __construct(null|Closure|Line $init = null)
     {
         $this->line = is_a($init, Line::class) ? $init : new Line(new Point(), new Point());
 
@@ -33,7 +34,7 @@ class LineFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::init()
      */
-    public static function init(null|callable|DrawableInterface $init = null): self
+    public static function init(null|Closure|DrawableInterface $init = null): self
     {
         return new self($init);
     }

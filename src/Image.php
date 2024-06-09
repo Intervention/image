@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
+use Closure;
 use Intervention\Image\Exceptions\RuntimeException;
 use Traversable;
 use Intervention\Image\Analyzers\ColorspaceAnalyzer;
@@ -618,7 +619,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::text()
      */
-    public function text(string $text, int $x, int $y, callable|FontInterface $font): ImageInterface
+    public function text(string $text, int $x, int $y, callable|Closure|FontInterface $font): ImageInterface
     {
         return $this->modify(
             new TextModifier(
@@ -816,7 +817,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawRectangle()
      */
-    public function drawRectangle(int $x, int $y, callable|Rectangle $init): ImageInterface
+    public function drawRectangle(int $x, int $y, callable|Closure|Rectangle $init): ImageInterface
     {
         return $this->modify(
             new DrawRectangleModifier(
@@ -830,7 +831,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawEllipse()
      */
-    public function drawEllipse(int $x, int $y, callable|Ellipse $init): ImageInterface
+    public function drawEllipse(int $x, int $y, callable|Closure|Ellipse $init): ImageInterface
     {
         return $this->modify(
             new DrawEllipseModifier(
@@ -844,7 +845,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawCircle()
      */
-    public function drawCircle(int $x, int $y, callable|Circle $init): ImageInterface
+    public function drawCircle(int $x, int $y, callable|Closure|Circle $init): ImageInterface
     {
         return $this->modify(
             new DrawEllipseModifier(
@@ -858,7 +859,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawPolygon()
      */
-    public function drawPolygon(callable|Polygon $init): ImageInterface
+    public function drawPolygon(callable|Closure|Polygon $init): ImageInterface
     {
         return $this->modify(
             new DrawPolygonModifier(
@@ -872,7 +873,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawLine()
      */
-    public function drawLine(callable|Line $init): ImageInterface
+    public function drawLine(callable|Closure|Line $init): ImageInterface
     {
         return $this->modify(
             new DrawLineModifier(
@@ -886,7 +887,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawBezier()
      */
-    public function drawBezier(callable|Bezier $init): ImageInterface
+    public function drawBezier(callable|Closure|Bezier $init): ImageInterface
     {
         return $this->modify(
             new DrawBezierModifier(

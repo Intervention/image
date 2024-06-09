@@ -47,6 +47,18 @@ class Bezier implements IteratorAggregate, Countable, ArrayAccess, DrawableInter
     }
 
     /**
+     * {@inheritdoc}
+     *
+     * @see DrawableInterface::setPosition()
+     */
+    public function setPosition(PointInterface $position): DrawableInterface
+    {
+        $this->pivot = $position;
+
+        return $this;
+    }
+
+    /**
      * Implement iteration through all points of bezier
      *
      * @return Traversable<PointInterface>

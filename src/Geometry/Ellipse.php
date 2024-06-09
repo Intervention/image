@@ -40,10 +40,9 @@ class Ellipse implements DrawableInterface
     }
 
     /**
-     * Set position if ellipse
+     * {@inheritdoc}
      *
-     * @param PointInterface $position
-     * @return Ellipse
+     * @see DrawableInterface::setPosition()
      */
     public function setPosition(PointInterface $position): self
     {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Geometry\Factories;
 
+use Closure;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\DrawableFactoryInterface;
@@ -18,12 +19,12 @@ class RectangleFactory implements DrawableFactoryInterface
      * Create new instance
      *
      * @param PointInterface $pivot
-     * @param null|callable|Rectangle $init
+     * @param null|Closure|Rectangle $init
      * @return void
      */
     public function __construct(
         protected PointInterface $pivot = new Point(),
-        null|callable|Rectangle $init = null,
+        null|Closure|Rectangle $init = null,
     ) {
         $this->rectangle = is_a($init, Rectangle::class) ? $init : new Rectangle(0, 0, $pivot);
         $this->rectangle->setPosition($pivot);
@@ -38,7 +39,7 @@ class RectangleFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::init()
      */
-    public static function init(null|callable|DrawableInterface $init = null): self
+    public static function init(null|Closure|DrawableInterface $init = null): self
     {
         return new self(init: $init);
     }

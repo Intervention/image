@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
+use Closure;
 use Countable;
 use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\Exceptions\AnimationException;
@@ -453,11 +454,11 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param string $text
      * @param int $x
      * @param int $y
-     * @param callable|FontInterface $font
+     * @param callable|Closure|FontInterface $font
      * @throws RuntimeException
      * @return ImageInterface
      */
-    public function text(string $text, int $x, int $y, callable|FontInterface $font): self;
+    public function text(string $text, int $x, int $y, callable|Closure|FontInterface $font): self;
 
     /**
      * Resize image to the given width and/or height
@@ -705,11 +706,11 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @link https://image.intervention.io/v3/modifying/drawing#drawing-a-rectangle
      * @param int $x
      * @param int $y
-     * @param callable|Rectangle $init
+     * @param callable|Closure|Rectangle $init
      * @throws RuntimeException
      * @return ImageInterface
      */
-    public function drawRectangle(int $x, int $y, callable|Rectangle $init): self;
+    public function drawRectangle(int $x, int $y, callable|Closure|Rectangle $init): self;
 
     /**
      * Draw ellipse on the current image
@@ -717,11 +718,11 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @link https://image.intervention.io/v3/modifying/drawing#drawing-ellipses
      * @param int $x
      * @param int $y
-     * @param callable|Ellipse $init
+     * @param callable|Closure|Ellipse $init
      * @throws RuntimeException
      * @return ImageInterface
      */
-    public function drawEllipse(int $x, int $y, callable|Ellipse $init): self;
+    public function drawEllipse(int $x, int $y, callable|Closure|Ellipse $init): self;
 
     /**
      * Draw circle on the current image
@@ -729,41 +730,41 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @link https://image.intervention.io/v3/modifying/drawing#drawing-a-circle
      * @param int $x
      * @param int $y
-     * @param callable|Circle $init
+     * @param callable|Closure|Circle $init
      * @throws RuntimeException
      * @return ImageInterface
      */
-    public function drawCircle(int $x, int $y, callable|Circle $init): self;
+    public function drawCircle(int $x, int $y, callable|Closure|Circle $init): self;
 
     /**
      * Draw a polygon on the current image
      *
      * @link https://image.intervention.io/v3/modifying/drawing#drawing-a-polygon
-     * @param callable|Polygon $init
+     * @param callable|Closure|Polygon $init
      * @throws RuntimeException
      * @return ImageInterface
      */
-    public function drawPolygon(callable|Polygon $init): self;
+    public function drawPolygon(callable|Closure|Polygon $init): self;
 
     /**
      * Draw a line on the current image
      *
      * @link https://image.intervention.io/v3/modifying/drawing#drawing-a-line
-     * @param callable|Line $init
+     * @param callable|Closure|Line $init
      * @throws RuntimeException
      * @return ImageInterface
      */
-    public function drawLine(callable|Line $init): self;
+    public function drawLine(callable|Closure|Line $init): self;
 
     /**
      * Draw a bezier curve on the current image
      *
      * @link https://image.intervention.io/v3/modifying/drawing#draw-bezier-curves
-     * @param callable|Bezier $init
+     * @param callable|Closure|Bezier $init
      * @throws RuntimeException
      * @return ImageInterface
      */
-    public function drawBezier(callable|Bezier $init): self;
+    public function drawBezier(callable|Closure|Bezier $init): self;
 
     /**
      * Encode image to given media (mime) type. If no type is given the image

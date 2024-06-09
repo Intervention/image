@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Geometry\Factories;
 
+use Closure;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Interfaces\DrawableFactoryInterface;
@@ -16,10 +17,10 @@ class PolygonFactory implements DrawableFactoryInterface
     /**
      * Create new factory instance
      *
-     * @param null|callable|Polygon $init
+     * @param null|Closure|Polygon $init
      * @return void
      */
-    public function __construct(null|callable|Polygon $init = null)
+    public function __construct(null|Closure|Polygon $init = null)
     {
         $this->polygon = is_a($init, Polygon::class) ? $init : new Polygon([]);
 
@@ -33,7 +34,7 @@ class PolygonFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::init()
      */
-    public static function init(null|callable|DrawableInterface $init = null): self
+    public static function init(null|Closure|DrawableInterface $init = null): self
     {
         return new self($init);
     }

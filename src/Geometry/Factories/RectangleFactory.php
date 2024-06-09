@@ -36,6 +36,16 @@ class RectangleFactory implements DrawableFactoryInterface
     /**
      * {@inheritdoc}
      *
+     * @see DrawableFactoryInterface::init()
+     */
+    public static function init(null|callable|DrawableInterface $init = null): self
+    {
+        return new self(init: $init);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see DrawableFactoryInterface::create()
      */
     public function create(): DrawableInterface

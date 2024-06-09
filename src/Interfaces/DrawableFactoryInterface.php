@@ -7,6 +7,14 @@ namespace Intervention\Image\Interfaces;
 interface DrawableFactoryInterface
 {
     /**
+     * Create a new factory instance statically
+     *
+     * @param null|callable|DrawableInterface $init
+     * @return DrawableFactoryInterface
+     */
+    public static function init(null|callable|DrawableInterface $init = null): self;
+
+    /**
      * Create the end product of the factory
      *
      * @return DrawableInterface

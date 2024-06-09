@@ -40,6 +40,18 @@ class Ellipse implements DrawableInterface
     }
 
     /**
+     * {@inheritdoc}
+     *
+     * @see DrawableInterface::setPosition()
+     */
+    public function setPosition(PointInterface $position): self
+    {
+        $this->pivot = $position;
+
+        return $this;
+    }
+
+    /**
      * Return pivot point of Ellipse
      *
      * @return PointInterface

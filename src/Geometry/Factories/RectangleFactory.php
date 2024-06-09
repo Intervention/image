@@ -4,27 +4,54 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Geometry\Factories;
 
+use Closure;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Interfaces\DrawableFactoryInterface;
+use Intervention\Image\Interfaces\DrawableInterface;
+use Intervention\Image\Interfaces\PointInterface;
 
-class RectangleFactory
+class RectangleFactory implements DrawableFactoryInterface
 {
     protected Rectangle $rectangle;
 
     /**
      * Create new instance
      *
-     * @param Point $pivot
-     * @param callable|Rectangle $init
+     * @param PointInterface $pivot
+     * @param null|Closure|Rectangle $init
      * @return void
      */
-    public function __construct(protected Point $pivot, callable|Rectangle $init)
-    {
+    public function __construct(
+        protected PointInterface $pivot = new Point(),
+        null|Closure|Rectangle $init = null,
+    ) {
         $this->rectangle = is_a($init, Rectangle::class) ? $init : new Rectangle(0, 0, $pivot);
+        $this->rectangle->setPosition($pivot);
 
         if (is_callable($init)) {
             $init($this);
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DrawableFactoryInterface::init()
+     */
+    public static function init(null|Closure|DrawableInterface $init = null): self
+    {
+        return new self(init: $init);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DrawableFactoryInterface::create()
+     */
+    public function create(): DrawableInterface
+    {
+        return $this->rectangle;
     }
 
     /**

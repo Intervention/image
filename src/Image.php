@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
+use Closure;
 use Intervention\Image\Exceptions\RuntimeException;
 use Traversable;
 use Intervention\Image\Analyzers\ColorspaceAnalyzer;
@@ -27,12 +28,18 @@ use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
 use Intervention\Image\Exceptions\EncoderException;
+use Intervention\Image\Geometry\Bezier;
+use Intervention\Image\Geometry\Circle;
+use Intervention\Image\Geometry\Ellipse;
+use Intervention\Image\Geometry\Factories\BezierFactory;
 use Intervention\Image\Geometry\Factories\CircleFactory;
 use Intervention\Image\Geometry\Factories\EllipseFactory;
 use Intervention\Image\Geometry\Factories\LineFactory;
 use Intervention\Image\Geometry\Factories\PolygonFactory;
 use Intervention\Image\Geometry\Factories\RectangleFactory;
+use Intervention\Image\Geometry\Line;
 use Intervention\Image\Geometry\Point;
+use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\CollectionInterface;
@@ -58,6 +65,7 @@ use Intervention\Image\Modifiers\ColorspaceModifier;
 use Intervention\Image\Modifiers\ContainModifier;
 use Intervention\Image\Modifiers\ContrastModifier;
 use Intervention\Image\Modifiers\CropModifier;
+use Intervention\Image\Modifiers\DrawBezierModifier;
 use Intervention\Image\Modifiers\DrawEllipseModifier;
 use Intervention\Image\Modifiers\DrawLineModifier;
 use Intervention\Image\Modifiers\DrawPixelModifier;
@@ -611,7 +619,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::text()
      */
-    public function text(string $text, int $x, int $y, callable|FontInterface $font): ImageInterface
+    public function text(string $text, int $x, int $y, callable|Closure|FontInterface $font): ImageInterface
     {
         return $this->modify(
             new TextModifier(
@@ -809,7 +817,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawRectangle()
      */
-    public function drawRectangle(int $x, int $y, callable|Rectangle $init): ImageInterface
+    public function drawRectangle(int $x, int $y, callable|Closure|Rectangle $init): ImageInterface
     {
         return $this->modify(
             new DrawRectangleModifier(
@@ -823,7 +831,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawEllipse()
      */
-    public function drawEllipse(int $x, int $y, callable $init): ImageInterface
+    public function drawEllipse(int $x, int $y, callable|Closure|Ellipse $init): ImageInterface
     {
         return $this->modify(
             new DrawEllipseModifier(
@@ -837,7 +845,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawCircle()
      */
-    public function drawCircle(int $x, int $y, callable $init): ImageInterface
+    public function drawCircle(int $x, int $y, callable|Closure|Circle $init): ImageInterface
     {
         return $this->modify(
             new DrawEllipseModifier(
@@ -851,7 +859,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawPolygon()
      */
-    public function drawPolygon(callable $init): ImageInterface
+    public function drawPolygon(callable|Closure|Polygon $init): ImageInterface
     {
         return $this->modify(
             new DrawPolygonModifier(
@@ -865,11 +873,25 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawLine()
      */
-    public function drawLine(callable $init): ImageInterface
+    public function drawLine(callable|Closure|Line $init): ImageInterface
     {
         return $this->modify(
             new DrawLineModifier(
                 call_user_func(new LineFactory($init)),
+            ),
+        );
+    }
+
+     /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::drawBezier()
+     */
+    public function drawBezier(callable|Closure|Bezier $init): ImageInterface
+    {
+        return $this->modify(
+            new DrawBezierModifier(
+                call_user_func(new BezierFactory($init)),
             ),
         );
     }

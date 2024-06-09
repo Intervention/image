@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Intervention\Image\Modifiers;
 
 use Intervention\Image\Drivers\SpecializableModifier;
-use Intervention\Image\Geometry\Point;
+use Intervention\Image\Interfaces\PointInterface;
 
 class FillModifier extends SpecializableModifier
 {
     public function __construct(
         public mixed $color,
-        public ?Point $position = null
+        public ?PointInterface $position = null
     ) {
     }
 

@@ -6,25 +6,40 @@ namespace Intervention\Image\Geometry\Factories;
 
 use Intervention\Image\Geometry\Ellipse;
 use Intervention\Image\Geometry\Point;
+use Intervention\Image\Interfaces\DrawableFactoryInterface;
+use Intervention\Image\Interfaces\DrawableInterface;
+use Intervention\Image\Interfaces\PointInterface;
 
-class EllipseFactory
+class EllipseFactory implements DrawableFactoryInterface
 {
     protected Ellipse $ellipse;
 
     /**
      * Create new factory instance
      *
-     * @param Point $pivot
-     * @param callable|Ellipse $init
+     * @param PointInterface $pivot
+     * @param null|callable|Ellipse $init
      * @return void
      */
-    public function __construct(protected Point $pivot, callable|Ellipse $init)
-    {
+    public function __construct(
+        protected PointInterface $pivot = new Point(),
+        null|callable|Ellipse $init = null,
+    ) {
         $this->ellipse = is_a($init, Ellipse::class) ? $init : new Ellipse(0, 0, $pivot);
 
         if (is_callable($init)) {
             $init($this);
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DrawableFactoryInterface::create()
+     */
+    public function create(): DrawableInterface
+    {
+        return $this->ellipse;
     }
 
     /**

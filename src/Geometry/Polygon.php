@@ -15,8 +15,8 @@ use Intervention\Image\Interfaces\DrawableInterface;
 use Intervention\Image\Interfaces\PointInterface;
 
 /**
- * @implements IteratorAggregate<Point>
- * @implements ArrayAccess<int, Point>
+ * @implements IteratorAggregate<PointInterface>
+ * @implements ArrayAccess<int, PointInterface>
  */
 class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInterface
 {
@@ -26,7 +26,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     /**
      * Create new polygon instance
      *
-     * @param array<Point> $points
+     * @param array<PointInterface> $points
      * @param PointInterface $pivot
      * @return void
      */
@@ -49,7 +49,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     /**
      * Implement iteration through all points of polygon
      *
-     * @return Traversable<Point>
+     * @return Traversable<PointInterface>
      */
     public function getIterator(): Traversable
     {
@@ -69,10 +69,10 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     /**
      * Change pivot point to given point
      *
-     * @param Point $pivot
+     * @param PointInterface $pivot
      * @return Polygon
      */
-    public function setPivot(Point $pivot): self
+    public function setPivot(PointInterface $pivot): self
     {
         $this->pivot = $pivot;
 
@@ -82,9 +82,9 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     /**
      * Return first point of polygon
      *
-     * @return ?Point
+     * @return ?PointInterface
      */
-    public function first(): ?Point
+    public function first(): ?PointInterface
     {
         if ($point = reset($this->points)) {
             return $point;
@@ -96,9 +96,9 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     /**
      * Return last point of polygon
      *
-     * @return ?Point
+     * @return ?PointInterface
      */
-    public function last(): ?Point
+    public function last(): ?PointInterface
     {
         if ($point = end($this->points)) {
             return $point;
@@ -132,7 +132,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
      * Return point at given offset
      *
      * @param mixed $offset
-     * @return Point
+     * @return PointInterface
      */
     public function offsetGet($offset): mixed
     {
@@ -143,7 +143,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
      * Set point at given offset
      *
      * @param mixed $offset
-     * @param Point $value
+     * @param PointInterface $value
      * @return void
      */
     public function offsetSet($offset, $value): void
@@ -165,10 +165,10 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     /**
      * Add given point to polygon
      *
-     * @param Point $point
+     * @param PointInterface $point
      * @return Polygon
      */
-    public function addPoint(Point $point): self
+    public function addPoint(PointInterface $point): self
     {
         $this->points[] = $point;
 
@@ -198,9 +198,9 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     /**
      * Return most left point of all points in polygon
      *
-     * @return Point
+     * @return PointInterface
      */
-    public function mostLeftPoint(): Point
+    public function mostLeftPoint(): PointInterface
     {
         $points = [];
         foreach ($this->points as $point) {
@@ -220,9 +220,9 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     /**
      * Return most right point in polygon
      *
-     * @return Point
+     * @return PointInterface
      */
-    public function mostRightPoint(): Point
+    public function mostRightPoint(): PointInterface
     {
         $points = [];
         foreach ($this->points as $point) {
@@ -242,9 +242,9 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     /**
      * Return most top point in polygon
      *
-     * @return Point
+     * @return PointInterface
      */
-    public function mostTopPoint(): Point
+    public function mostTopPoint(): PointInterface
     {
         $points = [];
         foreach ($this->points as $point) {
@@ -264,9 +264,9 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     /**
      * Return most bottom point in polygon
      *
-     * @return Point
+     * @return PointInterface
      */
-    public function mostBottomPoint(): Point
+    public function mostBottomPoint(): PointInterface
     {
         $points = [];
         foreach ($this->points as $point) {
@@ -286,9 +286,9 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     /**
      * Return point in absolute center of the polygon
      *
-     * @return Point
+     * @return PointInterface
      */
-    public function centerPoint(): Point
+    public function centerPoint(): PointInterface
     {
         return new Point(
             $this->mostRightPoint()->x() - (intval(round($this->width() / 2))),

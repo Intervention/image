@@ -26,6 +26,7 @@ class RectangleFactory implements DrawableFactoryInterface
         null|callable|Rectangle $init = null,
     ) {
         $this->rectangle = is_a($init, Rectangle::class) ? $init : new Rectangle(0, 0, $pivot);
+        $this->rectangle->setPosition($pivot);
 
         if (is_callable($init)) {
             $init($this);

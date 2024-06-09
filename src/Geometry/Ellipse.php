@@ -40,6 +40,19 @@ class Ellipse implements DrawableInterface
     }
 
     /**
+     * Set position if ellipse
+     *
+     * @param PointInterface $position
+     * @return Ellipse
+     */
+    public function setPosition(PointInterface $position): self
+    {
+        $this->pivot = $position;
+
+        return $this;
+    }
+
+    /**
      * Return pivot point of Ellipse
      *
      * @return PointInterface

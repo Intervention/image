@@ -25,7 +25,8 @@ class CircleFactory implements DrawableFactoryInterface
         protected PointInterface $pivot = new Point(),
         null|callable|Circle $init = null,
     ) {
-        $this->circle = is_a($init, Circle::class) ? $init : new Circle(0, $pivot);
+        $this->circle = is_a($init, Circle::class) ? $init : new Circle(0);
+        $this->circle->setPosition($pivot);
 
         if (is_callable($init)) {
             $init($this);

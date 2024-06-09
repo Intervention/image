@@ -47,6 +47,19 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     }
 
     /**
+     * Set pivot position of polygon
+     *
+     * @param PointInterface $position
+     * @return Polygon
+     */
+    public function setPosition(PointInterface $position): self
+    {
+        $this->pivot = $position;
+
+        return $this;
+    }
+
+    /**
      * Implement iteration through all points of polygon
      *
      * @return Traversable<PointInterface>

@@ -8,6 +8,7 @@ use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\DrawableFactoryInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
+use Intervention\Image\Interfaces\PointInterface;
 
 class RectangleFactory implements DrawableFactoryInterface
 {
@@ -16,12 +17,12 @@ class RectangleFactory implements DrawableFactoryInterface
     /**
      * Create new instance
      *
-     * @param Point $pivot
+     * @param PointInterface $pivot
      * @param null|callable|Rectangle $init
      * @return void
      */
     public function __construct(
-        protected Point $pivot = new Point(),
+        protected PointInterface $pivot = new Point(),
         null|callable|Rectangle $init = null,
     ) {
         $this->rectangle = is_a($init, Rectangle::class) ? $init : new Rectangle(0, 0, $pivot);

@@ -8,6 +8,7 @@ use Intervention\Image\Geometry\Ellipse;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\DrawableFactoryInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
+use Intervention\Image\Interfaces\PointInterface;
 
 class EllipseFactory implements DrawableFactoryInterface
 {
@@ -16,12 +17,12 @@ class EllipseFactory implements DrawableFactoryInterface
     /**
      * Create new factory instance
      *
-     * @param Point $pivot
+     * @param PointInterface $pivot
      * @param null|callable|Ellipse $init
      * @return void
      */
     public function __construct(
-        protected Point $pivot = new Point(),
+        protected PointInterface $pivot = new Point(),
         null|callable|Ellipse $init = null,
     ) {
         $this->ellipse = is_a($init, Ellipse::class) ? $init : new Ellipse(0, 0, $pivot);

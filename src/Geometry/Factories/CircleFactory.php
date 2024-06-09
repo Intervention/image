@@ -8,6 +8,7 @@ use Intervention\Image\Geometry\Circle;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\DrawableFactoryInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
+use Intervention\Image\Interfaces\PointInterface;
 
 class CircleFactory implements DrawableFactoryInterface
 {
@@ -16,12 +17,12 @@ class CircleFactory implements DrawableFactoryInterface
     /**
      * Create new factory instance
      *
-     * @param Point $pivot
+     * @param PointInterface $pivot
      * @param null|callable|Circle $init
      * @return void
      */
     public function __construct(
-        protected Point $pivot = new Point(),
+        protected PointInterface $pivot = new Point(),
         null|callable|Circle $init = null,
     ) {
         $this->circle = is_a($init, Circle::class) ? $init : new Circle(0, $pivot);

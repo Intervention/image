@@ -8,10 +8,11 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\PlaceModifier;
 use Intervention\Image\Tests\GdTestCase;
+use Intervention\Image\Drivers\Gd\Modifiers\PlaceModifier as PlaceModifierGd;
 
 #[RequiresPhpExtension('gd')]
-#[CoversClass(\Intervention\Image\Modifiers\PlaceModifier::class)]
-#[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\PlaceModifier::class)]
+#[CoversClass(PlaceModifier::class)]
+#[CoversClass(PlaceModifierGd::class)]
 final class PlaceModifierTest extends GdTestCase
 {
     public function testColorChange(): void
@@ -27,7 +28,8 @@ final class PlaceModifierTest extends GdTestCase
         $image = $this->readTestImage('test.jpg');
         $this->assertEquals('febc44', $image->pickColor(300, 25)->toHex());
         $image->modify(new PlaceModifier($this->getTestResourcePath('circle.png'), 'top-right', 0, 0, 50));
-        $this->assertEquals('987028', $image->pickColor(300, 25)->toHex());
+        $this->assertColor(152, 112, 40, 255, $image->pickColor(300, 25), tolerance: 1);
+        $this->assertColor(255, 202, 107, 255, $image->pickColor(274, 5), tolerance: 1);
     }
 
     public function testColorChangeOpacityJpeg(): void

@@ -8,10 +8,11 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\PlaceModifier;
 use Intervention\Image\Tests\ImagickTestCase;
+use Intervention\Image\Drivers\Imagick\Modifiers\PlaceModifier as PlaceModifierImagick;
 
 #[RequiresPhpExtension('imagick')]
-#[CoversClass(\Intervention\Image\Modifiers\BlurModifier::class)]
-#[CoversClass(\Intervention\Image\Drivers\Imagick\Modifiers\PlaceModifier::class)]
+#[CoversClass(PlaceModifier::class)]
+#[CoversClass(PlaceModifierImagick::class)]
 final class PlaceModifierTest extends ImagickTestCase
 {
     public function testColorChange(): void
@@ -27,7 +28,8 @@ final class PlaceModifierTest extends ImagickTestCase
         $image = $this->readTestImage('test.jpg');
         $this->assertEquals('febc44', $image->pickColor(300, 25)->toHex());
         $image->modify(new PlaceModifier($this->getTestResourcePath('circle.png'), 'top-right', 0, 0, 50));
-        $this->assertEquals('7f5e22', $image->pickColor(300, 25)->toHex());
+        $this->assertColor(152, 112, 40, 255, $image->pickColor(300, 25), tolerance: 1);
+        $this->assertColor(255, 202, 107, 255, $image->pickColor(274, 5), tolerance: 1);
     }
 
     public function testColorChangeOpacityJpeg(): void

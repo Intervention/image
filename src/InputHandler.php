@@ -95,13 +95,13 @@ class InputHandler implements InputHandlerInterface
     public function handle($input): ImageInterface|ColorInterface
     {
         foreach ($this->decoders as $decoder) {
-            // resolve river specialized decoder
+            // resolve driver specialized decoder
             $decoder = $this->resolve($decoder);
 
             try {
                 return $decoder->decode($input);
             } catch (DecoderException $e) {
-                // let next decoder try
+                // try next decoder
             }
         }
 

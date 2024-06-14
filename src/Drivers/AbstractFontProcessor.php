@@ -30,14 +30,16 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
 
         $x = $pivot->x();
         $y = $font->hasFilename() ? $pivot->y() + $this->capHeight($font) : $pivot->y();
-        $x_adjustment = 0;
+        $xAdjustment = 0;
 
+        // adjust line positions according to alignment
         foreach ($lines as $line) {
-            $line_width = $this->boxSize((string) $line, $font)->width();
-            $x_adjustment = $font->alignment() == 'left' ? 0 : $blockWidth - $line_width;
-            $x_adjustment = $font->alignment() == 'right' ? intval(round($x_adjustment)) : $x_adjustment;
-            $x_adjustment = $font->alignment() == 'center' ? intval(round($x_adjustment / 2)) : $x_adjustment;
-            $position = new Point($x + $x_adjustment, $y);
+            $lineBoxSize = $this->boxSize((string) $line, $font);
+            $lineWidth = $lineBoxSize->width() + $lineBoxSize->pivot()->x();
+            $xAdjustment = $font->alignment() == 'left' ? 0 : $blockWidth - $lineWidth;
+            $xAdjustment = $font->alignment() == 'right' ? intval(round($xAdjustment)) : $xAdjustment;
+            $xAdjustment = $font->alignment() == 'center' ? intval(round($xAdjustment / 2)) : $xAdjustment;
+            $position = new Point($x + $xAdjustment, $y);
             $position->rotate($font->angle(), $pivot);
             $line->setPosition($position);
             $y += $leading;

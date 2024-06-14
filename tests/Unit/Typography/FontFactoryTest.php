@@ -13,17 +13,17 @@ final class FontFactoryTest extends BaseTestCase
 {
     public function testBuildWithFont(): void
     {
-        $factory = new FontFactory(new Font('foo.ttf'));
+        $font_file = $this->getTestResourcePath('test.ttf');
+        $factory = new FontFactory(new Font($font_file));
         $result = $factory();
         $this->assertInstanceOf(FontInterface::class, $result);
-        $this->assertEquals('foo.ttf', $result->filename());
+        $this->assertEquals($font_file, $result->filename());
     }
 
     public function testBuildWithCallback(): void
     {
         $factory = new FontFactory(function (FontFactory $font) {
-            $font->filename('foo.ttf');
-            $font->file('bar.ttf');
+            $font->filename($this->getTestResourcePath('test.ttf'));
             $font->color('#b01735');
             $font->size(70);
             $font->align('center');
@@ -36,7 +36,7 @@ final class FontFactoryTest extends BaseTestCase
 
         $result = $factory();
         $this->assertInstanceOf(FontInterface::class, $result);
-        $this->assertEquals('bar.ttf', $result->filename());
+        $this->assertEquals($this->getTestResourcePath('test.ttf'), $result->filename());
         $this->assertEquals('#b01735', $result->color());
         $this->assertEquals(70, $result->size());
         $this->assertEquals('center', $result->alignment());

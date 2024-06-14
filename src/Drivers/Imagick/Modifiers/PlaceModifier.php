@@ -18,7 +18,7 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
 
         // set opacity of watermark
         if ($this->opacity < 100) {
-            $watermark->core()->native()->setImageAlphaChannel(Imagick::ALPHACHANNEL_OPAQUE);
+            $watermark->core()->native()->setImageAlphaChannel(Imagick::ALPHACHANNEL_SET);
             $watermark->core()->native()->evaluateImage(
                 Imagick::EVALUATE_DIVIDE,
                 $this->opacity > 0 ? 100 / $this->opacity : 1000,

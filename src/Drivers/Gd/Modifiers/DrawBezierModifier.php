@@ -35,6 +35,7 @@ class DrawBezierModifier extends ModifiersDrawBezierModifier implements Speciali
                     $this->backgroundColor()
                 );
 
+                imagesetthickness($frame->native(), 0);
                 imagefilledpolygon(
                     $frame->native(),
                     $polygon,

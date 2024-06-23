@@ -136,6 +136,11 @@ class Driver extends AbstractDriver
         return new FontProcessor();
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see DriverInterface::supports()
+     */
     public function supports(string|Format|FileExtension|MediaType $identifier): bool
     {
         try {

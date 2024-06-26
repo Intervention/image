@@ -23,11 +23,11 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
         $info = @getimagesize($filepath);
 
         if (!is_array($info)) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unable to detect media (MIME) from data in file path.');
         }
 
         if (!array_key_exists('mime', $info)) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unable to detect media (MIME) from data in file path.');
         }
 
         return MediaType::from($info['mime']);
@@ -45,11 +45,11 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
         $info = @getimagesizefromstring($data);
 
         if (!is_array($info)) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unable to detect media (MIME) from binary data.');
         }
 
         if (!array_key_exists('mime', $info)) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unable to detect media (MIME) from binary data.');
         }
 
         return MediaType::from($info['mime']);

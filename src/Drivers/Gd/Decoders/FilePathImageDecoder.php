@@ -40,8 +40,10 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
         $image->origin()->setFilePath($input);
         $image->origin()->setMediaType($mediaType);
 
-        // extract exif
-        $image->setExif($this->extractExifData($input));
+        // extract exif for the appropriate formats
+        if ($mediaType->format() === Format::JPEG) {
+            $image->setExif($this->extractExifData($input));
+        }
 
         // adjust image orientation
         if ($this->driver()->config()->autoOrientation) {

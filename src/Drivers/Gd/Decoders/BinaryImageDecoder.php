@@ -9,6 +9,7 @@ use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Format;
 use Intervention\Image\Modifiers\AlignRotationModifier;
 
 class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
@@ -48,16 +49,16 @@ class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
         // create image instance
         $image = parent::decode($gd);
 
-        // extract & set exif data
-        $image->setExif($this->extractExifData($input));
+        // get media type
+        $mediaType = $this->getMediaTypeByBinary($input);
 
-        try {
-            // set mediaType on origin
-            $image->origin()->setMediaType(
-                $this->getMediaTypeByBinary($input)
-            );
-        } catch (DecoderException) {
+        // extract & set exif data for appropriate formats
+        if (in_array($mediaType->format(), [Format::JPEG, Format::TIFF])) {
+            $image->setExif($this->extractExifData($input));
         }
+
+        // set mediaType on origin
+        $image->origin()->setMediaType($mediaType);
 
         // adjust image orientation
         if ($this->driver()->config()->autoOrientation) {

@@ -7,6 +7,7 @@ namespace Intervention\Image\Drivers\Gd\Decoders;
 use Intervention\Image\Drivers\SpecializableDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\MediaType;
 
 abstract class AbstractDecoder extends SpecializableDecoder implements SpecializedInterface
 {
@@ -15,9 +16,9 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
      *
      * @param string $filepath
      * @throws DecoderException
-     * @return string
+     * @return MediaType
      */
-    protected function getMediaTypeByFilePath(string $filepath): string
+    protected function getMediaTypeByFilePath(string $filepath): MediaType
     {
         $info = @getimagesize($filepath);
 
@@ -29,7 +30,7 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
             throw new DecoderException('Unable to decode input');
         }
 
-        return $info['mime'];
+        return MediaType::from($info['mime']);
     }
 
     /**
@@ -37,9 +38,9 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
      *
      * @param string $data
      * @throws DecoderException
-     * @return string
+     * @return MediaType
      */
-    protected function getMediaTypeByBinary(string $data): string
+    protected function getMediaTypeByBinary(string $data): MediaType
     {
         $info = @getimagesizefromstring($data);
 
@@ -51,6 +52,6 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
             throw new DecoderException('Unable to decode input');
         }
 
-        return $info['mime'];
+        return MediaType::from($info['mime']);
     }
 }

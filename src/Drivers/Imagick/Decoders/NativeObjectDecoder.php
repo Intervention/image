@@ -11,10 +11,11 @@ use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\AlignRotationModifier;
 use Intervention\Image\Modifiers\RemoveAnimationModifier;
 
-class NativeObjectDecoder extends SpecializableDecoder
+class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInterface
 {
     public function decode(mixed $input): ImageInterface|ColorInterface
     {

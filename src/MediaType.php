@@ -9,6 +9,7 @@ enum MediaType: string
     case IMAGE_JPEG = 'image/jpeg';
     case IMAGE_JPG = 'image/jpg';
     case IMAGE_PJPEG = 'image/pjpeg';
+    case IMAGE_X_JPEG = 'image/x-jpeg';
     case IMAGE_WEBP = 'image/webp';
     case IMAGE_X_WEBP = 'image/x-webp';
     case IMAGE_GIF = 'image/gif';
@@ -41,7 +42,8 @@ enum MediaType: string
         return match ($this) {
             self::IMAGE_JPEG,
             self::IMAGE_JPG,
-            self::IMAGE_PJPEG => Format::JPEG,
+            self::IMAGE_PJPEG,
+            self::IMAGE_X_JPEG => Format::JPEG,
             self::IMAGE_WEBP,
             self::IMAGE_X_WEBP => Format::WEBP,
             self::IMAGE_GIF => Format::GIF,

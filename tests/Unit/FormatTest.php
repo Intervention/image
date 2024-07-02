@@ -43,7 +43,7 @@ final class FormatTest extends BaseTestCase
         $format = Format::JPEG;
         $mediaTypes = $format->mediaTypes();
         $this->assertIsArray($mediaTypes);
-        $this->assertCount(3, $mediaTypes);
+        $this->assertCount(4, $mediaTypes);
     }
 
     public function testMediaTypesWebp(): void

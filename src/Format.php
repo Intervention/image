@@ -70,7 +70,7 @@ enum Format
      * @param string|Format|MediaType|FileExtension $identifier
      * @return Format|null
      */
-    public static function tryCreate(string|self|MediaType|FileExtension $identifier): self|null
+    public static function tryCreate(string|self|MediaType|FileExtension $identifier): ?self
     {
         try {
             return self::create($identifier);

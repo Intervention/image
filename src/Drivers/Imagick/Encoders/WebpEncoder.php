@@ -21,7 +21,7 @@ class WebpEncoder extends GenericWebpEncoder implements SpecializedInterface
         $imagick = $image->core()->native();
         $imagick->setImageBackgroundColor(new ImagickPixel('transparent'));
 
-        if(! $image->isAnimated()) {
+        if (!$image->isAnimated()) {
             $imagick = $imagick->mergeImageLayers(Imagick::LAYERMETHOD_MERGE);
         }
 

@@ -38,12 +38,24 @@ final class FormatTest extends BaseTestCase
         Format::create('foo');
     }
 
+    public function testTryCreate(): void
+    {
+        $this->assertEquals(Format::JPEG, Format::tryCreate(Format::JPEG));
+        $this->assertEquals(Format::JPEG, Format::tryCreate('jpg'));
+        $this->assertEquals(Format::JPEG, Format::tryCreate('jpeg'));
+        $this->assertEquals(Format::JPEG, Format::tryCreate('image/jpeg'));
+        $this->assertEquals(Format::GIF, Format::tryCreate('image/gif'));
+        $this->assertEquals(Format::PNG, Format::tryCreate(FileExtension::PNG));
+        $this->assertEquals(Format::WEBP, Format::tryCreate(MediaType::IMAGE_WEBP));
+        $this->assertNull(Format::tryCreate('no-format'));
+    }
+
     public function testMediaTypesJpeg(): void
     {
         $format = Format::JPEG;
         $mediaTypes = $format->mediaTypes();
         $this->assertIsArray($mediaTypes);
-        $this->assertCount(3, $mediaTypes);
+        $this->assertCount(4, $mediaTypes);
     }
 
     public function testMediaTypesWebp(): void

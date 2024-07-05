@@ -20,6 +20,9 @@ final class MediaTypeTest extends BaseTestCase
 
         $mime = MediaType::IMAGE_JPG;
         $this->assertEquals(Format::JPEG, $mime->format());
+
+        $mime = MediaType::IMAGE_X_JPEG;
+        $this->assertEquals(Format::JPEG, $mime->format());
     }
 
     public function testFormatWebp(): void

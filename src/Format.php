@@ -65,6 +65,21 @@ enum Format
     }
 
     /**
+     * Try to create format from given identifier and return null on failure
+     *
+     * @param string|Format|MediaType|FileExtension $identifier
+     * @return Format|null
+     */
+    public static function tryCreate(string|self|MediaType|FileExtension $identifier): ?self
+    {
+        try {
+            return self::create($identifier);
+        } catch (NotSupportedException) {
+            return null;
+        }
+    }
+
+    /**
      * Return the possible media (MIME) types for the current format
      *
      * @return array<MediaType>

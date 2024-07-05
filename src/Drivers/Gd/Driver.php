@@ -6,7 +6,6 @@ namespace Intervention\Image\Drivers\Gd;
 
 use Intervention\Image\Drivers\AbstractDriver;
 use Intervention\Image\Exceptions\DriverException;
-use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Format;
 use Intervention\Image\FileExtension;
@@ -140,13 +139,7 @@ class Driver extends AbstractDriver
      */
     public function supports(string|Format|FileExtension|MediaType $identifier): bool
     {
-        try {
-            $format = Format::create($identifier);
-        } catch (NotSupportedException) {
-            return false;
-        }
-
-        return match ($format) {
+        return match (Format::tryCreate($identifier)) {
             Format::JPEG => boolval(imagetypes() & IMG_JPEG),
             Format::WEBP => boolval(imagetypes() & IMG_WEBP),
             Format::GIF => boolval(imagetypes() & IMG_GIF),

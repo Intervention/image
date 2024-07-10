@@ -119,7 +119,7 @@ final class FormatTest extends BaseTestCase
         $format = Format::HEIC;
         $mediaTypes = $format->mediaTypes();
         $this->assertIsArray($mediaTypes);
-        $this->assertCount(2, $mediaTypes);
+        $this->assertCount(3, $mediaTypes);
     }
 
     public function testEncoderJpeg(): void

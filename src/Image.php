@@ -289,7 +289,7 @@ final class Image implements ImageInterface
      */
     public function encode(EncoderInterface $encoder = new AutoEncoder()): EncodedImageInterface
     {
-        return $this->driver->specialize($encoder)->encode($this);
+        return $this->driver->specialize($encoder)->encode(clone $this);
     }
 
     /**

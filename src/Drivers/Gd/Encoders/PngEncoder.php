@@ -14,8 +14,10 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
     public function encode(ImageInterface $image): EncodedImage
     {
         $gd = $image->core()->native();
+
         $data = $this->buffered(function () use ($gd) {
             imageinterlace($gd, $this->interlaced);
+            imagesavealpha($gd, true);
             imagepng($gd, null, -1);
             imageinterlace($gd, false);
         });

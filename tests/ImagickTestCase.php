@@ -24,11 +24,29 @@ abstract class ImagickTestCase extends BaseTestCase
     {
         $background = new ImagickPixel('rgb(255, 0, 0)');
         $imagick = new Imagick();
-        $imagick->newImage($width, $height, $background, 'png');
+        $imagick->newImage($width, $height, $background);
         $imagick->setType(Imagick::IMGTYPE_UNDEFINED);
         $imagick->setImageType(Imagick::IMGTYPE_UNDEFINED);
         $imagick->setColorspace(Imagick::COLORSPACE_SRGB);
         $imagick->setImageResolution(96, 96);
+        $imagick->setImageBackgroundColor($background);
+
+        return new Image(
+            new Driver(),
+            new Core($imagick)
+        );
+    }
+
+    public function createTestImageTransparent(int $width, int $height): Image
+    {
+        $background = new ImagickPixel('rgba(255, 255, 255, 0)');
+        $imagick = new Imagick();
+        $imagick->newImage($width, $height, $background);
+        $imagick->setType(Imagick::IMGTYPE_UNDEFINED);
+        $imagick->setImageType(Imagick::IMGTYPE_UNDEFINED);
+        $imagick->setColorspace(Imagick::COLORSPACE_SRGB);
+        $imagick->setImageResolution(96, 96);
+        $imagick->setImageBackgroundColor($background);
 
         return new Image(
             new Driver(),

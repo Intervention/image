@@ -32,6 +32,23 @@ abstract class GdTestCase extends BaseTestCase
         );
     }
 
+    public function createTestImageTransparent(int $width, int $height): Image
+    {
+        $gd = imagecreatetruecolor($width, $height);
+        imagesavealpha($gd, true);
+        $background = imagecolorallocatealpha($gd, 255, 255, 255, 127);
+        imagealphablending($gd, false);
+        imagefill($gd, 0, 0, $background);
+        imagecolortransparent($gd, $background);
+
+        return new Image(
+            new Driver(),
+            new Core([
+                new Frame($gd)
+            ])
+        );
+    }
+
     public function createTestAnimation(): Image
     {
         $gd1 = imagecreatetruecolor(3, 2);

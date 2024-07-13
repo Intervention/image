@@ -34,4 +34,27 @@ final class PngEncoderTest extends ImagickTestCase
         $this->assertMediaType('image/png', (string) $result);
         $this->assertTrue($this->isInterlacedPng((string) $result));
     }
+
+    public function testEncoderInitialFormat(): void
+    {
+        $image = $this->createTestImage(3, 2);
+        $result = (new PngEncoder())->encode($image);
+        $this->assertEquals('truecolor-alpha', $this->pngColorType((string) $result));
+
+        $image = $this->createTestImageTransparent(3, 2);
+        $result = (new PngEncoder())->encode($image);
+        $this->assertEquals('truecolor-alpha', $this->pngColorType((string) $result));
+
+        $image = $this->createTestImageTransparent(3, 2)->fill('fff');
+        $result = (new PngEncoder())->encode($image);
+        $this->assertEquals('truecolor-alpha', $this->pngColorType((string) $result));
+
+        $image = $this->readTestImage('tile.png');
+        $result = (new PngEncoder())->encode($image);
+        $this->assertEquals('truecolor-alpha', $this->pngColorType((string) $result));
+
+        $image = $this->readTestImage('indexed.png');
+        $result = (new PngEncoder())->encode($image);
+        $this->assertEquals('truecolor-alpha', $this->pngColorType((string) $result));
+    }
 }

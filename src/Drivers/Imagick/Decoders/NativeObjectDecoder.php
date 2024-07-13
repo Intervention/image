@@ -27,8 +27,8 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
             throw new DecoderException('Unable to decode input');
         }
 
-        // get indexed palette status on origin
-        if (in_array($input->getImageType(), [Imagick::IMGTYPE_PALETTE, Imagick::IMGTYPE_PALETTEMATTE])) {
+        // get original indexed palette status for origin
+        if ($this->isPaletteImage($input)) {
             $indexed = true;
         }
 
@@ -60,5 +60,18 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
         $image->origin()->setIndexed($indexed ?? false);
 
         return $image;
+    }
+
+    /**
+     * Determine if given imagick instance is a indexed palette color image
+     *
+     * @param Imagick $imagick
+     * @return bool
+     */
+    private function isPaletteImage(Imagick $imagick): bool
+    {
+        $type = $imagick->identifyImage()['type'] ?? 'none';
+
+        return strtolower(substr($type, 0, 7)) === 'palette';
     }
 }

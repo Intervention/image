@@ -51,10 +51,33 @@ final class PngEncoderTest extends GdTestCase
 
         $image = $this->readTestImage('tile.png'); // indexed with alpha
         $result = (new PngEncoder())->encode($image);
-        $this->assertEquals('truecolor-alpha', $this->pngColorType((string) $result));
+        $this->assertEquals('indexed', $this->pngColorType((string) $result));
 
         $image = $this->readTestImage('indexed.png'); // indexed
         $result = (new PngEncoder())->encode($image);
+        $this->assertEquals('indexed', $this->pngColorType((string) $result));
+    }
+
+    public function testEncoderTransformFormat(): void
+    {
+        $image = $this->createTestImage(3, 2); // truecolor-alpha
+        $result = (new PngEncoder(indexed: true))->encode($image);
+        $this->assertEquals('indexed', $this->pngColorType((string) $result));
+
+        $image = $this->createTestImageTransparent(3, 2); // truecolor-alpha
+        $result = (new PngEncoder(indexed: true))->encode($image);
+        $this->assertEquals('indexed', $this->pngColorType((string) $result));
+
+        $image = $this->createTestImageTransparent(3, 2)->fill('fff'); // truecolor-alpha
+        $result = (new PngEncoder(indexed: true))->encode($image);
+        $this->assertEquals('indexed', $this->pngColorType((string) $result));
+
+        $image = $this->readTestImage('tile.png'); // indexed with alpha
+        $result = (new PngEncoder(indexed: false))->encode($image);
+        $this->assertEquals('truecolor-alpha', $this->pngColorType((string) $result));
+
+        $image = $this->readTestImage('indexed.png'); // indexed
+        $result = (new PngEncoder(indexed: false))->encode($image);
         $this->assertEquals('truecolor-alpha', $this->pngColorType((string) $result));
     }
 }

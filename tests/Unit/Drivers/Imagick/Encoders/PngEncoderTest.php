@@ -37,24 +37,47 @@ final class PngEncoderTest extends ImagickTestCase
 
     public function testEncoderInitialFormat(): void
     {
-        $image = $this->createTestImage(3, 2);
+        $image = $this->createTestImage(3, 2); // truecolor-alpha
         $result = (new PngEncoder())->encode($image);
         $this->assertEquals('truecolor-alpha', $this->pngColorType((string) $result));
 
-        $image = $this->createTestImageTransparent(3, 2);
+        $image = $this->createTestImageTransparent(3, 2); // truecolor-alpha
         $result = (new PngEncoder())->encode($image);
         $this->assertEquals('truecolor-alpha', $this->pngColorType((string) $result));
 
-        $image = $this->createTestImageTransparent(3, 2)->fill('fff');
+        $image = $this->createTestImageTransparent(3, 2)->fill('fff'); // truecolor-alpha
         $result = (new PngEncoder())->encode($image);
         $this->assertEquals('truecolor-alpha', $this->pngColorType((string) $result));
 
-        $image = $this->readTestImage('tile.png');
+        $image = $this->readTestImage('tile.png'); // indexed with alpha
         $result = (new PngEncoder())->encode($image);
+        $this->assertEquals('indexed', $this->pngColorType((string) $result));
+
+        $image = $this->readTestImage('indexed.png'); // indexed
+        $result = (new PngEncoder())->encode($image);
+        $this->assertEquals('indexed', $this->pngColorType((string) $result));
+    }
+
+    public function testEncoderTransformFormat(): void
+    {
+        $image = $this->createTestImage(3, 2); // truecolor-alpha
+        $result = (new PngEncoder(indexed: true))->encode($image);
+        $this->assertEquals('indexed', $this->pngColorType((string) $result));
+
+        $image = $this->createTestImageTransparent(3, 2); // truecolor-alpha
+        $result = (new PngEncoder(indexed: true))->encode($image);
+        $this->assertEquals('indexed', $this->pngColorType((string) $result));
+
+        $image = $this->createTestImageTransparent(3, 2)->fill('fff'); // truecolor-alpha
+        $result = (new PngEncoder(indexed: true))->encode($image);
+        $this->assertEquals('indexed', $this->pngColorType((string) $result));
+
+        $image = $this->readTestImage('tile.png'); // indexed with alpha
+        $result = (new PngEncoder(indexed: false))->encode($image);
         $this->assertEquals('truecolor-alpha', $this->pngColorType((string) $result));
 
-        $image = $this->readTestImage('indexed.png');
-        $result = (new PngEncoder())->encode($image);
+        $image = $this->readTestImage('indexed.png'); // indexed
+        $result = (new PngEncoder(indexed: false))->encode($image);
         $this->assertEquals('truecolor-alpha', $this->pngColorType((string) $result));
     }
 }

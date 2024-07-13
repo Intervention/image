@@ -57,7 +57,7 @@ class Driver extends AbstractDriver
         $background = new ImagickPixel('rgba(255, 255, 255, 0)');
 
         $imagick = new Imagick();
-        $imagick->newImage($width, $height, $background, 'png');
+        $imagick->newImage($width, $height, $background);
         $imagick->setType(Imagick::IMGTYPE_UNDEFINED);
         $imagick->setImageType(Imagick::IMGTYPE_UNDEFINED);
         $imagick->setColorspace(Imagick::COLORSPACE_SRGB);

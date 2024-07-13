@@ -8,14 +8,14 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Tests\ImagickTestCase;
-use Intervention\Image\Tests\Traits\CanDetectInterlacedPng;
+use Intervention\Image\Tests\Traits\CanInspectPng;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(\Intervention\Image\Encoders\PngEncoder::class)]
 #[CoversClass(\Intervention\Image\Drivers\Imagick\Encoders\PngEncoder::class)]
 final class PngEncoderTest extends ImagickTestCase
 {
-    use CanDetectInterlacedPng;
+    use CanInspectPng;
 
     public function testEncode(): void
     {

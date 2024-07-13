@@ -6,7 +6,7 @@ namespace Intervention\Image\Tests\Traits;
 
 use Intervention\Image\Traits\CanBuildFilePointer;
 
-trait CanDetectInterlacedPng
+trait CanInspectPng
 {
     use CanBuildFilePointer;
 

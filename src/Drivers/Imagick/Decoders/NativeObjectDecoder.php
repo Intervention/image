@@ -27,6 +27,11 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
             throw new DecoderException('Unable to decode input');
         }
 
+        // get indexed palette status on origin
+        if (in_array($input->getImageType(), [Imagick::IMGTYPE_PALETTE, Imagick::IMGTYPE_PALETTEMATTE])) {
+            $indexed = true;
+        }
+
         // For some JPEG formats, the "coalesceImages()" call leads to an image
         // completely filled with background color. The logic behind this is
         // incomprehensible for me; could be an imagick bug.
@@ -50,8 +55,9 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
             $image->modify(new AlignRotationModifier());
         }
 
-        // set media type on origin
+        // set media type & palette status on origin
         $image->origin()->setMediaType($input->getImageMimeType());
+        $image->origin()->setIndexed($indexed ?? false);
 
         return $image;
     }

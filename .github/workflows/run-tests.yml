@@ -98,9 +98,6 @@ jobs:
       - name: Supported Imagick Formats
         run: php -r 'var_dump(Imagick::queryFormats());'
 
-      - name: Debug
-        run: php 'debug.php'
-
       - name: Execute tests
         run: vendor/bin/phpunit --no-coverage
 

@@ -70,12 +70,15 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
      */
     private function isPaletteImage(Imagick $imagick): bool
     {
+        // Palette PNG files with alpha channel result incorrectly in truecolor with Alpha
+        // in imagemagick 6. This issue makes in impossible to rely on Imagick::getImageType().
+        // This workaround looks at the the PNG data directly to decode the color type byte.
+
+        // detect imagick major version
         $imagickVersion = dechex(Imagick::getVersion()['versionNumber']);
         $imagickVersion = substr($imagickVersion, 0, 1);
 
-        // palette PNG with alpha channel results incorrectly in truecolor with Alpha in imagemagick 6
-        // this issue makes in impossible to rely on Imagick::getImageType(). This workaround looks
-        // at the the PNG data directly to decode the color type byte.
+        // detect palette status manually in imagemagick 6
         if (version_compare($imagickVersion, '6', '<=') && $imagick->getImageFormat() === 'PNG') {
             $data = $imagick->getImageBlob();
             $pos = strpos($data, 'IHDR');

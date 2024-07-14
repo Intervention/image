@@ -16,7 +16,7 @@ class HeicEncoder extends GenericHeicEncoder implements SpecializedInterface
     {
         $format = 'HEIC';
 
-        $imagick = $image->core()->native();
+        $imagick = clone $image->core()->native();
 
         $imagick->setFormat($format);
         $imagick->setImageFormat($format);

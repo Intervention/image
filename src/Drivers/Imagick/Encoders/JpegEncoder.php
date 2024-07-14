@@ -29,7 +29,7 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
         // possible full transparent colors as black
         $background->setColorValue(Imagick::COLOR_ALPHA, 1);
 
-        $imagick = $image->core()->native();
+        $imagick = clone $image->core()->native();
         $imagick->setImageBackgroundColor($background);
         $imagick->setBackgroundColor($background);
         $imagick->setFormat($format);

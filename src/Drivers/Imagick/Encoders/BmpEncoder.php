@@ -17,7 +17,7 @@ class BmpEncoder extends GenericBmpEncoder implements SpecializedInterface
         $format = 'bmp';
         $compression = Imagick::COMPRESSION_NO;
 
-        $imagick = $image->core()->native();
+        $imagick = clone $image->core()->native();
         $imagick->setFormat($format);
         $imagick->setImageFormat($format);
         $imagick->setCompression($compression);

@@ -18,7 +18,7 @@ class WebpEncoder extends GenericWebpEncoder implements SpecializedInterface
         $format = 'webp';
         $compression = Imagick::COMPRESSION_ZIP;
 
-        $imagick = $image->core()->native();
+        $imagick = clone $image->core()->native();
         $imagick->setImageBackgroundColor(new ImagickPixel('transparent'));
 
         if (!$image->isAnimated()) {

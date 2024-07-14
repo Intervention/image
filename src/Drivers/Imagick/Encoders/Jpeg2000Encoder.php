@@ -18,7 +18,7 @@ class Jpeg2000Encoder extends GenericJpeg2000Encoder implements SpecializedInter
         $format = 'jp2';
         $compression = Imagick::COMPRESSION_JPEG;
 
-        $imagick = $image->core()->native();
+        $imagick = clone $image->core()->native();
         $imagick->setImageBackgroundColor('white');
         $imagick->setBackgroundColor('white');
         $imagick->setFormat($format);

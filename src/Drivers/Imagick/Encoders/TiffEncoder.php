@@ -16,7 +16,7 @@ class TiffEncoder extends GenericTiffEncoder implements SpecializedInterface
     {
         $format = 'TIFF';
 
-        $imagick = $image->core()->native();
+        $imagick = clone $image->core()->native();
         $imagick->setFormat($format);
         $imagick->setImageFormat($format);
         $imagick->setCompression($imagick->getImageCompression());

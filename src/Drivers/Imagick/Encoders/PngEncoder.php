@@ -16,7 +16,7 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
 {
     public function encode(ImageInterface $image): EncodedImage
     {
-        $imagick = $image->core()->native();
+        $imagick = clone $image->core()->native();
         $imagick = $this->setFormat($imagick, $image->origin());
         $imagick = $this->setCompression($imagick);
         $imagick = $this->setInterlaced($imagick);

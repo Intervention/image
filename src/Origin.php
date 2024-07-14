@@ -11,13 +11,11 @@ class Origin
      *
      * @param string $mediaType
      * @param null|string $filePath
-     * @param bool $indexed
      * @return void
      */
     public function __construct(
         protected string $mediaType = 'application/octet-stream',
-        protected ?string $filePath = null,
-        protected bool $indexed = false
+        protected ?string $filePath = null
     ) {
     }
 
@@ -86,28 +84,5 @@ class Origin
     public function fileExtension(): ?string
     {
         return empty($this->filePath) ? null : pathinfo($this->filePath, PATHINFO_EXTENSION);
-    }
-
-    /**
-     * Determine if current instance containing indices into a palette of colors
-     *
-     * @return bool
-     */
-    public function isIndexed(): bool
-    {
-        return $this->indexed;
-    }
-
-    /**
-     * Set indexed state of origin
-     *
-     * @param bool $state
-     * @return Origin
-     */
-    public function setIndexed(bool $state): self
-    {
-        $this->indexed = $state;
-
-        return $this;
     }
 }

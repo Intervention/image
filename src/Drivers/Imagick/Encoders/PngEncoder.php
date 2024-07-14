@@ -10,14 +10,13 @@ use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\PngEncoder as GenericPngEncoder;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
-use Intervention\Image\Origin;
 
 class PngEncoder extends GenericPngEncoder implements SpecializedInterface
 {
     public function encode(ImageInterface $image): EncodedImage
     {
         $imagick = clone $image->core()->native();
-        $imagick = $this->setFormat($imagick, $image->origin());
+        $imagick = $this->setFormat($imagick);
         $imagick = $this->setCompression($imagick);
         $imagick = $this->setInterlaced($imagick);
 
@@ -43,27 +42,17 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
      * Set format according to encoder settings on imagick output
      *
      * @param Imagick $imagick
-     * @param Origin $origin
      * @throws ImagickException
      * @return Imagick
      */
-    private function setFormat(Imagick $imagick, Origin $origin): Imagick
+    private function setFormat(Imagick $imagick): Imagick
     {
-        switch (true) {
-            case $this->indexed === false:
-                $imagick->setFormat('PNG32');
-                $imagick->setImageFormat('PNG32');
-                break;
-
-            case $this->indexed === true:
-                $imagick->setFormat('PNG8');
-                $imagick->setImageFormat('PNG8');
-                break;
-
-            default:
-                $imagick->setFormat($origin->isIndexed() ? 'PNG8' : 'PNG32');
-                $imagick->setImageFormat($origin->isIndexed() ? 'PNG8' : 'PNG32');
-                break;
+        if ($this->indexed) {
+            $imagick->setFormat('PNG8');
+            $imagick->setImageFormat('PNG8');
+        } else {
+            $imagick->setFormat('PNG32');
+            $imagick->setImageFormat('PNG32');
         }
 
         return $imagick;

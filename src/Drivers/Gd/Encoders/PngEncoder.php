@@ -39,10 +39,6 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
             return $image->core()->native();
         }
 
-        if (is_null($this->indexed) && !$image->origin()->isIndexed()) {
-            return $image->core()->native();
-        }
-
         return $image->reduceColors(256)->core()->native();
     }
 }

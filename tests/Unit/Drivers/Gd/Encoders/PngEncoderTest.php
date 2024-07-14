@@ -51,11 +51,11 @@ final class PngEncoderTest extends GdTestCase
 
         $image = $this->readTestImage('tile.png'); // indexed with alpha
         $result = (new PngEncoder())->encode($image);
-        $this->assertEquals('indexed', $this->pngColorType((string) $result));
+        $this->assertEquals('truecolor-alpha', $this->pngColorType((string) $result));
 
         $image = $this->readTestImage('indexed.png'); // indexed
         $result = (new PngEncoder())->encode($image);
-        $this->assertEquals('indexed', $this->pngColorType((string) $result));
+        $this->assertEquals('truecolor-alpha', $this->pngColorType((string) $result));
     }
 
     public function testEncoderTransformFormat(): void

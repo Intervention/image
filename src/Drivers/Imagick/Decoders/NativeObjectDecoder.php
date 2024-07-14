@@ -70,6 +70,15 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
      */
     private function isPaletteImage(Imagick $imagick): bool
     {
+        $imagickVersion = dechex(Imagick::getVersion()['versionNumber']);
+        $imagickVersion = substr($imagickVersion, 0, 1);
+        if (version_compare($imagickVersion, '6', '<=')) {
+            return in_array(
+                $imagick->getImageType(),
+                [Imagick::IMGTYPE_PALETTE, Imagick::IMGTYPE_PALETTEMATTE],
+            );
+        }
+
         $type = $imagick->identifyImage()['type'];
 
         return strtolower(substr($type, 0, 7)) === 'palette';

@@ -15,7 +15,7 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
 {
     public function encode(ImageInterface $image): EncodedImage
     {
-        $output = $this->maybeToPalette(clone $image);
+        $output = $this->maybeToPalette(clone $image); // use clone because colors may be reduced
 
         $data = $this->buffered(function () use ($output) {
             imageinterlace($output, $this->interlaced);
@@ -36,11 +36,11 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
     private function maybeToPalette(ImageInterface $image): GdImage
     {
         if ($this->indexed === false) {
-            return $image;
+            return $image->core()->native();
         }
 
         if (is_null($this->indexed) && !$image->origin()->isIndexed()) {
-            return $image;
+            return $image->core()->native();
         }
 
         return $image->reduceColors(256)->core()->native();

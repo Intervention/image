@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Encoders;
 
+use GdImage;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\PngEncoder as GenericPngEncoder;
 use Intervention\Image\Exceptions\RuntimeException;
@@ -16,12 +17,10 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
     {
         $output = $this->maybeToPalette(clone $image);
 
-        $gd = $output->core()->native();
-
-        $data = $this->buffered(function () use ($gd) {
-            imageinterlace($gd, $this->interlaced);
-            imagesavealpha($gd, true);
-            imagepng($gd, null, -1);
+        $data = $this->buffered(function () use ($output) {
+            imageinterlace($output, $this->interlaced);
+            imagesavealpha($output, true);
+            imagepng($output, null, -1);
         });
 
         return new EncodedImage($data, 'image/png');
@@ -32,9 +31,9 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
      *
      * @param ImageInterface $image
      * @throws RuntimeException
-     * @return ImageInterface
+     * @return GdImage
      */
-    private function maybeToPalette(ImageInterface $image): ImageInterface
+    private function maybeToPalette(ImageInterface $image): GdImage
     {
         if ($this->indexed === false) {
             return $image;
@@ -44,6 +43,6 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
             return $image;
         }
 
-        return $image->reduceColors(256);
+        return $image->reduceColors(256)->core()->native();
     }
 }

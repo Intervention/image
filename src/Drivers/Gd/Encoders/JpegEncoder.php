@@ -28,6 +28,6 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
             imagejpeg($output, null, $this->quality);
         });
 
-        return new EncodedImage($data, 'image/jpeg');
+        return new EncodedImage($data);
     }
 }

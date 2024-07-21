@@ -28,7 +28,7 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
             imageinterlace($gd, false);
         });
 
-        return new EncodedImage($data, 'image/gif');
+        return new EncodedImage($data);
     }
 
     /**
@@ -55,6 +55,6 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
             throw new EncoderException($e->getMessage(), $e->getCode(), $e);
         }
 
-        return new EncodedImage($builder->encode(), 'image/gif');
+        return new EncodedImage($builder->encode());
     }
 }

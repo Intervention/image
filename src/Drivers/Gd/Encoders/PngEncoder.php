@@ -20,6 +20,6 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
             imageinterlace($gd, false);
         });
 
-        return new EncodedImage($data, 'image/png');
+        return new EncodedImage($data);
     }
 }

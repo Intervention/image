@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Traits;
 
+use Intervention\Image\EncodedImage;
 use Intervention\Image\Traits\CanBuildFilePointer;
 
 trait CanDetectInterlacedPng
@@ -13,14 +14,12 @@ trait CanDetectInterlacedPng
     /**
      * Checks if the given image data is interlaced encoded PNG format
      *
-     * @param string $imagedata
+     * @param EncodedImage $image
      * @return bool
      */
-    private function isInterlacedPng(string $imagedata): bool
+    private function isInterlacedPng(EncodedImage $image): bool
     {
-        $f = $this->buildFilePointer($imagedata);
-        $contents = fread($f, 32);
-        fclose($f);
+        $contents = fread($image->toFilePointer(), 32);
 
         return ord($contents[28]) != 0;
     }

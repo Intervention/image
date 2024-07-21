@@ -23,7 +23,7 @@ final class PngEncoderTest extends GdTestCase
         $encoder = new PngEncoder();
         $result = $encoder->encode($image);
         $this->assertMediaType('image/png', (string) $result);
-        $this->assertFalse($this->isInterlacedPng((string) $result));
+        $this->assertFalse($this->isInterlacedPng($result));
     }
 
     public function testEncodeInterlaced(): void
@@ -32,6 +32,6 @@ final class PngEncoderTest extends GdTestCase
         $encoder = new PngEncoder(interlaced: true);
         $result = $encoder->encode($image);
         $this->assertMediaType('image/png', (string) $result);
-        $this->assertTrue($this->isInterlacedPng((string) $result));
+        $this->assertTrue($this->isInterlacedPng($result));
     }
 }

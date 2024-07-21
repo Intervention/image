@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
+use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Exceptions\NotWritableException;
 use Intervention\Image\Interfaces\FileInterface;
 use Intervention\Image\Traits\CanBuildFilePointer;
@@ -13,12 +14,26 @@ class File implements FileInterface
     use CanBuildFilePointer;
 
     /**
+     * Data stream
+     *
+     * @var resource $stream
+     */
+    protected mixed $stream;
+
+    /**
      * Create new instance
      *
-     * @param string $data
+     * @param mixed $data
+     * @throws InputException
+     * @return void
      */
-    public function __construct(protected string $data)
+    public function __construct(mixed $data)
     {
+        $this->stream = match (true) {
+            is_resource($data) => $data,
+            is_string($data) => $this->buildFilePointer($data),
+            default => throw new InputException('Argument #1 ($data) must be of type string or resource.'),
+        };
     }
 
     /**
@@ -42,13 +57,30 @@ class File implements FileInterface
             );
         }
 
-        // write data
-        $saved = @file_put_contents($filepath, (string) $this);
-        if ($saved === false) {
+        // create output file pointer
+        if (!$output = fopen($filepath, 'a')) {
             throw new NotWritableException(
-                "Can't write image data to path ({$filepath})."
+                "Can't write image to path. File path is not writable."
             );
         }
+
+        // create source file pointer
+        $source = $this->toFilePointer();
+
+        while (!feof($source)) {
+            $buffer = fread($source, 8192);
+
+            if ($buffer === false) {
+                throw new NotWritableException(
+                    "Can't write image to path. Unable to read source."
+                );
+            }
+
+            // write buffer to output
+            fwrite($output, $buffer);
+        }
+
+        fclose($output);
     }
 
     /**
@@ -58,7 +90,9 @@ class File implements FileInterface
      */
     public function toString(): string
     {
-        return $this->data;
+        rewind($this->stream);
+
+        return stream_get_contents($this->stream);
     }
 
     /**
@@ -68,7 +102,9 @@ class File implements FileInterface
      */
     public function toFilePointer()
     {
-        return $this->buildFilePointer($this->toString());
+        rewind($this->stream);
+
+        return $this->stream;
     }
 
     /**
@@ -78,7 +114,43 @@ class File implements FileInterface
      */
     public function size(): int
     {
-        return mb_strlen($this->data);
+        return fstat($this->stream)['size'];
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see EncodedImageInterface::mediaType()
+     */
+    public function mediaType(): string
+    {
+        $detected = mime_content_type($this->stream);
+
+        if ($detected === false) {
+            return 'application/x-empty';
+        }
+
+        return $detected;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see EncodedImageInterface::mimetype()
+     */
+    public function mimetype(): string
+    {
+        return $this->mediaType();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see EncodedImageInterface::toDataUri()
+     */
+    public function toDataUri(): string
+    {
+        return sprintf('data:%s;base64,%s', $this->mediaType(), base64_encode((string) $this));
     }
 
     /**

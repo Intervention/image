@@ -108,11 +108,11 @@ jobs:
         run: vendor/bin/phpcs
 
       - name: Convert Image
-        run: /home/runner/im/imagemagick-${{ matrix.imagemagick }}/bin/convert tests/resources/bees.gif -coalesce -resize 300x225 -deconstruct /dev/stdout
+        run: /home/runner/im/imagemagick-${{ matrix.imagemagick }}/bin/convert tests/resources/bees.gif -coalesce -resize 300x225 -deconstruct bees_converted_${{ matrix.imagemagick }}.gif
       - name: Save Image
         uses: actions/upload-artifact@v4
         with:
           name: converted-animation
-          path: bees_converted.gif
+          path: bees_converted_${{ matrix.imagemagick }}.gif
           retention-days: 2
 

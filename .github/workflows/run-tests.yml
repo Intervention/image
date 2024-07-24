@@ -106,3 +106,13 @@ jobs:
 
       - name: Validate coding standards
         run: vendor/bin/phpcs
+
+      - name: Convert Image
+        run: convert tests/resources/bees.gif -coalesce -resize 300x225 -deconstruct /dev/stdout
+      - name: Save Image
+        uses: actions/upload-artifact@v4
+        with:
+          name: converted-animation
+          path: bees_converted.gif
+          retention-days: 2
+

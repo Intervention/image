@@ -108,7 +108,7 @@ jobs:
         run: vendor/bin/phpcs
 
       - name: Convert Image
-        run: /home/runner/im/imagemagick-${{ matrix.imagemagick }}/bin/convert tests/resources/bees.gif -coalesce -resize 300x225 -deconstruct bees_converted_${{ matrix.php }}_${{ matrix.imagemagick }}.gif
+        run: mkdir ${{ matrix.php }}/${{ matrix.imagemagick }} && /home/runner/im/imagemagick-${{ matrix.imagemagick }}/bin/convert tests/resources/bees.gif -coalesce -resize 300x225 -deconstruct ${{ matrix.php }}/${{ matrix.imagemagick }}/converted.gif
       - name: Save Image
         uses: actions/upload-artifact@v4
         with:

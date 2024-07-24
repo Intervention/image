@@ -106,3 +106,15 @@ jobs:
 
       - name: Validate coding standards
         run: vendor/bin/phpcs
+
+      - name: Convert Image
+        run: php convert.php
+
+      - name: Save Image
+        uses: actions/upload-artifact@v4
+        with:
+          name: converted-${{ matrix.php }}-${{ matrix.imagemagick }}
+          path: converted.gif
+          retention-days: 2
+
+

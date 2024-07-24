@@ -113,6 +113,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: converted-animation
-          path: bees_converted_${{ matrix.imagemagick }}.gif
+          path: bees_converted_{{ matrix.php }}_${{ matrix.imagemagick }}.gif
           retention-days: 2
 

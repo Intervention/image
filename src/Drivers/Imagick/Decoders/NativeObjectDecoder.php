@@ -50,7 +50,7 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
             $image->modify(new AlignRotationModifier());
         }
 
-        // set media type & palette status on origin
+        // set media type on origin
         $image->origin()->setMediaType($input->getImageMimeType());
 
         return $image;

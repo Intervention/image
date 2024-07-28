@@ -63,6 +63,8 @@ class Driver extends AbstractDriver
         $imagick->setColorspace(Imagick::COLORSPACE_SRGB);
         $imagick->setImageResolution(96, 96);
         $imagick->setImageBackgroundColor($background);
+        $imagick->setFormat('PNG32');
+        $imagick->setImageFormat('PNG32');
 
         return new Image($this, new Core($imagick));
     }

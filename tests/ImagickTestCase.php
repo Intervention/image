@@ -13,22 +13,24 @@ use Intervention\Image\Image;
 
 abstract class ImagickTestCase extends BaseTestCase
 {
-    public function readTestImage($filename = 'test.jpg'): Image
+    public static function readTestImage($filename = 'test.jpg'): Image
     {
         return (new Driver())->specialize(new FilePathImageDecoder())->decode(
-            $this->getTestResourcePath($filename)
+            static::getTestResourcePath($filename)
         );
     }
 
-    public function createTestImage(int $width, int $height): Image
+    public static function createTestImage(int $width, int $height): Image
     {
         $background = new ImagickPixel('rgb(255, 0, 0)');
         $imagick = new Imagick();
-        $imagick->newImage($width, $height, $background, 'png');
+        $imagick->newImage($width, $height, $background);
         $imagick->setType(Imagick::IMGTYPE_UNDEFINED);
         $imagick->setImageType(Imagick::IMGTYPE_UNDEFINED);
         $imagick->setColorspace(Imagick::COLORSPACE_SRGB);
         $imagick->setImageResolution(96, 96);
+        $imagick->setFormat('PNG32');
+        $imagick->setImageFormat('PNG32');
 
         return new Image(
             new Driver(),
@@ -36,7 +38,26 @@ abstract class ImagickTestCase extends BaseTestCase
         );
     }
 
-    public function createTestAnimation(): Image
+    public static function createTestImageTransparent(int $width, int $height): Image
+    {
+        $background = new ImagickPixel('rgba(255, 255, 255, 0)');
+        $imagick = new Imagick();
+        $imagick->newImage($width, $height, $background);
+        $imagick->setType(Imagick::IMGTYPE_UNDEFINED);
+        $imagick->setImageType(Imagick::IMGTYPE_UNDEFINED);
+        $imagick->setColorspace(Imagick::COLORSPACE_SRGB);
+        $imagick->setImageResolution(96, 96);
+        $imagick->setImageBackgroundColor($background);
+        $imagick->setFormat('PNG32');
+        $imagick->setImageFormat('PNG32');
+
+        return new Image(
+            new Driver(),
+            new Core($imagick)
+        );
+    }
+
+    public static function createTestAnimation(): Image
     {
         $imagick = new Imagick();
         $imagick->setFormat('gif');

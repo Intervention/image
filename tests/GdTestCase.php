@@ -12,14 +12,14 @@ use Intervention\Image\Image;
 
 abstract class GdTestCase extends BaseTestCase
 {
-    public function readTestImage($filename = 'test.jpg'): Image
+    public static function readTestImage($filename = 'test.jpg'): Image
     {
         return (new Driver())->specialize(new FilePathImageDecoder())->decode(
-            $this->getTestResourcePath($filename)
+            static::getTestResourcePath($filename)
         );
     }
 
-    public function createTestImage(int $width, int $height): Image
+    public static function createTestImage(int $width, int $height): Image
     {
         $gd = imagecreatetruecolor($width, $height);
         imagefill($gd, 0, 0, imagecolorallocate($gd, 255, 0, 0));
@@ -32,7 +32,24 @@ abstract class GdTestCase extends BaseTestCase
         );
     }
 
-    public function createTestAnimation(): Image
+    public static function createTestImageTransparent(int $width, int $height): Image
+    {
+        $gd = imagecreatetruecolor($width, $height);
+        imagesavealpha($gd, true);
+        $background = imagecolorallocatealpha($gd, 255, 255, 255, 127);
+        imagealphablending($gd, false);
+        imagefill($gd, 0, 0, $background);
+        imagecolortransparent($gd, $background);
+
+        return new Image(
+            new Driver(),
+            new Core([
+                new Frame($gd)
+            ])
+        );
+    }
+
+    public static function createTestAnimation(): Image
     {
         $gd1 = imagecreatetruecolor(3, 2);
         imagefill($gd1, 0, 0, imagecolorallocate($gd1, 255, 0, 0));

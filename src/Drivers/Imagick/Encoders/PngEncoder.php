@@ -14,7 +14,7 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
 {
     public function encode(ImageInterface $image): EncodedImage
     {
-        $format = 'png';
+        $format = 'PNG';
         $compression = Imagick::COMPRESSION_ZIP;
 
         $imagick = $image->core()->native();

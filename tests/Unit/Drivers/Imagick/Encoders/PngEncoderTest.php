@@ -70,9 +70,6 @@ final class PngEncoderTest extends ImagickTestCase
                 'truecolor-alpha',
             ],
             [
-                /* ------------------------------------------------------------------------- *
-                 *                             + + + FAIL + + +                              *
-                 * ------------------------------------------------------------------------- */
                 static::createTestImageTransparent(3, 2), // truecolor-alpha
                 new PngEncoder(indexed: true),
                 'indexed',
@@ -88,9 +85,6 @@ final class PngEncoderTest extends ImagickTestCase
                 'truecolor-alpha',
             ],
             [
-                /* ------------------------------------------------------------------------- *
-                 *                             + + + FAIL + + +                              *
-                 * ------------------------------------------------------------------------- */
                 static::createTestImageTransparent(3, 2)->fill('fff'), // truecolor-alpha
                 new PngEncoder(indexed: true),
                 'indexed',
@@ -111,25 +105,22 @@ final class PngEncoderTest extends ImagickTestCase
                 'indexed',
             ],
             [
-                /* ------------------------------------------------------------------------- *
-                 *                             + + + FAIL + + +                              *
-                 * ------------------------------------------------------------------------- */
                 static::readTestImage('tile.png'), // indexed
                 new PngEncoder(indexed: false),
                 'truecolor-alpha',
             ],
             [
-                static::readTestImage('test.jpg'), // indexed
+                static::readTestImage('test.jpg'), // foreign format
                 new PngEncoder(),
                 'truecolor-alpha',
             ],
             [
-                static::readTestImage('test.jpg'), // indexed
+                static::readTestImage('test.jpg'), // foreign format
                 new PngEncoder(indexed: true),
                 'indexed',
             ],
             [
-                static::readTestImage('test.jpg'), // indexed
+                static::readTestImage('test.jpg'), // foreign format
                 new PngEncoder(indexed: false),
                 'truecolor-alpha',
             ]

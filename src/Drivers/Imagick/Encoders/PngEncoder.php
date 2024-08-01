@@ -10,6 +10,7 @@ use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\PngEncoder as GenericPngEncoder;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Origin;
 
 class PngEncoder extends GenericPngEncoder implements SpecializedInterface
 {
@@ -20,7 +21,7 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
         $imagick->setImageCompression(Imagick::COMPRESSION_ZIP);
 
         $imagick = $this->setInterlaced($imagick);
-        $imagick = $this->setIndexed($imagick);
+        $imagick = $this->setIndexed($imagick, $image->origin());
 
         return new EncodedImage($imagick->getImagesBlob(), 'image/png');
     }
@@ -53,30 +54,37 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
      * @param Imagick $imagick
      * @return Imagick
      */
-    private function setIndexed(Imagick $imagick): Imagick
+    private function setIndexed(Imagick $imagick, Origin $origin): Imagick
     {
-        switch ($this->indexed) {
-            case null:
-                $imagick->setFormat('PNG');
-                $imagick->setImageFormat('PNG');
-                break;
-
-            case true:
-                $imagick->setFormat('PNG');
-                $imagick->setImageFormat('PNG');
-                $imagick->quantizeImage(
-                    256,
-                    $imagick->getImageColorspace(),
-                    0,
-                    false,
-                    false
-                );
-                break;
-
-            case false:
-                $imagick->setFormat('PNG');
-                $imagick->setImageFormat('PNG');
-                break;
+        if ($this->indexed === true) {
+            $imagick->setFormat('PNG8');
+            $imagick->setImageFormat('PNG8');
+            $imagick->quantizeImage(
+                256,
+                $imagick->getImageColorspace(),
+                0,
+                false,
+                false
+            );
+        } elseif ($this->indexed === false) {
+            $imagick->setFormat('PNG32');
+            $imagick->setImageFormat('PNG32');
+        } elseif ($origin->indexed() === true) {
+            $imagick->setFormat('PNG8');
+            $imagick->setImageFormat('PNG8');
+            $imagick->quantizeImage(
+                256,
+                $imagick->getImageColorspace(),
+                0,
+                false,
+                false
+            );
+        } elseif ($origin->indexed() === false) {
+            $imagick->setFormat('PNG32');
+            $imagick->setImageFormat('PNG32');
+        } else {
+            $imagick->setFormat('PNG');
+            $imagick->setImageFormat('PNG');
         }
 
         return $imagick;

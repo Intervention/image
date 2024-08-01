@@ -34,17 +34,23 @@ class NativeObjectDecoder extends AbstractDecoder
 
         if (!imageistruecolor($input)) {
             imagepalettetotruecolor($input);
+            $indexed = true;
         }
 
         imagesavealpha($input, true);
 
         // build image instance
-        return new Image(
+        $image = new Image(
             $this->driver(),
             new Core([
                 new Frame($input)
             ])
         );
+
+        // set origin
+        $image->origin()->setIndexed($indexed ?? false);
+
+        return $image;
     }
 
     /**

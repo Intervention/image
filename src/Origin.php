@@ -6,6 +6,8 @@ namespace Intervention\Image;
 
 class Origin
 {
+    protected bool $indexed = false;
+
     /**
      * Create new origin instance
      *
@@ -84,5 +86,28 @@ class Origin
     public function fileExtension(): ?string
     {
         return empty($this->filePath) ? null : pathinfo($this->filePath, PATHINFO_EXTENSION);
+    }
+
+    /**
+     * Get the marker that indicates whether the origin contains an indexed color palette
+     *
+     * @return bool
+     */
+    public function indexed(): bool
+    {
+        return $this->indexed;
+    }
+
+    /**
+     * Set the marker that indicates whether the origin contains an indexed color palette
+     *
+     * @param bool $status
+     * @return Origin
+     */
+    public function setIndexed(bool $status): self
+    {
+        $this->indexed = $status;
+
+        return $this;
     }
 }

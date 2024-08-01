@@ -36,4 +36,14 @@ final class OriginTest extends BaseTestCase
         $this->assertEquals('image/jpeg', $origin->mediaType());
         $this->assertEquals('image/jpeg', $result->mediaType());
     }
+
+    public function testSetGetIndexed(): void
+    {
+        $origin = new Origin();
+        $this->assertFalse($origin->indexed());
+
+        $origin = new Origin();
+        $origin->setIndexed(true);
+        $this->assertTrue($origin->indexed());
+    }
 }

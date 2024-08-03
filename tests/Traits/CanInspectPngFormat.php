@@ -24,4 +24,29 @@ trait CanInspectPngFormat
 
         return ord($contents[28]) != 0;
     }
+
+    /**
+     * Try to detect PNG color type from given binary data
+     *
+     * @param string $data
+     * @return string
+     */
+    private function pngColorType(string $data): string
+    {
+        if (substr($data, 1, 3) !== 'PNG') {
+            return 'unkown';
+        }
+
+        $pos = strpos($data, 'IHDR');
+        $type = substr($data, $pos + 13, 1);
+
+        return match (unpack('C', $type)[1]) {
+            0 => 'grayscale',
+            2 => 'truecolor',
+            3 => 'indexed',
+            4 => 'grayscale-alpha',
+            6 => 'truecolor-alpha',
+            default => 'unknown',
+        };
+    }
 }

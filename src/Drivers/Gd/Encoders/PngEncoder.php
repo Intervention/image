@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Encoders;
 
 use GdImage;
+use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\PngEncoder as GenericPngEncoder;
@@ -49,19 +50,32 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
             return Cloner::clone($image->core()->native());
         }
 
-        // get blending color
-        $blendingColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
-            $this->driver()->handleInput($this->driver()->config()->blendingColor)
-        );
-
         // clone output instance
         $output = Cloner::cloneEmpty($image->core()->native());
 
-        // fill with blending color
-        imagefill($output, 0, 0, $blendingColor);
+        /**
+         * Decode configured blending color
+         *
+         * @var Color
+         */
+        $blendingColor = $this->driver()->handleInput($this->driver()->config()->blendingColor);
 
-        // set transparency
-        imagecolortransparent($output, $blendingColor);
+        // allocate blending color with slighty different alpha value
+        // to avoid "overwriting" pixels with the same color in the
+        // original image with transprency
+        $blendingIndex = imagecolorallocatealpha(
+            $output,
+            $blendingColor->red()->value(),
+            $blendingColor->green()->value(),
+            $blendingColor->blue()->value(),
+            1,
+        );
+
+        // fill with blending color
+        imagefill($output, 0, 0, $blendingIndex);
+
+        // define blending index as transparent
+        imagecolortransparent($output, $blendingIndex);
 
         // copy original into output
         imagecopy($output, $image->core()->native(), 0, 0, 0, 0, imagesx($output), imagesy($output));

@@ -38,7 +38,6 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
      * Prepare given image instance for PNG format output according to encoder settings
      *
      * @param ImageInterface $image
-     * @param bool $indexed
      * @throws RuntimeException
      * @throws ColorException
      * @throws AnimationException
@@ -51,7 +50,7 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
         }
 
         // get blending color
-        $blendingColor =  $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+        $blendingColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
             $this->driver()->handleInput($this->driver()->config()->blendingColor)
         );
 

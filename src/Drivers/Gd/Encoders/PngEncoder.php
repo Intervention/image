@@ -53,12 +53,8 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
         // clone output instance
         $output = Cloner::cloneEmpty($image->core()->native());
 
-        /**
-         * Decode configured blending color
-         *
-         * @var Color
-         */
-        $blendingColor = $this->driver()->handleInput($this->driver()->config()->blendingColor);
+        // Decode configured blending color
+        $blendingColor = $image->blendingColor();
 
         // allocate blending color with slighty different alpha value
         // to avoid "overwriting" pixels with the same color in the

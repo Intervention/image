@@ -13,14 +13,14 @@ use Intervention\Image\Image;
 
 abstract class ImagickTestCase extends BaseTestCase
 {
-    public function readTestImage($filename = 'test.jpg'): Image
+    public static function readTestImage($filename = 'test.jpg'): Image
     {
         return (new Driver())->specialize(new FilePathImageDecoder())->decode(
-            $this->getTestResourcePath($filename)
+            static::getTestResourcePath($filename)
         );
     }
 
-    public function createTestImage(int $width, int $height): Image
+    public static function createTestImage(int $width, int $height): Image
     {
         $background = new ImagickPixel('rgb(255, 0, 0)');
         $imagick = new Imagick();
@@ -36,7 +36,7 @@ abstract class ImagickTestCase extends BaseTestCase
         );
     }
 
-    public function createTestAnimation(): Image
+    public static function createTestAnimation(): Image
     {
         $imagick = new Imagick();
         $imagick->setFormat('gif');

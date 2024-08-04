@@ -15,6 +15,7 @@ use Intervention\Image\Decoders\Base64ImageDecoder;
 use Intervention\Image\Decoders\BinaryImageDecoder;
 use Intervention\Image\Decoders\ColorObjectDecoder;
 use Intervention\Image\Decoders\DataUriImageDecoder;
+use Intervention\Image\Decoders\EncodedImageObjectDecoder;
 use Intervention\Image\Decoders\FilePathImageDecoder;
 use Intervention\Image\Decoders\FilePointerImageDecoder;
 use Intervention\Image\Decoders\ImageObjectDecoder;
@@ -53,6 +54,7 @@ class InputHandler implements InputHandlerInterface
         BinaryImageDecoder::class,
         DataUriImageDecoder::class,
         Base64ImageDecoder::class,
+        EncodedImageObjectDecoder::class,
     ];
 
     /**

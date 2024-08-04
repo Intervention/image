@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Encoders;
 
 use GdImage;
-use Intervention\Image\Colors\Rgb\Color;
+use Intervention\Image\Colors\Rgb\Channels\Blue;
+use Intervention\Image\Colors\Rgb\Channels\Green;
+use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\PngEncoder as GenericPngEncoder;
@@ -61,9 +63,9 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
         // original image with transprency
         $blendingIndex = imagecolorallocatealpha(
             $output,
-            $blendingColor->red()->value(),
-            $blendingColor->green()->value(),
-            $blendingColor->blue()->value(),
+            $blendingColor->channel(Red::class)->value(),
+            $blendingColor->channel(Green::class)->value(),
+            $blendingColor->channel(Blue::class)->value(),
             1,
         );
 

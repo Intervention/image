@@ -50,7 +50,7 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
         if ($this->indexed === false) {
             $output = clone $image->core()->native();
 
-            // ensure to encode PNG image type 6 true color alpha
+            // ensure to encode PNG image type 6 (true color alpha)
             $output->setFormat('PNG32');
             $output->setImageFormat('PNG32');
 

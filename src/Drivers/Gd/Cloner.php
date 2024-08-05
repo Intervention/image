@@ -50,10 +50,7 @@ class Cloner
         ColorInterface $background = new Color(255, 255, 255, 0)
     ): GdImage {
         // define size
-        $size = match (true) {
-            is_null($size) => new Rectangle(imagesx($gd), imagesy($gd)),
-            default => $size,
-        };
+        $size = $size ? $size : new Rectangle(imagesx($gd), imagesy($gd));
 
         // create new gd image with same size or new given size
         $clone = imagecreatetruecolor($size->width(), $size->height());

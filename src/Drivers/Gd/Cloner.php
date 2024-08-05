@@ -67,6 +67,10 @@ class Cloner
         imagealphablending($clone, true);
         imagesavealpha($clone, true);
 
+        if ($background->isClear()) {
+            imagecolortransparent($clone, $processor->colorToNative($background));
+        }
+
         return $clone;
     }
 

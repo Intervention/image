@@ -97,4 +97,11 @@ interface ColorInterface
      * @return bool
      */
     public function isTransparent(): bool;
+
+    /**
+     * Determine whether the current color is completely transparent
+     *
+     * @return bool
+     */
+    public function isClear(): bool;
 }

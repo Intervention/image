@@ -178,4 +178,14 @@ class Color extends AbstractColor
     {
         return $this->alpha()->value() < $this->alpha()->max();
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::isClear()
+     */
+    public function isClear(): bool
+    {
+        return $this->alpha()->value() == 0;
+    }
 }

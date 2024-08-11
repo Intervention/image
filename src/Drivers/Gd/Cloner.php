@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd;
 
 use GdImage;
+use Intervention\Image\Colors\Rgb\Channels\Alpha;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Geometry\Rectangle;
@@ -66,6 +67,12 @@ class Cloner
         imagefill($clone, 0, 0, $processor->colorToNative($background));
         imagealphablending($clone, true);
         imagesavealpha($clone, true);
+
+        // set background image as transparent if alpha channel value if color is below .5
+        // comes into effect when the end format only supports binary transparency (like GIF)
+        if ($background->channel(Alpha::class)->value() < 128) {
+            imagecolortransparent($clone, $processor->colorToNative($background));
+        }
 
         return $clone;
     }

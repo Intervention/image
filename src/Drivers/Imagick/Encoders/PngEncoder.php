@@ -47,36 +47,31 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
      */
     private function prepareOutput(ImageInterface $image): Imagick
     {
-        if ($this->indexed === false) {
-            $output = clone $image->core()->native();
+        $output = clone $image;
 
-            // ensure to encode PNG image type 6 (true color alpha)
-            $output->setFormat('PNG32');
-            $output->setImageFormat('PNG32');
+        if ($this->indexed) {
+            // reduce colors
+            $output->reduceColors(256);
+
+            $output = $output->core()->native();
+
+            $output->setFormat('PNG');
+            $output->setImageFormat('PNG');
+
+            // $output->setImageBackgroundColor(new \ImagickPixel('#00ff00'));
+            // $output->setImageProperty();
+
+            // $output->setType(Imagick::IMGTYPE_PALETTEMATTE);
+            // $output->setOption('png:bit-depth', '8');
+            // $output->setOption('png:color-type', '4');
 
             return $output;
         }
 
-        // get blending color
-        $blendingColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
-            $this->driver()->handleInput($this->driver()->config()->blendingColor)
-        );
-
-        // create new image with blending color as background
-        $output = new Imagick();
-        $output->newImage($image->width(), $image->height(), $blendingColor, 'PNG');
-
-        // set transparency of original image
-        $output->compositeImage($image->core()->native(), Imagick::COMPOSITE_DSTIN, 0, 0);
-        $output->transparentPaintImage('#000000', 0, 0, false);
-
-        // copy original and create indexed color palette version
-        $output->compositeImage($image->core()->native(), Imagick::COMPOSITE_DEFAULT, 0, 0);
-        $output->quantizeImage(255, $output->getImageColorSpace(), 0, false, false);
-
-        // ensure to encode PNG image type 3 (indexed)
-        $output->setFormat('PNG8');
-        $output->setImageFormat('PNG8');
+        // ensure to encode PNG image type 6 (true color alpha)
+        $output = clone $image->core()->native();
+        $output->setFormat('PNG32');
+        $output->setImageFormat('PNG32');
 
         return $output;
     }

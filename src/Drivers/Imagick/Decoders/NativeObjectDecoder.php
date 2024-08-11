@@ -17,13 +17,6 @@ use Intervention\Image\Modifiers\RemoveAnimationModifier;
 
 class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInterface
 {
-    protected const SUPPORTED_COLORSPACES = [
-        Imagick::COLORSPACE_SRGB,
-        Imagick::COLORSPACE_CMYK,
-        Imagick::COLORSPACE_HSL,
-        Imagick::COLORSPACE_HSB,
-    ];
-
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_object($input)) {
@@ -41,10 +34,10 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
             $input = $input->coalesceImages();
         }
 
-        // turn image into rgb if colorspace if other than CMYK, RGB, HSL or HSV.
-        // this prevents working on greyscale colorspace images when loading
-        // from PNG color type greyscale format.
-        if (!in_array($input->getImageColorspace(), self::SUPPORTED_COLORSPACES)) {
+        // turn images with colorspace 'GRAY' into 'SRGB' to avoid working on
+        // greyscale colorspace images as this results images loosing color
+        // information when placed into this image.
+        if ($input->getImageColorspace() == Imagick::COLORSPACE_GRAY) {
             $input->setImageColorspace(Imagick::COLORSPACE_SRGB);
         }
 

@@ -17,6 +17,13 @@ use Intervention\Image\Modifiers\RemoveAnimationModifier;
 
 class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInterface
 {
+    protected const SUPPORTED_COLORSPACES = [
+        Imagick::COLORSPACE_SRGB,
+        Imagick::COLORSPACE_CMYK,
+        Imagick::COLORSPACE_HSL,
+        Imagick::COLORSPACE_HSB,
+    ];
+
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_object($input)) {
@@ -32,6 +39,13 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
         // incomprehensible for me; could be an imagick bug.
         if ($input->getImageFormat() != 'JPEG') {
             $input = $input->coalesceImages();
+        }
+
+        // turn image into rgb if colorspace if other than CMYK, RGB, HSL or HSV.
+        // this prevents working on greyscale colorspace images when loading
+        // from PNG color type greyscale format.
+        if (!in_array($input->getImageColorspace(), self::SUPPORTED_COLORSPACES)) {
+            $input->setImageColorspace(Imagick::COLORSPACE_SRGB);
         }
 
         // create image object

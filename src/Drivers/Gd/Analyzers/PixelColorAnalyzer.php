@@ -15,6 +15,11 @@ use Intervention\Image\Interfaces\SpecializedInterface;
 
 class PixelColorAnalyzer extends GenericPixelColorAnalyzer implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see AnalyzerInterface::analyze()
+     */
     public function analyze(ImageInterface $image): mixed
     {
         return $this->colorAt(

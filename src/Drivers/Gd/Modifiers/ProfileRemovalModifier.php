@@ -10,6 +10,11 @@ use Intervention\Image\Modifiers\ProfileRemovalModifier as GenericProfileRemoval
 
 class ProfileRemovalModifier extends GenericProfileRemovalModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         // Color profiles are not supported by GD, so the decoded

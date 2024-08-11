@@ -12,6 +12,11 @@ use Intervention\Image\Modifiers\QuantizeColorsModifier as GenericQuantizeColors
 
 class QuantizeColorsModifier extends GenericQuantizeColorsModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         if ($this->limit <= 0) {

@@ -12,6 +12,11 @@ use Intervention\Image\Interfaces\ImageInterface;
 
 class FilePathImageDecoder extends NativeObjectDecoder
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see DecoderInterface::decode()
+     */
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!$this->isFile($input)) {

@@ -17,6 +17,11 @@ use Intervention\Image\Modifiers\RemoveAnimationModifier;
 
 class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see DecoderInterface::decode()
+     */
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_object($input)) {

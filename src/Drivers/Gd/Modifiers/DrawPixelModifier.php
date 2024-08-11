@@ -10,6 +10,11 @@ use Intervention\Image\Modifiers\DrawPixelModifier as GenericDrawPixelModifier;
 
 class DrawPixelModifier extends GenericDrawPixelModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(

@@ -11,6 +11,11 @@ use Intervention\Image\Interfaces\SpecializedInterface;
 
 class AvifEncoder extends GenericAvifEncoder implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see EncoderInterface::encode()
+     */
     public function encode(ImageInterface $image): EncodedImage
     {
         $gd = $image->core()->native();

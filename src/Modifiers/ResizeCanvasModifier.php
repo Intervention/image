@@ -12,6 +12,15 @@ use Intervention\Image\Interfaces\SizeInterface;
 
 class ResizeCanvasModifier extends SpecializableModifier
 {
+    /**
+     * Create new modifier object
+     *
+     * @param null|int $width
+     * @param null|int $height
+     * @param mixed $background
+     * @param string $position
+     * @return void
+     */
     public function __construct(
         public ?int $width = null,
         public ?int $height = null,

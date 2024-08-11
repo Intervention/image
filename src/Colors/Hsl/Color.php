@@ -16,6 +16,14 @@ use Intervention\Image\Interfaces\ColorspaceInterface;
 
 class Color extends AbstractColor
 {
+    /**
+     * Create new color object
+     *
+     * @param int $h
+     * @param int $s
+     * @param int $l
+     * @return void
+     */
     public function __construct(int $h, int $s, int $l)
     {
         /** @throws void */

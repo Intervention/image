@@ -10,6 +10,11 @@ use Intervention\Image\Modifiers\PixelateModifier as GenericPixelateModifier;
 
 class PixelateModifier extends GenericPixelateModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {

@@ -13,6 +13,9 @@ use Intervention\Image\Modifiers\DrawBezierModifier as ModifiersDrawBezierModifi
 class DrawBezierModifier extends ModifiersDrawBezierModifier implements SpecializedInterface
 {
     /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
      * @throws RuntimeException
      * @throws GeometryException
      */

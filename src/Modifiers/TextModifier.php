@@ -14,6 +14,14 @@ use Intervention\Image\Interfaces\PointInterface;
 
 class TextModifier extends SpecializableModifier
 {
+    /**
+     * Create new modifier object
+     *
+     * @param string $text
+     * @param PointInterface $position
+     * @param FontInterface $font
+     * @return void
+     */
     public function __construct(
         public string $text,
         public PointInterface $position,

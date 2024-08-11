@@ -18,6 +18,11 @@ use Intervention\Image\Modifiers\RotateModifier as GenericRotateModifier;
 
 class RotateModifier extends GenericRotateModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $background = $this->driver()->handleInput($this->background);

@@ -10,6 +10,11 @@ use Intervention\Image\Modifiers\SharpenModifier as GenericSharpenModifier;
 
 class SharpenModifier extends GenericSharpenModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $matrix = $this->matrix();

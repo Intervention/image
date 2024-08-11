@@ -10,6 +10,11 @@ use Intervention\Image\Modifiers\ColorizeModifier as GenericColorizeModifier;
 
 class ColorizeModifier extends GenericColorizeModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         // normalize colorize levels

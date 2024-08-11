@@ -9,6 +9,11 @@ use Intervention\Image\Interfaces\ImageInterface;
 
 class PixelColorsAnalyzer extends PixelColorAnalyzer
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see AnalyzerInterface::analyze()
+     */
     public function analyze(ImageInterface $image): mixed
     {
         $colors = new Collection();

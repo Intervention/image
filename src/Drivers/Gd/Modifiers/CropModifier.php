@@ -14,6 +14,11 @@ use Intervention\Image\Modifiers\CropModifier as GenericCropModifier;
 
 class CropModifier extends GenericCropModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $originalSize = $image->size();

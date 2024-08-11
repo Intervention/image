@@ -10,6 +10,11 @@ use Intervention\Image\Interfaces\ColorInterface;
 
 class TransparentColorDecoder extends HexColorDecoder
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see DecoderInterface::decode()
+     */
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_string($input)) {

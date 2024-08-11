@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Encoders;
 
 use GdImage;
-use Intervention\Image\Colors\Rgb\Channels\Blue;
-use Intervention\Image\Colors\Rgb\Channels\Green;
-use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\PngEncoder as GenericPngEncoder;
@@ -48,39 +45,13 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
      */
     private function prepareOutput(ImageInterface $image): GdImage
     {
-        if ($this->indexed === false) {
-            return Cloner::clone($image->core()->native());
+        if ($this->indexed) {
+            $output = clone $image;
+            $output->reduceColors(255);
+
+            return $output->core()->native();
         }
 
-        // clone output instance
-        $output = Cloner::cloneEmpty($image->core()->native());
-
-        // Decode configured blending color
-        $blendingColor = $image->blendingColor();
-
-        // allocate blending color with slighty different alpha value
-        // to avoid "overwriting" pixels with the same color in the
-        // original image with transprency
-        $blendingIndex = imagecolorallocatealpha(
-            $output,
-            $blendingColor->channel(Red::class)->value(),
-            $blendingColor->channel(Green::class)->value(),
-            $blendingColor->channel(Blue::class)->value(),
-            1,
-        );
-
-        // fill with blending color
-        imagefill($output, 0, 0, $blendingIndex);
-
-        // define blending index as transparent
-        imagecolortransparent($output, $blendingIndex);
-
-        // copy original into output
-        imagecopy($output, $image->core()->native(), 0, 0, 0, 0, imagesx($output), imagesy($output));
-
-        // reduce to indexed color palette
-        imagetruecolortopalette($output, true, 255);
-
-        return $output;
+        return Cloner::clone($image->core()->native());
     }
 }

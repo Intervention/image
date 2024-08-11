@@ -254,7 +254,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Return color that is mixed with transparent areas when converting to a format which
      * does not support transparency.
      *
-     * @deprecated Use configuration options of image manager instead
      * @throws RuntimeException
      * @return ColorInterface
      */
@@ -264,7 +263,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Set blending color will have no effect unless image is converted into a format
      * which does not support transparency.
      *
-     * @deprecated Use configuration options of image manager instead
      * @param mixed $color
      * @throws RuntimeException
      * @return ImageInterface

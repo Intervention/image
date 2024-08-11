@@ -25,7 +25,7 @@ abstract class BaseTestCase extends MockeryTestCase
         return file_get_contents(self::getTestResourcePath($filename));
     }
 
-    public function getTestResourcePointer($filename = 'test.jpg')
+    public static function getTestResourcePointer($filename = 'test.jpg')
     {
         $pointer = fopen('php://temp', 'rw');
         fputs($pointer, self::getTestResourceData($filename));

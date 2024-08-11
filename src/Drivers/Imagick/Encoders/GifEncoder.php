@@ -14,7 +14,7 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
 {
     public function encode(ImageInterface $image): EncodedImage
     {
-        $format = 'gif';
+        $format = 'GIF';
         $compression = Imagick::COMPRESSION_LZW;
 
         $imagick = $image->core()->native();

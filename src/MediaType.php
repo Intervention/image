@@ -30,6 +30,7 @@ enum MediaType: string
     case IMAGE_JPX = 'image/jpx';
     case IMAGE_JPM = 'image/jpm';
     case IMAGE_HEIC = 'image/heic';
+    case IMAGE_X_HEIC = 'image/x-heic';
     case IMAGE_HEIF = 'image/heif';
 
     /**
@@ -64,7 +65,8 @@ enum MediaType: string
             self::IMAGE_JPX,
             self::IMAGE_JPM => Format::JP2,
             self::IMAGE_HEIF,
-            self::IMAGE_HEIC => Format::HEIC,
+            self::IMAGE_HEIC,
+            self::IMAGE_X_HEIC => Format::HEIC,
         };
     }
 }

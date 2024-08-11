@@ -1,0 +1,24 @@
+<svg width="160" height="20" viewBox="0 0 160 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_2_27)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M3 0C1.34315 0 0 1.34315 0 3V17C0 18.6569 1.34314 20 3 20H23V0H3Z" fill="#874240"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M23 20H157C158.657 20 160 18.6569 160 17V3C160 1.34315 158.657 0 157 0H23V20Z" fill="#ED6A65"/>
+<path d="M10.5244 15.4007L10.8235 15.6239L11.1226 15.4007C13.8256 13.383 15.1801 11.9798 15.852 10.9039C16.1932 10.3575 16.3608 9.89187 16.4383 9.47284C16.5036 9.1191 16.5013 8.80663 16.4996 8.56265C16.4993 8.52495 16.499 8.48888 16.499 8.45455C16.499 7.09727 15.3348 5.5 13.4113 5.5C12.4275 5.5 11.6649 5.99724 11.1724 6.45018C11.0395 6.57244 10.923 6.69437 10.8235 6.80749C10.7241 6.69437 10.6076 6.57244 10.4747 6.45018C9.98221 5.99724 9.21955 5.5 8.23579 5.5C6.31222 5.5 5.14805 7.09727 5.14805 8.45455C5.14805 8.48888 5.14779 8.52495 5.14751 8.56265C5.14573 8.80662 5.14345 9.1191 5.20881 9.47284C5.28624 9.89187 5.45388 10.3575 5.79507 10.9039C6.46695 11.9798 7.82149 13.383 10.5244 15.4007Z" fill="#ED6A65" stroke="white"/>
+
+<g font-family="&#39;DejaVu Sans&#39;,Verdana,Geneva,sans-serif" font-size="11">
+  <text fill="#010101" fill-opacity=".3">
+    <tspan x="33" y="15">Support me on Ko-fi</tspan>
+  </text>
+</g>
+
+<g font-family="&#39;DejaVu Sans&#39;,Verdana,Geneva,sans-serif" font-size="11">
+  <text fill="#FFFFFF">
+    <tspan x="33" y="14">Support me on Ko-fi</tspan>
+  </text>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_2_27">
+<rect width="160" height="20" fill="white"/>
+</clipPath>
+</defs>
+</svg>

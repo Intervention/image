@@ -99,6 +99,9 @@ final class MediaTypeTest extends BaseTestCase
         $mime = MediaType::IMAGE_HEIC;
         $this->assertEquals(Format::HEIC, $mime->format());
 
+        $mime = MediaType::IMAGE_X_HEIC;
+        $this->assertEquals(Format::HEIC, $mime->format());
+
         $mime = MediaType::IMAGE_HEIF;
         $this->assertEquals(Format::HEIC, $mime->format());
     }

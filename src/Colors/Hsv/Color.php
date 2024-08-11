@@ -120,4 +120,14 @@ class Color extends AbstractColor
     {
         return false;
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::isClear()
+     */
+    public function isClear(): bool
+    {
+        return false;
+    }
 }

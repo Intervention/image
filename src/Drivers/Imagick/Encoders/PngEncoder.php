@@ -58,13 +58,6 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
             $output->setFormat('PNG');
             $output->setImageFormat('PNG');
 
-            // $output->setImageBackgroundColor(new \ImagickPixel('#00ff00'));
-            // $output->setImageProperty();
-
-            // $output->setType(Imagick::IMGTYPE_PALETTEMATTE);
-            // $output->setOption('png:bit-depth', '8');
-            // $output->setOption('png:color-type', '4');
-
             return $output;
         }
 

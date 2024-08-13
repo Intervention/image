@@ -33,22 +33,23 @@ class ResizeCanvasModifier extends GenericResizeCanvasModifier implements Specia
                 $draw = new ImagickDraw();
                 $draw->setFillColor($background);
 
-                $delta = abs($resize->pivot()->x());
+                $delta_width = abs($resize->pivot()->x());
+                $delta_height = abs($resize->pivot()->y());
 
-                if ($delta > 0) {
+                if ($delta_width > 0) {
                     $draw->rectangle(
                         0,
-                        $delta,
-                        $delta - 1,
-                        $resize->height() - $delta - 1
+                        $delta_height,
+                        $delta_width - 1,
+                        $delta_height + $size->height() - 1
                     );
                 }
 
                 $draw->rectangle(
-                    $size->width() + $delta,
-                    $delta,
+                    $size->width() + $delta_width,
+                    $delta_height,
                     $resize->width(),
-                    $resize->height() - $delta  - 1
+                    $delta_height + $size->height() - 1
                 );
 
                 $frame->native()->drawImage($draw);

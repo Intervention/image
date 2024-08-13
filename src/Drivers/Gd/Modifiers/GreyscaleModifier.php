@@ -10,6 +10,11 @@ use Intervention\Image\Modifiers\GreyscaleModifier as GenericGreyscaleModifier;
 
 class GreyscaleModifier extends GenericGreyscaleModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {

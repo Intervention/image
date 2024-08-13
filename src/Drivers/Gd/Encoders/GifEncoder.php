@@ -15,6 +15,11 @@ use Intervention\Image\Interfaces\SpecializedInterface;
 
 class GifEncoder extends GenericGifEncoder implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see EncoderInterface::encode()
+     */
     public function encode(ImageInterface $image): EncodedImage
     {
         if ($image->isAnimated()) {

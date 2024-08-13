@@ -13,6 +13,11 @@ use Intervention\Image\Modifiers\PlaceModifier as GenericPlaceModifier;
 
 class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $watermark = $this->driver()->handleInput($this->element);

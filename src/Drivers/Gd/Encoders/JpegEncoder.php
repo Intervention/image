@@ -12,6 +12,11 @@ use Intervention\Image\Interfaces\SpecializedInterface;
 
 class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see EncoderInterface::encode()
+     */
     public function encode(ImageInterface $image): EncodedImage
     {
         $blendingColor = $this->driver()->handleInput(

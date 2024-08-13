@@ -11,6 +11,11 @@ use Intervention\Image\Interfaces\SpecializedInterface;
 
 class ColorspaceAnalyzer extends GenericColorspaceAnalyzer implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see AnalyzerInterface::analyze()
+     */
     public function analyze(ImageInterface $image): mixed
     {
         return new Colorspace();

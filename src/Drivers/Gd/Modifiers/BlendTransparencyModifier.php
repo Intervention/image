@@ -11,6 +11,11 @@ use Intervention\Image\Modifiers\BlendTransparencyModifier as GenericBlendTransp
 
 class BlendTransparencyModifier extends GenericBlendTransparencyModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         // decode blending color

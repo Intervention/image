@@ -10,6 +10,11 @@ use Intervention\Image\Modifiers\InvertModifier as GenericInvertModifier;
 
 class InvertModifier extends GenericInvertModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {

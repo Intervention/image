@@ -18,6 +18,11 @@ use Intervention\Image\Modifiers\ContainModifier as GenericContainModifier;
 
 class ContainModifier extends GenericContainModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $crop = $this->getCropSize($image);

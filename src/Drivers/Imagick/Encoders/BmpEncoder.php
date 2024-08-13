@@ -14,7 +14,7 @@ class BmpEncoder extends GenericBmpEncoder implements SpecializedInterface
 {
     public function encode(ImageInterface $image): EncodedImage
     {
-        $format = 'bmp';
+        $format = 'BMP';
         $compression = Imagick::COMPRESSION_NO;
 
         $imagick = $image->core()->native();

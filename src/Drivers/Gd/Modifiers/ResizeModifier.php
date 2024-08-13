@@ -6,6 +6,7 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Exceptions\ColorException;
+use Intervention\Image\Exceptions\GeometryException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -15,6 +16,11 @@ use Intervention\Image\Modifiers\ResizeModifier as GenericResizeModifier;
 
 class ResizeModifier extends GenericResizeModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $resizeTo = $this->getAdjustedSize($image);
@@ -52,7 +58,12 @@ class ResizeModifier extends GenericResizeModifier implements SpecializedInterfa
     }
 
     /**
+     * Return the size the modifier will resize to
+     *
+     * @param ImageInterface $image
      * @throws RuntimeException
+     * @throws GeometryException
+     * @return SizeInterface
      */
     protected function getAdjustedSize(ImageInterface $image): SizeInterface
     {

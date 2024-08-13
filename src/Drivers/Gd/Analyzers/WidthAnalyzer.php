@@ -10,6 +10,11 @@ use Intervention\Image\Interfaces\SpecializedInterface;
 
 class WidthAnalyzer extends GenericWidthAnalyzer implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see AnalyzerInterface::analyze()
+     */
     public function analyze(ImageInterface $image): mixed
     {
         return imagesx($image->core()->native());

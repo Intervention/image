@@ -11,6 +11,11 @@ use Intervention\Image\Modifiers\SliceAnimationModifier as GenericSliceAnimation
 
 class SliceAnimationModifier extends GenericSliceAnimationModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         if ($this->offset >= $image->count()) {

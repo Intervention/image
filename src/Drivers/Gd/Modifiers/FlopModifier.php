@@ -10,6 +10,11 @@ use Intervention\Image\Modifiers\FlopModifier as GenericFlopModifier;
 
 class FlopModifier extends GenericFlopModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {

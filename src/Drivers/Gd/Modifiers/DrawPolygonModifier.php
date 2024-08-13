@@ -12,6 +12,9 @@ use Intervention\Image\Modifiers\DrawPolygonModifier as ModifiersDrawPolygonModi
 class DrawPolygonModifier extends ModifiersDrawPolygonModifier implements SpecializedInterface
 {
     /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
      * @throws RuntimeException
      */
     public function apply(ImageInterface $image): ImageInterface

@@ -10,6 +10,11 @@ use Intervention\Image\Modifiers\FlipModifier as GenericFlipModifier;
 
 class FlipModifier extends GenericFlipModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {

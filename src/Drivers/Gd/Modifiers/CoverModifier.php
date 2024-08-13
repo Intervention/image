@@ -14,6 +14,11 @@ use Intervention\Image\Modifiers\CoverModifier as GenericCoverModifier;
 
 class CoverModifier extends GenericCoverModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $crop = $this->getCropSize($image);

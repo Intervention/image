@@ -10,6 +10,11 @@ use Intervention\Image\Modifiers\ResolutionModifier as GenericResolutionModifier
 
 class ResolutionModifier extends GenericResolutionModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $x = intval(round($this->x));

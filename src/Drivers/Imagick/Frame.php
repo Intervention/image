@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick;
 
 use Imagick;
+use ImagickException;
 use ImagickPixel;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Image;
@@ -15,6 +16,13 @@ use Intervention\Image\Interfaces\SizeInterface;
 
 class Frame implements FrameInterface
 {
+    /**
+     * Create new frame object
+     *
+     * @param Imagick $native
+     * @throws ImagickException
+     * @return void
+     */
     public function __construct(protected Imagick $native)
     {
         $background = new ImagickPixel('rgba(255, 255, 255, 0)');

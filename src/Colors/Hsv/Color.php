@@ -16,6 +16,14 @@ use Intervention\Image\Interfaces\ColorspaceInterface;
 
 class Color extends AbstractColor
 {
+    /**
+     * Create new color object
+     *
+     * @param int $h
+     * @param int $s
+     * @param int $v
+     * @return void
+     */
     public function __construct(int $h, int $s, int $v)
     {
         /** @throws void */
@@ -117,6 +125,16 @@ class Color extends AbstractColor
      * @see ColorInterface::isTransparent()
      */
     public function isTransparent(): bool
+    {
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::isClear()
+     */
+    public function isClear(): bool
     {
         return false;
     }

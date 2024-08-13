@@ -15,7 +15,7 @@ class WebpEncoder extends GenericWebpEncoder implements SpecializedInterface
 {
     public function encode(ImageInterface $image): EncodedImage
     {
-        $format = 'webp';
+        $format = 'WEBP';
         $compression = Imagick::COMPRESSION_ZIP;
 
         $imagick = $image->core()->native();

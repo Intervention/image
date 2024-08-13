@@ -10,6 +10,11 @@ use Intervention\Image\Modifiers\BrightnessModifier as GenericBrightnessModifier
 
 class BrightnessModifier extends GenericBrightnessModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {

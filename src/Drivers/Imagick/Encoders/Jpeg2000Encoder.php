@@ -15,7 +15,7 @@ class Jpeg2000Encoder extends GenericJpeg2000Encoder implements SpecializedInter
 {
     public function encode(ImageInterface $image): EncodedImageInterface
     {
-        $format = 'jp2';
+        $format = 'JP2';
         $compression = Imagick::COMPRESSION_JPEG;
 
         $imagick = $image->core()->native();

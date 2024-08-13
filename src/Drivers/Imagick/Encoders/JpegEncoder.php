@@ -14,7 +14,7 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
 {
     public function encode(ImageInterface $image): EncodedImage
     {
-        $format = 'jpeg';
+        $format = 'JPEG';
         $compression = Imagick::COMPRESSION_JPEG;
         $blendingColor = $this->driver()->handleInput(
             $this->driver()->config()->blendingColor

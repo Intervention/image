@@ -17,10 +17,21 @@ use Intervention\Image\Interfaces\ColorspaceInterface;
 
 class ColorProcessor implements ColorProcessorInterface
 {
+    /**
+     * Create new color processor object
+     *
+     * @param ColorspaceInterface $colorspace
+     * @return void
+     */
     public function __construct(protected ColorspaceInterface $colorspace = new Colorspace())
     {
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorProcessorInterface::colorToNative()
+     */
     public function colorToNative(ColorInterface $color): int
     {
         // convert color to colorspace
@@ -39,6 +50,11 @@ class ColorProcessor implements ColorProcessorInterface
         return ($a << 24) + ($r << 16) + ($g << 8) + $b;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorProcessorInterface::nativeToColor()
+     */
     public function nativeToColor(mixed $value): ColorInterface
     {
         if (!is_int($value)) {

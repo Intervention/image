@@ -12,6 +12,9 @@ use Intervention\Image\Modifiers\DrawRectangleModifier as GenericDrawRectangleMo
 class DrawRectangleModifier extends GenericDrawRectangleModifier implements SpecializedInterface
 {
     /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
      * @throws RuntimeException
      */
     public function apply(ImageInterface $image): ImageInterface

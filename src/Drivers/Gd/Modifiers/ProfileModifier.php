@@ -11,6 +11,11 @@ use Intervention\Image\Modifiers\ProfileModifier as GenericProfileModifier;
 
 class ProfileModifier extends GenericProfileModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         throw new NotSupportedException(

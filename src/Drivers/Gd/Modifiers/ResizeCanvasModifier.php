@@ -18,6 +18,11 @@ use Intervention\Image\Modifiers\ResizeCanvasModifier as GenericResizeCanvasModi
 
 class ResizeCanvasModifier extends GenericResizeCanvasModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $resize = $this->cropSize($image);

@@ -13,6 +13,11 @@ use Intervention\Image\Modifiers\AlignRotationModifier;
 
 class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see DecoderInterface::decode()
+     */
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!$this->isFile($input)) {

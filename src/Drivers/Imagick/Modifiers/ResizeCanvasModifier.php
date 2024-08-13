@@ -38,18 +38,19 @@ class ResizeCanvasModifier extends GenericResizeCanvasModifier implements Specia
                 if ($delta > 0) {
                     $draw->rectangle(
                         0,
-                        0,
+                        $delta,
                         $delta - 1,
-                        $resize->height()
+                        $resize->height() - $delta - 1
                     );
                 }
 
                 $draw->rectangle(
                     $size->width() + $delta,
-                    0,
+                    $delta,
                     $resize->width(),
-                    $resize->height()
+                    $resize->height() - $delta  - 1
                 );
+
                 $frame->native()->drawImage($draw);
             }
 

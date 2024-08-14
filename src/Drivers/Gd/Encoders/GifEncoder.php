@@ -6,6 +6,7 @@ namespace Intervention\Image\Drivers\Gd\Encoders;
 
 use Exception;
 use Intervention\Gif\Builder as GifBuilder;
+use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\GifEncoder as GenericGifEncoder;
 use Intervention\Image\Exceptions\EncoderException;
@@ -26,11 +27,10 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
             return $this->encodeAnimated($image);
         }
 
-        $gd = $image->core()->native();
+        $gd = Cloner::clone($image->core()->native());
         $data = $this->buffered(function () use ($gd) {
             imageinterlace($gd, $this->interlaced);
             imagegif($gd);
-            imageinterlace($gd, false);
         });
 
         return new EncodedImage($data, 'image/gif');

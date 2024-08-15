@@ -43,7 +43,7 @@ class ResizeCanvasModifier extends GenericResizeCanvasModifier implements Specia
         SizeInterface $resize,
         ColorInterface $background,
     ): void {
-        // create new canvas with target size & target background color
+        // create new canvas with target size & transparent background color
         $modified = Cloner::cloneEmpty($frame->native(), $resize, $background);
 
         // make image area transparent to keep transparency
@@ -56,19 +56,20 @@ class ResizeCanvasModifier extends GenericResizeCanvasModifier implements Specia
             127,
         );
 
-        imagealphablending($modified, false); // do not blend - just overwrite
+        // create transparent area to place the original on top
+        imagealphablending($modified, false); // do not blend / just overwrite
+        imagecolortransparent($modified, $transparent);
         imagefilledrectangle(
             $modified,
             $resize->pivot()->x() * -1,
             $resize->pivot()->y() * -1,
-            $resize->pivot()->x() * -1 + $frame->size()->width() - 1,
-            $resize->pivot()->y() * -1 + $frame->size()->height() - 1,
-            $transparent
+            abs($resize->pivot()->x()) + $frame->size()->width() - 1,
+            abs($resize->pivot()->y()) + $frame->size()->height() - 1,
+            $transparent,
         );
 
-        // copy image from original with blending alpha
-        imagealphablending($modified, true);
-        imagecopyresampled(
+        // place original
+        imagecopy(
             $modified,
             $frame->native(),
             $resize->pivot()->x() * -1,
@@ -77,8 +78,6 @@ class ResizeCanvasModifier extends GenericResizeCanvasModifier implements Specia
             0,
             $frame->size()->width(),
             $frame->size()->height(),
-            $frame->size()->width(),
-            $frame->size()->height()
         );
 
         // set new content as resource

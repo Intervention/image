@@ -34,7 +34,7 @@ class ResizeCanvasModifier extends GenericResizeCanvasModifier implements Specia
                 $draw->setFillColor($background);
 
                 $delta_width = abs($resize->pivot()->x());
-                $delta_height = abs($resize->pivot()->y());
+                $delta_height = $resize->pivot()->y() * -1;
 
                 if ($delta_width > 0) {
                     $draw->rectangle(

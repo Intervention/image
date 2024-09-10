@@ -23,6 +23,6 @@ class AvifEncoder extends GenericAvifEncoder implements SpecializedInterface
             imageavif($gd, null, $this->quality);
         });
 
-        return new EncodedImage($data, 'image/avif');
+        return new EncodedImage($data);
     }
 }

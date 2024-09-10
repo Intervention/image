@@ -25,6 +25,6 @@ class AvifEncoder extends GenericAvifEncoder implements SpecializedInterface
         $imagick->setCompressionQuality($this->quality);
         $imagick->setImageCompressionQuality($this->quality);
 
-        return new EncodedImage($imagick->getImagesBlob(), 'image/avif');
+        return new EncodedImage($imagick->getImagesBlob());
     }
 }

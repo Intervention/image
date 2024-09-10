@@ -32,7 +32,7 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
             $output->setInterlaceScheme(Imagick::INTERLACE_LINE);
         }
 
-        return new EncodedImage($output->getImagesBlob(), 'image/png');
+        return new EncodedImage($output->getImagesBlob());
     }
 
     /**

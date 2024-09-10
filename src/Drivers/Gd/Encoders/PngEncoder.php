@@ -31,7 +31,7 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
             imagepng($output, null, -1);
         });
 
-        return new EncodedImage($data, 'image/png');
+        return new EncodedImage($data);
     }
 
     /**

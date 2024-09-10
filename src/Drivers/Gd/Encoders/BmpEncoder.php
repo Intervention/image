@@ -22,6 +22,6 @@ class BmpEncoder extends GenericBmpEncoder implements SpecializedInterface
             imagebmp($image->core()->native(), null, false);
         });
 
-        return new EncodedImage($data, 'image/bmp');
+        return new EncodedImage($data);
     }
 }

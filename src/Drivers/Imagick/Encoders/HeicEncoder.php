@@ -23,6 +23,6 @@ class HeicEncoder extends GenericHeicEncoder implements SpecializedInterface
         $imagick->setCompressionQuality($this->quality);
         $imagick->setImageCompressionQuality($this->quality);
 
-        return new EncodedImage($imagick->getImagesBlob(), 'image/heic');
+        return new EncodedImage($imagick->getImagesBlob());
     }
 }

@@ -82,6 +82,8 @@ class File implements FileInterface
      */
     public function toFilePointer()
     {
+        rewind($this->pointer);
+
         return $this->pointer;
     }
 

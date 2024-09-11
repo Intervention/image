@@ -19,6 +19,6 @@ final class HeicEncoderTest extends ImagickTestCase
         $image = $this->createTestImage(3, 2);
         $encoder = new HeicEncoder(75);
         $result = $encoder->encode($image);
-        $this->assertMediaType('image/heic', (string) $result);
+        $this->assertMediaType('image/heic', $result);
     }
 }

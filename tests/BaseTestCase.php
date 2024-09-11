@@ -9,6 +9,7 @@ use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
+use Intervention\Image\EncodedImage;
 use Intervention\Image\Interfaces\ColorInterface;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use PHPUnit\Framework\ExpectationFailedException;
@@ -102,19 +103,18 @@ abstract class BaseTestCase extends MockeryTestCase
         $this->assertEquals(0, $channel->value());
     }
 
-    protected function assertMediaType(string|array $allowed, string $input): void
+    protected function assertMediaType(string|array $allowed, string|EncodedImage $input): void
     {
-        $pointer = fopen('php://temp', 'rw');
-        fputs($pointer, $input);
-        rewind($pointer);
-        $detected = mime_content_type($pointer);
-        fclose($pointer);
+        $detected = match (true) {
+            is_string($input) => (new EncodedImage($input))->mimetype(),
+            default => $input->mimetype(),
+        };
 
         $allowed = is_string($allowed) ? [$allowed] : $allowed;
         $this->assertTrue(in_array($detected, $allowed));
     }
 
-    protected function assertMediaTypeBitmap(string $input): void
+    protected function assertMediaTypeBitmap(string|EncodedImage $input): void
     {
         $this->assertMediaType([
             'image/x-ms-bmp',

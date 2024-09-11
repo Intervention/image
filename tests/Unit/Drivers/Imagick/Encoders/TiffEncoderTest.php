@@ -19,6 +19,6 @@ final class TiffEncoderTest extends ImagickTestCase
         $image = $this->createTestImage(3, 2);
         $encoder = new TiffEncoder();
         $result = $encoder->encode($image);
-        $this->assertMediaType('image/tiff', (string) $result);
+        $this->assertMediaType('image/tiff', $result);
     }
 }

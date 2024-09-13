@@ -11,11 +11,11 @@ class EncodedImage extends File implements EncodedImageInterface
     /**
      * Create new instance
      *
-     * @param string $data
+     * @param string|resource $data
      * @param string $mediaType Deprecated parameter, will be removed
      */
     public function __construct(
-        string $data,
+        mixed $data,
         protected string $mediaType = 'application/octet-stream' // deprecated
     ) {
         if ($mediaType !== 'application/octet-stream') {

@@ -283,45 +283,85 @@ class Rectangle extends Polygon implements SizeInterface
     }
 
     /**
+     * @see SizeInterface::resize()
+     *
      * @throws GeometryException
      */
-    protected function resizer(?int $width = null, ?int $height = null): RectangleResizer
-    {
-        return new RectangleResizer($width, $height);
-    }
-
     public function resize(?int $width = null, ?int $height = null): SizeInterface
     {
         return $this->resizer($width, $height)->resize($this);
     }
 
+    /**
+     * @see SizeInterface::resizeDown()
+     *
+     * @throws GeometryException
+     */
     public function resizeDown(?int $width = null, ?int $height = null): SizeInterface
     {
         return $this->resizer($width, $height)->resizeDown($this);
     }
 
+    /**
+     * @see SizeInterface::scale()
+     *
+     * @throws GeometryException
+     */
     public function scale(?int $width = null, ?int $height = null): SizeInterface
     {
         return $this->resizer($width, $height)->scale($this);
     }
 
+    /**
+     * @see SizeInterface::scaleDown()
+     *
+     * @throws GeometryException
+     */
     public function scaleDown(?int $width = null, ?int $height = null): SizeInterface
     {
         return $this->resizer($width, $height)->scaleDown($this);
     }
 
+    /**
+     * @see SizeInterface::cover()
+     *
+     * @throws GeometryException
+     */
     public function cover(int $width, int $height): SizeInterface
     {
         return $this->resizer($width, $height)->cover($this);
     }
 
+    /**
+     * @see SizeInterface::contain()
+     *
+     * @throws GeometryException
+     */
     public function contain(int $width, int $height): SizeInterface
     {
         return $this->resizer($width, $height)->contain($this);
     }
 
+    /**
+     * @see SizeInterface::containMax()
+     *
+     * @throws GeometryException
+     */
     public function containMax(int $width, int $height): SizeInterface
     {
         return $this->resizer($width, $height)->containDown($this);
+    }
+
+    /**
+     * Create resizer instance with given target size
+     *
+     * @param null|int $width
+     * @param null|int $height
+     * @throws GeometryException
+     * @return RectangleResizer
+     */
+    protected function resizer(?int $width = null, ?int $height = null): RectangleResizer
+    {
+        return new RectangleResizer($width, $height);
     }
 }

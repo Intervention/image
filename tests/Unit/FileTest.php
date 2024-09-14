@@ -58,6 +58,9 @@ final class FileTest extends BaseTestCase
 
     public function testSize(): void
     {
+        $file = new File();
+        $this->assertEquals(0, $file->size());
+
         $file = new File('foo');
         $this->assertEquals(3, $file->size());
     }

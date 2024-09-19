@@ -6,11 +6,11 @@ namespace Intervention\Image\Drivers\Imagick\Encoders;
 
 use Imagick;
 use ImagickException;
-use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\PngEncoder as GenericPngEncoder;
 use Intervention\Image\Exceptions\AnimationException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Exceptions\ColorException;
+use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 
@@ -21,7 +21,7 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
      *
      * @see EncoderInterface::encode()
      */
-    public function encode(ImageInterface $image): EncodedImage
+    public function encode(ImageInterface $image): EncodedImageInterface
     {
         $output = $this->prepareOutput($image);
 
@@ -32,7 +32,9 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
             $output->setInterlaceScheme(Imagick::INTERLACE_LINE);
         }
 
-        return new EncodedImage($output->getImagesBlob());
+        return $this->createEncodedImage(function ($pointer) use ($output) {
+            $output->writeImageFile($pointer, $this->format());
+        });
     }
 
     /**
@@ -52,20 +54,21 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
         if ($this->indexed) {
             // reduce colors
             $output->reduceColors(256);
-
             $output = $output->core()->native();
-
-            $output->setFormat('PNG');
-            $output->setImageFormat('PNG');
 
             return $output;
         }
 
-        // ensure to encode PNG image type 6 (true color alpha)
         $output = clone $image->core()->native();
-        $output->setFormat('PNG32');
-        $output->setImageFormat('PNG32');
 
         return $output;
+    }
+
+    private function format(): string
+    {
+        return match ($this->indexed) {
+            true => 'PNG',
+            false => 'PNG32', // ensure to encode PNG image type 6 (true color alpha)
+        };
     }
 }

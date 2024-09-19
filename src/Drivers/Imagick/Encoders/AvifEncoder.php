@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Encoders;
 
 use Imagick;
-use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\AvifEncoder as GenericAvifEncoder;
+use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 
 class AvifEncoder extends GenericAvifEncoder implements SpecializedInterface
 {
-    public function encode(ImageInterface $image): EncodedImage
+    public function encode(ImageInterface $image): EncodedImageInterface
     {
         $format = 'AVIF';
         $compression = Imagick::COMPRESSION_ZIP;
@@ -25,6 +25,8 @@ class AvifEncoder extends GenericAvifEncoder implements SpecializedInterface
         $imagick->setCompressionQuality($this->quality);
         $imagick->setImageCompressionQuality($this->quality);
 
-        return new EncodedImage($imagick->getImagesBlob());
+        return $this->createEncodedImage(function ($pointer) use ($imagick, $format) {
+            $imagick->writeImageFile($pointer, $format);
+        });
     }
 }

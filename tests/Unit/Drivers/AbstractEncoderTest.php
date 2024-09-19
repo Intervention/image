@@ -23,21 +23,4 @@ final class AbstractEncoderTest extends BaseTestCase
         $result = $encoder->encode($image);
         $this->assertInstanceOf(EncodedImage::class, $result);
     }
-
-    public function testGetBuffered(): void
-    {
-        $encoder = new class () extends AbstractEncoder
-        {
-            public function test(callable $callback)
-            {
-                return $this->buffered($callback);
-            }
-        };
-
-        $result = $encoder->test(function () {
-            echo 'result';
-        });
-
-        $this->assertEquals('result', $result);
-    }
 }

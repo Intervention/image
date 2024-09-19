@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers;
 
+use Intervention\Image\EncodedImage;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Traits\CanBuildFilePointer;
 
 abstract class AbstractEncoder implements EncoderInterface
 {
+    use CanBuildFilePointer;
+
     public const DEFAULT_QUALITY = 75;
 
     /**
@@ -23,18 +28,17 @@ abstract class AbstractEncoder implements EncoderInterface
     }
 
     /**
-     * Get return value of callback through output buffer
+     * Build new file pointer, run callback with it and return result as encoded image
      *
      * @param callable $callback
-     * @return string
+     * @throws RuntimeException
+     * @return EncodedImage
      */
-    protected function buffered(callable $callback): string
+    protected function createEncodedImage(callable $callback): EncodedImage
     {
-        ob_start();
-        $callback();
-        $buffer = ob_get_contents();
-        ob_end_clean();
+        $pointer = $this->buildFilePointer();
+        $callback($pointer);
 
-        return $buffer;
+        return new EncodedImage($pointer);
     }
 }

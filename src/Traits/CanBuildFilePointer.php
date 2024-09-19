@@ -15,7 +15,7 @@ trait CanBuildFilePointer
      * @throws RuntimeException
      * @return resource|false
      */
-    public function buildFilePointer(mixed $data)
+    public function buildFilePointer(mixed $data = null)
     {
         switch (true) {
             case is_string($data):

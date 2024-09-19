@@ -28,12 +28,11 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
         }
 
         $gd = Cloner::clone($image->core()->native());
-        $data = $this->buffered(function () use ($gd) {
-            imageinterlace($gd, $this->interlaced);
-            imagegif($gd);
-        });
 
-        return new EncodedImage($data);
+        return $this->createEncodedImage(function ($pointer) use ($gd) {
+            imageinterlace($gd, $this->interlaced);
+            imagegif($gd, $pointer);
+        });
     }
 
     /**

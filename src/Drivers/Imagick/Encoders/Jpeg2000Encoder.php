@@ -28,6 +28,9 @@ class Jpeg2000Encoder extends GenericJpeg2000Encoder implements SpecializedInter
         $imagick->setCompressionQuality($this->quality);
         $imagick->setImageCompressionQuality($this->quality);
 
+        // encoding fails with Imagick::writeImageFile() for JP2 format
+        // The reasons are unknown, but could be fixed by Imagick/Imagemagick
+        // in the future. Until then, I use getImagesBlob() for Jpeg2000.
         return new EncodedImage($imagick->getImagesBlob());
     }
 }

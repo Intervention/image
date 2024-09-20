@@ -23,7 +23,7 @@ trait CanBuildFilePointer
                 fwrite($pointer, $data);
                 break;
 
-            case is_resource($data):
+            case is_resource($data) && get_resource_type($data) === 'stream':
                 $pointer = $data;
                 break;
 

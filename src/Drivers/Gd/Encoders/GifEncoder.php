@@ -47,7 +47,7 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
 
         foreach ($image as $frame) {
             $builder->addFrame(
-                source: (string) $this->encode($frame->toImage($image->driver())),
+                source: $this->encode($frame->toImage($image->driver()))->toFilePointer(),
                 delay: $frame->delay(),
                 interlaced: $this->interlaced
             );

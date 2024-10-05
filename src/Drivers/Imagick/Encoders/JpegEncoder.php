@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Encoders;
 
 use Imagick;
+use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\JpegEncoder as GenericJpegEncoder;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -44,8 +45,6 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
             $imagick->setInterlaceScheme(Imagick::INTERLACE_PLANE);
         }
 
-        return $this->createEncodedImage(function ($pointer) use ($imagick, $format) {
-            $imagick->writeImageFile($pointer, $format);
-        });
+        return new EncodedImage($imagick->getImagesBlob());
     }
 }

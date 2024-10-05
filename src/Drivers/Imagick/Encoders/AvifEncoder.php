@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Encoders;
 
 use Imagick;
+use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\AvifEncoder as GenericAvifEncoder;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -25,8 +26,6 @@ class AvifEncoder extends GenericAvifEncoder implements SpecializedInterface
         $imagick->setCompressionQuality($this->quality);
         $imagick->setImageCompressionQuality($this->quality);
 
-        return $this->createEncodedImage(function ($pointer) use ($imagick, $format) {
-            $imagick->writeImageFile($pointer, $format);
-        });
+        return new EncodedImage($imagick->getImagesBlob());
     }
 }

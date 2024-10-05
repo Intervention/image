@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Encoders;
 
+use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\HeicEncoder as GenericHeicEncoder;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -16,14 +17,11 @@ class HeicEncoder extends GenericHeicEncoder implements SpecializedInterface
         $format = 'HEIC';
 
         $imagick = $image->core()->native();
-
         $imagick->setFormat($format);
         $imagick->setImageFormat($format);
         $imagick->setCompressionQuality($this->quality);
         $imagick->setImageCompressionQuality($this->quality);
 
-        return $this->createEncodedImage(function ($pointer) use ($imagick, $format) {
-            $imagick->writeImageFile($pointer, $format);
-        });
+        return new EncodedImage($imagick->getImagesBlob());
     }
 }

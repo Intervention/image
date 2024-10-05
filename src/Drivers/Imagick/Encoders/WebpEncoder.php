@@ -6,6 +6,7 @@ namespace Intervention\Image\Drivers\Imagick\Encoders;
 
 use Imagick;
 use ImagickPixel;
+use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\WebpEncoder as GenericWebpEncoder;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -31,8 +32,6 @@ class WebpEncoder extends GenericWebpEncoder implements SpecializedInterface
         $imagick->setImageCompression($compression);
         $imagick->setImageCompressionQuality($this->quality);
 
-        return $this->createEncodedImage(function ($pointer) use ($imagick, $format) {
-            $imagick->writeImageFile($pointer, $format);
-        });
+        return new EncodedImage($imagick->getImagesBlob());
     }
 }

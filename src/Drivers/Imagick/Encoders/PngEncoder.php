@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Encoders;
 
 use Imagick;
+use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\PngEncoder as GenericPngEncoder;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -25,8 +26,12 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
             $output->reduceColors(256);
 
             $output = $output->core()->native();
+            $output->setFormat('PNG');
+            $output->setImageFormat('PNG');
         } else {
             $output = clone $image->core()->native();
+            $output->setFormat('PNG32');
+            $output->setImageFormat('PNG32');
         }
 
         $output->setCompression(Imagick::COMPRESSION_ZIP);
@@ -36,11 +41,6 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
             $output->setInterlaceScheme(Imagick::INTERLACE_LINE);
         }
 
-        return $this->createEncodedImage(function ($pointer) use ($output) {
-            $output->writeImageFile(
-                $pointer,
-                $this->indexed ? 'PNG' : 'PNG32',
-            );
-        });
+        return new EncodedImage($output->getImagesBlob());
     }
 }

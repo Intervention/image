@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Encoders;
 
 use Imagick;
+use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\GifEncoder as GenericGifEncoder;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -28,8 +29,6 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
             $imagick->setInterlaceScheme(Imagick::INTERLACE_LINE);
         }
 
-        return $this->createEncodedImage(function ($pointer) use ($imagick, $format) {
-            $imagick->writeImageFile($pointer, $format);
-        });
+        return new EncodedImage($imagick->getImagesBlob());
     }
 }

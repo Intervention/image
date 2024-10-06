@@ -116,6 +116,18 @@ enum Format
     }
 
     /**
+     * Return the first found file extension for the current format
+     *
+     * @return FileExtension
+     */
+    public function fileExtension(): FileExtension
+    {
+        $extensions = $this->fileExtensions();
+
+        return reset($extensions);
+    }
+
+    /**
      * Create an encoder instance with given options that matches the format
      *
      * @param mixed $options

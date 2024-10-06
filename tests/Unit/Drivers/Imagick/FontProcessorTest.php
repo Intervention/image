@@ -18,12 +18,12 @@ final class FontProcessorTest extends BaseTestCase
         $processor = new FontProcessor();
         $size = $processor->boxSize(
             'ABC',
-            $this->testFont()->setSize(26),
+            $this->testFont()->setSize(120),
         );
 
         $this->assertInstanceOf(SizeInterface::class, $size);
-        $this->assertEquals(36, $size->width());
-        $this->assertEquals(15, $size->height());
+        $this->assertEquals(163, $size->width());
+        $this->assertEquals(72, $size->height());
     }
 
     public function testNativeFontSize(): void

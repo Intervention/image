@@ -29,6 +29,6 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
             $imagick->setInterlaceScheme(Imagick::INTERLACE_LINE);
         }
 
-        return new EncodedImage($imagick->getImagesBlob());
+        return new EncodedImage($imagick->getImagesBlob(), 'image/gif');
     }
 }

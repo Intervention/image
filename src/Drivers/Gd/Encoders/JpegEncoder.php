@@ -31,6 +31,6 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
         return $this->createEncodedImage(function ($pointer) use ($output) {
             imageinterlace($output, $this->progressive);
             imagejpeg($output, $pointer, $this->quality);
-        });
+        }, 'image/jpeg');
     }
 }

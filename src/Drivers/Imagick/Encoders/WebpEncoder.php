@@ -32,6 +32,6 @@ class WebpEncoder extends GenericWebpEncoder implements SpecializedInterface
         $imagick->setImageCompression($compression);
         $imagick->setImageCompressionQuality($this->quality);
 
-        return new EncodedImage($imagick->getImagesBlob());
+        return new EncodedImage($imagick->getImagesBlob(), 'image/webp');
     }
 }

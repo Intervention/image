@@ -24,6 +24,6 @@ class BmpEncoder extends GenericBmpEncoder implements SpecializedInterface
         $imagick->setCompression($compression);
         $imagick->setImageCompression($compression);
 
-        return new EncodedImage($imagick->getImagesBlob());
+        return new EncodedImage($imagick->getImagesBlob(), 'image/bmp');
     }
 }

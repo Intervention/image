@@ -24,6 +24,6 @@ class TiffEncoder extends GenericTiffEncoder implements SpecializedInterface
         $imagick->setCompressionQuality($this->quality);
         $imagick->setImageCompressionQuality($this->quality);
 
-        return new EncodedImage($imagick->getImagesBlob());
+        return new EncodedImage($imagick->getImagesBlob(), 'image/tiff');
     }
 }

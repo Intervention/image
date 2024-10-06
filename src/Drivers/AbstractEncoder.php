@@ -31,14 +31,15 @@ abstract class AbstractEncoder implements EncoderInterface
      * Build new file pointer, run callback with it and return result as encoded image
      *
      * @param callable $callback
+     * @param null|string $mediaType
      * @throws RuntimeException
      * @return EncodedImage
      */
-    protected function createEncodedImage(callable $callback): EncodedImage
+    protected function createEncodedImage(callable $callback, ?string $mediaType = null): EncodedImage
     {
         $pointer = $this->buildFilePointer();
         $callback($pointer);
 
-        return new EncodedImage($pointer);
+        return is_string($mediaType) ? new EncodedImage($pointer, $mediaType) : new EncodedImage($pointer);
     }
 }

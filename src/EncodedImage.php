@@ -12,16 +12,12 @@ class EncodedImage extends File implements EncodedImageInterface
      * Create new instance
      *
      * @param string|resource $data
-     * @param string $mediaType Deprecated parameter, will be removed
+     * @param string $mediaType
      */
     public function __construct(
         mixed $data,
-        protected string $mediaType = 'application/octet-stream' // deprecated
+        protected string $mediaType = 'application/octet-stream'
     ) {
-        if ($mediaType !== 'application/octet-stream') {
-            trigger_error('Parameter $mediaType for class' . self::class . ' is deprecated.', E_USER_DEPRECATED);
-        }
-
         parent::__construct($data);
     }
 
@@ -32,7 +28,7 @@ class EncodedImage extends File implements EncodedImageInterface
      */
     public function mediaType(): string
     {
-        return mime_content_type($this->pointer);
+        return $this->mediaType;
     }
 
     /**

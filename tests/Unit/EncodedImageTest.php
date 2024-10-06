@@ -31,7 +31,7 @@ final class EncodedImageTest extends BaseTestCase
     public function testToDataUri(): void
     {
         $image = new EncodedImage('foo');
-        $this->assertEquals('data:text/plain;base64,Zm9v', $image->toDataUri());
+        $this->assertEquals('data:application/octet-stream;base64,Zm9v', $image->toDataUri());
     }
 
     public function testToString(): void
@@ -43,18 +43,18 @@ final class EncodedImageTest extends BaseTestCase
     public function testMediaType(): void
     {
         $image = new EncodedImage('foo');
-        $this->assertEquals('text/plain', $image->mediaType());
+        $this->assertEquals('application/octet-stream', $image->mediaType());
 
-        $image = new EncodedImage($this->getTestResourceData());
+        $image = new EncodedImage($this->getTestResourceData(), 'image/jpeg');
         $this->assertEquals('image/jpeg', $image->mediaType());
     }
 
     public function testMimetype(): void
     {
         $image = new EncodedImage('foo');
-        $this->assertEquals('text/plain', $image->mimetype());
+        $this->assertEquals('application/octet-stream', $image->mimetype());
 
-        $image = new EncodedImage($this->getTestResourceData());
+        $image = new EncodedImage($this->getTestResourceData(), 'image/jpeg');
         $this->assertEquals('image/jpeg', $image->mimetype());
     }
 }

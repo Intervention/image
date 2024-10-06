@@ -45,6 +45,6 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
             $imagick->setInterlaceScheme(Imagick::INTERLACE_PLANE);
         }
 
-        return new EncodedImage($imagick->getImagesBlob());
+        return new EncodedImage($imagick->getImagesBlob(), 'image/jpeg');
     }
 }

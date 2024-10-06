@@ -22,6 +22,6 @@ class WebpEncoder extends GenericWebpEncoder implements SpecializedInterface
 
         return $this->createEncodedImage(function ($pointer) use ($image, $quality) {
             imagewebp($image->core()->native(), $pointer, $quality);
-        });
+        }, 'image/webp');
     }
 }

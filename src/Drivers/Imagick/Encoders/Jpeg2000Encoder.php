@@ -28,6 +28,6 @@ class Jpeg2000Encoder extends GenericJpeg2000Encoder implements SpecializedInter
         $imagick->setCompressionQuality($this->quality);
         $imagick->setImageCompressionQuality($this->quality);
 
-        return new EncodedImage($imagick->getImagesBlob());
+        return new EncodedImage($imagick->getImagesBlob(), 'image/jp2');
     }
 }

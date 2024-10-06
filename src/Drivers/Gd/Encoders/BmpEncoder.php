@@ -18,10 +18,8 @@ class BmpEncoder extends GenericBmpEncoder implements SpecializedInterface
      */
     public function encode(ImageInterface $image): EncodedImage
     {
-        $data = $this->buffered(function () use ($image) {
-            imagebmp($image->core()->native(), null, false);
+        return $this->createEncodedImage(function ($pointer) use ($image) {
+            imagebmp($image->core()->native(), $pointer, false);
         });
-
-        return new EncodedImage($data, 'image/bmp');
     }
 }

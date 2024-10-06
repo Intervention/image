@@ -28,11 +28,9 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
             background: $blendingColor
         );
 
-        $data = $this->buffered(function () use ($output) {
+        return $this->createEncodedImage(function ($pointer) use ($output) {
             imageinterlace($output, $this->progressive);
-            imagejpeg($output, null, $this->quality);
+            imagejpeg($output, $pointer, $this->quality);
         });
-
-        return new EncodedImage($data, 'image/jpeg');
     }
 }

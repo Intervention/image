@@ -11,13 +11,18 @@ class EncodedImage extends File implements EncodedImageInterface
     /**
      * Create new instance
      *
-     * @param string $data
-     * @param string $mediaType
+     * @param string|resource $data
+     * @param string $mediaType Deprecated parameter, will be removed
      */
     public function __construct(
-        protected string $data,
-        protected string $mediaType = 'application/octet-stream'
+        mixed $data,
+        protected string $mediaType = 'application/octet-stream' // deprecated
     ) {
+        if ($mediaType !== 'application/octet-stream') {
+            trigger_error('Parameter $mediaType for class' . self::class . ' is deprecated.', E_USER_DEPRECATED);
+        }
+
+        parent::__construct($data);
     }
 
     /**
@@ -27,7 +32,7 @@ class EncodedImage extends File implements EncodedImageInterface
      */
     public function mediaType(): string
     {
-        return $this->mediaType;
+        return mime_content_type($this->pointer);
     }
 
     /**
@@ -47,6 +52,6 @@ class EncodedImage extends File implements EncodedImageInterface
      */
     public function toDataUri(): string
     {
-        return sprintf('data:%s;base64,%s', $this->mediaType, base64_encode($this->data));
+        return sprintf('data:%s;base64,%s', $this->mediaType(), base64_encode((string) $this));
     }
 }

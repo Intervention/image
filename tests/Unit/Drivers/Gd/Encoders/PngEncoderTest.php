@@ -24,8 +24,8 @@ final class PngEncoderTest extends GdTestCase
         $image = $this->createTestImage(3, 2);
         $encoder = new PngEncoder();
         $result = $encoder->encode($image);
-        $this->assertMediaType('image/png', (string) $result);
-        $this->assertFalse($this->isInterlacedPng((string) $result));
+        $this->assertMediaType('image/png', $result);
+        $this->assertFalse($this->isInterlacedPng($result));
     }
 
     public function testEncodeInterlaced(): void
@@ -33,8 +33,8 @@ final class PngEncoderTest extends GdTestCase
         $image = $this->createTestImage(3, 2);
         $encoder = new PngEncoder(interlaced: true);
         $result = $encoder->encode($image);
-        $this->assertMediaType('image/png', (string) $result);
-        $this->assertTrue($this->isInterlacedPng((string) $result));
+        $this->assertMediaType('image/png', $result);
+        $this->assertTrue($this->isInterlacedPng($result));
     }
 
     #[DataProvider('indexedDataProvider')]
@@ -42,7 +42,7 @@ final class PngEncoderTest extends GdTestCase
     {
         $this->assertEquals(
             $result,
-            $this->pngColorType((string) $encoder->encode($image)),
+            $this->pngColorType($encoder->encode($image)),
         );
     }
 

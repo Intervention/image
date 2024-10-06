@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Traits;
 
+use Intervention\Image\EncodedImage;
 use Intervention\Image\Traits\CanBuildFilePointer;
 
 trait CanDetectProgressiveJpeg
@@ -13,12 +14,12 @@ trait CanDetectProgressiveJpeg
     /**
      * Checks if the given image data is progressive encoded Jpeg format
      *
-     * @param string $imagedata
+     * @param EncodedImage $imagedata
      * @return bool
      */
-    private function isProgressiveJpeg(string $imagedata): bool
+    private function isProgressiveJpeg(EncodedImage $image): bool
     {
-        $f = $this->buildFilePointer($imagedata);
+        $f = $image->toFilePointer();
 
         while (!feof($f)) {
             if (unpack('C', fread($f, 1))[1] !== 0xff) {

@@ -142,48 +142,48 @@ final class ImageTest extends GdTestCase
     {
         $result = $this->readTestImage('blue.gif')->encode();
         $this->assertInstanceOf(EncodedImage::class, $result);
-        $this->assertMediaType('image/gif', (string) $result);
+        $this->assertMediaType('image/gif', $result);
     }
 
     public function testEncodeByMediaType(): void
     {
         $result = $this->readTestImage('blue.gif')->encodeByMediaType();
         $this->assertInstanceOf(EncodedImage::class, $result);
-        $this->assertMediaType('image/gif', (string) $result);
+        $this->assertMediaType('image/gif', $result);
 
         $result = $this->readTestImage('blue.gif')->encodeByMediaType('image/png');
         $this->assertInstanceOf(EncodedImage::class, $result);
-        $this->assertMediaType('image/png', (string) $result);
+        $this->assertMediaType('image/png', $result);
 
         $result = $this->readTestImage('blue.gif')->encodeByMediaType(MediaType::IMAGE_PNG);
         $this->assertInstanceOf(EncodedImage::class, $result);
-        $this->assertMediaType('image/png', (string) $result);
+        $this->assertMediaType('image/png', $result);
     }
 
     public function testEncodeByExtension(): void
     {
         $result = $this->readTestImage('blue.gif')->encodeByExtension();
         $this->assertInstanceOf(EncodedImage::class, $result);
-        $this->assertMediaType('image/gif', (string) $result);
+        $this->assertMediaType('image/gif', $result);
 
         $result = $this->readTestImage('blue.gif')->encodeByExtension('png');
         $this->assertInstanceOf(EncodedImage::class, $result);
-        $this->assertMediaType('image/png', (string) $result);
+        $this->assertMediaType('image/png', $result);
 
         $result = $this->readTestImage('blue.gif')->encodeByExtension(FileExtension::PNG);
         $this->assertInstanceOf(EncodedImage::class, $result);
-        $this->assertMediaType('image/png', (string) $result);
+        $this->assertMediaType('image/png', $result);
     }
 
     public function testEncodeByPath(): void
     {
         $result = $this->readTestImage('blue.gif')->encodeByPath();
         $this->assertInstanceOf(EncodedImage::class, $result);
-        $this->assertMediaType('image/gif', (string) $result);
+        $this->assertMediaType('image/gif', $result);
 
         $result = $this->readTestImage('blue.gif')->encodeByPath('foo/bar.png');
         $this->assertInstanceOf(EncodedImage::class, $result);
-        $this->assertMediaType('image/png', (string) $result);
+        $this->assertMediaType('image/png', $result);
     }
 
     public function testSaveAsFormat(): void
@@ -299,8 +299,8 @@ final class ImageTest extends GdTestCase
 
     public function testToJpeg(): void
     {
-        $this->assertMediaType('image/jpeg', (string) $this->image->toJpeg());
-        $this->assertMediaType('image/jpeg', (string) $this->image->toJpg());
+        $this->assertMediaType('image/jpeg', $this->image->toJpeg());
+        $this->assertMediaType('image/jpeg', $this->image->toJpg());
     }
 
     public function testToJpeg2000(): void
@@ -311,28 +311,28 @@ final class ImageTest extends GdTestCase
 
     public function testToPng(): void
     {
-        $this->assertMediaType('image/png', (string) $this->image->toPng());
+        $this->assertMediaType('image/png', $this->image->toPng());
     }
 
     public function testToGif(): void
     {
-        $this->assertMediaType('image/gif', (string) $this->image->toGif());
+        $this->assertMediaType('image/gif', $this->image->toGif());
     }
 
     public function testToWebp(): void
     {
-        $this->assertMediaType('image/webp', (string) $this->image->toWebp());
+        $this->assertMediaType('image/webp', $this->image->toWebp());
     }
 
     public function testToBitmap(): void
     {
-        $this->assertMediaTypeBitmap((string) $this->image->toBitmap());
-        $this->assertMediaTypeBitmap((string) $this->image->toBmp());
+        $this->assertMediaTypeBitmap($this->image->toBitmap());
+        $this->assertMediaTypeBitmap($this->image->toBmp());
     }
 
     public function testToAvif(): void
     {
-        $this->assertMediaType('image/avif', (string) $this->image->toAvif());
+        $this->assertMediaType('image/avif', $this->image->toAvif());
     }
 
     public function testToTiff(): void

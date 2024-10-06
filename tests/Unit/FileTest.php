@@ -13,7 +13,22 @@ final class FileTest extends BaseTestCase
 {
     public function testConstructor(): void
     {
+        $file = new File();
+        $this->assertInstanceOf(File::class, $file);
+
         $file = new File('foo');
+        $this->assertInstanceOf(File::class, $file);
+    }
+
+    public function testConstructorFromString(): void
+    {
+        $file = new File('foo');
+        $this->assertInstanceOf(File::class, $file);
+    }
+
+    public function testConstructorFromResource(): void
+    {
+        $file = new File(fopen('php://temp', 'r'));
         $this->assertInstanceOf(File::class, $file);
     }
 
@@ -43,6 +58,9 @@ final class FileTest extends BaseTestCase
 
     public function testSize(): void
     {
+        $file = new File();
+        $this->assertEquals(0, $file->size());
+
         $file = new File('foo');
         $this->assertEquals(3, $file->size());
     }

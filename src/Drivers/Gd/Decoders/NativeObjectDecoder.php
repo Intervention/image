@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
+use Exception;
 use GdImage;
 use Intervention\Gif\Decoder as GifDecoder;
 use Intervention\Gif\Splitter as GifSplitter;
@@ -76,23 +77,27 @@ class NativeObjectDecoder extends AbstractDecoder
             return $image;
         }
 
-        // create empty core
-        $core = new Core();
+        try {
+            // create empty core
+            $core = new Core();
 
-        $gif = GifDecoder::decode($input);
-        $splitter = GifSplitter::create($gif)->split();
-        $delays = $splitter->getDelays();
+            $gif = GifDecoder::decode($input);
+            $splitter = GifSplitter::create($gif)->split();
+            $delays = $splitter->getDelays();
 
-        // set loops on core
-        if ($loops = $gif->getMainApplicationExtension()?->getLoops()) {
-            $core->setLoops($loops);
-        }
+            // set loops on core
+            if ($loops = $gif->getMainApplicationExtension()?->getLoops()) {
+                $core->setLoops($loops);
+            }
 
-        // add GDImage instances to core
-        foreach ($splitter->coalesceToResources() as $key => $native) {
-            $core->push(
-                new Frame($native, $delays[$key] / 100)
-            );
+            // add GDImage instances to core
+            foreach ($splitter->coalesceToResources() as $key => $native) {
+                $core->push(
+                    new Frame($native, $delays[$key] / 100)
+                );
+            }
+        } catch (Exception $e) {
+            throw new DecoderException($e->getMessage(), $e->getCode(), $e);
         }
 
         // create (possibly) animated image

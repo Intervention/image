@@ -55,4 +55,24 @@ enum FileExtension: string
             self::HEIF => Format::HEIC,
         };
     }
+
+    /**
+     * Return media types for the current format
+     *
+     * @return array<MediaType>
+     */
+    public function mediaTypes(): array
+    {
+        return $this->format()->mediaTypes();
+    }
+
+    /**
+     * Return the first found media type for the current format
+     *
+     * @return MediaType
+     */
+    public function mediaType(): MediaType
+    {
+        return $this->format()->mediaType();
+    }
 }

@@ -6,7 +6,9 @@ namespace Intervention\Image\Tests\Unit;
 
 use Intervention\Image\FileExtension;
 use Intervention\Image\Format;
+use Intervention\Image\MediaType;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class FileExtensionTest extends BaseTestCase
 {
@@ -80,5 +82,28 @@ final class FileExtensionTest extends BaseTestCase
 
         $ext = FileExtension::HEIF;
         $this->assertEquals(Format::HEIC, $ext->format());
+    }
+
+    #[DataProvider('mediaTypesDataProvider')]
+    public function testMediatypes(FileExtension $extension, int $mediaTypeCount, MediaType $mediaType): void
+    {
+        $this->assertCount($mediaTypeCount, $extension->mediaTypes());
+        $this->assertEquals($mediaType, $extension->mediaType());
+    }
+
+    public static function mediaTypesDataProvider(): array
+    {
+        return [
+            [FileExtension::JPEG, 4, MediaType::IMAGE_JPEG],
+            [FileExtension::WEBP, 2, MediaType::IMAGE_WEBP],
+            [FileExtension::GIF, 1, MediaType::IMAGE_GIF],
+            [FileExtension::PNG, 2, MediaType::IMAGE_PNG],
+            [FileExtension::AVIF, 2, MediaType::IMAGE_AVIF],
+            [FileExtension::BMP, 8, MediaType::IMAGE_BMP],
+            [FileExtension::TIFF, 1, MediaType::IMAGE_TIFF],
+            [FileExtension::TIF, 1, MediaType::IMAGE_TIFF],
+            [FileExtension::JP2, 3, MediaType::IMAGE_JP2],
+            [FileExtension::HEIC, 3, MediaType::IMAGE_HEIC],
+        ];
     }
 }

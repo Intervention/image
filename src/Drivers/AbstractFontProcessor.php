@@ -163,10 +163,10 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
     protected function buildPivot(TextBlock $block, FontInterface $font, PointInterface $position): PointInterface
     {
         // bounding box
-        $box = (new Rectangle(
+        $box = new Rectangle(
             $this->boxSize((string) $block->longestLine(), $font)->width(),
             $this->leading($font) * ($block->count() - 1) + $this->capHeight($font)
-        ));
+        );
 
         // set position
         $box->setPivot($position);

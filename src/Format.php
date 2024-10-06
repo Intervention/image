@@ -92,6 +92,18 @@ enum Format
     }
 
     /**
+     * Return the first found media type for the current format
+     *
+     * @return MediaType
+     */
+    public function mediaType(): MediaType
+    {
+        $types = $this->mediaTypes();
+
+        return reset($types);
+    }
+
+    /**
      * Return the possible file extension for the current format
      *
      * @return array<FileExtension>

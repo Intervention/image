@@ -56,6 +56,8 @@ final class FormatTest extends BaseTestCase
         $mediaTypes = $format->mediaTypes();
         $this->assertIsArray($mediaTypes);
         $this->assertCount(4, $mediaTypes);
+
+        $this->assertEquals(MediaType::IMAGE_JPEG, $format->mediaType());
     }
 
     public function testMediaTypesWebp(): void
@@ -64,6 +66,8 @@ final class FormatTest extends BaseTestCase
         $mediaTypes = $format->mediaTypes();
         $this->assertIsArray($mediaTypes);
         $this->assertCount(2, $mediaTypes);
+
+        $this->assertEquals(MediaType::IMAGE_WEBP, $format->mediaType());
     }
 
     public function testMediaTypesFGif(): void
@@ -72,6 +76,8 @@ final class FormatTest extends BaseTestCase
         $mediaTypes = $format->mediaTypes();
         $this->assertIsArray($mediaTypes);
         $this->assertCount(1, $mediaTypes);
+
+        $this->assertEquals(MediaType::IMAGE_GIF, $format->mediaType());
     }
 
     public function testMediaTypesPng(): void
@@ -80,6 +86,8 @@ final class FormatTest extends BaseTestCase
         $mediaTypes = $format->mediaTypes();
         $this->assertIsArray($mediaTypes);
         $this->assertCount(2, $mediaTypes);
+
+        $this->assertEquals(MediaType::IMAGE_PNG, $format->mediaType());
     }
 
     public function testMediaTypesAvif(): void
@@ -88,6 +96,8 @@ final class FormatTest extends BaseTestCase
         $mediaTypes = $format->mediaTypes();
         $this->assertIsArray($mediaTypes);
         $this->assertCount(2, $mediaTypes);
+
+        $this->assertEquals(MediaType::IMAGE_AVIF, $format->mediaType());
     }
 
     public function testMediaTypesBmp(): void
@@ -96,6 +106,8 @@ final class FormatTest extends BaseTestCase
         $mediaTypes = $format->mediaTypes();
         $this->assertIsArray($mediaTypes);
         $this->assertCount(8, $mediaTypes);
+
+        $this->assertEquals(MediaType::IMAGE_BMP, $format->mediaType());
     }
 
     public function testMediaTypesTiff(): void
@@ -104,6 +116,8 @@ final class FormatTest extends BaseTestCase
         $mediaTypes = $format->mediaTypes();
         $this->assertIsArray($mediaTypes);
         $this->assertCount(1, $mediaTypes);
+
+        $this->assertEquals(MediaType::IMAGE_TIFF, $format->mediaType());
     }
 
     public function testMediaTypesJpeg2000(): void
@@ -112,6 +126,8 @@ final class FormatTest extends BaseTestCase
         $mediaTypes = $format->mediaTypes();
         $this->assertIsArray($mediaTypes);
         $this->assertCount(3, $mediaTypes);
+
+        $this->assertEquals(MediaType::IMAGE_JP2, $format->mediaType());
     }
 
     public function testMediaTypesHeic(): void
@@ -120,6 +136,8 @@ final class FormatTest extends BaseTestCase
         $mediaTypes = $format->mediaTypes();
         $this->assertIsArray($mediaTypes);
         $this->assertCount(3, $mediaTypes);
+
+        $this->assertEquals(MediaType::IMAGE_HEIC, $format->mediaType());
     }
 
     public function testEncoderJpeg(): void

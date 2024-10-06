@@ -69,4 +69,24 @@ enum MediaType: string
             self::IMAGE_X_HEIC => Format::HEIC,
         };
     }
+
+    /**
+     * Return the possible file extension for the current media type
+     *
+     * @return array<FileExtension>
+     */
+    public function fileExtensions(): array
+    {
+        return $this->format()->fileExtensions();
+    }
+
+    /**
+     * Return the first file extension for the current media type
+     *
+     * @return FileExtension
+     */
+    public function fileExtension(): FileExtension
+    {
+        return $this->format()->fileExtension();
+    }
 }

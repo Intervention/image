@@ -2,6 +2,7 @@
 
 /.editorconfig      export-ignore
 /.github            export-ignore
+/.well-known        export-ignore
 /CONTRIBUTING.md    export-ignore
 /tests              export-ignore
 /.gitattributes     export-ignore

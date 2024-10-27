@@ -29,6 +29,8 @@ final class HeicTest extends BaseTestCase
         $imagick->setImageCompressionQuality(75);
         $encoded = $imagick->getImagesBlob();
 
+        $this->assertMediaType('image/heic', $encoded);
+
         // re-read
         $imagick = new Imagick();
         $imagick->readImageBlob($encoded);

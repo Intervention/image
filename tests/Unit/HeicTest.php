@@ -14,7 +14,7 @@ final class HeicTest extends BaseTestCase
     public function testEncoding(): void
     {
         $manager = ImageManager::imagick();
-        $p = $manager->create(100, 100)->encode(new MediaTypeEncoder('image/heic'))->toFilePointer();
+        $p = $manager->create(100, 100)->encode(new MediaTypeEncoder('image/heic'));
         $img = $manager->read($p);
         $this->assertInstanceOf(Image::class, $img);
     }

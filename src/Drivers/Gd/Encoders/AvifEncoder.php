@@ -20,6 +20,6 @@ class AvifEncoder extends GenericAvifEncoder implements SpecializedInterface
     {
         return $this->createEncodedImage(function ($pointer) use ($image) {
             imageavif($image->core()->native(), $pointer, $this->quality);
-        }, 'image/aviv');
+        }, 'image/avif');
     }
 }

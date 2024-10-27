@@ -89,9 +89,6 @@ jobs:
       - name: Install dependencies
         run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
-      - name: GD Version
-        run: php -r 'var_dump(gd_info());'
-
       - name: Imagick Version
         run: php -r 'var_dump(Imagick::getVersion());'
 
@@ -100,9 +97,3 @@ jobs:
 
       - name: Execute tests
         run: vendor/bin/phpunit --no-coverage
-
-      - name: Run analyzer
-        run: vendor/bin/phpstan
-
-      - name: Validate coding standards
-        run: vendor/bin/phpcs

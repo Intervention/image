@@ -31,7 +31,7 @@ final class HeicTest extends BaseTestCase
 
 
         echo "<pre>";
-        var_dump(mb_strlen($encoded));
+        var_dump($encoded);
         echo "</pre>";
         exit;
         // $this->assertMediaType('image/heic', $encoded);

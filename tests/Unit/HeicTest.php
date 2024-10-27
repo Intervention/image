@@ -6,7 +6,7 @@ namespace Intervention\Image\Tests\Unit;
 
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Encoders\MediaTypeEncoder;
-use Intervention\Image\Image;
+use Imagick;
 use Intervention\Image\ImageManager;
 
 final class HeicTest extends BaseTestCase
@@ -14,8 +14,11 @@ final class HeicTest extends BaseTestCase
     public function testEncoding(): void
     {
         $manager = ImageManager::imagick();
-        $p = $manager->create(100, 100)->encode(new MediaTypeEncoder('image/heic'));
-        $img = $manager->read($p);
-        $this->assertInstanceOf(Image::class, $img);
+        $input = $manager->create(100, 100)->encode(new MediaTypeEncoder('image/heic'));
+
+
+        $imagick = new Imagick();
+        $imagick->readImageBlob($input->toString());
+        $this->assertInstanceOf(Imagick::class, $imagick);
     }
 }

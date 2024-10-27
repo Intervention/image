@@ -20,5 +20,6 @@ final class AvifEncoderTest extends ImagickTestCase
         $encoder = new AvifEncoder(10);
         $result = $encoder->encode($image);
         $this->assertMediaType('image/avif', $result);
+        $this->assertEquals('image/avif', $result->mimetype());
     }
 }

@@ -20,5 +20,6 @@ final class BmpEncoderTest extends GdTestCase
         $encoder = new BmpEncoder();
         $result = $encoder->encode($image);
         $this->assertMediaType(['image/bmp', 'image/x-ms-bmp'], $result);
+        $this->assertEquals('image/bmp', $result->mimetype());
     }
 }

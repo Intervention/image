@@ -25,6 +25,7 @@ final class PngEncoderTest extends ImagickTestCase
         $encoder = new PngEncoder();
         $result = $encoder->encode($image);
         $this->assertMediaType('image/png', $result);
+        $this->assertEquals('image/png', $result->mimetype());
         $this->assertFalse($this->isInterlacedPng($result));
     }
 
@@ -34,6 +35,7 @@ final class PngEncoderTest extends ImagickTestCase
         $encoder = new PngEncoder(interlaced: true);
         $result = $encoder->encode($image);
         $this->assertMediaType('image/png', $result);
+        $this->assertEquals('image/png', $result->mimetype());
         $this->assertTrue($this->isInterlacedPng($result));
     }
 

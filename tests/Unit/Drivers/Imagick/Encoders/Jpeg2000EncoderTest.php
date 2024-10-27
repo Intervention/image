@@ -20,5 +20,6 @@ final class Jpeg2000EncoderTest extends ImagickTestCase
         $encoder = new Jpeg2000Encoder(75);
         $result = $encoder->encode($image);
         $this->assertMediaType('image/jp2', $result);
+        $this->assertEquals('image/jp2', $result->mimetype());
     }
 }

@@ -21,6 +21,7 @@ final class GifEncoderTest extends GdTestCase
         $encoder = new GifEncoder();
         $result = $encoder->encode($image);
         $this->assertMediaType('image/gif', $result);
+        $this->assertEquals('image/gif', $result->mimetype());
         $this->assertFalse(
             Decoder::decode((string) $result)->getFirstFrame()->getImageDescriptor()->isInterlaced()
         );
@@ -32,6 +33,7 @@ final class GifEncoderTest extends GdTestCase
         $encoder = new GifEncoder(interlaced: true);
         $result = $encoder->encode($image);
         $this->assertMediaType('image/gif', $result);
+        $this->assertEquals('image/gif', $result->mimetype());
         $this->assertTrue(
             Decoder::decode((string) $result)->getFirstFrame()->getImageDescriptor()->isInterlaced()
         );
@@ -43,6 +45,7 @@ final class GifEncoderTest extends GdTestCase
         $encoder = new GifEncoder(interlaced: true);
         $result = $encoder->encode($image);
         $this->assertMediaType('image/gif', $result);
+        $this->assertEquals('image/gif', $result->mimetype());
         $this->assertTrue(
             Decoder::decode((string) $result)->getFirstFrame()->getImageDescriptor()->isInterlaced()
         );

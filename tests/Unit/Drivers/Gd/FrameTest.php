@@ -66,9 +66,9 @@ final class FrameTest extends BaseTestCase
         $frame = $this->getTestFrame();
         $this->assertEquals(1, $frame->dispose());
 
-        $result = $frame->setDispose(100);
+        $result = $frame->setDispose(3);
         $this->assertInstanceOf(Frame::class, $result);
-        $this->assertEquals(100, $frame->dispose());
+        $this->assertEquals(3, $frame->dispose());
     }
 
     public function testSetGetOffsetLeft(): void

@@ -6,6 +6,7 @@ namespace Intervention\Image\Drivers\Gd;
 
 use GdImage;
 use Intervention\Image\Exceptions\ColorException;
+use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\DriverInterface;
@@ -112,9 +113,14 @@ class Frame implements FrameInterface
      * {@inheritdoc}
      *
      * @see FrameInterface::setDispose()
+     * @throws InputException
      */
     public function setDispose(int $dispose): FrameInterface
     {
+        if (!in_array($dispose, [0, 1, 2, 3])) {
+            throw new InputException('Value for argument $dispose must be 0, 1, 2 or 3.');
+        }
+
         $this->dispose = $dispose;
 
         return $this;

@@ -23,7 +23,7 @@ final class FrameTest extends BaseTestCase
         $imagick = new Imagick();
         $imagick->newImage(3, 2, new ImagickPixel('red'), 'png');
         $imagick->setImageDelay(125); // 1.25 seconds
-        $imagick->setImageDispose(5);
+        $imagick->setImageDispose(0);
         $imagick->setImagePage(3, 2, 8, 9);
 
         return new Frame($imagick);
@@ -55,11 +55,11 @@ final class FrameTest extends BaseTestCase
     public function testSetGetDispose(): void
     {
         $frame = $this->getTestFrame();
-        $this->assertEquals(5, $frame->dispose());
+        $this->assertEquals(0, $frame->dispose());
 
-        $result = $frame->setDispose(100);
+        $result = $frame->setDispose(3);
         $this->assertInstanceOf(Frame::class, $result);
-        $this->assertEquals(100, $frame->dispose());
+        $this->assertEquals(3, $frame->dispose());
     }
 
     public function testSetGetOffsetLeft(): void

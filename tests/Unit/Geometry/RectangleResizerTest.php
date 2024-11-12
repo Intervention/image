@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Geometry;
 
+use Generator;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Intervention\Image\Geometry\Point;
@@ -382,7 +383,7 @@ final class RectangleResizerTest extends TestCase
     }
 
     #[DataProvider('coverDataProvider')]
-    public function testCover($origin, $target, $result): void
+    public function testCover(Rectangle $origin, Rectangle $target, Rectangle $result): void
     {
         $resizer = new RectangleResizer();
         $resizer->toSize($target);
@@ -391,23 +392,21 @@ final class RectangleResizerTest extends TestCase
         $this->assertEquals($result->height(), $resized->height());
     }
 
-    public static function coverDataProvider(): array
+    public static function coverDataProvider(): Generator
     {
-        return [
-            [new Rectangle(800, 600), new Rectangle(100, 100), new Rectangle(133, 100)],
-            [new Rectangle(800, 600), new Rectangle(200, 100), new Rectangle(200, 150)],
-            [new Rectangle(800, 600), new Rectangle(100, 200), new Rectangle(267, 200)],
-            [new Rectangle(800, 600), new Rectangle(2000, 10), new Rectangle(2000, 1500)],
-            [new Rectangle(800, 600), new Rectangle(10, 2000), new Rectangle(2667, 2000)],
-            [new Rectangle(800, 600), new Rectangle(800, 600), new Rectangle(800, 600)],
-            [new Rectangle(400, 300), new Rectangle(120, 120), new Rectangle(160, 120)],
-            [new Rectangle(600, 800), new Rectangle(100, 100), new Rectangle(100, 133)],
-            [new Rectangle(100, 100), new Rectangle(800, 600), new Rectangle(800, 800)],
-        ];
+        yield [new Rectangle(800, 600), new Rectangle(100, 100), new Rectangle(133, 100)];
+        yield [new Rectangle(800, 600), new Rectangle(200, 100), new Rectangle(200, 150)];
+        yield [new Rectangle(800, 600), new Rectangle(100, 200), new Rectangle(267, 200)];
+        yield [new Rectangle(800, 600), new Rectangle(2000, 10), new Rectangle(2000, 1500)];
+        yield [new Rectangle(800, 600), new Rectangle(10, 2000), new Rectangle(2667, 2000)];
+        yield [new Rectangle(800, 600), new Rectangle(800, 600), new Rectangle(800, 600)];
+        yield [new Rectangle(400, 300), new Rectangle(120, 120), new Rectangle(160, 120)];
+        yield [new Rectangle(600, 800), new Rectangle(100, 100), new Rectangle(100, 133)];
+        yield [new Rectangle(100, 100), new Rectangle(800, 600), new Rectangle(800, 800)];
     }
 
     #[DataProvider('containDataProvider')]
-    public function testContain($origin, $target, $result): void
+    public function testContain(Rectangle $origin, Rectangle $target, Rectangle $result): void
     {
         $resizer = new RectangleResizer();
         $resizer->toSize($target);
@@ -416,23 +415,21 @@ final class RectangleResizerTest extends TestCase
         $this->assertEquals($result->height(), $resized->height());
     }
 
-    public static function containDataProvider(): array
+    public static function containDataProvider(): Generator
     {
-        return [
-            [new Rectangle(800, 600), new Rectangle(100, 100), new Rectangle(100, 75)],
-            [new Rectangle(800, 600), new Rectangle(200, 100), new Rectangle(133, 100)],
-            [new Rectangle(800, 600), new Rectangle(100, 200), new Rectangle(100, 75)],
-            [new Rectangle(800, 600), new Rectangle(2000, 10), new Rectangle(13, 10)],
-            [new Rectangle(800, 600), new Rectangle(10, 2000), new Rectangle(10, 8)],
-            [new Rectangle(800, 600), new Rectangle(800, 600), new Rectangle(800, 600)],
-            [new Rectangle(400, 300), new Rectangle(120, 120), new Rectangle(120, 90)],
-            [new Rectangle(600, 800), new Rectangle(100, 100), new Rectangle(75, 100)],
-            [new Rectangle(100, 100), new Rectangle(800, 600), new Rectangle(600, 600)],
-        ];
+        yield [new Rectangle(800, 600), new Rectangle(100, 100), new Rectangle(100, 75)];
+        yield [new Rectangle(800, 600), new Rectangle(200, 100), new Rectangle(133, 100)];
+        yield [new Rectangle(800, 600), new Rectangle(100, 200), new Rectangle(100, 75)];
+        yield [new Rectangle(800, 600), new Rectangle(2000, 10), new Rectangle(13, 10)];
+        yield [new Rectangle(800, 600), new Rectangle(10, 2000), new Rectangle(10, 8)];
+        yield [new Rectangle(800, 600), new Rectangle(800, 600), new Rectangle(800, 600)];
+        yield [new Rectangle(400, 300), new Rectangle(120, 120), new Rectangle(120, 90)];
+        yield [new Rectangle(600, 800), new Rectangle(100, 100), new Rectangle(75, 100)];
+        yield [new Rectangle(100, 100), new Rectangle(800, 600), new Rectangle(600, 600)];
     }
 
     #[DataProvider('cropDataProvider')]
-    public function testCrop($origin, $target, $position, $result): void
+    public function testCrop(Rectangle $origin, Rectangle $target, string $position, Rectangle $result): void
     {
         $resizer = new RectangleResizer();
         $resizer->toSize($target);
@@ -443,17 +440,55 @@ final class RectangleResizerTest extends TestCase
         $this->assertEquals($result->pivot()->y(), $resized->pivot()->y());
     }
 
-    public static function cropDataProvider(): array
+    public static function cropDataProvider(): Generator
     {
-        return [
-            [new Rectangle(800, 600), new Rectangle(100, 100), 'center', new Rectangle(100, 100, new Point(350, 250))],
-            [new Rectangle(800, 600), new Rectangle(200, 100), 'center', new Rectangle(200, 100, new Point(300, 250))],
-            [new Rectangle(800, 600), new Rectangle(100, 200), 'center', new Rectangle(100, 200, new Point(350, 200))],
-            [new Rectangle(800, 600), new Rectangle(2000, 10), 'center', new Rectangle(2000, 10, new Point(-600, 295))],
-            [new Rectangle(800, 600), new Rectangle(10, 2000), 'center', new Rectangle(10, 2000, new Point(395, -700))],
-            [new Rectangle(800, 600), new Rectangle(800, 600), 'center', new Rectangle(800, 600, new Point(0, 0))],
-            [new Rectangle(400, 300), new Rectangle(120, 120), 'center', new Rectangle(120, 120, new Point(140, 90))],
-            [new Rectangle(600, 800), new Rectangle(100, 100), 'center', new Rectangle(100, 100, new Point(250, 350))],
+        yield [
+            new Rectangle(800, 600),
+            new Rectangle(100, 100),
+            'center',
+            new Rectangle(100, 100, new Point(350, 250))
+        ];
+        yield [
+            new Rectangle(800, 600),
+            new Rectangle(200, 100),
+            'center',
+            new Rectangle(200, 100, new Point(300, 250))
+        ];
+        yield [
+            new Rectangle(800, 600),
+            new Rectangle(100, 200),
+            'center',
+            new Rectangle(100, 200, new Point(350, 200))
+        ];
+        yield [
+            new Rectangle(800, 600),
+            new Rectangle(2000, 10),
+            'center',
+            new Rectangle(2000, 10, new Point(-600, 295))
+        ];
+        yield [
+            new Rectangle(800, 600),
+            new Rectangle(10, 2000),
+            'center',
+            new Rectangle(10, 2000, new Point(395, -700))
+        ];
+        yield [
+            new Rectangle(800, 600),
+            new Rectangle(800, 600),
+            'center',
+            new Rectangle(800, 600, new Point(0, 0))
+        ];
+        yield [
+            new Rectangle(400, 300),
+            new Rectangle(120, 120),
+            'center',
+            new Rectangle(120, 120, new Point(140, 90))
+        ];
+        yield [
+            new Rectangle(600, 800),
+            new Rectangle(100, 100),
+            'center',
+            new Rectangle(100, 100, new Point(250, 350))
         ];
     }
 }

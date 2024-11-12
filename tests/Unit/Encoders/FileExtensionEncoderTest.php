@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Encoders;
 
+use Generator;
 use Intervention\Image\Encoders\AvifEncoder;
 use Intervention\Image\Encoders\BmpEncoder;
 use Intervention\Image\Encoders\FileExtensionEncoder;
@@ -51,31 +52,29 @@ final class FileExtensionEncoderTest extends BaseTestCase
         );
     }
 
-    public static function targetEncoderProvider(): array
+    public static function targetEncoderProvider(): Generator
     {
-        return [
-            ['webp', WebpEncoder::class],
-            ['avif', AvifEncoder::class],
-            ['jpeg', JpegEncoder::class],
-            ['jpg', JpegEncoder::class],
-            ['bmp', BmpEncoder::class],
-            ['gif', GifEncoder::class],
-            ['png', PngEncoder::class],
-            ['tiff', TiffEncoder::class],
-            ['tif', TiffEncoder::class],
-            ['jp2', Jpeg2000Encoder::class],
-            ['heic', HeicEncoder::class],
-            [FileExtension::WEBP, WebpEncoder::class],
-            [FileExtension::AVIF, AvifEncoder::class],
-            [FileExtension::JPG, JpegEncoder::class],
-            [FileExtension::BMP, BmpEncoder::class],
-            [FileExtension::GIF, GifEncoder::class],
-            [FileExtension::PNG, PngEncoder::class],
-            [FileExtension::TIF, TiffEncoder::class],
-            [FileExtension::TIFF, TiffEncoder::class],
-            [FileExtension::JP2, Jpeg2000Encoder::class],
-            [FileExtension::HEIC, HeicEncoder::class],
-        ];
+        yield ['webp', WebpEncoder::class];
+        yield ['avif', AvifEncoder::class];
+        yield ['jpeg', JpegEncoder::class];
+        yield ['jpg', JpegEncoder::class];
+        yield ['bmp', BmpEncoder::class];
+        yield ['gif', GifEncoder::class];
+        yield ['png', PngEncoder::class];
+        yield ['tiff', TiffEncoder::class];
+        yield ['tif', TiffEncoder::class];
+        yield ['jp2', Jpeg2000Encoder::class];
+        yield ['heic', HeicEncoder::class];
+        yield [FileExtension::WEBP, WebpEncoder::class];
+        yield [FileExtension::AVIF, AvifEncoder::class];
+        yield [FileExtension::JPG, JpegEncoder::class];
+        yield [FileExtension::BMP, BmpEncoder::class];
+        yield [FileExtension::GIF, GifEncoder::class];
+        yield [FileExtension::PNG, PngEncoder::class];
+        yield [FileExtension::TIF, TiffEncoder::class];
+        yield [FileExtension::TIFF, TiffEncoder::class];
+        yield [FileExtension::JP2, Jpeg2000Encoder::class];
+        yield [FileExtension::HEIC, HeicEncoder::class];
     }
 
     public function testArgumentsNotSupportedByTargetEncoder(): void

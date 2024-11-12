@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Encoders;
 
+use Generator;
 use Intervention\Image\Encoders\AvifEncoder;
 use Intervention\Image\Encoders\BmpEncoder;
 use Intervention\Image\Encoders\GifEncoder;
@@ -51,30 +52,28 @@ final class MediaTypeEncoderTest extends BaseTestCase
         );
     }
 
-    public static function targetEncoderProvider(): array
+    public static function targetEncoderProvider(): Generator
     {
-        return [
-            ['image/webp', WebpEncoder::class],
-            ['image/avif', AvifEncoder::class],
-            ['image/jpeg', JpegEncoder::class],
-            ['image/bmp', BmpEncoder::class],
-            ['image/gif', GifEncoder::class],
-            ['image/png', PngEncoder::class],
-            ['image/png', PngEncoder::class],
-            ['image/tiff', TiffEncoder::class],
-            ['image/jp2', Jpeg2000Encoder::class],
-            ['image/heic', HeicEncoder::class],
-            [MediaType::IMAGE_WEBP, WebpEncoder::class],
-            [MediaType::IMAGE_AVIF, AvifEncoder::class],
-            [MediaType::IMAGE_JPEG, JpegEncoder::class],
-            [MediaType::IMAGE_BMP, BmpEncoder::class],
-            [MediaType::IMAGE_GIF, GifEncoder::class],
-            [MediaType::IMAGE_PNG, PngEncoder::class],
-            [MediaType::IMAGE_TIFF, TiffEncoder::class],
-            [MediaType::IMAGE_JP2, Jpeg2000Encoder::class],
-            [MediaType::IMAGE_HEIC, HeicEncoder::class],
-            [MediaType::IMAGE_HEIF, HeicEncoder::class],
-        ];
+        yield ['image/webp', WebpEncoder::class];
+        yield ['image/avif', AvifEncoder::class];
+        yield ['image/jpeg', JpegEncoder::class];
+        yield ['image/bmp', BmpEncoder::class];
+        yield ['image/gif', GifEncoder::class];
+        yield ['image/png', PngEncoder::class];
+        yield ['image/png', PngEncoder::class];
+        yield ['image/tiff', TiffEncoder::class];
+        yield ['image/jp2', Jpeg2000Encoder::class];
+        yield ['image/heic', HeicEncoder::class];
+        yield [MediaType::IMAGE_WEBP, WebpEncoder::class];
+        yield [MediaType::IMAGE_AVIF, AvifEncoder::class];
+        yield [MediaType::IMAGE_JPEG, JpegEncoder::class];
+        yield [MediaType::IMAGE_BMP, BmpEncoder::class];
+        yield [MediaType::IMAGE_GIF, GifEncoder::class];
+        yield [MediaType::IMAGE_PNG, PngEncoder::class];
+        yield [MediaType::IMAGE_TIFF, TiffEncoder::class];
+        yield [MediaType::IMAGE_JP2, Jpeg2000Encoder::class];
+        yield [MediaType::IMAGE_HEIC, HeicEncoder::class];
+        yield [MediaType::IMAGE_HEIF, HeicEncoder::class];
     }
 
     public function testArgumentsNotSupportedByTargetEncoder(): void

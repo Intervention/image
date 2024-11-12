@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit;
 
+use Generator;
 use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
@@ -33,7 +34,7 @@ class InputHandlerTest extends BaseTestCase
         }
     }
 
-    public static function testHandleProvider(): array
+    public static function testHandleProvider(): Generator
     {
         $base = [
             [null, DecoderException::class],
@@ -49,16 +50,13 @@ class InputHandlerTest extends BaseTestCase
             [file_get_contents(self::getTestResourcePath()), ImageInterface::class],
         ];
 
-        $data = [];
         $drivers = [GdDriver::class, ImagickDriver::class];
         foreach ($drivers as $driver) {
             foreach ($base as $line) {
                 array_unshift($line, $driver); // prepend driver
-                $data[] = $line;
+                yield $line;
             }
         }
-
-        return $data;
     }
 
     public function testResolveWithoutDriver(): void

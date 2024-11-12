@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit;
 
+use Generator;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Format;
 use Intervention\Image\MediaType;
@@ -118,35 +119,33 @@ final class MediaTypeTest extends BaseTestCase
         $this->assertEquals($fileExtension, $mediaType->fileExtension());
     }
 
-    public static function fileExtensionsDataProvider(): array
+    public static function fileExtensionsDataProvider(): Generator
     {
-        return [
-            [MediaType::IMAGE_JPEG, 2, FileExtension::JPG],
-            [MediaType::IMAGE_JPG, 2, FileExtension::JPG],
-            [MediaType::IMAGE_PJPEG, 2, FileExtension::JPG],
-            [MediaType::IMAGE_X_JPEG, 2, FileExtension::JPG],
-            [MediaType::IMAGE_WEBP, 1, FileExtension::WEBP],
-            [MediaType::IMAGE_X_WEBP, 1, FileExtension::WEBP],
-            [MediaType::IMAGE_GIF, 1, FileExtension::GIF],
-            [MediaType::IMAGE_PNG, 1, FileExtension::PNG],
-            [MediaType::IMAGE_X_PNG, 1, FileExtension::PNG],
-            [MediaType::IMAGE_AVIF, 1, FileExtension::AVIF],
-            [MediaType::IMAGE_X_AVIF, 1, FileExtension::AVIF],
-            [MediaType::IMAGE_BMP, 1, FileExtension::BMP],
-            [MediaType::IMAGE_MS_BMP, 1, FileExtension::BMP],
-            [MediaType::IMAGE_X_BITMAP, 1, FileExtension::BMP],
-            [MediaType::IMAGE_X_BMP, 1, FileExtension::BMP],
-            [MediaType::IMAGE_X_MS_BMP, 1, FileExtension::BMP],
-            [MediaType::IMAGE_X_WINDOWS_BMP, 1, FileExtension::BMP],
-            [MediaType::IMAGE_X_WIN_BITMAP, 1, FileExtension::BMP],
-            [MediaType::IMAGE_X_XBITMAP, 1, FileExtension::BMP],
-            [MediaType::IMAGE_TIFF, 2, FileExtension::TIF],
-            [MediaType::IMAGE_JP2, 8, FileExtension::JP2],
-            [MediaType::IMAGE_JPX, 8, FileExtension::JP2],
-            [MediaType::IMAGE_JPM, 8, FileExtension::JP2],
-            [MediaType::IMAGE_HEIC, 2, FileExtension::HEIC],
-            [MediaType::IMAGE_X_HEIC, 2, FileExtension::HEIC],
-            [MediaType::IMAGE_HEIF, 2, FileExtension::HEIC],
-        ];
+        yield [MediaType::IMAGE_JPEG, 2, FileExtension::JPG];
+        yield [MediaType::IMAGE_JPG, 2, FileExtension::JPG];
+        yield [MediaType::IMAGE_PJPEG, 2, FileExtension::JPG];
+        yield [MediaType::IMAGE_X_JPEG, 2, FileExtension::JPG];
+        yield [MediaType::IMAGE_WEBP, 1, FileExtension::WEBP];
+        yield [MediaType::IMAGE_X_WEBP, 1, FileExtension::WEBP];
+        yield [MediaType::IMAGE_GIF, 1, FileExtension::GIF];
+        yield [MediaType::IMAGE_PNG, 1, FileExtension::PNG];
+        yield [MediaType::IMAGE_X_PNG, 1, FileExtension::PNG];
+        yield [MediaType::IMAGE_AVIF, 1, FileExtension::AVIF];
+        yield [MediaType::IMAGE_X_AVIF, 1, FileExtension::AVIF];
+        yield [MediaType::IMAGE_BMP, 1, FileExtension::BMP];
+        yield [MediaType::IMAGE_MS_BMP, 1, FileExtension::BMP];
+        yield [MediaType::IMAGE_X_BITMAP, 1, FileExtension::BMP];
+        yield [MediaType::IMAGE_X_BMP, 1, FileExtension::BMP];
+        yield [MediaType::IMAGE_X_MS_BMP, 1, FileExtension::BMP];
+        yield [MediaType::IMAGE_X_WINDOWS_BMP, 1, FileExtension::BMP];
+        yield [MediaType::IMAGE_X_WIN_BITMAP, 1, FileExtension::BMP];
+        yield [MediaType::IMAGE_X_XBITMAP, 1, FileExtension::BMP];
+        yield [MediaType::IMAGE_TIFF, 2, FileExtension::TIF];
+        yield [MediaType::IMAGE_JP2, 8, FileExtension::JP2];
+        yield [MediaType::IMAGE_JPX, 8, FileExtension::JP2];
+        yield [MediaType::IMAGE_JPM, 8, FileExtension::JP2];
+        yield [MediaType::IMAGE_HEIC, 2, FileExtension::HEIC];
+        yield [MediaType::IMAGE_X_HEIC, 2, FileExtension::HEIC];
+        yield [MediaType::IMAGE_HEIF, 2, FileExtension::HEIC];
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit;
 
+use Generator;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Format;
 use Intervention\Image\MediaType;
@@ -91,19 +92,17 @@ final class FileExtensionTest extends BaseTestCase
         $this->assertEquals($mediaType, $extension->mediaType());
     }
 
-    public static function mediaTypesDataProvider(): array
+    public static function mediaTypesDataProvider(): Generator
     {
-        return [
-            [FileExtension::JPEG, 4, MediaType::IMAGE_JPEG],
-            [FileExtension::WEBP, 2, MediaType::IMAGE_WEBP],
-            [FileExtension::GIF, 1, MediaType::IMAGE_GIF],
-            [FileExtension::PNG, 2, MediaType::IMAGE_PNG],
-            [FileExtension::AVIF, 2, MediaType::IMAGE_AVIF],
-            [FileExtension::BMP, 8, MediaType::IMAGE_BMP],
-            [FileExtension::TIFF, 1, MediaType::IMAGE_TIFF],
-            [FileExtension::TIF, 1, MediaType::IMAGE_TIFF],
-            [FileExtension::JP2, 3, MediaType::IMAGE_JP2],
-            [FileExtension::HEIC, 3, MediaType::IMAGE_HEIC],
-        ];
+        yield [FileExtension::JPEG, 4, MediaType::IMAGE_JPEG];
+        yield [FileExtension::WEBP, 2, MediaType::IMAGE_WEBP];
+        yield [FileExtension::GIF, 1, MediaType::IMAGE_GIF];
+        yield [FileExtension::PNG, 2, MediaType::IMAGE_PNG];
+        yield [FileExtension::AVIF, 2, MediaType::IMAGE_AVIF];
+        yield [FileExtension::BMP, 8, MediaType::IMAGE_BMP];
+        yield [FileExtension::TIFF, 1, MediaType::IMAGE_TIFF];
+        yield [FileExtension::TIF, 1, MediaType::IMAGE_TIFF];
+        yield [FileExtension::JP2, 3, MediaType::IMAGE_JP2];
+        yield [FileExtension::HEIC, 3, MediaType::IMAGE_HEIC];
     }
 }

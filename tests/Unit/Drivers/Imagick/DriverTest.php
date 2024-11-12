@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Drivers\Imagick;
 
+use Generator;
 use Intervention\Image\Colors\Rgb\Colorspace;
 use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder;
 use Intervention\Image\Drivers\Imagick\Driver;
@@ -92,115 +93,113 @@ final class DriverTest extends BaseTestCase
         $this->assertEquals($result, $this->driver->supports($identifier));
     }
 
-    public static function supportsDataProvider(): array
+    public static function supportsDataProvider(): Generator
     {
-        return [
-            [true, Format::JPEG],
-            [true, MediaType::IMAGE_JPEG],
-            [true, MediaType::IMAGE_JPG],
-            [true, FileExtension::JPG],
-            [true, FileExtension::JPEG],
-            [true, 'jpg'],
-            [true, 'jpeg'],
-            [true, 'image/jpg'],
-            [true, 'image/jpeg'],
+        yield [true, Format::JPEG];
+        yield [true, MediaType::IMAGE_JPEG];
+        yield [true, MediaType::IMAGE_JPG];
+        yield [true, FileExtension::JPG];
+        yield [true, FileExtension::JPEG];
+        yield [true, 'jpg'];
+        yield [true, 'jpeg'];
+        yield [true, 'image/jpg'];
+        yield [true, 'image/jpeg'];
 
-            [true, Format::WEBP],
-            [true, MediaType::IMAGE_WEBP],
-            [true, MediaType::IMAGE_X_WEBP],
-            [true, FileExtension::WEBP],
-            [true, 'webp'],
-            [true, 'image/webp'],
-            [true, 'image/x-webp'],
+        yield [true, Format::WEBP];
+        yield [true, MediaType::IMAGE_WEBP];
+        yield [true, MediaType::IMAGE_X_WEBP];
+        yield [true, FileExtension::WEBP];
+        yield [true, 'webp'];
+        yield [true, 'image/webp'];
+        yield [true, 'image/x-webp'];
 
-            [true, Format::GIF],
-            [true, MediaType::IMAGE_GIF],
-            [true, FileExtension::GIF],
-            [true, 'gif'],
-            [true, 'image/gif'],
+        yield [true, Format::GIF];
+        yield [true, MediaType::IMAGE_GIF];
+        yield [true, FileExtension::GIF];
+        yield [true, 'gif'];
+        yield [true, 'image/gif'];
 
-            [true, Format::PNG],
-            [true, MediaType::IMAGE_PNG],
-            [true, MediaType::IMAGE_X_PNG],
-            [true, FileExtension::PNG],
-            [true, 'png'],
-            [true, 'image/png'],
-            [true, 'image/x-png'],
+        yield [true, Format::PNG];
+        yield [true, MediaType::IMAGE_PNG];
+        yield [true, MediaType::IMAGE_X_PNG];
+        yield [true, FileExtension::PNG];
+        yield [true, 'png'];
+        yield [true, 'image/png'];
+        yield [true, 'image/x-png'];
 
-            [true, Format::AVIF],
-            [true, MediaType::IMAGE_AVIF],
-            [true, MediaType::IMAGE_X_AVIF],
-            [true, FileExtension::AVIF],
-            [true, 'avif'],
-            [true, 'image/avif'],
-            [true, 'image/x-avif'],
+        yield [true, Format::AVIF];
+        yield [true, MediaType::IMAGE_AVIF];
+        yield [true, MediaType::IMAGE_X_AVIF];
+        yield [true, FileExtension::AVIF];
+        yield [true, 'avif'];
+        yield [true, 'image/avif'];
+        yield [true, 'image/x-avif'];
 
-            [true, Format::BMP],
-            [true, FileExtension::BMP],
-            [true, MediaType::IMAGE_BMP],
-            [true, MediaType::IMAGE_MS_BMP],
-            [true, MediaType::IMAGE_X_BITMAP],
-            [true, MediaType::IMAGE_X_BMP],
-            [true, MediaType::IMAGE_X_MS_BMP],
-            [true, MediaType::IMAGE_X_WINDOWS_BMP],
-            [true, MediaType::IMAGE_X_WIN_BITMAP],
-            [true, MediaType::IMAGE_X_XBITMAP],
-            [true, 'bmp'],
-            [true, 'image/bmp'],
-            [true, 'image/ms-bmp'],
-            [true, 'image/x-bitmap'],
-            [true, 'image/x-bmp'],
-            [true, 'image/x-ms-bmp'],
-            [true, 'image/x-windows-bmp'],
-            [true, 'image/x-win-bitmap'],
-            [true, 'image/x-xbitmap'],
+        yield [true, Format::BMP];
+        yield [true, FileExtension::BMP];
+        yield [true, MediaType::IMAGE_BMP];
+        yield [true, MediaType::IMAGE_MS_BMP];
+        yield [true, MediaType::IMAGE_X_BITMAP];
+        yield [true, MediaType::IMAGE_X_BMP];
+        yield [true, MediaType::IMAGE_X_MS_BMP];
+        yield [true, MediaType::IMAGE_X_WINDOWS_BMP];
+        yield [true, MediaType::IMAGE_X_WIN_BITMAP];
+        yield [true, MediaType::IMAGE_X_XBITMAP];
+        yield [true, 'bmp'];
+        yield [true, 'image/bmp'];
+        yield [true, 'image/ms-bmp'];
+        yield [true, 'image/x-bitmap'];
+        yield [true, 'image/x-bmp'];
+        yield [true, 'image/x-ms-bmp'];
+        yield [true, 'image/x-windows-bmp'];
+        yield [true, 'image/x-win-bitmap'];
+        yield [true, 'image/x-xbitmap'];
 
-            [true, Format::TIFF],
-            [true, MediaType::IMAGE_TIFF],
-            [true, FileExtension::TIFF],
-            [true, FileExtension::TIF],
-            [true, 'tif'],
-            [true, 'tiff'],
-            [true, 'image/tiff'],
+        yield [true, Format::TIFF];
+        yield [true, MediaType::IMAGE_TIFF];
+        yield [true, FileExtension::TIFF];
+        yield [true, FileExtension::TIF];
+        yield [true, 'tif'];
+        yield [true, 'tiff'];
+        yield [true, 'image/tiff'];
 
-            [true, Format::JP2],
-            [true, MediaType::IMAGE_JP2],
-            [true, MediaType::IMAGE_JPX],
-            [true, MediaType::IMAGE_JPM],
-            [true, FileExtension::TIFF],
-            [true, FileExtension::TIF],
-            [true, FileExtension::JP2],
-            [true, FileExtension::J2K],
-            [true, FileExtension::JPF],
-            [true, FileExtension::JPM],
-            [true, FileExtension::JPG2],
-            [true, FileExtension::J2C],
-            [true, FileExtension::JPC],
-            [true, FileExtension::JPX],
-            [true, 'jp2'],
-            [true, 'j2k'],
-            [true, 'jpf'],
-            [true, 'jpm'],
-            [true, 'jpg2'],
-            [true, 'j2c'],
-            [true, 'jpc'],
-            [true, 'jpx'],
+        yield [true, Format::JP2];
+        yield [true, MediaType::IMAGE_JP2];
+        yield [true, MediaType::IMAGE_JPX];
+        yield [true, MediaType::IMAGE_JPM];
+        yield [true, FileExtension::TIFF];
+        yield [true, FileExtension::TIF];
+        yield [true, FileExtension::JP2];
+        yield [true, FileExtension::J2K];
+        yield [true, FileExtension::JPF];
+        yield [true, FileExtension::JPM];
+        yield [true, FileExtension::JPG2];
+        yield [true, FileExtension::J2C];
+        yield [true, FileExtension::JPC];
+        yield [true, FileExtension::JPX];
+        yield [true, 'jp2'];
+        yield [true, 'j2k'];
+        yield [true, 'jpf'];
+        yield [true, 'jpm'];
+        yield [true, 'jpg2'];
+        yield [true, 'j2c'];
+        yield [true, 'jpc'];
+        yield [true, 'jpx'];
 
-            [true, Format::HEIC],
-            [true, MediaType::IMAGE_HEIC],
-            [true, MediaType::IMAGE_HEIF],
-            [true, FileExtension::HEIC],
-            [true, FileExtension::HEIF],
-            [true, 'heic'],
-            [true, 'heif'],
-            [true, 'image/heic'],
-            [true, 'image/heif'],
+        yield [true, Format::HEIC];
+        yield [true, MediaType::IMAGE_HEIC];
+        yield [true, MediaType::IMAGE_HEIF];
+        yield [true, FileExtension::HEIC];
+        yield [true, FileExtension::HEIF];
+        yield [true, 'heic'];
+        yield [true, 'heif'];
+        yield [true, 'image/heic'];
+        yield [true, 'image/heif'];
 
-            [false, 'tga'],
-            [false, 'image/tga'],
-            [false, 'image/x-targa'],
-            [false, 'foo'],
-            [false, ''],
-        ];
+        yield [false, 'tga'];
+        yield [false, 'image/tga'];
+        yield [false, 'image/x-targa'];
+        yield [false, 'foo'];
+        yield [false, ''];
     }
 }

@@ -27,6 +27,16 @@ class Decoder extends \Intervention\Image\AbstractDecoder
 
         // define core
         switch (strtolower($mime)) {
+            case 'image/avif':
+            case 'image/x-avif':
+                if ( ! function_exists('imagecreatefromavif')) {
+                    throw new NotReadableException(
+                        "Unsupported image type. GD/PHP installation does not support AVIF format."
+                    );
+                }
+                $core = @imagecreatefromavif($path);
+                break;
+
             case 'image/png':
             case 'image/x-png':
                 $core = @imagecreatefrompng($path);

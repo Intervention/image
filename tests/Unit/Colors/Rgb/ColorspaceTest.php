@@ -16,7 +16,7 @@ use Intervention\Image\Colors\Rgb\Channels\Alpha;
 use Intervention\Image\Colors\Rgb\Colorspace;
 use Intervention\Image\Tests\BaseTestCase;
 
-#[CoversClass(\Intervention\Image\Colors\Rgb\Colorspace::class)]
+#[CoversClass(Colorspace::class)]
 final class ColorspaceTest extends BaseTestCase
 {
     public function testColorFromNormalized(): void

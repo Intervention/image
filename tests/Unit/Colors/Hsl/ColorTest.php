@@ -13,7 +13,7 @@ use Intervention\Image\Colors\Hsl\Colorspace;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Tests\BaseTestCase;
 
-#[CoversClass(\Intervention\Image\Colors\Hsl\Color::class)]
+#[CoversClass(Color::class)]
 final class ColorTest extends BaseTestCase
 {
     public function testConstructor(): void

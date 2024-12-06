@@ -14,7 +14,7 @@ use Intervention\Image\Tests\BaseTestCase;
 use stdClass;
 
 #[RequiresPhpExtension('gd')]
-#[CoversClass(\Intervention\Image\Drivers\Gd\Decoders\DataUriImageDecoder::class)]
+#[CoversClass(DataUriImageDecoder::class)]
 final class DataUriImageDecoderTest extends BaseTestCase
 {
     protected DataUriImageDecoder $decoder;

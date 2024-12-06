@@ -5,17 +5,15 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit\Colors\Hsv;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Colors\Hsv\Channels\Hue;
 use Intervention\Image\Colors\Hsv\Channels\Saturation;
 use Intervention\Image\Colors\Hsv\Channels\Value;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Tests\BaseTestCase;
 
-#[RequiresPhpExtension('gd')]
-#[CoversClass(\Intervention\Image\Colors\Hsv\Channels\Hue::class)]
-#[CoversClass(\Intervention\Image\Colors\Hsv\Channels\Saturation::class)]
-#[CoversClass(\Intervention\Image\Colors\Hsv\Channels\Value::class)]
+#[CoversClass(Hue::class)]
+#[CoversClass(Saturation::class)]
+#[CoversClass(Value::class)]
 final class ChannelTest extends BaseTestCase
 {
     public function testConstructor(): void

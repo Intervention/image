@@ -8,7 +8,9 @@ use Intervention\Image\Drivers\SpecializableDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(SpecializableDecoder::class)]
 final class SpecializableDecoderTest extends BaseTestCase
 {
     public function testDecode(): void

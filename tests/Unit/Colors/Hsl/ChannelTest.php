@@ -11,9 +11,9 @@ use Intervention\Image\Colors\Hsl\Channels\Luminance;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Tests\BaseTestCase;
 
-#[CoversClass(\Intervention\Image\Colors\Hsl\Channels\Hue::class)]
-#[CoversClass(\Intervention\Image\Colors\Hsl\Channels\Saturation::class)]
-#[CoversClass(\Intervention\Image\Colors\Hsl\Channels\Luminance::class)]
+#[CoversClass(Hue::class)]
+#[CoversClass(Saturation::class)]
+#[CoversClass(Luminance::class)]
 final class ChannelTest extends BaseTestCase
 {
     public function testConstructor(): void

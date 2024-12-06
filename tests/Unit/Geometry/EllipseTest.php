@@ -7,7 +7,9 @@ namespace Intervention\Image\Tests\Unit\Geometry;
 use Intervention\Image\Geometry\Ellipse;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(Ellipse::class)]
 final class EllipseTest extends BaseTestCase
 {
     public function testConstructor(): void

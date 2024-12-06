@@ -7,7 +7,9 @@ namespace Intervention\Image\Tests\Unit\Typography;
 use Intervention\Image\Exceptions\FontException;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Typography\Font;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(Font::class)]
 final class FontTest extends BaseTestCase
 {
     public function testConstructor(): void

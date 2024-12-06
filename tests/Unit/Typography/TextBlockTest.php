@@ -6,7 +6,9 @@ namespace Intervention\Image\Tests\Unit\Typography;
 
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Typography\TextBlock;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(TextBlock::class)]
 final class TextBlockTest extends BaseTestCase
 {
     protected TextBlock $block;

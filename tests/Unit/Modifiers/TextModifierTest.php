@@ -8,7 +8,9 @@ use Intervention\Image\Geometry\Point;
 use Intervention\Image\Modifiers\TextModifier;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Typography\Font;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(TextModifier::class)]
 final class TextModifierTest extends BaseTestCase
 {
     public function testStrokeOffsets(): void

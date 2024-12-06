@@ -15,7 +15,7 @@ use Intervention\Image\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 #[RequiresPhpExtension('imagick')]
-#[CoversClass(\Intervention\Image\Drivers\Imagick\Decoders\FilePathImageDecoder::class)]
+#[CoversClass(FilePathImageDecoder::class)]
 final class FilePathImageDecoderTest extends BaseTestCase
 {
     protected FilePathImageDecoder $decoder;

@@ -15,7 +15,7 @@ use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('imagick')]
-#[CoversClass(\Intervention\Image\Drivers\Imagick\Frame::class)]
+#[CoversClass(Frame::class)]
 final class FrameTest extends BaseTestCase
 {
     protected function getTestFrame(): Frame

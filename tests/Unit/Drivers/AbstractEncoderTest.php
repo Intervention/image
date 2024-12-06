@@ -11,7 +11,7 @@ use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
 use PHPUnit\Metadata\CoversClass;
 
-#[CoversClass(\Intervention\Image\Drivers\AbstractEncoder::class)]
+#[CoversClass(AbstractEncoder::class)]
 final class AbstractEncoderTest extends BaseTestCase
 {
     public function testEncode(): void

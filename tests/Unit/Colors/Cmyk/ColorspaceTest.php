@@ -16,7 +16,7 @@ use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Cmyk\Colorspace;
 use Intervention\Image\Tests\BaseTestCase;
 
-#[CoversClass(\Intervention\Image\Colors\Cmyk\Colorspace::class)]
+#[CoversClass(Colorspace::class)]
 final class ColorspaceTest extends BaseTestCase
 {
     public function testColorFromNormalized(): void

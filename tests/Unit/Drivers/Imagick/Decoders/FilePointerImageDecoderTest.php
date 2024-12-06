@@ -12,7 +12,7 @@ use Intervention\Image\Image;
 use Intervention\Image\Tests\ImagickTestCase;
 
 #[RequiresPhpExtension('imagick')]
-#[CoversClass(\Intervention\Image\Drivers\Imagick\Decoders\FilePointerImageDecoder::class)]
+#[CoversClass(FilePointerImageDecoder::class)]
 final class FilePointerImageDecoderTest extends ImagickTestCase
 {
     public function testDecode(): void

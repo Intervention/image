@@ -12,7 +12,7 @@ use Intervention\Image\Image;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('gd')]
-#[CoversClass(\Intervention\Image\Drivers\Gd\Decoders\BinaryImageDecoder::class)]
+#[CoversClass(BinaryImageDecoder::class)]
 final class BinaryImageDecoderTest extends BaseTestCase
 {
     protected BinaryImageDecoder $decoder;

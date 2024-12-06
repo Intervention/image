@@ -11,7 +11,7 @@ use Intervention\Image\Image;
 use Intervention\Image\Tests\ImagickTestCase;
 
 #[RequiresPhpExtension('imagick')]
-#[CoversClass(\Intervention\Image\Decoders\ImageObjectDecoder::class)]
+#[CoversClass(ImageObjectDecoder::class)]
 final class ImageObjectDecoderTest extends ImagickTestCase
 {
     public function testDecode(): void

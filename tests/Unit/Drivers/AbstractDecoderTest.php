@@ -14,7 +14,7 @@ use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
 use stdClass;
 
-#[CoversClass(\Intervention\Image\Drivers\AbstractDecoder::class)]
+#[CoversClass(AbstractDecoder::class)]
 final class AbstractDecoderTest extends BaseTestCase
 {
     public function testIsGifFormat(): void

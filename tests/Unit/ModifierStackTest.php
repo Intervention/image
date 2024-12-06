@@ -12,7 +12,7 @@ use Intervention\Image\ModifierStack;
 use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
 
-#[CoversClass(\Intervention\Image\ModifierStack::class)]
+#[CoversClass(ModifierStack::class)]
 final class ModifierStackTest extends BaseTestCase
 {
     public function testConstructor(): void

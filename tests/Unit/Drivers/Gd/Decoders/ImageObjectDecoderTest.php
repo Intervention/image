@@ -11,7 +11,7 @@ use Intervention\Image\Image;
 use Intervention\Image\Tests\GdTestCase;
 
 #[RequiresPhpExtension('gd')]
-#[CoversClass(\Intervention\Image\Decoders\ImageObjectDecoder::class)]
+#[CoversClass(ImageObjectDecoder::class)]
 final class ImageObjectDecoderTest extends GdTestCase
 {
     public function testDecode(): void

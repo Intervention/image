@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Resolution;
 use Intervention\Image\Tests\BaseTestCase;
 
-#[CoversClass(\Intervention\Image\Resolution::class)]
+#[CoversClass(Resolution::class)]
 final class ResolutionTest extends BaseTestCase
 {
     public function testConstructor(): void

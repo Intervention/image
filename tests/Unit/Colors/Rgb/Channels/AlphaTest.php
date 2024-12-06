@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Colors\Rgb\Channels\Alpha;
 use Intervention\Image\Tests\BaseTestCase;
 
-#[CoversClass(\Intervention\Image\Colors\Rgb\Channels\Alpha::class)]
+#[CoversClass(Alpha::class)]
 final class AlphaTest extends BaseTestCase
 {
     public function testToString(): void

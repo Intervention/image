@@ -11,8 +11,12 @@ use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use stdClass;
 
+#[RequiresPhpExtension('imagick')]
+#[CoversClass(BinaryImageDecoder::class)]
 final class BinaryImageDecoderTest extends BaseTestCase
 {
     protected BinaryImageDecoder $decoder;

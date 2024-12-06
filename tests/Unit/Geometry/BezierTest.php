@@ -9,7 +9,7 @@ use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Bezier;
 use Intervention\Image\Tests\BaseTestCase;
 
-#[CoversClass(\Intervention\Image\Geometry\Bezier::class)]
+#[CoversClass(Bezier::class)]
 final class BezierTest extends BaseTestCase
 {
     public function testConstructor(): void

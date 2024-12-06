@@ -8,7 +8,11 @@ use Intervention\Image\Drivers\Gd\Decoders\AbstractDecoder;
 use Intervention\Image\MediaType;
 use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
+#[RequiresPhpExtension('gd')]
+#[CoversClass(AbstractDecoder::class)]
 final class AbstractDecoderTest extends BaseTestCase
 {
     public function testGetMediaTypeFromFilePath(): void

@@ -25,7 +25,11 @@ use Intervention\Image\MediaType;
 use Intervention\Image\Modifiers\GreyscaleModifier;
 use Intervention\Image\Tests\GdTestCase;
 use Intervention\Image\Typography\Font;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
+#[RequiresPhpExtension('gd')]
+#[CoversClass(Image::class)]
 final class ImageTest extends GdTestCase
 {
     protected Image $image;

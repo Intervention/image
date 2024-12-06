@@ -12,7 +12,9 @@ use Intervention\Image\Geometry\Factories\LineFactory;
 use Intervention\Image\Geometry\Factories\PolygonFactory;
 use Intervention\Image\Geometry\Factories\RectangleFactory;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(BezierFactory::class)]
 final class DrawableTest extends BaseTestCase
 {
     public function testBezier(): void

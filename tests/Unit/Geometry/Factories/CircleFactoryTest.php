@@ -8,7 +8,9 @@ use Intervention\Image\Geometry\Ellipse;
 use Intervention\Image\Geometry\Factories\CircleFactory;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(CircleFactory::class)]
 final class CircleFactoryTest extends BaseTestCase
 {
     public function testFactoryCallback(): void

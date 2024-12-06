@@ -25,7 +25,11 @@ use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Modifiers\GreyscaleModifier;
 use Intervention\Image\Origin;
 use Intervention\Image\Tests\ImagickTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
+#[RequiresPhpExtension('imagick')]
+#[CoversClass(Image::class)]
 final class ImageTest extends ImagickTestCase
 {
     protected Image $image;

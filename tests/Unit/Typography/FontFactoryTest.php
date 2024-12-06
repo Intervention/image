@@ -8,7 +8,9 @@ use Intervention\Image\Interfaces\FontInterface;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Typography\Font;
 use Intervention\Image\Typography\FontFactory;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(FontFactory::class)]
 final class FontFactoryTest extends BaseTestCase
 {
     public function testBuildWithFont(): void

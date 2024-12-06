@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Drivers\Imagick\Encoders;
 
+use Intervention\Image\Drivers\Imagick\Encoders\Jpeg2000Encoder;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
-use Intervention\Image\Encoders\Jpeg2000Encoder;
 use Intervention\Image\Tests\ImagickTestCase;
 
 #[RequiresPhpExtension('imagick')]
-#[CoversClass(\Intervention\Image\Encoders\Jpeg2000Encoder::class)]
-#[CoversClass(\Intervention\Image\Drivers\Imagick\Encoders\Jpeg2000Encoder::class)]
+#[CoversClass(Jpeg2000Encoder::class)]
 final class Jpeg2000EncoderTest extends ImagickTestCase
 {
     public function testEncode(): void

@@ -7,7 +7,9 @@ namespace Intervention\Image\Tests\Unit\Geometry;
 use Intervention\Image\Geometry\Line;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(Line::class)]
 final class LineTest extends BaseTestCase
 {
     public function testConstructor(): void

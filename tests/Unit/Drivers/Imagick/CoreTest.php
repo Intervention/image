@@ -10,7 +10,11 @@ use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Exceptions\AnimationException;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
+#[RequiresPhpExtension('imagick')]
+#[CoversClass(Core::class)]
 final class CoreTest extends BaseTestCase
 {
     protected Core $core;

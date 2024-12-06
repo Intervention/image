@@ -8,7 +8,11 @@ use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
+#[RequiresPhpExtension('gd')]
+#[CoversClass(Cloner::class)]
 final class ClonerTest extends BaseTestCase
 {
     public function testClone(): void

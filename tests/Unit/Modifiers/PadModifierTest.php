@@ -10,7 +10,9 @@ use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Modifiers\PadModifier;
 use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(PadModifier::class)]
 final class PadModifierTest extends BaseTestCase
 {
     public function testGetCropSize(): void

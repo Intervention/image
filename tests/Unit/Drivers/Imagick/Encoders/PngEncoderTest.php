@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit\Drivers\Imagick\Encoders;
 
 use Generator;
+use Intervention\Image\Drivers\Imagick\Encoders\PngEncoder;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
-use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Tests\ImagickTestCase;
 use Intervention\Image\Tests\Traits\CanInspectPngFormat;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 #[RequiresPhpExtension('imagick')]
-#[CoversClass(\Intervention\Image\Encoders\PngEncoder::class)]
-#[CoversClass(\Intervention\Image\Drivers\Imagick\Encoders\PngEncoder::class)]
+#[CoversClass(PngEncoder::class)]
 final class PngEncoderTest extends ImagickTestCase
 {
     use CanInspectPngFormat;

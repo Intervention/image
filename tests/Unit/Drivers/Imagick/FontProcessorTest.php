@@ -10,7 +10,11 @@ use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Typography\Font;
 use Intervention\Image\Typography\TextBlock;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
+#[RequiresPhpExtension('imagick')]
+#[CoversClass(FontProcessor::class)]
 final class FontProcessorTest extends BaseTestCase
 {
     public function testBoxSizeTtf(): void

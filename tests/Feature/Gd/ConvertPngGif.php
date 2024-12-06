@@ -6,7 +6,9 @@ namespace Intervention\Image\Tests\Feature\Gd;
 
 use Intervention\Image\ImageManager;
 use Intervention\Image\Tests\GdTestCase;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
+#[RequiresPhpExtension('gd')]
 class ConvertPngGif extends GdTestCase
 {
     public function testConversionKeepsTransparency(): void

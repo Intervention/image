@@ -6,7 +6,9 @@ namespace Intervention\Image\Tests\Unit\Geometry\Traits;
 
 use Intervention\Image\Geometry\Traits\HasBorder;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(HasBorder::class)]
 final class HasBorderTest extends BaseTestCase
 {
     public function getTestObject(): object

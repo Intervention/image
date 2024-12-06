@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit\Colors\Cmyk\Decoders;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Colors\Cmyk\Color;
 use Intervention\Image\Colors\Cmyk\Decoders\StringColorDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Tests\BaseTestCase;
 
-#[RequiresPhpExtension('gd')]
-#[CoversClass(\Intervention\Image\Colors\Cmyk\Decoders\StringColorDecoder::class)]
+#[CoversClass(StringColorDecoder::class)]
 final class StringColorDecoderTest extends BaseTestCase
 {
     public function testDecode(): void

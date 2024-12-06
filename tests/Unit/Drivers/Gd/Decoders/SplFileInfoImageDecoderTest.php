@@ -13,7 +13,7 @@ use Intervention\Image\Tests\BaseTestCase;
 use SplFileInfo;
 
 #[RequiresPhpExtension('gd')]
-#[CoversClass(\Intervention\Image\Drivers\Gd\Decoders\SplFileInfoImageDecoder::class)]
+#[CoversClass(SplFileInfoImageDecoder::class)]
 final class SplFileInfoImageDecoderTest extends BaseTestCase
 {
     public function testDecode(): void

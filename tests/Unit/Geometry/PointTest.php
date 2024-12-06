@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\BaseTestCase;
 
-#[CoversClass(\Intervention\Image\Geometry\Point::class)]
+#[CoversClass(Point::class)]
 final class PointTest extends BaseTestCase
 {
     public function testConstructor(): void

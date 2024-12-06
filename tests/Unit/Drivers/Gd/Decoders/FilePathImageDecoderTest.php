@@ -15,7 +15,7 @@ use Intervention\Image\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 #[RequiresPhpExtension('gd')]
-#[CoversClass(\Intervention\Image\Drivers\Gd\Decoders\FilePathImageDecoder::class)]
+#[CoversClass(FilePathImageDecoder::class)]
 final class FilePathImageDecoderTest extends BaseTestCase
 {
     protected FilePathImageDecoder $decoder;

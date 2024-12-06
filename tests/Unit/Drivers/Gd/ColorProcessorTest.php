@@ -12,7 +12,11 @@ use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Drivers\Gd\ColorProcessor;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
+#[RequiresPhpExtension('gd')]
+#[CoversClass(ColorProcessor::class)]
 final class ColorProcessorTest extends BaseTestCase
 {
     public function testColorToNative(): void

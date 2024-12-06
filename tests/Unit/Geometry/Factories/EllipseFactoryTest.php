@@ -8,7 +8,9 @@ use Intervention\Image\Geometry\Ellipse;
 use Intervention\Image\Geometry\Factories\EllipseFactory;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(EllipseFactory::class)]
 final class EllipseFactoryTest extends BaseTestCase
 {
     public function testFactoryCallback(): void

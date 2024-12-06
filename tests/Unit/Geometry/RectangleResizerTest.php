@@ -12,7 +12,7 @@ use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Geometry\Tools\RectangleResizer;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(\Intervention\Image\Geometry\Tools\RectangleResizer::class)]
+#[CoversClass(RectangleResizer::class)]
 final class RectangleResizerTest extends TestCase
 {
     public function testMake(): void

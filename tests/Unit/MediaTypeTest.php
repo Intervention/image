@@ -9,8 +9,10 @@ use Intervention\Image\FileExtension;
 use Intervention\Image\Format;
 use Intervention\Image\MediaType;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 
+#[CoversClass(MediaType::class)]
 final class MediaTypeTest extends BaseTestCase
 {
     public function testFormatJpeg(): void

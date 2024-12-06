@@ -6,7 +6,9 @@ namespace Intervention\Image\Tests\Unit\Colors\Hsl\Channels;
 
 use Intervention\Image\Colors\Hsl\Channels\Saturation;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(Saturation::class)]
 final class SaturationTest extends BaseTestCase
 {
     public function testMinMax(): void

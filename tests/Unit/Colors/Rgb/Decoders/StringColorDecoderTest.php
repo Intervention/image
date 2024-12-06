@@ -6,14 +6,12 @@ namespace Intervention\Image\Tests\Unit\Colors\Rgb\Decoders;
 
 use Generator;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Colors\Rgb\Decoders\StringColorDecoder;
 use Intervention\Image\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-#[RequiresPhpExtension('gd')]
-#[CoversClass(\Intervention\Image\Colors\Rgb\Decoders\StringColorDecoder::class)]
+#[CoversClass(StringColorDecoder::class)]
 final class StringColorDecoderTest extends BaseTestCase
 {
     #[DataProvider('decodeDataProvier')]

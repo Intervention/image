@@ -15,7 +15,7 @@ use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Hsl\Colorspace;
 use Intervention\Image\Tests\BaseTestCase;
 
-#[CoversClass(\Intervention\Image\Colors\Hsl\Colorspace::class)]
+#[CoversClass(Colorspace::class)]
 final class ColorspaceTest extends BaseTestCase
 {
     public function testColorFromNormalized(): void

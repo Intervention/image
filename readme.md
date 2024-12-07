@@ -7,9 +7,9 @@
 [![Support me on Ko-fi](https://raw.githubusercontent.com/Intervention/image/develop/.github/images/support.svg)](https://ko-fi.com/interventionphp)
 
 Intervention Image is a **PHP image processing library** that provides a simple
-and expressive way to create, edit, and compose images. It features a unified
-API for the two most popular image manipulation extensions. You can choose
-between the GD library or Imagick as the base layer for all operations.
+and expressive way to create, edit, and compose images. It features a universal
+interface for the two most popular PHP image manipulation extensions. You can
+choose between the GD library or Imagick as the base layer for all operations.
 
 - Simple interface for common image editing tasks
 - Interchangeable driver architecture

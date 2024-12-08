@@ -20,13 +20,13 @@ final class ChannelTest extends BaseTestCase
 {
     public function testConstructor(): void
     {
-        $channel =  new Cyan(0);
+        $channel = new Cyan(0);
         $this->assertInstanceOf(Cyan::class, $channel);
 
-        $channel =  new Cyan(value: 0);
+        $channel = new Cyan(value: 0);
         $this->assertInstanceOf(Cyan::class, $channel);
 
-        $channel =  new Cyan(normalized: 0);
+        $channel = new Cyan(normalized: 0);
         $this->assertInstanceOf(Cyan::class, $channel);
 
         $this->expectException(ColorException::class);
@@ -44,30 +44,30 @@ final class ChannelTest extends BaseTestCase
 
     public function testToInt(): void
     {
-        $channel =  new Cyan(10);
+        $channel = new Cyan(10);
         $this->assertEquals(10, $channel->toInt());
     }
 
     public function testToString(): void
     {
-        $channel =  new Cyan(10);
+        $channel = new Cyan(10);
         $this->assertEquals("10", $channel->toString());
         $this->assertEquals("10", (string) $channel);
     }
 
     public function testValue(): void
     {
-        $channel =  new Cyan(10);
+        $channel = new Cyan(10);
         $this->assertEquals(10, $channel->value());
     }
 
     public function testNormalize(): void
     {
-        $channel =  new Cyan(100);
+        $channel = new Cyan(100);
         $this->assertEquals(1, $channel->normalize());
-        $channel =  new Cyan(0);
+        $channel = new Cyan(0);
         $this->assertEquals(0, $channel->normalize());
-        $channel =  new Cyan(20);
+        $channel = new Cyan(20);
         $this->assertEquals(.2, $channel->normalize());
     }
 

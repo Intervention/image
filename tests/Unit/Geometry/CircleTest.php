@@ -7,7 +7,9 @@ namespace Intervention\Image\Tests\Unit\Geometry;
 use Intervention\Image\Geometry\Circle;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(Circle::class)]
 final class CircleTest extends BaseTestCase
 {
     public function testConstructor(): void

@@ -8,7 +8,9 @@ use Intervention\Image\Geometry\Factories\RectangleFactory;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(RectangleFactory::class)]
 final class RectangleFactoryTest extends BaseTestCase
 {
     public function testFactoryCallback(): void

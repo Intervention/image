@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit\Drivers\Gd\Encoders;
 
 use Intervention\Gif\Decoder;
+use Intervention\Image\Drivers\Gd\Encoders\GifEncoder;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
-use Intervention\Image\Encoders\GifEncoder;
 use Intervention\Image\Tests\GdTestCase;
 
 #[RequiresPhpExtension('gd')]
-#[CoversClass(\Intervention\Image\Encoders\GifEncoder::class)]
-#[CoversClass(\Intervention\Image\Drivers\Gd\Encoders\GifEncoder::class)]
+#[CoversClass(GifEncoder::class)]
 final class GifEncoderTest extends GdTestCase
 {
     public function testEncode(): void

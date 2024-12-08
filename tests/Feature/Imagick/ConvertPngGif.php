@@ -6,7 +6,9 @@ namespace Intervention\Image\Tests\Feature\Imagick;
 
 use Intervention\Image\ImageManager;
 use Intervention\Image\Tests\ImagickTestCase;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
+#[RequiresPhpExtension('imagick')]
 class ConvertPngGif extends ImagickTestCase
 {
     public function testConversionKeepsTransparency(): void

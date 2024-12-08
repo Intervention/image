@@ -14,7 +14,7 @@ use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('gd')]
-#[CoversClass(\Intervention\Image\Drivers\Gd\Frame::class)]
+#[CoversClass(Frame::class)]
 final class FrameTest extends BaseTestCase
 {
     protected function getTestFrame(): Frame

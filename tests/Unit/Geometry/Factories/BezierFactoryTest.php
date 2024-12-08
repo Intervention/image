@@ -7,7 +7,9 @@ namespace Intervention\Image\Tests\Unit\Geometry\Factories;
 use Intervention\Image\Geometry\Factories\BezierFactory;
 use Intervention\Image\Geometry\Bezier;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(BezierFactory::class)]
 final class BezierFactoryTest extends BaseTestCase
 {
     public function testFactoryCallback(): void

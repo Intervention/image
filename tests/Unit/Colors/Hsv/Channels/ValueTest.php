@@ -6,7 +6,9 @@ namespace Intervention\Image\Tests\Unit\Colors\Hsv\Channels;
 
 use Intervention\Image\Colors\Hsv\Channels\Value;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(Value::class)]
 final class ValueTest extends BaseTestCase
 {
     public function testMinMax(): void

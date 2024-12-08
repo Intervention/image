@@ -19,8 +19,10 @@ use Intervention\Image\Exceptions\EncoderException;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 
+#[CoversClass(FileExtensionEncoder::class)]
 final class FileExtensionEncoderTest extends BaseTestCase
 {
     private function testEncoder(string|FileExtension $extension, array $options = []): EncoderInterface

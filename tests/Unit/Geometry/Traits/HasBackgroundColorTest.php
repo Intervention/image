@@ -6,7 +6,9 @@ namespace Intervention\Image\Tests\Unit\Geometry\Traits;
 
 use Intervention\Image\Geometry\Traits\HasBackgroundColor;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(HasBackgroundColor::class)]
 final class HasBackgroundColorTest extends BaseTestCase
 {
     public function getTestObject(): object

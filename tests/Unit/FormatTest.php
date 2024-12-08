@@ -18,7 +18,9 @@ use Intervention\Image\FileExtension;
 use Intervention\Image\Format;
 use Intervention\Image\MediaType;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(Format::class)]
 final class FormatTest extends BaseTestCase
 {
     public function testCreate(): void

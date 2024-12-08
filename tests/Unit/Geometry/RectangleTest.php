@@ -8,7 +8,9 @@ use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(Rectangle::class)]
 final class RectangleTest extends BaseTestCase
 {
     public function testConstructor(): void

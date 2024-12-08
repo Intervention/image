@@ -19,8 +19,10 @@ use Intervention\Image\Exceptions\EncoderException;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\MediaType;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 
+#[CoversClass(MediaTypeEncoder::class)]
 final class MediaTypeEncoderTest extends BaseTestCase
 {
     private function testEncoder(string|MediaType $mediaType, array $options = []): EncoderInterface

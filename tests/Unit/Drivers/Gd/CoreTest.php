@@ -9,7 +9,11 @@ use Intervention\Image\Drivers\Gd\Core;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Exceptions\AnimationException;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
+#[RequiresPhpExtension('gd')]
+#[CoversClass(Core::class)]
 final class CoreTest extends BaseTestCase
 {
     protected Core $core;

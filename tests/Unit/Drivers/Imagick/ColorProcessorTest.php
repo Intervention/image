@@ -9,7 +9,11 @@ use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Colors\Rgb\Colorspace;
 use Intervention\Image\Drivers\Imagick\ColorProcessor;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
+#[RequiresPhpExtension('imagick')]
+#[CoversClass(ColorProcessor::class)]
 final class ColorProcessorTest extends BaseTestCase
 {
     public function testColorToNative(): void

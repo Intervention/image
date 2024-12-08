@@ -6,7 +6,9 @@ namespace Intervention\Image\Tests\Unit;
 
 use Intervention\Image\Origin;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(Origin::class)]
 final class OriginTest extends BaseTestCase
 {
     public function testFilePath(): void

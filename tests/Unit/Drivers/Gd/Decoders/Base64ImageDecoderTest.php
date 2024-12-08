@@ -13,7 +13,7 @@ use Intervention\Image\Image;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('gd')]
-#[CoversClass(\Intervention\Image\Drivers\Gd\Decoders\Base64ImageDecoder::class)]
+#[CoversClass(Base64ImageDecoder::class)]
 final class Base64ImageDecoderTest extends BaseTestCase
 {
     protected Base64ImageDecoder $decoder;

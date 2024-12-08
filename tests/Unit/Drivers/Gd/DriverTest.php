@@ -15,8 +15,12 @@ use Intervention\Image\Interfaces\ColorProcessorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\MediaType;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
+#[RequiresPhpExtension('gd')]
+#[CoversClass(Driver::class)]
 final class DriverTest extends BaseTestCase
 {
     protected Driver $driver;

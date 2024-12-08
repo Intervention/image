@@ -6,14 +6,12 @@ namespace Intervention\Image\Tests\Unit\Colors\Rgb\Decoders;
 
 use Generator;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Colors\Rgb\Decoders\HtmlColornameDecoder;
 use Intervention\Image\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-#[RequiresPhpExtension('gd')]
-#[CoversClass(\Intervention\Image\Colors\Rgb\Decoders\HtmlColorNameDecoder::class)]
+#[CoversClass(HtmlColorNameDecoder::class)]
 final class HtmlColornameDecoderTest extends BaseTestCase
 {
     #[DataProvider('decodeDataProvier')]

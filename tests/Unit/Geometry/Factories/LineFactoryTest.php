@@ -7,7 +7,9 @@ namespace Intervention\Image\Tests\Unit\Geometry\Factories;
 use Intervention\Image\Geometry\Factories\LineFactory;
 use Intervention\Image\Geometry\Line;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(LineFactory::class)]
 final class LineFactoryTest extends BaseTestCase
 {
     public function testFactoryCallback(): void

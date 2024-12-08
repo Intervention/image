@@ -8,7 +8,9 @@ use Intervention\Image\Drivers\SpecializableModifier;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(SpecializableModifier::class)]
 final class SpecializableModifierTest extends BaseTestCase
 {
     public function testApply(): void

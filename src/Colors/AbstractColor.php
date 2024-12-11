@@ -8,6 +8,7 @@ use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
+use ReflectionClass;
 
 abstract class AbstractColor implements ColorInterface
 {
@@ -83,6 +84,20 @@ abstract class AbstractColor implements ColorInterface
         };
 
         return $colorspace->importColor($this);
+    }
+
+    /**
+     * Show debug info for the current color
+     *
+     * @return array<string, int>
+     */
+    public function __debugInfo(): array
+    {
+        return array_reduce($this->channels(), function (array $result, ColorChannelInterface $item) {
+            $key = strtolower((new ReflectionClass($item))->getShortName());
+            $result[$key] = $item->value();
+            return $result;
+        }, []);
     }
 
     /**

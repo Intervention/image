@@ -882,7 +882,7 @@ final class Image implements ImageInterface
         );
     }
 
-     /**
+    /**
      * {@inheritdoc}
      *
      * @see ImageInterface::drawBezier()
@@ -1063,6 +1063,23 @@ final class Image implements ImageInterface
     public function toHeic(mixed ...$options): EncodedImageInterface
     {
         return $this->encode(new HeicEncoder(...$options));
+    }
+
+    /**
+     * Show debug info for the current image
+     *
+     * @return array<string, int>
+     */
+    public function __debugInfo(): array
+    {
+        try {
+            return [
+                'width' => $this->width(),
+                'height' => $this->height(),
+            ];
+        } catch (RuntimeException) {
+            return [];
+        }
     }
 
     /**

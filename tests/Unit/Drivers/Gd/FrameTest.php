@@ -108,4 +108,13 @@ final class FrameTest extends BaseTestCase
         $frame = $this->getTestFrame();
         $this->assertInstanceOf(Image::class, $frame->toImage(new Driver()));
     }
+
+    public function testDebugInfo(): void
+    {
+        $info = $this->getTestFrame()->__debugInfo();
+        $this->assertEquals(0, $info['delay']);
+        $this->assertEquals(0, $info['left']);
+        $this->assertEquals(0, $info['top']);
+        $this->assertEquals(1, $info['dispose']);
+    }
 }

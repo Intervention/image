@@ -325,4 +325,11 @@ final class RectangleTest extends BaseTestCase
         $this->assertEquals(800, $result->width());
         $this->assertEquals(600, $result->height());
     }
+
+    public function testDebugInfo(): void
+    {
+        $info = (new Rectangle(800, 600))->__debugInfo();
+        $this->assertEquals(800, $info['width']);
+        $this->assertEquals(600, $info['height']);
+    }
 }

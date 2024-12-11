@@ -176,4 +176,13 @@ final class ColorTest extends BaseTestCase
         $color = new Color(255, 255, 255, 0);
         $this->assertTrue($color->isClear());
     }
+
+    public function testDebugInfo(): void
+    {
+        $info = (new Color(10, 20, 30, 40))->__debugInfo();
+        $this->assertEquals(10, $info['red']);
+        $this->assertEquals(20, $info['green']);
+        $this->assertEquals(30, $info['blue']);
+        $this->assertEquals(40, $info['alpha']);
+    }
 }

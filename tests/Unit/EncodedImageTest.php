@@ -57,4 +57,11 @@ final class EncodedImageTest extends BaseTestCase
         $image = new EncodedImage($this->getTestResourceData(), 'image/jpeg');
         $this->assertEquals('image/jpeg', $image->mimetype());
     }
+
+    public function testDebugInfo(): void
+    {
+        $info = (new EncodedImage('foo', 'image/png'))->__debugInfo();
+        $this->assertEquals('image/png', $info['mimetype']);
+        $this->assertEquals(3, $info['size']);
+    }
 }

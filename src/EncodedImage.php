@@ -50,4 +50,17 @@ class EncodedImage extends File implements EncodedImageInterface
     {
         return sprintf('data:%s;base64,%s', $this->mediaType(), base64_encode((string) $this));
     }
+
+    /**
+     * Show debug info for the current image
+     *
+     * @return array<string, mixed>
+     */
+    public function __debugInfo(): array
+    {
+        return [
+            'mimetype' => $this->mimetype(),
+            'size' => $this->size(),
+        ];
+    }
 }

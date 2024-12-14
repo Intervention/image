@@ -364,4 +364,17 @@ class Rectangle extends Polygon implements SizeInterface
     {
         return new RectangleResizer($width, $height);
     }
+
+    /**
+     * Show debug info for the current rectangle
+     *
+     * @return array<string, int>
+     */
+    public function __debugInfo(): array
+    {
+        return [
+            'width' => $this->width(),
+            'height' => $this->height(),
+        ];
+    }
 }

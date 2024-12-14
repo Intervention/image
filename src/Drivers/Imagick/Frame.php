@@ -7,6 +7,7 @@ namespace Intervention\Image\Drivers\Imagick;
 use Imagick;
 use ImagickException;
 use ImagickPixel;
+use Intervention\Image\Drivers\AbstractFrame;
 use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Image;
@@ -15,7 +16,7 @@ use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
-class Frame implements FrameInterface
+class Frame extends AbstractFrame implements FrameInterface
 {
     /**
      * Create new frame object

@@ -390,4 +390,11 @@ final class ImageTest extends GdTestCase
         $this->assertInstanceOf(ImageInterface::class, $result);
         $this->assertEquals('4cfaff', $image->pickColor(14, 14)->toHex());
     }
+
+    public function testDebugInfo(): void
+    {
+        $info = $this->readTestImage('trim.png')->__debugInfo();
+        $this->assertArrayHasKey('width', $info);
+        $this->assertArrayHasKey('height', $info);
+    }
 }

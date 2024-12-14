@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd;
 
 use GdImage;
+use Intervention\Image\Drivers\AbstractFrame;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Geometry\Rectangle;
@@ -14,7 +15,7 @@ use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
-class Frame implements FrameInterface
+class Frame extends AbstractFrame implements FrameInterface
 {
     /**
      * Create new frame instance

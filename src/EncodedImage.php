@@ -59,7 +59,7 @@ class EncodedImage extends File implements EncodedImageInterface
     public function __debugInfo(): array
     {
         return [
-            'mimetype' => $this->mimetype(),
+            'mediaType' => $this->mediaType(),
             'size' => $this->size(),
         ];
     }

@@ -19,13 +19,30 @@ class RemoveAnimationModifier extends SpecializableModifier
     /**
      * @throws RuntimeException
      */
-    public function chosenFrame(ImageInterface $image, int|string $position): FrameInterface
+    protected function selectedFrame(ImageInterface $image): FrameInterface
     {
-        if (is_int($position)) {
-            return $image->core()->frame($position);
+        return $image->core()->frame($this->normalizePosition($image));
+    }
+
+    /**
+     * Return the position of the selected frame as integer
+     *
+     * @param ImageInterface $image
+     * @throws InputException
+     * @return int
+     */
+    protected function normalizePosition(ImageInterface $image): int
+    {
+        if (is_int($this->position)) {
+            return $this->position;
         }
 
-        if (preg_match("/^(?P<percent>[0-9]{1,3})%$/", $position, $matches) != 1) {
+        if (is_numeric($this->position)) {
+            return (int) $this->position;
+        }
+
+        // calculate position from percentage value
+        if (preg_match("/^(?P<percent>[0-9]{1,3})%$/", $this->position, $matches) != 1) {
             throw new InputException(
                 'Position must be either integer or a percent value as string.'
             );
@@ -35,6 +52,6 @@ class RemoveAnimationModifier extends SpecializableModifier
         $position = intval(round($total / 100 * intval($matches['percent'])));
         $position = $position == $total ? $position - 1 : $position;
 
-        return $image->core()->frame($position);
+        return $position;
     }
 }

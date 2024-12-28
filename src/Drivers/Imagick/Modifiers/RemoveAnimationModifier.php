@@ -15,7 +15,7 @@ class RemoveAnimationModifier extends GenericRemoveAnimationModifier implements 
     {
         // create new imagick with just one image
         $imagick = new Imagick();
-        $frame = $this->chosenFrame($image, $this->position);
+        $frame = $this->selectedFrame($image);
         $imagick->addImage($frame->native()->getImage());
 
         // set new imagick to image

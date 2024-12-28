@@ -18,7 +18,7 @@ class RemoveAnimationModifier extends GenericRemoveAnimationModifier implements 
     public function apply(ImageInterface $image): ImageInterface
     {
         $image->core()->setNative(
-            $this->chosenFrame($image, $this->position)->native()
+            $this->selectedFrame($image)->native()
         );
 
         return $image;

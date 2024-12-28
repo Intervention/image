@@ -33,6 +33,15 @@ final class RemoveAnimationModifierTest extends GdTestCase
         $this->assertEquals(1, count($result));
     }
 
+    public function testApplyNonAnimated(): void
+    {
+        $image = $this->readTestImage('test.jpg');
+        $this->assertEquals(1, count($image));
+        $result = $image->modify(new RemoveAnimationModifier());
+        $this->assertEquals(1, count($image));
+        $this->assertEquals(1, count($result));
+    }
+
     public function testApplyInvalid(): void
     {
         $image = $this->readTestImage('animation.gif');

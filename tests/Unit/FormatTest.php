@@ -127,7 +127,7 @@ final class FormatTest extends BaseTestCase
         $format = Format::JP2;
         $mediaTypes = $format->mediaTypes();
         $this->assertIsArray($mediaTypes);
-        $this->assertCount(3, $mediaTypes);
+        $this->assertCount(4, $mediaTypes);
 
         $this->assertEquals(MediaType::IMAGE_JP2, $format->mediaType());
     }

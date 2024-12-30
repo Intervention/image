@@ -104,7 +104,7 @@ final class FileExtensionTest extends BaseTestCase
         yield [FileExtension::BMP, 8, MediaType::IMAGE_BMP];
         yield [FileExtension::TIFF, 1, MediaType::IMAGE_TIFF];
         yield [FileExtension::TIF, 1, MediaType::IMAGE_TIFF];
-        yield [FileExtension::JP2, 3, MediaType::IMAGE_JP2];
+        yield [FileExtension::JP2, 4, MediaType::IMAGE_JP2];
         yield [FileExtension::HEIC, 3, MediaType::IMAGE_HEIC];
     }
 }

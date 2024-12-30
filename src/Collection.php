@@ -23,6 +23,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
      */
     public function __construct(protected array $items = [])
     {
+        //
     }
 
     /**
@@ -181,11 +182,13 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
      */
     public function map(callable $callback): self
     {
-        $items = array_map(function ($item) use ($callback) {
-            return $callback($item);
-        }, $this->items);
 
-        return new self($items);
+        return new self(
+            array_map(
+                fn($item) => $callback($item),
+                $this->items,
+            )
+        );
     }
 
     /**
@@ -196,11 +199,12 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
      */
     public function filter(callable $callback): self
     {
-        $items = array_filter($this->items, function ($item) use ($callback) {
-            return $callback($item);
-        });
-
-        return new self($items);
+        return new self(
+            array_filter(
+                $this->items,
+                fn($item) => $callback($item),
+            )
+        );
     }
 
     /**

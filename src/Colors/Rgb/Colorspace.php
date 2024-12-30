@@ -8,6 +8,7 @@ use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
 use Intervention\Image\Exceptions\ColorException;
+use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 
@@ -32,11 +33,11 @@ class Colorspace implements ColorspaceInterface
      */
     public function colorFromNormalized(array $normalized): ColorInterface
     {
-        $values = array_map(function ($classname, $value_normalized) {
-            return (new $classname(normalized: $value_normalized))->value();
-        }, self::$channels, $normalized);
-
-        return new Color(...$values);
+        return new Color(...array_map(
+            fn($classname, $value_normalized) => (new $classname(normalized: $value_normalized))->value(),
+            self::$channels,
+            $normalized,
+        ));
     }
 
     /**
@@ -98,9 +99,7 @@ class Colorspace implements ColorspaceInterface
         };
 
         // add to each value
-        $values = array_map(function ($value) use ($color, $chroma) {
-            return $value + $color->value()->normalize() - $chroma;
-        }, $values);
+        $values = array_map(fn($value) => $value + $color->value()->normalize() - $chroma, $values);
 
         array_push($values, 1); // append alpha channel value
 
@@ -119,9 +118,10 @@ class Colorspace implements ColorspaceInterface
         }
 
         // normalized values of hsl channels
-        list($h, $s, $l) = array_map(function ($channel) {
-            return $channel->normalize();
-        }, $color->channels());
+        list($h, $s, $l) = array_map(
+            fn(ColorChannelInterface $channel) => $channel->normalize(),
+            $color->channels()
+        );
 
         $c = (1 - abs(2 * $l - 1)) * $s;
         $x = $c * (1 - abs(fmod($h * 6, 2) - 1));
@@ -136,9 +136,7 @@ class Colorspace implements ColorspaceInterface
             default => [$c, 0, $x],
         };
 
-        $values = array_map(function ($value) use ($m) {
-            return $value + $m;
-        }, $values);
+        $values = array_map(fn($value) => $value + $m, $values);
 
         array_push($values, 1); // append alpha channel value
 

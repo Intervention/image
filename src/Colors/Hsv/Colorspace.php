@@ -9,6 +9,7 @@ use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Exceptions\ColorException;
+use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 
@@ -32,11 +33,11 @@ class Colorspace implements ColorspaceInterface
      */
     public function colorFromNormalized(array $normalized): ColorInterface
     {
-        $values = array_map(function ($classname, $value_normalized) {
-            return (new $classname(normalized: $value_normalized))->value();
-        }, self::$channels, $normalized);
-
-        return new Color(...$values);
+        return new Color(...array_map(
+            fn($classname, $value_normalized) => (new $classname(normalized: $value_normalized))->value(),
+            self::$channels,
+            $normalized
+        ));
     }
 
     /**
@@ -66,9 +67,7 @@ class Colorspace implements ColorspaceInterface
         }
 
         // normalized values of rgb channels
-        $values = array_map(function ($channel) {
-            return $channel->normalize();
-        }, $color->channels());
+        $values = array_map(fn(ColorChannelInterface $channel) => $channel->normalize(), $color->channels());
 
         // take only RGB
         $values = array_slice($values, 0, 3);
@@ -116,9 +115,7 @@ class Colorspace implements ColorspaceInterface
         }
 
         // normalized values of hsl channels
-        list($h, $s, $l) = array_map(function ($channel) {
-            return $channel->normalize();
-        }, $color->channels());
+        list($h, $s, $l) = array_map(fn(ColorChannelInterface $channel) => $channel->normalize(), $color->channels());
 
         $v = $l + $s * min($l, 1 - $l);
         $s = ($v == 0) ? 0 : 2 * (1 - $l / $v);

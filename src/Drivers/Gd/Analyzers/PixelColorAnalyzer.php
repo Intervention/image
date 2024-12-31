@@ -36,6 +36,10 @@ class PixelColorAnalyzer extends GenericPixelColorAnalyzer implements Specialize
     {
         $index = @imagecolorat($gd, $this->x, $this->y);
 
+        if (!imageistruecolor($gd)) {
+            $index = imagecolorsforindex($gd, $index);
+        }
+
         if ($index === false) {
             throw new GeometryException(
                 'The specified position is not in the valid image area.'

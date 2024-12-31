@@ -115,7 +115,7 @@ class ColorProcessor implements ColorProcessorInterface
      * array{red: int, green: int, blue: int, alpha: int}
      * i.e. result of imagecolorsforindex()
      *
-     * @param array $color
+     * @param array<mixed> $color
      * @return bool
      */
     private function isValidArrayColor(array $color): bool

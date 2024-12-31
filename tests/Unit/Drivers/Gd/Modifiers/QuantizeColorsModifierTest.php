@@ -55,4 +55,11 @@ final class QuantizeColorsModifierTest extends GdTestCase
 
         $this->assertEquals(count($colors), $count);
     }
+
+    public function testVerifyColorValueAfterQuantization(): void
+    {
+        $image = $this->createTestImage(3, 2)->fill('f00');
+        $image->modify(new QuantizeColorsModifier(1));
+        $this->assertColor(255, 0, 0, 255, $image->pickColor(1, 1));
+    }
 }

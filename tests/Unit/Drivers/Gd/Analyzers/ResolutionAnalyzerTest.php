@@ -22,7 +22,7 @@ final class ResolutionAnalyzerTest extends GdTestCase
         $analyzer->setDriver(new Driver());
         $result = $analyzer->analyze($image);
         $this->assertInstanceOf(Resolution::class, $result);
-        $this->assertEquals(300, $result->x());
-        $this->assertEquals(300, $result->y());
+        $this->assertEquals(300, $result->perInch()->x());
+        $this->assertEquals(300, $result->perInch()->y());
     }
 }

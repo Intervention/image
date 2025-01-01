@@ -104,8 +104,8 @@ class Resolution implements ResolutionInterface
         return match ($this->per_unit) {
             self::PER_CM => $this
                 ->setPerUnit(self::PER_INCH)
-                ->setX($this->x * (1 / 2.54))
-                ->setY($this->y * (1 / 2.54)),
+                ->setX($this->x * 2.54)
+                ->setY($this->y * 2.54),
             default => $this
         };
     }
@@ -120,8 +120,8 @@ class Resolution implements ResolutionInterface
         return match ($this->per_unit) {
             self::PER_INCH => $this
                 ->setPerUnit(self::PER_CM)
-                ->setX($this->x / (1 / 2.54))
-                ->setY($this->y / (1 / 2.54)),
+                ->setX($this->x / 2.54)
+                ->setY($this->y / 2.54),
             default => $this,
         };
     }

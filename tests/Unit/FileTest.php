@@ -32,6 +32,13 @@ final class FileTest extends BaseTestCase
         $this->assertInstanceOf(File::class, $file);
     }
 
+    public function testFromPath(): void
+    {
+        $file = File::fromPath($this->getTestResourcePath());
+        $this->assertInstanceOf(File::class, $file);
+        $this->assertTrue($file->size() > 0);
+    }
+
     public function testSave(): void
     {
         $filename = __DIR__ . '/file_' . strval(hrtime(true)) . '.test';

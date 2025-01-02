@@ -9,4 +9,5 @@ use Intervention\Image\Interfaces\ProfileInterface;
 
 class Profile extends File implements ProfileInterface
 {
+    //
 }

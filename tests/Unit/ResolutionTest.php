@@ -24,26 +24,28 @@ final class ResolutionTest extends BaseTestCase
         $this->assertEquals(3.4, $resolution->y());
     }
 
-    public function testPerInch(): void
+    public function testUnit(): void
+    {
+        $resolution = new Resolution(1, 1);
+        $this->assertEquals('dpi', $resolution->unit());
+
+        $resolution = new Resolution(1, 1, Resolution::PER_CM);
+        $this->assertEquals('dpcm', $resolution->unit());
+    }
+
+    public function testConversion(): void
     {
         $resolution = new Resolution(300, 150); // per inch
         $this->assertEquals(300, $resolution->perInch()->x());
         $this->assertEquals(150, $resolution->perInch()->y());
 
-        $resolution = new Resolution(300, 150, Resolution::PER_CM);
-        $this->assertEquals(118.11024, round($resolution->perInch()->x(), 5));
-        $this->assertEquals(59.05512, round($resolution->perInch()->y(), 5));
-    }
+        $resolution = new Resolution(300, 150); // per inch
+        $this->assertEquals(118.11, round($resolution->perCm()->x(), 2));
+        $this->assertEquals(59.06, round($resolution->perCm()->y(), 2));
 
-    public function testPerCm(): void
-    {
-        $resolution = new Resolution(118.11024, 59.05512); // per inch
-        $this->assertEquals(300, round($resolution->perCm()->x()));
-        $this->assertEquals(150, round($resolution->perCm()->y()));
-
-        $resolution = new Resolution(300, 150, Resolution::PER_CM);
-        $this->assertEquals(300, $resolution->perCm()->x());
-        $this->assertEquals(150, $resolution->perCm()->y());
+        $resolution = new Resolution(118.11024, 59.06, Resolution::PER_CM); // per cm
+        $this->assertEquals(300, round($resolution->perInch()->x()));
+        $this->assertEquals(150, round($resolution->perInch()->y()));
     }
 
     public function testToString(): void

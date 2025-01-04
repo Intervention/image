@@ -13,6 +13,13 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
 {
     public function analyze(ImageInterface $image): mixed
     {
-        return new Resolution(...$image->core()->native()->getImageResolution());
+        $imagick = $image->core()->native();
+        $imageResolution = $imagick->getImageResolution();
+
+        return new Resolution(
+            $imageResolution['x'],
+            $imageResolution['y'],
+            $imagick->getImageUnits(),
+        );
     }
 }

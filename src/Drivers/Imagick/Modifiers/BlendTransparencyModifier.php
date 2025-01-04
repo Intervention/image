@@ -13,15 +13,12 @@ class BlendTransparencyModifier extends GenericBlendTransparencyModifier impleme
 {
     public function apply(ImageInterface $image): ImageInterface
     {
-        // decode blending color
-        $color = $this->driver()->handleInput(
-            $this->color ? $this->color : $this->driver()->config()->blendingColor
-        );
+        $blendingColor = $this->blendingColor($this->driver());
 
-        // get imagickpixel from color
+        // get imagickpixel from blending color
         $pixel = $this->driver()
             ->colorProcessor($image->colorspace())
-            ->colorToNative($color);
+            ->colorToNative($blendingColor);
 
         // merge transparent areas with the background color
         foreach ($image as $frame) {

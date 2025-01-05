@@ -26,7 +26,7 @@ class DrawBezierModifier extends ModifiersDrawBezierModifier implements Speciali
                 throw new GeometryException('You must specify either 3 or 4 points to create a bezier curve');
             }
 
-            list($polygon, $polygon_border_segments) = $this->calculateBezierPoints();
+            [$polygon, $polygon_border_segments] = $this->calculateBezierPoints();
 
             if ($this->drawable->hasBackgroundColor() || $this->drawable->hasBorder()) {
                 imagealphablending($frame->native(), true);

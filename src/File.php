@@ -8,8 +8,9 @@ use Intervention\Image\Exceptions\NotWritableException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\FileInterface;
 use Intervention\Image\Traits\CanBuildFilePointer;
+use Stringable;
 
-class File implements FileInterface
+class File implements FileInterface, Stringable
 {
     use CanBuildFilePointer;
 

@@ -117,7 +117,7 @@ class Colorspace implements ColorspaceInterface
         }
 
         // normalized values of hsl channels
-        list($h, $s, $l) = array_map(
+        [$h, $s, $l] = array_map(
             fn(ColorChannelInterface $channel): float => $channel->normalize(),
             $color->channels()
         );

@@ -9,8 +9,9 @@ use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use ReflectionClass;
+use Stringable;
 
-abstract class AbstractColor implements ColorInterface
+abstract class AbstractColor implements ColorInterface, Stringable
 {
     /**
      * Color channels

@@ -89,7 +89,7 @@ class Colorspace implements ColorspaceInterface
         $s = 100 * ($chroma / $max);
 
         // calculate hue
-        list($r, $g, $b) = $values;
+        [$r, $g, $b] = $values;
         $h = match (true) {
             ($r == $min) => 3 - (($g - $b) / $chroma),
             ($b == $min) => 1 - (($r - $g) / $chroma),
@@ -115,7 +115,7 @@ class Colorspace implements ColorspaceInterface
         }
 
         // normalized values of hsl channels
-        list($h, $s, $l) = array_map(
+        [$h, $s, $l] = array_map(
             fn(ColorChannelInterface $channel): float => $channel->normalize(),
             $color->channels()
         );

@@ -99,7 +99,7 @@ class Colorspace implements ColorspaceInterface
         };
 
         // add to each value
-        $values = array_map(fn($value) => $value + $color->value()->normalize() - $chroma, $values);
+        $values = array_map(fn(float|int $value): float => $value + $color->value()->normalize() - $chroma, $values);
         $values[] = 1; // append alpha channel value
 
         return $this->colorFromNormalized($values);
@@ -118,7 +118,7 @@ class Colorspace implements ColorspaceInterface
 
         // normalized values of hsl channels
         list($h, $s, $l) = array_map(
-            fn(ColorChannelInterface $channel) => $channel->normalize(),
+            fn(ColorChannelInterface $channel): float => $channel->normalize(),
             $color->channels()
         );
 
@@ -135,7 +135,7 @@ class Colorspace implements ColorspaceInterface
             default => [$c, 0, $x],
         };
 
-        $values = array_map(fn($value) => $value + $m, $values);
+        $values = array_map(fn(float|int $value): float => $value + $m, $values);
         $values[] = 1; // append alpha channel value
 
         return $this->colorFromNormalized($values);

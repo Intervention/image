@@ -67,7 +67,7 @@ class TextBlock extends Collection
     public function longestLine(): Line
     {
         $lines = $this->lines();
-        usort($lines, function (Line $a, Line $b) {
+        usort($lines, function (Line $a, Line $b): int {
             if ($a->length() === $b->length()) {
                 return 0;
             }

@@ -38,7 +38,7 @@ abstract class AbstractColor implements ColorInterface
     {
         $channels = array_filter(
             $this->channels(),
-            fn(ColorChannelInterface $channel) => $channel::class === $classname,
+            fn(ColorChannelInterface $channel): bool => $channel::class === $classname,
         );
 
         if (count($channels) == 0) {
@@ -56,7 +56,7 @@ abstract class AbstractColor implements ColorInterface
     public function normalize(): array
     {
         return array_map(
-            fn(ColorChannelInterface $channel) => $channel->normalize(),
+            fn(ColorChannelInterface $channel): float => $channel->normalize(),
             $this->channels(),
         );
     }
@@ -69,7 +69,7 @@ abstract class AbstractColor implements ColorInterface
     public function toArray(): array
     {
         return array_map(
-            fn(ColorChannelInterface $channel) => $channel->value(),
+            fn(ColorChannelInterface $channel): int => $channel->value(),
             $this->channels()
         );
     }

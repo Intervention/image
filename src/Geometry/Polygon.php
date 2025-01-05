@@ -216,7 +216,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     {
         $points = $this->points;
 
-        usort($points, function ($a, $b) {
+        usort($points, function (PointInterface $a, PointInterface $b): int {
             if ($a->x() === $b->x()) {
                 return 0;
             }
@@ -235,7 +235,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     {
         $points = $this->points;
 
-        usort($points, function ($a, $b) {
+        usort($points, function (PointInterface $a, PointInterface $b): int {
             if ($a->x() === $b->x()) {
                 return 0;
             }
@@ -254,7 +254,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     {
         $points = $this->points;
 
-        usort($points, function ($a, $b) {
+        usort($points, function (PointInterface $a, PointInterface $b): int {
             if ($a->y() === $b->y()) {
                 return 0;
             }
@@ -273,7 +273,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     {
         $points = $this->points;
 
-        usort($points, function ($a, $b) {
+        usort($points, function (PointInterface $a, PointInterface $b): int {
             if ($a->y() === $b->y()) {
                 return 0;
             }

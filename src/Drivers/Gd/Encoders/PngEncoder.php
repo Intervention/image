@@ -25,7 +25,7 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
     {
         $output = $this->prepareOutput($image);
 
-        return $this->createEncodedImage(function ($pointer) use ($output) {
+        return $this->createEncodedImage(function ($pointer) use ($output): void {
             imageinterlace($output, $this->interlaced);
             imagepng($output, $pointer, -1);
         }, 'image/png');

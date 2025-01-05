@@ -88,7 +88,7 @@ enum Format
     {
         return array_filter(
             MediaType::cases(),
-            fn(MediaType $mediaType) => $mediaType->format() === $this
+            fn(MediaType $mediaType): bool => $mediaType->format() === $this
         );
     }
 
@@ -113,7 +113,7 @@ enum Format
     {
         return array_filter(
             FileExtension::cases(),
-            fn(FileExtension $fileExtension) => $fileExtension->format() === $this
+            fn(FileExtension $fileExtension): bool => $fileExtension->format() === $this
         );
     }
 
@@ -155,7 +155,7 @@ enum Format
         $reflectionClass = new ReflectionClass($classname);
         if ($constructor = $reflectionClass->getConstructor()) {
             $parameters = array_map(
-                fn($parameter) => $parameter->getName(),
+                fn($parameter): string => $parameter->getName(),
                 $constructor->getParameters(),
             );
         }
@@ -163,7 +163,7 @@ enum Format
         // filter out unavailable options of target encoder
         $options = array_filter(
             $options,
-            fn($key) => in_array($key, $parameters),
+            fn($key): bool => in_array($key, $parameters),
             ARRAY_FILTER_USE_KEY,
         );
 

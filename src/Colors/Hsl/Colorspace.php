@@ -68,7 +68,7 @@ class Colorspace implements ColorspaceInterface
 
         // normalized values of rgb channels
         $values = array_map(
-            fn(ColorChannelInterface $channel) => $channel->normalize(),
+            fn(ColorChannelInterface $channel): float => $channel->normalize(),
             $color->channels(),
         );
 
@@ -119,7 +119,7 @@ class Colorspace implements ColorspaceInterface
 
         // normalized values of hsv channels
         list($h, $s, $v) = array_map(
-            fn(ColorChannelInterface $channel) => $channel->normalize(),
+            fn(ColorChannelInterface $channel): float => $channel->normalize(),
             $color->channels(),
         );
 

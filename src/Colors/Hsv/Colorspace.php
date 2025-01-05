@@ -67,7 +67,7 @@ class Colorspace implements ColorspaceInterface
         }
 
         // normalized values of rgb channels
-        $values = array_map(fn(ColorChannelInterface $channel) => $channel->normalize(), $color->channels());
+        $values = array_map(fn(ColorChannelInterface $channel): float => $channel->normalize(), $color->channels());
 
         // take only RGB
         $values = array_slice($values, 0, 3);
@@ -115,7 +115,10 @@ class Colorspace implements ColorspaceInterface
         }
 
         // normalized values of hsl channels
-        list($h, $s, $l) = array_map(fn(ColorChannelInterface $channel) => $channel->normalize(), $color->channels());
+        list($h, $s, $l) = array_map(
+            fn(ColorChannelInterface $channel): float => $channel->normalize(),
+            $color->channels()
+        );
 
         $v = $l + $s * min($l, 1 - $l);
         $s = ($v == 0) ? 0 : 2 * (1 - $l / $v);

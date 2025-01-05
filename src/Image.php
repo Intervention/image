@@ -107,7 +107,7 @@ final class Image implements ImageInterface
      *
      * @var Origin
      */
-    protected Origin $origin;
+    private Origin $origin;
 
     /**
      * Create new instance
@@ -119,9 +119,9 @@ final class Image implements ImageInterface
      * @return void
      */
     public function __construct(
-        protected DriverInterface $driver,
-        protected CoreInterface $core,
-        protected CollectionInterface $exif = new Collection()
+        private DriverInterface $driver,
+        private CoreInterface $core,
+        private CollectionInterface $exif = new Collection()
     ) {
         $this->origin = new Origin();
     }

@@ -14,7 +14,7 @@ use Intervention\Image\Interfaces\ImageManagerInterface;
 
 final class ImageManager implements ImageManagerInterface
 {
-    protected DriverInterface $driver;
+    private DriverInterface $driver;
 
     /**
      * @link https://image.intervention.io/v3/basics/image-manager#create-a-new-image-manager-instance

@@ -63,7 +63,7 @@ class FontProcessor extends AbstractFontProcessor
         $draw->setFontSize($this->nativeFontSize($font));
         $draw->setTextAlignment(Imagick::ALIGN_LEFT);
 
-        if ($color) {
+        if ($color instanceof ImagickPixel) {
             $draw->setFillColor($color);
         }
 

@@ -21,7 +21,7 @@ class TransparentColorDecoder extends HexColorDecoder
             throw new DecoderException('Unable to decode input');
         }
 
-        if (strtolower($input) != 'transparent') {
+        if (strtolower($input) !== 'transparent') {
             throw new DecoderException('Unable to decode input');
         }
 

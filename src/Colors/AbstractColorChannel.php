@@ -6,8 +6,9 @@ namespace Intervention\Image\Colors;
 
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
+use Stringable;
 
-abstract class AbstractColorChannel implements ColorChannelInterface
+abstract class AbstractColorChannel implements ColorChannelInterface, Stringable
 {
     protected int $value;
 

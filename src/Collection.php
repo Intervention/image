@@ -153,7 +153,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
             return $this->items[$query];
         }
 
-        if (is_string($query) && strpos($query, '.') === false) {
+        if (is_string($query) && !str_contains($query, '.')) {
             return array_key_exists($query, $this->items) ? $this->items[$query] : $default;
         }
 

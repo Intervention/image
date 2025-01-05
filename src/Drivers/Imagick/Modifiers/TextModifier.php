@@ -122,7 +122,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
         ?ImagickDraw $draw = null,
         PointInterface $offset = new Point(),
     ): void {
-        if ($draw !== null) {
+        if ($draw instanceof ImagickDraw) {
             $frame->native()->annotateImage(
                 $draw,
                 $textline->position()->x() + $offset->x(),

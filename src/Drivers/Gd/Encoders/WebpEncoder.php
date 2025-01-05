@@ -20,7 +20,7 @@ class WebpEncoder extends GenericWebpEncoder implements SpecializedInterface
     {
         $quality = $this->quality === 100 ? IMG_WEBP_LOSSLESS : $this->quality;
 
-        return $this->createEncodedImage(function ($pointer) use ($image, $quality) {
+        return $this->createEncodedImage(function ($pointer) use ($image, $quality): void {
             imagewebp($image->core()->native(), $pointer, $quality);
         }, 'image/webp');
     }

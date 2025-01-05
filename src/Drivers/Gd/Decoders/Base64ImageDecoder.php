@@ -22,6 +22,6 @@ class Base64ImageDecoder extends BinaryImageDecoder implements DecoderInterface
             throw new DecoderException('Unable to decode input');
         }
 
-        return parent::decode(base64_decode($input));
+        return parent::decode(base64_decode((string) $input));
     }
 }

@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Intervention\Image;
 
 use Intervention\Image\Interfaces\ResolutionInterface;
+use Stringable;
 
-class Resolution implements ResolutionInterface
+class Resolution implements ResolutionInterface, Stringable
 {
     public const PER_INCH = 1;
     public const PER_CM = 2;

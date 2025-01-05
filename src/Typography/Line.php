@@ -9,12 +9,13 @@ use Countable;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\PointInterface;
 use IteratorAggregate;
+use Stringable;
 use Traversable;
 
 /**
  * @implements IteratorAggregate<string>
  */
-class Line implements IteratorAggregate, Countable
+class Line implements IteratorAggregate, Countable, Stringable
 {
     /**
      * Segments (usually individual words including punctuation marks) of the line

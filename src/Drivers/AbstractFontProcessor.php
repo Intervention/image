@@ -132,7 +132,7 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
             // calculate width of newly formatted line
             $lineWidth = $this->boxSize(match ($formattedLine->count()) {
                 0 => $word,
-                default => (string) $formattedLine . ' ' . $word,
+                default => $formattedLine . ' ' . $word,
             }, $font)->width();
 
             // decide if word fits on current line or a new line must be created

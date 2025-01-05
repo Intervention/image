@@ -13,7 +13,7 @@ class BlurModifier extends GenericBlurModifier implements SpecializedInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $frame->native()->blurImage(1 * $this->amount, 0.5 * $this->amount);
+            $frame->native()->blurImage($this->amount, 0.5 * $this->amount);
         }
 
         return $image;

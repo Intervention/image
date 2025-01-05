@@ -30,7 +30,6 @@ class HexColorDecoder extends AbstractDecoder implements DecoderInterface
             throw new DecoderException('Unable to decode input');
         }
 
-        $values = str_split($matches['hex']);
         $values = match (strlen($matches['hex'])) {
             3, 4 => str_split($matches['hex']),
             6, 8 => str_split($matches['hex'], 2),

@@ -50,8 +50,7 @@ class RemoveAnimationModifier extends SpecializableModifier
 
         $total = count($image);
         $position = intval(round($total / 100 * intval($matches['percent'])));
-        $position = $position == $total ? $position - 1 : $position;
 
-        return $position;
+        return $position == $total ? $position - 1 : $position;
     }
 }

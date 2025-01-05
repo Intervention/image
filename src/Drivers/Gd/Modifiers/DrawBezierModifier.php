@@ -160,11 +160,11 @@ class DrawBezierModifier extends ModifiersDrawBezierModifier implements Speciali
         $polygon_border_segments = [];
 
         // define ratio t; equivalent to 5 percent distance along edge
-        $t = (float) 0.05;
+        $t = 0.05;
 
         $polygon[] = $this->drawable->first()->x();
         $polygon[] = $this->drawable->first()->y();
-        for ($i = 0 + $t; $i < 1; $i += $t) {
+        for ($i = $t; $i < 1; $i += $t) {
             if ($this->drawable->count() === 3) {
                 $ip = $this->calculateQuadraticBezierInterpolationPoint($i);
             } elseif ($this->drawable->count() === 4) {

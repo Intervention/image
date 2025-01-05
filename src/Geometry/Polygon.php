@@ -214,10 +214,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
      */
     public function mostLeftPoint(): PointInterface
     {
-        $points = [];
-        foreach ($this->points as $point) {
-            $points[] = $point;
-        }
+        $points = $this->points;
 
         usort($points, function ($a, $b) {
             if ($a->x() === $b->x()) {
@@ -236,10 +233,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
      */
     public function mostRightPoint(): PointInterface
     {
-        $points = [];
-        foreach ($this->points as $point) {
-            $points[] = $point;
-        }
+        $points = $this->points;
 
         usort($points, function ($a, $b) {
             if ($a->x() === $b->x()) {
@@ -258,10 +252,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
      */
     public function mostTopPoint(): PointInterface
     {
-        $points = [];
-        foreach ($this->points as $point) {
-            $points[] = $point;
-        }
+        $points = $this->points;
 
         usort($points, function ($a, $b) {
             if ($a->y() === $b->y()) {
@@ -280,10 +271,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
      */
     public function mostBottomPoint(): PointInterface
     {
-        $points = [];
-        foreach ($this->points as $point) {
-            $points[] = $point;
-        }
+        $points = $this->points;
 
         usort($points, function ($a, $b) {
             if ($a->y() === $b->y()) {

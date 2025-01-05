@@ -154,11 +154,7 @@ abstract class AbstractDecoder implements DecoderInterface
 
             public function isBase64Encoded(): bool
             {
-                if (isset($this->matches['base64']) && $this->matches['base64'] === ';base64') {
-                    return true;
-                }
-
-                return false;
+                return isset($this->matches['base64']) && $this->matches['base64'] === ';base64';
             }
 
             public function data(): ?string

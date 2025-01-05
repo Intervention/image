@@ -36,9 +36,9 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
         foreach ($lines as $line) {
             $lineBoxSize = $this->boxSize((string) $line, $font);
             $lineWidth = $lineBoxSize->width() + $lineBoxSize->pivot()->x();
-            $xAdjustment = $font->alignment() == 'left' ? 0 : $blockWidth - $lineWidth;
-            $xAdjustment = $font->alignment() == 'right' ? intval(round($xAdjustment)) : $xAdjustment;
-            $xAdjustment = $font->alignment() == 'center' ? intval(round($xAdjustment / 2)) : $xAdjustment;
+            $xAdjustment = $font->alignment() === 'left' ? 0 : $blockWidth - $lineWidth;
+            $xAdjustment = $font->alignment() === 'right' ? intval(round($xAdjustment)) : $xAdjustment;
+            $xAdjustment = $font->alignment() === 'center' ? intval(round($xAdjustment / 2)) : $xAdjustment;
             $position = new Point($x + $xAdjustment, $y);
             $position->rotate($font->angle(), $pivot);
             $line->setPosition($position);
@@ -139,7 +139,7 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
             if ($line->count() === 1 || $lineWidth <= $font->wrapWidth()) {
                 $formattedLine->add($word);
             } else {
-                if ($formattedLine->count()) {
+                if ($formattedLine->count() !== 0) {
                     $wrapped[] = $formattedLine;
                 }
                 $formattedLine = new Line($word);

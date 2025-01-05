@@ -35,7 +35,7 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
         // For some JPEG formats, the "coalesceImages()" call leads to an image
         // completely filled with background color. The logic behind this is
         // incomprehensible for me; could be an imagick bug.
-        if ($input->getImageFormat() != 'JPEG') {
+        if ($input->getImageFormat() !== 'JPEG') {
             $input = $input->coalesceImages();
         }
 

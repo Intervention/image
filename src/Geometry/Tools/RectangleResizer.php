@@ -52,7 +52,7 @@ class RectangleResizer
      */
     protected function hasTargetWidth(): bool
     {
-        return is_integer($this->width);
+        return is_int($this->width);
     }
 
     /**
@@ -72,7 +72,7 @@ class RectangleResizer
      */
     protected function hasTargetHeight(): bool
     {
-        return is_integer($this->height);
+        return is_int($this->height);
     }
 
     /**

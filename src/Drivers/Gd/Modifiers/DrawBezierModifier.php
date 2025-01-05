@@ -54,7 +54,8 @@ class DrawBezierModifier extends ModifiersDrawBezierModifier implements Speciali
                 if ($this->drawable->borderSize() === 1) {
                     imagesetthickness($frame->native(), $this->drawable->borderSize());
 
-                    for ($i = 0; $i < count($polygon); $i += 2) {
+                    $count = count($polygon);
+                    for ($i = 0; $i < $count; $i += 2) {
                         if (array_key_exists($i + 2, $polygon) && array_key_exists($i + 3, $polygon)) {
                             imageline(
                                 $frame->native(),

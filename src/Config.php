@@ -52,7 +52,7 @@ class Config
      */
     private function prepareOptions(array $options): array
     {
-        if (count($options) === 0) {
+        if ($options === []) {
             return $options;
         }
 

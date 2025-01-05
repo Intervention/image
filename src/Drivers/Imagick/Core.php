@@ -178,7 +178,7 @@ class Core implements CoreInterface, Iterator
      */
     public function next(): void
     {
-        $this->iteratorIndex = $this->iteratorIndex + 1;
+        $this->iteratorIndex += 1;
     }
 
     /**
@@ -247,7 +247,7 @@ class Core implements CoreInterface, Iterator
     public function frame(int $position): FrameInterface
     {
         foreach ($this->imagick as $core) {
-            if ($core->getIteratorIndex() == $position) {
+            if ($core->getIteratorIndex() === $position) {
                 return new Frame($core);
             }
         }

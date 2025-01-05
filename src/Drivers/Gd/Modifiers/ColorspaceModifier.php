@@ -19,7 +19,7 @@ class ColorspaceModifier extends GenericColorspaceModifier implements Specialize
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        if (!is_a($this->targetColorspace(), RgbColorspace::class)) {
+        if (!($this->targetColorspace() instanceof RgbColorspace)) {
             throw new NotSupportedException(
                 'Only RGB colorspace is supported by GD driver.'
             );

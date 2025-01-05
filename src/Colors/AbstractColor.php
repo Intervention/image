@@ -38,7 +38,7 @@ abstract class AbstractColor implements ColorInterface
     {
         $channels = array_filter(
             $this->channels(),
-            fn(ColorChannelInterface $channel) => $channel::class == $classname,
+            fn(ColorChannelInterface $channel) => $channel::class === $classname,
         );
 
         if (count($channels) == 0) {

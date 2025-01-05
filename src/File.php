@@ -64,7 +64,7 @@ class File implements FileInterface
 
         if (is_file($filepath) && !is_writable($filepath)) {
             throw new NotWritableException(
-                "Can't write image. Path ({$filepath}) is not writable."
+                sprintf("Can't write image. Path (%s) is not writable.", $filepath)
             );
         }
 
@@ -72,7 +72,7 @@ class File implements FileInterface
         $saved = @file_put_contents($filepath, $this->pointer);
         if ($saved === false) {
             throw new NotWritableException(
-                "Can't write image data to path ({$filepath})."
+                sprintf("Can't write image data to path (%s).", $filepath)
             );
         }
     }

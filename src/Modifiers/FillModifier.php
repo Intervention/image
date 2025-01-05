@@ -17,6 +17,6 @@ class FillModifier extends SpecializableModifier
 
     public function hasPosition(): bool
     {
-        return !empty($this->position);
+        return $this->position instanceof PointInterface;
     }
 }

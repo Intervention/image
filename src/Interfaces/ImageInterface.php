@@ -640,6 +640,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Trim the image by removing border areas of similar color within a the given tolerance
      *
+     * @link https://image.intervention.io/v3/modifying/resizing#trim-image
      * @param int $tolerance
      * @throws RuntimeException
      * @throws AnimationException

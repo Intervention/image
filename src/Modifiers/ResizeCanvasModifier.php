@@ -39,7 +39,6 @@ class ResizeCanvasModifier extends SpecializableModifier
      */
     protected function cropSize(ImageInterface $image, bool $relative = false): SizeInterface
     {
-
         $size = match ($relative) {
             true => new Rectangle(
                 is_null($this->width) ? $image->width() : $image->width() + $this->width,

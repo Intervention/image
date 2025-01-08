@@ -19,6 +19,7 @@ final class ImageManager implements ImageManagerInterface
     /**
      * @link https://image.intervention.io/v3/basics/image-manager#create-a-new-image-manager-instance
      * @param string|DriverInterface $driver
+     * @throws DriverException
      * @param mixed $options
      */
     public function __construct(string|DriverInterface $driver, mixed ...$options)
@@ -32,6 +33,7 @@ final class ImageManager implements ImageManagerInterface
      * @link https://image.intervention.io/v3/basics/image-manager
      * @param string|DriverInterface $driver
      * @param mixed $options
+     * @throws DriverException
      * @return ImageManager
      */
     public static function withDriver(string|DriverInterface $driver, mixed ...$options): self
@@ -112,15 +114,24 @@ final class ImageManager implements ImageManagerInterface
     }
 
     /**
-     * Return driver object
+     * Return driver object from given input which might be driver classname or instance of DriverInterface
      *
      * @param string|DriverInterface $driver
      * @param mixed $options
+     * @throws DriverException
      * @return DriverInterface
      */
     private static function resolveDriver(string|DriverInterface $driver, mixed ...$options): DriverInterface
     {
-        $driver = is_string($driver) ? new $driver() : $driver;
+        $driver = match (true) {
+            $driver instanceof DriverInterface => $driver,
+            class_exists($driver) => new $driver(),
+            default => throw new DriverException(
+                'Unable to resolve driver. Argment must be either an instance of ' .
+                    DriverInterface::class . '::class or a qualified namespaced name of the driver class.',
+            ),
+        };
+
         $driver->config()->setOptions(...$options);
 
         return $driver;

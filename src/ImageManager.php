@@ -120,7 +120,11 @@ final class ImageManager implements ImageManagerInterface
      */
     private static function resolveDriver(string|DriverInterface $driver, mixed ...$options): DriverInterface
     {
-        $driver = is_string($driver) ? new $driver() : $driver;
+        if ($driver === 'gd') {
+            $driver = new \Intervention\Image\Drivers\Gd\Driver();
+        } else {
+            $driver = is_string($driver) ? new $driver() : $driver;
+        }
         $driver->config()->setOptions(...$options);
 
         return $driver;

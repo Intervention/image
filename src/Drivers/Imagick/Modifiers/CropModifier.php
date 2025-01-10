@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
-use ImagickDraw;
-use ImagickPixel;
+use Imagick;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\CropModifier as GenericCropModifier;
@@ -14,79 +13,35 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {
-        $originalSize = $image->size();
         $crop = $this->crop($image);
         $background = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
             $this->driver()->handleInput($this->background)
         );
 
-        $transparent = new ImagickPixel('transparent');
-
-        $draw = new ImagickDraw();
-        $draw->setFillColor($background);
+        $imagick = new Imagick();
 
         foreach ($image as $frame) {
-            $frame->native()->setBackgroundColor($transparent);
-            $frame->native()->setImageBackgroundColor($transparent);
+            $canvas = new Imagick();
+            $canvas->newImage($crop->width(), $crop->height(), $background, 'png');
 
-            // crop image
-            $frame->native()->extentImage(
-                $crop->width(),
-                $crop->height(),
-                $crop->pivot()->x() + $this->offset_x,
-                $crop->pivot()->y() + $this->offset_y
+            $canvas->compositeImage(
+                $frame->native(),
+                Imagick::COMPOSITE_OVER,
+                ($crop->pivot()->x() + $this->offset_x) * -1,
+                ($crop->pivot()->y() + $this->offset_y) * -1,
             );
 
-            // repage
-            $frame->native()->setImagePage(
-                $crop->width(),
-                $crop->height(),
-                0,
-                0,
+            $canvas->compositeImage(
+                $frame->native(),
+                Imagick::COMPOSITE_COPYOPACITY,
+                ($crop->pivot()->x() + $this->offset_x) * -1,
+                ($crop->pivot()->y() + $this->offset_y) * -1,
             );
 
-            // cover the possible newly created areas with background color
-            if ($crop->width() > $originalSize->width() || $this->offset_x > 0) {
-                $draw->rectangle(
-                    $originalSize->width() + ($this->offset_x * -1) - $crop->pivot()->x(),
-                    0,
-                    $crop->width(),
-                    $crop->height()
-                );
-            }
-
-            // cover the possible newly created areas with background color
-            if ($crop->height() > $originalSize->height() || $this->offset_y > 0) {
-                $draw->rectangle(
-                    ($this->offset_x * -1) - $crop->pivot()->x(),
-                    $originalSize->height() + ($this->offset_y * -1) - $crop->pivot()->y(),
-                    ($this->offset_x * -1) + $originalSize->width() - 1 - $crop->pivot()->x(),
-                    $crop->height()
-                );
-            }
-
-            // cover the possible newly created areas with background color
-            if ((($this->offset_x * -1) - $crop->pivot()->x() - 1) > 0) {
-                $draw->rectangle(
-                    0,
-                    0,
-                    ($this->offset_x * -1) - $crop->pivot()->x() - 1,
-                    $crop->height()
-                );
-            }
-
-            // cover the possible newly created areas with background color
-            if ((($this->offset_y * -1) - $crop->pivot()->y() - 1) > 0) {
-                $draw->rectangle(
-                    ($this->offset_x * -1) - $crop->pivot()->x(),
-                    0,
-                    ($this->offset_x * -1) + $originalSize->width() - $crop->pivot()->x() - 1,
-                    ($this->offset_y * -1) - $crop->pivot()->y() - 1,
-                );
-            }
-
-            $frame->native()->drawImage($draw);
+            $imagick->addImage($canvas);
         }
+
+        $image->core()->setNative($imagick);
 
         return $image;
     }

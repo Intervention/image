@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Drivers\Imagick\Modifiers;
 
+use Intervention\Image\Colors\Cmyk\Colorspace;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\CropModifier;
@@ -35,5 +36,21 @@ final class CropModifierTest extends ImagickTestCase
         $this->assertColor(0, 0, 255, 255, $image->pickColor(16, 16));
         $this->assertColor(0, 0, 255, 255, $image->pickColor(445, 16));
         $this->assertTransparency($image->pickColor(460, 16));
+    }
+
+    public function testModifyKeepsColorspace(): void
+    {
+        $image = $this->readTestImage('cmyk.jpg');
+        $this->assertInstanceOf(Colorspace::class, $image->colorspace());
+        $image = $image->modify(new CropModifier(800, 100, -10, -10, 'ff0000'));
+        $this->assertInstanceOf(Colorspace::class, $image->colorspace());
+    }
+
+    public function testModifyKeepsResolution(): void
+    {
+        $image = $this->readTestImage('300dpi.png');
+        $this->assertEquals(300, round($image->resolution()->perInch()->x()));
+        $image = $image->modify(new CropModifier(800, 100, -10, -10, 'ff0000'));
+        $this->assertEquals(300, round($image->resolution()->perInch()->x()));
     }
 }

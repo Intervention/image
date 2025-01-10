@@ -19,10 +19,12 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
         );
 
         $imagick = new Imagick();
+        $resolution = $image->resolution()->perInch();
 
         foreach ($image as $frame) {
             $canvas = new Imagick();
             $canvas->newImage($crop->width(), $crop->height(), $background, 'png');
+            $canvas->setImageResolution($resolution->x(), $resolution->y());
 
             $canvas->compositeImage(
                 $frame->native(),

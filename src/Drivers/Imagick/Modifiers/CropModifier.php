@@ -33,7 +33,7 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
 
             $canvas->compositeImage(
                 $frame->native(),
-                Imagick::COMPOSITE_COPYOPACITY,
+                $this->imagemagickMajorVersion() <= 6 ? Imagick::COMPOSITE_DSTIN : Imagick::COMPOSITE_COPYOPACITY,
                 ($crop->pivot()->x() + $this->offset_x) * -1,
                 ($crop->pivot()->y() + $this->offset_y) * -1,
             );
@@ -44,5 +44,14 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
         $image->core()->setNative($imagick);
 
         return $image;
+    }
+
+    private function imagemagickMajorVersion(): int
+    {
+        if (preg_match('/^ImageMagick (?P<major>[0-9]+)\./', Imagick::getVersion()['versionString'], $matches) != 1) {
+            return 0;
+        }
+
+        return intval($matches['major'] ?? 0);
     }
 }

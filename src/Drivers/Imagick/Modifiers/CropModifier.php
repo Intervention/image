@@ -52,6 +52,6 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
             return 0;
         }
 
-        return intval($matches['major'] ?? 0);
+        return intval($matches['major']);
     }
 }

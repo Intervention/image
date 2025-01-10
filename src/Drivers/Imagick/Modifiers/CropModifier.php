@@ -33,12 +33,14 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
                 ($crop->pivot()->y() + $this->offset_y) * -1,
             );
 
-            $canvas->compositeImage(
-                $frame->native(),
-                $this->imagemagickMajorVersion() <= 6 ? Imagick::COMPOSITE_DSTIN : Imagick::COMPOSITE_COPYOPACITY,
-                ($crop->pivot()->x() + $this->offset_x) * -1,
-                ($crop->pivot()->y() + $this->offset_y) * -1,
-            );
+            if ($frame->native()->getImageAlphaChannel()) {
+                $canvas->compositeImage(
+                    $frame->native(),
+                    $this->imagemagickMajorVersion() <= 6 ? Imagick::COMPOSITE_DSTIN : Imagick::COMPOSITE_COPYOPACITY,
+                    ($crop->pivot()->x() + $this->offset_x) * -1,
+                    ($crop->pivot()->y() + $this->offset_y) * -1,
+                );
+            }
 
             $imagick->addImage($canvas);
         }

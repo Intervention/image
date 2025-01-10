@@ -18,14 +18,24 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
             $this->driver()->handleInput($this->background)
         );
 
+        // create empty container imagick to rebuild core
         $imagick = new Imagick();
         $resolution = $image->resolution()->perInch();
 
         foreach ($image as $frame) {
+            // create new frame canvas with modifiers background
             $canvas = new Imagick();
             $canvas->newImage($crop->width(), $crop->height(), $background, 'png');
             $canvas->setImageResolution($resolution->x(), $resolution->y());
 
+            // set animation details
+            if ($image->isAnimated()) {
+                $canvas->setImageDelay($frame->native()->getImageDelay());
+                $canvas->setImageIterations($frame->native()->getImageIterations());
+                $canvas->setImageDispose($frame->native()->getImageDispose());
+            }
+
+            // place original frame content onto the empty colored frame canvas
             $canvas->compositeImage(
                 $frame->native(),
                 Imagick::COMPOSITE_OVER,
@@ -33,6 +43,7 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
                 ($crop->pivot()->y() + $this->offset_y) * -1,
             );
 
+            // copy alpha channel if available
             if ($frame->native()->getImageAlphaChannel()) {
                 $canvas->compositeImage(
                     $frame->native(),
@@ -42,9 +53,11 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
                 );
             }
 
+            // add newly built frame to container imagick
             $imagick->addImage($canvas);
         }
 
+        // replace imagick
         $image->core()->setNative($imagick);
 
         return $image;

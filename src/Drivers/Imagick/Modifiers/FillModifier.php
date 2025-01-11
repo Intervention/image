@@ -52,12 +52,12 @@ class FillModifier extends ModifiersFillModifier implements SpecializedInterface
     {
         $draw = new ImagickDraw();
         $draw->setFillColor($pixel);
-        $draw->rectangle(
-            0,
-            0,
-            $frame->getImageWidth(),
-            $frame->getImageHeight()
-        );
+        $draw->rectangle(0, 0, $frame->getImageWidth(), $frame->getImageHeight());
         $frame->drawImage($draw);
+
+        // deactive alpha channel because image is covered in opaque color
+        if ($pixel->getColorValue(Imagick::COLOR_ALPHA) == 1) {
+            $frame->setImageAlphaChannel(Imagick::ALPHACHANNEL_DEACTIVATE);
+        }
     }
 }

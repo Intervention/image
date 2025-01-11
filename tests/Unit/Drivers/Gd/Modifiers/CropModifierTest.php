@@ -57,4 +57,17 @@ final class CropModifierTest extends GdTestCase
         $image = $image->modify(new CropModifier(800, 100, -10, -10, 'ff0000'));
         $this->assertEquals(300, round($image->resolution()->perInch()->x()));
     }
+
+    public function testMergeTransparentBackgrounds(): void
+    {
+        $image = $this->createTestImage(1, 1)->fill('f00');
+        $this->assertEquals(1, $image->width());
+        $this->assertEquals(1, $image->height());
+        $image->modify(new CropModifier(3, 3, 0, 0, '00f7', 'center'));
+        $this->assertEquals(3, $image->width());
+        $this->assertEquals(3, $image->height());
+        $this->assertColor(0, 0, 255, 119, $image->pickColor(0, 0));
+        $this->assertColor(255, 0, 0, 255, $image->pickColor(1, 1));
+        $this->assertColor(0, 0, 255, 119, $image->pickColor(2, 2));
+    }
 }

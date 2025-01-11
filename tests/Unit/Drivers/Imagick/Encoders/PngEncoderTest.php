@@ -64,7 +64,7 @@ final class PngEncoderTest extends ImagickTestCase
         yield [
             static::createTestImage(3, 2)->fill('ccc'), // new grayscale
             new PngEncoder(indexed: true),
-            'grayscale', // result should be 'indexed' but there seems to be no way to force this with imagick
+            'indexed',
         ];
         yield [
             static::readTestImage('circle.png'), // truecolor-alpha

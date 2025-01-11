@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
+use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\CropModifier as GenericCropModifier;
@@ -47,7 +48,9 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
             if ($frame->native()->getImageAlphaChannel()) {
                 $canvas->compositeImage(
                     $frame->native(),
-                    $this->imagemagickMajorVersion() <= 6 ? Imagick::COMPOSITE_DSTIN : Imagick::COMPOSITE_COPYOPACITY,
+                    version_compare(Driver::version(), '7.0.0', '>=') ?
+                        Imagick::COMPOSITE_COPYOPACITY :
+                        Imagick::COMPOSITE_DSTIN,
                     ($crop->pivot()->x() + $this->offset_x) * -1,
                     ($crop->pivot()->y() + $this->offset_y) * -1,
                 );
@@ -61,14 +64,5 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
         $image->core()->setNative($imagick);
 
         return $image;
-    }
-
-    private function imagemagickMajorVersion(): int
-    {
-        if (preg_match('/^ImageMagick (?P<major>[0-9]+)\./', Imagick::getVersion()['versionString'], $matches) != 1) {
-            return 0;
-        }
-
-        return intval($matches['major']);
     }
 }

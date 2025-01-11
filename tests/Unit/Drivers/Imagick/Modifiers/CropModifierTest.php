@@ -86,7 +86,7 @@ final class CropModifierTest extends ImagickTestCase
 
     public function testMergeTransparentBackgrounds(): void
     {
-        $image = $this->createTestImage(1, 1);
+        $image = $this->createTestImage(1, 1)->fill('f00');
         $this->assertEquals(1, $image->width());
         $this->assertEquals(1, $image->height());
         $image->modify(new CropModifier(3, 3, 0, 0, '00f7', 'center'));

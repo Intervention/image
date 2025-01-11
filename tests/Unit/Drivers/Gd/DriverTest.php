@@ -206,4 +206,9 @@ final class DriverTest extends BaseTestCase
         yield [false, 'foo'];
         yield [false, ''];
     }
+
+    public function testVersion(): void
+    {
+        $this->assertTrue(is_string($this->driver->version()));
+    }
 }

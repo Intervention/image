@@ -149,4 +149,14 @@ class Driver extends AbstractDriver
             default => false,
         };
     }
+
+    /**
+     * Return version of GD library
+     *
+     * @return string
+     */
+    public static function version(): string
+    {
+        return gd_info()['GD Version'];
+    }
 }

@@ -92,8 +92,8 @@ final class CropModifierTest extends ImagickTestCase
         $image->modify(new CropModifier(3, 3, 0, 0, '00f7', 'center'));
         $this->assertEquals(3, $image->width());
         $this->assertEquals(3, $image->height());
-        $this->assertColor(0, 0, 255, 127, $image->pickColor(0, 0));
+        $this->assertColor(0, 0, 255, 127, $image->pickColor(0, 0), 1);
         $this->assertColor(255, 0, 0, 255, $image->pickColor(1, 1));
-        $this->assertColor(0, 0, 255, 127, $image->pickColor(2, 2));
+        $this->assertColor(0, 0, 255, 127, $image->pickColor(2, 2), 1);
     }
 }

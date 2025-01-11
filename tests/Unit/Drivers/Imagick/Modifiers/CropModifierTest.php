@@ -66,4 +66,21 @@ final class CropModifierTest extends ImagickTestCase
         $image = $image->modify(new CropModifier(800, 100, -10, -10, 'ff0000'));
         $this->assertEquals(300, round($image->resolution()->perInch()->x()));
     }
+
+    public function testHalfTransparent(): void
+    {
+        $image = $this->createTestImage(16, 16);
+        $image->modify(new CropModifier(32, 32, 0, 0, '00f5', 'center'));
+        $this->assertEquals(32, $image->width());
+        $this->assertEquals(32, $image->height());
+        $this->assertColor(0, 0, 255, 77, $image->pickColor(5, 5));
+        $this->assertColor(0, 0, 255, 77, $image->pickColor(16, 5));
+        $this->assertColor(0, 0, 255, 77, $image->pickColor(30, 5));
+        $this->assertColor(0, 0, 255, 77, $image->pickColor(5, 16));
+        $this->assertColor(255, 0, 0, 255, $image->pickColor(16, 16));
+        $this->assertColor(0, 0, 255, 77, $image->pickColor(30, 16));
+        $this->assertColor(0, 0, 255, 77, $image->pickColor(5, 30));
+        $this->assertColor(0, 0, 255, 77, $image->pickColor(16, 30));
+        $this->assertColor(0, 0, 255, 77, $image->pickColor(30, 30));
+    }
 }

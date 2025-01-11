@@ -39,7 +39,7 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
             // place original frame content onto the empty colored frame canvas
             $canvas->compositeImage(
                 $frame->native(),
-                Imagick::COMPOSITE_OVER,
+                Imagick::COMPOSITE_DEFAULT,
                 ($crop->pivot()->x() + $this->offset_x) * -1,
                 ($crop->pivot()->y() + $this->offset_y) * -1,
             );

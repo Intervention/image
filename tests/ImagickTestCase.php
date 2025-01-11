@@ -38,6 +38,7 @@ abstract class ImagickTestCase extends BaseTestCase
         $imagick->setImageType(Imagick::IMGTYPE_UNDEFINED);
         $imagick->setColorspace(Imagick::COLORSPACE_SRGB);
         $imagick->setImageResolution(96, 96);
+        $imagick->setImageBackgroundColor($background);
 
         return new Image(
             new Driver(),

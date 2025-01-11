@@ -84,6 +84,7 @@ class Driver extends AbstractDriver
                 protected DriverInterface $driver,
                 public Imagick $imagick
             ) {
+                //
             }
 
             /**
@@ -150,5 +151,24 @@ class Driver extends AbstractDriver
         }
 
         return count(Imagick::queryFormats($format->name)) >= 1;
+    }
+
+    /**
+     * Return version of ImageMagick library
+     *
+     * @throws DriverException
+     * @return string
+     */
+    public static function version(): string
+    {
+        $pattern = '/^ImageMagick (?P<version>(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)' .
+            '(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?' .
+            '(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)/';
+
+        if (preg_match($pattern, Imagick::getVersion()['versionString'], $matches) !== 1) {
+            throw new DriverException('Unable to read ImageMagick version number.');
+        }
+
+        return $matches['version'];
     }
 }

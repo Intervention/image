@@ -17,6 +17,7 @@ use Intervention\Image\Encoders\WebpEncoder;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\EncoderInterface;
 use ReflectionClass;
+use ReflectionParameter;
 
 enum Format
 {
@@ -155,7 +156,7 @@ enum Format
         $reflectionClass = new ReflectionClass($classname);
         if ($constructor = $reflectionClass->getConstructor()) {
             $parameters = array_map(
-                fn($parameter): string => $parameter->getName(),
+                fn(ReflectionParameter $parameter): string => $parameter->getName(),
                 $constructor->getParameters(),
             );
         }
@@ -163,7 +164,7 @@ enum Format
         // filter out unavailable options of target encoder
         $options = array_filter(
             $options,
-            fn($key): bool => in_array($key, $parameters),
+            fn(mixed $key): bool => in_array($key, $parameters),
             ARRAY_FILTER_USE_KEY,
         );
 

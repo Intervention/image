@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests;
 
 use Imagick;
+use ImagickException;
 use ImagickPixel;
 use Intervention\Image\Decoders\FilePathImageDecoder;
 use Intervention\Image\Drivers\Imagick\Core;
@@ -20,6 +21,14 @@ abstract class ImagickTestCase extends BaseTestCase
         );
     }
 
+    /**
+     * Create test image with red (#ff0000) background
+     *
+     * @param int $width
+     * @param int $height
+     * @return Image
+     * @throws ImagickException
+     */
     public static function createTestImage(int $width, int $height): Image
     {
         $background = new ImagickPixel('rgb(255, 0, 0)');
@@ -29,6 +38,7 @@ abstract class ImagickTestCase extends BaseTestCase
         $imagick->setImageType(Imagick::IMGTYPE_UNDEFINED);
         $imagick->setColorspace(Imagick::COLORSPACE_SRGB);
         $imagick->setImageResolution(96, 96);
+        $imagick->setImageBackgroundColor($background);
 
         return new Image(
             new Driver(),

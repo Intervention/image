@@ -35,7 +35,7 @@ class Colorspace implements ColorspaceInterface
     public function colorFromNormalized(array $normalized): ColorInterface
     {
         return new Color(...array_map(
-            fn($classname, $value_normalized) => (new $classname(normalized: $value_normalized))->value(),
+            fn(string $classname, float $value_normalized) => (new $classname(normalized: $value_normalized))->value(),
             self::$channels,
             $normalized,
         ));

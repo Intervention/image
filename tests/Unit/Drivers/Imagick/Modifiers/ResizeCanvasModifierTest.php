@@ -41,7 +41,7 @@ final class ResizeCanvasModifierTest extends ImagickTestCase
         $this->assertColor(255, 255, 0, 255, $image->pickColor(17, 17));
         $this->assertTransparency($image->pickColor(12, 1));
 
-        $image = $this->createTestImage(16, 16)->fill('f00');
+        $image = $this->createTestImage(16, 16);
         $image->modify(new ResizeCanvasModifier(32, 32, '00f5', 'center'));
         $this->assertEquals(32, $image->width());
         $this->assertEquals(32, $image->height());

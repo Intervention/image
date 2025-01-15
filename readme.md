@@ -66,6 +66,7 @@ $encoded->save('images/example.jpg');
 
 - GD Library
 - Imagick PHP extension
+- [libvips](https://github.com/Intervention/image-driver-vips)
 
 ## Security
 

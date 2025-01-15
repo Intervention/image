@@ -13,6 +13,9 @@ choose between the GD library or Imagick as the base layer for all operations.
 
 - Simple interface for common image editing tasks
 - Interchangeable driver architecture
+    - GD Library
+    - Imagick PHP extension
+    - [libvips](https://github.com/Intervention/image-driver-vips)
 - Support for animated images
 - Framework-agnostic
 - PSR-12 compliant
@@ -61,12 +64,6 @@ $encoded->save('images/example.jpg');
 ## Requirements
 
 - PHP >= 8.1
-
-## Supported Image Libraries
-
-- GD Library
-- Imagick PHP extension
-- [libvips](https://github.com/Intervention/image-driver-vips)
 
 ## Security
 

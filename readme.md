@@ -60,9 +60,17 @@ $encoded->save('images/example.jpg');
 
 ## Requirements
 
+Before you begin with the installation make sure that your server environment
+supports the following requirements.
+
 - PHP >= 8.1
+- Mbstring PHP Extension
+- Image Processing PHP Extension
 
 ## Supported Image Libraries
+
+Depending on your environment Intervention Image lets you choose between
+different image processing extensions.
 
 - GD Library
 - Imagick PHP extension

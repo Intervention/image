@@ -76,6 +76,9 @@ final class FileExtensionTest extends BaseTestCase
 
         $ext = FileExtension::JPG2;
         $this->assertEquals(Format::JP2, $ext->format());
+
+        $ext = FileExtension::JP2K;
+        $this->assertEquals(Format::JP2, $ext->format());
     }
 
     public function testFormatHeic(): void

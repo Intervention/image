@@ -17,6 +17,7 @@ enum FileExtension: string
     case TIFF = 'tiff';
     case JP2 = 'jp2';
     case J2K = 'j2k';
+    case JP2K = 'jp2k';
     case JPF = 'jpf';
     case JPM = 'jpm';
     case JPG2 = 'jpg2';
@@ -44,6 +45,7 @@ enum FileExtension: string
             self::TIF,
             self::TIFF => Format::TIFF,
             self::JP2,
+            self::JP2K,
             self::J2K,
             self::JPF,
             self::JPM,

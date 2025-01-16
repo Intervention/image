@@ -143,9 +143,9 @@ final class MediaTypeTest extends BaseTestCase
         yield [MediaType::IMAGE_X_WIN_BITMAP, 1, FileExtension::BMP];
         yield [MediaType::IMAGE_X_XBITMAP, 1, FileExtension::BMP];
         yield [MediaType::IMAGE_TIFF, 2, FileExtension::TIF];
-        yield [MediaType::IMAGE_JP2, 8, FileExtension::JP2];
-        yield [MediaType::IMAGE_JPX, 8, FileExtension::JP2];
-        yield [MediaType::IMAGE_JPM, 8, FileExtension::JP2];
+        yield [MediaType::IMAGE_JP2, 9, FileExtension::JP2];
+        yield [MediaType::IMAGE_JPX, 9, FileExtension::JP2];
+        yield [MediaType::IMAGE_JPM, 9, FileExtension::JP2];
         yield [MediaType::IMAGE_HEIC, 2, FileExtension::HEIC];
         yield [MediaType::IMAGE_X_HEIC, 2, FileExtension::HEIC];
         yield [MediaType::IMAGE_HEIF, 2, FileExtension::HEIC];

@@ -67,6 +67,17 @@ final class FileExtensionEncoderTest extends BaseTestCase
         yield ['tif', TiffEncoder::class];
         yield ['jp2', Jpeg2000Encoder::class];
         yield ['heic', HeicEncoder::class];
+        yield ['WEBP', WebpEncoder::class];
+        yield ['AVIF', AvifEncoder::class];
+        yield ['JPEG', JpegEncoder::class];
+        yield ['JPG', JpegEncoder::class];
+        yield ['BMP', BmpEncoder::class];
+        yield ['GIF', GifEncoder::class];
+        yield ['PNG', PngEncoder::class];
+        yield ['TIFF', TiffEncoder::class];
+        yield ['TIF', TiffEncoder::class];
+        yield ['JP2', Jpeg2000Encoder::class];
+        yield ['HEIC', HeicEncoder::class];
         yield [FileExtension::WEBP, WebpEncoder::class];
         yield [FileExtension::AVIF, AvifEncoder::class];
         yield [FileExtension::JPG, JpegEncoder::class];

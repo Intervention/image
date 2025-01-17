@@ -61,7 +61,7 @@ class FileExtensionEncoder extends AutoEncoder
         }
 
         try {
-            $extension = is_string($extension) ? FileExtension::from($extension) : $extension;
+            $extension = is_string($extension) ? FileExtension::from(strtolower($extension)) : $extension;
         } catch (Error) {
             throw new EncoderException('No encoder found for file extension (' . $extension . ').');
         }

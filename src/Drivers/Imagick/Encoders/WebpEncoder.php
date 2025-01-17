@@ -32,6 +32,10 @@ class WebpEncoder extends GenericWebpEncoder implements SpecializedInterface
         $imagick->setImageCompression($compression);
         $imagick->setImageCompressionQuality($this->quality);
 
+        if ($this->quality === 100) {
+            $imagick->setOption('webp:lossless', 'true');
+        }
+
         return new EncodedImage($imagick->getImagesBlob(), 'image/webp');
     }
 }

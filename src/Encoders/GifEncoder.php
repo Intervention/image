@@ -16,5 +16,6 @@ class GifEncoder extends SpecializableEncoder
      */
     public function __construct(public bool $interlaced = false)
     {
+        //
     }
 }

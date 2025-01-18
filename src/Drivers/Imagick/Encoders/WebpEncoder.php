@@ -6,6 +6,7 @@ namespace Intervention\Image\Drivers\Imagick\Encoders;
 
 use Imagick;
 use ImagickPixel;
+use Intervention\Image\Drivers\Imagick\Modifiers\StripMetaModifier;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\WebpEncoder as GenericWebpEncoder;
 use Intervention\Image\Interfaces\EncodedImageInterface;
@@ -18,6 +19,11 @@ class WebpEncoder extends GenericWebpEncoder implements SpecializedInterface
     {
         $format = 'WEBP';
         $compression = Imagick::COMPRESSION_ZIP;
+
+        // strip meta data
+        if ($this->strip || (is_null($this->strip) && $this->driver()->config()->strip)) {
+            $image->modify(new StripMetaModifier());
+        }
 
         $imagick = $image->core()->native();
         $imagick->setImageBackgroundColor(new ImagickPixel('transparent'));

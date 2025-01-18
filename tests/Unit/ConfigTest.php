@@ -24,11 +24,13 @@ final class ConfigTest extends BaseTestCase
             autoOrientation: false,
             decodeAnimation: false,
             blendingColor: 'f00',
+            strip: true,
         );
         $this->assertInstanceOf(Config::class, $config);
 
         $this->assertFalse($config->autoOrientation);
         $this->assertFalse($config->decodeAnimation);
+        $this->assertTrue($config->strip);
         $this->assertEquals('f00', $config->blendingColor);
     }
 
@@ -37,12 +39,14 @@ final class ConfigTest extends BaseTestCase
         $config = new Config();
         $this->assertTrue($config->autoOrientation);
         $this->assertTrue($config->decodeAnimation);
+        $this->assertFalse($config->strip);
         $this->assertEquals('ffffff', $config->blendingColor);
 
         $result = $config->setOptions(
             autoOrientation: false,
             decodeAnimation: false,
             blendingColor: 'f00',
+            strip: true,
         );
 
         $this->assertFalse($config->autoOrientation);
@@ -51,16 +55,19 @@ final class ConfigTest extends BaseTestCase
 
         $this->assertFalse($result->autoOrientation);
         $this->assertFalse($result->decodeAnimation);
+        $this->assertTrue($result->strip);
         $this->assertEquals('f00', $result->blendingColor);
 
         $result = $config->setOptions(blendingColor: '000');
 
         $this->assertFalse($config->autoOrientation);
         $this->assertFalse($config->decodeAnimation);
+        $this->assertTrue($config->strip);
         $this->assertEquals('000', $config->blendingColor);
 
         $this->assertFalse($result->autoOrientation);
         $this->assertFalse($result->decodeAnimation);
+        $this->assertTrue($result->strip);
         $this->assertEquals('000', $result->blendingColor);
     }
 
@@ -71,13 +78,16 @@ final class ConfigTest extends BaseTestCase
             'autoOrientation' => false,
             'decodeAnimation' => false,
             'blendingColor' => 'f00',
+            'strip' => true,
         ]);
 
         $this->assertFalse($config->autoOrientation);
         $this->assertFalse($config->decodeAnimation);
+        $this->assertTrue($config->strip);
         $this->assertEquals('f00', $config->blendingColor);
         $this->assertFalse($result->autoOrientation);
         $this->assertFalse($result->decodeAnimation);
+        $this->assertTrue($result->strip);
         $this->assertEquals('f00', $result->blendingColor);
     }
 }

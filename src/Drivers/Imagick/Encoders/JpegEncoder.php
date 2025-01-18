@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Encoders;
 
 use Imagick;
+use Intervention\Image\Drivers\Imagick\Modifiers\StripMetaModifier;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\JpegEncoder as GenericJpegEncoder;
 use Intervention\Image\Interfaces\EncodedImageInterface;
@@ -30,6 +31,12 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
         // possible full transparent colors as black
         $background->setColorValue(Imagick::COLOR_ALPHA, 1);
 
+        // strip meta data
+        if ($this->strip || (is_null($this->strip) && $this->driver()->config()->strip)) {
+            $image->modify(new StripMetaModifier());
+        }
+
+        /** @var Imagick $imagick */
         $imagick = $image->core()->native();
         $imagick->setImageBackgroundColor($background);
         $imagick->setBackgroundColor($background);

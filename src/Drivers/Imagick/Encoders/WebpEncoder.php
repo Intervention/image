@@ -6,6 +6,7 @@ namespace Intervention\Image\Drivers\Imagick\Encoders;
 
 use Imagick;
 use ImagickPixel;
+use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\WebpEncoder as GenericWebpEncoder;
 use Intervention\Image\Interfaces\EncodedImageInterface;
@@ -34,6 +35,10 @@ class WebpEncoder extends GenericWebpEncoder implements SpecializedInterface
 
         if ($this->quality === 100) {
             $imagick->setOption('webp:lossless', 'true');
+        }
+
+        if ($this->strip) {
+            Driver::stripExifKeepICCProfiles($imagick);
         }
 
         return new EncodedImage($imagick->getImagesBlob(), 'image/webp');

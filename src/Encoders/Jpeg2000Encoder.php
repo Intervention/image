@@ -12,9 +12,12 @@ class Jpeg2000Encoder extends SpecializableEncoder
      * Create new encoder object
      *
      * @param int $quality
+     * @param bool $strip
      * @return void
      */
-    public function __construct(public int $quality = self::DEFAULT_QUALITY)
-    {
+    public function __construct(
+        public int $quality = self::DEFAULT_QUALITY,
+        public bool $strip = false
+    ) {
     }
 }

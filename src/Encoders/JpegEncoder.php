@@ -13,11 +13,13 @@ class JpegEncoder extends SpecializableEncoder
      *
      * @param int $quality
      * @param bool $progressive
+     * @param bool $strip
      * @return void
      */
     public function __construct(
         public int $quality = self::DEFAULT_QUALITY,
-        public bool $progressive = false
+        public bool $progressive = false,
+        public bool $strip = false
     ) {
     }
 }

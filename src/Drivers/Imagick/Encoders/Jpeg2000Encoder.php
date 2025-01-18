@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Encoders;
 
 use Imagick;
+use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\Jpeg2000Encoder as GenericJpeg2000Encoder;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -27,6 +28,10 @@ class Jpeg2000Encoder extends GenericJpeg2000Encoder implements SpecializedInter
         $imagick->setImageCompression($compression);
         $imagick->setCompressionQuality($this->quality);
         $imagick->setImageCompressionQuality($this->quality);
+
+        if ($this->strip) {
+            Driver::stripExifKeepICCProfiles($imagick);
+        }
 
         return new EncodedImage($imagick->getImagesBlob(), 'image/jp2');
     }

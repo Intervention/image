@@ -171,4 +171,21 @@ class Driver extends AbstractDriver
 
         return $matches['version'];
     }
+
+    /**
+     * @param Imagick $imagick
+     *
+     * @throws \ImagickException
+     * @return void
+     */
+    public static function stripExifKeepICCProfiles(Imagick $imagick): void
+    {
+        $profiles = $imagick->getImageProfiles('icc');
+
+        $imagick->stripImage();
+
+        if ($profiles !== []) {
+            $imagick->profileImage("icc", $profiles['icc']);
+        }
+    }
 }

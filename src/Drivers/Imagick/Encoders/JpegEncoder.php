@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Encoders;
 
 use Imagick;
+use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\JpegEncoder as GenericJpegEncoder;
 use Intervention\Image\Interfaces\EncodedImageInterface;
@@ -30,6 +31,7 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
         // possible full transparent colors as black
         $background->setColorValue(Imagick::COLOR_ALPHA, 1);
 
+        /** @var Imagick $imagick */
         $imagick = $image->core()->native();
         $imagick->setImageBackgroundColor($background);
         $imagick->setBackgroundColor($background);
@@ -43,6 +45,10 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
 
         if ($this->progressive) {
             $imagick->setInterlaceScheme(Imagick::INTERLACE_PLANE);
+        }
+
+        if ($this->strip) {
+            Driver::stripExifKeepICCProfiles($imagick);
         }
 
         return new EncodedImage($imagick->getImagesBlob(), 'image/jpeg');

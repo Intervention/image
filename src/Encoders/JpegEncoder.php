@@ -13,7 +13,7 @@ class JpegEncoder extends SpecializableEncoder
      *
      * @param int $quality
      * @param bool $progressive
-     * @param null|bool $strip
+     * @param null|bool $strip Strip EXIF metadata
      * @return void
      */
     public function __construct(

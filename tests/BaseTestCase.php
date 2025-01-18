@@ -112,7 +112,10 @@ abstract class BaseTestCase extends MockeryTestCase
         fclose($pointer);
 
         $allowed = is_string($allowed) ? [$allowed] : $allowed;
-        $this->assertTrue(in_array($detected, $allowed));
+        $this->assertTrue(
+            in_array($detected, $allowed),
+            'Detected media type "' . $detected . '" is not: ' . join(', ', $allowed),
+        );
     }
 
     protected function assertMediaTypeBitmap(string|EncodedImage $input): void

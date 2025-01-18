@@ -37,4 +37,18 @@ final class JpegEncoderTest extends GdTestCase
         $this->assertEquals('image/jpeg', $result->mimetype());
         $this->assertTrue($this->isProgressiveJpeg($result));
     }
+
+    public function testEncodeStripExif(): void
+    {
+        $image = $this->readTestImage('exif.jpg');
+        $this->assertEquals('Oliver Vogel', $image->exif('IFD0.Artist'));
+
+        $encoder = new JpegEncoder(strip: true);
+        $encoder->setDriver(new Driver());
+        $result = $encoder->encode($image);
+        $this->assertMediaType('image/jpeg', $result);
+        $this->assertEquals('image/jpeg', $result->mimetype());
+        var_dump(exif_read_data($result->toFilePointer()));
+        $this->assertEmpty(exif_read_data($result->toFilePointer())['IFD0.Artist'] ?? null);
+    }
 }

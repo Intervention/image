@@ -67,6 +67,8 @@ jobs:
             cd /tmp || exit 1
             tar -xzf imagick.tgz
             cd imagick-${{ matrix.imagick }}
+            curl -Lo imagick.patch "https://patch-diff.githubusercontent.com/raw/Imagick/imagick/pull/690.patch"
+            patch -p1 < imagick.patch && rm -f imagick.patch
             phpize
             sudo ./configure --with-imagick=/home/runner/im/imagemagick-${{ matrix.imagemagick }}
             sudo make -j$(nproc)

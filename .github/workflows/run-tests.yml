@@ -4,13 +4,12 @@ on: [ push, pull_request ]
 
 jobs:
   run:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
         php: [ '8.1', '8.2', '8.3', '8.4' ]
         imagemagick: [ '6.9.12-55', '7.1.1-32' ]
-        imagick: [ '3.7.0' ]
         stability: [ prefer-stable ]
 
     name: PHP ${{ matrix.php }} - ${{ matrix.stability }} - ImageMagick ${{ matrix.imagemagick }}
@@ -18,13 +17,6 @@ jobs:
     steps:
       - name: Checkout project
         uses: actions/checkout@v4
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: mbstring, gd
-          coverage: none
 
       - name: Prepare environment for Imagemagick
         run: |
@@ -60,20 +52,12 @@ jobs:
             sudo make install
           )
 
-      - name: Install PHP ImageMagick extension
-        run: |
-          curl -o /tmp/imagick.tgz -sL http://pecl.php.net/get/imagick-${{ matrix.imagick }}.tgz
-          (
-            cd /tmp || exit 1
-            tar -xzf imagick.tgz
-            cd imagick-${{ matrix.imagick }}
-            phpize
-            sudo ./configure --with-imagick=/home/runner/im/imagemagick-${{ matrix.imagemagick }}
-            sudo make -j$(nproc)
-            sudo make install
-          )
-          sudo bash -c 'echo "extension=imagick.so" >> /etc/php/${{ matrix.php }}/cli/php.ini'
-          php --ri imagick;
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, gd, imagick
+          coverage: none
 
       - name: Get composer cache directory
         id: composer-cache

@@ -17,7 +17,8 @@ class TiffEncoder extends GenericTiffEncoder implements SpecializedInterface
     {
         $format = 'TIFF';
 
-        if ($this->strip) {
+        // strip meta data
+        if ($this->strip || (is_null($this->strip) && $this->driver()->config()->strip)) {
             $image->modify(new StripMetaModifier());
         }
 

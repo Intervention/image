@@ -31,7 +31,8 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
         // possible full transparent colors as black
         $background->setColorValue(Imagick::COLOR_ALPHA, 1);
 
-        if ($this->strip) {
+        // strip meta data
+        if ($this->strip || (is_null($this->strip) && $this->driver()->config()->strip)) {
             $image->modify(new StripMetaModifier());
         }
 

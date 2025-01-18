@@ -19,7 +19,8 @@ class Jpeg2000Encoder extends GenericJpeg2000Encoder implements SpecializedInter
         $format = 'JP2';
         $compression = Imagick::COMPRESSION_JPEG;
 
-        if ($this->strip) {
+        // strip meta data
+        if ($this->strip || (is_null($this->strip) && $this->driver()->config()->strip)) {
             $image->modify(new StripMetaModifier());
         }
 

@@ -20,7 +20,8 @@ class WebpEncoder extends GenericWebpEncoder implements SpecializedInterface
         $format = 'WEBP';
         $compression = Imagick::COMPRESSION_ZIP;
 
-        if ($this->strip) {
+        // strip meta data
+        if ($this->strip || (is_null($this->strip) && $this->driver()->config()->strip)) {
             $image->modify(new StripMetaModifier());
         }
 

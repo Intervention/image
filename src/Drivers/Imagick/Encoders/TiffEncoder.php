@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Encoders;
 
-use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\Drivers\Imagick\Modifiers\StripMetaModifier;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\TiffEncoder as GenericTiffEncoder;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -17,6 +17,10 @@ class TiffEncoder extends GenericTiffEncoder implements SpecializedInterface
     {
         $format = 'TIFF';
 
+        if ($this->strip) {
+            $image->modify(new StripMetaModifier());
+        }
+
         $imagick = $image->core()->native();
         $imagick->setFormat($format);
         $imagick->setImageFormat($format);
@@ -24,10 +28,6 @@ class TiffEncoder extends GenericTiffEncoder implements SpecializedInterface
         $imagick->setImageCompression($imagick->getImageCompression());
         $imagick->setCompressionQuality($this->quality);
         $imagick->setImageCompressionQuality($this->quality);
-
-        if ($this->strip) {
-            Driver::stripExifKeepICCProfiles($imagick);
-        }
 
         return new EncodedImage($imagick->getImagesBlob(), 'image/tiff');
     }

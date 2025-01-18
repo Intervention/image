@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Encoders;
 
 use Imagick;
-use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\Drivers\Imagick\Modifiers\StripMetaModifier;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\AvifEncoder as GenericAvifEncoder;
 use Intervention\Image\Interfaces\EncodedImageInterface;
@@ -19,6 +19,10 @@ class AvifEncoder extends GenericAvifEncoder implements SpecializedInterface
         $format = 'AVIF';
         $compression = Imagick::COMPRESSION_ZIP;
 
+        if ($this->strip) {
+            $image->modify(new StripMetaModifier());
+        }
+
         $imagick = $image->core()->native();
         $imagick->setFormat($format);
         $imagick->setImageFormat($format);
@@ -26,10 +30,6 @@ class AvifEncoder extends GenericAvifEncoder implements SpecializedInterface
         $imagick->setImageCompression($compression);
         $imagick->setCompressionQuality($this->quality);
         $imagick->setImageCompressionQuality($this->quality);
-
-        if ($this->strip) {
-            Driver::stripExifKeepICCProfiles($imagick);
-        }
 
         return new EncodedImage($imagick->getImagesBlob(), 'image/avif');
     }

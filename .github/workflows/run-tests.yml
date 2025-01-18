@@ -18,13 +18,6 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v4
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: mbstring, gd, imagick
-          coverage: none
-
       - name: Prepare environment for Imagemagick
         run: |
           sudo apt-get -y remove imagemagick imagemagick-6-common libmagic-dev
@@ -58,6 +51,13 @@ jobs:
             sudo make -j$(nproc)
             sudo make install
           )
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, gd, imagick
+          coverage: none
 
       - name: Get composer cache directory
         id: composer-cache

@@ -48,7 +48,6 @@ final class JpegEncoderTest extends GdTestCase
         $result = $encoder->encode($image);
         $this->assertMediaType('image/jpeg', $result);
         $this->assertEquals('image/jpeg', $result->mimetype());
-        var_dump(exif_read_data($result->toFilePointer()));
         $this->assertEmpty(exif_read_data($result->toFilePointer())['IFD0.Artist'] ?? null);
     }
 }

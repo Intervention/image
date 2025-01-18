@@ -32,7 +32,22 @@ jobs:
           sudo apt-get install -y libjpeg-dev libgif-dev libtiff-dev libpng-dev libwebp-dev libavif-dev libheif-dev
           sudo apt-get install -y libmagickwand-dev
 
+      - name: Cache ImageMagick
+        uses: actions/cache@v4
+        id: cache-imagemagick
+        with:
+          path: /home/runner/im/imagemagick-${{ matrix.imagemagick }}
+          key: ${{ runner.os }}-ImageMagick-${{ matrix.imagemagick }}-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-ImageMagick-${{ matrix.imagemagick }}-
+
+      - name: Check ImageMagick cache exists
+        uses: andstor/file-existence-action@v3
+        id: cache-imagemagick-exists
+        with:
+          files: /home/runner/im/imagemagick-${{ matrix.imagemagick }}
+
       - name: Install ImageMagick
+        if: ( steps.cache-imagemagick.outputs.cache-hit != 'true' || steps.cache-imagemagick-exists.outputs.files_exists != 'true' )
         run: |
           curl -o /tmp/ImageMagick.tar.xz -sL https://imagemagick.org/archive/releases/ImageMagick-${{ matrix.imagemagick }}.tar.xz
           (

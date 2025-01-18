@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
+use Intervention\Image\Collection;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
@@ -22,6 +23,7 @@ class StripMetaModifier implements ModifierInterface, SpecializedInterface
 
         // remove meta data
         $image->core()->native()->stripImage();
+        $image->setExif(new Collection());
 
         if ($profiles !== []) {
             // re-apply icc profiles

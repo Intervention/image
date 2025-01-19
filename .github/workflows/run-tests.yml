@@ -59,7 +59,7 @@ jobs:
             sudo make install
           )
 
-      - name: Install PHP ImageMagick extension
+      - name: Install Imagick PHP extension
         run: |
           curl -o /tmp/imagick.tgz -sL http://pecl.php.net/get/imagick-${{ matrix.imagick }}.tgz
           (

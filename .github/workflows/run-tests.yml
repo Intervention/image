@@ -11,9 +11,8 @@ jobs:
         php: [ '8.1', '8.2', '8.3', '8.4' ]
         imagemagick: [ '6.9.12-55', '7.1.1-32' ]
         imagick: [ '3.7.0' ]
-        stability: [ prefer-stable ]
 
-    name: PHP ${{ matrix.php }} - ${{ matrix.stability }} - ImageMagick ${{ matrix.imagemagick }}
+    name: PHP ${{ matrix.php }} - ImageMagick ${{ matrix.imagemagick }}
 
     steps:
       - name: Checkout project
@@ -83,11 +82,11 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ matrix.stability }}-${{ hashFiles('**/composer.json') }}
-          restore-keys: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ matrix.stability }}-
+          key: ${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-php-${{ matrix.php }}-
 
       - name: Install dependencies
-        run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+        run: composer update --prefer-stable --prefer-dist --no-interaction
 
       - name: GD Version
         run: php -r 'var_dump(gd_info());'

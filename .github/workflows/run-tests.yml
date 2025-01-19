@@ -10,13 +10,20 @@ jobs:
       matrix:
         php: [ '8.1', '8.2', '8.3', '8.4' ]
         imagemagick: [ '6.9.12-55', '7.1.1-32' ]
-        stability: [ prefer-stable ]
+        imagick: [ '3.7.0' ]
 
-    name: PHP ${{ matrix.php }} - ${{ matrix.stability }} - ImageMagick ${{ matrix.imagemagick }}
+    name: PHP ${{ matrix.php }} - ImageMagick ${{ matrix.imagemagick }}
 
     steps:
       - name: Checkout project
         uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, gd
+          coverage: none
 
       - name: Prepare environment for Imagemagick
         run: |
@@ -52,12 +59,20 @@ jobs:
             sudo make install
           )
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          extensions: mbstring, gd, imagick
-          coverage: none
+      - name: Install Imagick PHP extension
+        run: |
+          curl -o /tmp/imagick.tgz -sL http://pecl.php.net/get/imagick-${{ matrix.imagick }}.tgz
+          (
+            cd /tmp || exit 1
+            tar -xzf imagick.tgz
+            cd imagick-${{ matrix.imagick }}
+            phpize
+            sudo ./configure --with-imagick=/home/runner/im/imagemagick-${{ matrix.imagemagick }}
+            sudo make -j$(nproc)
+            sudo make install
+          )
+          sudo bash -c 'echo "extension=imagick.so" >> /etc/php/${{ matrix.php }}/cli/php.ini'
+          php --ri imagick;
 
       - name: Get composer cache directory
         id: composer-cache
@@ -67,11 +82,11 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ matrix.stability }}-${{ hashFiles('**/composer.json') }}
-          restore-keys: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ matrix.stability }}-
+          key: ${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-php-${{ matrix.php }}-
 
       - name: Install dependencies
-        run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+        run: composer update --prefer-stable --prefer-dist --no-interaction
 
       - name: GD Version
         run: php -r 'var_dump(gd_info());'

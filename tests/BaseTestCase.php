@@ -100,7 +100,7 @@ abstract class BaseTestCase extends MockeryTestCase
     {
         $this->assertInstanceOf(RgbColor::class, $color);
         $channel = $color->channel(Alpha::class);
-        $this->assertEquals(0, $channel->value());
+        $this->assertEquals(0, $channel->value(), 'Detected color ' . $color . ' is not completely transparent.');
     }
 
     protected function assertMediaType(string|array $allowed, string|EncodedImage $input): void

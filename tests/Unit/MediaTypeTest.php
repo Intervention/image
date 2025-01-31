@@ -79,6 +79,9 @@ final class MediaTypeTest extends BaseTestCase
 
         $mime = MediaType::IMAGE_X_WINDOWS_BMP;
         $this->assertEquals(Format::BMP, $mime->format());
+
+        $mime = MediaType::IMAGE_X_BMP3;
+        $this->assertEquals(Format::BMP, $mime->format());
     }
 
     public function testFormatTiff(): void
@@ -142,6 +145,7 @@ final class MediaTypeTest extends BaseTestCase
         yield [MediaType::IMAGE_X_WINDOWS_BMP, 1, FileExtension::BMP];
         yield [MediaType::IMAGE_X_WIN_BITMAP, 1, FileExtension::BMP];
         yield [MediaType::IMAGE_X_XBITMAP, 1, FileExtension::BMP];
+        yield [MediaType::IMAGE_X_BMP3, 1, FileExtension::BMP];
         yield [MediaType::IMAGE_TIFF, 2, FileExtension::TIF];
         yield [MediaType::IMAGE_JP2, 9, FileExtension::JP2];
         yield [MediaType::IMAGE_JPX, 9, FileExtension::JP2];

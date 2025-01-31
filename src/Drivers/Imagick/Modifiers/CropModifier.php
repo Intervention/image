@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
+use ImagickPixel;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\CropModifier as GenericCropModifier;
@@ -45,16 +46,21 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
                 $canvas->setImageDispose($frame->native()->getImageDispose());
             }
 
-            // Make the entire rectangle at the position of the original image
-            // transparent so that we can later place the original on top.
-            // This preserves the transparency of the original and shows
-            // the background color of the modifier in the other areas
-            $clear = new Imagick();
-            $clear->newImage($frame->native()->getImageWidth(), $frame->native()->getImageHeight(), 'black');
-            $canvas->compositeImage($clear, Imagick::COMPOSITE_DSTOUT, ...$position);
+            // make the rectangular position of the original image transparent
+            // so that we can later place the original on top. this preserves
+            // the transparency of the original and shows the background color
+            // of the modifier in the other areas. if the original image has no
+            // transparent area the rectangular transparency will be covered by
+            // the original.
+            $clearer = new Imagick();
+            $clearer->newImage(
+                $frame->native()->getImageWidth(),
+                $frame->native()->getImageHeight(),
+                new ImagickPixel('black'),
+            );
+            $canvas->compositeImage($clearer, Imagick::COMPOSITE_DSTOUT, ...$position);
 
-            // place original frame content onto the empty colored frame canvas
-            // with the transparent rectangle
+            // place original frame content onto prepared frame canvas
             $canvas->compositeImage($frame->native(), Imagick::COMPOSITE_DEFAULT, ...$position);
 
             // add newly built frame to container imagick

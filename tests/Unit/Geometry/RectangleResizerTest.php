@@ -85,6 +85,7 @@ final class RectangleResizerTest extends TestCase
         yield [new Rectangle(800, 600), ['width' => 400, 'height' => 300], new Rectangle(400, 300)];
         yield [new Rectangle(800, 600), ['width' => 1000], new Rectangle(800, 600)];
         yield [new Rectangle(800, 600), ['height' => 1000], new Rectangle(800, 600)];
+        yield [new Rectangle(800, 600), [], new Rectangle(800, 600)];
     }
 
     #[DataProvider('scaleDataProvider')]
@@ -115,6 +116,7 @@ final class RectangleResizerTest extends TestCase
         yield [new Rectangle(12, 12000), ['width' => 4000, 'height' => 3000], new Rectangle(3, 3000)];
         yield [new Rectangle(12000, 6000), ['width' => 4000, 'height' => 3000], new Rectangle(4000, 2000)];
         yield [new Rectangle(3, 3000), ['height' => 300], new Rectangle(1, 300)];
+        yield [new Rectangle(800, 600), [], new Rectangle(800, 600)];
     }
 
     #[DataProvider('scaleDownDataProvider')]
@@ -141,6 +143,7 @@ final class RectangleResizerTest extends TestCase
         yield [new Rectangle(600, 800), ['width' => 300, 'height' => 300], new Rectangle(225, 300)];
         yield [new Rectangle(800, 600), ['width' => 400, 'height' => 10], new Rectangle(13, 10)];
         yield [new Rectangle(3, 3000), ['height' => 300], new Rectangle(1, 300)];
+        yield [new Rectangle(800, 600), [], new Rectangle(800, 600)];
     }
 
     #[DataProvider('coverDataProvider')]

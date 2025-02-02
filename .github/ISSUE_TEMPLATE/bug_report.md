@@ -4,7 +4,6 @@ about: Create a report to help us improve
 title: ''
 labels: ''
 assignees: ''
-
 ---
 
 ## Describe the bug
@@ -23,4 +22,4 @@ If applicable, add problematic images or screenshots to help explain your proble
  - PHP Version:
  - OS:
  - Intervention Image Version:
- - GD or Imagick:
+ - GD, Imagick or libvips:

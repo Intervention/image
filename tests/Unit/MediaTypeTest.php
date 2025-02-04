@@ -24,6 +24,9 @@ final class MediaTypeTest extends BaseTestCase
         $this->assertEquals(MediaType::IMAGE_JPEG, MediaType::create('jpg'));
         $this->assertEquals(MediaType::IMAGE_JPEG, MediaType::create('jpeg'));
         $this->assertEquals(MediaType::IMAGE_JPEG, MediaType::create('image/jpeg'));
+        $this->assertEquals(MediaType::IMAGE_JPEG, MediaType::create('JPG'));
+        $this->assertEquals(MediaType::IMAGE_JPEG, MediaType::create('JPEG'));
+        $this->assertEquals(MediaType::IMAGE_JPEG, MediaType::create('IMAGE/JPEG'));
     }
 
     public function testCreateUnknown(): void

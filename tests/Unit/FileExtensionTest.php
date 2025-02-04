@@ -24,6 +24,9 @@ final class FileExtensionTest extends BaseTestCase
         $this->assertEquals(FileExtension::JPG, FileExtension::create('jpg'));
         $this->assertEquals(FileExtension::JPEG, FileExtension::create('jpeg'));
         $this->assertEquals(FileExtension::JPG, FileExtension::create('image/jpeg'));
+        $this->assertEquals(FileExtension::JPG, FileExtension::create('JPG'));
+        $this->assertEquals(FileExtension::JPEG, FileExtension::create('JPEG'));
+        $this->assertEquals(FileExtension::JPG, FileExtension::create('IMAGE/JPEG'));
     }
 
     public function testCreateUnknown(): void

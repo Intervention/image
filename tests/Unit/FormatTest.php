@@ -30,6 +30,10 @@ final class FormatTest extends BaseTestCase
         $this->assertEquals(Format::JPEG, Format::create('jpeg'));
         $this->assertEquals(Format::JPEG, Format::create('image/jpeg'));
         $this->assertEquals(Format::GIF, Format::create('image/gif'));
+        $this->assertEquals(Format::JPEG, Format::create('JPG'));
+        $this->assertEquals(Format::JPEG, Format::create('JPEG'));
+        $this->assertEquals(Format::JPEG, Format::create('IMAGE/JPEG'));
+        $this->assertEquals(Format::GIF, Format::create('IMAGE/GIF'));
         $this->assertEquals(Format::PNG, Format::create(FileExtension::PNG));
         $this->assertEquals(Format::WEBP, Format::create(MediaType::IMAGE_WEBP));
     }

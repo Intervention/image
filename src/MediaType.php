@@ -60,7 +60,7 @@ enum MediaType: string
         }
 
         try {
-            $type = MediaType::from(strtolower($identifier));
+            $type = self::from(strtolower($identifier));
         } catch (Error) {
             try {
                 $type = FileExtension::from(strtolower($identifier))->mediaType();

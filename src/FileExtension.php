@@ -52,7 +52,7 @@ enum FileExtension: string
         }
 
         try {
-            $extension = FileExtension::from(strtolower($identifier));
+            $extension = self::from(strtolower($identifier));
         } catch (Error) {
             try {
                 $extension = MediaType::from(strtolower($identifier))->fileExtension();

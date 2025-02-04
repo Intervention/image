@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit;
 
 use Generator;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Format;
 use Intervention\Image\MediaType;
@@ -15,6 +16,33 @@ use PHPUnit\Framework\Attributes\DataProvider;
 #[CoversClass(MediaType::class)]
 final class MediaTypeTest extends BaseTestCase
 {
+    public function testCreate(): void
+    {
+        $this->assertEquals(MediaType::IMAGE_JPEG, MediaType::create(MediaType::IMAGE_JPEG));
+        $this->assertEquals(MediaType::IMAGE_JPEG, MediaType::create(Format::JPEG));
+        $this->assertEquals(MediaType::IMAGE_JPEG, MediaType::create(FileExtension::JPG));
+        $this->assertEquals(MediaType::IMAGE_JPEG, MediaType::create('jpg'));
+        $this->assertEquals(MediaType::IMAGE_JPEG, MediaType::create('jpeg'));
+        $this->assertEquals(MediaType::IMAGE_JPEG, MediaType::create('image/jpeg'));
+    }
+
+    public function testCreateUnknown(): void
+    {
+        $this->expectException(NotSupportedException::class);
+        MediaType::create('foo');
+    }
+
+    public function testTryCreate(): void
+    {
+        $this->assertEquals(MediaType::IMAGE_JPEG, MediaType::tryCreate(MediaType::IMAGE_JPEG));
+        $this->assertEquals(MediaType::IMAGE_JPEG, MediaType::tryCreate(Format::JPEG));
+        $this->assertEquals(MediaType::IMAGE_JPEG, MediaType::tryCreate(FileExtension::JPG));
+        $this->assertEquals(MediaType::IMAGE_JPEG, MediaType::tryCreate('jpg'));
+        $this->assertEquals(MediaType::IMAGE_JPEG, MediaType::tryCreate('jpeg'));
+        $this->assertEquals(MediaType::IMAGE_JPEG, MediaType::tryCreate('image/jpeg'));
+        $this->assertNull(Format::tryCreate('no-format'));
+    }
+
     public function testFormatJpeg(): void
     {
         $mime = MediaType::IMAGE_JPEG;

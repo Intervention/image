@@ -504,9 +504,10 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function scaleDown(?int $width = null, ?int $height = null): self;
 
     /**
-     * Takes the given dimensions and scales it to the largest possible size matching
-     * the original size. Then this size is positioned on the original and cut out
-     * before being resized to the desired size from the arguments
+     * Takes the specified width and height and scales them to the largest
+     * possible size that fits within the original size. This scaled size is
+     * then positioned on the original and cropped, before this result is resized
+     * to the desired size using the arguments
      *
      * @link https://image.intervention.io/v3/modifying/resizing#fitted-image-resizing
      * @param int $width

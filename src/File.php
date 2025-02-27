@@ -70,7 +70,7 @@ class File implements FileInterface, Stringable
         }
 
         // write data
-        $saved = @file_put_contents($filepath, $this->pointer);
+        $saved = @file_put_contents($filepath, $this->toFilePointer());
         if ($saved === false) {
             throw new NotWritableException(
                 sprintf("Can't write image data to path (%s).", $filepath)
@@ -85,7 +85,7 @@ class File implements FileInterface, Stringable
      */
     public function toString(): string
     {
-        return stream_get_contents($this->pointer, offset: 0);
+        return stream_get_contents($this->toFilePointer(), offset: 0);
     }
 
     /**
@@ -107,7 +107,7 @@ class File implements FileInterface, Stringable
      */
     public function size(): int
     {
-        $info = fstat($this->pointer);
+        $info = fstat($this->toFilePointer());
 
         return intval($info['size']);
     }

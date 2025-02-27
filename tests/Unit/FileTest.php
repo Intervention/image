@@ -41,11 +41,21 @@ final class FileTest extends BaseTestCase
 
     public function testSave(): void
     {
-        $filename = __DIR__ . '/file_' . strval(hrtime(true)) . '.test';
         $file = new File('foo');
-        $file->save($filename);
-        $this->assertTrue(file_exists($filename));
-        unlink($filename);
+        $filenames = [
+            __DIR__ . '/01_file_' . strval(hrtime(true)) . '.test',
+            __DIR__ . '/02_file_' . strval(hrtime(true)) . '.test',
+        ];
+
+        foreach ($filenames as $name) {
+            $file->save($name);
+        }
+
+        foreach ($filenames as $name) {
+            $this->assertFileExists($name);
+            $this->assertEquals('foo', file_get_contents($name));
+            unlink($name);
+        }
     }
 
     public function testToString(): void

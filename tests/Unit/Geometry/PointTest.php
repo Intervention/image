@@ -27,6 +27,14 @@ final class PointTest extends BaseTestCase
         $this->assertEquals(50, $point->y());
     }
 
+    public function testIteration(): void
+    {
+        $point = new Point(40, 50);
+        foreach ($point as $value) {
+            $this->assertIsInt($value);
+        }
+    }
+
     public function testGetSetX(): void
     {
         $point = new Point(0, 0);

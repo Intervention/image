@@ -199,7 +199,7 @@ class Bezier implements IteratorAggregate, Countable, ArrayAccess, DrawableInter
      */
     public function offsetUnset($offset): void
     {
-        unset($this->points[$offset]); // @phpstan-ignore unset.possiblyHookedProperty
+        unset($this->points[$offset]);
     }
 
     /**

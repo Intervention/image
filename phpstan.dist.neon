@@ -2,6 +2,10 @@ parameters:
     level: 6
     paths:
         - src
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        - 
+            identifier: unset.possiblyHookedProperty
     exceptions:
         check:
             missingCheckedExceptionInThrows: true

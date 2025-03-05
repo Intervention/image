@@ -171,7 +171,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
      */
     public function offsetUnset($offset): void
     {
-        unset($this->points[$offset]); // @phpstan-ignore unset.possiblyHookedProperty
+        unset($this->points[$offset]);
     }
 
     /**

@@ -55,9 +55,9 @@
   <rule ref="SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue"/>
   <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHintSpacing"/>
   <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing"/>
-  <rule ref="SlevomatCodingStandard.TypeHints.UnionTypeHintFormat">
+  <rule ref="SlevomatCodingStandard.TypeHints.DNFTypeHintFormat">
     <properties>
-      <property name="withSpaces" value="no" />
+      <property name="withSpacesAroundOperators" value="no" />
       <property name="nullPosition" value="first" />
     </properties>
   </rule>

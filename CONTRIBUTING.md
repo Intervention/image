@@ -39,7 +39,7 @@ easily checked with the following command.
 Or by using the project's Docker environment.
 
 ```bash
-docker-compose run --rm --build standards
+docker compose run --rm --build standards
 ```
 
 ### Write Tests
@@ -57,7 +57,7 @@ Make sure that all tests are passed with the following command.
 Or by using the project's Docker environment.
 
 ```bash
-docker-compose run --rm --build tests
+docker compose run --rm --build tests
 ```
 
 ### Pay attention to the Analyzer Results
@@ -74,7 +74,7 @@ Check the analyzer by running the following command.
 Or by using the project's Docker environment.
 
 ```bash
-docker-compose run --rm --build analysis
+docker compose run --rm --build analysis
 ```
 
 **Thank you!**

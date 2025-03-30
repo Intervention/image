@@ -26,8 +26,8 @@ abstract class ImagickTestCase extends BaseTestCase
      *
      * @param int $width
      * @param int $height
-     * @return Image
      * @throws ImagickException
+     * @return Image
      */
     public static function createTestImage(int $width, int $height): Image
     {

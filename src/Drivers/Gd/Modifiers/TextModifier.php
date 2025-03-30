@@ -86,9 +86,9 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
      * Decode text color in GD compatible format
      *
      * @param ImageInterface $image
-     * @return int
      * @throws RuntimeException
      * @throws ColorException
+     * @return int
      */
     protected function gdTextColor(ImageInterface $image): int
     {
@@ -102,9 +102,9 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
      * Decode color for stroke (outline) effect in GD compatible format
      *
      * @param ImageInterface $image
-     * @return int
      * @throws RuntimeException
      * @throws ColorException
+     * @return int
      */
     protected function gdStrokeColor(ImageInterface $image): int
     {

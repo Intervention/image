@@ -113,6 +113,7 @@ class Frame extends AbstractFrame implements FrameInterface
      * {@inheritdoc}
      *
      * @see DriverInterface::setDispose()
+     *
      * @throws InputException
      */
     public function setDispose(int $dispose): FrameInterface

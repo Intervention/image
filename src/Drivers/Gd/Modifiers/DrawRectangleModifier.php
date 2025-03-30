@@ -15,6 +15,7 @@ class DrawRectangleModifier extends GenericDrawRectangleModifier implements Spec
      * {@inheritdoc}
      *
      * @see ModifierInterface::apply()
+     *
      * @throws RuntimeException
      */
     public function apply(ImageInterface $image): ImageInterface

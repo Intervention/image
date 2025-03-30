@@ -19,10 +19,11 @@ final class ImageManager implements ImageManagerInterface
 
     /**
      * @link https://image.intervention.io/v3/basics/image-manager#create-a-new-image-manager-instance
+     *
      * @param string|DriverInterface $driver
+     * @param mixed $options
      * @throws DriverException
      * @throws InputException
-     * @param mixed $options
      */
     public function __construct(string|DriverInterface $driver, mixed ...$options)
     {
@@ -33,6 +34,7 @@ final class ImageManager implements ImageManagerInterface
      * Create image manager with given driver
      *
      * @link https://image.intervention.io/v3/basics/image-manager
+     *
      * @param string|DriverInterface $driver
      * @param mixed $options
      * @throws DriverException
@@ -48,6 +50,7 @@ final class ImageManager implements ImageManagerInterface
      * Create image manager with GD driver
      *
      * @link https://image.intervention.io/v3/basics/image-manager#static-gd-driver-constructor
+     *
      * @param mixed $options
      * @throws DriverException
      * @throws InputException
@@ -62,6 +65,7 @@ final class ImageManager implements ImageManagerInterface
      * Create image manager with Imagick driver
      *
      * @link https://image.intervention.io/v3/basics/image-manager#static-imagick-driver-constructor
+     *
      * @param mixed $options
      * @throws DriverException
      * @throws InputException

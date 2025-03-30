@@ -27,7 +27,6 @@ class Drawable
     }
 
     /**
-     *
      * Create EllipseFactory statically
      *
      * @return EllipseFactory

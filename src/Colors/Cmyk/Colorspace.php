@@ -43,8 +43,8 @@ class Colorspace implements ColorspaceInterface
 
     /**
      * @param ColorInterface $color
-     * @return ColorInterface
      * @throws ColorException
+     * @return ColorInterface
      */
     public function importColor(ColorInterface $color): ColorInterface
     {
@@ -58,8 +58,8 @@ class Colorspace implements ColorspaceInterface
 
     /**
      * @param ColorInterface $color
-     * @return Color
      * @throws ColorException
+     * @return Color
      */
     protected function importRgbColor(ColorInterface $color): CmykColor
     {

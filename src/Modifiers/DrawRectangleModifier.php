@@ -10,8 +10,8 @@ use Intervention\Image\Interfaces\DrawableInterface;
 class DrawRectangleModifier extends AbstractDrawModifier
 {
     /**
-     *
      * Create new modifier object
+     *
      * @param Rectangle $drawable
      * @return void
      */

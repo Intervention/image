@@ -39,8 +39,8 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
      * color is used for newly create image areas
      *
      * @param FrameInterface $frame
-     * @throws ColorException
      * @param ColorInterface $background
+     * @throws ColorException
      * @return void
      */
     protected function modifyFrame(FrameInterface $frame, ColorInterface $background): void

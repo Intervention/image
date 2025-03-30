@@ -12,6 +12,7 @@ interface ImageManagerInterface
      * Create new image instance with given width & height
      *
      * @link https://image.intervention.io/v3/basics/instantiation#creating-new-images
+     *
      * @param int $width
      * @param int $height
      * @throws RuntimeException
@@ -43,6 +44,7 @@ interface ImageManagerInterface
      * with all available decoders of the driver.
      *
      * @link https://image.intervention.io/v3/basics/instantiation#reading-images
+     *
      * @param mixed $input
      * @param string|array<string|DecoderInterface>|DecoderInterface $decoders
      * @throws RuntimeException
@@ -54,6 +56,7 @@ interface ImageManagerInterface
      * Create new animated image by given callback
      *
      * @link https://image.intervention.io/v3/basics/instantiation#creating-animations
+     *
      * @param callable $init
      * @throws RuntimeException
      * @return ImageInterface

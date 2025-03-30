@@ -16,6 +16,7 @@ class DrawBezierModifier extends ModifiersDrawBezierModifier implements Speciali
      * {@inheritdoc}
      *
      * @see ModifierInterface::apply()
+     *
      * @throws RuntimeException
      * @throws GeometryException
      */

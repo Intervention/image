@@ -72,8 +72,9 @@ class Font implements FontInterface
     /**
      * {@inheritdoc}
      *
-     * @throws FontException
      * @see FontInterface::setFilename()
+     *
+     * @throws FontException
      */
     public function setFilename(string $filename): FontInterface
     {

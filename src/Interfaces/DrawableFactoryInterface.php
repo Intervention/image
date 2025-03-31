@@ -24,13 +24,6 @@ interface DrawableFactoryInterface
     public function create(): DrawableInterface;
 
     /**
-     * Create the end product by invoking the factory
-     *
-     * @return DrawableInterface
-     */
-    public function __invoke(): DrawableInterface;
-
-    /**
      * Define the background color of the drawable object
      *
      * @param mixed $color
@@ -46,4 +39,11 @@ interface DrawableFactoryInterface
      * @return DrawableFactoryInterface
      */
     public function border(mixed $color, int $size = 1): self;
+
+    /**
+     * Create the end product by invoking the factory
+     *
+     * @return DrawableInterface
+     */
+    public function __invoke(): DrawableInterface;
 }

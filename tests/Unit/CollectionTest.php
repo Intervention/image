@@ -97,6 +97,7 @@ final class CollectionTest extends BaseTestCase
 
     public function testGet(): void
     {
+        // phpcs:ignore SlevomatCodingStandard.Arrays.DisallowPartiallyKeyed
         $collection = new Collection([
             'first',
             'second',
@@ -129,6 +130,7 @@ final class CollectionTest extends BaseTestCase
 
     public function testGetAtPosition(): void
     {
+        // phpcs:ignore SlevomatCodingStandard.Arrays.DisallowPartiallyKeyed
         $collection = new Collection([1, 2, 'foo' => 'bar']);
         $this->assertEquals(1, $collection->getAtPosition(0));
         $this->assertEquals(2, $collection->getAtPosition(1));

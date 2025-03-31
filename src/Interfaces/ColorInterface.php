@@ -31,13 +31,6 @@ interface ColorInterface
      *
      * @return string
      */
-    public function __toString(): string;
-
-    /**
-     * Cast color object to string
-     *
-     * @return string
-     */
     public function toString(): string;
 
     /**
@@ -104,4 +97,11 @@ interface ColorInterface
      * @return bool
      */
     public function isClear(): bool;
+
+    /**
+     * Cast color object to string
+     *
+     * @return string
+     */
+    public function __toString(): string;
 }

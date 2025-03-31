@@ -29,16 +29,6 @@ class FontFactory
     }
 
     /**
-     * Build font
-     *
-     * @return FontInterface
-     */
-    public function __invoke(): FontInterface
-    {
-        return $this->font;
-    }
-
-    /**
      * Set the filename of the font to be built
      *
      * @param string $value
@@ -166,5 +156,15 @@ class FontFactory
         $this->font->setWrapWidth($width);
 
         return $this;
+    }
+
+    /**
+     * Build font
+     *
+     * @return FontInterface
+     */
+    public function __invoke(): FontInterface
+    {
+        return $this->font;
     }
 }

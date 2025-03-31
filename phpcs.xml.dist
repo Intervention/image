@@ -40,6 +40,7 @@
                 <element value="constants"/>
                 <element value="public static properties, protected static properties, private static properties"/>
                 <element value="public properties, protected properties, private properties"/>
+                <element value="abstract methods"/>
                 <element value="constructor"/>
                 <element value="phpunit"/>
                 <element value="static constructors"/>

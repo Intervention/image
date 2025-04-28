@@ -27,10 +27,11 @@ jobs:
 
       - name: Prepare environment for Imagemagick
         run: |
-          sudo apt-get -y remove imagemagick imagemagick-6-common libmagic-dev
-          sudo apt-get update
-          sudo apt-get install -y libjpeg-dev libgif-dev libtiff-dev libpng-dev libwebp-dev libavif-dev libheif-dev
-          sudo apt-get install -y libmagickwand-dev
+          sudo apt remove -y imagemagick imagemagick-6-common libmagic-dev
+          sudo apt update --allow-releaseinfo-change
+          sudo apt update
+          sudo apt install -y libjpeg-dev libgif-dev libtiff-dev libpng-dev libwebp-dev libavif-dev libheif-dev
+          sudo apt install -y libmagickwand-dev
 
       - name: Cache ImageMagick
         uses: actions/cache@v4

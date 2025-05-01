@@ -30,7 +30,7 @@ jobs:
           sudo apt remove -y imagemagick imagemagick-6-common libmagic-dev
           sudo apt update --allow-releaseinfo-change
           sudo apt update
-          sudo apt install -y libjpeg-dev libgif-dev libtiff-dev libpng-dev libwebp-dev libavif-dev libheif-dev
+          sudo apt install -y libjpeg-dev libgif-dev libtiff-dev libpng-dev libwebp-dev libavif-dev libheif-dev libraqm-dev
           sudo apt install -y libmagickwand-dev
 
       - name: Cache ImageMagick

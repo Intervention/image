@@ -22,9 +22,11 @@ abstract class AbstractDecoder implements DecoderInterface
      */
     protected function isGifFormat(string $input): bool
     {
+        $head = substr($input, 0, 6);
+
         return 1 === preg_match(
             "/^47494638(37|39)61/",
-            strtoupper(substr(bin2hex($input), 0, 32))
+            strtoupper(bin2hex($head))
         );
     }
 

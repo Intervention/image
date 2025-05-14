@@ -26,7 +26,7 @@ abstract class AbstractDecoder implements DecoderInterface
 
         return 1 === preg_match(
             "/^47494638(37|39)61/",
-            strtoupper(substr(bin2hex($head), 0, 32))
+            strtoupper(bin2hex($head))
         );
     }
 

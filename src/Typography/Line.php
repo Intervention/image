@@ -36,7 +36,7 @@ class Line implements IteratorAggregate, Countable, Stringable
         protected PointInterface $position = new Point()
     ) {
         if (is_string($text)) {
-            $this->segments = $this->splitToSegments($text);
+            $this->segments = $this->wordsSeperatedBySpaces($text) ? explode(" ", $text) : mb_str_split($text);
         }
     }
 
@@ -121,27 +121,6 @@ class Line implements IteratorAggregate, Countable, Stringable
             ']/u',
             $text
         );
-    }
-
-    /**
-     * Split text to segments depending on the written language of the given text
-     *
-     * @return array<string>
-     */
-    private function splitToSegments(string $text): array
-    {
-        if ($this->wordsSeperatedBySpaces($text)) {
-            return explode(" ", $text);
-        }
-
-        $segments = [];
-        $text = trim($text);
-        $length = mb_strlen($text, 'UTF-8');
-        for ($i = 0; $i < $length; $i++) {
-            $segments[] = mb_substr($text, $i, 1, 'UTF-8');
-        }
-
-        return $segments;
     }
 
     /**

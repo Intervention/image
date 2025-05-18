@@ -84,9 +84,9 @@ final class LineTest extends BaseTestCase
     {
         yield ['foo', 1];
         yield ['foo bar', 2];
-        yield ['测试', 2];
-        yield ['テスト', 3];
-        yield ['ทดสอบ', 5];
-        yield ['这只是我写的一个测试。', 11];
+        yield ['测试', 2]; // CJK Unified Ideographs
+        yield ['テスト', 3]; // japanese
+        yield ['ทดสอบ', 5]; // thai
+        yield ['这只是我写的一个测试。', 11]; // CJK Unified Ideographs
     }
 }

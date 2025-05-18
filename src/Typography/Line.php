@@ -124,6 +124,8 @@ class Line implements IteratorAggregate, Countable, Stringable
 
     /**
      * Split text to segments depending on the written language of the given text
+     *
+     * @return array<string>
      */
     private function splitToSegments(string $text): array
     {

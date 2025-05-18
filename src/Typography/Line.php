@@ -111,8 +111,8 @@ class Line implements IteratorAggregate, Countable, Stringable
      */
     private function wordsSeperatedBySpaces(string $text): bool
     {
-        return 1 !== preg_match(
-            '/[' .
+        return 1 === preg_match(
+            '/[^' .
             '\x{4E00}-\x{9FFF}' . // chinese
             '\x{3040}-\x{309F}' . // hiragana (japanese)
             '\x{30A0}-\x{30FF}' . // katakana (japanese)

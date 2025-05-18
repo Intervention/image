@@ -87,5 +87,6 @@ final class LineTest extends BaseTestCase
         yield ['测试', 2];
         yield ['テスト', 3];
         yield ['ทดสอบ', 5];
+        yield ['这只是我写的一个测试。', 11];
     }
 }

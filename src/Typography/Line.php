@@ -113,7 +113,8 @@ class Line implements IteratorAggregate, Countable, Stringable
     {
         return 1 !== preg_match(
             '/[' .
-            '\x{4E00}-\x{9FFF}' . // chinese
+            '\x{4E00}-\x{9FFF}' . // CJK Unified Ideographs (chinese)
+            '\x{3400}-\x{4DBF}' . // CJK Unified Ideographs Extension A (chinese)
             '\x{3040}-\x{309F}' . // hiragana (japanese)
             '\x{30A0}-\x{30FF}' . // katakana (japanese)
             '\x{0E00}-\x{0E7F}' . // thai

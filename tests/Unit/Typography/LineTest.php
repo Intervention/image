@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Typography;
 
+use Generator;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Typography\Line;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 #[CoversClass(Line::class)]
 final class LineTest extends BaseTestCase
@@ -18,10 +20,12 @@ final class LineTest extends BaseTestCase
         $this->assertInstanceOf(Line::class, $line);
     }
 
-    public function testToString(): void
+    #[DataProvider('toStringDataProvider')]
+    public function testToString(string $text, int $words): void
     {
-        $line = new Line('foo bar');
-        $this->assertEquals('foo bar', (string) $line);
+        $line = new Line($text);
+        $this->assertEquals($words, $line->count());
+        $this->assertEquals($text, (string) $line);
     }
 
     public function testSetGetPosition(): void
@@ -74,5 +78,14 @@ final class LineTest extends BaseTestCase
         $result = $line->add('bar');
         $this->assertEquals(2, $line->count());
         $this->assertEquals(2, $result->count());
+    }
+
+    public static function toStringDataProvider(): Generator
+    {
+        yield ['foo', 1];
+        yield ['foo bar', 2];
+        yield ['测试', 2];
+        yield ['テスト', 3];
+        yield ['ทดสอบ', 5];
     }
 }

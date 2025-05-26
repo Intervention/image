@@ -373,12 +373,12 @@ final class ImageTest extends ImagickTestCase
         $result = $image->pixelate(10);
         $this->assertInstanceOf(ImageInterface::class, $result);
 
-        list($r, $g, $b) = $image->pickColor(0, 0)->toArray();
+        [$r, $g, $b] = $image->pickColor(0, 0)->toArray();
         $this->assertEquals(0, $r);
         $this->assertEquals(174, $g);
         $this->assertEquals(240, $b);
 
-        list($r, $g, $b) = $image->pickColor(14, 14)->toArray();
+        [$r, $g, $b] = $image->pickColor(14, 14)->toArray();
         $this->assertEquals(107, $r);
         $this->assertEquals(171, $g);
         $this->assertEquals(140, $b);

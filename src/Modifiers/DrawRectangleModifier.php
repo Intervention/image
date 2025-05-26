@@ -17,6 +17,7 @@ class DrawRectangleModifier extends AbstractDrawModifier
      */
     public function __construct(public Rectangle $drawable)
     {
+        //
     }
 
     /**

@@ -14,6 +14,7 @@ class ColorspaceModifier extends SpecializableModifier
 {
     public function __construct(public string|ColorspaceInterface $target)
     {
+        //
     }
 
     /**

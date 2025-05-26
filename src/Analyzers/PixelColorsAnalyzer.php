@@ -12,5 +12,6 @@ class PixelColorsAnalyzer extends SpecializableAnalyzer
         public int $x,
         public int $y
     ) {
+        //
     }
 }

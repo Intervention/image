@@ -8,4 +8,5 @@ use Intervention\Image\Drivers\SpecializableModifier;
 
 class InvertModifier extends SpecializableModifier
 {
+    //
 }

@@ -13,5 +13,6 @@ class PixelColorAnalyzer extends SpecializableAnalyzer
         public int $y,
         public int $frame_key = 0
     ) {
+        //
     }
 }

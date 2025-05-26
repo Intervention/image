@@ -20,5 +20,6 @@ class DrawPixelModifier extends SpecializableModifier
         public PointInterface $position,
         public mixed $color
     ) {
+        //
     }
 }

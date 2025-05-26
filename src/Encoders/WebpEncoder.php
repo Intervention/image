@@ -19,5 +19,6 @@ class WebpEncoder extends SpecializableEncoder
         public int $quality = self::DEFAULT_QUALITY,
         public ?bool $strip = null
     ) {
+        //
     }
 }

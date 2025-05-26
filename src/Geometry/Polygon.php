@@ -34,6 +34,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
         protected array $points = [],
         protected PointInterface $pivot = new Point()
     ) {
+        //
     }
 
     /**

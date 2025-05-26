@@ -27,6 +27,7 @@ class Core implements CoreInterface, Iterator
      */
     public function __construct(protected Imagick $imagick)
     {
+        //
     }
 
     /**

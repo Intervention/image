@@ -19,5 +19,6 @@ class QuantizeColorsModifier extends SpecializableModifier
         public int $limit,
         public mixed $background = 'ffffff'
     ) {
+        //
     }
 }

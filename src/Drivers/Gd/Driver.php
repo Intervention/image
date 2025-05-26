@@ -83,6 +83,7 @@ class Driver extends AbstractDriver
                 protected DriverInterface $driver,
                 public Core $core = new Core()
             ) {
+                //
             }
 
             /**

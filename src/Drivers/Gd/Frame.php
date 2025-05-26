@@ -34,6 +34,7 @@ class Frame extends AbstractFrame implements FrameInterface
         protected int $offset_left = 0,
         protected int $offset_top = 0
     ) {
+        //
     }
 
     /**

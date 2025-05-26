@@ -34,6 +34,7 @@ class Bezier implements IteratorAggregate, Countable, ArrayAccess, DrawableInter
         protected array $points = [],
         protected PointInterface $pivot = new Point()
     ) {
+        //
     }
 
     /**

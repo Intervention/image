@@ -27,6 +27,7 @@ class Line implements DrawableInterface
         protected PointInterface $end,
         protected int $width = 1
     ) {
+        //
     }
 
     /**

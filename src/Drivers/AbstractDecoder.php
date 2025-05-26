@@ -24,10 +24,7 @@ abstract class AbstractDecoder implements DecoderInterface
     {
         $head = substr($input, 0, 6);
 
-        return 1 === preg_match(
-            "/^47494638(37|39)61/",
-            strtoupper(bin2hex($head))
-        );
+        return $head === 'GIF87a' || $head === 'GIF89a';
     }
 
     /**

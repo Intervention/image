@@ -22,9 +22,7 @@ abstract class AbstractDecoder implements DecoderInterface
      */
     protected function isGifFormat(string $input): bool
     {
-        $head = substr($input, 0, 6);
-
-        return $head === 'GIF87a' || $head === 'GIF89a';
+        return str_starts_with($input, 'GIF87a') || str_starts_with($input, 'GIF89a');
     }
 
     /**

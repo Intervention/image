@@ -8,9 +8,9 @@ use RuntimeException;
 use Intervention\Image\Exceptions\GeometryException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
-use Intervention\Image\Modifiers\DrawBezierModifier as ModifiersDrawBezierModifier;
+use Intervention\Image\Modifiers\DrawBezierModifier as GenericDrawBezierModifier;
 
-class DrawBezierModifier extends ModifiersDrawBezierModifier implements SpecializedInterface
+class DrawBezierModifier extends GenericDrawBezierModifier implements SpecializedInterface
 {
     /**
      * {@inheritdoc}

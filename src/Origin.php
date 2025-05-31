@@ -84,7 +84,7 @@ class Origin
      */
     public function fileExtension(): ?string
     {
-        return empty($this->filePath) ? null : pathinfo($this->filePath, PATHINFO_EXTENSION);
+        return pathinfo($this->filePath ?: '', PATHINFO_EXTENSION) ?: null;
     }
 
     /**

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit\Modifiers;
 
 use Intervention\Image\Geometry\Point;
+use Intervention\Image\Interfaces\FontInterface;
 use Intervention\Image\Modifiers\TextModifier;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Typography\Font;
@@ -17,7 +18,7 @@ final class TextModifierTest extends BaseTestCase
     {
         $modifier = new class ('test', new Point(), new Font()) extends TextModifier
         {
-            public function testStrokeOffsets($font)
+            public function testStrokeOffsets(FontInterface $font)
             {
                 return $this->strokeOffsets($font);
             }

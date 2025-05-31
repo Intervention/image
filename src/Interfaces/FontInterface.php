@@ -113,8 +113,6 @@ interface FontInterface
 
     /**
      *  Set the wrap width with which the text is rendered
-     *
-     * @param int $width
      */
     public function setWrapWidth(?int $width): self;
 

@@ -12,9 +12,8 @@ interface ColorProcessorInterface
      * Turn given color in the driver's color implementation
      *
      * @throws ColorException
-     * @return mixed
      */
-    public function colorToNative(ColorInterface $color);
+    public function colorToNative(ColorInterface $color): mixed;
 
     /**
      * Turn the given driver's definition of a color into a color object

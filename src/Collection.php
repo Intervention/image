@@ -78,10 +78,9 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     /**
      * Append new item to collection
      *
-     * @param mixed $item
      * @return CollectionInterface<int|string, mixed>
      */
-    public function push($item): CollectionInterface
+    public function push(mixed $item): CollectionInterface
     {
         $this->items[] = $item;
 
@@ -115,7 +114,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     /**
      * Return item at given position starting at 0
      */
-    public function getAtPosition(int $key = 0, $default = null): mixed
+    public function getAtPosition(int $key = 0, mixed $default = null): mixed
     {
         if ($this->count() == 0) {
             return $default;
@@ -134,7 +133,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
      *
      * @see CollectionInterface::get()
      */
-    public function get(int|string $query, $default = null): mixed
+    public function get(int|string $query, mixed $default = null): mixed
     {
         if ($this->count() == 0) {
             return $default;

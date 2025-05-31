@@ -27,7 +27,6 @@ class Line implements IteratorAggregate, Countable, Stringable
     /**
      * Create new text line object with given text & position
      *
-     * @param string $text
      * @return void
      */
     public function __construct(

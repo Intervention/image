@@ -19,24 +19,19 @@ interface CollectionInterface extends Traversable
     /**
      * Add item to collection
      *
-     * @param mixed $item
      * @return CollectionInterface<int|string, mixed>
      */
-    public function push($item): self;
+    public function push(mixed $item): self;
 
     /**
      * Return item for given key or return default is key does not exist
-     *
-     * @param mixed $default
      */
-    public function get(int|string $key, $default = null): mixed;
+    public function get(int|string $key, mixed $default = null): mixed;
 
     /**
      * Return item at given numeric position starting at 0
-     *
-     * @param mixed $default
      */
-    public function getAtPosition(int $key = 0, $default = null): mixed;
+    public function getAtPosition(int $key = 0, mixed $default = null): mixed;
 
     /**
      * Return first item in collection

@@ -66,7 +66,6 @@ class InputHandler implements InputHandlerInterface
      * Create new input handler instance with given decoder classnames
      *
      * @param array<string|DecoderInterface> $decoders
-     * @param DriverInterface $driver
      * @return void
      */
     public function __construct(array $decoders = [], ?DriverInterface $driver = null)

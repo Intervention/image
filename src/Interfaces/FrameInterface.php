@@ -15,10 +15,8 @@ interface FrameInterface
 
     /**
      * Set image data of drame in driver specific format
-     *
-     * @param mixed $native
      */
-    public function setNative($native): self;
+    public function setNative(mixed $native): self;
 
     /**
      * Transform frame into an image

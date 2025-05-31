@@ -44,10 +44,8 @@ class TextBlock extends Collection
 
     /**
      * Get line by given key
-     *
-     * @param mixed $key
      */
-    public function line($key): ?Line
+    public function line(mixed $key): ?Line
     {
         if (!array_key_exists($key, $this->lines())) {
             return null;

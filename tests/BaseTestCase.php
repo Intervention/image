@@ -29,7 +29,7 @@ abstract class BaseTestCase extends MockeryTestCase
     public static function getTestResourcePointer($filename = 'test.jpg')
     {
         $pointer = fopen('php://temp', 'rw');
-        fputs($pointer, self::getTestResourceData($filename));
+        fwrite($pointer, self::getTestResourceData($filename));
         rewind($pointer);
 
         return $pointer;
@@ -106,7 +106,7 @@ abstract class BaseTestCase extends MockeryTestCase
     protected function assertMediaType(string|array $allowed, string|EncodedImage $input): void
     {
         $pointer = fopen('php://temp', 'rw');
-        fputs($pointer, (string) $input);
+        fwrite($pointer, (string) $input);
         rewind($pointer);
         $detected = mime_content_type($pointer);
         fclose($pointer);
@@ -114,7 +114,7 @@ abstract class BaseTestCase extends MockeryTestCase
         $allowed = is_string($allowed) ? [$allowed] : $allowed;
         $this->assertTrue(
             in_array($detected, $allowed),
-            'Detected media type "' . $detected . '" is not: ' . join(', ', $allowed),
+            'Detected media type "' . $detected . '" is not: ' . implode(', ', $allowed),
         );
     }
 

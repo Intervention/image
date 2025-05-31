@@ -159,7 +159,6 @@ class Driver extends AbstractDriver
      * Return version of ImageMagick library
      *
      * @throws DriverException
-     * @return string
      */
     public static function version(): string
     {

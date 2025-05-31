@@ -16,9 +16,6 @@ abstract class AbstractDecoder implements DecoderInterface
 
     /**
      * Determine if the given input is GIF data format
-     *
-     * @param string $input
-     * @return bool
      */
     protected function isGifFormat(string $input): bool
     {
@@ -27,9 +24,6 @@ abstract class AbstractDecoder implements DecoderInterface
 
     /**
      * Determine if given input is a path to an existing regular file
-     *
-     * @param mixed $input
-     * @return bool
      */
     protected function isFile(mixed $input): bool
     {
@@ -56,7 +50,6 @@ abstract class AbstractDecoder implements DecoderInterface
      * Extract and return EXIF data from given input which can be binary image
      * data or a file path.
      *
-     * @param string $path_or_data
      * @return CollectionInterface<string, mixed>
      */
     protected function extractExifData(string $path_or_data): CollectionInterface
@@ -85,9 +78,6 @@ abstract class AbstractDecoder implements DecoderInterface
 
     /**
      * Determine if given input is base64 encoded data
-     *
-     * @param mixed $input
-     * @return bool
      */
     protected function isValidBase64(mixed $input): bool
     {
@@ -100,9 +90,6 @@ abstract class AbstractDecoder implements DecoderInterface
 
     /**
      * Parse data uri
-     *
-     * @param mixed $input
-     * @return object
      */
     protected function parseDataUri(mixed $input): object
     {
@@ -115,7 +102,6 @@ abstract class AbstractDecoder implements DecoderInterface
         {
             /**
              * @param array<mixed> $matches
-             * @param int|false $result
              * @return void
              */
             public function __construct(private array $matches, private int|false $result)

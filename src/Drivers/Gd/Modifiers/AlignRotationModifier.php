@@ -35,9 +35,6 @@ class AlignRotationModifier extends GenericAlignRotationModifier implements Spec
      * Set exif data of image to top-left orientation, marking the image as
      * aligned and making sure the rotation correction process is not
      * performed again.
-     *
-     * @param ImageInterface $image
-     * @return ImageInterface
      */
     private function markAligned(ImageInterface $image): ImageInterface
     {

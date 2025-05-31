@@ -22,7 +22,6 @@ class Core implements CoreInterface, Iterator
     /**
      * Create new core instance
      *
-     * @param Imagick $imagick
      * @return void
      */
     public function __construct(protected Imagick $imagick)
@@ -317,8 +316,6 @@ class Core implements CoreInterface, Iterator
 
     /**
      * Clone instance
-     *
-     * @return void
      */
     public function __clone(): void
     {

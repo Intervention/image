@@ -107,8 +107,6 @@ class Core extends Collection implements CoreInterface
 
     /**
      * Clone instance
-     *
-     * @return void
      */
     public function __clone(): void
     {

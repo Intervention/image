@@ -39,11 +39,7 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
     /**
      * Insert watermark with 100% opacity
      *
-     * @param FrameInterface $frame
-     * @param ImageInterface $watermark
-     * @param PointInterface $position
      * @throws RuntimeException
-     * @return void
      */
     private function placeOpaque(FrameInterface $frame, ImageInterface $watermark, PointInterface $position): void
     {
@@ -72,11 +68,7 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
      * Please note: Unfortunately, there is still an edge case, when a transparent image
      * is placed on a transparent background, the "double" transparent areas appear opaque!
      *
-     * @param FrameInterface $frame
-     * @param ImageInterface $watermark
-     * @param PointInterface $position
      * @throws RuntimeException
-     * @return void
      */
     private function placeTransparent(FrameInterface $frame, ImageInterface $watermark, PointInterface $position): void
     {

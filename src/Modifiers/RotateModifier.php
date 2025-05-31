@@ -16,8 +16,6 @@ class RotateModifier extends SpecializableModifier
     /**
      * Restrict rotations beyond 360 degrees
      * because the end result is the same
-     *
-     * @return float
      */
     public function rotationAngle(): float
     {

@@ -19,9 +19,6 @@ class Color extends AbstractColor
     /**
      * Create new color object
      *
-     * @param int $h
-     * @param int $s
-     * @param int $l
      * @return void
      */
     public function __construct(int $h, int $s, int $l)
@@ -58,8 +55,6 @@ class Color extends AbstractColor
 
     /**
      * Return the Hue channel
-     *
-     * @return ColorChannelInterface
      */
     public function hue(): ColorChannelInterface
     {
@@ -69,8 +64,6 @@ class Color extends AbstractColor
 
     /**
      * Return the Saturation channel
-     *
-     * @return ColorChannelInterface
      */
     public function saturation(): ColorChannelInterface
     {
@@ -80,8 +73,6 @@ class Color extends AbstractColor
 
     /**
      * Return the Luminance channel
-     *
-     * @return ColorChannelInterface
      */
     public function luminance(): ColorChannelInterface
     {

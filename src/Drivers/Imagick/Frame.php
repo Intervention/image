@@ -21,7 +21,6 @@ class Frame extends AbstractFrame implements FrameInterface
     /**
      * Create new frame object
      *
-     * @param Imagick $native
      * @throws ImagickException
      * @return void
      */

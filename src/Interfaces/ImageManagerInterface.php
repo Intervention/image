@@ -13,10 +13,7 @@ interface ImageManagerInterface
      *
      * @link https://image.intervention.io/v3/basics/instantiation#create-new-images
      *
-     * @param int $width
-     * @param int $height
      * @throws RuntimeException
-     * @return ImageInterface
      */
     public function create(int $width, int $height): ImageInterface;
 
@@ -45,10 +42,8 @@ interface ImageManagerInterface
      *
      * @link https://image.intervention.io/v3/basics/instantiation#read-image-sources
      *
-     * @param mixed $input
      * @param string|array<string|DecoderInterface>|DecoderInterface $decoders
      * @throws RuntimeException
-     * @return ImageInterface
      */
     public function read(mixed $input, string|array|DecoderInterface $decoders = []): ImageInterface;
 
@@ -57,16 +52,12 @@ interface ImageManagerInterface
      *
      * @link https://image.intervention.io/v3/basics/instantiation#create-animations
      *
-     * @param callable $init
      * @throws RuntimeException
-     * @return ImageInterface
      */
     public function animate(callable $init): ImageInterface;
 
     /**
      * Return currently used driver
-     *
-     * @return DriverInterface
      */
     public function driver(): DriverInterface;
 }

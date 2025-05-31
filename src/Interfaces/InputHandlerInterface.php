@@ -13,7 +13,6 @@ interface InputHandlerInterface
      *
      * @param mixed $input
      * @throws RuntimeException
-     * @return ImageInterface|ColorInterface
      */
     public function handle($input): ImageInterface|ColorInterface;
 }

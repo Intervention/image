@@ -43,12 +43,9 @@ class FontProcessor extends AbstractFontProcessor
      * the font object as the base and adds an optional passed color to the new
      * ImagickDraw object.
      *
-     * @param FontInterface $font
-     * @param null|ImagickPixel $color
      * @throws FontException
      * @throws ImagickDrawException
      * @throws ImagickException
-     * @return ImagickDraw
      */
     public function toImagickDraw(FontInterface $font, ?ImagickPixel $color = null): ImagickDraw
     {

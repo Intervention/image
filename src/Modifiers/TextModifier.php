@@ -17,9 +17,6 @@ class TextModifier extends SpecializableModifier
     /**
      * Create new modifier object
      *
-     * @param string $text
-     * @param PointInterface $position
-     * @param FontInterface $font
      * @return void
      */
     public function __construct(
@@ -40,7 +37,6 @@ class TextModifier extends SpecializableModifier
      *
      * @throws RuntimeException
      * @throws ColorException
-     * @return ColorInterface
      */
     protected function textColor(): ColorInterface
     {
@@ -60,7 +56,6 @@ class TextModifier extends SpecializableModifier
      *
      * @throws RuntimeException
      * @throws ColorException
-     * @return ColorInterface
      */
     protected function strokeColor(): ColorInterface
     {
@@ -78,7 +73,6 @@ class TextModifier extends SpecializableModifier
     /**
      * Return array of offset points to draw text stroke effect below the actual text
      *
-     * @param FontInterface $font
      * @return array<PointInterface>
      */
     protected function strokeOffsets(FontInterface $font): array

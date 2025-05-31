@@ -34,11 +34,9 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
     /**
      * Prepare given image instance for PNG format output according to encoder settings
      *
-     * @param ImageInterface $image
      * @throws RuntimeException
      * @throws ColorException
      * @throws AnimationException
-     * @return GdImage
      */
     private function prepareOutput(ImageInterface $image): GdImage
     {

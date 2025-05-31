@@ -50,9 +50,7 @@ class FileExtensionEncoder extends AutoEncoder
     /**
      * Create matching encoder for given file extension
      *
-     * @param null|string|FileExtension $extension
      * @throws EncoderException
-     * @return EncoderInterface
      */
     protected function encoderByFileExtension(null|string|FileExtension $extension): EncoderInterface
     {

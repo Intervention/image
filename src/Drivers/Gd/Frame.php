@@ -20,11 +20,6 @@ class Frame extends AbstractFrame implements FrameInterface
     /**
      * Create new frame instance
      *
-     * @param GdImage $native
-     * @param float $delay
-     * @param int $dispose
-     * @param int $offset_left
-     * @param int $offset_top
      * @return void
      */
     public function __construct(
@@ -190,7 +185,6 @@ class Frame extends AbstractFrame implements FrameInterface
      * This workaround helps cloning GdImages which is currently not possible.
      *
      * @throws ColorException
-     * @return void
      */
     public function __clone(): void
     {

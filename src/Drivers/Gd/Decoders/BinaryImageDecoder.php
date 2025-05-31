@@ -34,9 +34,7 @@ class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
     /**
      * Decode image from given binary data
      *
-     * @param string $input
      * @throws RuntimeException
-     * @return ImageInterface
      */
     private function decodeBinary(string $input): ImageInterface
     {

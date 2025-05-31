@@ -104,17 +104,12 @@ final class Image implements ImageInterface
 {
     /**
      * The origin from which the image was created
-     *
-     * @var Origin
      */
     private Origin $origin;
 
     /**
      * Create new instance
      *
-     * @param DriverInterface $driver
-     * @param CoreInterface $core
-     * @param CollectionInterface $exif
      * @throws RuntimeException
      * @return void
      */
@@ -941,9 +936,7 @@ final class Image implements ImageInterface
     /**
      * Alias of self::toJpeg()
      *
-     * @param mixed $options
      * @throws RuntimeException
-     * @return EncodedImageInterface
      */
     public function toJpg(mixed ...$options): EncodedImageInterface
     {
@@ -963,9 +956,7 @@ final class Image implements ImageInterface
     /**
      * ALias of self::toJpeg2000()
      *
-     * @param mixed $options
      * @throws RuntimeException
-     * @return EncodedImageInterface
      */
     public function toJp2(mixed ...$options): EncodedImageInterface
     {
@@ -1016,7 +1007,6 @@ final class Image implements ImageInterface
      * Alias if self::toBitmap()
      *
      * @throws RuntimeException
-     * @return EncodedImageInterface
      */
     public function toBmp(mixed ...$options): EncodedImageInterface
     {
@@ -1046,9 +1036,7 @@ final class Image implements ImageInterface
     /**
      * Alias of self::toTiff()
      *
-     * @param mixed $options
      * @throws RuntimeException
-     * @return EncodedImageInterface
      */
     public function toTif(mixed ...$options): EncodedImageInterface
     {
@@ -1084,8 +1072,6 @@ final class Image implements ImageInterface
 
     /**
      * Clone image
-     *
-     * @return void
      */
     public function __clone(): void
     {

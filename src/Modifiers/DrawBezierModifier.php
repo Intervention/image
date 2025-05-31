@@ -12,7 +12,6 @@ class DrawBezierModifier extends AbstractDrawModifier
     /**
      * Create new modifier object
      *
-     * @param Bezier $drawable
      * @return void
      */
     public function __construct(public Bezier $drawable)
@@ -22,8 +21,6 @@ class DrawBezierModifier extends AbstractDrawModifier
 
     /**
      * Return object to be drawn
-     *
-     * @return DrawableInterface
      */
     public function drawable(): DrawableInterface
     {

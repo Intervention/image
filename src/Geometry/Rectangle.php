@@ -14,9 +14,6 @@ class Rectangle extends Polygon implements SizeInterface
     /**
      * Create new rectangle instance
      *
-     * @param int $width
-     * @param int $height
-     * @param PointInterface $pivot
      * @return void
      */
     public function __construct(
@@ -32,10 +29,6 @@ class Rectangle extends Polygon implements SizeInterface
 
     /**
      * Set size of rectangle
-     *
-     * @param int $width
-     * @param int $height
-     * @return Rectangle
      */
     public function setSize(int $width, int $height): self
     {
@@ -44,9 +37,6 @@ class Rectangle extends Polygon implements SizeInterface
 
     /**
      * Set width of rectangle
-     *
-     * @param int $width
-     * @return Rectangle
      */
     public function setWidth(int $width): self
     {
@@ -58,9 +48,6 @@ class Rectangle extends Polygon implements SizeInterface
 
     /**
      * Set height of rectangle
-     *
-     * @param int $height
-     * @return Rectangle
      */
     public function setHeight(int $height): self
     {
@@ -72,8 +59,6 @@ class Rectangle extends Polygon implements SizeInterface
 
     /**
      * Return pivot point of rectangle
-     *
-     * @return PointInterface
      */
     public function pivot(): PointInterface
     {
@@ -82,9 +67,6 @@ class Rectangle extends Polygon implements SizeInterface
 
     /**
      * Set pivot point of rectangle
-     *
-     * @param PointInterface $pivot
-     * @return Rectangle
      */
     public function setPivot(PointInterface $pivot): self
     {
@@ -96,11 +78,6 @@ class Rectangle extends Polygon implements SizeInterface
     /**
      * Move pivot to the given position in the rectangle and adjust the new
      * position by given offset values.
-     *
-     * @param string $position
-     * @param int $offset_x
-     * @param int $offset_y
-     * @return Rectangle
      */
     public function movePivot(string $position, int $offset_x = 0, int $offset_y = 0): self
     {
@@ -182,10 +159,6 @@ class Rectangle extends Polygon implements SizeInterface
 
     /**
      * Align pivot relative to given size at given position
-     *
-     * @param SizeInterface $size
-     * @param string $position
-     * @return Rectangle
      */
     public function alignPivotTo(SizeInterface $size, string $position): self
     {
@@ -201,9 +174,6 @@ class Rectangle extends Polygon implements SizeInterface
 
     /**
      * Return relative position to given rectangle
-     *
-     * @param SizeInterface $rectangle
-     * @return PointInterface
      */
     public function relativePositionTo(SizeInterface $rectangle): PointInterface
     {
@@ -215,8 +185,6 @@ class Rectangle extends Polygon implements SizeInterface
 
     /**
      * Return aspect ration of rectangle
-     *
-     * @return float
      */
     public function aspectRatio(): float
     {
@@ -225,9 +193,6 @@ class Rectangle extends Polygon implements SizeInterface
 
     /**
      * Determine if rectangle fits into given rectangle
-     *
-     * @param SizeInterface $size
-     * @return bool
      */
     public function fitsInto(SizeInterface $size): bool
     {
@@ -244,8 +209,6 @@ class Rectangle extends Polygon implements SizeInterface
 
     /**
      * Determine if rectangle has landscape format
-     *
-     * @return bool
      */
     public function isLandscape(): bool
     {
@@ -254,8 +217,6 @@ class Rectangle extends Polygon implements SizeInterface
 
     /**
      * Determine if rectangle has landscape format
-     *
-     * @return bool
      */
     public function isPortrait(): bool
     {
@@ -264,8 +225,6 @@ class Rectangle extends Polygon implements SizeInterface
 
     /**
      * Return most top left point of rectangle
-     *
-     * @return PointInterface
      */
     public function topLeftPoint(): PointInterface
     {
@@ -274,8 +233,6 @@ class Rectangle extends Polygon implements SizeInterface
 
     /**
      * Return bottom right point of rectangle
-     *
-     * @return PointInterface
      */
     public function bottomRightPoint(): PointInterface
     {
@@ -355,10 +312,7 @@ class Rectangle extends Polygon implements SizeInterface
     /**
      * Create resizer instance with given target size
      *
-     * @param null|int $width
-     * @param null|int $height
      * @throws GeometryException
-     * @return RectangleResizer
      */
     protected function resizer(?int $width = null, ?int $height = null): RectangleResizer
     {

@@ -155,8 +155,6 @@ class Driver extends AbstractDriver
 
     /**
      * Return version of GD library
-     *
-     * @return string
      */
     public static function version(): string
     {

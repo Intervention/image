@@ -17,9 +17,6 @@ class Line implements DrawableInterface
     /**
      * Create new line instance
      *
-     * @param PointInterface $start
-     * @param PointInterface $end
-     * @param int $width
      * @return void
      */
     public function __construct(
@@ -54,8 +51,6 @@ class Line implements DrawableInterface
 
     /**
      * Return line width
-     *
-     * @return int
      */
     public function width(): int
     {
@@ -64,9 +59,6 @@ class Line implements DrawableInterface
 
     /**
      * Set line width
-     *
-     * @param int $width
-     * @return Line
      */
     public function setWidth(int $width): self
     {
@@ -77,8 +69,6 @@ class Line implements DrawableInterface
 
     /**
      * Get starting point of line
-     *
-     * @return PointInterface
      */
     public function start(): PointInterface
     {
@@ -87,8 +77,6 @@ class Line implements DrawableInterface
 
     /**
      * get end point of line
-     *
-     * @return PointInterface
      */
     public function end(): PointInterface
     {
@@ -97,9 +85,6 @@ class Line implements DrawableInterface
 
     /**
      * Set starting point of line
-     *
-     * @param PointInterface $start
-     * @return Line
      */
     public function setStart(PointInterface $start): self
     {
@@ -110,10 +95,6 @@ class Line implements DrawableInterface
 
     /**
      * Set starting point of line by coordinates
-     *
-     * @param int $x
-     * @param int $y
-     * @return Line
      */
     public function from(int $x, int $y): self
     {
@@ -125,10 +106,6 @@ class Line implements DrawableInterface
 
     /**
      * Set end point of line by coordinates
-     *
-     * @param int $x
-     * @param int $y
-     * @return Line
      */
     public function to(int $x, int $y): self
     {
@@ -140,9 +117,6 @@ class Line implements DrawableInterface
 
     /**
      * Set end point of line
-     *
-     * @param PointInterface $end
-     * @return Line
      */
     public function setEnd(PointInterface $end): self
     {

@@ -17,7 +17,6 @@ class LineFactory implements DrawableFactoryInterface
     /**
      * Create the factory instance
      *
-     * @param null|Closure|Line $init
      * @return void
      */
     public function __construct(null|Closure|Line $init = null)
@@ -51,9 +50,6 @@ class LineFactory implements DrawableFactoryInterface
 
     /**
      * Set the color of the line to be produced
-     *
-     * @param mixed $color
-     * @return LineFactory
      */
     public function color(mixed $color): self
     {
@@ -65,9 +61,6 @@ class LineFactory implements DrawableFactoryInterface
 
     /**
      * Set the (background) color of the line to be produced
-     *
-     * @param mixed $color
-     * @return LineFactory
      */
     public function background(mixed $color): self
     {
@@ -79,10 +72,6 @@ class LineFactory implements DrawableFactoryInterface
 
     /**
      * Set the border size & border color of the line to be produced
-     *
-     * @param mixed $color
-     * @param int $size
-     * @return LineFactory
      */
     public function border(mixed $color, int $size = 1): self
     {
@@ -95,9 +84,6 @@ class LineFactory implements DrawableFactoryInterface
 
     /**
      * Set the width of the line to be produced
-     *
-     * @param int $size
-     * @return LineFactory
      */
     public function width(int $size): self
     {
@@ -108,10 +94,6 @@ class LineFactory implements DrawableFactoryInterface
 
     /**
      * Set the coordinates of the starting point of the line to be produced
-     *
-     * @param int $x
-     * @param int $y
-     * @return LineFactory
      */
     public function from(int $x, int $y): self
     {
@@ -122,10 +104,6 @@ class LineFactory implements DrawableFactoryInterface
 
     /**
      * Set the coordinates of the end point of the line to be produced
-     *
-     * @param int $x
-     * @param int $y
-     * @return LineFactory
      */
     public function to(int $x, int $y): self
     {
@@ -136,8 +114,6 @@ class LineFactory implements DrawableFactoryInterface
 
     /**
      * Produce the line
-     *
-     * @return Line
      */
     public function __invoke(): Line
     {

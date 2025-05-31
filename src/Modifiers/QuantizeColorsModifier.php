@@ -11,8 +11,6 @@ class QuantizeColorsModifier extends SpecializableModifier
     /**
      * Create new modifier object
      *
-     * @param int $limit
-     * @param mixed $background
      * @return void
      */
     public function __construct(

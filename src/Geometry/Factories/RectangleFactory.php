@@ -18,8 +18,6 @@ class RectangleFactory implements DrawableFactoryInterface
     /**
      * Create new instance
      *
-     * @param PointInterface $pivot
-     * @param null|Closure|Rectangle $init
      * @return void
      */
     public function __construct(
@@ -56,10 +54,6 @@ class RectangleFactory implements DrawableFactoryInterface
 
     /**
      * Set the size of the rectangle to be produced
-     *
-     * @param int $width
-     * @param int $height
-     * @return RectangleFactory
      */
     public function size(int $width, int $height): self
     {
@@ -70,9 +64,6 @@ class RectangleFactory implements DrawableFactoryInterface
 
     /**
      * Set the width of the rectangle to be produced
-     *
-     * @param int $width
-     * @return RectangleFactory
      */
     public function width(int $width): self
     {
@@ -83,9 +74,6 @@ class RectangleFactory implements DrawableFactoryInterface
 
     /**
      * Set the height of the rectangle to be produced
-     *
-     * @param int $height
-     * @return RectangleFactory
      */
     public function height(int $height): self
     {
@@ -96,9 +84,6 @@ class RectangleFactory implements DrawableFactoryInterface
 
     /**
      * Set the background color of the rectangle to be produced
-     *
-     * @param mixed $color
-     * @return RectangleFactory
      */
     public function background(mixed $color): self
     {
@@ -109,10 +94,6 @@ class RectangleFactory implements DrawableFactoryInterface
 
     /**
      * Set the border color & border size of the rectangle to be produced
-     *
-     * @param mixed $color
-     * @param int $size
-     * @return RectangleFactory
      */
     public function border(mixed $color, int $size = 1): self
     {
@@ -123,8 +104,6 @@ class RectangleFactory implements DrawableFactoryInterface
 
     /**
      * Produce the rectangle
-     *
-     * @return Rectangle
      */
     public function __invoke(): Rectangle
     {

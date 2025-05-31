@@ -59,8 +59,6 @@ class InputHandler implements InputHandlerInterface
 
     /**
      * Driver with which the decoder classes are specialized
-     *
-     * @var null|DriverInterface
      */
     protected ?DriverInterface $driver = null;
 
@@ -81,8 +79,6 @@ class InputHandler implements InputHandlerInterface
      * Static factory method
      *
      * @param array<string|DecoderInterface> $decoders
-     * @param null|DriverInterface $driver
-     * @return InputHandler
      */
     public static function withDecoders(array $decoders, ?DriverInterface $driver = null): self
     {
@@ -115,10 +111,8 @@ class InputHandler implements InputHandlerInterface
     /**
      * Resolve the given classname to an decoder object
      *
-     * @param string|DecoderInterface $decoder
      * @throws DriverException
      * @throws NotSupportedException
-     * @return DecoderInterface
      */
     private function resolve(string|DecoderInterface $decoder): DecoderInterface
     {

@@ -19,16 +19,12 @@ interface SpecializableInterface
     /**
      * Set the driver for which the object is specialized
      *
-     * @param DriverInterface $driver
      * @throws DriverException
-     * @return SpecializableInterface
      */
     public function setDriver(DriverInterface $driver): self;
 
     /**
      * Return the driver for which the object was specialized
-     *
-     * @return DriverInterface
      */
     public function driver(): DriverInterface;
 }

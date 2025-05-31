@@ -60,10 +60,8 @@ class ResizeModifier extends GenericResizeModifier implements SpecializedInterfa
     /**
      * Return the size the modifier will resize to
      *
-     * @param ImageInterface $image
      * @throws RuntimeException
      * @throws GeometryException
-     * @return SizeInterface
      */
     protected function getAdjustedSize(ImageInterface $image): SizeInterface
     {

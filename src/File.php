@@ -33,9 +33,7 @@ class File implements FileInterface, Stringable
     /**
      * Create file object from path in file system
      *
-     * @param string $path
      * @throws RuntimeException
-     * @return File
      */
     public static function fromPath(string $path): self
     {

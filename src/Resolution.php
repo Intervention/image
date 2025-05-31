@@ -20,10 +20,6 @@ class Resolution implements ResolutionInterface, Stringable, IteratorAggregate
 
     /**
      * Create new instance
-     *
-     * @param float $x
-     * @param float $y
-     * @param int $per_unit
      */
     public function __construct(
         protected float $x,

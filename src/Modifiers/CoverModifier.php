@@ -15,9 +15,6 @@ class CoverModifier extends SpecializableModifier
     /**
      * Create new modifier object
      *
-     * @param int $width
-     * @param int $height
-     * @param string $position
      * @return void
      */
     public function __construct(

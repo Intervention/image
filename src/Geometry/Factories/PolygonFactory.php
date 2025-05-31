@@ -17,7 +17,6 @@ class PolygonFactory implements DrawableFactoryInterface
     /**
      * Create new factory instance
      *
-     * @param null|Closure|Polygon $init
      * @return void
      */
     public function __construct(null|Closure|Polygon $init = null)
@@ -51,10 +50,6 @@ class PolygonFactory implements DrawableFactoryInterface
 
     /**
      * Add a point to the polygon to be produced
-     *
-     * @param int $x
-     * @param int $y
-     * @return PolygonFactory
      */
     public function point(int $x, int $y): self
     {
@@ -65,9 +60,6 @@ class PolygonFactory implements DrawableFactoryInterface
 
     /**
      * Set the background color of the polygon to be produced
-     *
-     * @param mixed $color
-     * @return PolygonFactory
      */
     public function background(mixed $color): self
     {
@@ -78,10 +70,6 @@ class PolygonFactory implements DrawableFactoryInterface
 
     /**
      * Set the border color & border size of the polygon to be produced
-     *
-     * @param mixed $color
-     * @param int $size
-     * @return PolygonFactory
      */
     public function border(mixed $color, int $size = 1): self
     {
@@ -92,8 +80,6 @@ class PolygonFactory implements DrawableFactoryInterface
 
     /**
      * Produce the polygon
-     *
-     * @return Polygon
      */
     public function __invoke(): Polygon
     {

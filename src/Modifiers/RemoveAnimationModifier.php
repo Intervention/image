@@ -28,9 +28,7 @@ class RemoveAnimationModifier extends SpecializableModifier
     /**
      * Return the position of the selected frame as integer
      *
-     * @param ImageInterface $image
      * @throws InputException
-     * @return int
      */
     protected function normalizePosition(ImageInterface $image): int
     {

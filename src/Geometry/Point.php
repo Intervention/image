@@ -17,8 +17,6 @@ class Point implements PointInterface, IteratorAggregate
     /**
      * Create new point instance
      *
-     * @param int $x
-     * @param int $y
      * @return void
      */
     public function __construct(

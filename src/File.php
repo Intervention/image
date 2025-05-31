@@ -79,7 +79,7 @@ class File implements FileInterface, Stringable
     /**
      * {@inheritdoc}
      *
-     * @see FilterInterface::toString()
+     * @see FileInterface::toString()
      */
     public function toString(): string
     {
@@ -89,7 +89,7 @@ class File implements FileInterface, Stringable
     /**
      * {@inheritdoc}
      *
-     * @see FilterInterface::toFilePointer()
+     * @see FileInterface::toFilePointer()
      */
     public function toFilePointer()
     {

@@ -50,7 +50,7 @@ class Core implements CoreInterface, Iterator
      *
      * @see CollectionInterface::push()
      */
-    public function push($item): CollectionInterface
+    public function push(mixed $item): CollectionInterface
     {
         return $this->add($item);
     }
@@ -60,7 +60,7 @@ class Core implements CoreInterface, Iterator
      *
      * @see CollectionInterface::get()
      */
-    public function get(int|string $key, $default = null): mixed
+    public function get(int|string $key, mixed $default = null): mixed
     {
         try {
             $this->imagick->setIteratorIndex($key);
@@ -76,7 +76,7 @@ class Core implements CoreInterface, Iterator
      *
      * @see CollectionInterface::getAtPosition()
      */
-    public function getAtPosition(int $key = 0, $default = null): mixed
+    public function getAtPosition(int $key = 0, mixed $default = null): mixed
     {
         return $this->get($key, $default);
     }

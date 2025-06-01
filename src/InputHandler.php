@@ -89,7 +89,7 @@ class InputHandler implements InputHandlerInterface
      *
      * @see InputHandlerInterface::handle()
      */
-    public function handle($input): ImageInterface|ColorInterface
+    public function handle(mixed $input): ImageInterface|ColorInterface
     {
         foreach ($this->decoders as $decoder) {
             try {

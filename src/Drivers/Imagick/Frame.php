@@ -46,7 +46,7 @@ class Frame extends AbstractFrame implements FrameInterface
      *
      * @see DriverInterface::setNative()
      */
-    public function setNative($native): FrameInterface
+    public function setNative(mixed $native): FrameInterface
     {
         $this->native = $native;
 

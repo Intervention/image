@@ -75,7 +75,6 @@
         </properties>
     </rule>
     <rule ref="SlevomatCodingStandard.TypeHints.LongTypeHints"/>
-    <rule ref="SlevomatCodingStandard.TypeHints.ClassConstantTypeHint"/>
     <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint"/>
     <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint"/>
     <rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint"/>

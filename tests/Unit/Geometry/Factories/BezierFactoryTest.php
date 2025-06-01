@@ -14,7 +14,7 @@ final class BezierFactoryTest extends BaseTestCase
 {
     public function testFactoryCallback(): void
     {
-        $factory = new BezierFactory(function ($bezier) {
+        $factory = new BezierFactory(function ($bezier): void {
             $bezier->background('f00');
             $bezier->border('ff0', 10);
             $bezier->point(300, 260);

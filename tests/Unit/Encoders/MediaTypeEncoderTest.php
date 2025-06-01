@@ -25,16 +25,19 @@ use PHPUnit\Framework\Attributes\DataProvider;
 #[CoversClass(MediaTypeEncoder::class)]
 final class MediaTypeEncoderTest extends BaseTestCase
 {
+    /**
+     * @param $options array<string, int>
+     */
     private function testEncoder(string|MediaType $mediaType, array $options = []): EncoderInterface
     {
         $encoder = new class ($mediaType, ...$options) extends MediaTypeEncoder
         {
-            public function __construct($mediaType, ...$options)
+            public function __construct(string|MediaType $mediaType, mixed ...$options)
             {
                 parent::__construct($mediaType, ...$options);
             }
 
-            public function test($mediaType)
+            public function test(string|MediaType $mediaType): EncoderInterface
             {
                 return $this->encoderByMediaType($mediaType);
             }

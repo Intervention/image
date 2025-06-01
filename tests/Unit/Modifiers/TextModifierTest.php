@@ -18,7 +18,10 @@ final class TextModifierTest extends BaseTestCase
     {
         $modifier = new class ('test', new Point(), new Font()) extends TextModifier
         {
-            public function testStrokeOffsets(FontInterface $font)
+            /**
+             * @return array<?Point>
+             */
+            public function testStrokeOffsets(FontInterface $font): array
             {
                 return $this->strokeOffsets($font);
             }

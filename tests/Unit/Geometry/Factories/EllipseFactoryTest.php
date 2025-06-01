@@ -15,7 +15,7 @@ final class EllipseFactoryTest extends BaseTestCase
 {
     public function testFactoryCallback(): void
     {
-        $factory = new EllipseFactory(new Point(1, 2), function ($ellipse) {
+        $factory = new EllipseFactory(new Point(1, 2), function ($ellipse): void {
             $ellipse->background('fff');
             $ellipse->border('ccc', 10);
             $ellipse->width(100);

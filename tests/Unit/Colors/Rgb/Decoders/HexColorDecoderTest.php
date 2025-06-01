@@ -14,6 +14,9 @@ use PHPUnit\Framework\Attributes\DataProvider;
 #[CoversClass(HexColorDecoder::class)]
 final class HexColorDecoderTest extends BaseTestCase
 {
+    /**
+     * @param $channelValues array<int>
+     */
     #[DataProvider('decodeDataProvier')]
     public function testDecode(string $input, string $classname, array $channelValues): void
     {

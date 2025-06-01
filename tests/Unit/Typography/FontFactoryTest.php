@@ -24,7 +24,7 @@ final class FontFactoryTest extends BaseTestCase
 
     public function testBuildWithCallback(): void
     {
-        $factory = new FontFactory(function (FontFactory $font) {
+        $factory = new FontFactory(function (FontFactory $font): void {
             $font->filename($this->getTestResourcePath('test.ttf'));
             $font->color('#b01735');
             $font->size(70);

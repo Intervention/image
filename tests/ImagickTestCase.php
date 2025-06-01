@@ -14,7 +14,7 @@ use Intervention\Image\Image;
 
 abstract class ImagickTestCase extends BaseTestCase
 {
-    public static function readTestImage($filename = 'test.jpg'): Image
+    public static function readTestImage(string $filename = 'test.jpg'): Image
     {
         return (new Driver())->specialize(new FilePathImageDecoder())->decode(
             static::getTestResourcePath($filename)

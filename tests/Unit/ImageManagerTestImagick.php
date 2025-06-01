@@ -58,7 +58,7 @@ final class ImageManagerTestImagick extends BaseTestCase
     public function testAnimate(): void
     {
         $manager = new ImageManager(Driver::class);
-        $image = $manager->animate(function ($animation) {
+        $image = $manager->animate(function ($animation): void {
             $animation->add($this->getTestResourcePath('red.gif'), .25);
         });
         $this->assertInstanceOf(ImageInterface::class, $image);

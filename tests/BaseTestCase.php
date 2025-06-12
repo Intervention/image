@@ -16,20 +16,20 @@ use PHPUnit\Framework\ExpectationFailedException;
 
 abstract class BaseTestCase extends MockeryTestCase
 {
-    public static function getTestResourcePath($filename = 'test.jpg'): string
+    public static function getTestResourcePath(string $filename = 'test.jpg'): string
     {
         return sprintf('%s/resources/%s', __DIR__, $filename);
     }
 
-    public static function getTestResourceData($filename = 'test.jpg'): string
+    public static function getTestResourceData(string $filename = 'test.jpg'): string
     {
         return file_get_contents(self::getTestResourcePath($filename));
     }
 
-    public static function getTestResourcePointer($filename = 'test.jpg')
+    public static function getTestResourcePointer(string $filename = 'test.jpg'): mixed
     {
         $pointer = fopen('php://temp', 'rw');
-        fputs($pointer, self::getTestResourceData($filename));
+        fwrite($pointer, self::getTestResourceData($filename));
         rewind($pointer);
 
         return $pointer;
@@ -38,16 +38,9 @@ abstract class BaseTestCase extends MockeryTestCase
     /**
      * Assert that given color equals the given color channel values in the given optional tolerance
      *
-     * @param int $r
-     * @param int $g
-     * @param int $b
-     * @param int $a
-     * @param ColorInterface $color
-     * @param int $tolerance
      * @throws ExpectationFailedException
-     * @return void
      */
-    protected function assertColor(int $r, int $g, int $b, int $a, ColorInterface $color, int $tolerance = 0)
+    protected function assertColor(int $r, int $g, int $b, int $a, ColorInterface $color, int $tolerance = 0): void
     {
         // build errorMessage
         $errorMessage = function (int $r, int $g, $b, int $a, ColorInterface $color): string {
@@ -96,7 +89,7 @@ abstract class BaseTestCase extends MockeryTestCase
         );
     }
 
-    protected function assertTransparency(ColorInterface $color)
+    protected function assertTransparency(ColorInterface $color): void
     {
         $this->assertInstanceOf(RgbColor::class, $color);
         $channel = $color->channel(Alpha::class);
@@ -106,7 +99,7 @@ abstract class BaseTestCase extends MockeryTestCase
     protected function assertMediaType(string|array $allowed, string|EncodedImage $input): void
     {
         $pointer = fopen('php://temp', 'rw');
-        fputs($pointer, (string) $input);
+        fwrite($pointer, (string) $input);
         rewind($pointer);
         $detected = mime_content_type($pointer);
         fclose($pointer);
@@ -114,7 +107,7 @@ abstract class BaseTestCase extends MockeryTestCase
         $allowed = is_string($allowed) ? [$allowed] : $allowed;
         $this->assertTrue(
             in_array($detected, $allowed),
-            'Detected media type "' . $detected . '" is not: ' . join(', ', $allowed),
+            'Detected media type "' . $detected . '" is not: ' . implode(', ', $allowed),
         );
     }
 

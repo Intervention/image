@@ -11,8 +11,6 @@ class JpegEncoder extends SpecializableEncoder
     /**
      * Create new encoder object
      *
-     * @param int $quality
-     * @param bool $progressive
      * @param null|bool $strip Strip EXIF metadata
      * @return void
      */

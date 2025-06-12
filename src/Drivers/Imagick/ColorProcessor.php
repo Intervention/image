@@ -15,6 +15,7 @@ class ColorProcessor implements ColorProcessorInterface
 {
     public function __construct(protected ColorspaceInterface $colorspace)
     {
+        //
     }
 
     public function colorToNative(ColorInterface $color): ImagickPixel

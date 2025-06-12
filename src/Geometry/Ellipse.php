@@ -17,9 +17,6 @@ class Ellipse implements DrawableInterface
     /**
      * Create new Ellipse
      *
-     * @param int $width
-     * @param int $height
-     * @param PointInterface $pivot
      * @return void
      */
     public function __construct(
@@ -27,6 +24,7 @@ class Ellipse implements DrawableInterface
         protected int $height,
         protected PointInterface $pivot = new Point()
     ) {
+        //
     }
 
     /**
@@ -53,8 +51,6 @@ class Ellipse implements DrawableInterface
 
     /**
      * Return pivot point of Ellipse
-     *
-     * @return PointInterface
      */
     public function pivot(): PointInterface
     {
@@ -63,10 +59,6 @@ class Ellipse implements DrawableInterface
 
     /**
      * Set size of Ellipse
-     *
-     * @param int $width
-     * @param int $height
-     * @return Ellipse
      */
     public function setSize(int $width, int $height): self
     {
@@ -75,9 +67,6 @@ class Ellipse implements DrawableInterface
 
     /**
      * Set width of Ellipse
-     *
-     * @param int $width
-     * @return Ellipse
      */
     public function setWidth(int $width): self
     {
@@ -88,9 +77,6 @@ class Ellipse implements DrawableInterface
 
     /**
      * Set height of Ellipse
-     *
-     * @param int $height
-     * @return Ellipse
      */
     public function setHeight(int $height): self
     {
@@ -101,8 +87,6 @@ class Ellipse implements DrawableInterface
 
     /**
      * Get width of Ellipse
-     *
-     * @return int
      */
     public function width(): int
     {
@@ -111,8 +95,6 @@ class Ellipse implements DrawableInterface
 
     /**
      * Get height of Ellipse
-     *
-     * @return int
      */
     public function height(): int
     {

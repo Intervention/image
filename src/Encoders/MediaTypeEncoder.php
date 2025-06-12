@@ -49,9 +49,7 @@ class MediaTypeEncoder extends AbstractEncoder
     /**
      * Return new encoder by given media (MIME) type
      *
-     * @param string|MediaType $mediaType
      * @throws EncoderException
-     * @return EncoderInterface
      */
     protected function encoderByMediaType(string|MediaType $mediaType): EncoderInterface
     {

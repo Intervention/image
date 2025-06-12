@@ -13,9 +13,6 @@ trait CanInspectPngFormat
 
     /**
      * Checks if the given image data is interlaced encoded PNG format
-     *
-     * @param EncodedImage $image
-     * @return bool
      */
     private function isInterlacedPng(EncodedImage $image): bool
     {
@@ -28,9 +25,6 @@ trait CanInspectPngFormat
 
     /**
      * Try to detect PNG color type from given binary data
-     *
-     * @param EncodedImage $image
-     * @return string
      */
     private function pngColorType(EncodedImage $image): string
     {

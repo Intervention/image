@@ -14,7 +14,7 @@ final class PolygonFactoryTest extends BaseTestCase
 {
     public function testFactoryCallback(): void
     {
-        $factory = new PolygonFactory(function ($polygon) {
+        $factory = new PolygonFactory(function ($polygon): void {
             $polygon->background('fff');
             $polygon->border('ccc', 10);
             $polygon->point(1, 2);

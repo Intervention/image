@@ -17,13 +17,11 @@ class ModifierStack implements ModifierInterface
      */
     public function __construct(protected array $modifiers)
     {
+        //
     }
 
     /**
      * Apply all modifiers in stack to the given image
-     *
-     * @param ImageInterface $image
-     * @return ImageInterface
      */
     public function apply(ImageInterface $image): ImageInterface
     {
@@ -36,9 +34,6 @@ class ModifierStack implements ModifierInterface
 
     /**
      * Append new modifier to the stack
-     *
-     * @param ModifierInterface $modifier
-     * @return ModifierStack
      */
     public function push(ModifierInterface $modifier): self
     {

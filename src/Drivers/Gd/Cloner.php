@@ -17,9 +17,7 @@ class Cloner
     /**
      * Create a clone of the given GdImage
      *
-     * @param GdImage $gd
      * @throws ColorException
-     * @return GdImage
      */
     public static function clone(GdImage $gd): GdImage
     {
@@ -39,11 +37,7 @@ class Cloner
      * It is optionally possible to change the size of the result and set a
      * background color.
      *
-     * @param GdImage $gd
-     * @param null|SizeInterface $size
-     * @param ColorInterface $background
      * @throws ColorException
-     * @return GdImage
      */
     public static function cloneEmpty(
         GdImage $gd,
@@ -81,10 +75,7 @@ class Cloner
      * Create a clone of an GdImage that is positioned on the specified background color.
      * Possible transparent areas are mixed with this color.
      *
-     * @param GdImage $gd
-     * @param ColorInterface $background
      * @throws ColorException
-     * @return GdImage
      */
     public static function cloneBlended(GdImage $gd, ColorInterface $background): GdImage
     {

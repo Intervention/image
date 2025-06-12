@@ -10,5 +10,6 @@ class BrightnessModifier extends SpecializableModifier
 {
     public function __construct(public int $level)
     {
+        //
     }
 }

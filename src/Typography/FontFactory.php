@@ -30,9 +30,6 @@ class FontFactory
 
     /**
      * Set the filename of the font to be built
-     *
-     * @param string $value
-     * @return FontFactory
      */
     public function filename(string $value): self
     {
@@ -54,10 +51,7 @@ class FontFactory
     /**
      * Set outline stroke effect for the font to be built
      *
-     * @param mixed $color
-     * @param int $width
      * @throws FontException
-     * @return FontFactory
      */
     public function stroke(mixed $color, int $width = 1): self
     {
@@ -69,9 +63,6 @@ class FontFactory
 
     /**
      * Set color for the font to be built
-     *
-     * @param mixed $value
-     * @return FontFactory
      */
     public function color(mixed $value): self
     {
@@ -82,9 +73,6 @@ class FontFactory
 
     /**
      * Set the size for the font to be built
-     *
-     * @param float $value
-     * @return FontFactory
      */
     public function size(float $value): self
     {
@@ -95,9 +83,6 @@ class FontFactory
 
     /**
      * Set the horizontal alignment of the font to be built
-     *
-     * @param string $value
-     * @return FontFactory
      */
     public function align(string $value): self
     {
@@ -108,9 +93,6 @@ class FontFactory
 
     /**
      * Set the vertical alignment of the font to be built
-     *
-     * @param string $value
-     * @return FontFactory
      */
     public function valign(string $value): self
     {
@@ -121,9 +103,6 @@ class FontFactory
 
     /**
      * Set the line height of the font to be built
-     *
-     * @param float $value
-     * @return FontFactory
      */
     public function lineHeight(float $value): self
     {
@@ -134,9 +113,6 @@ class FontFactory
 
     /**
      * Set the rotation angle of the font to be built
-     *
-     * @param float $value
-     * @return FontFactory
      */
     public function angle(float $value): self
     {
@@ -147,9 +123,6 @@ class FontFactory
 
     /**
      * Set the maximum width of the text block to be built
-     *
-     * @param int $width
-     * @return FontFactory
      */
     public function wrap(int $width): self
     {
@@ -160,8 +133,6 @@ class FontFactory
 
     /**
      * Build font
-     *
-     * @return FontInterface
      */
     public function __invoke(): FontInterface
     {

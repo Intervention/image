@@ -35,7 +35,6 @@ enum FileExtension: string
      *
      * @param string|Format|MediaType|FileExtension $identifier
      * @throws NotSupportedException
-     * @return FileExtension
      */
     public static function create(string|self|Format|MediaType $identifier): self
     {
@@ -81,8 +80,6 @@ enum FileExtension: string
 
     /**
      * Return the matching format for the current file extension
-     *
-     * @return Format
      */
     public function format(): Format
     {
@@ -122,8 +119,6 @@ enum FileExtension: string
 
     /**
      * Return the first found media type for the current format
-     *
-     * @return MediaType
      */
     public function mediaType(): MediaType
     {

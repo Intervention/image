@@ -14,9 +14,7 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
     /**
      * Return media (mime) type of the file at given file path
      *
-     * @param string $filepath
      * @throws DecoderException
-     * @return MediaType
      */
     protected function getMediaTypeByFilePath(string $filepath): MediaType
     {
@@ -32,9 +30,7 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
     /**
      * Return media (mime) type of the given image data
      *
-     * @param string $data
      * @throws DecoderException
-     * @return MediaType
      */
     protected function getMediaTypeByBinary(string $data): MediaType
     {

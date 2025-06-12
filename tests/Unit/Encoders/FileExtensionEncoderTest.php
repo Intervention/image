@@ -25,16 +25,19 @@ use PHPUnit\Framework\Attributes\DataProvider;
 #[CoversClass(FileExtensionEncoder::class)]
 final class FileExtensionEncoderTest extends BaseTestCase
 {
+    /**
+     * @param $options array<string, int>
+     */
     private function testEncoder(string|FileExtension $extension, array $options = []): EncoderInterface
     {
         $encoder = new class ($extension, ...$options) extends FileExtensionEncoder
         {
-            public function __construct($mediaType, ...$options)
+            public function __construct(string|FileExtension $extension, mixed ...$options)
             {
-                parent::__construct($mediaType, ...$options);
+                parent::__construct($extension, ...$options);
             }
 
-            public function test($extension)
+            public function test(string|FileExtension $extension): EncoderInterface
             {
                 return $this->encoderByFileExtension($extension);
             }

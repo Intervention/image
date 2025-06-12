@@ -83,6 +83,7 @@ class Driver extends AbstractDriver
                 protected DriverInterface $driver,
                 public Core $core = new Core()
             ) {
+                //
             }
 
             /**
@@ -154,8 +155,6 @@ class Driver extends AbstractDriver
 
     /**
      * Return version of GD library
-     *
-     * @return string
      */
     public static function version(): string
     {

@@ -14,6 +14,9 @@ use PHPUnit\Framework\Attributes\DataProvider;
 #[CoversClass(StringColorDecoder::class)]
 final class StringColorDecoderTest extends BaseTestCase
 {
+    /**
+     * @param $channelValues array<int>
+     */
     #[DataProvider('decodeDataProvier')]
     public function testDecodeHsv(string $input, string $classname, array $channelValues): void
     {

@@ -15,7 +15,7 @@ final class RectangleFactoryTest extends BaseTestCase
 {
     public function testFactoryCallback(): void
     {
-        $factory = new RectangleFactory(new Point(1, 2), function ($rectangle) {
+        $factory = new RectangleFactory(new Point(1, 2), function ($rectangle): void {
             $rectangle->background('fff');
             $rectangle->border('ccc', 10);
             $rectangle->width(100);

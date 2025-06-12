@@ -74,9 +74,6 @@ class FontProcessor extends AbstractFontProcessor
 
     /**
      * Return width of a single character
-     *
-     * @param int $gdfont
-     * @return int
      */
     protected function gdCharacterWidth(int $gdfont): int
     {
@@ -85,9 +82,6 @@ class FontProcessor extends AbstractFontProcessor
 
     /**
      * Return height of a single character
-     *
-     * @param int $gdfont
-     * @return int
      */
     protected function gdCharacterHeight(int $gdfont): int
     {

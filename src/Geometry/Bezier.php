@@ -27,13 +27,13 @@ class Bezier implements IteratorAggregate, Countable, ArrayAccess, DrawableInter
      * Create new bezier instance
      *
      * @param array<PointInterface> $points
-     * @param PointInterface $pivot
      * @return void
      */
     public function __construct(
         protected array $points = [],
         protected PointInterface $pivot = new Point()
     ) {
+        //
     }
 
     /**
@@ -70,8 +70,6 @@ class Bezier implements IteratorAggregate, Countable, ArrayAccess, DrawableInter
 
     /**
      * Return current pivot point
-     *
-     * @return PointInterface
      */
     public function pivot(): PointInterface
     {
@@ -80,9 +78,6 @@ class Bezier implements IteratorAggregate, Countable, ArrayAccess, DrawableInter
 
     /**
      * Change pivot point to given point
-     *
-     * @param PointInterface $pivot
-     * @return Bezier
      */
     public function setPivot(PointInterface $pivot): self
     {
@@ -93,8 +88,6 @@ class Bezier implements IteratorAggregate, Countable, ArrayAccess, DrawableInter
 
     /**
      * Return first control point of bezier
-     *
-     * @return ?PointInterface
      */
     public function first(): ?PointInterface
     {
@@ -107,8 +100,6 @@ class Bezier implements IteratorAggregate, Countable, ArrayAccess, DrawableInter
 
     /**
      * Return second control point of bezier
-     *
-     * @return ?PointInterface
      */
     public function second(): ?PointInterface
     {
@@ -121,8 +112,6 @@ class Bezier implements IteratorAggregate, Countable, ArrayAccess, DrawableInter
 
     /**
      * Return third control point of bezier
-     *
-     * @return ?PointInterface
      */
     public function third(): ?PointInterface
     {
@@ -135,8 +124,6 @@ class Bezier implements IteratorAggregate, Countable, ArrayAccess, DrawableInter
 
     /**
      * Return last control point of bezier
-     *
-     * @return ?PointInterface
      */
     public function last(): ?PointInterface
     {
@@ -149,8 +136,6 @@ class Bezier implements IteratorAggregate, Countable, ArrayAccess, DrawableInter
 
     /**
      * Return bezier's point count
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -159,54 +144,38 @@ class Bezier implements IteratorAggregate, Countable, ArrayAccess, DrawableInter
 
     /**
      * Determine if point exists at given offset
-     *
-     * @param mixed $offset
-     * @return bool
      */
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         return array_key_exists($offset, $this->points);
     }
 
     /**
      * Return point at given offset
-     *
-     * @param mixed $offset
-     * @return PointInterface
      */
-    public function offsetGet($offset): mixed
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->points[$offset];
     }
 
     /**
      * Set point at given offset
-     *
-     * @param mixed $offset
-     * @param PointInterface $value
-     * @return void
      */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->points[$offset] = $value;
     }
 
     /**
      * Unset offset at given offset
-     *
-     * @param mixed $offset
-     * @return void
      */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->points[$offset]);
     }
 
     /**
      * Add given point to bezier
-     *
-     * @param PointInterface $point
-     * @return Bezier
      */
     public function addPoint(PointInterface $point): self
     {

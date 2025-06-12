@@ -51,6 +51,9 @@ final class RectangleResizerTest extends TestCase
         $this->assertInstanceOf(RectangleResizer::class, $resizer);
     }
 
+    /**
+     * @param $resizeParameters array<string, int>
+     */
     #[DataProvider('resizeDataProvider')]
     public function testResize(Rectangle $input, array $resizeParameters, Rectangle $result): void
     {
@@ -68,6 +71,9 @@ final class RectangleResizerTest extends TestCase
         yield [new Rectangle(300, 200), [], new Rectangle(300, 200)];
     }
 
+    /**
+     * @param $resizeParameters array<string, int>
+     */
     #[DataProvider('resizeDownDataProvider')]
     public function testResizeDown(Rectangle $input, array $resizeParameters, Rectangle $result): void
     {
@@ -88,6 +94,9 @@ final class RectangleResizerTest extends TestCase
         yield [new Rectangle(800, 600), [], new Rectangle(800, 600)];
     }
 
+    /**
+     * @param $resizeParameters array<string, int>
+     */
     #[DataProvider('scaleDataProvider')]
     public function testScale(Rectangle $input, array $resizeParameters, Rectangle $result): void
     {
@@ -119,6 +128,9 @@ final class RectangleResizerTest extends TestCase
         yield [new Rectangle(800, 600), [], new Rectangle(800, 600)];
     }
 
+    /**
+     * @param $resizeParameters array<string, int>
+     */
     #[DataProvider('scaleDownDataProvider')]
     public function testScaleDown(Rectangle $input, array $resizeParameters, Rectangle $result): void
     {

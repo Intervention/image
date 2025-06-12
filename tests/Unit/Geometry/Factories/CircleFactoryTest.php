@@ -15,7 +15,7 @@ final class CircleFactoryTest extends BaseTestCase
 {
     public function testFactoryCallback(): void
     {
-        $factory = new CircleFactory(new Point(1, 2), function ($circle) {
+        $factory = new CircleFactory(new Point(1, 2), function ($circle): void {
             $circle->background('fff');
             $circle->border('ccc', 10);
             $circle->radius(100);

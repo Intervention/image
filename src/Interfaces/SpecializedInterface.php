@@ -6,4 +6,5 @@ namespace Intervention\Image\Interfaces;
 
 interface SpecializedInterface
 {
+    //
 }

@@ -69,8 +69,6 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
 
     /**
      * Count items in collection
-     *
-     * @return int
      */
     public function count(): int
     {
@@ -80,10 +78,9 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     /**
      * Append new item to collection
      *
-     * @param mixed $item
      * @return CollectionInterface<int|string, mixed>
      */
-    public function push($item): CollectionInterface
+    public function push(mixed $item): CollectionInterface
     {
         $this->items[] = $item;
 
@@ -92,8 +89,6 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
 
     /**
      * Return first item in collection
-     *
-     * @return mixed
      */
     public function first(): mixed
     {
@@ -106,8 +101,6 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
 
     /**
      * Returns last item in collection
-     *
-     * @return mixed
      */
     public function last(): mixed
     {
@@ -120,11 +113,8 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
 
     /**
      * Return item at given position starting at 0
-     *
-     * @param int $key
-     * @return mixed
      */
-    public function getAtPosition(int $key = 0, $default = null): mixed
+    public function getAtPosition(int $key = 0, mixed $default = null): mixed
     {
         if ($this->count() == 0) {
             return $default;
@@ -143,7 +133,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
      *
      * @see CollectionInterface::get()
      */
-    public function get(int|string $query, $default = null): mixed
+    public function get(int|string $query, mixed $default = null): mixed
     {
         if ($this->count() == 0) {
             return $default;
@@ -176,9 +166,6 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
 
     /**
      * Map each item of collection by given callback
-     *
-     * @param callable $callback
-     * @return self
      */
     public function map(callable $callback): self
     {
@@ -193,9 +180,6 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
 
     /**
      * Run callback on each item of the collection an remove it if it does not return true
-     *
-     * @param callable $callback
-     * @return self
      */
     public function filter(callable $callback): self
     {

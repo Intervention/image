@@ -20,11 +20,6 @@ class Frame extends AbstractFrame implements FrameInterface
     /**
      * Create new frame instance
      *
-     * @param GdImage $native
-     * @param float $delay
-     * @param int $dispose
-     * @param int $offset_left
-     * @param int $offset_top
      * @return void
      */
     public function __construct(
@@ -34,6 +29,7 @@ class Frame extends AbstractFrame implements FrameInterface
         protected int $offset_left = 0,
         protected int $offset_top = 0
     ) {
+        //
     }
 
     /**
@@ -51,7 +47,7 @@ class Frame extends AbstractFrame implements FrameInterface
      *
      * @see FrameInterface::setNative()
      */
-    public function setNative($native): FrameInterface
+    public function setNative(mixed $native): FrameInterface
     {
         $this->native = $native;
 
@@ -189,7 +185,6 @@ class Frame extends AbstractFrame implements FrameInterface
      * This workaround helps cloning GdImages which is currently not possible.
      *
      * @throws ColorException
-     * @return void
      */
     public function __clone(): void
     {

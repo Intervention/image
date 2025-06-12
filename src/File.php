@@ -33,9 +33,7 @@ class File implements FileInterface, Stringable
     /**
      * Create file object from path in file system
      *
-     * @param string $path
      * @throws RuntimeException
-     * @return File
      */
     public static function fromPath(string $path): self
     {
@@ -81,7 +79,7 @@ class File implements FileInterface, Stringable
     /**
      * {@inheritdoc}
      *
-     * @see FilterInterface::toString()
+     * @see FileInterface::toString()
      */
     public function toString(): string
     {
@@ -91,7 +89,7 @@ class File implements FileInterface, Stringable
     /**
      * {@inheritdoc}
      *
-     * @see FilterInterface::toFilePointer()
+     * @see FileInterface::toFilePointer()
      */
     public function toFilePointer()
     {

@@ -14,6 +14,9 @@ use PHPUnit\Framework\Attributes\DataProvider;
 #[CoversClass(HtmlColorNameDecoder::class)]
 final class HtmlColornameDecoderTest extends BaseTestCase
 {
+    /**
+     * @param $channelValues array<int>
+     */
     #[DataProvider('decodeDataProvier')]
     public function testDecode(string $input, string $classname, array $channelValues): void
     {

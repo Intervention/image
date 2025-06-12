@@ -48,10 +48,8 @@ class TrimModifier extends GenericTrimModifier implements SpecializedInterface
     /**
      * Create an average color from the colors of the four corner points of the given image
      *
-     * @param ImageInterface $image
      * @throws RuntimeException
      * @throws AnimationException
-     * @return int
      */
     private function trimColor(ImageInterface $image): int
     {

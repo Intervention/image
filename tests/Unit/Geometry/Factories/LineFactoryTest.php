@@ -14,7 +14,7 @@ final class LineFactoryTest extends BaseTestCase
 {
     public function testFactoryCallback(): void
     {
-        $factory = new LineFactory(function ($line) {
+        $factory = new LineFactory(function ($line): void {
             $line->color('fff');
             $line->background('fff');
             $line->border('fff', 10);

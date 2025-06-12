@@ -15,9 +15,6 @@ class HexColorDecoder extends AbstractDecoder implements DecoderInterface
 {
     /**
      * Decode hexadecimal rgb colors with and without transparency
-     *
-     * @param mixed $input
-     * @return ImageInterface|ColorInterface
      */
     public function decode(mixed $input): ImageInterface|ColorInterface
     {

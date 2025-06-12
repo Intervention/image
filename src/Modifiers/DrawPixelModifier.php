@@ -12,13 +12,12 @@ class DrawPixelModifier extends SpecializableModifier
     /**
      * Create new modifier object
      *
-     * @param PointInterface $position
-     * @param mixed $color
      * @return void
      */
     public function __construct(
         public PointInterface $position,
         public mixed $color
     ) {
+        //
     }
 }

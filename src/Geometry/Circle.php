@@ -11,8 +11,6 @@ class Circle extends Ellipse
     /**
      * Create new Circle instance
      *
-     * @param int $diameter
-     * @param PointInterface $pivot
      * @return void
      */
     public function __construct(
@@ -24,9 +22,6 @@ class Circle extends Ellipse
 
     /**
      * Set diameter of circle
-     *
-     * @param int $diameter
-     * @return Circle
      */
     public function setDiameter(int $diameter): self
     {
@@ -38,8 +33,6 @@ class Circle extends Ellipse
 
     /**
      * Get diameter of circle
-     *
-     * @return int
      */
     public function diameter(): int
     {
@@ -48,9 +41,6 @@ class Circle extends Ellipse
 
     /**
      * Set radius of circle
-     *
-     * @param int $radius
-     * @return Circle
      */
     public function setRadius(int $radius): self
     {
@@ -59,8 +49,6 @@ class Circle extends Ellipse
 
     /**
      * Get radius of circle
-     *
-     * @return int
      */
     public function radius(): int
     {

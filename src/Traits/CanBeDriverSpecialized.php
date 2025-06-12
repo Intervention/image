@@ -13,8 +13,6 @@ trait CanBeDriverSpecialized
 {
     /**
      * The driver with which the instance may be specialized
-     *
-     * @var DriverInterface
      */
     protected DriverInterface $driver;
 
@@ -67,9 +65,6 @@ trait CanBeDriverSpecialized
 
     /**
      * Determine if the given object belongs to the driver's namespace
-     *
-     * @param object $object
-     * @return bool
      */
     protected function belongsToDriver(object $object): bool
     {

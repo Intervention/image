@@ -51,7 +51,7 @@ final class CollectionTest extends BaseTestCase
     {
         $collection = new Collection(['foo', 'bar', 'baz']);
         $this->assertEquals(3, $collection->count());
-        $collection = $collection->filter(function ($text) {
+        $collection = $collection->filter(function ($text): bool {
             return substr($text, 0, 1) == 'b';
         });
         $this->assertEquals(2, $collection->count());

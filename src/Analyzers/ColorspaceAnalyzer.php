@@ -8,4 +8,5 @@ use Intervention\Image\Drivers\SpecializableAnalyzer;
 
 class ColorspaceAnalyzer extends SpecializableAnalyzer
 {
+    //
 }

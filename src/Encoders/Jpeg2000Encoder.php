@@ -11,7 +11,6 @@ class Jpeg2000Encoder extends SpecializableEncoder
     /**
      * Create new encoder object
      *
-     * @param int $quality
      * @param null|bool $strip Strip EXIF metadata
      * @return void
      */

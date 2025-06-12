@@ -24,7 +24,7 @@ final class TextModifierTest extends GdTestCase
 
         $modifier = new class ('test', new Point(), $font) extends TextModifier
         {
-            public function test()
+            public function test(): ColorInterface
             {
                 return $this->textColor();
             }

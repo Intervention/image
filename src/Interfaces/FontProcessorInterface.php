@@ -13,7 +13,6 @@ interface FontProcessorInterface
      * Calculate size of bounding box of given text in conjunction with the given font
      *
      * @throws FontException
-     * @return SizeInterface
      */
     public function boxSize(string $text, FontInterface $font): SizeInterface;
 
@@ -21,18 +20,12 @@ interface FontProcessorInterface
      * Build TextBlock object from text string and align every line according
      * to text modifier's font object and position.
      *
-     * @param string $text
-     * @param FontInterface $font
-     * @param PointInterface $position
      * @throws FontException
-     * @return TextBlock
      */
     public function textBlock(string $text, FontInterface $font, PointInterface $position): TextBlock;
 
     /**
      * Calculate the actual font size to pass at the driver level
-     *
-     * @return float
      */
     public function nativeFontSize(FontInterface $font): float;
 
@@ -40,25 +33,20 @@ interface FontProcessorInterface
      * Calculate the typographical font size in pixels
      *
      * @throws FontException
-     * @return int
      */
     public function typographicalSize(FontInterface $font): int;
 
     /**
      * Calculates typographical cap height
      *
-     * @param FontInterface $font
      * @throws FontException
-     * @return int
      */
     public function capHeight(FontInterface $font): int;
 
     /**
      * Calculates typographical leading size
      *
-     * @param FontInterface $font
      * @throws FontException
-     * @return int
      */
     public function leading(FontInterface $font): int;
 }

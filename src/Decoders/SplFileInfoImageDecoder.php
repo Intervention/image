@@ -8,4 +8,5 @@ use Intervention\Image\Drivers\SpecializableDecoder;
 
 class SplFileInfoImageDecoder extends SpecializableDecoder
 {
+    //
 }

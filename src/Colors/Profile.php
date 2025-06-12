@@ -13,9 +13,7 @@ class Profile extends File implements ProfileInterface
     /**
      * Create profile object from path in file system
      *
-     * @param string $path
      * @throws RuntimeException
-     * @return Profile
      */
     public static function fromPath(string $path): self
     {

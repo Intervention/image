@@ -40,7 +40,7 @@ final class GifEncoderTest extends GdTestCase
 
     public function testEncodeInterlacedAnimation(): void
     {
-        $image = $this->createTestAnimation(3, 2);
+        $image = $this->createTestAnimation();
         $encoder = new GifEncoder(interlaced: true);
         $result = $encoder->encode($image);
         $this->assertMediaType('image/gif', $result);

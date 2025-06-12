@@ -91,10 +91,7 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
     /**
      * Reformat a text block by wrapping each line before the given maximum width
      *
-     * @param TextBlock $block
-     * @param FontInterface $font
      * @throws FontException
-     * @return TextBlock
      */
     protected function wrapTextBlock(TextBlock $block, FontInterface $font): TextBlock
     {
@@ -113,8 +110,6 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
      * The output will be an array of formatted lines that are all within the
      * maximum width.
      *
-     * @param Line $line
-     * @param FontInterface $font
      * @throws FontException
      * @return array<Line>
      */
@@ -154,11 +149,7 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
     /**
      * Build pivot point of textblock according to the font settings and based on given position
      *
-     * @param TextBlock $block
-     * @param FontInterface $font
-     * @param PointInterface $position
      * @throws FontException
-     * @return PointInterface
      */
     protected function buildPivot(TextBlock $block, FontInterface $font, PointInterface $position): PointInterface
     {

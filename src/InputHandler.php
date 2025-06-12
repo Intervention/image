@@ -59,8 +59,6 @@ class InputHandler implements InputHandlerInterface
 
     /**
      * Driver with which the decoder classes are specialized
-     *
-     * @var null|DriverInterface
      */
     protected ?DriverInterface $driver = null;
 
@@ -68,7 +66,6 @@ class InputHandler implements InputHandlerInterface
      * Create new input handler instance with given decoder classnames
      *
      * @param array<string|DecoderInterface> $decoders
-     * @param DriverInterface $driver
      * @return void
      */
     public function __construct(array $decoders = [], ?DriverInterface $driver = null)
@@ -81,8 +78,6 @@ class InputHandler implements InputHandlerInterface
      * Static factory method
      *
      * @param array<string|DecoderInterface> $decoders
-     * @param null|DriverInterface $driver
-     * @return InputHandler
      */
     public static function withDecoders(array $decoders, ?DriverInterface $driver = null): self
     {
@@ -94,7 +89,7 @@ class InputHandler implements InputHandlerInterface
      *
      * @see InputHandlerInterface::handle()
      */
-    public function handle($input): ImageInterface|ColorInterface
+    public function handle(mixed $input): ImageInterface|ColorInterface
     {
         foreach ($this->decoders as $decoder) {
             try {
@@ -115,10 +110,8 @@ class InputHandler implements InputHandlerInterface
     /**
      * Resolve the given classname to an decoder object
      *
-     * @param string|DecoderInterface $decoder
      * @throws DriverException
      * @throws NotSupportedException
-     * @return DecoderInterface
      */
     private function resolve(string|DecoderInterface $decoder): DecoderInterface
     {

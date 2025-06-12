@@ -63,7 +63,7 @@ final class FileTest extends BaseTestCase
         $file = new File('foo');
         $string = $file->toString();
         $this->assertEquals('foo', $string);
-        $this->assertEquals('foo', (string) $string);
+        $this->assertEquals('foo', $string);
     }
 
     public function testToFilePointer(): void

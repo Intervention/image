@@ -57,7 +57,7 @@ use Intervention\Image\Interfaces\ProfileInterface;
 use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Modifiers\AlignRotationModifier;
-use Intervention\Image\Modifiers\BlendTransparencyModifier;
+use Intervention\Image\Modifiers\BackgroundModifier;
 use Intervention\Image\Modifiers\BlurModifier;
 use Intervention\Image\Modifiers\BrightnessModifier;
 use Intervention\Image\Modifiers\ColorizeModifier;
@@ -406,24 +406,24 @@ final class Image implements ImageInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageInterface::blendingColor()
+     * @see ImageInterface::backgroundColor()
      */
-    public function blendingColor(): ColorInterface
+    public function backgroundColor(): ColorInterface
     {
         return $this->driver()->handleInput(
-            $this->driver()->config()->blendingColor
+            $this->driver()->config()->backgroundColor
         );
     }
 
     /**
      * {@inheritdoc}
      *
-     * @see ImageInterface::setBlendingColor()
+     * @see ImageInterface::setBackgroundColor()
      */
-    public function setBlendingColor(mixed $color): ImageInterface
+    public function setBackgroundColor(mixed $color): ImageInterface
     {
         $this->driver()->config()->setOptions(
-            blendingColor: $this->driver()->handleInput($color)
+            backgroundColor: $this->driver()->handleInput($color)
         );
 
         return $this;
@@ -432,11 +432,11 @@ final class Image implements ImageInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageInterface::blendTransparency()
+     * @see ImageInterface::background()
      */
-    public function blendTransparency(mixed $color = null): ImageInterface
+    public function background(mixed $color = null): ImageInterface
     {
-        return $this->modify(new BlendTransparencyModifier($color));
+        return $this->modify(new BackgroundModifier($color));
     }
 
     /**

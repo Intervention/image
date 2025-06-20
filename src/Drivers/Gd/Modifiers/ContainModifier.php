@@ -28,12 +28,12 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
         $crop = $this->getCropSize($image);
         $resize = $this->getResizeSize($image);
         $background = $this->driver()->handleInput($this->background);
-        $blendingColor = $this->driver()->handleInput(
-            $this->driver()->config()->blendingColor
+        $backgroundColor = $this->driver()->handleInput(
+            $this->driver()->config()->backgroundColor
         );
 
         foreach ($image as $frame) {
-            $this->modify($frame, $crop, $resize, $background, $blendingColor);
+            $this->modify($frame, $crop, $resize, $background, $backgroundColor);
         }
 
         return $image;
@@ -47,7 +47,7 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
         SizeInterface $crop,
         SizeInterface $resize,
         ColorInterface $background,
-        ColorInterface $blendingColor
+        ColorInterface $backgroundColor
     ): void {
         // create new gd image
         $modified = Cloner::cloneEmpty($frame->native(), $resize, $background);
@@ -56,9 +56,9 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
         // even if background-color is set
         $transparent = imagecolorallocatealpha(
             $modified,
-            $blendingColor->channel(Red::class)->value(),
-            $blendingColor->channel(Green::class)->value(),
-            $blendingColor->channel(Blue::class)->value(),
+            $backgroundColor->channel(Red::class)->value(),
+            $backgroundColor->channel(Green::class)->value(),
+            $backgroundColor->channel(Blue::class)->value(),
             127,
         );
         imagealphablending($modified, false); // do not blend / just overwrite
@@ -72,7 +72,7 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
             $transparent
         );
 
-        // copy image from original with blending alpha
+        // copy image from original with background alpha
         imagealphablending($modified, true);
         imagecopyresampled(
             $modified,

@@ -7,18 +7,18 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use Imagick;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
-use Intervention\Image\Modifiers\BlendTransparencyModifier as GenericBlendTransparencyModifier;
+use Intervention\Image\Modifiers\BackgroundModifier as GenericBackgroundModifier;
 
-class BlendTransparencyModifier extends GenericBlendTransparencyModifier implements SpecializedInterface
+class BackgroundModifier extends GenericBackgroundModifier implements SpecializedInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {
-        $blendingColor = $this->blendingColor($this->driver());
+        $backgroundColor = $this->backgroundColor($this->driver());
 
-        // get imagickpixel from blending color
+        // get imagickpixel from background color
         $pixel = $this->driver()
             ->colorProcessor($image->colorspace())
-            ->colorToNative($blendingColor);
+            ->colorToNative($backgroundColor);
 
         // merge transparent areas with the background color
         foreach ($image as $frame) {

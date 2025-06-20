@@ -277,29 +277,29 @@ final class ImageTest extends ImagickTestCase
         $this->assertInstanceOf(Image::class, $this->image->sharpen(12));
     }
 
-    public function testBlendTransparencyDefault(): void
+    public function testBackgroundDefault(): void
     {
         $image = $this->readTestImage('gradient.gif');
         $this->assertColor(0, 0, 0, 0, $image->pickColor(1, 0));
-        $result = $image->blendTransparency();
+        $result = $image->background();
         $this->assertColor(255, 255, 255, 255, $image->pickColor(1, 0));
         $this->assertColor(255, 255, 255, 255, $result->pickColor(1, 0));
     }
 
-    public function testBlendTransparencyArgument(): void
+    public function testBackgroundArgument(): void
     {
         $image = $this->readTestImage('gradient.gif');
         $this->assertColor(0, 0, 0, 0, $image->pickColor(1, 0));
-        $result = $image->blendTransparency('ff5500');
+        $result = $image->background('ff5500');
         $this->assertColor(255, 85, 0, 255, $image->pickColor(1, 0));
         $this->assertColor(255, 85, 0, 255, $result->pickColor(1, 0));
     }
 
-    public function testBlendTransparencyIgnoreTransparencyInBlendingColor(): void
+    public function testBackgroundIgnoreTransparencyInBackgroundColor(): void
     {
         $image = $this->readTestImage('gradient.gif');
         $this->assertColor(0, 0, 0, 0, $image->pickColor(1, 0));
-        $result = $image->blendTransparency('ff550055');
+        $result = $image->background('ff550055');
         $this->assertColor(255, 85, 0, 255, $image->pickColor(1, 0));
         $this->assertColor(255, 85, 0, 255, $result->pickColor(1, 0));
     }

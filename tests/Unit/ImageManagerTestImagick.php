@@ -137,20 +137,20 @@ final class ImageManagerTestImagick extends BaseTestCase
         $this->assertFalse($image->isAnimated());
     }
 
-    public function testApplyBlendingColor(): void
+    public function testApplyBackgroundColor(): void
     {
         $manager = new ImageManager(Driver::class);
         $image = $manager->read($this->getTestResourcePath('blocks.png'));
-        $result = $image->blendTransparency();
+        $result = $image->background();
         $this->assertColor(255, 255, 255, 255, $image->pickColor(530, 0));
         $this->assertColor(255, 255, 255, 255, $result->pickColor(530, 0));
     }
 
-    public function testApplyBlendingColorConfigured(): void
+    public function testApplyBackgroundColorConfigured(): void
     {
-        $manager = new ImageManager(Driver::class, blendingColor: 'ff5500');
+        $manager = new ImageManager(Driver::class, backgroundColor: 'ff5500');
         $image = $manager->read($this->getTestResourcePath('blocks.png'));
-        $result = $image->blendTransparency();
+        $result = $image->background();
         $this->assertColor(255, 85, 0, 255, $image->pickColor(530, 0));
         $this->assertColor(255, 85, 0, 255, $result->pickColor(530, 0));
     }

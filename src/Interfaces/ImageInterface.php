@@ -223,22 +223,25 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @throws RuntimeException
      */
-    public function blendingColor(): ColorInterface;
+    public function backgroundColor(): ColorInterface;
 
     /**
-     * Set blending color will have no effect unless image is converted into a format
-     * which does not support transparency.
+     * Set the background color to be used with self::background()
+     *
+     * Settting the background color will have no effect unless image is
+     * converted into a format which does not support transparency or
+     * self::background() is used.
      *
      * @throws RuntimeException
      */
-    public function setBlendingColor(mixed $color): self;
+    public function setBackgroundColor(mixed $color): self;
 
     /**
      * Replace transparent areas of the image with given color
      *
      * @throws RuntimeException
      */
-    public function blendTransparency(mixed $color = null): self;
+    public function background(mixed $color = null): self;
 
     /**
      * Retrieve ICC color profile of image

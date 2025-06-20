@@ -14,7 +14,7 @@ use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 
-class BlendTransparencyModifier extends SpecializableModifier
+class BackgroundModifier extends SpecializableModifier
 {
     /**
      * Create new modifier object
@@ -27,17 +27,17 @@ class BlendTransparencyModifier extends SpecializableModifier
     }
 
     /**
-     * Decode blending color of current modifier with given driver. Possible
+     * Decode background color of current modifier with given driver. Possible
      * (semi-)transparent alpha channel values are made opaque.
      *
      * @throws RuntimeException
      * @throws ColorException
      */
-    protected function blendingColor(DriverInterface $driver): ColorInterface
+    protected function backgroundColor(DriverInterface $driver): ColorInterface
     {
-        // decode blending color
+        // decode background color
         $color = $driver->handleInput(
-            $this->color ?: $driver->config()->blendingColor
+            $this->color ?: $driver->config()->backgroundColor
         );
 
         // replace alpha channel value with opaque value

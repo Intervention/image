@@ -19,13 +19,13 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
      */
     public function encode(ImageInterface $image): EncodedImage
     {
-        $blendingColor = $this->driver()->handleInput(
-            $this->driver()->config()->blendingColor
+        $backgroundColor = $this->driver()->handleInput(
+            $this->driver()->config()->backgroundColor
         );
 
         $output = Cloner::cloneBlended(
             $image->core()->native(),
-            background: $blendingColor
+            background: $backgroundColor
         );
 
         return $this->createEncodedImage(function ($pointer) use ($output): void {

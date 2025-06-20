@@ -7,9 +7,9 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
-use Intervention\Image\Modifiers\BlendTransparencyModifier as GenericBlendTransparencyModifier;
+use Intervention\Image\Modifiers\BackgroundModifier as GenericBackgroundModifier;
 
-class BlendTransparencyModifier extends GenericBlendTransparencyModifier implements SpecializedInterface
+class BackgroundModifier extends GenericBackgroundModifier implements SpecializedInterface
 {
     /**
      * {@inheritdoc}
@@ -18,13 +18,13 @@ class BlendTransparencyModifier extends GenericBlendTransparencyModifier impleme
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        $blendingColor = $this->blendingColor($this->driver());
+        $backgroundColor = $this->backgroundColor($this->driver());
 
         foreach ($image as $frame) {
-            // create new canvas with blending color as background
+            // create new canvas with background color as background
             $modified = Cloner::cloneBlended(
                 $frame->native(),
-                background: $blendingColor
+                background: $backgroundColor
             );
 
             // set new gd image

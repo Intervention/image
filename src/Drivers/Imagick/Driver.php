@@ -160,7 +160,7 @@ class Driver extends AbstractDriver
      *
      * @throws DriverException
      */
-    public static function version(): string
+    public function version(): string
     {
         $pattern = '/^ImageMagick (?P<version>(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)' .
             '(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?' .

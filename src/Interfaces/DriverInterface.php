@@ -89,4 +89,11 @@ interface DriverInterface
      * underlying PHP extension was built with support for the format.
      */
     public function supports(string|Format|FileExtension|MediaType $identifier): bool;
+
+    /**
+     * Return the version number of the image driver currently in use.
+     *
+     * @throws DriverException
+     */
+    public function version(): string;
 }

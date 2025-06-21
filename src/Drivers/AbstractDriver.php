@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers;
 
 use Intervention\Image\Config;
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -50,6 +52,8 @@ abstract class AbstractDriver implements DriverInterface
      * {@inheritdoc}
      *
      * @see DriverInterface::handleInput()
+     *
+     * @throws DriverException|DecoderException|NotSupportedException|RuntimeException
      */
     public function handleInput(mixed $input, array $decoders = []): ImageInterface|ColorInterface
     {

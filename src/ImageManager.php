@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
+use Intervention\Image\Decoders\Base64ImageDecoder;
+use Intervention\Image\Decoders\BinaryImageDecoder;
+use Intervention\Image\Decoders\DataUriImageDecoder;
+use Intervention\Image\Decoders\FilePathImageDecoder;
+use Intervention\Image\Decoders\FilePointerImageDecoder;
+use Intervention\Image\Decoders\SplFileInfoImageDecoder;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
@@ -12,6 +18,7 @@ use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageManagerInterface;
+use SplFileInfo;
 
 final class ImageManager implements ImageManagerInterface
 {
@@ -75,6 +82,66 @@ final class ImageManager implements ImageManagerInterface
     public function create(int $width, int $height): ImageInterface
     {
         return $this->driver->createImage($width, $height);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageManagerInterface::create()
+     */
+    public function createFromFilePath(string $path): ImageInterface
+    {
+        return $this->driver->handleInput($path, [FilePathImageDecoder::class]);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageManagerInterface::createFromBinary()
+     */
+    public function createFromBinary(string $data): ImageInterface
+    {
+        return $this->driver->handleInput($data, [BinaryImageDecoder::class]);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageManagerInterface::createFromBase64()
+     */
+    public function createFromBase64(string $data): ImageInterface
+    {
+        return $this->driver->handleInput($data, [Base64ImageDecoder::class]);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageManagerInterface::createFromDataUri()
+     */
+    public function createFromDataUri(string $uri): ImageInterface
+    {
+        return $this->driver->handleInput($uri, [DataUriImageDecoder::class]);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageManagerInterface::createFromStream()
+     */
+    public function createFromStream(mixed $stream): ImageInterface
+    {
+        return $this->driver->handleInput($stream, [FilePointerImageDecoder::class]);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageManagerInterface::createFromSplFileInfo()
+     */
+    public function createFromSplFileInfo(SplFileInfo $file): ImageInterface
+    {
+        return $this->driver->handleInput($file, [SplFileInfoImageDecoder::class]);
     }
 
     /**

@@ -10,6 +10,7 @@ use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Modifiers\AlignRotationModifier;
+use Throwable;
 
 class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterface
 {
@@ -20,34 +21,37 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
      */
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
-        if (!$this->isFile($input)) {
-            throw new DecoderException('Unable to decode input');
-        }
+        // make sure path is valid
+        $path = $this->parseFilePath($input);
 
-        // detect media (mime) type
-        $mediaType = $this->getMediaTypeByFilePath($input);
+        try {
+            // detect media (mime) type
+            $mediaType = $this->getMediaTypeByFilePath($path);
+        } catch (Throwable) {
+            throw new DecoderException('Unable to decode input - file contains unsupported file type.');
+        }
 
         $image = match ($mediaType->format()) {
             // gif files might be animated and therefore cannot
             // be handled by the standard GD decoder.
-            Format::GIF => $this->decodeGif($input),
+            Format::GIF => $this->decodeGif($path),
             default => parent::decode(match ($mediaType->format()) {
-                Format::JPEG => @imagecreatefromjpeg($input),
-                Format::WEBP => @imagecreatefromwebp($input),
-                Format::PNG => @imagecreatefrompng($input),
-                Format::AVIF => @imagecreatefromavif($input),
-                Format::BMP => @imagecreatefrombmp($input),
+                Format::JPEG => @imagecreatefromjpeg($path),
+                Format::WEBP => @imagecreatefromwebp($path),
+                Format::PNG => @imagecreatefrompng($path),
+                Format::AVIF => @imagecreatefromavif($path),
+                Format::BMP => @imagecreatefrombmp($path),
                 default => throw new DecoderException('Unable to decode input'),
             }),
         };
 
         // set file path & mediaType on origin
-        $image->origin()->setFilePath($input);
+        $image->origin()->setFilePath($path);
         $image->origin()->setMediaType($mediaType);
 
         // extract exif for the appropriate formats
         if ($mediaType->format() === Format::JPEG) {
-            $image->setExif($this->extractExifData($input));
+            $image->setExif($this->extractExifData($path));
         }
 
         // adjust image orientation

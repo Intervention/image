@@ -19,13 +19,12 @@ class FilePathImageDecoder extends NativeObjectDecoder
      */
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
-        if (!$this->isFile($input)) {
-            throw new DecoderException('Unable to decode input');
-        }
+        // make sure path is valid
+        $path = $this->parseFilePath($input);
 
         try {
             $imagick = new Imagick();
-            $imagick->readImage($input);
+            $imagick->readImage($path);
         } catch (ImagickException) {
             throw new DecoderException('Unable to decode input');
         }
@@ -34,11 +33,11 @@ class FilePathImageDecoder extends NativeObjectDecoder
         $image = parent::decode($imagick);
 
         // set file path on origin
-        $image->origin()->setFilePath($input);
+        $image->origin()->setFilePath($path);
 
         // extract exif data for the appropriate formats
         if (in_array($imagick->getImageFormat(), ['JPEG', 'TIFF', 'TIF'])) {
-            $image->setExif($this->extractExifData($input));
+            $image->setExif($this->extractExifData($path));
         }
 
         return $image;

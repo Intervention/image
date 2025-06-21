@@ -24,6 +24,7 @@ use Intervention\Image\Decoders\SplFileInfoImageDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\DriverInterface;
@@ -88,6 +89,8 @@ class InputHandler implements InputHandlerInterface
      * {@inheritdoc}
      *
      * @see InputHandlerInterface::handle()
+     *
+     * @throws DriverException|DecoderException|NotSupportedException|RuntimeException
      */
     public function handle(mixed $input): ImageInterface|ColorInterface
     {
@@ -95,7 +98,7 @@ class InputHandler implements InputHandlerInterface
             try {
                 // decode with driver specialized decoder
                 return $this->resolve($decoder)->decode($input);
-            } catch (DecoderException | NotSupportedException $e) {
+            } catch (DriverException | DecoderException | NotSupportedException $e) {
                 // try next decoder
             }
         }

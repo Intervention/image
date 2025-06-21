@@ -6,12 +6,15 @@ namespace Intervention\Image\Tests\Unit\Drivers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use Exception;
+use Generator;
 use Intervention\Image\Drivers\AbstractDecoder;
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
+use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 
 #[CoversClass(AbstractDecoder::class)]
@@ -22,16 +25,6 @@ final class AbstractDecoderTest extends BaseTestCase
         $decoder = Mockery::mock(AbstractDecoder::class);
         $this->assertFalse($decoder->isGifFormat($this->getTestResourceData('exif.jpg')));
         $this->assertTrue($decoder->isGifFormat($this->getTestResourceData('red.gif')));
-    }
-
-    public function testIsFile(): void
-    {
-        $decoder = Mockery::mock(AbstractDecoder::class);
-        $this->assertTrue($decoder->isFile($this->getTestResourcePath()));
-        $this->assertFalse($decoder->isFile('non-existent-file'));
-        $this->assertFalse($decoder->isFile(new stdClass()));
-        $this->assertFalse($decoder->isFile(str_repeat('o', PHP_MAXPATHLEN + 1)));
-        $this->assertFalse($decoder->isFile(__DIR__));
     }
 
     public function testExtractExifDataFromBinary(): void
@@ -121,5 +114,37 @@ final class AbstractDecoderTest extends BaseTestCase
         $this->assertFalse(
             $decoder->isValid(new stdClass())
         );
+    }
+
+    #[DataProvider('pathDataProvider')]
+    public function testResolveFilePath(bool $valid, string $path): void
+    {
+        $decoder = new class () extends AbstractDecoder
+        {
+            public function decode(mixed $input): ImageInterface|ColorInterface
+            {
+                throw new Exception('');
+            }
+
+            public function checkValidityResult(string $path, bool $result): bool
+            {
+                try {
+                    $this->parseFilePath($path);
+                } catch (DecoderException) {
+                    return $result === false;
+                }
+
+                return $result === true;
+            }
+        };
+
+        $this->assertTrue($decoder->checkValidityResult($path, $valid));
+    }
+
+    public static function pathDataProvider(): Generator
+    {
+        yield [true, self::getTestResourcePath()];
+        yield [false, 'foo'];
+        yield [false, 'foo/bar'];
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Interfaces;
 
 use Intervention\Image\Config;
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Exceptions\RuntimeException;
@@ -62,7 +63,7 @@ interface DriverInterface
      * Handle given input by decoding it to ImageInterface or ColorInterface
      *
      * @param array<string|DecoderInterface> $decoders
-     * @throws RuntimeException
+     * @throws DecoderException
      */
     public function handleInput(mixed $input, array $decoders = []): ImageInterface|ColorInterface;
 

@@ -6,9 +6,12 @@ namespace Intervention\Image\Drivers;
 
 use Exception;
 use Intervention\Image\Collection;
+use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Traits\CanBuildFilePointer;
+use Throwable;
 
 abstract class AbstractDecoder implements DecoderInterface
 {
@@ -20,30 +23,6 @@ abstract class AbstractDecoder implements DecoderInterface
     protected function isGifFormat(string $input): bool
     {
         return str_starts_with($input, 'GIF87a') || str_starts_with($input, 'GIF89a');
-    }
-
-    /**
-     * Determine if given input is a path to an existing regular file
-     */
-    protected function isFile(mixed $input): bool
-    {
-        if (!is_string($input)) {
-            return false;
-        }
-
-        if (strlen($input) > PHP_MAXPATHLEN) {
-            return false;
-        }
-
-        try {
-            if (!@is_file($input)) {
-                return false;
-            }
-        } catch (Exception) {
-            return false;
-        }
-
-        return true;
     }
 
     /**
@@ -59,11 +38,18 @@ abstract class AbstractDecoder implements DecoderInterface
         }
 
         try {
-            $source = match (true) {
-                $this->isFile($path_or_data) => $path_or_data, // path
-                default => $this->buildFilePointer($path_or_data), // data
-            };
+            // source might be file path
+            $source = $this->parseFilePath($path_or_data);
+        } catch (Throwable) {
+            try {
+                // source might be file pointer
+                $source = $this->buildFilePointer($path_or_data);
+            } catch (RuntimeException) {
+                return new Collection();
+            }
+        }
 
+        try {
             // extract exif data
             $data = @exif_read_data($source, null, true);
             if (is_resource($source)) {
@@ -142,5 +128,41 @@ abstract class AbstractDecoder implements DecoderInterface
                 return null;
             }
         };
+    }
+
+    /**
+     * Parse and retunr a given file path or throw detailed exception if the path is invalid
+     *
+     * @throws DecoderException
+     */
+    protected function parseFilePath(mixed $path): string
+    {
+        if (!is_string($path)) {
+            throw new DecoderException('Unable decode image - path must be of type string.');
+        }
+
+        if ($path === '') {
+            throw new DecoderException('Unable decode image - path must not be an empty string.');
+        }
+
+        if (strlen($path) > PHP_MAXPATHLEN) {
+            throw new DecoderException(
+                "Unable decode image - the path is longer than the configured max. value of " . PHP_MAXPATHLEN . ".",
+            );
+        }
+
+        // get info on path
+        $dirname = pathinfo($path, PATHINFO_DIRNAME);
+        $basename = pathinfo($path, PATHINFO_BASENAME);
+
+        if (!is_dir($dirname)) {
+            throw new DecoderException("Unable decode image - directory ('" . $dirname . "') does not exist.");
+        }
+
+        if (!@is_file($path)) {
+            throw new DecoderException("Unable decode image - file ('" . $basename . "') does not exist.");
+        }
+
+        return $path;
     }
 }

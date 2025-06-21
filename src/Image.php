@@ -109,9 +109,6 @@ final class Image implements ImageInterface
 
     /**
      * Create new instance
-     *
-     * @throws RuntimeException
-     * @return void
      */
     public function __construct(
         private DriverInterface $driver,

@@ -24,7 +24,7 @@ interface ImageManagerInterface
      *
      * @throws DecoderException
      */
-    public function createFromFilePath(string $path): ImageInterface;
+    public function createFromPath(string $path): ImageInterface;
 
     /**
      * Create new image instance from given image binary data

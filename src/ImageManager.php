@@ -89,7 +89,7 @@ final class ImageManager implements ImageManagerInterface
      *
      * @see ImageManagerInterface::create()
      */
-    public function createFromFilePath(string $path): ImageInterface
+    public function createFromPath(string $path): ImageInterface
     {
         return $this->driver->handleInput($path, [FilePathImageDecoder::class]);
     }

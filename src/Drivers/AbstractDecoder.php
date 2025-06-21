@@ -96,7 +96,7 @@ abstract class AbstractDecoder implements DecoderInterface
 
         $result = preg_match($pattern, (string) $input, $matches);
 
-        return new class ($matches, $result)
+        return new class($matches, $result)
         {
             /**
              * @param array<mixed> $matches
@@ -172,7 +172,7 @@ abstract class AbstractDecoder implements DecoderInterface
         }
 
         if (!@is_file($path)) {
-            throw new DecoderException("File ('" . $basename . "') not found.");
+            throw new DecoderException("File ('" . $basename . "') not found in directory ('" . $dirname . "').");
         }
 
         return $path;

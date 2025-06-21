@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Intervention\Image\Modifiers;
 
 use Intervention\Image\Drivers\SpecializableModifier;
+use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Interfaces\ColorInterface;
 
 class RotateModifier extends SpecializableModifier
 {
-    public function __construct(public float $angle, public mixed $background)
+    public function __construct(public float $angle, public mixed $background = null)
     {
         //
     }
@@ -20,5 +22,15 @@ class RotateModifier extends SpecializableModifier
     public function rotationAngle(): float
     {
         return fmod($this->angle, 360);
+    }
+
+    /**
+     * Return color to fill the newly created areas after rotation
+     *
+     * @throws RuntimeException
+     */
+    protected function backgroundColor(): ColorInterface
+    {
+        return $this->driver()->handleInput($this->background ?? $this->driver()->config()->backgroundColor);
     }
 }

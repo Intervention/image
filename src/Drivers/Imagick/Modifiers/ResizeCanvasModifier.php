@@ -19,7 +19,7 @@ class ResizeCanvasModifier extends GenericResizeCanvasModifier implements Specia
             $cropSize->height(),
             $cropSize->pivot()->x(),
             $cropSize->pivot()->y(),
-            $this->background,
+            $this->backgroundColor(),
         ));
 
         return $image;

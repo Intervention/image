@@ -386,7 +386,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @param string $background
      * @throws RuntimeException
      */
-    public function rotate(float $angle, mixed $background = 'ffffff'): self;
+    public function rotate(float $angle, mixed $background = null): self;
 
     /**
      * Rotate the image to be upright according to exif information
@@ -477,7 +477,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function resizeCanvas(
         ?int $width = null,
         ?int $height = null,
-        mixed $background = 'ffffff',
+        mixed $background = null,
         string $position = 'center'
     ): self;
 
@@ -493,7 +493,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function resizeCanvasRelative(
         ?int $width = null,
         ?int $height = null,
-        mixed $background = 'ffffff',
+        mixed $background = null,
         string $position = 'center'
     ): self;
 
@@ -514,7 +514,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function pad(
         int $width,
         int $height,
-        mixed $background = 'ffffff',
+        mixed $background = null,
         string $position = 'center'
     ): self;
 
@@ -530,7 +530,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function contain(
         int $width,
         int $height,
-        mixed $background = 'ffffff',
+        mixed $background = null,
         string $position = 'center'
     ): self;
 
@@ -548,7 +548,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         int $height,
         int $offset_x = 0,
         int $offset_y = 0,
-        mixed $background = 'ffffff',
+        mixed $background = null,
         string $position = 'top-left'
     ): self;
 

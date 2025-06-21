@@ -7,6 +7,7 @@ namespace Intervention\Image\Modifiers;
 use Intervention\Image\Drivers\SpecializableModifier;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
@@ -22,7 +23,7 @@ class CropModifier extends SpecializableModifier
         public int $height,
         public int $offset_x = 0,
         public int $offset_y = 0,
-        public mixed $background = 'ffffff',
+        public mixed $background = null,
         public string $position = 'top-left'
     ) {
         //
@@ -40,5 +41,15 @@ class CropModifier extends SpecializableModifier
             $image->size(),
             $this->position
         );
+    }
+
+    /**
+     * Return color to fill the newly created areas after rotation
+     *
+     * @throws RuntimeException
+     */
+    protected function backgroundColor(): ColorInterface
+    {
+        return $this->driver()->handleInput($this->background ?? $this->driver()->config()->backgroundColor);
     }
 }

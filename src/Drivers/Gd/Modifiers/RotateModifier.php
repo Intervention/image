@@ -25,7 +25,7 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        $background = $this->driver()->handleInput($this->background);
+        $background = $this->backgroundColor();
 
         foreach ($image as $frame) {
             $this->modifyFrame($frame, $background);

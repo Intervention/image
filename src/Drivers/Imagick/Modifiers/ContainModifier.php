@@ -17,9 +17,12 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
         $crop = $this->getCropSize($image);
         $resize = $this->getResizeSize($image);
         $transparent = new ImagickPixel('transparent');
-        $background = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
-            $this->driver()->handleInput($this->background)
-        );
+
+        $background = $this->driver()
+            ->colorProcessor($image->colorspace())
+            ->colorToNative(
+                $this->backgroundColor()
+            );
 
         foreach ($image as $frame) {
             $frame->native()->scaleImage(

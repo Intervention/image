@@ -32,23 +32,22 @@ class QuantizeColorsModifier extends GenericQuantizeColorsModifier implements Sp
         $width = $image->width();
         $height = $image->height();
 
-        $background = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
-            $this->driver()->handleInput($this->background)
-        );
-
-        $backgroundColor = $this->driver()->handleInput(
-            $this->driver()->config()->backgroundColor
-        );
+        $backgroundColor = $this->backgroundColor();
+        $nativeBackgroundColor = $this->driver()
+            ->colorProcessor($image->colorspace())
+            ->colorToNative(
+                $backgroundColor
+            );
 
         foreach ($image as $frame) {
             // create new image for color quantization
             $reduced = Cloner::cloneEmpty($frame->native(), background: $backgroundColor);
 
             // fill with background
-            imagefill($reduced, 0, 0, $background);
+            imagefill($reduced, 0, 0, $nativeBackgroundColor);
 
             // set transparency
-            imagecolortransparent($reduced, $background);
+            imagecolortransparent($reduced, $nativeBackgroundColor);
 
             // copy original image (colors are limited automatically in the copy process)
             imagecopy($reduced, $frame->native(), 0, 0, 0, 0, $width, $height);

@@ -594,7 +594,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::rotate()
      */
-    public function rotate(float $angle, mixed $background = 'ffffff'): ImageInterface
+    public function rotate(float $angle, mixed $background = null): ImageInterface
     {
         return $this->modify(new RotateModifier($angle, $background));
     }
@@ -693,7 +693,7 @@ final class Image implements ImageInterface
     public function resizeCanvas(
         ?int $width = null,
         ?int $height = null,
-        mixed $background = 'ffffff',
+        mixed $background = null,
         string $position = 'center'
     ): ImageInterface {
         return $this->modify(new ResizeCanvasModifier($width, $height, $background, $position));
@@ -707,7 +707,7 @@ final class Image implements ImageInterface
     public function resizeCanvasRelative(
         ?int $width = null,
         ?int $height = null,
-        mixed $background = 'ffffff',
+        mixed $background = null,
         string $position = 'center'
     ): ImageInterface {
         return $this->modify(new ResizeCanvasRelativeModifier($width, $height, $background, $position));
@@ -721,7 +721,7 @@ final class Image implements ImageInterface
     public function pad(
         int $width,
         int $height,
-        mixed $background = 'ffffff',
+        mixed $background = null,
         string $position = 'center'
     ): ImageInterface {
         return $this->modify(new PadModifier($width, $height, $background, $position));
@@ -735,7 +735,7 @@ final class Image implements ImageInterface
     public function contain(
         int $width,
         int $height,
-        mixed $background = 'ffffff',
+        mixed $background = null,
         string $position = 'center'
     ): ImageInterface {
         return $this->modify(new ContainModifier($width, $height, $background, $position));
@@ -751,7 +751,7 @@ final class Image implements ImageInterface
         int $height,
         int $offset_x = 0,
         int $offset_y = 0,
-        mixed $background = 'ffffff',
+        mixed $background = null,
         string $position = 'top-left'
     ): ImageInterface {
         return $this->modify(new CropModifier($width, $height, $offset_x, $offset_y, $background, $position));

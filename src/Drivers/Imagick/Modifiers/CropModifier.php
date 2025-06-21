@@ -16,7 +16,7 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
     {
         // decode background color
         $background = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
-            $this->driver()->handleInput($this->background)
+            $this->backgroundColor()
         );
 
         // create empty container imagick to rebuild core

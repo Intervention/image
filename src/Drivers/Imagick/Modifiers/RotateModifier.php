@@ -12,9 +12,11 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
 {
     public function apply(ImageInterface $image): ImageInterface
     {
-        $background = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
-            $this->driver()->handleInput($this->background)
-        );
+        $background = $this->driver()
+            ->colorProcessor($image->colorspace())
+            ->colorToNative(
+                $this->backgroundColor()
+            );
 
         foreach ($image as $frame) {
             $frame->native()->rotateImage(

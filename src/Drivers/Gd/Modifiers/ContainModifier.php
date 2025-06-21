@@ -27,13 +27,10 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
     {
         $crop = $this->getCropSize($image);
         $resize = $this->getResizeSize($image);
-        $background = $this->driver()->handleInput($this->background);
-        $backgroundColor = $this->driver()->handleInput(
-            $this->driver()->config()->backgroundColor
-        );
+        $backgroundColor = $this->backgroundColor();
 
         foreach ($image as $frame) {
-            $this->modify($frame, $crop, $resize, $background, $backgroundColor);
+            $this->modify($frame, $crop, $resize, $backgroundColor);
         }
 
         return $image;
@@ -46,11 +43,10 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
         FrameInterface $frame,
         SizeInterface $crop,
         SizeInterface $resize,
-        ColorInterface $background,
         ColorInterface $backgroundColor
     ): void {
         // create new gd image
-        $modified = Cloner::cloneEmpty($frame->native(), $resize, $background);
+        $modified = Cloner::cloneEmpty($frame->native(), $resize, $backgroundColor);
 
         // make image area transparent to keep transparency
         // even if background-color is set

@@ -19,7 +19,7 @@ class SplFileInfoImageDecoder extends FilePathImageDecoder
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_a($input, SplFileInfo::class)) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Input must be of type ' . SplFileInfo::class . '.');
         }
 
         return parent::decode($input->getRealPath());

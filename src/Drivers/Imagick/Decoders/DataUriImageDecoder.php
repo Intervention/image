@@ -18,13 +18,13 @@ class DataUriImageDecoder extends BinaryImageDecoder
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_string($input)) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Data Uri must be of type string.');
         }
 
         $uri = $this->parseDataUri($input);
 
         if (!$uri->isValid()) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Input is no valid Data Uri Scheme.');
         }
 
         if ($uri->isBase64Encoded()) {

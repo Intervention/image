@@ -143,23 +143,23 @@ abstract class AbstractDecoder implements DecoderInterface
     }
 
     /**
-     * Parse and retunr a given file path or throw detailed exception if the path is invalid
+     * Parse and return a given file path or throw detailed exception if the path is invalid
      *
      * @throws DecoderException
      */
     protected function parseFilePath(mixed $path): string
     {
         if (!is_string($path)) {
-            throw new DecoderException('Unable decode image - path must be of type string.');
+            throw new DecoderException('Path must be of type string.');
         }
 
         if ($path === '') {
-            throw new DecoderException('Unable decode image - path must not be an empty string.');
+            throw new DecoderException('Path must not be an empty string.');
         }
 
         if (strlen($path) > PHP_MAXPATHLEN) {
             throw new DecoderException(
-                "Unable decode image - the path is longer than the configured max. value of " . PHP_MAXPATHLEN . ".",
+                "Path is longer than the configured max. value of " . PHP_MAXPATHLEN . ".",
             );
         }
 
@@ -168,11 +168,11 @@ abstract class AbstractDecoder implements DecoderInterface
         $basename = pathinfo($path, PATHINFO_BASENAME);
 
         if (!is_dir($dirname)) {
-            throw new DecoderException("Unable decode image - directory ('" . $dirname . "') does not exist.");
+            throw new DecoderException("Directory ('" . $dirname . "') not found.");
         }
 
         if (!@is_file($path)) {
-            throw new DecoderException("Unable decode image - file ('" . $basename . "') does not exist.");
+            throw new DecoderException("File ('" . $basename . "') not found.");
         }
 
         return $path;

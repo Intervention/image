@@ -41,7 +41,7 @@ class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
         $gd = @imagecreatefromstring($input);
 
         if ($gd === false) {
-            throw new DecoderException('Unsupported image format.');
+            throw new DecoderException('Binary data contains unsupported image type.');
         }
 
         // create image instance

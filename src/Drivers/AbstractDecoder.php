@@ -26,12 +26,12 @@ abstract class AbstractDecoder implements DecoderInterface
     }
 
     /**
-     * Extract and return EXIF data from given input which can be binary image
-     * data or a file path.
+     * Extract and return EXIF data from given input which can be a file path
+     * or a file pointer stream resource.
      *
      * @return CollectionInterface<string, mixed>
      */
-    protected function extractExifData(string $path_or_data): CollectionInterface
+    protected function extractExifData(string $input): CollectionInterface
     {
         if (!function_exists('exif_read_data')) {
             return new Collection();
@@ -39,11 +39,11 @@ abstract class AbstractDecoder implements DecoderInterface
 
         try {
             // source might be file path
-            $source = $this->parseFilePath($path_or_data);
+            $source = $this->parseFilePath($input);
         } catch (Throwable) {
             try {
                 // source might be file pointer
-                $source = $this->buildFilePointer($path_or_data);
+                $source = $this->buildFilePointer($input);
             } catch (RuntimeException) {
                 return new Collection();
             }

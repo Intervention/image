@@ -73,7 +73,7 @@ abstract class AbstractDecoder implements DecoderInterface
             throw new DecoderException('Input is not Base64-encoded data.');
         }
 
-        $decoded = base64_decode($input);
+        $decoded = base64_decode($input, true);
 
         if ($decoded === false) {
             throw new DecoderException('Input can not be Base64-decoded.');

@@ -26,7 +26,7 @@ class FilePathImageDecoder extends NativeObjectDecoder
             $imagick = new Imagick();
             $imagick->readImage($path);
         } catch (ImagickException) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unsupported image format.');
         }
 
         // decode image

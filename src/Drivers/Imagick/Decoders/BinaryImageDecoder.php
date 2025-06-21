@@ -20,15 +20,15 @@ class BinaryImageDecoder extends NativeObjectDecoder
      */
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
-        if (!is_string($input)) {
-            throw new DecoderException('Unable to decode input');
+        if (!is_string($input) || empty($input)) {
+            throw new DecoderException('Input does not contain binary image data.');
         }
 
         try {
             $imagick = new Imagick();
             $imagick->readImageBlob($input);
         } catch (ImagickException) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unsupported image format.');
         }
 
         // decode image

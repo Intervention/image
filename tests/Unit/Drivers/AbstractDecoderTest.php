@@ -16,6 +16,7 @@ use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
 use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
+use Throwable;
 
 #[CoversClass(AbstractDecoder::class)]
 final class AbstractDecoderTest extends BaseTestCase
@@ -95,7 +96,12 @@ final class AbstractDecoderTest extends BaseTestCase
         {
             public function isValid(mixed $input): bool
             {
-                return parent::isValidBase64($input);
+                try {
+                    parent::decodeBase64Data($input);
+                } catch (Throwable) {
+                    return false;
+                }
+                return true;
             }
 
             public function decode(mixed $input): ImageInterface|ColorInterface

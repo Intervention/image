@@ -1,4 +1,4 @@
-FROM php:8.1-cli
+FROM php:8.2-cli
 
 # install dependencies
 RUN apt update \

@@ -63,15 +63,27 @@ abstract class AbstractDecoder implements DecoderInterface
     }
 
     /**
-     * Determine if given input is base64 encoded data
+     * Decodes given base 64 encoded data
+     *
+     * @throws DecoderException
      */
-    protected function isValidBase64(mixed $input): bool
+    protected function decodeBase64Data(mixed $input): string
     {
         if (!is_string($input)) {
-            return false;
+            throw new DecoderException('Input is not Base64-encoded data.');
         }
 
-        return base64_encode(base64_decode($input)) === str_replace(["\n", "\r"], '', $input);
+        $decoded = base64_decode($input);
+
+        if ($decoded === false) {
+            throw new DecoderException('Input can not be Base64-decoded.');
+        }
+
+        if (base64_encode($decoded) !== str_replace(["\n", "\r"], '', $input)) {
+            throw new DecoderException('Input is not Base64-decoded data.');
+        }
+
+        return $decoded;
     }
 
     /**

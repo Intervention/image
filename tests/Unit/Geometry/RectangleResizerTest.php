@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit\Geometry;
 
 use Generator;
+use Intervention\Image\Alignment;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Intervention\Image\Geometry\Point;
@@ -205,7 +206,7 @@ final class RectangleResizerTest extends TestCase
     }
 
     #[DataProvider('cropDataProvider')]
-    public function testCrop(Rectangle $origin, Rectangle $target, string $position, Rectangle $result): void
+    public function testCrop(Rectangle $origin, Rectangle $target, string|Alignment $position, Rectangle $result): void
     {
         $resizer = new RectangleResizer();
         $resizer->toSize($target);

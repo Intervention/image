@@ -18,7 +18,7 @@ class PadModifier extends ContainModifier
             )
             ->alignPivotTo(
                 $this->getResizeSize($image),
-                $this->position
+                $this->alignment
             );
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Interfaces;
 
 use Intervention\Image\Exceptions\GeometryException;
+use Intervention\Image\Alignment;
 
 interface SizeInterface
 {
@@ -61,12 +62,12 @@ interface SizeInterface
     /**
      * Move pivot to given position in size
      */
-    public function movePivot(string $position, int $offset_x = 0, int $offset_y = 0): self;
+    public function movePivot(string|Alignment $position, int $offset_x = 0, int $offset_y = 0): self;
 
     /**
      * Align pivot of current object to given position
      */
-    public function alignPivotTo(self $size, string $position): self;
+    public function alignPivotTo(self $size, string|Alignment $position): self;
 
     /**
      * Calculate the relative position to another Size

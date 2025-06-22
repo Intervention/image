@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Geometry\Tools;
 
+use Intervention\Image\Alignment;
 use Intervention\Image\Exceptions\GeometryException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -331,7 +332,7 @@ class RectangleResizer
     /**
      * Crop target size out of given size at given position (i.e. move the pivot point)
      */
-    public function crop(SizeInterface $size, string $position = 'top-left'): SizeInterface
+    public function crop(SizeInterface $size, string|Alignment $position = Alignment::TOP_LEFT): SizeInterface
     {
         return $this->resize($size)->alignPivotTo(
             $size->movePivot($position),

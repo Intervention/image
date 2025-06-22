@@ -7,6 +7,8 @@ namespace Intervention\Image\Geometry;
 use ArrayAccess;
 use ArrayIterator;
 use Countable;
+use Intervention\Image\Alignment;
+use Intervention\Image\Exceptions\RuntimeException;
 use Traversable;
 use IteratorAggregate;
 use Intervention\Image\Geometry\Traits\HasBackgroundColor;
@@ -257,24 +259,19 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
 
     /**
      * Align all points of polygon horizontally to given position around pivot point
+     *
+     * @throws RuntimeException
      */
-    public function align(string $position): self
+    public function align(string|Alignment $position): self
     {
-        switch (strtolower($position)) {
-            case 'center':
-            case 'middle':
-                $diff = $this->centerPoint()->x() - $this->pivot()->x();
-                break;
-
-            case 'right':
-                $diff = $this->mostRightPoint()->x() - $this->pivot()->x();
-                break;
-
-            default:
-            case 'left':
-                $diff = $this->mostLeftPoint()->x() - $this->pivot()->x();
-                break;
-        }
+        $diff = match (Alignment::create($position)) {
+            Alignment::CENTER => $this->centerPoint()->x() - $this->pivot()->x(),
+            Alignment::RIGHT => $this->mostRightPoint()->x() - $this->pivot()->x(),
+            Alignment::LEFT => $this->mostLeftPoint()->x() - $this->pivot()->x(),
+            default => throw new RuntimeException(
+                'Only use horizontal alignment values (Alignment::CENTER, Alignment::RIGHT or Alignment::LEFT).',
+            ),
+        };
 
         foreach ($this->points as $point) {
             $point->setX(
@@ -287,24 +284,19 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
 
     /**
      * Align all points of polygon vertically to given position around pivot point
+     *
+     * @throws RuntimeException
      */
-    public function valign(string $position): self
+    public function valign(string|Alignment $position): self
     {
-        switch (strtolower($position)) {
-            case 'center':
-            case 'middle':
-                $diff = $this->centerPoint()->y() - $this->pivot()->y();
-                break;
-
-            case 'top':
-                $diff = $this->mostTopPoint()->y() - $this->pivot()->y() - $this->height();
-                break;
-
-            default:
-            case 'bottom':
-                $diff = $this->mostBottomPoint()->y() - $this->pivot()->y() + $this->height();
-                break;
-        }
+        $diff = match (Alignment::create($position)) {
+            Alignment::CENTER => $this->centerPoint()->y() - $this->pivot()->y(),
+            Alignment::TOP => $this->mostTopPoint()->y() - $this->pivot()->y() - $this->height(),
+            Alignment::BOTTOM => $this->mostBottomPoint()->y() - $this->pivot()->y() + $this->height(),
+            default => throw new RuntimeException(
+                'Only use vertical alignment values (Alignment::CENTER, Alignment::TOP or Alignment::BOTTOM).',
+            ),
+        };
 
         foreach ($this->points as $point) {
             $point->setY(

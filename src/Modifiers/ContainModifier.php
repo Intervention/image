@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Modifiers;
 
+use Intervention\Image\Alignment;
 use Intervention\Image\Drivers\SpecializableModifier;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Geometry\Rectangle;
@@ -17,7 +18,7 @@ class ContainModifier extends SpecializableModifier
         public int $width,
         public int $height,
         public mixed $background = null,
-        public string $position = 'center'
+        public string|Alignment $alignment = Alignment::CENTER
     ) {
         //
     }
@@ -34,7 +35,7 @@ class ContainModifier extends SpecializableModifier
             )
             ->alignPivotTo(
                 $this->getResizeSize($image),
-                $this->position
+                $this->alignment
             );
     }
 

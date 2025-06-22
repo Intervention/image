@@ -21,7 +21,7 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         $watermark = $this->driver()->handleInput($this->element);
-        $position = $this->getPosition($image, $watermark);
+        $position = $this->position($image, $watermark);
 
         foreach ($image as $frame) {
             imagealphablending($frame->native(), true);

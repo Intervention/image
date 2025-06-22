@@ -8,6 +8,8 @@ use Intervention\Image\Exceptions\GeometryException;
 use Intervention\Image\Geometry\Tools\RectangleResizer;
 use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Alignment;
+use Intervention\Image\Exceptions\RuntimeException;
 
 class Rectangle extends Polygon implements SizeInterface
 {
@@ -78,89 +80,61 @@ class Rectangle extends Polygon implements SizeInterface
     /**
      * Move pivot to the given position in the rectangle and adjust the new
      * position by given offset values.
+     *
+     * @throws RuntimeException
      */
-    public function movePivot(string $position, int $offset_x = 0, int $offset_y = 0): self
+    public function movePivot(string|Alignment $position, int $offset_x = 0, int $offset_y = 0): self
     {
-        switch (strtolower($position)) {
-            case 'top':
-            case 'top-center':
-            case 'top-middle':
-            case 'center-top':
-            case 'middle-top':
-                $x = intval(round($this->width() / 2)) + $offset_x;
-                $y = $offset_y;
-                break;
+        $point = match (Alignment::create($position)) {
+            Alignment::TOP => new Point(
+                intval(round($this->width() / 2)) + $offset_x,
+                $offset_y,
+            ),
+            Alignment::TOP_RIGHT => new Point(
+                $this->width() - $offset_x,
+                $offset_y,
+            ),
+            Alignment::LEFT => new Point(
+                $offset_x,
+                intval(round($this->height() / 2)) + $offset_y,
+            ),
+            Alignment::RIGHT => new Point(
+                $this->width() - $offset_x,
+                intval(round($this->height() / 2)) + $offset_y,
+            ),
+            Alignment::BOTTOM_LEFT => new Point(
+                $offset_x,
+                $this->height() - $offset_y,
+            ),
+            Alignment::BOTTOM => new Point(
+                intval(round($this->width() / 2)) + $offset_x,
+                $this->height() - $offset_y,
+            ),
+            Alignment::BOTTOM_RIGHT => new Point(
+                $this->width() - $offset_x,
+                $this->height() - $offset_y,
+            ),
+            Alignment::CENTER => new Point(
+                intval(round($this->width() / 2)) + $offset_x,
+                intval(round($this->height() / 2)) + $offset_y,
+            ),
+            Alignment::TOP_LEFT => new Point(
+                $offset_x,
+                $offset_y,
+            ),
+        };
 
-            case 'top-right':
-            case 'right-top':
-                $x = $this->width() - $offset_x;
-                $y = $offset_y;
-                break;
-
-            case 'left':
-            case 'left-center':
-            case 'left-middle':
-            case 'center-left':
-            case 'middle-left':
-                $x = $offset_x;
-                $y = intval(round($this->height() / 2)) + $offset_y;
-                break;
-
-            case 'right':
-            case 'right-center':
-            case 'right-middle':
-            case 'center-right':
-            case 'middle-right':
-                $x = $this->width() - $offset_x;
-                $y = intval(round($this->height() / 2)) + $offset_y;
-                break;
-
-            case 'bottom-left':
-            case 'left-bottom':
-                $x = $offset_x;
-                $y = $this->height() - $offset_y;
-                break;
-
-            case 'bottom':
-            case 'bottom-center':
-            case 'bottom-middle':
-            case 'center-bottom':
-            case 'middle-bottom':
-                $x = intval(round($this->width() / 2)) + $offset_x;
-                $y = $this->height() - $offset_y;
-                break;
-
-            case 'bottom-right':
-            case 'right-bottom':
-                $x = $this->width() - $offset_x;
-                $y = $this->height() - $offset_y;
-                break;
-
-            case 'center':
-            case 'middle':
-            case 'center-center':
-            case 'middle-middle':
-                $x = intval(round($this->width() / 2)) + $offset_x;
-                $y = intval(round($this->height() / 2)) + $offset_y;
-                break;
-
-            default:
-            case 'top-left':
-            case 'left-top':
-                $x = $offset_x;
-                $y = $offset_y;
-                break;
-        }
-
-        $this->pivot->setPosition($x, $y);
+        $this->pivot->setPosition(...$point);
 
         return $this;
     }
 
     /**
      * Align pivot relative to given size at given position
+     *
+     * @throws RuntimeException
      */
-    public function alignPivotTo(SizeInterface $size, string $position): self
+    public function alignPivotTo(SizeInterface $size, string|Alignment $position): self
     {
         $reference = new self($size->width(), $size->height());
         $reference->movePivot($position);

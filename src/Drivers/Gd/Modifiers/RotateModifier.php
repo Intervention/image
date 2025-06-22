@@ -9,6 +9,7 @@ use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Exceptions\ColorException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
@@ -39,6 +40,7 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
      * color is used for newly create image areas
      *
      * @throws ColorException
+     * @throws RuntimeException
      */
     protected function modifyFrame(FrameInterface $frame, ColorInterface $background): void
     {

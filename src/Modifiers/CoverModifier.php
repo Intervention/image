@@ -9,18 +9,17 @@ use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Alignment;
 
 class CoverModifier extends SpecializableModifier
 {
     /**
      * Create new modifier object
-     *
-     * @return void
      */
     public function __construct(
         public int $width,
         public int $height,
-        public string $position = 'center'
+        public string|Alignment $alignment = Alignment::CENTER
     ) {
         //
     }
@@ -36,7 +35,7 @@ class CoverModifier extends SpecializableModifier
         return $crop->contain(
             $imagesize->width(),
             $imagesize->height()
-        )->alignPivotTo($imagesize, $this->position);
+        )->alignPivotTo($imagesize, $this->alignment);
     }
 
     /**

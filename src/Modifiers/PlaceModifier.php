@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Modifiers;
 
+use Intervention\Image\Alignment;
 use Intervention\Image\Drivers\SpecializableModifier;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -18,7 +19,7 @@ class PlaceModifier extends SpecializableModifier
      */
     public function __construct(
         public mixed $element,
-        public string $position = 'top-left',
+        public string|Alignment $alignment = Alignment::TOP_LEFT,
         public int $offset_x = 0,
         public int $offset_y = 0,
         public int $opacity = 100
@@ -29,16 +30,16 @@ class PlaceModifier extends SpecializableModifier
     /**
      * @throws RuntimeException
      */
-    public function getPosition(ImageInterface $image, ImageInterface $watermark): PointInterface
+    public function position(ImageInterface $image, ImageInterface $watermark): PointInterface
     {
         $image_size = $image->size()->movePivot(
-            $this->position,
+            $this->alignment,
             $this->offset_x,
             $this->offset_y
         );
 
         $watermark_size = $watermark->size()->movePivot(
-            $this->position
+            $this->alignment
         );
 
         return $image_size->relativePositionTo($watermark_size);

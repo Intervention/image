@@ -667,9 +667,9 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::cover()
      */
-    public function cover(int $width, int $height, string $position = 'center'): ImageInterface
+    public function cover(int $width, int $height, string|Alignment $alignment = Alignment::CENTER): ImageInterface
     {
-        return $this->modify(new CoverModifier($width, $height, $position));
+        return $this->modify(new CoverModifier($width, $height, $alignment));
     }
 
     /**
@@ -677,9 +677,9 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::coverDown()
      */
-    public function coverDown(int $width, int $height, string $position = 'center'): ImageInterface
+    public function coverDown(int $width, int $height, string|Alignment $alignment = Alignment::CENTER): ImageInterface
     {
-        return $this->modify(new CoverDownModifier($width, $height, $position));
+        return $this->modify(new CoverDownModifier($width, $height, $alignment));
     }
 
     /**
@@ -691,9 +691,9 @@ final class Image implements ImageInterface
         ?int $width = null,
         ?int $height = null,
         mixed $background = null,
-        string $position = 'center'
+        string|Alignment $alignment = Alignment::CENTER
     ): ImageInterface {
-        return $this->modify(new ResizeCanvasModifier($width, $height, $background, $position));
+        return $this->modify(new ResizeCanvasModifier($width, $height, $background, $alignment));
     }
 
     /**
@@ -705,9 +705,9 @@ final class Image implements ImageInterface
         ?int $width = null,
         ?int $height = null,
         mixed $background = null,
-        string $position = 'center'
+        string|Alignment $alignment = Alignment::CENTER
     ): ImageInterface {
-        return $this->modify(new ResizeCanvasRelativeModifier($width, $height, $background, $position));
+        return $this->modify(new ResizeCanvasRelativeModifier($width, $height, $background, $alignment));
     }
 
     /**
@@ -719,9 +719,9 @@ final class Image implements ImageInterface
         int $width,
         int $height,
         mixed $background = null,
-        string $position = 'center'
+        string|Alignment $alignment = Alignment::CENTER
     ): ImageInterface {
-        return $this->modify(new PadModifier($width, $height, $background, $position));
+        return $this->modify(new PadModifier($width, $height, $background, $alignment));
     }
 
     /**
@@ -733,9 +733,9 @@ final class Image implements ImageInterface
         int $width,
         int $height,
         mixed $background = null,
-        string $position = 'center'
+        string|Alignment $alignment = Alignment::CENTER
     ): ImageInterface {
-        return $this->modify(new ContainModifier($width, $height, $background, $position));
+        return $this->modify(new ContainModifier($width, $height, $background, $alignment));
     }
 
     /**
@@ -749,9 +749,9 @@ final class Image implements ImageInterface
         int $offset_x = 0,
         int $offset_y = 0,
         mixed $background = null,
-        string $position = 'top-left'
+        string|Alignment $alignment = Alignment::TOP_LEFT
     ): ImageInterface {
-        return $this->modify(new CropModifier($width, $height, $offset_x, $offset_y, $background, $position));
+        return $this->modify(new CropModifier($width, $height, $offset_x, $offset_y, $background, $alignment));
     }
 
     /**
@@ -771,12 +771,12 @@ final class Image implements ImageInterface
      */
     public function place(
         mixed $element,
-        string $position = 'top-left',
+        string|Alignment $alignment = Alignment::TOP_LEFT,
         int $offset_x = 0,
         int $offset_y = 0,
         int $opacity = 100
     ): ImageInterface {
-        return $this->modify(new PlaceModifier($element, $position, $offset_x, $offset_y, $opacity));
+        return $this->modify(new PlaceModifier($element, $alignment, $offset_x, $offset_y, $opacity));
     }
 
     /**

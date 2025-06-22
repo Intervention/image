@@ -18,6 +18,7 @@ use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\MediaType;
 use Intervention\Image\Origin;
+use Intervention\Image\Alignment;
 use IteratorAggregate;
 
 /**
@@ -453,7 +454,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @throws RuntimeException
      */
-    public function cover(int $width, int $height, string $position = 'center'): self;
+    public function cover(int $width, int $height, string|Alignment $alignment = Alignment::CENTER): self;
 
     /**
      * Same as cover() but do not exceed the original image size
@@ -462,7 +463,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @throws RuntimeException
      */
-    public function coverDown(int $width, int $height, string $position = 'center'): self;
+    public function coverDown(int $width, int $height, string|Alignment $alignment = Alignment::CENTER): self;
 
     /**
      * Resize the boundaries of the current image to given width and height.
@@ -478,7 +479,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         ?int $width = null,
         ?int $height = null,
         mixed $background = null,
-        string $position = 'center'
+        string|Alignment $alignment = Alignment::CENTER
     ): self;
 
     /**
@@ -494,7 +495,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         ?int $width = null,
         ?int $height = null,
         mixed $background = null,
-        string $position = 'center'
+        string|Alignment $alignment = Alignment::CENTER
     ): self;
 
     /**
@@ -515,7 +516,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         int $width,
         int $height,
         mixed $background = null,
-        string $position = 'center'
+        string|Alignment $alignment = Alignment::CENTER
     ): self;
 
     /**
@@ -531,7 +532,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         int $width,
         int $height,
         mixed $background = null,
-        string $position = 'center'
+        string|Alignment $alignment = Alignment::CENTER
     ): self;
 
     /**
@@ -549,7 +550,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         int $offset_x = 0,
         int $offset_y = 0,
         mixed $background = null,
-        string $position = 'top-left'
+        string|Alignment $alignment = Alignment::TOP_LEFT
     ): self;
 
     /**
@@ -571,7 +572,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      */
     public function place(
         mixed $element,
-        string $position = 'top-left',
+        string|Alignment $alignment = Alignment::TOP_LEFT,
         int $offset_x = 0,
         int $offset_y = 0,
         int $opacity = 100

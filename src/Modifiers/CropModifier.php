@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Modifiers;
 
+use Intervention\Image\Alignment;
 use Intervention\Image\Drivers\SpecializableModifier;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Geometry\Rectangle;
@@ -24,7 +25,7 @@ class CropModifier extends SpecializableModifier
         public int $offset_x = 0,
         public int $offset_y = 0,
         public mixed $background = null,
-        public string $position = 'top-left'
+        public string|Alignment $alignment = Alignment::TOP_LEFT
     ) {
         //
     }
@@ -35,11 +36,11 @@ class CropModifier extends SpecializableModifier
     public function crop(ImageInterface $image): SizeInterface
     {
         $crop = new Rectangle($this->width, $this->height);
-        $crop->align($this->position);
+        $crop->movePivot($this->alignment);
 
         return $crop->alignPivotTo(
             $image->size(),
-            $this->position
+            $this->alignment
         );
     }
 

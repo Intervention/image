@@ -96,7 +96,7 @@ abstract class AbstractDecoder implements DecoderInterface
 
         $result = preg_match($pattern, (string) $input, $matches);
 
-        return new class($matches, $result)
+        return new class ($matches, $result)
         {
             /**
              * @param array<mixed> $matches

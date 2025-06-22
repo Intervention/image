@@ -89,7 +89,7 @@ final class ImageManager implements ImageManagerInterface
      *
      * @see ImageManagerInterface::create()
      */
-    public function createFromPath(string $path): ImageInterface
+    public function decodeFromPath(string $path): ImageInterface
     {
         return $this->driver->handleInput($path, [FilePathImageDecoder::class]);
     }
@@ -99,7 +99,7 @@ final class ImageManager implements ImageManagerInterface
      *
      * @see ImageManagerInterface::createFromBinary()
      */
-    public function createFromBinary(string $data): ImageInterface
+    public function decodeFromBinary(string $data): ImageInterface
     {
         return $this->driver->handleInput($data, [BinaryImageDecoder::class]);
     }
@@ -109,7 +109,7 @@ final class ImageManager implements ImageManagerInterface
      *
      * @see ImageManagerInterface::createFromBase64()
      */
-    public function createFromBase64(string $data): ImageInterface
+    public function decodeFromBase64(string $data): ImageInterface
     {
         return $this->driver->handleInput($data, [Base64ImageDecoder::class]);
     }
@@ -119,7 +119,7 @@ final class ImageManager implements ImageManagerInterface
      *
      * @see ImageManagerInterface::createFromDataUri()
      */
-    public function createFromDataUri(string $uri): ImageInterface
+    public function decodeFromDataUri(string $uri): ImageInterface
     {
         return $this->driver->handleInput($uri, [DataUriImageDecoder::class]);
     }
@@ -129,7 +129,7 @@ final class ImageManager implements ImageManagerInterface
      *
      * @see ImageManagerInterface::createFromStream()
      */
-    public function createFromStream(mixed $stream): ImageInterface
+    public function decodeFromStream(mixed $stream): ImageInterface
     {
         return $this->driver->handleInput($stream, [FilePointerImageDecoder::class]);
     }
@@ -139,7 +139,7 @@ final class ImageManager implements ImageManagerInterface
      *
      * @see ImageManagerInterface::createFromSplFileInfo()
      */
-    public function createFromSplFileInfo(SplFileInfo $file): ImageInterface
+    public function decodeFromSplFileInfo(SplFileInfo $file): ImageInterface
     {
         return $this->driver->handleInput($file, [SplFileInfoImageDecoder::class]);
     }
@@ -149,7 +149,7 @@ final class ImageManager implements ImageManagerInterface
      *
      * @see ImageManagerInterface::read()
      */
-    public function read(mixed $input, string|array|DecoderInterface $decoders = []): ImageInterface
+    public function decode(mixed $input, string|array|DecoderInterface $decoders = []): ImageInterface
     {
         return $this->driver->handleInput(
             $input,

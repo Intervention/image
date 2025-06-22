@@ -24,42 +24,42 @@ interface ImageManagerInterface
      *
      * @throws DecoderException
      */
-    public function createFromPath(string $path): ImageInterface;
+    public function decodeFromPath(string $path): ImageInterface;
 
     /**
      * Create new image instance from given image binary data
      *
      * @throws DecoderException
      */
-    public function createFromBinary(string $data): ImageInterface;
+    public function decodeFromBinary(string $data): ImageInterface;
 
     /**
      * Create new image instance from given base64 encoded image data
      *
      * @throws DecoderException
      */
-    public function createFromBase64(string $data): ImageInterface;
+    public function decodeFromBase64(string $data): ImageInterface;
 
     /**
      * Create new image instance from given data uri encoded image data
      *
      * @throws DecoderException
      */
-    public function createFromDataUri(string $uri): ImageInterface;
+    public function decodeFromDataUri(string $uri): ImageInterface;
 
     /**
      * Create new image instance from given image stream resource
      *
      * @throws DecoderException
      */
-    public function createFromStream(mixed $stream): ImageInterface;
+    public function decodeFromStream(mixed $stream): ImageInterface;
 
     /**
      * Create new image instance from given SplFileInfo image object
      *
      * @throws DecoderException
      */
-    public function createFromSplFileInfo(SplFileInfo $file): ImageInterface;
+    public function decodeFromSplFileInfo(SplFileInfo $file): ImageInterface;
 
     /**
      * Create new image instance from given input which can be one of the following
@@ -89,7 +89,7 @@ interface ImageManagerInterface
      * @param string|array<string|DecoderInterface>|DecoderInterface $decoders
      * @throws RuntimeException
      */
-    public function read(mixed $input, string|array|DecoderInterface $decoders = []): ImageInterface;
+    public function decode(mixed $input, string|array|DecoderInterface $decoders = []): ImageInterface;
 
     /**
      * Create new animated image by given callback

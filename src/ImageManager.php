@@ -87,7 +87,7 @@ final class ImageManager implements ImageManagerInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageManagerInterface::create()
+     * @see ImageManagerInterface::readPath()
      */
     public function readPath(string $path): ImageInterface
     {
@@ -97,7 +97,7 @@ final class ImageManager implements ImageManagerInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageManagerInterface::createFromBinary()
+     * @see ImageManagerInterface::readBinary()
      */
     public function readBinary(string $data): ImageInterface
     {
@@ -107,7 +107,7 @@ final class ImageManager implements ImageManagerInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageManagerInterface::createFromBase64()
+     * @see ImageManagerInterface::readBase64()
      */
     public function readBase64(string $data): ImageInterface
     {
@@ -117,7 +117,7 @@ final class ImageManager implements ImageManagerInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageManagerInterface::createFromDataUri()
+     * @see ImageManagerInterface::readDataUri()
      */
     public function readDataUri(string $uri): ImageInterface
     {
@@ -127,7 +127,7 @@ final class ImageManager implements ImageManagerInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageManagerInterface::createFromStream()
+     * @see ImageManagerInterface::readStream()
      */
     public function readStream(mixed $stream): ImageInterface
     {
@@ -137,7 +137,7 @@ final class ImageManager implements ImageManagerInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageManagerInterface::createFromSplFileInfo()
+     * @see ImageManagerInterface::readSplFileInfo()
      */
     public function readSplFileInfo(SplFileInfo $file): ImageInterface
     {

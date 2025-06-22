@@ -746,12 +746,12 @@ final class Image implements ImageInterface
     public function crop(
         int $width,
         int $height,
-        int $offset_x = 0,
-        int $offset_y = 0,
+        int $x = 0,
+        int $y = 0,
         mixed $background = null,
         string|Alignment $alignment = Alignment::TOP_LEFT
     ): ImageInterface {
-        return $this->modify(new CropModifier($width, $height, $offset_x, $offset_y, $background, $alignment));
+        return $this->modify(new CropModifier($width, $height, $x, $y, $background, $alignment));
     }
 
     /**
@@ -772,11 +772,11 @@ final class Image implements ImageInterface
     public function place(
         mixed $element,
         string|Alignment $alignment = Alignment::TOP_LEFT,
-        int $offset_x = 0,
-        int $offset_y = 0,
+        int $x = 0,
+        int $y = 0,
         int $opacity = 100
     ): ImageInterface {
-        return $this->modify(new PlaceModifier($element, $alignment, $offset_x, $offset_y, $opacity));
+        return $this->modify(new PlaceModifier($element, $alignment, $x, $y, $opacity));
     }
 
     /**

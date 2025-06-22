@@ -547,8 +547,8 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function crop(
         int $width,
         int $height,
-        int $offset_x = 0,
-        int $offset_y = 0,
+        int $x = 0,
+        int $y = 0,
         mixed $background = null,
         string|Alignment $alignment = Alignment::TOP_LEFT
     ): self;
@@ -573,8 +573,8 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function place(
         mixed $element,
         string|Alignment $alignment = Alignment::TOP_LEFT,
-        int $offset_x = 0,
-        int $offset_y = 0,
+        int $x = 0,
+        int $y = 0,
         int $opacity = 100
     ): self;
 

@@ -20,8 +20,8 @@ class PlaceModifier extends SpecializableModifier
     public function __construct(
         public mixed $element,
         public string|Alignment $alignment = Alignment::TOP_LEFT,
-        public int $offset_x = 0,
-        public int $offset_y = 0,
+        public int $x = 0,
+        public int $y = 0,
         public int $opacity = 100
     ) {
         //
@@ -34,8 +34,8 @@ class PlaceModifier extends SpecializableModifier
     {
         $image_size = $image->size()->movePivot(
             $this->alignment,
-            $this->offset_x,
-            $this->offset_y
+            $this->x,
+            $this->y
         );
 
         $watermark_size = $watermark->size()->movePivot(

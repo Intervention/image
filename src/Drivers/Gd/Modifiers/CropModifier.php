@@ -46,8 +46,8 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
         $modified = Cloner::cloneEmpty($frame->native(), $resizeTo, $background);
 
         // define offset
-        $offset_x = $resizeTo->pivot()->x() + $this->offset_x;
-        $offset_y = $resizeTo->pivot()->y() + $this->offset_y;
+        $offset_x = $resizeTo->pivot()->x() + $this->x;
+        $offset_y = $resizeTo->pivot()->y() + $this->y;
 
         // define target width & height
         $targetWidth = min($resizeTo->width(), $originalSize->width());

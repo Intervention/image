@@ -22,8 +22,8 @@ class CropModifier extends SpecializableModifier
     public function __construct(
         public int $width,
         public int $height,
-        public int $offset_x = 0,
-        public int $offset_y = 0,
+        public int $x = 0,
+        public int $y = 0,
         public mixed $background = null,
         public string|Alignment $alignment = Alignment::TOP_LEFT
     ) {

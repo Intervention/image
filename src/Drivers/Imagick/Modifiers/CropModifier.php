@@ -28,8 +28,8 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
         // define position of the image on the new canvas
         $crop = $this->crop($image);
         $position = [
-            ($crop->pivot()->x() + $this->offset_x) * -1,
-            ($crop->pivot()->y() + $this->offset_y) * -1,
+            ($crop->pivot()->x() + $this->x) * -1,
+            ($crop->pivot()->y() + $this->y) * -1,
         ];
 
         foreach ($image as $frame) {

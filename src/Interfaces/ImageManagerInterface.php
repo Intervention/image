@@ -24,42 +24,42 @@ interface ImageManagerInterface
      *
      * @throws DecoderException
      */
-    public function decodeFromPath(string $path): ImageInterface;
+    public function readPath(string $path): ImageInterface;
 
     /**
      * Create new image instance from given image binary data
      *
      * @throws DecoderException
      */
-    public function decodeFromBinary(string $data): ImageInterface;
+    public function readBinary(string $data): ImageInterface;
 
     /**
      * Create new image instance from given base64 encoded image data
      *
      * @throws DecoderException
      */
-    public function decodeFromBase64(string $data): ImageInterface;
+    public function readBase64(string $data): ImageInterface;
 
     /**
      * Create new image instance from given data uri encoded image data
      *
      * @throws DecoderException
      */
-    public function decodeFromDataUri(string $uri): ImageInterface;
+    public function readDataUri(string $uri): ImageInterface;
 
     /**
      * Create new image instance from given image stream resource
      *
      * @throws DecoderException
      */
-    public function decodeFromStream(mixed $stream): ImageInterface;
+    public function readStream(mixed $stream): ImageInterface;
 
     /**
      * Create new image instance from given SplFileInfo image object
      *
      * @throws DecoderException
      */
-    public function decodeFromSplFileInfo(SplFileInfo $file): ImageInterface;
+    public function readSplFileInfo(SplFileInfo $file): ImageInterface;
 
     /**
      * Create new image instance from given input which can be one of the following
@@ -89,7 +89,7 @@ interface ImageManagerInterface
      * @param string|array<string|DecoderInterface>|DecoderInterface $decoders
      * @throws RuntimeException
      */
-    public function decode(mixed $input, string|array|DecoderInterface $decoders = []): ImageInterface;
+    public function read(mixed $input, string|array|DecoderInterface $decoders = []): ImageInterface;
 
     /**
      * Create new animated image by given callback

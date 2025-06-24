@@ -7,6 +7,7 @@
 - ImageManagerInterface::readBase64()
 - ImageManagerInterface::readSplFileInfo()
 - ImageManagerInterface::readDataUri()
+- Alignment::class
 
 ## API Changes
 
@@ -19,3 +20,5 @@
 - Changed default value for `background` to `null` in ImageInterface::contain()
 - Changed default value for `background` to `null` in ImageInterface::pad()
 - Changed default value for `background` to `null` in ImageInterface::crop()
+- Signature of ImageInterface::crop() changed `offset_x` is no `x` and `offset_y` is now `y`
+- Signature of ImageInterface::place() changed `offset_x` is no `x` and `offset_y` is now `y`

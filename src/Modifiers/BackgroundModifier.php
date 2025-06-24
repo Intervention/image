@@ -21,7 +21,7 @@ class BackgroundModifier extends SpecializableModifier
      *
      * @return void
      */
-    public function __construct(public mixed $color = null)
+    public function __construct(public null|string|ColorInterface $color = null)
     {
         //
     }

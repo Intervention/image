@@ -417,7 +417,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::setBackgroundColor()
      */
-    public function setBackgroundColor(mixed $color): ImageInterface
+    public function setBackgroundColor(string|ColorInterface $color): ImageInterface
     {
         $this->driver()->config()->setOptions(
             backgroundColor: $this->driver()->handleInput($color)
@@ -431,7 +431,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::background()
      */
-    public function background(mixed $color = null): ImageInterface
+    public function background(null|string|ColorInterface $color = null): ImageInterface
     {
         return $this->modify(new BackgroundModifier($color));
     }

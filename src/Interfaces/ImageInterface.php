@@ -235,14 +235,15 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @throws RuntimeException
      */
-    public function setBackgroundColor(mixed $color): self;
+    public function setBackgroundColor(string|ColorInterface $color): self;
 
     /**
-     * Replace transparent areas of the image with given color
+     * Replace transparent areas of the image with given color or currently
+     * configured background color
      *
      * @throws RuntimeException
      */
-    public function background(mixed $color = null): self;
+    public function background(null|string|ColorInterface $color = null): self;
 
     /**
      * Retrieve ICC color profile of image

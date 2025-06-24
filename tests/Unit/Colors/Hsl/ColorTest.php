@@ -26,6 +26,9 @@ final class ColorTest extends BaseTestCase
     {
         $color = Color::create('hsl(10, 20, 30)');
         $this->assertInstanceOf(Color::class, $color);
+
+        $color = Color::create(10, 20, 30);
+        $this->assertInstanceOf(Color::class, $color);
     }
 
     public function testColorspace(): void

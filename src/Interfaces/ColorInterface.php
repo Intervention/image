@@ -15,7 +15,7 @@ interface ColorInterface
      *
      * @throws RuntimeException
      */
-    public static function create(mixed $input): self;
+    public static function create(mixed ...$input): self;
 
     /**
      * Return colorspace of current color

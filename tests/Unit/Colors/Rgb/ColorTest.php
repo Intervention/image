@@ -36,6 +36,10 @@ final class ColorTest extends BaseTestCase
         $color = Color::create('rgba(10, 20, 30, .2)');
         $this->assertInstanceOf(Color::class, $color);
         $this->assertEquals([10, 20, 30, 51], $color->toArray());
+
+        $color = Color::create(10, 20, 30, 51);
+        $this->assertInstanceOf(Color::class, $color);
+        $this->assertEquals([10, 20, 30, 51], $color->toArray());
     }
 
     public function testColorspace(): void

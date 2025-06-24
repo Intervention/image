@@ -27,6 +27,9 @@ final class ColorTest extends BaseTestCase
     {
         $color = Color::create('cmyk(10, 20, 30, 40)');
         $this->assertInstanceOf(Color::class, $color);
+
+        $color = Color::create(10, 20, 30, 40);
+        $this->assertInstanceOf(Color::class, $color);
     }
 
     public function testColorspace(): void

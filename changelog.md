@@ -1,6 +1,12 @@
 ## New Features
 
 - ImageInterface::version()
+- ColorInterface::create() now accepts functional string color formats as well as single channel values
+- ImageManagerInterface::readPath()
+- ImageManagerInterface::readBinary()
+- ImageManagerInterface::readBase64()
+- ImageManagerInterface::readSplFileInfo()
+- ImageManagerInterface::readDataUri()
 
 ## API Changes
 

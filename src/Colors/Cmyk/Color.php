@@ -10,6 +10,7 @@ use Intervention\Image\Colors\Cmyk\Channels\Magenta;
 use Intervention\Image\Colors\Cmyk\Channels\Yellow;
 use Intervention\Image\Colors\Cmyk\Channels\Key;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -38,8 +39,20 @@ class Color extends AbstractColor
      *
      * @see ColorInterface::create()
      */
-    public static function create(mixed $input): ColorInterface
+    public static function create(mixed ...$input): ColorInterface
     {
+        $input = match (count($input)) {
+            1 => $input[0],
+            4 => $input,
+            default => throw new DecoderException(
+                'Too few arguments to create color, ' . count($input) . ' passed and 1 or 4 expected.',
+            ),
+        };
+
+        if (is_array($input)) {
+            return new self(...$input);
+        }
+
         return InputHandler::withDecoders([
             Decoders\StringColorDecoder::class,
         ])->handle($input);

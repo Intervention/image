@@ -6,13 +6,11 @@ namespace Intervention\Image\Drivers\Gd;
 
 use Intervention\Image\Drivers\AbstractDriver;
 use Intervention\Image\Exceptions\DriverException;
-use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Format;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorProcessorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
-use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\FontProcessorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\MediaType;
@@ -72,44 +70,10 @@ class Driver extends AbstractDriver
      * {@inheritdoc}
      *
      * @see DriverInterface::createAnimation()
-     *
-     * @throws RuntimeException
      */
     public function createAnimation(callable $init): ImageInterface
     {
-        $animation = new class ($this)
-        {
-            public function __construct(
-                protected DriverInterface $driver,
-                public Core $core = new Core()
-            ) {
-                //
-            }
-
-            /**
-             * @throws RuntimeException
-             */
-            public function add(mixed $source, float $delay = 1): self
-            {
-                $this->core->add(
-                    $this->driver->handleInput($source)->core()->first()->setDelay($delay)
-                );
-
-                return $this;
-            }
-
-            /**
-             * @throws RuntimeException
-             */
-            public function __invoke(): ImageInterface
-            {
-                return new Image(
-                    $this->driver,
-                    $this->core
-                );
-            }
-        };
-
+        $animation = new AnimationFactory($this);
         $init($animation);
 
         return call_user_func($animation);

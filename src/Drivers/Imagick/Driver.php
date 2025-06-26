@@ -9,13 +9,11 @@ use ImagickPixel;
 use Intervention\Image\Drivers\AbstractDriver;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\NotSupportedException;
-use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Format;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorProcessorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
-use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\FontProcessorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\MediaType;
@@ -72,48 +70,10 @@ class Driver extends AbstractDriver
      * {@inheritdoc}
      *
      * @see DriverInterface::createAnimation()
-     *
-     * @throws RuntimeException
      */
     public function createAnimation(callable $init): ImageInterface
     {
-        $imagick = new Imagick();
-        $imagick->setFormat('gif');
-
-        $animation = new class ($this, $imagick)
-        {
-            public function __construct(
-                protected DriverInterface $driver,
-                public Imagick $imagick
-            ) {
-                //
-            }
-
-            /**
-             * @throws RuntimeException
-             */
-            public function add(mixed $source, float $delay = 1): self
-            {
-                $native = $this->driver->handleInput($source)->core()->native();
-                $native->setImageDelay(intval(round($delay * 100)));
-
-                $this->imagick->addImage($native);
-
-                return $this;
-            }
-
-            /**
-             * @throws RuntimeException
-             */
-            public function __invoke(): ImageInterface
-            {
-                return new Image(
-                    $this->driver,
-                    new Core($this->imagick)
-                );
-            }
-        };
-
+        $animation = new AnimationFactory($this);
         $init($animation);
 
         return call_user_func($animation);

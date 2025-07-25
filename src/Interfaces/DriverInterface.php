@@ -25,7 +25,7 @@ interface DriverInterface
     public function config(): Config;
 
     /**
-     * Resolve given object into a specialized version for the current driver
+     * Resolve given (generic) object into a specialized version for the current driver
      *
      * @throws NotSupportedException
      * @throws DriverException

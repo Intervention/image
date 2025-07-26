@@ -5,14 +5,27 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit\Drivers\Imagick;
 
 use Generator;
+use Intervention\Image\Analyzers\WidthAnalyzer as GenericWidthAnalyzer;
+use Intervention\Image\Decoders\FilePathImageDecoder as GenericFilePathImageDecoder;
+use Intervention\Image\Encoders\PngEncoder as GenericPngEncoder;
+use Intervention\Image\Modifiers\ResizeModifier as GenericResizeModifier;
 use Intervention\Image\Colors\Rgb\Colorspace;
 use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder;
+use Intervention\Image\Drivers\Imagick\Analyzers\WidthAnalyzer;
+use Intervention\Image\Drivers\Imagick\Decoders\FilePathImageDecoder;
 use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\Drivers\Imagick\Encoders\PngEncoder;
+use Intervention\Image\Drivers\Imagick\Modifiers\ResizeModifier;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Format;
+use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorProcessorInterface;
+use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\SpecializableInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\MediaType;
 use Intervention\Image\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -210,5 +223,55 @@ final class DriverTest extends BaseTestCase
     public function testVersion(): void
     {
         $this->assertTrue(is_string($this->driver->version()));
+    }
+
+    #[DataProvider('spezializeDataProvider')]
+    public function testSpecialize(string $inputClassname, string $outputClassname): void
+    {
+        $this->assertInstanceOf($outputClassname, $this->driver->specialize(new $inputClassname()));
+    }
+
+    public static function spezializeDataProvider(): Generator
+    {
+        // specializing possible
+        yield [GenericResizeModifier::class, ResizeModifier::class];
+        yield [GenericWidthAnalyzer::class, WidthAnalyzer::class];
+        yield [GenericPngEncoder::class, PngEncoder::class];
+        yield [GenericFilePathImageDecoder::class, FilePathImageDecoder::class];
+
+        // already specialized
+        yield [ResizeModifier::class, ResizeModifier::class];
+        yield [WidthAnalyzer::class, WidthAnalyzer::class];
+        yield [PngEncoder::class, PngEncoder::class];
+        yield [FilePathImageDecoder::class, FilePathImageDecoder::class];
+    }
+
+    public function testSpecializeFailure(): void
+    {
+        $this->expectException(NotSupportedException::class);
+        $this->driver->specialize(new class () implements AnalyzerInterface, SpecializableInterface
+        {
+            protected DriverInterface $driver;
+
+            public function analyze(ImageInterface $image): mixed
+            {
+                return true;
+            }
+
+            public function specializable(): array
+            {
+                return [];
+            }
+
+            public function setDriver(DriverInterface $driver): SpecializableInterface
+            {
+                return $this;
+            }
+
+            public function driver(): DriverInterface
+            {
+                return $this->driver;
+            }
+        });
     }
 }

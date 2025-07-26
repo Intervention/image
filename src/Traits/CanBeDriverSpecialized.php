@@ -66,7 +66,7 @@ trait CanBeDriverSpecialized
     /**
      * Determine if the current object belongs to the given driver's namespace
      */
-    protected function belongsToDriver(DriverInterface $driver): bool
+    protected function belongsToDriver(object $driver): bool
     {
         $namespace = function (object $object): string {
             return (new ReflectionClass($object))->getNamespaceName();

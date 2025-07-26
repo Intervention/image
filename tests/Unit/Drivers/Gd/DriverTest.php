@@ -257,6 +257,7 @@ final class DriverTest extends BaseTestCase
                 return true;
             }
 
+            /** @return array<string, mixed> **/
             public function specializable(): array
             {
                 return [];

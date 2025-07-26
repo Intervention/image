@@ -25,7 +25,6 @@ use Intervention\Image\Interfaces\ColorProcessorInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializableInterface;
-use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\MediaType;
 use Intervention\Image\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -258,6 +257,7 @@ final class DriverTest extends BaseTestCase
                 return true;
             }
 
+            /** @return array<string, mixed> **/
             public function specializable(): array
             {
                 return [];

@@ -154,7 +154,7 @@ final class ImageManager implements ImageManagerInterface
         return $this->driver->handleImageInput(
             $input,
             match (true) {
-                is_string($decoders), is_a($decoders, DecoderInterface::class) => [$decoders],
+                is_string($decoders), ($decoders instanceof DecoderInterface) => [$decoders],
                 default => $decoders,
             }
         );

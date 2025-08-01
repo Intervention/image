@@ -11,29 +11,13 @@ use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Tests\Traits\CanGenerateTestData;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use PHPUnit\Framework\ExpectationFailedException;
 
 abstract class BaseTestCase extends MockeryTestCase
 {
-    public static function getTestResourcePath(string $filename = 'test.jpg'): string
-    {
-        return sprintf('%s/resources/%s', __DIR__, $filename);
-    }
-
-    public static function getTestResourceData(string $filename = 'test.jpg'): string
-    {
-        return file_get_contents(self::getTestResourcePath($filename));
-    }
-
-    public static function getTestResourcePointer(string $filename = 'test.jpg'): mixed
-    {
-        $pointer = fopen('php://temp', 'rw');
-        fwrite($pointer, self::getTestResourceData($filename));
-        rewind($pointer);
-
-        return $pointer;
-    }
+    use CanGenerateTestData;
 
     /**
      * Assert that given color equals the given color channel values in the given optional tolerance

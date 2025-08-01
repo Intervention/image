@@ -7,7 +7,6 @@ namespace Intervention\Image\Tests\Unit\Drivers\Gd;
 use Generator;
 use Intervention\Image\Analyzers\WidthAnalyzer as GenericWidthAnalyzer;
 use Intervention\Image\Colors\Rgb\Colorspace;
-use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder;
 use Intervention\Image\Decoders\FilePathImageDecoder as GenericFilePathImageDecoder;
 use Intervention\Image\Drivers\Gd\Analyzers\WidthAnalyzer;
 use Intervention\Image\Drivers\Gd\Decoders\FilePathImageDecoder;
@@ -20,7 +19,6 @@ use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Format;
 use Intervention\Image\Interfaces\AnalyzerInterface;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorProcessorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\DriverInterface;
@@ -29,8 +27,10 @@ use Intervention\Image\Interfaces\SpecializableInterface;
 use Intervention\Image\MediaType;
 use Intervention\Image\Modifiers\ResizeModifier as GenericResizeModifier;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Providers\InputDataProvider;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 #[RequiresPhpExtension('gd')]
@@ -74,8 +74,8 @@ final class DriverTest extends BaseTestCase
     /**
      * @param array<string|DecoderInterface> $decoders
      */
-    #[DataProvider('handleImageInputDataProvider')]
-    #[DataProvider('handleColorInputDataProvider')]
+    #[DataProviderExternal(InputDataProvider::class, 'handleImageInputDataProvider')]
+    #[DataProviderExternal(InputDataProvider::class, 'handleColorInputDataProvider')]
     public function testHandleInput(mixed $input, array $decoders, string $resultClassname): void
     {
         $this->assertInstanceOf($resultClassname, $this->driver->handleInput($input, $decoders));
@@ -84,7 +84,7 @@ final class DriverTest extends BaseTestCase
     /**
      * @param array<string|DecoderInterface> $decoders
      */
-    #[DataProvider('handleImageInputDataProvider')]
+    #[DataProviderExternal(InputDataProvider::class, 'handleImageInputDataProvider')]
     public function testHandleImageInput(mixed $input, array $decoders, string $resultClassname): void
     {
         $this->assertInstanceOf($resultClassname, $this->driver->handleImageInput($input, $decoders));
@@ -93,7 +93,7 @@ final class DriverTest extends BaseTestCase
     /**
      * @param array<string|DecoderInterface> $decoders
      */
-    #[DataProvider('handleColorInputDataProvider')]
+    #[DataProviderExternal(InputDataProvider::class, 'handleColorInputDataProvider')]
     public function testHandleColorInput(mixed $input, array $decoders, string $resultClassname): void
     {
         $this->assertInstanceOf($resultClassname, $this->driver->handleColorInput($input, $decoders));
@@ -102,8 +102,8 @@ final class DriverTest extends BaseTestCase
     /**
      * @param array<string|DecoderInterface> $decoders
      */
-    #[DataProvider('handleImageInputDataProvider')]
-    public function testHandleColorInputFail(mixed $input, array $decoders): void
+    #[DataProviderExternal(InputDataProvider::class, 'handleImageInputDataProvider')]
+    public function testHandleColorInputFail(mixed $input, array $decoders, string $resultClassname): void
     {
         $this->expectException(DecoderException::class);
         $this->driver->handleColorInput($input, $decoders);
@@ -112,47 +112,11 @@ final class DriverTest extends BaseTestCase
     /**
      * @param array<string|DecoderInterface> $decoders
      */
-    #[DataProvider('handleColorInputDataProvider')]
-    public function testHandleImageInputFail(mixed $input, array $decoders): void
+    #[DataProviderExternal(InputDataProvider::class, 'handleColorInputDataProvider')]
+    public function testHandleImageInputFail(mixed $input, array $decoders, string $resultClassname): void
     {
         $this->expectException(DecoderException::class);
         $this->driver->handleImageInput($input, $decoders);
-    }
-
-    public static function handleImageInputDataProvider(): Generator
-    {
-        yield [
-            self::getTestResourcePath('test.jpg'),
-            [],
-            ImageInterface::class,
-        ];
-
-        yield [
-            self::getTestResourceData('test.jpg'),
-            [],
-            ImageInterface::class,
-        ];
-    }
-
-    public static function handleColorInputDataProvider(): Generator
-    {
-        yield [
-            'ffffff',
-            [],
-            ColorInterface::class,
-        ];
-
-        yield [
-            'ffffff',
-            [new HexColorDecoder()],
-            ColorInterface::class,
-        ];
-
-        yield [
-            'ffffff',
-            [HexColorDecoder::class],
-            ColorInterface::class,
-        ];
     }
 
     public function testColorProcessor(): void

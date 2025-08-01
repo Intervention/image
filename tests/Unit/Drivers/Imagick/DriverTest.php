@@ -16,6 +16,7 @@ use Intervention\Image\Drivers\Imagick\Decoders\FilePathImageDecoder;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Drivers\Imagick\Encoders\PngEncoder;
 use Intervention\Image\Drivers\Imagick\Modifiers\ResizeModifier;
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Format;
@@ -27,8 +28,10 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializableInterface;
 use Intervention\Image\MediaType;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Providers\InputDataProvider;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 #[RequiresPhpExtension('imagick')]
@@ -69,33 +72,54 @@ final class DriverTest extends BaseTestCase
         $this->assertEquals(2, $image->count());
     }
 
-    public function testHandleInputImage(): void
+    /**
+     * @param array<string|DecoderInterface> $decoders
+     */
+    #[DataProviderExternal(InputDataProvider::class, 'handleImageInputDataProvider')]
+    #[DataProviderExternal(InputDataProvider::class, 'handleColorInputDataProvider')]
+    public function testHandleInput(mixed $input, array $decoders, string $resultClassname): void
     {
-        $result = $this->driver->handleInput($this->getTestResourcePath('test.jpg'));
-        $this->assertInstanceOf(ImageInterface::class, $result);
+        $this->assertInstanceOf($resultClassname, $this->driver->handleInput($input, $decoders));
     }
 
-    public function testHandleInputColor(): void
+    /**
+     * @param array<string|DecoderInterface> $decoders
+     */
+    #[DataProviderExternal(InputDataProvider::class, 'handleImageInputDataProvider')]
+    public function testHandleImageInput(mixed $input, array $decoders, string $resultClassname): void
     {
-        $result = $this->driver->handleInput('ffffff');
-        $this->assertInstanceOf(ColorInterface::class, $result);
+        $this->assertInstanceOf($resultClassname, $this->driver->handleImageInput($input, $decoders));
     }
 
-    public function testHandleInputObjects(): void
+    /**
+     * @param array<string|DecoderInterface> $decoders
+     */
+    #[DataProviderExternal(InputDataProvider::class, 'handleColorInputDataProvider')]
+    public function testHandleColorInput(mixed $input, array $decoders, string $resultClassname): void
     {
-        $result = $this->driver->handleInput('ffffff', [
-            new HexColorDecoder()
-        ]);
-        $this->assertInstanceOf(ColorInterface::class, $result);
+        $this->assertInstanceOf($resultClassname, $this->driver->handleColorInput($input, $decoders));
     }
 
-    public function testHandleInputClassnames(): void
+    /**
+     * @param array<string|DecoderInterface> $decoders
+     */
+    #[DataProviderExternal(InputDataProvider::class, 'handleImageInputDataProvider')]
+    public function testHandleColorInputFail(mixed $input, array $decoders, string $resultClassname): void
     {
-        $result = $this->driver->handleInput('ffffff', [
-            HexColorDecoder::class
-        ]);
-        $this->assertInstanceOf(ColorInterface::class, $result);
+        $this->expectException(DecoderException::class);
+        $this->driver->handleColorInput($input, $decoders);
     }
+
+    /**
+     * @param array<string|DecoderInterface> $decoders
+     */
+    #[DataProviderExternal(InputDataProvider::class, 'handleColorInputDataProvider')]
+    public function testHandleImageInputFail(mixed $input, array $decoders, string $resultClassname): void
+    {
+        $this->expectException(DecoderException::class);
+        $this->driver->handleImageInput($input, $decoders);
+    }
+
 
     public function testColorProcessor(): void
     {

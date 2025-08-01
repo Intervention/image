@@ -54,6 +54,6 @@ class ContainModifier extends SpecializableModifier
      */
     protected function backgroundColor(): ColorInterface
     {
-        return $this->driver()->handleInput($this->background ?? $this->driver()->config()->backgroundColor);
+        return $this->driver()->handleColorInput($this->background ?? $this->driver()->config()->backgroundColor);
     }
 }

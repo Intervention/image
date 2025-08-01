@@ -407,7 +407,7 @@ final class Image implements ImageInterface
      */
     public function backgroundColor(): ColorInterface
     {
-        return $this->driver()->handleInput(
+        return $this->driver()->handleColorInput(
             $this->driver()->config()->backgroundColor
         );
     }
@@ -420,7 +420,7 @@ final class Image implements ImageInterface
     public function setBackgroundColor(string|ColorInterface $color): ImageInterface
     {
         $this->driver()->config()->setOptions(
-            backgroundColor: $this->driver()->handleInput($color)
+            backgroundColor: $this->driver()->handleColorInput($color)
         );
 
         return $this;

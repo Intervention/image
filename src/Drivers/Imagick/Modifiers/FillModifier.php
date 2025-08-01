@@ -16,7 +16,7 @@ class FillModifier extends ModifiersFillModifier implements SpecializedInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         $pixel = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
-            $this->driver()->handleInput($this->color)
+            $this->driver()->handleColorInput($this->color)
         );
 
         foreach ($image->core()->native() as $frame) {

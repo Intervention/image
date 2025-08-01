@@ -23,6 +23,7 @@ interface ImageManagerInterface
      * Create new image instance from given file path
      *
      * @throws DecoderException
+     * @throws RuntimeException
      */
     public function readPath(string $path): ImageInterface;
 
@@ -30,6 +31,7 @@ interface ImageManagerInterface
      * Create new image instance from given image binary data
      *
      * @throws DecoderException
+     * @throws RuntimeException
      */
     public function readBinary(string $data): ImageInterface;
 
@@ -37,6 +39,7 @@ interface ImageManagerInterface
      * Create new image instance from given base64 encoded image data
      *
      * @throws DecoderException
+     * @throws RuntimeException
      */
     public function readBase64(string $data): ImageInterface;
 
@@ -44,6 +47,7 @@ interface ImageManagerInterface
      * Create new image instance from given data uri encoded image data
      *
      * @throws DecoderException
+     * @throws RuntimeException
      */
     public function readDataUri(string $uri): ImageInterface;
 
@@ -51,6 +55,7 @@ interface ImageManagerInterface
      * Create new image instance from given image stream resource
      *
      * @throws DecoderException
+     * @throws RuntimeException
      */
     public function readStream(mixed $stream): ImageInterface;
 
@@ -58,6 +63,7 @@ interface ImageManagerInterface
      * Create new image instance from given SplFileInfo image object
      *
      * @throws DecoderException
+     * @throws RuntimeException
      */
     public function readSplFileInfo(SplFileInfo $file): ImageInterface;
 

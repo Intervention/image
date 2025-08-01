@@ -18,7 +18,7 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
     {
         $format = 'JPEG';
         $compression = Imagick::COMPRESSION_JPEG;
-        $backgroundColor = $this->driver()->handleInput(
+        $backgroundColor = $this->driver()->handleColorInput(
             $this->driver()->config()->backgroundColor
         );
 

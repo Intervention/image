@@ -91,7 +91,7 @@ final class ImageManager implements ImageManagerInterface
      */
     public function readPath(string $path): ImageInterface
     {
-        return $this->driver->handleInput($path, [FilePathImageDecoder::class]);
+        return $this->driver->handleImageInput($path, [FilePathImageDecoder::class]);
     }
 
     /**
@@ -101,7 +101,7 @@ final class ImageManager implements ImageManagerInterface
      */
     public function readBinary(string $data): ImageInterface
     {
-        return $this->driver->handleInput($data, [BinaryImageDecoder::class]);
+        return $this->driver->handleImageInput($data, [BinaryImageDecoder::class]);
     }
 
     /**
@@ -111,7 +111,7 @@ final class ImageManager implements ImageManagerInterface
      */
     public function readBase64(string $data): ImageInterface
     {
-        return $this->driver->handleInput($data, [Base64ImageDecoder::class]);
+        return $this->driver->handleImageInput($data, [Base64ImageDecoder::class]);
     }
 
     /**
@@ -121,7 +121,7 @@ final class ImageManager implements ImageManagerInterface
      */
     public function readDataUri(string $uri): ImageInterface
     {
-        return $this->driver->handleInput($uri, [DataUriImageDecoder::class]);
+        return $this->driver->handleImageInput($uri, [DataUriImageDecoder::class]);
     }
 
     /**
@@ -131,7 +131,7 @@ final class ImageManager implements ImageManagerInterface
      */
     public function readStream(mixed $stream): ImageInterface
     {
-        return $this->driver->handleInput($stream, [FilePointerImageDecoder::class]);
+        return $this->driver->handleImageInput($stream, [FilePointerImageDecoder::class]);
     }
 
     /**
@@ -141,7 +141,7 @@ final class ImageManager implements ImageManagerInterface
      */
     public function readSplFileInfo(SplFileInfo $file): ImageInterface
     {
-        return $this->driver->handleInput($file, [SplFileInfoImageDecoder::class]);
+        return $this->driver->handleImageInput($file, [SplFileInfoImageDecoder::class]);
     }
 
     /**
@@ -151,7 +151,7 @@ final class ImageManager implements ImageManagerInterface
      */
     public function read(mixed $input, string|array|DecoderInterface $decoders = []): ImageInterface
     {
-        return $this->driver->handleInput(
+        return $this->driver->handleImageInput(
             $input,
             match (true) {
                 is_string($decoders), is_a($decoders, DecoderInterface::class) => [$decoders],

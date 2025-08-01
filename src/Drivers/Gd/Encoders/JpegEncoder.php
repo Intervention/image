@@ -19,7 +19,7 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
      */
     public function encode(ImageInterface $image): EncodedImage
     {
-        $backgroundColor = $this->driver()->handleInput(
+        $backgroundColor = $this->driver()->handleColorInput(
             $this->driver()->config()->backgroundColor
         );
 

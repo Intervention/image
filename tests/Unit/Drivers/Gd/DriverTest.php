@@ -15,12 +15,14 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Drivers\Gd\Encoders\PngEncoder;
 use Intervention\Image\Drivers\Gd\Modifiers\ResizeModifier;
 use Intervention\Image\Encoders\PngEncoder as GenericPngEncoder;
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Format;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorProcessorInterface;
+use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializableInterface;
@@ -69,32 +71,88 @@ final class DriverTest extends BaseTestCase
         $this->assertEquals(2, $image->count());
     }
 
-    public function testHandleInputImage(): void
+    /**
+     * @param array<string|DecoderInterface> $decoders
+     */
+    #[DataProvider('handleImageInputDataProvider')]
+    #[DataProvider('handleColorInputDataProvider')]
+    public function testHandleInput(mixed $input, array $decoders, string $resultClassname): void
     {
-        $result = $this->driver->handleInput($this->getTestResourcePath('test.jpg'));
-        $this->assertInstanceOf(ImageInterface::class, $result);
+        $this->assertInstanceOf($resultClassname, $this->driver->handleInput($input, $decoders));
     }
 
-    public function testHandleInputColor(): void
+    /**
+     * @param array<string|DecoderInterface> $decoders
+     */
+    #[DataProvider('handleImageInputDataProvider')]
+    public function testHandleImageInput(mixed $input, array $decoders, string $resultClassname): void
     {
-        $result = $this->driver->handleInput('ffffff');
-        $this->assertInstanceOf(ColorInterface::class, $result);
+        $this->assertInstanceOf($resultClassname, $this->driver->handleImageInput($input, $decoders));
     }
 
-    public function testHandleInputObjects(): void
+    /**
+     * @param array<string|DecoderInterface> $decoders
+     */
+    #[DataProvider('handleColorInputDataProvider')]
+    public function testHandleColorInput(mixed $input, array $decoders, string $resultClassname): void
     {
-        $result = $this->driver->handleInput('ffffff', [
-            new HexColorDecoder()
-        ]);
-        $this->assertInstanceOf(ColorInterface::class, $result);
+        $this->assertInstanceOf($resultClassname, $this->driver->handleColorInput($input, $decoders));
     }
 
-    public function testHandleInputClassnames(): void
+    /**
+     * @param array<string|DecoderInterface> $decoders
+     */
+    #[DataProvider('handleImageInputDataProvider')]
+    public function testHandleColorInputFail(mixed $input, array $decoders): void
     {
-        $result = $this->driver->handleInput('ffffff', [
-            HexColorDecoder::class
-        ]);
-        $this->assertInstanceOf(ColorInterface::class, $result);
+        $this->expectException(DecoderException::class);
+        $this->driver->handleColorInput($input, $decoders);
+    }
+
+    /**
+     * @param array<string|DecoderInterface> $decoders
+     */
+    #[DataProvider('handleColorInputDataProvider')]
+    public function testHandleImageInputFail(mixed $input, array $decoders): void
+    {
+        $this->expectException(DecoderException::class);
+        $this->driver->handleImageInput($input, $decoders);
+    }
+
+    public static function handleImageInputDataProvider(): Generator
+    {
+        yield [
+            self::getTestResourcePath('test.jpg'),
+            [],
+            ImageInterface::class,
+        ];
+
+        yield [
+            self::getTestResourceData('test.jpg'),
+            [],
+            ImageInterface::class,
+        ];
+    }
+
+    public static function handleColorInputDataProvider(): Generator
+    {
+        yield [
+            'ffffff',
+            [],
+            ColorInterface::class,
+        ];
+
+        yield [
+            'ffffff',
+            [new HexColorDecoder()],
+            ColorInterface::class,
+        ];
+
+        yield [
+            'ffffff',
+            [HexColorDecoder::class],
+            ColorInterface::class,
+        ];
     }
 
     public function testColorProcessor(): void

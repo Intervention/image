@@ -6,6 +6,7 @@ namespace Intervention\Image\Drivers\Gd;
 
 use Intervention\Image\Exceptions\AnimationException;
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\AnimationFactoryInterface;
 use Intervention\Image\Interfaces\CoreInterface;
@@ -24,11 +25,12 @@ class AnimationFactory implements AnimationFactoryInterface
     /**
      * @throws AnimationException
      * @throws DecoderException
+     * @throws RuntimeException
      */
     public function add(mixed $source, float $delay = 1): self
     {
         $this->core->add(
-            $this->driver->handleInput($source)->core()->first()->setDelay($delay)
+            $this->driver->handleImageInput($source)->core()->first()->setDelay($delay)
         );
 
         return $this;

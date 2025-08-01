@@ -63,6 +63,50 @@ abstract class AbstractDriver implements DriverInterface
     /**
      * {@inheritdoc}
      *
+     * @see DriverInterface::handleImageInput()
+     *
+     * @throws DriverException|DecoderException|NotSupportedException|RuntimeException
+     */
+    public function handleImageInput(mixed $input, array $decoders = []): ImageInterface
+    {
+        $handler = count($decoders) ?
+            InputHandler::withDecoders($decoders, $this) :
+            InputHandler::withImageDecoders($this);
+
+        $result = $handler->handle($input);
+
+        if (!($result instanceof ImageInterface)) {
+            throw new DecoderException('Unable to decode input to instance of ImageInterface.');
+        }
+
+        return $result;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DriverInterface::handleColorInput()
+     *
+     * @throws DriverException|DecoderException|NotSupportedException|RuntimeException
+     */
+    public function handleColorInput(mixed $input, array $decoders = []): ColorInterface
+    {
+        $handler = count($decoders) ?
+            InputHandler::withDecoders($decoders, $this) :
+            InputHandler::withColorDecoders($this);
+
+        $result = $handler->handle($input);
+
+        if (!($result instanceof ColorInterface)) {
+            throw new DecoderException('Unable to decode input to instance of ColorInterface.');
+        }
+
+        return $result;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see DriverInterface::specialize()
      */
     public function specialize(

@@ -68,6 +68,36 @@ interface DriverInterface
     public function handleInput(mixed $input, array $decoders = []): ImageInterface|ColorInterface;
 
     /**
+     * Handle given image source by decoding it to ImageInterface
+     *
+     * Image sources can be as follows:
+     *
+     * - Path in filesystem
+     * - Raw binary image data
+     * - Base64 encoded image data
+     * - Data Uri
+     * - File Pointer resource
+     * - SplFileInfo object
+     * - Intervention Image Instance (Intervention\Image\Image)
+     * - Encoded Intervention Image (Intervention\Image\EncodedImage)
+     * - Driver-specific image (instance of GDImage or Imagick)
+     *
+     * @param array<string|DecoderInterface> $decoders
+     * @throws DecoderException
+     * @throws RuntimeException
+     */
+    public function handleImageInput(mixed $input, array $decoders = []): ImageInterface;
+
+    /**
+     * Handle given image source by decoding it to ColorInterface
+     *
+     * @param array<string|DecoderInterface> $decoders
+     * @throws DecoderException
+     * @throws RuntimeException
+     */
+    public function handleColorInput(mixed $input, array $decoders = []): ColorInterface;
+
+    /**
      * Return color processor for the given colorspace
      */
     public function colorProcessor(ColorspaceInterface $colorspace): ColorProcessorInterface;

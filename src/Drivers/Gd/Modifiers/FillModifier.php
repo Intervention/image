@@ -38,7 +38,7 @@ class FillModifier extends GenericFillModifier implements SpecializedInterface
     private function color(ImageInterface $image): int
     {
         return $this->driver()->colorProcessor($image->colorspace())->colorToNative(
-            $this->driver()->handleInput($this->color)
+            $this->driver()->handleColorInput($this->color)
         );
     }
 

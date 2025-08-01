@@ -33,22 +33,9 @@ use Intervention\Image\Interfaces\InputHandlerInterface;
 
 class InputHandler implements InputHandlerInterface
 {
-    /**
-     * Decoder classnames in hierarchical order
-     *
-     * @var array<string|DecoderInterface>
-     */
-    protected array $decoders = [
+    public const IMAGE_DECODERS = [
         NativeObjectDecoder::class,
         ImageObjectDecoder::class,
-        ColorObjectDecoder::class,
-        RgbHexColorDecoder::class,
-        RgbStringColorDecoder::class,
-        CmykStringColorDecoder::class,
-        HsvStringColorDecoder::class,
-        HslStringColorDecoder::class,
-        TransparentColorDecoder::class,
-        HtmlColornameDecoder::class,
         FilePointerImageDecoder::class,
         FilePathImageDecoder::class,
         SplFileInfoImageDecoder::class,
@@ -57,6 +44,24 @@ class InputHandler implements InputHandlerInterface
         Base64ImageDecoder::class,
         EncodedImageObjectDecoder::class,
     ];
+
+    public const COLOR_DECODERS = [
+        ColorObjectDecoder::class,
+        RgbHexColorDecoder::class,
+        RgbStringColorDecoder::class,
+        CmykStringColorDecoder::class,
+        HsvStringColorDecoder::class,
+        HslStringColorDecoder::class,
+        TransparentColorDecoder::class,
+        HtmlColornameDecoder::class,
+    ];
+
+    /**
+     * Decoder classnames in hierarchical order
+     *
+     * @var array<string|DecoderInterface>
+     */
+    protected array $decoders = [];
 
     /**
      * Driver with which the decoder classes are specialized
@@ -71,18 +76,34 @@ class InputHandler implements InputHandlerInterface
      */
     public function __construct(array $decoders = [], ?DriverInterface $driver = null)
     {
-        $this->decoders = count($decoders) ? $decoders : $this->decoders;
+        $this->decoders = count($decoders) ? $decoders : array_merge(self::COLOR_DECODERS, self::IMAGE_DECODERS);
         $this->driver = $driver;
     }
 
     /**
-     * Static factory method
+     * Static factory method to create input handler for both image and color handling
      *
      * @param array<string|DecoderInterface> $decoders
      */
     public static function withDecoders(array $decoders, ?DriverInterface $driver = null): self
     {
         return new self($decoders, $driver);
+    }
+
+    /**
+     * Static factory method to create input handler for image handling
+     */
+    public static function withImageDecoders(?DriverInterface $driver = null): self
+    {
+        return new self(self::IMAGE_DECODERS, $driver);
+    }
+
+    /**
+     * Static factory method to create input handler for color handling
+     */
+    public static function withColorDecoders(?DriverInterface $driver = null): self
+    {
+        return new self(self::COLOR_DECODERS, $driver);
     }
 
     /**

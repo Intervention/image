@@ -36,7 +36,7 @@ class BackgroundModifier extends SpecializableModifier
     protected function backgroundColor(DriverInterface $driver): ColorInterface
     {
         // decode background color
-        $color = $driver->handleInput(
+        $color = $driver->handleColorInput(
             $this->color ?: $driver->config()->backgroundColor
         );
 

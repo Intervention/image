@@ -13,7 +13,7 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {
-        $watermark = $this->driver()->handleInput($this->element);
+        $watermark = $this->driver()->handleImageInput($this->element);
         $position = $this->position($image, $watermark);
 
         // set opacity of watermark

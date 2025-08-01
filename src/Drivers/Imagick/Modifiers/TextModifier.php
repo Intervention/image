@@ -59,7 +59,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
      */
     private function imagickDrawText(ImageInterface $image, FontInterface $font): ImagickDraw
     {
-        $color = $this->driver()->handleInput($font->color());
+        $color = $this->driver()->handleColorInput($font->color());
 
         if ($font->hasStrokeEffect() && $color->isTransparent()) {
             throw new ColorException(
@@ -87,7 +87,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
             return null;
         }
 
-        $color = $this->driver()->handleInput($font->strokeColor());
+        $color = $this->driver()->handleColorInput($font->strokeColor());
 
         if ($color->isTransparent()) {
             throw new ColorException(

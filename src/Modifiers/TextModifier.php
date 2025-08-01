@@ -40,7 +40,7 @@ class TextModifier extends SpecializableModifier
      */
     protected function textColor(): ColorInterface
     {
-        $color = $this->driver()->handleInput($this->font->color());
+        $color = $this->driver()->handleColorInput($this->font->color());
 
         if ($this->font->hasStrokeEffect() && $color->isTransparent()) {
             throw new ColorException(
@@ -59,7 +59,7 @@ class TextModifier extends SpecializableModifier
      */
     protected function strokeColor(): ColorInterface
     {
-        $color = $this->driver()->handleInput($this->font->strokeColor());
+        $color = $this->driver()->handleColorInput($this->font->strokeColor());
 
         if ($color->isTransparent()) {
             throw new ColorException(

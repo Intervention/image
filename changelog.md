@@ -8,6 +8,8 @@
 - ImageManagerInterface::readSplFileInfo()
 - ImageManagerInterface::readDataUri()
 - Alignment::class
+- DriverInterface::handleImageInput()
+- DriverInterface::handleColorInput()
 
 ## API Changes
 

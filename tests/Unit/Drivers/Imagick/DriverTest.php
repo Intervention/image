@@ -10,7 +10,6 @@ use Intervention\Image\Decoders\FilePathImageDecoder as GenericFilePathImageDeco
 use Intervention\Image\Encoders\PngEncoder as GenericPngEncoder;
 use Intervention\Image\Modifiers\ResizeModifier as GenericResizeModifier;
 use Intervention\Image\Colors\Rgb\Colorspace;
-use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder;
 use Intervention\Image\Drivers\Imagick\Analyzers\WidthAnalyzer;
 use Intervention\Image\Drivers\Imagick\Decoders\FilePathImageDecoder;
 use Intervention\Image\Drivers\Imagick\Driver;
@@ -21,7 +20,6 @@ use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Format;
 use Intervention\Image\Interfaces\AnalyzerInterface;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorProcessorInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -119,7 +117,6 @@ final class DriverTest extends BaseTestCase
         $this->expectException(DecoderException::class);
         $this->driver->handleImageInput($input, $decoders);
     }
-
 
     public function testColorProcessor(): void
     {

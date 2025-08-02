@@ -37,7 +37,13 @@ class File implements FileInterface, Stringable
      */
     public static function fromPath(string $path): self
     {
-        return new self(fopen($path, 'r'));
+        $pointer = fopen($path, 'r');
+
+        if ($pointer === false) {
+            throw new RuntimeException('Unable to open file from path "' . $path . '".');
+        }
+
+        return new self($pointer);
     }
 
     /**
@@ -80,10 +86,18 @@ class File implements FileInterface, Stringable
      * {@inheritdoc}
      *
      * @see FileInterface::toString()
+     *
+     * @throws RuntimeException
      */
     public function toString(): string
     {
-        return stream_get_contents($this->toFilePointer(), offset: 0);
+        $data = stream_get_contents($this->toFilePointer(), offset: 0);
+
+        if ($data === false) {
+            throw new RuntimeException('Unable to cast ' . self::class . 'object to string.');
+        }
+
+        return $data;
     }
 
     /**
@@ -102,10 +116,16 @@ class File implements FileInterface, Stringable
      * {@inheritdoc}
      *
      * @see FileInterface::size()
+     *
+     * @throws RuntimeException
      */
     public function size(): int
     {
         $info = fstat($this->toFilePointer());
+
+        if (!is_array($info)) {
+            throw new RuntimeException('Unable to read size of file pointer.');
+        }
 
         return intval($info['size']);
     }
@@ -114,6 +134,8 @@ class File implements FileInterface, Stringable
      * {@inheritdoc}
      *
      * @see FileInterface::__toString()
+     *
+     * @throws RuntimeException
      */
     public function __toString(): string
     {

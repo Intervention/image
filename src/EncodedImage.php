@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image;
 
 use Intervention\Image\Interfaces\EncodedImageInterface;
+use Throwable;
 
 class EncodedImage extends File implements EncodedImageInterface
 {
@@ -57,9 +58,15 @@ class EncodedImage extends File implements EncodedImageInterface
      */
     public function __debugInfo(): array
     {
+        try {
+            $size = $this->size();
+        } catch (Throwable) {
+            $size = 0;
+        }
+
         return [
             'mediaType' => $this->mediaType(),
-            'size' => $this->size(),
+            'size' => $size,
         ];
     }
 }

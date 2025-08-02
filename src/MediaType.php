@@ -76,8 +76,7 @@ enum MediaType: string
     /**
      * Try to create media type from given identifier and return null on failure
      *
-     * @param string|Format|MediaType|FileExtension $identifier
-     * @return MediaType|null
+     * @throws RuntimeException
      */
     public static function tryCreate(string|self|Format|FileExtension $identifier): ?self
     {

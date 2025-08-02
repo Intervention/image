@@ -33,7 +33,7 @@ final class AbstractDecoderTest extends BaseTestCase
         $source = $this->getTestResourceData('exif.jpg');
         $pointer = $this->getTestResourcePointer('exif.jpg');
         $decoder = Mockery::mock(AbstractDecoder::class);
-        $decoder->shouldReceive('buildFilePointer')->with($source)->andReturn($pointer);
+        $decoder->shouldReceive('buildFilePointerOrFail')->with($source)->andReturn($pointer);
         $result = $decoder->extractExifData($source);
         $this->assertInstanceOf(CollectionInterface::class, $result);
         $this->assertEquals('Oliver Vogel', $result->get('IFD0.Artist'));

@@ -43,7 +43,7 @@ abstract class AbstractDecoder implements DecoderInterface
         } catch (Throwable) {
             try {
                 // source might be file pointer
-                $source = $this->buildFilePointer($input);
+                $source = $this->buildFilePointerOrFail($input);
             } catch (RuntimeException) {
                 return new Collection();
             }

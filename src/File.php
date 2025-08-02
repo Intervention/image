@@ -27,7 +27,7 @@ class File implements FileInterface, Stringable
      */
     public function __construct(mixed $data = null)
     {
-        $this->pointer = $this->buildFilePointer($data);
+        $this->pointer = $this->buildFilePointerOrFail($data);
     }
 
     /**

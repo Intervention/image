@@ -15,7 +15,7 @@ trait CanBuildFilePointer
      * @throws RuntimeException
      * @return resource
      */
-    public function buildFilePointer(mixed $data = null)
+    public function buildFilePointerOrFail(mixed $data = null)
     {
         $buildPointerStrategy = match (true) {
             is_null($data) => fn(mixed $data) => fopen('php://temp', 'r+'),

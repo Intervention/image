@@ -34,7 +34,7 @@ abstract class AbstractEncoder implements EncoderInterface
      */
     protected function createEncodedImage(callable $callback, ?string $mediaType = null): EncodedImage
     {
-        $pointer = $this->buildFilePointer();
+        $pointer = $this->buildFilePointerOrFail();
         $callback($pointer);
 
         return is_string($mediaType) ? new EncodedImage($pointer, $mediaType) : new EncodedImage($pointer);

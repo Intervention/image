@@ -37,7 +37,7 @@ class Core implements CoreInterface, Iterator
     public function has(int|string $key): bool
     {
         try {
-            $result = $this->imagick->setIteratorIndex($key);
+            $result = $this->imagick->setIteratorIndex((int) $key);
         } catch (ImagickException) {
             return false;
         }
@@ -63,7 +63,7 @@ class Core implements CoreInterface, Iterator
     public function get(int|string $key, mixed $default = null): mixed
     {
         try {
-            $this->imagick->setIteratorIndex($key);
+            $this->imagick->setIteratorIndex((int) $key);
         } catch (ImagickException) {
             return $default;
         }

@@ -13,26 +13,25 @@ trait CanBuildFilePointer
      *
      * @param resource|string|null $data
      * @throws RuntimeException
-     * @return resource|false
+     * @return resource
      */
     public function buildFilePointer(mixed $data = null)
     {
-        switch (true) {
-            case is_string($data):
+        $buildPointerStrategy = match (true) {
+            is_null($data) => fn(mixed $data) => fopen('php://temp', 'r+'),
+            is_resource($data) && get_resource_type($data) === 'stream' => fn(mixed $data) => $data,
+            is_string($data) => function (mixed $data) {
                 $pointer = fopen('php://temp', 'r+');
                 fwrite($pointer, $data);
-                break;
+                return $pointer;
+            },
+            default => throw new RuntimeException('Unable to build file pointer.'),
+        };
 
-            case is_resource($data) && get_resource_type($data) === 'stream':
-                $pointer = $data;
-                break;
+        $pointer = call_user_func($buildPointerStrategy, $data);
 
-            case is_null($data):
-                $pointer = fopen('php://temp', 'r+');
-                break;
-
-            default:
-                throw new RuntimeException('Unable to build file pointer.');
+        if ($pointer === false) {
+            throw new RuntimeException('Unable to build file pointer.');
         }
 
         rewind($pointer);

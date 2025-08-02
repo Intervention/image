@@ -6,6 +6,8 @@ namespace Intervention\Image;
 
 use Error;
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Exceptions\RuntimeException as ExceptionsRuntimeException;
 
 enum MediaType: string
 {
@@ -41,7 +43,7 @@ enum MediaType: string
     /**
      * Create media type from given identifier
      *
-     * @param string|Format|MediaType|FileExtension $identifier
+     * @throws ExceptionsRuntimeException
      * @throws NotSupportedException
      */
     public static function create(string|self|Format|FileExtension $identifier): self
@@ -135,6 +137,8 @@ enum MediaType: string
 
     /**
      * Return the first file extension for the current media type
+     *
+     * @throws RuntimeException
      */
     public function fileExtension(): FileExtension
     {

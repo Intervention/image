@@ -22,6 +22,11 @@ trait CanBuildFilePointer
             is_resource($data) && get_resource_type($data) === 'stream' => fn(mixed $data) => $data,
             is_string($data) => function (mixed $data) {
                 $pointer = fopen('php://temp', 'r+');
+
+                if ($pointer === false) {
+                    throw new RuntimeException('Unable to build file pointer.');
+                }
+
                 fwrite($pointer, $data);
                 return $pointer;
             },

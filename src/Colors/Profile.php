@@ -17,6 +17,12 @@ class Profile extends File implements ProfileInterface
      */
     public static function fromPath(string $path): self
     {
-        return new self(fopen($path, 'r'));
+        $pointer = fopen($path, 'r');
+
+        if ($pointer === false) {
+            throw new RuntimeException('Unable to read image profile from path.');
+        }
+
+        return new self($pointer);
     }
 }

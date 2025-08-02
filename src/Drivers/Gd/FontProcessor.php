@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd;
 
 use Intervention\Image\Drivers\AbstractFontProcessor;
+use Intervention\Image\Exceptions\FontException;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\FontInterface;
@@ -43,6 +44,10 @@ class FontProcessor extends AbstractFontProcessor
             font_filename: $font->filename(),
             string: $text
         );
+
+        if ($box === false) {
+            throw new FontException('Unable to calculate box size of font.');
+        }
 
         // build size from points
         return new Rectangle(

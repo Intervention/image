@@ -19,6 +19,7 @@ class Cloner
      * Create a clone of the given GdImage
      *
      * @throws ColorException
+     * @throws GeometryException
      */
     public static function clone(GdImage $gd): GdImage
     {
@@ -82,6 +83,7 @@ class Cloner
      * Possible transparent areas are mixed with this color.
      *
      * @throws ColorException
+     * @throws GeometryException
      */
     public static function cloneBlended(GdImage $gd, ColorInterface $background): GdImage
     {

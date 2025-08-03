@@ -10,6 +10,7 @@ use Intervention\Image\Colors\Cmyk\Channels\Magenta;
 use Intervention\Image\Colors\Cmyk\Channels\Yellow;
 use Intervention\Image\Colors\Cmyk\Channels\Key;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
@@ -72,6 +73,8 @@ class Color extends AbstractColor
      * {@inheritdoc}
      *
      * @see ColorInterface::toHex()
+     *
+     * @throws ColorException
      */
     public function toHex(string $prefix = ''): string
     {

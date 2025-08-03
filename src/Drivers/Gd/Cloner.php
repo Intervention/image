@@ -8,6 +8,7 @@ use GdImage;
 use Intervention\Image\Colors\Rgb\Channels\Alpha;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Exceptions\ColorException;
+use Intervention\Image\Exceptions\GeometryException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -38,6 +39,7 @@ class Cloner
      * background color.
      *
      * @throws ColorException
+     * @throws GeometryException
      */
     public static function cloneEmpty(
         GdImage $gd,
@@ -46,6 +48,10 @@ class Cloner
     ): GdImage {
         // define size
         $size = $size ?: new Rectangle(imagesx($gd), imagesy($gd));
+
+        if ($size->width() < 1 || $size->height() < 1) {
+            throw new GeometryException('Invalid image size.');
+        }
 
         // create new gd image with same size or new given size
         $clone = imagecreatetruecolor($size->width(), $size->height());

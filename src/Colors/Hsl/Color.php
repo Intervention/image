@@ -9,6 +9,7 @@ use Intervention\Image\Colors\Hsl\Channels\Hue;
 use Intervention\Image\Colors\Hsl\Channels\Luminance;
 use Intervention\Image\Colors\Hsl\Channels\Saturation;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
@@ -93,6 +94,13 @@ class Color extends AbstractColor
         return $this->channel(Luminance::class);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::toHex()
+     *
+     * @throws ColorException
+     */
     public function toHex(string $prefix = ''): string
     {
         return $this->convertTo(RgbColorspace::class)->toHex($prefix);

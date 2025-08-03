@@ -9,6 +9,7 @@ use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Exceptions\ColorException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -38,6 +39,7 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
 
     /**
      * @throws ColorException
+     * @throws RuntimeException
      */
     protected function modify(
         FrameInterface $frame,

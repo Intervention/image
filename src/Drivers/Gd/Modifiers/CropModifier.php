@@ -6,6 +6,7 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Exceptions\ColorException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -35,6 +36,7 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
 
     /**
      * @throws ColorException
+     * @throws RuntimeException
      */
     protected function cropFrame(
         FrameInterface $frame,

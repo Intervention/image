@@ -79,6 +79,8 @@ abstract class AbstractColor implements ColorInterface, Stringable
      * {@inheritdoc}
      *
      * @see ColorInterface::convertTo()
+     *
+     * @throws ColorException
      */
     public function convertTo(string|ColorspaceInterface $colorspace): ColorInterface
     {
@@ -86,6 +88,10 @@ abstract class AbstractColor implements ColorInterface, Stringable
             is_object($colorspace) => $colorspace,
             default => new $colorspace(),
         };
+
+        if (!($colorspace instanceof ColorspaceInterface)) {
+            throw new ColorException('Unable to convert to given colorspace.');
+        }
 
         return $colorspace->importColor($this);
     }

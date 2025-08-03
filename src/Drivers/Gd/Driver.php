@@ -6,6 +6,8 @@ namespace Intervention\Image\Drivers\Gd;
 
 use Intervention\Image\Drivers\AbstractDriver;
 use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\GeometryException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Format;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Image;
@@ -47,13 +49,24 @@ class Driver extends AbstractDriver
      * {@inheritdoc}
      *
      * @see DriverInterface::createImage()
+     *
+     * @throws RuntimeException
+     * @throws GeometryException
      */
     public function createImage(int $width, int $height): ImageInterface
     {
+        if ($width < 1 || $height < 1) {
+            throw new GeometryException('Invalid image size. Only use int<1, max>.');
+        }
+
         // build new transparent GDImage
         $data = imagecreatetruecolor($width, $height);
         imagesavealpha($data, true);
         $background = imagecolorallocatealpha($data, 255, 255, 255, 127);
+        if ($background === false) {
+            throw new RuntimeException('Unable to create initial background color color.');
+        }
+
         imagealphablending($data, false);
         imagefill($data, 0, 0, $background);
         imagecolortransparent($data, $background);

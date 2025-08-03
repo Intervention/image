@@ -33,6 +33,7 @@ class ResizeModifier extends GenericResizeModifier implements SpecializedInterfa
 
     /**
      * @throws ColorException
+     * @throws RuntimeException
      */
     private function resizeFrame(FrameInterface $frame, SizeInterface $resizeTo): void
     {

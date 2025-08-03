@@ -6,8 +6,9 @@ namespace Intervention\Image\Interfaces;
 
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\RuntimeException;
+use Stringable;
 
-interface ColorInterface
+interface ColorInterface extends Stringable
 {
     /**
      * Static color factory method that takes any supported color format
@@ -79,9 +80,4 @@ interface ColorInterface
      * Determine whether the current color is completely transparent
      */
     public function isClear(): bool;
-
-    /**
-     * Cast color object to string
-     */
-    public function __toString(): string;
 }

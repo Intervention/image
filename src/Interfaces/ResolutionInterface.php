@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
-interface ResolutionInterface
+use Stringable;
+
+interface ResolutionInterface extends Stringable
 {
     /**
      * Return resolution of x-axis
@@ -45,9 +47,4 @@ interface ResolutionInterface
      * Transform object to string
      */
     public function toString(): string;
-
-    /**
-     * Cast object to string
-     */
-    public function __toString(): string;
 }

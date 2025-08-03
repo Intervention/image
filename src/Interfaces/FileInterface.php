@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Intervention\Image\Interfaces;
 
 use Intervention\Image\Exceptions\RuntimeException;
+use Stringable;
 
-interface FileInterface
+interface FileInterface extends Stringable
 {
     /**
      * Save data in given path in file system
@@ -28,12 +29,7 @@ interface FileInterface
     public function size(): int;
 
     /**
-     * Turn encoded data into string
+     * Transform file object into string
      */
     public function toString(): string;
-
-    /**
-     * Cast encoded data into string
-     */
-    public function __toString(): string;
 }

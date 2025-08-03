@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Intervention\Image\Interfaces;
 
 use Intervention\Image\Exceptions\ColorException;
+use Stringable;
 
-interface ColorChannelInterface
+interface ColorChannelInterface extends Stringable
 {
     /**
      * Create new instance by either value or normalized value
@@ -46,12 +47,7 @@ interface ColorChannelInterface
     public function max(): int;
 
     /**
-     * Cast color channel's value to string
+     * Transform color channel's value to string
      */
     public function toString(): string;
-
-    /**
-     * Cast color channel's value to string
-     */
-    public function __toString(): string;
 }

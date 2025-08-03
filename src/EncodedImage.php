@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
+use Intervention\Image\Interfaces\DataUriInterface;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Throwable;
 
@@ -46,9 +47,12 @@ class EncodedImage extends File implements EncodedImageInterface
      *
      * @see EncodedImageInterface::toDataUri()
      */
-    public function toDataUri(): string
+    public function toDataUri(): DataUriInterface
     {
-        return sprintf('data:%s;base64,%s', $this->mediaType(), base64_encode((string) $this));
+        return DataUri::createBase64Encoded(
+            data: (string) $this,
+            mediaType: $this->mediaType(),
+        );
     }
 
     /**

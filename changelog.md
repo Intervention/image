@@ -10,6 +10,7 @@
 - Alignment::class
 - DriverInterface::handleImageInput()
 - DriverInterface::handleColorInput()
+- DataUri::class
 
 ## API Changes
 
@@ -24,3 +25,4 @@
 - Changed default value for `background` to `null` in ImageInterface::crop()
 - Signature of ImageInterface::crop() changed `offset_x` is no `x` and `offset_y` is now `y`
 - Signature of ImageInterface::place() changed `offset_x` is no `x` and `offset_y` is now `y`
+- EncodedImageInterface::toDataUri() now returns `DataUriInterface` instead of `string´

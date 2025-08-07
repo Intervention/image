@@ -36,16 +36,6 @@ interface DriverInterface
     ): ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface;
 
     /**
-     * Resolve array of classnames or objects into their specialized version for the current driver
-     *
-     * @param array<string|object> $objects
-     * @throws NotSupportedException
-     * @throws DriverException
-     * @return array<object>
-     */
-    public function specializeMultiple(array $objects): array;
-
-    /**
      * Create new image instance with the current driver in given dimensions
      *
      * @throws RuntimeException

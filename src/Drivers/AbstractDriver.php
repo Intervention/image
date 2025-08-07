@@ -149,27 +149,4 @@ abstract class AbstractDriver implements DriverInterface
         // attach driver
         return $specialized->setDriver($this);
     }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see DriverInterface::specializeMultiple()
-     *
-     * @throws NotSupportedException
-     * @throws DriverException
-     */
-    public function specializeMultiple(array $objects): array
-    {
-        return array_map(
-            function (string|object $object): ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface {
-                return $this->specialize(
-                    match (true) {
-                        is_string($object) => new $object(),
-                        is_object($object) => $object,
-                    }
-                );
-            },
-            $objects
-        );
-    }
 }

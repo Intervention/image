@@ -22,7 +22,7 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 #[CoversClass(InputHandler::class)]
 class InputHandlerTest extends BaseTestCase
 {
-    #[DataProvider('testHandleProvider')]
+    #[DataProvider('handleProvider')]
     public function testHandleDefaultDecoders(string $driver, mixed $input, string $outputClassname): void
     {
         $handler = new InputHandler(driver: new $driver());
@@ -34,7 +34,7 @@ class InputHandlerTest extends BaseTestCase
         }
     }
 
-    public static function testHandleProvider(): Generator
+    public static function handleProvider(): Generator
     {
         $base = [
             [null, DecoderException::class],

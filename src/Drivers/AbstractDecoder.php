@@ -76,11 +76,11 @@ abstract class AbstractDecoder implements DecoderInterface
         $decoded = base64_decode($input, true);
 
         if ($decoded === false) {
-            throw new DecoderException('Input can not be Base64-decoded.');
+            throw new DecoderException('Input is not Base64-encoded data.');
         }
 
         if (base64_encode($decoded) !== str_replace(["\n", "\r"], '', $input)) {
-            throw new DecoderException('Input is not Base64-decoded data.');
+            throw new DecoderException('Input is not Base64-encoded data.');
         }
 
         return $decoded;
@@ -112,11 +112,11 @@ abstract class AbstractDecoder implements DecoderInterface
         $basename = pathinfo($path, PATHINFO_BASENAME);
 
         if (!is_dir($dirname)) {
-            throw new DecoderException("Directory ('" . $dirname . "') not found.");
+            throw new DecoderException('Directory "' . $dirname . '" not found.');
         }
 
         if (!@is_file($path)) {
-            throw new DecoderException("File ('" . $basename . "') not found in directory ('" . $dirname . "').");
+            throw new DecoderException('File "' . $basename . '" not found in directory "' . $dirname . '".');
         }
 
         return $path;

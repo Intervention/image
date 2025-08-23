@@ -16,6 +16,11 @@ use Intervention\Image\MediaType;
 interface DriverInterface
 {
     /**
+     * Create new driver instance with configuration
+     */
+    public function __construct(Config $config);
+
+    /**
      * Return drivers unique id
      */
     public function id(): string;

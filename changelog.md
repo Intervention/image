@@ -27,3 +27,4 @@
 - Signature of ImageInterface::place() changed `offset_x` is no `x` and `offset_y` is now `y`
 - EncodedImageInterface::toDataUri() now returns `DataUriInterface` instead of `string´
 - ProfileInterface requires implementation of `::fromPath()`
+- DriverInterface requires implementation of `__construct()`

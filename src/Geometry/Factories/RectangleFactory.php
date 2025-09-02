@@ -22,7 +22,7 @@ class RectangleFactory implements DrawableFactoryInterface
      */
     public function __construct(
         protected PointInterface $pivot = new Point(),
-        null|Closure|Rectangle $init = null,
+        null|Closure|DrawableInterface $init = null,
     ) {
         $this->rectangle = is_a($init, Rectangle::class) ? $init : new Rectangle(0, 0, $pivot);
         $this->rectangle->setPosition($pivot);

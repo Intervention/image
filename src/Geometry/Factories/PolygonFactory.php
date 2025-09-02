@@ -19,7 +19,7 @@ class PolygonFactory implements DrawableFactoryInterface
      *
      * @return void
      */
-    public function __construct(null|Closure|Polygon $init = null)
+    public function __construct(null|Closure|DrawableInterface $init = null)
     {
         $this->polygon = is_a($init, Polygon::class) ? $init : new Polygon([]);
 

@@ -19,7 +19,7 @@ class LineFactory implements DrawableFactoryInterface
      *
      * @return void
      */
-    public function __construct(null|Closure|Line $init = null)
+    public function __construct(null|Closure|DrawableInterface $init = null)
     {
         $this->line = is_a($init, Line::class) ? $init : new Line(new Point(), new Point());
 

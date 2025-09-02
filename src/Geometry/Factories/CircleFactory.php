@@ -22,7 +22,7 @@ class CircleFactory implements DrawableFactoryInterface
      */
     public function __construct(
         protected PointInterface $pivot = new Point(),
-        null|Closure|Circle $init = null,
+        null|Closure|DrawableInterface $init = null,
     ) {
         $this->circle = is_a($init, Circle::class) ? $init : new Circle(0);
         $this->circle->setPosition($pivot);

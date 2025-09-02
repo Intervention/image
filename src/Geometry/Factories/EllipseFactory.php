@@ -22,7 +22,7 @@ class EllipseFactory implements DrawableFactoryInterface
      */
     public function __construct(
         protected PointInterface $pivot = new Point(),
-        null|Closure|Ellipse $init = null,
+        null|Closure|DrawableInterface $init = null,
     ) {
         $this->ellipse = is_a($init, Ellipse::class) ? $init : new Ellipse(0, 0);
         $this->ellipse->setPosition($pivot);

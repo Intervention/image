@@ -19,7 +19,7 @@ class BezierFactory implements DrawableFactoryInterface
      *
      * @return void
      */
-    public function __construct(null|Closure|Bezier $init = null)
+    public function __construct(null|Closure|DrawableInterface $init = null)
     {
         $this->bezier = is_a($init, Bezier::class) ? $init : new Bezier([]);
 

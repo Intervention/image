@@ -16,7 +16,7 @@ class FileExtensionEncoder extends AutoEncoder
     /**
      * Encoder options
      *
-     * @var array<string, mixed>
+     * @var array<int|string, mixed>
      */
     protected array $options = [];
 

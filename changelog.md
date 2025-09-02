@@ -28,3 +28,4 @@
 - EncodedImageInterface::toDataUri() now returns `DataUriInterface` instead of `string´
 - ProfileInterface requires implementation of `::fromPath()`
 - DriverInterface requires implementation of `__construct()`
+- Replace DriverInterface::specialize() with DriverInterface::specializeModifier(), DriverInterface::specializeAnalyzer(), DriverInterface::specializeDecoder() and DriverInterface::specializeEncoder()

@@ -245,31 +245,62 @@ final class DriverTest extends BaseTestCase
         $this->assertTrue(is_string($this->driver->version()));
     }
 
-    #[DataProvider('spezializeDataProvider')]
-    public function testSpecialize(string $inputClassname, string $outputClassname): void
+    public function testSpecializeModifier(): void
     {
-        $this->assertInstanceOf($outputClassname, $this->driver->specialize(new $inputClassname()));
+        $this->assertInstanceOf(
+            ResizeModifier::class,
+            $this->driver->specializeModifier(new GenericResizeModifier()),
+        );
+
+        $this->assertInstanceOf(
+            ResizeModifier::class,
+            $this->driver->specializeModifier(new ResizeModifier()),
+        );
     }
 
-    public static function spezializeDataProvider(): Generator
+    public function testSpecializeAnalyzer(): void
     {
-        // specializing possible
-        yield [GenericResizeModifier::class, ResizeModifier::class];
-        yield [GenericWidthAnalyzer::class, WidthAnalyzer::class];
-        yield [GenericPngEncoder::class, PngEncoder::class];
-        yield [GenericFilePathImageDecoder::class, FilePathImageDecoder::class];
+        $this->assertInstanceOf(
+            WidthAnalyzer::class,
+            $this->driver->specializeAnalyzer(new GenericWidthAnalyzer()),
+        );
 
-        // already specialized
-        yield [ResizeModifier::class, ResizeModifier::class];
-        yield [WidthAnalyzer::class, WidthAnalyzer::class];
-        yield [PngEncoder::class, PngEncoder::class];
-        yield [FilePathImageDecoder::class, FilePathImageDecoder::class];
+        $this->assertInstanceOf(
+            WidthAnalyzer::class,
+            $this->driver->specializeAnalyzer(new WidthAnalyzer()),
+        );
+    }
+
+    public function testSpecializeEncoder(): void
+    {
+        $this->assertInstanceOf(
+            PngEncoder::class,
+            $this->driver->specializeEncoder(new GenericPngEncoder()),
+        );
+
+        $this->assertInstanceOf(
+            PngEncoder::class,
+            $this->driver->specializeEncoder(new PngEncoder()),
+        );
+    }
+
+    public function testSpecializeDecoder(): void
+    {
+        $this->assertInstanceOf(
+            FilePathImageDecoder::class,
+            $this->driver->specializeDecoder(new GenericFilePathImageDecoder()),
+        );
+
+        $this->assertInstanceOf(
+            FilePathImageDecoder::class,
+            $this->driver->specializeDecoder(new FilePathImageDecoder()),
+        );
     }
 
     public function testSpecializeFailure(): void
     {
         $this->expectException(NotSupportedException::class);
-        $this->driver->specialize(new class () implements AnalyzerInterface, SpecializableInterface
+        $this->driver->specializeAnalyzer(new class () implements AnalyzerInterface, SpecializableInterface
         {
             protected DriverInterface $driver;
 

@@ -21,6 +21,7 @@ use Intervention\Image\Interfaces\SpecializableInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use ReflectionClass;
 
+/** @package Intervention\Image\Drivers */
 abstract class AbstractDriver implements DriverInterface
 {
     /**
@@ -100,9 +101,60 @@ abstract class AbstractDriver implements DriverInterface
     /**
      * {@inheritdoc}
      *
-     * @see DriverInterface::specialize()
+     * @see DriverInterface::specializeModifier()
+     *
+     * @throws DriverException
+     * @throws NotSupportedException
      */
-    public function specialize(
+    public function specializeModifier(ModifierInterface $modifier): ModifierInterface
+    {
+        return $this->specialize($modifier);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DriverInterface::specializeAnalyzer()
+     *
+     * @throws DriverException
+     * @throws NotSupportedException
+     */
+    public function specializeAnalyzer(AnalyzerInterface $analyzer): AnalyzerInterface
+    {
+        return $this->specialize($analyzer);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DriverInterface::specializeEncoder()
+     *
+     * @throws DriverException
+     * @throws NotSupportedException
+     */
+    public function specializeEncoder(EncoderInterface $encoder): EncoderInterface
+    {
+        return $this->specialize($encoder);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DriverInterface::specializeDecoder()
+     *
+     * @throws DriverException
+     * @throws NotSupportedException
+     */
+    public function specializeDecoder(DecoderInterface $decoder): DecoderInterface
+    {
+        return $this->specialize($decoder);
+    }
+
+    /**
+     * @throws DriverException
+     * @throws NotSupportedException
+     */
+    private function specialize(
         ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface $object
     ): ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface {
         // return object directly if no specializing is possible

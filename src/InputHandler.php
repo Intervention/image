@@ -144,13 +144,13 @@ class InputHandler implements InputHandlerInterface
         }
 
         if (($decoder instanceof DecoderInterface) && !empty($this->driver)) {
-            return $this->driver->specialize($decoder);
+            return $this->driver->specializeDecoder($decoder);
         }
 
         if (empty($this->driver)) {
             return new $decoder();
         }
 
-        return $this->driver->specialize(new $decoder());
+        return $this->driver->specializeDecoder(new $decoder());
     }
 }

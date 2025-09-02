@@ -7,7 +7,6 @@ namespace Intervention\Image\Interfaces;
 use Intervention\Image\Config;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\DriverException;
-use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Format;
@@ -31,14 +30,24 @@ interface DriverInterface
     public function config(): Config;
 
     /**
-     * Resolve given (generic) object into a specialized version for the current driver
-     *
-     * @throws NotSupportedException
-     * @throws DriverException
+     * Resolve given modifier into a specialized version for the current driver
      */
-    public function specialize(
-        ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface $object
-    ): ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface;
+    public function specializeModifier(ModifierInterface $modifier): ModifierInterface;
+
+    /**
+     * Resolve given analyzer into a specialized version for the current driver
+     */
+    public function specializeAnalyzer(AnalyzerInterface $analyzer): AnalyzerInterface;
+
+    /**
+     * Resolve given encoder into a specialized version for the current driver
+     */
+    public function specializeEncoder(EncoderInterface $encoder): EncoderInterface;
+
+    /**
+     * Resolve given decoder into a specialized version for the current driver
+     */
+    public function specializeDecoder(DecoderInterface $decoder): DecoderInterface;
 
     /**
      * Create new image instance with the current driver in given dimensions

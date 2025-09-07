@@ -21,7 +21,6 @@ use Intervention\Image\Interfaces\SpecializableInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use ReflectionClass;
 
-/** @package Intervention\Image\Drivers */
 abstract class AbstractDriver implements DriverInterface
 {
     /**

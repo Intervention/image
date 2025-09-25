@@ -61,7 +61,7 @@ jobs:
 
       - name: Install Imagick PHP extension
         run: |
-          git clone --depth=1 --single-branch --branch develop https://github.com/Imagick/imagick /tmp/imagick
+          git clone --depth=1 --single-branch --branch master https://github.com/Imagick/imagick /tmp/imagick
           (
             cd /tmp/imagick || exit 1
             phpize

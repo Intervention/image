@@ -10,7 +10,6 @@ jobs:
       matrix:
         php: [ '8.1', '8.2', '8.3', '8.4' ]
         imagemagick: [ '6.9.13-25', '7.1.1-47' ]
-        imagick: [ '3.8.0' ]
 
     name: PHP ${{ matrix.php }} - ImageMagick ${{ matrix.imagemagick }}
 
@@ -61,11 +60,9 @@ jobs:
 
       - name: Install Imagick PHP extension
         run: |
-          curl -o /tmp/imagick.tgz -sL http://pecl.php.net/get/imagick-${{ matrix.imagick }}.tgz
+          git clone --depth=1 --single-branch --branch master https://github.com/Imagick/imagick /tmp/imagick
           (
-            cd /tmp || exit 1
-            tar -xzf imagick.tgz
-            cd imagick-${{ matrix.imagick }}
+            cd /tmp/imagick || exit 1
             phpize
             sudo ./configure --with-imagick=/home/runner/im/imagemagick-${{ matrix.imagemagick }}
             sudo make -j$(nproc)

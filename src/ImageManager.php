@@ -151,13 +151,7 @@ final class ImageManager implements ImageManagerInterface
      */
     public function read(mixed $input, string|array|DecoderInterface $decoders = []): ImageInterface
     {
-        return $this->driver->handleImageInput(
-            $input,
-            match (true) {
-                is_string($decoders), ($decoders instanceof DecoderInterface) => [$decoders],
-                default => $decoders,
-            }
-        );
+        return $this->driver->handleImageInput($input, is_array($decoders) ? $decoders : [$decoders]);
     }
 
     /**

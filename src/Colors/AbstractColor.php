@@ -84,10 +84,7 @@ abstract class AbstractColor implements ColorInterface, Stringable
      */
     public function convertTo(string|ColorspaceInterface $colorspace): ColorInterface
     {
-        $colorspace = match (true) {
-            is_object($colorspace) => $colorspace,
-            default => new $colorspace(),
-        };
+        $colorspace = is_string($colorspace) ? new $colorspace() : $colorspace;
 
         if (!($colorspace instanceof ColorspaceInterface)) {
             throw new ColorException('Unable to convert to given colorspace.');

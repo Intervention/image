@@ -78,10 +78,7 @@ class Colorspace implements ColorspaceInterface
         $delta = $max - $min;
 
         // calculate saturation
-        $saturation = match (true) {
-            $delta == 0 => 0,
-            default => $delta / (1 - abs(2 * $luminance - 1)),
-        };
+        $saturation = $delta == 0 ? 0 : $delta / (1 - abs(2 * $luminance - 1));
 
         // calculate hue
         [$r, $g, $b] = $values;

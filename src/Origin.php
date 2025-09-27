@@ -39,10 +39,7 @@ class Origin
      */
     public function setMediaType(string|MediaType $type): self
     {
-        $this->mediaType = match (true) {
-            is_string($type) => $type,
-            default => $type->value,
-        };
+        $this->mediaType = is_string($type) ? $type : $type->value;
 
         return $this;
     }

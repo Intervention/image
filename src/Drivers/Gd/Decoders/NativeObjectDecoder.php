@@ -60,10 +60,7 @@ class NativeObjectDecoder extends AbstractDecoder
     {
         // create non-animated image depending on config
         if (!$this->driver()->config()->decodeAnimation) {
-            $native = match (true) {
-                $this->isGifFormat($input) => @imagecreatefromstring($input),
-                default => @imagecreatefromgif($input),
-            };
+            $native = $this->isGifFormat($input) ? @imagecreatefromstring($input) : @imagecreatefromgif($input);
 
             if ($native === false) {
                 throw new DecoderException('Unable to decode input.');

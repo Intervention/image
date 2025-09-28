@@ -2,11 +2,12 @@
 
 - ImageInterface::version()
 - ColorInterface::create() now accepts functional string color formats as well as single channel values
-- ImageManagerInterface::readPath()
-- ImageManagerInterface::readBinary()
-- ImageManagerInterface::readBase64()
-- ImageManagerInterface::readSplFileInfo()
-- ImageManagerInterface::readDataUri()
+- ImageManagerInterface::createFrom()
+- ImageManagerInterface::createFromPath()
+- ImageManagerInterface::createFromBinary()
+- ImageManagerInterface::createFromBase64()
+- ImageManagerInterface::createFromSplFileInfo()
+- ImageManagerInterface::createFromDataUri()
 - Alignment::class
 - DriverInterface::handleImageInput()
 - DriverInterface::handleColorInput()

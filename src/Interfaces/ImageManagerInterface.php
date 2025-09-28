@@ -25,7 +25,7 @@ interface ImageManagerInterface
      * @throws DecoderException
      * @throws RuntimeException
      */
-    public function readPath(string $path): ImageInterface;
+    public function createFromPath(string $path): ImageInterface;
 
     /**
      * Create new image instance from given image binary data
@@ -33,7 +33,7 @@ interface ImageManagerInterface
      * @throws DecoderException
      * @throws RuntimeException
      */
-    public function readBinary(string $data): ImageInterface;
+    public function createFromBinary(string $data): ImageInterface;
 
     /**
      * Create new image instance from given base64 encoded image data
@@ -41,7 +41,7 @@ interface ImageManagerInterface
      * @throws DecoderException
      * @throws RuntimeException
      */
-    public function readBase64(string $data): ImageInterface;
+    public function createFromBase64(string $data): ImageInterface;
 
     /**
      * Create new image instance from given data uri encoded image data
@@ -49,7 +49,7 @@ interface ImageManagerInterface
      * @throws DecoderException
      * @throws RuntimeException
      */
-    public function readDataUri(string $uri): ImageInterface;
+    public function createFromDataUri(string $uri): ImageInterface;
 
     /**
      * Create new image instance from given image stream resource
@@ -57,7 +57,7 @@ interface ImageManagerInterface
      * @throws DecoderException
      * @throws RuntimeException
      */
-    public function readStream(mixed $stream): ImageInterface;
+    public function createFromStream(mixed $stream): ImageInterface;
 
     /**
      * Create new image instance from given SplFileInfo image object
@@ -65,7 +65,7 @@ interface ImageManagerInterface
      * @throws DecoderException
      * @throws RuntimeException
      */
-    public function readSplFileInfo(SplFileInfo $file): ImageInterface;
+    public function createFromSplFileInfo(SplFileInfo $file): ImageInterface;
 
     /**
      * Create new image instance from given input which can be one of the following
@@ -95,7 +95,7 @@ interface ImageManagerInterface
      * @param string|array<string|DecoderInterface>|DecoderInterface $decoders
      * @throws RuntimeException
      */
-    public function read(mixed $input, string|array|DecoderInterface $decoders = []): ImageInterface;
+    public function createFrom(mixed $input, string|array|DecoderInterface $decoders = []): ImageInterface;
 
     /**
      * Create new animated image by given callback

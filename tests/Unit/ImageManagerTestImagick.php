@@ -67,42 +67,42 @@ final class ImageManagerTestImagick extends BaseTestCase
     public function testRead(): void
     {
         $manager = new ImageManager(Driver::class);
-        $image = $manager->read($this->getTestResourcePath('red.gif'));
+        $image = $manager->createFrom($this->getTestResourcePath('red.gif'));
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
     public function testReadWithDecoderClassname(): void
     {
         $manager = new ImageManager(Driver::class);
-        $image = $manager->read($this->getTestResourcePath('red.gif'), FilePathImageDecoder::class);
+        $image = $manager->createFrom($this->getTestResourcePath('red.gif'), FilePathImageDecoder::class);
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
     public function testReadWithDecoderInstance(): void
     {
         $manager = new ImageManager(Driver::class);
-        $image = $manager->read($this->getTestResourcePath('red.gif'), new FilePathImageDecoder());
+        $image = $manager->createFrom($this->getTestResourcePath('red.gif'), new FilePathImageDecoder());
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
     public function testReadWithDecoderClassnameArray(): void
     {
         $manager = new ImageManager(Driver::class);
-        $image = $manager->read($this->getTestResourcePath('red.gif'), [FilePathImageDecoder::class]);
+        $image = $manager->createFrom($this->getTestResourcePath('red.gif'), [FilePathImageDecoder::class]);
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
     public function testReadWithDecoderInstanceArray(): void
     {
         $manager = new ImageManager(Driver::class);
-        $image = $manager->read($this->getTestResourcePath('red.gif'), [new FilePathImageDecoder()]);
+        $image = $manager->createFrom($this->getTestResourcePath('red.gif'), [new FilePathImageDecoder()]);
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
     public function testReadWithDecoderInstanceArrayMultiple(): void
     {
         $manager = new ImageManager(Driver::class);
-        $image = $manager->read($this->getTestResourcePath('red.gif'), [
+        $image = $manager->createFrom($this->getTestResourcePath('red.gif'), [
             new BinaryImageDecoder(),
             new FilePathImageDecoder(),
         ]);
@@ -112,35 +112,35 @@ final class ImageManagerTestImagick extends BaseTestCase
     public function testReadWithRotationAdjustment(): void
     {
         $manager = new ImageManager(Driver::class);
-        $image = $manager->read($this->getTestResourcePath('orientation.jpg'));
+        $image = $manager->createFrom($this->getTestResourcePath('orientation.jpg'));
         $this->assertColor(1, 0, 254, 255, $image->pickColor(3, 3));
     }
 
     public function testReadWithoutRotationAdjustment(): void
     {
         $manager = new ImageManager(Driver::class, autoOrientation: false);
-        $image = $manager->read($this->getTestResourcePath('orientation.jpg'));
+        $image = $manager->createFrom($this->getTestResourcePath('orientation.jpg'));
         $this->assertColor(250, 2, 3, 255, $image->pickColor(3, 3));
     }
 
     public function testReadAnimation(): void
     {
         $manager = new ImageManager(Driver::class);
-        $image = $manager->read($this->getTestResourcePath('animation.gif'));
+        $image = $manager->createFrom($this->getTestResourcePath('animation.gif'));
         $this->assertTrue($image->isAnimated());
     }
 
     public function testReadAnimationDiscarded(): void
     {
         $manager = new ImageManager(Driver::class, decodeAnimation: false);
-        $image = $manager->read($this->getTestResourcePath('animation.gif'));
+        $image = $manager->createFrom($this->getTestResourcePath('animation.gif'));
         $this->assertFalse($image->isAnimated());
     }
 
     public function testApplyBackgroundColor(): void
     {
         $manager = new ImageManager(Driver::class);
-        $image = $manager->read($this->getTestResourcePath('blocks.png'));
+        $image = $manager->createFrom($this->getTestResourcePath('blocks.png'));
         $result = $image->background();
         $this->assertColor(255, 255, 255, 255, $image->pickColor(530, 0));
         $this->assertColor(255, 255, 255, 255, $result->pickColor(530, 0));
@@ -149,7 +149,7 @@ final class ImageManagerTestImagick extends BaseTestCase
     public function testApplyBackgroundColorConfigured(): void
     {
         $manager = new ImageManager(Driver::class, backgroundColor: 'ff5500');
-        $image = $manager->read($this->getTestResourcePath('blocks.png'));
+        $image = $manager->createFrom($this->getTestResourcePath('blocks.png'));
         $result = $image->background();
         $this->assertColor(255, 85, 0, 255, $image->pickColor(530, 0));
         $this->assertColor(255, 85, 0, 255, $result->pickColor(530, 0));

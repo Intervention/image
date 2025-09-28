@@ -7,6 +7,7 @@ namespace Intervention\Image\Interfaces;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\RuntimeException;
 use SplFileInfo;
+use Stringable;
 
 interface ImageManagerInterface
 {
@@ -25,7 +26,7 @@ interface ImageManagerInterface
      * @throws DecoderException
      * @throws RuntimeException
      */
-    public function createFromPath(string $path): ImageInterface;
+    public function createFromPath(string|Stringable $path): ImageInterface;
 
     /**
      * Create new image instance from given image binary data
@@ -33,7 +34,7 @@ interface ImageManagerInterface
      * @throws DecoderException
      * @throws RuntimeException
      */
-    public function createFromBinary(string $data): ImageInterface;
+    public function createFromBinary(string|Stringable $data): ImageInterface;
 
     /**
      * Create new image instance from given base64 encoded image data
@@ -41,7 +42,7 @@ interface ImageManagerInterface
      * @throws DecoderException
      * @throws RuntimeException
      */
-    public function createFromBase64(string $data): ImageInterface;
+    public function createFromBase64(string|Stringable $data): ImageInterface;
 
     /**
      * Create new image instance from given data uri encoded image data
@@ -49,7 +50,7 @@ interface ImageManagerInterface
      * @throws DecoderException
      * @throws RuntimeException
      */
-    public function createFromDataUri(string $uri): ImageInterface;
+    public function createFromDataUri(string|Stringable $uri): ImageInterface;
 
     /**
      * Create new image instance from given image stream resource

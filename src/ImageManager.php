@@ -19,6 +19,7 @@ use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageManagerInterface;
 use SplFileInfo;
+use Stringable;
 
 final class ImageManager implements ImageManagerInterface
 {
@@ -89,7 +90,7 @@ final class ImageManager implements ImageManagerInterface
      *
      * @see ImageManagerInterface::createFromPath()
      */
-    public function createFromPath(string $path): ImageInterface
+    public function createFromPath(string|Stringable $path): ImageInterface
     {
         return $this->driver->handleImageInput($path, [FilePathImageDecoder::class]);
     }
@@ -99,7 +100,7 @@ final class ImageManager implements ImageManagerInterface
      *
      * @see ImageManagerInterface::createFromBinary()
      */
-    public function createFromBinary(string $data): ImageInterface
+    public function createFromBinary(string|Stringable $data): ImageInterface
     {
         return $this->driver->handleImageInput($data, [BinaryImageDecoder::class]);
     }
@@ -109,7 +110,7 @@ final class ImageManager implements ImageManagerInterface
      *
      * @see ImageManagerInterface::createFromBase64()
      */
-    public function createFromBase64(string $data): ImageInterface
+    public function createFromBase64(string|Stringable $data): ImageInterface
     {
         return $this->driver->handleImageInput($data, [Base64ImageDecoder::class]);
     }
@@ -119,7 +120,7 @@ final class ImageManager implements ImageManagerInterface
      *
      * @see ImageManagerInterface::createFromDataUri()
      */
-    public function createFromDataUri(string $uri): ImageInterface
+    public function createFromDataUri(string|Stringable $uri): ImageInterface
     {
         return $this->driver->handleImageInput($uri, [DataUriImageDecoder::class]);
     }

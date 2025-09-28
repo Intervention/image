@@ -10,6 +10,7 @@ use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Format;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Stringable;
 
 class BinaryImageDecoder extends NativeObjectDecoder
 {
@@ -20,7 +21,13 @@ class BinaryImageDecoder extends NativeObjectDecoder
      */
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
-        if (!is_string($input) || empty($input)) {
+        if (!is_string($input) && !($input instanceof Stringable)) {
+            throw new DecoderException('Binary data must be either of type string or instance of Stringable.');
+        }
+
+        $input = (string) $input;
+
+        if (empty($input)) {
             throw new DecoderException('Input does not contain binary image data.');
         }
 

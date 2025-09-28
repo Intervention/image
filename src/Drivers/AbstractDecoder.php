@@ -11,6 +11,7 @@ use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Traits\CanBuildFilePointer;
+use Stringable;
 use Throwable;
 
 abstract class AbstractDecoder implements DecoderInterface
@@ -69,17 +70,17 @@ abstract class AbstractDecoder implements DecoderInterface
      */
     protected function decodeBase64Data(mixed $input): string
     {
-        if (!is_string($input)) {
-            throw new DecoderException('Input is not Base64-encoded data.');
+        if (!is_string($input) && !($input instanceof Stringable)) {
+            throw new DecoderException('Input must be either of type string or instance of Stringable.');
         }
 
-        $decoded = base64_decode($input, true);
+        $decoded = base64_decode((string) $input, true);
 
         if ($decoded === false) {
             throw new DecoderException('Input is not Base64-encoded data.');
         }
 
-        if (base64_encode($decoded) !== str_replace(["\n", "\r"], '', $input)) {
+        if (base64_encode($decoded) !== str_replace(["\n", "\r"], '', (string) $input)) {
             throw new DecoderException('Input is not Base64-encoded data.');
         }
 
@@ -93,9 +94,11 @@ abstract class AbstractDecoder implements DecoderInterface
      */
     protected function parseFilePath(mixed $path): string
     {
-        if (!is_string($path)) {
-            throw new DecoderException('Path must be of type string.');
+        if (!is_string($path) && !($path instanceof Stringable)) {
+            throw new DecoderException('Path must be either of type string or instance of Stringable.');
         }
+
+        $path = (string) $path;
 
         if ($path === '') {
             throw new DecoderException('Path must not be an empty string.');

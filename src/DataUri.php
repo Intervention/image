@@ -31,7 +31,7 @@ class DataUri implements DataUriInterface, Stringable
      * @param array<string, string> $parameters
      */
     public function __construct(
-        protected string $data = '',
+        protected string|Stringable $data = '',
         null|string|MediaType $mediaType = null,
         array $parameters = [],
         protected bool $isBase64Encoded = false
@@ -47,9 +47,9 @@ class DataUri implements DataUriInterface, Stringable
      *
      * @throws DecoderException
      */
-    public static function readFromString(string $dataUriScheme): self
+    public static function readFromString(string|Stringable $dataUriScheme): self
     {
-        $result = preg_match(self::PATTERN, $dataUriScheme, $matches);
+        $result = preg_match(self::PATTERN, (string) $dataUriScheme, $matches);
 
         if ($result === false) {
             throw new DecoderException('Unable to decode data uri scheme from string.');
@@ -101,7 +101,7 @@ class DataUri implements DataUriInterface, Stringable
      */
     public function data(): string
     {
-        return $this->data;
+        return (string) $this->data;
     }
 
     /**
@@ -109,9 +109,9 @@ class DataUri implements DataUriInterface, Stringable
      *
      * @see DataUriInterface::setData()
      */
-    public function setData(string $data): self
+    public function setData(string|Stringable $data): self
     {
-        $this->data = $data;
+        $this->data = (string) $data;
 
         return $this;
     }
@@ -223,7 +223,7 @@ class DataUri implements DataUriInterface, Stringable
      */
     private function encodedData(): string
     {
-        return $this->isBase64Encoded ? $this->data : rawurlencode($this->data);
+        return $this->isBase64Encoded ? (string) $this->data : rawurlencode((string) $this->data);
     }
 
     /**

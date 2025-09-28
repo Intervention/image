@@ -14,6 +14,17 @@ interface DataUriInterface
     public static function readFromString(string $dataUriScheme): self;
 
     /**
+     * Create data uri object from given unencoded data
+     *
+     * @param array<string, string> $parameters
+     */
+    public static function create(
+        string $data,
+        null|string|MediaType $mediaType = null,
+        array $parameters = [],
+    ): self;
+
+    /**
      * Create base 64 encoded data uri object from given unencoded data
      *
      * @param array<string, string> $parameters

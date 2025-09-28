@@ -8,6 +8,7 @@ use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Resource;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
@@ -17,7 +18,7 @@ final class ClonerTest extends BaseTestCase
 {
     public function testClone(): void
     {
-        $gd = imagecreatefromgif($this->getTestResourcePath('gradient.gif'));
+        $gd = imagecreatefromgif(Resource::create('gradient.gif')->path());
         $clone = Cloner::clone($gd);
 
         $this->assertEquals(16, imagesx($gd));
@@ -33,7 +34,7 @@ final class ClonerTest extends BaseTestCase
 
     public function testCloneEmpty(): void
     {
-        $gd = imagecreatefromgif($this->getTestResourcePath('gradient.gif'));
+        $gd = imagecreatefromgif(Resource::create('gradient.gif')->path());
         $clone = Cloner::cloneEmpty($gd, new Rectangle(12, 12), new Color(255, 0, 0, 0));
 
         $this->assertEquals(16, imagesx($gd));
@@ -54,7 +55,7 @@ final class ClonerTest extends BaseTestCase
 
     public function testCloneBlended(): void
     {
-        $gd = imagecreatefromgif($this->getTestResourcePath('gradient.gif'));
+        $gd = imagecreatefromgif(Resource::create('gradient.gif')->path());
         $clone = Cloner::cloneBlended($gd, new Color(255, 0, 255, 255));
 
         $this->assertEquals(16, imagesx($gd));

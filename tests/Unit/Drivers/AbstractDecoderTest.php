@@ -13,6 +13,7 @@ use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Resource;
 use Mockery;
 use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
@@ -24,14 +25,15 @@ final class AbstractDecoderTest extends BaseTestCase
     public function testIsGifFormat(): void
     {
         $decoder = Mockery::mock(AbstractDecoder::class);
-        $this->assertFalse($decoder->isGifFormat($this->getTestResourceData('exif.jpg')));
-        $this->assertTrue($decoder->isGifFormat($this->getTestResourceData('red.gif')));
+        $this->assertFalse($decoder->isGifFormat(Resource::create('exif.jpg')->data()));
+        $this->assertTrue($decoder->isGifFormat(Resource::create('red.gif')->data()));
     }
 
     public function testExtractExifDataFromBinary(): void
     {
-        $source = $this->getTestResourceData('exif.jpg');
-        $pointer = $this->getTestResourcePointer('exif.jpg');
+        $resource = Resource::create('exif.jpg');
+        $source = $resource->data();
+        $pointer = $resource->pointer();
         $decoder = Mockery::mock(AbstractDecoder::class);
         $decoder->shouldReceive('buildFilePointerOrFail')->with($source)->andReturn($pointer);
         $result = $decoder->extractExifData($source);
@@ -42,7 +44,7 @@ final class AbstractDecoderTest extends BaseTestCase
     public function testExtractExifDataFromPath(): void
     {
         $decoder = Mockery::mock(AbstractDecoder::class);
-        $result = $decoder->extractExifData($this->getTestResourcePath('exif.jpg'));
+        $result = $decoder->extractExifData(Resource::create('exif.jpg')->path());
         $this->assertInstanceOf(CollectionInterface::class, $result);
         $this->assertEquals('Oliver Vogel', $result->get('IFD0.Artist'));
     }
@@ -106,7 +108,7 @@ final class AbstractDecoderTest extends BaseTestCase
 
     public static function pathDataProvider(): Generator
     {
-        yield [true, self::getTestResourcePath()];
+        yield [true, Resource::create()->path()];
         yield [false, 'foo'];
         yield [false, 'foo/bar'];
     }

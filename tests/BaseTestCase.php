@@ -11,14 +11,11 @@ use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Interfaces\ColorInterface;
-use Intervention\Image\Tests\Traits\CanGenerateTestData;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use PHPUnit\Framework\ExpectationFailedException;
 
 abstract class BaseTestCase extends MockeryTestCase
 {
-    use CanGenerateTestData;
-
     /**
      * Assert that given color equals the given color channel values in the given optional tolerance
      *

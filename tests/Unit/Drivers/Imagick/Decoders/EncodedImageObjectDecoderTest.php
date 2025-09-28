@@ -9,6 +9,7 @@ use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\ImagickTestCase;
+use Intervention\Image\Tests\Resource;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
@@ -26,7 +27,7 @@ class EncodedImageObjectDecoderTest extends ImagickTestCase
 
     public function testDecode(): void
     {
-        $result = $this->decoder->decode(new EncodedImage($this->getTestResourceData()));
+        $result = $this->decoder->decode(new EncodedImage(Resource::create()->data()));
         $this->assertInstanceOf(Image::class, $result);
     }
 }

@@ -8,6 +8,7 @@ use Intervention\Image\Drivers\AbstractFontProcessor;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Resource;
 use Intervention\Image\Typography\Font;
 use Intervention\Image\Typography\TextBlock;
 use Mockery;
@@ -19,7 +20,7 @@ class AbstractFontProcessorTest extends BaseTestCase
     public function testTextBlock(): void
     {
         $text = 'AAAA BBBB CCCC';
-        $font = (new Font($this->getTestResourcePath('test.ttf')))
+        $font = (new Font(Resource::create('test.ttf')->path()))
             ->setWrapWidth(20)
             ->setSize(50)
             ->setLineHeight(1.25)
@@ -80,14 +81,14 @@ class AbstractFontProcessorTest extends BaseTestCase
 
     public function testNativeFontSize(): void
     {
-        $font = (new Font($this->getTestResourcePath('test.ttf')))->setSize(32);
+        $font = (new Font(Resource::create('test.ttf')->path()))->setSize(32);
         $processor = Mockery::mock(AbstractFontProcessor::class)->makePartial();
         $this->assertEquals(32, $processor->nativeFontSize($font));
     }
 
     public function testTypographicalSize(): void
     {
-        $font = new Font($this->getTestResourcePath('test.ttf'));
+        $font = new Font(Resource::create('test.ttf')->path());
         $processor = Mockery::mock(AbstractFontProcessor::class)->makePartial();
         $processor->shouldReceive('boxSize')->with('Hy', $font)->andReturn(new Rectangle(24, 6));
         $this->assertEquals(6, $processor->typographicalSize($font));
@@ -95,7 +96,7 @@ class AbstractFontProcessorTest extends BaseTestCase
 
     public function testCapHeight(): void
     {
-        $font = new Font($this->getTestResourcePath('test.ttf'));
+        $font = new Font(Resource::create('test.ttf')->path());
         $processor = Mockery::mock(AbstractFontProcessor::class)->makePartial();
         $processor->shouldReceive('boxSize')->with('T', $font)->andReturn(new Rectangle(24, 6));
         $this->assertEquals(6, $processor->capHeight($font));
@@ -103,7 +104,7 @@ class AbstractFontProcessorTest extends BaseTestCase
 
     public function testLeading(): void
     {
-        $font = (new Font($this->getTestResourcePath('test.ttf')))->setLineHeight(3);
+        $font = (new Font(Resource::create('test.ttf')->path()))->setLineHeight(3);
         $processor = Mockery::mock(AbstractFontProcessor::class)->makePartial();
         $processor->shouldReceive('boxSize')->with('Hy', $font)->andReturn(new Rectangle(24, 6));
         $this->assertEquals(18, $processor->leading($font));

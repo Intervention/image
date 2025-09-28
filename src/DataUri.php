@@ -79,6 +79,23 @@ class DataUri implements DataUriInterface, Stringable
     /**
      * {@inheritdoc}
      *
+     * @see DataUriInterface::create()
+     */
+    public static function create(
+        string $data,
+        null|string|MediaType $mediaType = null,
+        array $parameters = [],
+    ): self {
+        return new self(
+            data: $data,
+            mediaType: $mediaType,
+            parameters: $parameters,
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see DataUriInterface::createBase64Encoded()
      */
     public static function createBase64Encoded(

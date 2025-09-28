@@ -12,7 +12,9 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Resource;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Stringable;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(FilePathImageDecoder::class)]
@@ -27,7 +29,7 @@ final class FilePathImageDecoderTest extends BaseTestCase
     }
 
     #[DataProvider('validFormatPathsProvider')]
-    public function testDecode(string $path, bool $result): void
+    public function testDecode(string|Stringable $path, bool $result): void
     {
         if ($result === false) {
             $this->expectException(DecoderException::class);
@@ -42,13 +44,14 @@ final class FilePathImageDecoderTest extends BaseTestCase
 
     public static function validFormatPathsProvider(): Generator
     {
-        yield [self::getTestResourcePath('cats.gif'), true];
-        yield [self::getTestResourcePath('animation.gif'), true];
-        yield [self::getTestResourcePath('red.gif'), true];
-        yield [self::getTestResourcePath('green.gif'), true];
-        yield [self::getTestResourcePath('blue.gif'), true];
-        yield [self::getTestResourcePath('gradient.bmp'), true];
-        yield [self::getTestResourcePath('circle.png'), true];
+        yield [Resource::create('cats.gif')->path(), true];
+        yield [Resource::create('animation.gif')->path(), true];
+        yield [Resource::create('red.gif')->path(), true];
+        yield [Resource::create('green.gif')->path(), true];
+        yield [Resource::create('blue.gif')->path(), true];
+        yield [Resource::create('gradient.bmp')->path(), true];
+        yield [Resource::create('circle.png')->path(), true];
+        yield [Resource::create('circle.png')->stringablePath(), true];
         yield ['no-path', false];
         yield [str_repeat('x', PHP_MAXPATHLEN + 1), false];
     }

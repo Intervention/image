@@ -27,6 +27,7 @@ use Intervention\Image\Interfaces\SpecializableInterface;
 use Intervention\Image\MediaType;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Providers\InputDataProvider;
+use Intervention\Image\Tests\Resource;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
@@ -59,8 +60,8 @@ final class DriverTest extends BaseTestCase
     public function testCreateAnimation(): void
     {
         $image = $this->driver->createAnimation(function ($animation): void {
-            $animation->add($this->getTestResourcePath('red.gif'), .25);
-            $animation->add($this->getTestResourcePath('green.gif'), .25);
+            $animation->add(Resource::create('red.gif')->path(), .25);
+            $animation->add(Resource::create('green.gif')->path(), .25);
         })->setLoops(5);
         $this->assertInstanceOf(ImageInterface::class, $image);
 

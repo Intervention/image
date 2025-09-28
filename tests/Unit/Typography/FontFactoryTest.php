@@ -6,6 +6,7 @@ namespace Intervention\Image\Tests\Unit\Typography;
 
 use Intervention\Image\Interfaces\FontInterface;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Resource;
 use Intervention\Image\Typography\Font;
 use Intervention\Image\Typography\FontFactory;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -15,7 +16,7 @@ final class FontFactoryTest extends BaseTestCase
 {
     public function testBuildWithFont(): void
     {
-        $font_file = $this->getTestResourcePath('test.ttf');
+        $font_file = Resource::create('test.ttf')->path();
         $factory = new FontFactory(new Font($font_file));
         $result = $factory();
         $this->assertInstanceOf(FontInterface::class, $result);
@@ -25,7 +26,7 @@ final class FontFactoryTest extends BaseTestCase
     public function testBuildWithCallback(): void
     {
         $factory = new FontFactory(function (FontFactory $font): void {
-            $font->filename($this->getTestResourcePath('test.ttf'));
+            $font->filename(Resource::create('test.ttf')->path());
             $font->color('#b01735');
             $font->size(70);
             $font->align('center');
@@ -38,7 +39,7 @@ final class FontFactoryTest extends BaseTestCase
 
         $result = $factory();
         $this->assertInstanceOf(FontInterface::class, $result);
-        $this->assertEquals($this->getTestResourcePath('test.ttf'), $result->filename());
+        $this->assertEquals(Resource::create('test.ttf')->path(), $result->filename());
         $this->assertEquals('#b01735', $result->color());
         $this->assertEquals(70, $result->size());
         $this->assertEquals('center', $result->alignment());

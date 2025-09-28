@@ -7,6 +7,7 @@ namespace Intervention\Image\Tests\Unit;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Resource;
 
 #[CoversClass(EncodedImage::class)]
 final class EncodedImageTest extends BaseTestCase
@@ -45,7 +46,7 @@ final class EncodedImageTest extends BaseTestCase
         $image = new EncodedImage('foo');
         $this->assertEquals('application/octet-stream', $image->mediaType());
 
-        $image = new EncodedImage($this->getTestResourceData(), 'image/jpeg');
+        $image = new EncodedImage(Resource::create()->data(), 'image/jpeg');
         $this->assertEquals('image/jpeg', $image->mediaType());
     }
 
@@ -54,7 +55,7 @@ final class EncodedImageTest extends BaseTestCase
         $image = new EncodedImage('foo');
         $this->assertEquals('application/octet-stream', $image->mimetype());
 
-        $image = new EncodedImage($this->getTestResourceData(), 'image/jpeg');
+        $image = new EncodedImage(Resource::create()->data(), 'image/jpeg');
         $this->assertEquals('image/jpeg', $image->mimetype());
     }
 

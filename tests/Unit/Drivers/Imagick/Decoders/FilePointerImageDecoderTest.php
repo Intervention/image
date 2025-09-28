@@ -10,6 +10,7 @@ use Intervention\Image\Drivers\Imagick\Decoders\FilePointerImageDecoder;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\ImagickTestCase;
+use Intervention\Image\Tests\Resource;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(FilePointerImageDecoder::class)]
@@ -19,8 +20,7 @@ final class FilePointerImageDecoderTest extends ImagickTestCase
     {
         $decoder = new FilePointerImageDecoder();
         $decoder->setDriver(new Driver());
-        $fp = fopen($this->getTestResourcePath('test.jpg'), 'r');
-        $result = $decoder->decode($fp);
+        $result = $decoder->decode(Resource::create('test.jpg')->pointer());
         $this->assertInstanceOf(Image::class, $result);
     }
 }

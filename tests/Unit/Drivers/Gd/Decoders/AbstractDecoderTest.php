@@ -7,6 +7,7 @@ namespace Intervention\Image\Tests\Unit\Drivers\Gd\Decoders;
 use Intervention\Image\Drivers\Gd\Decoders\AbstractDecoder;
 use Intervention\Image\MediaType;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Resource;
 use Mockery;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
@@ -20,7 +21,7 @@ final class AbstractDecoderTest extends BaseTestCase
         $decoder = Mockery::mock(AbstractDecoder::class)->makePartial();
         $this->assertEquals(
             MediaType::IMAGE_JPEG,
-            $decoder->getMediaTypeByFilePath($this->getTestResourcePath('test.jpg'))
+            $decoder->getMediaTypeByFilePath(Resource::create('test.jpg')->path())
         );
     }
 
@@ -29,7 +30,7 @@ final class AbstractDecoderTest extends BaseTestCase
         $decoder = Mockery::mock(AbstractDecoder::class)->makePartial();
         $this->assertEquals(
             MediaType::IMAGE_JPEG,
-            $decoder->getMediaTypeByBinary($this->getTestResourceData('test.jpg')),
+            $decoder->getMediaTypeByBinary(Resource::create('test.jpg')->data()),
         );
     }
 }

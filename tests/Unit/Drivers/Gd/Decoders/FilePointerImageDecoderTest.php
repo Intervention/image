@@ -10,6 +10,7 @@ use Intervention\Image\Drivers\Gd\Decoders\FilePointerImageDecoder;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\GdTestCase;
+use Intervention\Image\Tests\Resource;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(FilePointerImageDecoder::class)]
@@ -20,8 +21,7 @@ final class FilePointerImageDecoderTest extends GdTestCase
         $decoder = new FilePointerImageDecoder();
         $decoder->setDriver(new Driver());
 
-        $fp = fopen($this->getTestResourcePath('test.jpg'), 'r');
-        $result = $decoder->decode($fp);
+        $result = $decoder->decode(Resource::create('test.jpg')->pointer());
         $this->assertInstanceOf(Image::class, $result);
     }
 }

@@ -10,6 +10,7 @@ use Intervention\Image\Drivers\Gd\Decoders\BinaryImageDecoder;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Resource;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(BinaryImageDecoder::class)]
@@ -25,7 +26,7 @@ final class BinaryImageDecoderTest extends BaseTestCase
 
     public function testDecodePng(): void
     {
-        $image = $this->decoder->decode(file_get_contents($this->getTestResourcePath('tile.png')));
+        $image = $this->decoder->decode(Resource::create('tile.png')->data());
         $this->assertInstanceOf(Image::class, $image);
         $this->assertEquals(16, $image->width());
         $this->assertEquals(16, $image->height());
@@ -34,7 +35,7 @@ final class BinaryImageDecoderTest extends BaseTestCase
 
     public function testDecodeGif(): void
     {
-        $image = $this->decoder->decode(file_get_contents($this->getTestResourcePath('red.gif')));
+        $image = $this->decoder->decode(Resource::create('red.gif')->data());
         $this->assertInstanceOf(Image::class, $image);
         $this->assertEquals(16, $image->width());
         $this->assertEquals(16, $image->height());
@@ -43,7 +44,7 @@ final class BinaryImageDecoderTest extends BaseTestCase
 
     public function testDecodeAnimatedGif(): void
     {
-        $image = $this->decoder->decode(file_get_contents($this->getTestResourcePath('cats.gif')));
+        $image = $this->decoder->decode(Resource::create('cats.gif')->data());
         $this->assertInstanceOf(Image::class, $image);
         $this->assertEquals(75, $image->width());
         $this->assertEquals(50, $image->height());
@@ -52,11 +53,20 @@ final class BinaryImageDecoderTest extends BaseTestCase
 
     public function testDecodeJpegWithExif(): void
     {
-        $image = $this->decoder->decode(file_get_contents($this->getTestResourcePath('exif.jpg')));
+        $image = $this->decoder->decode(Resource::create('exif.jpg')->data());
         $this->assertInstanceOf(Image::class, $image);
         $this->assertEquals(16, $image->width());
         $this->assertEquals(16, $image->height());
         $this->assertCount(1, $image);
         $this->assertEquals('Oliver Vogel', $image->exif('IFD0.Artist'));
+    }
+
+    public function testDecodeStringable(): void
+    {
+        $image = $this->decoder->decode(Resource::create('tile.png')->stringableData());
+        $this->assertInstanceOf(Image::class, $image);
+        $this->assertEquals(16, $image->width());
+        $this->assertEquals(16, $image->height());
+        $this->assertCount(1, $image);
     }
 }

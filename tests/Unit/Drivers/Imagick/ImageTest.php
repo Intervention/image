@@ -25,6 +25,7 @@ use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Modifiers\GreyscaleModifier;
 use Intervention\Image\Origin;
 use Intervention\Image\Tests\ImagickTestCase;
+use Intervention\Image\Tests\Resource;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
@@ -37,7 +38,7 @@ final class ImageTest extends ImagickTestCase
     protected function setUp(): void
     {
         $imagick = new Imagick();
-        $imagick->readImage($this->getTestResourcePath('animation.gif'));
+        $imagick->readImage(Resource::create('animation.gif')->path());
         $this->image = new Image(
             new Driver(),
             new Core($imagick),

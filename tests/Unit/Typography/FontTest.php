@@ -6,6 +6,7 @@ namespace Intervention\Image\Tests\Unit\Typography;
 
 use Intervention\Image\Exceptions\FontException;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Resource;
 use Intervention\Image\Typography\Font;
 use PHPUnit\Framework\Attributes\CoversClass;
 
@@ -42,7 +43,7 @@ final class FontTest extends BaseTestCase
         $font = new Font();
         $this->assertEquals(null, $font->filename());
         $this->assertFalse($font->hasFilename());
-        $filename = $this->getTestResourcePath();
+        $filename = Resource::create()->path();
         $result = $font->setFilename($filename);
         $this->assertTrue($font->hasFilename());
         $this->assertInstanceOf(Font::class, $result);

@@ -13,6 +13,7 @@ use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Resource;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
@@ -46,8 +47,8 @@ class InputHandlerTest extends BaseTestCase
             ['hsl(0, 0, 0)', ColorInterface::class],
             ['transparent', ColorInterface::class],
             ['steelblue', ColorInterface::class],
-            [self::getTestResourcePath(), ImageInterface::class],
-            [file_get_contents(self::getTestResourcePath()), ImageInterface::class],
+            [Resource::create()->path(), ImageInterface::class],
+            [Resource::create()->data(), ImageInterface::class],
         ];
 
         $drivers = [GdDriver::class, ImagickDriver::class];

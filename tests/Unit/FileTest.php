@@ -7,6 +7,7 @@ namespace Intervention\Image\Tests\Unit;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\File;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Resource;
 
 #[CoversClass(File::class)]
 final class FileTest extends BaseTestCase
@@ -34,7 +35,7 @@ final class FileTest extends BaseTestCase
 
     public function testFromPath(): void
     {
-        $file = File::fromPath($this->getTestResourcePath());
+        $file = File::fromPath(Resource::create()->path());
         $this->assertInstanceOf(File::class, $file);
         $this->assertTrue($file->size() > 0);
     }

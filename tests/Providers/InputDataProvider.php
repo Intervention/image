@@ -8,22 +8,20 @@ use Generator;
 use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Tests\Traits\CanGenerateTestData;
+use Intervention\Image\Tests\Resource;
 
 final class InputDataProvider
 {
-    use CanGenerateTestData;
-
     public static function handleImageInputDataProvider(): Generator
     {
         yield [
-            self::getTestResourcePath('test.jpg'),
+            Resource::create('test.jpg')->path(),
             [],
             ImageInterface::class,
         ];
 
         yield [
-            self::getTestResourceData('test.jpg'),
+            Resource::create('test.jpg')->data(),
             [],
             ImageInterface::class,
         ];

@@ -26,7 +26,7 @@ class ResourceProvider
             'resource' => new Resource('animation.gif'),
             'size' => new Rectangle(20, 15),
             'colorspace' => RgbSpace::class,
-            'resolution' => new Resolution(96, 96),
+            'resolution' => new Resolution(72, 72),
         ];
 
         yield [
@@ -40,21 +40,21 @@ class ResourceProvider
             'resource' => new Resource('blue.gif'),
             'size' => new Rectangle(16, 16),
             'colorspace' => RgbSpace::class,
-            'resolution' => new Resolution(96, 96),
+            'resolution' => new Resolution(72, 72),
         ];
 
         yield [
             'resource' => new Resource('cats.gif'),
             'size' => new Rectangle(75, 50),
             'colorspace' => RgbSpace::class,
-            'resolution' => new Resolution(96, 96),
+            'resolution' => new Resolution(72, 72),
         ];
 
         yield [
             'resource' => new Resource('circle.png'),
             'size' => new Rectangle(50, 50),
             'colorspace' => RgbSpace::class,
-            'resolution' => new Resolution(96, 96),
+            'resolution' => new Resolution(72, 72),
         ];
 
         yield [
@@ -68,21 +68,28 @@ class ResourceProvider
             'resource' => new Resource('exif.jpg'),
             'size' => new Rectangle(16, 16),
             'colorspace' => RgbSpace::class,
-            'resolution' => new Resolution(96, 96),
+            'resolution' => new Resolution(72, 72),
         ];
 
         yield [
             'resource' => new Resource('gradient.gif'),
             'size' => new Rectangle(16, 16),
             'colorspace' => RgbSpace::class,
-            'resolution' => new Resolution(96, 96),
+            'resolution' => new Resolution(72, 72),
+        ];
+
+        yield [
+            'resource' => new Resource('gradient.bmp'),
+            'size' => new Rectangle(8, 8),
+            'colorspace' => RgbSpace::class,
+            'resolution' => new Resolution(72, 72),
         ];
 
         yield [
             'resource' => new Resource('green.gif'),
             'size' => new Rectangle(16, 16),
             'colorspace' => RgbSpace::class,
-            'resolution' => new Resolution(96, 96),
+            'resolution' => new Resolution(72, 72),
         ];
 
         yield [
@@ -103,7 +110,7 @@ class ResourceProvider
             'resource' => new Resource('red.gif'),
             'size' => new Rectangle(16, 16),
             'colorspace' => RgbSpace::class,
-            'resolution' => new Resolution(96, 96),
+            'resolution' => new Resolution(72, 72),
         ];
 
         yield [
@@ -117,14 +124,14 @@ class ResourceProvider
             'resource' => new Resource('tile.png'),
             'size' => new Rectangle(16, 16),
             'colorspace' => RgbSpace::class,
-            'resolution' => new Resolution(96, 96),
+            'resolution' => new Resolution(72, 72),
         ];
 
         yield [
             'resource' => new Resource('trim.png'),
             'size' => new Rectangle(50, 50),
             'colorspace' => RgbSpace::class,
-            'resolution' => new Resolution(96, 96),
+            'resolution' => new Resolution(72, 72),
         ];
     }
 

@@ -46,6 +46,13 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
             $input->setImageColorspace(Imagick::COLORSPACE_SRGB);
         }
 
+        // default to 72 ppi if image has no resolution
+        $imageResolution = $input->getImageResolution();
+        if ($imageResolution['x'] === 0.0 && $imageResolution['y'] === 0.0) {
+            $input->setImageResolution(72, 72);
+            $input->setImageUnits(Imagick::RESOLUTION_PIXELSPERINCH);
+        }
+
         // create image object
         $image = new Image(
             $this->driver(),

@@ -70,6 +70,7 @@ class Driver extends AbstractDriver
         imagealphablending($data, false);
         imagefill($data, 0, 0, $background);
         imagecolortransparent($data, $background);
+        imageresolution($data, 72, 72);
 
         return new Image(
             $this,

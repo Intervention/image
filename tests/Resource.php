@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests;
 
 use Intervention\Image\DataUri;
+use Intervention\Image\Decoders\FilePathImageDecoder;
+use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\DriverInterface;
 use SplFileInfo;
 use Stringable;
 
@@ -88,5 +91,12 @@ class Resource
         rewind($pointer);
 
         return $pointer;
+    }
+
+    public function imageObject(string|DriverInterface $driver): ImageInterface
+    {
+        return (is_string($driver) ? new $driver() : $driver)
+            ->specializeDecoder(new FilePathImageDecoder())
+            ->decode($this->path());
     }
 }

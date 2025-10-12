@@ -10,19 +10,23 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Resolution;
 use Intervention\Image\Tests\ImagickTestCase;
+use Intervention\Image\Tests\Providers\ResourceProvider;
+use Intervention\Image\Tests\Resource;
+use PHPUnit\Framework\Attributes\DataProviderExternal;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(ResolutionAnalyzer::class)]
 final class ResolutionAnalyzerTest extends ImagickTestCase
 {
-    public function testAnalyze(): void
+    #[DataProviderExternal(ResourceProvider::class, 'resolutionData')]
+    public function testAnalyze(Resource $resource, Resolution $resolution): void
     {
-        $image = $this->readTestImage('300dpi.png');
+        $driver = new Driver();
         $analyzer = new ResolutionAnalyzer();
-        $analyzer->setDriver(new Driver());
-        $result = $analyzer->analyze($image);
+        $analyzer->setDriver($driver);
+        $result = $analyzer->analyze($resource->imageObject($driver));
         $this->assertInstanceOf(Resolution::class, $result);
-        $this->assertEquals(300, round($result->perInch()->x()));
-        $this->assertEquals(300, round($result->perInch()->y()));
+        $this->assertEquals($resolution->perInch()->x(), round($result->perInch()->x()));
+        $this->assertEquals($resolution->perInch()->y(), round($result->perInch()->y()));
     }
 }

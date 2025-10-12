@@ -10,19 +10,23 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Resolution;
 use Intervention\Image\Tests\GdTestCase;
+use Intervention\Image\Tests\Providers\ResourceProvider;
+use Intervention\Image\Tests\Resource;
+use PHPUnit\Framework\Attributes\DataProviderExternal;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(ResolutionAnalyzer::class)]
 final class ResolutionAnalyzerTest extends GdTestCase
 {
-    public function testAnalyze(): void
+    #[DataProviderExternal(ResourceProvider::class, 'resolutionData')]
+    public function testAnalyze(Resource $resource, Resolution $resolution): void
     {
-        $image = $this->readTestImage('300dpi.png');
+        $driver = new Driver();
         $analyzer = new ResolutionAnalyzer();
-        $analyzer->setDriver(new Driver());
-        $result = $analyzer->analyze($image);
+        $analyzer->setDriver($driver);
+        $result = $analyzer->analyze($resource->imageObject($driver));
         $this->assertInstanceOf(Resolution::class, $result);
-        $this->assertEquals(300, $result->perInch()->x());
-        $this->assertEquals(300, $result->perInch()->y());
+        $this->assertEquals($resolution->perInch()->x(), $result->perInch()->x());
+        $this->assertEquals($resolution->perInch()->y(), $result->perInch()->y());
     }
 }

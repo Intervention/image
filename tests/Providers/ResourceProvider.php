@@ -23,6 +23,27 @@ class ResourceProvider
         ];
 
         yield [
+            'resource' => new Resource('150.dpi.png'),
+            'size' => new Rectangle(32, 32),
+            'colorspace' => RgbSpace::class,
+            'resolution' => new Resolution(150, 150),
+        ];
+
+        yield [
+            'resource' => new Resource('150.dpi.jpg'),
+            'size' => new Rectangle(32, 32),
+            'colorspace' => RgbSpace::class,
+            'resolution' => new Resolution(150, 150),
+        ];
+
+        yield [
+            'resource' => new Resource('150.dpi.tif'),
+            'size' => new Rectangle(32, 32),
+            'colorspace' => RgbSpace::class,
+            'resolution' => new Resolution(150, 150),
+        ];
+
+        yield [
             'resource' => new Resource('animation.gif'),
             'size' => new Rectangle(20, 15),
             'colorspace' => RgbSpace::class,

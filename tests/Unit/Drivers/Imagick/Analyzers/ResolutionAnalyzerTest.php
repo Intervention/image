@@ -26,7 +26,7 @@ final class ResolutionAnalyzerTest extends ImagickTestCase
         $analyzer->setDriver($driver);
         $result = $analyzer->analyze($resource->imageObject($driver));
         $this->assertInstanceOf(Resolution::class, $result);
-        $this->assertEquals($resolution->perInch()->x(), round($result->perInch()->x()));
-        $this->assertEquals($resolution->perInch()->y(), round($result->perInch()->y()));
+        $this->assertEquals($resolution->perInch()->x(), round($result->perInch()->x()), $resource->filename());
+        $this->assertEquals($resolution->perInch()->y(), round($result->perInch()->y()), $resource->filename());
     }
 }

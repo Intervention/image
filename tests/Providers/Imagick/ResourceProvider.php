@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Tests\Providers\Gd;
+namespace Intervention\Image\Tests\Providers\Imagick;
 
 use Generator;
-use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Tests\Providers\ResourceProvider as GenericResourceProvider;
-use Intervention\Image\Colors\Rgb\Colorspace as RgbSpace;
 use Intervention\Image\Format;
 
 class ResourceProvider extends GenericResourceProvider
@@ -33,9 +32,7 @@ class ResourceProvider extends GenericResourceProvider
     public static function colorspaceData(): Generator
     {
         foreach (static::baseData() as $yield) {
-            if ($yield['colorspace'] === RgbSpace::class) {
-                yield [$yield['driver'], $yield['resource'], $yield['colorspace']];
-            }
+            yield [$yield['driver'], $yield['resource'], $yield['colorspace']];
         }
     }
 

@@ -62,9 +62,6 @@ class NativeObjectDecoder extends AbstractDecoder
         if (!$this->driver()->config()->decodeAnimation) {
             $native = $this->isGifFormat($input) ? @imagecreatefromstring($input) : @imagecreatefromgif($input);
 
-            // default to 72 ppi for gif format which usually has no resolution info
-            imageresolution($native, 72, 72);
-
             if ($native === false) {
                 throw new DecoderException('Unable to decode input.');
             }
@@ -90,9 +87,6 @@ class NativeObjectDecoder extends AbstractDecoder
 
             // add GDImage instances to core
             foreach ($splitter->coalesceToResources() as $key => $native) {
-                // default to 72 ppi for gif format which usually has no resolution info
-                imageresolution($native, 72, 72);
-
                 $core->push(
                     new Frame($native, $delays[$key] / 100)
                 );

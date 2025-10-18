@@ -23,6 +23,11 @@ class Resource
         return new static($filename);
     }
 
+    public function filename(): string
+    {
+        return $this->filename;
+    }
+
     public function path(): string
     {
         return sprintf('%s/resources/%s', __DIR__, $this->filename);

@@ -24,6 +24,12 @@ class ResolutionModifier extends GenericResolutionModifier implements Specialize
             imageresolution($frame->native(), $x, $y);
         }
 
+        if ($x === 96 && $y === 96) {
+            // mark resolution as non default somewhere
+            $image->core()->resolutionChanged = true;
+        }
+
+
         return $image;
     }
 }

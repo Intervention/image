@@ -11,6 +11,8 @@ use Intervention\Image\Interfaces\FrameInterface;
 
 class Core extends Collection implements CoreInterface
 {
+    public bool $resolutionChanged = false;
+
     protected int $loops = 0;
 
     /**

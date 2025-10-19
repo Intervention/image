@@ -25,9 +25,10 @@
 - Changed default value for `background` to `null` in ImageInterface::contain()
 - Changed default value for `background` to `null` in ImageInterface::pad()
 - Changed default value for `background` to `null` in ImageInterface::crop()
-- Signature of ImageInterface::crop() changed `offset_x` is no `x` and `offset_y` is now `y`
-- Signature of ImageInterface::place() changed `offset_x` is no `x` and `offset_y` is now `y`
+- Signature of ImageInterface::crop() changed from `offset_x` to `x` and `offset_y` to `y`
+- Signature of ImageInterface::place() changed from `offset_x` to `x` and `offset_y` to `y`
 - EncodedImageInterface::toDataUri() now returns `DataUriInterface` instead of `string´
 - ProfileInterface requires implementation of `::fromPath()`
 - DriverInterface requires implementation of `__construct()`
 - Replace DriverInterface::specialize() with DriverInterface::specializeModifier(), DriverInterface::specializeAnalyzer(), DriverInterface::specializeDecoder() and DriverInterface::specializeEncoder()
+- Removed topLeftPoint() and bottomRightPoint() from Rectangle::class

@@ -6,7 +6,6 @@ namespace Intervention\Image\Tests\Unit\Geometry;
 
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
-use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
@@ -249,18 +248,6 @@ final class RectangleTest extends BaseTestCase
         $pos = $container->relativePositionTo($input);
         $this->assertEquals(0, $pos->x());
         $this->assertEquals(50, $pos->y());
-    }
-
-    public function testTopLeftPoint(): void
-    {
-        $rectangle = new Rectangle(800, 600);
-        $this->assertInstanceOf(PointInterface::class, $rectangle->topLeftPoint());
-    }
-
-    public function testBottomRightPoint(): void
-    {
-        $rectangle = new Rectangle(800, 600);
-        $this->assertInstanceOf(PointInterface::class, $rectangle->bottomRightPoint());
     }
 
     public function testResize(): void

@@ -60,18 +60,17 @@ interface SizeInterface
     public function isPortrait(): bool;
 
     /**
-     * Move pivot to given position in size
+     * Move pivot to the given position in the size and adjust the new position by given offset values.
      */
     public function movePivot(string|Alignment $position, int $offset_x = 0, int $offset_y = 0): self;
 
     /**
-     * Align pivot of current object to given position
+     * Align pivot relative to given size at given position
      */
     public function alignPivotTo(self $size, string|Alignment $position): self;
 
     /**
-     * Calculate the relative position to another Size
-     * based on the pivot point settings of both sizes.
+     * Calculate the relative position to another Size based on the pivot point settings of both sizes.
      */
     public function relativePositionTo(self $size): PointInterface;
 

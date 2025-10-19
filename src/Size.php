@@ -39,7 +39,9 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
-     * Set width of rectangle
+     * {@inheritdoc}
+     *
+     * @see SizeInterface::setWidth()
      */
     public function setWidth(int $width): self
     {
@@ -50,7 +52,9 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
-     * Set height of rectangle
+     * {@inheritdoc}
+     *
+     * @see SizeInterface::setHeight()
      */
     public function setHeight(int $height): self
     {
@@ -61,7 +65,9 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
-     * Return pivot point of rectangle
+     * {@inheritdoc}
+     *
+     * @see SizeInterface::pivot()
      */
     public function pivot(): PointInterface
     {
@@ -69,7 +75,9 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
-     * Set pivot point of rectangle
+     * {@inheritdoc}
+     *
+     * @see SizeInterface::setPivot()
      */
     public function setPivot(PointInterface $pivot): self
     {
@@ -79,8 +87,9 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
-     * Move pivot to the given position in the rectangle and adjust the new
-     * position by given offset values.
+     * {@inheritdoc}
+     *
+     * @see SizeInterface::movePivot()
      *
      * @throws RuntimeException
      */
@@ -131,7 +140,9 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
-     * Align pivot relative to given size at given position
+     * {@inheritdoc}
+     *
+     * @see SizeInterface::alignPivotTo()
      *
      * @throws RuntimeException
      */
@@ -148,7 +159,9 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
-     * Return relative position to given rectangle
+     * {@inheritdoc}
+     *
+     * @see SizeInterface::relativePositionTo()
      */
     public function relativePositionTo(SizeInterface $rectangle): PointInterface
     {
@@ -159,7 +172,9 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
-     * Return aspect ration of rectangle
+     * {@inheritdoc}
+     *
+     * @see SizeInterface::aspectRatio()
      */
     public function aspectRatio(): float
     {
@@ -167,7 +182,9 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
-     * Determine if rectangle fits into given rectangle
+     * {@inheritdoc}
+     *
+     * @see SizeInterface::fitsInto()
      */
     public function fitsInto(SizeInterface $size): bool
     {
@@ -183,7 +200,9 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
-     * Determine if rectangle has landscape format
+     * {@inheritdoc}
+     *
+     * @see SizeInterface::isLandscape()
      */
     public function isLandscape(): bool
     {
@@ -191,7 +210,9 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
-     * Determine if rectangle has landscape format
+     * {@inheritdoc}
+     *
+     * @see SizeInterface::isPortrait()
      */
     public function isPortrait(): bool
     {
@@ -199,22 +220,8 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
-     * Return most top left point of rectangle
-     */
-    public function topLeftPoint(): PointInterface
-    {
-        return $this->points[0];
-    }
-
-    /**
-     * Return bottom right point of rectangle
-     */
-    public function bottomRightPoint(): PointInterface
-    {
-        return $this->points[2];
-    }
-
-    /**
+     * {@inheritdoc}
+     *
      * @see SizeInterface::resize()
      *
      * @throws GeometryException
@@ -225,6 +232,8 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @see SizeInterface::resizeDown()
      *
      * @throws GeometryException
@@ -235,6 +244,8 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @see SizeInterface::scale()
      *
      * @throws GeometryException
@@ -245,6 +256,8 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @see SizeInterface::scaleDown()
      *
      * @throws GeometryException
@@ -255,6 +268,8 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @see SizeInterface::cover()
      *
      * @throws GeometryException
@@ -265,6 +280,8 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @see SizeInterface::contain()
      *
      * @throws GeometryException
@@ -275,6 +292,8 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @see SizeInterface::containMax()
      *
      * @throws GeometryException

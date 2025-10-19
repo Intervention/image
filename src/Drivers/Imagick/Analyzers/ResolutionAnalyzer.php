@@ -7,6 +7,7 @@ namespace Intervention\Image\Drivers\Imagick\Analyzers;
 use Intervention\Image\Analyzers\ResolutionAnalyzer as GenericResolutionAnalyzer;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Length;
 use Intervention\Image\Resolution;
 
 class ResolutionAnalyzer extends GenericResolutionAnalyzer implements SpecializedInterface
@@ -19,7 +20,7 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
         return new Resolution(
             $imageResolution['x'],
             $imageResolution['y'],
-            $imagick->getImageUnits(),
+            $imagick->getImageUnits() === 2 ? Length::CM : Length::INCH
         );
     }
 }

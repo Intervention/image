@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
+use Intervention\Image\Length;
 use Stringable;
 
 interface ResolutionInterface extends Stringable
@@ -39,9 +40,9 @@ interface ResolutionInterface extends Stringable
     public function perCm(): self;
 
     /**
-     * Return string representation of unit
+     * Return unit
      */
-    public function unit(): string;
+    public function unit(): Length;
 
     /**
      * Transform object to string

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit;
 
+use Intervention\Image\Length;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Resolution;
 use Intervention\Image\Tests\BaseTestCase;
@@ -35,10 +36,10 @@ final class ResolutionTest extends BaseTestCase
     public function testUnit(): void
     {
         $resolution = new Resolution(1, 1);
-        $this->assertEquals('dpi', $resolution->unit());
+        $this->assertEquals(Length::INCH, $resolution->unit());
 
-        $resolution = new Resolution(1, 1, Resolution::PER_CM);
-        $this->assertEquals('dpcm', $resolution->unit());
+        $resolution = new Resolution(1, 1, Length::CM);
+        $this->assertEquals(Length::CM, $resolution->unit());
     }
 
     public function testConversion(): void
@@ -51,17 +52,17 @@ final class ResolutionTest extends BaseTestCase
         $this->assertEquals(118.11, round($resolution->perCm()->x(), 2));
         $this->assertEquals(59.06, round($resolution->perCm()->y(), 2));
 
-        $resolution = new Resolution(118.11024, 59.06, Resolution::PER_CM); // per cm
+        $resolution = new Resolution(118.11024, 59.06, Length::CM); // per cm
         $this->assertEquals(300, round($resolution->perInch()->x()));
         $this->assertEquals(150, round($resolution->perInch()->y()));
     }
 
     public function testToString(): void
     {
-        $resolution = new Resolution(300, 150, Resolution::PER_CM);
+        $resolution = new Resolution(300, 150, Length::CM);
         $this->assertEquals('300.00 x 150.00 dpcm', $resolution->toString());
 
-        $resolution = new Resolution(300, 150, Resolution::PER_INCH);
+        $resolution = new Resolution(300, 150, Length::INCH);
         $this->assertEquals('300.00 x 150.00 dpi', $resolution->toString());
         $this->assertEquals('300.00 x 150.00 dpi', (string) $resolution);
     }

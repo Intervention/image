@@ -32,3 +32,4 @@
 - DriverInterface requires implementation of `__construct()`
 - Replace DriverInterface::specialize() with DriverInterface::specializeModifier(), DriverInterface::specializeAnalyzer(), DriverInterface::specializeDecoder() and DriverInterface::specializeEncoder()
 - Removed topLeftPoint() and bottomRightPoint() from Rectangle::class
+- Attribute `$per_unit` has change to `$unit` with different signature in `Resolution::class`

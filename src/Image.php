@@ -337,7 +337,7 @@ final class Image implements ImageInterface
      */
     public function size(): SizeInterface
     {
-        return new Rectangle($this->width(), $this->height());
+        return new Size($this->width(), $this->height());
     }
 
     /**

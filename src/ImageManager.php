@@ -90,7 +90,7 @@ final class ImageManager implements ImageManagerInterface
      *
      * @see ImageManagerInterface::createFromPath()
      */
-    public function createFromPath(string|Stringable $path): ImageInterface
+    public function readFromPath(string|Stringable $path): ImageInterface
     {
         return $this->driver->handleImageInput($path, [FilePathImageDecoder::class]);
     }
@@ -100,7 +100,7 @@ final class ImageManager implements ImageManagerInterface
      *
      * @see ImageManagerInterface::createFromBinary()
      */
-    public function createFromBinary(string|Stringable $data): ImageInterface
+    public function readFromBinary(string|Stringable $data): ImageInterface
     {
         return $this->driver->handleImageInput($data, [BinaryImageDecoder::class]);
     }
@@ -110,7 +110,7 @@ final class ImageManager implements ImageManagerInterface
      *
      * @see ImageManagerInterface::createFromBase64()
      */
-    public function createFromBase64(string|Stringable $data): ImageInterface
+    public function readFromBase64(string|Stringable $data): ImageInterface
     {
         return $this->driver->handleImageInput($data, [Base64ImageDecoder::class]);
     }
@@ -120,7 +120,7 @@ final class ImageManager implements ImageManagerInterface
      *
      * @see ImageManagerInterface::createFromDataUri()
      */
-    public function createFromDataUri(string|Stringable $uri): ImageInterface
+    public function readFromDataUri(string|Stringable $uri): ImageInterface
     {
         return $this->driver->handleImageInput($uri, [DataUriImageDecoder::class]);
     }
@@ -130,7 +130,7 @@ final class ImageManager implements ImageManagerInterface
      *
      * @see ImageManagerInterface::createFromStream()
      */
-    public function createFromStream(mixed $stream): ImageInterface
+    public function readFromStream(mixed $stream): ImageInterface
     {
         return $this->driver->handleImageInput($stream, [FilePointerImageDecoder::class]);
     }
@@ -140,7 +140,7 @@ final class ImageManager implements ImageManagerInterface
      *
      * @see ImageManagerInterface::createFromSplFileInfo()
      */
-    public function createFromSplFileInfo(SplFileInfo $file): ImageInterface
+    public function readFromSplFileInfo(SplFileInfo $file): ImageInterface
     {
         return $this->driver->handleImageInput($file, [SplFileInfoImageDecoder::class]);
     }
@@ -150,7 +150,7 @@ final class ImageManager implements ImageManagerInterface
      *
      * @see ImageManagerInterface::createFrom()
      */
-    public function createFrom(mixed $input, string|array|DecoderInterface $decoders = []): ImageInterface
+    public function read(mixed $input, string|array|DecoderInterface $decoders = []): ImageInterface
     {
         return $this->driver->handleImageInput($input, is_array($decoders) ? $decoders : [$decoders]);
     }

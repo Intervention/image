@@ -14,7 +14,7 @@ class ConvertPngGif extends ImagickTestCase
     public function testConversionKeepsTransparency(): void
     {
         $converted = ImageManager::imagick()
-            ->createFrom(
+            ->read(
                 $this->readTestImage('circle.png')->toGif()
             );
 

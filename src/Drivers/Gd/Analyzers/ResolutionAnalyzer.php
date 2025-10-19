@@ -47,6 +47,9 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
         return new Resolution(...$result);
     }
 
+    /**
+     * @return array<int>
+     */
     private function readResolutionFromOrigin(Origin $origin): array
     {
         $handle = $this->buildFilePointerOrFail(file_get_contents($origin->filePath()));
@@ -72,6 +75,10 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
         throw new DecoderException('Unable to read resolution from path.');
     }
 
+    /**
+     * @param resource $handle
+     * @return array<int>
+     */
     private function resolutionFromJfifHeader($handle): array
     {
         // read first 20 bytes
@@ -100,6 +107,10 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
         }
     }
 
+    /**
+     * @param resource $handle
+     * @return array<int>
+     */
     private function resolutionFromExifHeader($handle): array
     {
         if (!function_exists('exif_read_data')) {
@@ -136,7 +147,11 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
         }, $resolution);
     }
 
-    protected function resolutionFromPngPhys($handle): array
+    /**
+     * @param resource $handle
+     * @return array<int>
+     */
+    private function resolutionFromPngPhys($handle): array
     {
         rewind($handle);
         $signature = fread($handle, 8);

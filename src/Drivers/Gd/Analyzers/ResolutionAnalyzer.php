@@ -48,7 +48,10 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
     }
 
     /**
-     * @return array<int>
+     * @throws DecoderException
+     * @throws InputException
+     * @throws RuntimeException
+     * @return array<float>
      */
     private function readResolutionFromOrigin(Origin $origin): array
     {
@@ -77,7 +80,9 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
 
     /**
      * @param resource $handle
-     * @return array<int>
+     * @throws DecoderException
+     * @throws InputException
+     * @return array<float>
      */
     private function resolutionFromJfifHeader($handle): array
     {
@@ -109,7 +114,10 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
 
     /**
      * @param resource $handle
-     * @return array<int>
+     * @throws DecoderException
+     * @throws InputException
+     * @throws NotSupportedException
+     * @return array<float>
      */
     private function resolutionFromExifHeader($handle): array
     {
@@ -132,7 +140,7 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
             $resolution = [$data['IFD0']['XResolution'], $data['IFD0']['YResolution']];
         }
 
-        if (!is_array($resolution)) {
+        if (!isset($resolution)) {
             throw new DecoderException('Unable to read exif data.');
         }
 
@@ -149,7 +157,9 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
 
     /**
      * @param resource $handle
-     * @return array<int>
+     * @throws DecoderException
+     * @throws InputException
+     * @return array<float>
      */
     private function resolutionFromPngPhys($handle): array
     {

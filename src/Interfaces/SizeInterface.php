@@ -62,7 +62,7 @@ interface SizeInterface
     /**
      * Move pivot to the given position in the size and adjust the new position by given offset values.
      */
-    public function movePivot(string|Alignment $position, int $offset_x = 0, int $offset_y = 0): self;
+    public function movePivot(string|Alignment $position, int $x = 0, int $y = 0): self;
 
     /**
      * Align pivot relative to given size at given position

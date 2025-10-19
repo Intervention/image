@@ -93,44 +93,44 @@ class Size extends Polygon implements SizeInterface
      *
      * @throws RuntimeException
      */
-    public function movePivot(string|Alignment $position, int $offset_x = 0, int $offset_y = 0): self
+    public function movePivot(string|Alignment $position, int $x = 0, int $y = 0): self
     {
         $point = match (Alignment::create($position)) {
             Alignment::TOP => new Point(
-                intval(round($this->width() / 2)) + $offset_x,
-                $offset_y,
+                intval(round($this->width() / 2)) + $x,
+                $y,
             ),
             Alignment::TOP_RIGHT => new Point(
-                $this->width() - $offset_x,
-                $offset_y,
+                $this->width() - $x,
+                $y,
             ),
             Alignment::LEFT => new Point(
-                $offset_x,
-                intval(round($this->height() / 2)) + $offset_y,
+                $x,
+                intval(round($this->height() / 2)) + $y,
             ),
             Alignment::RIGHT => new Point(
-                $this->width() - $offset_x,
-                intval(round($this->height() / 2)) + $offset_y,
+                $this->width() - $x,
+                intval(round($this->height() / 2)) + $y,
             ),
             Alignment::BOTTOM_LEFT => new Point(
-                $offset_x,
-                $this->height() - $offset_y,
+                $x,
+                $this->height() - $y,
             ),
             Alignment::BOTTOM => new Point(
-                intval(round($this->width() / 2)) + $offset_x,
-                $this->height() - $offset_y,
+                intval(round($this->width() / 2)) + $x,
+                $this->height() - $y,
             ),
             Alignment::BOTTOM_RIGHT => new Point(
-                $this->width() - $offset_x,
-                $this->height() - $offset_y,
+                $this->width() - $x,
+                $this->height() - $y,
             ),
             Alignment::CENTER => new Point(
-                intval(round($this->width() / 2)) + $offset_x,
-                intval(round($this->height() / 2)) + $offset_y,
+                intval(round($this->width() / 2)) + $x,
+                intval(round($this->height() / 2)) + $y,
             ),
             Alignment::TOP_LEFT => new Point(
-                $offset_x,
-                $offset_y,
+                $x,
+                $y,
             ),
         };
 

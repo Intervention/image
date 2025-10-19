@@ -40,7 +40,7 @@ class File implements FileInterface, Stringable
         $pointer = fopen($path, 'r');
 
         if ($pointer === false) {
-            throw new RuntimeException('Unable to open file from path "' . $path . '".');
+            throw new RuntimeException('Unable to open file from path "' . $path . '"');
         }
 
         return new self($pointer);
@@ -57,19 +57,19 @@ class File implements FileInterface, Stringable
 
         if (!is_dir($dir)) {
             throw new NotWritableException(
-                "Can't write image to path. Directory does not exist."
+                "Can't write image to path. Directory does not exist"
             );
         }
 
         if (!is_writable($dir)) {
             throw new NotWritableException(
-                "Can't write image to path. Directory is not writable."
+                "Can't write image to path. Directory is not writable"
             );
         }
 
         if (is_file($filepath) && !is_writable($filepath)) {
             throw new NotWritableException(
-                sprintf("Can't write image. Path (%s) is not writable.", $filepath)
+                sprintf("Can't write image. Path (%s) is not writable", $filepath)
             );
         }
 
@@ -77,7 +77,7 @@ class File implements FileInterface, Stringable
         $saved = @file_put_contents($filepath, $this->toFilePointer());
         if ($saved === false) {
             throw new NotWritableException(
-                sprintf("Can't write image data to path (%s).", $filepath)
+                sprintf("Can't write image data to path (%s)", $filepath)
             );
         }
     }
@@ -94,7 +94,7 @@ class File implements FileInterface, Stringable
         $data = stream_get_contents($this->toFilePointer(), offset: 0);
 
         if ($data === false) {
-            throw new RuntimeException('Unable to cast ' . self::class . 'object to string.');
+            throw new RuntimeException('Unable to cast ' . self::class . 'object to string');
         }
 
         return $data;
@@ -124,7 +124,7 @@ class File implements FileInterface, Stringable
         $info = fstat($this->toFilePointer());
 
         if (!is_array($info)) {
-            throw new RuntimeException('Unable to read size of file pointer.');
+            throw new RuntimeException('Unable to read size of file pointer');
         }
 
         return intval($info['size']);

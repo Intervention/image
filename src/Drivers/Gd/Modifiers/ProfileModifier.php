@@ -19,7 +19,7 @@ class ProfileModifier extends GenericProfileModifier implements SpecializedInter
     public function apply(ImageInterface $image): ImageInterface
     {
         throw new NotSupportedException(
-            'Color profiles are not supported by GD driver.'
+            'Color profiles are not supported by GD driver'
         );
     }
 }

@@ -118,7 +118,7 @@ class Frame extends AbstractFrame implements FrameInterface
     public function setDispose(int $dispose): FrameInterface
     {
         if (!in_array($dispose, [0, 1, 2, 3])) {
-            throw new InputException('Value for argument $dispose must be 0, 1, 2 or 3.');
+            throw new InputException('Value for argument $dispose must be 0, 1, 2 or 3');
         }
 
         $this->native->setImageDispose($dispose);

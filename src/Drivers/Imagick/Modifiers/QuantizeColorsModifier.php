@@ -14,7 +14,7 @@ class QuantizeColorsModifier extends GenericQuantizeColorsModifier implements Sp
     public function apply(ImageInterface $image): ImageInterface
     {
         if ($this->limit <= 0) {
-            throw new InputException('Quantization limit must be greater than 0.');
+            throw new InputException('Quantization limit must be greater than 0');
         }
 
         // no color reduction if the limit is higher than the colors in the img

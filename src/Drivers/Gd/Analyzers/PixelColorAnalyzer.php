@@ -40,14 +40,14 @@ class PixelColorAnalyzer extends GenericPixelColorAnalyzer implements Specialize
         $index = @imagecolorat($gd, $this->x, $this->y);
 
         if ($index === false) {
-            throw new RuntimeException('Unable to read color at pixel ' . $this->x . ', ' . $this->y . '.');
+            throw new RuntimeException('Unable to read color at pixel ' . $this->x . ', ' . $this->y);
         }
 
         try {
             $index = imagecolorsforindex($gd, $index);
         } catch (ValueError) {
             throw new GeometryException(
-                'The specified position is not in the valid image area.'
+                'The specified position is not in the valid image area'
             );
         }
 

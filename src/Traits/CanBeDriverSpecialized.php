@@ -54,7 +54,7 @@ trait CanBeDriverSpecialized
     {
         if (!$this->belongsToDriver($driver)) {
             throw new DriverException(
-                "Class '" . $this::class . "' can not be used with " . $driver->id() . " driver."
+                "Class '" . $this::class . "' can not be used with " . $driver->id() . " driver"
             );
         }
 

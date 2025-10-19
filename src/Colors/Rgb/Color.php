@@ -54,7 +54,7 @@ class Color extends AbstractColor
             1 => $input[0],
             3, 4 => $input,
             default => throw new DecoderException(
-                'Too few arguments to create color, ' . count($input) . ' passed and 1, 3, or 4 expected.',
+                'Too few arguments to create color, ' . count($input) . ' passed and 1, 3, or 4 expected',
             ),
         };
 

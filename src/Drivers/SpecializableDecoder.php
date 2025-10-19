@@ -21,6 +21,6 @@ abstract class SpecializableDecoder extends AbstractDecoder implements Specializ
      */
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
-        throw new DecoderException('Decoder must be specialized by the driver first.');
+        throw new DecoderException('Decoder must be specialized by the driver first');
     }
 }

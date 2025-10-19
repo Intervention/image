@@ -31,7 +31,7 @@ class Config
     {
         foreach ($this->prepareOptions($options) as $name => $value) {
             if (!property_exists($this, $name)) {
-                throw new InputException('Property ' . $name . ' does not exists for ' . $this::class . '.');
+                throw new InputException('Property ' . $name . ' does not exists for ' . $this::class);
             }
 
             $this->{$name} = $value;

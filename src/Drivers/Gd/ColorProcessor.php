@@ -58,14 +58,14 @@ class ColorProcessor implements ColorProcessorInterface
     public function nativeToColor(mixed $value): ColorInterface
     {
         if (!is_int($value) && !is_array($value)) {
-            throw new ColorException('GD driver can only decode colors in integer and array format.');
+            throw new ColorException('GD driver can only decode colors in integer and array format');
         }
 
         if (is_array($value)) {
             // array conversion
             if (!$this->isValidArrayColor($value)) {
                 throw new ColorException(
-                    'GD driver can only decode array color format array{red: int, green: int, blue: int, alpha: int}.',
+                    'GD driver can only decode array color format array{red: int, green: int, blue: int, alpha: int}',
                 );
             }
 

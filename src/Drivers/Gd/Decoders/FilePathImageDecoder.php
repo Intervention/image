@@ -28,7 +28,7 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
             // detect media (mime) type
             $mediaType = $this->getMediaTypeByFilePath($path);
         } catch (Throwable) {
-            throw new DecoderException('File contains unsupported image format.');
+            throw new DecoderException('File contains unsupported image format');
         }
 
         $image = match ($mediaType->format()) {
@@ -41,7 +41,7 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
                 Format::PNG => @imagecreatefrompng($path),
                 Format::AVIF => @imagecreatefromavif($path),
                 Format::BMP => @imagecreatefrombmp($path),
-                default => throw new DecoderException('File contains unsupported image format.'),
+                default => throw new DecoderException('File contains unsupported image format'),
             }),
         };
 

@@ -17,7 +17,7 @@ class ProfileRemovalModifier extends GenericProfileRemovalModifier implements Sp
         $result = $imagick->profileImage('icc', null);
 
         if ($result === false) {
-            throw new ColorException('ICC color profile could not be removed.');
+            throw new ColorException('ICC color profile could not be removed');
         }
 
         return $image;

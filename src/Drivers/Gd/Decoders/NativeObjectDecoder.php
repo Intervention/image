@@ -63,7 +63,7 @@ class NativeObjectDecoder extends AbstractDecoder
             $native = $this->isGifFormat($input) ? @imagecreatefromstring($input) : @imagecreatefromgif($input);
 
             if ($native === false) {
-                throw new DecoderException('Unable to decode input.');
+                throw new DecoderException('Unable to decode input');
             }
 
             $image = self::decode($native);

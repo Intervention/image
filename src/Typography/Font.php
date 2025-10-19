@@ -79,7 +79,7 @@ class Font implements FontInterface
     public function setFilename(string $filename): FontInterface
     {
         if (!file_exists($filename)) {
-            throw new FontException('Font file ' . $filename . ' does not exist.');
+            throw new FontException('Font file ' . $filename . ' does not exist');
         }
 
         $this->filename = $filename;
@@ -160,7 +160,7 @@ class Font implements FontInterface
     {
         if (!in_array($width, range(0, 10))) {
             throw new FontException(
-                'The stroke width must be in the range from 0 to 10.'
+                'The stroke width must be in the range from 0 to 10'
             );
         }
 

@@ -128,7 +128,7 @@ class InputHandler implements InputHandlerInterface
             throw new ($e::class)($e->getMessage());
         }
 
-        throw new DecoderException('Unable to decode input.');
+        throw new DecoderException('Unable to decode input');
     }
 
     /**
@@ -150,7 +150,7 @@ class InputHandler implements InputHandlerInterface
         $resolved = new $decoder();
 
         if (!($resolved instanceof DecoderInterface)) {
-            throw new DriverException('Given classname could not be resolved to decoder.');
+            throw new DriverException('Given classname could not be resolved to decoder');
         }
 
         return empty($this->driver) ? $resolved : $this->driver->specializeDecoder($resolved);

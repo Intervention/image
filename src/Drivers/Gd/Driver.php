@@ -40,7 +40,7 @@ class Driver extends AbstractDriver
     {
         if (!extension_loaded('gd') || !function_exists('gd_info')) {
             throw new DriverException(
-                'GD PHP extension must be installed to use this driver.'
+                'GD PHP extension must be installed to use this driver'
             );
         }
     }
@@ -56,7 +56,7 @@ class Driver extends AbstractDriver
     public function createImage(int $width, int $height): ImageInterface
     {
         if ($width < 1 || $height < 1) {
-            throw new GeometryException('Invalid image size. Only use int<1, max>.');
+            throw new GeometryException('Invalid image size. Only use int<1, max>');
         }
 
         // build new transparent GDImage
@@ -64,7 +64,7 @@ class Driver extends AbstractDriver
         imagesavealpha($data, true);
         $background = imagecolorallocatealpha($data, 255, 255, 255, 127);
         if ($background === false) {
-            throw new RuntimeException('Unable to create initial background color color.');
+            throw new RuntimeException('Unable to create initial background color color');
         }
 
         imagealphablending($data, false);

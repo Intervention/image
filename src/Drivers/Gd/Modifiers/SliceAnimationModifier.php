@@ -19,7 +19,7 @@ class SliceAnimationModifier extends GenericSliceAnimationModifier implements Sp
     public function apply(ImageInterface $image): ImageInterface
     {
         if ($this->offset >= $image->count()) {
-            throw new AnimationException('Offset is not in the range of frames.');
+            throw new AnimationException('Offset is not in the range of frames');
         }
 
         $image->core()->slice($this->offset, $this->length);

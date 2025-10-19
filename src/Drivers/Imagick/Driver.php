@@ -41,7 +41,7 @@ class Driver extends AbstractDriver
     {
         if (!extension_loaded('imagick') || !class_exists('Imagick')) {
             throw new DriverException(
-                'Imagick PHP extension must be installed to use this driver.'
+                'Imagick PHP extension must be installed to use this driver'
             );
         }
     }
@@ -128,7 +128,7 @@ class Driver extends AbstractDriver
             '(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)/';
 
         if (preg_match($pattern, Imagick::getVersion()['versionString'], $matches) !== 1) {
-            throw new DriverException('Unable to read ImageMagick version number.');
+            throw new DriverException('Unable to read ImageMagick version number');
         }
 
         return $matches['version'];

@@ -58,7 +58,7 @@ enum FileExtension: string
             try {
                 $extension = MediaType::from(strtolower($identifier))->fileExtension();
             } catch (Error) {
-                throw new NotSupportedException('Unable to create file extension from "' . $identifier . '".');
+                throw new NotSupportedException('Unable to create file extension from "' . $identifier . '"');
             }
         }
 

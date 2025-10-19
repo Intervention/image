@@ -52,7 +52,7 @@ class DataUri implements DataUriInterface, Stringable
         $result = preg_match(self::PATTERN, (string) $dataUriScheme, $matches);
 
         if ($result === false) {
-            throw new DecoderException('Unable to decode data uri scheme from string.');
+            throw new DecoderException('Unable to decode data uri scheme from string');
         }
 
         $data = $matches['data'] ?? '';

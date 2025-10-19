@@ -20,7 +20,7 @@ class Profile extends File implements ProfileInterface
         $pointer = fopen($path, 'r');
 
         if ($pointer === false) {
-            throw new RuntimeException('Unable to read image profile from path.');
+            throw new RuntimeException('Unable to read image profile from path');
         }
 
         return new self($pointer);

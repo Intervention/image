@@ -69,7 +69,7 @@ abstract class AbstractDriver implements DriverInterface
         $result = $handler->handle($input);
 
         if (!($result instanceof ImageInterface)) {
-            throw new DecoderException('Unable to decode input to instance of ImageInterface.');
+            throw new DecoderException('Unable to decode input to instance of ImageInterface');
         }
 
         return $result;
@@ -91,7 +91,7 @@ abstract class AbstractDriver implements DriverInterface
         $result = $handler->handle($input);
 
         if (!($result instanceof ColorInterface)) {
-            throw new DecoderException('Unable to decode input to instance of ColorInterface.');
+            throw new DecoderException('Unable to decode input to instance of ColorInterface');
         }
 
         return $result;
@@ -183,7 +183,7 @@ abstract class AbstractDriver implements DriverInterface
         // fail if driver specialized classname does not exists
         if (!class_exists($specialized_classname)) {
             throw new NotSupportedException(
-                "Class '" . $object_shortname . "' is not supported by " . $this->id() . " driver."
+                "Class '" . $object_shortname . "' is not supported by " . $this->id() . " driver"
             );
         }
 

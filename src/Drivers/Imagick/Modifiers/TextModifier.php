@@ -63,7 +63,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
 
         if ($font->hasStrokeEffect() && $color->isTransparent()) {
             throw new ColorException(
-                'The text color must be fully opaque when using the stroke effect.'
+                'The text color must be fully opaque when using the stroke effect'
             );
         }
 
@@ -91,7 +91,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
 
         if ($color->isTransparent()) {
             throw new ColorException(
-                'The stroke color must be fully opaque.'
+                'The stroke color must be fully opaque'
             );
         }
 
@@ -131,7 +131,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
         $processor = $this->driver()->fontProcessor();
 
         if (!($processor instanceof FontProcessor)) {
-            throw new FontException('Font processor does not match the driver.');
+            throw new FontException('Font processor does not match the driver');
         }
 
         return $processor;

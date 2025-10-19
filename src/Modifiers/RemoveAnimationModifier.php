@@ -43,7 +43,7 @@ class RemoveAnimationModifier extends SpecializableModifier
         // calculate position from percentage value
         if (preg_match("/^(?P<percent>[0-9]{1,3})%$/", $this->position, $matches) != 1) {
             throw new InputException(
-                'Position must be either integer or a percent value as string.'
+                'Position must be either integer or a percent value as string'
             );
         }
 

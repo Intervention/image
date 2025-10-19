@@ -22,7 +22,7 @@ class TrimModifier extends GenericTrimModifier implements SpecializedInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         if ($image->isAnimated()) {
-            throw new NotSupportedException('Trim modifier cannot be applied to animated images.');
+            throw new NotSupportedException('Trim modifier cannot be applied to animated images');
         }
 
         // apply tolerance with a min. value of .5 because the default tolerance of '0' should

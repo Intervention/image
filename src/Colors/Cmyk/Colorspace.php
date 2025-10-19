@@ -60,7 +60,7 @@ class Colorspace implements ColorspaceInterface
     protected function importRgbColor(ColorInterface $color): CmykColor
     {
         if (!($color instanceof RgbColor)) {
-            throw new ColorException('Unabled to import color of type ' . $color::class . '.');
+            throw new ColorException('Unabled to import color of type ' . $color::class);
         }
 
         $c = (255 - $color->red()->value()) / 255.0 * 100;

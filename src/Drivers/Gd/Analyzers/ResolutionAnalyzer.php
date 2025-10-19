@@ -30,7 +30,7 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
         $result = imageresolution($image->core()->native());
 
         if (!is_array($result)) {
-            throw new RuntimeException('Unable to read image resolution.');
+            throw new RuntimeException('Unable to read image resolution');
         }
 
         // if GD's default resolution is returned I try to find resolution in origin
@@ -75,7 +75,7 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
             # code ...
         }
 
-        throw new DecoderException('Unable to read resolution from path.');
+        throw new DecoderException('Unable to read resolution from path');
     }
 
     /**
@@ -93,7 +93,7 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
         // find the JFIF segment
         $offset = strpos($header, 'JFIF');
         if ($offset === false) {
-            throw new DecoderException('Unable to read JFIF header.');
+            throw new DecoderException('Unable to read JFIF header');
         }
 
         // read bytes at known offsets relative to JFIF
@@ -122,14 +122,14 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
     private function resolutionFromExifHeader($handle): array
     {
         if (!function_exists('exif_read_data')) {
-            throw new NotSupportedException('Unable to read exif data.');
+            throw new NotSupportedException('Unable to read exif data');
         }
 
         rewind($handle);
         $data = @exif_read_data($handle, null, true);
 
         if ($data === false) {
-            throw new DecoderException('Unable to read exif data.');
+            throw new DecoderException('Unable to read exif data');
         }
 
         if (isset($data['XResolution']) && isset($data['YResolution'])) {
@@ -141,7 +141,7 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
         }
 
         if (!isset($resolution)) {
-            throw new DecoderException('Unable to read exif data.');
+            throw new DecoderException('Unable to read exif data');
         }
 
         return array_map(function (mixed $value): int|float {

@@ -51,7 +51,7 @@ class Cloner
         $size = $size ?: new Rectangle(imagesx($gd), imagesy($gd));
 
         if ($size->width() < 1 || $size->height() < 1) {
-            throw new GeometryException('Invalid image size.');
+            throw new GeometryException('Invalid image size');
         }
 
         // create new gd image with same size or new given size

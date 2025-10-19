@@ -252,7 +252,7 @@ class Core implements CoreInterface, Iterator
             }
         }
 
-        throw new AnimationException('Frame #' . $position . ' could not be found in the image.');
+        throw new AnimationException('Frame #' . $position . ' could not be found in the image');
     }
 
     /**

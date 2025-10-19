@@ -17,7 +17,7 @@ class ProfileModifier extends GenericProfileModifier implements SpecializedInter
         $result = $imagick->profileImage('icc', (string) $this->profile);
 
         if ($result === false) {
-            throw new ColorException('ICC color profile could not be set.');
+            throw new ColorException('ICC color profile could not be set');
         }
 
         return $image;

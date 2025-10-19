@@ -67,7 +67,7 @@ enum Alignment: string
                 'center-middle',
                 'middle-center' => self::CENTER,
 
-                default => throw new RuntimeException('Unable to create alignment from "' . $identifier . '".'),
+                default => throw new RuntimeException('Unable to create alignment from "' . $identifier . '"'),
             };
         }
 

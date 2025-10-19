@@ -24,19 +24,19 @@ trait CanBuildFilePointer
                 $pointer = fopen('php://temp', 'r+');
 
                 if ($pointer === false) {
-                    throw new RuntimeException('Unable to build file pointer.');
+                    throw new RuntimeException('Unable to build file pointer');
                 }
 
                 fwrite($pointer, $data);
                 return $pointer;
             },
-            default => throw new RuntimeException('Unable to build file pointer.'),
+            default => throw new RuntimeException('Unable to build file pointer'),
         };
 
         $pointer = call_user_func($buildPointerStrategy, $data);
 
         if ($pointer === false) {
-            throw new RuntimeException('Unable to build file pointer.');
+            throw new RuntimeException('Unable to build file pointer');
         }
 
         rewind($pointer);

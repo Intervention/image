@@ -17,7 +17,7 @@ class ProfileAnalyzer extends GenericProfileAnalyzer implements SpecializedInter
         $profiles = $image->core()->native()->getImageProfiles('icc');
 
         if (!array_key_exists('icc', $profiles)) {
-            throw new ColorException('No ICC profile found in image.');
+            throw new ColorException('No ICC profile found in image');
         }
 
         return new Profile($profiles['icc']);

@@ -188,13 +188,13 @@ final class ImageManager implements ImageManagerInterface
             class_exists($driver) => new $driver(),
             default => throw new DriverException(
                 'Unable to resolve driver. Argment must be either an instance of ' .
-                    DriverInterface::class . '::class or a qualified namespaced name of the driver class.',
+                    DriverInterface::class . '::class or a qualified namespaced name of the driver class',
             ),
         };
 
         if (!$driver instanceof DriverInterface) {
             throw new DriverException(
-                'Unable to resolve driver. Driver object must implement ' . DriverInterface::class . '.',
+                'Unable to resolve driver. Driver object must implement ' . DriverInterface::class
             );
         }
 

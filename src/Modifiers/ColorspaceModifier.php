@@ -34,6 +34,6 @@ class ColorspaceModifier extends SpecializableModifier
             return new CmykColorspace();
         }
 
-        throw new NotSupportedException('Given colorspace is not supported.');
+        throw new NotSupportedException('Given colorspace is not supported');
     }
 }

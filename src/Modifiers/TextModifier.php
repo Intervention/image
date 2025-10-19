@@ -44,7 +44,7 @@ class TextModifier extends SpecializableModifier
 
         if ($this->font->hasStrokeEffect() && $color->isTransparent()) {
             throw new ColorException(
-                'The text color must be fully opaque when using the stroke effect.'
+                'The text color must be fully opaque when using the stroke effect'
             );
         }
 
@@ -63,7 +63,7 @@ class TextModifier extends SpecializableModifier
 
         if ($color->isTransparent()) {
             throw new ColorException(
-                'The stroke color must be fully opaque.'
+                'The stroke color must be fully opaque'
             );
         }
 

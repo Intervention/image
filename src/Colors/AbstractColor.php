@@ -43,7 +43,7 @@ abstract class AbstractColor implements ColorInterface, Stringable
         );
 
         if (count($channels) == 0) {
-            throw new ColorException('Color channel ' . $classname . ' could not be found.');
+            throw new ColorException('Color channel ' . $classname . ' could not be found');
         }
 
         return reset($channels);
@@ -87,7 +87,7 @@ abstract class AbstractColor implements ColorInterface, Stringable
         $colorspace = is_string($colorspace) ? new $colorspace() : $colorspace;
 
         if (!($colorspace instanceof ColorspaceInterface)) {
-            throw new ColorException('Unable to convert to given colorspace.');
+            throw new ColorException('Unable to convert to given colorspace');
         }
 
         return $colorspace->importColor($this);

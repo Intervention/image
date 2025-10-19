@@ -269,7 +269,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
             Alignment::RIGHT => $this->mostRightPoint()->x() - $this->pivot()->x(),
             Alignment::LEFT => $this->mostLeftPoint()->x() - $this->pivot()->x(),
             default => throw new RuntimeException(
-                'Only use horizontal alignment values (Alignment::CENTER, Alignment::RIGHT or Alignment::LEFT).',
+                'Only use horizontal alignment values (Alignment::CENTER, Alignment::RIGHT or Alignment::LEFT)',
             ),
         };
 
@@ -294,7 +294,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
             Alignment::TOP => $this->mostTopPoint()->y() - $this->pivot()->y() - $this->height(),
             Alignment::BOTTOM => $this->mostBottomPoint()->y() - $this->pivot()->y() + $this->height(),
             default => throw new RuntimeException(
-                'Only use vertical alignment values (Alignment::CENTER, Alignment::TOP or Alignment::BOTTOM).',
+                'Only use vertical alignment values (Alignment::CENTER, Alignment::TOP or Alignment::BOTTOM)',
             ),
         };
 

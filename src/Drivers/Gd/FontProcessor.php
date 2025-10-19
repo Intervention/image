@@ -46,7 +46,7 @@ class FontProcessor extends AbstractFontProcessor
         );
 
         if ($box === false) {
-            throw new FontException('Unable to calculate box size of font.');
+            throw new FontException('Unable to calculate box size of font');
         }
 
         // build size from points

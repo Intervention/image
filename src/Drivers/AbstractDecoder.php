@@ -71,17 +71,17 @@ abstract class AbstractDecoder implements DecoderInterface
     protected function decodeBase64Data(mixed $input): string
     {
         if (!is_string($input) && !($input instanceof Stringable)) {
-            throw new DecoderException('Input must be either of type string or instance of Stringable.');
+            throw new DecoderException('Input must be either of type string or instance of Stringable');
         }
 
         $decoded = base64_decode((string) $input, true);
 
         if ($decoded === false) {
-            throw new DecoderException('Input is not Base64-encoded data.');
+            throw new DecoderException('Input is not Base64-encoded data');
         }
 
         if (base64_encode($decoded) !== str_replace(["\n", "\r"], '', (string) $input)) {
-            throw new DecoderException('Input is not Base64-encoded data.');
+            throw new DecoderException('Input is not Base64-encoded data');
         }
 
         return $decoded;
@@ -95,18 +95,18 @@ abstract class AbstractDecoder implements DecoderInterface
     protected function parseFilePath(mixed $path): string
     {
         if (!is_string($path) && !($path instanceof Stringable)) {
-            throw new DecoderException('Path must be either of type string or instance of Stringable.');
+            throw new DecoderException('Path must be either of type string or instance of Stringable');
         }
 
         $path = (string) $path;
 
         if ($path === '') {
-            throw new DecoderException('Path must not be an empty string.');
+            throw new DecoderException('Path must not be an empty string');
         }
 
         if (strlen($path) > PHP_MAXPATHLEN) {
             throw new DecoderException(
-                "Path is longer than the configured max. value of " . PHP_MAXPATHLEN . ".",
+                "Path is longer than the configured max. value of " . PHP_MAXPATHLEN
             );
         }
 
@@ -115,11 +115,11 @@ abstract class AbstractDecoder implements DecoderInterface
         $basename = pathinfo($path, PATHINFO_BASENAME);
 
         if (!is_dir($dirname)) {
-            throw new DecoderException('Directory "' . $dirname . '" not found.');
+            throw new DecoderException('Directory "' . $dirname . '" not found');
         }
 
         if (!@is_file($path)) {
-            throw new DecoderException('File "' . $basename . '" not found in directory "' . $dirname . '".');
+            throw new DecoderException('File "' . $basename . '" not found in directory "' . $dirname . '"');
         }
 
         return $path;

@@ -66,7 +66,7 @@ enum MediaType: string
             try {
                 $type = FileExtension::from(strtolower($identifier))->mediaType();
             } catch (Error) {
-                throw new NotSupportedException('Unable to create media type from "' . $identifier . '".');
+                throw new NotSupportedException('Unable to create media type from "' . $identifier . '"');
             }
         }
 

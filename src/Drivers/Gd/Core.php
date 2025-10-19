@@ -59,7 +59,7 @@ class Core extends Collection implements CoreInterface
         $frame = $this->getAtPosition($position);
 
         if (!($frame instanceof FrameInterface)) {
-            throw new AnimationException('Frame #' . $position . ' could not be found in the image.');
+            throw new AnimationException('Frame #' . $position . ' could not be found in the image');
         }
 
         return $frame;

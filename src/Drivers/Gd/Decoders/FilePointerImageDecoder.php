@@ -18,7 +18,7 @@ class FilePointerImageDecoder extends BinaryImageDecoder
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_resource($input) || !in_array(get_resource_type($input), ['file', 'stream'])) {
-            throw new DecoderException("Input must be a resource of type 'file' or 'stream'.");
+            throw new DecoderException("Input must be a resource of type 'file' or 'stream'");
         }
 
         $contents = '';

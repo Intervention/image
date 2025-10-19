@@ -59,7 +59,7 @@ class Colorspace implements ColorspaceInterface
     protected function importRgbColor(ColorInterface $color): ColorInterface
     {
         if (!($color instanceof RgbColor)) {
-            throw new ColorException('Unabled to import color of type ' . $color::class . '.');
+            throw new ColorException('Unabled to import color of type ' . $color::class);
         }
 
         // normalized values of rgb channels
@@ -105,7 +105,7 @@ class Colorspace implements ColorspaceInterface
     protected function importHsvColor(ColorInterface $color): ColorInterface
     {
         if (!($color instanceof HsvColor)) {
-            throw new ColorException('Unabled to import color of type ' . $color::class . '.');
+            throw new ColorException('Unabled to import color of type ' . $color::class);
         }
 
         // normalized values of hsv channels

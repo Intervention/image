@@ -111,9 +111,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
         $color = parent::strokeColor();
 
         if ($color->isTransparent()) {
-            throw new ColorException(
-                'The stroke color must be fully opaque.'
-            );
+            throw new ColorException('The stroke color must be fully opaque');
         }
 
         return $this

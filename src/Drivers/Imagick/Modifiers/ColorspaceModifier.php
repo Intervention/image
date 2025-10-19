@@ -43,7 +43,7 @@ class ColorspaceModifier extends GenericColorspaceModifier implements Specialize
     private function getImagickColorspace(ColorspaceInterface $colorspace): int
     {
         if (!array_key_exists($colorspace::class, self::$mapping)) {
-            throw new NotSupportedException('Given colorspace is not supported.');
+            throw new NotSupportedException('Given colorspace is not supported');
         }
 
         return self::$mapping[$colorspace::class];

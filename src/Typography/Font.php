@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Typography;
 
+use Intervention\Image\Alignment;
 use Intervention\Image\Exceptions\FontException;
 use Intervention\Image\Interfaces\FontInterface;
 
@@ -15,8 +16,8 @@ class Font implements FontInterface
     protected mixed $strokeColor = 'ffffff';
     protected int $strokeWidth = 0;
     protected ?string $filename = null;
-    protected string $alignment = 'left';
-    protected string $valignment = 'bottom';
+    protected Alignment $alignment = Alignment::LEFT;
+    protected Alignment $valignment = Alignment::BOTTOM;
     protected float $lineHeight = 1.25;
     protected ?int $wrapWidth = null;
 
@@ -194,7 +195,7 @@ class Font implements FontInterface
      *
      * @see FontInterface::alignment()
      */
-    public function alignment(): string
+    public function alignment(): Alignment
     {
         return $this->alignment;
     }
@@ -204,9 +205,9 @@ class Font implements FontInterface
      *
      * @see FontInterface::setAlignment()
      */
-    public function setAlignment(string $value): FontInterface
+    public function setAlignment(string|Alignment $value): FontInterface
     {
-        $this->alignment = $value;
+        $this->alignment = is_string($value) ? Alignment::from($value) : $value;
 
         return $this;
     }
@@ -216,7 +217,7 @@ class Font implements FontInterface
      *
      * @see FontInterface::valignment()
      */
-    public function valignment(): string
+    public function valignment(): Alignment
     {
         return $this->valignment;
     }
@@ -226,9 +227,9 @@ class Font implements FontInterface
      *
      * @see FontInterface::setValignment()
      */
-    public function setValignment(string $value): FontInterface
+    public function setValignment(string|Alignment $value): FontInterface
     {
-        $this->valignment = $value;
+        $this->valignment = is_string($value) ? Alignment::from($value) : $value;
 
         return $this;
     }

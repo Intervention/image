@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Typography;
 
 use Closure;
+use Intervention\Image\Alignment;
 use Intervention\Image\Exceptions\FontException;
 use Intervention\Image\Interfaces\FontInterface;
 
@@ -84,7 +85,7 @@ class FontFactory
     /**
      * Set the horizontal alignment of the font to be built
      */
-    public function align(string $value): self
+    public function align(string|Alignment $value): self
     {
         $this->font->setAlignment($value);
 
@@ -94,7 +95,7 @@ class FontFactory
     /**
      * Set the vertical alignment of the font to be built
      */
-    public function valign(string $value): self
+    public function valign(string|Alignment $value): self
     {
         $this->font->setValignment($value);
 

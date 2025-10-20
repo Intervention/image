@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Typography;
 
+use Intervention\Image\Alignment;
 use Intervention\Image\Exceptions\FontException;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Resource;
@@ -62,19 +63,29 @@ final class FontTest extends BaseTestCase
     public function testSetGetAlignment(): void
     {
         $font = new Font();
-        $this->assertEquals('left', $font->alignment());
-        $result = $font->setAlignment('center');
+        $this->assertEquals(Alignment::LEFT, $font->alignment());
+
+        $result = $font->setAlignment(Alignment::CENTER);
         $this->assertInstanceOf(Font::class, $result);
-        $this->assertEquals('center', $font->alignment());
+        $this->assertEquals(Alignment::CENTER, $font->alignment());
+
+        $result = $font->setAlignment(Alignment::BOTTOM);
+        $this->assertInstanceOf(Font::class, $result);
+        $this->assertEquals(Alignment::BOTTOM, $font->alignment());
     }
 
     public function testSetGetValignment(): void
     {
         $font = new Font();
-        $this->assertEquals('bottom', $font->valignment());
-        $result = $font->setValignment('center');
+        $this->assertEquals(Alignment::BOTTOM, $font->valignment());
+
+        $result = $font->setValignment(Alignment::CENTER);
         $this->assertInstanceOf(Font::class, $result);
-        $this->assertEquals('center', $font->valignment());
+        $this->assertEquals(Alignment::CENTER, $font->valignment());
+
+        $result = $font->setValignment(Alignment::RIGHT);
+        $this->assertInstanceOf(Font::class, $result);
+        $this->assertEquals(Alignment::RIGHT, $font->valignment());
     }
 
     public function testSetGetLineHeight(): void

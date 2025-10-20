@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Geometry;
 
+use Intervention\Image\Alignment;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Tests\BaseTestCase;
@@ -135,39 +136,39 @@ final class RectangleTest extends BaseTestCase
         $this->assertEquals(0, $box->pivot()->x());
         $this->assertEquals(0, $box->pivot()->y());
 
-        $box->movePivot('top-left', 3, 3);
+        $box->movePivot(Alignment::TOP_LEFT, 3, 3);
         $this->assertEquals(3, $box->pivot()->x());
         $this->assertEquals(3, $box->pivot()->y());
 
-        $box->movePivot('top', 3, 3);
+        $box->movePivot(Alignment::TOP, 3, 3);
         $this->assertEquals(323, $box->pivot()->x());
         $this->assertEquals(3, $box->pivot()->y());
 
-        $box->movePivot('top-right', 3, 3);
+        $box->movePivot(Alignment::TOP_RIGHT, 3, 3);
         $this->assertEquals(637, $box->pivot()->x());
         $this->assertEquals(3, $box->pivot()->y());
 
-        $box->movePivot('left', 3, 3);
+        $box->movePivot(Alignment::LEFT, 3, 3);
         $this->assertEquals(3, $box->pivot()->x());
         $this->assertEquals(243, $box->pivot()->y());
 
-        $box->movePivot('center', 3, 3);
+        $box->movePivot(Alignment::CENTER, 3, 3);
         $this->assertEquals(323, $box->pivot()->x());
         $this->assertEquals(243, $box->pivot()->y());
 
-        $box->movePivot('right', 3, 3);
+        $box->movePivot(Alignment::RIGHT, 3, 3);
         $this->assertEquals(637, $box->pivot()->x());
         $this->assertEquals(243, $box->pivot()->y());
 
-        $box->movePivot('bottom-left', 3, 3);
+        $box->movePivot(Alignment::BOTTOM_LEFT, 3, 3);
         $this->assertEquals(3, $box->pivot()->x());
         $this->assertEquals(477, $box->pivot()->y());
 
-        $box->movePivot('bottom', 3, 3);
+        $box->movePivot(Alignment::BOTTOM, 3, 3);
         $this->assertEquals(323, $box->pivot()->x());
         $this->assertEquals(477, $box->pivot()->y());
 
-        $result = $box->movePivot('bottom-right', 3, 3);
+        $result = $box->movePivot(Alignment::BOTTOM_RIGHT, 3, 3);
         $this->assertEquals(637, $box->pivot()->x());
         $this->assertEquals(477, $box->pivot()->y());
 
@@ -178,31 +179,31 @@ final class RectangleTest extends BaseTestCase
     {
         $container = new Rectangle(800, 600);
         $size = new Rectangle(200, 100);
-        $size->alignPivotTo($container, 'center');
+        $size->alignPivotTo($container, Alignment::CENTER);
         $this->assertEquals(300, $size->pivot()->x());
         $this->assertEquals(250, $size->pivot()->y());
 
         $container = new Rectangle(800, 600);
         $size = new Rectangle(100, 100);
-        $size->alignPivotTo($container, 'center');
+        $size->alignPivotTo($container, Alignment::CENTER);
         $this->assertEquals(350, $size->pivot()->x());
         $this->assertEquals(250, $size->pivot()->y());
 
         $container = new Rectangle(800, 600);
         $size = new Rectangle(800, 600);
-        $size->alignPivotTo($container, 'center');
+        $size->alignPivotTo($container, Alignment::CENTER);
         $this->assertEquals(0, $size->pivot()->x());
         $this->assertEquals(0, $size->pivot()->y());
 
         $container = new Rectangle(100, 100);
         $size = new Rectangle(800, 600);
-        $size->alignPivotTo($container, 'center');
+        $size->alignPivotTo($container, Alignment::CENTER);
         $this->assertEquals(-350, $size->pivot()->x());
         $this->assertEquals(-250, $size->pivot()->y());
 
         $container = new Rectangle(100, 100);
         $size = new Rectangle(800, 600);
-        $size->alignPivotTo($container, 'bottom-right');
+        $size->alignPivotTo($container, Alignment::BOTTOM_RIGHT);
         $this->assertEquals(-700, $size->pivot()->x());
         $this->assertEquals(-500, $size->pivot()->y());
     }
@@ -211,40 +212,40 @@ final class RectangleTest extends BaseTestCase
     {
         $container = new Rectangle(800, 600);
         $input = new Rectangle(200, 100);
-        $container->movePivot('top-left');
-        $input->movePivot('top-left');
+        $container->movePivot(Alignment::TOP_LEFT);
+        $input->movePivot(Alignment::TOP_LEFT);
         $pos = $container->relativePositionTo($input);
         $this->assertEquals(0, $pos->x());
         $this->assertEquals(0, $pos->y());
 
         $container = new Rectangle(800, 600);
         $input = new Rectangle(200, 100);
-        $container->movePivot('center');
-        $input->movePivot('top-left');
+        $container->movePivot(Alignment::CENTER);
+        $input->movePivot(Alignment::TOP_LEFT);
         $pos = $container->relativePositionTo($input);
         $this->assertEquals(400, $pos->x());
         $this->assertEquals(300, $pos->y());
 
         $container = new Rectangle(800, 600);
         $input = new Rectangle(200, 100);
-        $container->movePivot('bottom-right');
-        $input->movePivot('top-right');
+        $container->movePivot(Alignment::BOTTOM_RIGHT);
+        $input->movePivot(Alignment::TOP_RIGHT);
         $pos = $container->relativePositionTo($input);
         $this->assertEquals(600, $pos->x());
         $this->assertEquals(600, $pos->y());
 
         $container = new Rectangle(800, 600);
         $input = new Rectangle(200, 100);
-        $container->movePivot('center');
-        $input->movePivot('center');
+        $container->movePivot(Alignment::CENTER);
+        $input->movePivot(Alignment::CENTER);
         $pos = $container->relativePositionTo($input);
         $this->assertEquals(300, $pos->x());
         $this->assertEquals(250, $pos->y());
 
         $container = new Rectangle(100, 200);
         $input = new Rectangle(100, 100);
-        $container->movePivot('center');
-        $input->movePivot('center');
+        $container->movePivot(Alignment::CENTER);
+        $input->movePivot(Alignment::CENTER);
         $pos = $container->relativePositionTo($input);
         $this->assertEquals(0, $pos->x());
         $this->assertEquals(50, $pos->y());

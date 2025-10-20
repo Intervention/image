@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Drivers\Imagick\Modifiers;
 
+use Intervention\Image\Alignment;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\CoverModifier;
@@ -19,7 +20,7 @@ final class CoverModifierTest extends ImagickTestCase
         $image = $this->readTestImage('blocks.png');
         $this->assertEquals(640, $image->width());
         $this->assertEquals(480, $image->height());
-        $image->modify(new CoverModifier(100, 100, 'center'));
+        $image->modify(new CoverModifier(100, 100, Alignment::CENTER));
         $this->assertEquals(100, $image->width());
         $this->assertEquals(100, $image->height());
         $this->assertColor(255, 0, 0, 255, $image->pickColor(90, 90));
@@ -31,7 +32,7 @@ final class CoverModifierTest extends ImagickTestCase
     public function testModifyOddSize(): void
     {
         $image = $this->createTestImage(375, 250);
-        $image->modify(new CoverModifier(240, 90, 'center'));
+        $image->modify(new CoverModifier(240, 90, Alignment::CENTER));
         $this->assertEquals(240, $image->width());
         $this->assertEquals(90, $image->height());
     }

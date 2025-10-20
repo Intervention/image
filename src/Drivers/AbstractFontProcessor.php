@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers;
 
+use Intervention\Image\Alignment;
 use Intervention\Image\Exceptions\FontException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Geometry\Point;
@@ -39,9 +40,9 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
         foreach ($lines as $line) {
             $lineBoxSize = $this->boxSize((string) $line, $font);
             $lineWidth = $lineBoxSize->width() + $lineBoxSize->pivot()->x();
-            $xAdjustment = $font->alignment() === 'left' ? 0 : $blockWidth - $lineWidth;
-            $xAdjustment = $font->alignment() === 'right' ? intval(round($xAdjustment)) : $xAdjustment;
-            $xAdjustment = $font->alignment() === 'center' ? intval(round($xAdjustment / 2)) : $xAdjustment;
+            $xAdjustment = $font->alignment() === Alignment::LEFT ? 0 : $blockWidth - $lineWidth;
+            $xAdjustment = $font->alignment() === Alignment::RIGHT ? intval(round($xAdjustment)) : $xAdjustment;
+            $xAdjustment = $font->alignment() === Alignment::CENTER ? intval(round($xAdjustment / 2)) : $xAdjustment;
             $position = new Point($x + $xAdjustment, $y);
             $position->rotate($font->angle(), $pivot);
             $line->setPosition($position);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
+use Intervention\Image\Alignment;
 use Intervention\Image\Exceptions\FontException;
 
 interface FontInterface
@@ -84,22 +85,22 @@ interface FontInterface
     /**
      * Set horizontal alignment of font
      */
-    public function setAlignment(string $align): self;
+    public function setAlignment(string|Alignment $align): self;
 
     /**
      * Get horizontal alignment of font
      */
-    public function alignment(): string;
+    public function alignment(): Alignment;
 
     /**
      * Set vertical alignment of font
      */
-    public function setValignment(string $align): self;
+    public function setValignment(string|Alignment $align): self;
 
     /**
      * Get vertical alignment of font
      */
-    public function valignment(): string;
+    public function valignment(): Alignment;
 
     /**
      * Set typographical line height

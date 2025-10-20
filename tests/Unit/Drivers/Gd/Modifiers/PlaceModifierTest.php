@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Alignment;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\PlaceModifier;
@@ -20,7 +21,7 @@ final class PlaceModifierTest extends GdTestCase
     {
         $image = $this->readTestImage('test.jpg');
         $this->assertEquals('febc44', $image->pickColor(300, 25)->toHex());
-        $image->modify(new PlaceModifier(Resource::create('circle.png')->path(), 'top-right', 0, 0));
+        $image->modify(new PlaceModifier(Resource::create('circle.png')->path(), Alignment::TOP_RIGHT, 0, 0));
         $this->assertEquals('32250d', $image->pickColor(300, 25)->toHex());
     }
 
@@ -28,7 +29,7 @@ final class PlaceModifierTest extends GdTestCase
     {
         $image = $this->readTestImage('test.jpg');
         $this->assertEquals('febc44', $image->pickColor(300, 25)->toHex());
-        $image->modify(new PlaceModifier(Resource::create('circle.png')->path(), 'top-right', 0, 0, 50));
+        $image->modify(new PlaceModifier(Resource::create('circle.png')->path(), Alignment::TOP_RIGHT, 0, 0, 50));
         $this->assertColor(152, 112, 40, 255, $image->pickColor(300, 25), tolerance: 1);
         $this->assertColor(255, 202, 107, 255, $image->pickColor(274, 5), tolerance: 1);
     }

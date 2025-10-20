@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Alignment;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\ResizeCanvasModifier;
@@ -19,7 +20,7 @@ final class ResizeCanvasModifierTest extends GdTestCase
         $image = $this->createTestImage(1, 1);
         $this->assertEquals(1, $image->width());
         $this->assertEquals(1, $image->height());
-        $image->modify(new ResizeCanvasModifier(3, 3, 'ff0', 'center'));
+        $image->modify(new ResizeCanvasModifier(3, 3, 'ff0', Alignment::CENTER));
         $this->assertEquals(3, $image->width());
         $this->assertEquals(3, $image->height());
         $this->assertColor(255, 255, 0, 255, $image->pickColor(0, 0));
@@ -32,7 +33,7 @@ final class ResizeCanvasModifierTest extends GdTestCase
         $image = $this->readTestImage('tile.png');
         $this->assertEquals(16, $image->width());
         $this->assertEquals(16, $image->height());
-        $image->modify(new ResizeCanvasModifier(18, 18, 'ff0', 'center'));
+        $image->modify(new ResizeCanvasModifier(18, 18, 'ff0', Alignment::CENTER));
         $this->assertEquals(18, $image->width());
         $this->assertEquals(18, $image->height());
         $this->assertColor(255, 255, 0, 255, $image->pickColor(0, 0));
@@ -42,7 +43,7 @@ final class ResizeCanvasModifierTest extends GdTestCase
         $this->assertTransparency($image->pickColor(12, 1));
 
         $image = $this->createTestImage(16, 16);
-        $image->modify(new ResizeCanvasModifier(32, 32, '00f5', 'center'));
+        $image->modify(new ResizeCanvasModifier(32, 32, '00f5', Alignment::CENTER));
         $this->assertEquals(32, $image->width());
         $this->assertEquals(32, $image->height());
         $this->assertColor(0, 0, 255, 85, $image->pickColor(5, 5));
@@ -60,7 +61,7 @@ final class ResizeCanvasModifierTest extends GdTestCase
     {
         $image = $this->createTestImage(1, 1);
         $this->assertColor(255, 0, 0, 255, $image->pickColor(0, 0));
-        $image->modify(new ResizeCanvasModifier(null, 2, 'ff0', 'bottom'));
+        $image->modify(new ResizeCanvasModifier(null, 2, 'ff0', Alignment::BOTTOM));
         $this->assertEquals(1, $image->width());
         $this->assertEquals(2, $image->height());
         $this->assertColor(255, 255, 0, 255, $image->pickColor(0, 0));

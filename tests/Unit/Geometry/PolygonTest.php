@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Geometry;
 
+use Intervention\Image\Alignment;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
@@ -234,7 +235,7 @@ final class PolygonTest extends BaseTestCase
             new Point(0, -200),
         ], new Point(0, 0));
 
-        $result = $poly->align('center');
+        $result = $poly->align(Alignment::CENTER);
 
         $this->assertInstanceOf(Polygon::class, $result);
         $this->assertEquals(-150, $result[0]->x());
@@ -253,7 +254,7 @@ final class PolygonTest extends BaseTestCase
             new Point(0, -200),
         ], new Point(-1000, -1000));
 
-        $result = $poly->align('center');
+        $result = $poly->align(Alignment::CENTER);
 
         $this->assertInstanceOf(Polygon::class, $result);
         $this->assertEquals(-1150, $result[0]->x());
@@ -275,7 +276,7 @@ final class PolygonTest extends BaseTestCase
             new Point(0, -200),
         ], new Point(100, 100));
 
-        $result = $poly->align('left');
+        $result = $poly->align(Alignment::LEFT);
 
         $this->assertInstanceOf(Polygon::class, $result);
         $this->assertEquals(100, $result[0]->x());
@@ -294,7 +295,7 @@ final class PolygonTest extends BaseTestCase
             new Point(0, -200),
         ], new Point(-1000, -1000));
 
-        $result = $poly->align('left');
+        $result = $poly->align(Alignment::LEFT);
 
         $this->assertInstanceOf(Polygon::class, $result);
         $this->assertEquals(-1000, $result[0]->x());
@@ -316,7 +317,7 @@ final class PolygonTest extends BaseTestCase
             new Point(0, -200),
         ], new Point(100, 100));
 
-        $result = $poly->align('right');
+        $result = $poly->align(Alignment::RIGHT);
 
         $this->assertInstanceOf(Polygon::class, $result);
         $this->assertEquals(-200, $result[0]->x());
@@ -335,7 +336,7 @@ final class PolygonTest extends BaseTestCase
             new Point(0, -200),
         ], new Point(-1000, -1000));
 
-        $result = $poly->align('right');
+        $result = $poly->align(Alignment::RIGHT);
 
         $this->assertInstanceOf(Polygon::class, $result);
         $this->assertEquals(-1300, $result[0]->x());
@@ -379,7 +380,7 @@ final class PolygonTest extends BaseTestCase
             new Point(0, 0),
         ], new Point(250, 250));
 
-        $result = $poly->valign('top');
+        $result = $poly->valign(Alignment::TOP);
 
         $this->assertInstanceOf(Polygon::class, $result);
         $this->assertEquals(-21, $result[0]->x());

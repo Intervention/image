@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Drivers;
 
+use Intervention\Image\Alignment;
 use Intervention\Image\Drivers\AbstractFontProcessor;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
@@ -24,7 +25,7 @@ class AbstractFontProcessorTest extends BaseTestCase
             ->setWrapWidth(20)
             ->setSize(50)
             ->setLineHeight(1.25)
-            ->setAlignment('center');
+            ->setAlignment(Alignment::CENTER);
 
         $processor = Mockery::mock(AbstractFontProcessor::class)->makePartial();
 

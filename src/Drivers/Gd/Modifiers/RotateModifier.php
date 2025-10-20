@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Alignment;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
@@ -67,15 +68,15 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
         $container = (new Rectangle(
             imagesx($rotated),
             imagesy($rotated),
-        ))->movePivot('center');
+        ))->movePivot(Alignment::CENTER);
 
         // create size from original and rotate points
         $cutout = (new Rectangle(
             imagesx($frame->native()),
             imagesy($frame->native()),
             $container->pivot()
-        ))->align('center')
-            ->valign('center')
+        ))->align(Alignment::CENTER)
+            ->valign(Alignment::CENTER)
             ->rotate($this->rotationAngle() * -1);
 
         // create new gd image

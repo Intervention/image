@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Alignment;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\ResizeCanvasRelativeModifier;
@@ -19,7 +20,7 @@ final class ResizeCanvasRelativeModifierTest extends GdTestCase
         $image = $this->createTestImage(1, 1);
         $this->assertEquals(1, $image->width());
         $this->assertEquals(1, $image->height());
-        $image->modify(new ResizeCanvasRelativeModifier(2, 2, 'ff0', 'center'));
+        $image->modify(new ResizeCanvasRelativeModifier(2, 2, 'ff0', Alignment::CENTER));
         $this->assertEquals(3, $image->width());
         $this->assertEquals(3, $image->height());
         $this->assertColor(255, 255, 0, 255, $image->pickColor(0, 0));
@@ -32,7 +33,7 @@ final class ResizeCanvasRelativeModifierTest extends GdTestCase
         $image = $this->readTestImage('tile.png');
         $this->assertEquals(16, $image->width());
         $this->assertEquals(16, $image->height());
-        $image->modify(new ResizeCanvasRelativeModifier(2, 2, 'ff0', 'center'));
+        $image->modify(new ResizeCanvasRelativeModifier(2, 2, 'ff0', Alignment::CENTER));
         $this->assertEquals(18, $image->width());
         $this->assertEquals(18, $image->height());
         $this->assertColor(255, 255, 0, 255, $image->pickColor(0, 0));

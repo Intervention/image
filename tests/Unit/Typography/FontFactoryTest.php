@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Typography;
 
+use Intervention\Image\Alignment;
 use Intervention\Image\Interfaces\FontInterface;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Resource;
@@ -29,8 +30,8 @@ final class FontFactoryTest extends BaseTestCase
             $font->filename(Resource::create('test.ttf')->path());
             $font->color('#b01735');
             $font->size(70);
-            $font->align('center');
-            $font->valign('middle');
+            $font->align(Alignment::CENTER);
+            $font->valign(Alignment::TOP);
             $font->lineHeight(1.6);
             $font->angle(10);
             $font->wrap(100);
@@ -42,8 +43,8 @@ final class FontFactoryTest extends BaseTestCase
         $this->assertEquals(Resource::create('test.ttf')->path(), $result->filename());
         $this->assertEquals('#b01735', $result->color());
         $this->assertEquals(70, $result->size());
-        $this->assertEquals('center', $result->alignment());
-        $this->assertEquals('middle', $result->valignment());
+        $this->assertEquals(Alignment::CENTER, $result->alignment());
+        $this->assertEquals(Alignment::TOP, $result->valignment());
         $this->assertEquals(1.6, $result->lineHeight());
         $this->assertEquals(10, $result->angle());
         $this->assertEquals(100, $result->wrapWidth());

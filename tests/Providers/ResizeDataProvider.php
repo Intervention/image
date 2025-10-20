@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Providers;
 
 use Generator;
+use Intervention\Image\Alignment;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
 
@@ -100,49 +101,49 @@ class ResizeDataProvider
         yield [
             new Rectangle(800, 600),
             new Rectangle(100, 100),
-            'center',
+            Alignment::CENTER,
             new Rectangle(100, 100, new Point(350, 250))
         ];
         yield [
             new Rectangle(800, 600),
             new Rectangle(200, 100),
-            'center',
+            Alignment::CENTER,
             new Rectangle(200, 100, new Point(300, 250))
         ];
         yield [
             new Rectangle(800, 600),
             new Rectangle(100, 200),
-            'center',
+            Alignment::CENTER,
             new Rectangle(100, 200, new Point(350, 200))
         ];
         yield [
             new Rectangle(800, 600),
             new Rectangle(2000, 10),
-            'center',
+            Alignment::CENTER,
             new Rectangle(2000, 10, new Point(-600, 295))
         ];
         yield [
             new Rectangle(800, 600),
             new Rectangle(10, 2000),
-            'center',
+            Alignment::CENTER,
             new Rectangle(10, 2000, new Point(395, -700))
         ];
         yield [
             new Rectangle(800, 600),
             new Rectangle(800, 600),
-            'center',
+            Alignment::CENTER,
             new Rectangle(800, 600, new Point(0, 0))
         ];
         yield [
             new Rectangle(400, 300),
             new Rectangle(120, 120),
-            'center',
+            Alignment::CENTER,
             new Rectangle(120, 120, new Point(140, 90))
         ];
         yield [
             new Rectangle(600, 800),
             new Rectangle(100, 100),
-            'center',
+            Alignment::CENTER,
             new Rectangle(100, 100, new Point(250, 350))
         ];
     }

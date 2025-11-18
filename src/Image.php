@@ -627,9 +627,9 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::resize()
      */
-    public function resize(?int $width = null, ?int $height = null): ImageInterface
+    public function resize(null|int|Fraction $width = null, null|int|Fraction $height = null): ImageInterface
     {
-        return $this->modify(new ResizeModifier($width, $height));
+        return $this->modify(new ResizeModifier(...$this->fractionize($width, $height)));
     }
 
     /**
@@ -637,9 +637,9 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::resizeDown()
      */
-    public function resizeDown(?int $width = null, ?int $height = null): ImageInterface
+    public function resizeDown(null|int|Fraction $width = null, null|int|Fraction $height = null): ImageInterface
     {
-        return $this->modify(new ResizeDownModifier($width, $height));
+        return $this->modify(new ResizeDownModifier(...$this->fractionize($width, $height)));
     }
 
     /**
@@ -647,9 +647,9 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::scale()
      */
-    public function scale(?int $width = null, ?int $height = null): ImageInterface
+    public function scale(null|int|Fraction $width = null, null|int|Fraction $height = null): ImageInterface
     {
-        return $this->modify(new ScaleModifier($width, $height));
+        return $this->modify(new ScaleModifier(...$this->fractionize($width, $height)));
     }
 
     /**
@@ -657,9 +657,9 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::scaleDown()
      */
-    public function scaleDown(?int $width = null, ?int $height = null): ImageInterface
+    public function scaleDown(null|int|Fraction $width = null, null|int|Fraction $height = null): ImageInterface
     {
-        return $this->modify(new ScaleDownModifier($width, $height));
+        return $this->modify(new ScaleDownModifier(...$this->fractionize($width, $height)));
     }
 
     /**
@@ -667,9 +667,15 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::cover()
      */
-    public function cover(int $width, int $height, string|Alignment $alignment = Alignment::CENTER): ImageInterface
-    {
-        return $this->modify(new CoverModifier($width, $height, $alignment));
+    public function cover(
+        int|Fraction $width,
+        int|Fraction $height,
+        string|Alignment $alignment = Alignment::CENTER,
+    ): ImageInterface {
+        return $this->modify(new CoverModifier(...[
+            ...$this->fractionize($width, $height),
+            ...['alignment' => $alignment]
+        ]));
     }
 
     /**
@@ -677,9 +683,15 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::coverDown()
      */
-    public function coverDown(int $width, int $height, string|Alignment $alignment = Alignment::CENTER): ImageInterface
-    {
-        return $this->modify(new CoverDownModifier($width, $height, $alignment));
+    public function coverDown(
+        int|Fraction $width,
+        int|Fraction $height,
+        string|Alignment $alignment = Alignment::CENTER,
+    ): ImageInterface {
+        return $this->modify(new CoverDownModifier(...[
+            ...$this->fractionize($width, $height),
+            ...['alignment' => $alignment]
+        ]));
     }
 
     /**
@@ -688,12 +700,18 @@ final class Image implements ImageInterface
      * @see ImageInterface::resizeCanvas()
      */
     public function resizeCanvas(
-        ?int $width = null,
-        ?int $height = null,
+        null|int|Fraction $width = null,
+        null|int|Fraction $height = null,
         mixed $background = null,
         string|Alignment $alignment = Alignment::CENTER
     ): ImageInterface {
-        return $this->modify(new ResizeCanvasModifier($width, $height, $background, $alignment));
+        return $this->modify(new ResizeCanvasModifier(...[
+            ...$this->fractionize($width, $height),
+            ...[
+                'background' => $background,
+                'alignment' => $alignment,
+            ]
+        ]));
     }
 
     /**
@@ -702,12 +720,18 @@ final class Image implements ImageInterface
      * @see ImageInterface::resizeCanvasRelative()
      */
     public function resizeCanvasRelative(
-        ?int $width = null,
-        ?int $height = null,
+        null|int|Fraction $width = null,
+        null|int|Fraction $height = null,
         mixed $background = null,
         string|Alignment $alignment = Alignment::CENTER
     ): ImageInterface {
-        return $this->modify(new ResizeCanvasRelativeModifier($width, $height, $background, $alignment));
+        return $this->modify(new ResizeCanvasRelativeModifier(...[
+            ...$this->fractionize($width, $height),
+            ...[
+                'background' => $background,
+                'alignment' => $alignment,
+            ]
+        ]));
     }
 
     /**
@@ -716,12 +740,18 @@ final class Image implements ImageInterface
      * @see ImageInterface::padDown()
      */
     public function pad(
-        int $width,
-        int $height,
+        int|Fraction $width,
+        int|Fraction $height,
         mixed $background = null,
         string|Alignment $alignment = Alignment::CENTER
     ): ImageInterface {
-        return $this->modify(new PadModifier($width, $height, $background, $alignment));
+        return $this->modify(new PadModifier(...[
+            ...$this->fractionize($width, $height),
+            ...[
+                'background' => $background,
+                'alignment' => $alignment,
+            ]
+        ]));
     }
 
     /**
@@ -730,12 +760,18 @@ final class Image implements ImageInterface
      * @see ImageInterface::pad()
      */
     public function contain(
-        int $width,
-        int $height,
+        int|Fraction $width,
+        int|Fraction $height,
         mixed $background = null,
         string|Alignment $alignment = Alignment::CENTER
     ): ImageInterface {
-        return $this->modify(new ContainModifier($width, $height, $background, $alignment));
+        return $this->modify(new ContainModifier(...[
+            ...$this->fractionize($width, $height),
+            ...[
+                'background' => $background,
+                'alignment' => $alignment,
+            ]
+        ]));
     }
 
     /**
@@ -744,14 +780,22 @@ final class Image implements ImageInterface
      * @see ImageInterface::crop()
      */
     public function crop(
-        int $width,
-        int $height,
+        int|Fraction $width,
+        int|Fraction $height,
         int $x = 0,
         int $y = 0,
         mixed $background = null,
         string|Alignment $alignment = Alignment::TOP_LEFT
     ): ImageInterface {
-        return $this->modify(new CropModifier($width, $height, $x, $y, $background, $alignment));
+        return $this->modify(new CropModifier(...[
+            ...$this->fractionize($width, $height),
+            ...[
+                'x' => $x,
+                'y' => $y,
+                'background' => $background,
+                'alignment' => $alignment,
+            ]
+        ]));
     }
 
     /**
@@ -1048,6 +1092,27 @@ final class Image implements ImageInterface
     public function toHeic(mixed ...$options): EncodedImageInterface
     {
         return $this->encode(new HeicEncoder(...$options));
+    }
+
+    /**
+     * Build array of resize width and height from various inputs including
+     * fractions based on the current image size
+     *
+     * @throws RuntimeException
+     * @return array{'width': ?int, 'height': ?int}
+     */
+    private function fractionize(null|int|Fraction $width, null|int|Fraction $height): array
+    {
+        if ($width instanceof Fraction || $height instanceof Fraction) {
+            $size = $this->size();
+            $width = ($width instanceof Fraction) ? (int) round($width->of($size->width())) : $width;
+            $height = ($height instanceof Fraction) ? (int) round($height->of($size->height())) : $height;
+        }
+
+        return [
+            'width' => $width,
+            'height' => $height,
+        ];
     }
 
     /**

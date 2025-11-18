@@ -19,6 +19,7 @@ use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\MediaType;
 use Intervention\Image\Origin;
 use Intervention\Image\Alignment;
+use Intervention\Image\Fraction;
 use IteratorAggregate;
 
 /**
@@ -415,7 +416,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @throws RuntimeException
      */
-    public function resize(?int $width = null, ?int $height = null): self;
+    public function resize(null|int|Fraction $width = null, null|int|Fraction $height = null): self;
 
     /**
      * Resize image to the given width and/or height without exceeding the original dimensions
@@ -424,7 +425,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @throws RuntimeException
      */
-    public function resizeDown(?int $width = null, ?int $height = null): self;
+    public function resizeDown(null|int|Fraction $width = null, null|int|Fraction $height = null): self;
 
     /**
      * Resize image to the given width and/or height and keep the original aspect ratio
@@ -433,7 +434,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @throws RuntimeException
      */
-    public function scale(?int $width = null, ?int $height = null): self;
+    public function scale(null|int|Fraction $width = null, null|int|Fraction $height = null): self;
 
     /**
      * Resize image to the given width and/or height, keep the original aspect ratio
@@ -443,7 +444,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @throws RuntimeException
      */
-    public function scaleDown(?int $width = null, ?int $height = null): self;
+    public function scaleDown(null|int|Fraction $width = null, null|int|Fraction $height = null): self;
 
     /**
      * Takes the specified width and height and scales them to the largest
@@ -455,7 +456,11 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @throws RuntimeException
      */
-    public function cover(int $width, int $height, string|Alignment $alignment = Alignment::CENTER): self;
+    public function cover(
+        int|Fraction $width,
+        int|Fraction $height,
+        string|Alignment $alignment = Alignment::CENTER,
+    ): self;
 
     /**
      * Same as cover() but do not exceed the original image size
@@ -464,7 +469,11 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @throws RuntimeException
      */
-    public function coverDown(int $width, int $height, string|Alignment $alignment = Alignment::CENTER): self;
+    public function coverDown(
+        int|Fraction $width,
+        int|Fraction $height,
+        string|Alignment $alignment = Alignment::CENTER,
+    ): self;
 
     /**
      * Resize the boundaries of the current image to given width and height.
@@ -477,8 +486,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @throws RuntimeException
      */
     public function resizeCanvas(
-        ?int $width = null,
-        ?int $height = null,
+        null|int|Fraction $width = null,
+        null|int|Fraction $height = null,
         mixed $background = null,
         string|Alignment $alignment = Alignment::CENTER
     ): self;
@@ -493,8 +502,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @throws RuntimeException
      */
     public function resizeCanvasRelative(
-        ?int $width = null,
-        ?int $height = null,
+        null|int|Fraction $width = null,
+        null|int|Fraction $height = null,
         mixed $background = null,
         string|Alignment $alignment = Alignment::CENTER
     ): self;
@@ -514,8 +523,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @throws RuntimeException
      */
     public function pad(
-        int $width,
-        int $height,
+        int|Fraction $width,
+        int|Fraction $height,
         mixed $background = null,
         string|Alignment $alignment = Alignment::CENTER
     ): self;
@@ -530,8 +539,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @throws RuntimeException
      */
     public function contain(
-        int $width,
-        int $height,
+        int|Fraction $width,
+        int|Fraction $height,
         mixed $background = null,
         string|Alignment $alignment = Alignment::CENTER
     ): self;
@@ -546,8 +555,8 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @throws RuntimeException
      */
     public function crop(
-        int $width,
-        int $height,
+        int|Fraction $width,
+        int|Fraction $height,
         int $x = 0,
         int $y = 0,
         mixed $background = null,

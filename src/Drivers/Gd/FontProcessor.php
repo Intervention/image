@@ -37,12 +37,20 @@ class FontProcessor extends AbstractFontProcessor
             return $box;
         }
 
+        // build full path to font file to make sure to pass absolute path to imageftbbox()
+        // because of issues with different GD version behaving differently when passing
+        // relative paths to imageftbbox()
+        $fontPath = realpath($font->filename());
+        if ($fontPath === false) {
+            throw new FontException('Font file ' . $font->filename() . ' does not exist.');
+        }
+
         // calculate box size from ttf font file with angle 0
         $box = imageftbbox(
             size: $this->nativeFontSize($font),
             angle: 0,
-            font_filename: $font->filename(),
-            string: $text
+            font_filename: $fontPath,
+            string: $text,
         );
 
         if ($box === false) {

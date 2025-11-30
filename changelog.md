@@ -13,6 +13,7 @@
 - DriverInterface::handleColorInput()
 - DataUri::class
 - Default resolution is now 72 ppi for new images
+- Origin::format()
 
 ## API Changes
 

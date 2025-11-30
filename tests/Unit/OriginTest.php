@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit;
 
+use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Format;
 use Intervention\Image\Origin;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Resource;
@@ -38,5 +40,14 @@ final class OriginTest extends BaseTestCase
         $result = $origin->setMediaType('image/jpeg');
         $this->assertEquals('image/jpeg', $origin->mediaType());
         $this->assertEquals('image/jpeg', $result->mediaType());
+    }
+
+    public function testFormat(): void
+    {
+        $this->expectException(NotSupportedException::class);
+        new Origin()->format();
+
+        $this->assertEquals(Format::JPEG, new Origin('image/jpeg')->format());
+        $this->assertEquals(Format::GIF, new Origin('image/gif')->format());
     }
 }

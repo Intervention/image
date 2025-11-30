@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
+use Intervention\Image\Exceptions\NotSupportedException;
+
 class Origin
 {
     /**
@@ -68,6 +70,16 @@ class Origin
     public function fileExtension(): ?string
     {
         return pathinfo($this->filePath ?: '', PATHINFO_EXTENSION) ?: null;
+    }
+
+    /**
+     * Return format of the origin image
+     *
+     * @throws NotSupportedException
+     */
+    public function format(): Format
+    {
+        return MediaType::create($this->mediaType())->format();
     }
 
     /**

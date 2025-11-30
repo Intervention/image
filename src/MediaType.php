@@ -39,6 +39,8 @@ enum MediaType: string
     case IMAGE_HEIC = 'image/heic';
     case IMAGE_X_HEIC = 'image/x-heic';
     case IMAGE_HEIF = 'image/heif';
+    case IMAGE_X_ICON = 'image/x-icon';
+    case IMAGE_VND_MICROSOFT_ICON = 'image/vnd.microsoft.icon';
 
     /**
      * Create media type from given identifier
@@ -121,6 +123,8 @@ enum MediaType: string
             self::IMAGE_HEIF,
             self::IMAGE_HEIC,
             self::IMAGE_X_HEIC => Format::HEIC,
+            self::IMAGE_X_ICON,
+            self::IMAGE_VND_MICROSOFT_ICON => Format::ICO,
         };
     }
 

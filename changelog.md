@@ -14,6 +14,7 @@
 - DataUri::class
 - Default resolution is now 72 ppi for new images
 - Origin::format()
+- Support for ICO-Format
 
 ## API Changes
 

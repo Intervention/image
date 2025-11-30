@@ -30,6 +30,7 @@ enum FileExtension: string
     case JPX = 'jpx';
     case HEIC = 'heic';
     case HEIF = 'heif';
+    case ICO = 'ico';
 
     /**
      * Create file extension from given identifier
@@ -105,6 +106,7 @@ enum FileExtension: string
             self::JPX => Format::JP2,
             self::HEIC,
             self::HEIF => Format::HEIC,
+            self::ICO => Format::ICO,
         };
     }
 

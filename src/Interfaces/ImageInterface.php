@@ -77,15 +77,6 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function size(): SizeInterface;
 
     /**
-     * Encode image with given encoder
-     *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-images
-     *
-     * @throws RuntimeException
-     */
-    public function encode(EncoderInterface $encoder = new AutoEncoder()): EncodedImageInterface;
-
-    /**
      * Save the image to the specified path in the file system. If no path is
      * given, the image will be saved at its original location.
      *
@@ -668,6 +659,15 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @throws RuntimeException
      */
     public function drawBezier(callable|Closure|Bezier $init): self;
+
+    /**
+     * Encode image with given encoder
+     *
+     * @link https://image.intervention.io/v3/basics/image-output#encode-images
+     *
+     * @throws RuntimeException
+     */
+    public function encode(EncoderInterface $encoder = new AutoEncoder()): EncodedImageInterface;
 
     /**
      * Encode image to given media (mime) type. If no type is given the image

@@ -9,6 +9,7 @@ use Intervention\Image\Encoders\AvifEncoder;
 use Intervention\Image\Encoders\BmpEncoder;
 use Intervention\Image\Encoders\GifEncoder;
 use Intervention\Image\Encoders\HeicEncoder;
+use Intervention\Image\Encoders\IcoEncoder;
 use Intervention\Image\Encoders\Jpeg2000Encoder;
 use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\Encoders\PngEncoder;
@@ -26,6 +27,7 @@ enum Format
     case BMP;
     case GIF;
     case HEIC;
+    case ICO;
     case JP2;
     case JPEG;
     case PNG;
@@ -153,6 +155,7 @@ enum Format
             self::BMP => BmpEncoder::class,
             self::GIF => GifEncoder::class,
             self::HEIC => HeicEncoder::class,
+            self::ICO => IcoEncoder::class,
             self::JP2 => Jpeg2000Encoder::class,
             self::JPEG => JpegEncoder::class,
             self::PNG => PngEncoder::class,

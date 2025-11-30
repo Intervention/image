@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Intervention\Image;
 
 use Closure;
-use Intervention\Image\Exceptions\RuntimeException;
-use Traversable;
 use Intervention\Image\Analyzers\ColorspaceAnalyzer;
 use Intervention\Image\Analyzers\HeightAnalyzer;
 use Intervention\Image\Analyzers\PixelColorAnalyzer;
@@ -19,6 +17,7 @@ use Intervention\Image\Encoders\AvifEncoder;
 use Intervention\Image\Encoders\BmpEncoder;
 use Intervention\Image\Encoders\FileExtensionEncoder;
 use Intervention\Image\Encoders\FilePathEncoder;
+use Intervention\Image\Encoders\FormatEncoder;
 use Intervention\Image\Encoders\GifEncoder;
 use Intervention\Image\Encoders\HeicEncoder;
 use Intervention\Image\Encoders\Jpeg2000Encoder;
@@ -28,6 +27,7 @@ use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
 use Intervention\Image\Exceptions\EncoderException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Geometry\Bezier;
 use Intervention\Image\Geometry\Circle;
 use Intervention\Image\Geometry\Ellipse;
@@ -64,6 +64,8 @@ use Intervention\Image\Modifiers\ColorizeModifier;
 use Intervention\Image\Modifiers\ColorspaceModifier;
 use Intervention\Image\Modifiers\ContainModifier;
 use Intervention\Image\Modifiers\ContrastModifier;
+use Intervention\Image\Modifiers\CoverDownModifier;
+use Intervention\Image\Modifiers\CoverModifier;
 use Intervention\Image\Modifiers\CropModifier;
 use Intervention\Image\Modifiers\DrawBezierModifier;
 use Intervention\Image\Modifiers\DrawEllipseModifier;
@@ -72,8 +74,6 @@ use Intervention\Image\Modifiers\DrawPixelModifier;
 use Intervention\Image\Modifiers\DrawPolygonModifier;
 use Intervention\Image\Modifiers\DrawRectangleModifier;
 use Intervention\Image\Modifiers\FillModifier;
-use Intervention\Image\Modifiers\CoverDownModifier;
-use Intervention\Image\Modifiers\CoverModifier;
 use Intervention\Image\Modifiers\FlipModifier;
 use Intervention\Image\Modifiers\FlopModifier;
 use Intervention\Image\Modifiers\GammaModifier;
@@ -99,6 +99,7 @@ use Intervention\Image\Modifiers\SliceAnimationModifier;
 use Intervention\Image\Modifiers\TextModifier;
 use Intervention\Image\Modifiers\TrimModifier;
 use Intervention\Image\Typography\FontFactory;
+use Traversable;
 
 final class Image implements ImageInterface
 {
@@ -967,131 +968,11 @@ final class Image implements ImageInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageInterface::toJpeg()
+     * @see ImageInterface::encodeByFormat()
      */
-    public function toJpeg(mixed ...$options): EncodedImageInterface
+    public function encodeByFormat(null|Format $format = null, mixed ...$options): EncodedImageInterface
     {
-        return $this->encode(new JpegEncoder(...$options));
-    }
-
-    /**
-     * Alias of self::toJpeg()
-     *
-     * @throws RuntimeException
-     */
-    public function toJpg(mixed ...$options): EncodedImageInterface
-    {
-        return $this->toJpeg(...$options);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ImageInterface::toJpeg()
-     */
-    public function toJpeg2000(mixed ...$options): EncodedImageInterface
-    {
-        return $this->encode(new Jpeg2000Encoder(...$options));
-    }
-
-    /**
-     * ALias of self::toJpeg2000()
-     *
-     * @throws RuntimeException
-     */
-    public function toJp2(mixed ...$options): EncodedImageInterface
-    {
-        return $this->toJpeg2000(...$options);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ImageInterface::toPng()
-     */
-    public function toPng(mixed ...$options): EncodedImageInterface
-    {
-        return $this->encode(new PngEncoder(...$options));
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ImageInterface::toGif()
-     */
-    public function toGif(mixed ...$options): EncodedImageInterface
-    {
-        return $this->encode(new GifEncoder(...$options));
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ImageInterface::toWebp()
-     */
-    public function toWebp(mixed ...$options): EncodedImageInterface
-    {
-        return $this->encode(new WebpEncoder(...$options));
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ImageInterface::toBitmap()
-     */
-    public function toBitmap(mixed ...$options): EncodedImageInterface
-    {
-        return $this->encode(new BmpEncoder(...$options));
-    }
-
-    /**
-     * Alias if self::toBitmap()
-     *
-     * @throws RuntimeException
-     */
-    public function toBmp(mixed ...$options): EncodedImageInterface
-    {
-        return $this->toBitmap(...$options);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ImageInterface::toAvif()
-     */
-    public function toAvif(mixed ...$options): EncodedImageInterface
-    {
-        return $this->encode(new AvifEncoder(...$options));
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ImageInterface::toTiff()
-     */
-    public function toTiff(mixed ...$options): EncodedImageInterface
-    {
-        return $this->encode(new TiffEncoder(...$options));
-    }
-
-    /**
-     * Alias of self::toTiff()
-     *
-     * @throws RuntimeException
-     */
-    public function toTif(mixed ...$options): EncodedImageInterface
-    {
-        return $this->toTiff(...$options);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ImageInterface::toHeic()
-     */
-    public function toHeic(mixed ...$options): EncodedImageInterface
-    {
-        return $this->encode(new HeicEncoder(...$options));
+        return $this->encode(new FormatEncoder($format, ...$options));
     }
 
     /**

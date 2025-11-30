@@ -305,55 +305,6 @@ final class ImageTest extends ImagickTestCase
         $this->assertColor(255, 85, 0, 255, $result->pickColor(1, 0));
     }
 
-    public function testToJpeg(): void
-    {
-        $this->assertMediaType('image/jpeg', $this->image->toJpeg());
-        $this->assertMediaType('image/jpeg', $this->image->toJpg());
-    }
-
-    public function testToJpeg2000(): void
-    {
-        $this->assertMediaType('image/jp2', $this->image->toJpeg2000());
-        $this->assertMediaType('image/jp2', $this->image->toJp2());
-    }
-
-    public function testToPng(): void
-    {
-        $this->assertMediaType('image/png', $this->image->toPng());
-    }
-
-    public function testToGif(): void
-    {
-        $this->assertMediaType('image/gif', $this->image->toGif());
-    }
-
-    public function testToWebp(): void
-    {
-        $this->assertMediaType('image/webp', $this->image->toWebp());
-    }
-
-    public function testToBitmap(): void
-    {
-        $this->assertMediaTypeBitmap($this->image->toBitmap());
-        $this->assertMediaTypeBitmap($this->image->toBmp());
-    }
-
-    public function testToAvif(): void
-    {
-        $this->assertMediaType('image/avif', $this->image->toAvif());
-    }
-
-    public function testToTiff(): void
-    {
-        $this->assertMediaType('image/tiff', $this->image->toTiff());
-        $this->assertMediaType('image/tiff', $this->image->toTif());
-    }
-
-    public function testToHeic(): void
-    {
-        $this->assertMediaType('image/heic', $this->image->toHeic());
-    }
-
     public function testInvert(): void
     {
         $image = $this->readTestImage('trim.png');

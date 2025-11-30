@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Feature\Gd;
 
+use Intervention\Image\Format;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Tests\GdTestCase;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
@@ -15,7 +16,7 @@ class ConvertPngGif extends GdTestCase
     {
         $converted = ImageManager::gd()
             ->read(
-                $this->readTestImage('circle.png')->toGif()
+                $this->readTestImage('circle.png')->encodeByFormat(Format::GIF)
             );
 
         $this->assertTransparency($converted->pickColor(0, 0));

@@ -19,7 +19,9 @@ use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\MediaType;
 use Intervention\Image\Origin;
 use Intervention\Image\Alignment;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Fraction;
+use Intervention\Image\Format;
 use IteratorAggregate;
 
 /**
@@ -703,83 +705,9 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function encodeByPath(?string $path = null, mixed ...$options): EncodedImageInterface;
 
     /**
-     * Encode image to JPEG format
+     * Encode image to to given format or to format of the original image
      *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-jpeg-format
-     *
-     * @throws RuntimeException
+     * @throws NotSupportedException
      */
-    public function toJpeg(mixed ...$options): EncodedImageInterface;
-
-    /**
-     * Encode image to Jpeg2000 format
-     *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-jpeg-2000-format
-     *
-     * @throws RuntimeException
-     */
-    public function toJpeg2000(mixed ...$options): EncodedImageInterface;
-
-    /**
-     * Encode image to Webp format
-     *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-webp-format
-     *
-     * @throws RuntimeException
-     */
-    public function toWebp(mixed ...$options): EncodedImageInterface;
-
-    /**
-     * Encode image to PNG format
-     *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-png-format
-     *
-     * @throws RuntimeException
-     */
-    public function toPng(mixed ...$options): EncodedImageInterface;
-
-    /**
-     * Encode image to GIF format
-     *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-gif-format
-     *
-     * @throws RuntimeException
-     */
-    public function toGif(mixed ...$options): EncodedImageInterface;
-
-    /**
-     * Encode image to Bitmap format
-     *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-windows-bitmap-format
-     *
-     * @throws RuntimeException
-     */
-    public function toBitmap(mixed ...$options): EncodedImageInterface;
-
-    /**
-     * Encode image to AVIF format
-     *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-av1-image-file-format-avif
-     *
-     * @throws RuntimeException
-     */
-    public function toAvif(mixed ...$options): EncodedImageInterface;
-
-    /**
-     * Encode image to TIFF format
-     *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-tiff-format
-     *
-     * @throws RuntimeException
-     */
-    public function toTiff(mixed ...$options): EncodedImageInterface;
-
-    /**
-     * Encode image to HEIC format
-     *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-heic-format
-     *
-     * @throws RuntimeException
-     */
-    public function toHeic(mixed ...$options): EncodedImageInterface;
+    public function encodeByFormat(null|Format $format, mixed ...$options): EncodedImageInterface;
 }

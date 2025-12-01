@@ -53,6 +53,10 @@ class FontProcessor extends AbstractFontProcessor
             string: $text,
         );
 
+        if ($box === false) {
+            throw new FontException('Unable to calculate box size of font ' . $font->filename() . '.');
+        }
+
         // build size from points
         return new Rectangle(
             width: intval(abs($box[6] - $box[4])), // difference of upper-left-x and upper-right-x

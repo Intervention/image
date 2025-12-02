@@ -18,6 +18,7 @@ use Intervention\Image\Encoders\FilePathEncoder;
 use Intervention\Image\Encoders\FormatEncoder;
 use Intervention\Image\Encoders\MediaTypeEncoder;
 use Intervention\Image\Exceptions\EncoderException;
+use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Geometry\Bezier;
 use Intervention\Image\Geometry\Circle;
@@ -291,10 +292,10 @@ final class Image implements ImageInterface
 
         try {
             // try to determine encoding format by file extension of the path
-            $encoded = $this->encodeByPath($path, ...$options);
+            $encoded = $this->encode(new FilePathEncoder($path, ...$options));
         } catch (EncoderException) {
             // fallback to encoding format by media type
-            $encoded = $this->encodeByMediaType(null, ...$options);
+            $encoded = $this->encode(new MediaTypeEncoder(null, ...$options));
         }
 
         $encoded->save($path);
@@ -927,43 +928,41 @@ final class Image implements ImageInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageInterface::encodeByMediaType()
-     */
-    public function encodeByMediaType(null|string|MediaType $type = null, mixed ...$options): EncodedImageInterface
-    {
-        return $this->encode(new MediaTypeEncoder($type, ...$options));
-    }
-
-    /**
-     * {@inheritdoc}
+     * @see ImageInterface::encodeUsing()
      *
-     * @see ImageInterface::encodeByExtension()
+     * @throws InputException
+     * @throws RuntimeException
      */
-    public function encodeByExtension(
+    public function encodeUsing(
+        null|Format $format = null,
+        null|string|MediaType $mediaType = null,
         null|string|FileExtension $extension = null,
-        mixed ...$options
+        null|string $path = null,
+        mixed ...$options,
     ): EncodedImageInterface {
-        return $this->encode(new FileExtensionEncoder($extension, ...$options));
-    }
+        $param = array_filter([
+            'format' => $format,
+            'mediaType' => $mediaType,
+            'extension' => $extension,
+            'path' => $path,
+        ], fn(mixed $value): bool => $value !== null);
 
-    /**
-     * {@inheritdoc}
-     *
-     * @see ImageInterface::encodeByPath()
-     */
-    public function encodeByPath(?string $path = null, mixed ...$options): EncodedImageInterface
-    {
-        return $this->encode(new FilePathEncoder($path, ...$options));
-    }
+        if (count($param) !== 1) {
+            throw new InputException(
+                'Method ImageInterface::encodeUsing() expects either ' .
+                    '$format, $mediaType, $extension or $path as an argument',
+            );
+        }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @see ImageInterface::encodeByFormat()
-     */
-    public function encodeByFormat(null|Format $format = null, mixed ...$options): EncodedImageInterface
-    {
-        return $this->encode(new FormatEncoder($format, ...$options));
+        $encoderKey = array_key_first($param);
+        $using = $param[$encoderKey];
+
+        return $this->encode(match ($encoderKey) {
+            'format' => new FormatEncoder($using, ...$options),
+            'mediaType' => new MediaTypeEncoder($using, ...$options),
+            'extension' => new FileExtensionEncoder($using, ...$options),
+            'path' => new FilePathEncoder($using, ...$options),
+        });
     }
 
     /**

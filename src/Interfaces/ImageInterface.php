@@ -19,7 +19,6 @@ use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\MediaType;
 use Intervention\Image\Origin;
 use Intervention\Image\Alignment;
-use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Fraction;
 use Intervention\Image\Format;
 use IteratorAggregate;
@@ -670,44 +669,18 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function encode(EncoderInterface $encoder = new AutoEncoder()): EncodedImageInterface;
 
     /**
-     * Encode image to given media (mime) type. If no type is given the image
-     * will be encoded to the format of the originally read image.
+     * Encode the current image by resolving the encoding method out of one of the given parameters which can be either
      *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-images-by-media-mime-type
-     *
-     * @throws RuntimeException
+     * - Image format
+     * - Media (MIME) type
+     * - File extension
+     * - File path
      */
-    public function encodeByMediaType(null|string|MediaType $type = null, mixed ...$options): EncodedImageInterface;
-
-    /**
-     * Encode the image into the format represented by the given extension. If no
-     * extension is given the image will be encoded to the format of the
-     * originally read image.
-     *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-images-by-file-extension
-     *
-     * @throws RuntimeException
-     */
-    public function encodeByExtension(
+    public function encodeUsing(
+        null|Format $format = null,
+        null|string|MediaType $mediaType = null,
         null|string|FileExtension $extension = null,
-        mixed ...$options
+        null|string $path = null,
+        mixed ...$options,
     ): EncodedImageInterface;
-
-    /**
-     * Encode the image into the format represented by the given extension of
-     * the given file path extension is given the image will be encoded to
-     * the format of the originally read image.
-     *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-images-by-file-path
-     *
-     * @throws RuntimeException
-     */
-    public function encodeByPath(?string $path = null, mixed ...$options): EncodedImageInterface;
-
-    /**
-     * Encode image to to given format or to format of the original image
-     *
-     * @throws NotSupportedException
-     */
-    public function encodeByFormat(null|Format $format, mixed ...$options): EncodedImageInterface;
 }

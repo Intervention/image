@@ -85,6 +85,43 @@ final class ImageManager implements ImageManagerInterface
         return $this->driver->createImage($width, $height);
     }
 
+    public function decodeFrom(
+        null|string|Stringable $path = null,
+        null|string|Stringable $binary = null,
+        null|string|Stringable $base64 = null,
+        null|string|Stringable $dataUri = null,
+        ?SplFileInfo $splFileInfo = null,
+        mixed $stream = null,
+    ): ImageInterface {
+        $param = array_filter([
+            'path' => $path,
+            'binary' => $binary,
+            'base64' => $base64,
+            'dataUri' => $dataUri,
+            'splFileInfo' => $splFileInfo,
+            'stream' => $stream,
+        ], fn(mixed $value): bool => $value !== null);
+
+        if (count($param) !== 1) {
+            throw new InputException(
+                'Method ImageManagerInterface::readFrom() expects either ' .
+                    '$path, $binary, $base64, $dataUri, $splFileInfo or $stream as an argument',
+            );
+        }
+
+        $decoderKey = array_key_first($param);
+        $using = $param[$decoderKey];
+
+        return match ($decoderKey) {
+            'path' => $this->driver->handleImageInput($using, [FilePathImageDecoder::class]),
+            'binary' => $this->driver->handleImageInput($using, [BinaryImageDecoder::class]),
+            'base64' => $this->driver->handleImageInput($using, [Base64ImageDecoder::class]),
+            'dataUri' => $this->driver->handleImageInput($using, [DataUriImageDecoder::class]),
+            'splFileInfo' => $this->driver->handleImageInput($using, [SplFileInfoImageDecoder::class]),
+            'stream' => $this->driver->handleImageInput($using, [FilePointerImageDecoder::class]),
+        };
+    }
+
     /**
      * {@inheritdoc}
      *

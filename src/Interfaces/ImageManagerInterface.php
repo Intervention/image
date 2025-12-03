@@ -20,6 +20,15 @@ interface ImageManagerInterface
      */
     public function create(int $width, int $height): ImageInterface;
 
+    public function decodeFrom(
+        null|string|Stringable $path = null,
+        null|string|Stringable $binary = null,
+        null|string|Stringable $base64 = null,
+        null|string|Stringable $dataUri = null,
+        null|SplFileInfo $splFileInfo = null,
+        mixed $stream = null,
+    ): ImageInterface;
+
     /**
      * Create new image instance from given file path
      *

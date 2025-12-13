@@ -18,6 +18,8 @@ class DataUriImageDecoder extends BinaryImageDecoder
      */
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
+        $input = ($input instanceof DataUri) ? (string) $input : $input;
+
         if (!is_string($input)) {
             throw new DecoderException('Data Uri must be of type string');
         }

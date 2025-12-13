@@ -55,16 +55,15 @@ class DataUri implements DataUriInterface, Stringable
             throw new DecoderException('Unable to decode data uri scheme from string');
         }
 
-        $data = $matches['data'] ?? '';
-        $isBase64Encoded = array_key_exists('base64', $matches) && $matches['base64'] !== '';
+        $isBase64Encoded = $matches['base64'] !== '';
 
         $datauri = new self(
-            data: $isBase64Encoded ? base64_decode($data, strict: true) : rawurldecode($data),
-            mediaType: $matches['mediaType'] ?? '',
+            data: $isBase64Encoded ? base64_decode($matches['data'], strict: true) : rawurldecode($matches['data']),
+            mediaType: $matches['mediaType'],
             isBase64Encoded: $isBase64Encoded,
         );
 
-        if (array_key_exists('parameters', $matches) && $matches['parameters'] !== '') {
+        if ($matches['parameters'] !== '') {
             $parameters = explode(';', $matches['parameters']);
             $parameters = array_filter($parameters, fn(string $value): bool => $value !== '');
             $parameters = array_map(fn(string $value): array => explode('=', $value), $parameters);

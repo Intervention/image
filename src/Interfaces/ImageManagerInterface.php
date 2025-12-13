@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
+use Intervention\Image\DataUri;
 use Intervention\Image\Exceptions\RuntimeException;
 use SplFileInfo;
 use Stringable;
@@ -23,7 +24,7 @@ interface ImageManagerInterface
         null|string|Stringable $path = null,
         null|string|Stringable $binary = null,
         null|string|Stringable $base64 = null,
-        null|string|Stringable $dataUri = null,
+        null|string|Stringable|DataUri $dataUri = null,
         null|SplFileInfo $splFileInfo = null,
         mixed $stream = null,
     ): ImageInterface;

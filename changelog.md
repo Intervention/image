@@ -39,8 +39,7 @@
 - ImageInterface::toHeic() is replaced by ImageInterface::encodeUsing()
 - ImageInterface::toTiff() and ImageInterface::toTif() are replaced by ImageInterface::encodeUsing()
 - DriverInterface::handleColorInput() has null as default
-- Methods readFromPath, readFromBinary, readFromBase64, readFromDataUri, readFromSplFileInfo from ImageManagerInterface are handle by ImageManagerInterface::decode()
-- ImageManagerInterface::read() is not handled by ImageManagerInterface::decode()
+- Method ImageManagerInterface::read() is now handled by ImageManagerInterface::decode()
 
 ## Removed
 

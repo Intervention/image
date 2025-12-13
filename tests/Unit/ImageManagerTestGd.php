@@ -65,83 +65,76 @@ final class ImageManagerTestGd extends BaseTestCase
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
-    public function testDecode(): void
+    public function testDecodeUsingDecoderClassname(): void
     {
         $manager = new ImageManager(Driver::class);
-        $image = $manager->decode(Resource::create('red.gif')->path());
+        $image = $manager->decodeUsing(Resource::create('red.gif')->path(), FilePathImageDecoder::class);
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
-    public function testDecodeWithDecoderClassname(): void
+    public function testDecodeUsingDecoderInstance(): void
     {
         $manager = new ImageManager(Driver::class);
-        $image = $manager->decode(Resource::create('red.gif')->path(), FilePathImageDecoder::class);
+        $image = $manager->decodeUsing(Resource::create('red.gif')->path(), new FilePathImageDecoder());
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
-    public function testDecodeWithDecoderInstance(): void
+    public function testDecodeUsingDecoderClassnameArray(): void
     {
         $manager = new ImageManager(Driver::class);
-        $image = $manager->decode(Resource::create('red.gif')->path(), new FilePathImageDecoder());
+        $image = $manager->decodeUsing(Resource::create('red.gif')->path(), [FilePathImageDecoder::class]);
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
-    public function testDecodeWithDecoderClassnameArray(): void
+    public function testDecodeUsingDecoderInstanceArray(): void
     {
         $manager = new ImageManager(Driver::class);
-        $image = $manager->decode(Resource::create('red.gif')->path(), [FilePathImageDecoder::class]);
+        $image = $manager->decodeUsing(Resource::create('red.gif')->path(), [new FilePathImageDecoder()]);
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
-    public function testDecodeWithDecoderInstanceArray(): void
+    public function testDecodeUsingDecoderInstanceArrayMultiple(): void
     {
         $manager = new ImageManager(Driver::class);
-        $image = $manager->decode(Resource::create('red.gif')->path(), [new FilePathImageDecoder()]);
-        $this->assertInstanceOf(ImageInterface::class, $image);
-    }
-
-    public function testDecodeWithDecoderInstanceArrayMultiple(): void
-    {
-        $manager = new ImageManager(Driver::class);
-        $image = $manager->decode(Resource::create('red.gif')->path(), [
+        $image = $manager->decodeUsing(Resource::create('red.gif')->path(), [
             new BinaryImageDecoder(),
             new FilePathImageDecoder(),
         ]);
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
-    public function testDecodeWithRotationAdjustment(): void
+    public function testDecodeRotationAdjustment(): void
     {
         $manager = new ImageManager(Driver::class);
-        $image = $manager->decode(Resource::create('orientation.jpg')->path());
+        $image = $manager->decode(path: Resource::create('orientation.jpg')->path());
         $this->assertColor(1, 0, 254, 255, $image->pickColor(3, 3));
     }
 
     public function testDecodeWithoutRotationAdjustment(): void
     {
         $manager = new ImageManager(Driver::class, autoOrientation: false);
-        $image = $manager->decode(Resource::create('orientation.jpg')->path());
+        $image = $manager->decode(path: Resource::create('orientation.jpg')->path());
         $this->assertColor(250, 2, 3, 255, $image->pickColor(3, 3));
     }
 
     public function testDecodeAnimation(): void
     {
         $manager = new ImageManager(Driver::class);
-        $image = $manager->decode(Resource::create('animation.gif')->path());
+        $image = $manager->decode(path: Resource::create('animation.gif')->path());
         $this->assertTrue($image->isAnimated());
     }
 
     public function testDecodeAnimationDiscarded(): void
     {
         $manager = new ImageManager(Driver::class, decodeAnimation: false);
-        $image = $manager->decode(Resource::create('animation.gif')->path());
+        $image = $manager->decode(path: Resource::create('animation.gif')->path());
         $this->assertFalse($image->isAnimated());
     }
 
     public function testApplyBackgroundColorDefault(): void
     {
         $manager = new ImageManager(Driver::class);
-        $image = $manager->decode(Resource::create('blocks.png')->path());
+        $image = $manager->decode(path: Resource::create('blocks.png')->path());
         $result = $image->background();
         $this->assertColor(255, 255, 255, 255, $image->pickColor(530, 0));
         $this->assertColor(255, 255, 255, 255, $result->pickColor(530, 0));
@@ -150,7 +143,7 @@ final class ImageManagerTestGd extends BaseTestCase
     public function testApplyBackgroundColorConfigured(): void
     {
         $manager = new ImageManager(Driver::class, backgroundColor: 'ff5500');
-        $image = $manager->decode(Resource::create('blocks.png')->path());
+        $image = $manager->decode(path: Resource::create('blocks.png')->path());
         $result = $image->background();
         $this->assertColor(255, 85, 0, 255, $image->pickColor(530, 0));
         $this->assertColor(255, 85, 0, 255, $result->pickColor(530, 0));

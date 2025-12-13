@@ -89,11 +89,11 @@ final class ImageManager implements ImageManagerInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageManagerInterface::decodeFrom()
+     * @see ImageManagerInterface::decode()
      *
      * @throws RuntimeException
      */
-    public function decodeFrom(
+    public function decode(
         null|string|Stringable $path = null,
         null|string|Stringable $binary = null,
         null|string|Stringable $base64 = null,
@@ -133,14 +133,11 @@ final class ImageManager implements ImageManagerInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageManagerInterface::decode()
+     * @see ImageManagerInterface::decodeUsing()
      */
-    public function decode(mixed $input, null|string|array|DecoderInterface $decoders = null): ImageInterface
+    public function decodeUsing(mixed $input, string|array|DecoderInterface $decoders): ImageInterface
     {
-        return $this->driver->handleImageInput($input, match (gettype($decoders)) {
-            'NULL', 'array' => $decoders,
-            'string', 'object' => [$decoders],
-        });
+        return $this->driver->handleImageInput($input, is_array($decoders) ? $decoders : [$decoders]);
     }
 
     /**

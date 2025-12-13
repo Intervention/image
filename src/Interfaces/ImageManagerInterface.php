@@ -19,7 +19,7 @@ interface ImageManagerInterface
      */
     public function create(int $width, int $height): ImageInterface;
 
-    public function decodeFrom(
+    public function decode(
         null|string|Stringable $path = null,
         null|string|Stringable $binary = null,
         null|string|Stringable $base64 = null,
@@ -56,7 +56,7 @@ interface ImageManagerInterface
      * @param string|array<string|DecoderInterface>|DecoderInterface $decoders
      * @throws RuntimeException
      */
-    public function decode(mixed $input, null|string|array|DecoderInterface $decoders = null): ImageInterface;
+    public function decodeUsing(mixed $input, string|array|DecoderInterface $decoders): ImageInterface;
 
     /**
      * Create new animated image by given callback

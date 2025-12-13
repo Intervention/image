@@ -51,7 +51,7 @@ class DataUri implements DataUriInterface, Stringable
     {
         $result = preg_match(self::PATTERN, (string) $dataUriScheme, $matches);
 
-        if ($result === false) {
+        if ($result === false || $result === 0) {
             throw new DecoderException('Unable to decode data uri scheme from string');
         }
 
@@ -59,7 +59,7 @@ class DataUri implements DataUriInterface, Stringable
         $isBase64Encoded = array_key_exists('base64', $matches) && $matches['base64'] !== '';
 
         $datauri = new self(
-            data: $isBase64Encoded ? base64_decode($data) : rawurldecode($data),
+            data: $isBase64Encoded ? base64_decode($data, strict: true) : rawurldecode($data),
             mediaType: $matches['mediaType'] ?? '',
             isBase64Encoded: $isBase64Encoded,
         );

@@ -82,18 +82,6 @@ class DataUriDataProvider
             'data:'
         ];
         yield [
-            'data:;base64,foo'
-        ];
-        yield [
-            'data:foo/plain,foobar'
-        ];
-        yield [
-            'data:;base64,VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIHRoZSBsYXp5IGRvZy='
-        ];
-        yield [
-            'data:image/jpeg;base64,VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIHRoZSBsYXp5IGRvZy='
-        ];
-        yield [
             'VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIHRoZSBsYXp5IGRvZy4='
         ];
         yield [

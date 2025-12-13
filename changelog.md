@@ -2,12 +2,7 @@
 
 - ImageInterface::version()
 - ColorInterface::create() now accepts functional string color formats as well as single channel values
-- ImageManagerInterface::createFrom()
-- ImageManagerInterface::createFromPath()
-- ImageManagerInterface::createFromBinary()
-- ImageManagerInterface::createFromBase64()
-- ImageManagerInterface::createFromSplFileInfo()
-- ImageManagerInterface::createFromDataUri()
+- ImageManagerInterface::decodeFrom()
 - Alignment::class
 - DriverInterface::handleImageInput()
 - DriverInterface::handleColorInput()
@@ -44,3 +39,4 @@
 - ImageInterface::toAvif() is replaced by ImageInterface::encodeUsing()
 - ImageInterface::toHeic() is replaced by ImageInterface::encodeUsing()
 - ImageInterface::toTiff() and ImageInterface::toTif() are replaced by ImageInterface::encodeUsing()
+- DriverInterface::handleColorInput() has null as default

@@ -16,13 +16,13 @@ final class InputDataProvider
     {
         yield [
             Resource::create('test.jpg')->path(),
-            [],
+            null,
             ImageInterface::class,
         ];
 
         yield [
             Resource::create('test.jpg')->data(),
-            [],
+            null,
             ImageInterface::class,
         ];
     }
@@ -31,7 +31,7 @@ final class InputDataProvider
     {
         yield [
             'ffffff',
-            [],
+            null,
             ColorInterface::class,
         ];
 

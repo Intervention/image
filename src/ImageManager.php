@@ -185,11 +185,15 @@ final class ImageManager implements ImageManagerInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageManagerInterface::createFrom()
+     * @see ImageManagerInterface::decode()
      */
-    public function read(mixed $input, string|array|DecoderInterface $decoders = []): ImageInterface
+    public function decode(mixed $input, null|string|array|DecoderInterface $decoders = null): ImageInterface
     {
-        return $this->driver->handleImageInput($input, is_array($decoders) ? $decoders : [$decoders]);
+        return $this->driver->handleImageInput($input, match (gettype($decoders)) {
+            'NULL', 'array' => $decoders,
+            'string', 'object' => [$decoders],
+            default => 'value',
+        });
     }
 
     /**

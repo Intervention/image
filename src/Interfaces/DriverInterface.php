@@ -66,10 +66,10 @@ interface DriverInterface
     /**
      * Handle given input by decoding it to ImageInterface or ColorInterface
      *
-     * @param array<string|DecoderInterface> $decoders
+     * @param null|array<string|DecoderInterface> $decoders
      * @throws DecoderException
      */
-    public function handleInput(mixed $input, array $decoders = []): ImageInterface|ColorInterface;
+    public function handleInput(mixed $input, ?array $decoders = null): ImageInterface|ColorInterface;
 
     /**
      * Handle given image source by decoding it to ImageInterface
@@ -86,11 +86,11 @@ interface DriverInterface
      * - Encoded Intervention Image (Intervention\Image\EncodedImage)
      * - Driver-specific image (instance of GDImage or Imagick)
      *
-     * @param array<string|DecoderInterface> $decoders
+     * @param null|array<string|DecoderInterface> $decoders
      * @throws DecoderException
      * @throws RuntimeException
      */
-    public function handleImageInput(mixed $input, array $decoders = []): ImageInterface;
+    public function handleImageInput(mixed $input, ?array $decoders = null): ImageInterface;
 
     /**
      * Handle given image source by decoding it to ColorInterface
@@ -99,7 +99,7 @@ interface DriverInterface
      * @throws DecoderException
      * @throws RuntimeException
      */
-    public function handleColorInput(mixed $input, array $decoders = []): ColorInterface;
+    public function handleColorInput(mixed $input, ?array $decoders = null): ColorInterface;
 
     /**
      * Return color processor for the given colorspace

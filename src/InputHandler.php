@@ -74,10 +74,18 @@ class InputHandler implements InputHandlerInterface
      * @param array<string|DecoderInterface> $decoders
      * @return void
      */
-    public function __construct(array $decoders = [], ?DriverInterface $driver = null)
+    public function __construct(?array $decoders = null, ?DriverInterface $driver = null)
     {
-        $this->decoders = count($decoders) ? $decoders : array_merge(self::COLOR_DECODERS, self::IMAGE_DECODERS);
+        $this->decoders = is_array($decoders) ? $decoders : array_merge(self::COLOR_DECODERS, self::IMAGE_DECODERS);
         $this->driver = $driver;
+    }
+
+    /**
+     * Static factory method to create input handler with all decoders
+     */
+    public static function withAllDecoders(?DriverInterface $driver = null): self
+    {
+        return new self(driver: $driver);
     }
 
     /**

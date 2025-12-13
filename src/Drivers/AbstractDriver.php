@@ -48,8 +48,12 @@ abstract class AbstractDriver implements DriverInterface
      *
      * @throws DriverException|DecoderException|NotSupportedException|RuntimeException
      */
-    public function handleInput(mixed $input, array $decoders = []): ImageInterface|ColorInterface
+    public function handleInput(mixed $input, ?array $decoders = null): ImageInterface|ColorInterface
     {
+        if ($decoders === null) {
+            return InputHandler::withAllDecoders(driver: $this)->handle($input);
+        }
+
         return InputHandler::withDecoders($decoders, $this)->handle($input);
     }
 
@@ -60,9 +64,9 @@ abstract class AbstractDriver implements DriverInterface
      *
      * @throws DriverException|DecoderException|NotSupportedException|RuntimeException
      */
-    public function handleImageInput(mixed $input, array $decoders = []): ImageInterface
+    public function handleImageInput(mixed $input, ?array $decoders = null): ImageInterface
     {
-        $handler = count($decoders) ?
+        $handler = is_array($decoders) ?
             InputHandler::withDecoders($decoders, $this) :
             InputHandler::withImageDecoders($this);
 
@@ -82,9 +86,9 @@ abstract class AbstractDriver implements DriverInterface
      *
      * @throws DriverException|DecoderException|NotSupportedException|RuntimeException
      */
-    public function handleColorInput(mixed $input, array $decoders = []): ColorInterface
+    public function handleColorInput(mixed $input, ?array $decoders = null): ColorInterface
     {
-        $handler = count($decoders) ?
+        $handler = is_array($decoders) ?
             InputHandler::withDecoders($decoders, $this) :
             InputHandler::withColorDecoders($this);
 

@@ -105,7 +105,7 @@ interface ImageManagerInterface
      * @param string|array<string|DecoderInterface>|DecoderInterface $decoders
      * @throws RuntimeException
      */
-    public function read(mixed $input, string|array|DecoderInterface $decoders = []): ImageInterface;
+    public function decode(mixed $input, null|string|array|DecoderInterface $decoders = null): ImageInterface;
 
     /**
      * Create new animated image by given callback

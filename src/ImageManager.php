@@ -133,66 +133,6 @@ final class ImageManager implements ImageManagerInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageManagerInterface::createFromPath()
-     */
-    public function readFromPath(string|Stringable $path): ImageInterface
-    {
-        return $this->driver->handleImageInput($path, [FilePathImageDecoder::class]);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ImageManagerInterface::createFromBinary()
-     */
-    public function readFromBinary(string|Stringable $data): ImageInterface
-    {
-        return $this->driver->handleImageInput($data, [BinaryImageDecoder::class]);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ImageManagerInterface::createFromBase64()
-     */
-    public function readFromBase64(string|Stringable $data): ImageInterface
-    {
-        return $this->driver->handleImageInput($data, [Base64ImageDecoder::class]);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ImageManagerInterface::createFromDataUri()
-     */
-    public function readFromDataUri(string|Stringable $uri): ImageInterface
-    {
-        return $this->driver->handleImageInput($uri, [DataUriImageDecoder::class]);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ImageManagerInterface::createFromStream()
-     */
-    public function readFromStream(mixed $stream): ImageInterface
-    {
-        return $this->driver->handleImageInput($stream, [FilePointerImageDecoder::class]);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ImageManagerInterface::createFromSplFileInfo()
-     */
-    public function readFromSplFileInfo(SplFileInfo $file): ImageInterface
-    {
-        return $this->driver->handleImageInput($file, [SplFileInfoImageDecoder::class]);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
      * @see ImageManagerInterface::decode()
      */
     public function decode(mixed $input, null|string|array|DecoderInterface $decoders = null): ImageInterface

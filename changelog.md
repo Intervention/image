@@ -28,7 +28,6 @@
 - ProfileInterface requires implementation of `::fromPath()`
 - DriverInterface requires implementation of `__construct()`
 - Replace DriverInterface::specialize() with DriverInterface::specializeModifier(), DriverInterface::specializeAnalyzer(), DriverInterface::specializeDecoder() and DriverInterface::specializeEncoder()
-- Removed topLeftPoint() and bottomRightPoint() from Rectangle::class
 - Attribute `$per_unit` has change to `$unit` with different signature in `Resolution::class`
 - ImageInterface::toJpeg() and ImageInterface::toJpg() are replaced by ImageInterface::encodeUsing()
 - ImageInterface::toPng() is replaced by ImageInterface::encodeUsing()
@@ -40,3 +39,8 @@
 - ImageInterface::toHeic() is replaced by ImageInterface::encodeUsing()
 - ImageInterface::toTiff() and ImageInterface::toTif() are replaced by ImageInterface::encodeUsing()
 - DriverInterface::handleColorInput() has null as default
+- Methods readFromPath, readFromBinary, readFromBase64, readFromDataUri, readFromSplFileInfo from ImageManagerInterface are handle by ImageManagerInterface::decodeFrom()
+
+## Removed
+
+- Removed topLeftPoint() and bottomRightPoint() from Rectangle::class

@@ -11,7 +11,7 @@ interface DataUriInterface
     /**
      * Create new object from given data uri scheme string
      */
-    public static function readFromString(string $dataUriScheme): self;
+    public static function decode(string $dataUriScheme): self;
 
     /**
      * Create data uri object from given unencoded data

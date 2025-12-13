@@ -128,7 +128,7 @@ class DataUriTest extends BaseTestCase
     #[DataProviderExternal(DataUriDataProvider::class, 'validDataUris')]
     public function testCreateFromString(string $dataUriScheme, string $resultData): void
     {
-        $datauri = DataUri::readFromString($dataUriScheme);
+        $datauri = DataUri::decode($dataUriScheme);
         $this->assertInstanceOf(DataUri::class, $datauri);
         $this->assertEquals($resultData, $datauri->data());
     }

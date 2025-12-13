@@ -43,11 +43,11 @@ class DataUri implements DataUriInterface, Stringable
     /**
      * {@inheritdoc}
      *
-     * @see DataUriInterface::readFromString()
+     * @see DataUriInterface::decode()
      *
      * @throws DecoderException
      */
-    public static function readFromString(string|Stringable $dataUriScheme): self
+    public static function decode(string|Stringable $dataUriScheme): self
     {
         $result = preg_match(self::PATTERN, (string) $dataUriScheme, $matches);
 

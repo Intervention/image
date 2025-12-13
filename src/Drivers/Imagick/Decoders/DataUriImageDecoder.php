@@ -22,6 +22,6 @@ class DataUriImageDecoder extends BinaryImageDecoder
             throw new DecoderException('Data Uri must be of type string');
         }
 
-        return parent::decode(DataUri::readFromString($input)->data());
+        return parent::decode(DataUri::decode($input)->data());
     }
 }

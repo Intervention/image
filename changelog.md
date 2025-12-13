@@ -1,6 +1,6 @@
 ## New Features
 
-- ImageInterface::version()
+- DriverInterface::version()
 - ColorInterface::create() now accepts functional string color formats as well as single channel values
 - ImageManagerInterface::decodeFrom()
 - Alignment::class

@@ -15,6 +15,7 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageManagerInterface;
@@ -85,6 +86,13 @@ final class ImageManager implements ImageManagerInterface
         return $this->driver->createImage($width, $height);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageManagerInterface::decodeFrom()
+     *
+     * @throws RuntimeException
+     */
     public function decodeFrom(
         null|string|Stringable $path = null,
         null|string|Stringable $binary = null,
@@ -192,7 +200,6 @@ final class ImageManager implements ImageManagerInterface
         return $this->driver->handleImageInput($input, match (gettype($decoders)) {
             'NULL', 'array' => $decoders,
             'string', 'object' => [$decoders],
-            default => 'value',
         });
     }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image;
 
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Exceptions\RuntimeException;
 
 class Origin
 {
@@ -76,6 +77,7 @@ class Origin
      * Return format of the origin image
      *
      * @throws NotSupportedException
+     * @throws RuntimeException
      */
     public function format(): Format
     {

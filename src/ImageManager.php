@@ -111,12 +111,12 @@ final class ImageManager implements ImageManagerInterface
         ], fn(mixed $value): bool => $value !== null);
 
         if (count($param) === 0) {
-            throw new InputException('Method ImageManagerInterface::readFrom() expects at least 1 argument, 0 given');
+            throw new InputException('Method ImageManagerInterface::decode() expects at least 1 argument, 0 given');
         }
 
         if (count($param) !== 1) {
             throw new InputException(
-                'Method ImageManagerInterface::readFrom() expects either ' .
+                'Method ImageManagerInterface::decode() expects either ' .
                     '$path, $binary, $base64, $dataUri, $splFileInfo or $stream as an argument',
             );
         }

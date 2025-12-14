@@ -20,7 +20,7 @@ class FilePathImageDecoder extends NativeObjectDecoder
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         // make sure path is valid
-        $path = $this->parseFilePath($input);
+        $path = $this->parseFilePathOrFail($input);
 
         try {
             $imagick = new Imagick();

@@ -8,7 +8,6 @@ use GdImage;
 use Intervention\Image\Analyzers\PixelColorAnalyzer as GenericPixelColorAnalyzer;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\GeometryException;
-use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -33,14 +32,13 @@ class PixelColorAnalyzer extends GenericPixelColorAnalyzer implements Specialize
     /**
      * @throws GeometryException
      * @throws ColorException
-     * @throws RuntimeException
      */
     protected function colorAt(ColorspaceInterface $colorspace, GdImage $gd): ColorInterface
     {
         $index = @imagecolorat($gd, $this->x, $this->y);
 
         if ($index === false) {
-            throw new RuntimeException('Unable to read color at pixel ' . $this->x . ', ' . $this->y);
+            throw new ColorException('Unable to read color at pixel ' . $this->x . ', ' . $this->y);
         }
 
         try {

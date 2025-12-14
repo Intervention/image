@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Traits;
 
-use Intervention\Image\Exceptions\RuntimeException;
+use http\Exception\InvalidArgumentException;
+use Intervention\Image\Exceptions\FilePointerException;
 
 trait CanBuildFilePointer
 {
@@ -12,7 +13,8 @@ trait CanBuildFilePointer
      * Transform the provided data into a pointer with the data as its content
      *
      * @param resource|string|null $data
-     * @throws RuntimeException
+     * @throws FilePointerException
+     * @throws InvalidArgumentException
      * @return resource
      */
     public function buildFilePointerOrFail(mixed $data = null)
@@ -24,22 +26,29 @@ trait CanBuildFilePointer
                 $pointer = fopen('php://temp', 'r+');
 
                 if ($pointer === false) {
-                    throw new RuntimeException('Unable to build file pointer');
+                    // NEWEX
+                    throw new FilePointerException('Failed to build file pointer from string');
                 }
 
                 fwrite($pointer, $data);
                 return $pointer;
             },
-            default => throw new RuntimeException('Unable to build file pointer'),
+            default => throw new InvalidArgumentException('Unable to create file pointer from ' . gettype($data)),
         };
 
         $pointer = call_user_func($buildPointerStrategy, $data);
 
         if ($pointer === false) {
-            throw new RuntimeException('Unable to build file pointer');
+            // NEWEX
+            throw new FilePointerException('Failed to build file pointer');
         }
 
-        rewind($pointer);
+        $rewind = rewind($pointer);
+
+        if ($rewind === false) {
+            // NEWEX
+            throw new FilePointerException('Failed to rewind file pointer');
+        }
 
         return $pointer;
     }

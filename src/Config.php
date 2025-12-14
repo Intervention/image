@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
-use Intervention\Image\Exceptions\InputException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 
 class Config
 {
@@ -25,13 +25,14 @@ class Config
     /**
      * Set values of given config options
      *
-     * @throws InputException
+     * @throws InvalidArgumentException
      */
     public function setOptions(mixed ...$options): self
     {
         foreach ($this->prepareOptions($options) as $name => $value) {
             if (!property_exists($this, $name)) {
-                throw new InputException('Property ' . $name . ' does not exists for ' . $this::class);
+                // NEWEX
+                throw new InvalidArgumentException('Property ' . $name . ' does not exists for ' . $this::class);
             }
 
             $this->{$name} = $value;

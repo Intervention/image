@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Traits;
 
-use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\SpecializableInterface;
 use ReflectionClass;
@@ -53,7 +53,8 @@ trait CanBeDriverSpecialized
     public function setDriver(DriverInterface $driver): SpecializableInterface
     {
         if (!$this->belongsToDriver($driver)) {
-            throw new DriverException(
+            // NEWEX
+            throw new NotSupportedException(
                 "Class '" . $this::class . "' can not be used with " . $driver->id() . " driver"
             );
         }

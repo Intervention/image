@@ -6,9 +6,10 @@ namespace Intervention\Image\Drivers\Imagick;
 
 use Imagick;
 use ImagickException;
+use Intervention\Image\Exceptions\DriverException;
 use Iterator;
 use Intervention\Image\Interfaces\CoreInterface;
-use Intervention\Image\Exceptions\AnimationException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 
@@ -37,12 +38,10 @@ class Core implements CoreInterface, Iterator
     public function has(int|string $key): bool
     {
         try {
-            $result = $this->imagick->setIteratorIndex((int) $key);
+            return $this->imagick->setIteratorIndex((int) $key);
         } catch (ImagickException) {
             return false;
         }
-
-        return $result;
     }
 
     /**
@@ -68,7 +67,12 @@ class Core implements CoreInterface, Iterator
             return $default;
         }
 
-        return new Frame($this->imagick->current());
+        try {
+            return new Frame($this->imagick->current());
+        } catch (ImagickException $e) {
+            // NEWEX
+            throw new DriverException('Failed to get current frame data', previous: $e);
+        }
     }
 
     /**
@@ -109,12 +113,22 @@ class Core implements CoreInterface, Iterator
         $sliced = new Imagick();
         foreach ($this->imagick as $key => $native) {
             if (in_array($key, $allowed_indexes)) {
-                $sliced->addImage($native->getImage());
+                try {
+                    $sliced->addImage($native->getImage());
+                } catch (ImagickException $e) {
+                    // NEWEX
+                    throw new DriverException('Failed to slice image', previous: $e);
+                }
             }
         }
 
-        $sliced = $sliced->coalesceImages();
-        $sliced->setImageIterations($this->imagick->getImageIterations());
+        try {
+            $sliced = $sliced->coalesceImages();
+            $sliced->setImageIterations($this->imagick->getImageIterations());
+        } catch (ImagickException $e) {
+            // NEWEX
+            throw new DriverException('Failed to slice image', previous: $e);
+        }
 
         $this->imagick = $sliced;
 
@@ -130,21 +144,26 @@ class Core implements CoreInterface, Iterator
     {
         $imagick = $frame->native();
 
-        $imagick->setImageDelay(
-            (int) round($frame->delay() * 100)
-        );
+        try {
+            $imagick->setImageDelay(
+                (int) round($frame->delay() * 100)
+            );
 
-        $imagick->setImageDispose($frame->dispose());
+            $imagick->setImageDispose($frame->dispose());
 
-        $size = $frame->size();
-        $imagick->setImagePage(
-            $size->width(),
-            $size->height(),
-            $frame->offsetLeft(),
-            $frame->offsetTop()
-        );
+            $size = $frame->size();
+            $imagick->setImagePage(
+                $size->width(),
+                $size->height(),
+                $frame->offsetLeft(),
+                $frame->offsetTop()
+            );
 
-        $this->imagick->addImage($imagick);
+            $this->imagick->addImage($imagick);
+        } catch (ImagickException $e) {
+            // NEWEX
+            throw new DriverException('Failed to add image frame', previous: $e);
+        }
 
         return $this;
     }
@@ -156,7 +175,12 @@ class Core implements CoreInterface, Iterator
      */
     public function count(): int
     {
-        return $this->imagick->getNumberImages();
+        try {
+            return $this->imagick->getNumberImages();
+        } catch (ImagickException $e) {
+            // NEWEX
+            throw new DriverException('Failed to count image frames', previous: $e);
+        }
     }
 
     /**
@@ -166,9 +190,14 @@ class Core implements CoreInterface, Iterator
      */
     public function current(): mixed
     {
-        $this->imagick->setIteratorIndex($this->iteratorIndex);
+        try {
+            $this->imagick->setIteratorIndex($this->iteratorIndex);
 
-        return new Frame($this->imagick->current());
+            return new Frame($this->imagick->current());
+        } catch (ImagickException $e) {
+            // NEWEX
+            throw new DriverException('Failed to iterate image frames', previous: $e);
+        }
     }
 
     /**
@@ -247,12 +276,18 @@ class Core implements CoreInterface, Iterator
     public function frame(int $position): FrameInterface
     {
         foreach ($this->imagick as $core) {
-            if ($core->getIteratorIndex() === $position) {
-                return new Frame($core);
+            try {
+                if ($core->getIteratorIndex() === $position) {
+                    return new Frame($core);
+                }
+            } catch (ImagickException $e) {
+                // NEWEX
+                throw new DriverException('Failed to load image frame a position ' . $position, previous: $e);
             }
         }
 
-        throw new AnimationException('Frame #' . $position . ' could not be found in the image');
+        // NEWEX
+        throw new InvalidArgumentException('Frame #' . $position . ' could not be found in the image');
     }
 
     /**
@@ -262,7 +297,12 @@ class Core implements CoreInterface, Iterator
      */
     public function loops(): int
     {
-        return $this->imagick->getImageIterations();
+        try {
+            return $this->imagick->getImageIterations();
+        } catch (ImagickException $e) {
+            // NEWEX
+            throw new DriverException('Failed to get image loop count', previous: $e);
+        }
     }
 
     /**
@@ -272,8 +312,13 @@ class Core implements CoreInterface, Iterator
      */
     public function setLoops(int $loops): CoreInterface
     {
-        $this->imagick = $this->imagick->coalesceImages();
-        $this->imagick->setImageIterations($loops);
+        try {
+            $this->imagick = $this->imagick->coalesceImages();
+            $this->imagick->setImageIterations($loops);
+        } catch (ImagickException $e) {
+            // NEWEX
+            throw new DriverException('Failed to set image loop count', previous: $e);
+        }
 
         return $this;
     }

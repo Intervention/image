@@ -10,8 +10,6 @@ interface CoreInterface extends CollectionInterface
 {
     /**
      * return driver's representation of the image core.
-     *
-     * @throws AnimationException
      */
     public function native(): mixed;
 
@@ -29,8 +27,6 @@ interface CoreInterface extends CollectionInterface
 
     /**
      * Return frame of given position in an animated image
-     *
-     * @throws AnimationException
      */
     public function frame(int $position): FrameInterface;
 
@@ -56,15 +52,11 @@ interface CoreInterface extends CollectionInterface
 
     /**
      * Get first frame in core
-     *
-     * @throws AnimationException
      */
     public function first(): FrameInterface;
 
     /**
      * Get last frame in core
-     *
-     * @throws AnimationException
      */
     public function last(): FrameInterface;
 }

@@ -8,7 +8,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use Exception;
 use Generator;
 use Intervention\Image\Drivers\AbstractDecoder;
-use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -94,8 +93,8 @@ final class AbstractDecoderTest extends BaseTestCase
             public function checkValidityResult(string $path, bool $result): bool
             {
                 try {
-                    $this->parseFilePath($path);
-                } catch (DecoderException) {
+                    $this->parseFilePathOrFail($path);
+                } catch (Throwable) {
                     return $result === false;
                 }
 

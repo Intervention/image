@@ -8,7 +8,7 @@ use Imagick;
 use ImagickException;
 use ImagickPixel;
 use Intervention\Image\Drivers\AbstractFrame;
-use Intervention\Image\Exceptions\InputException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\DriverInterface;
@@ -112,13 +112,12 @@ class Frame extends AbstractFrame implements FrameInterface
      * {@inheritdoc}
      *
      * @see DriverInterface::setDispose()
-     *
-     * @throws InputException
      */
     public function setDispose(int $dispose): FrameInterface
     {
         if (!in_array($dispose, [0, 1, 2, 3])) {
-            throw new InputException('Value for argument $dispose must be 0, 1, 2 or 3');
+            // NEWEX
+            throw new InvalidArgumentException('Value for argument $dispose must be 0, 1, 2 or 3');
         }
 
         $this->native->setImageDispose($dispose);

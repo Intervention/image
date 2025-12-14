@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Decoders;
 
+use http\Exception\InvalidArgumentException;
 use Imagick;
 use ImagickException;
 use Intervention\Image\Exceptions\DecoderException;
@@ -22,19 +23,22 @@ class BinaryImageDecoder extends NativeObjectDecoder
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_string($input) && !($input instanceof Stringable)) {
-            throw new DecoderException('Binary data must be either of type string or instance of Stringable');
+            // NEWEX
+            throw new InvalidArgumentException('Binary data must be either of type string or instance of Stringable');
         }
 
         $input = (string) $input;
 
         if (empty($input)) {
-            throw new DecoderException('Input does not contain binary image data');
+            // NEWEX
+            throw new InvalidArgumentException('Input does not contain binary image data');
         }
 
         try {
             $imagick = new Imagick();
             $imagick->readImageBlob($input);
         } catch (ImagickException) {
+            // NEWEX
             throw new DecoderException('Binary data contains unsupported image type');
         }
 

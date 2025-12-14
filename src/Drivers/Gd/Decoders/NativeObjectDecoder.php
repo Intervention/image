@@ -6,12 +6,13 @@ namespace Intervention\Image\Drivers\Gd\Decoders;
 
 use Exception;
 use GdImage;
+use http\Exception\InvalidArgumentException;
 use Intervention\Gif\Decoder as GifDecoder;
 use Intervention\Gif\Splitter as GifSplitter;
 use Intervention\Image\Drivers\Gd\Core;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Exceptions\DecoderException;
-use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -26,18 +27,24 @@ class NativeObjectDecoder extends AbstractDecoder
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_object($input)) {
-            throw new DecoderException('Unable to decode input');
+            throw new InvalidArgumentException('Input must be an object');
         }
 
         if (!($input instanceof GdImage)) {
-            throw new DecoderException('Unable to decode input');
+            throw new InvalidArgumentException('Input must be of type ' . GdImage::class);
         }
 
         if (!imageistruecolor($input)) {
-            imagepalettetotruecolor($input);
+            $result = imagepalettetotruecolor($input);
+            if ($result === false) {
+                throw new DriverException('Failed to convert image to true color');
+            }
         }
 
-        imagesavealpha($input, true);
+        $result = imagesavealpha($input, true);
+        if ($result === false) {
+            throw new DriverException('Failed to convert image to true color');
+        }
 
         // build image instance
         return new Image(
@@ -54,16 +61,16 @@ class NativeObjectDecoder extends AbstractDecoder
      * Depending on the configuration, this is taken over by the native GD function
      * or, if animations are required, by our own extended decoder.
      *
-     * @throws DecoderException|RuntimeException
+     * @throws DecoderException
      */
     protected function decodeGif(mixed $input): ImageInterface
     {
         // create non-animated image depending on config
-        if (!$this->driver()->config()->decodeAnimation) {
+        if ($this->driver()->config()->decodeAnimation === false) {
             $native = $this->isGifFormat($input) ? @imagecreatefromstring($input) : @imagecreatefromgif($input);
 
             if ($native === false) {
-                throw new DecoderException('Unable to decode input');
+                throw new DecoderException('Unable to decode GIF format');
             }
 
             $image = self::decode($native);

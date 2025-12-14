@@ -59,6 +59,7 @@ enum Format
             try {
                 $format = FileExtension::from(strtolower($identifier))->format();
             } catch (Error) {
+                // NEWEX
                 throw new NotSupportedException('Unable to create format from "' . $identifier . '"');
             }
         }
@@ -106,7 +107,8 @@ enum Format
         $result = reset($types);
 
         if (!($result instanceof MediaType)) {
-            throw new NotSupportedException('Unable to retrieve media type');
+            // NEWEX
+            throw new NotSupportedException('Unable to retrieve media type from format');
         }
 
         return $result;
@@ -137,7 +139,8 @@ enum Format
         $result = reset($extensions);
 
         if (!($result instanceof FileExtension)) {
-            throw new NotSupportedException('Unable to retrieve file extension');
+            // NEWEX
+            throw new NotSupportedException('Unable to retrieve file extension for format');
         }
 
         return $result;

@@ -7,8 +7,6 @@ namespace Intervention\Image\Interfaces;
 use Closure;
 use Countable;
 use Intervention\Image\Encoders\AutoEncoder;
-use Intervention\Image\Exceptions\AnimationException;
-use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Geometry\Bezier;
 use Intervention\Image\Geometry\Circle;
@@ -52,8 +50,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Return width of current image
      *
      * @link https://image.intervention.io/v3/basics/meta-information#read-the-pixel-width
-     *
-     * @throws RuntimeException
      */
     public function width(): int;
 
@@ -61,8 +57,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Return height of current image
      *
      * @link https://image.intervention.io/v3/basics/meta-information#read-the-pixel-height
-     *
-     * @throws RuntimeException
      */
     public function height(): int;
 
@@ -70,8 +64,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Return size of current image
      *
      * @link https://image.intervention.io/v3/basics/meta-information#read-the-image-size-as-an-object
-     *
-     * @throws RuntimeException
      */
     public function size(): SizeInterface;
 
@@ -80,8 +72,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * given, the image will be saved at its original location.
      *
      * @link https://image.intervention.io/v3/basics/image-output#encode--save-combined
-     *
-     * @throws RuntimeException
      */
     public function save(?string $path = null, mixed ...$options): self;
 
@@ -89,15 +79,11 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Apply given modifier to current image
      *
      * @link https://image.intervention.io/v3/modifying-images/custom-modifiers
-     *
-     * @throws RuntimeException
      */
     public function modify(ModifierInterface $modifier): self;
 
     /**
      * Analyzer current image with given analyzer
-     *
-     * @throws RuntimeException
      */
     public function analyze(AnalyzerInterface $analyzer): mixed;
 
@@ -117,8 +103,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * and the respective frame position is only determined approximately.
      *
      * @link https://image.intervention.io/v3/modifying-images/animations#remove-animation
-     *
-     * @throws RuntimeException
      */
     public function removeAnimation(int|string $position = 0): self;
 
@@ -126,8 +110,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Extract animation frames based on given values and discard the rest
      *
      * @link https://image.intervention.io/v3/modifying-images/animations#change-the-animation-iteration-count
-     *
-     * @throws RuntimeException
      */
     public function sliceAnimation(int $offset = 0, ?int $length = null): self;
 
@@ -161,8 +143,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Return image resolution/density
      *
      * @link https://image.intervention.io/v3/basics/meta-information#image-resolution
-     *
-     * @throws RuntimeException
      */
     public function resolution(): ResolutionInterface;
 
@@ -170,8 +150,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Set image resolution
      *
      * @link https://image.intervention.io/v3/basics/meta-information#image-resolution
-     *
-     * @throws RuntimeException
      */
     public function setResolution(float $x, float $y): self;
 
@@ -179,8 +157,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Get the colorspace of the image
      *
      * @link https://image.intervention.io/v3/basics/colors#read-the-image-colorspace
-     *
-     * @throws RuntimeException
      */
     public function colorspace(): ColorspaceInterface;
 
@@ -188,8 +164,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Transform image to given colorspace
      *
      * @link https://image.intervention.io/v3/basics/colors#change-the-image-colorspace
-     *
-     * @throws RuntimeException
      */
     public function setColorspace(string|ColorspaceInterface $colorspace): self;
 
@@ -197,8 +171,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Return color of pixel at given position on given frame position
      *
      * @link https://image.intervention.io/v3/basics/colors#color-information
-     *
-     * @throws RuntimeException
      */
     public function pickColor(int $x, int $y, int $frame_key = 0): ColorInterface;
 
@@ -206,16 +178,12 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Return all colors of pixel at given position for all frames of image
      *
      * @link https://image.intervention.io/v3/basics/colors#color-information
-     *
-     * @throws RuntimeException
      */
     public function pickColors(int $x, int $y): CollectionInterface;
 
     /**
      * Return color that is mixed with transparent areas when converting to a format which
      * does not support transparency.
-     *
-     * @throws RuntimeException
      */
     public function backgroundColor(): ColorInterface;
 
@@ -225,16 +193,12 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Settting the background color will have no effect unless image is
      * converted into a format which does not support transparency or
      * self::background() is used.
-     *
-     * @throws RuntimeException
      */
     public function setBackgroundColor(string|ColorInterface $color): self;
 
     /**
      * Replace transparent areas of the image with given color or currently
      * configured background color
-     *
-     * @throws RuntimeException
      */
     public function background(null|string|ColorInterface $color = null): self;
 
@@ -242,8 +206,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Retrieve ICC color profile of image
      *
      * @link https://image.intervention.io/v3/basics/colors#color-profiles
-     *
-     * @throws RuntimeException
      */
     public function profile(): ProfileInterface;
 
@@ -251,8 +213,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Set given icc color profile to image
      *
      * @link https://image.intervention.io/v3/basics/colors#color-profiles
-     *
-     * @throws RuntimeException
      */
     public function setProfile(ProfileInterface $profile): self;
 
@@ -260,8 +220,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Remove ICC color profile from the current image
      *
      * @link https://image.intervention.io/v3/basics/colors#color-profiles
-     *
-     * @throws RuntimeException
      */
     public function removeProfile(): self;
 
@@ -269,8 +227,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Apply color quantization to the current image
      *
      * @link https://image.intervention.io/v3/modifying-images/effects#reduce-colors
-     *
-     * @throws RuntimeException
      */
     public function reduceColors(int $limit, mixed $background = 'transparent'): self;
 
@@ -278,8 +234,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Sharpen the current image with given strength
      *
      * @link https://image.intervention.io/v3/modifying-images/effects#sharpening-effect
-     *
-     * @throws RuntimeException
      */
     public function sharpen(int $amount = 10): self;
 
@@ -287,8 +241,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Turn image into a greyscale version
      *
      * @link https://image.intervention.io/v3/modifying-images/effects#convert-image-to-a-greyscale-version
-     *
-     * @throws RuntimeException
      */
     public function greyscale(): self;
 
@@ -296,8 +248,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Adjust brightness of the current image
      *
      * @link https://image.intervention.io/v3/modifying-images/effects#change-the-image-brightness
-     *
-     * @throws RuntimeException
      */
     public function brightness(int $level): self;
 
@@ -305,8 +255,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Adjust color contrast of the current image
      *
      * @link https://image.intervention.io/v3/modifying-images/effects#change-the-image-contrast
-     *
-     * @throws RuntimeException
      */
     public function contrast(int $level): self;
 
@@ -314,8 +262,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Apply gamma correction on the current image
      *
      * @link https://image.intervention.io/v3/modifying-images/effects#gamma-correction
-     *
-     * @throws RuntimeException
      */
     public function gamma(float $gamma): self;
 
@@ -323,8 +269,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Adjust the intensity of the RGB color channels
      *
      * @link https://image.intervention.io/v3/modifying-images/effects#color-correction
-     *
-     * @throws RuntimeException
      */
     public function colorize(int $red = 0, int $green = 0, int $blue = 0): self;
 
@@ -332,8 +276,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Mirror the current image horizontally
      *
      * @link https://image.intervention.io/v3/modifying-images/effects#mirror-image-vertically
-     *
-     * @throws RuntimeException
      */
     public function flip(): self;
 
@@ -341,8 +283,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Mirror the current image vertically
      *
      * @link https://image.intervention.io/v3/modifying-images/effects#mirror-image-horizontally
-     *
-     * @throws RuntimeException
      */
     public function flop(): self;
 
@@ -350,8 +290,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Blur current image by given strength
      *
      * @link https://image.intervention.io/v3/modifying-images/effects#blur-effect
-     *
-     * @throws RuntimeException
      */
     public function blur(int $amount = 5): self;
 
@@ -359,8 +297,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Invert the colors of the current image
      *
      * @link https://image.intervention.io/v3/modifying-images/effects#invert-colors
-     *
-     * @throws RuntimeException
      */
     public function invert(): self;
 
@@ -368,8 +304,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Apply pixelation filter effect on current image
      *
      * @link https://image.intervention.io/v3/modifying-images/effects#pixelation-effect
-     *
-     * @throws RuntimeException
      */
     public function pixelate(int $size): self;
 
@@ -379,7 +313,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @link https://image.intervention.io/v3/modifying-images/effects#image-rotation
      *
      * @param string $background
-     * @throws RuntimeException
      */
     public function rotate(float $angle, mixed $background = null): self;
 
@@ -387,8 +320,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Rotate the image to be upright according to exif information
      *
      * @link https://image.intervention.io/v3/modifying-images/effects#image-orientation-according-to-exif-data
-     *
-     * @throws RuntimeException
      */
     public function orient(): self;
 
@@ -396,8 +327,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Draw text on image
      *
      * @link https://image.intervention.io/v3/modifying-images/text-fonts
-     *
-     * @throws RuntimeException
      */
     public function text(string $text, int $x, int $y, callable|Closure|FontInterface $font): self;
 
@@ -405,8 +334,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Resize image to the given width and/or height
      *
      * @link https://image.intervention.io/v3/modifying-images/resizing#simple-image-resizing
-     *
-     * @throws RuntimeException
      */
     public function resize(null|int|Fraction $width = null, null|int|Fraction $height = null): self;
 
@@ -414,8 +341,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Resize image to the given width and/or height without exceeding the original dimensions
      *
      * @link https://image.intervention.io/v3/modifying-images/resizing#resize-without-exceeding-the-original-size
-     *
-     * @throws RuntimeException
      */
     public function resizeDown(null|int|Fraction $width = null, null|int|Fraction $height = null): self;
 
@@ -423,8 +348,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Resize image to the given width and/or height and keep the original aspect ratio
      *
      * @link https://image.intervention.io/v3/modifying-images/resizing#resize-images-proportionally
-     *
-     * @throws RuntimeException
      */
     public function scale(null|int|Fraction $width = null, null|int|Fraction $height = null): self;
 
@@ -433,8 +356,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * and do not exceed the original image width or height
      *
      * @link https://image.intervention.io/v3/modifying-images/resizing#scale-images-but-do-not-exceed-the-original-size
-     *
-     * @throws RuntimeException
      */
     public function scaleDown(null|int|Fraction $width = null, null|int|Fraction $height = null): self;
 
@@ -445,8 +366,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * to the desired size using the arguments
      *
      * @link https://image.intervention.io/v3/modifying-images/resizing#cropping--resizing-combined
-     *
-     * @throws RuntimeException
      */
     public function cover(
         int|Fraction $width,
@@ -458,8 +377,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Same as cover() but do not exceed the original image size
      *
      * @link https://image.intervention.io/v3/modifying-images/resizing#fitted-resizing-without-exceeding-the-original-size
-     *
-     * @throws RuntimeException
      */
     public function coverDown(
         int|Fraction $width,
@@ -474,8 +391,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * new emerging areas.
      *
      * @link https://image.intervention.io/v3/modifying-images/resizing#resize-image-boundaries-without-resampling-the-original-image
-     *
-     * @throws RuntimeException
      */
     public function resizeCanvas(
         null|int|Fraction $width = null,
@@ -490,8 +405,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * original image size.
      *
      * @link https://image.intervention.io/v3/modifying-images/resizing#resize-image-boundaries-relative-to-the-original
-     *
-     * @throws RuntimeException
      */
     public function resizeCanvasRelative(
         null|int|Fraction $width = null,
@@ -512,7 +425,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @link https://image.intervention.io/v3/modifying-images/resizing#resizing--padding-combined
      *
      * @param string $background
-     * @throws RuntimeException
      */
     public function pad(
         int|Fraction $width,
@@ -528,7 +440,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @link https://image.intervention.io/v3/modifying-images/resizing#padded-resizing-with-upscaling
      *
      * @param string $background
-     * @throws RuntimeException
      */
     public function contain(
         int|Fraction $width,
@@ -543,8 +454,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * to move the cutout by the given amount of pixels.
      *
      * @link https://image.intervention.io/v3/modifying-images/resizing#cut-out-a-rectangular-part
-     *
-     * @throws RuntimeException
      */
     public function crop(
         int|Fraction $width,
@@ -559,9 +468,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Trim the image by removing border areas of similar color within a the given tolerance
      *
      * @link https://image.intervention.io/v3/modifying-images/resizing#remove-border-areas-in-similar-color
-     *
-     * @throws RuntimeException
-     * @throws AnimationException
      */
     public function trim(int $tolerance = 0): self;
 
@@ -569,8 +475,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Place another image into the current image instance
      *
      * @link https://image.intervention.io/v3/modifying-images/inserting#insert-images
-     *
-     * @throws RuntimeException
      */
     public function place(
         mixed $element,
@@ -591,8 +495,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * If no coordinates are specified, the entire image area is filled.
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#fill-images-with-color
-     *
-     * @throws RuntimeException
      */
     public function fill(mixed $color, ?int $x = null, ?int $y = null): self;
 
@@ -600,8 +502,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Draw a single pixel at given position defined by the coordinates x and y in a given color.
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-pixels
-     *
-     * @throws RuntimeException
      */
     public function drawPixel(int $x, int $y, mixed $color): self;
 
@@ -609,8 +509,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Draw a rectangle on the current image
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-a-rectangle
-     *
-     * @throws RuntimeException
      */
     public function drawRectangle(int $x, int $y, callable|Closure|Rectangle $init): self;
 
@@ -618,8 +516,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Draw ellipse on the current image
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-ellipses
-     *
-     * @throws RuntimeException
      */
     public function drawEllipse(int $x, int $y, callable|Closure|Ellipse $init): self;
 
@@ -627,8 +523,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Draw circle on the current image
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-a-circle
-     *
-     * @throws RuntimeException
      */
     public function drawCircle(int $x, int $y, callable|Closure|Circle $init): self;
 
@@ -636,8 +530,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Draw a polygon on the current image
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-a-polygon
-     *
-     * @throws RuntimeException
      */
     public function drawPolygon(callable|Closure|Polygon $init): self;
 
@@ -645,8 +537,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Draw a line on the current image
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-a-line
-     *
-     * @throws RuntimeException
      */
     public function drawLine(callable|Closure|Line $init): self;
 
@@ -654,8 +544,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Draw a bezier curve on the current image
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-bezier-curves
-     *
-     * @throws RuntimeException
      */
     public function drawBezier(callable|Closure|Bezier $init): self;
 

@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick;
 
 use Imagick;
+use ImagickException;
 use ImagickPixel;
 use Intervention\Image\Drivers\AbstractDriver;
 use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\DriverMissingDependencyException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Format;
 use Intervention\Image\FileExtension;
@@ -40,7 +42,7 @@ class Driver extends AbstractDriver
     public function checkHealth(): void
     {
         if (!extension_loaded('imagick') || !class_exists('Imagick')) {
-            throw new DriverException(
+            throw new DriverMissingDependencyException(
                 'Imagick PHP extension must be installed to use this driver'
             );
         }
@@ -53,16 +55,20 @@ class Driver extends AbstractDriver
      */
     public function createImage(int $width, int $height): ImageInterface
     {
-        $background = new ImagickPixel('rgba(255, 255, 255, 0)');
+        try {
+            $background = new ImagickPixel('rgba(255, 255, 255, 0)');
 
-        $imagick = new Imagick();
-        $imagick->newImage($width, $height, $background, 'png');
-        $imagick->setType(Imagick::IMGTYPE_UNDEFINED);
-        $imagick->setImageType(Imagick::IMGTYPE_UNDEFINED);
-        $imagick->setColorspace(Imagick::COLORSPACE_SRGB);
-        $imagick->setImageResolution(72, 72);
-        $imagick->setImageUnits(Imagick::RESOLUTION_PIXELSPERINCH);
-        $imagick->setImageBackgroundColor($background);
+            $imagick = new Imagick();
+            $imagick->newImage($width, $height, $background, 'png');
+            $imagick->setType(Imagick::IMGTYPE_UNDEFINED);
+            $imagick->setImageType(Imagick::IMGTYPE_UNDEFINED);
+            $imagick->setColorspace(Imagick::COLORSPACE_SRGB);
+            $imagick->setImageResolution(72, 72);
+            $imagick->setImageUnits(Imagick::RESOLUTION_PIXELSPERINCH);
+            $imagick->setImageBackgroundColor($background);
+        } catch (ImagickException $e) {
+            throw new DriverException('Unable to create new image', previous: $e);
+        }
 
         return new Image($this, new Core($imagick));
     }

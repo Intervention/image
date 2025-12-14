@@ -22,12 +22,13 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         // make sure path is valid
-        $path = $this->parseFilePath($input);
+        $path = $this->parseFilePathOrFail($input);
 
         try {
             // detect media (mime) type
             $mediaType = $this->getMediaTypeByFilePath($path);
         } catch (Throwable) {
+            // NEWEX
             throw new DecoderException('File contains unsupported image format');
         }
 
@@ -41,6 +42,7 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
                 Format::PNG => @imagecreatefrompng($path),
                 Format::AVIF => @imagecreatefromavif($path),
                 Format::BMP => @imagecreatefrombmp($path),
+                // NEWEX
                 default => throw new DecoderException('File contains unsupported image format'),
             }),
         };

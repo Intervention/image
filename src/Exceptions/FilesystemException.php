@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Exceptions;
 
-class ColorException extends RuntimeException
+class FilesystemException extends RuntimeException
 {
     //
 }

@@ -5,18 +5,21 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers;
 
 use Exception;
+use http\Exception\InvalidArgumentException;
 use Intervention\Image\Collection;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Traits\CanBuildFilePointer;
+use Intervention\Image\Traits\CanParseFilePath;
 use Stringable;
 use Throwable;
 
 abstract class AbstractDecoder implements DecoderInterface
 {
     use CanBuildFilePointer;
+    use CanParseFilePath;
 
     /**
      * Determine if the given input is GIF data format
@@ -40,7 +43,7 @@ abstract class AbstractDecoder implements DecoderInterface
 
         try {
             // source might be file path
-            $source = $this->parseFilePath($input);
+            $source = $this->parseFilePathOrFail($input);
         } catch (Throwable) {
             try {
                 // source might be file pointer
@@ -71,57 +74,22 @@ abstract class AbstractDecoder implements DecoderInterface
     protected function decodeBase64Data(mixed $input): string
     {
         if (!is_string($input) && !($input instanceof Stringable)) {
-            throw new DecoderException('Input must be either of type string or instance of Stringable');
+            // NEWEX
+            throw new InvalidArgumentException('Input must be either of type string or instance of Stringable');
         }
 
         $decoded = base64_decode((string) $input, true);
 
         if ($decoded === false) {
-            throw new DecoderException('Input is not Base64-encoded data');
+            // NEWEX
+            throw new InvalidArgumentException('Input is not Base64-encoded data');
         }
 
         if (base64_encode($decoded) !== str_replace(["\n", "\r"], '', (string) $input)) {
-            throw new DecoderException('Input is not Base64-encoded data');
+            // NEWEX
+            throw new InvalidArgumentException('Input is not Base64-encoded data');
         }
 
         return $decoded;
-    }
-
-    /**
-     * Parse and return a given file path or throw detailed exception if the path is invalid
-     *
-     * @throws DecoderException
-     */
-    protected function parseFilePath(mixed $path): string
-    {
-        if (!is_string($path) && !($path instanceof Stringable)) {
-            throw new DecoderException('Path must be either of type string or instance of Stringable');
-        }
-
-        $path = (string) $path;
-
-        if ($path === '') {
-            throw new DecoderException('Path must not be an empty string');
-        }
-
-        if (strlen($path) > PHP_MAXPATHLEN) {
-            throw new DecoderException(
-                "Path is longer than the configured max. value of " . PHP_MAXPATHLEN
-            );
-        }
-
-        // get info on path
-        $dirname = pathinfo($path, PATHINFO_DIRNAME);
-        $basename = pathinfo($path, PATHINFO_BASENAME);
-
-        if (!is_dir($dirname)) {
-            throw new DecoderException('Directory "' . $dirname . '" not found');
-        }
-
-        if (!@is_file($path)) {
-            throw new DecoderException('File "' . $basename . '" not found in directory "' . $dirname . '"');
-        }
-
-        return $path;
     }
 }

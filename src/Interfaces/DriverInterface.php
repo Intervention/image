@@ -7,6 +7,7 @@ namespace Intervention\Image\Interfaces;
 use Intervention\Image\Config;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\DriverMissingDependencyException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Format;
@@ -115,7 +116,7 @@ interface DriverInterface
      * Check whether all requirements for operating the driver are met and
      * throw exception if the check fails.
      *
-     * @throws DriverException
+     * @throws DriverMissingDependencyException
      */
     public function checkHealth(): void;
 

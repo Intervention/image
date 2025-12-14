@@ -10,6 +10,7 @@
 - Default resolution is now 72 ppi for new images
 - Origin::format()
 - Support for ICO-Format
+- Improved structure and hiarchy for exceptions
 
 ## API Changes
 

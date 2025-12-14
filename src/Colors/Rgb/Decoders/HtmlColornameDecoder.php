@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Colors\Rgb\Decoders;
 
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -164,11 +165,13 @@ class HtmlColornameDecoder extends HexColorDecoder implements DecoderInterface
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_string($input)) {
-            throw new DecoderException('Unable to decode input');
+            // NEWEX
+            throw new InvalidArgumentException('Input must be of type string');
         }
 
         if (!array_key_exists(strtolower($input), static::$names)) {
-            throw new DecoderException('Unable to decode input');
+            // NEWEX
+            throw new InvalidArgumentException('Input must be a HTML color name');
         }
 
         return parent::decode(static::$names[strtolower($input)]);

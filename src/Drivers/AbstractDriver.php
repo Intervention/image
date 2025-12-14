@@ -7,6 +7,7 @@ namespace Intervention\Image\Drivers;
 use Intervention\Image\Config;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\NotSupportedDriverFeatureException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\InputHandler;
@@ -61,8 +62,6 @@ abstract class AbstractDriver implements DriverInterface
      * {@inheritdoc}
      *
      * @see DriverInterface::handleImageInput()
-     *
-     * @throws DriverException|DecoderException|NotSupportedException|RuntimeException
      */
     public function handleImageInput(mixed $input, ?array $decoders = null): ImageInterface
     {
@@ -73,7 +72,7 @@ abstract class AbstractDriver implements DriverInterface
         $result = $handler->handle($input);
 
         if (!($result instanceof ImageInterface)) {
-            throw new DecoderException('Unable to decode input to instance of ImageInterface');
+            throw new DecoderException('Result must be instance of ' . ImageInterface::class);
         }
 
         return $result;
@@ -95,7 +94,7 @@ abstract class AbstractDriver implements DriverInterface
         $result = $handler->handle($input);
 
         if (!($result instanceof ColorInterface)) {
-            throw new DecoderException('Unable to decode input to instance of ColorInterface');
+            throw new DecoderException('Result must be instance of ' . ColorInterface::class);
         }
 
         return $result;
@@ -106,7 +105,6 @@ abstract class AbstractDriver implements DriverInterface
      *
      * @see DriverInterface::specializeModifier()
      *
-     * @throws DriverException
      * @throws NotSupportedException
      */
     public function specializeModifier(ModifierInterface $modifier): ModifierInterface
@@ -119,7 +117,6 @@ abstract class AbstractDriver implements DriverInterface
      *
      * @see DriverInterface::specializeAnalyzer()
      *
-     * @throws DriverException
      * @throws NotSupportedException
      */
     public function specializeAnalyzer(AnalyzerInterface $analyzer): AnalyzerInterface
@@ -132,7 +129,6 @@ abstract class AbstractDriver implements DriverInterface
      *
      * @see DriverInterface::specializeEncoder()
      *
-     * @throws DriverException
      * @throws NotSupportedException
      */
     public function specializeEncoder(EncoderInterface $encoder): EncoderInterface
@@ -145,7 +141,6 @@ abstract class AbstractDriver implements DriverInterface
      *
      * @see DriverInterface::specializeDecoder()
      *
-     * @throws DriverException
      * @throws NotSupportedException
      */
     public function specializeDecoder(DecoderInterface $decoder): DecoderInterface
@@ -154,7 +149,6 @@ abstract class AbstractDriver implements DriverInterface
     }
 
     /**
-     * @throws DriverException
      * @throws NotSupportedException
      */
     private function specialize(
@@ -186,7 +180,8 @@ abstract class AbstractDriver implements DriverInterface
 
         // fail if driver specialized classname does not exists
         if (!class_exists($specialized_classname)) {
-            throw new NotSupportedException(
+            // NEWEX
+            throw new NotSupportedDriverFeatureException(
                 "Class '" . $object_shortname . "' is not supported by " . $this->id() . " driver"
             );
         }

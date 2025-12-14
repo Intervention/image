@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Intervention\Image\Interfaces;
 
 use Intervention\Image\DataUri;
-use Intervention\Image\Exceptions\RuntimeException;
 use SplFileInfo;
 use Stringable;
 
@@ -16,7 +15,8 @@ interface ImageManagerInterface
      *
      * @link https://image.intervention.io/v3/basics/instantiation#create-new-images
      *
-     * @throws RuntimeException
+     * @param int<1, max> $width
+     * @param int<1, max> $height
      */
     public function create(int $width, int $height): ImageInterface;
 
@@ -46,7 +46,6 @@ interface ImageManagerInterface
      * @link https://image.intervention.io/v3/basics/instantiation#read-image-sources
      *
      * @param string|array<string|DecoderInterface>|DecoderInterface $decoders
-     * @throws RuntimeException
      */
     public function decode(mixed $input, string|array|DecoderInterface $decoders): ImageInterface;
 
@@ -75,8 +74,6 @@ interface ImageManagerInterface
      * Create new animated image by given callback
      *
      * @link https://image.intervention.io/v3/basics/instantiation#create-animations
-     *
-     * @throws RuntimeException
      */
     public function animate(callable $init): ImageInterface;
 

@@ -6,7 +6,7 @@ namespace Intervention\Image\Drivers;
 
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Exceptions\EncoderException;
-use Intervention\Image\Exceptions\InputException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\EncodedImageInterface;
@@ -24,9 +24,6 @@ abstract class AbstractEncoder implements EncoderInterface
      * {@inheritdoc}
      *
      * @see EncoderInterface::encode()
-     *
-     * @throws EncoderException
-     * @throws NotSupportedException
      */
     public function encode(ImageInterface $image): EncodedImageInterface
     {
@@ -35,8 +32,6 @@ abstract class AbstractEncoder implements EncoderInterface
 
     /**
      * Build new file pointer, run callback with it and return result as encoded image
-     *
-     * @throws RuntimeException
      */
     protected function createEncodedImage(callable $callback, ?string $mediaType = null): EncodedImage
     {
@@ -55,7 +50,8 @@ abstract class AbstractEncoder implements EncoderInterface
     {
         foreach ($options as $key => $value) {
             if (!property_exists($this, (string) $key)) {
-                throw new InputException(
+                // NEWEX
+                throw new InvalidArgumentException(
                     'Option $' . $key . ' does not exist on ' . $this::class,
                 );
             }

@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Decoders;
 
+use http\Exception\InvalidArgumentException;
 use Imagick;
+use ImagickException;
 use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\SpecializableDecoder;
-use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -25,25 +27,37 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_object($input)) {
-            throw new DecoderException('Unable to decode input');
+            // NEWEX
+            throw new InvalidArgumentException('Input must be an object');
         }
 
         if (!($input instanceof Imagick)) {
-            throw new DecoderException('Unable to decode input');
+            // NEWEX
+            throw new InvalidArgumentException('Input must be of type ' . Imagick::class);
         }
 
         // For some JPEG formats, the "coalesceImages()" call leads to an image
         // completely filled with background color. The logic behind this is
         // incomprehensible for me; could be an imagick bug.
-        if ($input->getImageFormat() !== 'JPEG') {
-            $input = $input->coalesceImages();
+        try {
+            if ($input->getImageFormat() !== 'JPEG') {
+                $input = $input->coalesceImages();
+            }
+        } catch (ImagickException $e) {
+            // NEWEX
+            throw new DriverException('Failed to coalesce image', previous: $e);
         }
 
         // turn images with colorspace 'GRAY' into 'SRGB' to avoid working on
         // greyscale colorspace images as this results images loosing color
         // information when placed into this image.
-        if ($input->getImageColorspace() == Imagick::COLORSPACE_GRAY) {
-            $input->setImageColorspace(Imagick::COLORSPACE_SRGB);
+        try {
+            if ($input->getImageColorspace() == Imagick::COLORSPACE_GRAY) {
+                $input->setImageColorspace(Imagick::COLORSPACE_SRGB);
+            }
+        } catch (ImagickException $e) {
+            // NEWEX
+            throw new DriverException('Failed to convert image ro srgb', previous: $e);
         }
 
         // create image object

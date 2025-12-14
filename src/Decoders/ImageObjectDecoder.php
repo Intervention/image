@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Decoders;
 
+use http\Exception\InvalidArgumentException;
 use Intervention\Image\Drivers\AbstractDecoder;
-use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 
@@ -19,7 +19,8 @@ class ImageObjectDecoder extends AbstractDecoder
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_a($input, ImageInterface::class)) {
-            throw new DecoderException('Unable to decode input');
+            // NEWEX
+            throw new InvalidArgumentException('Input must be of type ' . ImageInterface::class);
         }
 
         return $input;

@@ -91,6 +91,7 @@ use Intervention\Image\Modifiers\SliceAnimationModifier;
 use Intervention\Image\Modifiers\TextModifier;
 use Intervention\Image\Modifiers\TrimModifier;
 use Intervention\Image\Typography\FontFactory;
+use Throwable;
 use Traversable;
 
 final class Image implements ImageInterface
@@ -1004,7 +1005,7 @@ final class Image implements ImageInterface
                 'width' => $this->width(),
                 'height' => $this->height(),
             ];
-        } catch (RuntimeException) {
+        } catch (Throwable) {
             return [];
         }
     }

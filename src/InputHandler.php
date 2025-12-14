@@ -23,6 +23,7 @@ use Intervention\Image\Decoders\NativeObjectDecoder;
 use Intervention\Image\Decoders\SplFileInfoImageDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -46,13 +47,13 @@ class InputHandler implements InputHandlerInterface
     ];
 
     public const COLOR_DECODERS = [
+        TransparentColorDecoder::class,
         ColorObjectDecoder::class,
         RgbHexColorDecoder::class,
         RgbStringColorDecoder::class,
         CmykStringColorDecoder::class,
         HsvStringColorDecoder::class,
         HslStringColorDecoder::class,
-        TransparentColorDecoder::class,
         HtmlColornameDecoder::class,
     ];
 
@@ -127,7 +128,7 @@ class InputHandler implements InputHandlerInterface
             try {
                 // decode with driver specialized decoder
                 return $this->resolve($decoder)->decode($input);
-            } catch (DriverException | DecoderException | NotSupportedException $e) {
+            } catch (InvalidArgumentException | DecoderException $e) {
                 // try next decoder
             }
         }
@@ -143,7 +144,6 @@ class InputHandler implements InputHandlerInterface
      * Resolve the given classname to an decoder object
      *
      * @throws DriverException
-     * @throws NotSupportedException
      */
     private function resolve(string|DecoderInterface $decoder): DecoderInterface
     {
@@ -158,9 +158,15 @@ class InputHandler implements InputHandlerInterface
         $resolved = new $decoder();
 
         if (!($resolved instanceof DecoderInterface)) {
-            throw new DriverException('Given classname could not be resolved to decoder');
+            // NEWEX
+            throw new DriverException('Failed to resolved decoder ' . $decoder);
         }
 
-        return empty($this->driver) ? $resolved : $this->driver->specializeDecoder($resolved);
+        try {
+            return empty($this->driver) ? $resolved : $this->driver->specializeDecoder($resolved);
+        } catch (NotSupportedException $e) {
+            // NEWEX
+            throw new DriverException('Failed to resolved decoder ' . $decoder, previous: $e);
+        }
     }
 }

@@ -6,7 +6,7 @@ namespace Intervention\Image\Encoders;
 
 use Error;
 use Intervention\Image\Drivers\AbstractEncoder;
-use Intervention\Image\Exceptions\EncoderException;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -48,15 +48,14 @@ class MediaTypeEncoder extends AbstractEncoder
 
     /**
      * Return new encoder by given media (MIME) type
-     *
-     * @throws EncoderException
      */
     protected function encoderByMediaType(string|MediaType $mediaType): EncoderInterface
     {
         try {
             $mediaType = is_string($mediaType) ? MediaType::from($mediaType) : $mediaType;
         } catch (Error) {
-            throw new EncoderException('No encoder found for media type (' . $mediaType . ')');
+            // NEWEX
+            throw new NotSupportedException('No encoder found for media type (' . $mediaType->value . ')');
         }
 
         return $mediaType->format()->encoder(...$this->options);

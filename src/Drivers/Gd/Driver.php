@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd;
 
+use GdImage;
 use Intervention\Image\Drivers\AbstractDriver;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\DriverException;
-use Intervention\Image\Exceptions\GeometryException;
-use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Exceptions\DriverMissingDependencyException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Format;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Image;
@@ -39,7 +41,8 @@ class Driver extends AbstractDriver
     public function checkHealth(): void
     {
         if (!extension_loaded('gd') || !function_exists('gd_info')) {
-            throw new DriverException(
+            // NEWEX
+            throw new DriverMissingDependencyException(
                 'GD PHP extension must be installed to use this driver'
             );
         }
@@ -50,27 +53,54 @@ class Driver extends AbstractDriver
      *
      * @see DriverInterface::createImage()
      *
-     * @throws RuntimeException
-     * @throws GeometryException
+     * @throws InvalidArgumentException
+     * @throws DriverException
      */
     public function createImage(int $width, int $height): ImageInterface
     {
         if ($width < 1 || $height < 1) {
-            throw new GeometryException('Invalid image size. Only use int<1, max>');
+            // NEWEX
+            throw new InvalidArgumentException('Invalid image size. Only use int<1, max>');
         }
 
         // build new transparent GDImage
         $data = imagecreatetruecolor($width, $height);
-        imagesavealpha($data, true);
-        $background = imagecolorallocatealpha($data, 255, 255, 255, 127);
-        if ($background === false) {
-            throw new RuntimeException('Unable to create initial background color color');
+        if (!($data instanceof GDImage)) {
+            // NEWEX
+            throw new DriverException('Failed to create new image');
         }
 
-        imagealphablending($data, false);
-        imagefill($data, 0, 0, $background);
+        $alpha = imagesavealpha($data, true);
+        if ($alpha === false) {
+            // NEWEX
+            throw new DriverException('Failed to flag image to save alpha channel');
+        }
+
+        $background = imagecolorallocatealpha($data, 255, 255, 255, 127);
+        if ($background === false) {
+            // NEWEX
+            throw new DriverException('Failed to create image background color');
+        }
+
+        $alphablending = imagealphablending($data, false);
+        if ($alphablending === false) {
+            // NEWEX
+            throw new DriverException('Failed to set image alpha blending');
+        }
+
+        $fill = imagefill($data, 0, 0, $background);
+        if ($fill === false) {
+            // NEWEX
+            throw new DriverException('Failed to fill image initially with transparency');
+        }
+
         imagecolortransparent($data, $background);
-        imageresolution($data, 72, 72);
+
+        $resolution = imageresolution($data, 72, 72);
+        if ($resolution === false) {
+            // NEWEX
+            throw new DriverException('Failed to set initial image resolution');
+        }
 
         return new Image(
             $this,

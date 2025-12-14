@@ -15,7 +15,7 @@ class ConvertPngGif extends GdTestCase
     public function testConversionKeepsTransparency(): void
     {
         $converted = ImageManager::gd()
-            ->decode(
+            ->decodeFrom(
                 binary: $this->readTestImage('circle.png')->encodeUsing(format: Format::GIF)
             );
 

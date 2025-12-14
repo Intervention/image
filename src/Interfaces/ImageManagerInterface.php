@@ -20,15 +20,6 @@ interface ImageManagerInterface
      */
     public function create(int $width, int $height): ImageInterface;
 
-    public function decode(
-        null|string|Stringable $path = null,
-        null|string|Stringable $binary = null,
-        null|string|Stringable $base64 = null,
-        null|string|Stringable|DataUri $dataUri = null,
-        null|SplFileInfo $splFileInfo = null,
-        mixed $stream = null,
-    ): ImageInterface;
-
     /**
      * Create new image instance from given input which can be one of the following
      *
@@ -57,7 +48,28 @@ interface ImageManagerInterface
      * @param string|array<string|DecoderInterface>|DecoderInterface $decoders
      * @throws RuntimeException
      */
-    public function decodeUsing(mixed $input, string|array|DecoderInterface $decoders): ImageInterface;
+    public function decode(mixed $input, string|array|DecoderInterface $decoders): ImageInterface;
+
+    public function decodeFromPath(string|Stringable $path): ImageInterface;
+
+    public function decodeFromBinary(string|Stringable $binary): ImageInterface;
+
+    public function decodeFromBase64(string|Stringable $base64): ImageInterface;
+
+    public function decodeFromDataUri(string|Stringable|DataUriInterface $dataUri): ImageInterface;
+
+    public function decodeFromSplFileInfo(string|SplFileInfo $splFileInfo): ImageInterface;
+
+    public function decodeFromStream(mixed $stream): ImageInterface;
+
+    public function decodeFrom(
+        null|string|Stringable $path = null,
+        null|string|Stringable $binary = null,
+        null|string|Stringable $base64 = null,
+        null|string|Stringable|DataUri $dataUri = null,
+        null|SplFileInfo $splFileInfo = null,
+        mixed $stream = null,
+    ): ImageInterface;
 
     /**
      * Create new animated image by given callback

@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers;
 
 use Intervention\Image\EncodedImage;
+use Intervention\Image\Exceptions\EncoderException;
+use Intervention\Image\Exceptions\InputException;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
@@ -21,6 +24,9 @@ abstract class AbstractEncoder implements EncoderInterface
      * {@inheritdoc}
      *
      * @see EncoderInterface::encode()
+     *
+     * @throws EncoderException
+     * @throws NotSupportedException
      */
     public function encode(ImageInterface $image): EncodedImageInterface
     {
@@ -38,5 +44,24 @@ abstract class AbstractEncoder implements EncoderInterface
         $callback($pointer);
 
         return is_string($mediaType) ? new EncodedImage($pointer, $mediaType) : new EncodedImage($pointer);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see EncoderInterface::setOptions()
+     */
+    public function setOptions(mixed ...$options): self
+    {
+        foreach ($options as $key => $value) {
+            if (!property_exists($this, (string) $key)) {
+                throw new InputException(
+                    'Option $' . $key . ' does not exist on ' . $this::class,
+                );
+            }
+            $this->{$key} = $value;
+        }
+
+        return $this;
     }
 }

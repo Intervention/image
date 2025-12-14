@@ -77,7 +77,6 @@ class Origin
      * Return format of the origin image
      *
      * @throws NotSupportedException
-     * @throws RuntimeException
      */
     public function format(): Format
     {

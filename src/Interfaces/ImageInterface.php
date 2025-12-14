@@ -660,16 +660,12 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function drawBezier(callable|Closure|Bezier $init): self;
 
     /**
-     * Encode image with given encoder
-     *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-images
-     *
-     * @throws RuntimeException
+     * Encode the current image with the given encoder
      */
-    public function encode(EncoderInterface $encoder = new AutoEncoder()): EncodedImageInterface;
+    public function encode(string|EncoderInterface $encoder = new AutoEncoder()): EncodedImageInterface;
 
     /**
-     * Encode the current image by resolving the encoding method out of one of the given parameters which can be either
+     * Encode the current image by resolving the encoder using one of the given arguments
      *
      * - Image format
      * - Media (MIME) type

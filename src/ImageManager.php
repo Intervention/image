@@ -17,6 +17,7 @@ use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Exceptions\InputException;
+use Intervention\Image\Interfaces\DataUriInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageManagerInterface;
 use SplFileInfo;
@@ -89,11 +90,11 @@ final class ImageManager implements ImageManagerInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageManagerInterface::decode()
+     * @see ImageManagerInterface::decodeFrom()
      *
      * @throws RuntimeException
      */
-    public function decode(
+    public function decodeFrom(
         null|string|Stringable $path = null,
         null|string|Stringable $binary = null,
         null|string|Stringable $base64 = null,
@@ -134,12 +135,42 @@ final class ImageManager implements ImageManagerInterface
         };
     }
 
+    public function decodeFromPath(string|Stringable $path): ImageInterface
+    {
+        return $this->driver->handleImageInput($path, [FilePathImageDecoder::class]);
+    }
+
+    public function decodeFromBinary(string|Stringable $binary): ImageInterface
+    {
+        return $this->driver->handleImageInput($binary, [BinaryImageDecoder::class]);
+    }
+
+    public function decodeFromBase64(string|Stringable $base64): ImageInterface
+    {
+        return $this->driver->handleImageInput($base64, [Base64ImageDecoder::class]);
+    }
+
+    public function decodeFromDataUri(string|Stringable|DataUriInterface $dataUri): ImageInterface
+    {
+        return $this->driver->handleImageInput($dataUri, [DataUriImageDecoder::class]);
+    }
+
+    public function decodeFromSplFileInfo(string|SplFileInfo $splFileInfo): ImageInterface
+    {
+        return $this->driver->handleImageInput($splFileInfo, [SplFileInfoImageDecoder::class]);
+    }
+
+    public function decodeFromStream(mixed $stream): ImageInterface
+    {
+        return $this->driver->handleImageInput($stream, [FilePointerImageDecoder::class]);
+    }
+
     /**
      * {@inheritdoc}
      *
-     * @see ImageManagerInterface::decodeUsing()
+     * @see ImageManagerInterface::decode()
      */
-    public function decodeUsing(mixed $input, string|array|DecoderInterface $decoders): ImageInterface
+    public function decode(mixed $input, string|array|DecoderInterface $decoders): ImageInterface
     {
         return $this->driver->handleImageInput($input, is_array($decoders) ? $decoders : [$decoders]);
     }

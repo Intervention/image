@@ -15,6 +15,11 @@ use Intervention\Image\Interfaces\SpecializedInterface;
 
 class WebpEncoder extends GenericWebpEncoder implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see EncoderInterface::encode()
+     */
     public function encode(ImageInterface $image): EncodedImageInterface
     {
         $format = 'WEBP';

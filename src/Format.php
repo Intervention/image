@@ -16,7 +16,6 @@ use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
 use Intervention\Image\Exceptions\NotSupportedException;
-use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\EncoderInterface;
 use ReflectionClass;
 use ReflectionParameter;
@@ -98,7 +97,7 @@ enum Format
     /**
      * Return the first found media type for the current format
      *
-     * @throws RuntimeException
+     * @throws NotSupportedException
      */
     public function mediaType(): MediaType
     {
@@ -107,7 +106,7 @@ enum Format
         $result = reset($types);
 
         if (!($result instanceof MediaType)) {
-            throw new RuntimeException('Unable to retrieve media type');
+            throw new NotSupportedException('Unable to retrieve media type');
         }
 
         return $result;
@@ -129,7 +128,7 @@ enum Format
     /**
      * Return the first found file extension for the current format
      *
-     * @throws RuntimeException
+     * @throws NotSupportedException
      */
     public function fileExtension(): FileExtension
     {
@@ -138,7 +137,7 @@ enum Format
         $result = reset($extensions);
 
         if (!($result instanceof FileExtension)) {
-            throw new RuntimeException('Unable to retrieve file extension');
+            throw new NotSupportedException('Unable to retrieve file extension');
         }
 
         return $result;

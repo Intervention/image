@@ -270,16 +270,6 @@ final class Image implements ImageInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageInterface::encode()
-     */
-    public function encode(EncoderInterface $encoder = new AutoEncoder()): EncodedImageInterface
-    {
-        return $this->driver->specializeEncoder($encoder)->encode($this);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
      * @see ImageInterface::save()
      */
     public function save(?string $path = null, mixed ...$options): ImageInterface
@@ -928,6 +918,18 @@ final class Image implements ImageInterface
     /**
      * {@inheritdoc}
      *
+     * @see ImageInterface::encode()
+     */
+    public function encode(string|EncoderInterface $encoder = new AutoEncoder()): EncodedImageInterface
+    {
+        return $this->driver->specializeEncoder(
+            is_string($encoder) ? new $encoder() : $encoder
+        )->encode($this);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see ImageInterface::encodeUsing()
      *
      * @throws InputException
@@ -947,10 +949,14 @@ final class Image implements ImageInterface
             'path' => $path,
         ], fn(mixed $value): bool => $value !== null);
 
+        if (count($param) === 0) {
+            throw new InputException('Method ImageInterface::encode() expects at least 1 argument, 0 given');
+        }
+
         if (count($param) !== 1) {
             throw new InputException(
-                'Method ImageInterface::encodeUsing() expects either ' .
-                    '$format, $mediaType, $extension or $path as an argument',
+                'Method ImageInterface::encode() expects either ' .
+                    '$encoder, $format, $mediaType, $extension or $path as an argument',
             );
         }
 

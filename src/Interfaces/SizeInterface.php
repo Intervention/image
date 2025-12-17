@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
-use Intervention\Image\Exceptions\GeometryException;
 use Intervention\Image\Alignment;
 
 interface SizeInterface
@@ -76,48 +75,33 @@ interface SizeInterface
 
     /**
      * @see ImageInterface::resize()
-     *
-     * @throws GeometryException
      */
     public function resize(?int $width = null, ?int $height = null): self;
 
     /**
      * @see ImageInterface::resizeDown()
-     *
-     * @throws GeometryException
      */
     public function resizeDown(?int $width = null, ?int $height = null): self;
 
     /**
      * @see ImageInterface::scale()
-     *
-     * @throws GeometryException
      */
     public function scale(?int $width = null, ?int $height = null): self;
 
     /**
      * @see ImageInterface::scaleDown()
-     *
-     * @throws GeometryException
      */
     public function scaleDown(?int $width = null, ?int $height = null): self;
 
     /**
      * @see ImageInterface::cover()
-     *
-     * @throws GeometryException
      */
     public function cover(int $width, int $height): self;
 
     /**
      * @see ImageInterface::contain()
-     *
-     * @throws GeometryException
      */
     public function contain(int $width, int $height): self;
 
-    /**
-     * @throws GeometryException
-     */
     public function containMax(int $width, int $height): self;
 }

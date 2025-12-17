@@ -10,7 +10,7 @@ use Intervention\Image\Colors\Hsl\Channels\Luminance;
 use Intervention\Image\Colors\Hsl\Channels\Saturation;
 use Intervention\Image\Colors\Hsl\Color;
 use Intervention\Image\Colors\Hsl\Colorspace;
-use Intervention\Image\Exceptions\ColorException;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[CoversClass(Color::class)]
@@ -55,7 +55,7 @@ final class ColorTest extends BaseTestCase
     public function testChannelNotFound(): void
     {
         $color = new Color(10, 20, 30);
-        $this->expectException(ColorException::class);
+        $this->expectException(NotSupportedException::class);
         $color->channel('none');
     }
 

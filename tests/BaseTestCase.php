@@ -12,14 +12,11 @@ use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Interfaces\ColorInterface;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
-use PHPUnit\Framework\ExpectationFailedException;
 
 abstract class BaseTestCase extends MockeryTestCase
 {
     /**
      * Assert that given color equals the given color channel values in the given optional tolerance
-     *
-     * @throws ExpectationFailedException
      */
     protected function assertColor(int $r, int $g, int $b, int $a, ColorInterface $color, int $tolerance = 0): void
     {

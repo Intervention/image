@@ -9,8 +9,8 @@ use ImagickException;
 use ImagickPixel;
 use Intervention\Image\Drivers\AbstractDriver;
 use Intervention\Image\Exceptions\DriverException;
-use Intervention\Image\Exceptions\DriverMissingDependencyException;
-use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Exceptions\MissingDependencyException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Format;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Image;
@@ -42,7 +42,7 @@ class Driver extends AbstractDriver
     public function checkHealth(): void
     {
         if (!extension_loaded('imagick') || !class_exists('Imagick')) {
-            throw new DriverMissingDependencyException(
+            throw new MissingDependencyException(
                 'Imagick PHP extension must be installed to use this driver'
             );
         }
@@ -115,7 +115,7 @@ class Driver extends AbstractDriver
     {
         try {
             $format = Format::create($identifier);
-        } catch (NotSupportedException) {
+        } catch (InvalidArgumentException) {
             return false;
         }
 
@@ -124,8 +124,6 @@ class Driver extends AbstractDriver
 
     /**
      * Return version of ImageMagick library
-     *
-     * @throws DriverException
      */
     public function version(): string
     {

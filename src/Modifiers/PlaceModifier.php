@@ -6,7 +6,6 @@ namespace Intervention\Image\Modifiers;
 
 use Intervention\Image\Alignment;
 use Intervention\Image\Drivers\SpecializableModifier;
-use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\PointInterface;
 
@@ -27,9 +26,6 @@ class PlaceModifier extends SpecializableModifier
         //
     }
 
-    /**
-     * @throws RuntimeException
-     */
     public function position(ImageInterface $image, ImageInterface $watermark): PointInterface
     {
         $image_size = $image->size()->movePivot(

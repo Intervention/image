@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Exceptions\FontException;
-use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Exceptions\FileNotFoundException;
+use Intervention\Image\Exceptions\ModifierException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\TextModifier as GenericTextModifier;
@@ -30,9 +30,10 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
         // build full path to font file to make sure to pass absolute path to imageftbbox()
         // because of issues with different GD version behaving differently when passing
         // relative paths to imagettftext()
+        // TODO: refactor
         $fontPath = $this->font->hasFilename() ? realpath($this->font->filename()) : false;
         if ($this->font->hasFilename() && $fontPath === false) {
-            throw new FontException('Font file ' . $this->font->filename() . ' does not exist.');
+            throw new FileNotFoundException('Font file ' . $this->font->filename() . ' does not exist.');
         }
 
         foreach ($image as $frame) {
@@ -40,7 +41,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
             if ($this->font->hasFilename()) {
                 foreach ($lines as $line) {
                     foreach ($this->strokeOffsets($this->font) as $offset) {
-                        imagettftext(
+                        $result = imagettftext(
                             image: $frame->native(),
                             size: $fontProcessor->nativeFontSize($this->font),
                             angle: $this->font->angle() * -1,
@@ -50,9 +51,13 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
                             font_filename: $fontPath,
                             text: (string) $line
                         );
+
+                        if ($result === false) {
+                            throw new ModifierException('Failed write text on image');
+                        }
                     }
 
-                    imagettftext(
+                    $result = imagettftext(
                         image: $frame->native(),
                         size: $fontProcessor->nativeFontSize($this->font),
                         angle: $this->font->angle() * -1,
@@ -62,11 +67,15 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
                         font_filename: $fontPath,
                         text: (string) $line
                     );
+
+                    if ($result === false) {
+                        throw new ModifierException('Failed to write text on image');
+                    }
                 }
             } else {
                 foreach ($lines as $line) {
                     foreach ($this->strokeOffsets($this->font) as $offset) {
-                        imagestring(
+                        $result = imagestring(
                             $frame->native(),
                             $this->gdFont(),
                             $line->position()->x() + $offset->x(),
@@ -74,9 +83,13 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
                             (string) $line,
                             $strokeColor
                         );
+
+                        if ($result === false) {
+                            throw new ModifierException('Failed to write text on image');
+                        }
                     }
 
-                    imagestring(
+                    $result = imagestring(
                         $frame->native(),
                         $this->gdFont(),
                         $line->position()->x(),
@@ -84,6 +97,10 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
                         (string) $line,
                         $textColor
                     );
+
+                    if ($result === false) {
+                        throw new ModifierException('Failed to write text on image');
+                    }
                 }
             }
         }
@@ -93,9 +110,6 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
 
     /**
      * Decode text color in GD compatible format
-     *
-     * @throws RuntimeException
-     * @throws ColorException
      */
     protected function gdTextColor(ImageInterface $image): int
     {
@@ -107,9 +121,6 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
 
     /**
      * Decode color for stroke (outline) effect in GD compatible format
-     *
-     * @throws RuntimeException
-     * @throws ColorException
      */
     protected function gdStrokeColor(ImageInterface $image): int
     {
@@ -120,7 +131,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
         $color = parent::strokeColor();
 
         if ($color->isTransparent()) {
-            throw new ColorException('The stroke color must be fully opaque');
+            throw new StateException('The stroke color must be fully opaque');
         }
 
         return $this

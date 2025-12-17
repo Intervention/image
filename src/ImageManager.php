@@ -27,8 +27,6 @@ final class ImageManager implements ImageManagerInterface
 
     /**
      * @link https://image.intervention.io/v3/basics/configuration-drivers#create-a-new-image-manager-instance
-     *
-     * @throws InvalidArgumentException
      */
     public function __construct(string|DriverInterface $driver, mixed ...$options)
     {
@@ -39,8 +37,6 @@ final class ImageManager implements ImageManagerInterface
      * Create image manager with given driver
      *
      * @link https://image.intervention.io/v3/basics/configuration-drivers#static-constructor
-     *
-     * @throws InvalidArgumentException
      */
     public static function withDriver(string|DriverInterface $driver, mixed ...$options): self
     {
@@ -51,8 +47,6 @@ final class ImageManager implements ImageManagerInterface
      * Create image manager with GD driver
      *
      * @link https://image.intervention.io/v3/basics/configuration-drivers#static-gd-driver-constructor
-     *
-     * @throws InvalidArgumentException
      */
     public static function gd(mixed ...$options): self
     {
@@ -63,8 +57,6 @@ final class ImageManager implements ImageManagerInterface
      * Create image manager with Imagick driver
      *
      * @link https://image.intervention.io/v3/basics/configuration-drivers#static-imagick-driver-constructor
-     *
-     * @throws InvalidArgumentException
      */
     public static function imagick(mixed ...$options): self
     {
@@ -85,8 +77,6 @@ final class ImageManager implements ImageManagerInterface
      * {@inheritdoc}
      *
      * @see ImageManagerInterface::decodeFrom()
-     *
-     * @throws InvalidArgumentException
      */
     public function decodeFrom(
         null|string|Stringable $path = null,
@@ -106,14 +96,12 @@ final class ImageManager implements ImageManagerInterface
         ], fn(mixed $value): bool => $value !== null);
 
         if (count($param) === 0) {
-            // NEWEX
             throw new InvalidArgumentException(
                 'Method ImageManagerInterface::decode() expects at least 1 argument, 0 given'
             );
         }
 
         if (count($param) !== 1) {
-            // NEWEX
             throw new InvalidArgumentException(
                 'Method ImageManagerInterface::decode() expects either ' .
                     '$path, $binary, $base64, $dataUri, $splFileInfo or $stream as an argument'
@@ -195,15 +183,12 @@ final class ImageManager implements ImageManagerInterface
 
     /**
      * Return driver object from given input which might be driver classname or instance of DriverInterface
-     *
-     * @throws InvalidArgumentException
      */
     private static function resolveDriver(string|DriverInterface $driver, mixed ...$options): DriverInterface
     {
         $driver = match (true) {
             $driver instanceof DriverInterface => $driver,
             class_exists($driver) => new $driver(),
-            // NEWEX
             default => throw new InvalidArgumentException(
                 'Unable to resolve driver. Argment must be either an instance of ' .
                     DriverInterface::class . '::class or a qualified namespaced name of the driver class',
@@ -211,7 +196,6 @@ final class ImageManager implements ImageManagerInterface
         };
 
         if (!$driver instanceof DriverInterface) {
-            // NEWEX
             throw new InvalidArgumentException(
                 'Unable to resolve driver. Driver object must implement ' . DriverInterface::class
             );

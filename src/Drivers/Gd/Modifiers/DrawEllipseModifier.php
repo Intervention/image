@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use RuntimeException;
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\DrawEllipseModifier as GenericDrawEllipseModifier;
@@ -15,18 +15,22 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
      * {@inheritdoc}
      *
      * @see ModifierInterface::apply()
-     *
-     * @throws RuntimeException
      */
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
             if ($this->drawable->hasBorder()) {
-                imagealphablending($frame->native(), true);
+                $result = imagealphablending($frame->native(), true);
+
+                if ($result === false) {
+                    throw new ModifierException(
+                        'Failed to apply ' . self::class . ', unable to set alpha blending',
+                    );
+                }
 
                 // slightly smaller ellipse to keep 1px bordered edges clean
                 if ($this->drawable->hasBackgroundColor()) {
-                    imagefilledellipse(
+                    $result = imagefilledellipse(
                         $frame->native(),
                         $this->drawable()->position()->x(),
                         $this->drawable->position()->y(),
@@ -36,16 +40,28 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
                             $this->backgroundColor()
                         )
                     );
+
+                    if ($result === false) {
+                        throw new ModifierException(
+                            'Failed to apply ' . self::class . ', unable to draw ellipse on image',
+                        );
+                    }
                 }
 
                 // gd's imageellipse ignores imagesetthickness
                 // so i use imagearc with 360 degrees instead.
-                imagesetthickness(
+                $result = imagesetthickness(
                     $frame->native(),
                     $this->drawable->borderSize(),
                 );
 
-                imagearc(
+                if ($result === false) {
+                    throw new ModifierException(
+                        'Failed to apply ' . self::class . ', unable to set line thickness',
+                    );
+                }
+
+                $result = imagearc(
                     $frame->native(),
                     $this->drawable()->position()->x(),
                     $this->drawable()->position()->y(),
@@ -57,10 +73,30 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
                         $this->borderColor()
                     )
                 );
+
+                if ($result === false) {
+                    throw new ModifierException(
+                        'Failed to apply ' . self::class . ', unable to draw ellipse on image',
+                    );
+                }
             } else {
-                imagealphablending($frame->native(), true);
-                imagesetthickness($frame->native(), 0);
-                imagefilledellipse(
+                $result = imagealphablending($frame->native(), true);
+
+                if ($result === false) {
+                    throw new ModifierException(
+                        'Failed to apply ' . self::class . ', unable to set alpha blending',
+                    );
+                }
+
+                $result = imagesetthickness($frame->native(), 0);
+
+                if ($result === false) {
+                    throw new ModifierException(
+                        'Failed to apply ' . self::class . ', unable to set line thickness',
+                    );
+                }
+
+                $result = imagefilledellipse(
                     $frame->native(),
                     $this->drawable()->position()->x(),
                     $this->drawable()->position()->y(),
@@ -70,6 +106,12 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
                         $this->backgroundColor()
                     )
                 );
+
+                if ($result === false) {
+                    throw new ModifierException(
+                        'Failed to apply ' . self::class . ', unable to draw ellipse on image',
+                    );
+                }
             }
         }
 

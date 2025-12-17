@@ -6,8 +6,8 @@ namespace Intervention\Image\Drivers\Gd\Analyzers;
 
 use GdImage;
 use Intervention\Image\Analyzers\PixelColorAnalyzer as GenericPixelColorAnalyzer;
-use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Exceptions\GeometryException;
+use Intervention\Image\Exceptions\AnalyzerException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -29,23 +29,21 @@ class PixelColorAnalyzer extends GenericPixelColorAnalyzer implements Specialize
         );
     }
 
-    /**
-     * @throws GeometryException
-     * @throws ColorException
-     */
     protected function colorAt(ColorspaceInterface $colorspace, GdImage $gd): ColorInterface
     {
         $index = @imagecolorat($gd, $this->x, $this->y);
 
-        if ($index === false) {
-            throw new ColorException('Unable to read color at pixel ' . $this->x . ', ' . $this->y);
+        if (!is_int($index)) {
+            throw new InvalidArgumentException(
+                'The specified position (' . $this->x . ', ' . $this->y . ') is not within the image area',
+            );
         }
 
         try {
             $index = imagecolorsforindex($gd, $index);
         } catch (ValueError) {
-            throw new GeometryException(
-                'The specified position is not in the valid image area'
+            throw new AnalyzerException(
+                'The specified index is outside of the range',
             );
         }
 

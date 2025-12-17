@@ -5,28 +5,25 @@ declare(strict_types=1);
 namespace Intervention\Image\Geometry\Tools;
 
 use Intervention\Image\Alignment;
-use Intervention\Image\Exceptions\GeometryException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\SizeInterface;
 
 class RectangleResizer
 {
-    /**
-     * @throws GeometryException
-     * @return void
-     */
     public function __construct(
         protected ?int $width = null,
         protected ?int $height = null,
     ) {
         if (is_int($width) && $width < 1) {
-            throw new GeometryException(
+            throw new InvalidArgumentException(
                 'The width you specify must be greater than or equal to 1'
             );
         }
 
         if (is_int($height) && $height < 1) {
-            throw new GeometryException(
+            throw new InvalidArgumentException(
                 'The height you specify must be greater than or equal to 1'
             );
         }
@@ -34,8 +31,6 @@ class RectangleResizer
 
     /**
      * Static factory method to create resizer with given target size
-     *
-     * @throws GeometryException
      */
     public static function to(mixed ...$arguments): self
     {
@@ -76,13 +71,11 @@ class RectangleResizer
 
     /**
      * Return target size object
-     *
-     * @throws GeometryException
      */
     protected function getTargetSize(): SizeInterface
     {
         if (!$this->hasTargetWidth() || !$this->hasTargetHeight()) {
-            throw new GeometryException('Target size needs width and height');
+            throw new StateException('Target size needs width and height');
         }
 
         return new Rectangle($this->width, $this->height);
@@ -255,7 +248,6 @@ class RectangleResizer
      * Scale given size to cover target size
      *
      * @param SizeInterface $size Size to be resized
-     * @throws GeometryException
      */
     public function cover(SizeInterface $size): SizeInterface
     {
@@ -278,7 +270,6 @@ class RectangleResizer
      * Scale given size to contain target size
      *
      * @param SizeInterface $size Size to be resized
-     * @throws GeometryException
      */
     public function contain(SizeInterface $size): SizeInterface
     {
@@ -301,7 +292,6 @@ class RectangleResizer
      * Scale given size to contain target size but prevent upsizing
      *
      * @param SizeInterface $size Size to be resized
-     * @throws GeometryException
      */
     public function containDown(SizeInterface $size): SizeInterface
     {

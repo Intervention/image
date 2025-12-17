@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Interfaces;
 
 use Intervention\Image\Config;
-use Intervention\Image\Exceptions\DecoderException;
-use Intervention\Image\Exceptions\DriverException;
-use Intervention\Image\Exceptions\DriverMissingDependencyException;
-use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Exceptions\MissingDependencyException;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Format;
 use Intervention\Image\MediaType;
@@ -52,15 +49,11 @@ interface DriverInterface
 
     /**
      * Create new image instance with the current driver in given dimensions
-     *
-     * @throws RuntimeException
      */
     public function createImage(int $width, int $height): ImageInterface;
 
     /**
      * Create new animated image
-     *
-     * @throws RuntimeException
      */
     public function createAnimation(callable $init): ImageInterface;
 
@@ -68,7 +61,6 @@ interface DriverInterface
      * Handle given input by decoding it to ImageInterface or ColorInterface
      *
      * @param null|array<string|DecoderInterface> $decoders
-     * @throws DecoderException
      */
     public function handleInput(mixed $input, ?array $decoders = null): ImageInterface|ColorInterface;
 
@@ -88,8 +80,6 @@ interface DriverInterface
      * - Driver-specific image (instance of GDImage or Imagick)
      *
      * @param null|array<string|DecoderInterface> $decoders
-     * @throws DecoderException
-     * @throws RuntimeException
      */
     public function handleImageInput(mixed $input, ?array $decoders = null): ImageInterface;
 
@@ -97,8 +87,6 @@ interface DriverInterface
      * Handle given image source by decoding it to ColorInterface
      *
      * @param array<string|DecoderInterface> $decoders
-     * @throws DecoderException
-     * @throws RuntimeException
      */
     public function handleColorInput(mixed $input, ?array $decoders = null): ColorInterface;
 
@@ -116,7 +104,7 @@ interface DriverInterface
      * Check whether all requirements for operating the driver are met and
      * throw exception if the check fails.
      *
-     * @throws DriverMissingDependencyException
+     * @throws MissingDependencyException
      */
     public function checkHealth(): void;
 
@@ -128,8 +116,6 @@ interface DriverInterface
 
     /**
      * Return the version number of the image driver currently in use.
-     *
-     * @throws DriverException
      */
     public function version(): string;
 }

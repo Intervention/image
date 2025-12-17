@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image;
 
 use Error;
-use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Throwable;
 
 enum Alignment: string
@@ -22,8 +22,6 @@ enum Alignment: string
 
     /**
      * Create position from given identifier
-     *
-     * @throws NotSupportedException
      */
     public static function create(string|self $identifier): self
     {
@@ -68,7 +66,9 @@ enum Alignment: string
                 'center-middle',
                 'middle-center' => self::CENTER,
 
-                default => throw new NotSupportedException('Unable to create alignment from "' . $identifier . '"'),
+                default => throw new InvalidArgumentException(
+                    'Unable to create alignment from "' . $identifier . '"',
+                ),
             };
         }
 

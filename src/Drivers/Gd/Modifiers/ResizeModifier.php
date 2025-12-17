@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\Gd\Cloner;
-use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Exceptions\GeometryException;
-use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -31,17 +29,13 @@ class ResizeModifier extends GenericResizeModifier implements SpecializedInterfa
         return $image;
     }
 
-    /**
-     * @throws ColorException
-     * @throws RuntimeException
-     */
     private function resizeFrame(FrameInterface $frame, SizeInterface $resizeTo): void
     {
         // create empty canvas in target size
         $modified = Cloner::cloneEmpty($frame->native(), $resizeTo);
 
         // copy content from resource
-        imagecopyresampled(
+        $result = imagecopyresampled(
             $modified,
             $frame->native(),
             $resizeTo->pivot()->x(),
@@ -54,15 +48,16 @@ class ResizeModifier extends GenericResizeModifier implements SpecializedInterfa
             $frame->size()->height()
         );
 
+        if ($result === false) {
+            throw new ModifierException('Failed to resize image');
+        }
+
         // set new content as resource
         $frame->setNative($modified);
     }
 
     /**
      * Return the size the modifier will resize to
-     *
-     * @throws RuntimeException
-     * @throws GeometryException
      */
     protected function getAdjustedSize(ImageInterface $image): SizeInterface
     {

@@ -14,8 +14,9 @@ use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\PngEncoder;
-use Intervention\Image\Exceptions\ColorException;
+use Intervention\Image\Exceptions\AnalyzerException;
 use Intervention\Image\Exceptions\EncoderException;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
@@ -193,11 +194,8 @@ final class ImageTest extends ImagickTestCase
     public function testSaveFallback(): void
     {
         $path = __DIR__ . '/tmp.unknown';
-        $result = $this->readTestImage('blue.gif')->save($path);
-        $this->assertInstanceOf(Image::class, $result);
-        $this->assertFileExists($path);
-        $this->assertMediaType('image/gif', file_get_contents($path));
-        unlink($path);
+        $this->expectException(NotSupportedException::class);
+        $this->readTestImage('blue.gif')->save($path);
     }
 
     public function testSaveUndeterminedPath(): void
@@ -250,7 +248,7 @@ final class ImageTest extends ImagickTestCase
 
     public function testProfile(): void
     {
-        $this->expectException(ColorException::class);
+        $this->expectException(AnalyzerException::class);
         $this->image->profile();
     }
 

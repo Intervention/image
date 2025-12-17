@@ -9,7 +9,7 @@ use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Channels\Alpha;
-use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -53,7 +53,7 @@ class Color extends AbstractColor
         $input = match (count($input)) {
             1 => $input[0],
             3, 4 => $input,
-            default => throw new DecoderException(
+            default => throw new InvalidArgumentException(
                 'Too few arguments to create color, ' . count($input) . ' passed and 1, 3, or 4 expected',
             ),
         };

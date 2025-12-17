@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Providers;
 
 use Generator;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 
 class DataUriDataProvider
 {
@@ -73,19 +74,24 @@ class DataUriDataProvider
     public static function invalidDataUris(): Generator
     {
         yield [
-            'foo'
+            'foo',
+            InvalidArgumentException::class,
         ];
         yield [
-            'bar'
+            'bar',
+            InvalidArgumentException::class,
         ];
         yield [
-            'data:'
+            'data:',
+            InvalidArgumentException::class,
         ];
         yield [
-            'VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIHRoZSBsYXp5IGRvZy4='
+            'VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIHRoZSBsYXp5IGRvZy4=',
+            InvalidArgumentException::class,
         ];
         yield [
-            'data:text;base64,SGVsbG8sIFdvcmxkIQ=='
+            'data;xt;4,SGVsbG8sIFdvcmxkIQ==',
+            InvalidArgumentException::class,
         ];
     }
 }

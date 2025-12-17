@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers;
 
-use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializableInterface;
@@ -21,6 +21,6 @@ abstract class SpecializableDecoder extends AbstractDecoder implements Specializ
      */
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
-        throw new DecoderException('Decoder must be specialized by the driver first');
+        throw new DriverException('Decoder must be specialized by the driver first');
     }
 }

@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors;
 
-use Intervention\Image\Exceptions\ColorException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
@@ -42,8 +43,8 @@ abstract class AbstractColor implements ColorInterface, Stringable
             fn(ColorChannelInterface $channel): bool => $channel::class === $classname,
         );
 
-        if (count($channels) == 0) {
-            throw new ColorException('Color channel ' . $classname . ' could not be found');
+        if (count($channels) === 0) {
+            throw new NotSupportedException('Color channel ' . $classname . ' could not be found');
         }
 
         return reset($channels);
@@ -79,15 +80,17 @@ abstract class AbstractColor implements ColorInterface, Stringable
      * {@inheritdoc}
      *
      * @see ColorInterface::convertTo()
-     *
-     * @throws ColorException
      */
     public function convertTo(string|ColorspaceInterface $colorspace): ColorInterface
     {
+        if (is_string($colorspace) && !class_exists($colorspace)) {
+            throw new InvalidArgumentException('Unknown color space (' . $colorspace . ') as conversion target');
+        }
+
         $colorspace = is_string($colorspace) ? new $colorspace() : $colorspace;
 
         if (!($colorspace instanceof ColorspaceInterface)) {
-            throw new ColorException('Unable to convert to given colorspace');
+            throw new InvalidArgumentException('Given color space must implement ' . ColorspaceInterface::class);
         }
 
         return $colorspace->importColor($this);

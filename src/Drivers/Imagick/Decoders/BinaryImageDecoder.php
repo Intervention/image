@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Decoders;
 
-use http\Exception\InvalidArgumentException;
 use Imagick;
 use ImagickException;
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Format;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -23,14 +23,12 @@ class BinaryImageDecoder extends NativeObjectDecoder
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_string($input) && !($input instanceof Stringable)) {
-            // NEWEX
             throw new InvalidArgumentException('Binary data must be either of type string or instance of Stringable');
         }
 
         $input = (string) $input;
 
         if (empty($input)) {
-            // NEWEX
             throw new InvalidArgumentException('Input does not contain binary image data');
         }
 
@@ -38,7 +36,6 @@ class BinaryImageDecoder extends NativeObjectDecoder
             $imagick = new Imagick();
             $imagick->readImageBlob($input);
         } catch (ImagickException) {
-            // NEWEX
             throw new DecoderException('Binary data contains unsupported image type');
         }
 

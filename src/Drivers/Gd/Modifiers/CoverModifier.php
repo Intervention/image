@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\Gd\Cloner;
-use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -32,17 +31,13 @@ class CoverModifier extends GenericCoverModifier implements SpecializedInterface
         return $image;
     }
 
-    /**
-     * @throws ColorException
-     * @throws RuntimeException
-     */
     protected function modifyFrame(FrameInterface $frame, SizeInterface $crop, SizeInterface $resize): void
     {
         // create new image
         $modified = Cloner::cloneEmpty($frame->native(), $resize);
 
         // copy content from resource
-        imagecopyresampled(
+        $result = imagecopyresampled(
             $modified,
             $frame->native(),
             0,
@@ -54,6 +49,10 @@ class CoverModifier extends GenericCoverModifier implements SpecializedInterface
             $crop->width(),
             $crop->height()
         );
+
+        if ($result === false) {
+            throw new ModifierException('Failed resize image');
+        }
 
         // set new content as resource
         $frame->setNative($modified);

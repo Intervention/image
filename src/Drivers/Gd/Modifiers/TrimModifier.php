@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Exceptions\AnimationException;
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\NotSupportedException;
-use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\TrimModifier as GenericTrimModifier;
+use ValueError;
 
 class TrimModifier extends GenericTrimModifier implements SpecializedInterface
 {
@@ -47,9 +47,6 @@ class TrimModifier extends GenericTrimModifier implements SpecializedInterface
 
     /**
      * Create an average color from the colors of the four corner points of the given image
-     *
-     * @throws RuntimeException
-     * @throws AnimationException
      */
     private function trimColor(ImageInterface $image): int
     {
@@ -70,7 +67,21 @@ class TrimModifier extends GenericTrimModifier implements SpecializedInterface
         // create an average color to be used in trim operation
         foreach ($cornerPoints as $pos) {
             $cornerColor = imagecolorat($image->core()->native(), $pos->x(), $pos->y());
-            $rgb = imagecolorsforindex($image->core()->native(), $cornerColor);
+
+            if ($cornerColor === false) {
+                throw new ModifierException(
+                    'Unable to apply ' . self::class . ', failed to determine average color for process',
+                );
+            }
+
+            try {
+                $rgb = imagecolorsforindex($image->core()->native(), $cornerColor);
+            } catch (ValueError) {
+                throw new ModifierException(
+                    'Unable to apply ' . self::class . ', failed to read trim color from index',
+                );
+            }
+
             $red += round(round(($rgb['red'] / 51)) * 51);
             $green += round(round(($rgb['green'] / 51)) * 51);
             $blue += round(round(($rgb['blue'] / 51)) * 51);
@@ -80,6 +91,14 @@ class TrimModifier extends GenericTrimModifier implements SpecializedInterface
         $green = (int) round($green / 4);
         $blue = (int) round($blue / 4);
 
-        return imagecolorallocate($image->core()->native(), $red, $green, $blue);
+        $color = imagecolorallocate($image->core()->native(), $red, $green, $blue);
+
+        if ($cornerColor === false) {
+            throw new ModifierException(
+                'Unable to apply ' . self::class . ', failed to allocate trim color',
+            );
+        }
+
+        return $color;
     }
 }

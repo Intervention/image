@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
-use Intervention\Image\Exceptions\AnimationException;
-
 interface CoreInterface extends CollectionInterface
 {
     /**

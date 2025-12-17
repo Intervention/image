@@ -19,14 +19,12 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_string($input)) {
-            // NEWEX
             throw new InvalidArgumentException('Input must be of type string');
         }
 
         $pattern = '/^s?rgba?\((?P<r>[0-9\.]+%?), ?(?P<g>[0-9\.]+%?), ?(?P<b>[0-9\.]+%?)' .
             '(?:, ?(?P<a>(?:1)|(?:1\.0*)|(?:0)|(?:0?\.\d+%?)|(?:\d{1,3}%)))?\)$/i';
         if (preg_match($pattern, $input, $matches) != 1) {
-            // NEWEX
             throw new InvalidArgumentException('Input must be rgb() color scheme');
         }
 

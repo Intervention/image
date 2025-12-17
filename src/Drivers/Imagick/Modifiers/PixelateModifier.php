@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
+use ImagickException;
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
@@ -24,11 +26,25 @@ class PixelateModifier extends GenericPixelateModifier implements SpecializedInt
     {
         $size = $frame->size();
 
-        $frame->native()->scaleImage(
-            (int) round(max(1, $size->width() / $this->size)),
-            (int) round(max(1, $size->height() / $this->size))
-        );
+        try {
+            $result = $frame->native()->scaleImage(
+                (int) round(max(1, $size->width() / $this->size)),
+                (int) round(max(1, $size->height() / $this->size))
+            ) && $frame->native()->scaleImage(
+                $size->width(),
+                $size->height()
+            );
 
-        $frame->native()->scaleImage($size->width(), $size->height());
+            if ($result === false) {
+                throw new ModifierException(
+                    'Failed to apply ' . self::class . ', unable to pixelate image',
+                );
+            }
+        } catch (ImagickException $e) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to pixelate image',
+                previous: $e
+            );
+        }
     }
 }

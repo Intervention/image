@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use RuntimeException;
-use Intervention\Image\Exceptions\GeometryException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\DrawBezierModifier as GenericDrawBezierModifier;
@@ -16,22 +16,22 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
      * {@inheritdoc}
      *
      * @see ModifierInterface::apply()
-     *
-     * @throws RuntimeException
-     * @throws GeometryException
      */
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
             if ($this->drawable->count() !== 3 && $this->drawable->count() !== 4) {
-                throw new GeometryException('You must specify either 3 or 4 points to create a bezier curve');
+                throw new InvalidArgumentException('You must specify either 3 or 4 points to create a bezier curve');
             }
 
             [$polygon, $polygon_border_segments] = $this->calculateBezierPoints();
 
             if ($this->drawable->hasBackgroundColor() || $this->drawable->hasBorder()) {
-                imagealphablending($frame->native(), true);
-                imageantialias($frame->native(), true);
+                $result = imagealphablending($frame->native(), true);
+                $this->abortUnless($result, 'Unable to set alpha blending');
+
+                $result = imageantialias($frame->native(), true);
+                $this->abortUnless($result, 'Unable to set image antialias option');
             }
 
             if ($this->drawable->hasBackgroundColor()) {
@@ -39,12 +39,16 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
                     $this->backgroundColor()
                 );
 
-                imagesetthickness($frame->native(), 0);
-                imagefilledpolygon(
+                $result = imagesetthickness($frame->native(), 0);
+                $this->abortUnless($result, 'Unable to set line thickness');
+
+                $result = imagefilledpolygon(
                     $frame->native(),
                     $polygon,
                     $background_color
                 );
+
+                $this->abortUnless($result, 'Unable to draw line on image');
             }
 
             if ($this->drawable->hasBorder() && $this->drawable->borderSize() > 0) {
@@ -53,12 +57,13 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
                 );
 
                 if ($this->drawable->borderSize() === 1) {
-                    imagesetthickness($frame->native(), $this->drawable->borderSize());
+                    $result = imagesetthickness($frame->native(), $this->drawable->borderSize());
+                    $this->abortUnless($result, 'Unable to set line thickness');
 
                     $count = count($polygon);
                     for ($i = 0; $i < $count; $i += 2) {
                         if (array_key_exists($i + 2, $polygon) && array_key_exists($i + 3, $polygon)) {
-                            imageline(
+                            $result = imageline(
                                 $frame->native(),
                                 $polygon[$i],
                                 $polygon[$i + 1],
@@ -66,17 +71,21 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
                                 $polygon[$i + 3],
                                 $border_color
                             );
+
+                            $this->abortUnless($result, 'Unable to draw line on image');
                         }
                     }
                 } else {
                     $polygon_border_segments_total = count($polygon_border_segments);
 
                     for ($i = 0; $i < $polygon_border_segments_total; $i += 1) {
-                        imagefilledpolygon(
+                        $result = imagefilledpolygon(
                             $frame->native(),
                             $polygon_border_segments[$i],
                             $border_color
                         );
+
+                        $this->abortUnless($result, 'Unable to draw line on image');
                     }
                 }
             }
@@ -145,13 +154,12 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
     /**
      * Calculate the points needed to draw a quadratic or cubic bezier with optional border/stroke
      *
-     * @throws GeometryException
      * @return array{0: array<mixed>, 1: array<mixed>}
      */
     private function calculateBezierPoints(): array
     {
         if ($this->drawable->count() !== 3 && $this->drawable->count() !== 4) {
-            throw new GeometryException('You must specify either 3 or 4 points to create a bezier curve');
+            throw new InvalidArgumentException('You must specify either 3 or 4 points to create a bezier curve');
         }
 
         $polygon = [];
@@ -230,5 +238,17 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
         }
 
         return [$polygon, $polygon_border_segments];
+    }
+
+    /**
+     * Throw ModifierException with given message if result is 'false'
+     */
+    private function abortUnless(mixed $result, string $message): void
+    {
+        if ($result === false) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', ' . $message
+            );
+        }
     }
 }

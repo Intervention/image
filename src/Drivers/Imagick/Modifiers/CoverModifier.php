@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
+use ImagickException;
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\CoverModifier as GenericCoverModifier;
@@ -16,19 +18,26 @@ class CoverModifier extends GenericCoverModifier implements SpecializedInterface
         $resize = $this->getResizeSize($crop);
 
         foreach ($image as $frame) {
-            $frame->native()->cropImage(
-                $crop->width(),
-                $crop->height(),
-                $crop->pivot()->x(),
-                $crop->pivot()->y()
-            );
+            try {
+                $frame->native()->cropImage(
+                    $crop->width(),
+                    $crop->height(),
+                    $crop->pivot()->x(),
+                    $crop->pivot()->y()
+                );
 
-            $frame->native()->scaleImage(
-                $resize->width(),
-                $resize->height()
-            );
+                $frame->native()->scaleImage(
+                    $resize->width(),
+                    $resize->height()
+                );
 
-            $frame->native()->setImagePage(0, 0, 0, 0);
+                $frame->native()->setImagePage(0, 0, 0, 0);
+            } catch (ImagickException $e) {
+                throw new ModifierException(
+                    'Failed to apply ' . self::class . ', unable to resize image',
+                    previous: $e
+                );
+            }
         }
 
         return $image;

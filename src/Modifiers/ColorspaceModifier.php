@@ -17,9 +17,6 @@ class ColorspaceModifier extends SpecializableModifier
         //
     }
 
-    /**
-     * @throws NotSupportedException
-     */
     public function targetColorspace(): ColorspaceInterface
     {
         if (is_object($this->target)) {

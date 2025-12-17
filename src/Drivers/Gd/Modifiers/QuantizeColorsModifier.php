@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\Gd\Cloner;
-use Intervention\Image\Exceptions\InputException;
-use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\QuantizeColorsModifier as GenericQuantizeColorsModifier;
@@ -17,13 +17,11 @@ class QuantizeColorsModifier extends GenericQuantizeColorsModifier implements Sp
      * {@inheritdoc}
      *
      * @see ModifierInterface::apply()
-     *
-     * @throws RuntimeException
      */
     public function apply(ImageInterface $image): ImageInterface
     {
         if ($this->limit <= 0) {
-            throw new InputException('Quantization limit must be greater than 0');
+            throw new InvalidArgumentException('Quantization limit must be greater than 0');
         }
 
         // no color reduction if the limit is higher than the colors in the img
@@ -47,17 +45,33 @@ class QuantizeColorsModifier extends GenericQuantizeColorsModifier implements Sp
             $reduced = Cloner::cloneEmpty($frame->native(), background: $backgroundColor);
 
             // fill with background
-            imagefill($reduced, 0, 0, $nativeBackgroundColor);
+            $result = imagefill($reduced, 0, 0, $nativeBackgroundColor);
+
+            if ($result === false) {
+                throw new ModifierException('Failed to complete quantization process');
+            }
 
             // set transparency
-            imagecolortransparent($reduced, $nativeBackgroundColor);
+            $result = imagecolortransparent($reduced, $nativeBackgroundColor);
+
+            if ($result === false) {
+                throw new ModifierException('Failed to complete quantization process');
+            }
 
             // copy original image (colors are limited automatically in the copy process)
-            imagecopy($reduced, $frame->native(), 0, 0, 0, 0, $width, $height);
+            $result = imagecopy($reduced, $frame->native(), 0, 0, 0, 0, $width, $height);
+
+            if ($result === false) {
+                throw new ModifierException('Failed to complete quantization process');
+            }
 
             // gd library does not support color quantization directly therefore the
             // colors are decrease by transforming the image to a palette version
-            imagetruecolortopalette($reduced, true, $this->limit);
+            $result = imagetruecolortopalette($reduced, true, $this->limit);
+
+            if ($result === false) {
+                throw new ModifierException('Failed to complete quantization process');
+            }
 
             $frame->setNative($reduced);
         }

@@ -8,8 +8,7 @@ use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Drivers\Gd\Cloner;
-use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -37,10 +36,6 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
         return $image;
     }
 
-    /**
-     * @throws ColorException
-     * @throws RuntimeException
-     */
     protected function modify(
         FrameInterface $frame,
         SizeInterface $crop,
@@ -59,9 +54,30 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
             $backgroundColor->channel(Blue::class)->value(),
             127,
         );
-        imagealphablending($modified, false); // do not blend / just overwrite
-        imagecolortransparent($modified, $transparent);
-        imagefilledrectangle(
+
+        if ($transparent === false) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable allocate transparent color',
+            );
+        }
+
+        $result = imagealphablending($modified, false); // do not blend / just overwrite
+
+        if ($result === false) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to set alpha blending',
+            );
+        }
+
+        $result = imagecolortransparent($modified, $transparent);
+
+        if ($result === false) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to define transparent color',
+            );
+        }
+
+        $result = imagefilledrectangle(
             $modified,
             $crop->pivot()->x(),
             $crop->pivot()->y(),
@@ -70,9 +86,22 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
             $transparent
         );
 
+        if ($result === false) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable fill image with rectangle',
+            );
+        }
+
         // copy image from original with background alpha
-        imagealphablending($modified, true);
-        imagecopyresampled(
+        $result = imagealphablending($modified, true);
+
+        if ($result === false) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to set alpha blending',
+            );
+        }
+
+        $result = imagecopyresampled(
             $modified,
             $frame->native(),
             $crop->pivot()->x(),
@@ -84,6 +113,12 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
             $frame->size()->width(),
             $frame->size()->height()
         );
+
+        if ($result === false) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to resize image',
+            );
+        }
 
         // set new content as resource
         $frame->setNative($modified);

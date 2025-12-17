@@ -53,7 +53,6 @@ trait CanBeDriverSpecialized
     public function setDriver(DriverInterface $driver): SpecializableInterface
     {
         if (!$this->belongsToDriver($driver)) {
-            // NEWEX
             throw new NotSupportedException(
                 "Class '" . $this::class . "' can not be used with " . $driver->id() . " driver"
             );

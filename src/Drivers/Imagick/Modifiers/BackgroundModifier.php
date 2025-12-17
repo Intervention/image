@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
+use ImagickException;
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\BackgroundModifier as GenericBackgroundModifier;
@@ -22,9 +24,16 @@ class BackgroundModifier extends GenericBackgroundModifier implements Specialize
 
         // merge transparent areas with the background color
         foreach ($image as $frame) {
-            $frame->native()->setImageBackgroundColor($pixel);
-            $frame->native()->setImageAlphaChannel(Imagick::ALPHACHANNEL_REMOVE);
-            $frame->native()->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+            try {
+                $frame->native()->setImageBackgroundColor($pixel);
+                $frame->native()->setImageAlphaChannel(Imagick::ALPHACHANNEL_REMOVE);
+                $frame->native()->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+            } catch (ImagickException $e) {
+                throw new ModifierException(
+                    'Failed to apply ' . self::class . ', unable to set image background color',
+                    previous: $e
+                );
+            }
         }
 
         return $image;

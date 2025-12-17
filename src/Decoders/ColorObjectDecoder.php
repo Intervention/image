@@ -19,7 +19,6 @@ class ColorObjectDecoder extends AbstractDecoder
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_a($input, ColorInterface::class)) {
-            // NEWEX
             throw new InvalidArgumentException('Input must be of type ' . ColorInterface::class);
         }
 

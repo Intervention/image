@@ -6,7 +6,6 @@ namespace Intervention\Image\Modifiers;
 
 use Intervention\Image\Alignment;
 use Intervention\Image\Drivers\SpecializableModifier;
-use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -30,9 +29,6 @@ class CropModifier extends SpecializableModifier
         //
     }
 
-    /**
-     * @throws RuntimeException
-     */
     public function crop(ImageInterface $image): SizeInterface
     {
         $crop = new Rectangle($this->width, $this->height);
@@ -46,8 +42,6 @@ class CropModifier extends SpecializableModifier
 
     /**
      * Return color to fill the newly created areas after rotation
-     *
-     * @throws RuntimeException
      */
     protected function backgroundColor(): ColorInterface
     {

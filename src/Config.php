@@ -24,14 +24,11 @@ class Config
 
     /**
      * Set values of given config options
-     *
-     * @throws InvalidArgumentException
      */
     public function setOptions(mixed ...$options): self
     {
         foreach ($this->prepareOptions($options) as $name => $value) {
             if (!property_exists($this, $name)) {
-                // NEWEX
                 throw new InvalidArgumentException('Property ' . $name . ' does not exists for ' . $this::class);
             }
 

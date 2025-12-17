@@ -6,7 +6,6 @@ namespace Intervention\Image\Typography;
 
 use Closure;
 use Intervention\Image\Alignment;
-use Intervention\Image\Exceptions\FontException;
 use Intervention\Image\Interfaces\FontInterface;
 
 class FontFactory
@@ -17,7 +16,6 @@ class FontFactory
      * Create new instance
      *
      * @param Closure|FontInterface $init
-     * @throws FontException
      * @return void
      */
     public function __construct(callable|Closure|FontInterface $init)
@@ -51,8 +49,6 @@ class FontFactory
 
     /**
      * Set outline stroke effect for the font to be built
-     *
-     * @throws FontException
      */
     public function stroke(mixed $color, int $width = 1): self
     {

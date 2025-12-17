@@ -15,6 +15,7 @@ use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\EncoderInterface;
 use ReflectionClass;
@@ -37,7 +38,6 @@ enum Format
      * Create format from given identifier
      *
      * @param string|Format|MediaType|FileExtension $identifier
-     * @throws NotSupportedException
      */
     public static function create(string|self|MediaType|FileExtension $identifier): self
     {
@@ -59,8 +59,7 @@ enum Format
             try {
                 $format = FileExtension::from(strtolower($identifier))->format();
             } catch (Error) {
-                // NEWEX
-                throw new NotSupportedException('Unable to create format from "' . $identifier . '"');
+                throw new InvalidArgumentException('Unable to create format from "' . $identifier . '"');
             }
         }
 
@@ -77,7 +76,7 @@ enum Format
     {
         try {
             return self::create($identifier);
-        } catch (NotSupportedException) {
+        } catch (InvalidArgumentException) {
             return null;
         }
     }
@@ -97,8 +96,6 @@ enum Format
 
     /**
      * Return the first found media type for the current format
-     *
-     * @throws NotSupportedException
      */
     public function mediaType(): MediaType
     {
@@ -107,7 +104,6 @@ enum Format
         $result = reset($types);
 
         if (!($result instanceof MediaType)) {
-            // NEWEX
             throw new NotSupportedException('Unable to retrieve media type from format');
         }
 
@@ -129,8 +125,6 @@ enum Format
 
     /**
      * Return the first found file extension for the current format
-     *
-     * @throws NotSupportedException
      */
     public function fileExtension(): FileExtension
     {
@@ -139,7 +133,6 @@ enum Format
         $result = reset($extensions);
 
         if (!($result instanceof FileExtension)) {
-            // NEWEX
             throw new NotSupportedException('Unable to retrieve file extension for format');
         }
 

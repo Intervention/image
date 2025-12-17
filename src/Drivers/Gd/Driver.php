@@ -6,9 +6,8 @@ namespace Intervention\Image\Drivers\Gd;
 
 use GdImage;
 use Intervention\Image\Drivers\AbstractDriver;
-use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\DriverException;
-use Intervention\Image\Exceptions\DriverMissingDependencyException;
+use Intervention\Image\Exceptions\MissingDependencyException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Format;
 use Intervention\Image\FileExtension;
@@ -41,8 +40,7 @@ class Driver extends AbstractDriver
     public function checkHealth(): void
     {
         if (!extension_loaded('gd') || !function_exists('gd_info')) {
-            // NEWEX
-            throw new DriverMissingDependencyException(
+            throw new MissingDependencyException(
                 'GD PHP extension must be installed to use this driver'
             );
         }
@@ -52,45 +50,36 @@ class Driver extends AbstractDriver
      * {@inheritdoc}
      *
      * @see DriverInterface::createImage()
-     *
-     * @throws InvalidArgumentException
-     * @throws DriverException
      */
     public function createImage(int $width, int $height): ImageInterface
     {
         if ($width < 1 || $height < 1) {
-            // NEWEX
             throw new InvalidArgumentException('Invalid image size. Only use int<1, max>');
         }
 
         // build new transparent GDImage
         $data = imagecreatetruecolor($width, $height);
         if (!($data instanceof GDImage)) {
-            // NEWEX
             throw new DriverException('Failed to create new image');
         }
 
         $alpha = imagesavealpha($data, true);
         if ($alpha === false) {
-            // NEWEX
             throw new DriverException('Failed to flag image to save alpha channel');
         }
 
         $background = imagecolorallocatealpha($data, 255, 255, 255, 127);
         if ($background === false) {
-            // NEWEX
             throw new DriverException('Failed to create image background color');
         }
 
         $alphablending = imagealphablending($data, false);
         if ($alphablending === false) {
-            // NEWEX
             throw new DriverException('Failed to set image alpha blending');
         }
 
         $fill = imagefill($data, 0, 0, $background);
         if ($fill === false) {
-            // NEWEX
             throw new DriverException('Failed to fill image initially with transparency');
         }
 
@@ -98,7 +87,6 @@ class Driver extends AbstractDriver
 
         $resolution = imageresolution($data, 72, 72);
         if ($resolution === false) {
-            // NEWEX
             throw new DriverException('Failed to set initial image resolution');
         }
 

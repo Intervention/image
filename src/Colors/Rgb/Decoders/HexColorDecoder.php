@@ -19,20 +19,17 @@ class HexColorDecoder extends AbstractDecoder implements DecoderInterface
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_string($input)) {
-            // NEWEX
             throw new InvalidArgumentException('Input must be of type string');
         }
 
         $pattern = '/^#?(?P<hex>[a-f\d]{3}(?:[a-f\d]?|(?:[a-f\d]{3}(?:[a-f\d]{2})?)?)\b)$/i';
         if (preg_match($pattern, $input, $matches) != 1) {
-            // NEWEX
             throw new InvalidArgumentException('Input must be valid hex color');
         }
 
         $values = match (strlen($matches['hex'])) {
             3, 4 => str_split($matches['hex']),
             6, 8 => str_split($matches['hex'], 2),
-            // NEWEX
             default => throw new InvalidArgumentException('Hex color has an incorrect length'),
         };
 
@@ -40,7 +37,6 @@ class HexColorDecoder extends AbstractDecoder implements DecoderInterface
             return match (strlen($value)) {
                 1 => (int) hexdec($value . $value),
                 2 => (int) hexdec($value),
-                // NEWEX
                 default => throw new InvalidArgumentException('Input must be valid hex color'),
             };
         }, $values);

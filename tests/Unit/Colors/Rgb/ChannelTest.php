@@ -10,6 +10,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Colors\Rgb\Channels\Red as Channel;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Exceptions\ColorException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[CoversClass(Red::class)]
@@ -28,7 +29,7 @@ final class ChannelTest extends BaseTestCase
         $channel = new Channel(normalized: 0);
         $this->assertInstanceOf(Channel::class, $channel);
 
-        $this->expectException(ColorException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Channel();
 
         $this->expectException(ColorException::class);
@@ -37,7 +38,7 @@ final class ChannelTest extends BaseTestCase
 
     public function testConstructorFail(): void
     {
-        $this->expectException(ColorException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Channel(300);
     }
 
@@ -72,10 +73,10 @@ final class ChannelTest extends BaseTestCase
 
     public function testValidate(): void
     {
-        $this->expectException(ColorException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Channel(256);
 
-        $this->expectException(ColorException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Channel(-1);
     }
 }

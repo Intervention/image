@@ -19,13 +19,11 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_string($input)) {
-            // NEWEX
             throw new InvalidArgumentException('Input must be of type string');
         }
 
         $pattern = '/^cmyk\((?P<c>[0-9\.]+%?), ?(?P<m>[0-9\.]+%?), ?(?P<y>[0-9\.]+%?), ?(?P<k>[0-9\.]+%?)\)$/i';
         if (preg_match($pattern, $input, $matches) != 1) {
-            // NEWEX
             throw new InvalidArgumentException('Input must be valid cmyk() color scheme');
         }
 

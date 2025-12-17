@@ -19,13 +19,11 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_string($input)) {
-            // NEWEX
             throw new InvalidArgumentException('Input must be of type string');
         }
 
         $pattern = '/^hs(v|b)\((?P<h>[0-9\.]+), ?(?P<s>[0-9\.]+%?), ?(?P<v>[0-9\.]+%?)\)$/i';
         if (preg_match($pattern, $input, $matches) != 1) {
-            // NEWEX
             throw new InvalidArgumentException('Input must be valid hsv() or hsb() color scheme');
         }
 

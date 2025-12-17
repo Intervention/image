@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Analyzers;
 
+use ImagickException;
 use Intervention\Image\Analyzers\WidthAnalyzer as GenericWidthAnalyzer;
+use Intervention\Image\Exceptions\AnalyzerException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 
@@ -12,6 +14,10 @@ class WidthAnalyzer extends GenericWidthAnalyzer implements SpecializedInterface
 {
     public function analyze(ImageInterface $image): mixed
     {
-        return $image->core()->native()->getImageWidth();
+        try {
+            return $image->core()->native()->getImageWidth();
+        } catch (ImagickException $e) {
+            throw new AnalyzerException('Failed to read image width', previous: $e);
+        }
     }
 }

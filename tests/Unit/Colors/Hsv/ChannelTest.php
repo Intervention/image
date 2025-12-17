@@ -9,6 +9,7 @@ use Intervention\Image\Colors\Hsv\Channels\Hue;
 use Intervention\Image\Colors\Hsv\Channels\Saturation;
 use Intervention\Image\Colors\Hsv\Channels\Value;
 use Intervention\Image\Exceptions\ColorException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[CoversClass(Hue::class)]
@@ -27,7 +28,7 @@ final class ChannelTest extends BaseTestCase
         $channel = new Hue(normalized: 0);
         $this->assertInstanceOf(Hue::class, $channel);
 
-        $this->expectException(ColorException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Hue();
 
         $this->expectException(ColorException::class);
@@ -36,7 +37,7 @@ final class ChannelTest extends BaseTestCase
 
     public function testConstructorFail(): void
     {
-        $this->expectException(ColorException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Hue(400);
     }
 
@@ -73,22 +74,22 @@ final class ChannelTest extends BaseTestCase
 
     public function testValidate(): void
     {
-        $this->expectException(ColorException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Hue(361);
 
-        $this->expectException(ColorException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Hue(-1);
 
-        $this->expectException(ColorException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Saturation(101);
 
-        $this->expectException(ColorException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Saturation(-1);
 
-        $this->expectException(ColorException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Value(101);
 
-        $this->expectException(ColorException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Value(-1);
     }
 }

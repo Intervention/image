@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
-use Intervention\Image\Exceptions\ColorException;
 use Stringable;
 
 interface ColorChannelInterface extends Stringable
 {
     /**
      * Create new instance by either value or normalized value
-     *
-     * @throws ColorException
      */
     public function __construct(?int $value = null, ?float $normalized = null);
 
@@ -25,14 +22,6 @@ interface ColorChannelInterface extends Stringable
      * Return the channels value normalized to a float value form 0 to 1 by its range
      */
     public function normalize(int $precision = 32): float;
-
-    /**
-     * Throw exception if the given value is not applicable for channel
-     * otherwise the value is returned unchanged.
-     *
-     * @throws ColorException
-     */
-    public function validate(mixed $value): mixed;
 
     /**
      * Return the the minimal possible value of the color channel

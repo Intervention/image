@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick;
 
 use Imagick;
-use ImagickException;
 use ImagickPixel;
 use Intervention\Image\Drivers\AbstractFrame;
 use Intervention\Image\Exceptions\InvalidArgumentException;
@@ -21,7 +20,6 @@ class Frame extends AbstractFrame implements FrameInterface
     /**
      * Create new frame object
      *
-     * @throws ImagickException
      * @return void
      */
     public function __construct(protected Imagick $native)
@@ -116,7 +114,6 @@ class Frame extends AbstractFrame implements FrameInterface
     public function setDispose(int $dispose): FrameInterface
     {
         if (!in_array($dispose, [0, 1, 2, 3])) {
-            // NEWEX
             throw new InvalidArgumentException('Value for argument $dispose must be 0, 1, 2 or 3');
         }
 

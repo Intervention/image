@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit\Typography;
 
 use Intervention\Image\Alignment;
-use Intervention\Image\Exceptions\FontException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Resource;
 use Intervention\Image\Typography\Font;
@@ -118,7 +118,7 @@ final class FontTest extends BaseTestCase
     public function testSetStrokeWidthOutOfRange(): void
     {
         $font = new Font();
-        $this->expectException(FontException::class);
+        $this->expectException(InvalidArgumentException::class);
         $font->setStrokeWidth(11);
     }
 }

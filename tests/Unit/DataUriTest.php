@@ -6,7 +6,6 @@ namespace Intervention\Image\Tests\Unit;
 
 use Generator;
 use Intervention\Image\DataUri;
-use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\MediaType;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Providers\DataUriDataProvider;
@@ -135,9 +134,9 @@ class DataUriTest extends BaseTestCase
     }
 
     #[DataProviderExternal(DataUriDataProvider::class, 'invalidDataUris')]
-    public function testDecodeInvalid(string $input): void
+    public function testDecodeInvalid(string $input, string $exception): void
     {
-        $this->expectException(DecoderException::class);
+        $this->expectException($exception);
         DataUri::decode($input);
     }
 }

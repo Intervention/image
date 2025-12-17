@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers;
 
 use Intervention\Image\Alignment;
-use Intervention\Image\Exceptions\FontException;
-use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\FontInterface;
@@ -21,8 +19,6 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
      * {@inheritdoc}
      *
      * @see FontProcessorInterface::textBlock()
-     *
-     * @throws RuntimeException
      */
     public function textBlock(string $text, FontInterface $font, PointInterface $position): TextBlock
     {
@@ -94,8 +90,6 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
 
     /**
      * Reformat a text block by wrapping each line before the given maximum width
-     *
-     * @throws FontException
      */
     protected function wrapTextBlock(TextBlock $block, FontInterface $font): TextBlock
     {
@@ -114,7 +108,6 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
      * The output will be an array of formatted lines that are all within the
      * maximum width.
      *
-     * @throws FontException
      * @return array<Line>
      */
     protected function wrapLine(Line $line, FontInterface $font): array
@@ -152,9 +145,6 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
 
     /**
      * Build pivot point of textblock according to the font settings and based on given position
-     *
-     * @throws FontException
-     * @throws RuntimeException
      */
     protected function buildPivot(TextBlock $block, FontInterface $font, PointInterface $position): PointInterface
     {

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
+use ImagickException;
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\RotateModifier as GenericRotateModifier;
@@ -19,10 +21,23 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
             );
 
         foreach ($image as $frame) {
-            $frame->native()->rotateImage(
-                $background,
-                $this->rotationAngle() * -1
-            );
+            try {
+                $result = $frame->native()->rotateImage(
+                    $background,
+                    $this->rotationAngle() * -1
+                );
+
+                if ($result === false) {
+                    throw new ModifierException(
+                        'Failed to apply ' . self::class . ', unable to rotate image',
+                    );
+                }
+            } catch (ImagickException $e) {
+                throw new ModifierException(
+                    'Failed to apply ' . self::class . ', unable to rotate image',
+                    previous: $e
+                );
+            }
         }
 
         return $image;

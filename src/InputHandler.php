@@ -24,6 +24,7 @@ use Intervention\Image\Decoders\SplFileInfoImageDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\LogicException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -119,8 +120,6 @@ class InputHandler implements InputHandlerInterface
      * {@inheritdoc}
      *
      * @see InputHandlerInterface::handle()
-     *
-     * @throws DriverException|DecoderException|NotSupportedException|RuntimeException
      */
     public function handle(mixed $input): ImageInterface|ColorInterface
     {
@@ -128,13 +127,17 @@ class InputHandler implements InputHandlerInterface
             try {
                 // decode with driver specialized decoder
                 return $this->resolve($decoder)->decode($input);
-            } catch (InvalidArgumentException | DecoderException $e) {
+            } catch (RuntimeException | LogicException) {
                 // try next decoder
             }
         }
 
-        if (isset($e)) {
-            throw new ($e::class)($e->getMessage());
+        if ($input === null) {
+            throw new DecoderException('Unable to decode null');
+        }
+
+        if ($input === '') {
+            throw new DecoderException('Unable to decode empty string');
         }
 
         throw new DecoderException('Unable to decode input');
@@ -142,8 +145,6 @@ class InputHandler implements InputHandlerInterface
 
     /**
      * Resolve the given classname to an decoder object
-     *
-     * @throws DriverException
      */
     private function resolve(string|DecoderInterface $decoder): DecoderInterface
     {
@@ -155,17 +156,19 @@ class InputHandler implements InputHandlerInterface
             return $this->driver->specializeDecoder($decoder);
         }
 
+        if (!is_subclass_of($decoder, DecoderInterface::class)) {
+            throw new InvalidArgumentException('Decoder must implement ' . DecoderInterface::class);
+        }
+
         $resolved = new $decoder();
 
         if (!($resolved instanceof DecoderInterface)) {
-            // NEWEX
             throw new DriverException('Failed to resolved decoder ' . $decoder);
         }
 
         try {
             return empty($this->driver) ? $resolved : $this->driver->specializeDecoder($resolved);
         } catch (NotSupportedException $e) {
-            // NEWEX
             throw new DriverException('Failed to resolved decoder ' . $decoder, previous: $e);
         }
     }

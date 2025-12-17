@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Drivers\Imagick\Modifiers;
 
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
-use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Modifiers\QuantizeColorsModifier;
 use Intervention\Image\Tests\ImagickTestCase;
 
@@ -34,7 +34,7 @@ final class QuantizeColorsModifierTest extends ImagickTestCase
     public function testInvalidColorInput(): void
     {
         $image = $this->readTestImage('gradient.bmp');
-        $this->expectException(InputException::class);
+        $this->expectException(InvalidArgumentException::class);
         $image->modify(new QuantizeColorsModifier(0));
     }
 

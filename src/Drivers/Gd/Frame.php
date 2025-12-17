@@ -6,9 +6,6 @@ namespace Intervention\Image\Drivers\Gd;
 
 use GdImage;
 use Intervention\Image\Drivers\AbstractFrame;
-use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Exceptions\GeometryException;
-use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Image;
@@ -116,7 +113,6 @@ class Frame extends AbstractFrame implements FrameInterface
     public function setDispose(int $dispose): FrameInterface
     {
         if (!in_array($dispose, [0, 1, 2, 3])) {
-            // NEWEX
             throw new InvalidArgumentException('Value for argument $dispose must be 0, 1, 2 or 3');
         }
 
@@ -184,9 +180,6 @@ class Frame extends AbstractFrame implements FrameInterface
 
     /**
      * This workaround helps cloning GdImages which is currently not possible.
-     *
-     * @throws ColorException
-     * @throws GeometryException
      */
     public function __clone(): void
     {

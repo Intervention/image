@@ -18,8 +18,7 @@ use Intervention\Image\Encoders\FilePathEncoder;
 use Intervention\Image\Encoders\FormatEncoder;
 use Intervention\Image\Encoders\MediaTypeEncoder;
 use Intervention\Image\Exceptions\EncoderException;
-use Intervention\Image\Exceptions\InputException;
-use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Bezier;
 use Intervention\Image\Geometry\Circle;
 use Intervention\Image\Geometry\Ellipse;
@@ -275,11 +274,11 @@ final class Image implements ImageInterface
      */
     public function save(?string $path = null, mixed ...$options): ImageInterface
     {
-        $path = is_null($path) ? $this->origin()->filePath() : $path;
-
-        if (is_null($path)) {
-            throw new EncoderException('Could not determine file path to save');
+        if (is_null($path) && is_null($this->origin()->filePath())) {
+            throw new EncoderException('Could not determine the path for saving');
         }
+
+        $path = is_null($path) ? $this->origin()->filePath() : $path;
 
         try {
             // try to determine encoding format by file extension of the path
@@ -932,9 +931,6 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::encodeUsing()
-     *
-     * @throws InputException
-     * @throws RuntimeException
      */
     public function encodeUsing(
         null|Format $format = null,
@@ -950,12 +946,12 @@ final class Image implements ImageInterface
             'path' => $path,
         ], fn(mixed $value): bool => $value !== null);
 
-        if (count($param) === 0) {
-            throw new InputException('Method ImageInterface::encode() expects at least 1 argument, 0 given');
+        if (count($param) === 0 && count($options) === 0) {
+            throw new InvalidArgumentException('Method ImageInterface::encode() expects at least 1 argument, 0 given');
         }
 
         if (count($param) !== 1) {
-            throw new InputException(
+            throw new InvalidArgumentException(
                 'Method ImageInterface::encode() expects either ' .
                     '$encoder, $format, $mediaType, $extension or $path as an argument',
             );
@@ -976,7 +972,6 @@ final class Image implements ImageInterface
      * Build array of resize width and height from various inputs including
      * fractions based on the current image size
      *
-     * @throws RuntimeException
      * @return array{'width': ?int, 'height': ?int}
      */
     private function fractionize(null|int|Fraction $width, null|int|Fraction $height): array

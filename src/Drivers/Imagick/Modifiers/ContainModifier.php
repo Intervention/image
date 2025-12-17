@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
+use ImagickException;
 use ImagickPixel;
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\ContainModifier as GenericContainModifier;
@@ -25,20 +27,56 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
             );
 
         foreach ($image as $frame) {
-            $frame->native()->scaleImage(
-                $crop->width(),
-                $crop->height(),
-            );
+            try {
+                $result = $frame->native()->scaleImage(
+                    $crop->width(),
+                    $crop->height(),
+                );
+                if ($result === false) {
+                    throw new ModifierException(
+                        'Failed to apply ' . self::class . ', unable to resize image',
+                    );
+                }
+            } catch (ImagickException $e) {
+                throw new ModifierException(
+                    'Failed to apply ' . self::class . ', unable to resize image',
+                    previous: $e
+                );
+            }
 
-            $frame->native()->setBackgroundColor($transparent);
-            $frame->native()->setImageBackgroundColor($transparent);
+            try {
+                $result = $frame->native()->setBackgroundColor($transparent)
+                    && $frame->native()->setImageBackgroundColor($transparent);
+                if ($result === false) {
+                    throw new ModifierException(
+                        'Failed to apply ' . self::class . ', unable to set image background color',
+                    );
+                }
+            } catch (ImagickException $e) {
+                throw new ModifierException(
+                    'Failed to apply ' . self::class . ', unable to set image background color',
+                    previous: $e
+                );
+            }
 
-            $frame->native()->extentImage(
-                $resize->width(),
-                $resize->height(),
-                $crop->pivot()->x() * -1,
-                $crop->pivot()->y() * -1
-            );
+            try {
+                $result = $frame->native()->extentImage(
+                    $resize->width(),
+                    $resize->height(),
+                    $crop->pivot()->x() * -1,
+                    $crop->pivot()->y() * -1
+                );
+                if ($result === false) {
+                    throw new ModifierException(
+                        'Failed to apply ' . self::class . ', unable to resize image',
+                    );
+                }
+            } catch (ImagickException $e) {
+                throw new ModifierException(
+                    'Failed to apply ' . self::class . ', unable to resize image',
+                    previous: $e
+                );
+            }
 
             if ($resize->width() > $crop->width()) {
                 // fill new emerged background
@@ -63,7 +101,19 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
                     $resize->height()
                 );
 
-                $frame->native()->drawImage($draw);
+                try {
+                    $result = $frame->native()->drawImage($draw);
+                    if ($result === false) {
+                        throw new ModifierException(
+                            'Failed to apply ' . self::class . ', unable fill new image areas with replacement color',
+                        );
+                    }
+                } catch (ImagickException $e) {
+                    throw new ModifierException(
+                        'Failed to apply ' . self::class . ', unable fill new image areas with replacement color',
+                        previous: $e
+                    );
+                }
             }
 
             if ($resize->height() > $crop->height()) {
@@ -89,7 +139,19 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
                     $resize->height()
                 );
 
-                $frame->native()->drawImage($draw);
+                try {
+                    $result = $frame->native()->drawImage($draw);
+                    if ($result === false) {
+                        throw new ModifierException(
+                            'Failed to apply ' . self::class . ', unable fill new image areas with replacement color',
+                        );
+                    }
+                } catch (ImagickException $e) {
+                    throw new ModifierException(
+                        'Failed to apply ' . self::class . ', unable fill new image areas with replacement color',
+                        previous: $e
+                    );
+                }
             }
         }
 

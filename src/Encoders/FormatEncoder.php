@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Intervention\Image\Encoders;
 
 use Intervention\Image\Drivers\AbstractEncoder;
+use Intervention\Image\Exceptions\EncoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Format;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -36,6 +38,14 @@ class FormatEncoder extends AbstractEncoder
     public function encode(ImageInterface $image): EncodedImageInterface
     {
         $format = is_null($this->format) ? $image->origin()->format() : $this->format;
+
+        if ($this->format === null) {
+            try {
+                $this->format = $image->origin()->format();
+            } catch (InvalidArgumentException) {
+                throw new EncoderException('Unable to retrieve format from image origin');
+            }
+        }
 
         return $format->encoder(...$this->options)->encode($image);
     }

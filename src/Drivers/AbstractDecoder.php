@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers;
 
 use Exception;
-use http\Exception\InvalidArgumentException;
 use Intervention\Image\Collection;
-use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
@@ -68,25 +67,20 @@ abstract class AbstractDecoder implements DecoderInterface
 
     /**
      * Decodes given base 64 encoded data
-     *
-     * @throws DecoderException
      */
     protected function decodeBase64Data(mixed $input): string
     {
         if (!is_string($input) && !($input instanceof Stringable)) {
-            // NEWEX
             throw new InvalidArgumentException('Input must be either of type string or instance of Stringable');
         }
 
         $decoded = base64_decode((string) $input, true);
 
         if ($decoded === false) {
-            // NEWEX
             throw new InvalidArgumentException('Input is not Base64-encoded data');
         }
 
         if (base64_encode($decoded) !== str_replace(["\n", "\r"], '', (string) $input)) {
-            // NEWEX
             throw new InvalidArgumentException('Input is not Base64-encoded data');
         }
 

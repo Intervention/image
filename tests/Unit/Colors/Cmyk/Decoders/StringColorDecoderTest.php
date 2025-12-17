@@ -7,7 +7,7 @@ namespace Intervention\Image\Tests\Unit\Colors\Cmyk\Decoders;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Colors\Cmyk\Color;
 use Intervention\Image\Colors\Cmyk\Decoders\StringColorDecoder;
-use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[CoversClass(StringColorDecoder::class)]
@@ -36,7 +36,7 @@ final class StringColorDecoderTest extends BaseTestCase
     public function testDecodeInvalid(): void
     {
         $decoder = new StringColorDecoder();
-        $this->expectException(DecoderException::class);
+        $this->expectException(InvalidArgumentException::class);
         $decoder->decode(null);
     }
 }

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
-use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Exceptions\RuntimeException;
 use Stringable;
 
 interface ColorInterface extends Stringable
@@ -13,8 +11,6 @@ interface ColorInterface extends Stringable
     /**
      * Static color factory method that takes any supported color format
      * and returns a corresponding color object
-     *
-     * @throws RuntimeException
      */
     public static function create(mixed ...$input): self;
 
@@ -56,8 +52,6 @@ interface ColorInterface extends Stringable
 
     /**
      * Retrieve the color channel by its classname
-     *
-     * @throws ColorException
      */
     public function channel(string $classname): ColorChannelInterface;
 

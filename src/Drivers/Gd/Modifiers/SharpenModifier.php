@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\SharpenModifier as GenericSharpenModifier;
@@ -19,7 +20,12 @@ class SharpenModifier extends GenericSharpenModifier implements SpecializedInter
     {
         $matrix = $this->matrix();
         foreach ($image as $frame) {
-            imageconvolution($frame->native(), $matrix, 1, 0);
+            $result = imageconvolution($frame->native(), $matrix, 1, 0);
+            if ($result === false) {
+                throw new ModifierException(
+                    'Failed to apply ' . self::class . ', unable to set convolution matrix',
+                );
+            }
         }
 
         return $image;

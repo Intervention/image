@@ -15,7 +15,7 @@ use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
-use Intervention\Image\Exceptions\EncoderException;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Tests\BaseTestCase;
@@ -109,7 +109,7 @@ final class FileExtensionEncoderTest extends BaseTestCase
 
     public function testEncoderByFileExtensionUnknown(): void
     {
-        $this->expectException(EncoderException::class);
+        $this->expectException(NotSupportedException::class);
         $this->testEncoder('test');
     }
 }

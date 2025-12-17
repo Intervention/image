@@ -7,10 +7,10 @@ namespace Intervention\Image\Colors\Rgb;
 use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
-use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
+use InvalidArgumentException;
 
 class Colorspace implements ColorspaceInterface
 {
@@ -40,9 +40,6 @@ class Colorspace implements ColorspaceInterface
         ));
     }
 
-    /**
-     * @throws ColorException
-     */
     public function importColor(ColorInterface $color): ColorInterface
     {
         return match ($color::class) {
@@ -53,13 +50,10 @@ class Colorspace implements ColorspaceInterface
         };
     }
 
-    /**
-     * @throws ColorException
-     */
     protected function importCmykColor(ColorInterface $color): ColorInterface
     {
         if (!($color instanceof CmykColor)) {
-            throw new ColorException('Unabled to import color of type ' . $color::class);
+            throw new InvalidArgumentException('Color must be of type ' . CmykColor::class);
         }
 
         return new Color(
@@ -69,13 +63,10 @@ class Colorspace implements ColorspaceInterface
         );
     }
 
-    /**
-     * @throws ColorException
-     */
     protected function importHsvColor(ColorInterface $color): ColorInterface
     {
         if (!($color instanceof HsvColor)) {
-            throw new ColorException('Unabled to import color of type ' . $color::class);
+            throw new InvalidArgumentException('Color must be of type ' . HsvColor::class);
         }
 
         $chroma = $color->value()->normalize() * $color->saturation()->normalize();
@@ -99,13 +90,10 @@ class Colorspace implements ColorspaceInterface
         return $this->colorFromNormalized($values);
     }
 
-    /**
-     * @throws ColorException
-     */
     protected function importHslColor(ColorInterface $color): ColorInterface
     {
         if (!($color instanceof HslColor)) {
-            throw new ColorException('Unabled to import color of type ' . $color::class);
+            throw new InvalidArgumentException('Color must be of type ' . HslColor::class);
         }
 
         // normalized values of hsl channels

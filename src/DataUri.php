@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
-use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\DataUriInterface;
 use Stringable;
 
@@ -44,15 +44,13 @@ class DataUri implements DataUriInterface, Stringable
      * {@inheritdoc}
      *
      * @see DataUriInterface::decode()
-     *
-     * @throws DecoderException
      */
     public static function decode(string|Stringable $dataUriScheme): self
     {
         $result = preg_match(self::PATTERN, (string) $dataUriScheme, $matches);
 
         if ($result === false || $result === 0) {
-            throw new DecoderException('Unable to decode data uri scheme from string');
+            throw new InvalidArgumentException('Unable to decode data uri scheme from string');
         }
 
         $isBase64Encoded = $matches['base64'] !== '';

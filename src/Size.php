@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
-use Intervention\Image\Exceptions\GeometryException;
 use Intervention\Image\Geometry\Tools\RectangleResizer;
 use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Interfaces\SizeInterface;
-use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
 
@@ -90,8 +88,6 @@ class Size extends Polygon implements SizeInterface
      * {@inheritdoc}
      *
      * @see SizeInterface::movePivot()
-     *
-     * @throws RuntimeException
      */
     public function movePivot(string|Alignment $position, int $x = 0, int $y = 0): self
     {
@@ -143,8 +139,6 @@ class Size extends Polygon implements SizeInterface
      * {@inheritdoc}
      *
      * @see SizeInterface::alignPivotTo()
-     *
-     * @throws RuntimeException
      */
     public function alignPivotTo(SizeInterface $size, string|Alignment $position): self
     {
@@ -223,8 +217,6 @@ class Size extends Polygon implements SizeInterface
      * {@inheritdoc}
      *
      * @see SizeInterface::resize()
-     *
-     * @throws GeometryException
      */
     public function resize(?int $width = null, ?int $height = null): SizeInterface
     {
@@ -235,8 +227,6 @@ class Size extends Polygon implements SizeInterface
      * {@inheritdoc}
      *
      * @see SizeInterface::resizeDown()
-     *
-     * @throws GeometryException
      */
     public function resizeDown(?int $width = null, ?int $height = null): SizeInterface
     {
@@ -247,8 +237,6 @@ class Size extends Polygon implements SizeInterface
      * {@inheritdoc}
      *
      * @see SizeInterface::scale()
-     *
-     * @throws GeometryException
      */
     public function scale(?int $width = null, ?int $height = null): SizeInterface
     {
@@ -259,8 +247,6 @@ class Size extends Polygon implements SizeInterface
      * {@inheritdoc}
      *
      * @see SizeInterface::scaleDown()
-     *
-     * @throws GeometryException
      */
     public function scaleDown(?int $width = null, ?int $height = null): SizeInterface
     {
@@ -271,8 +257,6 @@ class Size extends Polygon implements SizeInterface
      * {@inheritdoc}
      *
      * @see SizeInterface::cover()
-     *
-     * @throws GeometryException
      */
     public function cover(int $width, int $height): SizeInterface
     {
@@ -283,8 +267,6 @@ class Size extends Polygon implements SizeInterface
      * {@inheritdoc}
      *
      * @see SizeInterface::contain()
-     *
-     * @throws GeometryException
      */
     public function contain(int $width, int $height): SizeInterface
     {
@@ -295,8 +277,6 @@ class Size extends Polygon implements SizeInterface
      * {@inheritdoc}
      *
      * @see SizeInterface::containMax()
-     *
-     * @throws GeometryException
      */
     public function containMax(int $width, int $height): SizeInterface
     {
@@ -305,8 +285,6 @@ class Size extends Polygon implements SizeInterface
 
     /**
      * Create resizer instance with given target size
-     *
-     * @throws GeometryException
      */
     protected function resizer(?int $width = null, ?int $height = null): RectangleResizer
     {

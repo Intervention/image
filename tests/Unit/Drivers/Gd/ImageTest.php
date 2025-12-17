@@ -191,11 +191,8 @@ final class ImageTest extends GdTestCase
     public function testSaveFallback(): void
     {
         $path = __DIR__ . '/tmp.unknown';
-        $result = $this->readTestImage('blue.gif')->save($path);
-        $this->assertInstanceOf(Image::class, $result);
-        $this->assertFileExists($path);
-        $this->assertMediaType('image/gif', file_get_contents($path));
-        unlink($path);
+        $this->expectException(NotSupportedException::class);
+        $this->readTestImage('blue.gif')->save($path);
     }
 
     public function testSaveUndeterminedPath(): void

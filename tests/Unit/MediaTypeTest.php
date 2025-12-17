@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit;
 
 use Generator;
-use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Format;
 use Intervention\Image\MediaType;
@@ -31,7 +31,7 @@ final class MediaTypeTest extends BaseTestCase
 
     public function testCreateUnknown(): void
     {
-        $this->expectException(NotSupportedException::class);
+        $this->expectException(InvalidArgumentException::class);
         MediaType::create('foo');
     }
 

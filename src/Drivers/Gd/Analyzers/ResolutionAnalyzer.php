@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Analyzers;
 
 use Intervention\Image\Analyzers\ResolutionAnalyzer as GenericResolutionAnalyzer;
+use Intervention\Image\Exceptions\AnalyzerException;
 use Intervention\Image\Exceptions\DecoderException;
-use Intervention\Image\Exceptions\InputException;
-use Intervention\Image\Exceptions\NotSupportedException;
-use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Exceptions\MissingDependencyException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Origin;
@@ -30,7 +29,7 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
         $result = imageresolution($image->core()->native());
 
         if (!is_array($result)) {
-            throw new RuntimeException('Unable to read image resolution');
+            throw new AnalyzerException('Unable to read image resolution');
         }
 
         // if GD's default resolution is returned I try to find resolution in origin
@@ -48,9 +47,6 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
     }
 
     /**
-     * @throws DecoderException
-     * @throws InputException
-     * @throws RuntimeException
      * @return array<float>
      */
     private function readResolutionFromOrigin(Origin $origin): array
@@ -75,13 +71,11 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
             # code ...
         }
 
-        throw new DecoderException('Unable to read resolution from path');
+        throw new AnalyzerException('Unable to read resolution from path');
     }
 
     /**
      * @param resource $handle
-     * @throws DecoderException
-     * @throws InputException
      * @return array<float>
      */
     private function resolutionFromJfifHeader($handle): array
@@ -93,7 +87,7 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
         // find the JFIF segment
         $offset = strpos($header, 'JFIF');
         if ($offset === false) {
-            throw new DecoderException('Unable to read JFIF header');
+            throw new AnalyzerException('Unable to read JFIF header');
         }
 
         // read bytes at known offsets relative to JFIF
@@ -114,15 +108,12 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
 
     /**
      * @param resource $handle
-     * @throws DecoderException
-     * @throws InputException
-     * @throws NotSupportedException
      * @return array<float>
      */
     private function resolutionFromExifHeader($handle): array
     {
         if (!function_exists('exif_read_data')) {
-            throw new NotSupportedException('Unable to read exif data');
+            throw new MissingDependencyException('Unable to read exif data');
         }
 
         rewind($handle);
@@ -141,7 +132,7 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
         }
 
         if (!isset($resolution)) {
-            throw new DecoderException('Unable to read exif data');
+            throw new AnalyzerException('Unable to read exif data');
         }
 
         return array_map(function (mixed $value): int|float {
@@ -157,8 +148,6 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
 
     /**
      * @param resource $handle
-     * @throws DecoderException
-     * @throws InputException
      * @return array<float>
      */
     private function resolutionFromPngPhys($handle): array
@@ -169,7 +158,7 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
         // no PNG content
         if ($signature !== "\x89PNG\x0D\x0A\x1A\x0A") {
             fclose($handle);
-            throw new InputException('No PNG format');
+            throw new AnalyzerException('Input must be PNG format');
         }
 
         $marker = '';

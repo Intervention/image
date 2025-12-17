@@ -6,11 +6,9 @@ namespace Intervention\Image\Drivers\Imagick;
 
 use Imagick;
 use ImagickDraw;
-use ImagickDrawException;
-use ImagickException;
 use ImagickPixel;
 use Intervention\Image\Drivers\AbstractFontProcessor;
-use Intervention\Image\Exceptions\FontException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\FontInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -42,15 +40,11 @@ class FontProcessor extends AbstractFontProcessor
      * Imagick::annotateImage() needs an ImagickDraw object - this method takes
      * the font object as the base and adds an optional passed color to the new
      * ImagickDraw object.
-     *
-     * @throws FontException
-     * @throws ImagickDrawException
-     * @throws ImagickException
      */
     public function toImagickDraw(FontInterface $font, ?ImagickPixel $color = null): ImagickDraw
     {
         if (!$font->hasFilename()) {
-            throw new FontException('No font file specified');
+            throw new StateException('No font file specified');
         }
 
         $draw = new ImagickDraw();

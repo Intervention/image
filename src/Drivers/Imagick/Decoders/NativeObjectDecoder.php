@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Decoders;
 
-use http\Exception\InvalidArgumentException;
 use Imagick;
 use ImagickException;
 use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\SpecializableDecoder;
 use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -27,12 +27,10 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_object($input)) {
-            // NEWEX
             throw new InvalidArgumentException('Input must be an object');
         }
 
         if (!($input instanceof Imagick)) {
-            // NEWEX
             throw new InvalidArgumentException('Input must be of type ' . Imagick::class);
         }
 
@@ -44,7 +42,6 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
                 $input = $input->coalesceImages();
             }
         } catch (ImagickException $e) {
-            // NEWEX
             throw new DriverException('Failed to coalesce image', previous: $e);
         }
 
@@ -56,7 +53,6 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
                 $input->setImageColorspace(Imagick::COLORSPACE_SRGB);
             }
         } catch (ImagickException $e) {
-            // NEWEX
             throw new DriverException('Failed to convert image ro srgb', previous: $e);
         }
 

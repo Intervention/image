@@ -54,14 +54,12 @@ class FileExtensionEncoder extends AutoEncoder
     protected function encoderByFileExtension(null|string|FileExtension $extension): EncoderInterface
     {
         if (empty($extension)) {
-            // NEWEX
             throw new InvalidArgumentException('No encoder found for empty file extension');
         }
 
         try {
             $extension = is_string($extension) ? FileExtension::from(strtolower($extension)) : $extension;
         } catch (Error) {
-            // NEWEX
             throw new NotSupportedException('No encoder found for unkown file extension (' . $extension . ')');
         }
 

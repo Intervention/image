@@ -11,7 +11,7 @@ use Intervention\Image\Colors\Cmyk\Channels\Magenta;
 use Intervention\Image\Colors\Cmyk\Channels\Yellow;
 use Intervention\Image\Colors\Cmyk\Color;
 use Intervention\Image\Colors\Cmyk\Colorspace;
-use Intervention\Image\Exceptions\ColorException;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[CoversClass(Color::class)]
@@ -56,7 +56,7 @@ final class ColorTest extends BaseTestCase
     public function testChannelNotFound(): void
     {
         $color = new Color(10, 20, 30, 30);
-        $this->expectException(ColorException::class);
+        $this->expectException(NotSupportedException::class);
         $color->channel('none');
     }
 

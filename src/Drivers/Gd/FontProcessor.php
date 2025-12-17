@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd;
 
 use Intervention\Image\Drivers\AbstractFontProcessor;
-use Intervention\Image\Exceptions\FontException;
+use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\FileNotFoundException;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\FontInterface;
@@ -40,9 +41,10 @@ class FontProcessor extends AbstractFontProcessor
         // build full path to font file to make sure to pass absolute path to imageftbbox()
         // because of issues with different GD version behaving differently when passing
         // relative paths to imageftbbox()
+        // TODO: refactor
         $fontPath = realpath($font->filename());
         if ($fontPath === false) {
-            throw new FontException('Font file ' . $font->filename() . ' does not exist.');
+            throw new FileNotFoundException('Font file ' . $font->filename() . ' does not exist.');
         }
 
         // calculate box size from ttf font file with angle 0
@@ -54,7 +56,7 @@ class FontProcessor extends AbstractFontProcessor
         );
 
         if ($box === false) {
-            throw new FontException('Unable to calculate box size of font');
+            throw new DriverException('Unable to calculate box size of font');
         }
 
         // build size from points

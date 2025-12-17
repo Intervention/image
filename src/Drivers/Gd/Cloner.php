@@ -7,8 +7,8 @@ namespace Intervention\Image\Drivers\Gd;
 use GdImage;
 use Intervention\Image\Colors\Rgb\Channels\Alpha;
 use Intervention\Image\Colors\Rgb\Color;
-use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Exceptions\GeometryException;
+use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -17,9 +17,6 @@ class Cloner
 {
     /**
      * Create a clone of the given GdImage
-     *
-     * @throws ColorException
-     * @throws GeometryException
      */
     public static function clone(GdImage $gd): GdImage
     {
@@ -38,9 +35,6 @@ class Cloner
      * This only retains the basic data without transferring the actual image.
      * It is optionally possible to change the size of the result and set a
      * background color.
-     *
-     * @throws ColorException
-     * @throws GeometryException
      */
     public static function cloneEmpty(
         GdImage $gd,
@@ -51,23 +45,40 @@ class Cloner
         $size = $size ?: new Rectangle(imagesx($gd), imagesy($gd));
 
         if ($size->width() < 1 || $size->height() < 1) {
-            throw new GeometryException('Invalid image size');
+            throw new InvalidArgumentException('Invalid image size');
         }
 
         // create new gd image with same size or new given size
         $clone = imagecreatetruecolor($size->width(), $size->height());
+        if ($clone === false) {
+            throw new DriverException('Failed to create new image while cloning');
+        }
 
         // copy resolution to clone
         $resolution = imageresolution($gd);
         if (is_array($resolution) && array_key_exists(0, $resolution) && array_key_exists(1, $resolution)) {
-            imageresolution($clone, $resolution[0], $resolution[1]);
+            $set = imageresolution($clone, $resolution[0], $resolution[1]);
+            if ($set === false) {
+                throw new DriverException('Failed to copy image resolution to clone');
+            }
         }
 
         // fill with background
         $processor = new ColorProcessor();
-        imagefill($clone, 0, 0, $processor->colorToNative($background));
-        imagealphablending($clone, true);
-        imagesavealpha($clone, true);
+        $filled = imagefill($clone, 0, 0, $processor->colorToNative($background));
+        if ($filled === false) {
+            throw new DriverException('Failed to fill image clone with background color');
+        }
+
+        $blended = imagealphablending($clone, true);
+        if ($blended === false) {
+            throw new DriverException('Failed to set blending mode on image clone');
+        }
+
+        $alpha = imagesavealpha($clone, true);
+        if ($alpha === false) {
+            throw new DriverException('Failed to set flag for saving alpha channel on image clone');
+        }
 
         // set background image as transparent if alpha channel value if color is below .5
         // comes into effect when the end format only supports binary transparency (like GIF)
@@ -81,9 +92,6 @@ class Cloner
     /**
      * Create a clone of an GdImage that is positioned on the specified background color.
      * Possible transparent areas are mixed with this color.
-     *
-     * @throws ColorException
-     * @throws GeometryException
      */
     public static function cloneBlended(GdImage $gd, ColorInterface $background): GdImage
     {

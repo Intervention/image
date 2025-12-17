@@ -9,6 +9,7 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Drivers\Imagick\Decoders\DataUriImageDecoder;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Resource;
@@ -34,13 +35,13 @@ final class DataUriImageDecoderTest extends BaseTestCase
 
     public function testDecoderNonString(): void
     {
-        $this->expectException(DecoderException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->decoder->decode(new stdClass());
     }
 
     public function testDecoderInvalid(): void
     {
-        $this->expectException(DecoderException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->decoder->decode('invalid');
     }
 

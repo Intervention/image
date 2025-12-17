@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\PointInterface;
@@ -24,7 +24,10 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
         $position = $this->position($image, $watermark);
 
         foreach ($image as $frame) {
-            imagealphablending($frame->native(), true);
+            $result = imagealphablending($frame->native(), true);
+            if ($result === false) {
+                throw new ModifierException('Failed to set alpha blending');
+            }
 
             if ($this->opacity === 100) {
                 $this->placeOpaque($frame, $watermark, $position);
@@ -38,12 +41,10 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
 
     /**
      * Insert watermark with 100% opacity
-     *
-     * @throws RuntimeException
      */
     private function placeOpaque(FrameInterface $frame, ImageInterface $watermark, PointInterface $position): void
     {
-        imagecopy(
+        $result = imagecopy(
             $frame->native(),
             $watermark->core()->native(),
             $position->x(),
@@ -53,6 +54,10 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
             $watermark->width(),
             $watermark->height()
         );
+
+        if ($result === false) {
+            throw new ModifierException('Failed to place image');
+        }
     }
 
     /**
@@ -67,14 +72,16 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
      *
      * Please note: Unfortunately, there is still an edge case, when a transparent image
      * is placed on a transparent background, the "double" transparent areas appear opaque!
-     *
-     * @throws RuntimeException
      */
     private function placeTransparent(FrameInterface $frame, ImageInterface $watermark, PointInterface $position): void
     {
         $cut = imagecreatetruecolor($watermark->width(), $watermark->height());
 
-        imagecopy(
+        if ($cut === false) {
+            throw new ModifierException('Failed to place image');
+        }
+
+        $result = imagecopy(
             $cut,
             $frame->native(),
             0,
@@ -85,7 +92,11 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
             imagesy($cut)
         );
 
-        imagecopy(
+        if ($result === false) {
+            throw new ModifierException('Failed to place image');
+        }
+
+        $result = imagecopy(
             $cut,
             $watermark->core()->native(),
             0,
@@ -96,7 +107,11 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
             imagesy($cut)
         );
 
-        imagecopymerge(
+        if ($result === false) {
+            throw new ModifierException('Failed to place image');
+        }
+
+        $result = imagecopymerge(
             $frame->native(),
             $cut,
             $position->x(),
@@ -107,5 +122,9 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
             $watermark->height(),
             $this->opacity
         );
+
+        if ($result === false) {
+            throw new ModifierException('Failed to place image');
+        }
     }
 }

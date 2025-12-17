@@ -70,7 +70,6 @@ class Core implements CoreInterface, Iterator
         try {
             return new Frame($this->imagick->current());
         } catch (ImagickException $e) {
-            // NEWEX
             throw new DriverException('Failed to get current frame data', previous: $e);
         }
     }
@@ -116,7 +115,6 @@ class Core implements CoreInterface, Iterator
                 try {
                     $sliced->addImage($native->getImage());
                 } catch (ImagickException $e) {
-                    // NEWEX
                     throw new DriverException('Failed to slice image', previous: $e);
                 }
             }
@@ -126,7 +124,6 @@ class Core implements CoreInterface, Iterator
             $sliced = $sliced->coalesceImages();
             $sliced->setImageIterations($this->imagick->getImageIterations());
         } catch (ImagickException $e) {
-            // NEWEX
             throw new DriverException('Failed to slice image', previous: $e);
         }
 
@@ -161,7 +158,6 @@ class Core implements CoreInterface, Iterator
 
             $this->imagick->addImage($imagick);
         } catch (ImagickException $e) {
-            // NEWEX
             throw new DriverException('Failed to add image frame', previous: $e);
         }
 
@@ -178,7 +174,6 @@ class Core implements CoreInterface, Iterator
         try {
             return $this->imagick->getNumberImages();
         } catch (ImagickException $e) {
-            // NEWEX
             throw new DriverException('Failed to count image frames', previous: $e);
         }
     }
@@ -195,7 +190,6 @@ class Core implements CoreInterface, Iterator
 
             return new Frame($this->imagick->current());
         } catch (ImagickException $e) {
-            // NEWEX
             throw new DriverException('Failed to iterate image frames', previous: $e);
         }
     }
@@ -281,12 +275,10 @@ class Core implements CoreInterface, Iterator
                     return new Frame($core);
                 }
             } catch (ImagickException $e) {
-                // NEWEX
                 throw new DriverException('Failed to load image frame a position ' . $position, previous: $e);
             }
         }
 
-        // NEWEX
         throw new InvalidArgumentException('Frame #' . $position . ' could not be found in the image');
     }
 
@@ -300,7 +292,6 @@ class Core implements CoreInterface, Iterator
         try {
             return $this->imagick->getImageIterations();
         } catch (ImagickException $e) {
-            // NEWEX
             throw new DriverException('Failed to get image loop count', previous: $e);
         }
     }
@@ -316,7 +307,6 @@ class Core implements CoreInterface, Iterator
             $this->imagick = $this->imagick->coalesceImages();
             $this->imagick->setImageIterations($loops);
         } catch (ImagickException $e) {
-            // NEWEX
             throw new DriverException('Failed to set image loop count', previous: $e);
         }
 

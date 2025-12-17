@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\DrawPixelModifier as GenericDrawPixelModifier;
@@ -22,13 +23,22 @@ class DrawPixelModifier extends GenericDrawPixelModifier implements SpecializedI
         );
 
         foreach ($image as $frame) {
-            imagealphablending($frame->native(), true);
-            imagesetpixel(
+            $result = imagealphablending($frame->native(), true);
+
+            if ($result === false) {
+                throw new ModifierException('Failed to set alpha blending');
+            }
+
+            $result = imagesetpixel(
                 $frame->native(),
                 $this->position->x(),
                 $this->position->y(),
                 $color
             );
+
+            if ($result === false) {
+                throw new ModifierException('Failed to draw pixel on image');
+            }
         }
 
         return $image;

@@ -18,12 +18,10 @@ class TransparentColorDecoder extends HexColorDecoder
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_string($input)) {
-            // NEWEX
             throw new InvalidArgumentException('Input must be of type string');
         }
 
         if (strtolower($input) !== 'transparent') {
-            // NEWEX
             throw new InvalidArgumentException('Input must be "transparent"');
         }
 

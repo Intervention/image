@@ -54,8 +54,9 @@ class MediaTypeEncoder extends AbstractEncoder
         try {
             $mediaType = is_string($mediaType) ? MediaType::from($mediaType) : $mediaType;
         } catch (Error) {
-            // NEWEX
-            throw new NotSupportedException('No encoder found for media type (' . $mediaType->value . ')');
+            throw new NotSupportedException(
+                'No encoder found for media type (' . is_string($mediaType) ? $mediaType : $mediaType->value . ')',
+            );
         }
 
         return $mediaType->format()->encoder(...$this->options);

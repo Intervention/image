@@ -10,7 +10,6 @@ use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\GifEncoder as GenericGifEncoder;
 use Intervention\Image\Exceptions\EncoderException;
-use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 
@@ -35,9 +34,6 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
         }, 'image/gif');
     }
 
-    /**
-     * @throws RuntimeException
-     */
     protected function encodeAnimated(ImageInterface $image): EncodedImage
     {
         try {

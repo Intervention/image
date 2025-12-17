@@ -10,7 +10,7 @@ use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Drivers\Gd\ColorProcessor;
-use Intervention\Image\Exceptions\ColorException;
+use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
@@ -51,7 +51,7 @@ final class ColorProcessorTest extends BaseTestCase
     public function testNativeToColorInvalid(): void
     {
         $processor = new ColorProcessor();
-        $this->expectException(ColorException::class);
+        $this->expectException(DriverException::class);
         $processor->nativeToColor('test');
     }
 }

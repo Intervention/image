@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
@@ -40,18 +41,31 @@ class FillModifier extends GenericFillModifier implements SpecializedInterface
 
     private function floodFillWithColor(FrameInterface $frame, int $color): void
     {
-        imagefill(
+        $result = imagefill(
             $frame->native(),
             $this->position->x(),
             $this->position->y(),
             $color
         );
+
+        if ($result === false) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to flood fill image'
+            );
+        }
     }
 
     private function fillAllWithColor(FrameInterface $frame, int $color): void
     {
-        imagealphablending($frame->native(), true);
-        imagefilledrectangle(
+        $result = imagealphablending($frame->native(), true);
+
+        if ($result === false) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to set alpha blending',
+            );
+        }
+
+        $result = imagefilledrectangle(
             $frame->native(),
             0,
             0,
@@ -59,5 +73,11 @@ class FillModifier extends GenericFillModifier implements SpecializedInterface
             $frame->size()->height() - 1,
             $color
         );
+
+        if ($result === false) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to fill image with rectangle',
+            );
+        }
     }
 }

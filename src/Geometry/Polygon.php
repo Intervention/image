@@ -259,8 +259,6 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
 
     /**
      * Align all points of polygon horizontally to given position around pivot point
-     *
-     * @throws NotSupportedException
      */
     public function align(string|Alignment $position): self
     {
@@ -284,8 +282,6 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
 
     /**
      * Align all points of polygon vertically to given position around pivot point
-     *
-     * @throws NotSupportedException
      */
     public function valign(string|Alignment $position): self
     {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd;
 
-use http\Exception\InvalidArgumentException;
 use Intervention\Image\Collection;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\CoreInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 
@@ -58,8 +58,7 @@ class Core extends Collection implements CoreInterface
     {
         $frame = $this->getAtPosition($position);
 
-        if ($position < 0 || $position > $this->count()) {
-            // NEWEX
+        if ($frame === null || $position < 0 || $position > $this->count()) {
             throw new InvalidArgumentException('Frame #' . $position . ' could not be found in the image');
         }
 

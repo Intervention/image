@@ -41,6 +41,45 @@
 - ImageInterface::toTiff() and ImageInterface::toTif() are replaced by ImageInterface::encode()
 - DriverInterface::handleColorInput() has null as default
 - Method ImageManagerInterface::read() is now handled by ImageManagerInterface::decode()
+- Removed default argument for $decoders in ImageManagerInterface::decode()
+- Method ImageInterface::save() only processes known image file extensions
+
+### Exceptions
+
+```
+ImageException [1]
+└─── LogicException [2]
+    ├── ArgumentException
+    │   ├── MissingArgumentException
+    │   └── InvalidArgumentException
+    ├── NotSupportedException
+    └── StateException
+
+├── RuntimeException [3]
+    ├── MissingDependencyException
+    ├── FilesystemException
+    │   ├── DirectoryNotFoundException
+    │   ├── FilePointerException
+    │   ├── FileNotFoundException
+    │   ├── FileNotReadableException
+    │   └── FileNotWritableException
+    ├── DriverException
+    │   ├── AnalyzerException
+    │   ├── ModifierException
+    │   ├── DecoderException
+    │   └── EncoderException
+    └── ColorException
+
+```
+
+[1] Library container exception 
+[2] LogicException: API violation, end-user misuse aka end user's CODE IS INCORRECT and can be
+corrected, the code is wrong, Deterministic, Fully checkable, No external
+dependencies, Violates documented input format
+[3] RuntimeException: operational failure, can happen even if end-user's: CODE
+IS CORRENT, the operation failed, even though the code was correct,
+Data-dependent, External / environment-dependent, Cannot be guaranteed by
+caller, Operation fails after valid input
 
 ## Removed
 

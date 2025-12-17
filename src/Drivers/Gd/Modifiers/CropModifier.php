@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\Gd\Cloner;
-use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -34,10 +33,6 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
         return $image;
     }
 
-    /**
-     * @throws ColorException
-     * @throws RuntimeException
-     */
     protected function cropFrame(
         FrameInterface $frame,
         SizeInterface $originalSize,
@@ -58,10 +53,14 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
         $targetHeight = $targetHeight < $originalSize->height() ? $targetHeight + $offset_y : $targetHeight;
 
         // don't alpha blend for copy operation to keep transparent areas of original image
-        imagealphablending($modified, false);
+        $result = imagealphablending($modified, false);
+
+        if ($result === false) {
+            throw new ModifierException('Failed to set alpha blending');
+        }
 
         // copy content from resource
-        imagecopyresampled(
+        $result = imagecopyresampled(
             $modified,
             $frame->native(),
             $offset_x * -1,
@@ -73,6 +72,10 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
             $targetWidth,
             $targetHeight
         );
+
+        if ($result === false) {
+            throw new ModifierException('Failed to resize image');
+        }
 
         // set new content as resource
         $frame->setNative($modified);

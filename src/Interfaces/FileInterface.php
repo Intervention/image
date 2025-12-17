@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
-use Intervention\Image\Exceptions\RuntimeException;
 use Stringable;
 
 interface FileInterface extends Stringable
@@ -16,8 +15,6 @@ interface FileInterface extends Stringable
 
     /**
      * Save data in given path in file system
-     *
-     * @throws RuntimeException
      */
     public function save(string $filepath): void;
 

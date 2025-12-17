@@ -6,13 +6,13 @@ namespace Intervention\Image\Drivers\Gd\Decoders;
 
 use Exception;
 use GdImage;
-use http\Exception\InvalidArgumentException;
 use Intervention\Gif\Decoder as GifDecoder;
 use Intervention\Gif\Splitter as GifSplitter;
 use Intervention\Image\Drivers\Gd\Core;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -60,8 +60,6 @@ class NativeObjectDecoder extends AbstractDecoder
      *
      * Depending on the configuration, this is taken over by the native GD function
      * or, if animations are required, by our own extended decoder.
-     *
-     * @throws DecoderException
      */
     protected function decodeGif(mixed $input): ImageInterface
     {

@@ -13,7 +13,7 @@ use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
-use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Format;
 use Intervention\Image\MediaType;
@@ -40,7 +40,7 @@ final class FormatTest extends BaseTestCase
 
     public function testCreateUnknown(): void
     {
-        $this->expectException(NotSupportedException::class);
+        $this->expectException(InvalidArgumentException::class);
         Format::create('foo');
     }
 

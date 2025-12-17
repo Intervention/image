@@ -5,22 +5,18 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
-use RuntimeException;
-use Intervention\Image\Exceptions\GeometryException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\DrawBezierModifier as GenericDrawBezierModifier;
 
 class DrawBezierModifier extends GenericDrawBezierModifier implements SpecializedInterface
 {
-    /**
-     * @throws RuntimeException
-     * @throws GeometryException
-     */
     public function apply(ImageInterface $image): ImageInterface
     {
         if ($this->drawable->count() !== 3 && $this->drawable->count() !== 4) {
-            throw new GeometryException('You must specify either 3 or 4 points to create a bezier curve');
+            throw new InvalidArgumentException('You must specify either 3 or 4 points to create a bezier curve');
         }
 
         $drawing = new ImagickDraw();
@@ -69,7 +65,12 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
         $drawing->pathFinish();
 
         foreach ($image as $frame) {
-            $frame->native()->drawImage($drawing);
+            $result = $frame->native()->drawImage($drawing);
+            if ($result === false) {
+                throw new ModifierException(
+                    'Failed to apply ' . self::class . ', unable to draw bezier curve',
+                );
+            }
         }
 
         return $image;

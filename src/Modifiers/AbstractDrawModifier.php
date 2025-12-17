@@ -8,7 +8,6 @@ use Intervention\Image\Drivers\SpecializableModifier;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
-use RuntimeException;
 
 abstract class AbstractDrawModifier extends SpecializableModifier
 {
@@ -17,9 +16,6 @@ abstract class AbstractDrawModifier extends SpecializableModifier
      */
     abstract public function drawable(): DrawableInterface;
 
-    /**
-     * @throws RuntimeException
-     */
     public function backgroundColor(): ColorInterface
     {
         try {
@@ -31,9 +27,6 @@ abstract class AbstractDrawModifier extends SpecializableModifier
         return $color;
     }
 
-    /**
-     * @throws RuntimeException
-     */
     public function borderColor(): ColorInterface
     {
         try {

@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
+use ImagickException;
 use ImagickPixel;
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\CropModifier as GenericCropModifier;
@@ -34,16 +36,30 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
 
         foreach ($image as $frame) {
             // create new frame canvas with modifiers background
-            $canvas = new Imagick();
-            $canvas->newImage($crop->width(), $crop->height(), $background, 'png');
-            $canvas->setImageResolution($resolution->x(), $resolution->y());
-            $canvas->setImageAlphaChannel(Imagick::ALPHACHANNEL_SET); // or ALPHACHANNEL_ACTIVATE?
+            try {
+                $canvas = new Imagick();
+                $canvas->newImage($crop->width(), $crop->height(), $background, 'png');
+                $canvas->setImageResolution($resolution->x(), $resolution->y());
+                $canvas->setImageAlphaChannel(Imagick::ALPHACHANNEL_SET); // or ALPHACHANNEL_ACTIVATE?
+            } catch (ImagickException $e) {
+                throw new ModifierException(
+                    'Failed to apply ' . self::class . ', unable to create new frame canvas',
+                    previous: $e
+                );
+            }
 
             // set animation details
             if ($image->isAnimated()) {
-                $canvas->setImageDelay($frame->native()->getImageDelay());
-                $canvas->setImageIterations($frame->native()->getImageIterations());
-                $canvas->setImageDispose($frame->native()->getImageDispose());
+                try {
+                    $canvas->setImageDelay($frame->native()->getImageDelay());
+                    $canvas->setImageIterations($frame->native()->getImageIterations());
+                    $canvas->setImageDispose($frame->native()->getImageDispose());
+                } catch (ImagickException $e) {
+                    throw new ModifierException(
+                        'Failed to apply ' . self::class . ', unable to set animation details',
+                        previous: $e
+                    );
+                }
             }
 
             // make the rectangular position of the original image transparent
@@ -52,19 +68,26 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
             // of the modifier in the other areas. if the original image has no
             // transparent area the rectangular transparency will be covered by
             // the original.
-            $clearer = new Imagick();
-            $clearer->newImage(
-                $frame->native()->getImageWidth(),
-                $frame->native()->getImageHeight(),
-                new ImagickPixel('black'),
-            );
-            $canvas->compositeImage($clearer, Imagick::COMPOSITE_DSTOUT, ...$position);
+            try {
+                $clearer = new Imagick();
+                $clearer->newImage(
+                    $frame->native()->getImageWidth(),
+                    $frame->native()->getImageHeight(),
+                    new ImagickPixel('black'),
+                );
+                $canvas->compositeImage($clearer, Imagick::COMPOSITE_DSTOUT, ...$position);
 
-            // place original frame content onto prepared frame canvas
-            $canvas->compositeImage($frame->native(), Imagick::COMPOSITE_DEFAULT, ...$position);
+                // place original frame content onto prepared frame canvas
+                $canvas->compositeImage($frame->native(), Imagick::COMPOSITE_DEFAULT, ...$position);
 
-            // add newly built frame to container imagick
-            $imagick->addImage($canvas);
+                // add newly built frame to container imagick
+                $imagick->addImage($canvas);
+            } catch (ImagickException $e) {
+                throw new ModifierException(
+                    'Failed to apply ' . self::class . ', unable to clear transparent areas',
+                    previous: $e
+                );
+            }
         }
 
         // replace imagick in the original image

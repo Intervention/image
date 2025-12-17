@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Decoders;
 
-use http\Exception\InvalidArgumentException;
 use Intervention\Image\Exceptions\FilePointerException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
@@ -25,12 +25,10 @@ class FilePointerImageDecoder extends BinaryImageDecoder
         $contents = '';
         $rewind = rewind($input);
         if ($rewind === false) {
-            // NEWEX
             throw new FilePointerException('Failed to rewind position of file pointer');
         }
 
         while (!feof($input)) {
-            // NEWEX
             $contents .= fread($input, 1024) ?: throw new FilePointerException('Failed to read from file pointer');
         }
 

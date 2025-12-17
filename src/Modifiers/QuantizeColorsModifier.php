@@ -6,7 +6,6 @@ namespace Intervention\Image\Modifiers;
 
 use Intervention\Image\Drivers\SpecializableModifier;
 use Intervention\Image\Interfaces\ColorInterface;
-use Intervention\Image\Exceptions\RuntimeException;
 
 class QuantizeColorsModifier extends SpecializableModifier
 {
@@ -24,8 +23,6 @@ class QuantizeColorsModifier extends SpecializableModifier
 
     /**
      * Return color to fill the newly created areas after rotation
-     *
-     * @throws RuntimeException
      */
     protected function backgroundColor(): ColorInterface
     {

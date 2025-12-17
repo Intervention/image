@@ -9,8 +9,7 @@ use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Drivers\Gd\Cloner;
-use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
@@ -39,9 +38,6 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
     /**
      * Apply rotation modification on given frame, given background
      * color is used for newly create image areas
-     *
-     * @throws ColorException
-     * @throws RuntimeException
      */
     protected function modifyFrame(FrameInterface $frame, ColorInterface $background): void
     {
@@ -57,12 +53,24 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
             default => $transparent,
         };
 
+        if ($transparent === false) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to allocate transparent color',
+            );
+        }
+
         // rotate original image against transparent background
         $rotated = imagerotate(
             $frame->native(),
             $this->rotationAngle(),
             $transparent
         );
+
+        if ($rotated === false) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable rotate image',
+            );
+        }
 
         // create size from original after rotation
         $container = (new Rectangle(
@@ -84,16 +92,36 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
 
         // draw the cutout on new gd image to have a transparent
         // background where the rotated image will be placed
-        imagealphablending($modified, false);
-        imagefilledpolygon(
+        $result = imagealphablending($modified, false);
+
+        if ($result === false) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to set alpha blending',
+            );
+        }
+
+        $result = imagefilledpolygon(
             $modified,
             $cutout->toArray(),
             imagecolortransparent($modified)
         );
 
+        if ($result === false) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to fill image background',
+            );
+        }
+
         // place rotated image on new gd image
-        imagealphablending($modified, true);
-        imagecopy(
+        $result = imagealphablending($modified, true);
+
+        if ($result === false) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to set alpha blending',
+            );
+        }
+
+        $result = imagecopy(
             $modified,
             $rotated,
             0,
@@ -103,6 +131,12 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
             imagesx($rotated),
             imagesy($rotated)
         );
+
+        if ($result === false) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to copy rotated image',
+            );
+        }
 
         $frame->setNative($modified);
     }

@@ -8,7 +8,7 @@ use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Drivers\Imagick\Decoders\BinaryImageDecoder;
 use Intervention\Image\Drivers\Imagick\Driver;
-use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Resource;
@@ -84,7 +84,7 @@ final class BinaryImageDecoderTest extends BaseTestCase
 
     public function testDecodeNonString(): void
     {
-        $this->expectException(DecoderException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->decoder->decode(new stdClass());
     }
 }

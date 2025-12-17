@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use RuntimeException;
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\DrawRectangleModifier as GenericDrawRectangleModifier;
@@ -15,8 +15,6 @@ class DrawRectangleModifier extends GenericDrawRectangleModifier implements Spec
      * {@inheritdoc}
      *
      * @see ModifierInterface::apply()
-     *
-     * @throws RuntimeException
      */
     public function apply(ImageInterface $image): ImageInterface
     {
@@ -25,9 +23,19 @@ class DrawRectangleModifier extends GenericDrawRectangleModifier implements Spec
         foreach ($image as $frame) {
             // draw background
             if ($this->drawable->hasBackgroundColor()) {
-                imagealphablending($frame->native(), true);
-                imagesetthickness($frame->native(), 0);
-                imagefilledrectangle(
+                $result = imagealphablending($frame->native(), true);
+
+                if ($result === false) {
+                    throw new ModifierException('Failed to set alpha blending');
+                }
+
+                $result = imagesetthickness($frame->native(), 0);
+
+                if ($result === false) {
+                    throw new ModifierException('Failed to set line thickness');
+                }
+
+                $result = imagefilledrectangle(
                     $frame->native(),
                     $position->x(),
                     $position->y(),
@@ -37,13 +45,26 @@ class DrawRectangleModifier extends GenericDrawRectangleModifier implements Spec
                         $this->backgroundColor()
                     )
                 );
+
+                if ($result === false) {
+                    throw new ModifierException('Failed to draw line on image');
+                }
             }
 
             // draw border
             if ($this->drawable->hasBorder()) {
-                imagealphablending($frame->native(), true);
-                imagesetthickness($frame->native(), $this->drawable->borderSize());
-                imagerectangle(
+                $result = imagealphablending($frame->native(), true);
+
+                if ($result === false) {
+                    throw new ModifierException('Failed to set alpha blending');
+                }
+
+                $result = imagesetthickness($frame->native(), $this->drawable->borderSize());
+
+                if ($result === false) {
+                    throw new ModifierException('Failed to set line thickness');
+                }
+                $result = imagerectangle(
                     $frame->native(),
                     $position->x(),
                     $position->y(),
@@ -53,6 +74,10 @@ class DrawRectangleModifier extends GenericDrawRectangleModifier implements Spec
                         $this->borderColor()
                     )
                 );
+
+                if ($result === false) {
+                    throw new ModifierException('Failed to draw line on image');
+                }
             }
         }
 

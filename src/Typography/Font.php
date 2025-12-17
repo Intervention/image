@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace Intervention\Image\Typography;
 
 use Intervention\Image\Alignment;
-use Intervention\Image\Exceptions\FontException;
+use Intervention\Image\Exceptions\ImageException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\FontInterface;
+use Intervention\Image\Traits\CanParseFilePath;
 
 class Font implements FontInterface
 {
+    use CanParseFilePath;
+
     protected float $size = 12;
     protected float $angle = 0;
     protected mixed $color = '000000';
@@ -74,16 +78,10 @@ class Font implements FontInterface
      * {@inheritdoc}
      *
      * @see FontInterface::setFilename()
-     *
-     * @throws FontException
      */
     public function setFilename(string $filename): FontInterface
     {
-        if (!file_exists($filename)) {
-            throw new FontException('Font file ' . $filename . ' does not exist');
-        }
-
-        $this->filename = $filename;
+        $this->filename = $this->parseFilePathOrFail($filename);
 
         return $this;
     }
@@ -105,7 +103,13 @@ class Font implements FontInterface
      */
     public function hasFilename(): bool
     {
-        return !is_null($this->filename) && is_file($this->filename);
+        try {
+            $this->parseFilePathOrFail($this->filename);
+        } catch (ImageException) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -160,7 +164,7 @@ class Font implements FontInterface
     public function setStrokeWidth(int $width): FontInterface
     {
         if (!in_array($width, range(0, 10))) {
-            throw new FontException(
+            throw new InvalidArgumentException(
                 'The stroke width must be in the range from 0 to 10'
             );
         }

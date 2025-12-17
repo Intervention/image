@@ -9,8 +9,7 @@ use Intervention\Image\Colors\Hsl\Channels\Hue;
 use Intervention\Image\Colors\Hsl\Channels\Luminance;
 use Intervention\Image\Colors\Hsl\Channels\Saturation;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
-use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -53,7 +52,7 @@ class Color extends AbstractColor
         $input = match (count($input)) {
             1 => $input[0],
             3 => $input,
-            default => throw new DecoderException(
+            default => throw new InvalidArgumentException(
                 'Too few arguments to create color, ' . count($input) . ' passed and 1 or 3 expected',
             ),
         };
@@ -98,8 +97,6 @@ class Color extends AbstractColor
      * {@inheritdoc}
      *
      * @see ColorInterface::toHex()
-     *
-     * @throws ColorException
      */
     public function toHex(string $prefix = ''): string
     {

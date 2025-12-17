@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image;
 
 use Error;
-use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 
 enum MediaType: string
 {
@@ -42,8 +42,6 @@ enum MediaType: string
 
     /**
      * Create media type from given identifier
-     *
-     * @throws NotSupportedException
      */
     public static function create(string|self|Format|FileExtension $identifier): self
     {
@@ -65,7 +63,7 @@ enum MediaType: string
             try {
                 $type = FileExtension::from(strtolower($identifier))->mediaType();
             } catch (Error) {
-                throw new NotSupportedException('Unable to create media type from "' . $identifier . '"');
+                throw new InvalidArgumentException('Unable to create media type from "' . $identifier . '"');
             }
         }
 
@@ -79,7 +77,7 @@ enum MediaType: string
     {
         try {
             return self::create($identifier);
-        } catch (NotSupportedException) {
+        } catch (InvalidArgumentException) {
             return null;
         }
     }
@@ -135,8 +133,6 @@ enum MediaType: string
 
     /**
      * Return the first file extension for the current media type
-     *
-     * @throws NotSupportedException
      */
     public function fileExtension(): FileExtension
     {

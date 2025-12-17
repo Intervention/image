@@ -8,7 +8,7 @@ use Imagick;
 use ImagickPixel;
 use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\Imagick\Frame;
-use Intervention\Image\Exceptions\AnimationException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
@@ -84,7 +84,7 @@ final class CoreTest extends BaseTestCase
         $this->assertInstanceOf(Frame::class, $this->core->frame(0));
         $this->assertInstanceOf(Frame::class, $this->core->frame(1));
         $this->assertInstanceOf(Frame::class, $this->core->frame(2));
-        $this->expectException(AnimationException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->core->frame(3);
     }
 

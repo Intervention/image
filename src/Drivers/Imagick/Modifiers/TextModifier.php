@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
-use ImagickDrawException;
-use ImagickException;
 use Intervention\Image\Drivers\Imagick\FontProcessor;
-use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Exceptions\FontException;
-use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\ImageException;
+use Intervention\Image\Exceptions\ModifierException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\FontInterface;
 use Intervention\Image\Interfaces\FrameInterface;
@@ -50,19 +49,13 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
 
     /**
      * Create an ImagickDraw object to draw text on the image
-     *
-     * @throws RuntimeException
-     * @throws ColorException
-     * @throws FontException
-     * @throws ImagickDrawException
-     * @throws ImagickException
      */
     private function imagickDrawText(ImageInterface $image, FontInterface $font): ImagickDraw
     {
         $color = $this->driver()->handleColorInput($font->color());
 
         if ($font->hasStrokeEffect() && $color->isTransparent()) {
-            throw new ColorException(
+            throw new StateException(
                 'The text color must be fully opaque when using the stroke effect'
             );
         }
@@ -74,12 +67,6 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
 
     /**
      * Create a ImagickDraw object to draw the outline stroke effect on the Image
-     *
-     * @throws RuntimeException
-     * @throws ColorException
-     * @throws FontException
-     * @throws ImagickDrawException
-     * @throws ImagickException
      */
     private function imagickDrawStroke(ImageInterface $image, FontInterface $font): ?ImagickDraw
     {
@@ -90,7 +77,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
         $color = $this->driver()->handleColorInput($font->strokeColor());
 
         if ($color->isTransparent()) {
-            throw new ColorException(
+            throw new StateException(
                 'The stroke color must be fully opaque'
             );
         }
@@ -111,27 +98,38 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
         PointInterface $offset = new Point(),
     ): void {
         if ($draw instanceof ImagickDraw) {
-            $frame->native()->annotateImage(
-                $draw,
-                $textline->position()->x() + $offset->x(),
-                $textline->position()->y() + $offset->y(),
-                $this->font->angle(),
-                (string) $textline
-            );
+            try {
+                $result = $frame->native()->annotateImage(
+                    $draw,
+                    $textline->position()->x() + $offset->x(),
+                    $textline->position()->y() + $offset->y(),
+                    $this->font->angle(),
+                    (string) $textline
+                );
+            } catch (ImageException $e) {
+                throw new ModifierException(
+                    'Failed to apply ' . self::class . ', unable to draw text line',
+                    previous: $e
+                );
+            }
+
+            if ($result === false) {
+                throw new ModifierException(
+                    'Failed to apply ' . self::class . ', unable to draw text line',
+                );
+            }
         }
     }
 
     /**
      * Return imagick font processor
-     *
-     * @throws FontException
      */
     private function processor(): FontProcessor
     {
         $processor = $this->driver()->fontProcessor();
 
         if (!($processor instanceof FontProcessor)) {
-            throw new FontException('Font processor does not match the driver');
+            throw new DriverException('Font processor does not match the driver');
         }
 
         return $processor;

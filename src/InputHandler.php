@@ -127,7 +127,7 @@ class InputHandler implements InputHandlerInterface
             try {
                 // decode with driver specialized decoder
                 return $this->resolve($decoder)->decode($input);
-            } catch (RuntimeException | LogicException) {
+            } catch (RuntimeException | LogicException $e) {
                 // try next decoder
             }
         }
@@ -138,6 +138,11 @@ class InputHandler implements InputHandlerInterface
 
         if ($input === '') {
             throw new DecoderException('Unable to decode empty string');
+        }
+
+        // re-use exception message if there is only one decoder
+        if (count($this->decoders) === 1) {
+            throw new ($e::class)($e->getMessage());
         }
 
         throw new DecoderException('Unable to decode input');

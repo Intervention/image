@@ -49,19 +49,22 @@
 - Usage of internal font's of GD library is determined by font size and no font file instead of font file
 - Method DrawableFactoryInterface::init() is replaced by DrawableFactoryInterface::create()
 - Method DrawableFactoryInterface::create() is replaced by DrawableFactoryInterface::drawable()
+- Signature of ImageInterface::pickColor() has changed, argument $frame_key is know $frame
+- Signature of Frame::__construct() has changed, argument $offset_left is know $offsetLeft and $offset_top is now $offsetTop
+- Signature of PixelColorAnalyzer::__construct() has changed, argument $frame_key is know $frame
 
 ### Exceptions
 
 ```
 ImageException [1]
-└─── LogicException [2]
-    ├── ArgumentException
-    │   ├── MissingArgumentException
-    │   └── InvalidArgumentException
-    ├── NotSupportedException
-    └── StateException
-
-├── RuntimeException [3]
+├── LogicException [2]
+│   ├── ArgumentException
+│   │   ├── MissingArgumentException
+│   │   └── InvalidArgumentException
+│   ├── NotSupportedException
+│   └── StateException
+│
+└── RuntimeException [3]
     ├── MissingDependencyException
     ├── FilesystemException
     │   ├── DirectoryNotFoundException

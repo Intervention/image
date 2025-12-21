@@ -25,7 +25,7 @@ class PixelColorAnalyzer extends GenericPixelColorAnalyzer implements Specialize
     {
         return $this->colorAt(
             $image->colorspace(),
-            $image->core()->frame($this->frame_key)->native()
+            $image->core()->frame($this->frame)->native()
         );
     }
 

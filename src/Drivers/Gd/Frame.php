@@ -25,8 +25,8 @@ class Frame extends AbstractFrame implements FrameInterface
         protected GdImage $native,
         protected float $delay = 0,
         protected int $dispose = 1,
-        protected int $offset_left = 0,
-        protected int $offset_top = 0
+        protected int $offsetLeft = 0,
+        protected int $offsetTop = 0
     ) {
         //
     }
@@ -128,8 +128,8 @@ class Frame extends AbstractFrame implements FrameInterface
      */
     public function setOffset(int $left, int $top): FrameInterface
     {
-        $this->offset_left = $left;
-        $this->offset_top = $top;
+        $this->offsetLeft = $left;
+        $this->offsetTop = $top;
 
         return $this;
     }
@@ -141,7 +141,7 @@ class Frame extends AbstractFrame implements FrameInterface
      */
     public function offsetLeft(): int
     {
-        return $this->offset_left;
+        return $this->offsetLeft;
     }
 
     /**
@@ -151,7 +151,7 @@ class Frame extends AbstractFrame implements FrameInterface
      */
     public function setOffsetLeft(int $offset): FrameInterface
     {
-        $this->offset_left = $offset;
+        $this->offsetLeft = $offset;
 
         return $this;
     }
@@ -163,7 +163,7 @@ class Frame extends AbstractFrame implements FrameInterface
      */
     public function offsetTop(): int
     {
-        return $this->offset_top;
+        return $this->offsetTop;
     }
 
     /**
@@ -173,7 +173,7 @@ class Frame extends AbstractFrame implements FrameInterface
      */
     public function setOffsetTop(int $offset): FrameInterface
     {
-        $this->offset_top = $offset;
+        $this->offsetTop = $offset;
 
         return $this;
     }

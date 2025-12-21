@@ -368,9 +368,9 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::pickColor()
      */
-    public function pickColor(int $x, int $y, int $frame_key = 0): ColorInterface
+    public function pickColor(int $x, int $y, int $frame = 0): ColorInterface
     {
-        return $this->analyze(new PixelColorAnalyzer($x, $y, $frame_key));
+        return $this->analyze(new PixelColorAnalyzer($x, $y, $frame));
     }
 
     /**

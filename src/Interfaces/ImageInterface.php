@@ -172,7 +172,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @link https://image.intervention.io/v3/basics/colors#color-information
      */
-    public function pickColor(int $x, int $y, int $frame_key = 0): ColorInterface;
+    public function pickColor(int $x, int $y, int $frame = 0): ColorInterface;
 
     /**
      * Return all colors of pixel at given position for all frames of image

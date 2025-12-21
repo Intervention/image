@@ -11,7 +11,7 @@ class PixelColorAnalyzer extends SpecializableAnalyzer
     public function __construct(
         public int $x,
         public int $y,
-        public int $frame_key = 0
+        public int $frame = 0
     ) {
         //
     }

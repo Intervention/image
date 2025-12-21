@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Geometry\Traits;
 
+use Intervention\Image\Exceptions\InvalidArgumentException;
+
 trait HasBorder
 {
     protected mixed $borderColor = null;
@@ -26,6 +28,12 @@ trait HasBorder
      */
     public function setBorderSize(int $size): self
     {
+        if ($size < 0) {
+            throw new InvalidArgumentException(
+                'Border size must be greater than or equal to 0'
+            );
+        }
+
         $this->borderSize = $size;
 
         return $this;

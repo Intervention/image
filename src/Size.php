@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Tools\RectangleResizer;
 use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -22,6 +23,18 @@ class Size extends Polygon implements SizeInterface
         int $height,
         protected PointInterface $pivot = new Point()
     ) {
+        if ($width < 0) {
+            throw new InvalidArgumentException(
+                'Width must be greater than or equal to 0'
+            );
+        }
+
+        if ($height < 0) {
+            throw new InvalidArgumentException(
+                'Height must be greater than or equal to 0'
+            );
+        }
+
         $this->addPoint(new Point($this->pivot->x(), $this->pivot->y()));
         $this->addPoint(new Point($this->pivot->x() + $width, $this->pivot->y()));
         $this->addPoint(new Point($this->pivot->x() + $width, $this->pivot->y() - $height));

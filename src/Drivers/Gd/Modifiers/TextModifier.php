@@ -76,12 +76,12 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
                 foreach ($lines as $line) {
                     foreach ($this->strokeOffsets($this->font) as $offset) {
                         $result = imagestring(
-                            $frame->native(),
-                            $this->gdFont(),
-                            $line->position()->x() + $offset->x(),
-                            $line->position()->y() + $offset->y(),
-                            (string) $line,
-                            $strokeColor
+                            image: $frame->native(),
+                            font: $this->gdFont(),
+                            x: $line->position()->x() + $offset->x(),
+                            y: $line->position()->y() + $offset->y(),
+                            string: (string) $line,
+                            color: $strokeColor
                         );
 
                         if ($result === false) {
@@ -90,12 +90,12 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
                     }
 
                     $result = imagestring(
-                        $frame->native(),
-                        $this->gdFont(),
-                        $line->position()->x(),
-                        $line->position()->y(),
-                        (string) $line,
-                        $textColor
+                        image: $frame->native(),
+                        font:  $this->gdFont(),
+                        x: $line->position()->x(),
+                        y: $line->position()->y(),
+                        string: (string) $line,
+                        color: $textColor
                     );
 
                     if ($result === false) {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Typography;
 
 use Intervention\Image\Alignment;
-use Intervention\Image\Exceptions\ImageException;
+use Intervention\Image\Exceptions\FilesystemException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\FontInterface;
 use Intervention\Image\Traits\CanParseFilePath;
@@ -14,20 +14,19 @@ class Font implements FontInterface
 {
     use CanParseFilePath;
 
-    protected float $size = 12;
-    protected float $angle = 0;
-    protected mixed $color = '000000';
-    protected mixed $strokeColor = 'ffffff';
-    protected int $strokeWidth = 0;
-    protected ?string $filename = null;
-    protected Alignment $alignment = Alignment::LEFT;
-    protected Alignment $valignment = Alignment::BOTTOM;
-    protected float $lineHeight = 1.25;
-    protected ?int $wrapWidth = null;
-
-    public function __construct(?string $filename = null)
-    {
-        $this->filename = $filename;
+    public function __construct(
+        protected ?string $filepath = null,
+        protected float $size = 12,
+        protected float $angle = 0,
+        protected mixed $color = '000000',
+        protected mixed $strokeColor = 'ffffff',
+        protected int $strokeWidth = 0,
+        protected Alignment $alignment = Alignment::LEFT,
+        protected Alignment $valignment = Alignment::BOTTOM,
+        protected float $lineHeight = 1.25,
+        protected ?int $wrapWidth = null,
+    ) {
+        //
     }
 
     /**
@@ -77,11 +76,11 @@ class Font implements FontInterface
     /**
      * {@inheritdoc}
      *
-     * @see FontInterface::setFilename()
+     * @see FontInterface::setFilepath()
      */
-    public function setFilename(string $filename): FontInterface
+    public function setFilepath(string $path): FontInterface
     {
-        $this->filename = $this->parseFilePathOrFail($filename);
+        $this->filepath = $this->parseFilePathOrFail($path);
 
         return $this;
     }
@@ -89,27 +88,25 @@ class Font implements FontInterface
     /**
      * {@inheritdoc}
      *
-     * @see FontInterface::filename()
+     * @see FontInterface::filepath()
      */
-    public function filename(): ?string
+    public function filepath(): ?string
     {
-        return $this->filename;
+        try {
+            return $this->parseFilePathOrFail($this->filepath);
+        } catch (FilesystemException | InvalidArgumentException) {
+            return null;
+        }
     }
 
     /**
      * {@inheritdoc}
      *
-     * @see FontInterface::hasFilename()
+     * @see FontInterface::hasFile()
      */
-    public function hasFilename(): bool
+    public function hasFile(): bool
     {
-        try {
-            $this->parseFilePathOrFail($this->filename);
-        } catch (ImageException) {
-            return false;
-        }
-
-        return true;
+        return $this->filepath() !== null;
     }
 
     /**

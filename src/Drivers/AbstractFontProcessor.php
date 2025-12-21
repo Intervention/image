@@ -29,7 +29,7 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
         $blockWidth = $this->boxSize((string) $lines->longestLine(), $font)->width();
 
         $x = $pivot->x();
-        $y = $font->hasFilename() ? $pivot->y() + $this->capHeight($font) : $pivot->y();
+        $y = $font->hasFile() ? $pivot->y() + $this->capHeight($font) : $pivot->y();
         $xAdjustment = 0;
 
         // adjust line positions according to alignment

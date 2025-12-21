@@ -21,7 +21,7 @@ final class FontFactoryTest extends BaseTestCase
         $factory = new FontFactory(new Font($font_file));
         $result = $factory();
         $this->assertInstanceOf(FontInterface::class, $result);
-        $this->assertEquals($font_file, $result->filename());
+        $this->assertEquals($font_file, $result->filepath());
     }
 
     public function testBuildWithCallback(): void
@@ -40,7 +40,7 @@ final class FontFactoryTest extends BaseTestCase
 
         $result = $factory();
         $this->assertInstanceOf(FontInterface::class, $result);
-        $this->assertEquals(Resource::create('test.ttf')->path(), $result->filename());
+        $this->assertEquals(Resource::create('test.ttf')->path(), $result->filepath());
         $this->assertEquals('#b01735', $result->color());
         $this->assertEquals(70, $result->size());
         $this->assertEquals(Alignment::CENTER, $result->alignment());

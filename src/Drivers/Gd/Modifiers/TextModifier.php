@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Exceptions\FileNotFoundException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -27,18 +26,9 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
         $textColor = $this->gdTextColor($image);
         $strokeColor = $this->gdStrokeColor($image);
 
-        // build full path to font file to make sure to pass absolute path to imageftbbox()
-        // because of issues with different GD version behaving differently when passing
-        // relative paths to imagettftext()
-        // TODO: refactor
-        $fontPath = $this->font->hasFilename() ? realpath($this->font->filename()) : false;
-        if ($this->font->hasFilename() && $fontPath === false) {
-            throw new FileNotFoundException('Font file ' . $this->font->filename() . ' does not exist.');
-        }
-
         foreach ($image as $frame) {
             imagealphablending($frame->native(), true);
-            if ($this->font->hasFilename()) {
+            if ($this->font->hasFile()) {
                 foreach ($lines as $line) {
                     foreach ($this->strokeOffsets($this->font) as $offset) {
                         $result = imagettftext(
@@ -48,7 +38,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
                             x: $line->position()->x() + $offset->x(),
                             y: $line->position()->y() + $offset->y(),
                             color: $strokeColor,
-                            font_filename: $fontPath,
+                            font_filename: $this->font->filepath(),
                             text: (string) $line
                         );
 
@@ -64,7 +54,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
                         x: $line->position()->x(),
                         y: $line->position()->y(),
                         color: $textColor,
-                        font_filename: $fontPath,
+                        font_filename: $this->font->filepath(),
                         text: (string) $line
                     );
 
@@ -91,7 +81,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
 
                     $result = imagestring(
                         image: $frame->native(),
-                        font:  $this->gdFont(),
+                        font: $this->gdFont(),
                         x: $line->position()->x(),
                         y: $line->position()->y(),
                         string: (string) $line,
@@ -141,14 +131,14 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
     }
 
     /**
-     * Return GD's internal font size (if no ttf file is set)
+     * Return GD's internal font size
      */
     private function gdFont(): int
     {
-        if (is_numeric($this->font->filename())) {
-            return intval($this->font->filename());
+        if (!in_array($this->font->size(), range(1, 5))) {
+            return 1;
         }
 
-        return 1;
+        return (int) $this->font->size();
     }
 }

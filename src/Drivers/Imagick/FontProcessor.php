@@ -43,14 +43,14 @@ class FontProcessor extends AbstractFontProcessor
      */
     public function toImagickDraw(FontInterface $font, ?ImagickPixel $color = null): ImagickDraw
     {
-        if (!$font->hasFilename()) {
+        if (!$font->hasFile()) {
             throw new StateException('No font file specified');
         }
 
         $draw = new ImagickDraw();
         $draw->setStrokeAntialias(true);
         $draw->setTextAntialias(true);
-        $draw->setFont($font->filename());
+        $draw->setFont($font->filepath());
         $draw->setFontSize($this->nativeFontSize($font));
         $draw->setTextAlignment(Imagick::ALIGN_LEFT);
 

@@ -18,7 +18,11 @@ final class FontTest extends BaseTestCase
     {
         $font = new Font('foo.ttf');
         $this->assertInstanceOf(Font::class, $font);
-        $this->assertEquals('foo.ttf', $font->filename());
+        $this->assertNull($font->filepath());
+
+        $font = new Font(Resource::create('test.ttf')->path());
+        $this->assertInstanceOf(Font::class, $font);
+        $this->assertEquals('test.ttf', basename($font->filepath()));
     }
 
     public function testSetGetSize(): void
@@ -42,13 +46,13 @@ final class FontTest extends BaseTestCase
     public function testSetGetFilename(): void
     {
         $font = new Font();
-        $this->assertEquals(null, $font->filename());
-        $this->assertFalse($font->hasFilename());
+        $this->assertEquals(null, $font->filepath());
+        $this->assertFalse($font->hasFile());
         $filename = Resource::create()->path();
-        $result = $font->setFilename($filename);
-        $this->assertTrue($font->hasFilename());
+        $result = $font->setFilepath($filename);
+        $this->assertTrue($font->hasFile());
         $this->assertInstanceOf(Font::class, $result);
-        $this->assertEquals($filename, $font->filename());
+        $this->assertEquals($filename, $font->filepath());
     }
 
     public function testSetGetColor(): void

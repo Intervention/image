@@ -65,19 +65,19 @@ interface FontInterface
     public function angle(): float;
 
     /**
-     * Set font filename
+     * Set font file path
      */
-    public function setFilename(string $filename): self;
+    public function setFilepath(string $path): self;
 
     /**
-     * Get font filename
+     * Get font file path
      */
-    public function filename(): ?string;
+    public function filepath(): ?string;
 
     /**
-     * Determine if font has a corresponding filename
+     * Determine if font has a corresponding file
      */
-    public function hasFilename(): bool;
+    public function hasFile(): bool;
 
     /**
      * Set horizontal alignment of font

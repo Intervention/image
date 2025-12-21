@@ -6,7 +6,6 @@ namespace Intervention\Image\Drivers\Gd;
 
 use Intervention\Image\Drivers\AbstractFontProcessor;
 use Intervention\Image\Exceptions\DriverException;
-use Intervention\Image\Exceptions\FileNotFoundException;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\FontInterface;
@@ -23,35 +22,29 @@ class FontProcessor extends AbstractFontProcessor
     {
         // if the font has no ttf file the box size is calculated
         // with gd's internal font system: integer values from 1-5
-        if (!$font->hasFilename()) {
+        if (!$font->hasFile()) {
+            // font size to gd's internal fonts (1-5)
+            $gdFont = (int) $font->size();
+
             // calculate box size from gd font
             $box = new Rectangle(0, 0);
             $chars = mb_strlen($text);
             if ($chars > 0) {
                 $box->setWidth(
-                    $chars * $this->gdCharacterWidth((int) $font->filename())
+                    $chars * $this->gdCharacterWidth($gdFont)
                 );
                 $box->setHeight(
-                    $this->gdCharacterHeight((int) $font->filename())
+                    $this->gdCharacterHeight($gdFont)
                 );
             }
             return $box;
-        }
-
-        // build full path to font file to make sure to pass absolute path to imageftbbox()
-        // because of issues with different GD version behaving differently when passing
-        // relative paths to imageftbbox()
-        // TODO: refactor
-        $fontPath = realpath($font->filename());
-        if ($fontPath === false) {
-            throw new FileNotFoundException('Font file ' . $font->filename() . ' does not exist.');
         }
 
         // calculate box size from ttf font file with angle 0
         $box = imageftbbox(
             size: $this->nativeFontSize($font),
             angle: 0,
-            font_filename: $fontPath,
+            font_filename: $font->filepath(),
             string: $text,
         );
 

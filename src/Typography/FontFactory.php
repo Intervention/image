@@ -32,7 +32,7 @@ class FontFactory
      */
     public function filename(string $value): self
     {
-        $this->font->setFilename($value);
+        $this->font->setFilepath($value);
 
         return $this;
     }
@@ -43,6 +43,16 @@ class FontFactory
      * @see self::filename()
      */
     public function file(string $value): self
+    {
+        return $this->filename($value);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see self::filename()
+     */
+    public function filepath(string $value): self
     {
         return $this->filename($value);
     }

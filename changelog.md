@@ -43,6 +43,10 @@
 - Method ImageManagerInterface::read() is now handled by ImageManagerInterface::decode()
 - Removed default argument for $decoders in ImageManagerInterface::decode()
 - Method ImageInterface::save() only processes known image file extensions
+- Method FontInterface::filename() is replaced by FontInterface::filepath()
+- Method FontInterface::hasFilename() is replaced by FontInterface::hasFile()
+- Method FontInterface::setFilename() is replaced by FontInterface::setFilepath()
+- Usage of internal font's of GD library is determined by font size and no font file instead of font file
 
 ### Exceptions
 

@@ -37,22 +37,28 @@ trait CanParseFilePath
         $dirname = pathinfo($path, PATHINFO_DIRNAME);
         $basename = pathinfo($path, PATHINFO_BASENAME);
 
-        if (!is_dir($dirname)) {
+        // directory must exist
+        if (!@is_dir($dirname)) {
             throw new DirectoryNotFoundException('Directory "' . $dirname . '" not found');
         }
 
-        if (!@is_file($path)) {
+        // file must exit
+        if (!@file_exists($path)) {
             throw new FileNotFoundException('File "' . $basename . '" not found in directory "' . $dirname . '"');
         }
 
-        if (!is_readable($dirname)) {
+        if (!@is_file($path)) {
+            throw new FileNotFoundException('Target "' . $basename . '" is no file in directory "' . $dirname . '"');
+        }
+
+        if (!@is_readable($dirname)) {
             throw new FileNotReadableException('Directory "' . $dirname . '" is not readable');
         }
 
-        if (!is_readable($path)) {
+        if (!@is_readable($path)) {
             throw new FileNotReadableException('File "' . $path . '" is not readable');
         }
 
-        return $path; // TODO: MAYBE add realpath()
+        return realpath($path);
     }
 }

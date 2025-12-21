@@ -18,13 +18,13 @@ class RectangleResizer
     ) {
         if (is_int($width) && $width < 1) {
             throw new InvalidArgumentException(
-                'The width you specify must be greater than or equal to 1'
+                'Width must be greater than or equal to 1'
             );
         }
 
         if (is_int($height) && $height < 1) {
             throw new InvalidArgumentException(
-                'The height you specify must be greater than or equal to 1'
+                'Height must be greater than or equal to 1'
             );
         }
     }

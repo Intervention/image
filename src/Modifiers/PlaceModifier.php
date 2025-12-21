@@ -28,16 +28,16 @@ class PlaceModifier extends SpecializableModifier
 
     public function position(ImageInterface $image, ImageInterface $watermark): PointInterface
     {
-        $image_size = $image->size()->movePivot(
+        $imageSize = $image->size()->movePivot(
             $this->alignment,
             $this->x,
             $this->y
         );
 
-        $watermark_size = $watermark->size()->movePivot(
+        $watermarkSize = $watermark->size()->movePivot(
             $this->alignment
         );
 
-        return $image_size->relativePositionTo($watermark_size);
+        return $imageSize->relativePositionTo($watermarkSize);
     }
 }

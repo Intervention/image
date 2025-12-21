@@ -15,22 +15,22 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
 {
     public function apply(ImageInterface $image): ImageInterface
     {
-        $background_color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+        $backgroundColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
             $this->backgroundColor()
         );
 
-        $border_color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+        $borderColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
             $this->borderColor()
         );
 
         foreach ($image as $frame) {
             try {
                 $drawing = new ImagickDraw();
-                $drawing->setFillColor($background_color);
+                $drawing->setFillColor($backgroundColor);
 
                 if ($this->drawable->hasBorder()) {
                     $drawing->setStrokeWidth($this->drawable->borderSize());
-                    $drawing->setStrokeColor($border_color);
+                    $drawing->setStrokeColor($borderColor);
                 }
 
                 $drawing->ellipse(

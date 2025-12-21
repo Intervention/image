@@ -22,21 +22,21 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
         $drawing = new ImagickDraw();
 
         if ($this->drawable->hasBackgroundColor()) {
-            $background_color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+            $backgroundColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
                 $this->backgroundColor()
             );
         } else {
-            $background_color = 'transparent';
+            $backgroundColor = 'transparent';
         }
 
-        $drawing->setFillColor($background_color);
+        $drawing->setFillColor($backgroundColor);
 
         if ($this->drawable->hasBorder() && $this->drawable->borderSize() > 0) {
-            $border_color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+            $borderColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
                 $this->borderColor()
             );
 
-            $drawing->setStrokeColor($border_color);
+            $drawing->setStrokeColor($borderColor);
             $drawing->setStrokeWidth($this->drawable->borderSize());
         }
 

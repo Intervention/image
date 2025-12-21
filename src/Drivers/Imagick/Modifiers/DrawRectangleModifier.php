@@ -17,18 +17,18 @@ class DrawRectangleModifier extends GenericDrawRectangleModifier implements Spec
     {
         $drawing = new ImagickDraw();
 
-        $background_color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+        $backgroundColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
             $this->backgroundColor()
         );
 
-        $border_color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+        $borderColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
             $this->borderColor()
         );
 
         try {
-            $drawing->setFillColor($background_color);
+            $drawing->setFillColor($backgroundColor);
             if ($this->drawable->hasBorder()) {
-                $drawing->setStrokeColor($border_color);
+                $drawing->setStrokeColor($borderColor);
                 $drawing->setStrokeWidth($this->drawable->borderSize());
             }
 

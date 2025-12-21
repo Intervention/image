@@ -43,14 +43,14 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
         $modified = Cloner::cloneEmpty($frame->native(), $resizeTo, $background);
 
         // define offset
-        $offset_x = $resizeTo->pivot()->x() + $this->x;
-        $offset_y = $resizeTo->pivot()->y() + $this->y;
+        $offsetX = $resizeTo->pivot()->x() + $this->x;
+        $offsetY = $resizeTo->pivot()->y() + $this->y;
 
         // define target width & height
         $targetWidth = min($resizeTo->width(), $originalSize->width());
         $targetHeight = min($resizeTo->height(), $originalSize->height());
-        $targetWidth = $targetWidth < $originalSize->width() ? $targetWidth + $offset_x : $targetWidth;
-        $targetHeight = $targetHeight < $originalSize->height() ? $targetHeight + $offset_y : $targetHeight;
+        $targetWidth = $targetWidth < $originalSize->width() ? $targetWidth + $offsetX : $targetWidth;
+        $targetHeight = $targetHeight < $originalSize->height() ? $targetHeight + $offsetY : $targetHeight;
 
         // don't alpha blend for copy operation to keep transparent areas of original image
         $result = imagealphablending($modified, false);
@@ -63,8 +63,8 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
         $result = imagecopyresampled(
             $modified,
             $frame->native(),
-            $offset_x * -1,
-            $offset_y * -1,
+            $offsetX * -1,
+            $offsetY * -1,
             0,
             0,
             $targetWidth,

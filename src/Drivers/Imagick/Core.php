@@ -103,15 +103,15 @@ class Core implements CoreInterface, Iterator
      */
     public function slice(int $offset, ?int $length = null): CollectionInterface
     {
-        $allowed_indexes = [];
+        $allowedIndexes = [];
         $length = is_null($length) ? $this->count() : $length;
         for ($i = $offset; $i < $offset + $length; $i++) {
-            $allowed_indexes[] = $i;
+            $allowedIndexes[] = $i;
         }
 
         $sliced = new Imagick();
         foreach ($this->imagick as $key => $native) {
-            if (in_array($key, $allowed_indexes)) {
+            if (in_array($key, $allowedIndexes)) {
                 try {
                     $sliced->addImage($native->getImage());
                 } catch (ImagickException $e) {

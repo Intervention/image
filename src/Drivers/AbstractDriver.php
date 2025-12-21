@@ -146,7 +146,7 @@ abstract class AbstractDriver implements DriverInterface
         }
 
         // resolve classname for specializable object
-        $specialized_classname = implode("\\", [
+        $specializedClassname = implode("\\", [
             (new ReflectionClass($this))->getNamespaceName(), // driver's namespace
             match (true) {
                 $object instanceof ModifierInterface => 'Modifiers',
@@ -154,18 +154,18 @@ abstract class AbstractDriver implements DriverInterface
                 $object instanceof EncoderInterface => 'Encoders',
                 $object instanceof DecoderInterface => 'Decoders',
             },
-            $object_shortname = (new ReflectionClass($object))->getShortName(),
+            $objectShortname = (new ReflectionClass($object))->getShortName(),
         ]);
 
         // fail if driver specialized classname does not exists
-        if (!class_exists($specialized_classname)) {
+        if (!class_exists($specializedClassname)) {
             throw new NotSupportedException(
-                "Class '" . $object_shortname . "' is not supported by " . $this->id() . " driver"
+                "Class '" . $objectShortname . "' is not supported by " . $this->id() . " driver"
             );
         }
 
         // create a driver specialized object with the specializable properties of generic object
-        $specialized = new $specialized_classname(...$object->specializable());
+        $specialized = new $specializedClassname(...$object->specializable());
 
         // attach driver
         return $specialized->setDriver($this);

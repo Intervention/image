@@ -21,19 +21,19 @@ class DrawPolygonModifier extends GenericDrawPolygonModifier implements Speciali
             $drawing->setFillColor(new ImagickPixel('transparent')); // defaults to no backgroundColor
 
             if ($this->drawable->hasBackgroundColor()) {
-                $background_color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                $backgroundColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
                     $this->backgroundColor()
                 );
 
-                $drawing->setFillColor($background_color);
+                $drawing->setFillColor($backgroundColor);
             }
 
             if ($this->drawable->hasBorder()) {
-                $border_color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                $borderColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
                     $this->borderColor()
                 );
 
-                $drawing->setStrokeColor($border_color);
+                $drawing->setStrokeColor($borderColor);
                 $drawing->setStrokeWidth($this->drawable->borderSize());
             }
 

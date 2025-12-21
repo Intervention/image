@@ -17,11 +17,11 @@ final class FontFactoryTest extends BaseTestCase
 {
     public function testBuildWithFont(): void
     {
-        $font_file = Resource::create('test.ttf')->path();
-        $factory = new FontFactory(new Font($font_file));
+        $fontFile = Resource::create('test.ttf')->path();
+        $factory = new FontFactory(new Font($fontFile));
         $result = $factory();
         $this->assertInstanceOf(FontInterface::class, $result);
-        $this->assertEquals($font_file, $result->filepath());
+        $this->assertEquals($fontFile, $result->filepath());
     }
 
     public function testBuildWithCallback(): void

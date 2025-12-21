@@ -47,6 +47,8 @@
 - Method FontInterface::hasFilename() is replaced by FontInterface::hasFile()
 - Method FontInterface::setFilename() is replaced by FontInterface::setFilepath()
 - Usage of internal font's of GD library is determined by font size and no font file instead of font file
+- Method DrawableFactoryInterface::init() is replaced by DrawableFactoryInterface::create()
+- Method DrawableFactoryInterface::create() is replaced by DrawableFactoryInterface::drawable()
 
 ### Exceptions
 

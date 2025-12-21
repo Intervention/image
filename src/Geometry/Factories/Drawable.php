@@ -4,53 +4,56 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Geometry\Factories;
 
+use Closure;
+use Intervention\Image\Interfaces\DrawableInterface;
+
 class Drawable
 {
     /**
      * Creeate BezierFactory statically
      */
-    public static function bezier(): BezierFactory
+    public static function bezier(null|Closure|DrawableInterface $init = null): BezierFactory
     {
-        return new BezierFactory();
+        return BezierFactory::create($init);
     }
 
     /**
      * Creeate CircleFactory statically
      */
-    public static function circle(): CircleFactory
+    public static function circle(null|Closure|DrawableInterface $init = null): CircleFactory
     {
-        return new CircleFactory();
+        return CircleFactory::create($init);
     }
 
     /**
      * Create EllipseFactory statically
      */
-    public static function ellipse(): EllipseFactory
+    public static function ellipse(null|Closure|DrawableInterface $init = null): EllipseFactory
     {
-        return new EllipseFactory();
+        return EllipseFactory::create($init);
     }
 
     /**
      * Creeate LineFactory statically
      */
-    public static function line(): LineFactory
+    public static function line(null|Closure|DrawableInterface $init = null): LineFactory
     {
-        return new LineFactory();
+        return LineFactory::create($init);
     }
 
     /**
      * Creeate PolygonFactory statically
      */
-    public static function polygon(): PolygonFactory
+    public static function polygon(null|Closure|DrawableInterface $init = null): PolygonFactory
     {
-        return new PolygonFactory();
+        return PolygonFactory::create($init);
     }
 
     /**
      * Creeate RectangleFactory statically
      */
-    public static function rectangle(): RectangleFactory
+    public static function rectangle(null|Closure|DrawableInterface $init = null): RectangleFactory
     {
-        return new RectangleFactory();
+        return RectangleFactory::create($init);
     }
 }

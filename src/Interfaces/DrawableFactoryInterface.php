@@ -11,12 +11,12 @@ interface DrawableFactoryInterface
     /**
      * Create a new factory instance statically
      */
-    public static function init(null|Closure|DrawableInterface $init = null): self;
+    public static function create(null|Closure|DrawableInterface $init = null): self;
 
     /**
      * Create the end product of the factory
      */
-    public function create(): DrawableInterface;
+    public function drawable(): DrawableInterface;
 
     /**
      * Define the background color of the drawable object

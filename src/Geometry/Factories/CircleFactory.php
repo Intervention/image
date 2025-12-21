@@ -35,9 +35,9 @@ class CircleFactory implements DrawableFactoryInterface
     /**
      * {@inheritdoc}
      *
-     * @see DrawableFactoryInterface::init()
+     * @see DrawableFactoryInterface::create()
      */
-    public static function init(null|Closure|DrawableInterface $init = null): self
+    public static function create(null|Closure|DrawableInterface $init = null): self
     {
         return new self(init: $init);
     }
@@ -45,9 +45,9 @@ class CircleFactory implements DrawableFactoryInterface
     /**
      * {@inheritdoc}
      *
-     * @see DrawableFactoryInterface::create()
+     * @see DrawableFactoryInterface::drawable()
      */
-    public function create(): DrawableInterface
+    public function drawable(): DrawableInterface
     {
         return $this->circle;
     }

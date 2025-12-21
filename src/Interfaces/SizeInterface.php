@@ -103,5 +103,6 @@ interface SizeInterface
      */
     public function contain(int $width, int $height): self;
 
+    // TODO
     public function containMax(int $width, int $height): self;
 }

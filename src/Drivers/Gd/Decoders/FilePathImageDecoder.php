@@ -25,6 +25,8 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
             return false;
         }
 
+        $input = (string) $input;
+
         if (strlen($input) > PHP_MAXPATHLEN) {
             return false;
         }

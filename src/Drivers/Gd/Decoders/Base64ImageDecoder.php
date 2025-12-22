@@ -21,6 +21,8 @@ class Base64ImageDecoder extends BinaryImageDecoder implements DecoderInterface
             return false;
         }
 
+        $input = (string) $input;
+
         if (str_ends_with($input, '=')) {
             return true;
         }

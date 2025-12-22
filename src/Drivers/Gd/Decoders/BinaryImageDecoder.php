@@ -25,6 +25,8 @@ class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
             return false;
         }
 
+        $input = (string) $input;
+
         // contains non printable ascii
         if (preg_match('/[^ -~]/', $input) === 1) {
             return true;

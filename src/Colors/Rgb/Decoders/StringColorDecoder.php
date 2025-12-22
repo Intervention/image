@@ -9,23 +9,36 @@ use Intervention\Image\Drivers\AbstractDecoder;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
-use Intervention\Image\Interfaces\ImageInterface;
 
 class StringColorDecoder extends AbstractDecoder implements DecoderInterface
 {
     /**
-     * Decode rgb color strings
+     * {@inheritdoc}
+     *
+     * @see DecoderInterface::supports()
      */
-    public function decode(mixed $input): ImageInterface|ColorInterface
+    public function supports(mixed $input): bool
     {
         if (!is_string($input)) {
-            throw new InvalidArgumentException('Input must be of type string');
+            return false;
         }
 
+        if (preg_match('/^s?rgb/i', $input) != 1) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Decode rgb color strings
+     */
+    public function decode(mixed $input): ColorInterface
+    {
         $pattern = '/^s?rgba?\((?P<r>[0-9\.]+%?), ?(?P<g>[0-9\.]+%?), ?(?P<b>[0-9\.]+%?)' .
             '(?:, ?(?P<a>(?:1)|(?:1\.0*)|(?:0)|(?:0?\.\d+%?)|(?:\d{1,3}%)))?\)$/i';
         if (preg_match($pattern, $input, $matches) != 1) {
-            throw new InvalidArgumentException('Input must be rgb() color scheme');
+            throw new InvalidArgumentException('Invalid rgb() color notation');
         }
 
         // rgb values

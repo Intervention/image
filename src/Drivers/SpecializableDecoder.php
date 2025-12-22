@@ -17,10 +17,20 @@ abstract class SpecializableDecoder extends AbstractDecoder implements Specializ
     /**
      * {@inheritdoc}
      *
+     * @see DecoderInterface::supports()
+     */
+    public function supports(mixed $input): bool
+    {
+        throw new DriverException('Decoder ' . $this::class . ' must be specialized by the driver first');
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see DecoderInterface::decode()
      */
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
-        throw new DriverException('Decoder must be specialized by the driver first');
+        throw new DriverException('Decoder ' . $this::class . ' must be specialized by the driver first');
     }
 }

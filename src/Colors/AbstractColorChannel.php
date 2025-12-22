@@ -76,7 +76,7 @@ abstract class AbstractColorChannel implements ColorChannelInterface, Stringable
     {
         if ($value < $this->min() || $value > $this->max()) {
             throw new InvalidArgumentException(
-                'Color channel value must be in range ' . $this->min() . ' to ' . $this->max(),
+                'Color channel ' . $this::class . ' value must be in range ' . $this->min() . ' to ' . $this->max(),
             );
         }
 

@@ -15,7 +15,7 @@ use Intervention\Image\Drivers\Imagick\Decoders\FilePathImageDecoder;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Drivers\Imagick\Encoders\PngEncoder;
 use Intervention\Image\Drivers\Imagick\Modifiers\ResizeModifier;
-use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\ImageException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Format;
@@ -75,16 +75,6 @@ final class DriverTest extends BaseTestCase
      * @param array<string|DecoderInterface> $decoders
      */
     #[DataProviderExternal(InputDataProvider::class, 'handleImageInputDataProvider')]
-    #[DataProviderExternal(InputDataProvider::class, 'handleColorInputDataProvider')]
-    public function testHandleInput(mixed $input, ?array $decoders, string $resultClassname): void
-    {
-        $this->assertInstanceOf($resultClassname, $this->driver->handleInput($input, $decoders));
-    }
-
-    /**
-     * @param array<string|DecoderInterface> $decoders
-     */
-    #[DataProviderExternal(InputDataProvider::class, 'handleImageInputDataProvider')]
     public function testHandleImageInput(mixed $input, ?array $decoders, string $resultClassname): void
     {
         $this->assertInstanceOf($resultClassname, $this->driver->handleImageInput($input, $decoders));
@@ -105,7 +95,7 @@ final class DriverTest extends BaseTestCase
     #[DataProviderExternal(InputDataProvider::class, 'handleImageInputDataProvider')]
     public function testHandleColorInputFail(mixed $input, ?array $decoders, string $resultClassname): void
     {
-        $this->expectException(DecoderException::class);
+        $this->expectException(ImageException::class);
         $this->driver->handleColorInput($input, $decoders);
     }
 
@@ -115,7 +105,7 @@ final class DriverTest extends BaseTestCase
     #[DataProviderExternal(InputDataProvider::class, 'handleColorInputDataProvider')]
     public function testHandleImageInputFail(mixed $input, ?array $decoders, string $resultClassname): void
     {
-        $this->expectException(DecoderException::class);
+        $this->expectException(ImageException::class);
         $this->driver->handleImageInput($input, $decoders);
     }
 

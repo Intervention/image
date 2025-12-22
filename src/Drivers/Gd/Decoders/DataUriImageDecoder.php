@@ -6,7 +6,6 @@ namespace Intervention\Image\Drivers\Gd\Decoders;
 
 use Intervention\Image\DataUri;
 use Intervention\Image\Exceptions\InvalidArgumentException;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
@@ -15,9 +14,19 @@ class DataUriImageDecoder extends BinaryImageDecoder implements DecoderInterface
     /**
      * {@inheritdoc}
      *
+     * @see DecoderInterface::supports()
+     */
+    public function supports(mixed $input): bool
+    {
+        return is_string($input) && str_starts_with($input, 'data:');
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see DecoderInterface::decode()
      */
-    public function decode(mixed $input): ImageInterface|ColorInterface
+    public function decode(mixed $input): ImageInterface
     {
         $input = ($input instanceof DataUri) ? (string) $input : $input;
 

@@ -6,10 +6,10 @@ namespace Intervention\Image\Drivers\Gd\Decoders;
 
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Format;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Modifiers\AlignRotationModifier;
+use Stringable;
 use Throwable;
 
 class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterface
@@ -17,9 +17,35 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
     /**
      * {@inheritdoc}
      *
+     * @see DecoderInterface::supports()
+     */
+    public function supports(mixed $input): bool
+    {
+        if (!is_string($input) && !($input instanceof Stringable)) {
+            return false;
+        }
+
+        if (strlen($input) > PHP_MAXPATHLEN) {
+            return false;
+        }
+
+        if (str_starts_with($input, DIRECTORY_SEPARATOR)) {
+            return true;
+        }
+
+        if (preg_match('/[^ -~]/', $input) === 1) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see DecoderInterface::decode()
      */
-    public function decode(mixed $input): ImageInterface|ColorInterface
+    public function decode(mixed $input): ImageInterface
     {
         // make sure path is valid
         $path = $this->parseFilePathOrFail($input);

@@ -50,7 +50,7 @@ class DataUri implements DataUriInterface, Stringable
         $result = preg_match(self::PATTERN, (string) $dataUriScheme, $matches);
 
         if ($result === false || $result === 0) {
-            throw new InvalidArgumentException('Unable to decode data uri scheme from string');
+            throw new InvalidArgumentException('Unvalid data uri scheme');
         }
 
         $isBase64Encoded = $matches['base64'] !== '';

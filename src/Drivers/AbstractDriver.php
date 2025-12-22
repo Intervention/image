@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers;
 
 use Intervention\Image\Config;
+use Intervention\Image\Decoders\ColorDecoder;
+use Intervention\Image\Decoders\ImageDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\InputHandler;
@@ -39,29 +41,15 @@ abstract class AbstractDriver implements DriverInterface
     /**
      * {@inheritdoc}
      *
-     * @see DriverInterface::handleInput()
-     */
-    public function handleInput(mixed $input, ?array $decoders = null): ImageInterface|ColorInterface
-    {
-        if ($decoders === null) {
-            return InputHandler::withAllDecoders(driver: $this)->handle($input);
-        }
-
-        return InputHandler::withDecoders($decoders, $this)->handle($input);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
      * @see DriverInterface::handleImageInput()
      */
     public function handleImageInput(mixed $input, ?array $decoders = null): ImageInterface
     {
-        $handler = is_array($decoders) ?
-            InputHandler::withDecoders($decoders, $this) :
-            InputHandler::withImageDecoders($this);
-
-        $result = $handler->handle($input);
+        try {
+            $result = InputHandler::withDecoders($decoders ?: [ImageDecoder::class], $this)->handle($input);
+        } catch (NotSupportedException) {
+            throw new NotSupportedException('Unsupported image source');
+        }
 
         if (!($result instanceof ImageInterface)) {
             throw new DecoderException('Result must be instance of ' . ImageInterface::class);
@@ -77,11 +65,11 @@ abstract class AbstractDriver implements DriverInterface
      */
     public function handleColorInput(mixed $input, ?array $decoders = null): ColorInterface
     {
-        $handler = is_array($decoders) ?
-            InputHandler::withDecoders($decoders, $this) :
-            InputHandler::withColorDecoders($this);
-
-        $result = $handler->handle($input);
+        try {
+            $result = InputHandler::withDecoders($decoders ?: [ColorDecoder::class], $this)->handle($input);
+        } catch (NotSupportedException) {
+            throw new NotSupportedException('Unsupported color format');
+        }
 
         if (!($result instanceof ColorInterface)) {
             throw new DecoderException('Result must be instance of ' . ColorInterface::class);

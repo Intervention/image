@@ -18,6 +18,30 @@ class BinaryImageDecoder extends NativeObjectDecoder
     /**
      * {@inheritdoc}
      *
+     * @see DecoderInterface::supports()
+     */
+    public function supports(mixed $input): bool
+    {
+        if (!is_string($input) && !($input instanceof Stringable)) {
+            return false;
+        }
+
+        // contains non printable ascii
+        if (preg_match('/[^ -~]/', $input) === 1) {
+            return true;
+        }
+
+        // contains only printable ascii
+        if (preg_match('/^[ -~]+$/', $input) === 1) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see DecoderInterface::decode()
      */
     public function decode(mixed $input): ImageInterface|ColorInterface

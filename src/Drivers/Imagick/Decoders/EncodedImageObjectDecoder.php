@@ -8,9 +8,20 @@ use Intervention\Image\EncodedImage;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Interfaces\EncodedImageInterface;
 
 class EncodedImageObjectDecoder extends BinaryImageDecoder
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see DecoderInterface::supports()
+     */
+    public function supports(mixed $input): bool
+    {
+        return $input instanceof EncodedImageInterface;
+    }
+
     /**
      * {@inheritdoc}
      *

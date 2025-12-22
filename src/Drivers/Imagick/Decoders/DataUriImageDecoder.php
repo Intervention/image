@@ -14,6 +14,16 @@ class DataUriImageDecoder extends BinaryImageDecoder
     /**
      * {@inheritdoc}
      *
+     * @see DecoderInterface::supports()
+     */
+    public function supports(mixed $input): bool
+    {
+        return is_string($input) && str_starts_with($input, 'data:');
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see DecoderInterface::decode()
      */
     public function decode(mixed $input): ImageInterface|ColorInterface

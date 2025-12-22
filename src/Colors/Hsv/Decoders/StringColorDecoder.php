@@ -9,22 +9,35 @@ use Intervention\Image\Drivers\AbstractDecoder;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
-use Intervention\Image\Interfaces\ImageInterface;
 
 class StringColorDecoder extends AbstractDecoder implements DecoderInterface
 {
     /**
-     * Decode hsv/hsb color strings
+     * {@inheritdoc}
+     *
+     * @see DecoderInterface::supports()
      */
-    public function decode(mixed $input): ImageInterface|ColorInterface
+    public function supports(mixed $input): bool
     {
         if (!is_string($input)) {
-            throw new InvalidArgumentException('Input must be of type string');
+            return false;
         }
 
+        if (preg_match('/^hs(v|b)/i', $input) != 1) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Decode hsv/hsb color strings
+     */
+    public function decode(mixed $input): ColorInterface
+    {
         $pattern = '/^hs(v|b)\((?P<h>[0-9\.]+), ?(?P<s>[0-9\.]+%?), ?(?P<v>[0-9\.]+%?)\)$/i';
         if (preg_match($pattern, $input, $matches) != 1) {
-            throw new InvalidArgumentException('Input must be valid hsv() or hsb() color scheme');
+            throw new InvalidArgumentException('Invalid hsv() or hsb() color notation');
         }
 
         $values = array_map(function (string $value): int {

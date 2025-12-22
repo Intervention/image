@@ -4,8 +4,6 @@
 - ColorInterface::create() now accepts functional string color formats as well as single channel values
 - ImageManagerInterface::decodeFrom()
 - Alignment::class
-- DriverInterface::handleImageInput()
-- DriverInterface::handleColorInput()
 - DataUri::class
 - Default resolution is now 72 ppi for new images
 - Origin::format()
@@ -52,6 +50,7 @@
 - Signature of ImageInterface::pickColor() has changed, argument $frame_key is know $frame
 - Signature of Frame::__construct() has changed, argument $offset_left is know $offsetLeft and $offset_top is now $offsetTop
 - Signature of PixelColorAnalyzer::__construct() has changed, argument $frame_key is know $frame
+- DriverInterface::handleInput() is replaced by DriverInterface::handleImageInput(), DriverInterface::handleColorInput()
 
 ### Exceptions
 

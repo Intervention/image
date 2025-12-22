@@ -14,6 +14,16 @@ class FilePointerImageDecoder extends BinaryImageDecoder
     /**
      * {@inheritdoc}
      *
+     * @see DecoderInterface::supports()
+     */
+    public function supports(mixed $input): bool
+    {
+        return is_resource($input);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see DecoderInterface::decode()
      */
     public function decode(mixed $input): ImageInterface|ColorInterface

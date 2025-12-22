@@ -9,6 +9,7 @@ use Intervention\Image\Decoders\BinaryImageDecoder;
 use Intervention\Image\Decoders\DataUriImageDecoder;
 use Intervention\Image\Decoders\FilePathImageDecoder;
 use Intervention\Image\Decoders\FilePointerImageDecoder;
+use Intervention\Image\Decoders\ImageDecoder;
 use Intervention\Image\Decoders\SplFileInfoImageDecoder;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -156,9 +157,13 @@ final class ImageManager implements ImageManagerInterface
      *
      * @see ImageManagerInterface::decode()
      */
-    public function decode(mixed $input, string|array|DecoderInterface $decoders): ImageInterface
+    public function decode(mixed $input, null|string|array|DecoderInterface $decoders = null): ImageInterface
     {
-        return $this->driver->handleImageInput($input, is_array($decoders) ? $decoders : [$decoders]);
+        return $this->driver->handleImageInput($input, match (gettype($decoders)) {
+            "NULL" => [ImageDecoder::class],
+            "string", "object" => [$decoders],
+            default => $decoders,
+        });
     }
 
     /**

@@ -9,27 +9,48 @@ use Intervention\Image\Drivers\AbstractDecoder;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
-use Intervention\Image\Interfaces\ImageInterface;
 
 class HexColorDecoder extends AbstractDecoder implements DecoderInterface
 {
+    private const PATTERN = '/^#?(?P<hex>[a-f\d]{3}(?:[a-f\d]?|(?:[a-f\d]{3}(?:[a-f\d]{2})?)?)\b)$/i';
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DecoderInterface::supports()
+     */
+    public function supports(mixed $input): bool
+    {
+        if (!is_string($input)) {
+            return false;
+        }
+
+        if (str_starts_with($input, '#')) {
+            return true;
+        }
+
+        // matching max. length & only hexadecimal
+        if (strlen($input) <= 8 && preg_match('/^[a-f\d]+$/i', $input) === 1) {
+            return true;
+        }
+
+        return preg_match(self::PATTERN, $input) === 1;
+    }
+
     /**
      * Decode hexadecimal rgb colors with and without transparency
      */
-    public function decode(mixed $input): ImageInterface|ColorInterface
+    public function decode(mixed $input): ColorInterface
     {
-        if (!is_string($input)) {
-            throw new InvalidArgumentException('Input must be of type string');
-        }
-
-        $pattern = '/^#?(?P<hex>[a-f\d]{3}(?:[a-f\d]?|(?:[a-f\d]{3}(?:[a-f\d]{2})?)?)\b)$/i';
-        if (preg_match($pattern, $input, $matches) != 1) {
-            throw new InvalidArgumentException('Input must be valid hex color');
+        if (preg_match(self::PATTERN, $input, $matches) != 1) {
+            // TODO: decide exception type
+            throw new InvalidArgumentException('Hex color has an invalid format');
         }
 
         $values = match (strlen($matches['hex'])) {
             3, 4 => str_split($matches['hex']),
             6, 8 => str_split($matches['hex'], 2),
+            // TODO: decide exception type
             default => throw new InvalidArgumentException('Hex color has an incorrect length'),
         };
 
@@ -37,6 +58,7 @@ class HexColorDecoder extends AbstractDecoder implements DecoderInterface
             return match (strlen($value)) {
                 1 => (int) hexdec($value . $value),
                 2 => (int) hexdec($value),
+                // TODO: decide exception type & message
                 default => throw new InvalidArgumentException('Input must be valid hex color'),
             };
         }, $values);

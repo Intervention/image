@@ -6,7 +6,6 @@ namespace Intervention\Image\Drivers\Gd\Decoders;
 
 use Intervention\Image\Exceptions\FilePointerException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
 class FilePointerImageDecoder extends BinaryImageDecoder
@@ -14,9 +13,19 @@ class FilePointerImageDecoder extends BinaryImageDecoder
     /**
      * {@inheritdoc}
      *
+     * @see DecoderInterface::supports()
+     */
+    public function supports(mixed $input): bool
+    {
+        return is_resource($input);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see DecoderInterface::decode()
      */
-    public function decode(mixed $input): ImageInterface|ColorInterface
+    public function decode(mixed $input): ImageInterface
     {
         if (!is_resource($input) || !in_array(get_resource_type($input), ['file', 'stream'])) {
             throw new InvalidArgumentException("Input must be a resource of type 'file' or 'stream'");

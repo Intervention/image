@@ -6,7 +6,6 @@ namespace Intervention\Image\Drivers\Gd\Decoders;
 
 use SplFileInfo;
 use Intervention\Image\Exceptions\DecoderException;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
@@ -15,14 +14,20 @@ class SplFileInfoImageDecoder extends FilePathImageDecoder implements DecoderInt
     /**
      * {@inheritdoc}
      *
+     * @see DecoderInterface::supports()
+     */
+    public function supports(mixed $input): bool
+    {
+        return $input instanceof SplFileInfo;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see DecoderInterface::decode()
      */
-    public function decode(mixed $input): ImageInterface|ColorInterface
+    public function decode(mixed $input): ImageInterface
     {
-        if (!is_a($input, SplFileInfo::class)) {
-            throw new DecoderException('Input must be of type ' . SplFileInfo::class);
-        }
-
         $path = $input->getRealPath();
 
         if ($path === false) {

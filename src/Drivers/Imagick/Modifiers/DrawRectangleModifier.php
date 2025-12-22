@@ -21,13 +21,13 @@ class DrawRectangleModifier extends GenericDrawRectangleModifier implements Spec
             $this->backgroundColor()
         );
 
-        $borderColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
-            $this->borderColor()
-        );
-
         try {
             $drawing->setFillColor($backgroundColor);
             if ($this->drawable->hasBorder()) {
+                $borderColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                    $this->borderColor()
+                );
+
                 $drawing->setStrokeColor($borderColor);
                 $drawing->setStrokeWidth($this->drawable->borderSize());
             }

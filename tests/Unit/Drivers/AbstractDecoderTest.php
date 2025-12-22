@@ -52,6 +52,11 @@ final class AbstractDecoderTest extends BaseTestCase
     {
         $decoder = new class () extends AbstractDecoder
         {
+            public function supports(mixed $input): bool
+            {
+                return true;
+            }
+
             public function isValid(mixed $input): bool
             {
                 try {
@@ -85,6 +90,11 @@ final class AbstractDecoderTest extends BaseTestCase
     {
         $decoder = new class () extends AbstractDecoder
         {
+            public function supports(mixed $input): bool
+            {
+                return true;
+            }
+
             public function decode(mixed $input): ImageInterface|ColorInterface
             {
                 throw new Exception('');

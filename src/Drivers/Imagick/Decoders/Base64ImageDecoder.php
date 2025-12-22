@@ -6,9 +6,28 @@ namespace Intervention\Image\Drivers\Imagick\Decoders;
 
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Stringable;
 
 class Base64ImageDecoder extends BinaryImageDecoder
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see DecoderInterface::supports()
+     */
+    public function supports(mixed $input): bool
+    {
+        if (!is_string($input) && !($input instanceof Stringable)) {
+            return false;
+        }
+
+        if (str_ends_with($input, '=')) {
+            return true;
+        }
+
+        return preg_match('/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/', $input) === 1;
+    }
+
     /**
      * {@inheritdoc}
      *

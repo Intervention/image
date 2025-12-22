@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Exceptions\DecoderException;
@@ -18,9 +17,33 @@ class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
     /**
      * {@inheritdoc}
      *
+     * @see DecoderInterface::supports()
+     */
+    public function supports(mixed $input): bool
+    {
+        if (!is_string($input) && !($input instanceof Stringable)) {
+            return false;
+        }
+
+        // contains non printable ascii
+        if (preg_match('/[^ -~]/', $input) === 1) {
+            return true;
+        }
+
+        // contains only printable ascii
+        if (preg_match('/^[ -~]+$/', $input) === 1) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see DecoderInterface::decode()
      */
-    public function decode(mixed $input): ImageInterface|ColorInterface
+    public function decode(mixed $input): ImageInterface
     {
         if (!is_string($input) && !($input instanceof Stringable)) {
             throw new InvalidArgumentException('Binary data must be either of type string or instance of Stringable');

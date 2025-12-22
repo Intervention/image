@@ -9,7 +9,6 @@ use ImagickException;
 use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\SpecializableDecoder;
 use Intervention\Image\Exceptions\DriverException;
-use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -22,18 +21,20 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
     /**
      * {@inheritdoc}
      *
+     * @see DecoderInterface::supports()
+     */
+    public function supports(mixed $input): bool
+    {
+        return $input instanceof Imagick;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see DecoderInterface::decode()
      */
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
-        if (!is_object($input)) {
-            throw new InvalidArgumentException('Input must be an object');
-        }
-
-        if (!($input instanceof Imagick)) {
-            throw new InvalidArgumentException('Input must be of type ' . Imagick::class);
-        }
-
         // For some JPEG formats, the "coalesceImages()" call leads to an image
         // completely filled with background color. The logic behind this is
         // incomprehensible for me; could be an imagick bug.

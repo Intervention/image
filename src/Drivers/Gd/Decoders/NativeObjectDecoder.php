@@ -14,7 +14,6 @@ use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Image;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
 class NativeObjectDecoder extends AbstractDecoder
@@ -22,14 +21,20 @@ class NativeObjectDecoder extends AbstractDecoder
     /**
      * {@inheritdoc}
      *
+     * @see DecoderInterface::supports()
+     */
+    public function supports(mixed $input): bool
+    {
+        return $input instanceof GdImage;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see DecoderInterface::decode()
      */
-    public function decode(mixed $input): ImageInterface|ColorInterface
+    public function decode(mixed $input): ImageInterface
     {
-        if (!is_object($input)) {
-            throw new InvalidArgumentException('Input must be an object');
-        }
-
         if (!($input instanceof GdImage)) {
             throw new InvalidArgumentException('Input must be of type ' . GdImage::class);
         }

@@ -9,9 +9,36 @@ use ImagickException;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Stringable;
 
 class FilePathImageDecoder extends NativeObjectDecoder
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see DecoderInterface::supports()
+     */
+    public function supports(mixed $input): bool
+    {
+        if (!is_string($input) && !($input instanceof Stringable)) {
+            return false;
+        }
+
+        if (strlen($input) > PHP_MAXPATHLEN) {
+            return false;
+        }
+
+        if (str_starts_with($input, DIRECTORY_SEPARATOR)) {
+            return true;
+        }
+
+        if (preg_match('/[^ -~]/', $input) === 1) {
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * {@inheritdoc}
      *

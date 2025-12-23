@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers;
 
 use Intervention\Image\Config;
-use Intervention\Image\Decoders\ColorDecoder;
-use Intervention\Image\Decoders\ImageDecoder;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\InputHandler;
@@ -46,7 +44,10 @@ abstract class AbstractDriver implements DriverInterface
     public function handleImageInput(mixed $input, ?array $decoders = null): ImageInterface
     {
         try {
-            $result = InputHandler::withDecoders($decoders ?: [ImageDecoder::class], $this)->handle($input);
+            $result = InputHandler::withDecoders(
+                decoders: $decoders ?: InputHandler::IMAGE_DECODERS,
+                driver: $this
+            )->handle($input);
         } catch (NotSupportedException) {
             throw new NotSupportedException('Unsupported image source');
         }
@@ -66,7 +67,10 @@ abstract class AbstractDriver implements DriverInterface
     public function handleColorInput(mixed $input, ?array $decoders = null): ColorInterface
     {
         try {
-            $result = InputHandler::withDecoders($decoders ?: [ColorDecoder::class], $this)->handle($input);
+            $result = InputHandler::withDecoders(
+                decoders: $decoders ?: InputHandler::COLOR_DECODERS,
+                driver: $this,
+            )->handle($input);
         } catch (NotSupportedException) {
             throw new NotSupportedException('Unsupported color format');
         }

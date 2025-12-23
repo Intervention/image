@@ -6,8 +6,6 @@ namespace Intervention\Image\Tests\Unit;
 
 use Generator;
 use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder;
-use Intervention\Image\Decoders\ColorDecoder;
-use Intervention\Image\Decoders\ImageDecoder;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 use Intervention\Image\Exceptions\InvalidArgumentException;
@@ -47,17 +45,17 @@ class InputHandlerTest extends BaseTestCase
     public static function handleProvider(): Generator
     {
         $base = [
-            [[ColorDecoder::class], null, InvalidArgumentException::class],
-            [[ColorDecoder::class], '', InvalidArgumentException::class],
-            [[ColorDecoder::class], 'fff', ColorInterface::class],
-            [[ColorDecoder::class], 'rgba(0, 0, 0, 0)', ColorInterface::class],
-            [[ColorDecoder::class], 'cmyk(0, 0, 0, 0)', ColorInterface::class],
-            [[ColorDecoder::class], 'hsv(0, 0, 0)', ColorInterface::class],
-            [[ColorDecoder::class], 'hsl(0, 0, 0)', ColorInterface::class],
-            [[ColorDecoder::class], 'transparent', ColorInterface::class],
-            [[ColorDecoder::class], 'steelblue', ColorInterface::class],
-            [[ImageDecoder::class], Resource::create()->path(), ImageInterface::class],
-            [[ImageDecoder::class], Resource::create()->data(), ImageInterface::class],
+            [InputHandler::COLOR_DECODERS, null, InvalidArgumentException::class],
+            [InputHandler::COLOR_DECODERS, '', InvalidArgumentException::class],
+            [InputHandler::COLOR_DECODERS, 'fff', ColorInterface::class],
+            [InputHandler::COLOR_DECODERS, 'rgba(0, 0, 0, 0)', ColorInterface::class],
+            [InputHandler::COLOR_DECODERS, 'cmyk(0, 0, 0, 0)', ColorInterface::class],
+            [InputHandler::COLOR_DECODERS, 'hsv(0, 0, 0)', ColorInterface::class],
+            [InputHandler::COLOR_DECODERS, 'hsl(0, 0, 0)', ColorInterface::class],
+            [InputHandler::COLOR_DECODERS, 'transparent', ColorInterface::class],
+            [InputHandler::COLOR_DECODERS, 'steelblue', ColorInterface::class],
+            [InputHandler::IMAGE_DECODERS, Resource::create()->path(), ImageInterface::class],
+            [InputHandler::IMAGE_DECODERS, Resource::create()->data(), ImageInterface::class],
         ];
 
         $drivers = [GdDriver::class, ImagickDriver::class];

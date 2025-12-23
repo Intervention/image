@@ -5,6 +5,22 @@ declare(strict_types=1);
 namespace Intervention\Image;
 
 use Generator;
+use Intervention\Image\Colors\Cmyk\Decoders\StringColorDecoder as CmykStringColorDecoder;
+use Intervention\Image\Colors\Hsl\Decoders\StringColorDecoder as HslStringColorDecoder;
+use Intervention\Image\Colors\Hsv\Decoders\StringColorDecoder as HsvStringColorDecoder;
+use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder as RgbHexColorDecoder;
+use Intervention\Image\Colors\Rgb\Decoders\HtmlColornameDecoder;
+use Intervention\Image\Colors\Rgb\Decoders\StringColorDecoder as RgbStringColorDecoder;
+use Intervention\Image\Colors\Rgb\Decoders\TransparentColorDecoder;
+use Intervention\Image\Decoders\Base64ImageDecoder;
+use Intervention\Image\Decoders\BinaryImageDecoder;
+use Intervention\Image\Decoders\ColorObjectDecoder;
+use Intervention\Image\Decoders\DataUriImageDecoder;
+use Intervention\Image\Decoders\EncodedImageObjectDecoder;
+use Intervention\Image\Decoders\FilePathImageDecoder;
+use Intervention\Image\Decoders\FilePointerImageDecoder;
+use Intervention\Image\Decoders\NativeObjectDecoder;
+use Intervention\Image\Decoders\SplFileInfoImageDecoder;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
@@ -16,6 +32,28 @@ use Intervention\Image\Interfaces\InputHandlerInterface;
 
 class InputHandler implements InputHandlerInterface
 {
+    public const array IMAGE_DECODERS = [
+        NativeObjectDecoder::class,
+        FilePointerImageDecoder::class,
+        SplFileInfoImageDecoder::class,
+        EncodedImageObjectDecoder::class,
+        Base64ImageDecoder::class,
+        DataUriImageDecoder::class,
+        BinaryImageDecoder::class,
+        FilePathImageDecoder::class,
+    ];
+
+    public const array COLOR_DECODERS = [
+        TransparentColorDecoder::class,
+        ColorObjectDecoder::class,
+        RgbHexColorDecoder::class,
+        RgbStringColorDecoder::class,
+        CmykStringColorDecoder::class,
+        HsvStringColorDecoder::class,
+        HslStringColorDecoder::class,
+        HtmlColornameDecoder::class,
+    ];
+
     /**
      * Create new input handler instance with given decoder classnames
      *

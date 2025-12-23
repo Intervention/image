@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Decoders;
 
-use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Stringable;
 
@@ -35,8 +35,18 @@ class Base64ImageDecoder extends BinaryImageDecoder
      *
      * @see DecoderInterface::decode()
      */
-    public function decode(mixed $input): ImageInterface|ColorInterface
+    public function decode(mixed $input): ImageInterface
     {
-        return parent::decode($this->decodeBase64Data($input));
+        try {
+            $data = $this->decodeBase64Data($input);
+        } catch (DecoderException) {
+            throw new DecoderException('Failed to decode Base64-encoded string');
+        }
+
+        try {
+            return parent::decode($data);
+        } catch (DecoderException) {
+            throw new DecoderException('Base64-encoded data contains unsupported image type');
+        }
     }
 }

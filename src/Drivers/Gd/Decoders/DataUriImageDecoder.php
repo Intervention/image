@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
 use Intervention\Image\DataUri;
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -34,6 +35,12 @@ class DataUriImageDecoder extends BinaryImageDecoder implements DecoderInterface
             throw new InvalidArgumentException('Data Uri must be of type string or ' . DataUri::class);
         }
 
-        return parent::decode(DataUri::decode($input)->data());
+        $data = DataUri::decode($input)->data();
+
+        try {
+            return parent::decode($data);
+        } catch (DecoderException) {
+            throw new DecoderException('Data Uri contains unsupported image type');
+        }
     }
 }

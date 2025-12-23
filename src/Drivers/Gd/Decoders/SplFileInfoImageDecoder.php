@@ -34,6 +34,10 @@ class SplFileInfoImageDecoder extends FilePathImageDecoder implements DecoderInt
             throw new DecoderException('Failed to read path from ' . SplFileInfo::class);
         }
 
-        return parent::decode($path);
+        try {
+            return parent::decode($path);
+        } catch (DecoderException) {
+            throw new DecoderException(SplFileInfo::class . ' contains unsupported image type');
+        }
     }
 }

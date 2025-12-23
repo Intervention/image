@@ -101,7 +101,7 @@ class NativeObjectDecoder extends AbstractDecoder
                     new Frame($native, $delays[$key] / 100)
                 );
             }
-        } catch (Exception $e) {
+        } catch (Exception $e) { // TODO: catch more detailed exception
             throw new DecoderException($e->getMessage(), $e->getCode(), $e);
         }
 

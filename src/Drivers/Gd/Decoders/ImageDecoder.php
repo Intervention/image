@@ -15,12 +15,12 @@ class ImageDecoder extends AbstractDecoder
     public const DECODERS = [
         NativeObjectDecoder::class,
         FilePointerImageDecoder::class,
+        EncodedImageObjectDecoder::class,
         Base64ImageDecoder::class,
         DataUriImageDecoder::class,
         BinaryImageDecoder::class,
         FilePathImageDecoder::class,
         SplFileInfoImageDecoder::class,
-        EncodedImageObjectDecoder::class,
     ];
 
     /**

@@ -8,6 +8,7 @@ use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Format;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\MediaType;
 use Intervention\Image\Modifiers\AlignRotationModifier;
 use Stringable;
 use Throwable;
@@ -63,14 +64,7 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
             // gif files might be animated and therefore cannot
             // be handled by the standard GD decoder.
             Format::GIF => $this->decodeGif($path),
-            default => parent::decode(match ($mediaType->format()) {
-                Format::JPEG => @imagecreatefromjpeg($path),
-                Format::WEBP => @imagecreatefromwebp($path),
-                Format::PNG => @imagecreatefrompng($path),
-                Format::AVIF => @imagecreatefromavif($path),
-                Format::BMP => @imagecreatefrombmp($path),
-                default => throw new DecoderException('File contains unsupported image format'),
-            }),
+            default => $this->decodeDefault($path, $mediaType),
         };
 
         // set file path & mediaType on origin
@@ -88,5 +82,34 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
         }
 
         return $image;
+    }
+
+    /**
+     * Try to decode data from file path as given image format
+     */
+    private function decodeDefault(string $path, MediaType $mediaType): ImageInterface
+    {
+        $gdImage = match ($mediaType->format()) {
+            Format::JPEG => @imagecreatefromjpeg($path),
+            Format::WEBP => @imagecreatefromwebp($path),
+            Format::PNG => @imagecreatefrompng($path),
+            Format::AVIF => @imagecreatefromavif($path),
+            Format::BMP => @imagecreatefrombmp($path),
+            default => throw new DecoderException('File contains unsupported image format'),
+        };
+
+        if ($gdImage === false) {
+            throw new DecoderException(
+                'Failed to decode data from file "' . $path . '" as image format "' . $mediaType->value . '"',
+            );
+        }
+
+        try {
+            return parent::decode($gdImage);
+        } catch (DecoderException) {
+            throw new DecoderException(
+                'Failed to decode data from file "' . $path . '" as image format "' . $mediaType->value . '"',
+            );
+        }
     }
 }

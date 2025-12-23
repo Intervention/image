@@ -9,7 +9,6 @@ use ImagickException;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Format;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Stringable;
 
@@ -46,7 +45,7 @@ class BinaryImageDecoder extends NativeObjectDecoder
      *
      * @see DecoderInterface::decode()
      */
-    public function decode(mixed $input): ImageInterface|ColorInterface
+    public function decode(mixed $input): ImageInterface
     {
         if (!is_string($input) && !($input instanceof Stringable)) {
             throw new InvalidArgumentException('Binary data must be either of type string or instance of Stringable');
@@ -55,14 +54,14 @@ class BinaryImageDecoder extends NativeObjectDecoder
         $input = (string) $input;
 
         if (empty($input)) {
-            throw new InvalidArgumentException('Input does not contain binary image data');
+            throw new InvalidArgumentException('Unable to decode binary data from empty string');
         }
 
         try {
             $imagick = new Imagick();
             $imagick->readImageBlob($input);
         } catch (ImagickException) {
-            throw new DecoderException('Binary data contains unsupported image type');
+            throw new DecoderException('Failed to decode binary data, could be unsupported image type');
         }
 
         // decode image

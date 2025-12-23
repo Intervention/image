@@ -7,7 +7,6 @@ namespace Intervention\Image\Drivers\Imagick\Decoders;
 use Imagick;
 use ImagickException;
 use Intervention\Image\Exceptions\DecoderException;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Stringable;
 
@@ -46,7 +45,7 @@ class FilePathImageDecoder extends NativeObjectDecoder
      *
      * @see DecoderInterface::decode()
      */
-    public function decode(mixed $input): ImageInterface|ColorInterface
+    public function decode(mixed $input): ImageInterface
     {
         // make sure path is valid
         $path = $this->parseFilePathOrFail($input);
@@ -55,7 +54,9 @@ class FilePathImageDecoder extends NativeObjectDecoder
             $imagick = new Imagick();
             $imagick->readImage($path);
         } catch (ImagickException) {
-            throw new DecoderException('File contains unsupported image format');
+            throw new DecoderException(
+                'Failed to decode image data from file "' . $path . '"'
+            );
         }
 
         // decode image

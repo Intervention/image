@@ -39,7 +39,12 @@ class FilePointerImageDecoder extends BinaryImageDecoder
         }
 
         while (!feof($input)) {
-            $contents .= fread($input, 1024) ?: throw new FilePointerException('Failed to read from file pointer');
+            $chunk = fread($input, 1024);
+            if ($chunk === false) {
+                throw new FilePointerException('Failed to read from file pointer');
+            }
+
+            $contents .= $chunk;
         }
 
         return parent::decode($contents);

@@ -54,7 +54,7 @@ class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
         $input = (string) $input;
 
         if (empty($input)) {
-            throw new InvalidArgumentException('Input does not contain binary image data');
+            throw new InvalidArgumentException('Unable to decode binary data from empty string');
         }
 
         return match ($this->isGifFormat($input)) {
@@ -71,7 +71,7 @@ class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
         $gd = @imagecreatefromstring($input);
 
         if ($gd === false) {
-            throw new DecoderException('Binary data contains unsupported image type');
+            throw new DecoderException('Failed to decode binary data, could be unsupported image type');
         }
 
         // create image instance

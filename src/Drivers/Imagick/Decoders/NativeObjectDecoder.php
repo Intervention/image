@@ -10,7 +10,6 @@ use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\SpecializableDecoder;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Image;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\AlignRotationModifier;
@@ -33,7 +32,7 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
      *
      * @see DecoderInterface::decode()
      */
-    public function decode(mixed $input): ImageInterface|ColorInterface
+    public function decode(mixed $input): ImageInterface
     {
         // For some JPEG formats, the "coalesceImages()" call leads to an image
         // completely filled with background color. The logic behind this is

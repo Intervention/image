@@ -6,8 +6,8 @@ namespace Intervention\Image\Drivers\Imagick\Decoders;
 
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 
 class EncodedImageObjectDecoder extends BinaryImageDecoder
@@ -27,12 +27,16 @@ class EncodedImageObjectDecoder extends BinaryImageDecoder
      *
      * @see DecoderInterface::decode()
      */
-    public function decode(mixed $input): ImageInterface|ColorInterface
+    public function decode(mixed $input): ImageInterface
     {
-        if (!is_a($input, EncodedImage::class)) {
-            throw new DecoderException('Input must be of type ' . EncodedImage::class);
+        if (!($input instanceof EncodedImageInterface)) {
+            throw new InvalidArgumentException('Input must be of type ' . EncodedImage::class);
         }
 
-        return parent::decode($input->toString());
+        try {
+            return parent::decode($input->toString());
+        } catch (DecoderException) {
+            throw new DecoderException(EncodedImage::class . ' contains unsupported image type');
+        }
     }
 }

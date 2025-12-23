@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Decoders;
 
+use Intervention\Image\Exceptions\DecoderException;
 use SplFileInfo;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
 class SplFileInfoImageDecoder extends FilePathImageDecoder
@@ -25,8 +25,18 @@ class SplFileInfoImageDecoder extends FilePathImageDecoder
      *
      * @see DecoderInterface::decode()
      */
-    public function decode(mixed $input): ImageInterface|ColorInterface
+    public function decode(mixed $input): ImageInterface
     {
-        return parent::decode($input->getRealPath());
+        $path = $input->getRealPath();
+
+        if ($path === false) {
+            throw new DecoderException('Failed to read path from ' . SplFileInfo::class);
+        }
+
+        try {
+            return parent::decode($path);
+        } catch (DecoderException) {
+            throw new DecoderException(SplFileInfo::class . ' contains unsupported image type');
+        }
     }
 }

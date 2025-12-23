@@ -136,14 +136,17 @@ class InputHandler implements InputHandlerInterface
 
         $resolved = new $decoder();
 
-        if (!($resolved instanceof DecoderInterface)) {
-            throw new DriverException('Failed to resolved decoder ' . $decoder);
+        if (empty($this->driver)) {
+            return $resolved;
         }
 
         try {
-            return empty($this->driver) ? $resolved : $this->driver->specializeDecoder($resolved);
+            return $this->driver->specializeDecoder($resolved);
         } catch (NotSupportedException $e) {
-            throw new DriverException('Failed to resolved decoder ' . $decoder, previous: $e);
+            throw new DriverException(
+                'Failed to resolved decoder ' . $decoder . ' with driver ' . $this->driver::class,
+                previous: $e,
+            );
         }
     }
 }

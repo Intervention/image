@@ -32,7 +32,7 @@ class BackgroundModifier extends SpecializableModifier
     {
         // decode background color
         $color = $driver->handleColorInput(
-            $this->color ?: $driver->config()->backgroundColor
+            $this->color !== null ? $this->color : $driver->config()->backgroundColor
         );
 
         // replace alpha channel value with opaque value

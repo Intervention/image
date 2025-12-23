@@ -6,7 +6,7 @@ namespace Intervention\Image\Drivers\Gd\Decoders;
 
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\ImageDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Format;
 use Intervention\Image\Modifiers\AlignRotationModifier;
@@ -71,7 +71,7 @@ class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
         $gd = @imagecreatefromstring($input);
 
         if ($gd === false) {
-            throw new DecoderException('Failed to decode binary data, could be unsupported image type');
+            throw new ImageDecoderException('Failed to decode binary data, could be unsupported image type');
         }
 
         // create image instance

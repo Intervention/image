@@ -6,7 +6,7 @@ namespace Intervention\Image\Drivers\Imagick\Decoders;
 
 use Imagick;
 use ImagickException;
-use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\ImageDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Format;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -61,7 +61,7 @@ class BinaryImageDecoder extends NativeObjectDecoder
             $imagick = new Imagick();
             $imagick->readImageBlob($input);
         } catch (ImagickException) {
-            throw new DecoderException('Failed to decode binary data, could be unsupported image type');
+            throw new ImageDecoderException('Failed to decode binary data, could be unsupported image type');
         }
 
         // decode image

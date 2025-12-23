@@ -6,6 +6,7 @@ namespace Intervention\Image\Drivers\Imagick\Decoders;
 
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\FilePointerException;
+use Intervention\Image\Exceptions\ImageDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ImageInterface;
 
@@ -50,7 +51,9 @@ class FilePointerImageDecoder extends BinaryImageDecoder
         try {
             return parent::decode($contents);
         } catch (DecoderException) {
-            throw new DecoderException('File pointer contains unsupported image format');
+            throw new ImageDecoderException(
+                'Failed to decode image from file pointer, could be unsupported image format',
+            );
         }
     }
 }

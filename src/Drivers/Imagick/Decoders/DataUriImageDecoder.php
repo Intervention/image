@@ -6,6 +6,7 @@ namespace Intervention\Image\Drivers\Imagick\Decoders;
 
 use Intervention\Image\DataUri;
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\ImageDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ImageInterface;
 
@@ -39,7 +40,7 @@ class DataUriImageDecoder extends BinaryImageDecoder
         try {
             return parent::decode($data);
         } catch (DecoderException) {
-            throw new DecoderException('Data Uri contains unsupported image type');
+            throw new ImageDecoderException('Data Uri contains unsupported image type');
         }
     }
 }

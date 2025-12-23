@@ -10,8 +10,8 @@ use Intervention\Gif\Decoder as GifDecoder;
 use Intervention\Gif\Splitter as GifSplitter;
 use Intervention\Image\Drivers\Gd\Core;
 use Intervention\Image\Drivers\Gd\Frame;
-use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\ImageDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -73,7 +73,7 @@ class NativeObjectDecoder extends AbstractDecoder
             $native = $this->isGifFormat($input) ? @imagecreatefromstring($input) : @imagecreatefromgif($input);
 
             if ($native === false) {
-                throw new DecoderException('Unable to decode GIF format');
+                throw new ImageDecoderException('Failed to decode GIF format');
             }
 
             $image = self::decode($native);
@@ -102,7 +102,7 @@ class NativeObjectDecoder extends AbstractDecoder
                 );
             }
         } catch (Exception $e) { // TODO: catch more detailed exception
-            throw new DecoderException($e->getMessage(), $e->getCode(), $e);
+            throw new ImageDecoderException('Failed to decode GIF format', previous: $e);
         }
 
         // create (possibly) animated image

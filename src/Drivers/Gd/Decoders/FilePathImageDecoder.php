@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\ImageDecoderException;
 use Intervention\Image\Format;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -57,7 +58,7 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
             // detect media (mime) type
             $mediaType = $this->getMediaTypeByFilePath($path);
         } catch (Throwable) {
-            throw new DecoderException('File contains unsupported image format');
+            throw new ImageDecoderException('File contains unsupported image format');
         }
 
         $image = match ($mediaType->format()) {
@@ -99,7 +100,7 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
         };
 
         if ($gdImage === false) {
-            throw new DecoderException(
+            throw new ImageDecoderException(
                 'Failed to decode data from file "' . $path . '" as image format "' . $mediaType->value . '"',
             );
         }
@@ -107,7 +108,7 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
         try {
             return parent::decode($gdImage);
         } catch (DecoderException) {
-            throw new DecoderException(
+            throw new ImageDecoderException(
                 'Failed to decode data from file "' . $path . '" as image format "' . $mediaType->value . '"',
             );
         }

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\FilePointerException;
+use Intervention\Image\Exceptions\ImageDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ImageInterface;
 
@@ -47,6 +49,12 @@ class FilePointerImageDecoder extends BinaryImageDecoder
             $contents .= $chunk;
         }
 
-        return parent::decode($contents);
+        try {
+            return parent::decode($contents);
+        } catch (DecoderException) {
+            throw new ImageDecoderException(
+                'Failed to decode image from file pointer, could be unsupported image format',
+            );
+        }
     }
 }

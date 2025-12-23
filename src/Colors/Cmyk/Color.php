@@ -10,7 +10,9 @@ use Intervention\Image\Colors\Cmyk\Channels\Magenta;
 use Intervention\Image\Colors\Cmyk\Channels\Yellow;
 use Intervention\Image\Colors\Cmyk\Channels\Key;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
+use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -53,9 +55,13 @@ class Color extends AbstractColor
             return new self(...$input);
         }
 
-        return InputHandler::withDecoders([
-            Decoders\StringColorDecoder::class,
-        ])->handle($input);
+        try {
+            return InputHandler::withDecoders([
+                Decoders\StringColorDecoder::class,
+            ])->handle($input);
+        } catch (NotSupportedException) {
+            throw new ColorDecoderException('Failed to decode color from string "' . $input . '"');
+        }
     }
 
     /**

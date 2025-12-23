@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
 use Intervention\Image\Drivers\SpecializableDecoder;
-use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\ImageDecoderException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\MediaType;
@@ -24,7 +24,7 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
         $info = @getimagesize($this->parseFilePathOrFail($filepath));
 
         if (!is_array($info)) {
-            throw new DecoderException('Failed to read media (MIME) type from data in file path');
+            throw new ImageDecoderException('Failed to read media (MIME) type from data in file path');
         }
 
         try {
@@ -42,7 +42,7 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
         $info = @getimagesizefromstring($data);
 
         if (!is_array($info)) {
-            throw new DecoderException('Failed to read media (MIME) type from binary data');
+            throw new ImageDecoderException('Failed to read media (MIME) type from binary data');
         }
 
         try {

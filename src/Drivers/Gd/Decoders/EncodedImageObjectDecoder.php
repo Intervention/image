@@ -6,6 +6,7 @@ namespace Intervention\Image\Drivers\Gd\Decoders;
 
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\ImageDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\EncodedImageInterface;
@@ -36,7 +37,7 @@ class EncodedImageObjectDecoder extends BinaryImageDecoder
         try {
             return parent::decode($input->toString());
         } catch (DecoderException) {
-            throw new DecoderException(EncodedImage::class . ' contains unsupported image type');
+            throw new ImageDecoderException(EncodedImage::class . ' contains unsupported image type');
         }
     }
 }

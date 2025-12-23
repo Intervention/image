@@ -71,12 +71,13 @@ ImageException [1]
     │   ├── FileNotFoundException
     │   ├── FileNotReadableException
     │   └── FileNotWritableException
-    ├── DriverException
-    │   ├── AnalyzerException
-    │   ├── ModifierException
-    │   ├── DecoderException
-    │   └── EncoderException
-    └── ColorException
+    └── DriverException
+        ├── AnalyzerException
+        ├── ModifierException
+        ├── DecoderException
+        │   ├── ImageDecoderException
+        │   └── ColorDecoderException
+        └── EncoderException
 
 ```
 

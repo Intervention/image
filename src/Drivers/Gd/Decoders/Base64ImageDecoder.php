@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\ImageDecoderException;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Stringable;
@@ -41,13 +42,13 @@ class Base64ImageDecoder extends BinaryImageDecoder implements DecoderInterface
         try {
             $data = $this->decodeBase64Data($input);
         } catch (DecoderException) {
-            throw new DecoderException('Failed to decode Base64-encoded string');
+            throw new ImageDecoderException('Failed to decode Base64-encoded string');
         }
 
         try {
             return parent::decode($data);
         } catch (DecoderException) {
-            throw new DecoderException('Base64-encoded data contains unsupported image type');
+            throw new ImageDecoderException('Base64-encoded data contains unsupported image type');
         }
     }
 }

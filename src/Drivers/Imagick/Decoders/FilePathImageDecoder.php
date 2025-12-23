@@ -6,7 +6,7 @@ namespace Intervention\Image\Drivers\Imagick\Decoders;
 
 use Imagick;
 use ImagickException;
-use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\ImageDecoderException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Stringable;
 
@@ -54,7 +54,7 @@ class FilePathImageDecoder extends NativeObjectDecoder
             $imagick = new Imagick();
             $imagick->readImage($path);
         } catch (ImagickException) {
-            throw new DecoderException(
+            throw new ImageDecoderException(
                 'Failed to decode image data from file "' . $path . '"'
             );
         }

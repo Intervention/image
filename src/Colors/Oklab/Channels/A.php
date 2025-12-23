@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Colors\Hsv\Channels;
+namespace Intervention\Image\Colors\Oklab\Channels;
 
-use Intervention\Image\Colors\IntegerColorChannel;
+use Intervention\Image\Colors\FloatColorChannel;
 
-class Saturation extends IntegerColorChannel
+class A extends FloatColorChannel
 {
     /**
      * {@inheritdoc}
@@ -15,7 +15,7 @@ class Saturation extends IntegerColorChannel
      */
     public static function min(): float
     {
-        return 0;
+        return -0.4;
     }
 
     /**
@@ -25,6 +25,6 @@ class Saturation extends IntegerColorChannel
      */
     public static function max(): float
     {
-        return 100;
+        return 0.4;
     }
 }

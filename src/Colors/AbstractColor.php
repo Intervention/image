@@ -71,7 +71,7 @@ abstract class AbstractColor implements ColorInterface, Stringable
     public function toArray(): array
     {
         return array_map(
-            fn(ColorChannelInterface $channel): int => $channel->value(),
+            fn(ColorChannelInterface $channel): int|float => $channel->value(),
             $this->channels()
         );
     }

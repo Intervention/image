@@ -55,7 +55,7 @@ class Color extends AbstractColor
             1 => $input[0],
             3 => $input,
             default => throw new InvalidArgumentException(
-                'Too few arguments to create color, ' . count($input) . ' passed and 1 or 3 expected',
+                'Too few arguments to create HSV color, ' . count($input) . ' passed and 1 or 3 expected',
             ),
         };
 
@@ -68,7 +68,7 @@ class Color extends AbstractColor
                 Decoders\StringColorDecoder::class,
             ])->handle($input);
         } catch (NotSupportedException) {
-            throw new ColorDecoderException('Failed to decode color from string "' . $input . '"');
+            throw new ColorDecoderException('Failed to decode HSV color from string "' . $input . '"');
         }
     }
 

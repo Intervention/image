@@ -24,7 +24,7 @@ final class ChannelTest extends BaseTestCase
         $channel = new Hue(value: 0);
         $this->assertInstanceOf(Hue::class, $channel);
 
-        $channel = new Hue(normalized: 0);
+        $channel = Hue::fromNormalized(0);
         $this->assertInstanceOf(Hue::class, $channel);
     }
 
@@ -34,16 +34,10 @@ final class ChannelTest extends BaseTestCase
         new Hue(400);
     }
 
-    public function testConstructorFailEmpty(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        new Hue();
-    }
-
     public function testConstructorFailInvalidArgumentNormalized(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        new Hue(normalized: 2);
+        Hue::fromNormalized(2);
     }
 
     public function testToInt(): void

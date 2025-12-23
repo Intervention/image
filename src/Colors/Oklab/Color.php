@@ -2,13 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Colors\Hsl;
+namespace Intervention\Image\Colors\Oklab;
 
 use Intervention\Image\Colors\AbstractColor;
-use Intervention\Image\Colors\Hsl\Channels\Hue;
-use Intervention\Image\Colors\Hsl\Channels\Luminance;
-use Intervention\Image\Colors\Hsl\Channels\Saturation;
-use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
+// use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
@@ -24,13 +21,13 @@ class Color extends AbstractColor
      *
      * @return void
      */
-    public function __construct(int $h, int $s, int $l)
+    public function __construct(float $l, float $a, float $b)
     {
         /** @throws void */
         $this->channels = [
-            new Hue($h),
-            new Saturation($s),
-            new Luminance($l),
+            new Channels\Lightness($l),
+            new Channels\A($a),
+            new Channels\B($b),
         ];
     }
 
@@ -55,7 +52,7 @@ class Color extends AbstractColor
             1 => $input[0],
             3 => $input,
             default => throw new InvalidArgumentException(
-                'Too few arguments to create HSL color, ' . count($input) . ' passed and 1 or 3 expected',
+                'Too few arguments to create OKLAB color, ' . count($input) . ' passed and 1 or 3 expected',
             ),
         };
 
@@ -68,35 +65,35 @@ class Color extends AbstractColor
                 Decoders\StringColorDecoder::class,
             ])->handle($input);
         } catch (NotSupportedException) {
-            throw new ColorDecoderException('Failed to decode HSL color from string "' . $input . '"');
+            throw new ColorDecoderException('Failed to decode OKLAB color from string "' . $input . '"');
         }
     }
 
     /**
-     * Return the Hue channel
+     * Return the Lightness channel
      */
-    public function hue(): ColorChannelInterface
+    public function lightness(): ColorChannelInterface
     {
         /** @throws void */
-        return $this->channel(Hue::class);
+        return $this->channel(Channels\Lightness::class);
     }
 
     /**
-     * Return the Saturation channel
+     * Return the a axis (green-red) channel
      */
-    public function saturation(): ColorChannelInterface
+    public function a(): ColorChannelInterface
     {
         /** @throws void */
-        return $this->channel(Saturation::class);
+        return $this->channel(Channels\A::class);
     }
 
     /**
-     * Return the Luminance channel
+     * Return the b axis (blue-yellow) channel
      */
-    public function luminance(): ColorChannelInterface
+    public function b(): ColorChannelInterface
     {
         /** @throws void */
-        return $this->channel(Luminance::class);
+        return $this->channel(Channels\B::class);
     }
 
     /**
@@ -106,7 +103,7 @@ class Color extends AbstractColor
      */
     public function toHex(string $prefix = ''): string
     {
-        return $this->convertTo(RgbColorspace::class)->toHex($prefix);
+        // return $this->convertTo(RgbColorspace::class)->toHex($prefix);
     }
 
     /**
@@ -117,10 +114,10 @@ class Color extends AbstractColor
     public function toString(): string
     {
         return sprintf(
-            'hsl(%d, %d%%, %d%%)',
-            $this->hue()->value(),
-            $this->saturation()->value(),
-            $this->luminance()->value()
+            'oklab(%s %s %s)',
+            $this->lightness()->value(),
+            $this->a()->value(),
+            $this->b()->value(),
         );
     }
 
@@ -131,7 +128,8 @@ class Color extends AbstractColor
      */
     public function isGreyscale(): bool
     {
-        return $this->saturation()->value() == 0;
+        // TODO: confirm correct implementation
+        return $this->a()->value() === 0.0 && $this->b()->value() === 0.0;
     }
 
     /**

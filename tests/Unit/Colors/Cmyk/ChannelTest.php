@@ -26,14 +26,8 @@ final class ChannelTest extends BaseTestCase
         $channel = new Cyan(value: 0);
         $this->assertInstanceOf(Cyan::class, $channel);
 
-        $channel = new Cyan(normalized: 0);
+        $channel = Cyan::fromNormalized(0);
         $this->assertInstanceOf(Cyan::class, $channel);
-    }
-
-    public function testConstructorFailEmpty(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        new Cyan();
     }
 
     public function testConstructorFailInvalidArgument(): void
@@ -45,7 +39,7 @@ final class ChannelTest extends BaseTestCase
     public function testConstructorFailInvalidArgumentNormalized(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        new Cyan(normalized: 2);
+        Cyan::fromNormalized(2);
     }
 
     public function testToInt(): void

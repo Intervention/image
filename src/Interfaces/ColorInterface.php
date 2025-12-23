@@ -27,7 +27,7 @@ interface ColorInterface extends Stringable
     /**
      * Cast color object to array
      *
-     * @return array<int>
+     * @return array<float|int>
      */
     public function toArray(): array;
 

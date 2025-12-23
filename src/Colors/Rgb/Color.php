@@ -56,7 +56,7 @@ class Color extends AbstractColor
             1 => $input[0],
             3, 4 => $input,
             default => throw new InvalidArgumentException(
-                'Too few arguments to create color, ' . count($input) . ' passed and 1, 3, or 4 expected',
+                'Too few arguments to create RGB color, ' . count($input) . ' passed and 1, 3, or 4 expected',
             ),
         };
 
@@ -72,7 +72,7 @@ class Color extends AbstractColor
                 Decoders\HtmlColornameDecoder::class,
             ])->handle($input);
         } catch (NotSupportedException) {
-            throw new ColorDecoderException('Failed to decode color from string "' . $input . '"');
+            throw new ColorDecoderException('Failed to decode RGB color from string "' . $input . '"');
         }
     }
 

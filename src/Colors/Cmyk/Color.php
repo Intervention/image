@@ -47,7 +47,7 @@ class Color extends AbstractColor
             1 => $input[0],
             4 => $input,
             default => throw new InvalidArgumentException(
-                'Too few arguments to create color, ' . count($input) . ' passed and 1 or 4 expected',
+                'Too few arguments to create CMYK color, ' . count($input) . ' passed and 1 or 4 expected',
             ),
         };
 
@@ -60,7 +60,7 @@ class Color extends AbstractColor
                 Decoders\StringColorDecoder::class,
             ])->handle($input);
         } catch (NotSupportedException) {
-            throw new ColorDecoderException('Failed to decode color from string "' . $input . '"');
+            throw new ColorDecoderException('Failed to decode CMYK color from string "' . $input . '"');
         }
     }
 

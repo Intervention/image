@@ -9,31 +9,31 @@ use Stringable;
 interface ColorChannelInterface extends Stringable
 {
     /**
-     * Create new instance by either value or normalized value
+     * Create color channel from normalized (0.0 - 1.0) value
      */
-    public function __construct(?int $value = null, ?float $normalized = null);
-
-    /**
-     * Return color channels integer value
-     */
-    public function value(): int;
-
-    /**
-     * Return the channels value normalized to a float value form 0 to 1 by its range
-     */
-    public function normalize(int $precision = 32): float;
+    public static function fromNormalized(float $normalized): self;
 
     /**
      * Return the the minimal possible value of the color channel
      */
-    public function min(): int;
+    public static function min(): float;
 
     /*
      * Return the the maximal possible value of the color channel
      *
      * @return int
      */
-    public function max(): int;
+    public static function max(): float;
+
+    /**
+     * Return color channels value
+     */
+    public function value(): int|float;
+
+    /**
+     * Return the channels value normalized to a float value from 0.0 to 1.0 by its range
+     */
+    public function normalize(int $precision = 32): float;
 
     /**
      * Transform color channel's value to string

@@ -12,7 +12,7 @@ interface ColorspaceInterface
     public function importColor(ColorInterface $color): ColorInterface;
 
     /**
-     * Create new color in colorspace from given normalized channel values
+     * Create new color in colorspace from given normalized (0-1) channel values
      *
      * @param array<float> $normalized
      */

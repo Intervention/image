@@ -25,7 +25,7 @@ final class ChannelTest extends BaseTestCase
         $channel = new Channel(value: 0);
         $this->assertInstanceOf(Channel::class, $channel);
 
-        $channel = new Channel(normalized: 0);
+        $channel = Channel::fromNormalized(0);
         $this->assertInstanceOf(Channel::class, $channel);
     }
 
@@ -38,13 +38,7 @@ final class ChannelTest extends BaseTestCase
     public function testConstructorFailInvalidArgumentNormalized(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        new Channel(normalized: 2);
-    }
-
-    public function testConstructorFailEmpty(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        new Channel();
+        Channel::fromNormalized(2);
     }
 
     public function testToInt(): void

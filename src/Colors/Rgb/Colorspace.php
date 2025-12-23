@@ -7,6 +7,7 @@ namespace Intervention\Image\Colors\Rgb;
 use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
+use Intervention\Image\Colors\Oklab\Color as OklabColor;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
@@ -34,7 +35,7 @@ class Colorspace implements ColorspaceInterface
     public function colorFromNormalized(array $normalized): ColorInterface
     {
         return new Color(...array_map(
-            fn($classname, float $value_normalized) => (new $classname(normalized: $value_normalized))->value(),
+            fn($classname, float $value_normalized) => $classname::fromNormalized($value_normalized)->value(),
             self::$channels,
             $normalized,
         ));
@@ -46,7 +47,8 @@ class Colorspace implements ColorspaceInterface
             CmykColor::class => $this->importCmykColor($color),
             HsvColor::class => $this->importHsvColor($color),
             HslColor::class => $this->importHslColor($color),
-            default => $color,
+            OklabColor::class => $this->importOklabColor($color),
+            default => $color, // TODO may throw exception here
         };
     }
 
@@ -119,5 +121,40 @@ class Colorspace implements ColorspaceInterface
         $values[] = 1; // append alpha channel value
 
         return $this->colorFromNormalized($values);
+    }
+
+    protected function importOklabColor(OklabColor $color): ColorInterface
+    {
+        $linearToRgb = function (float $c): float {
+            $c = max(0.0, min(1.0, $c));
+
+            if ($c <= 0.0031308) {
+                return 12.92 * $c;
+            }
+
+            return 1.055 * ($c ** (1 / 2.4)) - 0.055;
+        };
+
+        $l = $color->lightness()->value() + 0.3963377774 * $color->a()->value() + 0.2158037573 * $color->b()->value();
+        $m = $color->lightness()->value() - 0.1055613458 * $color->a()->value() - 0.0638541728 * $color->b()->value();
+        $s = $color->lightness()->value() - 0.0894841775 * $color->a()->value() - 1.2914855480 * $color->b()->value();
+
+        $l = $l ** 3;
+        $m = $m ** 3;
+        $s = $s ** 3;
+
+        $r = +4.0767416621 * $l - 3.3077115913 * $m + 0.2309699292 * $s;
+        $g = -1.2684380046 * $l + 2.6097574011 * $m - 0.3413193965 * $s;
+        $b = -0.0041960863 * $l - 0.7034186147 * $m + 1.7076147010 * $s;
+
+        $r = $linearToRgb($r);
+        $g = $linearToRgb($g);
+        $b = $linearToRgb($b);
+
+        return new Color(
+            (int) round($r * 255),
+            (int) round($g * 255),
+            (int) round($b * 255),
+        );
     }
 }

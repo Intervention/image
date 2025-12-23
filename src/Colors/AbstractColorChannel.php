@@ -10,42 +10,14 @@ use Stringable;
 
 abstract class AbstractColorChannel implements ColorChannelInterface, Stringable
 {
-    protected int $value;
-
     /**
      * {@inheritdoc}
      *
-     * @see ColorChannelInterface::__construct()
+     * @see ColorChannelInterface::fromNormalized()
      */
-    public function __construct(?int $value = null, ?float $normalized = null)
+    public static function fromNormalized(float $normalized): self
     {
-        $this->value = $this->validValueOrFail(
-            match (true) {
-                is_null($value) && is_numeric($normalized) => intval(round($normalized * $this->max())),
-                is_numeric($value) && is_null($normalized) => $value,
-                default => throw new InvalidArgumentException(
-                    'Color channels must either have a value or a normalized value',
-                )
-            }
-        );
-    }
-
-    /**
-     * Alias of value()
-     */
-    public function toInt(): int
-    {
-        return $this->value;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ColorChannelInterface::value()
-     */
-    public function value(): int
-    {
-        return $this->value;
+        return new static(static::min() + $normalized * (static::max() - static::min()));
     }
 
     /**
@@ -59,20 +31,10 @@ abstract class AbstractColorChannel implements ColorChannelInterface, Stringable
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @see ColorChannelInterface::toString()
-     */
-    public function toString(): string
-    {
-        return (string) $this->value();
-    }
-
-    /**
      * Throw exception if the given value is not applicable for channel
      * otherwise the value is returned unchanged.
      */
-    private function validValueOrFail(int|float $value): mixed
+    protected function validValueOrFail(int|float $value): mixed
     {
         if ($value < $this->min() || $value > $this->max()) {
             throw new InvalidArgumentException(
@@ -81,6 +43,16 @@ abstract class AbstractColorChannel implements ColorChannelInterface, Stringable
         }
 
         return $value;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorChannelInterface::toString()
+     */
+    public function toString(): string
+    {
+        return (string) $this->value();
     }
 
     /**

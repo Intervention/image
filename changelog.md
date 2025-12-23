@@ -8,6 +8,7 @@
 - Default resolution is now 72 ppi for new images
 - Origin::format()
 - Support for ICO-Format
+- Support for OkLab color space
 - Improved structure and hiarchy for exceptions
 - Improved error and exception messages
 
@@ -51,6 +52,7 @@
 - Signature of Frame::__construct() has changed, argument $offset_left is know $offsetLeft and $offset_top is now $offsetTop
 - Signature of PixelColorAnalyzer::__construct() has changed, argument $frame_key is know $frame
 - DriverInterface::handleInput() is replaced by DriverInterface::handleImageInput(), DriverInterface::handleColorInput()
+- ColorChannelInterface::max() and ColorChannelInterface::min() are now static
 
 ### Exceptions
 
@@ -93,3 +95,4 @@ caller, Operation fails after valid input
 ## Removed
 
 - Removed topLeftPoint() and bottomRightPoint() from Rectangle::class
+- Removed ColorChannelInterface::__construct() from interface

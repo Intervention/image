@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors\Rgb\Channels;
 
-use Intervention\Image\Colors\AbstractColorChannel;
+use Intervention\Image\Colors\IntegerColorChannel;
 
-class Red extends AbstractColorChannel
+class Red extends IntegerColorChannel
 {
     /**
      * {@inheritdoc}
      *
      * @see ColorChannelInterface::min()
      */
-    public function min(): int
+    public static function min(): float
     {
         return 0;
     }
@@ -23,7 +23,7 @@ class Red extends AbstractColorChannel
      *
      * @see ColorChannelInterface::max()
      */
-    public function max(): int
+    public static function max(): float
     {
         return 255;
     }

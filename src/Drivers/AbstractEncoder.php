@@ -15,7 +15,10 @@ abstract class AbstractEncoder implements EncoderInterface
 {
     use CanBuildFilePointer;
 
-    public const DEFAULT_QUALITY = 75;
+    /**
+     * Default encoding quality
+     */
+    public const int DEFAULT_QUALITY = 75;
 
     /**
      * {@inheritdoc}

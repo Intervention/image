@@ -12,7 +12,10 @@ use Intervention\Image\Interfaces\DecoderInterface;
 
 class HexColorDecoder extends AbstractDecoder implements DecoderInterface
 {
-    private const PATTERN = '/^#?(?P<hex>[a-f\d]{3}(?:[a-f\d]?|(?:[a-f\d]{3}(?:[a-f\d]{2})?)?)\b)$/i';
+    /**
+     * Pattern of hexadecimal colors
+     */
+    private const string PATTERN = '/^#?(?P<hex>[a-f\d]{3}(?:[a-f\d]?|(?:[a-f\d]{3}(?:[a-f\d]{2})?)?)\b)$/i';
 
     /**
      * {@inheritdoc}

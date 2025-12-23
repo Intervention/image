@@ -8,7 +8,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Colors\Hsv\Channels\Hue;
 use Intervention\Image\Colors\Hsv\Channels\Saturation;
 use Intervention\Image\Colors\Hsv\Channels\Value;
-use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Tests\BaseTestCase;
 
@@ -27,18 +26,24 @@ final class ChannelTest extends BaseTestCase
 
         $channel = new Hue(normalized: 0);
         $this->assertInstanceOf(Hue::class, $channel);
-
-        $this->expectException(InvalidArgumentException::class);
-        new Hue();
-
-        $this->expectException(ColorException::class);
-        new Hue(normalized: 2);
     }
 
-    public function testConstructorFail(): void
+    public function testConstructorFailInvalidArgument(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new Hue(400);
+    }
+
+    public function testConstructorFailEmpty(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new Hue();
+    }
+
+    public function testConstructorFailInvalidArgumentNormalized(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new Hue(normalized: 2);
     }
 
     public function testToInt(): void

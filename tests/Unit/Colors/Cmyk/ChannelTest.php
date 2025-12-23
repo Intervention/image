@@ -8,7 +8,6 @@ use Intervention\Image\Colors\Cmyk\Channels\Cyan;
 use Intervention\Image\Colors\Cmyk\Channels\Key;
 use Intervention\Image\Colors\Cmyk\Channels\Magenta;
 use Intervention\Image\Colors\Cmyk\Channels\Yellow;
-use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -29,18 +28,24 @@ final class ChannelTest extends BaseTestCase
 
         $channel = new Cyan(normalized: 0);
         $this->assertInstanceOf(Cyan::class, $channel);
-
-        $this->expectException(InvalidArgumentException::class);
-         new Cyan();
-
-        $this->expectException(ColorException::class);
-         new Cyan(normalized: 2);
     }
 
-    public function testConstructorFail(): void
+    public function testConstructorFailEmpty(): void
     {
         $this->expectException(InvalidArgumentException::class);
-         new Cyan(200);
+        new Cyan();
+    }
+
+    public function testConstructorFailInvalidArgument(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new Cyan(200);
+    }
+
+    public function testConstructorFailInvalidArgumentNormalized(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new Cyan(normalized: 2);
     }
 
     public function testToInt(): void
@@ -75,9 +80,9 @@ final class ChannelTest extends BaseTestCase
     public function testValidate(): void
     {
         $this->expectException(InvalidArgumentException::class);
-         new Cyan(101);
+        new Cyan(101);
 
         $this->expectException(InvalidArgumentException::class);
-         new Cyan(-1);
+        new Cyan(-1);
     }
 }

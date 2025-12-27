@@ -42,12 +42,6 @@ final class ChannelTest extends BaseTestCase
         Cyan::fromNormalized(2);
     }
 
-    public function testToInt(): void
-    {
-        $channel = new Cyan(10);
-        $this->assertEquals(10, $channel->toInt());
-    }
-
     public function testToString(): void
     {
         $channel = new Cyan(10);

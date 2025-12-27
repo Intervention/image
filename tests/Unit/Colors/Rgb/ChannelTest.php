@@ -41,12 +41,6 @@ final class ChannelTest extends BaseTestCase
         Channel::fromNormalized(2);
     }
 
-    public function testToInt(): void
-    {
-        $channel = new Channel(255);
-        $this->assertEquals(255, $channel->toInt());
-    }
-
     public function testToString(): void
     {
         $channel = new Channel(10);

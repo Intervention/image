@@ -34,14 +34,6 @@ abstract class IntegerColorChannel extends AbstractColorChannel
     }
 
     /**
-     * Alias of value()
-     */
-    public function toInt(): int
-    {
-        return $this->value;
-    }
-
-    /**
      * {@inheritdoc}
      *
      * @see ColorChannelInterface::normalize()

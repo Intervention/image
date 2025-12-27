@@ -56,6 +56,7 @@
 - DriverInterface::handleInput() is replaced by DriverInterface::handleImageInput(), DriverInterface::handleColorInput()
 - ColorChannelInterface::max() and ColorChannelInterface::min() are now static
 - Method ColorInterface::convertTo() was renamed to ColorInterface::toColorspace()
+- Method ColorChannelInterface::toInt() was removed use ColorChannelInterface::value() instead
 
 ### Exceptions
 

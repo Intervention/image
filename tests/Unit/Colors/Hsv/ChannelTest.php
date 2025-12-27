@@ -40,12 +40,6 @@ final class ChannelTest extends BaseTestCase
         Hue::fromNormalized(2);
     }
 
-    public function testToInt(): void
-    {
-        $channel = new Hue(10);
-        $this->assertEquals(10, $channel->toInt());
-    }
-
     public function testToString(): void
     {
         $channel = new Hue(10);

@@ -109,35 +109,35 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals('rgb(181, 55, 23)', (string) $color);
     }
 
-    public function testConvertTo(): void
+    public function testToColorspace(): void
     {
         $color = new Color(0, 0, 0);
-        $converted = $color->convertTo(CmykColorspace::class);
+        $converted = $color->toColorspace(CmykColorspace::class);
         $this->assertInstanceOf(CmykColor::class, $converted);
         $this->assertEquals([0, 0, 0, 100], $converted->toArray());
 
         $color = new Color(255, 255, 255);
-        $converted = $color->convertTo(CmykColorspace::class);
+        $converted = $color->toColorspace(CmykColorspace::class);
         $this->assertInstanceOf(CmykColor::class, $converted);
         $this->assertEquals([0, 0, 0, 0], $converted->toArray());
 
         $color = new Color(255, 0, 0);
-        $converted = $color->convertTo(CmykColorspace::class);
+        $converted = $color->toColorspace(CmykColorspace::class);
         $this->assertInstanceOf(CmykColor::class, $converted);
         $this->assertEquals([0, 100, 100, 0], $converted->toArray());
 
         $color = new Color(255, 0, 255);
-        $converted = $color->convertTo(CmykColorspace::class);
+        $converted = $color->toColorspace(CmykColorspace::class);
         $this->assertInstanceOf(CmykColor::class, $converted);
         $this->assertEquals([0, 100, 0, 0], $converted->toArray());
 
         $color = new Color(255, 255, 0);
-        $converted = $color->convertTo(CmykColorspace::class);
+        $converted = $color->toColorspace(CmykColorspace::class);
         $this->assertInstanceOf(CmykColor::class, $converted);
         $this->assertEquals([0, 0, 100, 0], $converted->toArray());
 
         $color = new Color(255, 204, 204);
-        $converted = $color->convertTo(CmykColorspace::class);
+        $converted = $color->toColorspace(CmykColorspace::class);
         $this->assertInstanceOf(CmykColor::class, $converted);
         $this->assertEquals([0, 20, 20, 0], $converted->toArray());
     }

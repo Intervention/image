@@ -25,7 +25,7 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
     {
         $originalSize = $image->size();
         $crop = $this->crop($image);
-        $background = $this->backgroundColor()->convertTo(RgbColorspace::class);
+        $background = $this->backgroundColor()->toColorspace(RgbColorspace::class);
 
         foreach ($image as $frame) {
             $this->cropFrame($frame, $originalSize, $crop, $background);

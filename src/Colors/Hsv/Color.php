@@ -106,7 +106,7 @@ class Color extends AbstractColor
      */
     public function toHex(string $prefix = ''): string
     {
-        return $this->convertTo(RgbColorspace::class)->toHex($prefix);
+        return $this->toColorspace(RgbColorspace::class)->toHex($prefix);
     }
 
     /**

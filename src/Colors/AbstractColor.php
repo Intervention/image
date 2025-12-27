@@ -79,9 +79,9 @@ abstract class AbstractColor implements ColorInterface, Stringable
     /**
      * {@inheritdoc}
      *
-     * @see ColorInterface::convertTo()
+     * @see ColorInterface::toColorspace()
      */
-    public function convertTo(string|ColorspaceInterface $colorspace): ColorInterface
+    public function toColorspace(string|ColorspaceInterface $colorspace): ColorInterface
     {
         if (is_string($colorspace) && !class_exists($colorspace)) {
             throw new InvalidArgumentException('Unknown color space (' . $colorspace . ') as conversion target');

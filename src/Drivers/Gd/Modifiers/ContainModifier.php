@@ -28,7 +28,7 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
     {
         $crop = $this->getCropSize($image);
         $resize = $this->getResizeSize($image);
-        $backgroundColor = $this->backgroundColor()->convertTo(RgbColorspace::class);
+        $backgroundColor = $this->backgroundColor()->toColorspace(RgbColorspace::class);
 
         foreach ($image as $frame) {
             $this->modify($frame, $crop, $resize, $backgroundColor);

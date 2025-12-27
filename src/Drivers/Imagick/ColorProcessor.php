@@ -21,7 +21,7 @@ class ColorProcessor implements ColorProcessorInterface
     public function colorToNative(ColorInterface $color): ImagickPixel
     {
         return new ImagickPixel(
-            (string) $color->convertTo($this->colorspace)
+            (string) $color->toColorspace($this->colorspace)
         );
     }
 

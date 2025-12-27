@@ -54,6 +54,7 @@
 - Signature of PixelColorAnalyzer::__construct() has changed, argument $frame_key is know $frame
 - DriverInterface::handleInput() is replaced by DriverInterface::handleImageInput(), DriverInterface::handleColorInput()
 - ColorChannelInterface::max() and ColorChannelInterface::min() are now static
+- Method ColorInterface::convertTo() was renamed to ColorInterface::toColorspace()
 
 ### Exceptions
 

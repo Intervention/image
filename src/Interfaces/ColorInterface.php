@@ -58,7 +58,7 @@ interface ColorInterface extends Stringable
     /**
      * Convert color to given colorspace
      */
-    public function convertTo(string|ColorspaceInterface $colorspace): self;
+    public function toColorspace(string|ColorspaceInterface $colorspace): self;
 
     /**
      * Determine if the current color is gray

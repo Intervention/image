@@ -19,7 +19,7 @@ class BackgroundModifier extends GenericBackgroundModifier implements Specialize
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        $backgroundColor = $this->backgroundColor($this->driver())->convertTo(RgbColorspace::class);
+        $backgroundColor = $this->backgroundColor($this->driver())->toColorspace(RgbColorspace::class);
 
         foreach ($image as $frame) {
             // create new canvas with background color as background

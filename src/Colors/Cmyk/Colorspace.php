@@ -49,7 +49,7 @@ class Colorspace implements ColorspaceInterface
             RgbColor::class => $this->importRgbColor($color),
             OklabColor::class,
             HsvColor::class,
-            HslColor::class => $this->importRgbColor($color->convertTo(RgbColorspace::class)),
+            HslColor::class => $this->importRgbColor($color->toColorspace(RgbColorspace::class)),
             CmykColor::class => $color,
             default => throw new NotSupportedException(
                 'Unable to import color ' . $color::class . ' to ' . $this::class,

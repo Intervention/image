@@ -10,7 +10,6 @@ use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Rectangle;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
 class Cloner
@@ -39,7 +38,7 @@ class Cloner
     public static function cloneEmpty(
         GdImage $gd,
         ?SizeInterface $size = null,
-        ColorInterface $background = new Color(255, 255, 255, 0)
+        Color $background = new Color(255, 255, 255, 0)
     ): GdImage {
         // define size
         $size = $size ?: new Rectangle(imagesx($gd), imagesy($gd));
@@ -93,7 +92,7 @@ class Cloner
      * Create a clone of an GdImage that is positioned on the specified background color.
      * Possible transparent areas are mixed with this color.
      */
-    public static function cloneBlended(GdImage $gd, ColorInterface $background): GdImage
+    public static function cloneBlended(GdImage $gd, Color $background): GdImage
     {
         // create empty canvas with same size
         $clone = static::cloneEmpty($gd, background: $background);

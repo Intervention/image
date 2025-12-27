@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
@@ -18,7 +19,7 @@ class BackgroundModifier extends GenericBackgroundModifier implements Specialize
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        $backgroundColor = $this->backgroundColor($this->driver());
+        $backgroundColor = $this->backgroundColor($this->driver())->convertTo(RgbColorspace::class);
 
         foreach ($image as $frame) {
             // create new canvas with background color as background

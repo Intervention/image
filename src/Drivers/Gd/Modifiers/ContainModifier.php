@@ -7,6 +7,7 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
+use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -27,7 +28,7 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
     {
         $crop = $this->getCropSize($image);
         $resize = $this->getResizeSize($image);
-        $backgroundColor = $this->backgroundColor();
+        $backgroundColor = $this->backgroundColor()->convertTo(RgbColorspace::class);
 
         foreach ($image as $frame) {
             $this->modify($frame, $crop, $resize, $backgroundColor);

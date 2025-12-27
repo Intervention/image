@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -24,7 +25,7 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
     {
         $originalSize = $image->size();
         $crop = $this->crop($image);
-        $background = $this->backgroundColor();
+        $background = $this->backgroundColor()->convertTo(RgbColorspace::class);
 
         foreach ($image as $frame) {
             $this->cropFrame($frame, $originalSize, $crop, $background);

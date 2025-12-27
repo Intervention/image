@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Intervention\Image\Colors\Hsl;
 
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
+use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Oklab\Color as OklabColor;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
-use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -42,6 +42,11 @@ class Colorspace implements ColorspaceInterface
         ));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorspaceInterface::importColor()
+     */
     public function importColor(ColorInterface $color): ColorInterface
     {
         return match ($color::class) {
@@ -55,12 +60,8 @@ class Colorspace implements ColorspaceInterface
         };
     }
 
-    protected function importRgbColor(ColorInterface $color): ColorInterface
+    private function importRgbColor(RgbColor $color): HslColor
     {
-        if (!($color instanceof RgbColor)) {
-            throw new InvalidArgumentException('Color must be of type ' . RgbColor::class);
-        }
-
         // normalized values of rgb channels
         $values = array_map(
             fn(ColorChannelInterface $channel): float => $channel->normalize(),
@@ -98,12 +99,8 @@ class Colorspace implements ColorspaceInterface
         );
     }
 
-    protected function importHsvColor(ColorInterface $color): ColorInterface
+    private function importHsvColor(HsvColor $color): HslColor
     {
-        if (!($color instanceof HsvColor)) {
-            throw new InvalidArgumentException('Color must be of type ' . HsvColor::class);
-        }
-
         // normalized values of hsv channels
         [$h, $s, $v] = array_map(
             fn(ColorChannelInterface $channel): float => $channel->normalize(),

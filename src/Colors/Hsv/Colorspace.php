@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors\Hsv;
 
-use Intervention\Image\Colors\Oklab\Color as OklabColor;
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
-use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
+use Intervention\Image\Colors\Hsv\Color as HsvColor;
+use Intervention\Image\Colors\Oklab\Color as OklabColor;
+use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
@@ -42,6 +43,11 @@ class Colorspace implements ColorspaceInterface
         ));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorspaceInterface::importColor()
+     */
     public function importColor(ColorInterface $color): ColorInterface
     {
         return match ($color::class) {
@@ -49,18 +55,15 @@ class Colorspace implements ColorspaceInterface
             OklabColor::class => $this->importRgbColor($color->toColorspace(RgbColorspace::class)),
             RgbColor::class => $this->importRgbColor($color),
             HslColor::class => $this->importHslColor($color),
+            HsvColor::class => $color,
             default => throw new NotSupportedException(
                 'Unable to import color ' . $color::class . ' to ' . $this::class,
             ),
         };
     }
 
-    protected function importRgbColor(ColorInterface $color): ColorInterface
+    private function importRgbColor(RgbColor $color): HsvColor
     {
-        if (!($color instanceof RgbColor)) {
-            throw new InvalidArgumentException('Color must be of type ' . RgbColor::class);
-        }
-
         // normalized values of rgb channels
         $values = array_map(fn(ColorChannelInterface $channel): float => $channel->normalize(), $color->channels());
 

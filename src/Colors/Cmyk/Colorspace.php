@@ -10,7 +10,6 @@ use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Oklab\Color as OklabColor;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
-use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
@@ -43,6 +42,11 @@ class Colorspace implements ColorspaceInterface
         ));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorspaceInterface::importColor()
+     */
     public function importColor(ColorInterface $color): ColorInterface
     {
         return match ($color::class) {
@@ -57,12 +61,8 @@ class Colorspace implements ColorspaceInterface
         };
     }
 
-    protected function importRgbColor(ColorInterface $color): CmykColor
+    private function importRgbColor(RgbColor $color): CmykColor
     {
-        if (!($color instanceof RgbColor)) {
-            throw new InvalidArgumentException('Color must be of type ' . RgbColor::class);
-        }
-
         $c = (255 - $color->red()->value()) / 255.0 * 100;
         $m = (255 - $color->green()->value()) / 255.0 * 100;
         $y = (255 - $color->blue()->value()) / 255.0 * 100;

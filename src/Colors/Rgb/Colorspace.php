@@ -13,7 +13,6 @@ use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
-use InvalidArgumentException;
 
 class Colorspace implements ColorspaceInterface
 {
@@ -57,12 +56,8 @@ class Colorspace implements ColorspaceInterface
         };
     }
 
-    protected function importCmykColor(ColorInterface $color): ColorInterface
+    private function importCmykColor(CmykColor $color): RgbColor
     {
-        if (!($color instanceof CmykColor)) {
-            throw new InvalidArgumentException('Color must be of type ' . CmykColor::class);
-        }
-
         return new Color(
             (int) (255 * (1 - $color->cyan()->normalize()) * (1 - $color->key()->normalize())),
             (int) (255 * (1 - $color->magenta()->normalize()) * (1 - $color->key()->normalize())),
@@ -70,12 +65,8 @@ class Colorspace implements ColorspaceInterface
         );
     }
 
-    protected function importHsvColor(ColorInterface $color): ColorInterface
+    private function importHsvColor(HsvColor $color): RgbColor
     {
-        if (!($color instanceof HsvColor)) {
-            throw new InvalidArgumentException('Color must be of type ' . HsvColor::class);
-        }
-
         $chroma = $color->value()->normalize() * $color->saturation()->normalize();
         $hue = $color->hue()->normalize() * 6;
         $x = $chroma * (1 - abs(fmod($hue, 2) - 1));
@@ -97,12 +88,8 @@ class Colorspace implements ColorspaceInterface
         return $this->colorFromNormalized($values);
     }
 
-    protected function importHslColor(ColorInterface $color): ColorInterface
+    private function importHslColor(HslColor $color): RgbColor
     {
-        if (!($color instanceof HslColor)) {
-            throw new InvalidArgumentException('Color must be of type ' . HslColor::class);
-        }
-
         // normalized values of hsl channels
         [$h, $s, $l] = array_map(
             fn(ColorChannelInterface $channel): float => $channel->normalize(),
@@ -128,7 +115,7 @@ class Colorspace implements ColorspaceInterface
         return $this->colorFromNormalized($values);
     }
 
-    protected function importOklabColor(OklabColor $color): ColorInterface
+    private function importOklabColor(OklabColor $color): RgbColor
     {
         $linearToRgb = function (float $c): float {
             $c = max(0.0, min(1.0, $c));

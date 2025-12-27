@@ -41,6 +41,11 @@ class Colorspace implements ColorspaceInterface
         ));
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorspaceInterface::importColor()
+     */
     public function importColor(ColorInterface $color): ColorInterface
     {
         return match ($color::class) {
@@ -55,7 +60,7 @@ class Colorspace implements ColorspaceInterface
         };
     }
 
-    private function importRgbColor(RgbColor $color): ColorInterface
+    private function importRgbColor(RgbColor $color): OklabColor
     {
         $cbrt = fn(float $x): float => $x < 0 ? -abs($x) ** (1 / 3) : $x ** (1 / 3);
         $rgbToLinear = fn(float $x): float => $x <= 0.04045 ? $x / 12.92 : (($x + 0.055) / 1.055) ** 2.4;

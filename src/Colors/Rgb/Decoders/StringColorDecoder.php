@@ -35,8 +35,8 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
      */
     public function decode(mixed $input): ColorInterface
     {
-        $pattern = '/^s?rgba?\((?P<r>[0-9\.]+%?), ?(?P<g>[0-9\.]+%?), ?(?P<b>[0-9\.]+%?)' .
-            '(?:, ?(?P<a>(?:1)|(?:1\.0*)|(?:0)|(?:0?\.\d+%?)|(?:\d{1,3}%)))?\)$/i';
+        $pattern = '/^s?rgba?\((?P<r>[0-9\.]+%?)((, ?)| )(?P<g>[0-9\.]+%?)((, ?)| )(?P<b>[0-9\.]+%?)' .
+            '(?:((, ?)| )(?P<a>(?:1)|(?:1\.0*)|(?:0)|(?:0?\.\d+%?)|(?:\d{1,3}%)))?\)$/i';
         if (preg_match($pattern, $input, $matches) != 1) {
             throw new InvalidArgumentException('Invalid rgb() color notation');
         }

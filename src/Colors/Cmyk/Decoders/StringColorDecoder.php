@@ -35,7 +35,9 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
      */
     public function decode(mixed $input): ColorInterface
     {
-        $pattern = '/^cmyk\((?P<c>[0-9\.]+%?), ?(?P<m>[0-9\.]+%?), ?(?P<y>[0-9\.]+%?), ?(?P<k>[0-9\.]+%?)\)$/i';
+        $pattern = '/^cmyk\((?P<c>[0-9\.]+%?)((, ?)| )(?P<m>[0-9\.]+%?)((, ?)| )' .
+            '(?P<y>[0-9\.]+%?)((, ?)| )(?P<k>[0-9\.]+%?)\)$/i';
+
         if (preg_match($pattern, (string) $input, $matches) != 1) {
             throw new InvalidArgumentException('Invalid cmyk() color notation');
         }

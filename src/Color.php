@@ -12,27 +12,42 @@ use Intervention\Image\Colors\Oklab\Color as OklabColor;
 
 class Color
 {
+    /**
+     * Create new RGB color
+     */
     public static function rgb(mixed ...$input): RgbColor
     {
         return RgbColor::create(...$input);
     }
 
-    public static function cmyk(mixed ...$input): RgbColor
+    /**
+     * Create new CMYK color
+     */
+    public static function cmyk(mixed ...$input): CmykColor
     {
         return CmykColor::create(...$input);
     }
 
-    public static function hsl(mixed ...$input): RgbColor
+    /**
+     * Create new HSL color
+     */
+    public static function hsl(mixed ...$input): HslColor
     {
         return HslColor::create(...$input);
     }
 
-    public static function hsv(mixed ...$input): RgbColor
+    /**
+     * Create new HSV color
+     */
+    public static function hsv(mixed ...$input): HsvColor
     {
         return HsvColor::create(...$input);
     }
 
-    public static function oklab(mixed ...$input): RgbColor
+    /**
+     * Create new OKLAB color
+     */
+    public static function oklab(mixed ...$input): OklabColor
     {
         return OklabColor::create(...$input);
     }

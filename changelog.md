@@ -7,6 +7,7 @@
 - DataUri::class
 - Default resolution is now 72 ppi for new images
 - Origin::format()
+- Color::class
 - Support for ICO-Format
 - Support for OkLab color space
 - Improved structure and hiarchy for exceptions

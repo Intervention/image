@@ -29,10 +29,15 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
         $result = imageresolution($image->core()->native());
 
         if (!is_array($result)) {
-            throw new AnalyzerException('Unable to read image resolution');
+            throw new AnalyzerException('Failed to read image resolution');
         }
 
-        // if GD's default resolution is returned I try to find resolution in origin
+        // GD returns 96x96 as resolution by default even if the image has no resolution.
+        // This is problematic because it is impossible to tell whether the image
+        // really has this resolution or whether it just corresponds to the default value.
+        //
+        // If GD's default resolution is returned here and the resolution is still unchanged
+        // we will make an attempt to find the resolution from origin.
         if ($result[0] == 96 && $result[1] == 96 && $image->core()->resolutionChanged === false) {
             try {
                 $alternativeResoltion = $this->readResolutionFromOrigin($image->origin());

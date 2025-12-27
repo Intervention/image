@@ -6,6 +6,7 @@ namespace Intervention\Image\Colors\Rgb\Decoders;
 
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Drivers\AbstractDecoder;
+use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
@@ -46,14 +47,12 @@ class HexColorDecoder extends AbstractDecoder implements DecoderInterface
     public function decode(mixed $input): ColorInterface
     {
         if (preg_match(self::PATTERN, $input, $matches) != 1) {
-            // TODO: decide exception type
             throw new InvalidArgumentException('Hex color has an invalid format');
         }
 
         $values = match (strlen($matches['hex'])) {
             3, 4 => str_split($matches['hex']),
             6, 8 => str_split($matches['hex'], 2),
-            // TODO: decide exception type
             default => throw new InvalidArgumentException('Hex color has an incorrect length'),
         };
 
@@ -61,8 +60,7 @@ class HexColorDecoder extends AbstractDecoder implements DecoderInterface
             return match (strlen($value)) {
                 1 => (int) hexdec($value . $value),
                 2 => (int) hexdec($value),
-                // TODO: decide exception type & message
-                default => throw new InvalidArgumentException('Input must be valid hex color'),
+                default => throw new ColorDecoderException('Failed to decode hex color'),
             };
         }, $values);
 

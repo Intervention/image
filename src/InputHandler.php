@@ -8,6 +8,7 @@ use Generator;
 use Intervention\Image\Colors\Cmyk\Decoders\StringColorDecoder as CmykStringColorDecoder;
 use Intervention\Image\Colors\Hsl\Decoders\StringColorDecoder as HslStringColorDecoder;
 use Intervention\Image\Colors\Hsv\Decoders\StringColorDecoder as HsvStringColorDecoder;
+use Intervention\Image\Colors\Oklab\Decoders\StringColorDecoder as OklabStringColorDecoder;
 use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder as RgbHexColorDecoder;
 use Intervention\Image\Colors\Rgb\Decoders\HtmlColornameDecoder;
 use Intervention\Image\Colors\Rgb\Decoders\StringColorDecoder as RgbStringColorDecoder;
@@ -44,6 +45,7 @@ class InputHandler implements InputHandlerInterface
     ];
 
     public const array COLOR_DECODERS = [
+        HtmlColornameDecoder::class,
         TransparentColorDecoder::class,
         ColorObjectDecoder::class,
         RgbHexColorDecoder::class,
@@ -51,7 +53,7 @@ class InputHandler implements InputHandlerInterface
         CmykStringColorDecoder::class,
         HsvStringColorDecoder::class,
         HslStringColorDecoder::class,
-        HtmlColornameDecoder::class,
+        OklabStringColorDecoder::class,
     ];
 
     /**

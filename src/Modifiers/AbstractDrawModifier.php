@@ -22,6 +22,7 @@ abstract class AbstractDrawModifier extends SpecializableModifier
         try {
             return $this->driver()->handleColorInput($this->drawable()->backgroundColor());
         } catch (DecoderException | InvalidArgumentException) {
+            // TODO: remove transparent fallback
             return $this->driver()->handleColorInput('transparent');
         }
     }
@@ -31,6 +32,7 @@ abstract class AbstractDrawModifier extends SpecializableModifier
         try {
             return $this->driver()->handleColorInput($this->drawable()->borderColor());
         } catch (DecoderException | InvalidArgumentException) {
+            // TODO: remove transparent fallback
             return $this->driver()->handleColorInput('transparent');
         }
     }

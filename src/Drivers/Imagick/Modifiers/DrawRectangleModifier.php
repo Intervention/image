@@ -15,14 +15,17 @@ class DrawRectangleModifier extends GenericDrawRectangleModifier implements Spec
 {
     public function apply(ImageInterface $image): ImageInterface
     {
-        $drawing = new ImagickDraw();
-
-        $backgroundColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
-            $this->backgroundColor()
-        );
-
         try {
-            $drawing->setFillColor($backgroundColor);
+            $drawing = new ImagickDraw();
+
+            if ($this->drawable->hasBackgroundColor()) {
+                $backgroundColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                    $this->backgroundColor()
+                );
+
+                $drawing->setFillColor($backgroundColor);
+            }
+
             if ($this->drawable->hasBorder()) {
                 $borderColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
                     $this->borderColor()

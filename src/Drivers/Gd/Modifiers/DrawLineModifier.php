@@ -14,6 +14,10 @@ class DrawLineModifier extends GenericDrawLineModifier implements SpecializedInt
 {
     public function apply(ImageInterface $image): ImageInterface
     {
+        if (!$this->drawable->hasBackgroundColor()) {
+            return $image;
+        }
+
         $color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
             $this->backgroundColor()
         );

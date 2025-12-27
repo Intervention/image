@@ -15,39 +15,9 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
 {
     public function apply(ImageInterface $image): ImageInterface
     {
-        $backgroundColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
-            $this->backgroundColor()
-        );
-
-        $borderColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
-            $this->borderColor()
-        );
+        $drawing = $this->buildDrawing($image);
 
         foreach ($image as $frame) {
-            try {
-                $drawing = new ImagickDraw();
-                $drawing->setFillColor($backgroundColor);
-
-                if ($this->drawable->hasBorder()) {
-                    $drawing->setStrokeWidth($this->drawable->borderSize());
-                    $drawing->setStrokeColor($borderColor);
-                }
-
-                $drawing->ellipse(
-                    $this->drawable->position()->x(),
-                    $this->drawable->position()->y(),
-                    $this->drawable->width() / 2,
-                    $this->drawable->height() / 2,
-                    0,
-                    360
-                );
-            } catch (ImagickException $e) {
-                throw new ModifierException(
-                    'Failed to apply ' . self::class . ', unable to build ImagickDraw object',
-                    previous: $e
-                );
-            }
-
             try {
                 $result = $frame->native()->drawImage($drawing);
                 if ($result === false) {
@@ -64,5 +34,45 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
         }
 
         return $image;
+    }
+
+    private function buildDrawing(ImageInterface $image): ImagickDraw
+    {
+        try {
+            $drawing = new ImagickDraw();
+
+            if ($this->drawable->hasBackgroundColor()) {
+                $backgroundColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                    $this->backgroundColor()
+                );
+
+                $drawing->setFillColor($backgroundColor);
+            }
+
+            if ($this->drawable->hasBorder()) {
+                $borderColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                    $this->borderColor()
+                );
+
+                $drawing->setStrokeWidth($this->drawable->borderSize());
+                $drawing->setStrokeColor($borderColor);
+            }
+
+            $drawing->ellipse(
+                $this->drawable->position()->x(),
+                $this->drawable->position()->y(),
+                $this->drawable->width() / 2,
+                $this->drawable->height() / 2,
+                0,
+                360
+            );
+        } catch (ImagickException $e) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to build ImagickDraw object',
+                previous: $e
+            );
+        }
+
+        return $drawing;
     }
 }

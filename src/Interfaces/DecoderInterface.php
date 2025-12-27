@@ -9,8 +9,8 @@ interface DecoderInterface
     /**
      * Determine if the given input is supported by decoder
      *
-     * Support does not mean that the input can necessarily be decoded,
-     * but only that it is worth trying.
+     * Support does not mean that the input can necessarily be decrypted, but only
+     * that the input might match the decoder and that it is worth trying.
      */
     public function supports(mixed $input): bool;
 

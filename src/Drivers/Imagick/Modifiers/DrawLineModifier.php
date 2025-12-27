@@ -19,11 +19,14 @@ class DrawLineModifier extends GenericDrawLineModifier implements SpecializedInt
             $drawing = new ImagickDraw();
             $drawing->setStrokeWidth($this->drawable->width());
             $drawing->setFillOpacity(0);
-            $drawing->setStrokeColor(
-                $this->driver()->colorProcessor($image->colorspace())->colorToNative(
-                    $this->backgroundColor()
-                )
-            );
+
+            if ($this->drawable->hasBackgroundColor()) {
+                $drawing->setStrokeColor(
+                    $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                        $this->backgroundColor()
+                    )
+                );
+            }
 
             $drawing->line(
                 $this->drawable->start()->x(),

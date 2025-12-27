@@ -79,7 +79,7 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
                         'Failed to apply ' . self::class . ', unable to draw ellipse on image',
                     );
                 }
-            } else {
+            } elseif ($this->drawable->hasBackgroundColor()) {
                 $result = imagealphablending($frame->native(), true);
 
                 if ($result === false) {

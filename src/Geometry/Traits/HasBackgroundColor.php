@@ -37,6 +37,6 @@ trait HasBackgroundColor
      */
     public function hasBackgroundColor(): bool
     {
-        return !empty($this->backgroundColor);
+        return $this->backgroundColor !== null;
     }
 }

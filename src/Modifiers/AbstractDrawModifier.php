@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Intervention\Image\Modifiers;
 
 use Intervention\Image\Drivers\SpecializableModifier;
-use Intervention\Image\Exceptions\DecoderException;
-use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
 
@@ -19,21 +17,11 @@ abstract class AbstractDrawModifier extends SpecializableModifier
 
     public function backgroundColor(): ColorInterface
     {
-        try {
-            return $this->driver()->handleColorInput($this->drawable()->backgroundColor());
-        } catch (DecoderException | InvalidArgumentException) {
-            // TODO: remove transparent fallback
-            return $this->driver()->handleColorInput('transparent');
-        }
+        return $this->driver()->handleColorInput($this->drawable()->backgroundColor());
     }
 
     public function borderColor(): ColorInterface
     {
-        try {
-            return $this->driver()->handleColorInput($this->drawable()->borderColor());
-        } catch (DecoderException | InvalidArgumentException) {
-            // TODO: remove transparent fallback
-            return $this->driver()->handleColorInput('transparent');
-        }
+        return $this->driver()->handleColorInput($this->drawable()->borderColor());
     }
 }

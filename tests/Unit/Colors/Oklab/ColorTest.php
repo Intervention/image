@@ -10,6 +10,8 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Colors\Oklab\Colorspace as OklabColorspace;
 use Intervention\Image\Colors\Oklab\Channels\Lightness;
 use Intervention\Image\Colors\Oklab\Color;
+use Intervention\Image\Colors\Rgb\Color as RgbColor;
+use Intervention\Image\Colors\Rgb\Colorspace;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Tests\BaseTestCase;
 
@@ -87,15 +89,11 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals([0, .1, .2], $color->toArray());
     }
 
-    // public function testToHex(): void
-    // {
-    //     $color = new Color(181, 55, 23);
-    //     $this->assertEquals('b53717', $color->toHex());
-    //     $this->assertEquals('#b53717', $color->toHex('#'));
-    //
-    //     $color = new Color(181, 55, 23, 51);
-    //     $this->assertEquals('b5371733', $color->toHex());
-    // }
+    public function testToHex(): void
+    {
+        $color = new Color(0.64905124115, 0.19974263609074, 0.13044605841927);
+        $this->assertEquals('ff3700', $color->toHex());
+    }
 
     public function testNormalize(): void
     {
@@ -112,38 +110,13 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals('oklab(0 0.1 -0.2)', (string) $color);
     }
 
-    // public function testConvertTo(): void
-    // {
-    //     $color = new Color(0, 0, 0);
-    //     $converted = $color->convertTo(CmykColorspace::class);
-    //     $this->assertInstanceOf(CmykColor::class, $converted);
-    //     $this->assertEquals([0, 0, 0, 100], $converted->toArray());
-    //
-    //     $color = new Color(255, 255, 255);
-    //     $converted = $color->convertTo(CmykColorspace::class);
-    //     $this->assertInstanceOf(CmykColor::class, $converted);
-    //     $this->assertEquals([0, 0, 0, 0], $converted->toArray());
-    //
-    //     $color = new Color(255, 0, 0);
-    //     $converted = $color->convertTo(CmykColorspace::class);
-    //     $this->assertInstanceOf(CmykColor::class, $converted);
-    //     $this->assertEquals([0, 100, 100, 0], $converted->toArray());
-    //
-    //     $color = new Color(255, 0, 255);
-    //     $converted = $color->convertTo(CmykColorspace::class);
-    //     $this->assertInstanceOf(CmykColor::class, $converted);
-    //     $this->assertEquals([0, 100, 0, 0], $converted->toArray());
-    //
-    //     $color = new Color(255, 255, 0);
-    //     $converted = $color->convertTo(CmykColorspace::class);
-    //     $this->assertInstanceOf(CmykColor::class, $converted);
-    //     $this->assertEquals([0, 0, 100, 0], $converted->toArray());
-    //
-    //     $color = new Color(255, 204, 204);
-    //     $converted = $color->convertTo(CmykColorspace::class);
-    //     $this->assertInstanceOf(CmykColor::class, $converted);
-    //     $this->assertEquals([0, 20, 20, 0], $converted->toArray());
-    // }
+    public function testToColorspace(): void
+    {
+        $color = new Color(0.64905124115, 0.19974263609074, 0.13044605841927);
+        $converted = $color->toColorspace(Colorspace::class);
+        $this->assertInstanceOf(RgbColor::class, $converted);
+        $this->assertEquals([255, 55, 0, 255], $converted->toArray());
+    }
 
     public function testIsGreyscale(): void
     {

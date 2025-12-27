@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Colors\Oklab;
 
 use Intervention\Image\Colors\AbstractColor;
-// use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
+use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
@@ -103,7 +103,7 @@ class Color extends AbstractColor
      */
     public function toHex(string $prefix = ''): string
     {
-        // return $this->convertTo(RgbColorspace::class)->toHex($prefix);
+        return $this->toColorspace(RgbColorspace::class)->toHex($prefix);
     }
 
     /**

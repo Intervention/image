@@ -104,7 +104,7 @@ final class ColorTest extends BaseTestCase
     public function testToString(): void
     {
         $color = new Color(100, 50, 20, 0);
-        $this->assertEquals('cmyk(100%, 50%, 20%, 0%)', (string) $color);
+        $this->assertEquals('cmyk(100% 50% 20% 0%)', (string) $color);
     }
 
     public function testIsTransparent(): void

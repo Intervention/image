@@ -12,6 +12,7 @@
 - Support for OkLab color space
 - Improved structure and hiarchy for exceptions
 - Improved error and exception messages
+- Function color format now supports notation without comma
 
 ## API Changes
 

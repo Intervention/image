@@ -91,7 +91,7 @@ final class ColorTest extends BaseTestCase
     public function testToString(): void
     {
         $color = new Color(100, 50, 20, 0);
-        $this->assertEquals('hsl(100, 50%, 20%)', (string) $color);
+        $this->assertEquals('hsl(100 50% 20%)', (string) $color);
     }
 
     public function testIsGreyscale(): void

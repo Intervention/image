@@ -117,7 +117,7 @@ class Color extends AbstractColor
     public function toString(): string
     {
         return sprintf(
-            'hsv(%d, %d%%, %d%%)',
+            'hsv(%d %d%% %d%%)',
             $this->hue()->value(),
             $this->saturation()->value(),
             $this->value()->value()

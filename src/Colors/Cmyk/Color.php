@@ -128,7 +128,7 @@ class Color extends AbstractColor
     public function toString(): string
     {
         return sprintf(
-            'cmyk(%d%%, %d%%, %d%%, %d%%)',
+            'cmyk(%d%% %d%% %d%% %d%%)',
             $this->cyan()->value(),
             $this->magenta()->value(),
             $this->yellow()->value(),

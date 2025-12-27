@@ -106,7 +106,7 @@ final class ColorTest extends BaseTestCase
     public function testToString(): void
     {
         $color = new Color(181, 55, 23);
-        $this->assertEquals('rgb(181, 55, 23)', (string) $color);
+        $this->assertEquals('rgb(181 55 23)', (string) $color);
     }
 
     public function testToColorspace(): void

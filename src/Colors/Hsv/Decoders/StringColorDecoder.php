@@ -12,6 +12,12 @@ use Intervention\Image\Interfaces\DecoderInterface;
 
 class StringColorDecoder extends AbstractDecoder implements DecoderInterface
 {
+    protected const string HSV_PATTERN =
+        '/^hs(v|b) ?\((' .
+        '?P<h>[0-9\.]+)((, ?)| )' .
+        '(?P<s>[0-9\.]+%?)((, ?)| )' .
+        '(?P<v>[0-9\.]+%?)\)$/i';
+
     /**
      * {@inheritdoc}
      *
@@ -35,9 +41,7 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
      */
     public function decode(mixed $input): ColorInterface
     {
-        $pattern = '/^hs(v|b)\((?P<h>[0-9\.]+)((, ?)| )(?P<s>[0-9\.]+%?)((, ?)| )(?P<v>[0-9\.]+%?)\)$/i';
-
-        if (preg_match($pattern, $input, $matches) != 1) {
+        if (preg_match(self::HSV_PATTERN, $input, $matches) != 1) {
             throw new InvalidArgumentException('Invalid hsv() or hsb() color notation');
         }
 

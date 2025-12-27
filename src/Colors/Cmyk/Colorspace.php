@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors\Cmyk;
 
-use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
-use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
+use Intervention\Image\Colors\Hsv\Color as HsvColor;
+use Intervention\Image\Colors\Oklab\Color as OklabColor;
+use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 
@@ -45,9 +47,13 @@ class Colorspace implements ColorspaceInterface
     {
         return match ($color::class) {
             RgbColor::class => $this->importRgbColor($color),
-            HsvColor::class => $this->importRgbColor($color->convertTo(RgbColorspace::class)),
+            OklabColor::class,
+            HsvColor::class,
             HslColor::class => $this->importRgbColor($color->convertTo(RgbColorspace::class)),
-            default => $color,
+            CmykColor::class => $color,
+            default => throw new NotSupportedException(
+                'Unable to import color ' . $color::class . ' to ' . $this::class,
+            ),
         };
     }
 

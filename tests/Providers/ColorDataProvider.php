@@ -32,6 +32,8 @@ class ColorDataProvider
         yield [['srgba(255 0 55 1)'], [255, 0, 55, 255]];
         yield [['srgb(255 0 55)'], [255, 0, 55, 255]];
         yield [['srgb(255 0 55 1)'], [255, 0, 55, 255]];
+        yield [['rgb (255, 0, 55)'], [255, 0, 55, 255]];
+        yield [['rgb (255 0 55)'], [255, 0, 55, 255]];
     }
 
     public static function rgbHex(): Generator
@@ -75,6 +77,8 @@ class ColorDataProvider
         yield [['cmyk(0 100 100 0)'], [0, 100, 100, 0]];
         yield [['cmyk(0% 100% 100% 0%)'], [0, 100, 100, 0]];
         yield [['CMYK(0 0 0 10)'], [0, 0, 0, 10]];
+        yield [['cmyk (0, 100, 100, 0)'], [0, 100, 100, 0]];
+        yield [['cmyk (0 100 100 0)'], [0, 100, 100, 0]];
     }
 
     public static function hslArray(): Generator
@@ -93,6 +97,8 @@ class ColorDataProvider
         yield [['hsl(0 100 50)'], [0, 100, 50]];
         yield [['hsl(360 100 50)'], [360, 100, 50]];
         yield [['hsl(180 100% 50%)'], [180, 100, 50]];
+        yield [['hsl (0, 100, 50)'], [0, 100, 50]];
+        yield [['hsl (0 100 50)'], [0, 100, 50]];
     }
 
     public static function hsvArray(): Generator
@@ -111,6 +117,8 @@ class ColorDataProvider
         yield [['hsv(0 100 50)'], [0, 100, 50]];
         yield [['hsv(360 100 50)'], [360, 100, 50]];
         yield [['hsv(180 100% 50%)'], [180, 100, 50]];
+        yield [['hsv (360, 100, 50)'], [360, 100, 50]];
+        yield [['hsv (360 100 50)'], [360, 100, 50]];
     }
 
     public static function oklabArray(): Generator
@@ -143,5 +151,7 @@ class ColorDataProvider
         yield [['oklab(.49 10% 50%)'], [.49, .04, .2]];
         yield [['oklab(59.69% 0.1007 0.1191)'], [.5969, .1007, .1191]];
         yield [['oklab(59.69% 100.00% -50%)'], [.5969, .4, -.2]];
+        yield [['oklab (0.54, 0, 0)'], [.54, 0.0, 0.0]];
+        yield [['oklab (0.54 0 0)'], [.54, 0.0, 0.0]];
     }
 }

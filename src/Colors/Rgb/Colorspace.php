@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors\Rgb;
 
-use Intervention\Image\Colors\Hsv\Color as HsvColor;
-use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
+use Intervention\Image\Colors\Hsl\Color as HslColor;
+use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Oklab\Color as OklabColor;
+use Intervention\Image\Colors\Rgb\Color as RgbColor;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
@@ -48,7 +50,10 @@ class Colorspace implements ColorspaceInterface
             HsvColor::class => $this->importHsvColor($color),
             HslColor::class => $this->importHslColor($color),
             OklabColor::class => $this->importOklabColor($color),
-            default => $color, // TODO may throw exception here
+            RgbColor::class => $color,
+            default => throw new NotSupportedException(
+                'Unable to import color ' . $color::class . ' to ' . $this::class,
+            ),
         };
     }
 

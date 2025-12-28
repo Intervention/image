@@ -13,7 +13,7 @@ use Intervention\Image\Interfaces\DecoderInterface;
 class StringColorDecoder extends AbstractDecoder implements DecoderInterface
 {
     protected const string RGB_PATTERN =
-        '/^s?rgba? ?\(' .
+    '/^s?rgba? ?\(' .
         '(?P<r>[0-9\.]+%?)((, ?)| )' .
         '(?P<g>[0-9\.]+%?)((, ?)| )' .
         '(?P<b>[0-9\.]+%?)(?:((, ?)| )' .
@@ -56,9 +56,9 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
 
         // alpha value
         if (array_key_exists('a', $matches)) {
-            $values[] = match (true) {
-                strpos($matches['a'], '%') => round(intval(trim(str_replace('%', '', $matches['a']))) / 2.55),
-                default => intval(round(floatval(trim($matches['a'])) * 255)),
+            $values[] = match (strpos($matches['a'], '%')) {
+                false => floatval(trim($matches['a'])),
+                default => floatval(trim(str_replace('%', '', $matches['a']))) / 100,
             };
         }
 

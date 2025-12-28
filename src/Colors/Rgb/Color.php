@@ -24,7 +24,7 @@ class Color extends AbstractColor
      *
      * @return ColorInterface
      */
-    public function __construct(int $r, int $g, int $b, int $a = 255)
+    public function __construct(int $r, int $g, int $b, float $a = 1)
     {
         /** @throws void */
         $this->channels = [

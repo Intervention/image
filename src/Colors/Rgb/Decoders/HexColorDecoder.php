@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Colors\Rgb\Decoders;
 
 use Intervention\Image\Colors\Rgb\Color;
+use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Drivers\AbstractDecoder;
 use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
@@ -50,12 +51,14 @@ class HexColorDecoder extends AbstractDecoder implements DecoderInterface
             throw new InvalidArgumentException('Hex color has an invalid format');
         }
 
+        // split into hex chunks
         $values = match (strlen($matches['hex'])) {
             3, 4 => str_split($matches['hex']),
             6, 8 => str_split($matches['hex'], 2),
             default => throw new InvalidArgumentException('Hex color has an incorrect length'),
         };
 
+        // convert to decimal
         $values = array_map(function (string $value): int {
             return match (strlen($value)) {
                 1 => (int) hexdec($value . $value),
@@ -64,6 +67,10 @@ class HexColorDecoder extends AbstractDecoder implements DecoderInterface
             };
         }, $values);
 
-        return new Color(...$values);
+        // normalize
+        $values = count($values) === 3 ? array_pad($values, 4, 255) : $values;
+        $values = array_map(fn(int $value): float => $value / 255, $values);
+
+        return Rgb::colorFromNormalized($values);
     }
 }

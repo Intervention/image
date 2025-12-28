@@ -4,15 +4,27 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors\Rgb\Channels;
 
-class Alpha extends Red
+use Intervention\Image\Colors\FloatColorChannel;
+
+class Alpha extends FloatColorChannel
 {
     /**
      * {@inheritdoc}
      *
-     * @see ColorChannelInterface::toString()
+     * @see ColorChannelInterface::min()
      */
-    public function toString(): string
+    public static function min(): float
     {
-        return strval(round($this->normalize(), 6));
+        return 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorChannelInterface::max()
+     */
+    public static function max(): float
+    {
+        return 1;
     }
 }

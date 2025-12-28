@@ -97,7 +97,7 @@ final class DriverTest extends BaseTestCase
     public function testHandleColorInputFail(mixed $input, ?array $decoders, string $resultClassname): void
     {
         $this->expectException(ImageException::class);
-        $this->driver->handleColorInput($input, $decoders);
+        $this->driver->handleColorInput($input);
     }
 
     /**
@@ -107,7 +107,7 @@ final class DriverTest extends BaseTestCase
     public function testHandleImageInputFail(mixed $input, ?array $decoders, string $resultClassname): void
     {
         $this->expectException(ImageException::class);
-        $this->driver->handleImageInput($input, $decoders);
+        $this->driver->handleImageInput($input);
     }
 
     public function testColorProcessor(): void

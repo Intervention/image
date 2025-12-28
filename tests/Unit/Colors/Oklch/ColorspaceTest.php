@@ -10,8 +10,6 @@ use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Oklch\Color as OklchColor;
 use Intervention\Image\Colors\Oklab\Color as OklabColor;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
-use Intervention\Image\Colors\Oklch\Channels\A;
-use Intervention\Image\Colors\Oklch\Channels\B;
 use Intervention\Image\Colors\Oklch\Channels\Chroma;
 use Intervention\Image\Colors\Oklch\Channels\Hue;
 use Intervention\Image\Colors\Oklch\Channels\Lightness;

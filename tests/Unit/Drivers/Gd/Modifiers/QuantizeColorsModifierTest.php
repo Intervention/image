@@ -60,6 +60,6 @@ final class QuantizeColorsModifierTest extends GdTestCase
     {
         $image = $this->createTestImage(3, 2)->fill('f00');
         $image->modify(new QuantizeColorsModifier(1));
-        $this->assertColor(255, 0, 0, 255, $image->pickColor(1, 1), 4);
+        $this->assertColor(255, 0, 0, 1, $image->pickColor(1, 1), 4);
     }
 }

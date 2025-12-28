@@ -31,52 +31,52 @@ final class HexColorDecoderTest extends BaseTestCase
         yield [
             'ccc',
             Color::class,
-            [204, 204, 204, 255]
+            [204, 204, 204, 1]
         ];
         yield [
             'ccff33',
             Color::class,
-            [204, 255, 51, 255],
+            [204, 255, 51, 1],
         ];
         yield [
             '#ccc',
             Color::class,
-            [204, 204, 204, 255],
+            [204, 204, 204, 1],
         ];
         yield [
             'cccccc',
             Color::class,
-            [204, 204, 204, 255],
+            [204, 204, 204, 1],
         ];
         yield [
             '#cccccc',
             Color::class,
-            [204, 204, 204, 255],
+            [204, 204, 204, 1],
         ];
         yield [
             '#ccccccff',
             Color::class,
-            [204, 204, 204, 255],
+            [204, 204, 204, 1],
         ];
         yield [
             '#cccf',
             Color::class,
-            [204, 204, 204, 255],
+            [204, 204, 204, 1],
         ];
         yield [
             'ccccccff',
             Color::class,
-            [204, 204, 204, 255],
+            [204, 204, 204, 1],
         ];
         yield [
             'cccf',
             Color::class,
-            [204, 204, 204, 255],
+            [204, 204, 204, 1],
         ];
         yield [
             '#b53717aa',
             Color::class,
-            [181, 55, 23, 170],
+            [181, 55, 23, 0.6666666666666666],
         ];
     }
 }

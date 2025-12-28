@@ -56,7 +56,7 @@ final class ClonerTest extends BaseTestCase
     public function testCloneBlended(): void
     {
         $gd = imagecreatefromgif(Resource::create('gradient.gif')->path());
-        $clone = Cloner::cloneBlended($gd, new Color(255, 0, 255, 255));
+        $clone = Cloner::cloneBlended($gd, new Color(255, 0, 255, 1));
 
         $this->assertEquals(16, imagesx($gd));
         $this->assertEquals(16, imagesy($gd));

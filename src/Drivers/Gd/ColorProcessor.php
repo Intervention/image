@@ -44,8 +44,8 @@ class ColorProcessor implements ColorProcessorInterface
         $a = $color->channel(Alpha::class)->value();
 
         // convert alpha value to gd alpha
-        // ([opaque]255-0[transparent]) to ([opaque]0-127[transparent])
-        $a = (int) $this->convertRange($a, 0, 255, 127, 0);
+        // ([opaque]1-0[transparent]) to ([opaque]0-127[transparent])
+        $a = (int) round($this->convertRange($a, 0, 1, 127, 0));
 
         return ($a << 24) + ($r << 16) + ($g << 8) + $b;
     }
@@ -82,8 +82,8 @@ class ColorProcessor implements ColorProcessorInterface
         }
 
         // convert gd apha integer to intervention alpha integer
-        // ([opaque]0-127[transparent]) to ([opaque]255-0[transparent])
-        $a = (int) static::convertRange($a, 127, 0, 0, 255);
+        // ([opaque]0-127[transparent]) to ([opaque]1-0[transparent])
+        $a = static::convertRange($a, 127, 0, 0, 1);
 
         return new Color($r, $g, $b, $a);
     }
@@ -92,14 +92,14 @@ class ColorProcessor implements ColorProcessorInterface
      * Convert input in range (min) to (max) to the corresponding value
      * in target range (targetMin) to (targetMax).
      */
-    protected function convertRange(
+    private function convertRange(
         float|int $input,
         float|int $min,
         float|int $max,
         float|int $targetMin,
         float|int $targetMax
-    ): float|int {
-        return ceil(((($input - $min) * ($targetMax - $targetMin)) / ($max - $min)) + $targetMin);
+    ): float {
+        return ((($input - $min) * ($targetMax - $targetMin)) / ($max - $min)) + $targetMin;
     }
 
     /**

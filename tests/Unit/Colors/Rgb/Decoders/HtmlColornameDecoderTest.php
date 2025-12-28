@@ -31,17 +31,17 @@ final class HtmlColornameDecoderTest extends BaseTestCase
         yield [
             'salmon',
             Color::class,
-            [250, 128, 114, 255],
+            [250, 128, 114, 1],
         ];
         yield [
             'khaki',
             Color::class,
-            [240, 230, 140, 255],
+            [240, 230, 140, 1],
         ];
         yield [
             'peachpuff',
             Color::class,
-            [255, 218, 185, 255],
+            [255, 218, 185, 1],
         ];
     }
 }

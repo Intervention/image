@@ -19,7 +19,7 @@ final class ColorProcessorTest extends BaseTestCase
     public function testColorToNative(): void
     {
         $processor = new ColorProcessor(new Colorspace());
-        $result = $processor->colorToNative(new Color(255, 55, 0, 255));
+        $result = $processor->colorToNative(new Color(255, 55, 0, 1));
         $this->assertInstanceOf(ImagickPixel::class, $result);
     }
 

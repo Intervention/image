@@ -16,7 +16,7 @@ class Config
     public function __construct(
         public bool $autoOrientation = true,
         public bool $decodeAnimation = true,
-        public mixed $backgroundColor = 'ffffff',
+        public mixed $backgroundColor = 'ffffff', // TODO: maybe rename to background
         public bool $strip = false,
     ) {
         //

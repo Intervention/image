@@ -126,7 +126,7 @@ class Color extends AbstractColor
                 $this->red()->value(),
                 $this->green()->value(),
                 $this->blue()->value(),
-                $this->alpha()->value()
+                $this->alpha()->value() * 255
             );
         }
 
@@ -152,7 +152,7 @@ class Color extends AbstractColor
                 $this->red()->value(),
                 $this->green()->value(),
                 $this->blue()->value(),
-                $this->alpha()->normalize(),
+                $this->alpha()->value(),
             );
         }
 

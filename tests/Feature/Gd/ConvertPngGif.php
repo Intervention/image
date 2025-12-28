@@ -20,6 +20,6 @@ class ConvertPngGif extends GdTestCase
             );
 
         $this->assertTransparency($converted->pickColor(0, 0));
-        $this->assertColor(4, 2, 4, 255, $converted->pickColor(25, 25), 4);
+        $this->assertColor(4, 2, 4, 1, $converted->pickColor(25, 25), 4);
     }
 }

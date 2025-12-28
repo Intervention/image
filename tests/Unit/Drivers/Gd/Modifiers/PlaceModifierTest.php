@@ -30,8 +30,8 @@ final class PlaceModifierTest extends GdTestCase
         $image = $this->readTestImage('test.jpg');
         $this->assertEquals('febc44', $image->pickColor(300, 25)->toHex());
         $image->modify(new PlaceModifier(Resource::create('circle.png')->path(), Alignment::TOP_RIGHT, 0, 0, 50));
-        $this->assertColor(152, 112, 40, 255, $image->pickColor(300, 25), tolerance: 1);
-        $this->assertColor(255, 202, 107, 255, $image->pickColor(274, 5), tolerance: 1);
+        $this->assertColor(152, 112, 40, 1, $image->pickColor(300, 25), tolerance: 1);
+        $this->assertColor(255, 202, 107, 1, $image->pickColor(274, 5), tolerance: 1);
     }
 
     public function testColorChangeOpacityJpeg(): void
@@ -39,6 +39,6 @@ final class PlaceModifierTest extends GdTestCase
         $image = $this->createTestImage(16, 16)->fill('0000ff');
         $this->assertEquals('0000ff', $image->pickColor(10, 10)->toHex());
         $image->modify(new PlaceModifier(Resource::create('exif.jpg')->path(), opacity: 50));
-        $this->assertColor(127, 83, 127, 255, $image->pickColor(10, 10), tolerance: 1);
+        $this->assertColor(127, 83, 127, 1, $image->pickColor(10, 10), tolerance: 1);
     }
 }

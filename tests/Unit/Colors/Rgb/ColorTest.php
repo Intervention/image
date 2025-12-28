@@ -31,15 +31,15 @@ final class ColorTest extends BaseTestCase
     {
         $color = Color::create('ccc');
         $this->assertInstanceOf(Color::class, $color);
-        $this->assertEquals([204, 204, 204, 255], $color->toArray());
+        $this->assertEquals([204, 204, 204, 1], $color->toArray());
 
         $color = Color::create('rgba(10, 20, 30, .2)');
         $this->assertInstanceOf(Color::class, $color);
-        $this->assertEquals([10, 20, 30, 51], $color->toArray());
+        $this->assertEquals([10, 20, 30, .2], $color->toArray());
 
-        $color = Color::create(10, 20, 30, 51);
+        $color = Color::create(10, 20, 30, .2);
         $this->assertInstanceOf(Color::class, $color);
-        $this->assertEquals([10, 20, 30, 51], $color->toArray());
+        $this->assertEquals([10, 20, 30, .2], $color->toArray());
     }
 
     public function testColorspace(): void
@@ -84,7 +84,7 @@ final class ColorTest extends BaseTestCase
     public function testToArray(): void
     {
         $color = new Color(10, 20, 30);
-        $this->assertEquals([10, 20, 30, 255], $color->toArray());
+        $this->assertEquals([10, 20, 30, 1], $color->toArray());
     }
 
     public function testToHex(): void
@@ -93,7 +93,7 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals('b53717', $color->toHex());
         $this->assertEquals('#b53717', $color->toHex('#'));
 
-        $color = new Color(181, 55, 23, 51);
+        $color = new Color(181, 55, 23, .2);
         $this->assertEquals('b5371733', $color->toHex());
     }
 
@@ -156,10 +156,10 @@ final class ColorTest extends BaseTestCase
         $color = new Color(255, 255, 255);
         $this->assertFalse($color->isTransparent());
 
-        $color = new Color(255, 255, 255, 255);
+        $color = new Color(255, 255, 255, 1);
         $this->assertFalse($color->isTransparent());
 
-        $color = new Color(255, 255, 255, 85);
+        $color = new Color(255, 255, 255, .5);
         $this->assertTrue($color->isTransparent());
 
         $color = new Color(255, 255, 255, 0);
@@ -171,10 +171,10 @@ final class ColorTest extends BaseTestCase
         $color = new Color(255, 255, 255);
         $this->assertFalse($color->isClear());
 
-        $color = new Color(255, 255, 255, 255);
+        $color = new Color(255, 255, 255, 1);
         $this->assertFalse($color->isClear());
 
-        $color = new Color(255, 255, 255, 85);
+        $color = new Color(255, 255, 255, .1);
         $this->assertFalse($color->isClear());
 
         $color = new Color(255, 255, 255, 0);
@@ -183,10 +183,10 @@ final class ColorTest extends BaseTestCase
 
     public function testDebugInfo(): void
     {
-        $info = (new Color(10, 20, 30, 40))->__debugInfo();
+        $info = (new Color(10, 20, 30, .4))->__debugInfo();
         $this->assertEquals(10, $info['red']);
         $this->assertEquals(20, $info['green']);
         $this->assertEquals(30, $info['blue']);
-        $this->assertEquals(40, $info['alpha']);
+        $this->assertEquals(.4, $info['alpha']);
     }
 }

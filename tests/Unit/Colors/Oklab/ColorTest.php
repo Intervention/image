@@ -115,7 +115,7 @@ final class ColorTest extends BaseTestCase
         $color = new Color(0.64905124115, 0.19974263609074, 0.13044605841927);
         $converted = $color->toColorspace(Colorspace::class);
         $this->assertInstanceOf(RgbColor::class, $converted);
-        $this->assertEquals([255, 55, 0, 255], $converted->toArray());
+        $this->assertEquals([255, 55, 0, 1], $converted->toArray());
     }
 
     public function testIsGreyscale(): void

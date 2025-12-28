@@ -22,7 +22,7 @@ final class ColorProcessorTest extends BaseTestCase
     public function testColorToNative(): void
     {
         $processor = new ColorProcessor();
-        $result = $processor->colorToNative(new Color(255, 55, 0, 255));
+        $result = $processor->colorToNative(new Color(255, 55, 0, 1));
         $this->assertEquals(16725760, $result);
     }
 
@@ -34,7 +34,7 @@ final class ColorProcessorTest extends BaseTestCase
         $this->assertEquals(255, $result->channel(Red::class)->value());
         $this->assertEquals(55, $result->channel(Green::class)->value());
         $this->assertEquals(0, $result->channel(Blue::class)->value());
-        $this->assertEquals(255, $result->channel(Alpha::class)->value());
+        $this->assertEquals(1, $result->channel(Alpha::class)->value());
     }
 
     public function testNativeToColorArray(): void
@@ -45,7 +45,7 @@ final class ColorProcessorTest extends BaseTestCase
         $this->assertEquals(255, $result->channel(Red::class)->value());
         $this->assertEquals(55, $result->channel(Green::class)->value());
         $this->assertEquals(0, $result->channel(Blue::class)->value());
-        $this->assertEquals(255, $result->channel(Alpha::class)->value());
+        $this->assertEquals(1, $result->channel(Alpha::class)->value());
     }
 
     public function testNativeToColorInvalid(): void

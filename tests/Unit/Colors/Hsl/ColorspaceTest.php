@@ -44,7 +44,7 @@ final class ColorspaceTest extends BaseTestCase
         $this->assertEquals(0, $result->channel(Saturation::class)->value());
         $this->assertEquals(50, $result->channel(Luminance::class)->value());
 
-        $result = $colorspace->importColor(new RgbColor(255, 0, 0, 85));
+        $result = $colorspace->importColor(new RgbColor(255, 0, 0, 0.3333333333));
         $this->assertInstanceOf(HslColor::class, $result);
         $this->assertEquals(0, $result->channel(Hue::class)->value());
         $this->assertEquals(100, $result->channel(Saturation::class)->value());

@@ -23,7 +23,7 @@ class ColorTest extends BaseTestCase
     {
         $this->assertEquals(
             $channels,
-            array_map(fn(ColorChannelInterface $channel): int =>
+            array_map(fn(ColorChannelInterface $channel): int|float =>
             $channel->value(), Color::rgb(...$input)->channels()),
         );
     }
@@ -37,7 +37,7 @@ class ColorTest extends BaseTestCase
     {
         $this->assertEquals(
             $channels,
-            array_map(fn(ColorChannelInterface $channel): int =>
+            array_map(fn(ColorChannelInterface $channel): int|float =>
             $channel->value(), Color::cmyk(...$input)->channels()),
         );
     }
@@ -51,7 +51,7 @@ class ColorTest extends BaseTestCase
     {
         $this->assertEquals(
             $channels,
-            array_map(fn(ColorChannelInterface $channel): int =>
+            array_map(fn(ColorChannelInterface $channel): int|float =>
             $channel->value(), Color::hsl(...$input)->channels()),
         );
     }
@@ -65,7 +65,7 @@ class ColorTest extends BaseTestCase
     {
         $this->assertEquals(
             $channels,
-            array_map(fn(ColorChannelInterface $channel): int =>
+            array_map(fn(ColorChannelInterface $channel): int|float =>
             $channel->value(), Color::hsv(...$input)->channels()),
         );
     }
@@ -79,7 +79,7 @@ class ColorTest extends BaseTestCase
     {
         $this->assertEquals(
             $channels,
-            array_map(fn(ColorChannelInterface $channel): float =>
+            array_map(fn(ColorChannelInterface $channel): int|float =>
             $channel->value(), Color::oklab(...$input)->channels()),
         );
     }
@@ -93,7 +93,7 @@ class ColorTest extends BaseTestCase
     {
         $this->assertEquals(
             $channels,
-            array_map(fn(ColorChannelInterface $channel): float =>
+            array_map(fn(ColorChannelInterface $channel): int|float =>
             $channel->value(), Color::oklch(...$input)->channels()),
         );
     }

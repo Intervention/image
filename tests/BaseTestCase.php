@@ -12,16 +12,17 @@ use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Interfaces\ColorInterface;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use PHPUnit\Framework\ExpectationFailedException;
 
 abstract class BaseTestCase extends MockeryTestCase
 {
     /**
      * Assert that given color equals the given color channel values in the given optional tolerance
      */
-    protected function assertColor(int $r, int $g, int $b, int $a, ColorInterface $color, int $tolerance = 0): void
+    protected function assertColor(int $r, int $g, int $b, float $a, ColorInterface $color, int $tolerance = 0): void
     {
         // build errorMessage
-        $errorMessage = function (int $r, int $g, $b, int $a, ColorInterface $color): string {
+        $errorMessage = function (int $r, int $g, $b, float $a, ColorInterface $color): string {
             $color = 'rgba(' . implode(', ', [
                 $color->channel(Red::class)->value(),
                 $color->channel(Green::class)->value(),
@@ -37,34 +38,50 @@ abstract class BaseTestCase extends MockeryTestCase
             ]);
         };
 
-        // build color channel value range
-        $range = function (int $base, int $tolerance): array {
-            return range(max($base - $tolerance, 0), min($base + $tolerance, 255));
-        };
-
-        $this->assertContains(
+        $this->assertThat(
             $color->channel(Red::class)->value(),
-            $range($r, $tolerance),
-            $errorMessage($r, $g, $b, $a, $color)
+            $this->logicalAnd(
+                $this->greaterThanOrEqual(max(0, $r - $tolerance)),
+                $this->lessThanOrEqual(min(255, $r + $tolerance))
+            ),
+            message: $errorMessage($r, $g, $b, $a, $color)
         );
 
-        $this->assertContains(
+        $this->assertThat(
             $color->channel(Green::class)->value(),
-            $range($g, $tolerance),
-            $errorMessage($r, $g, $b, $a, $color)
+            $this->logicalAnd(
+                $this->greaterThanOrEqual(max(0, $g - $tolerance)),
+                $this->lessThanOrEqual(min(255, $g + $tolerance))
+            ),
+            message: $errorMessage($r, $g, $b, $a, $color)
         );
 
-        $this->assertContains(
+        $this->assertThat(
             $color->channel(Blue::class)->value(),
-            $range($b, $tolerance),
-            $errorMessage($r, $g, $b, $a, $color)
+            $this->logicalAnd(
+                $this->greaterThanOrEqual(max(0, $b - $tolerance)),
+                $this->lessThanOrEqual(min(255, $b + $tolerance))
+            ),
+            message: $errorMessage($r, $g, $b, $a, $color)
         );
 
-        $this->assertContains(
-            $color->channel(Alpha::class)->value(),
-            $range($a, $tolerance),
-            $errorMessage($r, $g, $b, $a, $color)
+        $this->assertThat(
+            round($color->channel(Alpha::class)->value() * 255, 2),
+            $this->logicalAnd(
+                $this->greaterThanOrEqual(round(max(0, $a * 255 - $tolerance), 2)),
+                $this->lessThanOrEqual(round(min(255, $a * 255 + $tolerance), 2))
+            ),
+            message: $errorMessage($r, $g, $b, $a, $color)
         );
+    }
+
+    protected function assertBetween(int|float $min, int|float $max, int|float $value): void
+    {
+        if ($value < $min || $value > $max) {
+            throw new ExpectationFailedException(
+                'Failed asserting that value ' . $value . ' is between ' . $min . ' and ' . $max,
+            );
+        }
     }
 
     protected function assertTransparency(ColorInterface $color): void

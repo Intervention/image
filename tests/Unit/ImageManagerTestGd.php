@@ -107,14 +107,14 @@ final class ImageManagerTestGd extends BaseTestCase
     {
         $manager = new ImageManager(Driver::class);
         $image = $manager->decodeFrom(path: Resource::create('orientation.jpg')->path());
-        $this->assertColor(1, 0, 254, 255, $image->pickColor(3, 3));
+        $this->assertColor(1, 0, 254, 1, $image->pickColor(3, 3));
     }
 
     public function testDecodeWithoutRotationAdjustment(): void
     {
         $manager = new ImageManager(Driver::class, autoOrientation: false);
         $image = $manager->decodeFrom(path: Resource::create('orientation.jpg')->path());
-        $this->assertColor(250, 2, 3, 255, $image->pickColor(3, 3));
+        $this->assertColor(250, 2, 3, 1, $image->pickColor(3, 3));
     }
 
     public function testDecodeAnimation(): void
@@ -136,8 +136,8 @@ final class ImageManagerTestGd extends BaseTestCase
         $manager = new ImageManager(Driver::class);
         $image = $manager->decodeFrom(path: Resource::create('blocks.png')->path());
         $result = $image->background();
-        $this->assertColor(255, 255, 255, 255, $image->pickColor(530, 0));
-        $this->assertColor(255, 255, 255, 255, $result->pickColor(530, 0));
+        $this->assertColor(255, 255, 255, 1, $image->pickColor(530, 0));
+        $this->assertColor(255, 255, 255, 1, $result->pickColor(530, 0));
     }
 
     public function testApplyBackgroundColorConfigured(): void
@@ -145,7 +145,7 @@ final class ImageManagerTestGd extends BaseTestCase
         $manager = new ImageManager(Driver::class, backgroundColor: 'ff5500');
         $image = $manager->decodeFrom(path: Resource::create('blocks.png')->path());
         $result = $image->background();
-        $this->assertColor(255, 85, 0, 255, $image->pickColor(530, 0));
-        $this->assertColor(255, 85, 0, 255, $result->pickColor(530, 0));
+        $this->assertColor(255, 85, 0, 1, $image->pickColor(530, 0));
+        $this->assertColor(255, 85, 0, 1, $result->pickColor(530, 0));
     }
 }

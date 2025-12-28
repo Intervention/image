@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors\Rgb\Decoders;
 
-use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Drivers\AbstractDecoder;
 use Intervention\Image\Exceptions\ColorDecoderException;

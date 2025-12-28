@@ -12,7 +12,13 @@ enum Fraction
     case QUARTER;
     case TWO_QUARTER;
     case THREE_QUARTER;
+    case ONE_AND_A_HALF;
+    case DOUBLE;
+    case TRIPLE;
 
+    /**
+     * Return multiplicator of fraction
+     */
     public function multiplicator(): float
     {
         return match ($this) {
@@ -22,6 +28,9 @@ enum Fraction
             self::QUARTER => .25,
             self::TWO_QUARTER => .5,
             self::THREE_QUARTER => .75,
+            self::ONE_AND_A_HALF => 1.5,
+            self::DOUBLE => 2,
+            self::TRIPLE => 3,
         };
     }
 
@@ -30,6 +39,6 @@ enum Fraction
      */
     public function of(int|float $value): float
     {
-        return $value * $this->multiplicator();
+        return round($value * $this->multiplicator(), 9);
     }
 }

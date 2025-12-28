@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
+use ArrayIterator;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Tools\RectangleResizer;
 use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
+use Traversable;
 
 class Size extends Polygon implements SizeInterface
 {
@@ -302,6 +304,16 @@ class Size extends Polygon implements SizeInterface
     protected function resizer(?int $width = null, ?int $height = null): RectangleResizer
     {
         return new RectangleResizer($width, $height);
+    }
+
+    /**
+     * Implement iteration
+     *
+     * @return Traversable<int>
+     */
+    public function getIterator(): Traversable
+    {
+        return new ArrayIterator([$this->width(), $this->height()]);
     }
 
     /**

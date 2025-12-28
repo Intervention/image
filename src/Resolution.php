@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image;
 
 use ArrayIterator;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ResolutionInterface;
 use IteratorAggregate;
 use Stringable;
@@ -23,7 +24,25 @@ class Resolution implements ResolutionInterface, Stringable, IteratorAggregate
         protected float $y,
         protected Length $unit = Length::INCH
     ) {
-        //
+        if ($x < 0) {
+            throw new InvalidArgumentException(
+                'The value of the X-axis for ' . $this::class . ' must be greater or equal to 0',
+            );
+        }
+
+        if ($y < 0) {
+            throw new InvalidArgumentException(
+                'The value of the Y-axis for ' . $this::class . ' must be greater or equal to 0',
+            );
+        }
+    }
+
+    /**
+     * Static factory method to create new resolution instance
+     */
+    public static function create(float $x, float $y, Length $unit = Length::INCH): self
+    {
+        return new self($x, $y, $unit);
     }
 
     /**

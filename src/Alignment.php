@@ -6,7 +6,6 @@ namespace Intervention\Image;
 
 use Error;
 use Intervention\Image\Exceptions\InvalidArgumentException;
-use Throwable;
 
 enum Alignment: string
 {
@@ -67,7 +66,7 @@ enum Alignment: string
                 'middle-center' => self::CENTER,
 
                 default => throw new InvalidArgumentException(
-                    'Unable to create alignment from "' . $identifier . '"',
+                    'Unable to create ' . self::class . ' from "' . $identifier . '"',
                 ),
             };
         }
@@ -82,7 +81,7 @@ enum Alignment: string
     {
         try {
             return self::create($identifier);
-        } catch (Throwable) {
+        } catch (InvalidArgumentException) {
             return null;
         }
     }

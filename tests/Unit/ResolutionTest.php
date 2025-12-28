@@ -16,6 +16,9 @@ final class ResolutionTest extends BaseTestCase
     {
         $resolution = new Resolution(1, 2);
         $this->assertInstanceOf(Resolution::class, $resolution);
+
+        $resolution = Resolution::create(1, 2);
+        $this->assertInstanceOf(Resolution::class, $resolution);
     }
 
     public function testIteration(): void

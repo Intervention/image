@@ -25,13 +25,13 @@ class Size extends Polygon implements SizeInterface
     ) {
         if ($width < 0) {
             throw new InvalidArgumentException(
-                'Width must be greater than or equal to 0'
+                'Width of ' . $this::class . ' must be greater than or equal to 0'
             );
         }
 
         if ($height < 0) {
             throw new InvalidArgumentException(
-                'Height must be greater than or equal to 0'
+                'Height of ' . $this::class . ' must be greater than or equal to 0'
             );
         }
 

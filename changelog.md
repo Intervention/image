@@ -16,7 +16,7 @@
 
 ## API Changes
 
-- ImageInterface::blendTransparency() was renamed to ImageInterface::background() - Signature changed
+- ImageInterface::blendTransparency() was renamed to ImageInterface::background() - Signature changed & allowed (semi) transparent colors
 - ImageInterface::setBlendingColor() was renamed to ImageInterface::setBackgroundColor()
 - ImageInterface::blendingColor() was renamed to ImageInterface::backgroundColor()
 - Changed default value for `background` to `null` in ImageInterface::rotate()

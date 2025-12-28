@@ -291,8 +291,8 @@ final class ImageTest extends GdTestCase
         $image = $this->readTestImage('gradient.gif');
         $this->assertColor(0, 0, 0, 0, $image->pickColor(1, 0));
         $result = $image->background('ff550055');
-        $this->assertColor(255, 85, 0, 255, $image->pickColor(1, 0));
-        $this->assertColor(255, 85, 0, 255, $result->pickColor(1, 0));
+        $this->assertColor(255, 85, 0, 85, $image->pickColor(1, 0));
+        $this->assertColor(255, 85, 0, 85, $result->pickColor(1, 0));
     }
 
     public function testInvert(): void

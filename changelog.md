@@ -57,6 +57,7 @@
 - ColorChannelInterface::max() and ColorChannelInterface::min() are now static
 - Method ColorInterface::convertTo() was renamed to ColorInterface::toColorspace()
 - Method ColorChannelInterface::toInt() was removed use ColorChannelInterface::value() instead
+- Method ColorChannelInterface::colorFromNormalized() requires now a static implementation
 
 ### Exceptions
 

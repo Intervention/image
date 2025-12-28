@@ -16,5 +16,5 @@ interface ColorspaceInterface
      *
      * @param array<float> $normalized
      */
-    public function colorFromNormalized(array $normalized): ColorInterface;
+    public static function colorFromNormalized(array $normalized): ColorInterface;
 }

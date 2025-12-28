@@ -28,12 +28,15 @@ class ResolutionModifier extends GenericResolutionModifier implements Specialize
             }
         }
 
+        // GD returns 96x96 as resolution by default even if the image has no resolution.
+        // This is problematic because it is impossible to tell whether the image
+        // really has this resolution or whether it just corresponds to the default value.
+        //
+        // If the resolution was change to 96x96 (default resolution of GD) we mark
+        // the resolution as changed to be able to distinguish it
         if ($x === 96 && $y === 96) {
-            // mark resolution as non default somewhere
-            // TODO: refactor change mark
             $image->core()->resolutionChanged = true;
         }
-
 
         return $image;
     }

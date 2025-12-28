@@ -128,7 +128,6 @@ class Color extends AbstractColor
      */
     public function isGreyscale(): bool
     {
-        // TODO: confirm correct implementation
         return $this->a()->value() === 0.0 && $this->b()->value() === 0.0;
     }
 

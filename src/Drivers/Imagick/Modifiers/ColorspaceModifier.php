@@ -9,8 +9,10 @@ use ImagickException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
-use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
+use Intervention\Image\Colors\Cmyk\Colorspace as Cmyk;
+use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
+use Intervention\Image\Colors\Hsl\Colorspace as Hsl;
+use Intervention\Image\Colors\Hsv\Colorspace as Hsv;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\ColorspaceModifier as GenericColorspaceModifier;
@@ -23,8 +25,10 @@ class ColorspaceModifier extends GenericColorspaceModifier implements Specialize
      * @var array<string, int>
      */
     protected static array $mapping = [
-        RgbColorspace::class => Imagick::COLORSPACE_SRGB,
-        CmykColorspace::class => Imagick::COLORSPACE_CMYK,
+        Rgb::class => Imagick::COLORSPACE_SRGB,
+        Cmyk::class => Imagick::COLORSPACE_CMYK,
+        Hsl::class => Imagick::COLORSPACE_HSL,
+        Hsv::class => Imagick::COLORSPACE_HSB,
     ];
 
     public function apply(ImageInterface $image): ImageInterface
@@ -34,7 +38,7 @@ class ColorspaceModifier extends GenericColorspaceModifier implements Specialize
 
         try {
             $result = $imagick->transformImageColorspace(
-                $this->getImagickColorspace($colorspace)
+                $this->getImagickColorspaceOrFail($colorspace)
             );
 
             if ($result === false) {
@@ -52,10 +56,10 @@ class ColorspaceModifier extends GenericColorspaceModifier implements Specialize
         return $image;
     }
 
-    private function getImagickColorspace(ColorspaceInterface $colorspace): int
+    private function getImagickColorspaceOrFail(ColorspaceInterface $colorspace): int
     {
         if (!array_key_exists($colorspace::class, self::$mapping)) {
-            throw new NotSupportedException('Given colorspace is not supported');
+            throw new NotSupportedException('Colorspace ' . $colorspace::class . ' is not supported by driver');
         }
 
         return self::$mapping[$colorspace::class];

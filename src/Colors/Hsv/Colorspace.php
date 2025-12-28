@@ -8,6 +8,7 @@ use Intervention\Image\Colors\Cmyk\Color as CmykColor;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Oklab\Color as OklabColor;
+use Intervention\Image\Colors\Oklch\Color as OklchColor;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Exceptions\InvalidArgumentException;
@@ -52,6 +53,7 @@ class Colorspace implements ColorspaceInterface
     {
         return match ($color::class) {
             CmykColor::class,
+            OklchColor::class,
             OklabColor::class => $this->importRgbColor($color->toColorspace(RgbColorspace::class)),
             RgbColor::class => $this->importRgbColor($color),
             HslColor::class => $this->importHslColor($color),

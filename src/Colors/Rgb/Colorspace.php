@@ -8,6 +8,8 @@ use Intervention\Image\Colors\Cmyk\Color as CmykColor;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Oklab\Color as OklabColor;
+use Intervention\Image\Colors\Oklab\Colorspace as Oklab;
+use Intervention\Image\Colors\Oklch\Color as OklchColor;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
@@ -49,6 +51,7 @@ class Colorspace implements ColorspaceInterface
             HsvColor::class => $this->importHsvColor($color),
             HslColor::class => $this->importHslColor($color),
             OklabColor::class => $this->importOklabColor($color),
+            OklchColor::class => $this->importOklabColor($color->toColorspace(Oklab::class)),
             RgbColor::class => $color,
             default => throw new NotSupportedException(
                 'Unable to import color ' . $color::class . ' to ' . $this::class,

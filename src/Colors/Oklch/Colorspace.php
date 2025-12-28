@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Colors\Oklab;
+namespace Intervention\Image\Colors\Oklch;
 
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Oklab\Color as OklabColor;
+use Intervention\Image\Colors\Oklab\Colorspace as Oklab;
 use Intervention\Image\Colors\Oklch\Color as OklchColor;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
@@ -24,8 +25,8 @@ class Colorspace implements ColorspaceInterface
      */
     public static array $channels = [
         Channels\Lightness::class,
-        Channels\A::class,
-        Channels\B::class
+        Channels\Chroma::class,
+        Channels\Hue::class
     ];
 
     /**
@@ -53,51 +54,24 @@ class Colorspace implements ColorspaceInterface
             CmykColor::class,
             HsvColor::class,
             HslColor::class => $color->toColorspace(Rgb::class)->toColorspace($this::class),
-            RgbColor::class => $this->importRgbColor($color),
-            OklchColor::class => $this->importOklchColor($color),
-            OklabColor::class => $color,
+            OklabColor::class => $this->importOklabColor($color),
+            RgbColor::class => $this->importOklabColor($color->toColorspace(Oklab::class)),
+            OklchColor::class => $color,
             default => throw new NotSupportedException(
                 'Unable to import color ' . $color::class . ' to ' . $this::class,
             ),
         };
     }
 
-    private function importRgbColor(RgbColor $color): OklabColor
+    private function importOklabColor(OklabColor $color): OklchColor
     {
-        $cbrt = fn(float $x): float => $x < 0 ? -abs($x) ** (1 / 3) : $x ** (1 / 3);
-        $rgbToLinear = fn(float $x): float => $x <= 0.04045 ? $x / 12.92 : (($x + 0.055) / 1.055) ** 2.4;
+        $a = $color->a()->value();
+        $b = $color->b()->value();
 
-        $r = $color->red()->normalize();
-        $g = $color->green()->normalize();
-        $b = $color->blue()->normalize();
+        $c = sqrt($a * $a + $b * $b);
+        $h = rad2deg(atan2($b, $a));
+        $h = $h < 0 ? $h + 360 : $h;
 
-        $r = $rgbToLinear($r);
-        $g = $rgbToLinear($g);
-        $b = $rgbToLinear($b);
-
-        $l = 0.4122214708 * $r + 0.5363325363 * $g + 0.0514459929 * $b;
-        $m = 0.2119034982 * $r + 0.6806995451 * $g + 0.1073969566 * $b;
-        $s = 0.0883024619 * $r + 0.2817188376 * $g + 0.6299787005 * $b;
-
-        $l = $cbrt($l);
-        $m = $cbrt($m);
-        $s = $cbrt($s);
-
-        return new Color(
-            0.2104542553 * $l + 0.7936177850 * $m - 0.0040720468 * $s,
-            1.9779984951 * $l - 2.4285922050 * $m + 0.4505937099 * $s,
-            0.0259040371 * $l + 0.7827717662 * $m - 0.8086757660 * $s,
-        );
-    }
-
-    private function importOklchColor(OklchColor $color): OklabColor
-    {
-        $hRad = deg2rad($color->hue()->value());
-
-        return new Color(
-            $color->lightness()->value(),
-            $color->chroma()->value() * cos($hRad),
-            $color->chroma()->value() * sin($hRad),
-        );
+        return new Color($color->lightness()->value(), $c, $h);
     }
 }

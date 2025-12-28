@@ -9,6 +9,7 @@ use Intervention\Image\Colors\Cmyk\Color as CmykColor;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Oklab\Color as OklabColor;
+use Intervention\Image\Colors\Oklch\Color as OklchColor;
 
 class Color
 {
@@ -50,5 +51,13 @@ class Color
     public static function oklab(mixed ...$input): OklabColor
     {
         return OklabColor::create(...$input);
+    }
+
+    /**
+     * Create new OKLCH color
+     */
+    public static function oklch(mixed ...$input): OklchColor
+    {
+        return OklchColor::create(...$input);
     }
 }

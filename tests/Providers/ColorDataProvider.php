@@ -154,4 +154,21 @@ class ColorDataProvider
         yield [['oklab (0.54, 0, 0)'], [.54, 0.0, 0.0]];
         yield [['oklab (0.54 0 0)'], [.54, 0.0, 0.0]];
     }
+
+    public static function oklchArray(): Generator
+    {
+        yield [[0.0, 0.0, 0], [0.0, 0.0, 0.0]];
+        yield [[1.0, 0.0, 0], [1.0, 0.0, 0.0]];
+        yield [[.49, .04, 200], [.49, .04, 200]];
+        yield [[.49, -0.04, 360], [.49, -0.04, 360]];
+    }
+
+    public static function oklchString(): Generator
+    {
+        yield [['oklch(0, 0, 0)'], [0.0, 0.0, 0]];
+        yield [['oklch(50% 0.123 21.57)'], [0.5, 0.123, 21.57]];
+        yield [['oklch (50% 0.123 21.57)'], [0.5, 0.123, 21.57]];
+        yield [['oklch (50%, 0.123, 21.57)'], [0.5, 0.123, 21.57]];
+        yield [['oklch (50%,0.123,21.57)'], [0.5, 0.123, 21.57]];
+    }
 }

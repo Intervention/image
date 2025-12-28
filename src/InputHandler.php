@@ -9,6 +9,7 @@ use Intervention\Image\Colors\Cmyk\Decoders\StringColorDecoder as CmykStringColo
 use Intervention\Image\Colors\Hsl\Decoders\StringColorDecoder as HslStringColorDecoder;
 use Intervention\Image\Colors\Hsv\Decoders\StringColorDecoder as HsvStringColorDecoder;
 use Intervention\Image\Colors\Oklab\Decoders\StringColorDecoder as OklabStringColorDecoder;
+use Intervention\Image\Colors\Oklch\Decoders\StringColorDecoder as OklchStringColorDecoder;
 use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder as RgbHexColorDecoder;
 use Intervention\Image\Colors\Rgb\Decoders\HtmlColornameDecoder;
 use Intervention\Image\Colors\Rgb\Decoders\StringColorDecoder as RgbStringColorDecoder;
@@ -54,6 +55,7 @@ class InputHandler implements InputHandlerInterface
         HsvStringColorDecoder::class,
         HslStringColorDecoder::class,
         OklabStringColorDecoder::class,
+        OklchStringColorDecoder::class,
     ];
 
     /**

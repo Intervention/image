@@ -75,12 +75,26 @@ class ColorTest extends BaseTestCase
      */
     #[DataProviderExternal(ColorDataProvider::class, 'oklabArray')]
     #[DataProviderExternal(ColorDataProvider::class, 'oklabString')]
-    public function testOklabe(mixed $input, array $channels): void
+    public function testOklab(mixed $input, array $channels): void
     {
         $this->assertEquals(
             $channels,
             array_map(fn(ColorChannelInterface $channel): float =>
             $channel->value(), Color::oklab(...$input)->channels()),
+        );
+    }
+
+    /**
+     * @param $channels array<float>
+     */
+    #[DataProviderExternal(ColorDataProvider::class, 'oklchArray')]
+    #[DataProviderExternal(ColorDataProvider::class, 'oklchString')]
+    public function testOklch(mixed $input, array $channels): void
+    {
+        $this->assertEquals(
+            $channels,
+            array_map(fn(ColorChannelInterface $channel): float =>
+            $channel->value(), Color::oklch(...$input)->channels()),
         );
     }
 }

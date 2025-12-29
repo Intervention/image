@@ -43,7 +43,7 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
     public function decode(mixed $input): ColorInterface
     {
         if (preg_match(self::RGB_PATTERN, $input, $matches) != 1) {
-            throw new InvalidArgumentException('Invalid rgb() color notation');
+            throw new InvalidArgumentException('Invalid rgb() color syntax');
         }
 
         // rgb values

@@ -42,7 +42,7 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
     public function decode(mixed $input): ColorInterface
     {
         if (preg_match(self::HSV_PATTERN, $input, $matches) != 1) {
-            throw new InvalidArgumentException('Invalid hsv() or hsb() color notation');
+            throw new InvalidArgumentException('Invalid hsv() or hsb() color syntax');
         }
 
         $values = array_map(function (string $value): int {

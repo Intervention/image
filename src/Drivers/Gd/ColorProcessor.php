@@ -10,7 +10,7 @@ use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Colors\Rgb\Colorspace;
-use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorProcessorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
@@ -58,13 +58,13 @@ class ColorProcessor implements ColorProcessorInterface
     public function nativeToColor(mixed $value): ColorInterface
     {
         if (!is_int($value) && !is_array($value)) {
-            throw new DriverException('GD driver can only decode colors in integer and array format');
+            throw new ColorDecoderException('GD driver can only decode colors in integer and array format');
         }
 
         if (is_array($value)) {
             // array conversion
             if (!$this->isValidArrayColor($value)) {
-                throw new DriverException(
+                throw new ColorDecoderException(
                     'GD driver can only decode array color format array{red: int, green: int, blue: int, alpha: int}',
                 );
             }

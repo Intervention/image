@@ -42,7 +42,7 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
     public function decode(mixed $input): ColorInterface
     {
         if (preg_match(self::HSL_PATTERN, $input, $matches) != 1) {
-            throw new InvalidArgumentException('Invalid hsl() color syntax');
+            throw new InvalidArgumentException('Invalid hsl() color syntax "' . $input . '"');
         }
 
         $values = array_map(function (string $value): int {

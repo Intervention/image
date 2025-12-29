@@ -16,6 +16,7 @@ use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
+use TypeError;
 
 class Colorspace implements ColorspaceInterface
 {
@@ -27,7 +28,8 @@ class Colorspace implements ColorspaceInterface
     public static array $channels = [
         Channels\Hue::class,
         Channels\Saturation::class,
-        Channels\Value::class
+        Channels\Value::class,
+        Channels\Alpha::class,
     ];
 
     /**
@@ -37,8 +39,20 @@ class Colorspace implements ColorspaceInterface
      */
     public static function colorFromNormalized(array $normalized): ColorInterface
     {
+        // add alpha value if missing
+        $normalized = count($normalized) === 3 ? array_pad($normalized, 4, 1) : $normalized;
+
         return new Color(...array_map(
-            fn(string $classname, float $normalized) => $classname::fromNormalized($normalized)->value(),
+            function (string $channel, null|float $normalized) {
+                try {
+                    return $channel::fromNormalized($normalized)->value();
+                } catch (TypeError $e) {
+                    throw new InvalidArgumentException(
+                        'Normalized color value must be in range 0 to 1',
+                        previous: $e
+                    );
+                }
+            },
             self::$channels,
             $normalized
         ));

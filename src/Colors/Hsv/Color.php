@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Colors\Hsv;
 
 use Intervention\Image\Colors\AbstractColor;
+use Intervention\Image\Colors\Hsv\Channels\Alpha;
 use Intervention\Image\Colors\Hsv\Channels\Hue;
 use Intervention\Image\Colors\Hsv\Channels\Saturation;
 use Intervention\Image\Colors\Hsv\Channels\Value;
@@ -24,13 +25,14 @@ class Color extends AbstractColor
      *
      * @return void
      */
-    public function __construct(int $h, int $s, int $v)
+    public function __construct(int $h, int $s, int $v, float $a = 1)
     {
         /** @throws void */
         $this->channels = [
             new Hue($h),
             new Saturation($s),
             new Value($v),
+            new Alpha($a),
         ];
     }
 
@@ -53,9 +55,9 @@ class Color extends AbstractColor
     {
         $input = match (count($input)) {
             1 => $input[0],
-            3 => $input,
+            3, 4 => $input,
             default => throw new InvalidArgumentException(
-                'Too few arguments to create HSV color, ' . count($input) . ' passed and 1 or 3 expected',
+                'Too few arguments to create HSV color, ' . count($input) . ' passed and 1, 3 or 4 expected',
             ),
         };
 
@@ -100,6 +102,15 @@ class Color extends AbstractColor
     }
 
     /**
+     * Return alpha channel
+     */
+    public function alpha(): ColorChannelInterface
+    {
+        /** @throws void */
+        return $this->channel(Alpha::class);
+    }
+
+    /**
      * {@inheritdoc}
      *
      * @see ColorInterface::toHex()
@@ -116,6 +127,16 @@ class Color extends AbstractColor
      */
     public function toString(): string
     {
+        if ($this->isTransparent()) {
+            return sprintf(
+                'hsv(%d %d %d / %s)',
+                $this->hue()->value(),
+                $this->saturation()->value(),
+                $this->value()->value(),
+                round($this->alpha()->value(), 2),
+            );
+        }
+
         return sprintf(
             'hsv(%d %d%% %d%%)',
             $this->hue()->value(),
@@ -141,7 +162,7 @@ class Color extends AbstractColor
      */
     public function isTransparent(): bool
     {
-        return false;
+        return $this->alpha()->value() < $this->alpha()->max();
     }
 
     /**
@@ -151,6 +172,6 @@ class Color extends AbstractColor
      */
     public function isClear(): bool
     {
-        return false;
+        return $this->alpha()->value() == 0;
     }
 }

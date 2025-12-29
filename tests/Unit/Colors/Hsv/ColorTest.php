@@ -41,7 +41,7 @@ final class ColorTest extends BaseTestCase
     {
         $color = new Color(10, 20, 30);
         $this->assertIsArray($color->channels());
-        $this->assertCount(3, $color->channels());
+        $this->assertCount(4, $color->channels());
     }
 
     public function testChannel(): void
@@ -73,7 +73,7 @@ final class ColorTest extends BaseTestCase
     public function testToArray(): void
     {
         $color = new Color(10, 20, 30);
-        $this->assertEquals([10, 20, 30], $color->toArray());
+        $this->assertEquals([10, 20, 30, 1], $color->toArray());
     }
 
     public function testToHex(): void
@@ -85,13 +85,22 @@ final class ColorTest extends BaseTestCase
     public function testNormalize(): void
     {
         $color = new Color(180, 50, 25);
-        $this->assertEquals([.5, 0.5, 0.25], $color->normalize());
+        $this->assertEquals([.5, 0.5, 0.25, 1], $color->normalize());
+
+        $color = new Color(180, 50, 25, .2);
+        $this->assertEquals([.5, 0.5, 0.25, .2], $color->normalize());
     }
 
     public function testToString(): void
     {
-        $color = new Color(100, 50, 20, 0);
+        $color = new Color(100, 50, 20);
         $this->assertEquals('hsv(100 50% 20%)', (string) $color);
+
+        $color = new Color(100, 50, 20, 1);
+        $this->assertEquals('hsv(100 50% 20%)', (string) $color);
+
+        $color = new Color(100, 50, 20, .2);
+        $this->assertEquals('hsv(100 50 20 / 0.2)', (string) $color);
     }
 
     public function testIsGreyscale(): void
@@ -110,12 +119,30 @@ final class ColorTest extends BaseTestCase
     {
         $color = new Color(1, 0, 0);
         $this->assertFalse($color->isTransparent());
+
+        $color = new Color(1, 0, 0, 1);
+        $this->assertFalse($color->isTransparent());
+
+        $color = new Color(1, 0, 0, .2);
+        $this->assertTrue($color->isTransparent());
+
+        $color = new Color(1, 0, 0, 0);
+        $this->assertTrue($color->isTransparent());
     }
 
     public function testIsClear(): void
     {
         $color = new Color(0, 1, 0);
         $this->assertFalse($color->isClear());
+
+        $color = new Color(0, 1, 0, 1);
+        $this->assertFalse($color->isClear());
+
+        $color = new Color(0, 1, 0, .2);
+        $this->assertFalse($color->isClear());
+
+        $color = new Color(0, 1, 0, 0);
+        $this->assertTrue($color->isClear());
     }
 
     public function testDebugInfo(): void
@@ -124,5 +151,6 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals(10, $info['hue']);
         $this->assertEquals(20, $info['saturation']);
         $this->assertEquals(30, $info['value']);
+        $this->assertEquals(1, $info['alpha']);
     }
 }

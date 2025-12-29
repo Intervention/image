@@ -107,7 +107,7 @@ class Colorspace implements ColorspaceInterface
             default => 0,
         };
 
-        $hue = ($hue + 360) % 360; // normalize hue
+        $hue = (round($hue) + 360) % 360; // normalize hue
 
         return new Color(
             intval(round($hue)),

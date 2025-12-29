@@ -8,6 +8,7 @@ use Intervention\Image\Alignment;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
+use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Geometry\Rectangle;
@@ -41,6 +42,9 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
      */
     protected function modifyFrame(FrameInterface $frame, ColorInterface $background): void
     {
+        // normalize color to rgb colorspace
+        $background = $background->toColorspace(Rgb::class);
+
         // get transparent color from frame core
         $transparent = match ($transparent = imagecolortransparent($frame->native())) {
             -1 => imagecolorallocatealpha(

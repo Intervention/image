@@ -16,25 +16,46 @@ class ColorDataProvider
 
     public static function rgbString(): Generator
     {
+        yield [['rgb (255 0 55)'], [255, 0, 55, 1]];
+        yield [['rgb (255, 0, 55)'], [255, 0, 55, 1]];
+        yield [['rgb(255 0 55 / .2)'], [255, 0, 55, .2]];
+        yield [['rgb(255 0 55)'], [255, 0, 55, 1]];
         yield [['rgb(255, 0, 55)'], [255, 0, 55, 1]];
         yield [['rgb(255, 0, 55, 1)'], [255, 0, 55, 1]];
+        yield [['rgba(255 0 55 / 1)'], [255, 0, 55, 1]];
+        yield [['rgba(255 0 55 / .2)'], [255, 0, 55, .2]];
+        yield [['rgba(255 0 55 / 0.2)'], [255, 0, 55, .2]];
+        yield [['rgba(255 0 55)'], [255, 0, 55, 1]];
         yield [['rgba(255, 0, 55)'], [255, 0, 55, 1]];
-        yield [['rgba(255, 0, 55, 1)'], [255, 0, 55, 1]];
         yield [['rgba(255, 0, 55, .2)'], [255, 0, 55, .2]];
-        yield [['srgba(255, 0, 55)'], [255, 0, 55, 1]];
-        yield [['srgba(255, 0, 55, 1)'], [255, 0, 55, 1]];
+        yield [['rgba(255, 0, 55, 0.2)'], [255, 0, 55, .2]];
+        yield [['rgba(255, 0, 55, 1)'], [255, 0, 55, 1]];
+        yield [['srgb(255 0 55 / 1)'], [255, 0, 55, 1]];
+        yield [['srgb(255 0 55)'], [255, 0, 55, 1]];
         yield [['srgb(255, 0, 55)'], [255, 0, 55, 1]];
         yield [['srgb(255, 0, 55, 1)'], [255, 0, 55, 1]];
-        yield [['rgb(255 0 55)'], [255, 0, 55, 1]];
-        yield [['rgb(255 0 55 1)'], [255, 0, 55, 1]];
-        yield [['rgba(255 0 55)'], [255, 0, 55, 1]];
-        yield [['rgba(255 0 55 1)'], [255, 0, 55, 1]];
+        yield [['srgba(255 0 55/1)'], [255, 0, 55, 1]];
+        yield [['srgba(255 0 55/.2)'], [255, 0, 55, .2]];
         yield [['srgba(255 0 55)'], [255, 0, 55, 1]];
-        yield [['srgba(255 0 55 1)'], [255, 0, 55, 1]];
-        yield [['srgb(255 0 55)'], [255, 0, 55, 1]];
-        yield [['srgb(255 0 55 1)'], [255, 0, 55, 1]];
-        yield [['rgb (255, 0, 55)'], [255, 0, 55, 1]];
-        yield [['rgb (255 0 55)'], [255, 0, 55, 1]];
+        yield [['srgba(255, 0, 55)'], [255, 0, 55, 1]];
+        yield [['srgba(255, 0, 55, 1)'], [255, 0, 55, 1]];
+        yield [['rgb(255 0 55 / 20%)'], [255, 0, 55, .2]];
+        yield [['rgb(255, 0, 55, 20%)'], [255, 0, 55, .2]];
+        yield [['rgb(255 0 55/20%)'], [255, 0, 55, .2]];
+        yield [['rgb(255,0,55,20%)'], [255, 0, 55, .2]];
+        yield [['rgb( 255, 0, 55, 20% )'], [255, 0, 55, .2]];
+        yield [['rgb( 255,0,55,20% )'], [255, 0, 55, .2]];
+        yield [['rgb( 255 0 55/20% )'], [255, 0, 55, .2]];
+        yield [['rgb( 255 0 55/.2 )'], [255, 0, 55, .2]];
+    }
+
+    public static function rgbStringInvalid(): Generator
+    {
+        yield ['rgb(2515 0 55)'];
+        yield ['rgb(251,0 55)'];
+        yield ['rgb(251 0,55)'];
+        yield ['rgb(251, 0, 5.5)'];
+        yield ['rgb(251, 0, 5, 5.5)'];
     }
 
     public static function rgbHex(): Generator
@@ -55,12 +76,21 @@ class ColorDataProvider
         yield [['#ccc'], [204, 204, 204, 1]];
         yield [['#f50c'], [255, 85, 0, .8]];
         yield [['#cccc'], [204, 204, 204, .8]];
+        yield [['ccff33'], [204, 255, 51, 1],];
+        yield [['#ccccccff'], [204, 204, 204, 1],];
+        yield [['#cccf'], [204, 204, 204, 1],];
+        yield [['ccccccff'], [204, 204, 204, 1],];
+        yield [['cccf'], [204, 204, 204, 1],];
+        yield [['#b53717aa'], [181, 55, 23, 0.6666666666666666],];
     }
 
     public static function rgbColorname(): Generator
     {
         yield [['tomato'], [255, 99, 71, 1]];
         yield [['steelblue'], [70, 130, 180, 1]];
+        yield [['salmon'], [250, 128, 114, 1]];
+        yield [['khaki'], [240, 230, 140, 1]];
+        yield [['peachpuff'], [255, 218, 185, 1]];
     }
 
     public static function cmykArray(): Generator

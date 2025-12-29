@@ -12,7 +12,7 @@ use Intervention\Image\Interfaces\DecoderInterface;
 
 class StringColorDecoder extends AbstractDecoder implements DecoderInterface
 {
-    protected const string HSL_PATTERN =
+    private const string PATTERN =
         '/^hsl ?\(' .
         '(?P<h>[0-9\.]+)((, ?)| )' .
         '(?P<s>[0-9\.]+%?)((, ?)| )' .
@@ -41,7 +41,7 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
      */
     public function decode(mixed $input): ColorInterface
     {
-        if (preg_match(self::HSL_PATTERN, $input, $matches) != 1) {
+        if (preg_match(self::PATTERN, $input, $matches) != 1) {
             throw new InvalidArgumentException('Invalid hsl() color syntax "' . $input . '"');
         }
 

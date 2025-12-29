@@ -14,7 +14,7 @@ use Intervention\Image\Interfaces\DecoderInterface;
 
 class StringColorDecoder extends AbstractDecoder implements DecoderInterface
 {
-    protected const string OKLAB_PATTERN =
+    private const string PATTERN =
         '/^oklab ?\(' .
         '(?P<l>(1|0|0?\.[0-9]+)|[0-9\.]+%)((, ?)|( ))' .
         '(?P<a>(-?0|-?0?\.[0-9\.]+)|(-?[0-9\.]+%))((, ?)|( ))' .
@@ -44,7 +44,7 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
      */
     public function decode(mixed $input): ColorInterface
     {
-        if (preg_match(self::OKLAB_PATTERN, $input, $matches) != 1) {
+        if (preg_match(self::PATTERN, $input, $matches) != 1) {
             throw new InvalidArgumentException('Invalid oklab() color syntax "' . $input . '"');
         }
 

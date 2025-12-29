@@ -13,7 +13,7 @@ use Intervention\Image\Interfaces\DecoderInterface;
 class StringColorDecoder extends AbstractDecoder implements DecoderInterface
 {
     private const string PATTERN =
-    '/^s?rgba? ?\(' .
+        '/^s?rgba? ?\(' .
         '(?P<r>[0-9\.]+%?)((, ?)| )' .
         '(?P<g>[0-9\.]+%?)((, ?)| )' .
         '(?P<b>[0-9\.]+%?)(?:((, ?)| )' .

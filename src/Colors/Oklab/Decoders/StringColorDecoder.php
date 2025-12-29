@@ -7,6 +7,7 @@ namespace Intervention\Image\Colors\Oklab\Decoders;
 use Intervention\Image\Colors\Oklab\Color;
 use Intervention\Image\Colors\Oklab\Channels\Lightness;
 use Intervention\Image\Colors\Oklab\Channels\A;
+use Intervention\Image\Colors\Oklab\Channels\B;
 use Intervention\Image\Drivers\AbstractDecoder;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -48,32 +49,20 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
             throw new InvalidArgumentException('Invalid oklab() color syntax "' . $input . '"');
         }
 
-        return new Color(...[
-            $this->decodeLightness($matches['l']),
-            $this->decodeAxis($matches['a']),
-            $this->decodeAxis($matches['b']),
-        ]);
+        return new Color(
+            $this->decodeChannelValue($matches['l'], Lightness::class),
+            $this->decodeChannelValue($matches['a'], A::class),
+            $this->decodeChannelValue($matches['b'], B::class),
+        );
     }
 
     /**
-     * Decode lightness value
+     * Decode channel value
      */
-    private function decodeLightness(string $value): float
+    private function decodeChannelValue(string $value, string $channel): float
     {
         if (strpos($value, '%')) {
-            return floatval(trim(str_replace('%', '', $value))) * Lightness::max() / 100;
-        }
-
-        return floatval(trim($value));
-    }
-
-    /**
-     * Decode axis (a, b) values
-     */
-    private function decodeAxis(string $value): float
-    {
-        if (strpos($value, '%')) {
-            return floatval(trim(str_replace('%', '', $value))) * A::max() / 100;
+            return floatval(trim(str_replace('%', '', $value))) * $channel::max() / 100;
         }
 
         return floatval(trim($value));

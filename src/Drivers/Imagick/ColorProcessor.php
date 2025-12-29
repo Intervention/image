@@ -12,6 +12,8 @@ use Intervention\Image\Colors\Cmyk\Channels\Key;
 use Intervention\Image\Colors\Cmyk\Channels\Magenta;
 use Intervention\Image\Colors\Cmyk\Channels\Yellow;
 use Intervention\Image\Colors\Cmyk\Colorspace as Cmyk;
+use Intervention\Image\Colors\Hsl\Colorspace as Hsl;
+use Intervention\Image\Colors\Hsv\Colorspace as Hsv;
 use Intervention\Image\Colors\Rgb\Channels\Alpha;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
@@ -75,6 +77,7 @@ class ColorProcessor implements ColorProcessorInterface
 
     public function nativeToColor(mixed $native): ColorInterface
     {
+        // todo: implement oklab & oklch
         return match ($this->colorspace::class) {
             Cmyk::class => $this->colorspace->colorFromNormalized([
                 $native->getColorValue(Imagick::COLOR_CYAN),
@@ -88,6 +91,18 @@ class ColorProcessor implements ColorProcessorInterface
                 $native->getColorValue(Imagick::COLOR_BLUE),
                 $native->getColorValue(Imagick::COLOR_ALPHA),
             ]),
+            Hsl::class => Rgb::class::colorFromNormalized([
+                $native->getColorValue(Imagick::COLOR_RED),
+                $native->getColorValue(Imagick::COLOR_GREEN),
+                $native->getColorValue(Imagick::COLOR_BLUE),
+                $native->getColorValue(Imagick::COLOR_ALPHA),
+            ])->toColorspace(Hsl::class),
+            Hsv::class => Rgb::colorFromNormalized([
+                $native->getColorValue(Imagick::COLOR_RED),
+                $native->getColorValue(Imagick::COLOR_GREEN),
+                $native->getColorValue(Imagick::COLOR_BLUE),
+                $native->getColorValue(Imagick::COLOR_ALPHA),
+            ])->toColorspace(Hsv::class),
             default => throw new NotSupportedException(
                 'Colorspace ' . $this->colorspace::class . ' is not supported by driver'
             )

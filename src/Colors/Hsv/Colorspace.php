@@ -113,7 +113,8 @@ class Colorspace implements ColorspaceInterface
         return new Color(
             intval(round($h)),
             intval(round($s)),
-            intval(round($v))
+            intval(round($v)),
+            $color->alpha()->value(),
         );
     }
 
@@ -132,6 +133,6 @@ class Colorspace implements ColorspaceInterface
         $v = $l + $s * min($l, 1 - $l);
         $s = ($v == 0) ? 0 : 2 * (1 - $l / $v);
 
-        return $this->colorFromNormalized([$h, $s, $v]);
+        return $this->colorFromNormalized([$h, $s, $v, $color->alpha()->normalize()]);
     }
 }

@@ -7,6 +7,7 @@ namespace Intervention\Image\Colors\Oklab\Decoders;
 use Intervention\Image\Colors\Oklab\Color;
 use Intervention\Image\Colors\Oklab\Channels\Lightness;
 use Intervention\Image\Colors\Oklab\Channels\A;
+use Intervention\Image\Colors\Oklab\Channels\Alpha;
 use Intervention\Image\Colors\Oklab\Channels\B;
 use Intervention\Image\Drivers\AbstractDecoder;
 use Intervention\Image\Exceptions\InvalidArgumentException;
@@ -16,11 +17,13 @@ use Intervention\Image\Interfaces\DecoderInterface;
 class StringColorDecoder extends AbstractDecoder implements DecoderInterface
 {
     private const string PATTERN =
-        '/^oklab ?\(' .
+        '/^oklab ?\( ?' .
         '(?P<l>(1|0|0?\.[0-9]+)|[0-9\.]+%)((, ?)|( ))' .
         '(?P<a>(-?0|-?0?\.[0-9\.]+)|(-?[0-9\.]+%))((, ?)|( ))' .
         '(?P<b>(-?0|-?0?\.[0-9\.]+)|(-?[0-9\.]+%))' .
-        '\)$/i';
+        '(?:(?:(?: ?\/ ?)|(?:[, ]) ?)' .
+        '(?<alpha>(?:0\.[0-9]+)|1\.0|\.[0-9]+|[0-9]{1,3}%|1|0))?' .
+        ' ?\)$/i';
 
     /**
      * {@inheritdoc}
@@ -49,11 +52,18 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
             throw new InvalidArgumentException('Invalid oklab() color syntax "' . $input . '"');
         }
 
-        return new Color(
+        $values = [
             $this->decodeChannelValue($matches['l'], Lightness::class),
             $this->decodeChannelValue($matches['a'], A::class),
             $this->decodeChannelValue($matches['b'], B::class),
-        );
+        ];
+
+        // alpha value
+        if (array_key_exists('alpha', $matches)) {
+            $values[] = $this->decodeChannelValue($matches['alpha'], Alpha::class);
+        }
+
+        return new Color(...$values);
     }
 
     /**

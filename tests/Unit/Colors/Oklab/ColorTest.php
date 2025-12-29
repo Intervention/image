@@ -28,11 +28,15 @@ final class ColorTest extends BaseTestCase
     {
         $color = Color::create('oklab(0%, 25%, -50%)');
         $this->assertInstanceOf(Color::class, $color);
-        $this->assertEquals([0.0, .1, -0.2], $color->toArray());
+        $this->assertEquals([0.0, .1, -0.2, 1], $color->toArray());
+
+        $color = Color::create('oklab(0%, 25%, -50%, .2)');
+        $this->assertInstanceOf(Color::class, $color);
+        $this->assertEquals([0.0, .1, -0.2, .2], $color->toArray());
 
         $color = Color::create(.51, .1, -.2);
         $this->assertInstanceOf(Color::class, $color);
-        $this->assertEquals([.51, .1, -.2], $color->toArray());
+        $this->assertEquals([.51, .1, -.2, 1], $color->toArray());
     }
 
     public function testColorspace(): void
@@ -45,7 +49,7 @@ final class ColorTest extends BaseTestCase
     {
         $color = new Color(0, .1, .2);
         $this->assertIsArray($color->channels());
-        $this->assertCount(3, $color->channels());
+        $this->assertCount(4, $color->channels());
     }
 
     public function testChannel(): void
@@ -86,22 +90,31 @@ final class ColorTest extends BaseTestCase
     public function testToArray(): void
     {
         $color = new Color(0, .1, .2);
-        $this->assertEquals([0, .1, .2], $color->toArray());
+        $this->assertEquals([0, .1, .2, 1], $color->toArray());
+
+        $color = new Color(0, .1, .2, .3);
+        $this->assertEquals([0, .1, .2, .3], $color->toArray());
     }
 
     public function testToHex(): void
     {
         $color = new Color(0.64905124115, 0.19974263609074, 0.13044605841927);
         $this->assertEquals('ff3700', $color->toHex());
+
+        $color = new Color(0.64905124115, 0.19974263609074, 0.13044605841927, .2);
+        $this->assertEquals('ff370033', $color->toHex());
     }
 
     public function testNormalize(): void
     {
         $color = new Color(1, .2, -0.4);
-        $this->assertEquals([1.0, 0.7500000000000001, 0.0], $color->normalize());
+        $this->assertEquals([1.0, 0.7500000000000001, 0.0, 1], $color->normalize());
 
         $color = new Color(0, 0, 0);
-        $this->assertEquals([0, 0.5, 0.5], $color->normalize());
+        $this->assertEquals([0, 0.5, 0.5, 1], $color->normalize());
+
+        $color = new Color(0, 0, 0, .5);
+        $this->assertEquals([0, 0.5, 0.5, .5], $color->normalize());
     }
 
     public function testToString(): void

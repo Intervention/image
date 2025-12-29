@@ -11,9 +11,11 @@ use Intervention\Image\Colors\Oklab\Color as OklabColor;
 use Intervention\Image\Colors\Oklch\Color as OklchColor;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
+use TypeError;
 
 class Colorspace implements ColorspaceInterface
 {
@@ -25,7 +27,8 @@ class Colorspace implements ColorspaceInterface
     public static array $channels = [
         Channels\Lightness::class,
         Channels\A::class,
-        Channels\B::class
+        Channels\B::class,
+        Channels\Alpha::class,
     ];
 
     /**
@@ -35,8 +38,20 @@ class Colorspace implements ColorspaceInterface
      */
     public static function colorFromNormalized(array $normalized): ColorInterface
     {
+        // add alpha value if missing
+        $normalized = count($normalized) === 3 ? array_pad($normalized, 4, 1) : $normalized;
+
         return new Color(...array_map(
-            fn(string $classname, float $normalized) => $classname::fromNormalized($normalized)->value(),
+            function (string $channel, null|float $normalized) {
+                try {
+                    return $channel::fromNormalized($normalized)->value();
+                } catch (TypeError $e) {
+                    throw new InvalidArgumentException(
+                        'Normalized color value must be in range 0 to 1',
+                        previous: $e
+                    );
+                }
+            },
             self::$channels,
             $normalized
         ));
@@ -87,6 +102,7 @@ class Colorspace implements ColorspaceInterface
             0.2104542553 * $l + 0.7936177850 * $m - 0.0040720468 * $s,
             1.9779984951 * $l - 2.4285922050 * $m + 0.4505937099 * $s,
             0.0259040371 * $l + 0.7827717662 * $m - 0.8086757660 * $s,
+            $color->alpha()->value(),
         );
     }
 
@@ -98,6 +114,7 @@ class Colorspace implements ColorspaceInterface
             $color->lightness()->value(),
             $color->chroma()->value() * cos($hRad),
             $color->chroma()->value() * sin($hRad),
+            // $color->alpha()->value(),
         );
     }
 }

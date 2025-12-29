@@ -113,6 +113,7 @@ class Colorspace implements ColorspaceInterface
             intval(round($hue)),
             intval(round($saturation * 100)),
             intval(round($luminance * 100)),
+            $color->alpha()->value(),
         );
     }
 
@@ -139,6 +140,7 @@ class Colorspace implements ColorspaceInterface
             intval(round($h * 360)),
             intval(round($saturation * 100)),
             intval(round($luminance * 100)),
+            $color->alpha()->value(),
         );
     }
 }

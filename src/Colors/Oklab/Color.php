@@ -21,13 +21,14 @@ class Color extends AbstractColor
      *
      * @return void
      */
-    public function __construct(float $l, float $a, float $b)
+    public function __construct(float $l, float $a, float $b, float $alpha = 1)
     {
         /** @throws void */
         $this->channels = [
             new Channels\Lightness($l),
             new Channels\A($a),
             new Channels\B($b),
+            new Channels\Alpha($alpha),
         ];
     }
 
@@ -50,9 +51,9 @@ class Color extends AbstractColor
     {
         $input = match (count($input)) {
             1 => $input[0],
-            3 => $input,
+            3, 4 => $input,
             default => throw new InvalidArgumentException(
-                'Too few arguments to create OKLAB color, ' . count($input) . ' passed and 1 or 3 expected',
+                'Too few arguments to create OKLAB color, ' . count($input) . ' passed and 1, 3 or 4 expected',
             ),
         };
 
@@ -97,6 +98,15 @@ class Color extends AbstractColor
     }
 
     /**
+     * Return alpha channel
+     */
+    public function alpha(): ColorChannelInterface
+    {
+        /** @throws void */
+        return $this->channel(Channels\Alpha::class);
+    }
+
+    /**
      * {@inheritdoc}
      *
      * @see ColorInterface::toHex()
@@ -113,6 +123,16 @@ class Color extends AbstractColor
      */
     public function toString(): string
     {
+        if ($this->isTransparent()) {
+            return sprintf(
+                'oklab(%s %s %s / %s)',
+                $this->lightness()->value(),
+                $this->a()->value(),
+                $this->b()->value(),
+                round($this->alpha()->value(), 2)
+            );
+        }
+
         return sprintf(
             'oklab(%s %s %s)',
             $this->lightness()->value(),
@@ -138,7 +158,7 @@ class Color extends AbstractColor
      */
     public function isTransparent(): bool
     {
-        return false;
+        return $this->alpha()->value() < $this->alpha()->max();
     }
 
     /**
@@ -148,6 +168,6 @@ class Color extends AbstractColor
      */
     public function isClear(): bool
     {
-        return false;
+        return $this->alpha()->value() == 0;
     }
 }

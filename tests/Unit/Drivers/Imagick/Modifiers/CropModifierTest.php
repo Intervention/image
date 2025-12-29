@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit\Drivers\Imagick\Modifiers;
 
 use Intervention\Image\Alignment;
-use Intervention\Image\Colors\Cmyk\Colorspace;
+use Intervention\Image\Colors\Cmyk\Colorspace as Cmyk;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\CropModifier;
@@ -55,9 +55,9 @@ final class CropModifierTest extends ImagickTestCase
     public function testModifyKeepsColorspace(): void
     {
         $image = $this->readTestImage('cmyk.jpg');
-        $this->assertInstanceOf(Colorspace::class, $image->colorspace());
+        $this->assertInstanceOf(Cmyk::class, $image->colorspace());
         $image = $image->modify(new CropModifier(800, 100, -10, -10, 'ff0000'));
-        $this->assertInstanceOf(Colorspace::class, $image->colorspace());
+        $this->assertInstanceOf(Cmyk::class, $image->colorspace());
     }
 
     public function testModifyKeepsResolution(): void
@@ -74,15 +74,15 @@ final class CropModifierTest extends ImagickTestCase
         $image->modify(new CropModifier(32, 32, 0, 0, '00f5', Alignment::CENTER));
         $this->assertEquals(32, $image->width());
         $this->assertEquals(32, $image->height());
-        $this->assertColor(0, 0, 255, .3, $image->pickColor(5, 5));
-        $this->assertColor(0, 0, 255, .3, $image->pickColor(16, 5));
-        $this->assertColor(0, 0, 255, .3, $image->pickColor(30, 5));
-        $this->assertColor(0, 0, 255, .3, $image->pickColor(5, 16));
+        $this->assertColor(0, 0, 255, 0.33333333333333, $image->pickColor(5, 5));
+        $this->assertColor(0, 0, 255, 0.33333333333333, $image->pickColor(16, 5));
+        $this->assertColor(0, 0, 255, 0.33333333333333, $image->pickColor(30, 5));
+        $this->assertColor(0, 0, 255, 0.33333333333333, $image->pickColor(5, 16));
         $this->assertColor(255, 0, 0, 1, $image->pickColor(16, 16));
-        $this->assertColor(0, 0, 255, .3, $image->pickColor(30, 16));
-        $this->assertColor(0, 0, 255, .3, $image->pickColor(5, 30));
-        $this->assertColor(0, 0, 255, .3, $image->pickColor(16, 30));
-        $this->assertColor(0, 0, 255, .3, $image->pickColor(30, 30));
+        $this->assertColor(0, 0, 255, 0.33333333333333, $image->pickColor(30, 16));
+        $this->assertColor(0, 0, 255, 0.33333333333333, $image->pickColor(5, 30));
+        $this->assertColor(0, 0, 255, 0.33333333333333, $image->pickColor(16, 30));
+        $this->assertColor(0, 0, 255, 0.33333333333333, $image->pickColor(30, 30));
     }
 
     public function testMergeTransparentBackgrounds(): void
@@ -93,8 +93,8 @@ final class CropModifierTest extends ImagickTestCase
         $image->modify(new CropModifier(3, 3, 0, 0, '00f7', Alignment::CENTER));
         $this->assertEquals(3, $image->width());
         $this->assertEquals(3, $image->height());
-        $this->assertColor(0, 0, 255, .5, $image->pickColor(0, 0), 1);
+        $this->assertColor(0, 0, 255, 0.46666666666667, $image->pickColor(0, 0), 1);
         $this->assertColor(255, 0, 0, 1, $image->pickColor(1, 1));
-        $this->assertColor(0, 0, 255, .5, $image->pickColor(2, 2), 1);
+        $this->assertColor(0, 0, 255, 0.46666666666667, $image->pickColor(2, 2), 1);
     }
 }

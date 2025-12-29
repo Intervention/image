@@ -7,6 +7,9 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use Imagick;
 use ImagickException;
 use ImagickPixel;
+use Intervention\Image\Colors\Cmyk\Colorspace as Cmyk;
+use Intervention\Image\Colors\Hsl\Colorspace as Hsl;
+use Intervention\Image\Colors\Hsv\Colorspace as Hsv;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
@@ -41,6 +44,12 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
                 $canvas->newImage($crop->width(), $crop->height(), $background, 'png');
                 $canvas->setImageResolution($resolution->x(), $resolution->y());
                 $canvas->setImageAlphaChannel(Imagick::ALPHACHANNEL_SET); // or ALPHACHANNEL_ACTIVATE?
+                $canvas->setImageColorspace(match ($image->colorspace()::class) {
+                    Cmyk::class => Imagick::COLORSPACE_CMYK,
+                    Hsv::class => Imagick::COLORSPACE_HSB,
+                    Hsl::class => Imagick::COLORSPACE_HSL,
+                    default => Imagick::COLORSPACE_SRGB,
+                });
             } catch (ImagickException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to create new frame canvas',

@@ -287,8 +287,8 @@ final class ImageTest extends ImagickTestCase
         $image = $this->readTestImage('gradient.gif');
         $this->assertColor(0, 0, 0, 0, $image->pickColor(1, 0));
         $result = $image->background('ff550055');
-        $this->assertColor(255, 85, 0, .3, $image->pickColor(1, 0));
-        $this->assertColor(255, 85, 0, .3, $result->pickColor(1, 0));
+        $this->assertColor(255, 85, 0, .33333333333333, $image->pickColor(1, 0));
+        $this->assertColor(255, 85, 0, .33333333333333, $result->pickColor(1, 0));
     }
 
     public function testInvert(): void

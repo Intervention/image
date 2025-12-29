@@ -45,7 +45,7 @@ class ColorProcessor implements ColorProcessorInterface
 
         // convert alpha value to gd alpha
         // ([opaque]1-0[transparent]) to ([opaque]0-127[transparent])
-        $a = (int) round($this->convertRange($a, 0, 1, 127, 0));
+        $a = (int) round($this->convertRange($a, Alpha::min(), Alpha::max(), 127, 0));
 
         return ($a << 24) + ($r << 16) + ($g << 8) + $b;
     }
@@ -83,7 +83,7 @@ class ColorProcessor implements ColorProcessorInterface
 
         // convert gd apha integer to intervention alpha integer
         // ([opaque]0-127[transparent]) to ([opaque]1-0[transparent])
-        $a = static::convertRange($a, 127, 0, 0, 1);
+        $a = static::convertRange($a, 127, 0, Alpha::min(), Alpha::max());
 
         return new Color($r, $g, $b, $a);
     }

@@ -101,12 +101,27 @@ final class ColorTest extends BaseTestCase
     {
         $color = new Color(255, 0, 51);
         $this->assertEquals([1.0, 0.0, 0.2, 1.0], $color->normalize());
+
+        $color = new Color(255, 0, 51, 1);
+        $this->assertEquals([1.0, 0.0, 0.2, 1.0], $color->normalize());
+
+        $color = new Color(255, 0, 51, .2);
+        $this->assertEquals([1.0, 0.0, 0.2, .2], $color->normalize());
     }
 
     public function testToString(): void
     {
         $color = new Color(181, 55, 23);
         $this->assertEquals('rgb(181 55 23)', (string) $color);
+
+        $color = new Color(181, 55, 23, 1);
+        $this->assertEquals('rgb(181 55 23)', (string) $color);
+
+        $color = new Color(181, 55, 23, .2);
+        $this->assertEquals('rgb(181 55 23 / 0.2)', (string) $color);
+
+        $color = new Color(181, 55, 23, 0);
+        $this->assertEquals('rgb(181 55 23 / 0)', (string) $color);
     }
 
     public function testToColorspace(): void

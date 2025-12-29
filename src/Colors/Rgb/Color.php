@@ -148,11 +148,11 @@ class Color extends AbstractColor
     {
         if ($this->isTransparent()) {
             return sprintf(
-                'rgba(%d %d %d %.1F)',
+                'rgb(%d %d %d / %s)',
                 $this->red()->value(),
                 $this->green()->value(),
                 $this->blue()->value(),
-                $this->alpha()->value(),
+                round($this->alpha()->value(), 2)
             );
         }
 

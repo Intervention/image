@@ -6,31 +6,21 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
 use ImagickException;
+use Intervention\Image\Colors\Cmyk\Colorspace as Cmyk;
+use Intervention\Image\Colors\Hsl\Colorspace as Hsl;
+use Intervention\Image\Colors\Hsv\Colorspace as Hsv;
+use Intervention\Image\Colors\Oklab\Colorspace as Oklab;
+use Intervention\Image\Colors\Oklch\Colorspace as Oklch;
+use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Colors\Cmyk\Colorspace as Cmyk;
-use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
-use Intervention\Image\Colors\Hsl\Colorspace as Hsl;
-use Intervention\Image\Colors\Hsv\Colorspace as Hsv;
-use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\ColorspaceModifier as GenericColorspaceModifier;
 
 class ColorspaceModifier extends GenericColorspaceModifier implements SpecializedInterface
 {
-    /**
-     * Map own colorspace classname to Imagick classnames
-     *
-     * @var array<string, int>
-     */
-    protected static array $mapping = [
-        Rgb::class => Imagick::COLORSPACE_SRGB,
-        Cmyk::class => Imagick::COLORSPACE_CMYK,
-        Hsl::class => Imagick::COLORSPACE_HSL,
-        Hsv::class => Imagick::COLORSPACE_HSB,
-    ];
-
     public function apply(ImageInterface $image): ImageInterface
     {
         $colorspace = $this->targetColorspace();
@@ -58,10 +48,30 @@ class ColorspaceModifier extends GenericColorspaceModifier implements Specialize
 
     private function getImagickColorspaceOrFail(ColorspaceInterface $colorspace): int
     {
-        if (!array_key_exists($colorspace::class, self::$mapping)) {
-            throw new NotSupportedException('Colorspace ' . $colorspace::class . ' is not supported by driver');
+        if ($colorspace instanceof Rgb) {
+            return Imagick::COLORSPACE_SRGB;
         }
 
-        return self::$mapping[$colorspace::class];
+        if ($colorspace instanceof Cmyk) {
+            return Imagick::COLORSPACE_CMYK;
+        }
+
+        if ($colorspace instanceof Hsl) {
+            return Imagick::COLORSPACE_HSL;
+        }
+
+        if ($colorspace instanceof Hsv) {
+            return Imagick::COLORSPACE_HSB;
+        }
+
+        if ($colorspace instanceof Oklab && defined('Imagick::COLORSPACE_OKLAB')) {
+            return Imagick::COLORSPACE_OKLAB;
+        }
+
+        if ($colorspace instanceof Oklch && defined('Imagick::COLORSPACE_OKLCH')) {
+            return Imagick::COLORSPACE_OKLCH;
+        }
+
+        throw new NotSupportedException('Colorspace ' . $colorspace::class . ' is not supported by driver');
     }
 }

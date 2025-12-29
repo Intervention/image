@@ -14,6 +14,8 @@ use Intervention\Image\Colors\Cmyk\Channels\Yellow;
 use Intervention\Image\Colors\Cmyk\Colorspace as Cmyk;
 use Intervention\Image\Colors\Hsl\Colorspace as Hsl;
 use Intervention\Image\Colors\Hsv\Colorspace as Hsv;
+use Intervention\Image\Colors\Oklab\Colorspace as Oklab;
+use Intervention\Image\Colors\Oklch\Colorspace as Oklch;
 use Intervention\Image\Colors\Rgb\Channels\Alpha;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
@@ -34,29 +36,9 @@ class ColorProcessor implements ColorProcessorInterface
 
     public function colorToNative(ColorInterface $color): ImagickPixel
     {
-        if ($this->colorspace instanceof Rgb) {
-            $color = $this->colorspace->importColor($color);
-
-            try {
-                $pixel = new ImagickPixel(
-                    sprintf(
-                        "srgba(%s, %s, %s, %s)",
-                        $color->channel(Red::class)->value(),
-                        $color->channel(Green::class)->value(),
-                        $color->channel(Blue::class)->value(),
-                        $color->channel(Alpha::class)->value(),
-                    )
-                );
-            } catch (ImagickException $e) {
-                throw new DriverException('Failed to create RGB color', previous: $e);
-            }
-
-            return $pixel;
-        }
+        $color = $this->colorspace->importColor($color);
 
         if ($this->colorspace instanceof Cmyk) {
-            $color = $this->colorspace->importColor($color);
-
             try {
                 $pixel = new ImagickPixel();
                 $pixel->setColorValue(Imagick::COLOR_CYAN, $color->channel(Cyan::class)->normalize());
@@ -70,14 +52,25 @@ class ColorProcessor implements ColorProcessorInterface
             return $pixel;
         }
 
-        throw new NotSupportedException(
-            'Colorspace ' . $this->colorspace::class . ' is not supported by driver'
-        );
+        $color = $color->toColorspace(Rgb::class);
+
+        try {
+            return new ImagickPixel(
+                sprintf(
+                    "srgba(%s, %s, %s, %s)",
+                    $color->channel(Red::class)->value(),
+                    $color->channel(Green::class)->value(),
+                    $color->channel(Blue::class)->value(),
+                    $color->channel(Alpha::class)->value(),
+                )
+            );
+        } catch (ImagickException $e) {
+            throw new DriverException('Failed to create color', previous: $e);
+        }
     }
 
     public function nativeToColor(mixed $native): ColorInterface
     {
-        // todo: implement oklab & oklch
         return match ($this->colorspace::class) {
             Cmyk::class => $this->colorspace->colorFromNormalized([
                 $native->getColorValue(Imagick::COLOR_CYAN),
@@ -103,6 +96,18 @@ class ColorProcessor implements ColorProcessorInterface
                 $native->getColorValue(Imagick::COLOR_BLUE),
                 $native->getColorValue(Imagick::COLOR_ALPHA),
             ])->toColorspace(Hsv::class),
+            Oklab::class => Rgb::colorFromNormalized([
+                $native->getColorValue(Imagick::COLOR_RED),
+                $native->getColorValue(Imagick::COLOR_GREEN),
+                $native->getColorValue(Imagick::COLOR_BLUE),
+                $native->getColorValue(Imagick::COLOR_ALPHA),
+            ])->toColorspace(Oklab::class),
+            Oklch::class => Rgb::colorFromNormalized([
+                $native->getColorValue(Imagick::COLOR_RED),
+                $native->getColorValue(Imagick::COLOR_GREEN),
+                $native->getColorValue(Imagick::COLOR_BLUE),
+                $native->getColorValue(Imagick::COLOR_ALPHA),
+            ])->toColorspace(Oklch::class),
             default => throw new NotSupportedException(
                 'Colorspace ' . $this->colorspace::class . ' is not supported by driver'
             )

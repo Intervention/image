@@ -11,8 +11,10 @@ use Intervention\Image\Colors\Oklab\Colorspace as Oklab;
 use Intervention\Image\Colors\Oklch\Colorspace as Oklch;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Drivers\SpecializableModifier;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorspaceInterface;
+use TypeError;
 
 class ColorspaceModifier extends SpecializableModifier
 {
@@ -23,34 +25,30 @@ class ColorspaceModifier extends SpecializableModifier
 
     public function targetColorspace(): ColorspaceInterface
     {
-        if (is_object($this->target)) {
+        if ($this->target instanceof ColorspaceInterface) {
             return $this->target;
         }
 
-        if (in_array($this->target, ['rgb', 'RGB', Rgb::class])) {
-            return new Rgb();
+        if (class_exists($this->target)) {
+            try {
+                return new $this->target();
+            } catch (TypeError) {
+                throw new InvalidArgumentException(
+                    'Target colorspace must be of type ' . ColorspaceInterface::class,
+                );
+            }
         }
 
-        if (in_array($this->target, ['cmyk', 'CMYK', Cmyk::class])) {
-            return new Cmyk();
-        }
-
-        if (in_array($this->target, ['hsl', 'HSL', Hsl::class])) {
-            return new Hsl();
-        }
-
-        if (in_array($this->target, ['hsv', 'HSV', 'hsb', 'HSB', Hsv::class])) {
-            return new Hsv();
-        }
-
-        if (in_array($this->target, ['oklab', 'OKLAB', Oklab::class])) {
-            return new Oklab();
-        }
-
-        if (in_array($this->target, ['oklch', 'OKLCH', Oklch::class])) {
-            return new Oklch();
-        }
-
-        throw new NotSupportedException('Colorspace is not supported by driver');
+        return match (strtolower($this->target)) {
+            'rgb', 'srgb', 'rgba', 'srgba' => new Rgb(),
+            'cmyk' => new Cmyk(),
+            'hsl' => new Hsl(),
+            'hsv', 'hsb' => new Hsv(),
+            'oklab' => new Oklab(),
+            'oklch' => new Oklch(),
+            default => throw new NotSupportedException(
+                'Colorspace is not supported by driver',
+            ),
+        };
     }
 }

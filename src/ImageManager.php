@@ -85,7 +85,7 @@ final class ImageManager implements ImageManagerInterface
         null|string|Stringable $binary = null,
         null|string|Stringable $base64 = null,
         null|string|Stringable $dataUri = null,
-        ?SplFileInfo $splFileInfo = null,
+        null|SplFileInfo $splFileInfo = null,
         mixed $stream = null,
     ): ImageInterface {
         $param = array_filter([
@@ -99,13 +99,13 @@ final class ImageManager implements ImageManagerInterface
 
         if (count($param) === 0) {
             throw new InvalidArgumentException(
-                'Method ImageManagerInterface::decode() expects at least 1 argument, 0 given'
+                'Method ImageManagerInterface::decodeFrom() expects at least 1 argument, 0 given'
             );
         }
 
         if (count($param) !== 1) {
             throw new InvalidArgumentException(
-                'Method ImageManagerInterface::decode() expects either ' .
+                'Method ImageManagerInterface::decodeFrom() expects either ' .
                     '$path, $binary, $base64, $dataUri, $splFileInfo or $stream as an argument'
             );
         }

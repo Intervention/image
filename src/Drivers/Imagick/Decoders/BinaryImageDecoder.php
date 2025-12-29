@@ -61,7 +61,7 @@ class BinaryImageDecoder extends NativeObjectDecoder
             $imagick = new Imagick();
             $imagick->readImageBlob($input);
         } catch (ImagickException) {
-            throw new ImageDecoderException('Failed to decode binary data, could be unsupported image type');
+            throw new ImageDecoderException('Failed to decode unsupported image formats from binary data');
         }
 
         // decode image

@@ -168,6 +168,9 @@ class ColorDataProvider
         yield [['hsl(0 100 50/0)'], [0, 100, 50, 0]];
         yield [['hsl(360 100 50/0)'], [360, 100, 50, 0]];
         yield [['hsl(180 100% 50%/0%)'], [180, 100, 50, 0]];
+        yield [['hsl(360deg 100 50/0)'], [360, 100, 50, 0]];
+        yield [['hsl(180deg 100% 50%/0%)'], [180, 100, 50, 0]];
+        yield [['hsl(180deg, 100%, 50%, 20%)'], [180, 100, 50, .2]];
     }
 
     public static function hsvArray(): Generator
@@ -199,6 +202,8 @@ class ColorDataProvider
         yield [['hsv(180 100% 50% / 20%)'], [180, 100, 50, .2]];
         yield [['hsv (360, 100, 50, .2)'], [360, 100, 50, .2]];
         yield [['hsv (360 100 50 / .2)'], [360, 100, 50, .2]];
+        yield [['hsv(0deg,0,0)'], [0, 0, 0, 1]];
+        yield [['hsv (360deg 100 50 / .2)'], [360, 100, 50, .2]];
     }
 
     public static function oklabArray(): Generator

@@ -14,7 +14,7 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
 {
     private const string PATTERN =
         '/^hs(v|b) ?\( ?(' .
-        '?P<h>[0-9\.]+)((, ?)| )' .
+        '?P<h>[0-9\.]+)(?:deg)?((, ?)| )' .
         '(?P<s>[0-9\.]+%?)((, ?)| )' .
         '(?P<v>[0-9\.]+%?)' .
         '(?:(?:(?: ?\/ ?)|(?:[, ]) ?)' .

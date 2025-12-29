@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors\Oklch\Decoders;
 
+use Intervention\Image\Colors\Oklch\Channels\Alpha;
 use Intervention\Image\Colors\Oklch\Channels\Chroma;
 use Intervention\Image\Colors\Oklch\Channels\Hue;
 use Intervention\Image\Colors\Oklch\Channels\Lightness;
@@ -16,11 +17,13 @@ use Intervention\Image\Interfaces\DecoderInterface;
 class StringColorDecoder extends AbstractDecoder implements DecoderInterface
 {
     protected const string PATTERN =
-        '/^oklch ?\(' .
+        '/^oklch ?\( ?' .
         '(?P<l>(1|0|0?\.[0-9]+)|[0-9\.]+%)((, ?)|( ))' .
         '(?P<c>(-?0|-?0?\.[0-9\.]+)|(-?[0-9\.]+%))((, ?)|( ))' .
         '(?P<h>[0-9\.]+)' .
-        '\)$/i';
+        '(?:(?:(?: ?\/ ?)|(?:[, ]) ?)' .
+        '(?<a>(?:0\.[0-9]+)|1\.0|\.[0-9]+|[0-9]{1,3}%|1|0))?' .
+        ' ?\)$/i';
 
     /**
      * {@inheritdoc}
@@ -49,11 +52,18 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
             throw new InvalidArgumentException('Invalid oklch() color syntax "' . $input . '"');
         }
 
-        return new Color(...[
+        $values = [
             $this->decodeChannelValue($matches['l'], Lightness::class),
             $this->decodeChannelValue($matches['c'], Chroma::class),
             $this->decodeChannelValue($matches['h'], Hue::class),
-        ]);
+        ];
+
+        // alpha value
+        if (array_key_exists('a', $matches)) {
+            $values[] = $this->decodeChannelValue($matches['a'], Alpha::class);
+        }
+
+        return new Color(...$values);
     }
 
     /**

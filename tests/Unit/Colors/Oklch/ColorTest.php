@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Colors\Oklch;
 
+use Intervention\Image\Colors\Oklch\Channels\Alpha;
 use Intervention\Image\Colors\Oklch\Channels\Hue;
 use Intervention\Image\Colors\Oklch\Channels\Chroma;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -28,11 +29,15 @@ final class ColorTest extends BaseTestCase
     {
         $color = Color::create('oklch(0%, 0.123, 180)');
         $this->assertInstanceOf(Color::class, $color);
-        $this->assertEquals([0.0, .123, 180], $color->toArray());
+        $this->assertEquals([0.0, .123, 180, 1], $color->toArray());
 
         $color = Color::create(.51, -0.1, 2);
         $this->assertInstanceOf(Color::class, $color);
-        $this->assertEquals([.51, -0.1, 2], $color->toArray());
+        $this->assertEquals([.51, -0.1, 2, 1], $color->toArray());
+
+        $color = Color::create(.51, -0.1, 2, .2);
+        $this->assertInstanceOf(Color::class, $color);
+        $this->assertEquals([.51, -0.1, 2, .2], $color->toArray());
     }
 
     public function testColorspace(): void
@@ -45,7 +50,7 @@ final class ColorTest extends BaseTestCase
     {
         $color = new Color(0, 0, 0);
         $this->assertIsArray($color->channels());
-        $this->assertCount(3, $color->channels());
+        $this->assertCount(4, $color->channels());
     }
 
     public function testChannel(): void
@@ -63,6 +68,10 @@ final class ColorTest extends BaseTestCase
         $channel = $color->channel(Hue::class);
         $this->assertInstanceOf(Hue::class, $channel);
         $this->assertEquals(2, $channel->value());
+
+        $channel = $color->channel(Alpha::class);
+        $this->assertInstanceOf(Alpha::class, $channel);
+        $this->assertEquals(1, $channel->value());
     }
 
     public function testChannelNotFound(): void
@@ -86,22 +95,31 @@ final class ColorTest extends BaseTestCase
     public function testToArray(): void
     {
         $color = new Color(0, .1, 2);
-        $this->assertEquals([0, .1, 2], $color->toArray());
+        $this->assertEquals([0, .1, 2, 1], $color->toArray());
+
+        $color = new Color(0, .1, 2, 1);
+        $this->assertEquals([0, .1, 2, 1], $color->toArray());
+
+        $color = new Color(0, .1, 2, .2);
+        $this->assertEquals([0, .1, 2, .2], $color->toArray());
     }
 
     public function testToHex(): void
     {
         $color = new Color(0.6759, 0.21747, 38.8022);
         $this->assertEquals('ff5500', $color->toHex());
+
+        $color = new Color(0.6759, 0.21747, 38.8022, .2);
+        $this->assertEquals('ff550033', $color->toHex());
     }
 
     public function testNormalize(): void
     {
         $color = new Color(1, -0.4, 180);
-        $this->assertEquals([1.0, 0, .5], $color->normalize());
+        $this->assertEquals([1.0, 0, .5, 1], $color->normalize());
 
         $color = new Color(1, 0.4, 90);
-        $this->assertEquals([1.0, 1.0, .25], $color->normalize());
+        $this->assertEquals([1.0, 1.0, .25, 1], $color->normalize());
     }
 
     public function testToString(): void

@@ -114,7 +114,7 @@ class Colorspace implements ColorspaceInterface
             $color->lightness()->value(),
             $color->chroma()->value() * cos($hRad),
             $color->chroma()->value() * sin($hRad),
-            // $color->alpha()->value(),
+            $color->alpha()->value(),
         );
     }
 }

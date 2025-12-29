@@ -13,10 +13,13 @@ use Intervention\Image\Interfaces\DecoderInterface;
 class StringColorDecoder extends AbstractDecoder implements DecoderInterface
 {
     private const string PATTERN =
-        '/^hsl ?\(' .
+        '/^hsla? ?\( ?' .
         '(?P<h>[0-9\.]+)((, ?)| )' .
         '(?P<s>[0-9\.]+%?)((, ?)| )' .
-        '(?P<l>[0-9\.]+%?)\)$/i';
+        '(?P<l>[0-9\.]+%?)' .
+        '(?:(?:(?: ?\/ ?)|(?:[, ]) ?)' .
+        '(?<a>(?:0\.[0-9]+)|1\.0|\.[0-9]+|[0-9]{1,3}%|1|0))?' .
+        ' ?\)$/i';
 
     /**
      * {@inheritdoc}
@@ -51,6 +54,14 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
                 default => intval(trim(str_replace('%', '', $value))),
             };
         }, [$matches['h'], $matches['s'], $matches['l']]);
+
+        // alpha value
+        if (array_key_exists('a', $matches)) {
+            $values[] = match (strpos($matches['a'], '%')) {
+                false => floatval(trim($matches['a'])),
+                default => floatval(trim(str_replace('%', '', $matches['a']))) / 100,
+            };
+        }
 
         return new Color(...$values);
     }

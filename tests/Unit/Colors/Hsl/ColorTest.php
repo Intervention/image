@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Colors\Hsl;
 
+use Intervention\Image\Colors\Hsl\Channels\Alpha;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Colors\Hsl\Channels\Hue;
 use Intervention\Image\Colors\Hsl\Channels\Luminance;
@@ -41,7 +42,7 @@ final class ColorTest extends BaseTestCase
     {
         $color = new Color(10, 20, 30);
         $this->assertIsArray($color->channels());
-        $this->assertCount(3, $color->channels());
+        $this->assertCount(4, $color->channels());
     }
 
     public function testChannel(): void
@@ -65,15 +66,17 @@ final class ColorTest extends BaseTestCase
         $this->assertInstanceOf(Hue::class, $color->hue());
         $this->assertInstanceOf(Saturation::class, $color->saturation());
         $this->assertInstanceOf(Luminance::class, $color->luminance());
+        $this->assertInstanceOf(Alpha::class, $color->alpha());
         $this->assertEquals(10, $color->hue()->value());
         $this->assertEquals(20, $color->saturation()->value());
         $this->assertEquals(30, $color->luminance()->value());
+        $this->assertEquals(1, $color->alpha()->value());
     }
 
     public function testToArray(): void
     {
         $color = new Color(10, 20, 30);
-        $this->assertEquals([10, 20, 30], $color->toArray());
+        $this->assertEquals([10, 20, 30, 1], $color->toArray());
     }
 
     public function testToHex(): void
@@ -85,7 +88,7 @@ final class ColorTest extends BaseTestCase
     public function testNormalize(): void
     {
         $color = new Color(180, 50, 25);
-        $this->assertEquals([.5, 0.5, 0.25], $color->normalize());
+        $this->assertEquals([.5, 0.5, 0.25, 1], $color->normalize());
     }
 
     public function testToString(): void

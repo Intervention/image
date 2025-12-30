@@ -6,6 +6,7 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
 use ImagickException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
@@ -13,6 +14,10 @@ use Intervention\Image\Modifiers\RemoveAnimationModifier as GenericRemoveAnimati
 
 class RemoveAnimationModifier extends GenericRemoveAnimationModifier implements SpecializedInterface
 {
+    /**
+     * @throws InvalidArgumentException
+     * @throws ModifierException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         // create new imagick with just one image

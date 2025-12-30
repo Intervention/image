@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Alignment;
-use Intervention\Image\Colors\Rgb\Channels\Blue;
-use Intervention\Image\Colors\Rgb\Channels\Green;
-use Intervention\Image\Colors\Rgb\Channels\Red;
+use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Drivers\Gd\Cloner;
+use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\ModifierException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
@@ -24,6 +25,11 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
      * {@inheritdoc}
      *
      * @see ModifierInterface::apply()
+     *
+     * @throws InvalidArgumentException
+     * @throws ModifierException
+     * @throws StateException
+     * @throws DriverException
      */
     public function apply(ImageInterface $image): ImageInterface
     {
@@ -39,19 +45,27 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
     /**
      * Apply rotation modification on given frame, given background
      * color is used for newly create image areas
+     *
+     * @throws InvalidArgumentException
+     * @throws ModifierException
+     * @throws DriverException
      */
     protected function modifyFrame(FrameInterface $frame, ColorInterface $background): void
     {
         // normalize color to rgb colorspace
         $background = $background->toColorspace(Rgb::class);
 
+        if (!($background instanceof RgbColor)) {
+            throw new ModifierException('Failed to normalize background color to rgb color space');
+        }
+
         // get transparent color from frame core
         $transparent = match ($transparent = imagecolortransparent($frame->native())) {
             -1 => imagecolorallocatealpha(
                 $frame->native(),
-                $background->channel(Red::class)->value(),
-                $background->channel(Green::class)->value(),
-                $background->channel(Blue::class)->value(),
+                $background->red()->value(),
+                $background->green()->value(),
+                $background->blue()->value(),
                 127
             ),
             default => $transparent,

@@ -6,8 +6,10 @@ namespace Intervention\Image\Drivers\Imagick\Decoders;
 
 use Intervention\Image\DataUri;
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\ImageDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
 
 class DataUriImageDecoder extends BinaryImageDecoder
@@ -26,6 +28,11 @@ class DataUriImageDecoder extends BinaryImageDecoder
      * {@inheritdoc}
      *
      * @see DecoderInterface::decode()
+     *
+     * @throws InvalidArgumentException
+     * @throws ImageDecoderException
+     * @throws DriverException
+     * @throws StateException
      */
     public function decode(mixed $input): ImageInterface
     {

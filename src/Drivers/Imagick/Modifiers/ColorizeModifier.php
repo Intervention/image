@@ -13,6 +13,9 @@ use Intervention\Image\Modifiers\ColorizeModifier as GenericColorizeModifier;
 
 class ColorizeModifier extends GenericColorizeModifier implements SpecializedInterface
 {
+    /**
+     * @throws ModifierException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $red = $this->normalizeLevel($this->red);

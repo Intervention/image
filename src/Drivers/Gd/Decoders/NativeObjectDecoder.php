@@ -13,6 +13,7 @@ use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\ImageDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ImageInterface;
 
@@ -32,6 +33,10 @@ class NativeObjectDecoder extends AbstractDecoder
      * {@inheritdoc}
      *
      * @see DecoderInterface::decode()
+     *
+     * @throws InvalidArgumentException
+     * @throws DriverException
+     * @throws StateException
      */
     public function decode(mixed $input): ImageInterface
     {
@@ -65,6 +70,11 @@ class NativeObjectDecoder extends AbstractDecoder
      *
      * Depending on the configuration, this is taken over by the native GD function
      * or, if animations are required, by our own extended decoder.
+     *
+     * @throws InvalidArgumentException
+     * @throws ImageDecoderException
+     * @throws DriverException
+     * @throws StateException
      */
     protected function decodeGif(mixed $input): ImageInterface
     {

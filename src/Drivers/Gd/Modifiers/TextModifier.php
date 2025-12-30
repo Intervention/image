@@ -16,6 +16,9 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
      * {@inheritdoc}
      *
      * @see ModifierInterface::apply()
+     *
+     * @throws ModifierException
+     * @throws StateException
      */
     public function apply(ImageInterface $image): ImageInterface
     {
@@ -100,6 +103,8 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
 
     /**
      * Decode text color in GD compatible format
+     *
+     * @throws StateException
      */
     protected function gdTextColor(ImageInterface $image): int
     {
@@ -111,6 +116,8 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
 
     /**
      * Decode color for stroke (outline) effect in GD compatible format
+     *
+     * @throws StateException
      */
     protected function gdStrokeColor(ImageInterface $image): int
     {

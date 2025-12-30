@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd;
 
 use GdImage;
-use Intervention\Image\Colors\Rgb\Channels\Alpha;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
@@ -16,6 +15,9 @@ class Cloner
 {
     /**
      * Create a clone of the given GdImage
+     *
+     * @throws InvalidArgumentException
+     * @throws DriverException
      */
     public static function clone(GdImage $gd): GdImage
     {
@@ -34,6 +36,9 @@ class Cloner
      * This only retains the basic data without transferring the actual image.
      * It is optionally possible to change the size of the result and set a
      * background color.
+     *
+     * @throws InvalidArgumentException
+     * @throws DriverException
      */
     public static function cloneEmpty(
         GdImage $gd,
@@ -81,7 +86,7 @@ class Cloner
 
         // set background image as transparent if alpha channel value if color is below .5
         // comes into effect when the end format only supports binary transparency (like GIF)
-        if ($background->channel(Alpha::class)->value() < .5) {
+        if ($background->alpha()->value() < .5) {
             imagecolortransparent($clone, $processor->colorToNative($background));
         }
 
@@ -91,6 +96,9 @@ class Cloner
     /**
      * Create a clone of an GdImage that is positioned on the specified background color.
      * Possible transparent areas are mixed with this color.
+     *
+     * @throws InvalidArgumentException
+     * @throws DriverException
      */
     public static function cloneBlended(GdImage $gd, Color $background): GdImage
     {

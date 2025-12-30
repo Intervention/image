@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Exceptions\ModifierException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
@@ -12,6 +13,10 @@ use Intervention\Image\Modifiers\DrawLineModifier as GenericDrawLineModifier;
 
 class DrawLineModifier extends GenericDrawLineModifier implements SpecializedInterface
 {
+    /**
+     * @throws ModifierException
+     * @throws StateException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         if (!$this->drawable->hasBackgroundColor()) {
@@ -31,6 +36,8 @@ class DrawLineModifier extends GenericDrawLineModifier implements SpecializedInt
 
     /**
      * Draw current line on given frame
+     *
+     * @throws ModifierException
      */
     private function modifyFrame(FrameInterface $frame, int $color): void
     {

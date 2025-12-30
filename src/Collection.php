@@ -19,7 +19,6 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
      * Create new collection object
      *
      * @param array<int|string, mixed> $items
-     * @return void
      */
     public function __construct(protected array $items = [])
     {
@@ -45,6 +44,18 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     public function has(int|string $key): bool
     {
         return array_key_exists($key, $this->items);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see Collectionnterface::set()
+     */
+    public function set(int|string $key, mixed $item): self
+    {
+        $this->items[$key] = $item;
+
+        return $this;
     }
 
     /**

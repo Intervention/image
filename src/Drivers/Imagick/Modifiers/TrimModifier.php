@@ -13,6 +13,10 @@ use Intervention\Image\Modifiers\TrimModifier as GenericTrimModifier;
 
 class TrimModifier extends GenericTrimModifier implements SpecializedInterface
 {
+    /**
+     * @throws NotSupportedException
+     * @throws ModifierException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         if ($image->isAnimated()) {

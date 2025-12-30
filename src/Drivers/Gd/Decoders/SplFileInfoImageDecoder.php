@@ -6,8 +6,13 @@ namespace Intervention\Image\Drivers\Gd\Decoders;
 
 use SplFileInfo;
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\DirectoryNotFoundException;
+use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\FileNotFoundException;
 use Intervention\Image\Exceptions\FileNotReadableException;
 use Intervention\Image\Exceptions\ImageDecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
@@ -27,6 +32,14 @@ class SplFileInfoImageDecoder extends FilePathImageDecoder implements DecoderInt
      * {@inheritdoc}
      *
      * @see DecoderInterface::decode()
+     *
+     * @throws InvalidArgumentException
+     * @throws ImageDecoderException
+     * @throws DriverException
+     * @throws StateException
+     * @throws DirectoryNotFoundException
+     * @throws FileNotFoundException
+     * @throws FileNotReadableException
      */
     public function decode(mixed $input): ImageInterface
     {

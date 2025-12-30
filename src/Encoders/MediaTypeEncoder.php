@@ -36,6 +36,8 @@ class MediaTypeEncoder extends AbstractEncoder
      * {@inheritdoc}
      *
      * @see EncoderInterface::encode()
+     *
+     * @throws NotSupportedException
      */
     public function encode(ImageInterface $image): EncodedImageInterface
     {
@@ -48,6 +50,8 @@ class MediaTypeEncoder extends AbstractEncoder
 
     /**
      * Return new encoder by given media (MIME) type
+     *
+     * @throws NotSupportedException
      */
     protected function encoderByMediaType(string|MediaType $mediaType): EncoderInterface
     {
@@ -55,7 +59,7 @@ class MediaTypeEncoder extends AbstractEncoder
             $mediaType = is_string($mediaType) ? MediaType::from($mediaType) : $mediaType;
         } catch (Error) {
             throw new NotSupportedException(
-                'No encoder found for media type (' . is_string($mediaType) ? $mediaType : $mediaType->value . ')',
+                'Unable to find encoder by unknown image media type "' . $mediaType . '"',
             );
         }
 

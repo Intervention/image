@@ -12,6 +12,9 @@ use Intervention\Image\Modifiers\ProfileRemovalModifier as GenericProfileRemoval
 
 class ProfileRemovalModifier extends GenericProfileRemovalModifier implements SpecializedInterface
 {
+    /**
+     * @throws ModifierException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $imagick = $image->core()->native();

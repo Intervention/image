@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors;
 
+use Intervention\Image\Exceptions\InvalidArgumentException;
+
 abstract class IntegerColorChannel extends AbstractColorChannel
 {
     protected int $value;
 
-    public function __construct(int $value)
+    /**
+     * @throws InvalidArgumentException
+     */
+    final public function __construct(int $value)
     {
         $this->value = $this->validValueOrFail($value);
     }
@@ -17,6 +22,8 @@ abstract class IntegerColorChannel extends AbstractColorChannel
      * {@inheritdoc}
      *
      * @see ColorChannelInterface::fromNormalized()
+     *
+     * @throws InvalidArgumentException
      */
     public static function fromNormalized(float $normalized): self
     {

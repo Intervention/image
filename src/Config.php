@@ -24,6 +24,8 @@ class Config
 
     /**
      * Set values of given config options
+     *
+     * @throws InvalidArgumentException
      */
     public function setOptions(mixed ...$options): self
     {

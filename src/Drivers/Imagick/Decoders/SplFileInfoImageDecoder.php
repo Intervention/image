@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Decoders;
 
-use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\DirectoryNotFoundException;
+use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\FileNotFoundException;
 use Intervention\Image\Exceptions\FileNotReadableException;
 use Intervention\Image\Exceptions\ImageDecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
 use SplFileInfo;
 use Intervention\Image\Interfaces\ImageInterface;
 
@@ -26,6 +30,14 @@ class SplFileInfoImageDecoder extends FilePathImageDecoder
      * {@inheritdoc}
      *
      * @see DecoderInterface::decode()
+     *
+     * @throws InvalidArgumentException
+     * @throws DirectoryNotFoundException
+     * @throws FileNotFoundException
+     * @throws FileNotReadableException
+     * @throws ImageDecoderException
+     * @throws DriverException
+     * @throws StateException
      */
     public function decode(mixed $input): ImageInterface
     {
@@ -35,10 +47,6 @@ class SplFileInfoImageDecoder extends FilePathImageDecoder
             throw new FileNotReadableException('Failed to read path from ' . SplFileInfo::class);
         }
 
-        try {
-            return parent::decode($path);
-        } catch (DecoderException) {
-            throw new ImageDecoderException(SplFileInfo::class . ' contains unsupported image type');
-        }
+        return parent::decode($path);
     }
 }

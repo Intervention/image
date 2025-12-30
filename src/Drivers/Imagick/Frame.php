@@ -8,12 +8,12 @@ use Imagick;
 use ImagickPixel;
 use Intervention\Image\Drivers\AbstractFrame;
 use Intervention\Image\Exceptions\InvalidArgumentException;
-use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Size;
 
 class Frame extends AbstractFrame implements FrameInterface
 {
@@ -65,10 +65,12 @@ class Frame extends AbstractFrame implements FrameInterface
      * {@inheritdoc}
      *
      * @see DriverInterface::size()
+     *
+     * @throws InvalidArgumentException
      */
     public function size(): SizeInterface
     {
-        return new Rectangle(
+        return new Size(
             $this->native->getImageWidth(),
             $this->native->getImageHeight()
         );
@@ -110,6 +112,8 @@ class Frame extends AbstractFrame implements FrameInterface
      * {@inheritdoc}
      *
      * @see DriverInterface::setDispose()
+     *
+     * @throws InvalidArgumentException
      */
     public function setDispose(int $dispose): FrameInterface
     {

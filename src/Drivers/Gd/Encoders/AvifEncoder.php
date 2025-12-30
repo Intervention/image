@@ -6,6 +6,8 @@ namespace Intervention\Image\Drivers\Gd\Encoders;
 
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\AvifEncoder as GenericAvifEncoder;
+use Intervention\Image\Exceptions\FilePointerException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 
@@ -15,6 +17,9 @@ class AvifEncoder extends GenericAvifEncoder implements SpecializedInterface
      * {@inheritdoc}
      *
      * @see EncoderInterface::encode()
+     *
+     * @throws InvalidArgumentException
+     * @throws FilePointerException
      */
     public function encode(ImageInterface $image): EncodedImage
     {

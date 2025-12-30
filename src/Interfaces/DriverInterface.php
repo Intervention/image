@@ -71,11 +71,15 @@ interface DriverInterface
      * - Intervention Image Instance (Intervention\Image\Image)
      * - Encoded Intervention Image (Intervention\Image\EncodedImage)
      * - Driver-specific image (instance of GDImage or Imagick)
+     *
+     * @param array<string|DecoderInterface> $decoders
      */
     public function handleImageInput(mixed $input, ?array $decoders = null): ImageInterface;
 
     /**
      * Handle given image source by decoding it to ColorInterface
+     *
+     * @param array<string|DecoderInterface> $decoders
      */
     public function handleColorInput(mixed $input, ?array $decoders = null): ColorInterface;
 

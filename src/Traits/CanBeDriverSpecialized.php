@@ -40,6 +40,8 @@ trait CanBeDriverSpecialized
      * {@inheritdoc}
      *
      * @see SpecializableInterface::driver()
+     *
+     * @throws StateException
      */
     public function driver(): DriverInterface
     {
@@ -56,6 +58,8 @@ trait CanBeDriverSpecialized
      * {@inheritdoc}
      *
      * @see SpecializableInterface::setDriver()
+     *
+     * @throws NotSupportedException
      */
     public function setDriver(DriverInterface $driver): SpecializableInterface
     {

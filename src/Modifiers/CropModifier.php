@@ -6,10 +6,12 @@ namespace Intervention\Image\Modifiers;
 
 use Intervention\Image\Alignment;
 use Intervention\Image\Drivers\SpecializableModifier;
-use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Size;
 
 class CropModifier extends SpecializableModifier
 {
@@ -29,9 +31,12 @@ class CropModifier extends SpecializableModifier
         //
     }
 
-    public function crop(ImageInterface $image): SizeInterface
+    /**
+     * @throws InvalidArgumentException
+     */
+    public function crop(ImageInterface $image): SizeInterface // TODO: make protected
     {
-        $crop = new Rectangle($this->width, $this->height);
+        $crop = new Size($this->width, $this->height);
         $crop->movePivot($this->alignment);
 
         return $crop->alignPivotTo(
@@ -42,9 +47,13 @@ class CropModifier extends SpecializableModifier
 
     /**
      * Return color to fill the newly created areas after rotation
+     *
+     * @throws StateException
      */
     protected function backgroundColor(): ColorInterface
     {
-        return $this->driver()->handleColorInput($this->background ?? $this->driver()->config()->backgroundColor);
+        return $this->driver()->handleColorInput(
+            $this->background ?? $this->driver()->config()->backgroundColor,
+        );
     }
 }

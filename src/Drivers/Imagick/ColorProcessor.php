@@ -22,6 +22,7 @@ use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorProcessorInterface;
@@ -34,6 +35,9 @@ class ColorProcessor implements ColorProcessorInterface
         //
     }
 
+    /**
+     * @throws DriverException
+     */
     public function colorToNative(ColorInterface $color): ImagickPixel
     {
         $color = $this->colorspace->importColor($color);
@@ -69,6 +73,10 @@ class ColorProcessor implements ColorProcessorInterface
         }
     }
 
+    /**
+     * @throws InvalidArgumentException
+     * @throws NotSupportedException
+     */
     public function nativeToColor(mixed $native): ColorInterface
     {
         return match ($this->colorspace::class) {

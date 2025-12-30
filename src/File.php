@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image;
 
 use Intervention\Image\Exceptions\DirectoryNotFoundException;
+use Intervention\Image\Exceptions\FileNotFoundException;
 use Intervention\Image\Exceptions\FileNotReadableException;
 use Intervention\Image\Exceptions\FileNotWritableException;
 use Intervention\Image\Exceptions\FilePointerException;
@@ -28,6 +29,8 @@ class File implements FileInterface, Stringable
      * Create new instance
      *
      * @param string|resource|null $data
+     * @throws InvalidArgumentException
+     * @throws FilePointerException
      */
     public function __construct(mixed $data = null)
     {
@@ -38,6 +41,12 @@ class File implements FileInterface, Stringable
      * {@inheritdoc}
      *
      * @see FileInterface::fromPath()
+     *
+     * @throws InvalidArgumentException
+     * @throws DirectoryNotFoundException
+     * @throws FileNotFoundException
+     * @throws FileNotReadableException
+     * @throws FilePointerException
      */
     public static function fromPath(string $path): self
     {
@@ -54,6 +63,11 @@ class File implements FileInterface, Stringable
      * {@inheritdoc}
      *
      * @see FileInterface::save()
+     *
+     * @throws InvalidArgumentException
+     * @throws DirectoryNotFoundException
+     * @throws FileNotWritableException
+     * @throws FilePointerException
      */
     public function save(string $path): void
     {
@@ -101,13 +115,15 @@ class File implements FileInterface, Stringable
      * {@inheritdoc}
      *
      * @see FileInterface::toString()
+     *
+     * @throws FilePointerException
      */
     public function toString(): string
     {
         $data = stream_get_contents($this->toFilePointer(), offset: 0);
 
         if ($data === false) {
-            throw new FileNotReadableException('Unable to read data from file pointer');
+            throw new FilePointerException('Unable to read data from file pointer');
         }
 
         return $data;
@@ -117,6 +133,8 @@ class File implements FileInterface, Stringable
      * {@inheritdoc}
      *
      * @see FileInterface::toFilePointer()
+     *
+     * @throws FilePointerException
      */
     public function toFilePointer()
     {
@@ -133,13 +151,15 @@ class File implements FileInterface, Stringable
      * {@inheritdoc}
      *
      * @see FileInterface::size()
+     *
+     * @throws FilePointerException
      */
     public function size(): int
     {
         $info = fstat($this->toFilePointer());
 
         if (!is_array($info)) {
-            throw new FileNotReadableException('Unable to read size of file pointer');
+            throw new FilePointerException('Unable to read size of file pointer');
         }
 
         return intval($info['size']);
@@ -149,6 +169,8 @@ class File implements FileInterface, Stringable
      * {@inheritdoc}
      *
      * @see FileInterface::__toString()
+     *
+     * @throws FilePointerException
      */
     public function __toString(): string
     {

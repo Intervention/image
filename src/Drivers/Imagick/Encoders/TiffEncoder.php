@@ -7,12 +7,24 @@ namespace Intervention\Image\Drivers\Imagick\Encoders;
 use Intervention\Image\Drivers\Imagick\Modifiers\StripMetaModifier;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\TiffEncoder as GenericTiffEncoder;
+use Intervention\Image\Exceptions\FilePointerException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 
 class TiffEncoder extends GenericTiffEncoder implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see EncoderInterface::encode()
+     *
+     * @throws InvalidArgumentException
+     * @throws FilePointerException
+     * @throws StateException
+     */
     public function encode(ImageInterface $image): EncodedImageInterface
     {
         $format = 'TIFF';

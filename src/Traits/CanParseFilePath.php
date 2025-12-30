@@ -14,6 +14,11 @@ trait CanParseFilePath
 {
     /**
      * Parse and return existing file path or throw exception
+     *
+     * @throws InvalidArgumentException
+     * @throws DirectoryNotFoundException
+     * @throws FileNotFoundException
+     * @throws FileNotReadableException
      */
     protected static function readableFilePathOrFail(mixed $path): string
     {

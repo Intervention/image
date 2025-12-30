@@ -7,13 +7,20 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use ImagickDraw;
 use ImagickException;
 use ImagickPixel;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\ModifierException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\ContainModifier as GenericContainModifier;
 
 class ContainModifier extends GenericContainModifier implements SpecializedInterface
 {
+    /**
+     * @throws InvalidArgumentException
+     * @throws ModifierException
+     * @throws StateException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $crop = $this->getCropSize($image);

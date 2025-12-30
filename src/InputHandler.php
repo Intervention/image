@@ -85,6 +85,10 @@ class InputHandler implements InputHandlerInterface
      * {@inheritdoc}
      *
      * @see InputHandlerInterface::handle()
+     *
+     * @throws InvalidArgumentException
+     * @throws NotSupportedException
+     * @throws DriverException
      */
     public function handle(mixed $input): ImageInterface|ColorInterface
     {
@@ -108,11 +112,14 @@ class InputHandler implements InputHandlerInterface
             }
         }
 
-        throw new NotSupportedException('Unknown input');
+        throw new NotSupportedException('Unprocessable input');
     }
 
     /**
      * Yield all decoders
+     *
+     * @throws InvalidArgumentException
+     * @throws DriverException
      */
     private function decoders(): Generator
     {
@@ -123,6 +130,9 @@ class InputHandler implements InputHandlerInterface
 
     /**
      * Resolve the given classname to an decoder object
+     *
+     * @throws InvalidArgumentException
+     * @throws DriverException
      */
     private function decoder(string|DecoderInterface $decoder): DecoderInterface
     {

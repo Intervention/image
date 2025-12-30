@@ -9,12 +9,17 @@ use ImagickDraw;
 use ImagickException;
 use ImagickPixel;
 use Intervention\Image\Exceptions\ModifierException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\FillModifier as ModifiersFillModifier;
 
 class FillModifier extends ModifiersFillModifier implements SpecializedInterface
 {
+    /**
+     * @throws ModifierException
+     * @throws StateException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $pixel = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
@@ -32,6 +37,9 @@ class FillModifier extends ModifiersFillModifier implements SpecializedInterface
         return $image;
     }
 
+    /**
+     * @throws ModifierException
+     */
     private function floodFillWithColor(Imagick $frame, ImagickPixel $pixel): void
     {
         try {
@@ -70,6 +78,9 @@ class FillModifier extends ModifiersFillModifier implements SpecializedInterface
         }
     }
 
+    /**
+     * @throws ModifierException
+     */
     private function fillAllWithColor(Imagick $frame, ImagickPixel $pixel): void
     {
         try {

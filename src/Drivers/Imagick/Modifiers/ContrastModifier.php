@@ -12,6 +12,9 @@ use Intervention\Image\Modifiers\ContrastModifier as GenericContrastModifier;
 
 class ContrastModifier extends GenericContrastModifier implements SpecializedInterface
 {
+    /**
+     * @throws ModifierException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {

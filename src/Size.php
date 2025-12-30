@@ -6,6 +6,7 @@ namespace Intervention\Image;
 
 use ArrayIterator;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Geometry\Tools\RectangleResizer;
 use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -18,6 +19,7 @@ class Size extends Polygon implements SizeInterface
     /**
      * Create new rectangle instance
      *
+     * @throws InvalidArgumentException
      * @return void
      */
     public function __construct(
@@ -103,6 +105,8 @@ class Size extends Polygon implements SizeInterface
      * {@inheritdoc}
      *
      * @see SizeInterface::movePivot()
+     *
+     * @throws InvalidArgumentException
      */
     public function movePivot(string|Alignment $position, int $x = 0, int $y = 0): self
     {
@@ -154,6 +158,8 @@ class Size extends Polygon implements SizeInterface
      * {@inheritdoc}
      *
      * @see SizeInterface::alignPivotTo()
+     *
+     * @throws InvalidArgumentException
      */
     public function alignPivotTo(SizeInterface $size, string|Alignment $position): self
     {
@@ -232,6 +238,8 @@ class Size extends Polygon implements SizeInterface
      * {@inheritdoc}
      *
      * @see SizeInterface::resize()
+     *
+     * @throws InvalidArgumentException
      */
     public function resize(?int $width = null, ?int $height = null): SizeInterface
     {
@@ -242,6 +250,8 @@ class Size extends Polygon implements SizeInterface
      * {@inheritdoc}
      *
      * @see SizeInterface::resizeDown()
+     *
+     * @throws InvalidArgumentException
      */
     public function resizeDown(?int $width = null, ?int $height = null): SizeInterface
     {
@@ -252,6 +262,8 @@ class Size extends Polygon implements SizeInterface
      * {@inheritdoc}
      *
      * @see SizeInterface::scale()
+     *
+     * @throws InvalidArgumentException
      */
     public function scale(?int $width = null, ?int $height = null): SizeInterface
     {
@@ -262,6 +274,8 @@ class Size extends Polygon implements SizeInterface
      * {@inheritdoc}
      *
      * @see SizeInterface::scaleDown()
+     *
+     * @throws InvalidArgumentException
      */
     public function scaleDown(?int $width = null, ?int $height = null): SizeInterface
     {
@@ -272,34 +286,63 @@ class Size extends Polygon implements SizeInterface
      * {@inheritdoc}
      *
      * @see SizeInterface::cover()
+     *
+     * @throws InvalidArgumentException
      */
     public function cover(int $width, int $height): SizeInterface
     {
-        return $this->resizer($width, $height)->cover($this);
+        try {
+            return $this->resizer($width, $height)->cover($this);
+        } catch (StateException $e) {
+            throw new InvalidArgumentException(
+                'Invalid target size ' . $width . 'x' . $height,
+                previous: $e,
+            );
+        }
     }
 
     /**
      * {@inheritdoc}
      *
      * @see SizeInterface::contain()
+     *
+     * @throws InvalidArgumentException
      */
     public function contain(int $width, int $height): SizeInterface
     {
-        return $this->resizer($width, $height)->contain($this);
+        try {
+            return $this->resizer($width, $height)->contain($this);
+        } catch (StateException $e) {
+            throw new InvalidArgumentException(
+                'Invalid target size ' . $width . 'x' . $height,
+                previous: $e,
+            );
+        }
     }
 
     /**
      * {@inheritdoc}
      *
      * @see SizeInterface::containMax()
+     *
+     * @throws InvalidArgumentException
      */
     public function containMax(int $width, int $height): SizeInterface
     {
-        return $this->resizer($width, $height)->containDown($this);
+        try {
+            return $this->resizer($width, $height)->containDown($this);
+        } catch (StateException $e) {
+            throw new InvalidArgumentException(
+                'Invalid target size ' . $width . 'x' . $height,
+                previous: $e,
+            );
+        }
     }
 
     /**
      * Create resizer instance with given target size
+     *
+     * @throws InvalidArgumentException
      */
     protected function resizer(?int $width = null, ?int $height = null): RectangleResizer
     {
@@ -309,7 +352,7 @@ class Size extends Polygon implements SizeInterface
     /**
      * Implement iteration
      *
-     * @return Traversable<int>
+     * @return Traversable<mixed>
      */
     public function getIterator(): Traversable
     {

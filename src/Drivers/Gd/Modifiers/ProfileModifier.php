@@ -15,6 +15,8 @@ class ProfileModifier extends GenericProfileModifier implements SpecializedInter
      * {@inheritdoc}
      *
      * @see ModifierInterface::apply()
+     *
+     * @throws NotSupportedException
      */
     public function apply(ImageInterface $image): ImageInterface
     {

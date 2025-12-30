@@ -13,6 +13,9 @@ use Intervention\Image\Modifiers\AlignRotationModifier as GenericAlignRotationMo
 
 class AlignRotationModifier extends GenericAlignRotationModifier implements SpecializedInterface
 {
+    /**
+     * @throws ModifierException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         try {

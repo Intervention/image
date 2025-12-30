@@ -21,6 +21,8 @@ enum Alignment: string
 
     /**
      * Create position from given identifier
+     *
+     * @throws InvalidArgumentException
      */
     public static function create(string|self $identifier): self
     {

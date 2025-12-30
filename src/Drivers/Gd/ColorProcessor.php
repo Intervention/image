@@ -54,6 +54,8 @@ class ColorProcessor implements ColorProcessorInterface
      * {@inheritdoc}
      *
      * @see ColorProcessorInterface::nativeToColor()
+     *
+     * @throws ColorDecoderException
      */
     public function nativeToColor(mixed $value): ColorInterface
     {
@@ -83,7 +85,7 @@ class ColorProcessor implements ColorProcessorInterface
 
         // convert gd apha integer to intervention alpha integer
         // ([opaque]0-127[transparent]) to ([opaque]1-0[transparent])
-        $a = static::convertRange($a, 127, 0, Alpha::min(), Alpha::max());
+        $a = $this->convertRange($a, 127, 0, Alpha::min(), Alpha::max());
 
         return new Color($r, $g, $b, $a);
     }

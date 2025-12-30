@@ -6,8 +6,11 @@ namespace Intervention\Image\Drivers\Gd\Decoders;
 
 use Intervention\Image\DataUri;
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\ImageDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
@@ -27,6 +30,12 @@ class DataUriImageDecoder extends BinaryImageDecoder implements DecoderInterface
      * {@inheritdoc}
      *
      * @see DecoderInterface::decode()
+     *
+     * @throws InvalidArgumentException
+     * @throws DriverException
+     * @throws ImageDecoderException
+     * @throws StateException
+     * @throws NotSupportedException
      */
     public function decode(mixed $input): ImageInterface
     {

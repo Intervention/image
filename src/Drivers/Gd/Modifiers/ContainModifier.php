@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Colors\Rgb\Channels\Blue;
-use Intervention\Image\Colors\Rgb\Channels\Green;
-use Intervention\Image\Colors\Rgb\Channels\Red;
-use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
+use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Exceptions\ModifierException;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\ContainModifier as GenericContainModifier;
+use Intervention\Image\Colors\Rgb\Color as RgbColor;
+use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
 
 class ContainModifier extends GenericContainModifier implements SpecializedInterface
 {
@@ -23,12 +23,21 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
      * {@inheritdoc}
      *
      * @see ModifierInterface::apply()
+     *
+     * @throws InvalidArgumentException
+     * @throws ModifierException
+     * @throws StateException
+     * @throws DriverException
      */
     public function apply(ImageInterface $image): ImageInterface
     {
         $crop = $this->getCropSize($image);
         $resize = $this->getResizeSize($image);
-        $backgroundColor = $this->backgroundColor()->toColorspace(RgbColorspace::class);
+        $backgroundColor = $this->backgroundColor()->toColorspace(Rgb::class);
+
+        if (!($backgroundColor instanceof RgbColor)) {
+            throw new ModifierException('Failed to normalize background color to rgb color space');
+        }
 
         foreach ($image as $frame) {
             $this->modify($frame, $crop, $resize, $backgroundColor);
@@ -37,11 +46,16 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
         return $image;
     }
 
-    protected function modify(
+    /**
+     * @throws InvalidArgumentException
+     * @throws ModifierException
+     * @throws DriverException
+     */
+    private function modify(
         FrameInterface $frame,
         SizeInterface $crop,
         SizeInterface $resize,
-        ColorInterface $backgroundColor
+        RgbColor $backgroundColor
     ): void {
         // create new gd image
         $modified = Cloner::cloneEmpty($frame->native(), $resize, $backgroundColor);
@@ -50,9 +64,9 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
         // even if background-color is set
         $transparent = imagecolorallocatealpha(
             $modified,
-            $backgroundColor->channel(Red::class)->value(),
-            $backgroundColor->channel(Green::class)->value(),
-            $backgroundColor->channel(Blue::class)->value(),
+            $backgroundColor->red()->value(),
+            $backgroundColor->green()->value(),
+            $backgroundColor->blue()->value(),
             127,
         );
 
@@ -70,13 +84,7 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
             );
         }
 
-        $result = imagecolortransparent($modified, $transparent);
-
-        if ($result === false) {
-            throw new ModifierException(
-                'Failed to apply ' . self::class . ', unable to define transparent color',
-            );
-        }
+        imagecolortransparent($modified, $transparent);
 
         $result = imagefilledrectangle(
             $modified,

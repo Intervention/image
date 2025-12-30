@@ -7,6 +7,7 @@ namespace Intervention\Image\Tests\Unit;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Collection;
 use Intervention\Image\Tests\BaseTestCase;
+use stdClass;
 
 #[CoversClass(Collection::class)]
 final class CollectionTest extends BaseTestCase
@@ -93,6 +94,17 @@ final class CollectionTest extends BaseTestCase
         $this->assertInstanceOf(Collection::class, $mapped);
         $this->assertEquals(['FOO', 'BAR', 'BAZ'], $collection->toArray());
         $this->assertEquals(['foo', 'bar', 'baz'], $mapped->toArray());
+    }
+
+    public function testSetGet(): void
+    {
+        $collection = new Collection();
+        $collection->set('foo', 1);
+        $collection->set('bar', true);
+        $collection->set('baz', new stdClass());
+        $this->assertEquals(1, $collection->get('foo'));
+        $this->assertTrue($collection->get('bar'));
+        $this->assertInstanceOf(stdClass::class, $collection->get('baz'));
     }
 
     public function testGet(): void

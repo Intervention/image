@@ -13,6 +13,9 @@ use Intervention\Image\Modifiers\ResizeModifier as GenericResizeModifier;
 
 class ResizeModifier extends GenericResizeModifier implements SpecializedInterface
 {
+    /**
+     * @throws ModifierException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $resizeTo = $this->getAdjustedSize($image);

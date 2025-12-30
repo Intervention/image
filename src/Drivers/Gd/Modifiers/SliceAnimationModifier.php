@@ -15,6 +15,8 @@ class SliceAnimationModifier extends GenericSliceAnimationModifier implements Sp
      * {@inheritdoc}
      *
      * @see ModifierInterface::apply()
+     *
+     * @throws InvalidArgumentException
      */
     public function apply(ImageInterface $image): ImageInterface
     {

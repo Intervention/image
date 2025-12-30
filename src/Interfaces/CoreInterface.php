@@ -57,4 +57,9 @@ interface CoreInterface extends CollectionInterface
      * Get last frame in core
      */
     public function last(): FrameInterface;
+
+    /**
+     * Access meta information of core instance
+     */
+    public function meta(): CollectionInterface;
 }

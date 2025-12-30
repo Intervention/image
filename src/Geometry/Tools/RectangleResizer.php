@@ -10,8 +10,11 @@ use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\SizeInterface;
 
-class RectangleResizer
+class RectangleResizer // TODO: may rename to Resizer
 {
+    /**
+     * @throws InvalidArgumentException
+     */
     public function __construct(
         protected ?int $width = null,
         protected ?int $height = null,
@@ -31,6 +34,8 @@ class RectangleResizer
 
     /**
      * Static factory method to create resizer with given target size
+     *
+     * @throws InvalidArgumentException
      */
     public static function to(mixed ...$arguments): self
     {
@@ -71,6 +76,8 @@ class RectangleResizer
 
     /**
      * Return target size object
+     *
+     * @throws StateException
      */
     protected function getTargetSize(): SizeInterface
     {
@@ -78,7 +85,11 @@ class RectangleResizer
             throw new StateException('Target size needs width and height');
         }
 
-        return new Rectangle($this->width, $this->height);
+        try {
+            return new Rectangle($this->width, $this->height);
+        } catch (InvalidArgumentException $e) {
+            throw new StateException('Invalid target size', previous: $e);
+        }
     }
 
     /**
@@ -138,6 +149,8 @@ class RectangleResizer
 
     /**
      * Resize given size to target size of the resizer
+     *
+     * @throws InvalidArgumentException
      */
     public function resize(SizeInterface $size): SizeInterface
     {
@@ -156,6 +169,8 @@ class RectangleResizer
 
     /**
      * Resize given size to target size of the resizer but do not exceed original size
+     *
+     * @throws InvalidArgumentException
      */
     public function resizeDown(SizeInterface $size): SizeInterface
     {
@@ -178,6 +193,8 @@ class RectangleResizer
 
     /**
      * Resize given size to target size proportinally
+     *
+     * @throws InvalidArgumentException
      */
     public function scale(SizeInterface $size): SizeInterface
     {
@@ -205,6 +222,8 @@ class RectangleResizer
 
     /**
      * Resize given size to target size proportinally but do not exceed original size
+     *
+     * @throws InvalidArgumentException
      */
     public function scaleDown(SizeInterface $size): SizeInterface
     {
@@ -248,6 +267,8 @@ class RectangleResizer
      * Scale given size to cover target size
      *
      * @param SizeInterface $size Size to be resized
+     * @throws InvalidArgumentException
+     * @throws StateException
      */
     public function cover(SizeInterface $size): SizeInterface
     {
@@ -270,6 +291,8 @@ class RectangleResizer
      * Scale given size to contain target size
      *
      * @param SizeInterface $size Size to be resized
+     * @throws InvalidArgumentException
+     * @throws StateException
      */
     public function contain(SizeInterface $size): SizeInterface
     {
@@ -292,6 +315,8 @@ class RectangleResizer
      * Scale given size to contain target size but prevent upsizing
      *
      * @param SizeInterface $size Size to be resized
+     * @throws InvalidArgumentException
+     * @throws StateException
      */
     public function containDown(SizeInterface $size): SizeInterface
     {
@@ -321,6 +346,8 @@ class RectangleResizer
 
     /**
      * Crop target size out of given size at given position (i.e. move the pivot point)
+     *
+     * @throws InvalidArgumentException
      */
     public function crop(SizeInterface $size, string|Alignment $position = Alignment::TOP_LEFT): SizeInterface
     {

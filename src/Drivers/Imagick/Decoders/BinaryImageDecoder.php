@@ -6,8 +6,10 @@ namespace Intervention\Image\Drivers\Imagick\Decoders;
 
 use Imagick;
 use ImagickException;
+use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\ImageDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Format;
 use Intervention\Image\Interfaces\ImageInterface;
 use Stringable;
@@ -44,6 +46,11 @@ class BinaryImageDecoder extends NativeObjectDecoder
      * {@inheritdoc}
      *
      * @see DecoderInterface::decode()
+     *
+     * @throws InvalidArgumentException
+     * @throws ImageDecoderException
+     * @throws DriverException
+     * @throws StateException
      */
     public function decode(mixed $input): ImageInterface
     {

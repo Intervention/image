@@ -6,6 +6,7 @@ namespace Intervention\Image;
 
 use Error;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\NotSupportedException;
 
 enum FileExtension: string
 {
@@ -34,7 +35,7 @@ enum FileExtension: string
     /**
      * Create file extension from given identifier
      *
-     * @param string|Format|MediaType|FileExtension $identifier
+     * @throws InvalidArgumentException
      */
     public static function create(string|self|Format|MediaType $identifier): self
     {
@@ -43,11 +44,25 @@ enum FileExtension: string
         }
 
         if ($identifier instanceof Format) {
-            return $identifier->fileExtension();
+            try {
+                return $identifier->fileExtension();
+            } catch (NotSupportedException $e) {
+                throw new InvalidArgumentException(
+                    'Unable to create file extension from "' . $identifier::class . '"',
+                    previous: $e
+                );
+            }
         }
 
         if ($identifier instanceof MediaType) {
-            return $identifier->fileExtension();
+            try {
+                return $identifier->fileExtension();
+            } catch (NotSupportedException $e) {
+                throw new InvalidArgumentException(
+                    'Unable to create file extension from "' . $identifier->value . '"',
+                    previous: $e
+                );
+            }
         }
 
         try {
@@ -55,7 +70,7 @@ enum FileExtension: string
         } catch (Error) {
             try {
                 $extension = MediaType::from(strtolower($identifier))->fileExtension();
-            } catch (Error) {
+            } catch (Error | NotSupportedException) {
                 throw new InvalidArgumentException('Unable to create file extension from "' . $identifier . '"');
             }
         }
@@ -117,6 +132,8 @@ enum FileExtension: string
 
     /**
      * Return the first found media type for the current format
+     *
+     * @throws NotSupportedException
      */
     public function mediaType(): MediaType
     {

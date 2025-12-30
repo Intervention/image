@@ -6,7 +6,13 @@ namespace Intervention\Image\Drivers\Imagick\Decoders;
 
 use Imagick;
 use ImagickException;
+use Intervention\Image\Exceptions\DirectoryNotFoundException;
+use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\FileNotFoundException;
+use Intervention\Image\Exceptions\FileNotReadableException;
 use Intervention\Image\Exceptions\ImageDecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Stringable;
 
@@ -44,6 +50,14 @@ class FilePathImageDecoder extends NativeObjectDecoder
      * {@inheritdoc}
      *
      * @see DecoderInterface::decode()
+     *
+     * @throws InvalidArgumentException
+     * @throws DirectoryNotFoundException
+     * @throws FileNotFoundException
+     * @throws FileNotReadableException
+     * @throws DriverException
+     * @throws StateException
+     * @throws ImageDecoderException
      */
     public function decode(mixed $input): ImageInterface
     {

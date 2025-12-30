@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Exceptions\ModifierException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\PointInterface;
@@ -17,6 +18,9 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
      * {@inheritdoc}
      *
      * @see ModifierInterface::apply()
+     *
+     * @throws ModifierException
+     * @throws StateException
      */
     public function apply(ImageInterface $image): ImageInterface
     {
@@ -41,6 +45,8 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
 
     /**
      * Insert watermark with 100% opacity
+     *
+     * @throws ModifierException
      */
     private function placeOpaque(FrameInterface $frame, ImageInterface $watermark, PointInterface $position): void
     {
@@ -72,6 +78,8 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
      *
      * Please note: Unfortunately, there is still an edge case, when a transparent image
      * is placed on a transparent background, the "double" transparent areas appear opaque!
+     *
+     * @throws ModifierException
      */
     private function placeTransparent(FrameInterface $frame, ImageInterface $watermark, PointInterface $position): void
     {

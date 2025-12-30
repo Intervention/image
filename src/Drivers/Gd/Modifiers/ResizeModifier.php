@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Drivers\Gd\Cloner;
+use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -18,6 +20,10 @@ class ResizeModifier extends GenericResizeModifier implements SpecializedInterfa
      * {@inheritdoc}
      *
      * @see ModifierInterface::apply()
+     *
+     * @throws InvalidArgumentException
+     * @throws ModifierException
+     * @throws DriverException
      */
     public function apply(ImageInterface $image): ImageInterface
     {
@@ -29,6 +35,11 @@ class ResizeModifier extends GenericResizeModifier implements SpecializedInterfa
         return $image;
     }
 
+    /**
+     * @throws InvalidArgumentException
+     * @throws ModifierException
+     * @throws DriverException
+     */
     private function resizeFrame(FrameInterface $frame, SizeInterface $resizeTo): void
     {
         // create empty canvas in target size

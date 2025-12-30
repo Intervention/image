@@ -6,7 +6,8 @@ namespace Intervention\Image\Drivers\Gd\Analyzers;
 
 use Intervention\Image\Analyzers\ResolutionAnalyzer as GenericResolutionAnalyzer;
 use Intervention\Image\Exceptions\AnalyzerException;
-use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\FilePointerException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\MissingDependencyException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
@@ -23,6 +24,9 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
      * {@inheritdoc}
      *
      * @see AnalyzerInterface::analyze()
+     *
+     * @throws InvalidArgumentException
+     * @throws AnalyzerException
      */
     public function analyze(ImageInterface $image): mixed
     {
@@ -38,7 +42,7 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
         //
         // If GD's default resolution is returned here and the resolution is still unchanged
         // we will make an attempt to find the resolution from origin.
-        if ($result[0] == 96 && $result[1] == 96 && $image->core()->resolutionChanged === false) {
+        if ($result[0] == 96 && $result[1] == 96 && $image->core()->meta()->get('resolutionChanged') !== true) {
             try {
                 $alternativeResoltion = $this->readResolutionFromOrigin($image->origin());
             } catch (Throwable) {
@@ -52,6 +56,9 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
     }
 
     /**
+     * @throws AnalyzerException
+     * @throws InvalidArgumentException
+     * @throws FilePointerException
      * @return array<float>
      */
     private function readResolutionFromOrigin(Origin $origin): array
@@ -81,6 +88,7 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
 
     /**
      * @param resource $handle
+     * @throws AnalyzerException
      * @return array<float>
      */
     private function resolutionFromJfifHeader($handle): array
@@ -113,6 +121,8 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
 
     /**
      * @param resource $handle
+     * @throws MissingDependencyException
+     * @throws AnalyzerException
      * @return array<float>
      */
     private function resolutionFromExifHeader($handle): array
@@ -125,7 +135,7 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
         $data = @exif_read_data($handle, null, true);
 
         if ($data === false) {
-            throw new DecoderException('Unable to read exif data');
+            throw new AnalyzerException('Unable to read exif data');
         }
 
         if (isset($data['XResolution']) && isset($data['YResolution'])) {
@@ -153,6 +163,7 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
 
     /**
      * @param resource $handle
+     * @throws AnalyzerException
      * @return array<float>
      */
     private function resolutionFromPngPhys($handle): array

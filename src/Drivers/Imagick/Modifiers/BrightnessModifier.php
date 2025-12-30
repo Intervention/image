@@ -12,6 +12,9 @@ use Intervention\Image\Modifiers\BrightnessModifier as GenericBrightnessModifier
 
 class BrightnessModifier extends GenericBrightnessModifier implements SpecializedInterface
 {
+    /**
+     * @throws ModifierException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {

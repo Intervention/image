@@ -18,6 +18,8 @@ abstract class SpecializableDecoder extends AbstractDecoder implements Specializ
      * {@inheritdoc}
      *
      * @see DecoderInterface::supports()
+     *
+     * @throws DriverException
      */
     public function supports(mixed $input): bool
     {
@@ -28,6 +30,8 @@ abstract class SpecializableDecoder extends AbstractDecoder implements Specializ
      * {@inheritdoc}
      *
      * @see DecoderInterface::decode()
+     *
+     * @throws DriverException
      */
     public function decode(mixed $input): ImageInterface|ColorInterface
     {

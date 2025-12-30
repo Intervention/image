@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers;
 
 use Intervention\Image\Config;
-use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\ColorDecoderException;
+use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\ImageDecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\MissingDependencyException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\AnalyzerInterface;
@@ -21,6 +25,9 @@ use ReflectionClass;
 
 abstract class AbstractDriver implements DriverInterface
 {
+    /**
+     * @throws MissingDependencyException
+     */
     public function __construct(protected Config $config = new Config())
     {
         $this->checkHealth();
@@ -40,6 +47,11 @@ abstract class AbstractDriver implements DriverInterface
      * {@inheritdoc}
      *
      * @see DriverInterface::handleImageInput()
+     *
+     * @throws InvalidArgumentException
+     * @throws ImageDecoderException
+     * @throws DriverException
+     * @throws NotSupportedException
      */
     public function handleImageInput(mixed $input, ?array $decoders = null): ImageInterface
     {
@@ -53,7 +65,7 @@ abstract class AbstractDriver implements DriverInterface
         }
 
         if (!($result instanceof ImageInterface)) {
-            throw new DecoderException('Result must be instance of ' . ImageInterface::class);
+            throw new ImageDecoderException('Result must be instance of ' . ImageInterface::class);
         }
 
         return $result;
@@ -63,6 +75,11 @@ abstract class AbstractDriver implements DriverInterface
      * {@inheritdoc}
      *
      * @see DriverInterface::handleColorInput()
+     *
+     * @throws InvalidArgumentException
+     * @throws ColorDecoderException
+     * @throws DriverException
+     * @throws NotSupportedException
      */
     public function handleColorInput(mixed $input, ?array $decoders = null): ColorInterface
     {
@@ -76,7 +93,7 @@ abstract class AbstractDriver implements DriverInterface
         }
 
         if (!($result instanceof ColorInterface)) {
-            throw new DecoderException('Result must be instance of ' . ColorInterface::class);
+            throw new ColorDecoderException('Result must be instance of ' . ColorInterface::class);
         }
 
         return $result;
@@ -86,6 +103,8 @@ abstract class AbstractDriver implements DriverInterface
      * {@inheritdoc}
      *
      * @see DriverInterface::specializeModifier()
+     *
+     * @throws NotSupportedException
      */
     public function specializeModifier(ModifierInterface $modifier): ModifierInterface
     {
@@ -96,6 +115,8 @@ abstract class AbstractDriver implements DriverInterface
      * {@inheritdoc}
      *
      * @see DriverInterface::specializeAnalyzer()
+     *
+     * @throws NotSupportedException
      */
     public function specializeAnalyzer(AnalyzerInterface $analyzer): AnalyzerInterface
     {
@@ -106,6 +127,8 @@ abstract class AbstractDriver implements DriverInterface
      * {@inheritdoc}
      *
      * @see DriverInterface::specializeEncoder()
+     *
+     * @throws NotSupportedException
      */
     public function specializeEncoder(EncoderInterface $encoder): EncoderInterface
     {
@@ -116,12 +139,17 @@ abstract class AbstractDriver implements DriverInterface
      * {@inheritdoc}
      *
      * @see DriverInterface::specializeDecoder()
+     *
+     * @throws NotSupportedException
      */
     public function specializeDecoder(DecoderInterface $decoder): DecoderInterface
     {
         return $this->specialize($decoder);
     }
 
+    /**
+     * @throws NotSupportedException
+     */
     private function specialize(
         ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface $object
     ): ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface {

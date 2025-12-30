@@ -10,9 +10,17 @@ use Intervention\Image\Encoders\GifEncoder as GenericGifEncoder;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Exceptions\FilePointerException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
 
 class GifEncoder extends GenericGifEncoder implements SpecializedInterface
 {
+    /**
+     * @throws InvalidArgumentException
+     * @throws FilePointerException
+     * @throws StateException
+     */
     public function encode(ImageInterface $image): EncodedImageInterface
     {
         $format = 'GIF';

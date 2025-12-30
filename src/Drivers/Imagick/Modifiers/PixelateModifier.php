@@ -13,6 +13,9 @@ use Intervention\Image\Modifiers\PixelateModifier as GenericPixelateModifier;
 
 class PixelateModifier extends GenericPixelateModifier implements SpecializedInterface
 {
+    /**
+     * @throws ModifierException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
@@ -22,6 +25,9 @@ class PixelateModifier extends GenericPixelateModifier implements SpecializedInt
         return $image;
     }
 
+    /**
+     * @throws ModifierException
+     */
     protected function pixelateFrame(FrameInterface $frame): void
     {
         $size = $frame->size();

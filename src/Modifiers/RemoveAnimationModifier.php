@@ -16,6 +16,9 @@ class RemoveAnimationModifier extends SpecializableModifier
         //
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     protected function selectedFrame(ImageInterface $image): FrameInterface
     {
         return $image->core()->frame($this->normalizePosition($image));
@@ -23,6 +26,8 @@ class RemoveAnimationModifier extends SpecializableModifier
 
     /**
      * Return the position of the selected frame as integer
+     *
+     * @throws InvalidArgumentException
      */
     protected function normalizePosition(ImageInterface $image): int
     {

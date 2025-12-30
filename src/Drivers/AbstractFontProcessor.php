@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers;
 
 use Intervention\Image\Alignment;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\FontInterface;
@@ -19,6 +20,8 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
      * {@inheritdoc}
      *
      * @see FontProcessorInterface::textBlock()
+     *
+     * @throws InvalidArgumentException
      */
     public function textBlock(string $text, FontInterface $font, PointInterface $position): TextBlock
     {
@@ -145,6 +148,8 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
 
     /**
      * Build pivot point of textblock according to the font settings and based on given position
+     *
+     * @throws InvalidArgumentException
      */
     protected function buildPivot(TextBlock $block, FontInterface $font, PointInterface $position): PointInterface
     {

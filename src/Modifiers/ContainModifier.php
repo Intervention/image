@@ -6,10 +6,12 @@ namespace Intervention\Image\Modifiers;
 
 use Intervention\Image\Alignment;
 use Intervention\Image\Drivers\SpecializableModifier;
-use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Size;
 
 class ContainModifier extends SpecializableModifier
 {
@@ -22,7 +24,10 @@ class ContainModifier extends SpecializableModifier
         //
     }
 
-    public function getCropSize(ImageInterface $image): SizeInterface
+    /**
+     * @throws InvalidArgumentException
+     */
+    public function getCropSize(ImageInterface $image): SizeInterface // TODO: make protected, rename
     {
         return $image->size()
             ->contain(
@@ -37,17 +42,23 @@ class ContainModifier extends SpecializableModifier
 
     /**
      * Return target size for resizing
+     *
+     * @throws InvalidArgumentException
      */
-    public function getResizeSize(ImageInterface $image): SizeInterface
+    public function getResizeSize(ImageInterface $image): SizeInterface // TODO: make protected, rename
     {
-        return new Rectangle($this->width, $this->height);
+        return new Size($this->width, $this->height);
     }
 
     /**
      * Return color to fill the newly created areas after rotation
+     *
+     * @throws StateException
      */
     protected function backgroundColor(): ColorInterface
     {
-        return $this->driver()->handleColorInput($this->background ?? $this->driver()->config()->backgroundColor);
+        return $this->driver()->handleColorInput(
+            $this->background ?? $this->driver()->config()->backgroundColor,
+        );
     }
 }

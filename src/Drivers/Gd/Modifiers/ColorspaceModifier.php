@@ -16,6 +16,8 @@ class ColorspaceModifier extends GenericColorspaceModifier implements Specialize
      * {@inheritdoc}
      *
      * @see ModifierInterface::apply()
+     *
+     * @throws NotSupportedException
      */
     public function apply(ImageInterface $image): ImageInterface
     {

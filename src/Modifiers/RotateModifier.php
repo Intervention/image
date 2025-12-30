@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Modifiers;
 
 use Intervention\Image\Drivers\SpecializableModifier;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ColorInterface;
 
 class RotateModifier extends SpecializableModifier
@@ -25,6 +26,8 @@ class RotateModifier extends SpecializableModifier
 
     /**
      * Return color to fill the newly created areas after rotation
+     *
+     * @throws StateException
      */
     protected function backgroundColor(): ColorInterface
     {

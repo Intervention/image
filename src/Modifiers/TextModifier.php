@@ -33,6 +33,8 @@ class TextModifier extends SpecializableModifier
      * under the actual text with an offset in the color of the outline effect.
      * For this reason, no colors with transparency can be used for the text
      * color or the color of the stroke effect, as this would be superimposed.
+     *
+     * @throws StateException
      */
     protected function textColor(): ColorInterface
     {
@@ -49,6 +51,8 @@ class TextModifier extends SpecializableModifier
 
     /**
      * Decode outline stroke color
+     *
+     * @throws StateException
      */
     protected function strokeColor(): ColorInterface
     {

@@ -7,12 +7,17 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use Imagick;
 use ImagickException;
 use Intervention\Image\Exceptions\ModifierException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\BackgroundModifier as GenericBackgroundModifier;
 
 class BackgroundModifier extends GenericBackgroundModifier implements SpecializedInterface
 {
+    /**
+     * @throws ModifierException
+     * @throws StateException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $backgroundColor = $this->backgroundColor($this->driver());

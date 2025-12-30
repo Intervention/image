@@ -13,6 +13,8 @@ trait CanBuildFilePointer
      * Transform the provided data into a pointer with the data as its content
      *
      * @param resource|string|null $data
+     * @throws InvalidArgumentException
+     * @throws FilePointerException
      * @return resource
      */
     public function buildFilePointerOrFail(mixed $data = null)

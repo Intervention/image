@@ -6,10 +6,12 @@ namespace Intervention\Image\Modifiers;
 
 use Intervention\Image\Alignment;
 use Intervention\Image\Drivers\SpecializableModifier;
-use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Size;
 
 class ResizeCanvasModifier extends SpecializableModifier
 {
@@ -29,15 +31,17 @@ class ResizeCanvasModifier extends SpecializableModifier
 
     /**
      * Build the crop size to be used for the ResizeCanvas process
+     *
+     * @throws InvalidArgumentException
      */
     protected function cropSize(ImageInterface $image, bool $relative = false): SizeInterface
     {
         $size = match ($relative) {
-            true => new Rectangle(
+            true => new Size(
                 is_null($this->width) ? $image->width() : $image->width() + $this->width,
                 is_null($this->height) ? $image->height() : $image->height() + $this->height,
             ),
-            default => new Rectangle(
+            default => new Size(
                 is_null($this->width) ? $image->width() : $this->width,
                 is_null($this->height) ? $image->height() : $this->height,
             ),
@@ -48,6 +52,8 @@ class ResizeCanvasModifier extends SpecializableModifier
 
     /**
      * Return color to fill the newly created areas after rotation
+     *
+     * @throws StateException
      */
     protected function backgroundColor(): ColorInterface
     {

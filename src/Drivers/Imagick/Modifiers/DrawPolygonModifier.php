@@ -8,12 +8,17 @@ use ImagickDraw;
 use ImagickException;
 use ImagickPixel;
 use Intervention\Image\Exceptions\ModifierException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\DrawPolygonModifier as GenericDrawPolygonModifier;
 
 class DrawPolygonModifier extends GenericDrawPolygonModifier implements SpecializedInterface
 {
+    /**
+     * @throws ModifierException
+     * @throws StateException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         try {

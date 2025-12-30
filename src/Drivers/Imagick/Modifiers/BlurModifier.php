@@ -12,6 +12,9 @@ use Intervention\Image\Modifiers\BlurModifier as GenericBlurModifier;
 
 class BlurModifier extends GenericBlurModifier implements SpecializedInterface
 {
+    /**
+     * @throws ModifierException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {

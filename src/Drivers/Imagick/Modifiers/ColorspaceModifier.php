@@ -21,6 +21,10 @@ use Intervention\Image\Modifiers\ColorspaceModifier as GenericColorspaceModifier
 
 class ColorspaceModifier extends GenericColorspaceModifier implements SpecializedInterface
 {
+    /**
+     * @throws ModifierException
+     * @throws NotSupportedException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $colorspace = $this->targetColorspace();
@@ -46,6 +50,9 @@ class ColorspaceModifier extends GenericColorspaceModifier implements Specialize
         return $image;
     }
 
+    /**
+     * @throws NotSupportedException
+     */
     private function getImagickColorspaceOrFail(ColorspaceInterface $colorspace): int
     {
         if ($colorspace instanceof Rgb) {
@@ -64,12 +71,12 @@ class ColorspaceModifier extends GenericColorspaceModifier implements Specialize
             return Imagick::COLORSPACE_HSB;
         }
 
-        if ($colorspace instanceof Oklab && defined('Imagick::COLORSPACE_OKLAB')) {
-            return Imagick::COLORSPACE_OKLAB;
+        if ($colorspace instanceof Oklab && defined(Imagick::class . '::COLORSPACE_OKLAB')) {
+            return constant(Imagick::class . '::COLORSPACE_OKLAB');
         }
 
-        if ($colorspace instanceof Oklch && defined('Imagick::COLORSPACE_OKLCH')) {
-            return Imagick::COLORSPACE_OKLCH;
+        if ($colorspace instanceof Oklch && defined(Imagick::class . '::COLORSPACE_OKLCH')) {
+            return constant(Imagick::class . '::COLORSPACE_OKLCH');
         }
 
         throw new NotSupportedException('Colorspace ' . $colorspace::class . ' is not supported by driver');

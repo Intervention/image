@@ -35,6 +35,8 @@ abstract class AbstractColor implements ColorInterface, Stringable
      * {@inheritdoc}
      *
      * @see ColorInterface::channel()
+     *
+     * @throws NotSupportedException
      */
     public function channel(string $classname): ColorChannelInterface
     {
@@ -80,6 +82,9 @@ abstract class AbstractColor implements ColorInterface, Stringable
      * {@inheritdoc}
      *
      * @see ColorInterface::toColorspace()
+     *
+     * @throws InvalidArgumentException
+     * @throws NotSupportedException
      */
     public function toColorspace(string|ColorspaceInterface $colorspace): ColorInterface
     {

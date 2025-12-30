@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers;
 
 use Intervention\Image\EncodedImage;
+use Intervention\Image\Exceptions\FilePointerException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
@@ -32,6 +33,9 @@ abstract class AbstractEncoder implements EncoderInterface
 
     /**
      * Build new file pointer, run callback with it and return result as encoded image
+     *
+     * @throws InvalidArgumentException
+     * @throws FilePointerException
      */
     protected function createEncodedImage(callable $callback, ?string $mediaType = null): EncodedImage
     {
@@ -45,6 +49,8 @@ abstract class AbstractEncoder implements EncoderInterface
      * {@inheritdoc}
      *
      * @see EncoderInterface::setOptions()
+     *
+     * @throws InvalidArgumentException
      */
     public function setOptions(mixed ...$options): self
     {

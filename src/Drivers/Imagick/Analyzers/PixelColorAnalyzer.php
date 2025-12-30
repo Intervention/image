@@ -8,6 +8,7 @@ use Imagick;
 use ImagickException;
 use Intervention\Image\Analyzers\PixelColorAnalyzer as GenericPixelColorAnalyzer;
 use Intervention\Image\Exceptions\AnalyzerException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -15,6 +16,10 @@ use Intervention\Image\Interfaces\SpecializedInterface;
 
 class PixelColorAnalyzer extends GenericPixelColorAnalyzer implements SpecializedInterface
 {
+    /**
+     * @throws AnalyzerException
+     * @throws StateException
+     */
     public function analyze(ImageInterface $image): mixed
     {
         return $this->colorAt(
@@ -23,6 +28,10 @@ class PixelColorAnalyzer extends GenericPixelColorAnalyzer implements Specialize
         );
     }
 
+    /**
+     * @throws AnalyzerException
+     * @throws StateException
+     */
     protected function colorAt(ColorspaceInterface $colorspace, Imagick $imagick): ColorInterface
     {
         try {

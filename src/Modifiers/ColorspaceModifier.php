@@ -11,7 +11,6 @@ use Intervention\Image\Colors\Oklab\Colorspace as Oklab;
 use Intervention\Image\Colors\Oklch\Colorspace as Oklch;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Drivers\SpecializableModifier;
-use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use TypeError;
@@ -23,7 +22,12 @@ class ColorspaceModifier extends SpecializableModifier
         //
     }
 
-    public function targetColorspace(): ColorspaceInterface
+    /**
+     * Build target color space
+     *
+     * @throws NotSupportedException
+     */
+    public function targetColorspace(): ColorspaceInterface // TODO: make protected
     {
         if ($this->target instanceof ColorspaceInterface) {
             return $this->target;
@@ -33,8 +37,8 @@ class ColorspaceModifier extends SpecializableModifier
             try {
                 return new $this->target();
             } catch (TypeError) {
-                throw new InvalidArgumentException(
-                    'Target colorspace must be of type ' . ColorspaceInterface::class,
+                throw new NotSupportedException(
+                    'Target colorspace "' . $this->target . '" is not supported by driver'
                 );
             }
         }

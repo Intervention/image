@@ -50,6 +50,9 @@ class Driver extends AbstractDriver
      * {@inheritdoc}
      *
      * @see DriverInterface::createImage()
+     *
+     * @throws InvalidArgumentException
+     * @throws DriverException
      */
     public function createImage(int $width, int $height): ImageInterface
     {

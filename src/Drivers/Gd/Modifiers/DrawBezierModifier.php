@@ -6,6 +6,7 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\ModifierException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\DrawBezierModifier as GenericDrawBezierModifier;
@@ -16,6 +17,10 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
      * {@inheritdoc}
      *
      * @see ModifierInterface::apply()
+     *
+     * @throws InvalidArgumentException
+     * @throws ModifierException
+     * @throws StateException
      */
     public function apply(ImageInterface $image): ImageInterface
     {
@@ -154,6 +159,7 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
     /**
      * Calculate the points needed to draw a quadratic or cubic bezier with optional border/stroke
      *
+     * @throws InvalidArgumentException
      * @return array{0: array<mixed>, 1: array<mixed>}
      */
     private function calculateBezierPoints(): array
@@ -242,6 +248,8 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
 
     /**
      * Throw ModifierException with given message if result is 'false'
+     *
+     * @throws ModifierException
      */
     private function abortUnless(mixed $result, string $message): void
     {

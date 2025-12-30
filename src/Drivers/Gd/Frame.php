@@ -6,6 +6,7 @@ namespace Intervention\Image\Drivers\Gd;
 
 use GdImage;
 use Intervention\Image\Drivers\AbstractFrame;
+use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Image;
@@ -67,6 +68,8 @@ class Frame extends AbstractFrame implements FrameInterface
      * {@inheritdoc}
      *
      * @see FrameInterface::size()
+     *
+     * @throws InvalidArgumentException
      */
     public function size(): SizeInterface
     {
@@ -109,6 +112,8 @@ class Frame extends AbstractFrame implements FrameInterface
      * {@inheritdoc}
      *
      * @see FrameInterface::setDispose()
+     *
+     * @throws InvalidArgumentException
      */
     public function setDispose(int $dispose): FrameInterface
     {
@@ -180,6 +185,9 @@ class Frame extends AbstractFrame implements FrameInterface
 
     /**
      * This workaround helps cloning GdImages which is currently not possible.
+     *
+     * @throws InvalidArgumentException
+     * @throws DriverException
      */
     public function __clone(): void
     {

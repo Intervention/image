@@ -6,13 +6,16 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Drivers\Gd\Cloner;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\ModifierException;
-use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\CropModifier as GenericCropModifier;
+use Intervention\Image\Colors\Rgb\Color as RgbColor;
+use Intervention\Image\Exceptions\DriverException;
 
 class CropModifier extends GenericCropModifier implements SpecializedInterface
 {
@@ -20,12 +23,21 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
      * {@inheritdoc}
      *
      * @see ModifierInterface::apply()
+     *
+     * @throws InvalidArgumentException
+     * @throws ModifierException
+     * @throws StateException
+     * @throws DriverException
      */
     public function apply(ImageInterface $image): ImageInterface
     {
         $originalSize = $image->size();
         $crop = $this->crop($image);
         $background = $this->backgroundColor()->toColorspace(RgbColorspace::class);
+
+        if (!($background instanceof RgbColor)) {
+            throw new ModifierException('Failed to normalize background color to rgb color space');
+        }
 
         foreach ($image as $frame) {
             $this->cropFrame($frame, $originalSize, $crop, $background);
@@ -34,11 +46,16 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
         return $image;
     }
 
-    protected function cropFrame(
+    /**
+     * @throws InvalidArgumentException
+     * @throws ModifierException
+     * @throws DriverException
+     */
+    private function cropFrame(
         FrameInterface $frame,
         SizeInterface $originalSize,
         SizeInterface $resizeTo,
-        ColorInterface $background
+        RgbColor $background
     ): void {
         // create new image with transparent background
         $modified = Cloner::cloneEmpty($frame->native(), $resizeTo, $background);

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Geometry\Factories;
 
 use Closure;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\DrawableInterface;
 
 class Drawable
@@ -51,6 +52,8 @@ class Drawable
 
     /**
      * Creeate RectangleFactory statically
+     *
+     * @throws InvalidArgumentException
      */
     public static function rectangle(null|Closure|DrawableInterface $init = null): RectangleFactory
     {

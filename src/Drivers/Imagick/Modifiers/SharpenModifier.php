@@ -12,6 +12,9 @@ use Intervention\Image\Modifiers\SharpenModifier as GenericSharpenModifier;
 
 class SharpenModifier extends GenericSharpenModifier implements SpecializedInterface
 {
+    /**
+     * @throws ModifierException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {

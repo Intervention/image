@@ -47,6 +47,8 @@ class DataUri implements DataUriInterface, Stringable
      * {@inheritdoc}
      *
      * @see DataUriInterface::decode()
+     *
+     * @throws InvalidArgumentException
      */
     public static function decode(string|Stringable $dataUriScheme): self
     {

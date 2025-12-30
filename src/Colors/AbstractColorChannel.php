@@ -13,16 +13,6 @@ abstract class AbstractColorChannel implements ColorChannelInterface, Stringable
     /**
      * {@inheritdoc}
      *
-     * @see ColorChannelInterface::fromNormalized()
-     */
-    public static function fromNormalized(float $normalized): self
-    {
-        return new static(static::min() + $normalized * (static::max() - static::min()));
-    }
-
-    /**
-     * {@inheritdoc}
-     *
      * @see ColorChannelInterface::normalize()
      */
     public function normalize(int $precision = 32): float
@@ -33,6 +23,8 @@ abstract class AbstractColorChannel implements ColorChannelInterface, Stringable
     /**
      * Throw exception if the given value is not applicable for channel
      * otherwise the value is returned unchanged.
+     *
+     * @throws InvalidArgumentException
      */
     protected function validValueOrFail(int|float $value): mixed
     {

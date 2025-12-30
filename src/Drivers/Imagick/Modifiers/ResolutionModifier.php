@@ -12,6 +12,9 @@ use Intervention\Image\Modifiers\ResolutionModifier as GenericResolutionModifier
 
 class ResolutionModifier extends GenericResolutionModifier implements SpecializedInterface
 {
+    /**
+     * @throws ModifierException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $imagick = $image->core()->native();

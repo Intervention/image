@@ -7,9 +7,13 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\ModifierException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\QuantizeColorsModifier as GenericQuantizeColorsModifier;
+use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
+use Intervention\Image\Colors\Rgb\Color as RgbColor;
+use Intervention\Image\Exceptions\DriverException;
 
 class QuantizeColorsModifier extends GenericQuantizeColorsModifier implements SpecializedInterface
 {
@@ -17,6 +21,11 @@ class QuantizeColorsModifier extends GenericQuantizeColorsModifier implements Sp
      * {@inheritdoc}
      *
      * @see ModifierInterface::apply()
+     *
+     * @throws InvalidArgumentException
+     * @throws StateException
+     * @throws ModifierException
+     * @throws DriverException
      */
     public function apply(ImageInterface $image): ImageInterface
     {
@@ -33,9 +42,15 @@ class QuantizeColorsModifier extends GenericQuantizeColorsModifier implements Sp
         $width = $image->width();
         $height = $image->height();
 
-        $backgroundColor = $this->backgroundColor();
+        // normalize color to rgb colorspace
+        $backgroundColor = $this->backgroundColor()->toColorspace(Rgb::class);
+
+        if (!($backgroundColor instanceof RgbColor)) {
+            throw new ModifierException('Failed to normalize background color to RGB color space');
+        }
+
         $nativeBackgroundColor = $this->driver()
-            ->colorProcessor($image->colorspace())
+            ->colorProcessor(new Rgb())
             ->colorToNative(
                 $backgroundColor
             );
@@ -52,11 +67,7 @@ class QuantizeColorsModifier extends GenericQuantizeColorsModifier implements Sp
             }
 
             // set transparency
-            $result = imagecolortransparent($reduced, $nativeBackgroundColor);
-
-            if ($result === false) {
-                throw new ModifierException('Failed to complete quantization process');
-            }
+            imagecolortransparent($reduced, $nativeBackgroundColor);
 
             // copy original image (colors are limited automatically in the copy process)
             $result = imagecopy($reduced, $frame->native(), 0, 0, 0, 0, $width, $height);

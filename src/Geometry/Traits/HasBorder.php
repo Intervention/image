@@ -15,6 +15,8 @@ trait HasBorder
      * {@inheritdoc}
      *
      * @see DrawableInterface::setBorder()
+     *
+     * @throws InvalidArgumentException
      */
     public function setBorder(mixed $color, int $size = 1): self
     {
@@ -25,6 +27,8 @@ trait HasBorder
      * {@inheritdoc}
      *
      * @see DrawableInterface::setBorderSize()
+     *
+     * @throws InvalidArgumentException
      */
     public function setBorderSize(int $size): self
     {

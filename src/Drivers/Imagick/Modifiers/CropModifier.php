@@ -10,13 +10,20 @@ use ImagickPixel;
 use Intervention\Image\Colors\Cmyk\Colorspace as Cmyk;
 use Intervention\Image\Colors\Hsl\Colorspace as Hsl;
 use Intervention\Image\Colors\Hsv\Colorspace as Hsv;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\ModifierException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\CropModifier as GenericCropModifier;
 
 class CropModifier extends GenericCropModifier implements SpecializedInterface
 {
+    /**
+     * @throws InvalidArgumentException
+     * @throws ModifierException
+     * @throws StateException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         // decode background color

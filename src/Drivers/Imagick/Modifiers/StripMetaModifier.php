@@ -17,6 +17,8 @@ class StripMetaModifier implements ModifierInterface, SpecializedInterface
      * {@inheritdoc}
      *
      * @see Intervention\Image\Interfaces\ModifierInterface::apply()
+     *
+     * @throws ModifierException
      */
     public function apply(ImageInterface $image): ImageInterface
     {

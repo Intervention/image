@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Geometry\Factories;
 
 use Closure;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Interfaces\DrawableFactoryInterface;
@@ -70,6 +71,8 @@ class PolygonFactory implements DrawableFactoryInterface
 
     /**
      * Set the border color & border size of the polygon to be produced
+     *
+     * @throws InvalidArgumentException
      */
     public function border(mixed $color, int $size = 1): self
     {

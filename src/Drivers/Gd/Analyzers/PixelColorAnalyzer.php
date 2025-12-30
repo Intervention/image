@@ -8,6 +8,7 @@ use GdImage;
 use Intervention\Image\Analyzers\PixelColorAnalyzer as GenericPixelColorAnalyzer;
 use Intervention\Image\Exceptions\AnalyzerException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -20,6 +21,10 @@ class PixelColorAnalyzer extends GenericPixelColorAnalyzer implements Specialize
      * {@inheritdoc}
      *
      * @see AnalyzerInterface::analyze()
+     *
+     * @throws InvalidArgumentException
+     * @throws AnalyzerException
+     * @throws StateException
      */
     public function analyze(ImageInterface $image): mixed
     {
@@ -29,6 +34,11 @@ class PixelColorAnalyzer extends GenericPixelColorAnalyzer implements Specialize
         );
     }
 
+    /**
+     * @throws InvalidArgumentException
+     * @throws AnalyzerException
+     * @throws StateException
+     */
     protected function colorAt(ColorspaceInterface $colorspace, GdImage $gd): ColorInterface
     {
         $index = @imagecolorat($gd, $this->x, $this->y);

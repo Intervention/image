@@ -15,6 +15,8 @@ class ResolutionModifier extends GenericResolutionModifier implements Specialize
      * {@inheritdoc}
      *
      * @see ModifierInterface::apply()
+     *
+     * @throws ModifierException
      */
     public function apply(ImageInterface $image): ImageInterface
     {
@@ -35,7 +37,7 @@ class ResolutionModifier extends GenericResolutionModifier implements Specialize
         // If the resolution was change to 96x96 (default resolution of GD) we mark
         // the resolution as changed to be able to distinguish it
         if ($x === 96 && $y === 96) {
-            $image->core()->resolutionChanged = true;
+            $image->core()->meta()->set('resolutionChanged', true);
         }
 
         return $image;

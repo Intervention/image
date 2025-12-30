@@ -8,6 +8,7 @@ use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Drivers\AbstractDecoder;
 use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 
@@ -43,6 +44,10 @@ class HexColorDecoder extends AbstractDecoder implements DecoderInterface
 
     /**
      * Decode hexadecimal rgb colors with and without transparency
+     *
+     * @throws InvalidArgumentException
+     * @throws ColorDecoderException
+     * @throws NotSupportedException
      */
     public function decode(mixed $input): ColorInterface
     {

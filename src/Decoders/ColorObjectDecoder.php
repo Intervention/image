@@ -24,6 +24,8 @@ class ColorObjectDecoder extends AbstractDecoder
      * {@inheritdoc}
      *
      * @see DecoderInterface::decode()
+     *
+     * @throws InvalidArgumentException
      */
     public function decode(mixed $input): ColorInterface
     {

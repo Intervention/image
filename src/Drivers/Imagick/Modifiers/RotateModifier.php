@@ -6,12 +6,17 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickException;
 use Intervention\Image\Exceptions\ModifierException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\RotateModifier as GenericRotateModifier;
 
 class RotateModifier extends GenericRotateModifier implements SpecializedInterface
 {
+    /**
+     * @throws ModifierException
+     * @throws StateException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $background = $this->driver()

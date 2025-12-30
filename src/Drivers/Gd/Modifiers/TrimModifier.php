@@ -6,6 +6,7 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
@@ -18,6 +19,10 @@ class TrimModifier extends GenericTrimModifier implements SpecializedInterface
      * {@inheritdoc}
      *
      * @see ModifierInterface::apply()
+     *
+     * @throws NotSupportedException
+     * @throws StateException
+     * @throws ModifierException
      */
     public function apply(ImageInterface $image): ImageInterface
     {
@@ -47,6 +52,8 @@ class TrimModifier extends GenericTrimModifier implements SpecializedInterface
 
     /**
      * Create an average color from the colors of the four corner points of the given image
+     *
+     * @throws ModifierException
      */
     private function trimColor(ImageInterface $image): int
     {
@@ -93,7 +100,7 @@ class TrimModifier extends GenericTrimModifier implements SpecializedInterface
 
         $color = imagecolorallocate($image->core()->native(), $red, $green, $blue);
 
-        if ($cornerColor === false) {
+        if ($color === false) {
             throw new ModifierException(
                 'Unable to apply ' . self::class . ', failed to allocate trim color',
             );

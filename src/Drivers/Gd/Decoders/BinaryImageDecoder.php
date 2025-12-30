@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
+use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Exceptions\ImageDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Format;
 use Intervention\Image\Modifiers\AlignRotationModifier;
 use Stringable;
@@ -44,6 +47,12 @@ class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
      * {@inheritdoc}
      *
      * @see DecoderInterface::decode()
+     *
+     * @throws InvalidArgumentException
+     * @throws ImageDecoderException
+     * @throws DriverException
+     * @throws StateException
+     * @throws NotSupportedException
      */
     public function decode(mixed $input): ImageInterface
     {
@@ -65,6 +74,12 @@ class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
 
     /**
      * Decode image from given binary data
+     *
+     * @throws InvalidArgumentException
+     * @throws ImageDecoderException
+     * @throws DriverException
+     * @throws StateException
+     * @throws NotSupportedException
      */
     private function decodeBinary(string $input): ImageInterface
     {

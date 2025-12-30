@@ -8,6 +8,7 @@ use ImagickDraw;
 use Intervention\Image\Drivers\Imagick\FontProcessor;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\ImageException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Geometry\Point;
@@ -25,6 +26,11 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
      * {@inheritdoc}
      *
      * @see ModifierInterface::apply()
+     *
+     * @throws InvalidArgumentException
+     * @throws StateException
+     * @throws DriverException
+     * @throws ModifierException
      */
     public function apply(ImageInterface $image): ImageInterface
     {
@@ -49,6 +55,9 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
 
     /**
      * Create an ImagickDraw object to draw text on the image
+     *
+     * @throws StateException
+     * @throws DriverException
      */
     private function imagickDrawText(ImageInterface $image, FontInterface $font): ImagickDraw
     {
@@ -67,6 +76,9 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
 
     /**
      * Create a ImagickDraw object to draw the outline stroke effect on the Image
+     *
+     * @throws StateException
+     * @throws DriverException
      */
     private function imagickDrawStroke(ImageInterface $image, FontInterface $font): ?ImagickDraw
     {
@@ -90,6 +102,8 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
     /**
      * Maybe draw given line of text on frame instance depending on given
      * ImageDraw instance. Optionally move line position by given offset.
+     *
+     * @throws ModifierException
      */
     private function maybeDrawTextline(
         FrameInterface $frame,
@@ -123,6 +137,9 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
 
     /**
      * Return imagick font processor
+     *
+     * @throws DriverException
+     * @throws StateException
      */
     private function processor(): FontProcessor
     {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit;
 
-use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Format;
 use Intervention\Image\Origin;
 use Intervention\Image\Tests\BaseTestCase;
@@ -44,7 +44,7 @@ final class OriginTest extends BaseTestCase
 
     public function testFormat(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(NotSupportedException::class);
         new Origin()->format();
 
         $this->assertEquals(Format::JPEG, new Origin('image/jpeg')->format());

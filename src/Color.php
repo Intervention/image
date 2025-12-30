@@ -10,11 +10,16 @@ use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Oklab\Color as OklabColor;
 use Intervention\Image\Colors\Oklch\Color as OklchColor;
+use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 
 class Color
 {
     /**
      * Create new RGB color
+     *
+     * @throws InvalidArgumentException
+     * @throws DriverException
      */
     public static function rgb(mixed ...$input): RgbColor
     {
@@ -23,6 +28,9 @@ class Color
 
     /**
      * Create new CMYK color
+     *
+     * @throws InvalidArgumentException
+     * @throws DriverException
      */
     public static function cmyk(mixed ...$input): CmykColor
     {
@@ -31,6 +39,9 @@ class Color
 
     /**
      * Create new HSL color
+     *
+     * @throws InvalidArgumentException
+     * @throws DriverException
      */
     public static function hsl(mixed ...$input): HslColor
     {
@@ -39,6 +50,9 @@ class Color
 
     /**
      * Create new HSV color
+     *
+     * @throws InvalidArgumentException
+     * @throws DriverException
      */
     public static function hsv(mixed ...$input): HsvColor
     {
@@ -47,6 +61,9 @@ class Color
 
     /**
      * Create new OKLAB color
+     *
+     * @throws InvalidArgumentException
+     * @throws DriverException
      */
     public static function oklab(mixed ...$input): OklabColor
     {
@@ -55,6 +72,9 @@ class Color
 
     /**
      * Create new OKLCH color
+     *
+     * @throws InvalidArgumentException
+     * @throws DriverException
      */
     public static function oklch(mixed ...$input): OklchColor
     {

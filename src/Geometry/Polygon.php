@@ -8,7 +8,7 @@ use ArrayAccess;
 use ArrayIterator;
 use Countable;
 use Intervention\Image\Alignment;
-use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Traversable;
 use IteratorAggregate;
 use Intervention\Image\Geometry\Traits\HasBackgroundColor;
@@ -63,7 +63,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     /**
      * Implement iteration through all points of polygon
      *
-     * @return Traversable<PointInterface>
+     * @return Traversable<mixed>
      */
     public function getIterator(): Traversable
     {
@@ -259,6 +259,8 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
 
     /**
      * Align all points of polygon horizontally to given position around pivot point
+     *
+     * @throws InvalidArgumentException
      */
     public function align(string|Alignment $position): self
     {
@@ -266,7 +268,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
             Alignment::CENTER => $this->centerPoint()->x() - $this->pivot()->x(),
             Alignment::RIGHT => $this->mostRightPoint()->x() - $this->pivot()->x(),
             Alignment::LEFT => $this->mostLeftPoint()->x() - $this->pivot()->x(),
-            default => throw new NotSupportedException(
+            default => throw new InvalidArgumentException(
                 'Only use horizontal alignment values (Alignment::CENTER, Alignment::RIGHT or Alignment::LEFT)',
             ),
         };
@@ -282,6 +284,8 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
 
     /**
      * Align all points of polygon vertically to given position around pivot point
+     *
+     * @throws InvalidArgumentException
      */
     public function valign(string|Alignment $position): self
     {
@@ -289,7 +293,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
             Alignment::CENTER => $this->centerPoint()->y() - $this->pivot()->y(),
             Alignment::TOP => $this->mostTopPoint()->y() - $this->pivot()->y() - $this->height(),
             Alignment::BOTTOM => $this->mostBottomPoint()->y() - $this->pivot()->y() + $this->height(),
-            default => throw new NotSupportedException(
+            default => throw new InvalidArgumentException(
                 'Only use vertical alignment values (Alignment::CENTER, Alignment::TOP or Alignment::BOTTOM)',
             ),
         };

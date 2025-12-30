@@ -18,6 +18,8 @@ class Resolution implements ResolutionInterface, Stringable, IteratorAggregate
 {
     /**
      * Create new instance
+     *
+     * @throws InvalidArgumentException
      */
     public function __construct(
         protected float $x,
@@ -39,6 +41,8 @@ class Resolution implements ResolutionInterface, Stringable, IteratorAggregate
 
     /**
      * Static factory method to create new resolution instance
+     *
+     * @throws InvalidArgumentException
      */
     public static function create(float $x, float $y, Length $unit = Length::INCH): self
     {

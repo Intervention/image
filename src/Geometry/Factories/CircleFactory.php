@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Geometry\Factories;
 
 use Closure;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Circle;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\DrawableFactoryInterface;
@@ -84,6 +85,8 @@ class CircleFactory implements DrawableFactoryInterface
 
     /**
      * Set the border color & border size of the ellipse to be produced
+     *
+     * @throws InvalidArgumentException
      */
     public function border(mixed $color, int $size = 1): self
     {

@@ -12,6 +12,9 @@ use Intervention\Image\Modifiers\FlopModifier as ModifiersFlopModifier;
 
 class FlopModifier extends ModifiersFlopModifier implements SpecializedInterface
 {
+    /**
+     * @throws ModifierException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {

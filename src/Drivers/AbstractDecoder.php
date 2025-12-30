@@ -33,6 +33,8 @@ abstract class AbstractDecoder implements DecoderInterface
      * Extract and return EXIF data from given input which can be a file path
      * or a file pointer stream resource.
      *
+     * @throws InvalidArgumentException
+     * @throws DecoderException
      * @return CollectionInterface<string, mixed>
      */
     protected function extractExifData(string $input): CollectionInterface
@@ -68,6 +70,9 @@ abstract class AbstractDecoder implements DecoderInterface
 
     /**
      * Decodes given base64 encoded data
+     *
+     * @throws InvalidArgumentException
+     * @throws DecoderException
      */
     protected function decodeBase64Data(mixed $input): string
     {

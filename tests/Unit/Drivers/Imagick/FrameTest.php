@@ -11,7 +11,7 @@ use ImagickPixel;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Image;
-use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Size;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('imagick')]
@@ -38,7 +38,7 @@ final class FrameTest extends BaseTestCase
     public function testGetSize(): void
     {
         $frame = $this->getTestFrame();
-        $this->assertInstanceOf(Rectangle::class, $frame->size());
+        $this->assertInstanceOf(Size::class, $frame->size());
     }
 
     public function testSetGetDelay(): void

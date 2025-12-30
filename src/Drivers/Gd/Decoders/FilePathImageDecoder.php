@@ -5,7 +5,13 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\DirectoryNotFoundException;
+use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\FileNotFoundException;
+use Intervention\Image\Exceptions\FileNotReadableException;
 use Intervention\Image\Exceptions\ImageDecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Format;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -48,6 +54,14 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
      * {@inheritdoc}
      *
      * @see DecoderInterface::decode()
+     *
+     * @throws InvalidArgumentException
+     * @throws ImageDecoderException
+     * @throws DriverException
+     * @throws StateException
+     * @throws FileNotFoundException
+     * @throws FileNotReadableException
+     * @throws DirectoryNotFoundException
      */
     public function decode(mixed $input): ImageInterface
     {
@@ -87,6 +101,11 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
 
     /**
      * Try to decode data from file path as given image format
+     *
+     * @throws InvalidArgumentException
+     * @throws ImageDecoderException
+     * @throws StateException
+     * @throws DriverException
      */
     private function decodeDefault(string $path, MediaType $mediaType): ImageInterface
     {
@@ -96,7 +115,7 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
             Format::PNG => @imagecreatefrompng($path),
             Format::AVIF => @imagecreatefromavif($path),
             Format::BMP => @imagecreatefrombmp($path),
-            default => throw new DecoderException('File contains unsupported image format'),
+            default => throw new ImageDecoderException('File contains unsupported image format'),
         };
 
         if ($gdImage === false) {

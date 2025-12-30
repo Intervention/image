@@ -6,14 +6,26 @@ namespace Intervention\Image\Drivers\Gd;
 
 use Intervention\Image\Collection;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\CoreInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 
 class Core extends Collection implements CoreInterface
 {
-    public bool $resolutionChanged = false;
-
     protected int $loops = 0;
+    protected CollectionInterface $meta;
+
+    /**
+     * Create new core
+     *
+     * @param array<int|string, Frame> $items
+     */
+    public function __construct(array $items = [])
+    {
+        parent::__construct($items);
+
+        $this->meta = new Collection();
+    }
 
     /**
      * {@inheritdoc}
@@ -53,6 +65,8 @@ class Core extends Collection implements CoreInterface
      * {@inheritdoc}
      *
      * @see CoreInterface::frame()
+     *
+     * @throws InvalidArgumentException
      */
     public function frame(int $position): FrameInterface
     {
@@ -105,6 +119,16 @@ class Core extends Collection implements CoreInterface
     public function last(): FrameInterface
     {
         return parent::last();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see CoreInterface::meta()
+     */
+    public function meta(): CollectionInterface
+    {
+        return $this->meta;
     }
 
     /**

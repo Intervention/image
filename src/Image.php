@@ -271,6 +271,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::save()
+     *
+     * @throws EncoderException
      */
     public function save(?string $path = null, mixed ...$options): ImageInterface
     {
@@ -317,6 +319,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::size()
+     *
+     * @throws InvalidArgumentException
      */
     public function size(): SizeInterface
     {
@@ -399,6 +403,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::setBackgroundColor()
+     *
+     * @throws InvalidArgumentException
      */
     public function setBackgroundColor(string|ColorInterface $color): ImageInterface
     {
@@ -609,6 +615,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::resize()
+     *
+     * @throws InvalidArgumentException
      */
     public function resize(null|int|Fraction $width = null, null|int|Fraction $height = null): ImageInterface
     {
@@ -619,6 +627,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::resizeDown()
+     *
+     * @throws InvalidArgumentException
      */
     public function resizeDown(null|int|Fraction $width = null, null|int|Fraction $height = null): ImageInterface
     {
@@ -629,6 +639,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::scale()
+     *
+     * @throws InvalidArgumentException
      */
     public function scale(null|int|Fraction $width = null, null|int|Fraction $height = null): ImageInterface
     {
@@ -639,6 +651,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::scaleDown()
+     *
+     * @throws InvalidArgumentException
      */
     public function scaleDown(null|int|Fraction $width = null, null|int|Fraction $height = null): ImageInterface
     {
@@ -649,6 +663,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::cover()
+     *
+     * @throws InvalidArgumentException
      */
     public function cover(
         int|Fraction $width,
@@ -665,6 +681,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::coverDown()
+     *
+     * @throws InvalidArgumentException
      */
     public function coverDown(
         int|Fraction $width,
@@ -681,6 +699,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::resizeCanvas()
+     *
+     * @throws InvalidArgumentException
      */
     public function resizeCanvas(
         null|int|Fraction $width = null,
@@ -701,6 +721,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::resizeCanvasRelative()
+     *
+     * @throws InvalidArgumentException
      */
     public function resizeCanvasRelative(
         null|int|Fraction $width = null,
@@ -721,6 +743,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::padDown()
+     *
+     * @throws InvalidArgumentException
      */
     public function pad(
         int|Fraction $width,
@@ -741,6 +765,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::pad()
+     *
+     * @throws InvalidArgumentException
      */
     public function contain(
         int|Fraction $width,
@@ -761,6 +787,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::crop()
+     *
+     * @throws InvalidArgumentException
      */
     public function crop(
         int|Fraction $width,
@@ -835,6 +863,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::drawRectangle()
+     *
+     * @throws InvalidArgumentException
      */
     public function drawRectangle(int $x, int $y, callable|Closure|Rectangle $init): ImageInterface
     {
@@ -931,6 +961,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::encodeUsing()
+     *
+     * @throws InvalidArgumentException
      */
     public function encodeUsing(
         null|Format $format = null,
@@ -972,6 +1004,7 @@ final class Image implements ImageInterface
      * Build array of resize width and height from various inputs including
      * fractions based on the current image size
      *
+     * @throws InvalidArgumentException
      * @return array{'width': ?int, 'height': ?int}
      */
     private function fractionize(null|int|Fraction $width, null|int|Fraction $height): array
@@ -1000,7 +1033,7 @@ final class Image implements ImageInterface
                 'width' => $this->width(),
                 'height' => $this->height(),
             ];
-        } catch (Throwable) {
+        } catch (Throwable) { // TODO: refactor
             return [];
         }
     }

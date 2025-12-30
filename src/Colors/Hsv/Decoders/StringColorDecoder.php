@@ -41,6 +41,8 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
 
     /**
      * Decode hsv/hsb color strings
+     *
+     * @throws InvalidArgumentException
      */
     public function decode(mixed $input): ColorInterface
     {

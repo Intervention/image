@@ -11,9 +11,17 @@ use Intervention\Image\Encoders\Jpeg2000Encoder as GenericJpeg2000Encoder;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Exceptions\FilePointerException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
 
 class Jpeg2000Encoder extends GenericJpeg2000Encoder implements SpecializedInterface
 {
+    /**
+     * @throws InvalidArgumentException
+     * @throws FilePointerException
+     * @throws StateException
+     */
     public function encode(ImageInterface $image): EncodedImageInterface
     {
         $format = 'JP2';

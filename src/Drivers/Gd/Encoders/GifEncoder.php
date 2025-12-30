@@ -9,7 +9,11 @@ use Intervention\Gif\Exceptions\GifException;
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\GifEncoder as GenericGifEncoder;
+use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\EncoderException;
+use Intervention\Image\Exceptions\FilePointerException;
+use Intervention\Image\Exceptions\FilesystemException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 
@@ -19,6 +23,11 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
      * {@inheritdoc}
      *
      * @see EncoderInterface::encode()
+     *
+     * @throws InvalidArgumentException
+     * @throws EncoderException
+     * @throws DriverException
+     * @throws FilePointerException
      */
     public function encode(ImageInterface $image): EncodedImage
     {
@@ -34,6 +43,11 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
         }, 'image/gif');
     }
 
+    /**
+     * @throws InvalidArgumentException
+     * @throws EncoderException
+     * @throws DriverException
+     */
     protected function encodeAnimated(ImageInterface $image): EncodedImage
     {
         try {
@@ -53,7 +67,7 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
             $builder->setLoops($image->loops());
 
             return new EncodedImage($builder->encode(), 'image/gif');
-        } catch (GifException $e) {
+        } catch (GifException | FilesystemException $e) {
             throw new EncoderException('Failed to encode image to GIF format', previous: $e);
         }
     }

@@ -5,7 +5,11 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
 use Intervention\Image\Drivers\SpecializableDecoder;
+use Intervention\Image\Exceptions\DirectoryNotFoundException;
+use Intervention\Image\Exceptions\FileNotFoundException;
+use Intervention\Image\Exceptions\FileNotReadableException;
 use Intervention\Image\Exceptions\ImageDecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\MediaType;
@@ -18,6 +22,13 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
 
     /**
      * Return media (mime) type of the file at given file path
+     *
+     * @throws InvalidArgumentException
+     * @throws ImageDecoderException
+     * @throws NotSupportedException
+     * @throws DirectoryNotFoundException
+     * @throws FileNotFoundException
+     * @throws FileNotReadableException
      */
     protected function getMediaTypeByFilePath(string $filepath): MediaType
     {
@@ -36,6 +47,9 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
 
     /**
      * Return media (mime) type of the given image data
+     *
+     * @throws ImageDecoderException
+     * @throws NotSupportedException
      */
     protected function getMediaTypeByBinary(string $data): MediaType
     {

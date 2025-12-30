@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Geometry\Factories;
 
 use Closure;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\DrawableFactoryInterface;
@@ -18,7 +19,7 @@ class RectangleFactory implements DrawableFactoryInterface
     /**
      * Create new instance
      *
-     * @return void
+     * @throws InvalidArgumentException
      */
     public function __construct(
         protected PointInterface $pivot = new Point(),
@@ -36,6 +37,8 @@ class RectangleFactory implements DrawableFactoryInterface
      * {@inheritdoc}
      *
      * @see DrawableFactoryInterface::create()
+     *
+     * @throws InvalidArgumentException
      */
     public static function create(null|Closure|DrawableInterface $init = null): self
     {
@@ -94,6 +97,8 @@ class RectangleFactory implements DrawableFactoryInterface
 
     /**
      * Set the border color & border size of the rectangle to be produced
+     *
+     * @throws InvalidArgumentException
      */
     public function border(mixed $color, int $size = 1): self
     {

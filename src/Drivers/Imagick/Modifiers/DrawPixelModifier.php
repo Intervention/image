@@ -7,12 +7,17 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use ImagickDraw;
 use ImagickException;
 use Intervention\Image\Exceptions\ModifierException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\DrawPixelModifier as GenericDrawPixelModifier;
 
 class DrawPixelModifier extends GenericDrawPixelModifier implements SpecializedInterface
 {
+    /**
+     * @throws ModifierException
+     * @throws StateException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(

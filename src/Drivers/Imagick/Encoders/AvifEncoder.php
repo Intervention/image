@@ -11,9 +11,17 @@ use Intervention\Image\Encoders\AvifEncoder as GenericAvifEncoder;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Exceptions\FilePointerException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
 
 class AvifEncoder extends GenericAvifEncoder implements SpecializedInterface
 {
+    /**
+     * @throws InvalidArgumentException
+     * @throws FilePointerException
+     * @throws StateException
+     */
     public function encode(ImageInterface $image): EncodedImageInterface
     {
         $format = 'AVIF';

@@ -7,11 +7,11 @@ namespace Intervention\Image\Colors\Oklch;
 use Intervention\Image\Colors\AbstractColor;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Exceptions\ColorDecoderException;
+use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 
 class Color extends AbstractColor
@@ -35,19 +35,13 @@ class Color extends AbstractColor
     /**
      * {@inheritdoc}
      *
-     * @see ColorInterface::colorspace()
-     */
-    public function colorspace(): ColorspaceInterface
-    {
-        return new Colorspace();
-    }
-
-    /**
-     * {@inheritdoc}
-     *
      * @see ColorInterface::create()
+     *
+     * @throws InvalidArgumentException
+     * @throws ColorDecoderException
+     * @throws DriverException
      */
-    public static function create(mixed ...$input): ColorInterface
+    public static function create(mixed ...$input): self
     {
         $input = match (count($input)) {
             1 => $input[0],
@@ -62,12 +56,30 @@ class Color extends AbstractColor
         }
 
         try {
-            return InputHandler::withDecoders([
+            $color = InputHandler::withDecoders([
                 Decoders\StringColorDecoder::class,
             ])->handle($input);
         } catch (NotSupportedException) {
             throw new ColorDecoderException('Failed to decode OKLCH color from string "' . $input . '"');
         }
+
+        if (!($color instanceof self)) {
+            throw new ColorDecoderException(
+                'Failed to decode OKLCH color from string "' . $input . '"',
+            );
+        }
+
+        return $color;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::colorspace()
+     */
+    public function colorspace(): ColorspaceInterface
+    {
+        return new Colorspace();
     }
 
     /**
@@ -110,9 +122,18 @@ class Color extends AbstractColor
      * {@inheritdoc}
      *
      * @see ColorInterface::toHex()
+     *
+     * @throws InvalidArgumentException
+     * @throws NotSupportedException
      */
     public function toHex(string $prefix = ''): string
     {
+        if (!in_array($prefix, ['', '#'])) {
+            throw new InvalidArgumentException(
+                'Hexadecimal color prefix must be "#" or empty string',
+            );
+        }
+
         return $this->toColorspace(RgbColorspace::class)->toHex($prefix);
     }
 

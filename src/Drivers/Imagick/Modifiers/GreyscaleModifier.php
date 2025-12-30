@@ -12,6 +12,9 @@ use Intervention\Image\Modifiers\GreyscaleModifier as GenericGreyscaleModifier;
 
 class GreyscaleModifier extends GenericGreyscaleModifier implements SpecializedInterface
 {
+    /**
+     * @throws ModifierException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {

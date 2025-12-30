@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Intervention\Image\Typography;
 
 use Intervention\Image\Alignment;
+use Intervention\Image\Exceptions\DirectoryNotFoundException;
+use Intervention\Image\Exceptions\FileNotFoundException;
+use Intervention\Image\Exceptions\FileNotReadableException;
 use Intervention\Image\Exceptions\FilesystemException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\FontInterface;
@@ -77,6 +80,11 @@ class Font implements FontInterface
      * {@inheritdoc}
      *
      * @see FontInterface::setFilepath()
+     *
+     * @throws InvalidArgumentException
+     * @throws DirectoryNotFoundException
+     * @throws FileNotFoundException
+     * @throws FileNotReadableException
      */
     public function setFilepath(string $path): FontInterface
     {
@@ -157,6 +165,8 @@ class Font implements FontInterface
      * {@inheritdoc}
      *
      * @see FontInterface::setStrokeWidth()
+     *
+     * @throws InvalidArgumentException
      */
     public function setStrokeWidth(int $width): FontInterface
     {

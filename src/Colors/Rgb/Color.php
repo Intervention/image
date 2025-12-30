@@ -10,6 +10,7 @@ use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Channels\Alpha;
 use Intervention\Image\Exceptions\ColorDecoderException;
+use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\InputHandler;
@@ -38,19 +39,13 @@ class Color extends AbstractColor
     /**
      * {@inheritdoc}
      *
-     * @see ColorInterface::colorspace()
-     */
-    public function colorspace(): ColorspaceInterface
-    {
-        return new Colorspace();
-    }
-
-    /**
-     * {@inheritdoc}
-     *
      * @see ColorInterface::create()
+     *
+     * @throws InvalidArgumentException
+     * @throws DriverException
+     * @throws ColorDecoderException
      */
-    public static function create(mixed ...$input): ColorInterface
+    public static function create(mixed ...$input): self
     {
         $input = match (count($input)) {
             1 => $input[0],
@@ -65,15 +60,35 @@ class Color extends AbstractColor
         }
 
         try {
-            return InputHandler::withDecoders([
+            $color = InputHandler::withDecoders([
                 Decoders\HexColorDecoder::class,
                 Decoders\StringColorDecoder::class,
                 Decoders\TransparentColorDecoder::class,
                 Decoders\HtmlColornameDecoder::class,
             ])->handle($input);
         } catch (NotSupportedException) {
-            throw new ColorDecoderException('Failed to decode RGB color from string "' . $input . '"');
+            throw new ColorDecoderException(
+                'Failed to decode RGB color from string "' . $input . '"',
+            );
         }
+
+        if (!($color instanceof self)) {
+            throw new ColorDecoderException(
+                'Failed to decode RGB color from string "' . $input . '"',
+            );
+        }
+
+        return $color;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::colorspace()
+     */
+    public function colorspace(): ColorspaceInterface
+    {
+        return new Colorspace();
     }
 
     /**
@@ -116,9 +131,18 @@ class Color extends AbstractColor
      * {@inheritdoc}
      *
      * @see ColorInterface::toHex()
+     *
+     * @throws InvalidArgumentException
+     * @throws NotSupportedException
      */
     public function toHex(string $prefix = ''): string
     {
+        if (!in_array($prefix, ['', '#'])) {
+            throw new InvalidArgumentException(
+                'Hexadecimal color prefix must be "#" or empty string',
+            );
+        }
+
         if ($this->isTransparent()) {
             return sprintf(
                 '%s%02x%02x%02x%02x',

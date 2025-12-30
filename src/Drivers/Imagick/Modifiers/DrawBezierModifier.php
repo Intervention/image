@@ -7,12 +7,18 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use ImagickDraw;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\ModifierException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\DrawBezierModifier as GenericDrawBezierModifier;
 
 class DrawBezierModifier extends GenericDrawBezierModifier implements SpecializedInterface
 {
+    /**
+     * @throws InvalidArgumentException
+     * @throws ModifierException
+     * @throws StateException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         if ($this->drawable->count() !== 3 && $this->drawable->count() !== 4) {

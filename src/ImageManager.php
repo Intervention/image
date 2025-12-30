@@ -17,6 +17,7 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\MissingDependencyException;
 use Intervention\Image\Interfaces\DataUriInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageManagerInterface;
@@ -29,6 +30,8 @@ final class ImageManager implements ImageManagerInterface
 
     /**
      * @link https://image.intervention.io/v3/basics/configuration-drivers#create-a-new-image-manager-instance
+     *
+     * @throws InvalidArgumentException
      */
     public function __construct(string|DriverInterface $driver, mixed ...$options)
     {
@@ -39,6 +42,8 @@ final class ImageManager implements ImageManagerInterface
      * Create image manager with given driver
      *
      * @link https://image.intervention.io/v3/basics/configuration-drivers#static-constructor
+     *
+     * @throws InvalidArgumentException
      */
     public static function withDriver(string|DriverInterface $driver, mixed ...$options): self
     {
@@ -49,6 +54,9 @@ final class ImageManager implements ImageManagerInterface
      * Create image manager with GD driver
      *
      * @link https://image.intervention.io/v3/basics/configuration-drivers#static-gd-driver-constructor
+     *
+     * @throws InvalidArgumentException
+     * @throws MissingDependencyException
      */
     public static function gd(mixed ...$options): self
     {
@@ -59,6 +67,9 @@ final class ImageManager implements ImageManagerInterface
      * Create image manager with Imagick driver
      *
      * @link https://image.intervention.io/v3/basics/configuration-drivers#static-imagick-driver-constructor
+     *
+     * @throws InvalidArgumentException
+     * @throws MissingDependencyException
      */
     public static function imagick(mixed ...$options): self
     {
@@ -79,6 +90,8 @@ final class ImageManager implements ImageManagerInterface
      * {@inheritdoc}
      *
      * @see ImageManagerInterface::decodeFrom()
+     *
+     * @throws InvalidArgumentException
      */
     public function decodeFrom(
         null|string|Stringable $path = null,
@@ -123,31 +136,61 @@ final class ImageManager implements ImageManagerInterface
         };
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageManagerInterface::decodeFromPath()
+     */
     public function decodeFromPath(string|Stringable $path): ImageInterface
     {
         return $this->driver->handleImageInput($path, [FilePathImageDecoder::class]);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageManagerInterface::decodeFromBinary()
+     */
     public function decodeFromBinary(string|Stringable $binary): ImageInterface
     {
         return $this->driver->handleImageInput($binary, [BinaryImageDecoder::class]);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageManagerInterface::decodeFromBase64()
+     */
     public function decodeFromBase64(string|Stringable $base64): ImageInterface
     {
         return $this->driver->handleImageInput($base64, [Base64ImageDecoder::class]);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageManagerInterface::decodeFromDataUri()
+     */
     public function decodeFromDataUri(string|Stringable|DataUriInterface $dataUri): ImageInterface
     {
         return $this->driver->handleImageInput($dataUri, [DataUriImageDecoder::class]);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageManagerInterface::decodeFromSplFileInfo()
+     */
     public function decodeFromSplFileInfo(string|SplFileInfo $splFileInfo): ImageInterface
     {
         return $this->driver->handleImageInput($splFileInfo, [SplFileInfoImageDecoder::class]);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageManagerInterface::decodeFromStream()
+     */
     public function decodeFromStream(mixed $stream): ImageInterface
     {
         return $this->driver->handleImageInput($stream, [FilePointerImageDecoder::class]);
@@ -198,6 +241,8 @@ final class ImageManager implements ImageManagerInterface
 
     /**
      * Return driver object from given input which might be driver classname or instance of DriverInterface
+     *
+     * @throws InvalidArgumentException
      */
     private static function resolveDriver(string|DriverInterface $driver, mixed ...$options): DriverInterface
     {

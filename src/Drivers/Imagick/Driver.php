@@ -52,6 +52,8 @@ class Driver extends AbstractDriver
      * {@inheritdoc}
      *
      * @see DriverInterface::createImage()
+     *
+     * @throws DriverException
      */
     public function createImage(int $width, int $height): ImageInterface
     {
@@ -67,7 +69,7 @@ class Driver extends AbstractDriver
             $imagick->setImageUnits(Imagick::RESOLUTION_PIXELSPERINCH);
             $imagick->setImageBackgroundColor($background);
         } catch (ImagickException $e) {
-            throw new DriverException('Unable to create new image', previous: $e);
+            throw new DriverException('Failed to create new image', previous: $e);
         }
 
         return new Image($this, new Core($imagick));
@@ -124,6 +126,8 @@ class Driver extends AbstractDriver
 
     /**
      * Return version of ImageMagick library
+     *
+     * @throws DriverException
      */
     public function version(): string
     {

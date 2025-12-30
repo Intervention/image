@@ -6,10 +6,11 @@ namespace Intervention\Image\Drivers\Gd;
 
 use Intervention\Image\Drivers\AbstractFontProcessor;
 use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Point;
-use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\FontInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Size;
 
 class FontProcessor extends AbstractFontProcessor
 {
@@ -17,6 +18,9 @@ class FontProcessor extends AbstractFontProcessor
      * {@inheritdoc}
      *
      * @see FontProcessorInterface::boxSize()
+     *
+     * @throws DriverException
+     * @throws InvalidArgumentException
      */
     public function boxSize(string $text, FontInterface $font): SizeInterface
     {
@@ -27,7 +31,7 @@ class FontProcessor extends AbstractFontProcessor
             $gdFont = (int) $font->size();
 
             // calculate box size from gd font
-            $box = new Rectangle(0, 0);
+            $box = new Size(0, 0);
             $chars = mb_strlen($text);
             if ($chars > 0) {
                 $box->setWidth(
@@ -53,7 +57,7 @@ class FontProcessor extends AbstractFontProcessor
         }
 
         // build size from points
-        return new Rectangle(
+        return new Size(
             width: intval(abs($box[6] - $box[4])), // difference of upper-left-x and upper-right-x
             height: intval(abs($box[7] - $box[1])), // difference if upper-left-y and lower-left-y
             pivot: new Point($box[6], $box[7]), // position of upper-left corner

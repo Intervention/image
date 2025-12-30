@@ -37,7 +37,7 @@ enum Format
     /**
      * Create format from given identifier
      *
-     * @param string|Format|MediaType|FileExtension $identifier
+     * @throws InvalidArgumentException
      */
     public static function create(string|self|MediaType|FileExtension $identifier): self
     {
@@ -96,6 +96,8 @@ enum Format
 
     /**
      * Return the first found media type for the current format
+     *
+     * @throws NotSupportedException
      */
     public function mediaType(): MediaType
     {
@@ -104,7 +106,7 @@ enum Format
         $result = reset($types);
 
         if (!($result instanceof MediaType)) {
-            throw new NotSupportedException('Unable to retrieve media type from format');
+            throw new NotSupportedException('Unable to retrieve unsupported media type from format');
         }
 
         return $result;
@@ -125,6 +127,8 @@ enum Format
 
     /**
      * Return the first found file extension for the current format
+     *
+     * @throws NotSupportedException
      */
     public function fileExtension(): FileExtension
     {
@@ -133,7 +137,7 @@ enum Format
         $result = reset($extensions);
 
         if (!($result instanceof FileExtension)) {
-            throw new NotSupportedException('Unable to retrieve file extension for format');
+            throw new NotSupportedException('Unable to retrieve unsupported file extension for format');
         }
 
         return $result;

@@ -7,12 +7,17 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use Imagick;
 use ImagickException;
 use Intervention\Image\Exceptions\ModifierException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\PlaceModifier as GenericPlaceModifier;
 
 class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
 {
+    /**
+     * @throws ModifierException
+     * @throws StateException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $watermark = $this->driver()->handleImageInput($this->element);

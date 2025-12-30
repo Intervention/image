@@ -12,6 +12,9 @@ use Intervention\Image\Interfaces\SpecializedInterface;
 
 class HeightAnalyzer extends GenericHeightAnalyzer implements SpecializedInterface
 {
+    /**
+     * @throws AnalyzerException
+     */
     public function analyze(ImageInterface $image): mixed
     {
         try {

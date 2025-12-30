@@ -29,6 +29,11 @@ interface CollectionInterface extends Traversable
     public function get(int|string $key, mixed $default = null): mixed;
 
     /**
+     * Set item in collection
+     */
+    public function set(int|string $key, mixed $item): self;
+
+    /**
      * Return item at given numeric position starting at 0
      */
     public function getAtPosition(int $key = 0, mixed $default = null): mixed;

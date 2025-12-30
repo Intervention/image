@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\NotSupportedException;
+
 class Origin
 {
     /**
@@ -72,10 +75,16 @@ class Origin
 
     /**
      * Return format of the origin image
+     *
+     * @throws NotSupportedException
      */
     public function format(): Format
     {
-        return MediaType::create($this->mediaType())->format();
+        try {
+            return MediaType::create($this->mediaType())->format();
+        } catch (InvalidArgumentException) {
+            throw new NotSupportedException('Media type "' . $this->mediaType() . '" is not supported');
+        }
     }
 
     /**

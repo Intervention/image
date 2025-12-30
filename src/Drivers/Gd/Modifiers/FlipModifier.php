@@ -15,6 +15,8 @@ class FlipModifier extends GenericFlipModifier implements SpecializedInterface
      * {@inheritdoc}
      *
      * @see ModifierInterface::apply()
+     *
+     * @throws ModifierException
      */
     public function apply(ImageInterface $image): ImageInterface
     {

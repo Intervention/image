@@ -12,6 +12,9 @@ use Intervention\Image\Modifiers\ProfileModifier as GenericProfileModifier;
 
 class ProfileModifier extends GenericProfileModifier implements SpecializedInterface
 {
+    /**
+     * @throws ModifierException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $imagick = $image->core()->native();

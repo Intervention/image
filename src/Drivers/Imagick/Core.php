@@ -6,10 +6,12 @@ namespace Intervention\Image\Drivers\Imagick;
 
 use Imagick;
 use ImagickException;
+use Intervention\Image\Collection;
 use Intervention\Image\Exceptions\DriverException;
 use Iterator;
 use Intervention\Image\Interfaces\CoreInterface;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 
@@ -19,6 +21,7 @@ use Intervention\Image\Interfaces\FrameInterface;
 class Core implements CoreInterface, Iterator
 {
     protected int $iteratorIndex = 0;
+    protected CollectionInterface $meta;
 
     /**
      * Create new core instance
@@ -27,7 +30,7 @@ class Core implements CoreInterface, Iterator
      */
     public function __construct(protected Imagick $imagick)
     {
-        //
+        $this->meta = new Collection();
     }
 
     /**
@@ -48,6 +51,8 @@ class Core implements CoreInterface, Iterator
      * {@inheritdoc}
      *
      * @see CollectionInterface::push()
+     *
+     * @throws DriverException
      */
     public function push(mixed $item): CollectionInterface
     {
@@ -58,6 +63,8 @@ class Core implements CoreInterface, Iterator
      * {@inheritdoc}
      *
      * @see CollectionInterface::get()
+     *
+     * @throws DriverException
      */
     public function get(int|string $key, mixed $default = null): mixed
     {
@@ -77,7 +84,21 @@ class Core implements CoreInterface, Iterator
     /**
      * {@inheritdoc}
      *
+     * @see CollectionInterface::set()
+     *
+     * @throws DriverException
+     */
+    public function set(int|string $key, mixed $item): CollectionInterface
+    {
+        return $this->add($item);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see CollectionInterface::getAtPosition()
+     *
+     * @throws DriverException
      */
     public function getAtPosition(int $key = 0, mixed $default = null): mixed
     {
@@ -100,6 +121,8 @@ class Core implements CoreInterface, Iterator
      * {@inheritdoc}
      *
      * @see CollectionInterface::slice()
+     *
+     * @throws DriverException
      */
     public function slice(int $offset, ?int $length = null): CollectionInterface
     {
@@ -136,6 +159,8 @@ class Core implements CoreInterface, Iterator
      * {@inheritdoc}
      *
      * @see CoreInterface::add()
+     *
+     * @throws DriverException
      */
     public function add(FrameInterface $frame): CoreInterface
     {
@@ -168,6 +193,8 @@ class Core implements CoreInterface, Iterator
      * {@inheritdoc}
      *
      * @see CoreInterface::count()
+     *
+     * @throws DriverException
      */
     public function count(): int
     {
@@ -182,6 +209,8 @@ class Core implements CoreInterface, Iterator
      * {@inheritdoc}
      *
      * @see Iterator::rewind()
+     *
+     * @throws DriverException
      */
     public function current(): mixed
     {
@@ -266,6 +295,9 @@ class Core implements CoreInterface, Iterator
      * {@inheritdoc}
      *
      * @see CoreInterface::frame()
+     *
+     * @throws InvalidArgumentException
+     * @throws DriverException
      */
     public function frame(int $position): FrameInterface
     {
@@ -286,6 +318,8 @@ class Core implements CoreInterface, Iterator
      * {@inheritdoc}
      *
      * @see CoreInterface::loops()
+     *
+     * @throws DriverException
      */
     public function loops(): int
     {
@@ -300,6 +334,8 @@ class Core implements CoreInterface, Iterator
      * {@inheritdoc}
      *
      * @see CoreInterface::setLoops()
+     *
+     * @throws DriverException
      */
     public function setLoops(int $loops): CoreInterface
     {
@@ -317,20 +353,44 @@ class Core implements CoreInterface, Iterator
      * {@inheritdoc}
      *
      * @see CollectionInterface::first()
+     *
+     * @throws DriverException
+     * @throws StateException
      */
     public function first(): FrameInterface
     {
-        return $this->frame(0);
+        try {
+            return $this->frame(0);
+        } catch (InvalidArgumentException $e) {
+            throw new StateException('First frame not found in image', previous: $e);
+        }
     }
 
     /**
      * {@inheritdoc}
      *
      * @see CollectableInterface::last()
+     *
+     * @throws DriverException
+     * @throws StateException
      */
     public function last(): FrameInterface
     {
-        return $this->frame($this->count() - 1);
+        try {
+            return $this->frame($this->count() - 1);
+        } catch (InvalidArgumentException $e) {
+            throw new StateException('Last frame not found in image', previous: $e);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see CoreInterface::meta()
+     */
+    public function meta(): CollectionInterface
+    {
+        return $this->meta;
     }
 
     /**

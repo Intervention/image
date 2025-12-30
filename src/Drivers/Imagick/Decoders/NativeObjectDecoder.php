@@ -9,6 +9,7 @@ use ImagickException;
 use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\SpecializableDecoder;
 use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
@@ -31,6 +32,9 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
      * {@inheritdoc}
      *
      * @see DecoderInterface::decode()
+     *
+     * @throws StateException
+     * @throws DriverException
      */
     public function decode(mixed $input): ImageInterface
     {

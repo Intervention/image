@@ -11,6 +11,7 @@ use Intervention\Image\Colors\Oklab\Color as OklabColor;
 use Intervention\Image\Colors\Oklab\Colorspace as Oklab;
 use Intervention\Image\Colors\Oklch\Color as OklchColor;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
+use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
@@ -36,8 +37,11 @@ class Colorspace implements ColorspaceInterface
      * {@inheritdoc}
      *
      * @see ColorspaceInterface::colorFromNormalized()
+     *
+     * @throws InvalidArgumentException
+     * @throws NotSupportedException
      */
-    public static function colorFromNormalized(array $normalized): ColorInterface
+    public static function colorFromNormalized(array $normalized): RgbColor
     {
         // add alpha value if missing
         $normalized = count($normalized) === 3 ? array_pad($normalized, 4, 1) : $normalized;
@@ -58,14 +62,23 @@ class Colorspace implements ColorspaceInterface
         ));
     }
 
-    public function importColor(ColorInterface $color): ColorInterface
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorspaceInterface::importColor()
+     *
+     * @throws InvalidArgumentException
+     * @throws NotSupportedException
+     * @throws ColorDecoderException
+     */
+    public function importColor(ColorInterface $color): RgbColor
     {
         return match ($color::class) {
             CmykColor::class => $this->importCmykColor($color),
             HsvColor::class => $this->importHsvColor($color),
             HslColor::class => $this->importHslColor($color),
             OklabColor::class => $this->importOklabColor($color),
-            OklchColor::class => $this->importOklabColor($color->toColorspace(Oklab::class)),
+            OklchColor::class => $this->importOklchColor($color),
             RgbColor::class => $color,
             default => throw new NotSupportedException(
                 'Unable to import color ' . $color::class . ' to ' . $this::class,
@@ -82,6 +95,10 @@ class Colorspace implements ColorspaceInterface
         );
     }
 
+    /**
+     * @throws InvalidArgumentException
+     * @throws NotSupportedException
+     */
     private function importHsvColor(HsvColor $color): RgbColor
     {
         $chroma = $color->value()->normalize() * $color->saturation()->normalize();
@@ -105,6 +122,10 @@ class Colorspace implements ColorspaceInterface
         return $this->colorFromNormalized($values);
     }
 
+    /**
+     * @throws InvalidArgumentException
+     * @throws NotSupportedException
+     */
     private function importHslColor(HslColor $color): RgbColor
     {
         // normalized values of hsl channels
@@ -129,7 +150,9 @@ class Colorspace implements ColorspaceInterface
         $values = array_map(fn(float|int $value): float => $value + $m, $values);
         $values[] = $color->alpha()->normalize(); // append alpha channel value
 
-        return $this->colorFromNormalized($values);
+        $color = $this->colorFromNormalized($values);
+
+        return $color;
     }
 
     private function importOklabColor(OklabColor $color): RgbColor
@@ -166,5 +189,28 @@ class Colorspace implements ColorspaceInterface
             (int) round($b * 255),
             $color->alpha()->value(),
         );
+    }
+
+    /**
+     * @throws ColorDecoderException
+     */
+    private function importOklchColor(OklchColor $color): RgbColor
+    {
+        try {
+            $color = $color->toColorspace(Oklab::class);
+        } catch (InvalidArgumentException | NotSupportedException $e) {
+            throw new ColorDecoderException(
+                'Failed to transform OKLCH color to OKLAB color space',
+                previous: $e
+            );
+        }
+
+        if (!($color instanceof OklabColor)) {
+            throw new ColorDecoderException(
+                'Failed to transform OKLCH color to OKLAB color space',
+            );
+        }
+
+        return $this->importOklabColor($color);
     }
 }

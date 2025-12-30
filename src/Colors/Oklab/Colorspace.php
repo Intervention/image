@@ -11,6 +11,7 @@ use Intervention\Image\Colors\Oklab\Color as OklabColor;
 use Intervention\Image\Colors\Oklch\Color as OklchColor;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
+use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -35,8 +36,10 @@ class Colorspace implements ColorspaceInterface
      * {@inheritdoc}
      *
      * @see ColorspaceInterface::colorFromNormalized()
+     *
+     * @throws InvalidArgumentException
      */
-    public static function colorFromNormalized(array $normalized): ColorInterface
+    public static function colorFromNormalized(array $normalized): OklabColor
     {
         // add alpha value if missing
         $normalized = count($normalized) === 3 ? array_pad($normalized, 4, 1) : $normalized;
@@ -61,13 +64,16 @@ class Colorspace implements ColorspaceInterface
      * {@inheritdoc}
      *
      * @see ColorspaceInterface::importColor()
+     *
+     * @throws NotSupportedException
+     * @throws ColorDecoderException
      */
-    public function importColor(ColorInterface $color): ColorInterface
+    public function importColor(ColorInterface $color): OklabColor
     {
         return match ($color::class) {
             CmykColor::class,
             HsvColor::class,
-            HslColor::class => $color->toColorspace(Rgb::class)->toColorspace($this::class),
+            HslColor::class => $this->importViaRgbColor($color),
             RgbColor::class => $this->importRgbColor($color),
             OklchColor::class => $this->importOklchColor($color),
             OklabColor::class => $color,
@@ -116,5 +122,28 @@ class Colorspace implements ColorspaceInterface
             $color->chroma()->value() * sin($hRad),
             $color->alpha()->value(),
         );
+    }
+
+    /**
+     * @throws ColorDecoderException
+     */
+    private function importViaRgbColor(CmykColor|HslColor|HsvColor $color): OklabColor
+    {
+        try {
+            $color = $color->toColorspace(Rgb::class)->toColorspace($this::class);
+        } catch (InvalidArgumentException | NotSupportedException $e) {
+            throw new ColorDecoderException(
+                'Failed to transform color to OKLAB color space',
+                previous: $e
+            );
+        }
+
+        if (!($color instanceof OklabColor)) {
+            throw new ColorDecoderException(
+                'Failed to transform color to OKLAB color space',
+            );
+        }
+
+        return $color;
     }
 }

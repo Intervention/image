@@ -41,7 +41,7 @@ class File implements FileInterface, Stringable
      */
     public static function fromPath(string $path): self
     {
-        $pointer = fopen(self::parseFilePathOrFail($path), 'r');
+        $pointer = fopen(self::readableFilePathOrFail($path), 'r');
 
         if ($pointer === false) {
             throw new FileNotReadableException('Failed to open file from path "' . $path . '"');

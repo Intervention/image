@@ -15,7 +15,7 @@ trait CanParseFilePath
     /**
      * Parse and return existing file path or throw exception
      */
-    protected static function parseFilePathOrFail(mixed $path): string
+    protected static function readableFilePathOrFail(mixed $path): string
     {
         if (!is_string($path) && !($path instanceof Stringable)) {
             throw new InvalidArgumentException('Path must be either of type string or instance of Stringable');

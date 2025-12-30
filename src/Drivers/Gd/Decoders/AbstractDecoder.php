@@ -21,7 +21,7 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
      */
     protected function getMediaTypeByFilePath(string $filepath): MediaType
     {
-        $info = @getimagesize($this->parseFilePathOrFail($filepath));
+        $info = @getimagesize($this->readableFilePathOrFail($filepath));
 
         if (!is_array($info)) {
             throw new ImageDecoderException('Failed to read media (MIME) type from data in file path');

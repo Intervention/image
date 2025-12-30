@@ -275,7 +275,7 @@ final class Image implements ImageInterface
     public function save(?string $path = null, mixed ...$options): ImageInterface
     {
         if (is_null($path) && is_null($this->origin()->filePath())) {
-            throw new EncoderException('Could not determine the path for saving');
+            throw new EncoderException('Unable to determine path for saving');
         }
 
         $path = is_null($path) ? $this->origin()->filePath() : $path;

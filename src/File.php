@@ -71,13 +71,13 @@ class File implements FileInterface, Stringable
 
         if (!is_dir($dir)) {
             throw new DirectoryNotFoundException(
-                "Can't write to path. Directory does not exist"
+                'Can\'t write to path. Directory "' . $dir . '" does not exist'
             );
         }
 
         if (!is_writable($dir)) {
             throw new FileNotWritableException(
-                "Can't write to path. Directory is not writable"
+                'Can\'t write to path. Directory "' . $dir . '" is not writable'
             );
         }
 

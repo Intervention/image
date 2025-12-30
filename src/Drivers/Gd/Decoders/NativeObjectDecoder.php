@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
-use Exception;
 use GdImage;
 use Intervention\Gif\Decoder as GifDecoder;
+use Intervention\Gif\Exceptions\GifException;
 use Intervention\Gif\Splitter as GifSplitter;
 use Intervention\Image\Drivers\Gd\Core;
 use Intervention\Image\Drivers\Gd\Frame;
@@ -88,10 +88,10 @@ class NativeObjectDecoder extends AbstractDecoder
 
             $gif = GifDecoder::decode($input);
             $splitter = GifSplitter::create($gif)->split();
-            $delays = $splitter->getDelays();
+            $delays = $splitter->delays();
 
             // set loops on core
-            if ($loops = $gif->getMainApplicationExtension()?->getLoops()) {
+            if ($loops = $gif->mainApplicationExtension()?->loops()) {
                 $core->setLoops($loops);
             }
 
@@ -101,7 +101,7 @@ class NativeObjectDecoder extends AbstractDecoder
                     new Frame($native, $delays[$key] / 100)
                 );
             }
-        } catch (Exception $e) { // TODO: catch more detailed exception
+        } catch (GifException $e) {
             throw new ImageDecoderException('Failed to decode GIF format', previous: $e);
         }
 

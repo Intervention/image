@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Encoders;
 
-use Exception;
 use Intervention\Gif\Builder as GifBuilder;
+use Intervention\Gif\Exceptions\GifException;
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\GifEncoder as GenericGifEncoder;
@@ -53,8 +53,8 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
             $builder->setLoops($image->loops());
 
             return new EncodedImage($builder->encode(), 'image/gif');
-        } catch (Exception $e) {
-            throw new EncoderException($e->getMessage(), $e->getCode(), $e);
+        } catch (GifException $e) {
+            throw new EncoderException('Failed to encode image to GIF format', previous: $e);
         }
     }
 }

@@ -70,23 +70,10 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
             127,
         );
 
-        if ($transparent === false) {
-            throw new ModifierException(
-                'Failed to apply ' . self::class . ', unable allocate transparent color',
-            );
-        }
-
-        $result = imagealphablending($modified, false); // do not blend / just overwrite
-
-        if ($result === false) {
-            throw new ModifierException(
-                'Failed to apply ' . self::class . ', unable to set alpha blending',
-            );
-        }
+        imagealphablending($modified, false); // do not blend / just overwrite
 
         imagecolortransparent($modified, $transparent);
-
-        $result = imagefilledrectangle(
+        imagefilledrectangle(
             $modified,
             $crop->pivot()->x(),
             $crop->pivot()->y(),
@@ -95,22 +82,9 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
             $transparent
         );
 
-        if ($result === false) {
-            throw new ModifierException(
-                'Failed to apply ' . self::class . ', unable fill image with rectangle',
-            );
-        }
-
         // copy image from original with background alpha
-        $result = imagealphablending($modified, true);
-
-        if ($result === false) {
-            throw new ModifierException(
-                'Failed to apply ' . self::class . ', unable to set alpha blending',
-            );
-        }
-
-        $result = imagecopyresampled(
+        imagealphablending($modified, true);
+        imagecopyresampled(
             $modified,
             $frame->native(),
             $crop->pivot()->x(),
@@ -122,12 +96,6 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
             $frame->size()->width(),
             $frame->size()->height()
         );
-
-        if ($result === false) {
-            throw new ModifierException(
-                'Failed to apply ' . self::class . ', unable to resize image',
-            );
-        }
 
         // set new content as resource
         $frame->setNative($modified);

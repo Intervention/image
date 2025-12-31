@@ -27,22 +27,13 @@ class DrawPixelModifier extends GenericDrawPixelModifier implements SpecializedI
         );
 
         foreach ($image as $frame) {
-            $result = imagealphablending($frame->native(), true);
-
-            if ($result === false) {
-                throw new ModifierException('Failed to set alpha blending');
-            }
-
-            $result = imagesetpixel(
+            imagealphablending($frame->native(), true);
+            imagesetpixel(
                 $frame->native(),
                 $this->position->x(),
                 $this->position->y(),
                 $color
             );
-
-            if ($result === false) {
-                throw new ModifierException('Failed to draw pixel on image');
-            }
         }
 
         return $image;

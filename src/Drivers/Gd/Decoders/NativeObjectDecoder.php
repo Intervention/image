@@ -51,10 +51,7 @@ class NativeObjectDecoder extends AbstractDecoder
             }
         }
 
-        $result = imagesavealpha($input, true);
-        if ($result === false) {
-            throw new DriverException('Failed to convert image to true color');
-        }
+        imagesavealpha($input, true);
 
         // build image instance
         return new Image(

@@ -21,12 +21,7 @@ class FlipModifier extends GenericFlipModifier implements SpecializedInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $result = imageflip($frame->native(), IMG_FLIP_VERTICAL);
-            if ($result === false) {
-                throw new ModifierException(
-                    'Failed to apply ' . self::class . ', unable to mirror image',
-                );
-            }
+            imageflip($frame->native(), IMG_FLIP_VERTICAL);
         }
 
         return $image;

@@ -51,18 +51,12 @@ class FillModifier extends GenericFillModifier implements SpecializedInterface
      */
     private function floodFillWithColor(FrameInterface $frame, int $color): void
     {
-        $result = imagefill(
+        imagefill(
             $frame->native(),
             $this->position->x(),
             $this->position->y(),
             $color
         );
-
-        if ($result === false) {
-            throw new ModifierException(
-                'Failed to apply ' . self::class . ', unable to flood fill image'
-            );
-        }
     }
 
     /**
@@ -70,15 +64,8 @@ class FillModifier extends GenericFillModifier implements SpecializedInterface
      */
     private function fillAllWithColor(FrameInterface $frame, int $color): void
     {
-        $result = imagealphablending($frame->native(), true);
-
-        if ($result === false) {
-            throw new ModifierException(
-                'Failed to apply ' . self::class . ', unable to set alpha blending',
-            );
-        }
-
-        $result = imagefilledrectangle(
+        imagealphablending($frame->native(), true);
+        imagefilledrectangle(
             $frame->native(),
             0,
             0,
@@ -86,11 +73,5 @@ class FillModifier extends GenericFillModifier implements SpecializedInterface
             $frame->size()->height() - 1,
             $color
         );
-
-        if ($result === false) {
-            throw new ModifierException(
-                'Failed to apply ' . self::class . ', unable to fill image with rectangle',
-            );
-        }
     }
 }

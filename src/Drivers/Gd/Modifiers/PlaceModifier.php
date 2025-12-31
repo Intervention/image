@@ -28,10 +28,7 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
         $position = $this->position($image, $watermark);
 
         foreach ($image as $frame) {
-            $result = imagealphablending($frame->native(), true);
-            if ($result === false) {
-                throw new ModifierException('Failed to set alpha blending');
-            }
+            imagealphablending($frame->native(), true);
 
             if ($this->opacity === 100) {
                 $this->placeOpaque($frame, $watermark, $position);
@@ -50,7 +47,7 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
      */
     private function placeOpaque(FrameInterface $frame, ImageInterface $watermark, PointInterface $position): void
     {
-        $result = imagecopy(
+        imagecopy(
             $frame->native(),
             $watermark->core()->native(),
             $position->x(),
@@ -60,10 +57,6 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
             $watermark->width(),
             $watermark->height()
         );
-
-        if ($result === false) {
-            throw new ModifierException('Failed to place image');
-        }
     }
 
     /**
@@ -89,7 +82,7 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
             throw new ModifierException('Failed to place image');
         }
 
-        $result = imagecopy(
+        imagecopy(
             $cut,
             $frame->native(),
             0,
@@ -100,11 +93,7 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
             imagesy($cut)
         );
 
-        if ($result === false) {
-            throw new ModifierException('Failed to place image');
-        }
-
-        $result = imagecopy(
+        imagecopy(
             $cut,
             $watermark->core()->native(),
             0,
@@ -115,11 +104,7 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
             imagesy($cut)
         );
 
-        if ($result === false) {
-            throw new ModifierException('Failed to place image');
-        }
-
-        $result = imagecopymerge(
+        imagecopymerge(
             $frame->native(),
             $cut,
             $position->x(),
@@ -130,9 +115,5 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
             $watermark->height(),
             $this->opacity
         );
-
-        if ($result === false) {
-            throw new ModifierException('Failed to place image');
-        }
     }
 }

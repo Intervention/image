@@ -61,28 +61,15 @@ class Cloner
         // copy resolution to clone
         $resolution = imageresolution($gd);
         if (is_array($resolution) && array_key_exists(0, $resolution) && array_key_exists(1, $resolution)) {
-            $set = imageresolution($clone, $resolution[0], $resolution[1]);
-            if ($set === false) {
-                throw new DriverException('Failed to copy image resolution to clone');
-            }
+            imageresolution($clone, $resolution[0], $resolution[1]);
         }
 
         // fill with background
         $processor = new ColorProcessor();
-        $filled = imagefill($clone, 0, 0, $processor->colorToNative($background));
-        if ($filled === false) {
-            throw new DriverException('Failed to fill image clone with background color');
-        }
 
-        $blended = imagealphablending($clone, true);
-        if ($blended === false) {
-            throw new DriverException('Failed to set blending mode on image clone');
-        }
-
-        $alpha = imagesavealpha($clone, true);
-        if ($alpha === false) {
-            throw new DriverException('Failed to set flag for saving alpha channel on image clone');
-        }
+        imagefill($clone, 0, 0, $processor->colorToNative($background));
+        imagealphablending($clone, true);
+        imagesavealpha($clone, true);
 
         // set background image as transparent if alpha channel value if color is below .5
         // comes into effect when the end format only supports binary transparency (like GIF)

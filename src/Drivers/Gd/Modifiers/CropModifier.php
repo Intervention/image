@@ -71,14 +71,10 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
         $targetHeight = $targetHeight < $originalSize->height() ? $targetHeight + $offsetY : $targetHeight;
 
         // don't alpha blend for copy operation to keep transparent areas of original image
-        $result = imagealphablending($modified, false);
-
-        if ($result === false) {
-            throw new ModifierException('Failed to set alpha blending');
-        }
+        imagealphablending($modified, false);
 
         // copy content from resource
-        $result = imagecopyresampled(
+        imagecopyresampled(
             $modified,
             $frame->native(),
             $offsetX * -1,
@@ -90,10 +86,6 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
             $targetWidth,
             $targetHeight
         );
-
-        if ($result === false) {
-            throw new ModifierException('Failed to resize image');
-        }
 
         // set new content as resource
         $frame->setNative($modified);

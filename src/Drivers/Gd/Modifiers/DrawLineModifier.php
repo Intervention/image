@@ -41,25 +41,10 @@ class DrawLineModifier extends GenericDrawLineModifier implements SpecializedInt
      */
     private function modifyFrame(FrameInterface $frame, int $color): void
     {
-        $result = imagealphablending($frame->native(), true);
-
-        if ($result === false) {
-            throw new ModifierException('Failed to set alpha blending');
-        }
-
-        $result = imageantialias($frame->native(), true);
-
-        if ($result === false) {
-            throw new ModifierException('Failed to set antialias option on image');
-        }
-
-        $result = imagesetthickness($frame->native(), $this->drawable->width());
-
-        if ($result === false) {
-            throw new ModifierException('Failed to set line thickness');
-        }
-
-        $result = imageline(
+        imagealphablending($frame->native(), true);
+        imageantialias($frame->native(), true);
+        imagesetthickness($frame->native(), $this->drawable->width());
+        imageline(
             $frame->native(),
             $this->drawable->start()->x(),
             $this->drawable->start()->y(),
@@ -67,9 +52,5 @@ class DrawLineModifier extends GenericDrawLineModifier implements SpecializedInt
             $this->drawable->end()->y(),
             $color
         );
-
-        if ($result === false) {
-            throw new ModifierException('Failed to draw line on image');
-        }
     }
 }

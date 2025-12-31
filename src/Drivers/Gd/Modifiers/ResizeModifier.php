@@ -46,7 +46,7 @@ class ResizeModifier extends GenericResizeModifier implements SpecializedInterfa
         $modified = Cloner::cloneEmpty($frame->native(), $resizeTo);
 
         // copy content from resource
-        $result = imagecopyresampled(
+        imagecopyresampled(
             $modified,
             $frame->native(),
             $resizeTo->pivot()->x(),
@@ -58,10 +58,6 @@ class ResizeModifier extends GenericResizeModifier implements SpecializedInterfa
             $frame->size()->width(),
             $frame->size()->height()
         );
-
-        if ($result === false) {
-            throw new ModifierException('Failed to resize image');
-        }
 
         // set new content as resource
         $frame->setNative($modified);

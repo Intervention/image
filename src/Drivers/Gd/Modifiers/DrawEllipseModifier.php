@@ -24,17 +24,11 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
     {
         foreach ($image as $frame) {
             if ($this->drawable->hasBorder()) {
-                $result = imagealphablending($frame->native(), true);
-
-                if ($result === false) {
-                    throw new ModifierException(
-                        'Failed to apply ' . self::class . ', unable to set alpha blending',
-                    );
-                }
+                imagealphablending($frame->native(), true);
 
                 // slightly smaller ellipse to keep 1px bordered edges clean
                 if ($this->drawable->hasBackgroundColor()) {
-                    $result = imagefilledellipse(
+                    imagefilledellipse(
                         $frame->native(),
                         $this->drawable()->position()->x(),
                         $this->drawable->position()->y(),
@@ -44,28 +38,16 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
                             $this->backgroundColor()
                         )
                     );
-
-                    if ($result === false) {
-                        throw new ModifierException(
-                            'Failed to apply ' . self::class . ', unable to draw ellipse on image',
-                        );
-                    }
                 }
 
                 // gd's imageellipse ignores imagesetthickness
                 // so i use imagearc with 360 degrees instead.
-                $result = imagesetthickness(
+                imagesetthickness(
                     $frame->native(),
                     $this->drawable->borderSize(),
                 );
 
-                if ($result === false) {
-                    throw new ModifierException(
-                        'Failed to apply ' . self::class . ', unable to set line thickness',
-                    );
-                }
-
-                $result = imagearc(
+                imagearc(
                     $frame->native(),
                     $this->drawable()->position()->x(),
                     $this->drawable()->position()->y(),
@@ -77,30 +59,10 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
                         $this->borderColor()
                     )
                 );
-
-                if ($result === false) {
-                    throw new ModifierException(
-                        'Failed to apply ' . self::class . ', unable to draw ellipse on image',
-                    );
-                }
             } elseif ($this->drawable->hasBackgroundColor()) {
-                $result = imagealphablending($frame->native(), true);
-
-                if ($result === false) {
-                    throw new ModifierException(
-                        'Failed to apply ' . self::class . ', unable to set alpha blending',
-                    );
-                }
-
-                $result = imagesetthickness($frame->native(), 0);
-
-                if ($result === false) {
-                    throw new ModifierException(
-                        'Failed to apply ' . self::class . ', unable to set line thickness',
-                    );
-                }
-
-                $result = imagefilledellipse(
+                imagealphablending($frame->native(), true);
+                imagesetthickness($frame->native(), 0);
+                imagefilledellipse(
                     $frame->native(),
                     $this->drawable()->position()->x(),
                     $this->drawable()->position()->y(),
@@ -110,12 +72,6 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
                         $this->backgroundColor()
                     )
                 );
-
-                if ($result === false) {
-                    throw new ModifierException(
-                        'Failed to apply ' . self::class . ', unable to draw ellipse on image',
-                    );
-                }
             }
         }
 

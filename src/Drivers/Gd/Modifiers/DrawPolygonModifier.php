@@ -24,67 +24,27 @@ class DrawPolygonModifier extends ModifiersDrawPolygonModifier implements Specia
     {
         foreach ($image as $frame) {
             if ($this->drawable->hasBackgroundColor()) {
-                $result = imagealphablending($frame->native(), true);
-
-                if ($result === false) {
-                    throw new ModifierException(
-                        'Failed to apply ' . self::class . ', unable to set alpha blending',
-                    );
-                }
-
-                $result = imagesetthickness($frame->native(), 0);
-
-                if ($result === false) {
-                    throw new ModifierException(
-                        'Failed to apply ' . self::class . ', unable to set line thickness',
-                    );
-                }
-
-                $result = imagefilledpolygon(
+                imagealphablending($frame->native(), true);
+                imagesetthickness($frame->native(), 0);
+                imagefilledpolygon(
                     $frame->native(),
                     $this->drawable->toArray(),
                     $this->driver()->colorProcessor($image->colorspace())->colorToNative(
                         $this->backgroundColor()
                     )
                 );
-
-                if ($result === false) {
-                    throw new ModifierException(
-                        'Failed to apply ' . self::class . ', unable to draw polygon on image',
-                    );
-                }
             }
 
             if ($this->drawable->hasBorder()) {
-                $result = imagealphablending($frame->native(), true);
-
-                if ($result === false) {
-                    throw new ModifierException(
-                        'Failed to apply ' . self::class . ', unable to set alpha blending',
-                    );
-                }
-
-                $result = imagesetthickness($frame->native(), $this->drawable->borderSize());
-
-                if ($result === false) {
-                    throw new ModifierException(
-                        'Failed to apply ' . self::class . ', unable to set line thickness',
-                    );
-                }
-
-                $result = imagepolygon(
+                imagealphablending($frame->native(), true);
+                imagesetthickness($frame->native(), $this->drawable->borderSize());
+                imagepolygon(
                     $frame->native(),
                     $this->drawable->toArray(),
                     $this->driver()->colorProcessor($image->colorspace())->colorToNative(
                         $this->borderColor()
                     )
                 );
-
-                if ($result === false) {
-                    throw new ModifierException(
-                        'Failed to apply ' . self::class . ', unable to draw polygon on image',
-                    );
-                }
             }
         }
 

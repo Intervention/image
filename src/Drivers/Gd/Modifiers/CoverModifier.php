@@ -48,7 +48,7 @@ class CoverModifier extends GenericCoverModifier implements SpecializedInterface
         $modified = Cloner::cloneEmpty($frame->native(), $resize);
 
         // copy content from resource
-        $result = imagecopyresampled(
+        imagecopyresampled(
             $modified,
             $frame->native(),
             0,
@@ -60,10 +60,6 @@ class CoverModifier extends GenericCoverModifier implements SpecializedInterface
             $crop->width(),
             $crop->height()
         );
-
-        if ($result === false) {
-            throw new ModifierException('Failed resize image');
-        }
 
         // set new content as resource
         $frame->setNative($modified);

@@ -27,19 +27,9 @@ class DrawRectangleModifier extends GenericDrawRectangleModifier implements Spec
         foreach ($image as $frame) {
             // draw background
             if ($this->drawable->hasBackgroundColor()) {
-                $result = imagealphablending($frame->native(), true);
-
-                if ($result === false) {
-                    throw new ModifierException('Failed to set alpha blending');
-                }
-
-                $result = imagesetthickness($frame->native(), 0);
-
-                if ($result === false) {
-                    throw new ModifierException('Failed to set line thickness');
-                }
-
-                $result = imagefilledrectangle(
+                imagealphablending($frame->native(), true);
+                imagesetthickness($frame->native(), 0);
+                imagefilledrectangle(
                     $frame->native(),
                     $position->x(),
                     $position->y(),
@@ -49,26 +39,13 @@ class DrawRectangleModifier extends GenericDrawRectangleModifier implements Spec
                         $this->backgroundColor()
                     )
                 );
-
-                if ($result === false) {
-                    throw new ModifierException('Failed to draw line on image');
-                }
             }
 
             // draw border
             if ($this->drawable->hasBorder()) {
-                $result = imagealphablending($frame->native(), true);
-
-                if ($result === false) {
-                    throw new ModifierException('Failed to set alpha blending');
-                }
-
-                $result = imagesetthickness($frame->native(), $this->drawable->borderSize());
-
-                if ($result === false) {
-                    throw new ModifierException('Failed to set line thickness');
-                }
-                $result = imagerectangle(
+                imagealphablending($frame->native(), true);
+                imagesetthickness($frame->native(), $this->drawable->borderSize());
+                imagerectangle(
                     $frame->native(),
                     $position->x(),
                     $position->y(),
@@ -78,10 +55,6 @@ class DrawRectangleModifier extends GenericDrawRectangleModifier implements Spec
                         $this->borderColor()
                     )
                 );
-
-                if ($result === false) {
-                    throw new ModifierException('Failed to draw line on image');
-                }
             }
         }
 

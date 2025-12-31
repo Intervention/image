@@ -66,32 +66,13 @@ class Driver extends AbstractDriver
             throw new DriverException('Failed to create new image');
         }
 
-        $alpha = imagesavealpha($data, true);
-        if ($alpha === false) {
-            throw new DriverException('Failed to flag image to save alpha channel');
-        }
-
+        imagesavealpha($data, true);
         $background = imagecolorallocatealpha($data, 255, 255, 255, 127);
-        if ($background === false) {
-            throw new DriverException('Failed to create image background color');
-        }
 
-        $alphablending = imagealphablending($data, false);
-        if ($alphablending === false) {
-            throw new DriverException('Failed to set image alpha blending');
-        }
-
-        $fill = imagefill($data, 0, 0, $background);
-        if ($fill === false) {
-            throw new DriverException('Failed to fill image initially with transparency');
-        }
-
+        imagealphablending($data, false);
+        imagefill($data, 0, 0, $background);
         imagecolortransparent($data, $background);
-
-        $resolution = imageresolution($data, 72, 72);
-        if ($resolution === false) {
-            throw new DriverException('Failed to set initial image resolution');
-        }
+        imageresolution($data, 72, 72);
 
         return new Image(
             $this,

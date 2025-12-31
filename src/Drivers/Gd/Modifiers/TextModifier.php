@@ -34,7 +34,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
             if ($this->font->hasFile()) {
                 foreach ($lines as $line) {
                     foreach ($this->strokeOffsets($this->font) as $offset) {
-                        $result = imagettftext(
+                        imagettftext(
                             image: $frame->native(),
                             size: $fontProcessor->nativeFontSize($this->font),
                             angle: $this->font->angle() * -1,
@@ -44,13 +44,9 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
                             font_filename: $this->font->filepath(),
                             text: (string) $line
                         );
-
-                        if ($result === false) {
-                            throw new ModifierException('Failed write text on image');
-                        }
                     }
 
-                    $result = imagettftext(
+                    imagettftext(
                         image: $frame->native(),
                         size: $fontProcessor->nativeFontSize($this->font),
                         angle: $this->font->angle() * -1,
@@ -60,15 +56,11 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
                         font_filename: $this->font->filepath(),
                         text: (string) $line
                     );
-
-                    if ($result === false) {
-                        throw new ModifierException('Failed to write text on image');
-                    }
                 }
             } else {
                 foreach ($lines as $line) {
                     foreach ($this->strokeOffsets($this->font) as $offset) {
-                        $result = imagestring(
+                        imagestring(
                             image: $frame->native(),
                             font: $this->gdFont(),
                             x: $line->position()->x() + $offset->x(),
@@ -76,13 +68,9 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
                             string: (string) $line,
                             color: $strokeColor
                         );
-
-                        if ($result === false) {
-                            throw new ModifierException('Failed to write text on image');
-                        }
                     }
 
-                    $result = imagestring(
+                    imagestring(
                         image: $frame->native(),
                         font: $this->gdFont(),
                         x: $line->position()->x(),
@@ -90,10 +78,6 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
                         string: (string) $line,
                         color: $textColor
                     );
-
-                    if ($result === false) {
-                        throw new ModifierException('Failed to write text on image');
-                    }
                 }
             }
         }

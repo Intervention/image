@@ -24,10 +24,7 @@ class ResolutionModifier extends GenericResolutionModifier implements Specialize
         $y = intval(round($this->y));
 
         foreach ($image as $frame) {
-            $result = imageresolution($frame->native(), $x, $y);
-            if ($result === false) {
-                throw new ModifierException('Failed to set image resolution');
-            }
+            imageresolution($frame->native(), $x, $y);
         }
 
         // GD returns 96x96 as resolution by default even if the image has no resolution.

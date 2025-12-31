@@ -71,24 +71,12 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
             default => $transparent,
         };
 
-        if ($transparent === false) {
-            throw new ModifierException(
-                'Failed to apply ' . self::class . ', unable to allocate transparent color',
-            );
-        }
-
         // rotate original image against transparent background
         $rotated = imagerotate(
             $frame->native(),
             $this->rotationAngle(),
             $transparent
         );
-
-        if ($rotated === false) {
-            throw new ModifierException(
-                'Failed to apply ' . self::class . ', unable rotate image',
-            );
-        }
 
         // create size from original after rotation
         $container = (new Rectangle(
@@ -110,36 +98,16 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
 
         // draw the cutout on new gd image to have a transparent
         // background where the rotated image will be placed
-        $result = imagealphablending($modified, false);
-
-        if ($result === false) {
-            throw new ModifierException(
-                'Failed to apply ' . self::class . ', unable to set alpha blending',
-            );
-        }
-
-        $result = imagefilledpolygon(
+        imagealphablending($modified, false);
+        imagefilledpolygon(
             $modified,
             $cutout->toArray(),
             imagecolortransparent($modified)
         );
 
-        if ($result === false) {
-            throw new ModifierException(
-                'Failed to apply ' . self::class . ', unable to fill image background',
-            );
-        }
-
         // place rotated image on new gd image
-        $result = imagealphablending($modified, true);
-
-        if ($result === false) {
-            throw new ModifierException(
-                'Failed to apply ' . self::class . ', unable to set alpha blending',
-            );
-        }
-
-        $result = imagecopy(
+        imagealphablending($modified, true);
+        imagecopy(
             $modified,
             $rotated,
             0,
@@ -149,12 +117,6 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
             imagesx($rotated),
             imagesy($rotated)
         );
-
-        if ($result === false) {
-            throw new ModifierException(
-                'Failed to apply ' . self::class . ', unable to copy rotated image',
-            );
-        }
 
         $frame->setNative($modified);
     }

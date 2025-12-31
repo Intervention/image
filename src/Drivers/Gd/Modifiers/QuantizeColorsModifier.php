@@ -60,29 +60,17 @@ class QuantizeColorsModifier extends GenericQuantizeColorsModifier implements Sp
             $reduced = Cloner::cloneEmpty($frame->native(), background: $backgroundColor);
 
             // fill with background
-            $result = imagefill($reduced, 0, 0, $nativeBackgroundColor);
-
-            if ($result === false) {
-                throw new ModifierException('Failed to complete quantization process');
-            }
+            imagefill($reduced, 0, 0, $nativeBackgroundColor);
 
             // set transparency
             imagecolortransparent($reduced, $nativeBackgroundColor);
 
             // copy original image (colors are limited automatically in the copy process)
-            $result = imagecopy($reduced, $frame->native(), 0, 0, 0, 0, $width, $height);
-
-            if ($result === false) {
-                throw new ModifierException('Failed to complete quantization process');
-            }
+            imagecopy($reduced, $frame->native(), 0, 0, 0, 0, $width, $height);
 
             // gd library does not support color quantization directly therefore the
             // colors are decrease by transforming the image to a palette version
-            $result = imagetruecolortopalette($reduced, true, $this->limit);
-
-            if ($result === false) {
-                throw new ModifierException('Failed to complete quantization process');
-            }
+            imagetruecolortopalette($reduced, true, $this->limit);
 
             $frame->setNative($reduced);
         }

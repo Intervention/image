@@ -255,7 +255,6 @@ final class RectangleTest extends BaseTestCase
     {
         $rectangle = new Rectangle(800, 600);
         $result = $rectangle->resize(300, 200);
-        $this->assertInstanceOf(Rectangle::class, $result);
         $this->assertEquals(300, $result->width());
         $this->assertEquals(200, $result->height());
     }
@@ -264,7 +263,6 @@ final class RectangleTest extends BaseTestCase
     {
         $rectangle = new Rectangle(800, 600);
         $result = $rectangle->resizeDown(3000, 200);
-        $this->assertInstanceOf(Rectangle::class, $result);
         $this->assertEquals(800, $result->width());
         $this->assertEquals(200, $result->height());
     }
@@ -273,7 +271,6 @@ final class RectangleTest extends BaseTestCase
     {
         $rectangle = new Rectangle(800, 600);
         $result = $rectangle->scale(height: 1200);
-        $this->assertInstanceOf(Rectangle::class, $result);
         $this->assertEquals(800 * 2, $result->width());
         $this->assertEquals(600 * 2, $result->height());
     }
@@ -282,7 +279,6 @@ final class RectangleTest extends BaseTestCase
     {
         $rectangle = new Rectangle(800, 600);
         $result = $rectangle->scaleDown(height: 1200);
-        $this->assertInstanceOf(Rectangle::class, $result);
         $this->assertEquals(800, $result->width());
         $this->assertEquals(600, $result->height());
     }
@@ -291,7 +287,6 @@ final class RectangleTest extends BaseTestCase
     {
         $rectangle = new Rectangle(800, 600);
         $result = $rectangle->cover(400, 100);
-        $this->assertInstanceOf(Rectangle::class, $result);
         $this->assertEquals(400, $result->width());
         $this->assertEquals(300, $result->height());
     }
@@ -300,7 +295,6 @@ final class RectangleTest extends BaseTestCase
     {
         $rectangle = new Rectangle(800, 600);
         $result = $rectangle->contain(1600, 1200);
-        $this->assertInstanceOf(Rectangle::class, $result);
         $this->assertEquals(1600, $result->width());
         $this->assertEquals(1200, $result->height());
     }
@@ -309,7 +303,6 @@ final class RectangleTest extends BaseTestCase
     {
         $rectangle = new Rectangle(800, 600);
         $result = $rectangle->containMax(1600, 1200);
-        $this->assertInstanceOf(Rectangle::class, $result);
         $this->assertEquals(800, $result->width());
         $this->assertEquals(600, $result->height());
     }

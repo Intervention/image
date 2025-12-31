@@ -6,7 +6,7 @@ namespace Intervention\Image\Tests\Unit\Drivers\Gd;
 
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Drivers\Gd\Cloner;
-use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Size;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Resource;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -35,7 +35,7 @@ final class ClonerTest extends BaseTestCase
     public function testCloneEmpty(): void
     {
         $gd = imagecreatefromgif(Resource::create('gradient.gif')->path());
-        $clone = Cloner::cloneEmpty($gd, new Rectangle(12, 12), new Color(255, 0, 0, 0));
+        $clone = Cloner::cloneEmpty($gd, new Size(12, 12), new Color(255, 0, 0, 0));
 
         $this->assertEquals(16, imagesx($gd));
         $this->assertEquals(16, imagesy($gd));

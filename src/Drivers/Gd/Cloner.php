@@ -8,8 +8,8 @@ use GdImage;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
-use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Size;
 
 class Cloner
 {
@@ -46,7 +46,7 @@ class Cloner
         Color $background = new Color(255, 255, 255, 0)
     ): GdImage {
         // define size
-        $size = $size ?: new Rectangle(imagesx($gd), imagesy($gd));
+        $size = $size ?: new Size(imagesx($gd), imagesy($gd));
 
         if ($size->width() < 1 || $size->height() < 1) {
             throw new InvalidArgumentException('Invalid image size');

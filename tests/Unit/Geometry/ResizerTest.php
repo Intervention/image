@@ -6,8 +6,8 @@ namespace Intervention\Image\Tests\Unit\Geometry;
 
 use Intervention\Image\Alignment;
 use PHPUnit\Framework\Attributes\CoversClass;
-use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Geometry\Tools\Resizer;
+use Intervention\Image\Size;
 use Intervention\Image\Tests\Providers\ResizeDataProvider;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\TestCase;
@@ -47,7 +47,7 @@ final class ResizerTest extends TestCase
     public function testToSize(): void
     {
         $resizer = new Resizer();
-        $resizer = $resizer->toSize(new Rectangle(200, 100));
+        $resizer = $resizer->toSize(new Size(200, 100));
         $this->assertInstanceOf(Resizer::class, $resizer);
     }
 
@@ -55,7 +55,7 @@ final class ResizerTest extends TestCase
      * @param $resizeParameters array<string, int>
      */
     #[DataProviderExternal(ResizeDataProvider::class, 'resizeDataProvider')]
-    public function testResize(Rectangle $input, array $resizeParameters, Rectangle $result): void
+    public function testResize(Size $input, array $resizeParameters, Size $result): void
     {
         $resizer = new Resizer(...$resizeParameters);
         $resized = $resizer->resize($input);
@@ -67,7 +67,7 @@ final class ResizerTest extends TestCase
      * @param $resizeParameters array<string, int>
      */
     #[DataProviderExternal(ResizeDataProvider::class, 'resizeDownDataProvider')]
-    public function testResizeDown(Rectangle $input, array $resizeParameters, Rectangle $result): void
+    public function testResizeDown(Size $input, array $resizeParameters, Size $result): void
     {
         $resizer = new Resizer(...$resizeParameters);
         $resized = $resizer->resizeDown($input);
@@ -79,7 +79,7 @@ final class ResizerTest extends TestCase
      * @param $resizeParameters array<string, int>
      */
     #[DataProviderExternal(ResizeDataProvider::class, 'scaleDataProvider')]
-    public function testScale(Rectangle $input, array $resizeParameters, Rectangle $result): void
+    public function testScale(Size $input, array $resizeParameters, Size $result): void
     {
         $resizer = new Resizer(...$resizeParameters);
         $resized = $resizer->scale($input);
@@ -91,7 +91,7 @@ final class ResizerTest extends TestCase
      * @param $resizeParameters array<string, int>
      */
     #[DataProviderExternal(ResizeDataProvider::class, 'scaleDownDataProvider')]
-    public function testScaleDown(Rectangle $input, array $resizeParameters, Rectangle $result): void
+    public function testScaleDown(Size $input, array $resizeParameters, Size $result): void
     {
         $resizer = new Resizer(...$resizeParameters);
         $resized = $resizer->scaleDown($input);
@@ -100,7 +100,7 @@ final class ResizerTest extends TestCase
     }
 
     #[DataProviderExternal(ResizeDataProvider::class, 'coverDataProvider')]
-    public function testCover(Rectangle $origin, Rectangle $target, Rectangle $result): void
+    public function testCover(Size $origin, Size $target, Size $result): void
     {
         $resizer = new Resizer();
         $resizer->toSize($target);
@@ -110,7 +110,7 @@ final class ResizerTest extends TestCase
     }
 
     #[DataProviderExternal(ResizeDataProvider::class, 'containDataProvider')]
-    public function testContain(Rectangle $origin, Rectangle $target, Rectangle $result): void
+    public function testContain(Size $origin, Size $target, Size $result): void
     {
         $resizer = new Resizer();
         $resizer->toSize($target);
@@ -120,7 +120,7 @@ final class ResizerTest extends TestCase
     }
 
     #[DataProviderExternal(ResizeDataProvider::class, 'cropDataProvider')]
-    public function testCrop(Rectangle $origin, Rectangle $target, string|Alignment $position, Rectangle $result): void
+    public function testCrop(Size $origin, Size $target, string|Alignment $position, Size $result): void
     {
         $resizer = new Resizer();
         $resizer->toSize($target);

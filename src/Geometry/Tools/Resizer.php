@@ -7,8 +7,8 @@ namespace Intervention\Image\Geometry\Tools;
 use Intervention\Image\Alignment;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\StateException;
-use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Size;
 
 class Resizer
 {
@@ -86,7 +86,7 @@ class Resizer
         }
 
         try {
-            return new Rectangle($this->width, $this->height);
+            return new Size($this->width, $this->height);
         } catch (InvalidArgumentException $e) {
             throw new StateException('Invalid target size', previous: $e);
         }
@@ -154,7 +154,7 @@ class Resizer
      */
     public function resize(SizeInterface $size): SizeInterface
     {
-        $resized = new Rectangle($size->width(), $size->height());
+        $resized = new Size($size->width(), $size->height());
 
         if ($width = $this->getTargetWidth()) {
             $resized->setWidth($width);
@@ -174,7 +174,7 @@ class Resizer
      */
     public function resizeDown(SizeInterface $size): SizeInterface
     {
-        $resized = new Rectangle($size->width(), $size->height());
+        $resized = new Size($size->width(), $size->height());
 
         if ($width = $this->getTargetWidth()) {
             $resized->setWidth(
@@ -198,7 +198,7 @@ class Resizer
      */
     public function scale(SizeInterface $size): SizeInterface
     {
-        $resized = new Rectangle($size->width(), $size->height());
+        $resized = new Size($size->width(), $size->height());
 
         if ($this->hasTargetWidth() && $this->hasTargetHeight()) {
             $resized->setWidth(min(
@@ -227,7 +227,7 @@ class Resizer
      */
     public function scaleDown(SizeInterface $size): SizeInterface
     {
-        $resized = new Rectangle($size->width(), $size->height());
+        $resized = new Size($size->width(), $size->height());
 
         if ($this->hasTargetWidth() && $this->hasTargetHeight()) {
             $resized->setWidth(min(
@@ -272,7 +272,7 @@ class Resizer
      */
     public function cover(SizeInterface $size): SizeInterface
     {
-        $resized = new Rectangle($size->width(), $size->height());
+        $resized = new Size($size->width(), $size->height());
 
         // auto height
         $resized->setWidth($this->getTargetWidth());
@@ -296,7 +296,7 @@ class Resizer
      */
     public function contain(SizeInterface $size): SizeInterface
     {
-        $resized = new Rectangle($size->width(), $size->height());
+        $resized = new Size($size->width(), $size->height());
 
         // auto height
         $resized->setWidth($this->getTargetWidth());
@@ -320,7 +320,7 @@ class Resizer
      */
     public function containDown(SizeInterface $size): SizeInterface
     {
-        $resized = new Rectangle($size->width(), $size->height());
+        $resized = new Size($size->width(), $size->height());
 
         // auto height
         $resized->setWidth(

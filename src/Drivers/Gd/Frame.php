@@ -8,12 +8,12 @@ use GdImage;
 use Intervention\Image\Drivers\AbstractFrame;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
-use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Size;
 
 class Frame extends AbstractFrame implements FrameInterface
 {
@@ -73,7 +73,7 @@ class Frame extends AbstractFrame implements FrameInterface
      */
     public function size(): SizeInterface
     {
-        return new Rectangle(imagesx($this->native), imagesy($this->native));
+        return new Size(imagesx($this->native), imagesy($this->native));
     }
 
     /**

@@ -7,7 +7,7 @@ namespace Intervention\Image\Tests\Unit\Drivers;
 use Intervention\Image\Alignment;
 use Intervention\Image\Drivers\AbstractFontProcessor;
 use Intervention\Image\Geometry\Point;
-use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Size;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Resource;
 use Intervention\Image\Typography\Font;
@@ -32,41 +32,41 @@ class AbstractFontProcessorTest extends BaseTestCase
         $processor
             ->shouldReceive('boxSize')
             ->with('T', $font)
-            ->andReturn(new Rectangle(12, 6));
+            ->andReturn(new Size(12, 6));
         $processor
             ->shouldReceive('boxSize')
             ->with('Hy', $font)
-            ->andReturn(new Rectangle(24, 6));
+            ->andReturn(new Size(24, 6));
 
         $processor
             ->shouldReceive('boxSize')
             ->with('AAAA', $font)
-            ->andReturn(new Rectangle(24, 6, new Point(1000, 0)));
+            ->andReturn(new Size(24, 6, new Point(1000, 0)));
 
         $processor
             ->shouldReceive('boxSize')
             ->with('AAAA BBBB', $font)
-            ->andReturn(new Rectangle(24, 6));
+            ->andReturn(new Size(24, 6));
 
         $processor
             ->shouldReceive('boxSize')
             ->with('BBBB', $font)
-            ->andReturn(new Rectangle(24, 6, new Point(2000, 0)));
+            ->andReturn(new Size(24, 6, new Point(2000, 0)));
 
         $processor
             ->shouldReceive('boxSize')
             ->with('BBBB CCCC', $font)
-            ->andReturn(new Rectangle(24, 6));
+            ->andReturn(new Size(24, 6));
 
         $processor
             ->shouldReceive('boxSize')
             ->with('CCCC', $font)
-            ->andReturn(new Rectangle(24, 6, new Point(3000, 0)));
+            ->andReturn(new Size(24, 6, new Point(3000, 0)));
 
         $processor
             ->shouldReceive('boxSize')
             ->with($text, $font)
-            ->andReturn(new Rectangle(100, 25, new Point(10, 0)));
+            ->andReturn(new Size(100, 25, new Point(10, 0)));
 
         $block = $processor->textBlock($text, $font, new Point(0, 0));
 
@@ -91,7 +91,7 @@ class AbstractFontProcessorTest extends BaseTestCase
     {
         $font = new Font(Resource::create('test.ttf')->path());
         $processor = Mockery::mock(AbstractFontProcessor::class)->makePartial();
-        $processor->shouldReceive('boxSize')->with('Hy', $font)->andReturn(new Rectangle(24, 6));
+        $processor->shouldReceive('boxSize')->with('Hy', $font)->andReturn(new Size(24, 6));
         $this->assertEquals(6, $processor->typographicalSize($font));
     }
 
@@ -99,7 +99,7 @@ class AbstractFontProcessorTest extends BaseTestCase
     {
         $font = new Font(Resource::create('test.ttf')->path());
         $processor = Mockery::mock(AbstractFontProcessor::class)->makePartial();
-        $processor->shouldReceive('boxSize')->with('T', $font)->andReturn(new Rectangle(24, 6));
+        $processor->shouldReceive('boxSize')->with('T', $font)->andReturn(new Size(24, 6));
         $this->assertEquals(6, $processor->capHeight($font));
     }
 
@@ -107,7 +107,7 @@ class AbstractFontProcessorTest extends BaseTestCase
     {
         $font = (new Font(Resource::create('test.ttf')->path()))->setLineHeight(3);
         $processor = Mockery::mock(AbstractFontProcessor::class)->makePartial();
-        $processor->shouldReceive('boxSize')->with('Hy', $font)->andReturn(new Rectangle(24, 6));
+        $processor->shouldReceive('boxSize')->with('Hy', $font)->andReturn(new Size(24, 6));
         $this->assertEquals(18, $processor->leading($font));
     }
 }

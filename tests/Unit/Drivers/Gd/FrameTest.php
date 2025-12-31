@@ -10,7 +10,7 @@ use GdImage;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Image;
-use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Size;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('gd')]
@@ -48,7 +48,7 @@ final class FrameTest extends BaseTestCase
     public function testGetSize(): void
     {
         $frame = $this->getTestFrame();
-        $this->assertInstanceOf(Rectangle::class, $frame->size());
+        $this->assertInstanceOf(Size::class, $frame->size());
     }
 
     public function testSetGetDelay(): void

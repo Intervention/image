@@ -7,10 +7,10 @@ namespace Intervention\Image\Drivers;
 use Intervention\Image\Alignment;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Point;
-use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\FontInterface;
 use Intervention\Image\Interfaces\FontProcessorInterface;
 use Intervention\Image\Interfaces\PointInterface;
+use Intervention\Image\Size;
 use Intervention\Image\Typography\Line;
 use Intervention\Image\Typography\TextBlock;
 
@@ -154,7 +154,7 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
     protected function buildPivot(TextBlock $block, FontInterface $font, PointInterface $position): PointInterface
     {
         // bounding box
-        $box = new Rectangle(
+        $box = new Size(
             $this->boxSize((string) $block->longestLine(), $font)->width(),
             $this->leading($font) * ($block->count() - 1) + $this->capHeight($font)
         );

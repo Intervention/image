@@ -28,31 +28,37 @@ composer require intervention/image
 
 ## Getting Started
 
-Learn the [basics](https://image.intervention.io/v3/basics/instantiation/) on
+Learn the [basics](https://image.intervention.io/v4/basics/instantiation/) on
 how to use Intervention Image and more with the [official
-documentation](https://image.intervention.io/v3/).
+documentation](https://image.intervention.io/v4/).
 
 ## Code Examples
 
 ```php
 use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver as GdDriver;
+use Intervention\Image\Alignment;
+use Intervention\Image\Color;
+use Intervention\Image\Format;
+use Intervention\Image\Fraction;
 
 // create image manager with desired driver
-$manager = new ImageManager(
-    new Intervention\Image\Drivers\Gd\Driver()
-);
+$manager = ImageManager::withDriver(GdDriver::class);
 
-// open an image file
-$image = $manager->read('images/example.gif');
+// decode an image file
+$image = $manager->decodeFromPath('images/example.gif');
 
-// resize image instance
-$image->resize(height: 300);
+// resize image
+$image->resize(width: 300);
+
+// resize image canvas
+$image->resizeCanvasRelative(height: Fraction:THIRD, background: Color::rgb(255, 55, 0));
 
 // insert a watermark
-$image->place('images/watermark.png');
+$image->place('images/watermark.png', alignment: Alignment::CENTER);
 
 // encode edited image
-$encoded = $image->toJpg();
+$encoded = $image->encodeUsing(format: Format::JPEG);
 
 // save encoded image
 $encoded->save('images/example.jpg');
@@ -63,7 +69,7 @@ $encoded->save('images/example.jpg');
 Before you begin with the installation make sure that your server environment
 supports the following requirements.
 
-- PHP >= 8.1
+- PHP >= 8.3
 - Mbstring PHP Extension
 - Image Processing PHP Extension
 

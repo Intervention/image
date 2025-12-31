@@ -23,8 +23,8 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        $crop = $this->getCropSize($image);
-        $resize = $this->getResizeSize($image);
+        $crop = $this->cropSize($image);
+        $resize = $this->resizeSize($image);
         $transparent = new ImagickPixel('transparent');
 
         $background = $this->driver()

@@ -19,8 +19,8 @@ class CoverModifier extends GenericCoverModifier implements SpecializedInterface
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        $crop = $this->getCropSize($image);
-        $resize = $this->getResizeSize($crop);
+        $crop = $this->cropSize($image);
+        $resize = $this->resizeSize($crop);
 
         foreach ($image as $frame) {
             try {

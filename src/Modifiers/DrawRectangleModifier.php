@@ -11,8 +11,6 @@ class DrawRectangleModifier extends AbstractDrawModifier
 {
     /**
      * Create new modifier object
-     *
-     * @return void
      */
     public function __construct(public Rectangle $drawable)
     {

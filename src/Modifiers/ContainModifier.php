@@ -25,9 +25,11 @@ class ContainModifier extends SpecializableModifier
     }
 
     /**
+     * Calculate the crop size of the contain resizing process
+     *
      * @throws InvalidArgumentException
      */
-    public function getCropSize(ImageInterface $image): SizeInterface // TODO: make protected, rename
+    public function cropSize(ImageInterface $image): SizeInterface // TODO: make protected
     {
         return $image->size()
             ->contain(
@@ -35,17 +37,17 @@ class ContainModifier extends SpecializableModifier
                 $this->height
             )
             ->alignPivotTo(
-                $this->getResizeSize($image),
+                $this->resizeSize($image),
                 $this->alignment
             );
     }
 
     /**
-     * Return target size for resizing
+     * Calculate the resize target size of the contain resizing process
      *
      * @throws InvalidArgumentException
      */
-    public function getResizeSize(ImageInterface $image): SizeInterface // TODO: make protected, rename
+    public function resizeSize(ImageInterface $image): SizeInterface // TODO: make protected
     {
         return new Size($this->width, $this->height);
     }

@@ -21,6 +21,6 @@ final class PadModifierTest extends BaseTestCase
         $image = Mockery::mock(ImageInterface::class);
         $size = new Size(300, 200);
         $image->shouldReceive('size')->andReturn($size);
-        $this->assertInstanceOf(SizeInterface::class, $modifier->getCropSize($image));
+        $this->assertInstanceOf(SizeInterface::class, $modifier->cropSize($image));
     }
 }

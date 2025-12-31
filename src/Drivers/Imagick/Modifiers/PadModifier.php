@@ -9,7 +9,10 @@ use Intervention\Image\Interfaces\SizeInterface;
 
 class PadModifier extends ContainModifier
 {
-    public function getCropSize(ImageInterface $image): SizeInterface
+    /**
+     * Calculate crop size of the pad resizing process
+     */
+    public function cropSize(ImageInterface $image): SizeInterface
     {
         return $image->size()
             ->containMax(
@@ -17,7 +20,7 @@ class PadModifier extends ContainModifier
                 $this->height
             )
             ->alignPivotTo(
-                $this->getResizeSize($image),
+                $this->resizeSize($image),
                 $this->alignment
             );
     }

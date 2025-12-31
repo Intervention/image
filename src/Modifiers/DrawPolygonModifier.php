@@ -14,6 +14,9 @@ class DrawPolygonModifier extends AbstractDrawModifier
         //
     }
 
+    /**
+     * Return object to be drawn
+     */
     public function drawable(): DrawableInterface
     {
         return $this->drawable;

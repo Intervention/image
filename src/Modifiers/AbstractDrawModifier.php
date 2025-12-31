@@ -17,6 +17,8 @@ abstract class AbstractDrawModifier extends SpecializableModifier
     abstract public function drawable(): DrawableInterface; // TODO: make protected
 
     /**
+     * Return the background color of the object rendered by the modifier
+     *
      * @throws StateException
      */
     public function backgroundColor(): ColorInterface // TODO: make protected
@@ -25,6 +27,8 @@ abstract class AbstractDrawModifier extends SpecializableModifier
     }
 
     /**
+     * Return the border color of the object rendered by the modifier
+     *
      * @throws StateException
      */
     public function borderColor(): ColorInterface // TODO: make protected

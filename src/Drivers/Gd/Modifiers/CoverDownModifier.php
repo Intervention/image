@@ -8,7 +8,10 @@ use Intervention\Image\Interfaces\SizeInterface;
 
 class CoverDownModifier extends CoverModifier
 {
-    public function getResizeSize(SizeInterface $size): SizeInterface
+    /**
+     * Calculate resizing size of the cover down process
+     */
+    public function resizeSize(SizeInterface $size): SizeInterface
     {
         return $size->resizeDown($this->width, $this->height);
     }

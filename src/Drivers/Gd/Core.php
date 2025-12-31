@@ -136,6 +136,8 @@ class Core extends Collection implements CoreInterface
      */
     public function __clone(): void
     {
+        $this->meta = clone $this->meta;
+
         foreach ($this->items as $key => $frame) {
             $this->items[$key] = clone $frame;
         }

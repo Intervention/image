@@ -414,6 +414,7 @@ class Core implements CoreInterface, Iterator
      */
     public function __clone(): void
     {
+        $this->meta = clone $this->meta;
         $this->imagick = clone $this->imagick;
     }
 }

@@ -89,6 +89,29 @@ final class ImageManager implements ImageManagerInterface
     /**
      * {@inheritdoc}
      *
+     * @see ImageManagerInterface::decode()
+     */
+    public function decode(mixed $input, null|string|array|DecoderInterface $decoders = null): ImageInterface
+    {
+        return $this->driver->handleImageInput($input, match (gettype($decoders)) {
+            "NULL" => [
+                NativeObjectDecoder::class,
+                FilePointerImageDecoder::class,
+                SplFileInfoImageDecoder::class,
+                EncodedImageObjectDecoder::class,
+                Base64ImageDecoder::class,
+                DataUriImageDecoder::class,
+                BinaryImageDecoder::class,
+                FilePathImageDecoder::class,
+            ],
+            "string", "object" => [$decoders],
+            default => $decoders,
+        });
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see ImageManagerInterface::decodeFrom()
      *
      * @throws InvalidArgumentException
@@ -194,29 +217,6 @@ final class ImageManager implements ImageManagerInterface
     public function decodeFromStream(mixed $stream): ImageInterface
     {
         return $this->driver->handleImageInput($stream, [FilePointerImageDecoder::class]);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ImageManagerInterface::decode()
-     */
-    public function decode(mixed $input, null|string|array|DecoderInterface $decoders = null): ImageInterface
-    {
-        return $this->driver->handleImageInput($input, match (gettype($decoders)) {
-            "NULL" => [
-                NativeObjectDecoder::class,
-                FilePointerImageDecoder::class,
-                SplFileInfoImageDecoder::class,
-                EncodedImageObjectDecoder::class,
-                Base64ImageDecoder::class,
-                DataUriImageDecoder::class,
-                BinaryImageDecoder::class,
-                FilePathImageDecoder::class,
-            ],
-            "string", "object" => [$decoders],
-            default => $decoders,
-        });
     }
 
     /**

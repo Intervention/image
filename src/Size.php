@@ -7,7 +7,7 @@ namespace Intervention\Image;
 use ArrayIterator;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\StateException;
-use Intervention\Image\Geometry\Tools\RectangleResizer;
+use Intervention\Image\Geometry\Tools\Resizer;
 use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Geometry\Point;
@@ -344,9 +344,9 @@ class Size extends Polygon implements SizeInterface
      *
      * @throws InvalidArgumentException
      */
-    protected function resizer(?int $width = null, ?int $height = null): RectangleResizer
+    protected function resizer(?int $width = null, ?int $height = null): Resizer
     {
-        return new RectangleResizer($width, $height);
+        return new Resizer($width, $height);
     }
 
     /**

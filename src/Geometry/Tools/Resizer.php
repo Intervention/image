@@ -10,7 +10,7 @@ use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\SizeInterface;
 
-class RectangleResizer // TODO: may rename to Resizer
+class Resizer
 {
     /**
      * @throws InvalidArgumentException

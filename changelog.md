@@ -59,6 +59,7 @@
 - Method ColorChannelInterface::toInt() was removed use ColorChannelInterface::value() instead
 - Method ColorChannelInterface::colorFromNormalized() requires now a static implementation
 - CoreInterface::class now requires implementation of CoreInterface::meta()
+- RectangleResizer::class was renamed to Resize::class
 
 ### Exceptions
 

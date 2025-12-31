@@ -45,9 +45,9 @@ final class OriginTest extends BaseTestCase
     public function testFormat(): void
     {
         $this->expectException(NotSupportedException::class);
-        new Origin()->format();
+        (new Origin())->format();
 
-        $this->assertEquals(Format::JPEG, new Origin('image/jpeg')->format());
-        $this->assertEquals(Format::GIF, new Origin('image/gif')->format());
+        $this->assertEquals(Format::JPEG, (new Origin('image/jpeg'))->format());
+        $this->assertEquals(Format::GIF, (new Origin('image/gif'))->format());
     }
 }

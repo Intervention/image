@@ -19,7 +19,7 @@
         }
     ],
     "require": {
-        "php": "^8.4",
+        "php": "^8.3",
         "ext-mbstring": "*",
         "intervention/gif": "^5@beta"
     },

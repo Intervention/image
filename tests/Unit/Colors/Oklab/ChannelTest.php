@@ -46,7 +46,7 @@ final class ChannelTest extends BaseTestCase
 
     public function testValue(): void
     {
-        $this->assertEquals(1, new Lightness(1)->value());
+        $this->assertEquals(1, (new Lightness(1))->value());
     }
 
     public function testNormalize(): void

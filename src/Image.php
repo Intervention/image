@@ -1024,7 +1024,7 @@ final class Image implements ImageInterface
     /**
      * Show debug info for the current image
      *
-     * @return array<string, int>
+     * @return array<string, ?int>
      */
     public function __debugInfo(): array
     {
@@ -1033,8 +1033,11 @@ final class Image implements ImageInterface
                 'width' => $this->width(),
                 'height' => $this->height(),
             ];
-        } catch (Throwable) { // TODO: refactor
-            return [];
+        } catch (Throwable) {
+            return [
+                'width' => null,
+                'height' => null,
+            ];
         }
     }
 

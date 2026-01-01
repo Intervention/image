@@ -52,7 +52,7 @@ $image = $manager->decodeFromPath('images/example.webp');
 $image->resize(width: 300);
 
 // resize the image canvas
-$image->resizeCanvas(height: Fraction:THIRD, background: Color::rgb(255, 55, 0));
+$image->resizeCanvas(height: Fraction::THIRD, background: Color::rgb(255, 55, 0));
 
 // insert a watermark
 $image->place('images/watermark.png', alignment: Alignment::CENTER);

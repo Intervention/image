@@ -46,19 +46,19 @@ use Intervention\Image\Fraction;
 $manager = ImageManager::withDriver(GdDriver::class);
 
 // decode an image file
-$image = $manager->decodeFromPath('images/example.gif');
+$image = $manager->decodeFromPath('images/example.webp');
 
-// resize image
+// resize image width
 $image->resize(width: 300);
 
-// resize image canvas
-$image->resizeCanvasRelative(height: Fraction:THIRD, background: Color::rgb(255, 55, 0));
+// resize the image canvas
+$image->resizeCanvas(height: Fraction:THIRD, background: Color::rgb(255, 55, 0));
 
 // insert a watermark
 $image->place('images/watermark.png', alignment: Alignment::CENTER);
 
 // encode edited image
-$encoded = $image->encodeUsing(format: Format::JPEG);
+$encoded = $image->encodeUsing(format: Format::JPEG, quality: 65);
 
 // save encoded image
 $encoded->save('images/example.jpg');

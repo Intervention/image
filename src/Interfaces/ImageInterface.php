@@ -478,7 +478,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      */
     public function place(
         mixed $element,
-        string|Alignment $alignment = Alignment::TOP_LEFT,
+        string|Alignment $alignment = Alignment::TOP_LEFT, // TODO: maybe rename to 'align'
         int $x = 0,
         int $y = 0,
         int $opacity = 100

@@ -11,7 +11,7 @@ use Intervention\Image\Interfaces\DrawableInterface;
 class Drawable
 {
     /**
-     * Creeate BezierFactory statically
+     * Creeate BezierFactory statically.
      */
     public static function bezier(null|Closure|DrawableInterface $init = null): BezierFactory
     {
@@ -19,7 +19,7 @@ class Drawable
     }
 
     /**
-     * Creeate CircleFactory statically
+     * Creeate CircleFactory statically.
      */
     public static function circle(null|Closure|DrawableInterface $init = null): CircleFactory
     {
@@ -27,7 +27,7 @@ class Drawable
     }
 
     /**
-     * Create EllipseFactory statically
+     * Create EllipseFactory statically.
      */
     public static function ellipse(null|Closure|DrawableInterface $init = null): EllipseFactory
     {
@@ -35,7 +35,7 @@ class Drawable
     }
 
     /**
-     * Creeate LineFactory statically
+     * Creeate LineFactory statically.
      */
     public static function line(null|Closure|DrawableInterface $init = null): LineFactory
     {
@@ -43,7 +43,7 @@ class Drawable
     }
 
     /**
-     * Creeate PolygonFactory statically
+     * Creeate PolygonFactory statically.
      */
     public static function polygon(null|Closure|DrawableInterface $init = null): PolygonFactory
     {
@@ -51,7 +51,7 @@ class Drawable
     }
 
     /**
-     * Creeate RectangleFactory statically
+     * Creeate RectangleFactory statically.
      *
      * @throws InvalidArgumentException
      */

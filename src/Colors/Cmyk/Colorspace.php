@@ -20,7 +20,7 @@ use Intervention\Image\Interfaces\ColorspaceInterface;
 class Colorspace implements ColorspaceInterface
 {
     /**
-     * Channel class names of colorspace
+     * Channel class names of colorspace.
      *
      * @var array<string>
      */
@@ -68,6 +68,9 @@ class Colorspace implements ColorspaceInterface
         };
     }
 
+    /**
+     * Import given RGB color to CMYK colorspace
+     */
     private function importRgbColor(RgbColor $color): CmykColor
     {
         $c = (255 - $color->red()->value()) / 255.0 * 100;
@@ -83,6 +86,8 @@ class Colorspace implements ColorspaceInterface
     }
 
     /**
+     * Import given color to CMYK colorspace by converting it to RGB first
+     *
      * @throws ColorDecoderException
      */
     private function importViaRgbColor(OklabColor|OklchColor|HslColor|HsvColor $color): CmykColor

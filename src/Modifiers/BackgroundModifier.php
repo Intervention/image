@@ -11,7 +11,7 @@ use Intervention\Image\Interfaces\DriverInterface;
 class BackgroundModifier extends SpecializableModifier
 {
     /**
-     * Create new modifier object
+     * Create new modifier object.
      *
      * @return void
      */
@@ -21,7 +21,7 @@ class BackgroundModifier extends SpecializableModifier
     }
 
     /**
-     * Decode background color of current modifier with given driver
+     * Decode background color of current modifier with given driver.
      */
     protected function backgroundColor(DriverInterface $driver): ColorInterface
     {

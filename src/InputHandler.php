@@ -34,6 +34,9 @@ use Intervention\Image\Interfaces\InputHandlerInterface;
 
 class InputHandler implements InputHandlerInterface
 {
+    /**
+     * All available image decoders.
+     */
     public const array IMAGE_DECODERS = [
         NativeObjectDecoder::class,
         FilePointerImageDecoder::class,
@@ -45,6 +48,9 @@ class InputHandler implements InputHandlerInterface
         FilePathImageDecoder::class,
     ];
 
+    /**
+     * All available color decoders.
+     */
     public const array COLOR_DECODERS = [
         HtmlColornameDecoder::class,
         TransparentColorDecoder::class,
@@ -59,7 +65,7 @@ class InputHandler implements InputHandlerInterface
     ];
 
     /**
-     * Create new input handler instance with given decoder classnames
+     * Create new input handler instance with given decoder classnames.
      *
      * @param array<string|DecoderInterface> $decoders
      * @return void
@@ -72,7 +78,7 @@ class InputHandler implements InputHandlerInterface
     }
 
     /**
-     * Static factory method to create input handler for both image and color handling
+     * Static factory method to create input handler for both image and color handling.
      *
      * @param array<string|DecoderInterface> $decoders
      */
@@ -116,7 +122,7 @@ class InputHandler implements InputHandlerInterface
     }
 
     /**
-     * Yield all decoders
+     * Yield all decoders.
      *
      * @throws InvalidArgumentException
      * @throws DriverException
@@ -129,7 +135,7 @@ class InputHandler implements InputHandlerInterface
     }
 
     /**
-     * Resolve the given classname to an decoder object
+     * Resolve the given classname to an decoder object.
      *
      * @throws InvalidArgumentException
      * @throws DriverException

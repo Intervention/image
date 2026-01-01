@@ -17,9 +17,7 @@ use Intervention\Image\Interfaces\ColorspaceInterface;
 class Color extends AbstractColor
 {
     /**
-     * Create new color object
-     *
-     * @return void
+     * Create new color object.
      */
     public function __construct(float $l, float $c, float $h, float $a = 1)
     {
@@ -83,7 +81,7 @@ class Color extends AbstractColor
     }
 
     /**
-     * Return the Lightness channel
+     * Return the Lightness channel.
      */
     public function lightness(): ColorChannelInterface
     {
@@ -92,7 +90,7 @@ class Color extends AbstractColor
     }
 
     /**
-     * Return the chroma channel
+     * Return the chroma channel.
      */
     public function chroma(): ColorChannelInterface
     {
@@ -101,7 +99,7 @@ class Color extends AbstractColor
     }
 
     /**
-     * Return the hue channel
+     * Return the hue channel.
      */
     public function hue(): ColorChannelInterface
     {
@@ -110,7 +108,7 @@ class Color extends AbstractColor
     }
 
     /**
-     * Return the alpha channel
+     * Return the alpha channel.
      */
     public function alpha(): ColorChannelInterface
     {

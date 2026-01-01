@@ -16,7 +16,7 @@ use IteratorAggregate;
 class Collection implements CollectionInterface, IteratorAggregate, Countable
 {
     /**
-     * Create new collection object
+     * Create new collection object.
      *
      * @param array<int|string, mixed> $items
      */
@@ -26,7 +26,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     }
 
     /**
-     * Static constructor
+     * Static constructor.
      *
      * @param array<int|string, mixed> $items
      * @return self<int|string, mixed>
@@ -59,7 +59,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     }
 
     /**
-     * Returns Iterator
+     * Returns Iterator.
      *
      * @return Traversable<int|string, mixed>
      */
@@ -79,7 +79,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     }
 
     /**
-     * Count items in collection
+     * Count items in collection.
      */
     public function count(): int
     {
@@ -87,7 +87,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     }
 
     /**
-     * Append new item to collection
+     * Append new item to collection.
      *
      * @return CollectionInterface<int|string, mixed>
      */
@@ -99,7 +99,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     }
 
     /**
-     * Return first item in collection
+     * Return first item in collection.
      */
     public function first(): mixed
     {
@@ -111,7 +111,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     }
 
     /**
-     * Returns last item in collection
+     * Returns last item in collection.
      */
     public function last(): mixed
     {
@@ -123,7 +123,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     }
 
     /**
-     * Return item at given position starting at 0
+     * Return item at given position starting at 0.
      */
     public function getAtPosition(int $key = 0, mixed $default = null): mixed
     {
@@ -176,7 +176,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     }
 
     /**
-     * Map each item of collection by given callback
+     * Map each item of collection by given callback.
      */
     public function map(callable $callback): self
     {
@@ -190,7 +190,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     }
 
     /**
-     * Run callback on each item of the collection an remove it if it does not return true
+     * Run callback on each item of the collection an remove it if it does not return true.
      */
     public function filter(callable $callback): self
     {

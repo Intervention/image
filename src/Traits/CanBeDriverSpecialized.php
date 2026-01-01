@@ -13,7 +13,7 @@ use ReflectionClass;
 trait CanBeDriverSpecialized
 {
     /**
-     * The driver with which the instance may be specialized
+     * The driver with which the instance may be specialized.
      */
     protected DriverInterface $driver;
 
@@ -75,7 +75,7 @@ trait CanBeDriverSpecialized
     }
 
     /**
-     * Determine if the current object belongs to the given driver's namespace
+     * Determine if the current object belongs to the given driver's namespace.
      */
     protected function belongsToDriver(object $driver): bool
     {

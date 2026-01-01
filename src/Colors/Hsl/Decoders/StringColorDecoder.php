@@ -12,6 +12,9 @@ use Intervention\Image\Interfaces\DecoderInterface;
 
 class StringColorDecoder extends AbstractDecoder implements DecoderInterface
 {
+    /**
+     * Regex pattern of HSL color syntax
+     */
     private const string PATTERN =
         '/^hsla? ?\( ?' .
         '(?P<h>[0-9\.]+)(?:deg)?((, ?)| )' .
@@ -40,7 +43,7 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
     }
 
     /**
-     * Decode hsl color strings
+     * Decode hsl color strings.
      *
      * @throws InvalidArgumentException
      */

@@ -15,7 +15,7 @@ use Intervention\Image\Interfaces\DecoderInterface;
 class HexColorDecoder extends AbstractDecoder implements DecoderInterface
 {
     /**
-     * Pattern of hexadecimal colors
+     * Regex pattern of hexadecimal color syntax.
      */
     private const string PATTERN = '/^#?(?P<hex>[a-f\d]{3}(?:[a-f\d]?|(?:[a-f\d]{3}(?:[a-f\d]{2})?)?)\b)$/i';
 
@@ -43,7 +43,7 @@ class HexColorDecoder extends AbstractDecoder implements DecoderInterface
     }
 
     /**
-     * Decode hexadecimal rgb colors with and without transparency
+     * Decode hexadecimal rgb colors with and without transparency.
      *
      * @throws InvalidArgumentException
      * @throws ColorDecoderException

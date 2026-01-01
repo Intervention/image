@@ -14,9 +14,7 @@ use Intervention\Image\Interfaces\PointInterface;
 class TextModifier extends SpecializableModifier
 {
     /**
-     * Create new modifier object
-     *
-     * @return void
+     * Create new modifier object.
      */
     public function __construct(
         public string $text,
@@ -27,7 +25,7 @@ class TextModifier extends SpecializableModifier
     }
 
     /**
-     * Decode text color
+     * Decode text color.
      *
      * The text outline effect is drawn with a trick by plotting additional text
      * under the actual text with an offset in the color of the outline effect.
@@ -50,7 +48,7 @@ class TextModifier extends SpecializableModifier
     }
 
     /**
-     * Decode outline stroke color
+     * Decode outline stroke color.
      *
      * @throws StateException
      */
@@ -68,7 +66,7 @@ class TextModifier extends SpecializableModifier
     }
 
     /**
-     * Return array of offset points to draw text stroke effect below the actual text
+     * Return array of offset points to draw text stroke effect below the actual text.
      *
      * @return array<PointInterface>
      */

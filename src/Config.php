@@ -9,7 +9,7 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 class Config
 {
     /**
-     * Create config object instance
+     * Create config object instance.
      *
      * @return void
      */
@@ -23,7 +23,7 @@ class Config
     }
 
     /**
-     * Set values of given config options
+     * Set values of given config options.
      *
      * @throws InvalidArgumentException
      */
@@ -42,7 +42,7 @@ class Config
 
     /**
      * This method makes it possible to call self::setOptions() with a single
-     * array instead of named parameters
+     * array instead of named parameters.
      *
      * @param array<mixed> $options
      * @return array<string, mixed>

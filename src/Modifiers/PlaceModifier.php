@@ -12,9 +12,7 @@ use Intervention\Image\Interfaces\PointInterface;
 class PlaceModifier extends SpecializableModifier
 {
     /**
-     * Create new modifier object
-     *
-     * @return void
+     * Create new modifier object.
      */
     public function __construct(
         public mixed $element,
@@ -26,6 +24,9 @@ class PlaceModifier extends SpecializableModifier
         //
     }
 
+    /**
+     * Calculate position of the element to be placed on the image.
+     */
     public function position(ImageInterface $image, ImageInterface $watermark): PointInterface
     {
         $imageSize = $image->size()->movePivot(

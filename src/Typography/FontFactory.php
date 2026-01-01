@@ -13,7 +13,7 @@ class FontFactory
     protected FontInterface $font;
 
     /**
-     * Create new instance
+     * Create new instance.
      *
      * @param Closure|FontInterface $init
      * @return void
@@ -28,7 +28,7 @@ class FontFactory
     }
 
     /**
-     * Set the filename of the font to be built
+     * Set the filename of the font to be built.
      */
     public function filename(string $value): self
     {
@@ -58,7 +58,7 @@ class FontFactory
     }
 
     /**
-     * Set outline stroke effect for the font to be built
+     * Set outline stroke effect for the font to be built.
      */
     public function stroke(mixed $color, int $width = 1): self
     {
@@ -69,7 +69,7 @@ class FontFactory
     }
 
     /**
-     * Set color for the font to be built
+     * Set color for the font to be built.
      */
     public function color(mixed $value): self
     {
@@ -79,7 +79,7 @@ class FontFactory
     }
 
     /**
-     * Set the size for the font to be built
+     * Set the size for the font to be built.
      */
     public function size(float $value): self
     {
@@ -89,7 +89,7 @@ class FontFactory
     }
 
     /**
-     * Set the horizontal alignment of the font to be built
+     * Set the horizontal alignment of the font to be built.
      */
     public function align(string|Alignment $value): self
     {
@@ -99,7 +99,7 @@ class FontFactory
     }
 
     /**
-     * Set the vertical alignment of the font to be built
+     * Set the vertical alignment of the font to be built.
      */
     public function valign(string|Alignment $value): self
     {
@@ -109,7 +109,7 @@ class FontFactory
     }
 
     /**
-     * Set the line height of the font to be built
+     * Set the line height of the font to be built.
      */
     public function lineHeight(float $value): self
     {
@@ -119,7 +119,7 @@ class FontFactory
     }
 
     /**
-     * Set the rotation angle of the font to be built
+     * Set the rotation angle of the font to be built.
      */
     public function angle(float $value): self
     {
@@ -129,7 +129,7 @@ class FontFactory
     }
 
     /**
-     * Set the maximum width of the text block to be built
+     * Set the maximum width of the text block to be built.
      */
     public function wrap(int $width): self
     {
@@ -139,7 +139,7 @@ class FontFactory
     }
 
     /**
-     * Build font
+     * Build font.
      */
     public function __invoke(): FontInterface
     {

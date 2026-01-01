@@ -21,7 +21,7 @@ use Intervention\Image\Interfaces\ColorspaceInterface;
 class Colorspace implements ColorspaceInterface
 {
     /**
-     * Channel class names of colorspace
+     * Channel class names of colorspace.
      *
      * @var array<string>
      */
@@ -68,6 +68,9 @@ class Colorspace implements ColorspaceInterface
         };
     }
 
+    /**
+     * Import given OKLAB color OKLCH colorspace.
+     */
     private function importOklabColor(OklabColor $color): OklchColor
     {
         $a = $color->a()->value();
@@ -86,6 +89,8 @@ class Colorspace implements ColorspaceInterface
     }
 
     /**
+     * Import given RGB color to OKLCH color space.
+     *
      * @throws ColorDecoderException
      */
     private function importRgbColor(RgbColor $color): OklchColor
@@ -107,6 +112,8 @@ class Colorspace implements ColorspaceInterface
     }
 
     /**
+     * Import given color to OKLCH color space by converting it to RGB first.
+     *
      * @throws ColorDecoderException
      */
     private function importViaRgbColor(HslColor|HsvColor|CmykColor $color): OklchColor

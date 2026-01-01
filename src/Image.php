@@ -96,12 +96,12 @@ use Traversable;
 final class Image implements ImageInterface
 {
     /**
-     * The origin from which the image was created
+     * The origin from which the image was created.
      */
     private Origin $origin;
 
     /**
-     * Create new instance
+     * Create new instance.
      */
     public function __construct(
         private DriverInterface $driver,
@@ -1002,7 +1002,7 @@ final class Image implements ImageInterface
 
     /**
      * Build array of resize width and height from various inputs including
-     * fractions based on the current image size
+     * fractions based on the current image size.
      *
      * @throws InvalidArgumentException
      * @return array{'width': ?int, 'height': ?int}
@@ -1022,7 +1022,7 @@ final class Image implements ImageInterface
     }
 
     /**
-     * Show debug info for the current image
+     * Show debug info for the current image.
      *
      * @return array<string, ?int>
      */
@@ -1042,7 +1042,7 @@ final class Image implements ImageInterface
     }
 
     /**
-     * Clone image
+     * Clone image.
      */
     public function __clone(): void
     {

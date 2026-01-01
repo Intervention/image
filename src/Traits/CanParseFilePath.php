@@ -13,7 +13,7 @@ use Stringable;
 trait CanParseFilePath
 {
     /**
-     * Parse and return existing file path or throw exception
+     * Parse and return existing file path or throw exception.
      *
      * @throws InvalidArgumentException
      * @throws DirectoryNotFoundException

@@ -16,9 +16,7 @@ use Intervention\Image\Size;
 class ResizeCanvasModifier extends SpecializableModifier
 {
     /**
-     * Create new modifier object
-     *
-     * @return void
+     * Create new modifier object.
      */
     public function __construct(
         public ?int $width = null,
@@ -30,7 +28,7 @@ class ResizeCanvasModifier extends SpecializableModifier
     }
 
     /**
-     * Build the crop size to be used for the ResizeCanvas process
+     * Build the crop size to be used for the ResizeCanvas process.
      *
      * @throws InvalidArgumentException
      */
@@ -51,7 +49,7 @@ class ResizeCanvasModifier extends SpecializableModifier
     }
 
     /**
-     * Return color to fill the newly created areas after rotation
+     * Return color to fill the newly created areas after rotation.
      *
      * @throws StateException
      */

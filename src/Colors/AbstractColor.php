@@ -15,7 +15,7 @@ use Stringable;
 abstract class AbstractColor implements ColorInterface, Stringable
 {
     /**
-     * Color channels
+     * Color channels.
      *
      * @var array<ColorChannelInterface>
      */
@@ -102,7 +102,7 @@ abstract class AbstractColor implements ColorInterface, Stringable
     }
 
     /**
-     * Show debug info for the current color
+     * Show debug info for the current color.
      *
      * @return array<string, int>
      */

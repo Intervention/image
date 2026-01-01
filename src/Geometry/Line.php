@@ -15,9 +15,7 @@ class Line implements DrawableInterface
     use HasBackgroundColor;
 
     /**
-     * Create new line instance
-     *
-     * @return void
+     * Create new line instance.
      */
     public function __construct(
         protected PointInterface $start,
@@ -58,7 +56,7 @@ class Line implements DrawableInterface
     }
 
     /**
-     * Set line width
+     * Set line width.
      */
     public function setWidth(int $width): self
     {
@@ -68,7 +66,7 @@ class Line implements DrawableInterface
     }
 
     /**
-     * Get starting point of line
+     * Get starting point of line.
      */
     public function start(): PointInterface
     {
@@ -76,7 +74,7 @@ class Line implements DrawableInterface
     }
 
     /**
-     * get end point of line
+     * get end point of line.
      */
     public function end(): PointInterface
     {
@@ -84,7 +82,7 @@ class Line implements DrawableInterface
     }
 
     /**
-     * Set starting point of line
+     * Set starting point of line.
      */
     public function setStart(PointInterface $start): self
     {
@@ -94,7 +92,7 @@ class Line implements DrawableInterface
     }
 
     /**
-     * Set starting point of line by coordinates
+     * Set starting point of line by coordinates.
      */
     public function from(int $x, int $y): self
     {
@@ -105,7 +103,7 @@ class Line implements DrawableInterface
     }
 
     /**
-     * Set end point of line by coordinates
+     * Set end point of line by coordinates.
      */
     public function to(int $x, int $y): self
     {
@@ -116,7 +114,7 @@ class Line implements DrawableInterface
     }
 
     /**
-     * Set end point of line
+     * Set end point of line.
      */
     public function setEnd(PointInterface $end): self
     {

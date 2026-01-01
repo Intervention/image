@@ -35,7 +35,7 @@ enum Format
     case WEBP;
 
     /**
-     * Create format from given identifier
+     * Create format from given identifier.
      *
      * @throws InvalidArgumentException
      */
@@ -67,7 +67,7 @@ enum Format
     }
 
     /**
-     * Try to create format from given identifier and return null on failure
+     * Try to create format from given identifier and return null on failure.
      *
      * @param string|Format|MediaType|FileExtension $identifier
      * @return Format|null
@@ -82,7 +82,7 @@ enum Format
     }
 
     /**
-     * Return the possible media (MIME) types for the current format
+     * Return the possible media (MIME) types for the current format.
      *
      * @return array<MediaType>
      */
@@ -95,7 +95,7 @@ enum Format
     }
 
     /**
-     * Return the first found media type for the current format
+     * Return the first found media type for the current format.
      *
      * @throws NotSupportedException
      */
@@ -113,7 +113,7 @@ enum Format
     }
 
     /**
-     * Return the possible file extension for the current format
+     * Return the possible file extension for the current format.
      *
      * @return array<FileExtension>
      */
@@ -126,7 +126,7 @@ enum Format
     }
 
     /**
-     * Return the first found file extension for the current format
+     * Return the first found file extension for the current format.
      *
      * @throws NotSupportedException
      */
@@ -144,7 +144,7 @@ enum Format
     }
 
     /**
-     * Create an encoder instance with given options that matches the format
+     * Create an encoder instance with given options that matches the format.
      */
     public function encoder(mixed ...$options): EncoderInterface
     {

@@ -10,7 +10,7 @@ use Intervention\Image\Interfaces\DecoderInterface;
 class HtmlColornameDecoder extends HexColorDecoder implements DecoderInterface
 {
     /**
-     * Available color names and their corresponding hex codes
+     * Available color names and their corresponding hex codes.
      *
      * @var array<string, string>
      */
@@ -175,7 +175,7 @@ class HtmlColornameDecoder extends HexColorDecoder implements DecoderInterface
     }
 
     /**
-     * Decode html color names
+     * Decode html color names.
      */
     public function decode(mixed $input): ColorInterface
     {

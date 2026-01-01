@@ -25,7 +25,7 @@ class RemoveAnimationModifier extends SpecializableModifier
     }
 
     /**
-     * Return the position of the selected frame as integer
+     * Return the position of the selected frame as integer.
      *
      * @throws InvalidArgumentException
      */

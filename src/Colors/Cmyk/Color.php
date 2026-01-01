@@ -21,9 +21,7 @@ use Intervention\Image\Interfaces\ColorspaceInterface;
 class Color extends AbstractColor
 {
     /**
-     * Create new instance
-     *
-     * @return void
+     * Create new instance.
      */
     public function __construct(int $c, int $m, int $y, int $k)
     {
@@ -109,7 +107,7 @@ class Color extends AbstractColor
     }
 
     /**
-     * Return the CMYK cyan channel
+     * Return the CMYK cyan channel.
      */
     public function cyan(): ColorChannelInterface
     {
@@ -118,7 +116,7 @@ class Color extends AbstractColor
     }
 
     /**
-     * Return the CMYK magenta channel
+     * Return the CMYK magenta channel.
      */
     public function magenta(): ColorChannelInterface
     {
@@ -127,7 +125,7 @@ class Color extends AbstractColor
     }
 
     /**
-     * Return the CMYK yellow channel
+     * Return the CMYK yellow channel.
      */
     public function yellow(): ColorChannelInterface
     {
@@ -136,7 +134,7 @@ class Color extends AbstractColor
     }
 
     /**
-     * Return the CMYK key channel
+     * Return the CMYK key channel.
      */
     public function key(): ColorChannelInterface
     {

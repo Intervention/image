@@ -16,7 +16,7 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 class Color
 {
     /**
-     * Create new RGB color
+     * Create new RGB color.
      *
      * @throws InvalidArgumentException
      * @throws DriverException
@@ -27,7 +27,7 @@ class Color
     }
 
     /**
-     * Create new CMYK color
+     * Create new CMYK color.
      *
      * @throws InvalidArgumentException
      * @throws DriverException
@@ -38,7 +38,7 @@ class Color
     }
 
     /**
-     * Create new HSL color
+     * Create new HSL color.
      *
      * @throws InvalidArgumentException
      * @throws DriverException
@@ -49,7 +49,7 @@ class Color
     }
 
     /**
-     * Create new HSV color
+     * Create new HSV color.
      *
      * @throws InvalidArgumentException
      * @throws DriverException
@@ -60,7 +60,7 @@ class Color
     }
 
     /**
-     * Create new OKLAB color
+     * Create new OKLAB color.
      *
      * @throws InvalidArgumentException
      * @throws DriverException
@@ -71,7 +71,7 @@ class Color
     }
 
     /**
-     * Create new OKLCH color
+     * Create new OKLCH color.
      *
      * @throws InvalidArgumentException
      * @throws DriverException

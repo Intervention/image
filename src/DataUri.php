@@ -11,25 +11,25 @@ use Stringable;
 class DataUri implements DataUriInterface, Stringable
 {
     /**
-     * Pattern of data uri scheme
+     * Pattern of data uri scheme.
      */
     protected const string PATTERN = "/^data:(?P<mediaType>\w+\/[-+.\w]+)?" .
         "(?P<parameters>(;[-\w]+=[-\w]+)*)(?P<base64>;base64)?,(?P<data>.*)/";
 
     /**
-     * Media type of data uri output
+     * Media type of data uri output.
      */
     protected ?string $mediaType = null;
 
     /**
-     * Parameters of data uri output
+     * Parameters of data uri output.
      *
      * @var array<string, string>
      */
     protected array $parameters = [];
 
     /**
-     * Create new data uri instanceof
+     * Create new data uri instanceof.
      *
      * @param array<string, string> $parameters
      */
@@ -238,7 +238,7 @@ class DataUri implements DataUriInterface, Stringable
     }
 
     /**
-     * Prepare data for output
+     * Prepare data for output.
      */
     private function encodedData(): string
     {
@@ -246,7 +246,7 @@ class DataUri implements DataUriInterface, Stringable
     }
 
     /**
-     * Prepare all set parameters for output
+     * Prepare all set parameters for output.
      */
     private function encodedParameters(): string
     {

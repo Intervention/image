@@ -12,6 +12,9 @@ use Intervention\Image\Interfaces\DecoderInterface;
 
 class StringColorDecoder extends AbstractDecoder implements DecoderInterface
 {
+    /**
+     * Regex pattern of hsv/b color syntax.
+     */
     private const string PATTERN =
         '/^hs(v|b) ?\( ?(' .
         '?P<h>[0-9\.]+)(?:deg)?((, ?)| )' .
@@ -40,7 +43,7 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
     }
 
     /**
-     * Decode hsv/hsb color strings
+     * Decode hsv/hsb color strings.
      *
      * @throws InvalidArgumentException
      */

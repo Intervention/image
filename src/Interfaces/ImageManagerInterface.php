@@ -11,6 +11,13 @@ use Stringable;
 interface ImageManagerInterface
 {
     /**
+     * Create image manager with given driver.
+     *
+     * @link https://image.intervention.io/v3/basics/configuration-drivers#static-constructor
+     */
+    public static function withDriver(string|DriverInterface $driver, mixed ...$options): self;
+
+    /**
      * Create new image instance with given width & height.
      *
      * @link https://image.intervention.io/v3/basics/instantiation#create-new-images
@@ -19,6 +26,7 @@ interface ImageManagerInterface
      * @param int<1, max> $height
      */
     public function create(int $width, int $height): ImageInterface;
+    // TODO: maybe rename, because create() creates normally instance of self
 
     /**
      * Create new image instance from given input which can be one of the following.

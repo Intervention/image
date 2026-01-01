@@ -9,9 +9,7 @@ use Intervention\Image\Interfaces\PointInterface;
 class Circle extends Ellipse
 {
     /**
-     * Create new Circle instance
-     *
-     * @return void
+     * Create new Circle instance.
      */
     public function __construct(
         int $diameter,
@@ -21,7 +19,7 @@ class Circle extends Ellipse
     }
 
     /**
-     * Set diameter of circle
+     * Set diameter of circle.
      */
     public function setDiameter(int $diameter): self
     {
@@ -32,7 +30,7 @@ class Circle extends Ellipse
     }
 
     /**
-     * Get diameter of circle
+     * Get diameter of circle.
      */
     public function diameter(): int
     {
@@ -40,7 +38,7 @@ class Circle extends Ellipse
     }
 
     /**
-     * Set radius of circle
+     * Set radius of circle.
      */
     public function setRadius(int $radius): self
     {
@@ -48,7 +46,7 @@ class Circle extends Ellipse
     }
 
     /**
-     * Get radius of circle
+     * Get radius of circle.
      */
     public function radius(): int
     {

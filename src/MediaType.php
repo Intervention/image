@@ -42,7 +42,7 @@ enum MediaType: string
     case IMAGE_VND_MICROSOFT_ICON = 'image/vnd.microsoft.icon';
 
     /**
-     * Create media type from given identifier
+     * Create media type from given identifier.
      *
      * @throws InvalidArgumentException
      */
@@ -88,7 +88,7 @@ enum MediaType: string
     }
 
     /**
-     * Try to create media type from given identifier and return null on failure
+     * Try to create media type from given identifier and return null on failure.
      */
     public static function tryCreate(string|self|Format|FileExtension $identifier): ?self
     {
@@ -100,7 +100,7 @@ enum MediaType: string
     }
 
     /**
-     * Return the matching format for the current media (MIME) type
+     * Return the matching format for the current media (MIME) type.
      */
     public function format(): Format
     {
@@ -139,7 +139,7 @@ enum MediaType: string
     }
 
     /**
-     * Return the possible file extension for the current media type
+     * Return the possible file extension for the current media type.
      *
      * @return array<FileExtension>
      */
@@ -149,7 +149,7 @@ enum MediaType: string
     }
 
     /**
-     * Return the first file extension for the current media type
+     * Return the first file extension for the current media type.
      *
      * @throws NotSupportedException
      */

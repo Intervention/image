@@ -39,41 +39,41 @@ final class ImageManager implements ImageManagerInterface
     }
 
     /**
-     * Create image manager with given driver
-     *
-     * @link https://image.intervention.io/v3/basics/configuration-drivers#static-constructor
-     *
-     * @throws InvalidArgumentException
-     */
-    public static function withDriver(string|DriverInterface $driver, mixed ...$options): self
-    {
-        return new self(self::resolveDriver($driver, ...$options));
-    }
-
-    /**
-     * Create image manager with GD driver
+     * Create image manager with GD driver.
      *
      * @link https://image.intervention.io/v3/basics/configuration-drivers#static-gd-driver-constructor
      *
      * @throws InvalidArgumentException
      * @throws MissingDependencyException
      */
-    public static function gd(mixed ...$options): self
+    public static function gd(mixed ...$options): ImageManagerInterface
     {
         return self::withDriver(new GdDriver(), ...$options);
     }
 
     /**
-     * Create image manager with Imagick driver
+     * Create image manager with Imagick driver.
      *
      * @link https://image.intervention.io/v3/basics/configuration-drivers#static-imagick-driver-constructor
      *
      * @throws InvalidArgumentException
      * @throws MissingDependencyException
      */
-    public static function imagick(mixed ...$options): self
+    public static function imagick(mixed ...$options): ImageManagerInterface
     {
         return self::withDriver(new ImagickDriver(), ...$options);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageManagerInterface::withDriver()
+     *
+     * @throws InvalidArgumentException
+     */
+    public static function withDriver(string|DriverInterface $driver, mixed ...$options): ImageManagerInterface
+    {
+        return new self(self::resolveDriver($driver, ...$options));
     }
 
     /**
@@ -240,7 +240,7 @@ final class ImageManager implements ImageManagerInterface
     }
 
     /**
-     * Return driver object from given input which might be driver classname or instance of DriverInterface
+     * Return driver object from given input which might be driver classname or instance of DriverInterface.
      *
      * @throws InvalidArgumentException
      */

@@ -12,12 +12,12 @@ use Intervention\Image\Interfaces\DrawableInterface;
 abstract class AbstractDrawModifier extends SpecializableModifier
 {
     /**
-     * Return the drawable object which will be rendered by the modifier
+     * Return the drawable object which will be rendered by the modifier.
      */
     abstract protected function drawable(): DrawableInterface;
 
     /**
-     * Return the background color of the object rendered by the modifier
+     * Return the background color of the object rendered by the modifier.
      *
      * @throws StateException
      */
@@ -27,7 +27,7 @@ abstract class AbstractDrawModifier extends SpecializableModifier
     }
 
     /**
-     * Return the border color of the object rendered by the modifier
+     * Return the border color of the object rendered by the modifier.
      *
      * @throws StateException
      */

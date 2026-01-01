@@ -10,7 +10,7 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 trait CanBuildFilePointer
 {
     /**
-     * Transform the provided data into a pointer with the data as its content
+     * Transform the provided data into a pointer with the data as its content.
      *
      * @param resource|string|null $data
      * @throws InvalidArgumentException

@@ -12,6 +12,9 @@ use Intervention\Image\Interfaces\DecoderInterface;
 
 class StringColorDecoder extends AbstractDecoder implements DecoderInterface
 {
+    /**
+     * Regex pattern of rgb color syntax.
+     */
     private const string PATTERN =
         '/^s?rgba? ?\( ?' .
         '(?P<r>[0-9]{1,3})([, ]) ?' .
@@ -40,7 +43,7 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
     }
 
     /**
-     * Decode rgb color strings
+     * Decode rgb color strings.
      *
      * @throws InvalidArgumentException
      */

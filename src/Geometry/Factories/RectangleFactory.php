@@ -17,9 +17,7 @@ class RectangleFactory implements DrawableFactoryInterface
     protected Rectangle $rectangle;
 
     /**
-     * Create new instance
-     *
-     * @throws InvalidArgumentException
+     * Create new instance.
      */
     public function __construct(
         protected PointInterface $pivot = new Point(),
@@ -56,7 +54,7 @@ class RectangleFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Set the size of the rectangle to be produced
+     * Set the size of the rectangle to be produced.
      */
     public function size(int $width, int $height): self
     {
@@ -66,7 +64,7 @@ class RectangleFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Set the width of the rectangle to be produced
+     * Set the width of the rectangle to be produced.
      */
     public function width(int $width): self
     {
@@ -76,7 +74,7 @@ class RectangleFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Set the height of the rectangle to be produced
+     * Set the height of the rectangle to be produced.
      */
     public function height(int $height): self
     {
@@ -86,7 +84,7 @@ class RectangleFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Set the background color of the rectangle to be produced
+     * Set the background color of the rectangle to be produced.
      */
     public function background(mixed $color): self
     {
@@ -96,7 +94,7 @@ class RectangleFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Set the border color & border size of the rectangle to be produced
+     * Set the border color & border size of the rectangle to be produced.
      *
      * @throws InvalidArgumentException
      */
@@ -108,7 +106,7 @@ class RectangleFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Produce the rectangle
+     * Produce the rectangle.
      */
     public function __invoke(): Rectangle
     {

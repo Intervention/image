@@ -21,7 +21,7 @@ use TypeError;
 class Colorspace implements ColorspaceInterface
 {
     /**
-     * Channel class names of colorspace
+     * Channel class names of colorspace.
      *
      * @var array<string>
      */
@@ -83,6 +83,9 @@ class Colorspace implements ColorspaceInterface
         };
     }
 
+    /**
+     * Import given RGB color OKLAB colorspace.
+     */
     private function importRgbColor(RgbColor $color): OklabColor
     {
         $cbrt = fn(float $x): float => $x < 0 ? -abs($x) ** (1 / 3) : $x ** (1 / 3);
@@ -112,6 +115,9 @@ class Colorspace implements ColorspaceInterface
         );
     }
 
+    /**
+     * Import given OKLCH color OKLAB colorspace.
+     */
     private function importOklchColor(OklchColor $color): OklabColor
     {
         $hRad = deg2rad($color->hue()->value());
@@ -125,6 +131,8 @@ class Colorspace implements ColorspaceInterface
     }
 
     /**
+     * Import given color to OKLAB color space by converting it to RGB first.
+     *
      * @throws ColorDecoderException
      */
     private function importViaRgbColor(CmykColor|HslColor|HsvColor $color): OklabColor

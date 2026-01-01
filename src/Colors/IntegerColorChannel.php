@@ -8,6 +8,9 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 
 abstract class IntegerColorChannel extends AbstractColorChannel
 {
+    /**
+     * Main color channel value
+     */
     protected int $value;
 
     /**

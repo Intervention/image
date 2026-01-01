@@ -17,7 +17,7 @@ use Traversable;
 class Size extends Polygon implements SizeInterface
 {
     /**
-     * Create new rectangle instance
+     * Create new rectangle instance.
      *
      * @throws InvalidArgumentException
      * @return void
@@ -46,7 +46,7 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
-     * Set size of rectangle
+     * Set size of rectangle.
      */
     public function setSize(int $width, int $height): self
     {
@@ -340,7 +340,7 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
-     * Create resizer instance with given target size
+     * Create resizer instance with given target size.
      *
      * @throws InvalidArgumentException
      */
@@ -350,7 +350,7 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
-     * Implement iteration
+     * Implement iteration.
      *
      * @return Traversable<mixed>
      */
@@ -360,7 +360,7 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
-     * Show debug info for the current rectangle
+     * Show debug info for the current rectangle.
      *
      * @return array<string, int|object>
      */

@@ -11,7 +11,7 @@ use Intervention\Image\Interfaces\SizeInterface;
 class PadModifier extends ContainModifier
 {
     /**
-     * Calculate crop size of the pad resizing process
+     * Calculate crop size of the pad resizing process.
      *
      * @throws InvalidArgumentException
      */

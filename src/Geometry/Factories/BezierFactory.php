@@ -16,9 +16,7 @@ class BezierFactory implements DrawableFactoryInterface
     protected Bezier $bezier;
 
     /**
-     * Create new factory instance
-     *
-     * @return void
+     * Create new factory instance.
      */
     public function __construct(null|Closure|DrawableInterface $init = null)
     {
@@ -50,7 +48,7 @@ class BezierFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Add a point to the bezier to be produced
+     * Add a point to the bezier to be produced.
      */
     public function point(int $x, int $y): self
     {
@@ -60,7 +58,7 @@ class BezierFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Set the background color of the bezier to be produced
+     * Set the background color of the bezier to be produced.
      */
     public function background(mixed $color): self
     {
@@ -70,7 +68,7 @@ class BezierFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Set the border color & border size of the bezier to be produced
+     * Set the border color & border size of the bezier to be produced.
      *
      * @throws InvalidArgumentException
      */
@@ -82,7 +80,7 @@ class BezierFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Produce the bezier
+     * Produce the bezier.
      */
     public function __invoke(): Bezier
     {

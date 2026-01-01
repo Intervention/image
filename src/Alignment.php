@@ -20,7 +20,7 @@ enum Alignment: string
     case CENTER = 'center';
 
     /**
-     * Create position from given identifier
+     * Create position from given identifier.
      *
      * @throws InvalidArgumentException
      */
@@ -77,7 +77,7 @@ enum Alignment: string
     }
 
     /**
-     * Try to create position from given identifier or return null on failure
+     * Try to create position from given identifier or return null on failure.
      */
     public static function tryCreate(string|self $identifier): ?self
     {

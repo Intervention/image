@@ -18,14 +18,14 @@ use Traversable;
 class Line implements IteratorAggregate, Countable, Stringable
 {
     /**
-     * Segments (usually individual words including punctuation marks) of the line
+     * Segments (usually individual words including punctuation marks) of the line.
      *
      * @var array<string>
      */
     protected array $segments = [];
 
     /**
-     * Create new text line object with given text & position
+     * Create new text line object with given text & position.
      *
      * @return void
      */
@@ -39,7 +39,7 @@ class Line implements IteratorAggregate, Countable, Stringable
     }
 
     /**
-     * Add word to current line
+     * Add word to current line.
      */
     public function add(string $word): self
     {
@@ -49,7 +49,7 @@ class Line implements IteratorAggregate, Countable, Stringable
     }
 
     /**
-     * Returns Iterator
+     * Returns Iterator.
      *
      * @return Traversable<string>
      */
@@ -59,7 +59,7 @@ class Line implements IteratorAggregate, Countable, Stringable
     }
 
     /**
-     * Get Position of line
+     * Get Position of line.
      */
     public function position(): PointInterface
     {
@@ -67,7 +67,7 @@ class Line implements IteratorAggregate, Countable, Stringable
     }
 
     /**
-     * Set position of current line
+     * Set position of current line.
      */
     public function setPosition(PointInterface $point): self
     {
@@ -77,7 +77,7 @@ class Line implements IteratorAggregate, Countable, Stringable
     }
 
     /**
-     * Count segments (individual words including punctuation marks) of line
+     * Count segments (individual words including punctuation marks) of line.
      */
     public function count(): int
     {
@@ -85,7 +85,7 @@ class Line implements IteratorAggregate, Countable, Stringable
     }
 
     /**
-     * Count characters of line
+     * Count characters of line.
      */
     public function length(): int
     {
@@ -93,7 +93,7 @@ class Line implements IteratorAggregate, Countable, Stringable
     }
 
     /**
-     * Dermine if words are sperarated by spaces in the written language of the given text
+     * Dermine if words are sperarated by spaces in the written language of the given text.
      */
     private function wordsSeperatedBySpaces(string $text): bool
     {
@@ -110,7 +110,7 @@ class Line implements IteratorAggregate, Countable, Stringable
     }
 
     /**
-     * Cast line to string
+     * Cast line to string.
      */
     public function __toString(): string
     {

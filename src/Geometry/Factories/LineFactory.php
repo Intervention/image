@@ -15,9 +15,7 @@ class LineFactory implements DrawableFactoryInterface
     protected Line $line;
 
     /**
-     * Create the factory instance
-     *
-     * @return void
+     * Create the factory instance.
      */
     public function __construct(null|Closure|DrawableInterface $init = null)
     {
@@ -49,7 +47,7 @@ class LineFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Set the color of the line to be produced
+     * Set the color of the line to be produced.
      */
     public function color(mixed $color): self
     {
@@ -60,7 +58,7 @@ class LineFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Set the (background) color of the line to be produced
+     * Set the (background) color of the line to be produced.
      */
     public function background(mixed $color): self
     {
@@ -71,7 +69,7 @@ class LineFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Set the border size & border color of the line to be produced
+     * Set the border size & border color of the line to be produced.
      */
     public function border(mixed $color, int $size = 1): self
     {
@@ -83,7 +81,7 @@ class LineFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Set the width of the line to be produced
+     * Set the width of the line to be produced.
      */
     public function width(int $size): self
     {
@@ -93,7 +91,7 @@ class LineFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Set the coordinates of the starting point of the line to be produced
+     * Set the coordinates of the starting point of the line to be produced.
      */
     public function from(int $x, int $y): self
     {
@@ -103,7 +101,7 @@ class LineFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Set the coordinates of the end point of the line to be produced
+     * Set the coordinates of the end point of the line to be produced.
      */
     public function to(int $x, int $y): self
     {
@@ -113,7 +111,7 @@ class LineFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Produce the line
+     * Produce the line.
      */
     public function __invoke(): Line
     {

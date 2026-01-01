@@ -26,7 +26,7 @@ class File implements FileInterface, Stringable
     protected $pointer;
 
     /**
-     * Create new instance
+     * Create new instance.
      *
      * @param string|resource|null $data
      * @throws InvalidArgumentException

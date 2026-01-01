@@ -17,9 +17,7 @@ class EllipseFactory implements DrawableFactoryInterface
     protected Ellipse $ellipse;
 
     /**
-     * Create new factory instance
-     *
-     * @return void
+     * Create new factory instance.
      */
     public function __construct(
         protected PointInterface $pivot = new Point(),
@@ -54,7 +52,7 @@ class EllipseFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Set the size of the ellipse to be produced
+     * Set the size of the ellipse to be produced.
      */
     public function size(int $width, int $height): self
     {
@@ -64,7 +62,7 @@ class EllipseFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Set the width of the ellipse to be produced
+     * Set the width of the ellipse to be produced.
      */
     public function width(int $width): self
     {
@@ -74,7 +72,7 @@ class EllipseFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Set the height of the ellipse to be produced
+     * Set the height of the ellipse to be produced.
      */
     public function height(int $height): self
     {
@@ -84,7 +82,7 @@ class EllipseFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Set the background color of the ellipse to be produced
+     * Set the background color of the ellipse to be produced.
      */
     public function background(mixed $color): self
     {
@@ -94,7 +92,7 @@ class EllipseFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Set the border color & border size of the ellipse to be produced
+     * Set the border color & border size of the ellipse to be produced.
      *
      * @throws InvalidArgumentException
      */
@@ -106,7 +104,7 @@ class EllipseFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Produce the ellipse
+     * Produce the ellipse.
      */
     public function __invoke(): Ellipse
     {

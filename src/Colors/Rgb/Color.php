@@ -15,15 +15,12 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 
 class Color extends AbstractColor
 {
     /**
-     * Create new instance
-     *
-     * @return ColorInterface
+     * Create new instance.
      */
     public function __construct(int $r, int $g, int $b, float $a = 1)
     {
@@ -92,7 +89,7 @@ class Color extends AbstractColor
     }
 
     /**
-     * Return the RGB red color channel
+     * Return the RGB red color channel.
      */
     public function red(): ColorChannelInterface
     {
@@ -101,7 +98,7 @@ class Color extends AbstractColor
     }
 
     /**
-     * Return the RGB green color channel
+     * Return the RGB green color channel.
      */
     public function green(): ColorChannelInterface
     {
@@ -110,7 +107,7 @@ class Color extends AbstractColor
     }
 
     /**
-     * Return the RGB blue color channel
+     * Return the RGB blue color channel.
      */
     public function blue(): ColorChannelInterface
     {
@@ -119,7 +116,7 @@ class Color extends AbstractColor
     }
 
     /**
-     * Return the colors alpha channel
+     * Return the colors alpha channel.
      */
     public function alpha(): ColorChannelInterface
     {

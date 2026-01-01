@@ -11,9 +11,7 @@ use Intervention\Image\Interfaces\ColorInterface;
 class QuantizeColorsModifier extends SpecializableModifier
 {
     /**
-     * Create new modifier object
-     *
-     * @return void
+     * Create new modifier object.
      */
     public function __construct(
         public int $limit,
@@ -23,7 +21,7 @@ class QuantizeColorsModifier extends SpecializableModifier
     }
 
     /**
-     * Return color to fill the newly created areas after rotation
+     * Return color to fill the newly created areas after rotation.
      *
      * @throws StateException
      */

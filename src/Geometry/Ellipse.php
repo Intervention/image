@@ -15,9 +15,7 @@ class Ellipse implements DrawableInterface
     use HasBackgroundColor;
 
     /**
-     * Create new Ellipse
-     *
-     * @return void
+     * Create new Ellipse.
      */
     public function __construct(
         protected int $width,
@@ -50,7 +48,7 @@ class Ellipse implements DrawableInterface
     }
 
     /**
-     * Return pivot point of Ellipse
+     * Return pivot point of Ellipse.
      */
     public function pivot(): PointInterface
     {
@@ -58,7 +56,7 @@ class Ellipse implements DrawableInterface
     }
 
     /**
-     * Set size of Ellipse
+     * Set size of Ellipse.
      */
     public function setSize(int $width, int $height): self
     {
@@ -66,7 +64,7 @@ class Ellipse implements DrawableInterface
     }
 
     /**
-     * Set width of Ellipse
+     * Set width of Ellipse.
      */
     public function setWidth(int $width): self
     {
@@ -76,7 +74,7 @@ class Ellipse implements DrawableInterface
     }
 
     /**
-     * Set height of Ellipse
+     * Set height of Ellipse.
      */
     public function setHeight(int $height): self
     {
@@ -86,7 +84,7 @@ class Ellipse implements DrawableInterface
     }
 
     /**
-     * Get width of Ellipse
+     * Get width of Ellipse.
      */
     public function width(): int
     {
@@ -94,7 +92,7 @@ class Ellipse implements DrawableInterface
     }
 
     /**
-     * Get height of Ellipse
+     * Get height of Ellipse.
      */
     public function height(): int
     {

@@ -29,7 +29,6 @@ interface FontInterface
     public function strokeColor(): mixed;
 
     /**
-    *
     * Set stroke width of font.
     */
     public function setStrokeWidth(int $width): self;

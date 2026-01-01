@@ -14,7 +14,7 @@ use Intervention\Image\Size;
 class CoverModifier extends SpecializableModifier
 {
     /**
-     * Create new modifier object
+     * Create new modifier object.
      */
     public function __construct(
         public int $width,

@@ -9,7 +9,7 @@ use Intervention\Image\Drivers\SpecializableModifier;
 class ResizeModifier extends SpecializableModifier
 {
     /**
-     * Create new modifier object
+     * Create new modifier object.
      *
      * @return void
      */

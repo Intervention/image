@@ -16,8 +16,7 @@ class RotateModifier extends SpecializableModifier
     }
 
     /**
-     * Restrict rotations beyond 360 degrees
-     * because the end result is the same
+     * Restrict rotations beyond 360 degrees because the end result is the same.
      */
     public function rotationAngle(): float
     {
@@ -25,7 +24,7 @@ class RotateModifier extends SpecializableModifier
     }
 
     /**
-     * Return color to fill the newly created areas after rotation
+     * Return color to fill the newly created areas after rotation.
      *
      * @throws StateException
      */

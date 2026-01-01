@@ -10,9 +10,7 @@ use Intervention\Image\Interfaces\PointInterface;
 class DrawPixelModifier extends SpecializableModifier
 {
     /**
-     * Create new modifier object
-     *
-     * @return void
+     * Create new modifier object.
      */
     public function __construct(
         public PointInterface $position,

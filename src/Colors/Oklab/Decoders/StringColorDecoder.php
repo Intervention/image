@@ -16,6 +16,9 @@ use Intervention\Image\Interfaces\DecoderInterface;
 
 class StringColorDecoder extends AbstractDecoder implements DecoderInterface
 {
+    /**
+     * Regex pattern of oklab color syntax.
+     */
     private const string PATTERN =
         '/^oklab ?\( ?' .
         '(?P<l>(1|0|0?\.[0-9]+)|[0-9\.]+%)((, ?)|( ))' .
@@ -44,7 +47,7 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
     }
 
     /**
-     * Decode hsl color strings
+     * Decode hsl color strings.
      *
      * @throws InvalidArgumentException
      */
@@ -69,7 +72,7 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
     }
 
     /**
-     * Decode channel value
+     * Decode channel value.
      */
     private function decodeChannelValue(string $value, string $channel): float
     {

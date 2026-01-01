@@ -21,9 +21,7 @@ use Intervention\Image\Interfaces\ColorspaceInterface;
 class Color extends AbstractColor
 {
     /**
-     * Create new color object
-     *
-     * @return void
+     * Create new color object.
      */
     public function __construct(int $h, int $s, int $l, float $a = 1)
     {
@@ -97,7 +95,7 @@ class Color extends AbstractColor
     }
 
     /**
-     * Return the Saturation channel
+     * Return the Saturation channel.
      */
     public function saturation(): ColorChannelInterface
     {
@@ -106,7 +104,7 @@ class Color extends AbstractColor
     }
 
     /**
-     * Return the Luminance channel
+     * Return the Luminance channel.
      */
     public function luminance(): ColorChannelInterface
     {
@@ -115,7 +113,7 @@ class Color extends AbstractColor
     }
 
     /**
-     * Return the alpha channel
+     * Return the alpha channel.
      */
     public function alpha(): ColorChannelInterface
     {

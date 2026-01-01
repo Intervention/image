@@ -11,7 +11,7 @@ use Throwable;
 class EncodedImage extends File implements EncodedImageInterface
 {
     /**
-     * Create new instance
+     * Create new instance.
      *
      * @param string|resource $data
      */
@@ -56,7 +56,7 @@ class EncodedImage extends File implements EncodedImageInterface
     }
 
     /**
-     * Show debug info for the current image
+     * Show debug info for the current image.
      *
      * @return array<string, mixed>
      */

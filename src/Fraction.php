@@ -17,7 +17,7 @@ enum Fraction
     case TRIPLE;
 
     /**
-     * Return multiplicator of fraction
+     * Return multiplicator of fraction.
      */
     public function multiplicator(): float
     {
@@ -35,7 +35,7 @@ enum Fraction
     }
 
     /**
-     * Calculate fraction of given value
+     * Calculate fraction of given value.
      */
     public function of(int|float $value): float
     {

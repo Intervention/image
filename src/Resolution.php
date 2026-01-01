@@ -17,7 +17,7 @@ use Traversable;
 class Resolution implements ResolutionInterface, Stringable, IteratorAggregate
 {
     /**
-     * Create new instance
+     * Create new instance.
      *
      * @throws InvalidArgumentException
      */
@@ -40,7 +40,7 @@ class Resolution implements ResolutionInterface, Stringable, IteratorAggregate
     }
 
     /**
-     * Static factory method to create new resolution instance
+     * Static factory method to create new resolution instance.
      *
      * @throws InvalidArgumentException
      */

@@ -16,9 +16,7 @@ use Intervention\Image\Size;
 class CropModifier extends SpecializableModifier
 {
     /**
-     * Create new modifier object
-     *
-     * @return void
+     * Create new modifier object.
      */
     public function __construct(
         public int $width,

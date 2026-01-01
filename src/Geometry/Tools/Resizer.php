@@ -33,7 +33,7 @@ class Resizer
     }
 
     /**
-     * Static factory method to create resizer with given target size
+     * Static factory method to create resizer with given target size.
      *
      * @throws InvalidArgumentException
      */
@@ -43,7 +43,7 @@ class Resizer
     }
 
     /**
-     * Determine if resize has target width
+     * Determine if resize has target width.
      */
     protected function hasTargetWidth(): bool
     {
@@ -51,7 +51,7 @@ class Resizer
     }
 
     /**
-     * Return target width of resizer if available
+     * Return target width of resizer if available.
      */
     protected function getTargetWidth(): ?int
     {
@@ -59,7 +59,7 @@ class Resizer
     }
 
     /**
-     * Determine if resize has target height
+     * Determine if resize has target height.
      */
     protected function hasTargetHeight(): bool
     {
@@ -67,7 +67,7 @@ class Resizer
     }
 
     /**
-     * Return target width of resizer if available
+     * Return target width of resizer if available.
      */
     protected function getTargetHeight(): ?int
     {
@@ -75,7 +75,7 @@ class Resizer
     }
 
     /**
-     * Return target size object
+     * Return target size object.
      *
      * @throws StateException
      */
@@ -93,7 +93,7 @@ class Resizer
     }
 
     /**
-     * Set target width of resizer
+     * Set target width of resizer.
      */
     public function toWidth(int $width): self
     {
@@ -103,7 +103,7 @@ class Resizer
     }
 
     /**
-     * Set target height of resizer
+     * Set target height of resizer.
      */
     public function toHeight(int $height): self
     {
@@ -113,7 +113,7 @@ class Resizer
     }
 
     /**
-     * Set target size to given size object
+     * Set target size to given size object.
      */
     public function toSize(SizeInterface $size): self
     {
@@ -124,7 +124,7 @@ class Resizer
     }
 
     /**
-     * Get proportinal width
+     * Get proportinal width.
      */
     protected function getProportionalWidth(SizeInterface $size): int
     {
@@ -136,7 +136,7 @@ class Resizer
     }
 
     /**
-     * Get proportinal height
+     * Get proportinal height.
      */
     protected function getProportionalHeight(SizeInterface $size): int
     {
@@ -148,7 +148,7 @@ class Resizer
     }
 
     /**
-     * Resize given size to target size of the resizer
+     * Resize given size to target size of the resizer.
      *
      * @throws InvalidArgumentException
      */
@@ -168,7 +168,7 @@ class Resizer
     }
 
     /**
-     * Resize given size to target size of the resizer but do not exceed original size
+     * Resize given size to target size of the resizer but do not exceed original size.
      *
      * @throws InvalidArgumentException
      */
@@ -192,7 +192,7 @@ class Resizer
     }
 
     /**
-     * Resize given size to target size proportinally
+     * Resize given size to target size proportinally.
      *
      * @throws InvalidArgumentException
      */
@@ -221,7 +221,7 @@ class Resizer
     }
 
     /**
-     * Resize given size to target size proportinally but do not exceed original size
+     * Resize given size to target size proportinally but do not exceed original size.
      *
      * @throws InvalidArgumentException
      */
@@ -264,7 +264,7 @@ class Resizer
     }
 
     /**
-     * Scale given size to cover target size
+     * Scale given size to cover target size.
      *
      * @param SizeInterface $size Size to be resized
      * @throws InvalidArgumentException
@@ -288,7 +288,7 @@ class Resizer
     }
 
     /**
-     * Scale given size to contain target size
+     * Scale given size to contain target size.
      *
      * @param SizeInterface $size Size to be resized
      * @throws InvalidArgumentException
@@ -312,7 +312,7 @@ class Resizer
     }
 
     /**
-     * Scale given size to contain target size but prevent upsizing
+     * Scale given size to contain target size but prevent upsizing.
      *
      * @param SizeInterface $size Size to be resized
      * @throws InvalidArgumentException
@@ -345,7 +345,7 @@ class Resizer
     }
 
     /**
-     * Crop target size out of given size at given position (i.e. move the pivot point)
+     * Crop target size out of given size at given position (i.e. move the pivot point).
      *
      * @throws InvalidArgumentException
      */

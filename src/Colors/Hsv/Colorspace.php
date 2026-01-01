@@ -22,7 +22,7 @@ use TypeError;
 class Colorspace implements ColorspaceInterface
 {
     /**
-     * Channel class names of colorspace
+     * Channel class names of colorspace.
      *
      * @var array<string>
      */
@@ -85,6 +85,9 @@ class Colorspace implements ColorspaceInterface
         };
     }
 
+    /**
+     * Import given RGB color HSV colorspace.
+     */
     private function importRgbColor(RgbColor $color): HsvColor
     {
         // normalized values of rgb channels
@@ -126,6 +129,8 @@ class Colorspace implements ColorspaceInterface
     }
 
     /**
+     * Import given HSL color HSV colorspace.
+     *
      * @throws InvalidArgumentException
      */
     protected function importHslColor(ColorInterface $color): HsvColor
@@ -147,6 +152,8 @@ class Colorspace implements ColorspaceInterface
     }
 
     /**
+     * Import given color to HSV color space by converting it to RGB first.
+     *
      * @throws ColorDecoderException
      */
     private function importViaRgbColor(CmykColor|OklchColor|OklabColor $color): HsvColor

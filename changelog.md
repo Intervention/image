@@ -13,6 +13,7 @@
 - Improved structure and hiarchy for exceptions
 - Improved error and exception messages
 - Function color format now supports syntax without comma
+- All colors now have full alpha channel support
 
 ## API Changes
 

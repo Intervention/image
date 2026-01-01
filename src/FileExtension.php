@@ -33,7 +33,7 @@ enum FileExtension: string
     case ICO = 'ico';
 
     /**
-     * Create file extension from given identifier
+     * Create file extension from given identifier.
      *
      * @throws InvalidArgumentException
      */
@@ -79,7 +79,7 @@ enum FileExtension: string
     }
 
     /**
-     * Try to create media type from given identifier and return null on failure
+     * Try to create media type from given identifier and return null on failure.
      */
     public static function tryCreate(string|self|Format|MediaType $identifier): ?self
     {
@@ -91,7 +91,7 @@ enum FileExtension: string
     }
 
     /**
-     * Return the matching format for the current file extension
+     * Return the matching format for the current file extension.
      */
     public function format(): Format
     {
@@ -121,7 +121,7 @@ enum FileExtension: string
     }
 
     /**
-     * Return media types for the current format
+     * Return media types for the current format.
      *
      * @return array<MediaType>
      */
@@ -131,7 +131,7 @@ enum FileExtension: string
     }
 
     /**
-     * Return the first found media type for the current format
+     * Return the first found media type for the current format.
      *
      * @throws NotSupportedException
      */

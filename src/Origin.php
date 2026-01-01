@@ -10,7 +10,7 @@ use Intervention\Image\Exceptions\NotSupportedException;
 class Origin
 {
     /**
-     * Create new origin instance
+     * Create new origin instance.
      *
      * @return void
      */
@@ -22,7 +22,7 @@ class Origin
     }
 
     /**
-     * Return media type of origin
+     * Return media type of origin.
      */
     public function mediaType(): string
     {
@@ -30,7 +30,7 @@ class Origin
     }
 
     /**
-     * Alias of self::mediaType()
+     * @see self::mediaType()
      */
     public function mimetype(): string
     {
@@ -38,7 +38,7 @@ class Origin
     }
 
     /**
-     * Set media type of current instance
+     * Set media type of current instance.
      */
     public function setMediaType(string|MediaType $type): self
     {
@@ -48,7 +48,7 @@ class Origin
     }
 
     /**
-     * Return file path of origin
+     * Return file path of origin.
      */
     public function filePath(): ?string
     {
@@ -56,7 +56,7 @@ class Origin
     }
 
     /**
-     * Set file path for origin
+     * Set file path for origin.
      */
     public function setFilePath(string $path): self
     {
@@ -66,7 +66,7 @@ class Origin
     }
 
     /**
-     * Return file extension if origin was created from file path
+     * Return file extension if origin was created from file path.
      */
     public function fileExtension(): ?string
     {
@@ -74,7 +74,7 @@ class Origin
     }
 
     /**
-     * Return format of the origin image
+     * Return format of the origin image.
      *
      * @throws NotSupportedException
      */
@@ -88,7 +88,7 @@ class Origin
     }
 
     /**
-     * Show debug info for the current image
+     * Show debug info for the current image.
      *
      * @return array<string, null|string>
      */

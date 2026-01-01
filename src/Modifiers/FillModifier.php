@@ -16,6 +16,9 @@ class FillModifier extends SpecializableModifier
         //
     }
 
+    /**
+     * Determine if the modifier has a position defined.
+     */
     public function hasPosition(): bool
     {
         return $this->position instanceof PointInterface;

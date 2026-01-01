@@ -15,7 +15,7 @@ class DrawPolygonModifier extends AbstractDrawModifier
     }
 
     /**
-     * Return object to be drawn
+     * Return object to be drawn.
      */
     protected function drawable(): DrawableInterface
     {

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
 use GdImage;
-use Intervention\Gif\Decoder as GifDecoder;
 use Intervention\Gif\Exceptions\GifException;
 use Intervention\Gif\Splitter as GifSplitter;
 use Intervention\Image\Drivers\Gd\Core;
@@ -63,7 +62,7 @@ class NativeObjectDecoder extends AbstractDecoder
     }
 
     /**
-     * Decode image from given GIF source which can be either a file path or binary data
+     * Decode image from given GIF source which can be either a file path or binary data.
      *
      * Depending on the configuration, this is taken over by the native GD function
      * or, if animations are required, by our own extended decoder.
@@ -93,21 +92,17 @@ class NativeObjectDecoder extends AbstractDecoder
             // create empty core
             $core = new Core();
 
-            $gif = GifDecoder::decode($input);
-            $splitter = GifSplitter::create($gif)->split();
-            $delays = $splitter->delays();
+            $splitter = GifSplitter::decodeCreate($input)->split();
 
             // set loops on core
-            if ($loops = $gif->mainApplicationExtension()?->loops()) {
-                $core->setLoops($loops);
-            }
+            $core->setLoops($splitter->loops());
 
-            // add GDImage instances to core
-            foreach ($splitter->coalesceToResources() as $key => $native) {
-                $core->push(
-                    new Frame($native, $delays[$key] / 100)
-                );
-            }
+            // set frames & frame delays on core
+            array_map(
+                fn(GdImage $native, int $delay) => $core->push(new Frame($native, $delay / 100)),
+                $splitter->coalesceToResources(),
+                $splitter->delays()
+            );
         } catch (GifException $e) {
             throw new ImageDecoderException('Failed to decode GIF format', previous: $e);
         }

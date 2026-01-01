@@ -9,52 +9,52 @@ use Intervention\Image\Alignment;
 interface SizeInterface
 {
     /**
-     * Get width
+     * Get width.
      */
     public function width(): int;
 
     /**
-     * Get height
+     * Get height.
      */
     public function height(): int;
 
     /**
-     * Get pivot point
+     * Get pivot point.
      */
     public function pivot(): PointInterface;
 
     /**
-     * Set width
+     * Set width.
      */
     public function setWidth(int $width): self;
 
     /**
-     * Set height
+     * Set height.
      */
     public function setHeight(int $height): self;
 
     /**
-     * Set pivot point
+     * Set pivot point.
      */
     public function setPivot(PointInterface $pivot): self;
 
     /**
-     * Calculate aspect ratio of the current size
+     * Calculate aspect ratio of the current size.
      */
     public function aspectRatio(): float;
 
     /**
-     * Determine if current size fits into given size
+     * Determine if current size fits into given size.
      */
     public function fitsInto(self $size): bool;
 
     /**
-     * Determine if size is in landscape format
+     * Determine if size is in landscape format.
      */
     public function isLandscape(): bool;
 
     /**
-     * Determine if size is in portrait format
+     * Determine if size is in portrait format.
      */
     public function isPortrait(): bool;
 
@@ -64,7 +64,7 @@ interface SizeInterface
     public function movePivot(string|Alignment $position, int $x = 0, int $y = 0): self;
 
     /**
-     * Align pivot relative to given size at given position
+     * Align pivot relative to given size at given position.
      */
     public function alignPivotTo(self $size, string|Alignment $position): self;
 

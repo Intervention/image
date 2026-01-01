@@ -8,19 +8,19 @@ interface SpecializableInterface
 {
     /**
      * Return an array of constructor parameters, which is usually passed from
-     * the generic object to the specialized object
+     * the generic object to the specialized object.
      *
      * @return array<string, mixed>
      */
     public function specializable(): array;
 
     /**
-     * Set the driver for which the object is specialized
+     * Set the driver for which the object is specialized.
      */
     public function setDriver(DriverInterface $driver): self;
 
     /**
-     * Return the driver for which the object was specialized
+     * Return the driver for which the object was specialized.
      */
     public function driver(): DriverInterface;
 }

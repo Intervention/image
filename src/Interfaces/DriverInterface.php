@@ -13,52 +13,52 @@ use Intervention\Image\MediaType;
 interface DriverInterface
 {
     /**
-     * Create new driver instance with configuration
+     * Create new driver instance with configuration.
      */
     public function __construct(Config $config);
 
     /**
-     * Return drivers unique id
+     * Return drivers unique id.
      */
     public function id(): string;
 
     /**
-     * Get driver configuration
+     * Get driver configuration.
      */
     public function config(): Config;
 
     /**
-     * Resolve given modifier into a specialized version for the current driver
+     * Resolve given modifier into a specialized version for the current driver.
      */
     public function specializeModifier(ModifierInterface $modifier): ModifierInterface;
 
     /**
-     * Resolve given analyzer into a specialized version for the current driver
+     * Resolve given analyzer into a specialized version for the current driver.
      */
     public function specializeAnalyzer(AnalyzerInterface $analyzer): AnalyzerInterface;
 
     /**
-     * Resolve given encoder into a specialized version for the current driver
+     * Resolve given encoder into a specialized version for the current driver.
      */
     public function specializeEncoder(EncoderInterface $encoder): EncoderInterface;
 
     /**
-     * Resolve given decoder into a specialized version for the current driver
+     * Resolve given decoder into a specialized version for the current driver.
      */
     public function specializeDecoder(DecoderInterface $decoder): DecoderInterface;
 
     /**
-     * Create new image instance with the current driver in given dimensions
+     * Create new image instance with the current driver in given dimensions.
      */
     public function createImage(int $width, int $height): ImageInterface;
 
     /**
-     * Create new animated image
+     * Create new animated image.
      */
     public function createAnimation(callable $init): ImageInterface;
 
     /**
-     * Handle given image source by decoding it to ImageInterface
+     * Handle given image source by decoding it to ImageInterface.
      *
      * Image sources can be as follows:
      *
@@ -77,19 +77,19 @@ interface DriverInterface
     public function handleImageInput(mixed $input, ?array $decoders = null): ImageInterface;
 
     /**
-     * Handle given image source by decoding it to ColorInterface
+     * Handle given image source by decoding it to ColorInterface.
      *
      * @param array<string|DecoderInterface> $decoders
      */
     public function handleColorInput(mixed $input, ?array $decoders = null): ColorInterface;
 
     /**
-     * Return color processor for the given colorspace
+     * Return color processor for the given colorspace.
      */
     public function colorProcessor(ColorspaceInterface $colorspace): ColorProcessorInterface;
 
     /**
-     * Return font processor of the current driver
+     * Return font processor of the current driver.
      */
     public function fontProcessor(): FontProcessorInterface;
 

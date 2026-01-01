@@ -7,12 +7,12 @@ namespace Intervention\Image\Interfaces;
 interface ColorspaceInterface
 {
     /**
-     * Convert given color to the format of the current colorspace
+     * Convert given color to the format of the current colorspace.
      */
     public function importColor(ColorInterface $color): ColorInterface;
 
     /**
-     * Create new color in colorspace from given normalized (0-1) channel values
+     * Create new color in colorspace from given normalized (0-1) channel values.
      *
      * @param array<float> $normalized
      */

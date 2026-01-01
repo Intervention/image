@@ -7,7 +7,7 @@ namespace Intervention\Image\Interfaces;
 interface ModifierInterface
 {
     /**
-     * Apply modifications of the current modifier to the given image
+     * Apply modifications of the current modifier to the given image.
      */
     public function apply(ImageInterface $image): ImageInterface;
 }

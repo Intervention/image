@@ -7,12 +7,12 @@ namespace Intervention\Image\Interfaces;
 interface EncoderInterface
 {
     /**
-     * Encode given image
+     * Encode given image.
      */
     public function encode(ImageInterface $image): EncodedImageInterface;
 
     /**
-     * Set encoder options
+     * Set encoder options.
      */
     public function setOptions(mixed ...$options): self;
 }

@@ -7,7 +7,7 @@ namespace Intervention\Image\Interfaces;
 interface DecoderInterface
 {
     /**
-     * Determine if the given input is supported by decoder
+     * Determine if the given input is supported by decoder.
      *
      * Support does not mean that the input can necessarily be decrypted, but only
      * that the input might match the decoder and that it is worth trying.
@@ -15,7 +15,7 @@ interface DecoderInterface
     public function supports(mixed $input): bool;
 
     /**
-     * Decode given input either to color or image
+     * Decode given input either to color or image.
      */
     public function decode(mixed $input): ImageInterface|ColorInterface;
 }

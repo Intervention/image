@@ -7,7 +7,7 @@ namespace Intervention\Image\Interfaces;
 interface CoreInterface extends CollectionInterface
 {
     /**
-     * return driver's representation of the image core.
+     * return driver's representation of the image core..
      */
     public function native(): mixed;
 
@@ -19,47 +19,46 @@ interface CoreInterface extends CollectionInterface
     public function setNative(mixed $native): self;
 
     /**
-     * Count number of frames of animated image core
+     * Count number of frames of animated image core.
      */
     public function count(): int;
 
     /**
-     * Return frame of given position in an animated image
+     * Return frame of given position in an animated image.
      */
     public function frame(int $position): FrameInterface;
 
     /**
-     * Add new frame to core
+     * Add new frame to core.
      *
      * @return CoreInterface<FrameInterface>
      */
     public function add(FrameInterface $frame): self;
 
     /**
-     * Return number of repetitions of an animated image
+     * Return number of repetitions of an animated image.
      */
     public function loops(): int;
 
     /**
-     * Set the number of repetitions for an animation. Where a
-     * value of 0 means infinite repetition.
+     * Set the number of repetitions for an animation. Where a value of 0 means infinite repetition.
      *
      * @return CoreInterface<FrameInterface>
      */
     public function setLoops(int $loops): self;
 
     /**
-     * Get first frame in core
+     * Get first frame in core.
      */
     public function first(): FrameInterface;
 
     /**
-     * Get last frame in core
+     * Get last frame in core.
      */
     public function last(): FrameInterface;
 
     /**
-     * Access meta information of core instance
+     * Access meta information of core instance.
      */
     public function meta(): CollectionInterface;
 }

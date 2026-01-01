@@ -9,7 +9,7 @@ use Intervention\Image\Typography\TextBlock;
 interface FontProcessorInterface
 {
     /**
-     * Calculate size of bounding box of given text in conjunction with the given font
+     * Calculate size of bounding box of given text in conjunction with the given font.
      */
     public function boxSize(string $text, FontInterface $font): SizeInterface;
 
@@ -20,22 +20,22 @@ interface FontProcessorInterface
     public function textBlock(string $text, FontInterface $font, PointInterface $position): TextBlock;
 
     /**
-     * Calculate the actual font size to pass at the driver level
+     * Calculate the actual font size to pass at the driver level.
      */
     public function nativeFontSize(FontInterface $font): float;
 
     /**
-     * Calculate the typographical font size in pixels
+     * Calculate the typographical font size in pixels.
      */
     public function typographicalSize(FontInterface $font): int;
 
     /**
-     * Calculates typographical cap height
+     * Calculates typographical cap height.
      */
     public function capHeight(FontInterface $font): int;
 
     /**
-     * Calculates typographical leading size
+     * Calculates typographical leading size.
      */
     public function leading(FontInterface $font): int;
 }

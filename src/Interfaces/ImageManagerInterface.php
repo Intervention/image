@@ -11,7 +11,7 @@ use Stringable;
 interface ImageManagerInterface
 {
     /**
-     * Create new image instance with given width & height
+     * Create new image instance with given width & height.
      *
      * @link https://image.intervention.io/v3/basics/instantiation#create-new-images
      *
@@ -21,7 +21,7 @@ interface ImageManagerInterface
     public function create(int $width, int $height): ImageInterface;
 
     /**
-     * Create new image instance from given input which can be one of the following
+     * Create new image instance from given input which can be one of the following.
      *
      * - Path in filesystem
      * - File Pointer resource
@@ -37,7 +37,7 @@ interface ImageManagerInterface
      * a single object or class name of a decoder.
      *
      * All decoders that implement the `DecoderInterface::class` can be passed. Usually
-     * a selection of classes of the namespace `Intervention\Image\Decoders`
+     * a selection of classes of the namespace `Intervention\Image\Decoders`.
      *
      * If the second parameter is not set, an attempt to decode the input is made
      * with all available decoders of the driver.
@@ -49,7 +49,7 @@ interface ImageManagerInterface
     public function decode(mixed $input, string|array|DecoderInterface $decoders): ImageInterface;
 
     /**
-     * Create new image instance by passing one of the named arguments
+     * Create new image instance by passing one of the named arguments.
      *
      * - Path in filesystem
      * - File Pointer resource
@@ -70,56 +70,56 @@ interface ImageManagerInterface
     ): ImageInterface;
 
     /**
-     * Create new image instance from path in filesystem
+     * Create new image instance from path in filesystem.
      *
      * @link https://image.intervention.io/v3/basics/instantiation#read-image-sources
      */
     public function decodeFromPath(string|Stringable $path): ImageInterface;
 
     /**
-     * Create new image instance from raw binary image data
+     * Create new image instance from raw binary image data.
      *
      * @link https://image.intervention.io/v3/basics/instantiation#read-image-sources
      */
     public function decodeFromBinary(string|Stringable $binary): ImageInterface;
 
     /**
-     * Create new image instance from base64 encoded image data
+     * Create new image instance from base64 encoded image data.
      *
      * @link https://image.intervention.io/v3/basics/instantiation#read-image-sources
      */
     public function decodeFromBase64(string|Stringable $base64): ImageInterface;
 
     /**
-     * Create new image instance from data uri encoded image data
+     * Create new image instance from data uri encoded image data.
      *
      * @link https://image.intervention.io/v3/basics/instantiation#read-image-sources
      */
     public function decodeFromDataUri(string|Stringable|DataUriInterface $dataUri): ImageInterface;
 
     /**
-     * Create new image instance from file referenced in splFileInfo object
+     * Create new image instance from file referenced in splFileInfo object.
      *
      * @link https://image.intervention.io/v3/basics/instantiation#read-image-sources
      */
     public function decodeFromSplFileInfo(string|SplFileInfo $splFileInfo): ImageInterface;
 
     /**
-     * Create new image instance from given file pointer
+     * Create new image instance from given file pointer.
      *
      * @link https://image.intervention.io/v3/basics/instantiation#read-image-sources
      */
     public function decodeFromStream(mixed $stream): ImageInterface;
 
     /**
-     * Create new animated image by given callback
+     * Create new animated image by given callback.
      *
      * @link https://image.intervention.io/v3/basics/instantiation#create-animations
      */
     public function animate(callable $init): ImageInterface;
 
     /**
-     * Return currently used driver
+     * Return currently used driver.
      */
     public function driver(): DriverInterface;
 }

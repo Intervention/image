@@ -7,47 +7,47 @@ namespace Intervention\Image\Interfaces;
 interface PointInterface
 {
     /**
-     * Return x position
+     * Return x position.
      */
     public function x(): int;
 
     /**
-     * Return y position
+     * Return y position.
      */
     public function y(): int;
 
     /**
-     * Set x position
+     * Set x position.
      */
     public function setX(int $x): self;
 
     /**
-     * Set y position
+     * Set y position.
      */
     public function setY(int $y): self;
 
     /**
-     * Move X coordinate
+     * Move X coordinate.
      */
     public function moveX(int $value): self;
 
     /**
-     * Move Y coordinate
+     * Move Y coordinate.
      */
     public function moveY(int $value): self;
 
     /**
-     * Move position of current point by given coordinates
+     * Move position of current point by given coordinates.
      */
     public function move(int $x, int $y): self;
 
     /**
-     * Set position of point
+     * Set position of point.
      */
     public function setPosition(int $x, int $y): self;
 
     /**
-     * Rotate point counter clock wise around given pivot point
+     * Rotate point counter clock wise around given pivot point.
      */
     public function rotate(float $angle, self $pivot): self;
 }

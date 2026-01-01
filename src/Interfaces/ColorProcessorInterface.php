@@ -7,12 +7,12 @@ namespace Intervention\Image\Interfaces;
 interface ColorProcessorInterface
 {
     /**
-     * Turn given color in the driver's color implementation
+     * Turn given color in the driver's color implementation.
      */
     public function colorToNative(ColorInterface $color): mixed;
 
     /**
-     * Turn the given driver's definition of a color into a color object
+     * Turn the given driver's definition of a color into a color object.
      */
     public function nativeToColor(mixed $native): ColorInterface;
 }

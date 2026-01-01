@@ -9,12 +9,12 @@ use Stringable;
 interface ProfileInterface extends Stringable
 {
     /**
-     * Create profile object from path in file system
+     * Create profile object from path in file system.
      */
     public static function fromPath(string $path): self;
 
     /**
-     * Transform object to string
+     * Transform object to string.
      */
     public function toString(): string;
 }

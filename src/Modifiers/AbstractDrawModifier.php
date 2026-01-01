@@ -14,14 +14,14 @@ abstract class AbstractDrawModifier extends SpecializableModifier
     /**
      * Return the drawable object which will be rendered by the modifier
      */
-    abstract public function drawable(): DrawableInterface; // TODO: make protected
+    abstract protected function drawable(): DrawableInterface;
 
     /**
      * Return the background color of the object rendered by the modifier
      *
      * @throws StateException
      */
-    public function backgroundColor(): ColorInterface // TODO: make protected
+    protected function backgroundColor(): ColorInterface
     {
         return $this->driver()->handleColorInput($this->drawable()->backgroundColor());
     }
@@ -31,7 +31,7 @@ abstract class AbstractDrawModifier extends SpecializableModifier
      *
      * @throws StateException
      */
-    public function borderColor(): ColorInterface // TODO: make protected
+    protected function borderColor(): ColorInterface
     {
         return $this->driver()->handleColorInput($this->drawable()->borderColor());
     }

@@ -27,7 +27,7 @@ class ColorspaceModifier extends SpecializableModifier
      *
      * @throws NotSupportedException
      */
-    public function targetColorspace(): ColorspaceInterface // TODO: make protected
+    protected function targetColorspace(): ColorspaceInterface
     {
         if ($this->target instanceof ColorspaceInterface) {
             return $this->target;

@@ -15,7 +15,7 @@ class PadModifier extends ContainModifier
      *
      * @throws InvalidArgumentException
      */
-    public function cropSize(ImageInterface $image): SizeInterface // TODO: make protected
+    protected function cropSize(ImageInterface $image): SizeInterface
     {
         return $image->size()
             ->containMax(

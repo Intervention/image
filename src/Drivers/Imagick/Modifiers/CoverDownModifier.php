@@ -11,7 +11,7 @@ class CoverDownModifier extends CoverModifier
     /**
      * Calculate resizing size of the cover down process
      */
-    public function resizeSize(SizeInterface $size): SizeInterface
+    protected function resizeSize(SizeInterface $size): SizeInterface
     {
         return $size->resizeDown($this->width, $this->height);
     }

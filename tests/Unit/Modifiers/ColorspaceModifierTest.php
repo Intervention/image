@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Modifiers;
 
-use Intervention\Image\Colors\Rgb\Colorspace;
+use Intervention\Image\Colors\Cmyk\Colorspace as Cmyk;
+use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
+use Intervention\Image\Colors\Hsl\Colorspace as Hsl;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Modifiers\ColorspaceModifier;
@@ -16,17 +18,46 @@ final class ColorspaceModifierTest extends BaseTestCase
 {
     public function testTargetColorspace(): void
     {
-        $modifier = new ColorspaceModifier(new Colorspace());
-        $this->assertInstanceOf(ColorspaceInterface::class, $modifier->targetColorspace());
+        $this->assertInstanceOf(
+            Rgb::class,
+            $this->colorspaceModifier(new Rgb())->getTargetColorspace(),
+        );
 
-        $modifier = new ColorspaceModifier('rgb');
-        $this->assertInstanceOf(ColorspaceInterface::class, $modifier->targetColorspace());
+        $this->assertInstanceOf(
+            Rgb::class,
+            $this->colorspaceModifier('rgb')->getTargetColorspace(),
+        );
 
-        $modifier = new ColorspaceModifier('cmyk');
-        $this->assertInstanceOf(ColorspaceInterface::class, $modifier->targetColorspace());
+        $this->assertInstanceOf(
+            Cmyk::class,
+            $this->colorspaceModifier('cmyk')->getTargetColorspace(),
+        );
 
-        $modifier = new ColorspaceModifier('test');
+        $this->assertInstanceOf(
+            Hsl::class,
+            $this->colorspaceModifier('hsl')->getTargetColorspace(),
+        );
+    }
+
+    public function testTargetColorspaceFail(): void
+    {
         $this->expectException(NotSupportedException::class);
-        $modifier->targetColorspace();
+        $this->colorspaceModifier('not_existing')->getTargetColorspace();
+    }
+
+    private function colorspaceModifier(string|ColorspaceInterface $colorspace): ColorspaceModifier
+    {
+        return new class ($colorspace) extends ColorspaceModifier
+        {
+            public function __construct(string|ColorspaceInterface $colorspace)
+            {
+                return parent::__construct($colorspace);
+            }
+
+            public function getTargetColorspace(): ColorspaceInterface
+            {
+                return parent::targetColorspace();
+            }
+        };
     }
 }

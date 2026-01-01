@@ -29,7 +29,7 @@ class ContainModifier extends SpecializableModifier
      *
      * @throws InvalidArgumentException
      */
-    public function cropSize(ImageInterface $image): SizeInterface // TODO: make protected
+    protected function cropSize(ImageInterface $image): SizeInterface
     {
         return $image->size()
             ->contain(
@@ -47,7 +47,7 @@ class ContainModifier extends SpecializableModifier
      *
      * @throws InvalidArgumentException
      */
-    public function resizeSize(ImageInterface $image): SizeInterface // TODO: make protected
+    protected function resizeSize(ImageInterface $image): SizeInterface
     {
         return new Size($this->width, $this->height);
     }

@@ -12,7 +12,7 @@ class PadModifier extends ContainModifier
     /**
      * Calculate crop size of the pad resizing process
      */
-    public function cropSize(ImageInterface $image): SizeInterface
+    protected function cropSize(ImageInterface $image): SizeInterface
     {
         return $image->size()
             ->containMax(

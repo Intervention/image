@@ -34,7 +34,7 @@ class CropModifier extends SpecializableModifier
     /**
      * @throws InvalidArgumentException
      */
-    public function crop(ImageInterface $image): SizeInterface // TODO: make protected
+    protected function crop(ImageInterface $image): SizeInterface
     {
         $crop = new Size($this->width, $this->height);
         $crop->movePivot($this->alignment);

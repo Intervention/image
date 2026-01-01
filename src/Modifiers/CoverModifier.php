@@ -29,7 +29,7 @@ class CoverModifier extends SpecializableModifier
      *
      * @throws InvalidArgumentException
      */
-    public function cropSize(ImageInterface $image): SizeInterface // TODO: make protected
+    protected function cropSize(ImageInterface $image): SizeInterface
     {
         $imagesize = $image->size();
         $crop = new Size($this->width, $this->height);
@@ -43,7 +43,7 @@ class CoverModifier extends SpecializableModifier
     /**
      * Calculate size for the resizing step of the cover modifier
      */
-    public function resizeSize(SizeInterface $size): SizeInterface // TODO: make protected
+    protected function resizeSize(SizeInterface $size): SizeInterface
     {
         return $size->resize($this->width, $this->height);
     }

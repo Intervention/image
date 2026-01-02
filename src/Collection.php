@@ -125,7 +125,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     /**
      * Return item at given position starting at 0.
      */
-    public function getAtPosition(int $key = 0, mixed $default = null): mixed
+    public function at(int $key = 0, mixed $default = null): mixed
     {
         if ($this->count() == 0) {
             return $default;

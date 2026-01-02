@@ -96,11 +96,11 @@ class Core implements CoreInterface, Iterator
     /**
      * {@inheritdoc}
      *
-     * @see CollectionInterface::getAtPosition()
+     * @see CollectionInterface::at()
      *
      * @throws DriverException
      */
-    public function getAtPosition(int $key = 0, mixed $default = null): mixed
+    public function at(int $key = 0, mixed $default = null): mixed
     {
         return $this->get($key, $default);
     }

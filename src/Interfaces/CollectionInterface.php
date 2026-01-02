@@ -36,7 +36,7 @@ interface CollectionInterface extends Traversable
     /**
      * Return item at given numeric position starting at 0.
      */
-    public function getAtPosition(int $key = 0, mixed $default = null): mixed;
+    public function at(int $key = 0, mixed $default = null): mixed;
 
     /**
      * Return first item in collection.

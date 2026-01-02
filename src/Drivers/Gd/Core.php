@@ -70,7 +70,7 @@ class Core extends Collection implements CoreInterface
      */
     public function frame(int $position): FrameInterface
     {
-        $frame = $this->getAtPosition($position);
+        $frame = $this->at($position);
 
         if ($frame === null || $position < 0 || $position > $this->count()) {
             throw new InvalidArgumentException('Frame #' . $position . ' could not be found in the image');

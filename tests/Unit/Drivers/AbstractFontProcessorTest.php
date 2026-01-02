@@ -72,12 +72,12 @@ class AbstractFontProcessorTest extends BaseTestCase
 
         $this->assertInstanceOf(TextBlock::class, $block);
         $this->assertEquals(3, $block->count());
-        $this->assertEquals(-512, $block->getAtPosition(0)->position()->x());
-        $this->assertEquals(-16, $block->getAtPosition(0)->position()->y());
-        $this->assertEquals(-1012, $block->getAtPosition(1)->position()->x());
-        $this->assertEquals(-8, $block->getAtPosition(1)->position()->y());
-        $this->assertEquals(-1512, $block->getAtPosition(2)->position()->x());
-        $this->assertEquals(0, $block->getAtPosition(2)->position()->y());
+        $this->assertEquals(-512, $block->at(0)->position()->x());
+        $this->assertEquals(-16, $block->at(0)->position()->y());
+        $this->assertEquals(-1012, $block->at(1)->position()->x());
+        $this->assertEquals(-8, $block->at(1)->position()->y());
+        $this->assertEquals(-1512, $block->at(2)->position()->x());
+        $this->assertEquals(0, $block->at(2)->position()->y());
     }
 
     public function testNativeFontSize(): void

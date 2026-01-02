@@ -2,34 +2,34 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Tests\Unit\Drivers\Gd\Modifiers;
+namespace Intervention\Image\Tests\Unit\Drivers\Imagick\Modifiers;
 
 use Intervention\Image\Alignment;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
-use Intervention\Image\Modifiers\PlaceModifier;
-use Intervention\Image\Tests\GdTestCase;
-use Intervention\Image\Drivers\Gd\Modifiers\PlaceModifier as PlaceModifierGd;
+use Intervention\Image\Modifiers\InsertModifier;
+use Intervention\Image\Tests\ImagickTestCase;
+use Intervention\Image\Drivers\Imagick\Modifiers\InsertModifier as InsertModifierImagick;
 use Intervention\Image\Tests\Resource;
 
-#[RequiresPhpExtension('gd')]
-#[CoversClass(PlaceModifier::class)]
-#[CoversClass(PlaceModifierGd::class)]
-final class PlaceModifierTest extends GdTestCase
+#[RequiresPhpExtension('imagick')]
+#[CoversClass(InsertModifier::class)]
+#[CoversClass(InsertModifierImagick::class)]
+final class InsertModifierTest extends ImagickTestCase
 {
     public function testColorChange(): void
     {
         $image = $this->readTestImage('test.jpg');
         $this->assertEquals('febc44', $image->colorAt(300, 25)->toHex());
-        $image->modify(new PlaceModifier(Resource::create('circle.png')->path(), Alignment::TOP_RIGHT, 0, 0));
-        $this->assertEquals('32250d', $image->colorAt(300, 25)->toHex());
+        $image->modify(new InsertModifier(Resource::create('circle.png')->path(), Alignment::TOP_RIGHT, 0, 0));
+        $this->assertEquals('33260e', $image->colorAt(300, 25)->toHex());
     }
 
     public function testColorChangeOpacityPng(): void
     {
         $image = $this->readTestImage('test.jpg');
         $this->assertEquals('febc44', $image->colorAt(300, 25)->toHex());
-        $image->modify(new PlaceModifier(Resource::create('circle.png')->path(), Alignment::TOP_RIGHT, 0, 0, 50));
+        $image->modify(new InsertModifier(Resource::create('circle.png')->path(), Alignment::TOP_RIGHT, 0, 0, 50));
         $this->assertColor(152, 112, 40, 1, $image->colorAt(300, 25), tolerance: 1);
         $this->assertColor(255, 202, 107, 1, $image->colorAt(274, 5), tolerance: 1);
     }
@@ -38,7 +38,7 @@ final class PlaceModifierTest extends GdTestCase
     {
         $image = $this->createTestImage(16, 16)->fill('0000ff');
         $this->assertEquals('0000ff', $image->colorAt(10, 10)->toHex());
-        $image->modify(new PlaceModifier(Resource::create('exif.jpg')->path(), opacity: 50));
+        $image->modify(new InsertModifier(Resource::create('exif.jpg')->path(), opacity: 50));
         $this->assertColor(127, 83, 127, 1, $image->colorAt(10, 10), tolerance: 1);
     }
 }

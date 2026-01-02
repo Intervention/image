@@ -10,9 +10,9 @@ use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
-use Intervention\Image\Modifiers\PlaceModifier as GenericPlaceModifier;
+use Intervention\Image\Modifiers\InsertModifier as GenericInsertModifier;
 
-class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
+class InsertModifier extends GenericInsertModifier implements SpecializedInterface
 {
     /**
      * @throws ModifierException
@@ -56,12 +56,12 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
                 );
                 if ($result === false) {
                     throw new ModifierException(
-                        'Failed to apply ' . self::class . ', unable to place watermark image',
+                        'Failed to apply ' . self::class . ', unable to insert watermark image',
                     );
                 }
             } catch (ImagickException $e) {
                 throw new ModifierException(
-                    'Failed to apply ' . self::class . ', unable to place watermark image',
+                    'Failed to apply ' . self::class . ', unable to insert watermark image',
                     previous: $e
                 );
             }

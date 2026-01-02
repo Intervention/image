@@ -9,7 +9,7 @@ use Intervention\Image\Drivers\SpecializableModifier;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\PointInterface;
 
-class PlaceModifier extends SpecializableModifier
+class InsertModifier extends SpecializableModifier
 {
     /**
      * Create new modifier object.
@@ -25,7 +25,7 @@ class PlaceModifier extends SpecializableModifier
     }
 
     /**
-     * Calculate position of the element to be placed on the image.
+     * Calculate position of the element to be inserted on the image.
      */
     public function position(ImageInterface $image, ImageInterface $watermark): PointInterface
     {

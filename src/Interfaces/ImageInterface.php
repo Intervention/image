@@ -472,13 +472,13 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function trim(int $tolerance = 0): self;
 
     /**
-     * Place another image into the current image instance
+     * Insert another image into the current image instance
      *
      * @link https://image.intervention.io/v3/modifying-images/inserting#insert-images
      */
-    public function place(
+    public function insert(
         mixed $element,
-        string|Alignment $alignment = Alignment::TOP_LEFT, // TODO: maybe rename to 'align'
+        string|Alignment $alignment = Alignment::TOP_LEFT,
         int $x = 0,
         int $y = 0,
         int $opacity = 100

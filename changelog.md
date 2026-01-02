@@ -27,7 +27,6 @@
 - Changed default value for `background` to `null` in ImageInterface::pad()
 - Changed default value for `background` to `null` in ImageInterface::crop()
 - Signature of ImageInterface::crop() changed from `offset_x` to `x` and `offset_y` to `y`
-- Signature of ImageInterface::place() changed from `offset_x` to `x` and `offset_y` to `y`
 - EncodedImageInterface::toDataUri() now returns `DataUriInterface` instead of `string´
 - ProfileInterface requires implementation of `::fromPath()`
 - DriverInterface requires implementation of `__construct()`
@@ -69,6 +68,7 @@
 - GreyscaleModifier::class was renamed to GrayscaleModifier::class
 - ImageInterface::greyscale() was renamed to ImageInterface::grayscale()
 - ColorInterface::isGreyscale() was renamed to ColorInterface::isGrayscale()
+- ImageInterface::place() was renamed to ImageInterface::insert, signature changed from `offset_x` to `x` and `offset_y` to `y`
 
 ### Exceptions
 

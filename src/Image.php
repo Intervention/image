@@ -72,7 +72,7 @@ use Intervention\Image\Modifiers\GrayscaleModifier;
 use Intervention\Image\Modifiers\InvertModifier;
 use Intervention\Image\Modifiers\PadModifier;
 use Intervention\Image\Modifiers\PixelateModifier;
-use Intervention\Image\Modifiers\PlaceModifier;
+use Intervention\Image\Modifiers\InsertModifier;
 use Intervention\Image\Modifiers\ProfileModifier;
 use Intervention\Image\Modifiers\ProfileRemovalModifier;
 use Intervention\Image\Modifiers\QuantizeColorsModifier;
@@ -822,16 +822,16 @@ final class Image implements ImageInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageInterface::place()
+     * @see ImageInterface::insert()
      */
-    public function place(
+    public function insert(
         mixed $element,
         string|Alignment $alignment = Alignment::TOP_LEFT,
         int $x = 0,
         int $y = 0,
         int $opacity = 100
     ): ImageInterface {
-        return $this->modify(new PlaceModifier($element, $alignment, $x, $y, $opacity));
+        return $this->modify(new InsertModifier($element, $alignment, $x, $y, $opacity));
     }
 
     /**

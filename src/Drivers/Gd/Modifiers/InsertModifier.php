@@ -10,9 +10,9 @@ use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
-use Intervention\Image\Modifiers\PlaceModifier as GenericPlaceModifier;
+use Intervention\Image\Modifiers\InsertModifier as GenericInsertModifier;
 
-class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
+class InsertModifier extends GenericInsertModifier implements SpecializedInterface
 {
     /**
      * {@inheritdoc}
@@ -31,9 +31,9 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
             imagealphablending($frame->native(), true);
 
             if ($this->opacity === 100) {
-                $this->placeOpaque($frame, $watermark, $position);
+                $this->insertOpaque($frame, $watermark, $position);
             } else {
-                $this->placeTransparent($frame, $watermark, $position);
+                $this->insertTransparent($frame, $watermark, $position);
             }
         }
 
@@ -45,7 +45,7 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
      *
      * @throws ModifierException
      */
-    private function placeOpaque(FrameInterface $frame, ImageInterface $watermark, PointInterface $position): void
+    private function insertOpaque(FrameInterface $frame, ImageInterface $watermark, PointInterface $position): void
     {
         imagecopy(
             $frame->native(),
@@ -70,16 +70,16 @@ class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
      * respective opacity.
      *
      * Please note: Unfortunately, there is still an edge case, when a transparent image
-     * is placed on a transparent background, the "double" transparent areas appear opaque!
+     * is inserted on a transparent background, the "double" transparent areas appear opaque!
      *
      * @throws ModifierException
      */
-    private function placeTransparent(FrameInterface $frame, ImageInterface $watermark, PointInterface $position): void
+    private function insertTransparent(FrameInterface $frame, ImageInterface $watermark, PointInterface $position): void
     {
         $cut = imagecreatetruecolor($watermark->width(), $watermark->height());
 
         if ($cut === false) {
-            throw new ModifierException('Failed to place image');
+            throw new ModifierException('Failed to insert image');
         }
 
         imagecopy(

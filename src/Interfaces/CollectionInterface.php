@@ -58,7 +58,7 @@ interface CollectionInterface extends Traversable
      *
      * @return CollectionInterface<int|string, mixed>
      */
-    public function empty(): self;
+    public function clear(): self;
 
     /**
      * Transform collection as array.

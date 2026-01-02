@@ -111,7 +111,7 @@ final class CoreTest extends BaseTestCase
 
     public function testEmpty(): void
     {
-        $result = $this->core->empty();
+        $result = $this->core->clear();
         $this->assertEquals(0, $this->core->count());
         $this->assertEquals(0, $result->count());
     }

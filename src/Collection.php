@@ -205,9 +205,9 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     /**
      * {@inheritdoc}
      *
-     * @see CollectionInterface::empty()
+     * @see CollectionInterface::clear()
      */
-    public function empty(): CollectionInterface
+    public function clear(): CollectionInterface
     {
         $this->items = [];
 

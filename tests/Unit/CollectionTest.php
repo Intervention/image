@@ -162,7 +162,7 @@ final class CollectionTest extends BaseTestCase
     {
         $collection = new Collection([1, 2, 3]);
         $this->assertEquals(3, $collection->count());
-        $result = $collection->empty();
+        $result = $collection->clear();
         $this->assertEquals(0, $collection->count());
         $this->assertEquals(0, $result->count());
     }

@@ -108,9 +108,9 @@ class Core implements CoreInterface, Iterator
     /**
      * {@inheritdoc}
      *
-     * @see CollectionInterface::empty()
+     * @see CollectionInterface::clear()
      */
-    public function empty(): CollectionInterface
+    public function clear(): CollectionInterface
     {
         $this->imagick->clear();
 

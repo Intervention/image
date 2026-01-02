@@ -62,6 +62,7 @@
 - RectangleResizer::class was renamed to Resize::class
 - ImageInterface::pickColor() was renamed to ImageInterface::colorAt() and signature has changed, argument $frame_key is know $frame
 - ImageInterface::pickColors() was renamed to ImageInterface::colorsAt()
+- CollectionInterface::empty() was renamed to CollectionInterface::clear()
 
 ### Exceptions
 

@@ -92,17 +92,16 @@ class NativeObjectDecoder extends AbstractDecoder
             // create empty core
             $core = new Core();
 
-            $splitter = GifSplitter::decodeCreate($input)->split();
+            // add frames to core
+            $splitter = GifSplitter::decode($input)
+                ->split()
+                ->flatten()
+                ->each(function (GdImage $native, int $delay) use ($core): void {
+                    $core->push(new Frame($native, $delay / 100));
+                });
 
             // set loops on core
             $core->setLoops($splitter->loops());
-
-            // set frames & frame delays on core
-            array_map(
-                fn(GdImage $native, int $delay) => $core->push(new Frame($native, $delay / 100)),
-                $splitter->coalesceToResources(),
-                $splitter->delays()
-            );
         } catch (GifException $e) {
             throw new ImageDecoderException('Failed to decode GIF format', previous: $e);
         }

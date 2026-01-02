@@ -19,7 +19,7 @@ final class DrawBezierModifierTest extends GdTestCase
     public function testApply(): void
     {
         $image = $this->readTestImage('trim.png');
-        $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
+        $this->assertEquals('00aef0', $image->colorAt(14, 14)->toHex());
         $drawable = new Bezier([
             new Point(0, 0),
             new Point(15, 0),
@@ -28,6 +28,6 @@ final class DrawBezierModifierTest extends GdTestCase
         ]);
         $drawable->setBackgroundColor('b53717');
         $image->modify(new DrawBezierModifier($drawable));
-        $this->assertEquals('b53717', $image->pickColor(5, 5)->toHex());
+        $this->assertEquals('b53717', $image->colorAt(5, 5)->toHex());
     }
 }

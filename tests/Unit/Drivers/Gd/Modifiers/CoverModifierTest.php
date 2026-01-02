@@ -23,10 +23,10 @@ final class CoverModifierTest extends GdTestCase
         $image->modify(new CoverModifier(100, 100, Alignment::CENTER));
         $this->assertEquals(100, $image->width());
         $this->assertEquals(100, $image->height());
-        $this->assertColor(255, 0, 0, 1, $image->pickColor(90, 90));
-        $this->assertColor(0, 255, 0, 1, $image->pickColor(65, 70));
-        $this->assertColor(0, 0, 255, 1, $image->pickColor(70, 52));
-        $this->assertTransparency($image->pickColor(90, 30));
+        $this->assertColor(255, 0, 0, 1, $image->colorAt(90, 90));
+        $this->assertColor(0, 255, 0, 1, $image->colorAt(65, 70));
+        $this->assertColor(0, 0, 255, 1, $image->colorAt(70, 52));
+        $this->assertTransparency($image->colorAt(90, 30));
     }
 
     public function testModifyOddSize(): void

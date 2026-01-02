@@ -18,7 +18,7 @@ final class ColorizeModifierTest extends GdTestCase
     {
         $image = $this->readTestImage('tile.png');
         $image = $image->modify(new ColorizeModifier(100, -100, -100));
-        $this->assertColor(255, 0, 0, 1, $image->pickColor(5, 5));
-        $this->assertColor(255, 0, 0, 1, $image->pickColor(15, 15));
+        $this->assertColor(255, 0, 0, 1, $image->colorAt(5, 5));
+        $this->assertColor(255, 0, 0, 1, $image->colorAt(15, 15));
     }
 }

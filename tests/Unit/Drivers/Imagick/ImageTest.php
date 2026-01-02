@@ -61,11 +61,11 @@ final class ImageTest extends ImagickTestCase
         $this->assertEquals(4, $clone->width());
         $this->assertEquals(4, $result->width());
 
-        $this->assertEquals('ff0000', $image->pickColor(0, 0)->toHex());
-        $this->assertTransparency($image->pickColor(1, 0));
+        $this->assertEquals('ff0000', $image->colorAt(0, 0)->toHex());
+        $this->assertTransparency($image->colorAt(1, 0));
 
-        $this->assertEquals('ff0000', $clone->pickColor(0, 0)->toHex());
-        $this->assertTransparency($clone->pickColor(1, 0));
+        $this->assertEquals('ff0000', $clone->colorAt(0, 0)->toHex());
+        $this->assertTransparency($clone->colorAt(1, 0));
     }
 
     public function testDriver(): void
@@ -235,13 +235,13 @@ final class ImageTest extends ImagickTestCase
 
     public function testPickColor(): void
     {
-        $this->assertInstanceOf(ColorInterface::class, $this->image->pickColor(0, 0));
-        $this->assertInstanceOf(ColorInterface::class, $this->image->pickColor(0, 0, 1));
+        $this->assertInstanceOf(ColorInterface::class, $this->image->colorAt(0, 0));
+        $this->assertInstanceOf(ColorInterface::class, $this->image->colorAt(0, 0, 1));
     }
 
     public function testPickColors(): void
     {
-        $result = $this->image->pickColors(0, 0);
+        $result = $this->image->colorsAt(0, 0);
         $this->assertInstanceOf(Collection::class, $result);
         $this->assertEquals(8, $result->count());
     }
@@ -267,56 +267,56 @@ final class ImageTest extends ImagickTestCase
     public function testBackgroundDefault(): void
     {
         $image = $this->readTestImage('gradient.gif');
-        $this->assertColor(0, 0, 0, 0, $image->pickColor(1, 0));
+        $this->assertColor(0, 0, 0, 0, $image->colorAt(1, 0));
         $result = $image->background();
-        $this->assertColor(255, 255, 255, 1, $image->pickColor(1, 0));
-        $this->assertColor(255, 255, 255, 1, $result->pickColor(1, 0));
+        $this->assertColor(255, 255, 255, 1, $image->colorAt(1, 0));
+        $this->assertColor(255, 255, 255, 1, $result->colorAt(1, 0));
     }
 
     public function testBackgroundArgument(): void
     {
         $image = $this->readTestImage('gradient.gif');
-        $this->assertColor(0, 0, 0, 0, $image->pickColor(1, 0));
+        $this->assertColor(0, 0, 0, 0, $image->colorAt(1, 0));
         $result = $image->background('ff5500');
-        $this->assertColor(255, 85, 0, 1, $image->pickColor(1, 0));
-        $this->assertColor(255, 85, 0, 1, $result->pickColor(1, 0));
+        $this->assertColor(255, 85, 0, 1, $image->colorAt(1, 0));
+        $this->assertColor(255, 85, 0, 1, $result->colorAt(1, 0));
     }
 
     public function testBackgroundIgnoreTransparencyInBackgroundColor(): void
     {
         $image = $this->readTestImage('gradient.gif');
-        $this->assertColor(0, 0, 0, 0, $image->pickColor(1, 0));
+        $this->assertColor(0, 0, 0, 0, $image->colorAt(1, 0));
         $result = $image->background('ff550055');
-        $this->assertColor(255, 85, 0, .33333333333333, $image->pickColor(1, 0));
-        $this->assertColor(255, 85, 0, .33333333333333, $result->pickColor(1, 0));
+        $this->assertColor(255, 85, 0, .33333333333333, $image->colorAt(1, 0));
+        $this->assertColor(255, 85, 0, .33333333333333, $result->colorAt(1, 0));
     }
 
     public function testInvert(): void
     {
         $image = $this->readTestImage('trim.png');
-        $this->assertEquals('00aef0', $image->pickColor(0, 0)->toHex());
-        $this->assertEquals('ffa601', $image->pickColor(25, 25)->toHex());
+        $this->assertEquals('00aef0', $image->colorAt(0, 0)->toHex());
+        $this->assertEquals('ffa601', $image->colorAt(25, 25)->toHex());
         $result = $image->invert();
         $this->assertInstanceOf(ImageInterface::class, $result);
-        $this->assertEquals('ff510f', $image->pickColor(0, 0)->toHex());
-        $this->assertEquals('0059fe', $image->pickColor(25, 25)->toHex());
+        $this->assertEquals('ff510f', $image->colorAt(0, 0)->toHex());
+        $this->assertEquals('0059fe', $image->colorAt(25, 25)->toHex());
     }
 
     public function testPixelate(): void
     {
         $image = $this->readTestImage('trim.png');
-        $this->assertEquals('00aef0', $image->pickColor(0, 0)->toHex());
-        $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
+        $this->assertEquals('00aef0', $image->colorAt(0, 0)->toHex());
+        $this->assertEquals('00aef0', $image->colorAt(14, 14)->toHex());
 
         $result = $image->pixelate(10);
         $this->assertInstanceOf(ImageInterface::class, $result);
 
-        [$r, $g, $b] = $image->pickColor(0, 0)->toArray();
+        [$r, $g, $b] = $image->colorAt(0, 0)->toArray();
         $this->assertEquals(0, $r);
         $this->assertEquals(174, $g);
         $this->assertEquals(240, $b);
 
-        [$r, $g, $b] = $image->pickColor(14, 14)->toArray();
+        [$r, $g, $b] = $image->colorAt(14, 14)->toArray();
         $this->assertEquals(107, $r);
         $this->assertEquals(171, $g);
         $this->assertEquals(140, $b);
@@ -325,19 +325,19 @@ final class ImageTest extends ImagickTestCase
     public function testGreyscale(): void
     {
         $image = $this->readTestImage('trim.png');
-        $this->assertFalse($image->pickColor(0, 0)->isGreyscale());
+        $this->assertFalse($image->colorAt(0, 0)->isGreyscale());
         $result = $image->greyscale();
         $this->assertInstanceOf(ImageInterface::class, $result);
-        $this->assertTrue($image->pickColor(0, 0)->isGreyscale());
+        $this->assertTrue($image->colorAt(0, 0)->isGreyscale());
     }
 
     public function testBrightness(): void
     {
         $image = $this->readTestImage('trim.png');
-        $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
+        $this->assertEquals('00aef0', $image->colorAt(14, 14)->toHex());
         $result = $image->brightness(30);
         $this->assertInstanceOf(ImageInterface::class, $result);
-        $this->assertEquals('39c9ff', $image->pickColor(14, 14)->toHex());
+        $this->assertEquals('39c9ff', $image->colorAt(14, 14)->toHex());
     }
 
     public function testDebugInfo(): void

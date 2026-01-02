@@ -43,7 +43,7 @@ final class TrimModifierTest extends ImagickTestCase
         $image->modify(new TrimModifier(1000000));
         $this->assertEquals(1, $image->width());
         $this->assertEquals(1, $image->height());
-        $this->assertColor(255, 255, 255, 0, $image->pickColor(0, 0));
+        $this->assertColor(255, 255, 255, 0, $image->colorAt(0, 0));
     }
 
     public function testTrimAnimated(): void

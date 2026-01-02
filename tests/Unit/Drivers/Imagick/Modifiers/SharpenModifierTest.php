@@ -17,8 +17,8 @@ final class SharpenModifierTest extends ImagickTestCase
     public function testModify(): void
     {
         $image = $this->readTestImage('trim.png');
-        $this->assertEquals('60ab96', $image->pickColor(15, 14)->toHex());
+        $this->assertEquals('60ab96', $image->colorAt(15, 14)->toHex());
         $image->modify(new SharpenModifier(10));
-        $this->assertEquals('4faca6', $image->pickColor(15, 14)->toHex());
+        $this->assertEquals('4faca6', $image->colorAt(15, 14)->toHex());
     }
 }

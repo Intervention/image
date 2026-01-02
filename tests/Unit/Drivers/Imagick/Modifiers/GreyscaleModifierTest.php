@@ -17,8 +17,8 @@ final class GreyscaleModifierTest extends ImagickTestCase
     public function testColorChange(): void
     {
         $image = $this->readTestImage('trim.png');
-        $this->assertFalse($image->pickColor(0, 0)->isGreyscale());
+        $this->assertFalse($image->colorAt(0, 0)->isGreyscale());
         $image->modify(new GreyscaleModifier());
-        $this->assertTrue($image->pickColor(0, 0)->isGreyscale());
+        $this->assertTrue($image->colorAt(0, 0)->isGreyscale());
     }
 }

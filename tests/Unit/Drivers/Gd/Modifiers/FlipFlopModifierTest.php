@@ -18,16 +18,16 @@ final class FlipFlopModifierTest extends GdTestCase
     public function testFlipImage(): void
     {
         $image = $this->readTestImage('tile.png');
-        $this->assertEquals('b4e000', $image->pickColor(0, 0)->toHex());
+        $this->assertEquals('b4e000', $image->colorAt(0, 0)->toHex());
         $image->modify(new FlipModifier());
-        $this->assertTransparency($image->pickColor(0, 0));
+        $this->assertTransparency($image->colorAt(0, 0));
     }
 
     public function testFlopImage(): void
     {
         $image = $this->readTestImage('tile.png');
-        $this->assertEquals('b4e000', $image->pickColor(0, 0)->toHex());
+        $this->assertEquals('b4e000', $image->colorAt(0, 0)->toHex());
         $image->modify(new FlopModifier());
-        $this->assertTransparency($image->pickColor(0, 0));
+        $this->assertTransparency($image->colorAt(0, 0));
     }
 }

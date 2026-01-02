@@ -51,7 +51,6 @@
 - Usage of internal font's of GD library is determined by font size and no font file instead of font file
 - Method DrawableFactoryInterface::init() is replaced by DrawableFactoryInterface::create()
 - Method DrawableFactoryInterface::create() is replaced by DrawableFactoryInterface::drawable()
-- Signature of ImageInterface::pickColor() has changed, argument $frame_key is know $frame
 - Signature of Frame::__construct() has changed, argument $offset_left is know $offsetLeft and $offset_top is now $offsetTop
 - Signature of PixelColorAnalyzer::__construct() has changed, argument $frame_key is know $frame
 - DriverInterface::handleInput() is replaced by DriverInterface::handleImageInput(), DriverInterface::handleColorInput()
@@ -61,6 +60,8 @@
 - Method ColorChannelInterface::colorFromNormalized() requires now a static implementation
 - CoreInterface::class now requires implementation of CoreInterface::meta()
 - RectangleResizer::class was renamed to Resize::class
+- ImageInterface::pickColor() was renamed to ImageInterface::colorAt() and signature has changed, argument $frame_key is know $frame
+- ImageInterface::pickColors() was renamed to ImageInterface::colorsAt()
 
 ### Exceptions
 

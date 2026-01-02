@@ -19,20 +19,20 @@ final class DrawLineModifierTest extends ImagickTestCase
     public function testApply(): void
     {
         $image = $this->readTestImage('trim.png');
-        $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
+        $this->assertEquals('00aef0', $image->colorAt(14, 14)->toHex());
         $line = new Line(new Point(0, 0), new Point(10, 0), 4);
         $line->setBackgroundColor('b53517');
         $image->modify(new DrawLineModifier($line));
-        $this->assertEquals('b53517', $image->pickColor(0, 0)->toHex());
+        $this->assertEquals('b53517', $image->colorAt(0, 0)->toHex());
     }
 
     public function testApplyTransparent(): void
     {
         $image = $this->createTestImage(10, 10)->fill('ff5500');
-        $this->assertColor(255, 85, 0, 1, $image->pickColor(5, 5));
+        $this->assertColor(255, 85, 0, 1, $image->colorAt(5, 5));
         $line = new Line(new Point(0, 5), new Point(10, 5), 4);
         $line->setBackgroundColor('fff4');
         $image->modify(new DrawLineModifier($line));
-        $this->assertColor(255, 130, 68, 1, $image->pickColor(5, 5));
+        $this->assertColor(255, 130, 68, 1, $image->colorAt(5, 5));
     }
 }

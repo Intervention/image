@@ -19,10 +19,10 @@ final class DrawRectangleModifierTest extends ImagickTestCase
     public function testApply(): void
     {
         $image = $this->readTestImage('trim.png');
-        $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
+        $this->assertEquals('00aef0', $image->colorAt(14, 14)->toHex());
         $rectangle = new Rectangle(300, 200, new Point(14, 14));
         $rectangle->setBackgroundColor('ffffff');
         $image->modify(new DrawRectangleModifier($rectangle));
-        $this->assertEquals('ffffff', $image->pickColor(14, 14)->toHex());
+        $this->assertEquals('ffffff', $image->colorAt(14, 14)->toHex());
     }
 }

@@ -19,7 +19,7 @@ class ConvertPngGif extends ImagickTestCase
                 binary: $this->readTestImage('circle.png')->encodeUsing(format: Format::GIF)
             );
 
-        $this->assertTransparency($converted->pickColor(0, 0));
-        $this->assertColor(4, 2, 4, 1, $converted->pickColor(25, 25), 4);
+        $this->assertTransparency($converted->colorAt(0, 0));
+        $this->assertColor(4, 2, 4, 1, $converted->colorAt(25, 25), 4);
     }
 }

@@ -17,8 +17,8 @@ final class BlurModifierTest extends GdTestCase
     public function testColorChange(): void
     {
         $image = $this->readTestImage('trim.png');
-        $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
+        $this->assertEquals('00aef0', $image->colorAt(14, 14)->toHex());
         $image->modify(new BlurModifier(30));
-        $this->assertEquals('4fa68d', $image->pickColor(14, 14)->toHex());
+        $this->assertEquals('4fa68d', $image->colorAt(14, 14)->toHex());
     }
 }

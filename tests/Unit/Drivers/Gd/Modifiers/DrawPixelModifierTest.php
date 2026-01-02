@@ -18,8 +18,8 @@ final class DrawPixelModifierTest extends GdTestCase
     public function testApply(): void
     {
         $image = $this->readTestImage('trim.png');
-        $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
+        $this->assertEquals('00aef0', $image->colorAt(14, 14)->toHex());
         $image->modify(new DrawPixelModifier(new Point(14, 14), 'ffffff'));
-        $this->assertEquals('ffffff', $image->pickColor(14, 14)->toHex());
+        $this->assertEquals('ffffff', $image->colorAt(14, 14)->toHex());
     }
 }

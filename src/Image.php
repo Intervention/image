@@ -370,9 +370,9 @@ final class Image implements ImageInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageInterface::pickColor()
+     * @see ImageInterface::colorAt()
      */
-    public function pickColor(int $x, int $y, int $frame = 0): ColorInterface
+    public function colorAt(int $x, int $y, int $frame = 0): ColorInterface
     {
         return $this->analyze(new PixelColorAnalyzer($x, $y, $frame));
     }
@@ -380,9 +380,9 @@ final class Image implements ImageInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageInterface::pickColors()
+     * @see ImageInterface::colorsAt()
      */
-    public function pickColors(int $x, int $y): CollectionInterface
+    public function colorsAt(int $x, int $y): CollectionInterface
     {
         return $this->analyze(new PixelColorsAnalyzer($x, $y));
     }

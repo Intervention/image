@@ -19,10 +19,10 @@ final class DrawEllipseModifierTest extends GdTestCase
     public function testApply(): void
     {
         $image = $this->readTestImage('trim.png');
-        $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
+        $this->assertEquals('00aef0', $image->colorAt(14, 14)->toHex());
         $drawable = new Ellipse(10, 10, new Point(14, 14));
         $drawable->setBackgroundColor('b53717');
         $image->modify(new DrawEllipseModifier($drawable));
-        $this->assertEquals('b53717', $image->pickColor(14, 14)->toHex());
+        $this->assertEquals('b53717', $image->colorAt(14, 14)->toHex());
     }
 }

@@ -20,16 +20,16 @@ final class FlipFlopModifierTest extends ImagickTestCase
     public function testFlipImage(): void
     {
         $image = $this->readTestImage('tile.png');
-        $this->assertEquals('b4e000', $image->pickColor(0, 0)->toHex());
+        $this->assertEquals('b4e000', $image->colorAt(0, 0)->toHex());
         $image->modify(new FlipModifier());
-        $this->assertEquals('00000000', $image->pickColor(0, 0)->toHex());
+        $this->assertEquals('00000000', $image->colorAt(0, 0)->toHex());
     }
 
     public function testFlopImage(): void
     {
         $image = $this->readTestImage('tile.png');
-        $this->assertEquals('b4e000', $image->pickColor(0, 0)->toHex());
+        $this->assertEquals('b4e000', $image->colorAt(0, 0)->toHex());
         $image->modify(new FlopModifier());
-        $this->assertEquals('00000000', $image->pickColor(0, 0)->toHex());
+        $this->assertEquals('00000000', $image->colorAt(0, 0)->toHex());
     }
 }

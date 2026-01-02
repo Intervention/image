@@ -90,7 +90,7 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
             imagesy($frame->native()),
             $container->pivot()
         ))->align(Alignment::CENTER)
-            ->valign(Alignment::CENTER)
+            ->alignVertically(Alignment::CENTER)
             ->rotate($this->rotationAngle() * -1);
 
         // create new gd image

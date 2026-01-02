@@ -349,7 +349,7 @@ final class PolygonTest extends BaseTestCase
         $this->assertEquals(-200, $result[3]->y());
     }
 
-    public function testValignMiddle(): void
+    public function testAlignVerticallyMiddle(): void
     {
         $poly = new Polygon([
             new Point(-21, -22),
@@ -358,7 +358,7 @@ final class PolygonTest extends BaseTestCase
             new Point(0, 0),
         ], new Point(250, 250));
 
-        $result = $poly->valign('middle');
+        $result = $poly->alignVertically('middle');
 
         $this->assertInstanceOf(Polygon::class, $result);
         $this->assertEquals(-21, $result[0]->x());
@@ -371,7 +371,7 @@ final class PolygonTest extends BaseTestCase
         $this->assertEquals(318, $result[3]->y());
     }
 
-    public function testValignTop(): void
+    public function testAlignVerticallyTop(): void
     {
         $poly = new Polygon([
             new Point(-21, -22),
@@ -380,7 +380,7 @@ final class PolygonTest extends BaseTestCase
             new Point(0, 0),
         ], new Point(250, 250));
 
-        $result = $poly->valign(Alignment::TOP);
+        $result = $poly->alignVertically(Alignment::TOP);
 
         $this->assertInstanceOf(Polygon::class, $result);
         $this->assertEquals(-21, $result[0]->x());

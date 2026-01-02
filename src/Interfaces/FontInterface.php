@@ -91,12 +91,12 @@ interface FontInterface
     /**
      * Set vertical alignment of font.
      */
-    public function setValignment(string|Alignment $align): self;
+    public function setVerticalAlignment(string|Alignment $align): self;
 
     /**
      * Get vertical alignment of font.
      */
-    public function valignment(): Alignment;
+    public function verticalAlignment(): Alignment;
 
     /**
      * Set typographical line height.

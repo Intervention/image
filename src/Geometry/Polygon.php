@@ -286,7 +286,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
      *
      * @throws InvalidArgumentException
      */
-    public function valign(string|Alignment $position): self
+    public function alignVertically(string|Alignment $position): self
     {
         $diff = match (Alignment::create($position)) {
             Alignment::CENTER => $this->centerPoint()->y() - $this->pivot()->y(),

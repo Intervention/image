@@ -31,7 +31,7 @@ final class FontFactoryTest extends BaseTestCase
             $font->color('#b01735');
             $font->size(70);
             $font->align(Alignment::CENTER);
-            $font->valign(Alignment::TOP);
+            $font->alignVertically(Alignment::TOP);
             $font->lineHeight(1.6);
             $font->angle(10);
             $font->wrap(100);
@@ -44,7 +44,7 @@ final class FontFactoryTest extends BaseTestCase
         $this->assertEquals('#b01735', $result->color());
         $this->assertEquals(70, $result->size());
         $this->assertEquals(Alignment::CENTER, $result->alignment());
-        $this->assertEquals(Alignment::TOP, $result->valignment());
+        $this->assertEquals(Alignment::TOP, $result->verticalAlignment());
         $this->assertEquals(1.6, $result->lineHeight());
         $this->assertEquals(10, $result->angle());
         $this->assertEquals(100, $result->wrapWidth());

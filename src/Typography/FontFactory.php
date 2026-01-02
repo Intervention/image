@@ -101,9 +101,9 @@ class FontFactory
     /**
      * Set the vertical alignment of the font to be built.
      */
-    public function valign(string|Alignment $value): self
+    public function alignVertically(string|Alignment $value): self
     {
-        $this->font->setValignment($value);
+        $this->font->setVerticalAlignment($value);
 
         return $this;
     }

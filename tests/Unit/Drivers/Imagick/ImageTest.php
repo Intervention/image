@@ -23,7 +23,7 @@ use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Interfaces\SizeInterface;
-use Intervention\Image\Modifiers\GreyscaleModifier;
+use Intervention\Image\Modifiers\GrayscaleModifier;
 use Intervention\Image\Origin;
 use Intervention\Image\Tests\ImagickTestCase;
 use Intervention\Image\Tests\Resource;
@@ -137,7 +137,7 @@ final class ImageTest extends ImagickTestCase
 
     public function testModify(): void
     {
-        $result = $this->image->modify(new GreyscaleModifier());
+        $result = $this->image->modify(new GrayscaleModifier());
         $this->assertInstanceOf(Image::class, $result);
     }
 
@@ -322,13 +322,13 @@ final class ImageTest extends ImagickTestCase
         $this->assertEquals(140, $b);
     }
 
-    public function testGreyscale(): void
+    public function testGrayscale(): void
     {
         $image = $this->readTestImage('trim.png');
-        $this->assertFalse($image->colorAt(0, 0)->isGreyscale());
-        $result = $image->greyscale();
+        $this->assertFalse($image->colorAt(0, 0)->isGrayscale());
+        $result = $image->grayscale();
         $this->assertInstanceOf(ImageInterface::class, $result);
-        $this->assertTrue($image->colorAt(0, 0)->isGreyscale());
+        $this->assertTrue($image->colorAt(0, 0)->isGrayscale());
     }
 
     public function testBrightness(): void

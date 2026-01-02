@@ -86,13 +86,13 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals('#ff4400', $color->toHex('#'));
     }
 
-    public function testIsGreyscale(): void
+    public function testIsGrayscale(): void
     {
         $color = new Color(0, 73, 100, 0);
-        $this->assertFalse($color->isGreyscale());
+        $this->assertFalse($color->isGrayscale());
 
         $color = new Color(0, 0, 0, 50);
-        $this->assertTrue($color->isGreyscale());
+        $this->assertTrue($color->isGrayscale());
     }
 
     public function testNormalize(): void

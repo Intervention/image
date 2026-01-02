@@ -61,9 +61,9 @@ interface ColorInterface extends Stringable
     public function toColorspace(string|ColorspaceInterface $colorspace): self;
 
     /**
-     * Determine if the current color is grey.
+     * Determine if the current color is gray.
      */
-    public function isGreyscale(): bool;
+    public function isGrayscale(): bool;
 
     /**
      * Determine if the current color is (semi) transparent.

@@ -7,9 +7,9 @@ namespace Intervention\Image\Drivers\Gd\Modifiers;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
-use Intervention\Image\Modifiers\GreyscaleModifier as GenericGreyscaleModifier;
+use Intervention\Image\Modifiers\GrayscaleModifier as GenericGrayscaleModifier;
 
-class GreyscaleModifier extends GenericGreyscaleModifier implements SpecializedInterface
+class GrayscaleModifier extends GenericGrayscaleModifier implements SpecializedInterface
 {
     /**
      * {@inheritdoc}
@@ -24,7 +24,7 @@ class GreyscaleModifier extends GenericGreyscaleModifier implements SpecializedI
             $result = imagefilter($frame->native(), IMG_FILTER_GRAYSCALE);
             if ($result === false) {
                 throw new ModifierException(
-                    'Failed to apply ' . self::class . ', unable to transform image to greyscale',
+                    'Failed to apply ' . self::class . ', unable to transform image to grayscale',
                 );
             }
         }

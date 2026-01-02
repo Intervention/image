@@ -6,7 +6,7 @@ namespace Intervention\Image\Modifiers;
 
 use Intervention\Image\Drivers\SpecializableModifier;
 
-class GreyscaleModifier extends SpecializableModifier
+class GrayscaleModifier extends SpecializableModifier
 {
     //
 }

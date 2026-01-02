@@ -105,7 +105,7 @@ class Colorspace implements ColorspaceInterface
         $v = 100 * $max;
 
         if ($chroma == 0) {
-            // greyscale color
+            // grayscale color
             return new Color(0, 0, intval(round($v)));
         }
 

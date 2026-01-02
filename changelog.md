@@ -66,6 +66,9 @@
 - FontFactory::valign() was renamed to FontInterface::alignVertically()
 - FontInterface::valignment() was renamed to FontInterface::verticalAlignment()
 - FontInterface::setValignment() was renamed to FontInterface::setVerticalAlignment()
+- GreyscaleModifier::class was renamed to GrayscaleModifier::class
+- ImageInterface::greyscale() was renamed to ImageInterface::grayscale()
+- ColorInterface::isGreyscale() was renamed to ColorInterface::isGrayscale()
 
 ### Exceptions
 

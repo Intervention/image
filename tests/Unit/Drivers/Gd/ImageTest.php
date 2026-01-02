@@ -22,7 +22,7 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\MediaType;
-use Intervention\Image\Modifiers\GreyscaleModifier;
+use Intervention\Image\Modifiers\GrayscaleModifier;
 use Intervention\Image\Tests\GdTestCase;
 use Intervention\Image\Typography\Font;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -126,7 +126,7 @@ final class ImageTest extends GdTestCase
 
     public function testModify(): void
     {
-        $result = $this->image->modify(new GreyscaleModifier());
+        $result = $this->image->modify(new GrayscaleModifier());
         $this->assertInstanceOf(Image::class, $result);
     }
 
@@ -317,13 +317,13 @@ final class ImageTest extends GdTestCase
         $this->assertEquals('6aaa8b', $image->colorAt(14, 14)->toHex());
     }
 
-    public function testGreyscale(): void
+    public function testGrayscale(): void
     {
         $image = $this->readTestImage('trim.png');
-        $this->assertFalse($image->colorAt(0, 0)->isGreyscale());
-        $result = $image->greyscale();
+        $this->assertFalse($image->colorAt(0, 0)->isGrayscale());
+        $result = $image->grayscale();
         $this->assertInstanceOf(ImageInterface::class, $result);
-        $this->assertTrue($image->colorAt(0, 0)->isGreyscale());
+        $this->assertTrue($image->colorAt(0, 0)->isGrayscale());
     }
 
     public function testBrightness(): void

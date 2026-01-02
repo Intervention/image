@@ -238,11 +238,11 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function sharpen(int $amount = 10): self;
 
     /**
-     * Turn image into a greyscale version.
+     * Turn image into a grayscale version.
      *
-     * @link https://image.intervention.io/v3/modifying-images/effects#convert-image-to-a-greyscale-version
+     * @link https://image.intervention.io/v3/modifying-images/effects#convert-image-to-a-grayscale-version
      */
-    public function greyscale(): self;
+    public function grayscale(): self;
 
     /**
      * Adjust brightness of the current image by given level.

@@ -188,9 +188,9 @@ class Color extends AbstractColor
     /**
      * {@inheritdoc}
      *
-     * @see ColorInterface::isGreyscale()
+     * @see ColorInterface::isGrayscale()
      */
-    public function isGreyscale(): bool
+    public function isGrayscale(): bool
     {
         $values = [$this->red()->value(), $this->green()->value(), $this->blue()->value()];
 

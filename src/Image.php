@@ -68,7 +68,7 @@ use Intervention\Image\Modifiers\FillModifier;
 use Intervention\Image\Modifiers\FlipModifier;
 use Intervention\Image\Modifiers\FlopModifier;
 use Intervention\Image\Modifiers\GammaModifier;
-use Intervention\Image\Modifiers\GreyscaleModifier;
+use Intervention\Image\Modifiers\GrayscaleModifier;
 use Intervention\Image\Modifiers\InvertModifier;
 use Intervention\Image\Modifiers\PadModifier;
 use Intervention\Image\Modifiers\PixelateModifier;
@@ -498,11 +498,11 @@ final class Image implements ImageInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageInterface::greyscale()
+     * @see ImageInterface::grayscale()
      */
-    public function greyscale(): ImageInterface
+    public function grayscale(): ImageInterface
     {
-        return $this->modify(new GreyscaleModifier());
+        return $this->modify(new GrayscaleModifier());
     }
 
     /**

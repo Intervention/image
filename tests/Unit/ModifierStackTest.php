@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use Intervention\Image\Modifiers\GreyscaleModifier;
+use Intervention\Image\Modifiers\GrayscaleModifier;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\ModifierStack;
@@ -24,7 +24,7 @@ final class ModifierStackTest extends BaseTestCase
     public function testPush(): void
     {
         $stack = new ModifierStack([]);
-        $result = $stack->push(new GreyscaleModifier());
+        $result = $stack->push(new GrayscaleModifier());
         $this->assertInstanceOf(ModifierStack::class, $result);
     }
 

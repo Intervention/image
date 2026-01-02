@@ -50,7 +50,7 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
         }
 
         // turn images with colorspace 'GRAY' into 'SRGB' to avoid working on
-        // greyscale colorspace images as this results images loosing color
+        // grayscale colorspace images as this results images loosing color
         // information when placed into this image.
         try {
             if ($input->getImageColorspace() == Imagick::COLORSPACE_GRAY) {

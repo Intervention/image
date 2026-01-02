@@ -103,16 +103,16 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals('hsv(100 50 20 / 0.2)', (string) $color);
     }
 
-    public function testIsGreyscale(): void
+    public function testIsGrayscale(): void
     {
         $color = new Color(0, 1, 0);
-        $this->assertFalse($color->isGreyscale());
+        $this->assertFalse($color->isGrayscale());
 
         $color = new Color(1, 0, 0);
-        $this->assertTrue($color->isGreyscale());
+        $this->assertTrue($color->isGrayscale());
 
         $color = new Color(0, 0, 1);
-        $this->assertTrue($color->isGreyscale());
+        $this->assertTrue($color->isGrayscale());
     }
 
     public function testIsTransparent(): void

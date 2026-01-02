@@ -8,9 +8,9 @@ use ImagickException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
-use Intervention\Image\Modifiers\GreyscaleModifier as GenericGreyscaleModifier;
+use Intervention\Image\Modifiers\GrayscaleModifier as GenericGrayscaleModifier;
 
-class GreyscaleModifier extends GenericGreyscaleModifier implements SpecializedInterface
+class GrayscaleModifier extends GenericGrayscaleModifier implements SpecializedInterface
 {
     /**
      * @throws ModifierException

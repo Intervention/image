@@ -56,7 +56,7 @@ interface ImageManagerInterface
     public function decode(mixed $input, null|string|array|DecoderInterface $decoders = null): ImageInterface;
 
     /**
-     * Create new image instance by passing one of the named arguments.
+     * Create a new image instance by passing one of the following image sources:
      *
      * - Path in filesystem
      * - File Pointer resource
@@ -67,7 +67,7 @@ interface ImageManagerInterface
      *
      * @link https://image.intervention.io/v3/basics/instantiation#read-image-sources
      */
-    public function decodeFrom( // tood: maybe rename to decodeUsing()
+    public function decodeFrom(
         null|string|Stringable $path = null,
         null|string|Stringable $binary = null,
         null|string|Stringable $base64 = null,
@@ -77,7 +77,7 @@ interface ImageManagerInterface
     ): ImageInterface;
 
     /**
-     * Create new animated image by given callback.
+     * Create a new animated image by running the given callback on AnimationFactory::class
      *
      * @link https://image.intervention.io/v3/basics/instantiation#create-animations
      */

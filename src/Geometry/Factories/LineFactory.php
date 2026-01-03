@@ -39,6 +39,16 @@ class LineFactory implements DrawableFactoryInterface
     /**
      * {@inheritdoc}
      *
+     * @see DrawableFactoryInterface::build()
+     */
+    public static function build(?callable $init = null): Line
+    {
+        return (new self($init))->drawable();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see DrawableFactoryInterface::drawable()
      */
     public function drawable(): DrawableInterface

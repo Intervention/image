@@ -15,7 +15,7 @@ final class CircleFactoryTest extends BaseTestCase
 {
     public function testFactoryCallback(): void
     {
-        $factory = new CircleFactory(new Point(1, 2), function ($circle): void {
+        $factory = new CircleFactory(new Point(1, 2), function (CircleFactory $circle): void {
             $circle->background('fff');
             $circle->border('ccc', 10);
             $circle->radius(100);
@@ -23,6 +23,24 @@ final class CircleFactoryTest extends BaseTestCase
         });
 
         $circle = $factory();
+        $this->assertInstanceOf(Ellipse::class, $circle);
+        $this->assertTrue($circle->hasBackgroundColor());
+        $this->assertEquals('fff', $circle->backgroundColor());
+        $this->assertEquals('ccc', $circle->borderColor());
+        $this->assertEquals(10, $circle->borderSize());
+        $this->assertEquals(1000, $circle->width());
+        $this->assertEquals(1000, $circle->height());
+    }
+
+    public function testBuild(): void
+    {
+        $circle = CircleFactory::build(function (CircleFactory $circle): void {
+            $circle->background('fff');
+            $circle->border('ccc', 10);
+            $circle->radius(100);
+            $circle->diameter(1000);
+        });
+
         $this->assertInstanceOf(Ellipse::class, $circle);
         $this->assertTrue($circle->hasBackgroundColor());
         $this->assertEquals('fff', $circle->backgroundColor());

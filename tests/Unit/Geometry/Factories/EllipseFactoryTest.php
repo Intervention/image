@@ -15,7 +15,7 @@ final class EllipseFactoryTest extends BaseTestCase
 {
     public function testFactoryCallback(): void
     {
-        $factory = new EllipseFactory(new Point(1, 2), function ($ellipse): void {
+        $factory = new EllipseFactory(new Point(1, 2), function (EllipseFactory $ellipse): void {
             $ellipse->background('fff');
             $ellipse->border('ccc', 10);
             $ellipse->width(100);
@@ -24,6 +24,25 @@ final class EllipseFactoryTest extends BaseTestCase
         });
 
         $ellipse = $factory();
+        $this->assertInstanceOf(Ellipse::class, $ellipse);
+        $this->assertTrue($ellipse->hasBackgroundColor());
+        $this->assertEquals('fff', $ellipse->backgroundColor());
+        $this->assertEquals('ccc', $ellipse->borderColor());
+        $this->assertEquals(10, $ellipse->borderSize());
+        $this->assertEquals(1000, $ellipse->width());
+        $this->assertEquals(2000, $ellipse->height());
+    }
+
+    public function testBuild(): void
+    {
+        $ellipse = EllipseFactory::build(function (EllipseFactory $ellipse): void {
+            $ellipse->background('fff');
+            $ellipse->border('ccc', 10);
+            $ellipse->width(100);
+            $ellipse->height(200);
+            $ellipse->size(1000, 2000);
+        });
+
         $this->assertInstanceOf(Ellipse::class, $ellipse);
         $this->assertTrue($ellipse->hasBackgroundColor());
         $this->assertEquals('fff', $ellipse->backgroundColor());

@@ -14,7 +14,7 @@ final class BezierFactoryTest extends BaseTestCase
 {
     public function testFactoryCallback(): void
     {
-        $factory = new BezierFactory(function ($bezier): void {
+        $factory = new BezierFactory(function (BezierFactory $bezier): void {
             $bezier->background('f00');
             $bezier->border('ff0', 10);
             $bezier->point(300, 260);
@@ -23,6 +23,24 @@ final class BezierFactoryTest extends BaseTestCase
         });
 
         $bezier = $factory();
+        $this->assertInstanceOf(Bezier::class, $bezier);
+        $this->assertTrue($bezier->hasBackgroundColor());
+        $this->assertEquals('f00', $bezier->backgroundColor());
+        $this->assertEquals('ff0', $bezier->borderColor());
+        $this->assertEquals(10, $bezier->borderSize());
+        $this->assertEquals(3, $bezier->count());
+    }
+
+    public function testBuild(): void
+    {
+        $bezier = BezierFactory::build(function (BezierFactory $bezier): void {
+            $bezier->background('f00');
+            $bezier->border('ff0', 10);
+            $bezier->point(300, 260);
+            $bezier->point(150, 335);
+            $bezier->point(300, 410);
+        });
+
         $this->assertInstanceOf(Bezier::class, $bezier);
         $this->assertTrue($bezier->hasBackgroundColor());
         $this->assertEquals('f00', $bezier->backgroundColor());

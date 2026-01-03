@@ -15,7 +15,7 @@ final class RectangleFactoryTest extends BaseTestCase
 {
     public function testFactoryCallback(): void
     {
-        $factory = new RectangleFactory(new Point(1, 2), function ($rectangle): void {
+        $factory = new RectangleFactory(new Point(1, 2), function (RectangleFactory $rectangle): void {
             $rectangle->background('fff');
             $rectangle->border('ccc', 10);
             $rectangle->width(100);
@@ -24,6 +24,25 @@ final class RectangleFactoryTest extends BaseTestCase
         });
 
         $rectangle = $factory();
+        $this->assertInstanceOf(Rectangle::class, $rectangle);
+        $this->assertTrue($rectangle->hasBackgroundColor());
+        $this->assertEquals('fff', $rectangle->backgroundColor());
+        $this->assertEquals('ccc', $rectangle->borderColor());
+        $this->assertEquals(10, $rectangle->borderSize());
+        $this->assertEquals(1000, $rectangle->width());
+        $this->assertEquals(2000, $rectangle->height());
+    }
+
+    public function testBuild(): void
+    {
+        $rectangle = RectangleFactory::build(function (RectangleFactory $rectangle): void {
+            $rectangle->background('fff');
+            $rectangle->border('ccc', 10);
+            $rectangle->width(100);
+            $rectangle->height(200);
+            $rectangle->size(1000, 2000);
+        });
+
         $this->assertInstanceOf(Rectangle::class, $rectangle);
         $this->assertTrue($rectangle->hasBackgroundColor());
         $this->assertEquals('fff', $rectangle->backgroundColor());

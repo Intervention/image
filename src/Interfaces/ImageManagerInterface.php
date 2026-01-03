@@ -24,8 +24,14 @@ interface ImageManagerInterface
      * @param int<1, max> $width
      * @param int<1, max> $height
      */
-    public function create(int $width, int $height): ImageInterface;
-    // TODO: maybe rename, because create() creates normally instance of self
+    public function createImage(int $width, int $height): ImageInterface;
+
+    /**
+     * Create a new animated image by running the given callback on AnimationFactory::class
+     *
+     * @link https://image.intervention.io/v3/basics/instantiation#create-animations
+     */
+    public function animate(callable $animation): ImageInterface; // todo: maybe merge with self::CreateImage()
 
     /**
      * Create new image instance from given input which can be one of the following.
@@ -75,13 +81,6 @@ interface ImageManagerInterface
         null|SplFileInfo $splFileInfo = null,
         mixed $stream = null,
     ): ImageInterface;
-
-    /**
-     * Create a new animated image by running the given callback on AnimationFactory::class
-     *
-     * @link https://image.intervention.io/v3/basics/instantiation#create-animations
-     */
-    public function animate(callable $animation): ImageInterface;
 
     /**
      * Return currently used driver.

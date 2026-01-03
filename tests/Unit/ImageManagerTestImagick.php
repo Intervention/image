@@ -52,7 +52,7 @@ final class ImageManagerTestImagick extends BaseTestCase
     public function testCreate(): void
     {
         $manager = new ImageManager(Driver::class);
-        $image = $manager->create(5, 4);
+        $image = $manager->createImage(5, 4);
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 

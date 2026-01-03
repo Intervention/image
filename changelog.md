@@ -44,6 +44,7 @@
 - DriverInterface::handleColorInput() has null as default
 - Method ImageManagerInterface::read() is now handled by ImageManagerInterface::decode() and ImageManagerInterface::decodeFrom()
 - Method ImageManagerInterface::animate() has a slightly different signature
+- Method ImageManagerInterface::create() was renamed to ImageManagerInterface::createImage()
 - Method ImageInterface::save() only processes known image file extensions
 - Method FontInterface::filename() is replaced by FontInterface::filepath()
 - Method FontInterface::hasFilename() is replaced by FontInterface::hasFile()

@@ -79,9 +79,9 @@ final class ImageManager implements ImageManagerInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageManagerInterface::create()
+     * @see ImageManagerInterface::createImage()
      */
-    public function create(int $width, int $height): ImageInterface
+    public function createImage(int $width, int $height): ImageInterface
     {
         return $this->driver->createImage($width, $height);
     }

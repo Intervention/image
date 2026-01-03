@@ -14,21 +14,21 @@ class FontFactory
     /**
      * Create new instance.
      */
-    public function __construct(null|callable|FontInterface $init = null)
+    public function __construct(null|callable|FontInterface $font = null)
     {
-        $this->font = is_a($init, FontInterface::class) ? $init : new Font();
+        $this->font = is_a($font, FontInterface::class) ? $font : new Font();
 
-        if (is_callable($init)) {
-            $init($this);
+        if (is_callable($font)) {
+            $font($this);
         }
     }
 
     /**
      * Create the end product of the factory statically by calling given callable
      */
-    public static function build(null|callable|FontInterface $init = null): FontInterface
+    public static function build(null|callable|FontInterface $font = null): FontInterface
     {
-        return (new self($init))->font();
+        return (new self($font))->font();
     }
 
     /**
@@ -148,13 +148,5 @@ class FontFactory
         $this->font->setWrapWidth($width);
 
         return $this;
-    }
-
-    /**
-     * Build font.
-     */
-    public function __invoke(): FontInterface
-    {
-        return $this->font;
     }
 }

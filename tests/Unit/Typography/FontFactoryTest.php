@@ -15,11 +15,18 @@ use PHPUnit\Framework\Attributes\CoversClass;
 #[CoversClass(FontFactory::class)]
 final class FontFactoryTest extends BaseTestCase
 {
+    public function testCreate(): void
+    {
+        $factory = new FontFactory();
+        $result = $factory->font();
+        $this->assertInstanceOf(FontInterface::class, $result);
+    }
+
     public function testCreateWithFont(): void
     {
         $fontFile = Resource::create('test.ttf')->path();
         $factory = new FontFactory(new Font($fontFile));
-        $result = $factory();
+        $result = $factory->font();
         $this->assertInstanceOf(FontInterface::class, $result);
         $this->assertEquals($fontFile, $result->filepath());
     }
@@ -38,7 +45,7 @@ final class FontFactoryTest extends BaseTestCase
             $font->stroke('ff5500', 4);
         });
 
-        $result = $factory();
+        $result = $factory->font();
         $this->assertInstanceOf(FontInterface::class, $result);
         $this->assertEquals(Resource::create('test.ttf')->path(), $result->filepath());
         $this->assertEquals('#b01735', $result->color());

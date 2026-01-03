@@ -37,9 +37,9 @@ class RectangleFactory implements DrawableFactoryInterface
      *
      * @throws InvalidArgumentException
      */
-    public static function create(null|callable|DrawableInterface $init = null): self
+    public static function create(null|callable|DrawableInterface $drawable = null): self
     {
-        return new self(init: $init);
+        return new self(init: $drawable);
     }
 
     /**
@@ -47,9 +47,9 @@ class RectangleFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::build()
      */
-    public static function build(?callable $init = null): Rectangle
+    public static function build(?callable $drawable = null): Rectangle
     {
-        return (new self(init: $init))->drawable();
+        return (new self(init: $drawable))->drawable();
     }
 
     /**

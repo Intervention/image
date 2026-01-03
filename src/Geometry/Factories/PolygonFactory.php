@@ -31,9 +31,9 @@ class PolygonFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::create()
      */
-    public static function create(null|callable|DrawableInterface $init = null): self
+    public static function create(null|callable|DrawableInterface $drawable = null): self
     {
-        return new self($init);
+        return new self($drawable);
     }
 
     /**
@@ -41,9 +41,9 @@ class PolygonFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::build()
      */
-    public static function build(?callable $init = null): Polygon
+    public static function build(?callable $drawable = null): Polygon
     {
-        return (new self(init: $init))->drawable();
+        return (new self(init: $drawable))->drawable();
     }
 
     /**

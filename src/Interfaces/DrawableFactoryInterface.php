@@ -9,12 +9,12 @@ interface DrawableFactoryInterface
     /**
      * Create a new factory instance statically.
      */
-    public static function create(null|callable|DrawableInterface $init = null): self;
+    public static function create(null|callable|DrawableInterface $drawable = null): self;
 
     /**
      * Create the end product of the factory statically by calling given callable
      */
-    public static function build(?callable $init = null): DrawableInterface;
+    public static function build(?callable $drawable = null): DrawableInterface;
 
     /**
      * Create the end product of the factory.

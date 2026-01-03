@@ -30,9 +30,9 @@ class LineFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::create()
      */
-    public static function create(null|callable|DrawableInterface $init = null): self
+    public static function create(null|callable|DrawableInterface $drawable = null): self
     {
-        return new self($init);
+        return new self($drawable);
     }
 
     /**
@@ -40,9 +40,9 @@ class LineFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::build()
      */
-    public static function build(?callable $init = null): Line
+    public static function build(?callable $drawable = null): Line
     {
-        return (new self($init))->drawable();
+        return (new self($drawable))->drawable();
     }
 
     /**

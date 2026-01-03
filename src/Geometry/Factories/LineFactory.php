@@ -118,12 +118,4 @@ class LineFactory implements DrawableFactoryInterface
 
         return $this;
     }
-
-    /**
-     * Produce the line.
-     */
-    public function __invoke(): Line
-    {
-        return $this->line;
-    }
 }

@@ -22,7 +22,7 @@ final class PolygonFactoryTest extends BaseTestCase
             $polygon->point(5, 6);
         });
 
-        $polygon = $factory();
+        $polygon = $factory->drawable();
         $this->assertInstanceOf(Polygon::class, $polygon);
         $this->assertTrue($polygon->hasBackgroundColor());
         $this->assertEquals('fff', $polygon->backgroundColor());

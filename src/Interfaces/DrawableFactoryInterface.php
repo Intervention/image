@@ -30,9 +30,4 @@ interface DrawableFactoryInterface
      * Set the border size & color of the drawable object to be produced.
      */
     public function border(mixed $color, int $size = 1): self;
-
-    /**
-     * Create the end product by invoking the factory.
-     */
-    public function __invoke(): DrawableInterface; // todo: maybe remove
 }

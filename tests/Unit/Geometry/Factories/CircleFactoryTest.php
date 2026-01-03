@@ -22,7 +22,7 @@ final class CircleFactoryTest extends BaseTestCase
             $circle->diameter(1000);
         });
 
-        $circle = $factory();
+        $circle = $factory->drawable();
         $this->assertInstanceOf(Ellipse::class, $circle);
         $this->assertTrue($circle->hasBackgroundColor());
         $this->assertEquals('fff', $circle->backgroundColor());

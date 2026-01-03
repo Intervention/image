@@ -113,12 +113,4 @@ class RectangleFactory implements DrawableFactoryInterface
 
         return $this;
     }
-
-    /**
-     * Produce the rectangle.
-     */
-    public function __invoke(): Rectangle
-    {
-        return $this->rectangle;
-    }
 }

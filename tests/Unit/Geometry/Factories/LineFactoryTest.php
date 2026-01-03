@@ -23,7 +23,7 @@ final class LineFactoryTest extends BaseTestCase
             $line->to(300, 400);
         });
 
-        $line = $factory();
+        $line = $factory->drawable();
         $this->assertInstanceOf(Line::class, $line);
         $this->assertTrue($line->hasBackgroundColor());
         $this->assertEquals('fff', $line->backgroundColor());

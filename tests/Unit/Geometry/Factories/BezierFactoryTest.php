@@ -22,7 +22,7 @@ final class BezierFactoryTest extends BaseTestCase
             $bezier->point(300, 410);
         });
 
-        $bezier = $factory();
+        $bezier = $factory->drawable();
         $this->assertInstanceOf(Bezier::class, $bezier);
         $this->assertTrue($bezier->hasBackgroundColor());
         $this->assertEquals('f00', $bezier->backgroundColor());

@@ -23,7 +23,7 @@ final class EllipseFactoryTest extends BaseTestCase
             $ellipse->size(1000, 2000);
         });
 
-        $ellipse = $factory();
+        $ellipse = $factory->drawable();
         $this->assertInstanceOf(Ellipse::class, $ellipse);
         $this->assertTrue($ellipse->hasBackgroundColor());
         $this->assertEquals('fff', $ellipse->backgroundColor());

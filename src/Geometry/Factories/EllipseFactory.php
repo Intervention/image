@@ -111,12 +111,4 @@ class EllipseFactory implements DrawableFactoryInterface
 
         return $this;
     }
-
-    /**
-     * Produce the ellipse.
-     */
-    public function __invoke(): Ellipse
-    {
-        return $this->ellipse;
-    }
 }

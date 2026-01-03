@@ -87,12 +87,4 @@ class PolygonFactory implements DrawableFactoryInterface
 
         return $this;
     }
-
-    /**
-     * Produce the polygon.
-     */
-    public function __invoke(): Polygon
-    {
-        return $this->polygon;
-    }
 }

@@ -101,12 +101,4 @@ class CircleFactory implements DrawableFactoryInterface
 
         return $this;
     }
-
-    /**
-     * Produce the circle.
-     */
-    public function __invoke(): Circle
-    {
-        return $this->circle;
-    }
 }

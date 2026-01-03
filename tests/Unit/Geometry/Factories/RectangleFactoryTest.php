@@ -23,7 +23,7 @@ final class RectangleFactoryTest extends BaseTestCase
             $rectangle->size(1000, 2000);
         });
 
-        $rectangle = $factory();
+        $rectangle = $factory->drawable();
         $this->assertInstanceOf(Rectangle::class, $rectangle);
         $this->assertTrue($rectangle->hasBackgroundColor());
         $this->assertEquals('fff', $rectangle->backgroundColor());

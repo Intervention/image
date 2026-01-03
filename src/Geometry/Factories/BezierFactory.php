@@ -87,12 +87,4 @@ class BezierFactory implements DrawableFactoryInterface
 
         return $this;
     }
-
-    /**
-     * Produce the bezier.
-     */
-    public function __invoke(): Bezier
-    {
-        return $this->bezier;
-    }
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Typography;
 
-use Closure;
 use Intervention\Image\Alignment;
 use Intervention\Image\Interfaces\FontInterface;
 
@@ -14,17 +13,30 @@ class FontFactory
 
     /**
      * Create new instance.
-     *
-     * @param Closure|FontInterface $init
-     * @return void
      */
-    public function __construct(callable|Closure|FontInterface $init)
+    public function __construct(null|callable|FontInterface $init = null)
     {
         $this->font = is_a($init, FontInterface::class) ? $init : new Font();
 
         if (is_callable($init)) {
             $init($this);
         }
+    }
+
+    /**
+     * Create the end product of the factory statically by calling given callable
+     */
+    public static function build(null|callable|FontInterface $init = null): FontInterface
+    {
+        return (new self($init))->font();
+    }
+
+    /**
+     * Return the end product of the factory
+     */
+    public function font(): FontInterface
+    {
+        return $this->font;
     }
 
     /**

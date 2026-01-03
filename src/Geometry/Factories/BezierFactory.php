@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Geometry\Factories;
 
-use Closure;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Bezier;
@@ -18,7 +17,7 @@ class BezierFactory implements DrawableFactoryInterface
     /**
      * Create new factory instance.
      */
-    public function __construct(null|Closure|DrawableInterface $init = null)
+    public function __construct(null|callable|DrawableInterface $init = null)
     {
         $this->bezier = is_a($init, Bezier::class) ? $init : new Bezier([]);
 
@@ -32,7 +31,7 @@ class BezierFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::create()
      */
-    public static function create(null|Closure|DrawableInterface $init = null): self
+    public static function create(null|callable|DrawableInterface $init = null): self
     {
         return new self($init);
     }
@@ -52,7 +51,7 @@ class BezierFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::drawable()
      */
-    public function drawable(): DrawableInterface
+    public function drawable(): Bezier
     {
         return $this->bezier;
     }

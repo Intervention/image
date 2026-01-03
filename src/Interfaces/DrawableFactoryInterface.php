@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
-use Closure;
-
 interface DrawableFactoryInterface
 {
     /**
      * Create a new factory instance statically.
      */
-    public static function create(null|Closure|DrawableInterface $init = null): self; // todo: maybe switch to callable
+    public static function create(null|callable|DrawableInterface $init = null): self; // todo: maybe switch to callable
 
     /**
      * Create the end product of the factory statically by calling given callable

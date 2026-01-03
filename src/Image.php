@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
-use Closure;
 use Intervention\Image\Analyzers\ColorspaceAnalyzer;
 use Intervention\Image\Analyzers\HeightAnalyzer;
 use Intervention\Image\Analyzers\PixelColorAnalyzer;
@@ -600,13 +599,13 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::text()
      */
-    public function text(string $text, int $x, int $y, callable|Closure|FontInterface $font): ImageInterface
+    public function text(string $text, int $x, int $y, callable|FontInterface $font): ImageInterface
     {
         return $this->modify(
             new TextModifier(
                 $text,
                 new Point($x, $y),
-                call_user_func(new FontFactory($font)),
+                FontFactory::build($font),
             ),
         );
     }
@@ -866,11 +865,11 @@ final class Image implements ImageInterface
      *
      * @throws InvalidArgumentException
      */
-    public function drawRectangle(int $x, int $y, callable|Closure|Rectangle $init): ImageInterface
+    public function drawRectangle(int $x, int $y, callable|Rectangle $init): ImageInterface
     {
         return $this->modify(
             new DrawRectangleModifier(
-                call_user_func(new RectangleFactory(new Point($x, $y), $init)),
+                RectangleFactory::build($init)->setPosition(new Point($x, $y)),
             ),
         );
     }
@@ -880,11 +879,11 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawEllipse()
      */
-    public function drawEllipse(int $x, int $y, callable|Closure|Ellipse $init): ImageInterface
+    public function drawEllipse(int $x, int $y, callable|Ellipse $init): ImageInterface
     {
         return $this->modify(
             new DrawEllipseModifier(
-                call_user_func(new EllipseFactory(new Point($x, $y), $init)),
+                EllipseFactory::build($init)->setPosition(new Point($x, $y)),
             ),
         );
     }
@@ -894,11 +893,11 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawCircle()
      */
-    public function drawCircle(int $x, int $y, callable|Closure|Circle $init): ImageInterface
+    public function drawCircle(int $x, int $y, callable|Circle $init): ImageInterface
     {
         return $this->modify(
             new DrawEllipseModifier(
-                call_user_func(new CircleFactory(new Point($x, $y), $init)),
+                CircleFactory::build($init)->setPosition(new Point($x, $y))
             ),
         );
     }
@@ -908,11 +907,11 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawPolygon()
      */
-    public function drawPolygon(callable|Closure|Polygon $init): ImageInterface
+    public function drawPolygon(callable|Polygon $init): ImageInterface
     {
         return $this->modify(
             new DrawPolygonModifier(
-                call_user_func(new PolygonFactory($init)),
+                PolygonFactory::build($init)
             ),
         );
     }
@@ -922,11 +921,11 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawLine()
      */
-    public function drawLine(callable|Closure|Line $init): ImageInterface
+    public function drawLine(callable|Line $init): ImageInterface
     {
         return $this->modify(
             new DrawLineModifier(
-                call_user_func(new LineFactory($init)),
+                LineFactory::build($init)
             ),
         );
     }
@@ -936,11 +935,11 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawBezier()
      */
-    public function drawBezier(callable|Closure|Bezier $init): ImageInterface
+    public function drawBezier(callable|Bezier $init): ImageInterface
     {
         return $this->modify(
             new DrawBezierModifier(
-                call_user_func(new BezierFactory($init)),
+                BezierFactory::build($init)
             ),
         );
     }

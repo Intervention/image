@@ -104,6 +104,18 @@ class Size extends Polygon implements SizeInterface
     /**
      * {@inheritdoc}
      *
+     * @see DrawableInterface::setPosition()
+     */
+    public function setPosition(PointInterface $position): self
+    {
+        parent::setPosition($position);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see SizeInterface::movePivot()
      *
      * @throws InvalidArgumentException

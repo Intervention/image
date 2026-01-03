@@ -15,7 +15,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 #[CoversClass(FontFactory::class)]
 final class FontFactoryTest extends BaseTestCase
 {
-    public function testBuildWithFont(): void
+    public function testCreateWithFont(): void
     {
         $fontFile = Resource::create('test.ttf')->path();
         $factory = new FontFactory(new Font($fontFile));
@@ -24,7 +24,7 @@ final class FontFactoryTest extends BaseTestCase
         $this->assertEquals($fontFile, $result->filepath());
     }
 
-    public function testBuildWithCallback(): void
+    public function testCreateWithCallback(): void
     {
         $factory = new FontFactory(function (FontFactory $font): void {
             $font->filename(Resource::create('test.ttf')->path());
@@ -50,5 +50,32 @@ final class FontFactoryTest extends BaseTestCase
         $this->assertEquals(100, $result->wrapWidth());
         $this->assertEquals(4, $result->strokeWidth());
         $this->assertEquals('ff5500', $result->strokeColor());
+    }
+
+    public function testBuild(): void
+    {
+        $font = FontFactory::build(function (FontFactory $font): void {
+            $font->filename(Resource::create('test.ttf')->path());
+            $font->color('#b01735');
+            $font->size(70);
+            $font->align(Alignment::CENTER);
+            $font->alignVertically(Alignment::TOP);
+            $font->lineHeight(1.6);
+            $font->angle(10);
+            $font->wrap(100);
+            $font->stroke('ff5500', 4);
+        });
+
+        $this->assertInstanceOf(FontInterface::class, $font);
+        $this->assertEquals(Resource::create('test.ttf')->path(), $font->filepath());
+        $this->assertEquals('#b01735', $font->color());
+        $this->assertEquals(70, $font->size());
+        $this->assertEquals(Alignment::CENTER, $font->alignment());
+        $this->assertEquals(Alignment::TOP, $font->verticalAlignment());
+        $this->assertEquals(1.6, $font->lineHeight());
+        $this->assertEquals(10, $font->angle());
+        $this->assertEquals(100, $font->wrapWidth());
+        $this->assertEquals(4, $font->strokeWidth());
+        $this->assertEquals('ff5500', $font->strokeColor());
     }
 }

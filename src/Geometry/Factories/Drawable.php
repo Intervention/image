@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Geometry\Factories;
 
-use Closure;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\DrawableInterface;
 
@@ -13,7 +12,7 @@ class Drawable
     /**
      * Creeate BezierFactory statically.
      */
-    public static function bezier(null|Closure|DrawableInterface $init = null): BezierFactory
+    public static function bezier(null|callable|DrawableInterface $init = null): BezierFactory
     {
         return BezierFactory::create($init);
     }
@@ -21,7 +20,7 @@ class Drawable
     /**
      * Creeate CircleFactory statically.
      */
-    public static function circle(null|Closure|DrawableInterface $init = null): CircleFactory
+    public static function circle(null|callable|DrawableInterface $init = null): CircleFactory
     {
         return CircleFactory::create($init);
     }
@@ -29,7 +28,7 @@ class Drawable
     /**
      * Create EllipseFactory statically.
      */
-    public static function ellipse(null|Closure|DrawableInterface $init = null): EllipseFactory
+    public static function ellipse(null|callable|DrawableInterface $init = null): EllipseFactory
     {
         return EllipseFactory::create($init);
     }
@@ -37,7 +36,7 @@ class Drawable
     /**
      * Creeate LineFactory statically.
      */
-    public static function line(null|Closure|DrawableInterface $init = null): LineFactory
+    public static function line(null|callable|DrawableInterface $init = null): LineFactory
     {
         return LineFactory::create($init);
     }
@@ -45,7 +44,7 @@ class Drawable
     /**
      * Creeate PolygonFactory statically.
      */
-    public static function polygon(null|Closure|DrawableInterface $init = null): PolygonFactory
+    public static function polygon(null|callable|DrawableInterface $init = null): PolygonFactory
     {
         return PolygonFactory::create($init);
     }
@@ -55,7 +54,7 @@ class Drawable
      *
      * @throws InvalidArgumentException
      */
-    public static function rectangle(null|Closure|DrawableInterface $init = null): RectangleFactory
+    public static function rectangle(null|callable|DrawableInterface $init = null): RectangleFactory
     {
         return RectangleFactory::create($init);
     }

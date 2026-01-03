@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
-use Closure;
 use Countable;
 use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\FileExtension;
@@ -328,7 +327,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @link https://image.intervention.io/v3/modifying-images/text-fonts
      */
-    public function text(string $text, int $x, int $y, callable|Closure|FontInterface $font): self;
+    public function text(string $text, int $x, int $y, callable|FontInterface $font): self;
 
     /**
      * Resize image to the given width and/or height.
@@ -510,42 +509,42 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-a-rectangle
      */
-    public function drawRectangle(int $x, int $y, callable|Closure|Rectangle $init): self;
+    public function drawRectangle(int $x, int $y, callable|Rectangle $init): self;
 
     /**
      * Draw ellipse on the current image
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-ellipses
      */
-    public function drawEllipse(int $x, int $y, callable|Closure|Ellipse $init): self;
+    public function drawEllipse(int $x, int $y, callable|Ellipse $init): self;
 
     /**
      * Draw circle on the current image.
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-a-circle
      */
-    public function drawCircle(int $x, int $y, callable|Closure|Circle $init): self;
+    public function drawCircle(int $x, int $y, callable|Circle $init): self;
 
     /**
      * Draw a polygon on the current image.
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-a-polygon
      */
-    public function drawPolygon(callable|Closure|Polygon $init): self;
+    public function drawPolygon(callable|Polygon $init): self;
 
     /**
      * Draw a line on the current image.
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-a-line
      */
-    public function drawLine(callable|Closure|Line $init): self;
+    public function drawLine(callable|Line $init): self;
 
     /**
      * Draw a bezier curve on the current image.
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-bezier-curves
      */
-    public function drawBezier(callable|Closure|Bezier $init): self;
+    public function drawBezier(callable|Bezier $init): self;
 
     /**
      * Encode the current image with the given encoder.

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Geometry\Factories;
 
-use Closure;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Circle;
 use Intervention\Image\Geometry\Point;
@@ -21,7 +20,7 @@ class CircleFactory implements DrawableFactoryInterface
      */
     public function __construct(
         protected PointInterface $pivot = new Point(),
-        null|Closure|DrawableInterface $init = null,
+        null|callable|DrawableInterface $init = null,
     ) {
         $this->circle = is_a($init, Circle::class) ? $init : new Circle(0);
         $this->circle->setPosition($pivot);
@@ -36,7 +35,7 @@ class CircleFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::create()
      */
-    public static function create(null|Closure|DrawableInterface $init = null): self
+    public static function create(null|callable|DrawableInterface $init = null): self
     {
         return new self(init: $init);
     }
@@ -56,7 +55,7 @@ class CircleFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::drawable()
      */
-    public function drawable(): DrawableInterface
+    public function drawable(): Circle
     {
         return $this->circle;
     }

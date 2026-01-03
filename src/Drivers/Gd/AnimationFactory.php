@@ -19,6 +19,36 @@ class AnimationFactory implements AnimationFactoryInterface
         //
     }
 
+    /**
+     * Create the end product of the factory statically by calling given callable
+     */
+    public static function build(DriverInterface $driver, callable $animation): ImageInterface
+    {
+        $factory = new self($driver);
+
+        $animation($factory);
+
+        return $factory->animation();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see AnimationFactoryInterface::animation()
+     */
+    public function animation(): ImageInterface
+    {
+        return new Image(
+            $this->driver,
+            $this->core
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see AnimationFactoryInterface::add()
+     */
     public function add(mixed $source, float $delay = 1): self
     {
         $this->core->add(
@@ -26,13 +56,5 @@ class AnimationFactory implements AnimationFactoryInterface
         );
 
         return $this;
-    }
-
-    public function __invoke(): ImageInterface
-    {
-        return new Image(
-            $this->driver,
-            $this->core
-        );
     }
 }

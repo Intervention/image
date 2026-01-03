@@ -53,6 +53,7 @@
 - Signature of Frame::__construct() has changed, argument $offset_left is know $offsetLeft and $offset_top is now $offsetTop
 - Signature of PixelColorAnalyzer::__construct() has changed, argument $frame_key is know $frame
 - DriverInterface::handleInput() is replaced by DriverInterface::handleImageInput(), DriverInterface::handleColorInput()
+- Signature of DriverInterface::createAnimation() has changed
 - ColorChannelInterface::max() and ColorChannelInterface::min() are now static
 - Method ColorInterface::convertTo() was renamed to ColorInterface::toColorspace()
 - Method ColorChannelInterface::toInt() was removed use ColorChannelInterface::value() instead
@@ -71,6 +72,7 @@
 - ImageInterface::place() was renamed to ImageInterface::insert, signature changed from `offset_x` to `x` and `offset_y` to `y`
 - DrawableFactoryInterface::__invoke() was removed, use DrawableFactoryInterface::build or DrawableFactoryInterface::drawable()
 - FontFactory::__invoke() was removed, use FontFactory::build or FontFactory::font()
+- AnimationFactory::__invoke() was removed, use AnimationFactory::build or AnimationFactory::animation()
 - Signatures of ImageInterface::drawRectangle(), ImageInterface::drawLine(), ImageInterface::drawEllipse(), ImageInterface::drawCircle() ImageInterface::drawPolygon() and ImageInterface::drawBezier() have changed
 
 ### Exceptions

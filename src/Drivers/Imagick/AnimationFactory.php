@@ -19,6 +19,20 @@ class AnimationFactory implements AnimationFactoryInterface
         $this->imagick->setFormat('gif');
     }
 
+    public static function build(DriverInterface $driver, callable $animation): ImageInterface
+    {
+        $factory = new self($driver);
+
+        $animation($factory);
+
+        return $factory->animation();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see AnimationFactoryInterface::add()
+     */
     public function add(mixed $source, float $delay = 1): self
     {
         $native = $this->driver->handleImageInput($source)->core()->native();
@@ -29,7 +43,12 @@ class AnimationFactory implements AnimationFactoryInterface
         return $this;
     }
 
-    public function __invoke(): ImageInterface
+    /**
+     * {@inheritdoc}
+     *
+     * @see AnimationFactoryInterface::animation()
+     */
+    public function animation(): ImageInterface
     {
         return new Image(
             $this->driver,

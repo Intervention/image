@@ -55,7 +55,7 @@ interface DriverInterface
     /**
      * Create new animated image.
      */
-    public function createAnimation(callable $init): ImageInterface;
+    public function createAnimation(callable $animation): ImageInterface;
 
     /**
      * Handle given image source by decoding it to ImageInterface.

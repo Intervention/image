@@ -87,12 +87,9 @@ class Driver extends AbstractDriver
      *
      * @see DriverInterface::createAnimation()
      */
-    public function createAnimation(callable $init): ImageInterface
+    public function createAnimation(callable $animation): ImageInterface
     {
-        $animation = new AnimationFactory($this);
-        $init($animation);
-
-        return call_user_func($animation);
+        return AnimationFactory::build($this, $animation);
     }
 
     /**

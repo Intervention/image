@@ -112,11 +112,11 @@ final class ImageManager implements ImageManagerInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageManagerInterface::decodeFrom()
+     * @see ImageManagerInterface::decodeUsing()
      *
      * @throws InvalidArgumentException
      */
-    public function decodeFrom(
+    public function decodeUsing(
         null|string|Stringable $path = null,
         null|string|Stringable $binary = null,
         null|string|Stringable $base64 = null,

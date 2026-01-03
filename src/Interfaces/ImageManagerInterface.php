@@ -57,7 +57,7 @@ interface ImageManagerInterface
     public function decode(mixed $input, string|array|DecoderInterface $decoders): ImageInterface;
 
     /**
-     * Create new image instance by passing one of the named arguments.
+     * Create new image instance by passing one of the following image sources.
      *
      * - Path in filesystem
      * - File Pointer resource
@@ -68,7 +68,7 @@ interface ImageManagerInterface
      *
      * @link https://image.intervention.io/v3/basics/instantiation#read-image-sources
      */
-    public function decodeFrom( // tood: maybe rename to decodeUsing()
+    public function decodeUsing(
         null|string|Stringable $path = null,
         null|string|Stringable $binary = null,
         null|string|Stringable $base64 = null,

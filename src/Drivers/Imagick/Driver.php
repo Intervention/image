@@ -16,6 +16,7 @@ use Intervention\Image\FileExtension;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorProcessorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
+use Intervention\Image\Interfaces\CoreInterface;
 use Intervention\Image\Interfaces\FontProcessorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\MediaType;
@@ -78,11 +79,11 @@ class Driver extends AbstractDriver
     /**
      * {@inheritdoc}
      *
-     * @see DriverInterface::createAnimation()
+     * @see DriverInterface::createCore()
      */
-    public function createAnimation(callable $animation): ImageInterface
+    public function createCore(mixed $native = null): CoreInterface
     {
-        return AnimationFactory::build($this, $animation);
+        return new Core(new Imagick());
     }
 
     /**

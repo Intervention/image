@@ -24,14 +24,11 @@ interface ImageManagerInterface
      * @param int<1, max> $width
      * @param int<1, max> $height
      */
-    public function createImage(int $width, int $height): ImageInterface;
-
-    /**
-     * Create a new animated image by running the given callback on AnimationFactory::class
-     *
-     * @link https://image.intervention.io/v3/basics/instantiation#create-animations
-     */
-    public function animate(callable $animation): ImageInterface; // todo: maybe merge with self::CreateImage()
+    public function createImage(
+        int $width,
+        int $height,
+        null|callable|AnimationFactoryInterface $animation = null,
+    ): ImageInterface;
 
     /**
      * Create new image instance from given input which can be one of the following.

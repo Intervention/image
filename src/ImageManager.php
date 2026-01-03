@@ -18,6 +18,7 @@ use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\MissingDependencyException;
+use Intervention\Image\Interfaces\AnimationFactoryInterface;
 use Intervention\Image\Interfaces\DataUriInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageManagerInterface;
@@ -81,8 +82,19 @@ final class ImageManager implements ImageManagerInterface
      *
      * @see ImageManagerInterface::createImage()
      */
-    public function createImage(int $width, int $height): ImageInterface
-    {
+    public function createImage(
+        int $width,
+        int $height,
+        null|callable|AnimationFactoryInterface $animation = null,
+    ): ImageInterface {
+        if (is_callable($animation)) {
+            return AnimationFactory::build($this->driver, $width, $height, $animation);
+        }
+
+        if ($animation instanceof AnimationFactoryInterface) {
+            return $animation->animation();
+        }
+
         return $this->driver->createImage($width, $height);
     }
 
@@ -157,16 +169,6 @@ final class ImageManager implements ImageManagerInterface
             'splFileInfo' => $this->driver->handleImageInput($using, [SplFileInfoImageDecoder::class]),
             'stream' => $this->driver->handleImageInput($using, [FilePointerImageDecoder::class]),
         };
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ImageManagerInterface::animate()
-     */
-    public function animate(callable $animation): ImageInterface
-    {
-        return $this->driver->createAnimation($animation);
     }
 
     /**

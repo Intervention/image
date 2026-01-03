@@ -30,6 +30,7 @@
 - EncodedImageInterface::toDataUri() now returns `DataUriInterface` instead of `string´
 - ProfileInterface requires implementation of `::fromPath()`
 - DriverInterface requires implementation of `__construct()`
+- DriverInterface requires implementation of `createCore()`
 - Replace DriverInterface::specialize() with DriverInterface::specializeModifier(), DriverInterface::specializeAnalyzer(), DriverInterface::specializeDecoder() and DriverInterface::specializeEncoder()
 - Attribute `$per_unit` has change to `$unit` with different signature in `Resolution::class`
 - ImageInterface::toJpeg() and ImageInterface::toJpg() are replaced by ImageInterface::encodeUsing()
@@ -44,7 +45,7 @@
 - DriverInterface::handleColorInput() has null as default
 - Method ImageManagerInterface::read() is now handled by ImageManagerInterface::decode() and ImageManagerInterface::decodeFrom()
 - Method ImageManagerInterface::animate() has a slightly different signature
-- Method ImageManagerInterface::create() was renamed to ImageManagerInterface::createImage()
+- Method ImageManagerInterface::create() was renamed to ImageManagerInterface::createImage() and includes ImageManagerInterface::createAnimation()
 - Method ImageInterface::save() only processes known image file extensions
 - Method FontInterface::filename() is replaced by FontInterface::filepath()
 - Method FontInterface::hasFilename() is replaced by FontInterface::hasFile()
@@ -55,7 +56,6 @@
 - Signature of Frame::__construct() has changed, argument $offset_left is know $offsetLeft and $offset_top is now $offsetTop
 - Signature of PixelColorAnalyzer::__construct() has changed, argument $frame_key is know $frame
 - DriverInterface::handleInput() is replaced by DriverInterface::handleImageInput(), DriverInterface::handleColorInput()
-- Signature of DriverInterface::createAnimation() has changed
 - ColorChannelInterface::max() and ColorChannelInterface::min() are now static
 - Method ColorInterface::convertTo() was renamed to ColorInterface::toColorspace()
 - Method ColorChannelInterface::toInt() was removed use ColorChannelInterface::value() instead
@@ -121,3 +121,5 @@ caller, Operation fails after valid input
 
 - Removed topLeftPoint() and bottomRightPoint() from Rectangle::class
 - Removed ColorChannelInterface::__construct() from interface
+- Method ImageManagerInterface::animate() is replaced by universal ImageManagerInterface::createImage()
+- Method DriverInterface::createAnimation() was removed

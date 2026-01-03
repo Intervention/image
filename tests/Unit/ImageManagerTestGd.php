@@ -56,10 +56,10 @@ final class ImageManagerTestGd extends BaseTestCase
         $this->assertInstanceOf(ImageInterface::class, $image);
     }
 
-    public function testAnimate(): void
+    public function testCreateAnimated(): void
     {
         $manager = new ImageManager(Driver::class);
-        $image = $manager->animate(function ($animation): void {
+        $image = $manager->createImage(10, 10, function ($animation): void {
             $animation->add(Resource::create('red.gif')->path(), .25);
         });
         $this->assertInstanceOf(ImageInterface::class, $image);

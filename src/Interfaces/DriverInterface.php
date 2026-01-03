@@ -48,14 +48,15 @@ interface DriverInterface
     public function specializeDecoder(DecoderInterface $decoder): DecoderInterface;
 
     /**
-     * Create new image instance with the current driver in given dimensions.
+     * Create new image instance in the given dimensions and with full transparent
+     * background and the current driver in given dimensions.
      */
     public function createImage(int $width, int $height): ImageInterface;
 
     /**
-     * Create new animated image.
+     * Create new core instance from given native image element or empty core.
      */
-    public function createAnimation(callable $animation): ImageInterface;
+    public function createCore(mixed $native = null): CoreInterface;
 
     /**
      * Handle given image source by decoding it to ImageInterface.

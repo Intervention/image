@@ -54,7 +54,7 @@ interface ImageManagerInterface
      *
      * @param string|array<string|DecoderInterface>|DecoderInterface $decoders
      */
-    public function decode(mixed $input, string|array|DecoderInterface $decoders): ImageInterface;
+    public function decode(mixed $input, null|string|array|DecoderInterface $decoders = null): ImageInterface;
 
     /**
      * Create new image instance by passing one of the following image sources.

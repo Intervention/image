@@ -70,6 +70,7 @@
 - ColorInterface::isGreyscale() was renamed to ColorInterface::isGrayscale()
 - ImageInterface::place() was renamed to ImageInterface::insert, signature changed from `offset_x` to `x` and `offset_y` to `y`
 - DrawableFactoryInterface::__invoke() was removed, use DrawableFactoryInterface::build or DrawableFactoryInterface::drawable()
+- Signatures of ImageInterface::drawRectangle(), ImageInterface::drawLine(), ImageInterface::drawEllipse(), ImageInterface::drawCircle() ImageInterface::drawPolygon() and ImageInterface::drawBezier() have changed
 
 ### Exceptions
 

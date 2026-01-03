@@ -865,11 +865,11 @@ final class Image implements ImageInterface
      *
      * @throws InvalidArgumentException
      */
-    public function drawRectangle(int $x, int $y, callable|Rectangle $init): ImageInterface
+    public function drawRectangle(int $x, int $y, callable|Rectangle $rectangle): ImageInterface
     {
         return $this->modify(
             new DrawRectangleModifier(
-                RectangleFactory::build($init)->setPosition(new Point($x, $y)),
+                RectangleFactory::build($rectangle)->setPosition(new Point($x, $y)),
             ),
         );
     }
@@ -879,11 +879,11 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawEllipse()
      */
-    public function drawEllipse(int $x, int $y, callable|Ellipse $init): ImageInterface
+    public function drawEllipse(int $x, int $y, callable|Ellipse $ellipse): ImageInterface
     {
         return $this->modify(
             new DrawEllipseModifier(
-                EllipseFactory::build($init)->setPosition(new Point($x, $y)),
+                EllipseFactory::build($ellipse)->setPosition(new Point($x, $y)),
             ),
         );
     }
@@ -893,11 +893,11 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawCircle()
      */
-    public function drawCircle(int $x, int $y, callable|Circle $init): ImageInterface
+    public function drawCircle(int $x, int $y, callable|Circle $circle): ImageInterface
     {
         return $this->modify(
             new DrawEllipseModifier(
-                CircleFactory::build($init)->setPosition(new Point($x, $y))
+                CircleFactory::build($circle)->setPosition(new Point($x, $y))
             ),
         );
     }
@@ -907,11 +907,11 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawPolygon()
      */
-    public function drawPolygon(callable|Polygon $init): ImageInterface
+    public function drawPolygon(callable|Polygon $polygon): ImageInterface
     {
         return $this->modify(
             new DrawPolygonModifier(
-                PolygonFactory::build($init)
+                PolygonFactory::build($polygon)
             ),
         );
     }
@@ -921,11 +921,11 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawLine()
      */
-    public function drawLine(callable|Line $init): ImageInterface
+    public function drawLine(callable|Line $line): ImageInterface
     {
         return $this->modify(
             new DrawLineModifier(
-                LineFactory::build($init)
+                LineFactory::build($line)
             ),
         );
     }
@@ -935,11 +935,11 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawBezier()
      */
-    public function drawBezier(callable|Bezier $init): ImageInterface
+    public function drawBezier(callable|Bezier $bezier): ImageInterface
     {
         return $this->modify(
             new DrawBezierModifier(
-                BezierFactory::build($init)
+                BezierFactory::build($bezier)
             ),
         );
     }

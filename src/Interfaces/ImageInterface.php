@@ -509,42 +509,42 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-a-rectangle
      */
-    public function drawRectangle(int $x, int $y, callable|Rectangle $init): self;
+    public function drawRectangle(int $x, int $y, callable|Rectangle $rectangle): self;
 
     /**
      * Draw ellipse on the current image
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-ellipses
      */
-    public function drawEllipse(int $x, int $y, callable|Ellipse $init): self;
+    public function drawEllipse(int $x, int $y, callable|Ellipse $ellipse): self;
 
     /**
      * Draw circle on the current image.
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-a-circle
      */
-    public function drawCircle(int $x, int $y, callable|Circle $init): self;
+    public function drawCircle(int $x, int $y, callable|Circle $circle): self;
 
     /**
      * Draw a polygon on the current image.
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-a-polygon
      */
-    public function drawPolygon(callable|Polygon $init): self;
+    public function drawPolygon(callable|Polygon $polygon): self;
 
     /**
      * Draw a line on the current image.
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-a-line
      */
-    public function drawLine(callable|Line $init): self;
+    public function drawLine(callable|Line $line): self;
 
     /**
      * Draw a bezier curve on the current image.
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-bezier-curves
      */
-    public function drawBezier(callable|Bezier $init): self;
+    public function drawBezier(callable|Bezier $bezier): self;
 
     /**
      * Encode the current image with the given encoder.

@@ -91,9 +91,9 @@ class Colorspace implements ColorspaceInterface
         $cbrt = fn(float $x): float => $x < 0 ? -abs($x) ** (1 / 3) : $x ** (1 / 3);
         $rgbToLinear = fn(float $x): float => $x <= 0.04045 ? $x / 12.92 : (($x + 0.055) / 1.055) ** 2.4;
 
-        $r = $color->red()->normalize();
-        $g = $color->green()->normalize();
-        $b = $color->blue()->normalize();
+        $r = $color->red()->normalizedValue();
+        $g = $color->green()->normalizedValue();
+        $b = $color->blue()->normalizedValue();
 
         $r = $rgbToLinear($r);
         $g = $rgbToLinear($g);

@@ -33,7 +33,7 @@ interface ColorChannelInterface extends Stringable
     /**
      * Return the channels value normalized to a float value from 0.0 to 1.0 by its range.
      */
-    public function normalize(int $precision = 32): float;
+    public function normalizedValue(int $precision = 32): float;
 
     /**
      * Transform color channel's value to string.

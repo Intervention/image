@@ -48,7 +48,7 @@ abstract class IntegerColorChannel extends AbstractColorChannel
      *
      * @see ColorChannelInterface::normalize()
      */
-    public function normalize(int $precision = 32): float
+    public function normalizedValue(int $precision = 32): float
     {
         return round(($this->value() - $this->min()) / ($this->max() - $this->min()), $precision);
     }

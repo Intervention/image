@@ -60,7 +60,7 @@ abstract class AbstractColor implements ColorInterface, Stringable
     public function normalizedChannelValues(): array
     {
         return array_map(
-            fn(ColorChannelInterface $channel): float => $channel->normalize(),
+            fn(ColorChannelInterface $channel): float => $channel->normalizedValue(),
             $this->channels(),
         );
     }

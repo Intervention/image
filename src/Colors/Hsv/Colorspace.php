@@ -91,7 +91,10 @@ class Colorspace implements ColorspaceInterface
     private function importRgbColor(RgbColor $color): HsvColor
     {
         // normalized values of rgb channels
-        $values = array_map(fn(ColorChannelInterface $channel): float => $channel->normalize(), $color->channels());
+        $values = array_map(
+            fn(ColorChannelInterface $channel): float => $channel->normalizedValue(),
+            $color->channels(),
+        );
 
         // take only RGB
         $values = array_slice($values, 0, 3);
@@ -141,14 +144,14 @@ class Colorspace implements ColorspaceInterface
 
         // normalized values of hsl channels
         [$h, $s, $l] = array_map(
-            fn(ColorChannelInterface $channel): float => $channel->normalize(),
+            fn(ColorChannelInterface $channel): float => $channel->normalizedValue(),
             $color->channels()
         );
 
         $v = $l + $s * min($l, 1 - $l);
         $s = ($v == 0) ? 0 : 2 * (1 - $l / $v);
 
-        return $this->colorFromNormalized([$h, $s, $v, $color->alpha()->normalize()]);
+        return $this->colorFromNormalized([$h, $s, $v, $color->alpha()->normalizedValue()]);
     }
 
     /**

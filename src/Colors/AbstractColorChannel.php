@@ -13,9 +13,9 @@ abstract class AbstractColorChannel implements ColorChannelInterface, Stringable
     /**
      * {@inheritdoc}
      *
-     * @see ColorChannelInterface::normalize()
+     * @see ColorChannelInterface::normalizedValue()
      */
-    public function normalize(int $precision = 32): float
+    public function normalizedValue(int $precision = 32): float
     {
         return round(($this->value() - $this->min()) / ($this->max() - $this->min()), $precision);
     }

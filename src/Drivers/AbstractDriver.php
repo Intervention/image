@@ -61,7 +61,8 @@ abstract class AbstractDriver implements DriverInterface
                 driver: $this
             )->handle($input);
         } catch (NotSupportedException) {
-            throw new NotSupportedException('Unsupported image source');
+            $type = is_object($input) ? $input::class : gettype($input);
+            throw new NotSupportedException('Unsupported image source "' . $type . '"');
         }
 
         if (!($result instanceof ImageInterface)) {

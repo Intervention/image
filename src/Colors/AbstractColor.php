@@ -55,9 +55,9 @@ abstract class AbstractColor implements ColorInterface, Stringable
     /**
      * {@inheritdoc}
      *
-     * @see ColorInterface::normalize()
+     * @see ColorInterface::normalizedChannelValues()
      */
-    public function normalize(): array
+    public function normalizedChannelValues(): array
     {
         return array_map(
             fn(ColorChannelInterface $channel): float => $channel->normalize(),

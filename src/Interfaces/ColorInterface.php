@@ -48,7 +48,7 @@ interface ColorInterface extends Stringable
      *
      * @return array<float>
      */
-    public function normalize(): array;
+    public function normalizedChannelValues(): array;
 
     /**
      * Retrieve the color channel by its classname.

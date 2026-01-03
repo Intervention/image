@@ -21,6 +21,7 @@ use Intervention\Image\Decoders\DataUriImageDecoder;
 use Intervention\Image\Decoders\EncodedImageObjectDecoder;
 use Intervention\Image\Decoders\FilePathImageDecoder;
 use Intervention\Image\Decoders\FilePointerImageDecoder;
+use Intervention\Image\Decoders\ImageObjectDecoder;
 use Intervention\Image\Decoders\NativeObjectDecoder;
 use Intervention\Image\Decoders\SplFileInfoImageDecoder;
 use Intervention\Image\Exceptions\DriverException;
@@ -38,6 +39,7 @@ class InputHandler implements InputHandlerInterface
      * All available image decoders.
      */
     public const array IMAGE_DECODERS = [
+        ImageObjectDecoder::class,
         NativeObjectDecoder::class,
         FilePointerImageDecoder::class,
         SplFileInfoImageDecoder::class,

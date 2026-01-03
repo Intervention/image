@@ -224,9 +224,9 @@ final class ImageManager implements ImageManagerInterface
      *
      * @see ImageManagerInterface::animate()
      */
-    public function animate(callable $init): ImageInterface
+    public function animate(callable $animation): ImageInterface
     {
-        return $this->driver->createAnimation($init);
+        return $this->driver->createAnimation($animation);
     }
 
     /**

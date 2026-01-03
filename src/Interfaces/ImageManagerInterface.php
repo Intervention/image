@@ -124,7 +124,7 @@ interface ImageManagerInterface
      *
      * @link https://image.intervention.io/v3/basics/instantiation#create-animations
      */
-    public function animate(callable $init): ImageInterface;
+    public function animate(callable $animation): ImageInterface;
 
     /**
      * Return currently used driver.

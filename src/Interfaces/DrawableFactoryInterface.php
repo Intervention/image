@@ -14,7 +14,7 @@ interface DrawableFactoryInterface
     /**
      * Create the end product of the factory statically by calling given callable
      */
-    public static function build(?callable $drawable = null): DrawableInterface;
+    public static function build(null|callable|DrawableInterface $drawable = null): DrawableInterface;
 
     /**
      * Create the end product of the factory.

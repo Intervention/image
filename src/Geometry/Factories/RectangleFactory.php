@@ -47,7 +47,7 @@ class RectangleFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::build()
      */
-    public static function build(?callable $drawable = null): Rectangle
+    public static function build(null|callable|DrawableInterface $drawable = null): Rectangle
     {
         return (new self(rectangle: $drawable))->drawable();
     }

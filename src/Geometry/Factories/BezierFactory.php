@@ -41,7 +41,7 @@ class BezierFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::build()
      */
-    public static function build(?callable $drawable = null): Bezier
+    public static function build(null|callable|DrawableInterface $drawable = null): Bezier
     {
         return (new self($drawable))->drawable();
     }

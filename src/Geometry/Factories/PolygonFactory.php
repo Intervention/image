@@ -41,7 +41,7 @@ class PolygonFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::build()
      */
-    public static function build(?callable $drawable = null): Polygon
+    public static function build(null|callable|DrawableInterface $drawable = null): Polygon
     {
         return (new self(polygon: $drawable))->drawable();
     }

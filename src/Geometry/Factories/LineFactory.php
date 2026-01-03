@@ -40,7 +40,7 @@ class LineFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::build()
      */
-    public static function build(?callable $drawable = null): Line
+    public static function build(null|callable|DrawableInterface $drawable = null): Line
     {
         return (new self($drawable))->drawable();
     }

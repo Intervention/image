@@ -120,7 +120,7 @@ final class ImageManager implements ImageManagerInterface
         null|string|Stringable $path = null,
         null|string|Stringable $binary = null,
         null|string|Stringable $base64 = null,
-        null|string|Stringable $dataUri = null,
+        null|string|Stringable|DataUriInterface $dataUri = null,
         null|SplFileInfo $splFileInfo = null,
         mixed $stream = null,
     ): ImageInterface {

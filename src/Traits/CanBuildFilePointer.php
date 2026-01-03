@@ -37,7 +37,7 @@ trait CanBuildFilePointer
             ),
         };
 
-        $pointer = call_user_func($buildPointerStrategy, $data);
+        $pointer = $buildPointerStrategy($data);
 
         if ($pointer === false) {
             throw new FilePointerException('Failed to build file pointer');

@@ -17,12 +17,12 @@ class BezierFactory implements DrawableFactoryInterface
     /**
      * Create new factory instance.
      */
-    public function __construct(null|callable|DrawableInterface $init = null)
+    public function __construct(null|callable|Bezier $bezier = null)
     {
-        $this->bezier = is_a($init, Bezier::class) ? $init : new Bezier([]);
+        $this->bezier = is_a($bezier, Bezier::class) ? $bezier : new Bezier([]);
 
-        if (is_callable($init)) {
-            $init($this);
+        if (is_callable($bezier)) {
+            $bezier($this);
         }
     }
 

@@ -20,13 +20,13 @@ class RectangleFactory implements DrawableFactoryInterface
      */
     public function __construct(
         protected PointInterface $pivot = new Point(),
-        null|callable|DrawableInterface $init = null,
+        null|callable|Rectangle $rectangle = null,
     ) {
-        $this->rectangle = is_a($init, Rectangle::class) ? $init : new Rectangle(0, 0, $pivot);
+        $this->rectangle = is_a($rectangle, Rectangle::class) ? $rectangle : new Rectangle(0, 0, $pivot);
         $this->rectangle->setPosition($pivot);
 
-        if (is_callable($init)) {
-            $init($this);
+        if (is_callable($rectangle)) {
+            $rectangle($this);
         }
     }
 
@@ -39,7 +39,7 @@ class RectangleFactory implements DrawableFactoryInterface
      */
     public static function create(null|callable|DrawableInterface $drawable = null): self
     {
-        return new self(init: $drawable);
+        return new self(rectangle: $drawable);
     }
 
     /**
@@ -49,7 +49,7 @@ class RectangleFactory implements DrawableFactoryInterface
      */
     public static function build(?callable $drawable = null): Rectangle
     {
-        return (new self(init: $drawable))->drawable();
+        return (new self(rectangle: $drawable))->drawable();
     }
 
     /**

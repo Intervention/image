@@ -20,13 +20,13 @@ class CircleFactory implements DrawableFactoryInterface
      */
     public function __construct(
         protected PointInterface $pivot = new Point(),
-        null|callable|DrawableInterface $init = null,
+        null|callable|Circle $circle = null,
     ) {
-        $this->circle = is_a($init, Circle::class) ? $init : new Circle(0);
+        $this->circle = is_a($circle, Circle::class) ? $circle : new Circle(0);
         $this->circle->setPosition($pivot);
 
-        if (is_callable($init)) {
-            $init($this);
+        if (is_callable($circle)) {
+            $circle($this);
         }
     }
 
@@ -37,7 +37,7 @@ class CircleFactory implements DrawableFactoryInterface
      */
     public static function create(null|callable|DrawableInterface $drawable = null): self
     {
-        return new self(init: $drawable);
+        return new self(circle: $drawable);
     }
 
     /**
@@ -47,7 +47,7 @@ class CircleFactory implements DrawableFactoryInterface
      */
     public static function build(?callable $drawable = null): Circle
     {
-        return (new self(init: $drawable))->drawable();
+        return (new self(circle: $drawable))->drawable();
     }
 
     /**

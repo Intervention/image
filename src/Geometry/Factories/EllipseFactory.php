@@ -20,13 +20,13 @@ class EllipseFactory implements DrawableFactoryInterface
      */
     public function __construct(
         protected PointInterface $pivot = new Point(),
-        null|callable|DrawableInterface $init = null,
+        null|callable|Ellipse $ellipse = null,
     ) {
-        $this->ellipse = is_a($init, Ellipse::class) ? $init : new Ellipse(0, 0);
+        $this->ellipse = is_a($ellipse, Ellipse::class) ? $ellipse : new Ellipse(0, 0);
         $this->ellipse->setPosition($pivot);
 
-        if (is_callable($init)) {
-            $init($this);
+        if (is_callable($ellipse)) {
+            $ellipse($this);
         }
     }
 
@@ -37,7 +37,7 @@ class EllipseFactory implements DrawableFactoryInterface
      */
     public static function create(null|callable|DrawableInterface $drawable = null): self
     {
-        return new self(init: $drawable);
+        return new self(ellipse: $drawable);
     }
 
     /**
@@ -47,7 +47,7 @@ class EllipseFactory implements DrawableFactoryInterface
      */
     public static function build(?callable $drawable = null): Ellipse
     {
-        return (new self(init: $drawable))->drawable();
+        return (new self(ellipse: $drawable))->drawable();
     }
 
     /**

@@ -16,12 +16,12 @@ class LineFactory implements DrawableFactoryInterface
     /**
      * Create the factory instance.
      */
-    public function __construct(null|callable|DrawableInterface $init = null)
+    public function __construct(null|callable|Line $line = null)
     {
-        $this->line = is_a($init, Line::class) ? $init : new Line(new Point(), new Point());
+        $this->line = is_a($line, Line::class) ? $line : new Line(new Point(), new Point());
 
-        if (is_callable($init)) {
-            $init($this);
+        if (is_callable($line)) {
+            $line($this);
         }
     }
 

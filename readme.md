@@ -46,7 +46,7 @@ use Intervention\Image\Fraction;
 $manager = ImageManager::withDriver(GdDriver::class);
 
 // decode an image file
-$image = $manager->decodeFromPath('images/example.webp');
+$image = $manager->decodeUsing(path: 'images/example.webp');
 
 // resize image width
 $image->resize(width: 300);

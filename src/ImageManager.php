@@ -162,66 +162,6 @@ final class ImageManager implements ImageManagerInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageManagerInterface::decodeFromPath()
-     */
-    public function decodeFromPath(string|Stringable $path): ImageInterface
-    {
-        return $this->driver->handleImageInput($path, [FilePathImageDecoder::class]);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ImageManagerInterface::decodeFromBinary()
-     */
-    public function decodeFromBinary(string|Stringable $binary): ImageInterface
-    {
-        return $this->driver->handleImageInput($binary, [BinaryImageDecoder::class]);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ImageManagerInterface::decodeFromBase64()
-     */
-    public function decodeFromBase64(string|Stringable $base64): ImageInterface
-    {
-        return $this->driver->handleImageInput($base64, [Base64ImageDecoder::class]);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ImageManagerInterface::decodeFromDataUri()
-     */
-    public function decodeFromDataUri(string|Stringable|DataUriInterface $dataUri): ImageInterface
-    {
-        return $this->driver->handleImageInput($dataUri, [DataUriImageDecoder::class]);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ImageManagerInterface::decodeFromSplFileInfo()
-     */
-    public function decodeFromSplFileInfo(string|SplFileInfo $splFileInfo): ImageInterface
-    {
-        return $this->driver->handleImageInput($splFileInfo, [SplFileInfoImageDecoder::class]);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ImageManagerInterface::decodeFromStream()
-     */
-    public function decodeFromStream(mixed $stream): ImageInterface
-    {
-        return $this->driver->handleImageInput($stream, [FilePointerImageDecoder::class]);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
      * @see ImageManagerInterface::animate()
      */
     public function animate(callable $animation): ImageInterface

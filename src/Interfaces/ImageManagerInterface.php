@@ -78,48 +78,6 @@ interface ImageManagerInterface
     ): ImageInterface;
 
     /**
-     * Create new image instance from path in filesystem.
-     *
-     * @link https://image.intervention.io/v3/basics/instantiation#read-image-sources
-     */
-    public function decodeFromPath(string|Stringable $path): ImageInterface; // todo: maybe remove
-
-    /**
-     * Create new image instance from raw binary image data.
-     *
-     * @link https://image.intervention.io/v3/basics/instantiation#read-image-sources
-     */
-    public function decodeFromBinary(string|Stringable $binary): ImageInterface; // todo: maybe remove
-
-    /**
-     * Create new image instance from base64 encoded image data.
-     *
-     * @link https://image.intervention.io/v3/basics/instantiation#read-image-sources
-     */
-    public function decodeFromBase64(string|Stringable $base64): ImageInterface; // todo: maybe remove
-
-    /**
-     * Create new image instance from data uri encoded image data.
-     *
-     * @link https://image.intervention.io/v3/basics/instantiation#read-image-sources
-     */
-    public function decodeFromDataUri(string|Stringable|DataUriInterface $dataUri): ImageInterface; // todo: maybe rem.
-
-    /**
-     * Create new image instance from file referenced in splFileInfo object.
-     *
-     * @link https://image.intervention.io/v3/basics/instantiation#read-image-sources
-     */
-    public function decodeFromSplFileInfo(string|SplFileInfo $splFileInfo): ImageInterface; // todo: maybe remove
-
-    /**
-     * Create new image instance from given file pointer.
-     *
-     * @link https://image.intervention.io/v3/basics/instantiation#read-image-sources
-     */
-    public function decodeFromStream(mixed $stream): ImageInterface; // todo: maybe remove
-
-    /**
      * Create new animated image by given callback.
      *
      * @link https://image.intervention.io/v3/basics/instantiation#create-animations

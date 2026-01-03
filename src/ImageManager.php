@@ -26,7 +26,7 @@ use Stringable;
 
 final class ImageManager implements ImageManagerInterface
 {
-    private DriverInterface $driver;
+    private readonly DriverInterface $driver;
 
     /**
      * @link https://image.intervention.io/v3/basics/configuration-drivers#create-a-new-image-manager-instance

@@ -21,7 +21,7 @@ final class InsertModifierTest extends ImagickTestCase
     {
         $image = $this->readTestImage('test.jpg');
         $this->assertEquals('febc44', $image->colorAt(300, 25)->toHex());
-        $image->modify(new InsertModifier(Resource::create('circle.png')->path(), Alignment::TOP_RIGHT, 0, 0));
+        $image->modify(new InsertModifier(Resource::create('circle.png')->path(), 0, 0, Alignment::TOP_RIGHT));
         $this->assertEquals('33260e', $image->colorAt(300, 25)->toHex());
     }
 
@@ -29,7 +29,7 @@ final class InsertModifierTest extends ImagickTestCase
     {
         $image = $this->readTestImage('test.jpg');
         $this->assertEquals('febc44', $image->colorAt(300, 25)->toHex());
-        $image->modify(new InsertModifier(Resource::create('circle.png')->path(), Alignment::TOP_RIGHT, 0, 0, 50));
+        $image->modify(new InsertModifier(Resource::create('circle.png')->path(), 0, 0, Alignment::TOP_RIGHT, 50));
         $this->assertColor(152, 112, 40, 1, $image->colorAt(300, 25), tolerance: 1);
         $this->assertColor(255, 202, 107, 1, $image->colorAt(274, 5), tolerance: 1);
     }

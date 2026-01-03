@@ -16,9 +16,9 @@ class InsertModifier extends SpecializableModifier
      */
     public function __construct(
         public mixed $element,
-        public string|Alignment $alignment = Alignment::TOP_LEFT,
         public int $x = 0,
         public int $y = 0,
+        public string|Alignment $alignment = Alignment::TOP_LEFT,
         public int $opacity = 100
     ) {
         //

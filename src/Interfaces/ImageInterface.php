@@ -477,9 +477,9 @@ interface ImageInterface extends IteratorAggregate, Countable
      */
     public function insert(
         mixed $element,
-        string|Alignment $alignment = Alignment::TOP_LEFT,
         int $x = 0,
         int $y = 0,
+        string|Alignment $alignment = Alignment::TOP_LEFT,
         int $opacity = 100
     ): self;
 

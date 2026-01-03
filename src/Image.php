@@ -825,12 +825,12 @@ final class Image implements ImageInterface
      */
     public function insert(
         mixed $element,
-        string|Alignment $alignment = Alignment::TOP_LEFT,
         int $x = 0,
         int $y = 0,
+        string|Alignment $alignment = Alignment::TOP_LEFT,
         int $opacity = 100
     ): ImageInterface {
-        return $this->modify(new InsertModifier($element, $alignment, $x, $y, $opacity));
+        return $this->modify(new InsertModifier($element, $x, $y, $alignment, $opacity));
     }
 
     /**

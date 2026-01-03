@@ -70,7 +70,7 @@
 - GreyscaleModifier::class was renamed to GrayscaleModifier::class
 - ImageInterface::greyscale() was renamed to ImageInterface::grayscale()
 - ColorInterface::isGreyscale() was renamed to ColorInterface::isGrayscale()
-- ImageInterface::place() was renamed to ImageInterface::insert, signature changed from `offset_x` to `x` and `offset_y` to `y`
+- ImageInterface::place() was renamed to ImageInterface::insert, signature changed from `offset_x` to `x` and `offset_y` to `y` and updated argument order
 - DrawableFactoryInterface::__invoke() was removed, use DrawableFactoryInterface::build or DrawableFactoryInterface::drawable()
 - FontFactory::__invoke() was removed, use FontFactory::build or FontFactory::font()
 - AnimationFactory::__invoke() was removed, use AnimationFactory::build or AnimationFactory::animation()

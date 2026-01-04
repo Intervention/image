@@ -43,6 +43,14 @@ interface FrameInterface
 
     /**
      * Set disposal method of current frame.
+     *
+     * The disposal method specifies what happens to the current frame when
+     * moving to the next. Available method values are:
+     *
+     * - 0: No disposal, can be  used then frames do not have transparency
+     * - 1: Leave the frame in place and draw the next on top of it
+     * - 2: Clear the frame with the background color before displaying the next frame
+     * - 3: Restore the frame to its previous state before the current was drawn
      */
     public function setDisposalMethod(int $method): self;
 

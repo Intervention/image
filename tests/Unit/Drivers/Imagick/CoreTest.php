@@ -123,7 +123,7 @@ final class CoreTest extends BaseTestCase
         $this->assertEquals('foo', $this->core->get(3, 'foo'));
     }
 
-    public function testEmpty(): void
+    public function testClear(): void
     {
         $result = $this->core->clear();
         $this->assertEquals(0, $this->core->count());

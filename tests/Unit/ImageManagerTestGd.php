@@ -10,6 +10,7 @@ use Intervention\Image\Decoders\BinaryImageDecoder;
 use Intervention\Image\Decoders\FilePathImageDecoder;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
+use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Resource;
@@ -59,10 +60,21 @@ final class ImageManagerTestGd extends BaseTestCase
     public function testCreateAnimated(): void
     {
         $manager = new ImageManager(Driver::class);
-        $image = $manager->createImage(10, 10, function ($animation): void {
+        $image = $manager->createImage(12, 8, function ($animation): void {
             $animation->add(Resource::create('red.gif')->path(), .25);
-        });
+            $animation->add(Resource::create('green.gif')->path(), .25);
+            $animation->add(Resource::create('blue.gif')->path(), .25);
+        })->setLoops(1);
+
         $this->assertInstanceOf(ImageInterface::class, $image);
+        $this->assertEquals(12, $image->width());
+        $this->assertEquals(8, $image->height());
+        $this->assertEquals(3, $image->count());
+        $this->assertEquals(1, $image->loops());
+        $this->assertEquals([.25, .25, .25], array_map(
+            fn(FrameInterface $frame): float => $frame->delay(),
+            $image->core()->toArray(),
+        ));
     }
 
     public function testDecodeUsingDecoderClassname(): void

@@ -318,7 +318,7 @@ class Resizer
      * @throws InvalidArgumentException
      * @throws StateException
      */
-    public function containDown(SizeInterface $size): SizeInterface
+    public function containDown(SizeInterface $size): SizeInterface // todo: rename to pad()
     {
         $resized = new Size($size->width(), $size->height());
 

@@ -89,8 +89,11 @@ class AnimationFactory implements AnimationFactoryInterface
 
         // adjust size if necessary
         if ($image->width() !== $this->width || $image->height() !== $this->height) {
-            $image->pad($this->width, $this->height); // todo: make resizing method selectable by api
+            $image->cover($this->width, $this->height); // todo: make resizing method selectable by api
         }
+
+        // make sure to have to given output size only if resizing method is selectable by api
+        // $image->resizeCanvas($this->width, $this->height);
 
         // return ready-made frame with all attributes
         return $image

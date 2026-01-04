@@ -103,9 +103,9 @@ final class ImageManager implements ImageManagerInterface
      *
      * @see ImageManagerInterface::decode()
      */
-    public function decode(mixed $input, null|string|array|DecoderInterface $decoders = null): ImageInterface
+    public function decode(mixed $source, null|string|array|DecoderInterface $decoders = null): ImageInterface
     {
-        return $this->driver->handleImageInput($input, match (gettype($decoders)) {
+        return $this->driver->handleImageInput($source, match (gettype($decoders)) {
             "NULL" => [
                 NativeObjectDecoder::class,
                 FilePointerImageDecoder::class,

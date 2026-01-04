@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
+use Intervention\Gif\DisposalMethod;
 use Intervention\Image\Interfaces\AnimationFactoryInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\FrameInterface;
@@ -88,10 +89,14 @@ class AnimationFactory implements AnimationFactoryInterface
 
         // adjust size if necessary
         if ($image->width() !== $this->width || $image->height() !== $this->height) {
-            $image->cover($this->width, $this->height);
+            $image->pad($this->width, $this->height); // todo: make resizing method selectable by api
         }
 
-        // return frame with delay
-        return $image->core()->first()->setDelay($delay);
+        // return ready-made frame with all attributes
+        return $image
+            ->core()
+            ->first()
+            ->setDelay($delay)
+            ->setDispose(DisposalMethod::BACKGROUND->value);
     }
 }

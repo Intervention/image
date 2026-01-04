@@ -216,9 +216,9 @@ class Font implements FontInterface
      *
      * @see FontInterface::setAlignment()
      */
-    public function setAlignment(string|Alignment $value): FontInterface
+    public function setAlignment(string|Alignment $alignment): FontInterface
     {
-        $this->alignment = is_string($value) ? Alignment::from($value) : $value;
+        $this->alignment = is_string($alignment) ? Alignment::from($alignment) : $alignment;
 
         return $this;
     }
@@ -238,9 +238,9 @@ class Font implements FontInterface
      *
      * @see FontInterface::setVerticalAlignment()
      */
-    public function setVerticalAlignment(string|Alignment $value): FontInterface
+    public function setVerticalAlignment(string|Alignment $alignment): FontInterface
     {
-        $this->verticalAlignment = is_string($value) ? Alignment::from($value) : $value;
+        $this->verticalAlignment = is_string($alignment) ? Alignment::from($alignment) : $alignment;
 
         return $this;
     }

@@ -42,9 +42,9 @@ class FontFactory
     /**
      * Set the filename of the font to be built.
      */
-    public function filename(string $value): self
+    public function filename(string $path): self
     {
-        $this->font->setFilepath($value);
+        $this->font->setFilepath($path);
 
         return $this;
     }
@@ -54,9 +54,9 @@ class FontFactory
      *
      * @see self::filename()
      */
-    public function file(string $value): self
+    public function file(string $path): self
     {
-        return $this->filename($value);
+        return $this->filename($path);
     }
 
     /**
@@ -64,9 +64,9 @@ class FontFactory
      *
      * @see self::filename()
      */
-    public function filepath(string $value): self
+    public function filepath(string $path): self
     {
-        return $this->filename($value);
+        return $this->filename($path);
     }
 
     /**
@@ -83,9 +83,9 @@ class FontFactory
     /**
      * Set color for the font to be built.
      */
-    public function color(mixed $value): self
+    public function color(mixed $color): self
     {
-        $this->font->setColor($value);
+        $this->font->setColor($color);
 
         return $this;
     }
@@ -93,9 +93,9 @@ class FontFactory
     /**
      * Set the size for the font to be built.
      */
-    public function size(float $value): self
+    public function size(float $size): self
     {
-        $this->font->setSize($value);
+        $this->font->setSize($size);
 
         return $this;
     }
@@ -103,9 +103,9 @@ class FontFactory
     /**
      * Set the horizontal alignment of the font to be built.
      */
-    public function align(string|Alignment $value): self
+    public function align(string|Alignment $alignment): self
     {
-        $this->font->setAlignment($value);
+        $this->font->setAlignment($alignment);
 
         return $this;
     }
@@ -113,9 +113,9 @@ class FontFactory
     /**
      * Set the vertical alignment of the font to be built.
      */
-    public function alignVertically(string|Alignment $value): self
+    public function alignVertically(string|Alignment $alignment): self
     {
-        $this->font->setVerticalAlignment($value);
+        $this->font->setVerticalAlignment($alignment);
 
         return $this;
     }
@@ -123,9 +123,9 @@ class FontFactory
     /**
      * Set the line height of the font to be built.
      */
-    public function lineHeight(float $value): self
+    public function lineHeight(float $height): self
     {
-        $this->font->setLineHeight($value);
+        $this->font->setLineHeight($height);
 
         return $this;
     }
@@ -133,9 +133,9 @@ class FontFactory
     /**
      * Set the rotation angle of the font to be built.
      */
-    public function angle(float $value): self
+    public function angle(float $angle): self
     {
-        $this->font->setAngle($value);
+        $this->font->setAngle($angle);
 
         return $this;
     }

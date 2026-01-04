@@ -25,7 +25,7 @@ class Frame extends AbstractFrame implements FrameInterface
     public function __construct(
         protected GdImage $native,
         protected float $delay = 0,
-        protected int $dispose = 1,
+        protected int $disposalMethod = 1,
         protected int $offsetLeft = 0,
         protected int $offsetTop = 0
     ) {
@@ -101,27 +101,27 @@ class Frame extends AbstractFrame implements FrameInterface
     /**
      * {@inheritdoc}
      *
-     * @see FrameInterface::dispose()
+     * @see FrameInterface::disposalMethod()
      */
-    public function dispose(): int
+    public function disposalMethod(): int
     {
-        return $this->dispose;
+        return $this->disposalMethod;
     }
 
     /**
      * {@inheritdoc}
      *
-     * @see FrameInterface::setDispose()
+     * @see FrameInterface::setDisposalMethod()
      *
      * @throws InvalidArgumentException
      */
-    public function setDispose(int $dispose): FrameInterface
+    public function setDisposalMethod(int $method): FrameInterface
     {
-        if (!in_array($dispose, [0, 1, 2, 3])) {
-            throw new InvalidArgumentException('Value for argument $dispose must be 0, 1, 2 or 3');
+        if (!in_array($method, [0, 1, 2, 3])) {
+            throw new InvalidArgumentException('Value for disposal method "$method" must be 0, 1, 2 or 3');
         }
 
-        $this->dispose = $dispose;
+        $this->disposalMethod = $method;
 
         return $this;
     }

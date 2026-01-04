@@ -19,7 +19,7 @@ abstract class AbstractFrame implements FrameInterface
             'delay' => $this->delay(),
             'left' => $this->offsetLeft(),
             'top' => $this->offsetTop(),
-            'dispose' => $this->dispose(),
+            'disposalMethod' => $this->disposalMethod(),
         ];
     }
 }

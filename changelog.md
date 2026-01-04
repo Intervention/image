@@ -78,6 +78,8 @@
 - FontFactory::__invoke() was removed, use FontFactory::build or FontFactory::font()
 - AnimationFactory::__invoke() was removed, use AnimationFactory::build or AnimationFactory::animation()
 - Signatures of ImageInterface::drawRectangle(), ImageInterface::drawLine(), ImageInterface::drawEllipse(), ImageInterface::drawCircle() ImageInterface::drawPolygon() and ImageInterface::drawBezier() have changed
+- FrameInterface::dispose() was rename to FrameInterface::disposalMethod()
+- FrameInterface::setDispose() was rename to FrameInterface::setDisposalMethod()
 
 ### Exceptions
 

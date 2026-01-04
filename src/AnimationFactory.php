@@ -100,6 +100,6 @@ class AnimationFactory implements AnimationFactoryInterface
             ->core()
             ->first()
             ->setDelay($delay)
-            ->setDispose(DisposalMethod::BACKGROUND->value);
+            ->setDisposalMethod(DisposalMethod::BACKGROUND->value);
     }
 }

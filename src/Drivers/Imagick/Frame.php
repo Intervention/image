@@ -101,9 +101,9 @@ class Frame extends AbstractFrame implements FrameInterface
     /**
      * {@inheritdoc}
      *
-     * @see DriverInterface::dispose()
+     * @see DriverInterface::disposalMethod()
      */
-    public function dispose(): int
+    public function disposalMethod(): int
     {
         return $this->native->getImageDispose();
     }
@@ -111,17 +111,17 @@ class Frame extends AbstractFrame implements FrameInterface
     /**
      * {@inheritdoc}
      *
-     * @see DriverInterface::setDispose()
+     * @see DriverInterface::setDisposalMethod()
      *
      * @throws InvalidArgumentException
      */
-    public function setDispose(int $dispose): FrameInterface
+    public function setDisposalMethod(int $method): FrameInterface
     {
-        if (!in_array($dispose, [0, 1, 2, 3])) {
-            throw new InvalidArgumentException('Value for argument $dispose must be 0, 1, 2 or 3');
+        if (!in_array($method, [0, 1, 2, 3])) {
+            throw new InvalidArgumentException('Value for argument disposal method "$method" must be 0, 1, 2 or 3');
         }
 
-        $this->native->setImageDispose($dispose);
+        $this->native->setImageDispose($method);
 
         return $this;
     }

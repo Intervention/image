@@ -52,14 +52,14 @@ final class FrameTest extends BaseTestCase
         $this->assertEquals(250, $frame->native()->getImageDelay());
     }
 
-    public function testSetGetDispose(): void
+    public function testSetGetDisposalMethod(): void
     {
         $frame = $this->getTestFrame();
-        $this->assertEquals(0, $frame->dispose());
+        $this->assertEquals(0, $frame->disposalMethod());
 
-        $result = $frame->setDispose(3);
+        $result = $frame->setDisposalMethod(3);
         $this->assertInstanceOf(Frame::class, $result);
-        $this->assertEquals(3, $frame->dispose());
+        $this->assertEquals(3, $frame->disposalMethod());
     }
 
     public function testSetGetOffsetLeft(): void

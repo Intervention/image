@@ -39,12 +39,12 @@ interface FrameInterface
     /**
      * Get disposal method of current frame.
      */
-    public function dispose(): int;
+    public function disposalMethod(): int;
 
     /**
      * Set disposal method of current frame.
      */
-    public function setDispose(int $dispose): self;
+    public function setDisposalMethod(int $method): self;
 
     /**
      * Set pixel offset of current frame.

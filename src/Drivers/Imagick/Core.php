@@ -171,7 +171,7 @@ class Core implements CoreInterface, Iterator
                 (int) round($frame->delay() * 100)
             );
 
-            $imagick->setImageDispose($frame->dispose());
+            $imagick->setImageDispose($frame->disposalMethod());
 
             $size = $frame->size();
             $imagick->setImagePage(

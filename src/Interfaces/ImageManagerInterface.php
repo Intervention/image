@@ -38,7 +38,9 @@ interface ImageManagerInterface
      * - SplFileInfo object
      * - Raw binary image data
      * - Base64 encoded image data
-     * - Data Uri
+     * - Data Uri string or instance of DataUriInterface
+     * - Instance of EncodedImageInterface
+     * - Instance of ImageInterface
      *
      * To decode the image source, you can optionally specify a decoding strategy
      * with the second parameter. This can be an array of class names or objects

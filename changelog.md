@@ -20,6 +20,8 @@
 - ImageInterface::blendTransparency() was renamed to ImageInterface::background() - Signature changed & allowed (semi) transparent colors
 - ImageInterface::setBlendingColor() was renamed to ImageInterface::setBackgroundColor()
 - ImageInterface::blendingColor() was renamed to ImageInterface::backgroundColor()
+- Config::class option blendingColor was renamed to backgroundColor
+- BlendTransparencyModifer::class was renamed to BackgroundModifier::class
 - Changed default value for `background` to `null` in ImageInterface::rotate()
 - Changed default value for `background` to `null` in ImageInterface::resizeCanvas()
 - Changed default value for `background` to `null` in ImageInterface::resizeCanvasRelative()

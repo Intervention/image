@@ -104,7 +104,7 @@ class Colorspace implements ColorspaceInterface
             );
         }
 
-        if (!($color instanceof OklabColor)) {
+        if (!$color instanceof OklabColor) {
             throw new ColorDecoderException('Failed to transform RGB color to OKLCH color space');
         }
 
@@ -127,7 +127,7 @@ class Colorspace implements ColorspaceInterface
             );
         }
 
-        if (!($color instanceof OklchColor)) {
+        if (!$color instanceof OklchColor) {
             throw new ColorDecoderException(
                 'Failed to transform color to OKLCH color space',
             );

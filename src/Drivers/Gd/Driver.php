@@ -63,7 +63,7 @@ class Driver extends AbstractDriver
 
         // build new transparent GDImage
         $data = imagecreatetruecolor($width, $height);
-        if (!($data instanceof GDImage)) {
+        if (!$data instanceof GDImage) {
             throw new DriverException('Failed to create new image');
         }
 

@@ -67,7 +67,7 @@ class Color extends AbstractColor
             );
         }
 
-        if (!($color instanceof self)) {
+        if (!$color instanceof self) {
             throw new ColorDecoderException(
                 'Failed to decode CMYK color from string "' . $input . '"',
             );

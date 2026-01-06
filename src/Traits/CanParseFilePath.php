@@ -22,7 +22,7 @@ trait CanParseFilePath
      */
     protected static function readableFilePathOrFail(mixed $path): string
     {
-        if (!is_string($path) && !($path instanceof Stringable)) {
+        if (!is_string($path) && !$path instanceof Stringable) {
             throw new InvalidArgumentException('Path must be either of type string or instance of Stringable');
         }
 

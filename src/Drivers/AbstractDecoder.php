@@ -76,7 +76,7 @@ abstract class AbstractDecoder implements DecoderInterface
      */
     protected function decodeBase64Data(mixed $input): string
     {
-        if (!is_string($input) && !($input instanceof Stringable)) {
+        if (!is_string($input) && !$input instanceof Stringable) {
             throw new InvalidArgumentException(
                 'Base64-encoded data must be either of type string or instance of Stringable',
             );

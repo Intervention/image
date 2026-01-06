@@ -218,7 +218,7 @@ class Colorspace implements ColorspaceInterface
             );
         }
 
-        if (!($color instanceof OklabColor)) {
+        if (!$color instanceof OklabColor) {
             throw new ColorDecoderException(
                 'Failed to transform OKLCH color to OKLAB color space',
             );

@@ -94,7 +94,7 @@ abstract class AbstractColor implements ColorInterface, Stringable
 
         $colorspace = is_string($colorspace) ? new $colorspace() : $colorspace;
 
-        if (!($colorspace instanceof ColorspaceInterface)) {
+        if (!$colorspace instanceof ColorspaceInterface) {
             throw new InvalidArgumentException('Given color space must implement ' . ColorspaceInterface::class);
         }
 

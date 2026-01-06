@@ -138,7 +138,7 @@ class Colorspace implements ColorspaceInterface
      */
     protected function importHslColor(ColorInterface $color): HsvColor
     {
-        if (!($color instanceof HslColor)) {
+        if (!$color instanceof HslColor) {
             throw new InvalidArgumentException('Color must be of type ' . HslColor::class);
         }
 
@@ -170,7 +170,7 @@ class Colorspace implements ColorspaceInterface
             );
         }
 
-        if (!($color instanceof RgbColor)) {
+        if (!$color instanceof RgbColor) {
             throw new ColorDecoderException('Failed to transform color to HSV color space');
         }
 

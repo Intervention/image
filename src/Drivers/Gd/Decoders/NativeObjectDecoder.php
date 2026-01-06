@@ -39,7 +39,7 @@ class NativeObjectDecoder extends AbstractDecoder
      */
     public function decode(mixed $input): ImageInterface
     {
-        if (!($input instanceof GdImage)) {
+        if (!$input instanceof GdImage) {
             throw new InvalidArgumentException('Input must be of type ' . GdImage::class);
         }
 

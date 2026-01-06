@@ -105,7 +105,7 @@ enum Format
 
         $result = reset($types);
 
-        if (!($result instanceof MediaType)) {
+        if (!$result instanceof MediaType) {
             throw new NotSupportedException('Unable to retrieve unsupported media type from format');
         }
 
@@ -136,7 +136,7 @@ enum Format
 
         $result = reset($extensions);
 
-        if (!($result instanceof FileExtension)) {
+        if (!$result instanceof FileExtension) {
             throw new NotSupportedException('Unable to retrieve unsupported file extension for format');
         }
 

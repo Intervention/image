@@ -24,7 +24,7 @@ class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
      */
     public function supports(mixed $input): bool
     {
-        if (!is_string($input) && !($input instanceof Stringable)) {
+        if (!is_string($input) && !$input instanceof Stringable) {
             return false;
         }
 
@@ -56,7 +56,7 @@ class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
      */
     public function decode(mixed $input): ImageInterface
     {
-        if (!is_string($input) && !($input instanceof Stringable)) {
+        if (!is_string($input) && !$input instanceof Stringable) {
             throw new InvalidArgumentException('Binary data must be either of type string or instance of Stringable');
         }
 

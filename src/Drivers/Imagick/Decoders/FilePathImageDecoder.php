@@ -25,7 +25,7 @@ class FilePathImageDecoder extends NativeObjectDecoder
      */
     public function supports(mixed $input): bool
     {
-        if (!is_string($input) && !($input instanceof Stringable)) {
+        if (!is_string($input) && !$input instanceof Stringable) {
             return false;
         }
 

@@ -65,7 +65,7 @@ abstract class AbstractDriver implements DriverInterface
             throw new NotSupportedException('Unsupported image source "' . $type . '"');
         }
 
-        if (!($result instanceof ImageInterface)) {
+        if (!$result instanceof ImageInterface) {
             throw new ImageDecoderException('Result must be instance of ' . ImageInterface::class);
         }
 
@@ -93,7 +93,7 @@ abstract class AbstractDriver implements DriverInterface
             throw new NotSupportedException('Unsupported color format');
         }
 
-        if (!($result instanceof ColorInterface)) {
+        if (!$result instanceof ColorInterface) {
             throw new ColorDecoderException('Result must be instance of ' . ColorInterface::class);
         }
 
@@ -155,7 +155,7 @@ abstract class AbstractDriver implements DriverInterface
         ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface $object
     ): ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface {
         // return object directly if no specializing is possible
-        if (!($object instanceof SpecializableInterface)) {
+        if (!$object instanceof SpecializableInterface) {
             return $object;
         }
 

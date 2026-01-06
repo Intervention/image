@@ -172,7 +172,7 @@ class Colorspace implements ColorspaceInterface
             );
         }
 
-        if (!($color instanceof RgbColor)) {
+        if (!$color instanceof RgbColor) {
             throw new ColorDecoderException(
                 'Failed to transform color to HSL color space',
             );

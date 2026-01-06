@@ -65,7 +65,7 @@ class Color extends AbstractColor
             throw new ColorDecoderException('Failed to decode HSV color from string "' . $input . '"');
         }
 
-        if (!($color instanceof self)) {
+        if (!$color instanceof self) {
             throw new ColorDecoderException(
                 'Failed to decode HSV color from string "' . $input . '"',
             );

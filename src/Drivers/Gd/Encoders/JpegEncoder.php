@@ -37,7 +37,7 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
         )->toColorspace(Rgb::class);
 
 
-        if (!($backgroundColor instanceof RgbColor)) {
+        if (!$backgroundColor instanceof RgbColor) {
             throw new ModifierException('Failed to normalize background color to rgb color space');
         }
 

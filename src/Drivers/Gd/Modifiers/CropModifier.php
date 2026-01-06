@@ -35,7 +35,7 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
         $crop = $this->crop($image);
         $background = $this->backgroundColor()->toColorspace(RgbColorspace::class);
 
-        if (!($background instanceof RgbColor)) {
+        if (!$background instanceof RgbColor) {
             throw new ModifierException('Failed to normalize background color to rgb color space');
         }
 

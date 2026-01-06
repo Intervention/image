@@ -31,7 +31,7 @@ class BackgroundModifier extends GenericBackgroundModifier implements Specialize
     {
         $backgroundColor = $this->backgroundColor($this->driver())->toColorspace(RgbColorspace::class);
 
-        if (!($backgroundColor instanceof RgbColor)) {
+        if (!$backgroundColor instanceof RgbColor) {
             throw new ModifierException('Failed to normalize background color to rgb color space');
         }
 

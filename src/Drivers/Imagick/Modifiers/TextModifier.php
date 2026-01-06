@@ -145,7 +145,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
     {
         $processor = $this->driver()->fontProcessor();
 
-        if (!($processor instanceof FontProcessor)) {
+        if (!$processor instanceof FontProcessor) {
             throw new DriverException('Font processor does not match the driver');
         }
 

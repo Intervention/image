@@ -55,7 +55,7 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
         // normalize color to rgb colorspace
         $background = $background->toColorspace(Rgb::class);
 
-        if (!($background instanceof RgbColor)) {
+        if (!$background instanceof RgbColor) {
             throw new ModifierException('Failed to normalize background color to rgb color space');
         }
 

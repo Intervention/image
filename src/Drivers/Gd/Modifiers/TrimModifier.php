@@ -89,9 +89,9 @@ class TrimModifier extends GenericTrimModifier implements SpecializedInterface
                 );
             }
 
-            $red += round(round(($rgb['red'] / 51)) * 51);
-            $green += round(round(($rgb['green'] / 51)) * 51);
-            $blue += round(round(($rgb['blue'] / 51)) * 51);
+            $red += round(round($rgb['red'] / 51) * 51);
+            $green += round(round($rgb['green'] / 51) * 51);
+            $blue += round(round($rgb['blue'] / 51) * 51);
         }
 
         $red = (int) round($red / 4);

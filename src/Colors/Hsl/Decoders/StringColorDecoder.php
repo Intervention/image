@@ -16,7 +16,7 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
      * Regex pattern of HSL color syntax
      */
     private const string PATTERN =
-        '/^hsla? ?\( ?' .
+    '/^hsla? ?\( ?' .
         '(?P<h>[0-9\.]+)(?:deg)?((, ?)| )' .
         '(?P<s>[0-9\.]+%?)((, ?)| )' .
         '(?P<l>[0-9\.]+%?)' .
@@ -53,11 +53,9 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
             throw new InvalidArgumentException('Invalid hsl() color syntax "' . $input . '"');
         }
 
-        $values = array_map(function (string $value): int {
-            return match (strpos($value, '%')) {
-                false => intval(trim($value)),
-                default => intval(trim(str_replace('%', '', $value))),
-            };
+        $values = array_map(fn(string $value): int => match (strpos($value, '%')) {
+            false => intval(trim($value)),
+            default => intval(trim(str_replace('%', '', $value))),
         }, [$matches['h'], $matches['s'], $matches['l']]);
 
         // alpha value

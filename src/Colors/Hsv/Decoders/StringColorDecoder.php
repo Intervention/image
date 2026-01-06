@@ -16,7 +16,7 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
      * Regex pattern of hsv/b color syntax.
      */
     private const string PATTERN =
-        '/^hs(v|b) ?\( ?(' .
+    '/^hs(v|b) ?\( ?(' .
         '?P<h>[0-9\.]+)(?:deg)?((, ?)| )' .
         '(?P<s>[0-9\.]+%?)((, ?)| )' .
         '(?P<v>[0-9\.]+%?)' .
@@ -53,11 +53,9 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
             throw new InvalidArgumentException('Invalid hsv() or hsb() color syntax "' . $input . '"');
         }
 
-        $values = array_map(function (string $value): int {
-            return match (strpos($value, '%')) {
-                false => intval(trim($value)),
-                default => intval(trim(str_replace('%', '', $value))),
-            };
+        $values = array_map(fn(string $value): int => match (strpos($value, '%')) {
+            false => intval(trim($value)),
+            default => intval(trim(str_replace('%', '', $value))),
         }, [$matches['h'], $matches['s'], $matches['v']]);
 
         // alpha value

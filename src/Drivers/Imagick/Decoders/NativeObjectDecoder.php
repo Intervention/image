@@ -53,7 +53,7 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
         // grayscale colorspace images as this results images loosing color
         // information when placed into this image.
         try {
-            if ($input->getImageColorspace() == Imagick::COLORSPACE_GRAY) {
+            if ($input->getImageColorspace() === Imagick::COLORSPACE_GRAY) {
                 $input->setImageColorspace(Imagick::COLORSPACE_SRGB);
             }
         } catch (ImagickException $e) {

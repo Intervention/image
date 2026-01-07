@@ -54,9 +54,11 @@ interface DriverInterface
     public function createImage(int $width, int $height): ImageInterface;
 
     /**
-     * Create new core instance from given native image element or empty core.
+     * Create new core instance from array of frame objects.
+     *
+     * @param array<int|string, FrameInterface> $frames
      */
-    public function createCore(mixed $native = null): CoreInterface;
+    public function createCore(array $frames): CoreInterface;
 
     /**
      * Handle given image source by decoding it to ImageInterface.

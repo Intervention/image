@@ -88,15 +88,9 @@ class Driver extends AbstractDriver
      *
      * @see DriverInterface::createCore()
      */
-    public function createCore(mixed $native = null): CoreInterface
+    public function createCore(array $frames): CoreInterface
     {
-        return new Core(
-            match (true) {
-                is_array($native) => $native,
-                ($native instanceof GDImage) => [$native],
-                default => [],
-            }
-        );
+        return new Core($frames);
     }
 
     /**

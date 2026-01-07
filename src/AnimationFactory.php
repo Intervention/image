@@ -70,13 +70,10 @@ class AnimationFactory implements AnimationFactoryInterface
     {
         $frames = array_map($this->buildFrame(...), $this->sources, $this->delays);
 
-        $core = $this->driver->createCore();
-
-        foreach ($frames as $frame) {
-            $core->add($frame);
-        }
-
-        return new Image($this->driver, $core);
+        return new Image(
+            $this->driver,
+            $this->driver->createCore($frames),
+        );
     }
 
     /**

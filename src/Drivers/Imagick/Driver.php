@@ -81,9 +81,14 @@ class Driver extends AbstractDriver
      *
      * @see DriverInterface::createCore()
      */
-    public function createCore(mixed $native = null): CoreInterface
+    public function createCore(array $frames): CoreInterface
     {
-        return new Core(new Imagick());
+        $core = new Core(new Imagick());
+        foreach ($frames as $frame) {
+            $core->add($frame);
+        }
+
+        return $core;
     }
 
     /**

@@ -18,7 +18,7 @@ class Core extends Collection implements CoreInterface
     /**
      * Create new core
      *
-     * @param array<int|string, Frame> $items
+     * @param array<int|string, FrameInterface> $items
      */
     public function __construct(array $items = [])
     {

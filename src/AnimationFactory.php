@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
+use Error;
 use Intervention\Gif\DisposalMethod;
 use Intervention\Image\Interfaces\AnimationFactoryInterface;
 use Intervention\Image\Interfaces\DriverInterface;
@@ -12,6 +13,11 @@ use Intervention\Image\Interfaces\ImageInterface;
 
 class AnimationFactory implements AnimationFactoryInterface
 {
+    /**
+     * Current frame number.
+     */
+    protected int $currentFrameNumber = 0;
+
     /**
      * Image source of animation frames.
      *
@@ -25,6 +31,20 @@ class AnimationFactory implements AnimationFactoryInterface
      * @var array<float>
      */
     protected array $delays = [];
+
+    /**
+     * Frame processing call names.
+     *
+     * @var array<null|string>
+     */
+    protected array $processingCalls = [];
+
+    /**
+     * Frame processing call arguments.
+     *
+     * @var array<null|array<mixed>>
+     */
+    protected array $processingArguments = [];
 
     /**
      * Create new instance.
@@ -55,8 +75,12 @@ class AnimationFactory implements AnimationFactoryInterface
      */
     public function add(mixed $source, float $delay = 1): AnimationFactoryInterface
     {
-        $this->sources[] = $source;
-        $this->delays[] = $delay;
+        $this->currentFrameNumber++;
+
+        $this->sources[$this->currentFrameNumber] = $source;
+        $this->delays[$this->currentFrameNumber] = $delay;
+        $this->processingCalls[$this->currentFrameNumber] = null;
+        $this->processingArguments[$this->currentFrameNumber] = null;
 
         return $this;
     }
@@ -64,11 +88,17 @@ class AnimationFactory implements AnimationFactoryInterface
     /**
      * {@inheritdoc}
      *
-     * @see AnimationFactoryInterface::add()
+     * @see AnimationFactoryInterface::animation()
      */
     public function animation(): ImageInterface
     {
-        $frames = array_map($this->buildFrame(...), $this->sources, $this->delays);
+        $frames = array_map(
+            $this->buildFrame(...),
+            $this->sources,
+            $this->delays,
+            $this->processingCalls,
+            $this->processingArguments,
+        );
 
         return new Image(
             $this->driver,
@@ -78,15 +108,26 @@ class AnimationFactory implements AnimationFactoryInterface
 
     /**
      * Build frame from given image source and delay.
+     *
+     * @param null|array<mixed> $processingArguments
      */
-    private function buildFrame(mixed $source, float $delay): FrameInterface
-    {
+    private function buildFrame(
+        mixed $source,
+        float $delay,
+        ?string $processingCall = null,
+        ?array $processingArguments = null,
+    ): FrameInterface {
         // decode image source
         $image = $this->driver->handleImageInput($source);
 
         // adjust size if necessary
         if ($image->width() !== $this->width || $image->height() !== $this->height) {
-            $image->cover($this->width, $this->height); // todo: make resizing method selectable by api
+            $image->cover($this->width, $this->height);
+        }
+
+        // apply processing call if available
+        if ($processingCall) {
+            call_user_func_array([$image, $processingCall], $processingArguments);
         }
 
         // make sure to have to given output size only if resizing method is selectable by api
@@ -98,5 +139,22 @@ class AnimationFactory implements AnimationFactoryInterface
             ->first()
             ->setDelay($delay)
             ->setDisposalMethod(DisposalMethod::BACKGROUND->value);
+    }
+
+    /**
+     * Collect processing calls on frame images.
+     *
+     * @param array<null|array<mixed>> $arguments
+     */
+    public function __call(string $name, array $arguments): self
+    {
+        if (!method_exists(Image::class, $name)) {
+            throw new Error('Call to undefined method ' . Image::class . '::' . $name . '()');
+        }
+
+        $this->processingCalls[$this->currentFrameNumber] = $name;
+        $this->processingArguments[$this->currentFrameNumber] = $arguments;
+
+        return $this;
     }
 }

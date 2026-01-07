@@ -63,12 +63,7 @@ class Driver extends AbstractDriver
 
             $imagick = new Imagick();
             $imagick->newImage($width, $height, $background, 'png');
-            $imagick->setType(Imagick::IMGTYPE_UNDEFINED);
-            $imagick->setImageType(Imagick::IMGTYPE_UNDEFINED);
-            $imagick->setColorspace(Imagick::COLORSPACE_SRGB);
-            $imagick->setImageResolution(72, 72);
-            $imagick->setImageUnits(Imagick::RESOLUTION_PIXELSPERINCH);
-            $imagick->setImageBackgroundColor($background);
+            $this->applyDefaultSettings($imagick);
         } catch (ImagickException $e) {
             throw new DriverException('Failed to create new image', previous: $e);
         }
@@ -84,9 +79,12 @@ class Driver extends AbstractDriver
     public function createCore(array $frames): CoreInterface
     {
         $core = new Core(new Imagick());
+
         foreach ($frames as $frame) {
             $core->add($frame);
         }
+
+        $this->applyDefaultSettings($core->native());
 
         return $core;
     }
@@ -143,5 +141,29 @@ class Driver extends AbstractDriver
         }
 
         return $matches['version'];
+    }
+
+    /**
+     * Apply default settings for native image object.
+     *
+     * @throws DriverException
+     */
+    private function applyDefaultSettings(Imagick $imagick): Imagick
+    {
+        try {
+            $background = new ImagickPixel('rgba(255, 255, 255, 0)');
+
+            $imagick->setType(Imagick::IMGTYPE_UNDEFINED);
+            $imagick->setImageType(Imagick::IMGTYPE_UNDEFINED);
+            $imagick->setColorspace(Imagick::COLORSPACE_SRGB);
+            $imagick->setImageResolution(72, 72);
+            $imagick->setImageUnits(Imagick::RESOLUTION_PIXELSPERINCH);
+            $imagick->setImageBackgroundColor($background);
+            $imagick->setImageIterations(0);
+
+            return $imagick;
+        } catch (ImagickException $e) {
+            throw new DriverException('Failed to apply default image settings', previous: $e);
+        }
     }
 }

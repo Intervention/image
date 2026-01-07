@@ -9,8 +9,10 @@ use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Providers\DriverProvider;
 use Intervention\Image\Tests\Resource;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
 
+#[CoversClass(AnimationFactory::class)]
 class AnimationFactoryTest extends BaseTestCase
 {
     #[DataProviderExternal(DriverProvider::class, 'drivers')]
@@ -22,10 +24,10 @@ class AnimationFactoryTest extends BaseTestCase
             $animation->add(Resource::create('blue.gif')->path(), .2);
         });
 
-        // $this->assertEquals(12, $image->width());
-        // $this->assertEquals(4, $image->height());
-        // $this->assertEquals(3, $image->count());
-        // $this->assertEquals(0, $image->loops());
+        $this->assertEquals(12, $image->width());
+        $this->assertEquals(4, $image->height());
+        $this->assertEquals(3, $image->count());
+        $this->assertEquals(0, $image->loops());
         foreach ($image as $frame) {
             $this->assertEquals(.2, $frame->delay());
         }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
-interface CoreInterface extends CollectionInterface // todo: decouple from CollectionInterface
+interface CoreInterface extends CollectionInterface
 {
     /**
      * return driver's representation of the image core..

@@ -255,7 +255,14 @@ class Size extends Polygon implements SizeInterface
      */
     public function resize(?int $width = null, ?int $height = null): SizeInterface
     {
-        return $this->resizer($width, $height)->resize($this);
+        try {
+            return $this->resizer($width, $height)->resize($this);
+        } catch (InvalidArgumentException $e) {
+            throw new InvalidArgumentException(
+                'Invalid target size ' . $width . 'x' . $height,
+                previous: $e,
+            );
+        }
     }
 
     /**
@@ -267,7 +274,14 @@ class Size extends Polygon implements SizeInterface
      */
     public function resizeDown(?int $width = null, ?int $height = null): SizeInterface
     {
-        return $this->resizer($width, $height)->resizeDown($this);
+        try {
+            return $this->resizer($width, $height)->resizeDown($this);
+        } catch (InvalidArgumentException $e) {
+            throw new InvalidArgumentException(
+                'Invalid target size ' . $width . 'x' . $height,
+                previous: $e,
+            );
+        }
     }
 
     /**
@@ -279,7 +293,14 @@ class Size extends Polygon implements SizeInterface
      */
     public function scale(?int $width = null, ?int $height = null): SizeInterface
     {
-        return $this->resizer($width, $height)->scale($this);
+        try {
+            return $this->resizer($width, $height)->scale($this);
+        } catch (InvalidArgumentException $e) {
+            throw new InvalidArgumentException(
+                'Invalid target size ' . $width . 'x' . $height,
+                previous: $e,
+            );
+        }
     }
 
     /**
@@ -291,7 +312,14 @@ class Size extends Polygon implements SizeInterface
      */
     public function scaleDown(?int $width = null, ?int $height = null): SizeInterface
     {
-        return $this->resizer($width, $height)->scaleDown($this);
+        try {
+            return $this->resizer($width, $height)->scaleDown($this);
+        } catch (InvalidArgumentException $e) {
+            throw new InvalidArgumentException(
+                'Invalid target size ' . $width . 'x' . $height,
+                previous: $e,
+            );
+        }
     }
 
     /**
@@ -305,7 +333,7 @@ class Size extends Polygon implements SizeInterface
     {
         try {
             return $this->resizer($width, $height)->cover($this);
-        } catch (StateException $e) {
+        } catch (InvalidArgumentException | StateException $e) {
             throw new InvalidArgumentException(
                 'Invalid target size ' . $width . 'x' . $height,
                 previous: $e,

@@ -74,37 +74,37 @@ interface SizeInterface
     public function relativePositionTo(self $size): PointInterface;
 
     /**
-     * @see ImageInterface::resize()
+     * @see Resizer::resize()
      */
     public function resize(?int $width = null, ?int $height = null): self;
 
     /**
-     * @see ImageInterface::resizeDown()
+     * @see Resizer::resizeDown()
      */
     public function resizeDown(?int $width = null, ?int $height = null): self;
 
     /**
-     * @see ImageInterface::scale()
+     * @see Resizer::scale()
      */
     public function scale(?int $width = null, ?int $height = null): self;
 
     /**
-     * @see ImageInterface::scaleDown()
+     * @see Resizer::scaleDown()
      */
     public function scaleDown(?int $width = null, ?int $height = null): self;
 
     /**
-     * @see ImageInterface::cover()
+     * @see Resizer::cover()
      */
     public function cover(int $width, int $height): self;
 
     /**
-     * @see ImageInterface::contain()
+     * @see Resizer::contain()
      */
     public function contain(int $width, int $height): self;
 
     /**
-     * @see ImageInterface::pad()
+     * @see Resizer::containDown()
      */
     public function containDown(int $width, int $height): self;
 }

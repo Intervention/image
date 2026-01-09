@@ -299,10 +299,10 @@ final class RectangleTest extends BaseTestCase
         $this->assertEquals(1200, $result->height());
     }
 
-    public function testContainMax(): void
+    public function testContainDown(): void
     {
         $rectangle = new Rectangle(800, 600);
-        $result = $rectangle->containMax(1600, 1200);
+        $result = $rectangle->containDown(1600, 1200);
         $this->assertEquals(800, $result->width());
         $this->assertEquals(600, $result->height());
     }

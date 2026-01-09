@@ -288,7 +288,7 @@ class Resizer
     }
 
     /**
-     * Scale given size to contain target size.
+     * Scale the given size up or down so that the result can fit into the target size.
      *
      * @param SizeInterface $size Size to be resized
      * @throws InvalidArgumentException
@@ -312,13 +312,13 @@ class Resizer
     }
 
     /**
-     * Scale given size to contain target size but prevent upsizing.
+     * Scale the given size down so that the result can fit into the target size.
      *
      * @param SizeInterface $size Size to be resized
      * @throws InvalidArgumentException
      * @throws StateException
      */
-    public function containDown(SizeInterface $size): SizeInterface // todo: rename to pad()
+    public function containDown(SizeInterface $size): SizeInterface
     {
         $resized = new Size($size->width(), $size->height());
 

@@ -106,5 +106,5 @@ interface SizeInterface
     /**
      * @see ImageInterface::pad()
      */
-    public function containMax(int $width, int $height): self;
+    public function containDown(int $width, int $height): self;
 }

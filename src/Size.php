@@ -335,14 +335,14 @@ class Size extends Polygon implements SizeInterface
     /**
      * {@inheritdoc}
      *
-     * @see SizeInterface::pad()
+     * @see SizeInterface::containMax()
      *
      * @throws InvalidArgumentException
      */
-    public function pad(int $width, int $height): SizeInterface
+    public function containMax(int $width, int $height): SizeInterface
     {
         try {
-            return $this->resizer($width, $height)->pad($this);
+            return $this->resizer($width, $height)->containDown($this);
         } catch (StateException $e) {
             throw new InvalidArgumentException(
                 'Invalid target size ' . $width . 'x' . $height,

@@ -18,7 +18,7 @@ class PadModifier extends ContainModifier
     protected function cropSize(ImageInterface $image): SizeInterface
     {
         return $image->size()
-            ->pad(
+            ->containMax(
                 $this->width,
                 $this->height
             )

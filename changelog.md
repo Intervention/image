@@ -75,6 +75,7 @@
 - ImageInterface::greyscale() was renamed to ImageInterface::grayscale()
 - ColorInterface::isGreyscale() was renamed to ColorInterface::isGrayscale()
 - ColorInterface::normalize() was renamed to ColorInterface::normalizedChannelValues()
+- Alpha channel values in __construct() or create() methods of colors are now defined as float values (0-1)
 - ImageInterface::place() was renamed to ImageInterface::insert, signature changed from `offset_x` to `x` and `offset_y` to `y` and updated argument order
 - DrawableFactoryInterface::__invoke() was removed, use DrawableFactoryInterface::build or DrawableFactoryInterface::drawable()
 - FontFactory::__invoke() was removed, use FontFactory::build or FontFactory::font()

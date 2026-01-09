@@ -13,10 +13,13 @@ use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Format;
 use Intervention\Image\Modifiers\AlignRotationModifier;
+use Intervention\Image\Traits\CanDetectBinaryData;
 use Stringable;
 
 class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
 {
+    use CanDetectBinaryData;
+
     /**
      * {@inheritdoc}
      *
@@ -24,23 +27,7 @@ class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
      */
     public function supports(mixed $input): bool
     {
-        if (!is_string($input) && !$input instanceof Stringable) {
-            return false;
-        }
-
-        $input = (string) $input;
-
-        // contains non printable ascii
-        if (preg_match('/[^ -~]/', $input) === 1) {
-            return true;
-        }
-
-        // contains only printable ascii
-        if (preg_match('/^[ -~]+$/', $input) === 1) {
-            return false;
-        }
-
-        return true;
+        return $this->isBinary($input);
     }
 
     /**

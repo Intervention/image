@@ -30,6 +30,12 @@ abstract class FloatColorChannel extends AbstractColorChannel
      */
     public static function fromNormalized(float $normalized): self
     {
+        if ($normalized < 0 || $normalized > 1) {
+            throw new InvalidArgumentException(
+                'Normalized color channel value of ' . static::class . ' must be in range 0 to 1',
+            );
+        }
+
         return new static(static::min() + $normalized * (static::max() - static::min()));
     }
 

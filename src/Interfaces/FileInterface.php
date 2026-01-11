@@ -16,7 +16,7 @@ interface FileInterface extends Stringable
     /**
      * Save data in given path in file system.
      */
-    public function save(string $filepath): void;
+    public function save(string $path): void;
 
     /**
      * Create file pointer from encoded data.

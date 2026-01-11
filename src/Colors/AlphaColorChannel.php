@@ -18,7 +18,13 @@ abstract class AlphaColorChannel extends AbstractColorChannel
      */
     final public function __construct(float $value)
     {
-        $this->value = intval(round($this->validValueOrFail($value) * $this->max()));
+        if ($value < 0 || $value > 1) {
+            throw new InvalidArgumentException(
+                'Color channel value of ' . static::class . ' must be in range 0 to 1',
+            );
+        }
+
+        $this->value = $this->validValueOrFail(intval(round($value * $this->max())));
     }
 
     /**
@@ -30,12 +36,6 @@ abstract class AlphaColorChannel extends AbstractColorChannel
      */
     public static function fromNormalized(float $normalized): self
     {
-        if ($normalized < 0 || $normalized > 1) {
-            throw new InvalidArgumentException(
-                'Normalized color channel value of ' . static::class . ' must be in range 0 to 1',
-            );
-        }
-
         return new static($normalized);
     }
 
@@ -76,6 +76,6 @@ abstract class AlphaColorChannel extends AbstractColorChannel
      */
     public function toString(): string
     {
-        return strval(round($this->value() / $this->max(), 2));
+        return strval($this->normalizedValue(2));
     }
 }

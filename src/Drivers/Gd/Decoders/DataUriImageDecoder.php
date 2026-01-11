@@ -13,9 +13,12 @@ use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Traits\CanDetectImageSources;
 
 class DataUriImageDecoder extends BinaryImageDecoder implements DecoderInterface
 {
+    use CanDetectImageSources;
+
     /**
      * {@inheritdoc}
      *
@@ -23,7 +26,7 @@ class DataUriImageDecoder extends BinaryImageDecoder implements DecoderInterface
      */
     public function supports(mixed $input): bool
     {
-        return is_string($input) && str_starts_with($input, 'data:');
+        return $this->couldBeDataUrl($input);
     }
 
     /**

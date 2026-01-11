@@ -13,12 +13,12 @@ use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Format;
 use Intervention\Image\Modifiers\AlignRotationModifier;
-use Intervention\Image\Traits\CanDetectBinaryData;
+use Intervention\Image\Traits\CanDetectImageSources;
 use Stringable;
 
 class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
 {
-    use CanDetectBinaryData;
+    use CanDetectImageSources;
 
     /**
      * {@inheritdoc}
@@ -27,7 +27,7 @@ class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
      */
     public function supports(mixed $input): bool
     {
-        return $this->isBinary($input);
+        return $this->couldBeBinaryData($input);
     }
 
     /**

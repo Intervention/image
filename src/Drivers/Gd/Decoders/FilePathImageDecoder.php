@@ -17,11 +17,13 @@ use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\MediaType;
 use Intervention\Image\Modifiers\AlignRotationModifier;
-use Stringable;
+use Intervention\Image\Traits\CanDetectImageSources;
 use Throwable;
 
 class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterface
 {
+    use CanDetectImageSources;
+
     /**
      * {@inheritdoc}
      *
@@ -29,25 +31,7 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
      */
     public function supports(mixed $input): bool
     {
-        if (!is_string($input) && !$input instanceof Stringable) {
-            return false;
-        }
-
-        $input = (string) $input;
-
-        if (strlen($input) > PHP_MAXPATHLEN) {
-            return false;
-        }
-
-        if (str_starts_with($input, DIRECTORY_SEPARATOR)) {
-            return true;
-        }
-
-        if (preg_match('/[^ -~]/', $input) === 1) {
-            return false;
-        }
-
-        return true;
+        return $this->couldBeFilePath($input);
     }
 
     /**

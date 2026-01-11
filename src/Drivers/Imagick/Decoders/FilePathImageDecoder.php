@@ -14,10 +14,12 @@ use Intervention\Image\Exceptions\ImageDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
-use Stringable;
+use Intervention\Image\Traits\CanDetectImageSources;
 
 class FilePathImageDecoder extends NativeObjectDecoder
 {
+    use CanDetectImageSources;
+
     /**
      * {@inheritdoc}
      *
@@ -25,26 +27,7 @@ class FilePathImageDecoder extends NativeObjectDecoder
      */
     public function supports(mixed $input): bool
     {
-        // todo: centralize code for all drivers
-        if (!is_string($input) && !$input instanceof Stringable) {
-            return false;
-        }
-
-        $input = (string) $input;
-
-        if (strlen($input) > PHP_MAXPATHLEN) {
-            return false;
-        }
-
-        if (str_starts_with($input, DIRECTORY_SEPARATOR)) {
-            return true;
-        }
-
-        if (preg_match('/[^ -~]/', $input) === 1) {
-            return false;
-        }
-
-        return true;
+        return $this->couldBeFilePath($input);
     }
 
     /**

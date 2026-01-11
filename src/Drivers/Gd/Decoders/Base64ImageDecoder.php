@@ -8,10 +8,12 @@ use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\ImageDecoderException;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Stringable;
+use Intervention\Image\Traits\CanDetectImageSources;
 
 class Base64ImageDecoder extends BinaryImageDecoder implements DecoderInterface
 {
+    use CanDetectImageSources;
+
     /**
      * {@inheritdoc}
      *
@@ -19,17 +21,7 @@ class Base64ImageDecoder extends BinaryImageDecoder implements DecoderInterface
      */
     public function supports(mixed $input): bool
     {
-        if (!is_string($input) && !$input instanceof Stringable) {
-            return false;
-        }
-
-        $input = (string) $input;
-
-        if (str_ends_with($input, '=')) {
-            return true;
-        }
-
-        return preg_match('/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/', $input) === 1;
+        return $this->couldBeBase64Data($input);
     }
 
     /**

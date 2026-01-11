@@ -12,12 +12,12 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Format;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Traits\CanDetectBinaryData;
+use Intervention\Image\Traits\CanDetectImageSources;
 use Stringable;
 
 class BinaryImageDecoder extends NativeObjectDecoder
 {
-    use CanDetectBinaryData;
+    use CanDetectImageSources;
 
     /**
      * {@inheritdoc}
@@ -26,7 +26,7 @@ class BinaryImageDecoder extends NativeObjectDecoder
      */
     public function supports(mixed $input): bool
     {
-        return $this->isBinary($input);
+        return $this->couldBeBinaryData($input);
     }
 
     /**

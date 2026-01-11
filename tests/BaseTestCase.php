@@ -22,7 +22,7 @@ abstract class BaseTestCase extends MockeryTestCase
     protected function assertColor(int $r, int $g, int $b, int $a, ColorInterface $color, int $tolerance = 0): void
     {
         // build errorMessage
-        $errorMessage = function (int $r, int $g, $b, int $a, ColorInterface $color): string {
+        $errorMessage = function (int $r, int $g, int $b, int $a, ColorInterface $color): string {
             $color = 'rgba(' . implode(', ', [
                 $color->channel(Red::class)->value(),
                 $color->channel(Green::class)->value(),
@@ -38,34 +38,16 @@ abstract class BaseTestCase extends MockeryTestCase
             ]);
         };
 
-        // build color channel value range
-        $range = function (int $base, int $tolerance): array {
-            return range(max($base - $tolerance, 0), min($base + $tolerance, 255));
-        };
-
-        $this->assertContains(
-            $color->channel(Red::class)->value(),
-            $range($r, $tolerance),
-            $errorMessage($r, $g, $b, $a, $color)
-        );
-
-        $this->assertContains(
-            $color->channel(Green::class)->value(),
-            $range($g, $tolerance),
-            $errorMessage($r, $g, $b, $a, $color)
-        );
-
-        $this->assertContains(
-            $color->channel(Blue::class)->value(),
-            $range($b, $tolerance),
-            $errorMessage($r, $g, $b, $a, $color)
-        );
-
-        $this->assertContains(
-            $color->channel(Alpha::class)->value(),
-            $range($a, $tolerance),
-            $errorMessage($r, $g, $b, $a, $color)
-        );
+        foreach ([Red::class => $r, Green::class => $g, Blue::class => $b, Alpha::class => $a] as $channel => $value) {
+            $this->assertThat(
+                $color->channel($channel)->value(),
+                $this->logicalAnd(
+                    $this->greaterThanOrEqual(max($channel::min(), $value - $tolerance)),
+                    $this->lessThanOrEqual(min($channel::max(), $value + $tolerance))
+                ),
+                message: $errorMessage($r, $g, $b, $a, $color)
+            );
+        }
     }
 
     protected function assertBetween(int|float $min, int|float $max, int|float $value): void

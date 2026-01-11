@@ -345,15 +345,15 @@ class Resizer
     }
 
     /**
-     * Crop target size out of given size at given position (i.e. move the pivot point).
+     * Crop target size out of given size at given alignment position (i.e. move the pivot point).
      *
      * @throws InvalidArgumentException
      */
-    public function crop(SizeInterface $size, string|Alignment $position = Alignment::TOP_LEFT): SizeInterface
+    public function crop(SizeInterface $size, string|Alignment $alignment = Alignment::TOP_LEFT): SizeInterface
     {
         return $this->resize($size)->alignPivotTo(
-            $size->movePivot($position),
-            $position
+            $size->movePivot($alignment),
+            $alignment
         );
     }
 }

@@ -261,7 +261,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
      *
      * @throws InvalidArgumentException
      */
-    public function align(string|Alignment $position): self
+    public function align(string|Alignment $position): self // todo: rename to alignHorizontally() and add align() for universal alignment
     {
         $diff = match (Alignment::create($position)) {
             Alignment::CENTER => $this->centerPoint()->x() - $this->pivot()->x(),

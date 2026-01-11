@@ -74,7 +74,6 @@
 - GreyscaleModifier::class was renamed to GrayscaleModifier::class
 - ImageInterface::greyscale() was renamed to ImageInterface::grayscale()
 - ColorInterface::isGreyscale() was renamed to ColorInterface::isGrayscale()
-- ColorInterface::normalize() was renamed to ColorInterface::normalizedChannelValues()
 - Alpha channel values in __construct() or create() methods of colors are now defined as float values (0-1)
 - ImageInterface::place() was renamed to ImageInterface::insert, signature changed from `offset_x` to `x` and `offset_y` to `y` and updated argument order
 - DrawableFactoryInterface::__invoke() was removed, use DrawableFactoryInterface::build or DrawableFactoryInterface::drawable()
@@ -127,5 +126,6 @@ caller, Operation fails after valid input
 - Removed topLeftPoint() and bottomRightPoint() from Rectangle::class
 - Removed ColorChannelInterface::__construct() from interface
 - Removed ColorInterface::toArray() use ColorInterface::channels() and map to desired format
+- Removed ColorInterface::normalize() use ColorInterface::channels() and map to desired format
 - Method ImageManagerInterface::animate() is replaced by universal ImageManagerInterface::createImage()
 - Method DriverInterface::createAnimation() was removed

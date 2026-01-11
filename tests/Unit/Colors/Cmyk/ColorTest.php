@@ -12,6 +12,7 @@ use Intervention\Image\Colors\Cmyk\Channels\Yellow;
 use Intervention\Image\Colors\Cmyk\Color;
 use Intervention\Image\Colors\Cmyk\Colorspace;
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[CoversClass(Color::class)]
@@ -92,7 +93,13 @@ final class ColorTest extends BaseTestCase
     public function testNormalize(): void
     {
         $color = new Color(100, 50, 20, 0);
-        $this->assertEquals([1.0, 0.5, 0.2, 0.0], $color->normalizedChannelValues());
+        $this->assertEquals(
+            [1.0, 0.5, 0.2, 0.0],
+            array_map(
+                fn(ColorChannelInterface $channel): float => $channel->normalizedValue(),
+                $color->channels(),
+            )
+        );
     }
 
     public function testToString(): void

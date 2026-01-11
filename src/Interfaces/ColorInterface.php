@@ -37,13 +37,6 @@ interface ColorInterface extends Stringable
     public function channels(): array;
 
     /**
-     * Return array of normalized color channel values.
-     *
-     * @return array<float>
-     */
-    public function normalizedChannelValues(): array;
-
-    /**
      * Retrieve the color channel by its classname.
      */
     public function channel(string $classname): ColorChannelInterface;

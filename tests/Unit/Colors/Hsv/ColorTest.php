@@ -11,6 +11,7 @@ use Intervention\Image\Colors\Hsv\Channels\Value;
 use Intervention\Image\Colors\Hsv\Color;
 use Intervention\Image\Colors\Hsv\Colorspace;
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[CoversClass(Color::class)]
@@ -79,10 +80,22 @@ final class ColorTest extends BaseTestCase
     public function testNormalize(): void
     {
         $color = new Color(180, 50, 25);
-        $this->assertEquals([.5, 0.5, 0.25, 1], $color->normalizedChannelValues());
+        $this->assertEquals(
+            [.5, 0.5, 0.25, 1],
+            array_map(
+                fn(ColorChannelInterface $channel): float => $channel->normalizedValue(),
+                $color->channels(),
+            )
+        );
 
         $color = new Color(180, 50, 25, .2);
-        $this->assertEquals([.5, 0.5, 0.25, .2], $color->normalizedChannelValues());
+        $this->assertEquals(
+            [.5, 0.5, 0.25, .2],
+            array_map(
+                fn(ColorChannelInterface $channel): float => $channel->normalizedValue(),
+                $color->channels(),
+            )
+        );
     }
 
     public function testToString(): void

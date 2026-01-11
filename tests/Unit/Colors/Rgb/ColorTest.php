@@ -113,13 +113,31 @@ final class ColorTest extends BaseTestCase
     public function testNormalize(): void
     {
         $color = new Color(255, 0, 51);
-        $this->assertEquals([1.0, 0.0, 0.2, 1.0], $color->normalizedChannelValues());
+        $this->assertEquals(
+            [1.0, 0.0, 0.2, 1.0],
+            array_map(
+                fn(ColorChannelInterface $channel): float => $channel->normalizedValue(),
+                $color->channels(),
+            )
+        );
 
         $color = new Color(255, 0, 51, 1);
-        $this->assertEquals([1.0, 0.0, 0.2, 1.0], $color->normalizedChannelValues());
+        $this->assertEquals(
+            [1.0, 0.0, 0.2, 1.0],
+            array_map(
+                fn(ColorChannelInterface $channel): float => $channel->normalizedValue(),
+                $color->channels(),
+            )
+        );
 
         $color = new Color(255, 0, 51, .2);
-        $this->assertEquals([1.0, 0.0, 0.2, .2], $color->normalizedChannelValues());
+        $this->assertEquals(
+            [1.0, 0.0, 0.2, .2],
+            array_map(
+                fn(ColorChannelInterface $channel): float => $channel->normalizedValue(),
+                $color->channels(),
+            )
+        );
     }
 
     public function testToString(): void

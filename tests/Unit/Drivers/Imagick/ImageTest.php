@@ -18,6 +18,7 @@ use Intervention\Image\Exceptions\AnalyzerException;
 use Intervention\Image\Exceptions\EncoderException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Image;
+use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -269,8 +270,8 @@ final class ImageTest extends ImagickTestCase
         $image = $this->readTestImage('gradient.gif');
         $this->assertColor(0, 0, 0, 0, $image->colorAt(1, 0));
         $result = $image->background();
-        $this->assertColor(255, 255, 255, 1, $image->colorAt(1, 0));
-        $this->assertColor(255, 255, 255, 1, $result->colorAt(1, 0));
+        $this->assertColor(255, 255, 255, 255, $image->colorAt(1, 0));
+        $this->assertColor(255, 255, 255, 255, $result->colorAt(1, 0));
     }
 
     public function testBackgroundArgument(): void
@@ -278,17 +279,17 @@ final class ImageTest extends ImagickTestCase
         $image = $this->readTestImage('gradient.gif');
         $this->assertColor(0, 0, 0, 0, $image->colorAt(1, 0));
         $result = $image->background('ff5500');
-        $this->assertColor(255, 85, 0, 1, $image->colorAt(1, 0));
-        $this->assertColor(255, 85, 0, 1, $result->colorAt(1, 0));
+        $this->assertColor(255, 85, 0, 255, $image->colorAt(1, 0));
+        $this->assertColor(255, 85, 0, 255, $result->colorAt(1, 0));
     }
 
     public function testBackgroundIgnoreTransparencyInBackgroundColor(): void
     {
         $image = $this->readTestImage('gradient.gif');
         $this->assertColor(0, 0, 0, 0, $image->colorAt(1, 0));
-        $result = $image->background('ff550055');
-        $this->assertColor(255, 85, 0, .33333333333333, $image->colorAt(1, 0));
-        $this->assertColor(255, 85, 0, .33333333333333, $result->colorAt(1, 0));
+        $result = $image->background('ff550033');
+        $this->assertColor(255, 85, 0, 51, $image->colorAt(1, 0), 1);
+        $this->assertColor(255, 85, 0, 51, $result->colorAt(1, 0), 1);
     }
 
     public function testInvert(): void
@@ -311,15 +312,15 @@ final class ImageTest extends ImagickTestCase
         $result = $image->pixelate(10);
         $this->assertInstanceOf(ImageInterface::class, $result);
 
-        [$r, $g, $b] = $image->colorAt(0, 0)->toArray();
-        $this->assertEquals(0, $r);
-        $this->assertEquals(174, $g);
-        $this->assertEquals(240, $b);
+        $this->assertEquals([0, 174, 240, 255], array_map(
+            fn(ColorChannelInterface $channel): int => $channel->value(),
+            $image->colorAt(0, 0)->channels()
+        ));
 
-        [$r, $g, $b] = $image->colorAt(14, 14)->toArray();
-        $this->assertEquals(107, $r);
-        $this->assertEquals(171, $g);
-        $this->assertEquals(140, $b);
+        $this->assertEquals([107, 171, 140, 255], array_map(
+            fn(ColorChannelInterface $channel): int => $channel->value(),
+            $image->colorAt(14, 14)->channels()
+        ));
     }
 
     public function testGrayscale(): void

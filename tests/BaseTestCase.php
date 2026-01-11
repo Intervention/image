@@ -19,10 +19,10 @@ abstract class BaseTestCase extends MockeryTestCase
     /**
      * Assert that given color equals the given color channel values in the given optional tolerance
      */
-    protected function assertColor(int $r, int $g, int $b, float $a, ColorInterface $color, int $tolerance = 0): void
+    protected function assertColor(int $r, int $g, int $b, int $a, ColorInterface $color, int $tolerance = 0): void
     {
         // build errorMessage
-        $errorMessage = function (int $r, int $g, $b, float $a, ColorInterface $color): string {
+        $errorMessage = function (int $r, int $g, $b, int $a, ColorInterface $color): string {
             $color = 'rgba(' . implode(', ', [
                 $color->channel(Red::class)->value(),
                 $color->channel(Green::class)->value(),
@@ -38,40 +38,33 @@ abstract class BaseTestCase extends MockeryTestCase
             ]);
         };
 
-        $this->assertThat(
+        // build color channel value range
+        $range = function (int $base, int $tolerance): array {
+            return range(max($base - $tolerance, 0), min($base + $tolerance, 255));
+        };
+
+        $this->assertContains(
             $color->channel(Red::class)->value(),
-            $this->logicalAnd(
-                $this->greaterThanOrEqual(max(0, $r - $tolerance)),
-                $this->lessThanOrEqual(min(255, $r + $tolerance))
-            ),
-            message: $errorMessage($r, $g, $b, $a, $color)
+            $range($r, $tolerance),
+            $errorMessage($r, $g, $b, $a, $color)
         );
 
-        $this->assertThat(
+        $this->assertContains(
             $color->channel(Green::class)->value(),
-            $this->logicalAnd(
-                $this->greaterThanOrEqual(max(0, $g - $tolerance)),
-                $this->lessThanOrEqual(min(255, $g + $tolerance))
-            ),
-            message: $errorMessage($r, $g, $b, $a, $color)
+            $range($g, $tolerance),
+            $errorMessage($r, $g, $b, $a, $color)
         );
 
-        $this->assertThat(
+        $this->assertContains(
             $color->channel(Blue::class)->value(),
-            $this->logicalAnd(
-                $this->greaterThanOrEqual(max(0, $b - $tolerance)),
-                $this->lessThanOrEqual(min(255, $b + $tolerance))
-            ),
-            message: $errorMessage($r, $g, $b, $a, $color)
+            $range($b, $tolerance),
+            $errorMessage($r, $g, $b, $a, $color)
         );
 
-        $this->assertThat(
-            round($color->channel(Alpha::class)->value() * 255, 2),
-            $this->logicalAnd(
-                $this->greaterThanOrEqual(round(max(0, $a * 255 - $tolerance), 2)),
-                $this->lessThanOrEqual(round(min(255, $a * 255 + $tolerance), 2))
-            ),
-            message: $errorMessage($r, $g, $b, $a, $color)
+        $this->assertContains(
+            $color->channel(Alpha::class)->value(),
+            $range($a, $tolerance),
+            $errorMessage($r, $g, $b, $a, $color)
         );
     }
 

@@ -9,7 +9,7 @@ use Intervention\Image\Colors\Hsl\Channels\Alpha;
 use Intervention\Image\Colors\Hsl\Channels\Hue;
 use Intervention\Image\Colors\Hsl\Channels\Luminance;
 use Intervention\Image\Colors\Hsl\Channels\Saturation;
-use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
+use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
@@ -23,14 +23,13 @@ class Color extends AbstractColor
     /**
      * Create new color object.
      */
-    public function __construct(int $h, int $s, int $l, float $a = 1)
+    public function __construct(int|Hue $h, int|Saturation $s, int|Luminance $l, float|Alpha $a = 1)
     {
-        /** @throws void */
         $this->channels = [
-            new Hue($h),
-            new Saturation($s),
-            new Luminance($l),
-            new Alpha($a),
+            is_int($h) ? new Hue($h) : $h,
+            is_int($s) ? new Saturation($s) : $s,
+            is_int($l) ? new Luminance($l) : $l,
+            is_float($a) ? new Alpha($a) : $a,
         ];
     }
 
@@ -137,7 +136,7 @@ class Color extends AbstractColor
             );
         }
 
-        return $this->toColorspace(RgbColorspace::class)->toHex($prefix);
+        return $this->toColorspace(Rgb::class)->toHex($prefix);
     }
 
     /**
@@ -147,8 +146,18 @@ class Color extends AbstractColor
      */
     public function toString(): string
     {
+        if ($this->isTransparent()) {
+            return sprintf(
+                'hsl(%d %d %d / %s)',
+                $this->hue()->value(),
+                $this->saturation()->value(),
+                $this->luminance()->value(),
+                $this->alpha()->toString(),
+            );
+        }
+
         return sprintf(
-            'hsl(%d %d%% %d%%)',
+            'hsl(%d %d %d)',
             $this->hue()->value(),
             $this->saturation()->value(),
             $this->luminance()->value()

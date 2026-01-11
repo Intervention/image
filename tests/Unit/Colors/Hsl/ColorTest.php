@@ -70,13 +70,7 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals(10, $color->hue()->value());
         $this->assertEquals(20, $color->saturation()->value());
         $this->assertEquals(30, $color->luminance()->value());
-        $this->assertEquals(1, $color->alpha()->value());
-    }
-
-    public function testToArray(): void
-    {
-        $color = new Color(10, 20, 30);
-        $this->assertEquals([10, 20, 30, 1], $color->toArray());
+        $this->assertEquals(255, $color->alpha()->value());
     }
 
     public function testToHex(): void
@@ -93,8 +87,11 @@ final class ColorTest extends BaseTestCase
 
     public function testToString(): void
     {
-        $color = new Color(100, 50, 20, 0);
-        $this->assertEquals('hsl(100 50% 20%)', (string) $color);
+        $color = new Color(100, 50, 20);
+        $this->assertEquals('hsl(100 50 20)', (string) $color);
+
+        $color = new Color(100, 50, 20, .2);
+        $this->assertEquals('hsl(100 50 20 / 0.2)', (string) $color);
     }
 
     public function testIsGrayscale(): void
@@ -124,8 +121,9 @@ final class ColorTest extends BaseTestCase
     public function testDebugInfo(): void
     {
         $info = (new Color(10, 20, 30))->__debugInfo();
-        $this->assertEquals(10, $info['hue']);
-        $this->assertEquals(20, $info['saturation']);
-        $this->assertEquals(30, $info['luminance']);
+        $this->assertEquals('10', $info['hue']);
+        $this->assertEquals('20', $info['saturation']);
+        $this->assertEquals('30', $info['luminance']);
+        $this->assertEquals('1', $info['alpha']);
     }
 }

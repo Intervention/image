@@ -7,8 +7,12 @@ namespace Intervention\Image\Colors\Oklch;
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Hsv\Color as HsvColor;
+use Intervention\Image\Colors\Oklch\Channels\Alpha;
 use Intervention\Image\Colors\Oklab\Color as OklabColor;
 use Intervention\Image\Colors\Oklab\Colorspace as Oklab;
+use Intervention\Image\Colors\Oklch\Channels\Chroma;
+use Intervention\Image\Colors\Oklch\Channels\Hue;
+use Intervention\Image\Colors\Oklch\Channels\Lightness;
 use Intervention\Image\Colors\Oklch\Color as OklchColor;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
@@ -17,6 +21,7 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
+use TypeError;
 
 class Colorspace implements ColorspaceInterface
 {
@@ -26,9 +31,10 @@ class Colorspace implements ColorspaceInterface
      * @var array<string>
      */
     public static array $channels = [
-        Channels\Lightness::class,
-        Channels\Chroma::class,
-        Channels\Hue::class
+        Lightness::class,
+        Chroma::class,
+        Hue::class,
+        Alpha::class,
     ];
 
     /**
@@ -38,8 +44,20 @@ class Colorspace implements ColorspaceInterface
      */
     public static function colorFromNormalized(array $normalized): OklchColor
     {
+        // add alpha value if missing
+        $normalized = count($normalized) === 3 ? array_pad($normalized, 4, 1) : $normalized;
+
         return new Color(...array_map(
-            fn(string $classname, float $normalized) => $classname::fromNormalized($normalized)->value(),
+            function (string $channel, null|float $normalized) {
+                try {
+                    return $channel::fromNormalized($normalized);
+                } catch (TypeError $e) {
+                    throw new InvalidArgumentException(
+                        'Normalized color value must be in range 0 to 1',
+                        previous: $e
+                    );
+                }
+            },
             self::$channels,
             $normalized
         ));
@@ -80,12 +98,7 @@ class Colorspace implements ColorspaceInterface
         $h = rad2deg(atan2($b, $a));
         $h = $h < 0 ? $h + 360 : $h;
 
-        return new Color(
-            $color->lightness()->value(),
-            $c,
-            $h,
-            $color->alpha()->value()
-        );
+        return new Color($color->lightness()->value(), $c, $h, $color->alpha()->normalizedValue());
     }
 
     /**

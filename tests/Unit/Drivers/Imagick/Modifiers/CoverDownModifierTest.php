@@ -23,9 +23,9 @@ final class CoverDownModifierTest extends ImagickTestCase
         $image->modify(new CoverDownModifier(100, 100, Alignment::CENTER));
         $this->assertEquals(100, $image->width());
         $this->assertEquals(100, $image->height());
-        $this->assertColor(255, 0, 0, 1, $image->colorAt(90, 90));
-        $this->assertColor(0, 255, 0, 1, $image->colorAt(65, 70));
-        $this->assertColor(0, 0, 255, 1, $image->colorAt(70, 52));
+        $this->assertColor(255, 0, 0, 255, $image->colorAt(90, 90));
+        $this->assertColor(0, 255, 0, 255, $image->colorAt(65, 70));
+        $this->assertColor(0, 0, 255, 255, $image->colorAt(70, 52));
         $this->assertTransparency($image->colorAt(90, 30));
     }
 

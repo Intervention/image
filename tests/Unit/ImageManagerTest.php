@@ -139,7 +139,7 @@ class ImageManagerTest extends BaseTestCase
     {
         $manager = new ImageManager($driver);
         $image = $manager->decodeFrom(path: Resource::create('orientation.jpg')->path());
-        $this->assertColor(1, 0, 254, 1, $image->colorAt(3, 3));
+        $this->assertColor(1, 0, 254, 255, $image->colorAt(3, 3));
     }
 
     #[DataProviderExternal(DriverProvider::class, 'drivers')]
@@ -147,7 +147,7 @@ class ImageManagerTest extends BaseTestCase
     {
         $manager = new ImageManager($driver, autoOrientation: false);
         $image = $manager->decodeFrom(path: Resource::create('orientation.jpg')->path());
-        $this->assertColor(250, 2, 3, 1, $image->colorAt(3, 3));
+        $this->assertColor(250, 2, 3, 255, $image->colorAt(3, 3));
     }
 
     #[DataProviderExternal(DriverProvider::class, 'drivers')]
@@ -172,8 +172,8 @@ class ImageManagerTest extends BaseTestCase
         $manager = new ImageManager($driver);
         $image = $manager->decodeFrom(path: Resource::create('blocks.png')->path());
         $result = $image->background();
-        $this->assertColor(255, 255, 255, 1, $image->colorAt(530, 0));
-        $this->assertColor(255, 255, 255, 1, $result->colorAt(530, 0));
+        $this->assertColor(255, 255, 255, 255, $image->colorAt(530, 0));
+        $this->assertColor(255, 255, 255, 255, $result->colorAt(530, 0));
     }
 
     #[DataProviderExternal(DriverProvider::class, 'drivers')]
@@ -182,7 +182,7 @@ class ImageManagerTest extends BaseTestCase
         $manager = new ImageManager($driver, backgroundColor: 'ff5500');
         $image = $manager->decodeFrom(path: Resource::create('blocks.png')->path());
         $result = $image->background();
-        $this->assertColor(255, 85, 0, 1, $image->colorAt(530, 0));
-        $this->assertColor(255, 85, 0, 1, $result->colorAt(530, 0));
+        $this->assertColor(255, 85, 0, 255, $image->colorAt(530, 0));
+        $this->assertColor(255, 85, 0, 255, $result->colorAt(530, 0));
     }
 }

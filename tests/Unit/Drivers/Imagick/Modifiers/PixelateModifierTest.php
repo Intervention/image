@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Drivers\Imagick\Modifiers;
 
+use Intervention\Image\Interfaces\ColorChannelInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\PixelateModifier;
@@ -21,14 +22,14 @@ final class PixelateModifierTest extends ImagickTestCase
         $this->assertEquals('00aef0', $image->colorAt(14, 14)->toHex());
         $image->modify(new PixelateModifier(10));
 
-        [$r, $g, $b] = $image->colorAt(0, 0)->toArray();
-        $this->assertEquals(0, $r);
-        $this->assertEquals(174, $g);
-        $this->assertEquals(240, $b);
+        $this->assertEquals([0, 174, 240, 255], array_map(
+            fn(ColorChannelInterface $channel): int => $channel->value(),
+            $image->colorAt(0, 0)->channels()
+        ));
 
-        [$r, $g, $b] = $image->colorAt(14, 14)->toArray();
-        $this->assertEquals(107, $r);
-        $this->assertEquals(171, $g);
-        $this->assertEquals(140, $b);
+        $this->assertEquals([107, 171, 140, 255], array_map(
+            fn(ColorChannelInterface $channel): int => $channel->value(),
+            $image->colorAt(14, 14)->channels()
+        ));
     }
 }

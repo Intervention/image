@@ -20,6 +20,6 @@ class ConvertPngGif extends ImagickTestCase
             );
 
         $this->assertTransparency($converted->colorAt(0, 0));
-        $this->assertColor(4, 2, 4, 1, $converted->colorAt(25, 25), 4);
+        $this->assertColor(4, 2, 4, 255, $converted->colorAt(25, 25), 4);
     }
 }

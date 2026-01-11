@@ -42,6 +42,6 @@ final class QuantizeColorsModifierTest extends ImagickTestCase
     {
         $image = $this->createTestImage(3, 2)->fill('f00');
         $image->modify(new QuantizeColorsModifier(1));
-        $this->assertColor(255, 0, 0, 1, $image->colorAt(1, 1));
+        $this->assertColor(255, 0, 0, 255, $image->colorAt(1, 1));
     }
 }

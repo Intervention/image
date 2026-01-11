@@ -39,7 +39,7 @@ class Colorspace implements ColorspaceInterface
     public static function colorFromNormalized(array $normalized): CmykColor
     {
         return new Color(...array_map(
-            fn(string $classname, float $normalized) => $classname::fromNormalized($normalized)->value(),
+            fn(string $classname, float $normalized) => $classname::fromNormalized($normalized),
             self::$channels,
             $normalized,
         ));

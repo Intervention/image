@@ -22,6 +22,6 @@ final class ResizeModifierTest extends ImagickTestCase
         $image->modify(new ResizeModifier(200, 100));
         $this->assertEquals(200, $image->width());
         $this->assertEquals(100, $image->height());
-        $this->assertColor(255, 0, 0, 1, $image->colorAt(150, 70));
+        $this->assertColor(255, 0, 0, 255, $image->colorAt(150, 70));
     }
 }

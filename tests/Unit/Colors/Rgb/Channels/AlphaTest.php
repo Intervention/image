@@ -14,7 +14,7 @@ final class AlphaTest extends BaseTestCase
     public function testToString(): void
     {
         $alpha = new Alpha(.333333);
-        $this->assertEquals('0.333333', $alpha->toString());
-        $this->assertEquals('0.333333', (string) $alpha);
+        $this->assertEquals('0.33', $alpha->toString());
+        $this->assertEquals('0.33', (string) $alpha);
     }
 }

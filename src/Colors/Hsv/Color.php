@@ -23,14 +23,13 @@ class Color extends AbstractColor
     /**
      * Create new color object.
      */
-    public function __construct(int $h, int $s, int $v, float $a = 1)
+    public function __construct(int|Hue $h, int|Saturation $s, int|Value $v, float|Alpha $a = 1)
     {
-        /** @throws void */
         $this->channels = [
-            new Hue($h),
-            new Saturation($s),
-            new Value($v),
-            new Alpha($a),
+            is_int($h) ? new Hue($h) : $h,
+            is_int($s) ? new Saturation($s) : $s,
+            is_int($v) ? new Value($v) : $v,
+            is_float($a) ? new Alpha($a) : $a,
         ];
     }
 
@@ -152,7 +151,7 @@ class Color extends AbstractColor
                 $this->hue()->value(),
                 $this->saturation()->value(),
                 $this->value()->value(),
-                round($this->alpha()->value(), 2),
+                $this->alpha()->toString(),
             );
         }
 

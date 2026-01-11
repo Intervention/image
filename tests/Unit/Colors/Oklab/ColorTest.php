@@ -11,8 +11,9 @@ use Intervention\Image\Colors\Oklab\Colorspace as OklabColorspace;
 use Intervention\Image\Colors\Oklab\Channels\Lightness;
 use Intervention\Image\Colors\Oklab\Color;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
-use Intervention\Image\Colors\Rgb\Colorspace;
+use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[CoversClass(Color::class)]
@@ -28,15 +29,33 @@ final class ColorTest extends BaseTestCase
     {
         $color = Color::create('oklab(0%, 25%, -50%)');
         $this->assertInstanceOf(Color::class, $color);
-        $this->assertEquals([0.0, .1, -0.2, 1], $color->toArray());
+        $this->assertEquals(
+            [0.0, .1, -0.2, 255],
+            array_map(
+                fn(ColorChannelInterface $channel): int|float => $channel->value(),
+                $color->channels()
+            )
+        );
 
         $color = Color::create('oklab(0%, 25%, -50%, .2)');
         $this->assertInstanceOf(Color::class, $color);
-        $this->assertEquals([0.0, .1, -0.2, .2], $color->toArray());
+        $this->assertEquals(
+            [0.0, .1, -0.2, 51],
+            array_map(
+                fn(ColorChannelInterface $channel): int|float => $channel->value(),
+                $color->channels()
+            )
+        );
 
         $color = Color::create(.51, .1, -.2);
         $this->assertInstanceOf(Color::class, $color);
-        $this->assertEquals([.51, .1, -.2, 1], $color->toArray());
+        $this->assertEquals(
+            [.51, .1, -.2, 255],
+            array_map(
+                fn(ColorChannelInterface $channel): int|float => $channel->value(),
+                $color->channels()
+            )
+        );
     }
 
     public function testColorspace(): void
@@ -87,15 +106,6 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals(.2, $color->b()->value());
     }
 
-    public function testToArray(): void
-    {
-        $color = new Color(0, .1, .2);
-        $this->assertEquals([0, .1, .2, 1], $color->toArray());
-
-        $color = new Color(0, .1, .2, .3);
-        $this->assertEquals([0, .1, .2, .3], $color->toArray());
-    }
-
     public function testToHex(): void
     {
         $color = new Color(0.64905124115, 0.19974263609074, 0.13044605841927);
@@ -114,7 +124,7 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals([0, 0.5, 0.5, 1], $color->normalizedChannelValues());
 
         $color = new Color(0, 0, 0, .5);
-        $this->assertEquals([0, 0.5, 0.5, .5], $color->normalizedChannelValues());
+        $this->assertEquals([0, 0.5, 0.5, 0.5019607843137255], $color->normalizedChannelValues());
     }
 
     public function testToString(): void
@@ -126,9 +136,15 @@ final class ColorTest extends BaseTestCase
     public function testToColorspace(): void
     {
         $color = new Color(0.64905124115, 0.19974263609074, 0.13044605841927);
-        $converted = $color->toColorspace(Colorspace::class);
+        $converted = $color->toColorspace(Rgb::class);
         $this->assertInstanceOf(RgbColor::class, $converted);
-        $this->assertEquals([255, 55, 0, 1], $converted->toArray());
+        $this->assertEquals(
+            [255, 55, 0, 255],
+            array_map(
+                fn(ColorChannelInterface $channel): int|float => $channel->value(),
+                $converted->channels()
+            )
+        );
     }
 
     public function testIsGrayscale(): void
@@ -143,8 +159,9 @@ final class ColorTest extends BaseTestCase
     public function testDebugInfo(): void
     {
         $info = (new Color(0, .1, .2))->__debugInfo();
-        $this->assertEquals(0, $info['lightness']);
-        $this->assertEquals(.1, $info['a']);
-        $this->assertEquals(.2, $info['b']);
+        $this->assertEquals('0', $info['lightness']);
+        $this->assertEquals('0.1', $info['a']);
+        $this->assertEquals('0.2', $info['b']);
+        $this->assertEquals('1', $info['alpha']);
     }
 }

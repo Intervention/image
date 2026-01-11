@@ -27,7 +27,7 @@ final class ColorspaceTest extends BaseTestCase
         $this->assertEquals(360, $result->channel(Hue::class)->value());
         $this->assertEquals(0, $result->channel(Saturation::class)->value());
         $this->assertEquals(100, $result->channel(Luminance::class)->value());
-        $this->assertEquals(1, $result->channel(Alpha::class)->value());
+        $this->assertEquals(255, $result->channel(Alpha::class)->value());
 
         $colorspace = new Colorspace();
         $result = $colorspace->colorFromNormalized([1, 0, 1, .2]);
@@ -35,7 +35,7 @@ final class ColorspaceTest extends BaseTestCase
         $this->assertEquals(360, $result->channel(Hue::class)->value());
         $this->assertEquals(0, $result->channel(Saturation::class)->value());
         $this->assertEquals(100, $result->channel(Luminance::class)->value());
-        $this->assertEquals(.2, $result->channel(Alpha::class)->value());
+        $this->assertEquals(51, $result->channel(Alpha::class)->value());
     }
 
     public function testImportRgbColor(): void

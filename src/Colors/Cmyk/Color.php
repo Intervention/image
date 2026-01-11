@@ -23,14 +23,13 @@ class Color extends AbstractColor
     /**
      * Create new instance.
      */
-    public function __construct(int $c, int $m, int $y, int $k)
+    public function __construct(int|Cyan $c, int|Magenta $m, int|Yellow $y, int|Key $k)
     {
-        /** @throws void */
         $this->channels = [
-            new Cyan($c),
-            new Magenta($m),
-            new Yellow($y),
-            new Key($k),
+            is_int($c) ? new Cyan($c) : $c,
+            is_int($m) ? new Magenta($m) : $m,
+            is_int($y) ? new Yellow($y) : $y,
+            is_int($k) ? new Key($k) : $k,
         ];
     }
 

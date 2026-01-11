@@ -22,9 +22,9 @@ final class ResizeModifierTest extends GdTestCase
         $image->modify(new ResizeModifier(200, 100));
         $this->assertEquals(200, $image->width());
         $this->assertEquals(100, $image->height());
-        $this->assertColor(255, 0, 0, 1, $image->colorAt(150, 70));
-        $this->assertColor(0, 255, 0, 1, $image->colorAt(125, 70));
-        $this->assertColor(0, 0, 255, 1, $image->colorAt(130, 54));
+        $this->assertColor(255, 0, 0, 255, $image->colorAt(150, 70));
+        $this->assertColor(0, 255, 0, 255, $image->colorAt(125, 70));
+        $this->assertColor(0, 0, 255, 255, $image->colorAt(130, 54));
         $this->assertTransparency($image->colorAt(170, 30));
     }
 }

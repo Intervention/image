@@ -126,5 +126,6 @@ caller, Operation fails after valid input
 
 - Removed topLeftPoint() and bottomRightPoint() from Rectangle::class
 - Removed ColorChannelInterface::__construct() from interface
+- Removed ColorInterface::toArray()
 - Method ImageManagerInterface::animate() is replaced by universal ImageManagerInterface::createImage()
 - Method DriverInterface::createAnimation() was removed

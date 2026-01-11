@@ -31,11 +31,11 @@ final class ColorProcessorTest extends BaseTestCase
         $processor = new ColorProcessor(new Colorspace());
         $result = $processor->nativeToColor(new ImagickPixel('rgb(255, 55, 0)'));
         $this->assertInstanceOf(ColorInterface::class, $result);
-        $this->assertColor(255, 55, 0, 1, $result);
+        $this->assertColor(255, 55, 0, 255, $result);
 
         $result = $processor->nativeToColor(new ImagickPixel('rgba(255, 55, 0, .2)'));
         $this->assertInstanceOf(ColorInterface::class, $result);
-        $this->assertColor(255, 55, 0, .2, $result);
+        $this->assertColor(255, 55, 0, 51, $result);
 
         $pixel = new ImagickPixel();
         $pixel->setColorValue(Imagick::COLOR_RED, 1);
@@ -44,6 +44,6 @@ final class ColorProcessorTest extends BaseTestCase
         $pixel->setColorValue(Imagick::COLOR_ALPHA, .2);
         $result = $processor->nativeToColor($pixel);
         $this->assertInstanceOf(ColorInterface::class, $result);
-        $this->assertColor(255, 77, 0, .2, $result);
+        $this->assertColor(255, 77, 0, 51, $result);
     }
 }

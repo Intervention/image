@@ -7,7 +7,6 @@ namespace Intervention\Image\Colors\Oklab\Decoders;
 use Intervention\Image\Colors\Oklab\Color;
 use Intervention\Image\Colors\Oklab\Channels\Lightness;
 use Intervention\Image\Colors\Oklab\Channels\A;
-use Intervention\Image\Colors\Oklab\Channels\Alpha;
 use Intervention\Image\Colors\Oklab\Channels\B;
 use Intervention\Image\Drivers\AbstractDecoder;
 use Intervention\Image\Exceptions\InvalidArgumentException;
@@ -65,7 +64,7 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
 
         // alpha value
         if (array_key_exists('alpha', $matches)) {
-            $values[] = $this->decodeChannelValue($matches['alpha'], Alpha::class);
+            $values[] = $this->decodeAlphaChannelValue($matches['alpha']);
         }
 
         return new Color(...$values);
@@ -78,6 +77,15 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
     {
         if (strpos($value, '%')) {
             return floatval(trim(str_replace('%', '', $value))) * $channel::max() / 100;
+        }
+
+        return floatval(trim($value));
+    }
+
+    private function decodeAlphaChannelValue(string $value): float
+    {
+        if (strpos($value, '%')) {
+            return floatval(trim(str_replace('%', '', $value))) / 100;
         }
 
         return floatval(trim($value));

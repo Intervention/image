@@ -73,12 +73,6 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals(40, $color->key()->value());
     }
 
-    public function testToArray(): void
-    {
-        $color = new Color(10, 20, 30, 40);
-        $this->assertEquals([10, 20, 30, 40], $color->toArray());
-    }
-
     public function testToHex(): void
     {
         $color = new Color(0, 73, 100, 0);

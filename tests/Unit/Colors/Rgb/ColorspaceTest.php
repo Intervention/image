@@ -28,14 +28,14 @@ final class ColorspaceTest extends BaseTestCase
         $this->assertEquals(255, $result->channel(Red::class)->value());
         $this->assertEquals(0, $result->channel(Green::class)->value());
         $this->assertEquals(255, $result->channel(Blue::class)->value());
-        $this->assertEquals(1, $result->channel(Alpha::class)->value());
+        $this->assertEquals(255, $result->channel(Alpha::class)->value());
 
         $result = $colorspace->colorFromNormalized([1, 0, 1, .2]);
         $this->assertInstanceOf(RgbColor::class, $result);
         $this->assertEquals(255, $result->channel(Red::class)->value());
         $this->assertEquals(0, $result->channel(Green::class)->value());
         $this->assertEquals(255, $result->channel(Blue::class)->value());
-        $this->assertEquals(.2, $result->channel(Alpha::class)->value());
+        $this->assertEquals(51, $result->channel(Alpha::class)->value());
     }
 
     public function testImportCmykColor(): void

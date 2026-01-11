@@ -65,7 +65,7 @@ class ColorProcessor implements ColorProcessorInterface
                     $color->channel(Red::class)->value(),
                     $color->channel(Green::class)->value(),
                     $color->channel(Blue::class)->value(),
-                    $color->channel(Alpha::class)->value(),
+                    $color->channel(Alpha::class)->toString(),
                 )
             );
         } catch (ImagickException $e) {

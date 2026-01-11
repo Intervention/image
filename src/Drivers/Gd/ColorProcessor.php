@@ -60,7 +60,7 @@ class ColorProcessor implements ColorProcessorInterface
     public function nativeToColor(mixed $value): ColorInterface
     {
         if (!is_int($value) && !is_array($value)) {
-            throw new ColorDecoderException('GD driver can only decode colors in integer and array format');
+            throw new ColorDecoderException('GD driver can only decode colors in integer or array format');
         }
 
         if (is_array($value)) {
@@ -85,7 +85,7 @@ class ColorProcessor implements ColorProcessorInterface
 
         // convert gd apha integer to intervention alpha integer
         // ([opaque]0-127[transparent]) to ([opaque]1-0[transparent])
-        $a = $this->convertRange($a, 127, 0, Alpha::min(), Alpha::max());
+        $a = $this->convertRange($a, 127, 0, 0, 1);
 
         return new Color($r, $g, $b, $a);
     }

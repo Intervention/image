@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors\Oklch\Decoders;
 
-use Intervention\Image\Colors\Oklch\Channels\Alpha;
 use Intervention\Image\Colors\Oklch\Channels\Chroma;
 use Intervention\Image\Colors\Oklch\Channels\Hue;
 use Intervention\Image\Colors\Oklch\Channels\Lightness;
@@ -65,7 +64,7 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
 
         // alpha value
         if (array_key_exists('a', $matches)) {
-            $values[] = $this->decodeChannelValue($matches['a'], Alpha::class);
+            $values[] = $this->decodeAlphaChannelValue($matches['a']);
         }
 
         return new Color(...$values);
@@ -78,6 +77,15 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
     {
         if (strpos($value, '%')) {
             return floatval(trim(str_replace('%', '', $value))) * $channel::max() / 100;
+        }
+
+        return floatval(trim($value));
+    }
+
+    private function decodeAlphaChannelValue(string $value): float
+    {
+        if (strpos($value, '%')) {
+            return floatval(trim(str_replace('%', '', $value))) / 100;
         }
 
         return floatval(trim($value));

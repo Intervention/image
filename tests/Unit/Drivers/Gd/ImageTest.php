@@ -273,8 +273,8 @@ final class ImageTest extends GdTestCase
         $image = $this->readTestImage('gradient.gif');
         $this->assertColor(0, 0, 0, 0, $image->colorAt(1, 0));
         $result = $image->background();
-        $this->assertColor(255, 255, 255, 1, $image->colorAt(1, 0));
-        $this->assertColor(255, 255, 255, 1, $result->colorAt(1, 0));
+        $this->assertColor(255, 255, 255, 255, $image->colorAt(1, 0));
+        $this->assertColor(255, 255, 255, 255, $result->colorAt(1, 0));
     }
 
     public function testBackgroundArgument(): void
@@ -282,17 +282,17 @@ final class ImageTest extends GdTestCase
         $image = $this->readTestImage('gradient.gif');
         $this->assertColor(0, 0, 0, 0, $image->colorAt(1, 0));
         $result = $image->background('ff5500');
-        $this->assertColor(255, 85, 0, 1, $image->colorAt(1, 0));
-        $this->assertColor(255, 85, 0, 1, $result->colorAt(1, 0));
+        $this->assertColor(255, 85, 0, 255, $image->colorAt(1, 0));
+        $this->assertColor(255, 85, 0, 255, $result->colorAt(1, 0));
     }
 
     public function testBackgroundIgnoreTransparencyInBackgroundColor(): void
     {
         $image = $this->readTestImage('gradient.gif');
         $this->assertColor(0, 0, 0, 0, $image->colorAt(1, 0));
-        $result = $image->background('ff550055');
-        $this->assertColor(255, 85, 0, 0.33070866141732, $image->colorAt(1, 0));
-        $this->assertColor(255, 85, 0, 0.33070866141732, $result->colorAt(1, 0));
+        $result = $image->background('ff550033');
+        $this->assertColor(255, 85, 0, 51, $image->colorAt(1, 0), 1);
+        $this->assertColor(255, 85, 0, 51, $result->colorAt(1, 0), 1);
     }
 
     public function testInvert(): void

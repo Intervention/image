@@ -22,8 +22,8 @@ final class ContainModifierTest extends GdTestCase
         $image->modify(new ContainModifier(200, 100, 'ff0'));
         $this->assertEquals(200, $image->width());
         $this->assertEquals(100, $image->height());
-        $this->assertColor(255, 255, 0, 1, $image->colorAt(0, 0));
+        $this->assertColor(255, 255, 0, 255, $image->colorAt(0, 0));
         $this->assertTransparency($image->colorAt(140, 10));
-        $this->assertColor(255, 255, 0, 1, $image->colorAt(175, 10));
+        $this->assertColor(255, 255, 0, 255, $image->colorAt(175, 10));
     }
 }

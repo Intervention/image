@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Intervention\Image\Colors\Oklab;
 
 use Intervention\Image\Colors\AbstractColor;
+use Intervention\Image\Colors\Oklab\Channels\A;
+use Intervention\Image\Colors\Oklab\Channels\B;
+use Intervention\Image\Colors\Oklab\Channels\Alpha;
+use Intervention\Image\Colors\Oklab\Channels\Lightness;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\DriverException;
@@ -19,14 +23,13 @@ class Color extends AbstractColor
     /**
      * Create new color object.
      */
-    public function __construct(float $l, float $a, float $b, float $alpha = 1)
+    public function __construct(float|Lightness $l, float|A $a, float|B $b, float|Alpha $alpha = 1)
     {
-        /** @throws void */
         $this->channels = [
-            new Channels\Lightness($l),
-            new Channels\A($a),
-            new Channels\B($b),
-            new Channels\Alpha($alpha),
+            is_float($l) ? new Lightness($l) : $l,
+            is_float($a) ? new A($a) : $a,
+            is_float($b) ? new B($b) : $b,
+            is_float($alpha) ? new Alpha($alpha) : $alpha,
         ];
     }
 
@@ -86,7 +89,7 @@ class Color extends AbstractColor
     public function lightness(): ColorChannelInterface
     {
         /** @throws void */
-        return $this->channel(Channels\Lightness::class);
+        return $this->channel(Lightness::class);
     }
 
     /**
@@ -95,7 +98,7 @@ class Color extends AbstractColor
     public function a(): ColorChannelInterface
     {
         /** @throws void */
-        return $this->channel(Channels\A::class);
+        return $this->channel(A::class);
     }
 
     /**
@@ -104,7 +107,7 @@ class Color extends AbstractColor
     public function b(): ColorChannelInterface
     {
         /** @throws void */
-        return $this->channel(Channels\B::class);
+        return $this->channel(B::class);
     }
 
     /**
@@ -113,7 +116,7 @@ class Color extends AbstractColor
     public function alpha(): ColorChannelInterface
     {
         /** @throws void */
-        return $this->channel(Channels\Alpha::class);
+        return $this->channel(Alpha::class);
     }
 
     /**
@@ -148,7 +151,7 @@ class Color extends AbstractColor
                 $this->lightness()->value(),
                 $this->a()->value(),
                 $this->b()->value(),
-                round($this->alpha()->value(), 2)
+                $this->alpha()->toString(),
             );
         }
 

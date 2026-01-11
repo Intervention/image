@@ -47,7 +47,7 @@ class Colorspace implements ColorspaceInterface
         return new Color(...array_map(
             function (string $channel, null|float $normalized) {
                 try {
-                    return $channel::fromNormalized($normalized)->value();
+                    return $channel::fromNormalized($normalized);
                 } catch (TypeError $e) {
                     throw new InvalidArgumentException(
                         'Normalized color value must be in range 0 to 1',
@@ -111,7 +111,7 @@ class Colorspace implements ColorspaceInterface
             0.2104542553 * $l + 0.7936177850 * $m - 0.0040720468 * $s,
             1.9779984951 * $l - 2.4285922050 * $m + 0.4505937099 * $s,
             0.0259040371 * $l + 0.7827717662 * $m - 0.8086757660 * $s,
-            $color->alpha()->value(),
+            $color->alpha()->normalizedValue(),
         );
     }
 
@@ -126,7 +126,7 @@ class Colorspace implements ColorspaceInterface
             $color->lightness()->value(),
             $color->chroma()->value() * cos($hRad),
             $color->chroma()->value() * sin($hRad),
-            $color->alpha()->value(),
+            $color->alpha()->normalizedValue(),
         );
     }
 

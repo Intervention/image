@@ -10,6 +10,7 @@ use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Oklab\Color as OklabColor;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Oklab\Channels\A;
+use Intervention\Image\Colors\Oklab\Channels\Alpha;
 use Intervention\Image\Colors\Oklab\Channels\B;
 use Intervention\Image\Colors\Oklab\Channels\Lightness;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
@@ -34,6 +35,13 @@ final class ColorspaceTest extends BaseTestCase
         $this->assertEquals(1.0, $result->channel(Lightness::class)->value());
         $this->assertEquals(0.4, $result->channel(A::class)->value());
         $this->assertEquals(-0.2, $result->channel(B::class)->value());
+
+        $result = $colorspace->colorFromNormalized([1.0, 1, .25, .2]);
+        $this->assertInstanceOf(OklabColor::class, $result);
+        $this->assertEquals(1.0, $result->channel(Lightness::class)->value());
+        $this->assertEquals(0.4, $result->channel(A::class)->value());
+        $this->assertEquals(-0.2, $result->channel(B::class)->value());
+        $this->assertEquals(51, $result->channel(Alpha::class)->value());
     }
 
     public function testImportRgbColor(): void

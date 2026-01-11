@@ -22,14 +22,13 @@ class Color extends AbstractColor
     /**
      * Create new instance.
      */
-    public function __construct(int $r, int $g, int $b, float $a = 1)
+    public function __construct(int|Red $r, int|Green $g, int|Blue $b, float|Alpha $a = 1)
     {
-        /** @throws void */
         $this->channels = [
-            new Red($r),
-            new Green($g),
-            new Blue($b),
-            new Alpha($a),
+            is_int($r) ? new Red($r) : $r,
+            is_int($g) ? new Green($g) : $g,
+            is_int($b) ? new Blue($b) : $b,
+            is_float($a) ? new Alpha($a) : $a,
         ];
     }
 
@@ -147,7 +146,7 @@ class Color extends AbstractColor
                 $this->red()->value(),
                 $this->green()->value(),
                 $this->blue()->value(),
-                $this->alpha()->value() * 255
+                $this->alpha()->value()
             );
         }
 
@@ -173,7 +172,7 @@ class Color extends AbstractColor
                 $this->red()->value(),
                 $this->green()->value(),
                 $this->blue()->value(),
-                round($this->alpha()->value(), 2)
+                $this->alpha()->toString(),
             );
         }
 

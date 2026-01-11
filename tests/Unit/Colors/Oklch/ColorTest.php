@@ -14,6 +14,7 @@ use Intervention\Image\Colors\Oklch\Color;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[CoversClass(Color::class)]
@@ -29,15 +30,33 @@ final class ColorTest extends BaseTestCase
     {
         $color = Color::create('oklch(0%, 0.123, 180)');
         $this->assertInstanceOf(Color::class, $color);
-        $this->assertEquals([0.0, .123, 180, 1], $color->toArray());
+        $this->assertEquals(
+            [0.0, .123, 180, 255],
+            array_map(
+                fn(ColorChannelInterface $channel): int|float => $channel->value(),
+                $color->channels()
+            )
+        );
 
         $color = Color::create(.51, -0.1, 2);
         $this->assertInstanceOf(Color::class, $color);
-        $this->assertEquals([.51, -0.1, 2, 1], $color->toArray());
+        $this->assertEquals(
+            [.51, -0.1, 2, 255],
+            array_map(
+                fn(ColorChannelInterface $channel): int|float => $channel->value(),
+                $color->channels()
+            )
+        );
 
         $color = Color::create(.51, -0.1, 2, .2);
         $this->assertInstanceOf(Color::class, $color);
-        $this->assertEquals([.51, -0.1, 2, .2], $color->toArray());
+        $this->assertEquals(
+            [.51, -0.1, 2, 51],
+            array_map(
+                fn(ColorChannelInterface $channel): int|float => $channel->value(),
+                $color->channels()
+            )
+        );
     }
 
     public function testColorspace(): void
@@ -71,7 +90,7 @@ final class ColorTest extends BaseTestCase
 
         $channel = $color->channel(Alpha::class);
         $this->assertInstanceOf(Alpha::class, $channel);
-        $this->assertEquals(1, $channel->value());
+        $this->assertEquals(255, $channel->value());
     }
 
     public function testChannelNotFound(): void
@@ -90,18 +109,6 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals(0, $color->lightness()->value());
         $this->assertEquals(.1, $color->chroma()->value());
         $this->assertEquals(2, $color->hue()->value());
-    }
-
-    public function testToArray(): void
-    {
-        $color = new Color(0, .1, 2);
-        $this->assertEquals([0, .1, 2, 1], $color->toArray());
-
-        $color = new Color(0, .1, 2, 1);
-        $this->assertEquals([0, .1, 2, 1], $color->toArray());
-
-        $color = new Color(0, .1, 2, .2);
-        $this->assertEquals([0, .1, 2, .2], $color->toArray());
     }
 
     public function testToHex(): void
@@ -133,7 +140,13 @@ final class ColorTest extends BaseTestCase
         $color = new Color(0.6759, 0.21747, 38.8022);
         $converted = $color->toColorspace(Rgb::class);
         $this->assertInstanceOf(RgbColor::class, $converted);
-        $this->assertEquals([255, 85, 0, 1], $converted->toArray());
+        $this->assertEquals(
+            [255, 85, 0, 255],
+            array_map(
+                fn(ColorChannelInterface $channel): int|float => $channel->value(),
+                $converted->channels()
+            )
+        );
     }
 
     public function testIsGrayscale(): void
@@ -148,8 +161,9 @@ final class ColorTest extends BaseTestCase
     public function testDebugInfo(): void
     {
         $info = (new Color(0, .1, 2))->__debugInfo();
-        $this->assertEquals(0, $info['lightness']);
-        $this->assertEquals(.1, $info['chroma']);
-        $this->assertEquals(2, $info['hue']);
+        $this->assertEquals('0', $info['lightness']);
+        $this->assertEquals('0.1', $info['chroma']);
+        $this->assertEquals('2', $info['hue']);
+        $this->assertEquals('1', $info['alpha']);
     }
 }

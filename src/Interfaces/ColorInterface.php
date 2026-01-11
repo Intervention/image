@@ -25,13 +25,6 @@ interface ColorInterface extends Stringable
     public function toString(): string;
 
     /**
-     * Cast color object to array.
-     *
-     * @return array<float|int>
-     */
-    public function toArray(): array;
-
-    /**
      * Cast color object to hex encoded web color.
      */
     public function toHex(string $prefix = ''): string;

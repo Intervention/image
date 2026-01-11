@@ -122,7 +122,7 @@ class Size extends Polygon implements SizeInterface
      */
     public function movePivot(string|Alignment $position, int $x = 0, int $y = 0): self
     {
-        $point = match (Alignment::create($position)) {
+        $point = match (Alignment::tryCreate($position)) {
             Alignment::TOP => new Point(
                 intval(round($this->width() / 2)) + $x,
                 $y,
@@ -156,6 +156,10 @@ class Size extends Polygon implements SizeInterface
                 intval(round($this->height() / 2)) + $y,
             ),
             Alignment::TOP_LEFT => new Point(
+                $x,
+                $y,
+            ),
+            default => new Point(
                 $x,
                 $y,
             ),

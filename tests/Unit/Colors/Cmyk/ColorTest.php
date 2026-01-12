@@ -43,7 +43,7 @@ final class ColorTest extends BaseTestCase
     {
         $color = new Color(10, 20, 30, 40);
         $this->assertIsArray($color->channels());
-        $this->assertCount(4, $color->channels());
+        $this->assertCount(5, $color->channels());
     }
 
     public function testChannel(): void
@@ -94,7 +94,7 @@ final class ColorTest extends BaseTestCase
     {
         $color = new Color(100, 50, 20, 0);
         $this->assertEquals(
-            [1.0, 0.5, 0.2, 0.0],
+            [1.0, 0.5, 0.2, 0.0, 1],
             array_map(
                 fn(ColorChannelInterface $channel): float => $channel->normalizedValue(),
                 $color->channels(),
@@ -105,7 +105,7 @@ final class ColorTest extends BaseTestCase
     public function testToString(): void
     {
         $color = new Color(100, 50, 20, 0);
-        $this->assertEquals('cmyk(100% 50% 20% 0%)', (string) $color);
+        $this->assertEquals('cmyk(100 50 20 0)', (string) $color);
     }
 
     public function testIsTransparent(): void

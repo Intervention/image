@@ -161,7 +161,7 @@ final class ColorTest extends BaseTestCase
         $converted = $color->toColorspace(CmykColorspace::class);
         $this->assertInstanceOf(CmykColor::class, $converted);
         $this->assertEquals(
-            [0, 0, 0, 100],
+            [0, 0, 0, 100, 255],
             array_map(
                 fn(ColorChannelInterface $channel): int => $channel->value(),
                 $converted->channels()
@@ -172,7 +172,7 @@ final class ColorTest extends BaseTestCase
         $converted = $color->toColorspace(CmykColorspace::class);
         $this->assertInstanceOf(CmykColor::class, $converted);
         $this->assertEquals(
-            [0, 0, 0, 0],
+            [0, 0, 0, 0, 255],
             array_map(
                 fn(ColorChannelInterface $channel): int => $channel->value(),
                 $converted->channels()
@@ -183,7 +183,7 @@ final class ColorTest extends BaseTestCase
         $converted = $color->toColorspace(CmykColorspace::class);
         $this->assertInstanceOf(CmykColor::class, $converted);
         $this->assertEquals(
-            [0, 100, 100, 0],
+            [0, 100, 100, 0, 255],
             array_map(
                 fn(ColorChannelInterface $channel): int => $channel->value(),
                 $converted->channels()
@@ -194,7 +194,7 @@ final class ColorTest extends BaseTestCase
         $converted = $color->toColorspace(CmykColorspace::class);
         $this->assertInstanceOf(CmykColor::class, $converted);
         $this->assertEquals(
-            [0, 100, 0, 0],
+            [0, 100, 0, 0, 255],
             array_map(
                 fn(ColorChannelInterface $channel): int => $channel->value(),
                 $converted->channels()
@@ -205,7 +205,7 @@ final class ColorTest extends BaseTestCase
         $converted = $color->toColorspace(CmykColorspace::class);
         $this->assertInstanceOf(CmykColor::class, $converted);
         $this->assertEquals(
-            [0, 0, 100, 0],
+            [0, 0, 100, 0, 255],
             array_map(
                 fn(ColorChannelInterface $channel): int => $channel->value(),
                 $converted->channels()
@@ -216,7 +216,7 @@ final class ColorTest extends BaseTestCase
         $converted = $color->toColorspace(CmykColorspace::class);
         $this->assertInstanceOf(CmykColor::class, $converted);
         $this->assertEquals(
-            [0, 20, 20, 0],
+            [0, 20, 20, 0, 255],
             array_map(
                 fn(ColorChannelInterface $channel): int => $channel->value(),
                 $converted->channels()

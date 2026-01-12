@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Colors\Cmyk;
 
 use Intervention\Image\Colors\AbstractColor;
+use Intervention\Image\Colors\Cmyk\Channels\Alpha;
 use Intervention\Image\Colors\Cmyk\Channels\Cyan;
 use Intervention\Image\Colors\Cmyk\Channels\Magenta;
 use Intervention\Image\Colors\Cmyk\Channels\Yellow;
@@ -23,13 +24,14 @@ class Color extends AbstractColor
     /**
      * Create new instance.
      */
-    public function __construct(int|Cyan $c, int|Magenta $m, int|Yellow $y, int|Key $k)
+    public function __construct(int|Cyan $c, int|Magenta $m, int|Yellow $y, int|Key $k, float|Alpha $a = 1)
     {
         $this->channels = [
             is_int($c) ? new Cyan($c) : $c,
             is_int($m) ? new Magenta($m) : $m,
             is_int($y) ? new Yellow($y) : $y,
             is_int($k) ? new Key($k) : $k,
+            is_float($a) ? new Alpha($a) : $a,
         ];
     }
 
@@ -46,9 +48,9 @@ class Color extends AbstractColor
     {
         $input = match (count($input)) {
             1 => $input[0],
-            4 => $input,
+            4, 5 => $input,
             default => throw new InvalidArgumentException(
-                'Too few arguments to create CMYK color, ' . count($input) . ' passed and 1 or 4 expected',
+                'Too few arguments to create CMYK color, ' . count($input) . ' passed and 1, 4 or 5 expected',
             ),
         };
 
@@ -96,6 +98,7 @@ class Color extends AbstractColor
      */
     public function toHex(string $prefix = ''): string
     {
+        // todo: remove check
         if (!in_array($prefix, ['', '#'])) {
             throw new InvalidArgumentException(
                 'Hexadecimal color prefix must be "#" or empty string',
@@ -142,14 +145,34 @@ class Color extends AbstractColor
     }
 
     /**
+     * Return the CMYK alpha channel.
+     */
+    public function alpha(): ColorChannelInterface
+    {
+        /** @throws void */
+        return $this->channel(Alpha::class);
+    }
+
+    /**
      * {@inheritdoc}
      *
      * @see ColorInterface::toString()
      */
     public function toString(): string
     {
+        if ($this->isTransparent()) {
+            return sprintf(
+                'cmyk(%d %d %d %d / %s)',
+                $this->cyan()->value(),
+                $this->magenta()->value(),
+                $this->yellow()->value(),
+                $this->key()->value(),
+                $this->alpha()->toString(),
+            );
+        }
+
         return sprintf(
-            'cmyk(%d%% %d%% %d%% %d%%)',
+            'cmyk(%d %d %d %d)',
             $this->cyan()->value(),
             $this->magenta()->value(),
             $this->yellow()->value(),
@@ -178,7 +201,7 @@ class Color extends AbstractColor
      */
     public function isTransparent(): bool
     {
-        return false;
+        return $this->alpha()->value() < $this->alpha()->max();
     }
 
     /**
@@ -188,6 +211,6 @@ class Color extends AbstractColor
      */
     public function isClear(): bool
     {
-        return false;
+        return $this->alpha()->value() == 0;
     }
 }

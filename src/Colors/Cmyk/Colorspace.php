@@ -16,6 +16,7 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
+use TypeError;
 
 class Colorspace implements ColorspaceInterface
 {
@@ -28,7 +29,8 @@ class Colorspace implements ColorspaceInterface
         Channels\Cyan::class,
         Channels\Magenta::class,
         Channels\Yellow::class,
-        Channels\Key::class
+        Channels\Key::class,
+        Channels\Alpha::class,
     ];
 
     /**
@@ -38,10 +40,22 @@ class Colorspace implements ColorspaceInterface
      */
     public static function colorFromNormalized(array $normalized): CmykColor
     {
+        // add alpha value if missing
+        $normalized = count($normalized) === 4 ? array_pad($normalized, 5, 1) : $normalized;
+
         return new Color(...array_map(
-            fn(string $classname, float $normalized) => $classname::fromNormalized($normalized),
+            function (string $channel, null|float $normalized) {
+                try {
+                    return $channel::fromNormalized($normalized);
+                } catch (TypeError $e) {
+                    throw new InvalidArgumentException(
+                        'Normalized color value must be in range 0 to 1',
+                        previous: $e
+                    );
+                }
+            },
             self::$channels,
-            $normalized,
+            $normalized
         ));
     }
 

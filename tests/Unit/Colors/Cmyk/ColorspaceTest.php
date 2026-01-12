@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Colors\Cmyk;
 
+use Intervention\Image\Colors\Cmyk\Channels\Alpha;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Colors\Cmyk\Channels\Cyan;
 use Intervention\Image\Colors\Cmyk\Channels\Key;
@@ -28,6 +29,15 @@ final class ColorspaceTest extends BaseTestCase
         $this->assertEquals(100, $result->channel(Magenta::class)->value());
         $this->assertEquals(0, $result->channel(Yellow::class)->value());
         $this->assertEquals(100, $result->channel(Key::class)->value());
+        $this->assertEquals(255, $result->channel(Alpha::class)->value());
+
+        $result = $colorspace->colorFromNormalized([0, 1, 0, 1, .2]);
+        $this->assertInstanceOf(CmykColor::class, $result);
+        $this->assertEquals(0, $result->channel(Cyan::class)->value());
+        $this->assertEquals(100, $result->channel(Magenta::class)->value());
+        $this->assertEquals(0, $result->channel(Yellow::class)->value());
+        $this->assertEquals(100, $result->channel(Key::class)->value());
+        $this->assertEquals(51, $result->channel(Alpha::class)->value());
     }
 
     public function testImportRgbColor(): void

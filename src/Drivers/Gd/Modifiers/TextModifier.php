@@ -94,7 +94,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
     {
         return $this
             ->driver()
-            ->colorProcessor($image->colorspace())
+            ->colorProcessor($image)
             ->colorToNative(parent::textColor());
     }
 
@@ -117,7 +117,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
 
         return $this
             ->driver()
-            ->colorProcessor($image->colorspace())
+            ->colorProcessor($image)
             ->colorToNative($color);
     }
 

@@ -9,7 +9,7 @@ use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Color;
-use Intervention\Image\Colors\Rgb\Colorspace;
+use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorProcessorInterface;
@@ -18,13 +18,13 @@ use Intervention\Image\Interfaces\ColorspaceInterface;
 class ColorProcessor implements ColorProcessorInterface
 {
     /**
-     * Create new color processor object
+     * {@inheritdoc}
      *
-     * @return void
+     * @see ColorProcessorInterface::colorspace()
      */
-    public function __construct(protected ColorspaceInterface $colorspace = new Colorspace())
+    public function colorspace(): ColorspaceInterface
     {
-        //
+        return new Rgb();
     }
 
     /**
@@ -35,7 +35,7 @@ class ColorProcessor implements ColorProcessorInterface
     public function colorToNative(ColorInterface $color): int
     {
         // convert color to colorspace
-        $color = $color->toColorspace($this->colorspace);
+        $color = $color->toColorspace($this->colorspace());
 
         // gd only supports rgb so the channels can be accessed directly
         $r = $color->channel(Red::class)->value();

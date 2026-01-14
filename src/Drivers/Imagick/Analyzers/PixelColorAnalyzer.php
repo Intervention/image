@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Analyzers;
 
-use Imagick;
 use ImagickException;
 use Intervention\Image\Analyzers\PixelColorAnalyzer as GenericPixelColorAnalyzer;
 use Intervention\Image\Exceptions\AnalyzerException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ColorInterface;
-use Intervention\Image\Interfaces\ColorspaceInterface;
+use Intervention\Image\Interfaces\ColorProcessorInterface;
+use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 
@@ -22,24 +22,17 @@ class PixelColorAnalyzer extends GenericPixelColorAnalyzer implements Specialize
      */
     public function analyze(ImageInterface $image): mixed
     {
-        return $this->colorAt(
-            $image->colorspace(),
-            $image->core()->frame($this->frame)->native()
-        );
+        $colorProcessor = $this->driver()->colorProcessor($image);
+
+        return $this->colorAt($colorProcessor, $image->core()->frame($this->frame));
     }
 
-    /**
-     * @throws AnalyzerException
-     * @throws StateException
-     */
-    protected function colorAt(ColorspaceInterface $colorspace, Imagick $imagick): ColorInterface
+    protected function colorAt(ColorProcessorInterface $processor, FrameInterface $frame): ColorInterface
     {
         try {
-            return $this->driver()
-                ->colorProcessor($colorspace)
-                ->nativeToColor(
-                    $imagick->getImagePixelColor($this->x, $this->y)
-                );
+            return $processor->nativeToColor(
+                $frame->native()->getImagePixelColor($this->x, $this->y)
+            );
         } catch (ImagickException $e) {
             throw new AnalyzerException(
                 'Failed to read color at position (' . $this->x . ', ' . $this->y . ')',

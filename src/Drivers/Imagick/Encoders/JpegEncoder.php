@@ -32,7 +32,7 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
 
         // resolve background color because jpeg has no transparency
         $background = $this->driver()
-            ->colorProcessor($image->colorspace())
+            ->colorProcessor($image)
             ->colorToNative($backgroundColor);
 
         // set alpha value to 1 because Imagick renders

@@ -94,9 +94,9 @@ class Driver extends AbstractDriver
      *
      * @see DriverInterface::colorProcessor()
      */
-    public function colorProcessor(ColorspaceInterface $colorspace): ColorProcessorInterface
+    public function colorProcessor(ImageInterface $image): ColorProcessorInterface
     {
-        return new ColorProcessor($colorspace);
+        return new ColorProcessor($image->colorspace());
     }
 
     /**

@@ -69,7 +69,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
             );
         }
 
-        $color = $this->driver()->colorProcessor($image->colorspace())->colorToNative($color);
+        $color = $this->driver()->colorProcessor($image)->colorToNative($color);
 
         return $this->processor()->toImagickDraw($font, $color);
     }
@@ -94,7 +94,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
             );
         }
 
-        $color = $this->driver()->colorProcessor($image->colorspace())->colorToNative($color);
+        $color = $this->driver()->colorProcessor($image)->colorToNative($color);
 
         return $this->processor()->toImagickDraw($font, $color);
     }

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Analyzers;
 
-use GdImage;
 use Intervention\Image\Analyzers\PixelColorAnalyzer as GenericPixelColorAnalyzer;
 use Intervention\Image\Exceptions\AnalyzerException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ColorInterface;
-use Intervention\Image\Interfaces\ColorspaceInterface;
+use Intervention\Image\Interfaces\ColorProcessorInterface;
+use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use ValueError;
@@ -28,19 +28,14 @@ class PixelColorAnalyzer extends GenericPixelColorAnalyzer implements Specialize
      */
     public function analyze(ImageInterface $image): mixed
     {
-        return $this->colorAt(
-            $image->colorspace(),
-            $image->core()->frame($this->frame)->native()
-        );
+        $colorProcessor = $this->driver()->colorProcessor($image);
+
+        return $this->colorAt($colorProcessor, $image->core()->frame($this->frame));
     }
 
-    /**
-     * @throws InvalidArgumentException
-     * @throws AnalyzerException
-     * @throws StateException
-     */
-    protected function colorAt(ColorspaceInterface $colorspace, GdImage $gd): ColorInterface
+    protected function colorAt(ColorProcessorInterface $processor, FrameInterface $frame): ColorInterface
     {
+        $gd = $frame->native();
         $index = @imagecolorat($gd, $this->x, $this->y);
 
         if (!is_int($index)) {
@@ -57,6 +52,6 @@ class PixelColorAnalyzer extends GenericPixelColorAnalyzer implements Specialize
             );
         }
 
-        return $this->driver()->colorProcessor($colorspace)->nativeToColor($index);
+        return $processor->nativeToColor($index);
     }
 }

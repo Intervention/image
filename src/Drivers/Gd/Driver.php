@@ -13,7 +13,6 @@ use Intervention\Image\Format;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorProcessorInterface;
-use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\CoreInterface;
 use Intervention\Image\Interfaces\FontProcessorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -98,9 +97,9 @@ class Driver extends AbstractDriver
      *
      * @see DriverInterface::colorProcessor()
      */
-    public function colorProcessor(ColorspaceInterface $colorspace): ColorProcessorInterface
+    public function colorProcessor(ImageInterface $image): ColorProcessorInterface
     {
-        return new ColorProcessor($colorspace);
+        return new ColorProcessor();
     }
 
     /**

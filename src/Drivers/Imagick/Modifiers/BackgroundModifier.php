@@ -24,7 +24,7 @@ class BackgroundModifier extends GenericBackgroundModifier implements Specialize
 
         // get imagickpixel from background color
         $pixel = $this->driver()
-            ->colorProcessor($image->colorspace())
+            ->colorProcessor($image)
             ->colorToNative($backgroundColor);
 
         // merge transparent areas with the background color

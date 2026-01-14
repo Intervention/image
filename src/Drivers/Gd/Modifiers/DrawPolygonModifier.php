@@ -29,7 +29,7 @@ class DrawPolygonModifier extends ModifiersDrawPolygonModifier implements Specia
                 imagefilledpolygon(
                     $frame->native(),
                     $this->drawable->toArray(),
-                    $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                    $this->driver()->colorProcessor($image)->colorToNative(
                         $this->backgroundColor()
                     )
                 );
@@ -41,7 +41,7 @@ class DrawPolygonModifier extends ModifiersDrawPolygonModifier implements Specia
                 imagepolygon(
                     $frame->native(),
                     $this->drawable->toArray(),
-                    $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                    $this->driver()->colorProcessor($image)->colorToNative(
                         $this->borderColor()
                     )
                 );

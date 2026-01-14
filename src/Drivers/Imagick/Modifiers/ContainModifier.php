@@ -28,7 +28,7 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
         $transparent = new ImagickPixel('transparent');
 
         $background = $this->driver()
-            ->colorProcessor($image->colorspace())
+            ->colorProcessor($image)
             ->colorToNative(
                 $this->backgroundColor()
             );

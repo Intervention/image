@@ -27,7 +27,7 @@ class DrawLineModifier extends GenericDrawLineModifier implements SpecializedInt
 
             if ($this->drawable->hasBackgroundColor()) {
                 $drawing->setStrokeColor(
-                    $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                    $this->driver()->colorProcessor($image)->colorToNative(
                         $this->backgroundColor()
                     )
                 );

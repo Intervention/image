@@ -40,7 +40,7 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
             }
 
             if ($this->drawable->hasBackgroundColor()) {
-                $backgroundColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                $backgroundColor = $this->driver()->colorProcessor($image)->colorToNative(
                     $this->backgroundColor()
                 );
 
@@ -57,7 +57,7 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
             }
 
             if ($this->drawable->hasBorder() && $this->drawable->borderSize() > 0) {
-                $borderColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                $borderColor = $this->driver()->colorProcessor($image)->colorToNative(
                     $this->borderColor()
                 );
 

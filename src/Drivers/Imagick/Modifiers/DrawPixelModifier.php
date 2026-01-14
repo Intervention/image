@@ -20,7 +20,7 @@ class DrawPixelModifier extends GenericDrawPixelModifier implements SpecializedI
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        $color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+        $color = $this->driver()->colorProcessor($image)->colorToNative(
             $this->driver()->handleColorInput($this->color)
         );
 

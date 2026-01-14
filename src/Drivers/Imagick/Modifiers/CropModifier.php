@@ -27,7 +27,7 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         // decode background color
-        $background = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+        $background = $this->driver()->colorProcessor($image)->colorToNative(
             $this->backgroundColor()
         );
 

@@ -51,7 +51,7 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
             $drawing = new ImagickDraw();
 
             if ($this->drawable->hasBackgroundColor()) {
-                $backgroundColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                $backgroundColor = $this->driver()->colorProcessor($image)->colorToNative(
                     $this->backgroundColor()
                 );
 
@@ -59,7 +59,7 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
             }
 
             if ($this->drawable->hasBorder()) {
-                $borderColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                $borderColor = $this->driver()->colorProcessor($image)->colorToNative(
                     $this->borderColor()
                 );
 

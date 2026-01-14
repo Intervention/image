@@ -50,10 +50,8 @@ class QuantizeColorsModifier extends GenericQuantizeColorsModifier implements Sp
         }
 
         $nativeBackgroundColor = $this->driver()
-            ->colorProcessor(new Rgb())
-            ->colorToNative(
-                $backgroundColor
-            );
+            ->colorProcessor($image)
+            ->colorToNative($backgroundColor);
 
         foreach ($image as $frame) {
             // create new image for color quantization

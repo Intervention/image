@@ -30,9 +30,22 @@ use Intervention\Image\Interfaces\ColorspaceInterface;
 
 class ColorProcessor implements ColorProcessorInterface
 {
+    /**
+     * Create new instance.
+     */
     public function __construct(protected ColorspaceInterface $colorspace)
     {
         //
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorProcessorInterface::colorspace()
+     */
+    public function colorspace(): ColorspaceInterface
+    {
+        return $this->colorspace;
     }
 
     /**

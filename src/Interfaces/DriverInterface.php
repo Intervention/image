@@ -87,9 +87,9 @@ interface DriverInterface
     public function handleColorInput(mixed $input, ?array $decoders = null): ColorInterface;
 
     /**
-     * Return color processor for the given colorspace.
+     * Return color processor for the given image and its colorspace.
      */
-    public function colorProcessor(ColorspaceInterface $colorspace): ColorProcessorInterface;
+    public function colorProcessor(ImageInterface $image): ColorProcessorInterface;
 
     /**
      * Return font processor of the current driver.

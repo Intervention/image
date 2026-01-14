@@ -15,4 +15,9 @@ interface ColorProcessorInterface
      * Turn the given driver's definition of a color into a color object.
      */
     public function nativeToColor(mixed $native): ColorInterface;
+
+    /**
+     * Return the colorspace the processor currently operates in.
+     */
+    public function colorspace(): ColorspaceInterface;
 }

@@ -28,7 +28,7 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
         $drawing = new ImagickDraw();
 
         if ($this->drawable->hasBackgroundColor()) {
-            $backgroundColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+            $backgroundColor = $this->driver()->colorProcessor($image)->colorToNative(
                 $this->backgroundColor()
             );
         } else {
@@ -38,7 +38,7 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
         $drawing->setFillColor($backgroundColor);
 
         if ($this->drawable->hasBorder() && $this->drawable->borderSize() > 0) {
-            $borderColor = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+            $borderColor = $this->driver()->colorProcessor($image)->colorToNative(
                 $this->borderColor()
             );
 

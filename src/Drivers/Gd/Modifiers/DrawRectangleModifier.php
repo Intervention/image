@@ -35,7 +35,7 @@ class DrawRectangleModifier extends GenericDrawRectangleModifier implements Spec
                     $position->y(),
                     $position->x() + $this->drawable->width(),
                     $position->y() + $this->drawable->height(),
-                    $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                    $this->driver()->colorProcessor($image)->colorToNative(
                         $this->backgroundColor()
                     )
                 );
@@ -51,7 +51,7 @@ class DrawRectangleModifier extends GenericDrawRectangleModifier implements Spec
                     $position->y(),
                     $position->x() + $this->drawable->width(),
                     $position->y() + $this->drawable->height(),
-                    $this->driver()->colorProcessor($image->colorspace())->colorToNative(
+                    $this->driver()->colorProcessor($image)->colorToNative(
                         $this->borderColor()
                     )
                 );

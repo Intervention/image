@@ -18,11 +18,11 @@ class PixelColorsAnalyzer extends PixelColorAnalyzer
     public function analyze(ImageInterface $image): mixed
     {
         $colors = new Collection();
-        $colorspace = $image->colorspace();
+        $colorProcessor = $this->driver()->colorProcessor($image);
 
         foreach ($image as $frame) {
             $colors->push(
-                parent::colorAt($colorspace, $frame->native())
+                parent::colorAt($colorProcessor, $frame)
             );
         }
 

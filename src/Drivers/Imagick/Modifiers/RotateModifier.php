@@ -20,7 +20,7 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
     public function apply(ImageInterface $image): ImageInterface
     {
         $background = $this->driver()
-            ->colorProcessor($image->colorspace())
+            ->colorProcessor($image)
             ->colorToNative(
                 $this->backgroundColor()
             );

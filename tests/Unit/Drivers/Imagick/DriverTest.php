@@ -9,7 +9,6 @@ use Intervention\Image\Analyzers\WidthAnalyzer as GenericWidthAnalyzer;
 use Intervention\Image\Decoders\FilePathImageDecoder as GenericFilePathImageDecoder;
 use Intervention\Image\Encoders\PngEncoder as GenericPngEncoder;
 use Intervention\Image\Modifiers\ResizeModifier as GenericResizeModifier;
-use Intervention\Image\Colors\Rgb\Colorspace;
 use Intervention\Image\Drivers\Imagick\Analyzers\WidthAnalyzer;
 use Intervention\Image\Drivers\Imagick\Decoders\FilePathImageDecoder;
 use Intervention\Image\Drivers\Imagick\Driver;
@@ -27,6 +26,7 @@ use Intervention\Image\Interfaces\SpecializableInterface;
 use Intervention\Image\MediaType;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Providers\InputDataProvider;
+use Intervention\Image\Tests\Resource;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
@@ -96,7 +96,7 @@ final class DriverTest extends BaseTestCase
 
     public function testColorProcessor(): void
     {
-        $result = $this->driver->colorProcessor(new Colorspace());
+        $result = $this->driver->colorProcessor(Resource::create()->imageObject(Driver::class));
         $this->assertInstanceOf(ColorProcessorInterface::class, $result);
     }
 

@@ -32,7 +32,7 @@ abstract class FloatColorChannel extends AbstractColorChannel
     {
         if ($normalized < 0 || $normalized > 1) {
             throw new InvalidArgumentException(
-                'Normalized color channel value of ' . static::class . ' must be in range 0 to 1',
+                'Normalized color channel value must be between 0 to 1',
             );
         }
 

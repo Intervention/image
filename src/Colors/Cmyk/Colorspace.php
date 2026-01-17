@@ -40,6 +40,10 @@ class Colorspace implements ColorspaceInterface
      */
     public static function colorFromNormalized(array $normalized): CmykColor
     {
+        if (!in_array(count($normalized), [4, 5])) {
+            throw new InvalidArgumentException('Number of color channels must be 4 or 5 for ' . static::class);
+        }
+
         // add alpha value if missing
         $normalized = count($normalized) === 4 ? array_pad($normalized, 5, 1) : $normalized;
 

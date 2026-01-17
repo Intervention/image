@@ -43,6 +43,10 @@ class Colorspace implements ColorspaceInterface
      */
     public static function colorFromNormalized(array $normalized): RgbColor
     {
+        if (!in_array(count($normalized), [3, 4])) {
+            throw new InvalidArgumentException('Number of color channels must be 3 or 4 for ' . static::class);
+        }
+
         // add alpha value if missing
         $normalized = count($normalized) === 3 ? array_pad($normalized, 4, 1) : $normalized;
 

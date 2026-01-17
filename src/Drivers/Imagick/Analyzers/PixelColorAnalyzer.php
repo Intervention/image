@@ -35,7 +35,7 @@ class PixelColorAnalyzer extends GenericPixelColorAnalyzer implements Specialize
             );
         } catch (ImagickException $e) {
             throw new AnalyzerException(
-                'Failed to read color at position (' . $this->x . ', ' . $this->y . ')',
+                'Failed to read pixel color at position ' . $this->x . ', ' . $this->y,
                 previous: $e
             );
         }

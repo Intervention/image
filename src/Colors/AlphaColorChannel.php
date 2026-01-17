@@ -16,7 +16,7 @@ abstract class AlphaColorChannel extends AbstractColorChannel
     /**
      * @throws InvalidArgumentException
      */
-    final public function __construct(float $value)
+    final public function __construct(float $value = 1)
     {
         if ($value < 0 || $value > 1) {
             throw new InvalidArgumentException(

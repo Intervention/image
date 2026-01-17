@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors\Rgb;
 
+use Intervention\Image\Colors\AbstractColorspace;
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Hsv\Color as HsvColor;
@@ -16,10 +17,9 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
-use Intervention\Image\Interfaces\ColorspaceInterface;
 use TypeError;
 
-class Colorspace implements ColorspaceInterface
+class Colorspace extends AbstractColorspace
 {
     /**
      * Channel class names of colorspace.

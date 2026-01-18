@@ -96,6 +96,7 @@ class Colorspace extends AbstractColorspace
             (int) (255 * (1 - $color->cyan()->normalizedValue()) * (1 - $color->key()->normalizedValue())),
             (int) (255 * (1 - $color->magenta()->normalizedValue()) * (1 - $color->key()->normalizedValue())),
             (int) (255 * (1 - $color->yellow()->normalizedValue()) * (1 - $color->key()->normalizedValue())),
+            $color->alpha()->normalizedValue(),
         );
     }
 

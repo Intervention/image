@@ -23,7 +23,9 @@ class FillModifier extends GenericFillModifier implements SpecializedInterface
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        $color = $this->color($image);
+        $color = $this->driver()->colorProcessor($image)->colorToNative(
+            $this->color()
+        );
 
         foreach ($image as $frame) {
             if ($this->hasPosition()) {
@@ -34,16 +36,6 @@ class FillModifier extends GenericFillModifier implements SpecializedInterface
         }
 
         return $image;
-    }
-
-    /**
-     * @throws StateException
-     */
-    private function color(ImageInterface $image): int
-    {
-        return $this->driver()->colorProcessor($image)->colorToNative(
-            $this->driver()->handleColorInput($this->color)
-        );
     }
 
     /**

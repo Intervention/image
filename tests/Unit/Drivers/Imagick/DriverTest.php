@@ -225,12 +225,12 @@ final class DriverTest extends BaseTestCase
     {
         $this->assertInstanceOf(
             ResizeModifier::class,
-            $this->driver->specializeModifier(new GenericResizeModifier()),
+            $this->driver->specializeModifier(new GenericResizeModifier(100)),
         );
 
         $this->assertInstanceOf(
             ResizeModifier::class,
-            $this->driver->specializeModifier(new ResizeModifier()),
+            $this->driver->specializeModifier(new ResizeModifier(100)),
         );
     }
 

@@ -89,7 +89,6 @@
 ImageException [1]
 ├── LogicException [2]
 │   ├── ArgumentException
-│   │   ├── MissingArgumentException
 │   │   └── InvalidArgumentException
 │   ├── NotSupportedException
 │   └── StateException

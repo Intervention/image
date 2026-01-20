@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Intervention\Image\Interfaces;
 
 use Countable;
-use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Geometry\Bezier;
 use Intervention\Image\Geometry\Circle;
@@ -23,8 +22,6 @@ use IteratorAggregate;
 /**
  * TODO:
  * - Maybe rename save() to encodeAndSave()
- * - Maybe save(?string $path = null, SaveOptions $options = null)
- * - Remove concrete class "AutoEncoder" from encode()
  */
 
 /**
@@ -554,9 +551,10 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function drawBezier(callable|Bezier $bezier): self;
 
     /**
-     * Encode the current image with the given encoder.
+     * Encode the current image using the given encoder or by automatically
+     * detecting the format based on the originally loaded image by default.
      */
-    public function encode(string|EncoderInterface $encoder = new AutoEncoder()): EncodedImageInterface;
+    public function encode(null|string|EncoderInterface $encoder = null): EncodedImageInterface;
 
     /**
      * Encode the current image by resolving the encoder using one of the given arguments.

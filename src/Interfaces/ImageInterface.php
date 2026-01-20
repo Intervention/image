@@ -21,6 +21,13 @@ use Intervention\Image\Format;
 use IteratorAggregate;
 
 /**
+ * TODO:
+ * - Maybe rename save() to encodeAndSave()
+ * - Maybe save(?string $path = null, SaveOptions $options = null)
+ * - Remove concrete class "AutoEncoder" from encode()
+ */
+
+/**
  * @extends IteratorAggregate<FrameInterface>
  */
 interface ImageInterface extends IteratorAggregate, Countable

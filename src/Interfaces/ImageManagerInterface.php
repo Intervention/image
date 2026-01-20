@@ -7,6 +7,16 @@ namespace Intervention\Image\Interfaces;
 use SplFileInfo;
 use Stringable;
 
+/**
+ * TODO: Replace decodeFrom() with:
+ *
+ * decodeFile(string|SplFileInfo $file)
+ * decodeBinary(string|Stringable $binary)
+ * decodeBase64(string|Stringable $base64)
+ * decodeDataUri(string|Stringable|DataUriInterface $uri)
+ * decodeStream(resource $stream)
+ */
+
 interface ImageManagerInterface
 {
     /**

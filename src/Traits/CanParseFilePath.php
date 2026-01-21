@@ -53,7 +53,7 @@ trait CanParseFilePath
         }
 
         if (!@is_file($path)) {
-            throw new FileNotFoundException('Target "' . $basename . '" is no file in directory "' . $dirname . '"');
+            throw new FileNotFoundException('"' . $basename . '" is no file in directory "' . $dirname . '"');
         }
 
         if (!@is_readable($dirname)) {

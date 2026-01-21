@@ -20,7 +20,7 @@ final class StripMetaModifierTest extends ImagickTestCase
         $this->assertEquals('Oliver Vogel', $image->exif('IFD0.Artist'));
         $image->modify(new StripMetaModifier());
         $this->assertNull($image->exif('IFD0.Artist'));
-        $result = $image->encodeUsing(format: Format::JPEG);
+        $result = $image->encodeUsingFormat(Format::JPEG);
         $this->assertEmpty(exif_read_data($result->toFilePointer())['IFD0.Artist'] ?? null);
     }
 }

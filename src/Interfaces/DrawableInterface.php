@@ -19,7 +19,7 @@ interface DrawableInterface
     /**
      * Set the background color of the drawable object.
      */
-    public function setBackgroundColor(mixed $color): self;
+    public function setBackgroundColor(string|ColorInterface $color): self;
 
     /**
      * Return background color of drawable object.
@@ -34,7 +34,7 @@ interface DrawableInterface
     /**
      * Set border color & size of the drawable object.
      */
-    public function setBorder(mixed $color, int $size = 1): self;
+    public function setBorder(string|ColorInterface $color, int $size = 1): self;
 
     /**
      * Set border size of the drawable object.
@@ -44,7 +44,7 @@ interface DrawableInterface
     /**
      * Set border color of the drawable object.
      */
-    public function setBorderColor(mixed $color): self;
+    public function setBorderColor(string|ColorInterface $color): self;
 
     /**
      * Get border size.

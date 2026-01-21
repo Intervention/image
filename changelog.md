@@ -35,15 +35,15 @@
 - DriverInterface requires implementation of `createCore()`
 - Replace DriverInterface::specialize() with DriverInterface::specializeModifier(), DriverInterface::specializeAnalyzer(), DriverInterface::specializeDecoder() and DriverInterface::specializeEncoder()
 - Attribute `$per_unit` has change to `$unit` with different signature in `Resolution::class`
-- ImageInterface::toJpeg() and ImageInterface::toJpg() are replaced by ImageInterface::encodeUsing()
-- ImageInterface::toPng() is replaced by ImageInterface::encodeUsing()
-- ImageInterface::toGif() is replaced by ImageInterface::encodeUsing()
-- ImageInterface::toJp2() and ImageInterface::toJpeg2000() are replaced by ImageInterface::encodeUsing()
-- ImageInterface::toWebp() is replaced by ImageInterface::encodeUsing()
-- ImageInterface::toBitmap() and ImageInterface::toBmp() are replaced by ImageInterface::encodeUsing()
-- ImageInterface::toAvif() is replaced by ImageInterface::encodeUsing()
-- ImageInterface::toHeic() is replaced by ImageInterface::encodeUsing()
-- ImageInterface::toTiff() and ImageInterface::toTif() are replaced by ImageInterface::encodeUsing()
+- ImageInterface::toJpeg() and ImageInterface::toJpg() are replaced by ImageInterface::encodeUsingFormat()
+- ImageInterface::toPng() is replaced by ImageInterface::encodeUsingFormat()
+- ImageInterface::toGif() is replaced by ImageInterface::encodeUsingFormat()
+- ImageInterface::toJp2() and ImageInterface::toJpeg2000() are replaced by ImageInterface::encodeUsingFormat()
+- ImageInterface::toWebp() is replaced by ImageInterface::encodeUsingFormat()
+- ImageInterface::toBitmap() and ImageInterface::toBmp() are replaced by ImageInterface::encodeUsingFormat()
+- ImageInterface::toAvif() is replaced by ImageInterface::encodeUsingFormat()
+- ImageInterface::toHeic() is replaced by ImageInterface::encodeUsingFormat()
+- ImageInterface::toTiff() and ImageInterface::toTif() are replaced by ImageInterface::encodeUsingFormat()
 - DriverInterface::handleColorInput() has null as default
 - Method ImageManagerInterface::read() is now handled by ImageManagerInterface::decode() and ImageManagerInterface::decodeFrom()
 - Method ImageManagerInterface::animate() has a slightly different signature

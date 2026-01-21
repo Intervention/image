@@ -20,12 +20,6 @@ use Intervention\Image\Format;
 use IteratorAggregate;
 
 /**
- * TODO:
- * - Maybe rename save() to encodeAndSave()
- * - ColorInterface|string|null instead of mixed type for all colors
- */
-
-/**
  * @extends IteratorAggregate<FrameInterface>
  */
 interface ImageInterface extends IteratorAggregate, Countable
@@ -78,6 +72,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @link https://image.intervention.io/v3/basics/image-output#encode--save-combined
      */
     public function save(?string $path = null, mixed ...$options): self;
+    // todo: maybe rename to encodeAndSave()
 
     /**
      * Apply given modifier to current image.
@@ -232,7 +227,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @link https://image.intervention.io/v3/modifying-images/effects#reduce-colors
      */
-    public function reduceColors(int $limit, mixed $background = 'transparent'): self;
+    public function reduceColors(int $limit, string|ColorInterface $background = 'transparent'): self;
 
     /**
      * Sharpen the current image with given strength.
@@ -318,7 +313,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @param string $background
      */
-    public function rotate(float $angle, mixed $background = null): self;
+    public function rotate(float $angle, null|string|ColorInterface $background = null): self;
 
     /**
      * Rotate the image to be upright according to exif information.
@@ -399,7 +394,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function resizeCanvas(
         null|int|Fraction $width = null,
         null|int|Fraction $height = null,
-        mixed $background = null,
+        null|string|ColorInterface $background = null,
         string|Alignment $alignment = Alignment::CENTER
     ): self;
 
@@ -413,7 +408,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function resizeCanvasRelative(
         null|int|Fraction $width = null,
         null|int|Fraction $height = null,
-        mixed $background = null,
+        null|string|ColorInterface $background = null,
         string|Alignment $alignment = Alignment::CENTER
     ): self;
 
@@ -433,7 +428,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function pad(
         int|Fraction $width,
         int|Fraction $height,
-        mixed $background = null,
+        null|string|ColorInterface $background = null,
         string|Alignment $alignment = Alignment::CENTER
     ): self;
 
@@ -448,7 +443,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function contain(
         int|Fraction $width,
         int|Fraction $height,
-        mixed $background = null,
+        null|string|ColorInterface $background = null,
         string|Alignment $alignment = Alignment::CENTER
     ): self;
 
@@ -464,7 +459,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         int|Fraction $height,
         int $x = 0,
         int $y = 0,
-        mixed $background = null,
+        null|string|ColorInterface $background = null,
         string|Alignment $alignment = Alignment::TOP_LEFT
     ): self;
 
@@ -500,14 +495,14 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#fill-images-with-color
      */
-    public function fill(mixed $color, ?int $x = null, ?int $y = null): self;
+    public function fill(string|ColorInterface $color, ?int $x = null, ?int $y = null): self;
 
     /**
      * Draw a single pixel at given position defined by the coordinates x and y in a given color.
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-pixels
      */
-    public function drawPixel(int $x, int $y, mixed $color): self;
+    public function drawPixel(int $x, int $y, string|ColorInterface $color): self;
 
     /**
      * Draw a rectangle on the current image.
@@ -558,18 +553,25 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function encode(null|string|EncoderInterface $encoder = null): EncodedImageInterface;
 
     /**
-     * Encode the current image by resolving the encoder using one of the given arguments.
-     *
-     * - Image format
-     * - Media (MIME) type
-     * - File extension
-     * - File path
+     * Encode the current image by resolving the encoder using the given image format.
      */
-    public function encodeUsing(
-        null|Format $format = null,
-        null|string|MediaType $mediaType = null,
-        null|string|FileExtension $extension = null,
-        null|string $path = null,
+    public function encodeUsingFormat(Format $format, mixed ...$options): EncodedImageInterface;
+
+    /**
+     * Encode the current image by resolving the encoder using the given media (mime) type.
+     */
+    public function encodeUsingMediaType(string|MediaType $mediaType, mixed ...$options): EncodedImageInterface;
+
+    /**
+     * Encode the current image by resolving the encoder using the image file extension.
+     */
+    public function encodeUsingFileExtension(
+        string|FileExtension $fileExtension,
         mixed ...$options,
     ): EncodedImageInterface;
+
+    /**
+     * Encode the current image by resolving the encoder using the file path.
+     */
+    public function encodeUsingPath(string $path, mixed ...$options,): EncodedImageInterface;
 }

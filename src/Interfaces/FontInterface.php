@@ -11,7 +11,7 @@ interface FontInterface
     /**
      * Set color of font.
      */
-    public function setColor(mixed $color): self;
+    public function setColor(string|ColorInterface $color): self;
 
     /**
      * Get color of font.
@@ -21,7 +21,7 @@ interface FontInterface
     /**
      * Set stroke color of font.
      */
-    public function setStrokeColor(mixed $color): self;
+    public function setStrokeColor(string|ColorInterface $color): self;
 
     /**
      * Get stroke color of font

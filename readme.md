@@ -58,7 +58,7 @@ $image->resizeCanvas(height: Fraction::THIRD, background: Color::rgb(255, 55, 0)
 $image->insert('images/watermark.png', alignment: Alignment::CENTER);
 
 // encode edited image
-$encoded = $image->encodeUsing(format: Format::JPEG, quality: 65);
+$encoded = $image->encodeUsingFormat(Format::JPEG, quality: 65);
 
 // save encoded image
 $encoded->save('images/example.jpg');

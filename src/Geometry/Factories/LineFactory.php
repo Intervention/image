@@ -6,6 +6,7 @@ namespace Intervention\Image\Geometry\Factories;
 
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Line;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DrawableFactoryInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
 
@@ -58,7 +59,7 @@ class LineFactory implements DrawableFactoryInterface
     /**
      * Set the color of the line to be produced.
      */
-    public function color(mixed $color): self
+    public function color(string|ColorInterface $color): self
     {
         $this->line->setBackgroundColor($color);
         $this->line->setBorderColor($color);
@@ -69,7 +70,7 @@ class LineFactory implements DrawableFactoryInterface
     /**
      * Set the (background) color of the line to be produced.
      */
-    public function background(mixed $color): self
+    public function background(string|ColorInterface $color): self
     {
         $this->line->setBackgroundColor($color);
         $this->line->setBorderColor($color);
@@ -80,7 +81,7 @@ class LineFactory implements DrawableFactoryInterface
     /**
      * Set the border size & border color of the line to be produced.
      */
-    public function border(mixed $color, int $size = 1): self
+    public function border(string|ColorInterface $color, int $size = 1): self
     {
         $this->line->setBackgroundColor($color);
         $this->line->setBorderColor($color);

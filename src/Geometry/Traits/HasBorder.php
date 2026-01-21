@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Intervention\Image\Geometry\Traits;
 
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Interfaces\ColorInterface;
 
 trait HasBorder
 {
-    protected mixed $borderColor = null;
+    protected null|string|ColorInterface $borderColor = null;
     protected int $borderSize = 0;
 
     /**
@@ -18,7 +19,7 @@ trait HasBorder
      *
      * @throws InvalidArgumentException
      */
-    public function setBorder(mixed $color, int $size = 1): self
+    public function setBorder(string|ColorInterface $color, int $size = 1): self
     {
         return $this->setBorderSize($size)->setBorderColor($color);
     }
@@ -58,7 +59,7 @@ trait HasBorder
      *
      * @see DrawableInterface::setBorderColor()
      */
-    public function setBorderColor(mixed $color): self
+    public function setBorderColor(string|ColorInterface $color): self
     {
         $this->borderColor = $color;
 

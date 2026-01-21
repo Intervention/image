@@ -459,7 +459,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::reduceColors()
      */
-    public function reduceColors(int $limit, mixed $background = 'transparent'): ImageInterface
+    public function reduceColors(int $limit, string|ColorInterface $background = 'transparent'): ImageInterface
     {
         return $this->modify(new QuantizeColorsModifier($limit, $background));
     }
@@ -579,7 +579,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::rotate()
      */
-    public function rotate(float $angle, mixed $background = null): ImageInterface
+    public function rotate(float $angle, null|string|ColorInterface $background = null): ImageInterface
     {
         return $this->modify(new RotateModifier($angle, $background));
     }
@@ -704,7 +704,7 @@ final class Image implements ImageInterface
     public function resizeCanvas(
         null|int|Fraction $width = null,
         null|int|Fraction $height = null,
-        mixed $background = null,
+        null|string|ColorInterface $background = null,
         string|Alignment $alignment = Alignment::CENTER
     ): ImageInterface {
         return $this->modify(new ResizeCanvasModifier(...[
@@ -726,7 +726,7 @@ final class Image implements ImageInterface
     public function resizeCanvasRelative(
         null|int|Fraction $width = null,
         null|int|Fraction $height = null,
-        mixed $background = null,
+        null|string|ColorInterface $background = null,
         string|Alignment $alignment = Alignment::CENTER
     ): ImageInterface {
         return $this->modify(new ResizeCanvasRelativeModifier(...[
@@ -748,7 +748,7 @@ final class Image implements ImageInterface
     public function pad(
         int|Fraction $width,
         int|Fraction $height,
-        mixed $background = null,
+        null|string|ColorInterface $background = null,
         string|Alignment $alignment = Alignment::CENTER
     ): ImageInterface {
         return $this->modify(new PadModifier(...[
@@ -770,7 +770,7 @@ final class Image implements ImageInterface
     public function contain(
         int|Fraction $width,
         int|Fraction $height,
-        mixed $background = null,
+        null|string|ColorInterface $background = null,
         string|Alignment $alignment = Alignment::CENTER
     ): ImageInterface {
         return $this->modify(new ContainModifier(...[
@@ -794,7 +794,7 @@ final class Image implements ImageInterface
         int|Fraction $height,
         int $x = 0,
         int $y = 0,
-        mixed $background = null,
+        null|string|ColorInterface $background = null,
         string|Alignment $alignment = Alignment::TOP_LEFT
     ): ImageInterface {
         return $this->modify(new CropModifier(...[
@@ -838,7 +838,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::fill()
      */
-    public function fill(mixed $color, ?int $x = null, ?int $y = null): ImageInterface
+    public function fill(string|ColorInterface $color, ?int $x = null, ?int $y = null): ImageInterface
     {
         return $this->modify(
             new FillModifier(
@@ -853,7 +853,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawPixel()
      */
-    public function drawPixel(int $x, int $y, mixed $color): ImageInterface
+    public function drawPixel(int $x, int $y, string|ColorInterface $color): ImageInterface
     {
         return $this->modify(new DrawPixelModifier(new Point($x, $y), $color));
     }
@@ -959,44 +959,43 @@ final class Image implements ImageInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageInterface::encodeUsing()
-     *
-     * @throws InvalidArgumentException
+     * @see ImageInterface::encodeUsingFormat()
      */
-    public function encodeUsing(
-        null|Format $format = null,
-        null|string|MediaType $mediaType = null,
-        null|string|FileExtension $extension = null,
-        null|string $path = null,
+    public function encodeUsingFormat(Format $format, mixed ...$options): EncodedImageInterface
+    {
+        return $this->encode(new FormatEncoder($format, ...$options));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::encodeUsingMediaType()
+     */
+    public function encodeUsingMediaType(string|MediaType $mediaType, mixed ...$options): EncodedImageInterface
+    {
+        return $this->encode(new MediaTypeEncoder($mediaType, ...$options));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::encodeUsingFileExtension()
+     */
+    public function encodeUsingFileExtension(
+        string|FileExtension $fileExtension,
         mixed ...$options,
     ): EncodedImageInterface {
-        $param = array_filter([
-            'format' => $format,
-            'mediaType' => $mediaType,
-            'extension' => $extension,
-            'path' => $path,
-        ], fn(mixed $value): bool => $value !== null);
+        return $this->encode(new FileExtensionEncoder($fileExtension, ...$options));
+    }
 
-        if (count($param) === 0 && count($options) === 0) {
-            throw new InvalidArgumentException('Method ImageInterface::encode() expects at least 1 argument, 0 given');
-        }
-
-        if (count($param) !== 1) {
-            throw new InvalidArgumentException(
-                'Method ImageInterface::encode() expects either ' .
-                    '$encoder, $format, $mediaType, $extension or $path as an argument',
-            );
-        }
-
-        $encoderKey = array_key_first($param);
-        $using = $param[$encoderKey];
-
-        return $this->encode(match ($encoderKey) {
-            'format' => new FormatEncoder($using, ...$options),
-            'mediaType' => new MediaTypeEncoder($using, ...$options),
-            'extension' => new FileExtensionEncoder($using, ...$options),
-            'path' => new FilePathEncoder($using, ...$options),
-        });
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::encodeUsingPath()
+     */
+    public function encodeUsingPath(string $path, mixed ...$options,): EncodedImageInterface
+    {
+        return $this->encode(new FilePathEncoder($path, ...$options));
     }
 
     /**

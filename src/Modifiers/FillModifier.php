@@ -11,7 +11,7 @@ use Intervention\Image\Interfaces\PointInterface;
 class FillModifier extends SpecializableModifier
 {
     public function __construct(
-        public mixed $color,
+        public string|ColorInterface $color,
         public ?PointInterface $position = null
     ) {
         //

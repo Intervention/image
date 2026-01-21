@@ -73,11 +73,11 @@ class AnimationFactory implements AnimationFactoryInterface
      *
      * @see AnimationFactoryInterface::add()
      */
-    public function add(mixed $source, float $delay = 1): AnimationFactoryInterface
+    public function add(mixed $image, float $delay = 1): AnimationFactoryInterface
     {
         $this->currentFrameNumber++;
 
-        $this->sources[$this->currentFrameNumber] = $source;
+        $this->sources[$this->currentFrameNumber] = $image;
         $this->delays[$this->currentFrameNumber] = $delay;
         $this->processingCalls[$this->currentFrameNumber] = null;
         $this->processingArguments[$this->currentFrameNumber] = null;
@@ -112,13 +112,13 @@ class AnimationFactory implements AnimationFactoryInterface
      * @param null|array<mixed> $processingArguments
      */
     private function buildFrame(
-        mixed $source,
+        mixed $image,
         float $delay,
         ?string $processingCall = null,
         ?array $processingArguments = null,
     ): FrameInterface {
         // decode image source
-        $image = $this->driver->handleImageInput($source);
+        $image = $this->driver->handleImageInput($image);
 
         // adjust size if necessary
         if ($image->width() !== $this->width || $image->height() !== $this->height) {

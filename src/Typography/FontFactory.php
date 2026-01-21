@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Typography;
 
 use Intervention\Image\Alignment;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FontInterface;
 
 class FontFactory
@@ -72,7 +73,7 @@ class FontFactory
     /**
      * Set outline stroke effect for the font to be built.
      */
-    public function stroke(mixed $color, int $width = 1): self
+    public function stroke(string|ColorInterface $color, int $width = 1): self
     {
         $this->font->setStrokeWidth($width);
         $this->font->setStrokeColor($color);
@@ -83,7 +84,7 @@ class FontFactory
     /**
      * Set color for the font to be built.
      */
-    public function color(mixed $color): self
+    public function color(string|ColorInterface $color): self
     {
         $this->font->setColor($color);
 

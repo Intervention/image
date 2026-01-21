@@ -24,10 +24,10 @@ interface DrawableFactoryInterface
     /**
      * Define the background color of the drawable object.
      */
-    public function background(mixed $color): self;
+    public function background(string|ColorInterface $color): self;
 
     /**
      * Set the border size & color of the drawable object to be produced.
      */
-    public function border(mixed $color, int $size = 1): self;
+    public function border(string|ColorInterface $color, int $size = 1): self;
 }

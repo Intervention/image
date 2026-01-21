@@ -7,6 +7,7 @@ namespace Intervention\Image\Geometry\Factories;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Bezier;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DrawableFactoryInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
 
@@ -69,7 +70,7 @@ class BezierFactory implements DrawableFactoryInterface
     /**
      * Set the background color of the bezier to be produced.
      */
-    public function background(mixed $color): self
+    public function background(string|ColorInterface $color): self
     {
         $this->bezier->setBackgroundColor($color);
 
@@ -81,7 +82,7 @@ class BezierFactory implements DrawableFactoryInterface
      *
      * @throws InvalidArgumentException
      */
-    public function border(mixed $color, int $size = 1): self
+    public function border(string|ColorInterface $color, int $size = 1): self
     {
         $this->bezier->setBorder($color, $size);
 

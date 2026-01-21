@@ -21,7 +21,7 @@ class ResizeCanvasModifier extends SpecializableModifier
     public function __construct(
         public ?int $width = null,
         public ?int $height = null,
-        public mixed $background = null,
+        public null|string|ColorInterface $background = null,
         public string|Alignment $alignment = Alignment::CENTER
     ) {
         //

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image;
 
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Interfaces\ColorInterface;
 
 class Config
 {
@@ -16,7 +17,7 @@ class Config
     public function __construct(
         public bool $autoOrientation = true,
         public bool $decodeAnimation = true,
-        public mixed $backgroundColor = 'ffffff',
+        public string|ColorInterface $backgroundColor = 'ffffff',
         public bool $strip = false,
     ) {
         //

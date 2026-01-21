@@ -10,6 +10,7 @@ use Intervention\Image\Exceptions\FileNotFoundException;
 use Intervention\Image\Exceptions\FileNotReadableException;
 use Intervention\Image\Exceptions\FilesystemException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FontInterface;
 use Intervention\Image\Traits\CanParseFilePath;
 
@@ -21,8 +22,8 @@ class Font implements FontInterface
         protected ?string $filepath = null,
         protected float $size = 12,
         protected float $angle = 0,
-        protected mixed $color = '000000',
-        protected mixed $strokeColor = 'ffffff',
+        protected string|ColorInterface $color = '000000',
+        protected string|ColorInterface $strokeColor = 'ffffff',
         protected int $strokeWidth = 0,
         protected Alignment $alignment = Alignment::LEFT,
         protected Alignment $verticalAlignment = Alignment::BOTTOM,
@@ -122,7 +123,7 @@ class Font implements FontInterface
      *
      * @see FontInterface::setColor()
      */
-    public function setColor(mixed $color): FontInterface
+    public function setColor(string|ColorInterface $color): FontInterface
     {
         $this->color = $color;
 
@@ -144,7 +145,7 @@ class Font implements FontInterface
      *
      * @see FontInterface::setStrokeColor()
      */
-    public function setStrokeColor(mixed $color): FontInterface
+    public function setStrokeColor(string|ColorInterface $color): FontInterface
     {
         $this->strokeColor = $color;
 

@@ -163,21 +163,21 @@ final class ImageTest extends ImagickTestCase
 
     public function testEncodeByMediaType(): void
     {
-        $result = $this->readTestImage('blue.gif')->encodeUsing(mediaType: 'image/png');
+        $result = $this->readTestImage('blue.gif')->encodeUsingMediaType('image/png');
         $this->assertInstanceOf(EncodedImage::class, $result);
         $this->assertMediaType('image/png', $result);
     }
 
     public function testEncodeByExtension(): void
     {
-        $result = $this->readTestImage('blue.gif')->encodeUsing(extension: 'png');
+        $result = $this->readTestImage('blue.gif')->encodeUsingFileExtension('png');
         $this->assertInstanceOf(EncodedImage::class, $result);
         $this->assertMediaType('image/png', $result);
     }
 
     public function testEncodeByPath(): void
     {
-        $result = $this->readTestImage('blue.gif')->encodeUsing(path: 'foo/bar.png');
+        $result = $this->readTestImage('blue.gif')->encodeUsingPath('foo/bar.png');
         $this->assertInstanceOf(EncodedImage::class, $result);
         $this->assertMediaType('image/png', $result);
     }

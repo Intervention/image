@@ -15,7 +15,7 @@ class QuantizeColorsModifier extends SpecializableModifier
      */
     public function __construct(
         public int $limit,
-        public mixed $background = 'transparent'
+        public string|ColorInterface $background = 'transparent'
     ) {
         //
     }
@@ -27,8 +27,6 @@ class QuantizeColorsModifier extends SpecializableModifier
      */
     protected function backgroundColor(): ColorInterface
     {
-        return $this->driver()->handleColorInput(
-            $this->background ?? $this->driver()->config()->backgroundColor
-        );
+        return $this->driver()->handleColorInput($this->background); // todo: convert to image's colorspace
     }
 }

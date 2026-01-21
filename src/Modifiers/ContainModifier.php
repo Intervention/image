@@ -18,7 +18,7 @@ class ContainModifier extends SpecializableModifier
     public function __construct(
         public int $width,
         public int $height,
-        public mixed $background = null,
+        public null|string|ColorInterface $background = null,
         public string|Alignment $alignment = Alignment::CENTER
     ) {
         //

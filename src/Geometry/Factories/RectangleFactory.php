@@ -7,6 +7,7 @@ namespace Intervention\Image\Geometry\Factories;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DrawableFactoryInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
 use Intervention\Image\Interfaces\PointInterface;
@@ -95,7 +96,7 @@ class RectangleFactory implements DrawableFactoryInterface
     /**
      * Set the background color of the rectangle to be produced.
      */
-    public function background(mixed $color): self
+    public function background(string|ColorInterface $color): self
     {
         $this->rectangle->setBackgroundColor($color);
 
@@ -107,7 +108,7 @@ class RectangleFactory implements DrawableFactoryInterface
      *
      * @throws InvalidArgumentException
      */
-    public function border(mixed $color, int $size = 1): self
+    public function border(string|ColorInterface $color, int $size = 1): self
     {
         $this->rectangle->setBorder($color, $size);
 

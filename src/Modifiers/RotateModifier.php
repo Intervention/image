@@ -10,8 +10,10 @@ use Intervention\Image\Interfaces\ColorInterface;
 
 class RotateModifier extends SpecializableModifier
 {
-    public function __construct(public float $angle, public mixed $background = null)
-    {
+    public function __construct(
+        public float $angle,
+        public null|string|ColorInterface $background = null,
+    ) {
         //
     }
 

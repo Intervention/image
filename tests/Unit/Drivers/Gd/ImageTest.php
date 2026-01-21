@@ -151,29 +151,29 @@ final class ImageTest extends GdTestCase
 
     public function testEncodeByMediaType(): void
     {
-        $result = $this->readTestImage('blue.gif')->encodeUsing(mediaType: 'image/png');
+        $result = $this->readTestImage('blue.gif')->encodeUsingMediaType('image/png');
         $this->assertInstanceOf(EncodedImage::class, $result);
         $this->assertMediaType('image/png', $result);
 
-        $result = $this->readTestImage('blue.gif')->encodeUsing(mediaType: MediaType::IMAGE_PNG);
+        $result = $this->readTestImage('blue.gif')->encodeUsingMediaType(MediaType::IMAGE_PNG);
         $this->assertInstanceOf(EncodedImage::class, $result);
         $this->assertMediaType('image/png', $result);
     }
 
     public function testEncodeByExtension(): void
     {
-        $result = $this->readTestImage('blue.gif')->encodeUsing(extension: 'png');
+        $result = $this->readTestImage('blue.gif')->encodeUsingFileExtension('png');
         $this->assertInstanceOf(EncodedImage::class, $result);
         $this->assertMediaType('image/png', $result);
 
-        $result = $this->readTestImage('blue.gif')->encodeUsing(extension: FileExtension::PNG);
+        $result = $this->readTestImage('blue.gif')->encodeUsingFileExtension(FileExtension::PNG);
         $this->assertInstanceOf(EncodedImage::class, $result);
         $this->assertMediaType('image/png', $result);
     }
 
     public function testEncodeByPath(): void
     {
-        $result = $this->readTestImage('blue.gif')->encodeUsing(path: 'foo/bar.png');
+        $result = $this->readTestImage('blue.gif')->encodeUsingPath('foo/bar.png');
         $this->assertInstanceOf(EncodedImage::class, $result);
         $this->assertMediaType('image/png', $result);
     }

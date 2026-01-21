@@ -23,7 +23,7 @@ class CropModifier extends SpecializableModifier
         public int $height,
         public int $x = 0,
         public int $y = 0,
-        public mixed $background = null,
+        public null|string|ColorInterface $background = null,
         public string|Alignment $alignment = Alignment::TOP_LEFT
     ) {
         //

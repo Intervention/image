@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Geometry\Traits;
 
+use Intervention\Image\Interfaces\ColorInterface;
+
 trait HasBackgroundColor
 {
-    protected mixed $backgroundColor = null;
+    protected null|string|ColorInterface $backgroundColor = null;
 
     /**
      * {@inheritdoc}
      *
      * @see DrawableInterface::setBackgroundColor()
      */
-    public function setBackgroundColor(mixed $color): self
+    public function setBackgroundColor(string|ColorInterface $color): self
     {
         $this->backgroundColor = $color;
 
@@ -25,7 +27,7 @@ trait HasBackgroundColor
      *
      * @see DrawableInterface::backgroundColor()
      */
-    public function backgroundColor(): mixed
+    public function backgroundColor(): null|string|ColorInterface
     {
         return $this->backgroundColor;
     }

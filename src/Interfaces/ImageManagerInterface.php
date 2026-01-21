@@ -7,16 +7,6 @@ namespace Intervention\Image\Interfaces;
 use SplFileInfo;
 use Stringable;
 
-/**
- * TODO: Replace decodeFrom() with:
- *
- * decodeFile(string|SplFileInfo $file)
- * decodeBinary(string|Stringable $binary)
- * decodeBase64(string|Stringable $base64)
- * decodeDataUri(string|Stringable|DataUriInterface $uri)
- * decodeStream(resource $stream)
- */
-
 interface ImageManagerInterface
 {
     /**
@@ -41,7 +31,7 @@ interface ImageManagerInterface
     ): ImageInterface;
 
     /**
-     * Create new image instance from given image source which can be one of the following:
+     * Decode new image instance from a given image source which can be one of the following:
      *
      * - Path in filesystem
      * - File Pointer resource
@@ -71,25 +61,34 @@ interface ImageManagerInterface
     public function decode(mixed $source, null|string|array|DecoderInterface $decoders = null): ImageInterface;
 
     /**
-     * Create a new image instance by passing one of the following image sources:
-     *
-     * - Path in filesystem
-     * - File Pointer resource
-     * - SplFileInfo object
-     * - Raw binary image data
-     * - Base64 encoded image data
-     * - Data Uri
-     *
-     * @link https://image.intervention.io/v3/basics/instantiation#read-image-sources
+     * Decode new image instance from a given path in filesystem.
      */
-    public function decodeFrom(
-        null|string|Stringable $path = null,
-        null|string|Stringable $binary = null,
-        null|string|Stringable $base64 = null,
-        null|string|Stringable|DataUriInterface $dataUri = null,
-        null|SplFileInfo $splFileInfo = null,
-        mixed $stream = null,
-    ): ImageInterface;
+    public function decodePath(string|Stringable $path): ImageInterface;
+
+    /**
+     * Decode new image instance from ...
+     */
+    public function decodeSplFileInfo(SplFileInfo $splFileInfo): ImageInterface;
+
+    /**
+     * Decode new image instance from ...
+     */
+    public function decodeBinary(string|Stringable $binary): ImageInterface;
+
+    /**
+     * Decode new image instance from ...
+     */
+    public function decodeBase64(string|Stringable $base64): ImageInterface;
+
+    /**
+     * Decode new image instance from ...
+     */
+    public function decodeDataUri(string|Stringable|DataUriInterface $uri): ImageInterface;
+
+    /**
+     * Decode new image instance from ...
+     */
+    public function decodeStream(mixed $stream): ImageInterface;
 
     /**
      * Return currently used driver.

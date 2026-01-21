@@ -138,7 +138,7 @@ class ImageManagerTest extends BaseTestCase
     public function testDecodeRotationAdjustment(DriverInterface $driver): void
     {
         $manager = new ImageManager($driver);
-        $image = $manager->decodeFrom(path: Resource::create('orientation.jpg')->path());
+        $image = $manager->decodePath(path: Resource::create('orientation.jpg')->path());
         $this->assertColor(1, 0, 254, 255, $image->colorAt(3, 3));
     }
 
@@ -146,7 +146,7 @@ class ImageManagerTest extends BaseTestCase
     public function testDecodeWithoutRotationAdjustment(DriverInterface $driver): void
     {
         $manager = new ImageManager($driver, autoOrientation: false);
-        $image = $manager->decodeFrom(path: Resource::create('orientation.jpg')->path());
+        $image = $manager->decodePath(path: Resource::create('orientation.jpg')->path());
         $this->assertColor(250, 2, 3, 255, $image->colorAt(3, 3));
     }
 
@@ -154,7 +154,7 @@ class ImageManagerTest extends BaseTestCase
     public function testDecodeAnimation(DriverInterface $driver): void
     {
         $manager = new ImageManager($driver);
-        $image = $manager->decodeFrom(path: Resource::create('animation.gif')->path());
+        $image = $manager->decodePath(Resource::create('animation.gif')->path());
         $this->assertTrue($image->isAnimated());
     }
 
@@ -162,7 +162,7 @@ class ImageManagerTest extends BaseTestCase
     public function testDecodeAnimationDiscarded(DriverInterface $driver): void
     {
         $manager = new ImageManager($driver, decodeAnimation: false);
-        $image = $manager->decodeFrom(path: Resource::create('animation.gif')->path());
+        $image = $manager->decodePath(Resource::create('animation.gif')->path());
         $this->assertFalse($image->isAnimated());
     }
 
@@ -170,7 +170,7 @@ class ImageManagerTest extends BaseTestCase
     public function testApplyBackgroundColorDefault(DriverInterface $driver): void
     {
         $manager = new ImageManager($driver);
-        $image = $manager->decodeFrom(path: Resource::create('blocks.png')->path());
+        $image = $manager->decodePath(Resource::create('blocks.png')->path());
         $result = $image->background();
         $this->assertColor(255, 255, 255, 255, $image->colorAt(530, 0));
         $this->assertColor(255, 255, 255, 255, $result->colorAt(530, 0));
@@ -180,7 +180,7 @@ class ImageManagerTest extends BaseTestCase
     public function testApplyBackgroundColorConfigured(DriverInterface $driver): void
     {
         $manager = new ImageManager($driver, backgroundColor: 'ff5500');
-        $image = $manager->decodeFrom(path: Resource::create('blocks.png')->path());
+        $image = $manager->decodePath(Resource::create('blocks.png')->path());
         $result = $image->background();
         $this->assertColor(255, 85, 0, 255, $image->colorAt(530, 0));
         $this->assertColor(255, 85, 0, 255, $result->colorAt(530, 0));

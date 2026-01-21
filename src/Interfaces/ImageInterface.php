@@ -22,6 +22,7 @@ use IteratorAggregate;
 /**
  * TODO:
  * - Maybe rename save() to encodeAndSave()
+ * - ColorInterface|string|null instead of mixed type for all colors
  */
 
 /**

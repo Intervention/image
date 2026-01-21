@@ -481,7 +481,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @link https://image.intervention.io/v3/modifying-images/inserting#insert-images
      */
     public function insert(
-        mixed $element,
+        mixed $image,
         int $x = 0,
         int $y = 0,
         string|Alignment $alignment = Alignment::TOP_LEFT,

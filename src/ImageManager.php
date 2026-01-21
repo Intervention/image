@@ -181,7 +181,6 @@ final class ImageManager implements ImageManagerInterface
         ]);
     }
 
-
     /**
      * {@inheritdoc}
      *

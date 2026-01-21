@@ -15,7 +15,7 @@ class InsertModifier extends SpecializableModifier
      * Create new modifier object.
      */
     public function __construct(
-        public mixed $element,
+        public mixed $image,
         public int $x = 0,
         public int $y = 0,
         public string|Alignment $alignment = Alignment::TOP_LEFT,
@@ -25,7 +25,7 @@ class InsertModifier extends SpecializableModifier
     }
 
     /**
-     * Calculate position of the element to be inserted on the image.
+     * Calculate position of the watermark to be inserted on the image.
      */
     public function position(ImageInterface $image, ImageInterface $watermark): PointInterface
     {

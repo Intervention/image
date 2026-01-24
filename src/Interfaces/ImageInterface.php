@@ -18,6 +18,8 @@ use Intervention\Image\Alignment;
 use Intervention\Image\Fraction;
 use Intervention\Image\Format;
 use IteratorAggregate;
+use SplFileInfo;
+use Stringable;
 
 /**
  * @extends IteratorAggregate<FrameInterface>
@@ -25,14 +27,89 @@ use IteratorAggregate;
 interface ImageInterface extends IteratorAggregate, Countable
 {
     /**
+     * Create an uninitialized image instance by using the given driver instance or classname.
+     */
+    public static function usingDriver(string|DriverInterface $driver): self;
+
+    /**
+     * Create a new image with the specified width and height.
+     */
+    public static function create(
+        int $width,
+        int $height,
+        null|callable|AnimationFactoryInterface $animation = null,
+    ): self;
+
+    /**
+     * Create an image instance by decoding the given image source which can be one of the following:
+     *
+     * - Path in filesystem
+     * - File Pointer resource
+     * - SplFileInfo object
+     * - Raw binary image data
+     * - Base64 encoded image data
+     * - Data Uri string or instance of DataUriInterface
+     * - Instance of EncodedImageInterface
+     * - Instance of ImageInterface
+     *
+     * To decode the source, you can optionally specify a decoding strategy
+     * with the second parameter. This can be an array of class names or objects
+     * of decoders to be processed in sequence. In this case, the source must be
+     * decodedable with one of the decoders passed. It is also possible to pass
+     * a single object or class name of a decoder.
+     *
+     * If the second parameter is not set, all available images decoders will be tried.
+     *
+     * @link https://image.intervention.io/v3/basics/instantiation#read-image-sources
+     *
+     * @param null|string|array<string|DecoderInterface>|DecoderInterface $decoders
+     */
+    public static function from(mixed $source, null|string|array|DecoderInterface $decoders = null): self;
+
+    /**
+     * Decode an image instance by decoding a given path in filesystem.
+     */
+    public static function fromPath(string|Stringable $path): self;
+
+    /**
+     * Decode an image instance by decoding the given raw image data.
+     */
+    public static function fromBinary(string|Stringable $binary): self;
+
+    /**
+     * Decode an image by decoding the image data of the given SplFileInfo instance.
+     */
+    public static function fromSplFileInfo(SplFileInfo $splFileInfo): self;
+
+    /**
+     * Decode an image by decoding the given base64 encoded image data.
+     */
+    public static function fromBase64(string|Stringable $base64): self;
+
+    /**
+     * Decode an image by decoding the given data uri scheme.
+     */
+    public static function fromDataUri(string|Stringable|DataUriInterface $dataUri): self;
+
+    /**
+     * Decode an image by decoding the image data of the given file pointer resource.
+     */
+    public static function fromStream(mixed $stream): self;
+
+    /**
      * Return driver of current image.
      */
-    public function driver(): DriverInterface;
+    public static function driver(): DriverInterface;
 
     /**
      * Return core of current image.
      */
     public function core(): CoreInterface;
+
+    /**
+     * Set core of current image.
+     */
+    public function setCore(CoreInterface $core): self;
 
     /**
      * Return the origin of the image.

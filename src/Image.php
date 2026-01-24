@@ -11,6 +11,13 @@ use Intervention\Image\Analyzers\PixelColorsAnalyzer;
 use Intervention\Image\Analyzers\ProfileAnalyzer;
 use Intervention\Image\Analyzers\ResolutionAnalyzer;
 use Intervention\Image\Analyzers\WidthAnalyzer;
+use Intervention\Image\Decoders\Base64ImageDecoder;
+use Intervention\Image\Decoders\BinaryImageDecoder;
+use Intervention\Image\Decoders\DataUriImageDecoder;
+use Intervention\Image\Decoders\FilePathImageDecoder;
+use Intervention\Image\Decoders\FilePointerImageDecoder;
+use Intervention\Image\Decoders\SplFileInfoImageDecoder;
+use Intervention\Image\Drivers\Gd\Driver as DefaultDriver;
 use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\Encoders\FileExtensionEncoder;
 use Intervention\Image\Encoders\FilePathEncoder;
@@ -18,6 +25,7 @@ use Intervention\Image\Encoders\FormatEncoder;
 use Intervention\Image\Encoders\MediaTypeEncoder;
 use Intervention\Image\Exceptions\EncoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Geometry\Bezier;
 use Intervention\Image\Geometry\Circle;
 use Intervention\Image\Geometry\Ellipse;
@@ -32,10 +40,13 @@ use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\AnalyzerInterface;
+use Intervention\Image\Interfaces\AnimationFactoryInterface;
 use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\CoreInterface;
+use Intervention\Image\Interfaces\DataUriInterface;
+use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
@@ -68,10 +79,10 @@ use Intervention\Image\Modifiers\FlipModifier;
 use Intervention\Image\Modifiers\FlopModifier;
 use Intervention\Image\Modifiers\GammaModifier;
 use Intervention\Image\Modifiers\GrayscaleModifier;
+use Intervention\Image\Modifiers\InsertModifier;
 use Intervention\Image\Modifiers\InvertModifier;
 use Intervention\Image\Modifiers\PadModifier;
 use Intervention\Image\Modifiers\PixelateModifier;
-use Intervention\Image\Modifiers\InsertModifier;
 use Intervention\Image\Modifiers\ProfileModifier;
 use Intervention\Image\Modifiers\ProfileRemovalModifier;
 use Intervention\Image\Modifiers\QuantizeColorsModifier;
@@ -89,25 +100,156 @@ use Intervention\Image\Modifiers\SliceAnimationModifier;
 use Intervention\Image\Modifiers\TextModifier;
 use Intervention\Image\Modifiers\TrimModifier;
 use Intervention\Image\Typography\FontFactory;
+use ReflectionProperty;
+use SplFileInfo;
+use Stringable;
 use Throwable;
 use Traversable;
 
 final class Image implements ImageInterface
 {
     /**
-     * The origin from which the image was created.
+     * Driver of the current image.
+     */
+    private static DriverInterface $driver;
+
+    /**
+     * Core containing the driver-specific interpretation of the image.
+     */
+    private CoreInterface $core;
+
+    /**
+     * Origin containing the source from which it was originally created.
      */
     private Origin $origin;
 
     /**
+     * Exif data of the current image.
+     */
+    private CollectionInterface $exif;
+
+    /**
      * Create new instance.
      */
-    public function __construct(
-        private DriverInterface $driver,
-        private CoreInterface $core,
-        private CollectionInterface $exif = new Collection()
-    ) {
+    public function __construct(DriverInterface $driver = new DefaultDriver())
+    {
+        static::$driver = $driver;
         $this->origin = new Origin();
+        $this->exif = new Collection();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::usingDriver()
+     */
+    public static function usingDriver(string|DriverInterface $driver): ImageInterface
+    {
+        if ($driver instanceof DriverInterface) {
+            return new self($driver);
+        }
+
+        if (!class_exists($driver)) {
+            throw new InvalidArgumentException(
+                'Argument $driver must be existing class name or instance of ' . DriverInterface::class,
+            );
+        }
+
+        return new self(new $driver());
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::create()
+     */
+    public static function create(
+        int $width,
+        int $height,
+        null|callable|AnimationFactoryInterface $animation = null,
+    ): ImageInterface {
+        if (is_callable($animation)) {
+            return AnimationFactory::build(static::driver(), $width, $height, $animation);
+        }
+
+        if ($animation instanceof AnimationFactoryInterface) {
+            return $animation->animation();
+        }
+
+        return static::driver()->createImage($width, $height);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::from()
+     */
+    public static function from(mixed $source, null|string|array|DecoderInterface $decoders = null): ImageInterface
+    {
+        return static::driver()->handleImageInput(
+            $source,
+            in_array(gettype($decoders), ['string', 'object']) ? [$decoders] : $decoders,
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::fromPath()
+     */
+    public static function fromPath(string|Stringable $path): ImageInterface
+    {
+        return static::driver()->handleImageInput($path, [FilePathImageDecoder::class]);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::fromBinary()
+     */
+    public static function fromBinary(string|Stringable $binary): ImageInterface
+    {
+        return static::driver()->handleImageInput($binary, [BinaryImageDecoder::class]);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::fromSplFileInfo()
+     */
+    public static function fromSplFileInfo(SplFileInfo $splFileInfo): ImageInterface
+    {
+        return static::driver()->handleImageInput($splFileInfo, [SplFileInfoImageDecoder::class]);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::fromBase64()
+     */
+    public static function fromBase64(string|Stringable $base64): ImageInterface
+    {
+        return static::driver()->handleImageInput($base64, [Base64ImageDecoder::class]);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::fromDataUri()
+     */
+    public static function fromDataUri(string|Stringable|DataUriInterface $dataUri): ImageInterface
+    {
+        return static::driver()->handleImageInput($dataUri, [DataUriImageDecoder::class]);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::fromStream()
+     */
+    public static function fromStream(mixed $stream): ImageInterface
+    {
+        return static::driver()->handleImageInput($stream, [FilePointerImageDecoder::class]);
     }
 
     /**
@@ -115,9 +257,11 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::driver()
      */
-    public function driver(): DriverInterface
+    public static function driver(): DriverInterface
     {
-        return $this->driver;
+        $driverProperty = new ReflectionProperty(self::class, 'driver');
+
+        return $driverProperty->isInitialized() ? static::$driver : new DefaultDriver();
     }
 
     /**
@@ -127,7 +271,22 @@ final class Image implements ImageInterface
      */
     public function core(): CoreInterface
     {
+        $coreProperty = new ReflectionProperty(self::class, 'core');
+
+        if (!$coreProperty->isInitialized($this)) {
+            throw new StateException(
+                'Image must be initialized first to access its data. Use ' . self::class . '::from(...) to decode data',
+            );
+        }
+
         return $this->core;
+    }
+
+    public function setCore(CoreInterface $core): self
+    {
+        $this->core = $core;
+
+        return $this;
     }
 
     /**
@@ -253,7 +412,7 @@ final class Image implements ImageInterface
      */
     public function modify(ModifierInterface $modifier): ImageInterface
     {
-        return $this->driver->specializeModifier($modifier)->apply($this);
+        return $this->driver()->specializeModifier($modifier)->apply($this);
     }
 
     /**
@@ -263,7 +422,7 @@ final class Image implements ImageInterface
      */
     public function analyze(AnalyzerInterface $analyzer): mixed
     {
-        return $this->driver->specializeAnalyzer($analyzer)->analyze($this);
+        return $this->driver()->specializeAnalyzer($analyzer)->analyze($this);
     }
 
     /**
@@ -951,7 +1110,7 @@ final class Image implements ImageInterface
      */
     public function encode(null|string|EncoderInterface $encoder = new AutoEncoder()): EncodedImageInterface
     {
-        return $this->driver->specializeEncoder(
+        return $this->driver()->specializeEncoder(
             is_string($encoder) ? new $encoder() : $encoder
         )->encode($this);
     }
@@ -1044,7 +1203,7 @@ final class Image implements ImageInterface
      */
     public function __clone(): void
     {
-        $this->driver = clone $this->driver;
+        static::$driver = clone static::$driver;
         $this->core = clone $this->core;
         $this->exif = clone $this->exif;
     }

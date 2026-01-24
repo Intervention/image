@@ -15,4 +15,10 @@ class DriverProvider
         yield [new GdDriver()];
         yield [new ImagickDriver()];
     }
+
+    public static function driverClassnames(): Generator
+    {
+        yield [GdDriver::class];
+        yield [ImagickDriver::class];
+    }
 }

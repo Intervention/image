@@ -36,7 +36,7 @@ class Frame extends AbstractFrame implements FrameInterface
      */
     public function toImage(DriverInterface $driver): ImageInterface
     {
-        return new Image($driver, new Core($this->native()));
+        return Image::usingDriver($driver)->setCore(new Core($this->native()));
     }
 
     /**

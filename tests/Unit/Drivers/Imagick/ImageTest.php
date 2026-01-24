@@ -41,13 +41,13 @@ final class ImageTest extends ImagickTestCase
     {
         $imagick = new Imagick();
         $imagick->readImage(Resource::create('animation.gif')->path());
-        $this->image = new Image(
-            new Driver(),
-            new Core($imagick),
-            new Collection([
-                'test' => 'foo'
-            ]),
-        );
+        $this->image = Image::usingDriver(new Driver())
+            ->setCore(new Core($imagick))
+            ->setExif(
+                new Collection([
+                    'test' => 'foo'
+                ])
+            );
     }
 
     public function testClone(): void

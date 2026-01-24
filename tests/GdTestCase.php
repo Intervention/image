@@ -24,8 +24,7 @@ abstract class GdTestCase extends BaseTestCase
         $gd = imagecreatetruecolor($width, $height);
         imagefill($gd, 0, 0, imagecolorallocate($gd, 255, 0, 0));
 
-        return new Image(
-            new Driver(),
+        return Image::usingDriver(Driver::class)->setCore(
             new Core([
                 new Frame($gd)
             ])
@@ -41,8 +40,7 @@ abstract class GdTestCase extends BaseTestCase
         $gd3 = imagecreatetruecolor(3, 2);
         imagefill($gd3, 0, 0, imagecolorallocate($gd1, 0, 0, 255));
 
-        return new Image(
-            new Driver(),
+        return Image::usingDriver(Driver::class)->setCore(
             new Core([
                 new Frame($gd1),
                 new Frame($gd2),

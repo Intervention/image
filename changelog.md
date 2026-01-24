@@ -2,7 +2,6 @@
 
 - DriverInterface::version()
 - ColorInterface::create() now accepts functional string color formats as well as single channel values
-- ImageManagerInterface::decodeFrom()
 - Alignment::class
 - DataUri::class
 - Default resolution is now 72 ppi for new images
@@ -45,9 +44,6 @@
 - ImageInterface::toHeic() is replaced by ImageInterface::encodeUsingFormat()
 - ImageInterface::toTiff() and ImageInterface::toTif() are replaced by ImageInterface::encodeUsingFormat()
 - DriverInterface::handleColorInput() has null as default
-- Method ImageManagerInterface::read() is now handled by ImageManagerInterface::decode() and ImageManagerInterface::decodeFrom()
-- Method ImageManagerInterface::animate() has a slightly different signature
-- Method ImageManagerInterface::create() was renamed to ImageManagerInterface::createImage() and includes ImageManagerInterface::createAnimation()
 - Method ImageInterface::save() only processes known image file extensions
 - Method FontInterface::filename() is replaced by FontInterface::filepath()
 - Method FontInterface::hasFilename() is replaced by FontInterface::hasFile()
@@ -126,5 +122,9 @@ caller, Operation fails after valid input
 - Removed ColorChannelInterface::__construct() from interface
 - Removed ColorInterface::toArray() use ColorInterface::channels() and map to desired format
 - Removed ColorInterface::normalize() use ColorInterface::channels() and map to desired format
-- Method ImageManagerInterface::animate() is replaced by universal ImageManagerInterface::createImage()
 - Method DriverInterface::createAnimation() was removed
+- Class ImageManager was removed
+- ImageManagerInterface::animate() is replaced by universal ImageManagerInterface::createImage()
+- ImageManagerInterface::read() is now handled by Image::from*()
+- ImageManagerInterface::animate() is now handled by Image::create()
+

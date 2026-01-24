@@ -61,10 +61,7 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
         }
 
         // create image object
-        $image = new Image(
-            $this->driver(),
-            new Core($input)
-        );
+        $image = Image::usingDriver($this->driver())->setCore(new Core($input));
 
         // discard animation depending on config
         if (!$this->driver()->config()->decodeAnimation) {

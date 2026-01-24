@@ -67,7 +67,7 @@ class Driver extends AbstractDriver
             throw new DriverException('Failed to create new image', previous: $e);
         }
 
-        return new Image($this, new Core($imagick));
+        return Image::usingDriver($this)->setCore(new Core($imagick));
     }
 
     /**

@@ -34,10 +34,7 @@ abstract class ImagickTestCase extends BaseTestCase
         $imagick->setImageResolution(96, 96);
         $imagick->setImageBackgroundColor($background);
 
-        return new Image(
-            new Driver(),
-            new Core($imagick)
-        );
+        return Image::usingDriver(Driver::class)->setCore(new Core($imagick));
     }
 
     public static function createTestAnimation(): Image
@@ -52,9 +49,6 @@ abstract class ImagickTestCase extends BaseTestCase
             $imagick->addImage($frame);
         }
 
-        return new Image(
-            new Driver(),
-            new Core($imagick)
-        );
+        return Image::usingDriver(Driver::class)->setCore(new Core($imagick));
     }
 }

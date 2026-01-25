@@ -100,6 +100,7 @@ use Intervention\Image\Modifiers\SliceAnimationModifier;
 use Intervention\Image\Modifiers\TextModifier;
 use Intervention\Image\Modifiers\TrimModifier;
 use Intervention\Image\Typography\FontFactory;
+use ReflectionClass;
 use ReflectionProperty;
 use SplFileInfo;
 use Stringable;
@@ -111,7 +112,7 @@ final class Image implements ImageInterface
     /**
      * Driver of the current image.
      */
-    private static DriverInterface $driver;
+    private DriverInterface $driver;
 
     /**
      * Core containing the driver-specific interpretation of the image.
@@ -133,7 +134,7 @@ final class Image implements ImageInterface
      */
     public function __construct(DriverInterface $driver = new DefaultDriver())
     {
-        static::$driver = $driver;
+        $this->driver = $driver;
         $this->origin = new Origin();
         $this->exif = new Collection();
     }
@@ -146,6 +147,12 @@ final class Image implements ImageInterface
     public static function usingDriver(string|DriverInterface $driver, mixed ...$options): ImageInterface
     {
         if (is_string($driver) && !class_exists($driver)) {
+            throw new InvalidArgumentException(
+                'Argument $driver must be existing class name or instance of ' . DriverInterface::class,
+            );
+        }
+
+        if (is_string($driver) && !is_subclass_of($driver, DriverInterface::class)) {
             throw new InvalidArgumentException(
                 'Argument $driver must be existing class name or instance of ' . DriverInterface::class,
             );
@@ -166,16 +173,17 @@ final class Image implements ImageInterface
         int $width,
         int $height,
         null|callable|AnimationFactoryInterface $animation = null,
+        null|string|DriverInterface $driver = null,
     ): ImageInterface {
         if (is_callable($animation)) {
-            return AnimationFactory::build(static::driver(), $width, $height, $animation);
+            return AnimationFactory::build($driver ?: new DefaultDriver(), $width, $height, $animation);
         }
 
         if ($animation instanceof AnimationFactoryInterface) {
-            return $animation->animation();
+            return $animation->animation(); // todo: maybe replace driver in animation factory
         }
 
-        return static::driver()->createImage($width, $height);
+        return ($driver ?: new DefaultDriver())->createImage($width, $height);
     }
 
     /**
@@ -183,9 +191,23 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::from()
      */
-    public static function from(mixed $source, null|string|array|DecoderInterface $decoders = null): ImageInterface
-    {
-        return static::driver()->handleImageInput(
+    public static function from(
+        mixed $source,
+        null|string|array|DecoderInterface $decoders = null,
+        null|string|DriverInterface $driver = null,
+    ): ImageInterface {
+        return ($driver ?: new DefaultDriver())
+            ->handleImageInput(
+                $source,
+                in_array(gettype($decoders), ['string', 'object']) ? [$decoders] : $decoders,
+            );
+    }
+
+    public function read(
+        mixed $source,
+        null|string|array|DecoderInterface $decoders = null,
+    ): ImageInterface {
+        return $this->driver()->handleImageInput(
             $source,
             in_array(gettype($decoders), ['string', 'object']) ? [$decoders] : $decoders,
         );
@@ -196,9 +218,22 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::fromPath()
      */
-    public static function fromPath(string|Stringable $path): ImageInterface
+    public static function fromPath(
+        string|Stringable $path,
+        null|string|DriverInterface $driver = null,
+    ): ImageInterface {
+        return ($driver ?: new DefaultDriver())->handleImageInput($path, [FilePathImageDecoder::class]);
+    }
+
+    public function readPath(string|Stringable $path): ImageInterface
     {
-        return static::driver()->handleImageInput($path, [FilePathImageDecoder::class]);
+        $image = $this->driver()->handleImageInput($path, [FilePathImageDecoder::class]);
+
+        $this->core = $image->core();
+        $this->exif = $image->exif();
+        $this->origin = $image->origin();
+
+        return $this;
     }
 
     /**
@@ -206,9 +241,16 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::fromBinary()
      */
-    public static function fromBinary(string|Stringable $binary): ImageInterface
+    public static function fromBinary(
+        string|Stringable $binary,
+        null|string|DriverInterface $driver = null,
+    ): ImageInterface {
+        return ($driver ?: new DefaultDriver())->handleImageInput($binary, [BinaryImageDecoder::class]);
+    }
+
+    public function readBinary(string|Stringable $binary): ImageInterface
     {
-        return static::driver()->handleImageInput($binary, [BinaryImageDecoder::class]);
+        return $this->driver()->handleImageInput($binary, [BinaryImageDecoder::class]);
     }
 
     /**
@@ -216,9 +258,16 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::fromSplFileInfo()
      */
-    public static function fromSplFileInfo(SplFileInfo $splFileInfo): ImageInterface
+    public static function fromSplFileInfo(
+        SplFileInfo $splFileInfo,
+        null|string|DriverInterface $driver = null,
+    ): ImageInterface {
+        return ($driver ?: new DefaultDriver())->handleImageInput($splFileInfo, [SplFileInfoImageDecoder::class]);
+    }
+
+    public function readSplFileInfo(SplFileInfo $splFileInfo): ImageInterface
     {
-        return static::driver()->handleImageInput($splFileInfo, [SplFileInfoImageDecoder::class]);
+        return $this->driver()->handleImageInput($splFileInfo, [SplFileInfoImageDecoder::class]);
     }
 
     /**
@@ -226,9 +275,16 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::fromBase64()
      */
-    public static function fromBase64(string|Stringable $base64): ImageInterface
+    public static function fromBase64(
+        string|Stringable $base64,
+        null|string|DriverInterface $driver = null,
+    ): ImageInterface {
+        return ($driver ?: new DefaultDriver())->handleImageInput($base64, [Base64ImageDecoder::class]);
+    }
+
+    public function readBase64(string|Stringable $base64): ImageInterface
     {
-        return static::driver()->handleImageInput($base64, [Base64ImageDecoder::class]);
+        return $this->driver()->handleImageInput($base64, [Base64ImageDecoder::class]);
     }
 
     /**
@@ -236,9 +292,16 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::fromDataUri()
      */
-    public static function fromDataUri(string|Stringable|DataUriInterface $dataUri): ImageInterface
+    public static function fromDataUri(
+        string|Stringable|DataUriInterface $dataUri,
+        null|string|DriverInterface $driver = null,
+    ): ImageInterface {
+        return ($driver ?: new DefaultDriver())->handleImageInput($dataUri, [DataUriImageDecoder::class]);
+    }
+
+    public function readDataUri(string|Stringable|DataUriInterface $dataUri): ImageInterface
     {
-        return static::driver()->handleImageInput($dataUri, [DataUriImageDecoder::class]);
+        return $this->driver()->handleImageInput($dataUri, [DataUriImageDecoder::class]);
     }
 
     /**
@@ -246,9 +309,16 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::fromStream()
      */
-    public static function fromStream(mixed $stream): ImageInterface
+    public static function fromStream(
+        mixed $stream,
+        null|string|DriverInterface $driver = null,
+    ): ImageInterface {
+        return ($driver ?: new DefaultDriver())->handleImageInput($stream, [FilePointerImageDecoder::class]);
+    }
+
+    public function readStream(mixed $stream): ImageInterface
     {
-        return static::driver()->handleImageInput($stream, [FilePointerImageDecoder::class]);
+        return $this->driver()->handleImageInput($stream, [FilePointerImageDecoder::class]);
     }
 
     /**
@@ -256,11 +326,9 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::driver()
      */
-    public static function driver(): DriverInterface
+    public function driver(): DriverInterface // todo: maybe remove and make property public
     {
-        $driverProperty = new ReflectionProperty(self::class, 'driver');
-
-        return $driverProperty->isInitialized() ? static::$driver : new DefaultDriver();
+        return $this->driver;
     }
 
     /**
@@ -1202,7 +1270,7 @@ final class Image implements ImageInterface
      */
     public function __clone(): void
     {
-        static::$driver = clone static::$driver;
+        $this->driver = clone $this->driver;
         $this->core = clone $this->core;
         $this->exif = clone $this->exif;
     }

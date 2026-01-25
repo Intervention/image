@@ -38,6 +38,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         int $width,
         int $height,
         null|callable|AnimationFactoryInterface $animation = null,
+        null|string|DriverInterface $driver = null,
     ): self;
 
     /**
@@ -64,42 +65,78 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @param null|string|array<string|DecoderInterface>|DecoderInterface $decoders
      */
-    public static function from(mixed $source, null|string|array|DecoderInterface $decoders = null): self;
+    public static function from(
+        mixed $source,
+        null|string|array|DecoderInterface $decoders = null,
+        null|string|DriverInterface $driver = null,
+    ): self;
+
+    public function read(mixed $source): self;
 
     /**
      * Decode an image instance by decoding a given path in filesystem.
      */
-    public static function fromPath(string|Stringable $path): self;
+    public static function fromPath(
+        string|Stringable $path,
+        null|string|DriverInterface $driver = null,
+    ): self;
+
+    public function readPath(string|Stringable $path): self;
 
     /**
      * Decode an image instance by decoding the given raw image data.
      */
-    public static function fromBinary(string|Stringable $binary): self;
+    public static function fromBinary(
+        string|Stringable $binary,
+        null|string|DriverInterface $driver = null,
+    ): self;
+
+    public function readBinary(string|Stringable $binary): self;
 
     /**
      * Decode an image by decoding the image data of the given SplFileInfo instance.
      */
-    public static function fromSplFileInfo(SplFileInfo $splFileInfo): self;
+    public static function fromSplFileInfo(
+        SplFileInfo $splFileInfo,
+        null|string|DriverInterface $driver = null,
+    ): self;
+
+    public function readSplFileInfo(SplFileInfo $splFileInfo): self;
 
     /**
      * Decode an image by decoding the given base64 encoded image data.
      */
-    public static function fromBase64(string|Stringable $base64): self;
+    public static function fromBase64(
+        string|Stringable $base64,
+        null|string|DriverInterface $driver = null,
+    ): self;
+
+    public function readBase64(string|Stringable $base64): self;
 
     /**
      * Decode an image by decoding the given data uri scheme.
      */
-    public static function fromDataUri(string|Stringable|DataUriInterface $dataUri): self;
+    public static function fromDataUri(
+        string|Stringable|DataUriInterface $dataUri,
+        null|string|DriverInterface $driver = null,
+    ): self;
+
+    public function readDataUri(string|Stringable|DataUriInterface $dataUri): self;
 
     /**
      * Decode an image by decoding the image data of the given file pointer resource.
      */
-    public static function fromStream(mixed $stream): self;
+    public static function fromStream(
+        mixed $stream,
+        null|string|DriverInterface $driver = null,
+    ): self;
+
+    public function readStream(mixed $stream): self;
 
     /**
      * Return driver of current image.
      */
-    public static function driver(): DriverInterface;
+    public function driver(): DriverInterface;
 
     /**
      * Return core of current image.

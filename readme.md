@@ -45,17 +45,17 @@ use Intervention\Image\Fraction;
 // create image instance using the desired driver
 $image = Image::usingDriver(GdDriver::class);
 
-// decode image data from path
+// read image data from path
 $image->fromPath('images/example.webp');
 
-// resize image width
-$image->resize(width: 300);
+// scale image by height
+$image->scale(height: 300);
 
-// resize the image canvas
+// resize image canvas
 $image->resizeCanvas(height: Fraction::THIRD, background: Color::rgb(255, 55, 0));
 
 // insert a watermark
-$image->insert('images/watermark.png', alignment: Alignment::CENTER);
+$image->insert('images/watermark.png', alignment: Alignment::BOTTOM_RIGHT);
 
 // encode edited image
 $encoded = $image->encodeUsingFormat(Format::JPEG, quality: 65);

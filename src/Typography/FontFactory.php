@@ -102,21 +102,17 @@ class FontFactory
     }
 
     /**
-     * Set the horizontal alignment of the font to be built.
+     * Set the horizontal and/or vertical alignment of the font.
      */
-    public function align(string|Alignment $alignment): self
+    public function align(null|string|Alignment $horizontal = null, null|string|Alignment $vertical = null): self
     {
-        $this->font->setAlignment($alignment);
+        if ($horizontal) {
+            $this->font->setHorizontalAlignment($horizontal);
+        }
 
-        return $this;
-    }
-
-    /**
-     * Set the vertical alignment of the font to be built.
-     */
-    public function alignVertically(string|Alignment $alignment): self
-    {
-        $this->font->setVerticalAlignment($alignment);
+        if ($vertical) {
+            $this->font->setVerticalAlignment($vertical);
+        }
 
         return $this;
     }

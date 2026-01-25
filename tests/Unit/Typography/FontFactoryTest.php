@@ -37,8 +37,7 @@ final class FontFactoryTest extends BaseTestCase
             $font->filename(Resource::create('test.ttf')->path());
             $font->color('#b01735');
             $font->size(70);
-            $font->align(Alignment::CENTER);
-            $font->alignVertically(Alignment::TOP);
+            $font->align(Alignment::CENTER, Alignment::TOP);
             $font->lineHeight(1.6);
             $font->angle(10);
             $font->wrap(100);
@@ -50,7 +49,7 @@ final class FontFactoryTest extends BaseTestCase
         $this->assertEquals(Resource::create('test.ttf')->path(), $result->filepath());
         $this->assertEquals('#b01735', $result->color());
         $this->assertEquals(70, $result->size());
-        $this->assertEquals(Alignment::CENTER, $result->alignment());
+        $this->assertEquals(Alignment::CENTER, $result->horizontalAlignment());
         $this->assertEquals(Alignment::TOP, $result->verticalAlignment());
         $this->assertEquals(1.6, $result->lineHeight());
         $this->assertEquals(10, $result->angle());
@@ -65,8 +64,7 @@ final class FontFactoryTest extends BaseTestCase
             $font->filename(Resource::create('test.ttf')->path());
             $font->color('#b01735');
             $font->size(70);
-            $font->align(Alignment::CENTER);
-            $font->alignVertically(Alignment::TOP);
+            $font->align(Alignment::CENTER, Alignment::TOP);
             $font->lineHeight(1.6);
             $font->angle(10);
             $font->wrap(100);
@@ -77,7 +75,7 @@ final class FontFactoryTest extends BaseTestCase
         $this->assertEquals(Resource::create('test.ttf')->path(), $font->filepath());
         $this->assertEquals('#b01735', $font->color());
         $this->assertEquals(70, $font->size());
-        $this->assertEquals(Alignment::CENTER, $font->alignment());
+        $this->assertEquals(Alignment::CENTER, $font->horizontalAlignment());
         $this->assertEquals(Alignment::TOP, $font->verticalAlignment());
         $this->assertEquals(1.6, $font->lineHeight());
         $this->assertEquals(10, $font->angle());

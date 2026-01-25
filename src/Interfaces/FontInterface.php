@@ -81,12 +81,12 @@ interface FontInterface
     /**
      * Set horizontal alignment of font.
      */
-    public function setAlignment(string|Alignment $alignment): self;
+    public function setHorizontalAlignment(string|Alignment $alignment): self;
 
     /**
      * Get horizontal alignment of font.
      */
-    public function alignment(): Alignment;
+    public function horizontalAlignment(): Alignment;
 
     /**
      * Set vertical alignment of font.

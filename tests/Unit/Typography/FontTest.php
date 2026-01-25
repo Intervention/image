@@ -67,15 +67,15 @@ final class FontTest extends BaseTestCase
     public function testSetGetAlignment(): void
     {
         $font = new Font();
-        $this->assertEquals(Alignment::LEFT, $font->alignment());
+        $this->assertEquals(Alignment::LEFT, $font->horizontalAlignment());
 
-        $result = $font->setAlignment(Alignment::CENTER);
+        $result = $font->setHorizontalAlignment(Alignment::CENTER);
         $this->assertInstanceOf(Font::class, $result);
-        $this->assertEquals(Alignment::CENTER, $font->alignment());
+        $this->assertEquals(Alignment::CENTER, $font->horizontalAlignment());
 
-        $result = $font->setAlignment(Alignment::BOTTOM);
+        $result = $font->setHorizontalAlignment(Alignment::BOTTOM);
         $this->assertInstanceOf(Font::class, $result);
-        $this->assertEquals(Alignment::BOTTOM, $font->alignment());
+        $this->assertEquals(Alignment::BOTTOM, $font->horizontalAlignment());
     }
 
     public function testSetGetVerticalAlignment(): void

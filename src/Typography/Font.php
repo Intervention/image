@@ -25,7 +25,7 @@ class Font implements FontInterface
         protected string|ColorInterface $color = '000000',
         protected string|ColorInterface $strokeColor = 'ffffff',
         protected int $strokeWidth = 0,
-        protected Alignment $alignment = Alignment::LEFT,
+        protected Alignment $horizontalAlignment = Alignment::LEFT,
         protected Alignment $verticalAlignment = Alignment::BOTTOM,
         protected float $lineHeight = 1.25,
         protected ?int $wrapWidth = null,
@@ -205,21 +205,21 @@ class Font implements FontInterface
     /**
      * {@inheritdoc}
      *
-     * @see FontInterface::alignment()
+     * @see FontInterface::horizontalAlignment()
      */
-    public function alignment(): Alignment
+    public function horizontalAlignment(): Alignment
     {
-        return $this->alignment;
+        return $this->horizontalAlignment;
     }
 
     /**
      * {@inheritdoc}
      *
-     * @see FontInterface::setAlignment()
+     * @see FontInterface::setHorizontalAlignment()
      */
-    public function setAlignment(string|Alignment $alignment): FontInterface
+    public function setHorizontalAlignment(string|Alignment $alignment): FontInterface
     {
-        $this->alignment = is_string($alignment) ? Alignment::from($alignment) : $alignment;
+        $this->horizontalAlignment = is_string($alignment) ? Alignment::from($alignment) : $alignment;
 
         return $this;
     }

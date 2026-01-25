@@ -12,12 +12,12 @@ use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\StateException;
-use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\RotateModifier as GenericRotateModifier;
+use Intervention\Image\Size;
 
 class RotateModifier extends GenericRotateModifier implements SpecializedInterface
 {
@@ -79,13 +79,13 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
         );
 
         // create size from original after rotation
-        $container = (new Rectangle(
+        $container = (new Size(
             imagesx($rotated),
             imagesy($rotated),
         ))->movePivot(Alignment::CENTER);
 
         // create size from original and rotate points
-        $cutout = (new Rectangle(
+        $cutout = (new Size(
             imagesx($frame->native()),
             imagesy($frame->native()),
             $container->pivot()

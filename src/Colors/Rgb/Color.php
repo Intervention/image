@@ -133,12 +133,6 @@ class Color extends AbstractColor
      */
     public function toHex(string $prefix = ''): string
     {
-        if (!in_array($prefix, ['', '#'])) {
-            throw new InvalidArgumentException(
-                'Hexadecimal color prefix must be "#" or empty string',
-            );
-        }
-
         if ($this->isTransparent()) {
             return sprintf(
                 '%s%02x%02x%02x%02x',

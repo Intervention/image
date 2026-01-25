@@ -10,7 +10,7 @@ use Intervention\Image\Colors\Cmyk\Channels\Cyan;
 use Intervention\Image\Colors\Cmyk\Channels\Magenta;
 use Intervention\Image\Colors\Cmyk\Channels\Yellow;
 use Intervention\Image\Colors\Cmyk\Channels\Key;
-use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
+use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
@@ -93,19 +93,11 @@ class Color extends AbstractColor
      *
      * @see ColorInterface::toHex()
      *
-     * @throws InvalidArgumentException
      * @throws NotSupportedException
      */
     public function toHex(string $prefix = ''): string
     {
-        // todo: remove check
-        if (!in_array($prefix, ['', '#'])) {
-            throw new InvalidArgumentException(
-                'Hexadecimal color prefix must be "#" or empty string',
-            );
-        }
-
-        return $this->toColorspace(RgbColorspace::class)->toHex($prefix);
+        return $this->toColorspace(Rgb::class)->toHex($prefix);
     }
 
     /**

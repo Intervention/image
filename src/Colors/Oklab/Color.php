@@ -9,7 +9,7 @@ use Intervention\Image\Colors\Oklab\Channels\A;
 use Intervention\Image\Colors\Oklab\Channels\B;
 use Intervention\Image\Colors\Oklab\Channels\Alpha;
 use Intervention\Image\Colors\Oklab\Channels\Lightness;
-use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
+use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
@@ -129,13 +129,7 @@ class Color extends AbstractColor
      */
     public function toHex(string $prefix = ''): string
     {
-        if (!in_array($prefix, ['', '#'])) {
-            throw new InvalidArgumentException(
-                'Hexadecimal color prefix must be "#" or empty string',
-            );
-        }
-
-        return $this->toColorspace(RgbColorspace::class)->toHex($prefix);
+        return $this->toColorspace(Rgb::class)->toHex($prefix);
     }
 
     /**

@@ -125,17 +125,10 @@ class Color extends AbstractColor
      *
      * @see ColorInterface::toHex()
      *
-     * @throws InvalidArgumentException
      * @throws NotSupportedException
      */
     public function toHex(string $prefix = ''): string
     {
-        if (!in_array($prefix, ['', '#'])) {
-            throw new InvalidArgumentException(
-                'Hexadecimal color prefix must be "#" or empty string',
-            );
-        }
-
         return $this->toColorspace(Rgb::class)->toHex($prefix);
     }
 

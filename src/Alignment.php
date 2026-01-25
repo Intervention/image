@@ -91,7 +91,10 @@ enum Alignment: string
         }
     }
 
-    public function alignHorizontally(string|Alignment $alignment): self
+    /**
+     * Change the current alignment by adjusting only the horizontal axis to the specified value.
+     */
+    public function alignHorizontally(string|self $alignment): self
     {
         // handle "leftish" alignments
         if (in_array($alignment, [self::LEFT, self::BOTTOM_LEFT, self::TOP_LEFT])) {
@@ -123,7 +126,10 @@ enum Alignment: string
         return $this;
     }
 
-    public function alignVertically(string|Alignment $alignment): self
+    /**
+     * Change the current alignment by adjusting only the vertical axis to the specified value.
+     */
+    public function alignVertically(string|self $alignment): self
     {
         // handle "bottomish" alignments
         if (in_array($alignment, [self::BOTTOM, self::BOTTOM_RIGHT, self::BOTTOM_LEFT])) {

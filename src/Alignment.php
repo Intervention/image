@@ -112,7 +112,7 @@ enum Alignment: string
         }
 
         // handle centering
-        if (in_array($alignment, [self::CENTER])) {
+        if (in_array($alignment, [self::CENTER, self::TOP, self::BOTTOM])) {
             return match ($this) {
                 self::TOP, self::TOP_RIGHT, self::TOP_LEFT => self::TOP,
                 self::BOTTOM, self::BOTTOM_RIGHT, self::BOTTOM_LEFT => self::BOTTOM,
@@ -144,7 +144,7 @@ enum Alignment: string
         }
 
         // handle centering
-        if (in_array($alignment, [self::CENTER])) {
+        if (in_array($alignment, [self::CENTER, self::RIGHT, self::LEFT])) {
             return match ($this) {
                 self::LEFT, self::TOP_LEFT, self::BOTTOM_LEFT => self::LEFT,
                 self::RIGHT, self::TOP_RIGHT, self::BOTTOM_RIGHT => self::RIGHT,

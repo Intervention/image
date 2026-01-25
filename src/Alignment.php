@@ -90,4 +90,92 @@ enum Alignment: string
             return null;
         }
     }
+
+    public function alignHorizontally(string|Alignment $alignment): self
+    {
+        // handle "leftish" alignments
+        if (in_array($alignment, [self::LEFT, self::BOTTOM_LEFT, self::TOP_LEFT])) {
+            return match ($this) {
+                self::TOP, self::TOP_RIGHT, self::TOP_LEFT => self::TOP_LEFT,
+                self::BOTTOM, self::BOTTOM_RIGHT, self::BOTTOM_LEFT => self::BOTTOM_LEFT,
+                self::CENTER, self::LEFT, self::RIGHT => self::LEFT,
+            };
+        }
+
+        // handle "rightish" alignments
+        if (in_array($alignment, [self::RIGHT, self::TOP_RIGHT, self::BOTTOM_RIGHT])) {
+            return match ($this) {
+                self::TOP, self::TOP_RIGHT, self::TOP_LEFT => self::TOP_RIGHT,
+                self::BOTTOM, self::BOTTOM_RIGHT, self::BOTTOM_LEFT => self::BOTTOM_RIGHT,
+                self::CENTER, self::LEFT, self::RIGHT => self::RIGHT,
+            };
+        }
+
+        // handle centering
+        if (in_array($alignment, [self::CENTER])) {
+            return match ($this) {
+                self::TOP, self::TOP_RIGHT, self::TOP_LEFT => self::TOP,
+                self::BOTTOM, self::BOTTOM_RIGHT, self::BOTTOM_LEFT => self::BOTTOM,
+                self::CENTER, self::LEFT, self::RIGHT => self::CENTER,
+            };
+        }
+
+        return $this;
+    }
+
+    public function alignVertically(string|Alignment $alignment): self
+    {
+        // handle "bottomish" alignments
+        if (in_array($alignment, [self::BOTTOM, self::BOTTOM_RIGHT, self::BOTTOM_LEFT])) {
+            return match ($this) {
+                self::LEFT, self::TOP_LEFT, self::BOTTOM_LEFT => self::BOTTOM_LEFT,
+                self::RIGHT, self::TOP_RIGHT, self::BOTTOM_RIGHT => self::BOTTOM_RIGHT,
+                self::CENTER, self::TOP, self::BOTTOM => self::BOTTOM,
+            };
+        }
+
+        // handle "topish" alignments
+        if (in_array($alignment, [self::TOP, self::TOP_RIGHT, self::TOP_LEFT])) {
+            return match ($this) {
+                self::LEFT, self::TOP_LEFT, self::BOTTOM_LEFT => self::TOP_LEFT,
+                self::RIGHT, self::TOP_RIGHT, self::BOTTOM_RIGHT => self::TOP_RIGHT,
+                self::CENTER, self::TOP, self::BOTTOM => self::TOP,
+            };
+        }
+
+        // handle centering
+        if (in_array($alignment, [self::CENTER])) {
+            return match ($this) {
+                self::LEFT, self::TOP_LEFT, self::BOTTOM_LEFT => self::LEFT,
+                self::RIGHT, self::TOP_RIGHT, self::BOTTOM_RIGHT => self::RIGHT,
+                self::CENTER, self::TOP, self::BOTTOM => self::CENTER,
+            };
+        }
+
+        return $this;
+    }
+
+    /**
+     * Return only the horizontal alignment.
+     */
+    public function horizontal(): self
+    {
+        return match ($this) {
+            self::TOP, self::CENTER, self::BOTTOM => self::CENTER,
+            self::RIGHT, self::TOP_RIGHT, self::BOTTOM_RIGHT => self::RIGHT,
+            self::LEFT, self::TOP_LEFT, self::BOTTOM_LEFT => self::LEFT,
+        };
+    }
+
+    /**
+     * Return only the vertical alignment.
+     */
+    public function vertical(): self
+    {
+        return match ($this) {
+            self::CENTER, self::RIGHT, self::LEFT => self::CENTER,
+            self::TOP, self::TOP_RIGHT, self::TOP_LEFT => self::TOP,
+            self::BOTTOM, self::BOTTOM_RIGHT, self::BOTTOM_LEFT => self::BOTTOM,
+        };
+    }
 }

@@ -143,19 +143,18 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::usingDriver()
      */
-    public static function usingDriver(string|DriverInterface $driver): ImageInterface
+    public static function usingDriver(string|DriverInterface $driver, mixed ...$options): ImageInterface
     {
-        if ($driver instanceof DriverInterface) {
-            return new self($driver);
-        }
-
-        if (!class_exists($driver)) {
+        if (is_string($driver) && !class_exists($driver)) {
             throw new InvalidArgumentException(
                 'Argument $driver must be existing class name or instance of ' . DriverInterface::class,
             );
         }
 
-        return new self(new $driver());
+        $driver = is_string($driver) ? new $driver() : $driver;
+        $driver->config()->setOptions(...$options);
+
+        return new self($driver);
     }
 
     /**

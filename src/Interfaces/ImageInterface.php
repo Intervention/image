@@ -29,7 +29,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Create an uninitialized image instance by using the given driver instance or classname.
      */
-    public static function usingDriver(string|DriverInterface $driver): self;
+    public static function usingDriver(string|DriverInterface $driver, mixed ...$options): self;
 
     /**
      * Create a new image with the specified width and height.

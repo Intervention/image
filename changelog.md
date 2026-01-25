@@ -64,9 +64,11 @@
 - ImageInterface::pickColor() was renamed to ImageInterface::colorAt() and signature has changed, argument $frame_key is know $frame
 - ImageInterface::pickColors() was renamed to ImageInterface::colorsAt()
 - CollectionInterface::empty() was renamed to CollectionInterface::clear()
-- FontFactory::valign() was renamed to FontInterface::alignVertically()
+- FontFactory::valign() was replaced with FontInterface::align()
 - FontInterface::valignment() was renamed to FontInterface::verticalAlignment()
 - FontInterface::setValignment() was renamed to FontInterface::setVerticalAlignment()
+- FontInterface::alignment() was renamed to FontInterface::horizontalAlignment()
+- FontInterface::setAlignment() was renamed to FontInterface::setHorizontalAlignment()
 - GreyscaleModifier::class was renamed to GrayscaleModifier::class
 - ImageInterface::greyscale() was renamed to ImageInterface::grayscale()
 - ColorInterface::isGreyscale() was renamed to ColorInterface::isGrayscale()

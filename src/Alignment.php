@@ -7,6 +7,9 @@ namespace Intervention\Image;
 use Error;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 
+/**
+ * todo: add test
+ */
 enum Alignment: string
 {
     case TOP = 'top';
@@ -86,5 +89,29 @@ enum Alignment: string
         } catch (InvalidArgumentException) {
             return null;
         }
+    }
+
+    /**
+     * Return only the horizontal alignment.
+     */
+    public function horizontal(): self
+    {
+        return match ($this) {
+            self::TOP, self::CENTER, self::BOTTOM => self::CENTER,
+            self::RIGHT, self::TOP_RIGHT, self::BOTTOM_RIGHT => self::RIGHT,
+            self::LEFT, self::TOP_LEFT, self::BOTTOM_LEFT => self::LEFT,
+        };
+    }
+
+    /**
+     * Return only the vertical alignment.
+     */
+    public function vertical(): self
+    {
+        return match ($this) {
+            self::CENTER, self::RIGHT, self::LEFT => self::CENTER,
+            self::TOP, self::TOP_RIGHT, self::TOP_LEFT => self::TOP,
+            self::BOTTOM, self::BOTTOM_RIGHT, self::BOTTOM_LEFT => self::BOTTOM,
+        };
     }
 }

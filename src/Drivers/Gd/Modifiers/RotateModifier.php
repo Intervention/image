@@ -89,7 +89,7 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
             imagesx($frame->native()),
             imagesy($frame->native()),
             $container->pivot()
-        ))->align(Alignment::CENTER)
+        ))->alignHorizontally(Alignment::CENTER)
             ->alignVertically(Alignment::CENTER)
             ->rotate($this->rotationAngle() * -1);
 

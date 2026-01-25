@@ -226,7 +226,7 @@ final class PolygonTest extends BaseTestCase
         $this->assertEquals(-200, $result->y());
     }
 
-    public function testAlignCenter(): void
+    public function testAlignHorizontallyCenter(): void
     {
         $poly = new Polygon([
             new Point(0, 0),
@@ -235,7 +235,7 @@ final class PolygonTest extends BaseTestCase
             new Point(0, -200),
         ], new Point(0, 0));
 
-        $result = $poly->align(Alignment::CENTER);
+        $result = $poly->alignHorizontally(Alignment::CENTER);
 
         $this->assertInstanceOf(Polygon::class, $result);
         $this->assertEquals(-150, $result[0]->x());
@@ -254,7 +254,7 @@ final class PolygonTest extends BaseTestCase
             new Point(0, -200),
         ], new Point(-1000, -1000));
 
-        $result = $poly->align(Alignment::CENTER);
+        $result = $poly->alignHorizontally(Alignment::CENTER);
 
         $this->assertInstanceOf(Polygon::class, $result);
         $this->assertEquals(-1150, $result[0]->x());
@@ -267,7 +267,7 @@ final class PolygonTest extends BaseTestCase
         $this->assertEquals(-200, $result[3]->y());
     }
 
-    public function testAlignLeft(): void
+    public function testAlignHorizontallyLeft(): void
     {
         $poly = new Polygon([
             new Point(0, 0),
@@ -276,7 +276,7 @@ final class PolygonTest extends BaseTestCase
             new Point(0, -200),
         ], new Point(100, 100));
 
-        $result = $poly->align(Alignment::LEFT);
+        $result = $poly->alignHorizontally(Alignment::LEFT);
 
         $this->assertInstanceOf(Polygon::class, $result);
         $this->assertEquals(100, $result[0]->x());
@@ -295,7 +295,7 @@ final class PolygonTest extends BaseTestCase
             new Point(0, -200),
         ], new Point(-1000, -1000));
 
-        $result = $poly->align(Alignment::LEFT);
+        $result = $poly->alignHorizontally(Alignment::LEFT);
 
         $this->assertInstanceOf(Polygon::class, $result);
         $this->assertEquals(-1000, $result[0]->x());
@@ -308,7 +308,7 @@ final class PolygonTest extends BaseTestCase
         $this->assertEquals(-200, $result[3]->y());
     }
 
-    public function testAlignRight(): void
+    public function testAlignHorizontallyRight(): void
     {
         $poly = new Polygon([
             new Point(0, 0),
@@ -317,7 +317,7 @@ final class PolygonTest extends BaseTestCase
             new Point(0, -200),
         ], new Point(100, 100));
 
-        $result = $poly->align(Alignment::RIGHT);
+        $result = $poly->alignHorizontally(Alignment::RIGHT);
 
         $this->assertInstanceOf(Polygon::class, $result);
         $this->assertEquals(-200, $result[0]->x());
@@ -336,7 +336,7 @@ final class PolygonTest extends BaseTestCase
             new Point(0, -200),
         ], new Point(-1000, -1000));
 
-        $result = $poly->align(Alignment::RIGHT);
+        $result = $poly->alignHorizontally(Alignment::RIGHT);
 
         $this->assertInstanceOf(Polygon::class, $result);
         $this->assertEquals(-1300, $result[0]->x());

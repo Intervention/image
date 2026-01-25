@@ -163,7 +163,7 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
         $box->setPivot($position);
 
         // alignment
-        $box->align($font->alignment());
+        $box->alignHorizontally($font->alignment());
         $box->alignVertically($font->verticalAlignment());
         $box->rotate($font->angle());
 

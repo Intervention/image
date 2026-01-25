@@ -8,7 +8,6 @@ use ArrayAccess;
 use ArrayIterator;
 use Countable;
 use Intervention\Image\Alignment;
-use Intervention\Image\Exceptions\InvalidArgumentException;
 use Traversable;
 use IteratorAggregate;
 use Intervention\Image\Geometry\Traits\HasBackgroundColor;
@@ -257,50 +256,46 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     }
 
     /**
-     * Align all points of polygon horizontally to given position around pivot point.
-     *
-     * @throws InvalidArgumentException
+     * Align all points of the polygon horizontally to given position around pivot point.
      */
-    public function align(string|Alignment $position): self // todo: rename to alignHorizontally() and add align() for universal alignment
+    public function alignHorizontally(string|Alignment $position): self
     {
         $diff = match (Alignment::create($position)) {
             Alignment::CENTER => $this->centerPoint()->x() - $this->pivot()->x(),
-            Alignment::RIGHT => $this->mostRightPoint()->x() - $this->pivot()->x(),
-            Alignment::LEFT => $this->mostLeftPoint()->x() - $this->pivot()->x(),
-            default => throw new InvalidArgumentException(
-                'Only use horizontal alignment values (Alignment::CENTER, Alignment::RIGHT or Alignment::LEFT)',
-            ),
+            Alignment::RIGHT,
+            Alignment::TOP_RIGHT,
+            Alignment::BOTTOM_RIGHT => $this->mostRightPoint()->x() - $this->pivot()->x(),
+            Alignment::LEFT,
+            Alignment::TOP_LEFT,
+            Alignment::BOTTOM_LEFT => $this->mostLeftPoint()->x() - $this->pivot()->x(),
+            default => 0,
         };
 
         foreach ($this->points as $point) {
-            $point->setX(
-                intval($point->x() - $diff)
-            );
+            $point->setX(intval($point->x() - $diff));
         }
 
         return $this;
     }
 
     /**
-     * Align all points of polygon vertically to given position around pivot point.
-     *
-     * @throws InvalidArgumentException
+     * Align all points of the polygon vertically to given position around pivot point.
      */
     public function alignVertically(string|Alignment $position): self
     {
         $diff = match (Alignment::create($position)) {
             Alignment::CENTER => $this->centerPoint()->y() - $this->pivot()->y(),
-            Alignment::TOP => $this->mostTopPoint()->y() - $this->pivot()->y() - $this->height(),
-            Alignment::BOTTOM => $this->mostBottomPoint()->y() - $this->pivot()->y() + $this->height(),
-            default => throw new InvalidArgumentException(
-                'Only use vertical alignment values (Alignment::CENTER, Alignment::TOP or Alignment::BOTTOM)',
-            ),
+            Alignment::TOP,
+            Alignment::TOP_RIGHT,
+            Alignment::TOP_LEFT => $this->mostTopPoint()->y() - $this->pivot()->y() - $this->height(),
+            Alignment::BOTTOM,
+            Alignment::BOTTOM_LEFT,
+            Alignment::BOTTOM_RIGHT => $this->mostBottomPoint()->y() - $this->pivot()->y() + $this->height(),
+            default => 0,
         };
 
         foreach ($this->points as $point) {
-            $point->setY(
-                intval($point->y() - $diff),
-            );
+            $point->setY(intval($point->y() - $diff));
         }
 
         return $this;

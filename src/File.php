@@ -102,7 +102,7 @@ class File implements FileInterface, Stringable
         }
 
         // write data
-        $saved = @file_put_contents($path, $this->toFilePointer());
+        $saved = file_put_contents($path, $this->toFilePointer());
 
         if ($saved === false) {
             throw new FileNotWritableException(

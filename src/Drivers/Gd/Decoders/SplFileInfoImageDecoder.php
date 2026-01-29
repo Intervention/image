@@ -45,6 +45,8 @@ class SplFileInfoImageDecoder extends FilePathImageDecoder implements DecoderInt
     {
         $path = $input->getRealPath();
 
+        // todo: throw more detailed exceptions
+
         if ($path === false) {
             throw new FileNotReadableException('Failed to read path from ' . SplFileInfo::class);
         }

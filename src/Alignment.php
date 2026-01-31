@@ -7,9 +7,6 @@ namespace Intervention\Image;
 use Error;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 
-/**
- * todo: add test
- */
 enum Alignment: string
 {
     case TOP = 'top';

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Providers;
 
 use Generator;
+use Intervention\Image\DataUri;
 use SplFileInfo;
 
 class ImageSourceProvider
@@ -49,6 +50,27 @@ class ImageSourceProvider
     {
         foreach (static::filePaths() as $path) {
             yield [base64_encode(file_get_contents($path[0]))];
+        }
+    }
+
+    public static function dataUriStrings(): Generator
+    {
+        foreach (static::filePaths() as $path) {
+            yield [(string) DataUri::create(file_get_contents($path[0]))];
+        }
+    }
+
+    public static function dataUriObjects(): Generator
+    {
+        foreach (static::filePaths() as $path) {
+            yield [DataUri::create(file_get_contents($path[0]))];
+        }
+    }
+
+    public static function streams(): Generator
+    {
+        foreach (static::filePaths() as $path) {
+            yield [fopen($path[0], 'r')];
         }
     }
 }

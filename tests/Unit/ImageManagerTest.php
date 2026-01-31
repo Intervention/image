@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit;
 
 use Intervention\Image\Config;
+use Intervention\Image\DataUri;
 use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Interfaces\AnimationFactoryInterface;
 use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Interfaces\DataUriInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ImageManagerInterface;
 use Intervention\Image\Tests\BaseTestCase;
@@ -31,6 +34,18 @@ class ImageManagerTest extends BaseTestCase
         $manager = new ImageManager(Driver::class);
         $this->assertInstanceOf(ImageManagerInterface::class, $manager);
         $this->assertInstanceOf(Driver::class, $manager->driver);
+    }
+
+    public function testConstructorUnkownClass(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new ImageManager('foobar');
+    }
+
+    public function testConstructorNonDriverClass(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new ImageManager(DataUri::class);
     }
 
     public function testUsingDriver(): void
@@ -125,6 +140,25 @@ class ImageManagerTest extends BaseTestCase
         $this->assertInstanceOf(
             ImageInterface::class,
             ImageManager::usingDriver(Driver::class)->decodeBase64($base64Data),
+        );
+    }
+
+    #[DataProviderExternal(ImageSourceProvider::class, 'dataUriStrings')]
+    #[DataProviderExternal(ImageSourceProvider::class, 'dataUriObjects')]
+    public function testDecodeDataUri(string|DataUriInterface $datauri): void
+    {
+        $this->assertInstanceOf(
+            ImageInterface::class,
+            ImageManager::usingDriver(Driver::class)->decodeDataUri($datauri),
+        );
+    }
+
+    #[DataProviderExternal(ImageSourceProvider::class, 'streams')]
+    public function testDecodeStream(mixed $stream): void
+    {
+        $this->assertInstanceOf(
+            ImageInterface::class,
+            ImageManager::usingDriver(Driver::class)->decodeStream($stream),
         );
     }
 }

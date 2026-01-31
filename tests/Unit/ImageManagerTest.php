@@ -67,7 +67,7 @@ class ImageManagerTest extends BaseTestCase
     public function testCreateImageAnimated(): void
     {
         $manager = new ImageManager(Driver::class);
-        $image = $manager->createImage(3, 2, function (AnimationFactoryInterface $animation) {
+        $image = $manager->createImage(3, 2, function (AnimationFactoryInterface $animation): void {
             $animation->add(Resource::create('red.gif')->path());
             $animation->add(Resource::create('green.gif')->path());
             $animation->add(Resource::create('blue.gif')->path());
@@ -83,7 +83,7 @@ class ImageManagerTest extends BaseTestCase
     #[DataProviderExternal(ImageSourceProvider::class, 'filePaths')]
     #[DataProviderExternal(ImageSourceProvider::class, 'binaryData')]
     #[DataProviderExternal(ImageSourceProvider::class, 'splFileInfoObjects')]
-    // #[DataProviderExternal(ImageSourceProvider::class, 'base64Data')]
+    #[DataProviderExternal(ImageSourceProvider::class, 'base64Data')]
     public function testDecode(mixed $source): void
     {
         $this->assertInstanceOf(

@@ -27,7 +27,13 @@ trait CanDetectImageSources
             return true;
         }
 
-        return preg_match('/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/', $input) === 1;
+        $decoded = base64_decode($input);
+
+        if (!$decoded) {
+            return false;
+        }
+
+        return base64_encode($decoded) === $input;
     }
 
     /**

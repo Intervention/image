@@ -77,7 +77,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @link https://image.intervention.io/v3/basics/image-output#encode--save-combined
      */
     public function save(?string $path = null, mixed ...$options): self;
-    // todo: maybe rename to encodeAndSave()
 
     /**
      * Apply given modifier to current image.

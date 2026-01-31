@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Providers;
 
 use Generator;
+use SplFileInfo;
 
 class ImageSourceProvider
 {
@@ -34,6 +35,20 @@ class ImageSourceProvider
     {
         foreach (static::filePaths() as $path) {
             yield [file_get_contents($path[0])];
+        }
+    }
+
+    public static function splFileInfoObjects(): Generator
+    {
+        foreach (static::filePaths() as $path) {
+            yield [new SplFileInfo($path[0])];
+        }
+    }
+
+    public static function base64Data(): Generator
+    {
+        foreach (static::filePaths() as $path) {
+            yield [base64_encode(file_get_contents($path[0]))];
         }
     }
 }

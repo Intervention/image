@@ -54,6 +54,16 @@ interface CollectionInterface extends Traversable
     public function count(): int;
 
     /**
+     * Map each item of collection by given callback.
+     */
+    public function map(callable $callback): self;
+
+    /**
+     * Run callback on each item of the collection an remove it if it does not return true.
+     */
+    public function filter(callable $callback): self;
+
+    /**
      * Empty collection.
      *
      * @return CollectionInterface<int|string, mixed>

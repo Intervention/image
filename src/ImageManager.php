@@ -35,6 +35,16 @@ class ImageManager implements ImageManagerInterface
     /**
      * {@inheritdoc}
      *
+     * @see ImageManagerInterface::usingDriver()
+     */
+    public static function usingDriver(string|DriverInterface $driver, mixed ...$options): ImageManagerInterface
+    {
+        return new self(self::resolveDriver($driver, ...$options));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see ImageManagerInterface::createImage()
      */
     public function createImage(
@@ -51,16 +61,6 @@ class ImageManager implements ImageManagerInterface
         }
 
         return $this->driver->createImage($width, $height);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ImageManagerInterface::usingDriver()
-     */
-    public static function usingDriver(string|DriverInterface $driver, mixed ...$options): ImageManagerInterface
-    {
-        return new self(self::resolveDriver($driver, ...$options));
     }
 
     /**

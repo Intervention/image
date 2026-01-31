@@ -176,7 +176,9 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     }
 
     /**
-     * Map each item of collection by given callback.
+     * {@inheritdoc}
+     *
+     * @see CollectionInterface::map()
      */
     public function map(callable $callback): self
     {
@@ -190,7 +192,9 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     }
 
     /**
-     * Run callback on each item of the collection an remove it if it does not return true.
+     * {@inheritdoc}
+     *
+     * @see CollectionInterface::map()
      */
     public function filter(callable $callback): self
     {

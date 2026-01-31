@@ -62,6 +62,26 @@ class Core implements CoreInterface, Iterator
     /**
      * {@inheritdoc}
      *
+     * @see CoreInterface::map()
+     */
+    public function map(callable $callback): CoreInterface
+    {
+        return $this; // TODO: implementation
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see CoreInterface::filter()
+     */
+    public function filter(callable $callback): CoreInterface
+    {
+        return $this; // TODO: implementation
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see CollectionInterface::get()
      *
      * @throws DriverException

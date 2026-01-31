@@ -50,7 +50,6 @@ class AnimationFactory implements AnimationFactoryInterface
      * Create new instance.
      */
     public function __construct(
-        protected DriverInterface $driver,
         protected int $width,
         protected int $height,
         null|callable $animation = null,
@@ -58,14 +57,6 @@ class AnimationFactory implements AnimationFactoryInterface
         if (is_callable($animation)) {
             $animation($this);
         }
-    }
-
-    /**
-     * Create the animation statically by calling given callable.
-     */
-    public static function build(DriverInterface $driver, int $width, int $height, callable $animation): ImageInterface
-    {
-        return (new self($driver, $width, $height, $animation))->animation();
     }
 
     /**
@@ -90,17 +81,18 @@ class AnimationFactory implements AnimationFactoryInterface
      *
      * @see AnimationFactoryInterface::animation()
      */
-    public function animation(): ImageInterface
+    public function build(DriverInterface $driver): ImageInterface
     {
         $frames = array_map(
             $this->buildFrame(...),
+            array_fill(0, count($this->sources), $driver),
             $this->sources,
             $this->delays,
             $this->processingCalls,
             $this->processingArguments,
         );
 
-        return new Image($this->driver, $this->driver->createCore($frames));
+        return new Image($driver, $driver->createCore($frames));
     }
 
     /**
@@ -109,29 +101,30 @@ class AnimationFactory implements AnimationFactoryInterface
      * @param null|array<mixed> $processingArguments
      */
     private function buildFrame(
-        mixed $image,
+        DriverInterface $driver,
+        mixed $source,
         float $delay,
         ?string $processingCall = null,
         ?array $processingArguments = null,
     ): FrameInterface {
         // decode image source
-        $image = $this->driver->handleImageInput($image);
+        $source = $driver->handleImageInput($source);
 
         // adjust size if necessary
-        if ($image->width() !== $this->width || $image->height() !== $this->height) {
-            $image->cover($this->width, $this->height);
+        if ($source->width() !== $this->width || $source->height() !== $this->height) {
+            $source->cover($this->width, $this->height);
         }
 
         // apply processing call if available
         if ($processingCall) {
-            call_user_func_array([$image, $processingCall], $processingArguments);
+            call_user_func_array([$source, $processingCall], $processingArguments);
         }
 
         // make sure to have to given output size only if resizing method is selectable by api
         // $image->resizeCanvas($this->width, $this->height);
 
         // return ready-made frame with all attributes
-        return $image
+        return $source
             ->core()
             ->first()
             ->setDelay($delay)

@@ -18,11 +18,11 @@ class AnimationFactoryTest extends BaseTestCase
     #[DataProviderExternal(DriverProvider::class, 'drivers')]
     public function testAnimationProcess(DriverInterface $driver): void
     {
-        $image = AnimationFactory::build($driver, 12, 4, function (AnimationFactory $animation): void {
+        $image = (new AnimationFactory(12, 4, function (AnimationFactory $animation): void {
             $animation->add(Resource::create('red.gif')->path(), .2);
             $animation->add(Resource::create('green.gif')->path(), .2);
             $animation->add(Resource::create('blue.gif')->path(), .2);
-        });
+        }))->build($driver);
 
         $this->assertEquals(12, $image->width());
         $this->assertEquals(4, $image->height());

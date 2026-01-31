@@ -15,5 +15,5 @@ interface AnimationFactoryInterface
     /**
      * Build ready-made animation as end product.
      */
-    public function animation(): ImageInterface;
+    public function build(DriverInterface $driver): ImageInterface;
 }

@@ -27,12 +27,12 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Return driver of current image.
      */
-    public function driver(): DriverInterface;
+    public function driver(): DriverInterface; // TODO: replace with public property
 
     /**
      * Return core of current image.
      */
-    public function core(): CoreInterface;
+    public function core(): CoreInterface; // TODO: replace with public property
 
     /**
      * Return the origin of the image.

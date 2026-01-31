@@ -6,12 +6,6 @@ namespace Intervention\Image\Interfaces;
 
 use Stringable;
 
-/**
- * - todo: add ColorspaceInterface::lighten(int $amount = 10)
- * - todo: add ColorspaceInterface::darken(int $amount = 10)
- * - todo: add ColorspaceInterface::transparize(int $amount = 10)
- */
-
 interface ColorInterface extends Stringable
 {
     /**

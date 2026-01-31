@@ -120,9 +120,9 @@ class Size extends Polygon implements SizeInterface
      *
      * @throws InvalidArgumentException
      */
-    public function movePivot(string|Alignment $position, int $x = 0, int $y = 0): self
+    public function movePivot(string|Alignment $alignment, int $x = 0, int $y = 0): self
     {
-        $point = match (Alignment::tryCreate($position)) {
+        $point = match (Alignment::tryCreate($alignment)) {
             Alignment::TOP => new Point(
                 intval(round($this->width() / 2)) + $x,
                 $y,
@@ -177,12 +177,12 @@ class Size extends Polygon implements SizeInterface
      *
      * @throws InvalidArgumentException
      */
-    public function alignPivotTo(SizeInterface $size, string|Alignment $position): self
+    public function alignPivotTo(SizeInterface $size, string|Alignment $alignment): self
     {
         $reference = new self($size->width(), $size->height());
-        $reference->movePivot($position);
+        $reference->movePivot($alignment);
 
-        $this->movePivot($position)->setPivot(
+        $this->movePivot($alignment)->setPivot(
             $reference->relativePositionTo($this)
         );
 

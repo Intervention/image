@@ -59,14 +59,14 @@ interface SizeInterface
     public function isPortrait(): bool;
 
     /**
-     * Move pivot to the given position in the size and adjust the new position by given offset values.
+     * Move pivot to the given alignment position in the size and adjust the new position by given offset values.
      */
-    public function movePivot(string|Alignment $position, int $x = 0, int $y = 0): self; // todo: naming of $position
+    public function movePivot(string|Alignment $alignment, int $x = 0, int $y = 0): self;
 
     /**
-     * Align pivot relative to given size at given position.
+     * Align pivot relative to given size at given alignment position.
      */
-    public function alignPivotTo(self $size, string|Alignment $position): self; // todo: naming of $position
+    public function alignPivotTo(self $size, string|Alignment $alignment): self;
 
     /**
      * Calculate the relative position to another Size based on the pivot point settings of both sizes.

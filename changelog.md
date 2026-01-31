@@ -16,6 +16,9 @@
 
 ## API Changes
 
+- ImageManagerInterface::animate() is replaced by universal ImageManagerInterface::createImage()
+- ImageManagerInterface::read() is now handled by Image::decode*()
+- ImageManagerInterface::withDriver() is now handled by Image::usingDriver()
 - ImageInterface::blendTransparency() was renamed to ImageInterface::background() - Signature changed & allowed (semi) transparent colors
 - ImageInterface::setBlendingColor() was renamed to ImageInterface::setBackgroundColor()
 - ImageInterface::blendingColor() was renamed to ImageInterface::backgroundColor()
@@ -125,8 +128,3 @@ caller, Operation fails after valid input
 - Removed ColorInterface::toArray() use ColorInterface::channels() and map to desired format
 - Removed ColorInterface::normalize() use ColorInterface::channels() and map to desired format
 - Method DriverInterface::createAnimation() was removed
-- Class ImageManager was removed
-- ImageManagerInterface::animate() is replaced by universal ImageManagerInterface::createImage()
-- ImageManagerInterface::read() is now handled by Image::from*()
-- ImageManagerInterface::animate() is now handled by Image::create()
-

@@ -109,6 +109,7 @@ class InputHandler implements InputHandlerInterface
         }
 
         // if handler has only one single decoder run it can run directly
+        // todo: check this again
         if (count($this->decoders) === 1) {
             return $this->decoders()->current()->decode($input);
         }

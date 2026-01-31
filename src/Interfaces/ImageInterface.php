@@ -35,11 +35,6 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function core(): CoreInterface;
 
     /**
-     * Set core of current image.
-     */
-    public function setCore(CoreInterface $core): self;
-
-    /**
      * Return the origin of the image.
      */
     public function origin(): Origin;

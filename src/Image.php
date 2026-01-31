@@ -18,7 +18,6 @@ use Intervention\Image\Encoders\FormatEncoder;
 use Intervention\Image\Encoders\MediaTypeEncoder;
 use Intervention\Image\Exceptions\EncoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
-use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Geometry\Bezier;
 use Intervention\Image\Geometry\Circle;
 use Intervention\Image\Geometry\Ellipse;
@@ -90,7 +89,6 @@ use Intervention\Image\Modifiers\SliceAnimationModifier;
 use Intervention\Image\Modifiers\TextModifier;
 use Intervention\Image\Modifiers\TrimModifier;
 use Intervention\Image\Typography\FontFactory;
-use ReflectionProperty;
 use Throwable;
 use Traversable;
 
@@ -122,7 +120,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::driver()
      */
-    public function driver(): DriverInterface // todo: maybe remove and make property public
+    public function driver(): DriverInterface
     {
         return $this->driver;
     }
@@ -134,22 +132,7 @@ final class Image implements ImageInterface
      */
     public function core(): CoreInterface
     {
-        $coreProperty = new ReflectionProperty(self::class, 'core');
-
-        if (!$coreProperty->isInitialized($this)) {
-            throw new StateException(
-                'Image must be initialized first to access its data. Use ' . self::class . '::from(...) to decode data',
-            );
-        }
-
         return $this->core;
-    }
-
-    public function setCore(CoreInterface $core): self
-    {
-        $this->core = $core;
-
-        return $this;
     }
 
     /**

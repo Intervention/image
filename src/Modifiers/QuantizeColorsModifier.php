@@ -7,6 +7,7 @@ namespace Intervention\Image\Modifiers;
 use Intervention\Image\Drivers\SpecializableModifier;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Interfaces\ImageInterface;
 
 class QuantizeColorsModifier extends SpecializableModifier
 {
@@ -21,12 +22,12 @@ class QuantizeColorsModifier extends SpecializableModifier
     }
 
     /**
-     * Return color to fill the newly created areas after rotation.
+     * Return color in colorspace of image to fill transparent areas.
      *
      * @throws StateException
      */
-    protected function backgroundColor(): ColorInterface
+    protected function backgroundColor(ImageInterface $image): ColorInterface
     {
-        return $this->driver()->handleColorInput($this->background); // todo: convert to image's colorspace
+        return $this->driver()->handleColorInput($this->background)->toColorspace($image->colorspace());
     }
 }

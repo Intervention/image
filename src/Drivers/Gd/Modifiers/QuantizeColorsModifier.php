@@ -11,7 +11,6 @@ use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\QuantizeColorsModifier as GenericQuantizeColorsModifier;
-use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Exceptions\DriverException;
 
@@ -41,12 +40,10 @@ class QuantizeColorsModifier extends GenericQuantizeColorsModifier implements Sp
 
         $width = $image->width();
         $height = $image->height();
-
-        // normalize color to rgb colorspace
-        $backgroundColor = $this->backgroundColor()->toColorspace(Rgb::class);
+        $backgroundColor = $this->backgroundColor($image);
 
         if (!$backgroundColor instanceof RgbColor) {
-            throw new ModifierException('Failed to normalize background color to RGB color space');
+            throw new ModifierException('Failed to convert background color to RGB color space');
         }
 
         $nativeBackgroundColor = $this->driver()

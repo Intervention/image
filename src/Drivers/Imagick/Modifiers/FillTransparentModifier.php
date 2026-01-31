@@ -10,9 +10,9 @@ use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
-use Intervention\Image\Modifiers\BackgroundModifier as GenericBackgroundModifier;
+use Intervention\Image\Modifiers\FillTransparentModifier as GenericFillTransparentModifier;
 
-class BackgroundModifier extends GenericBackgroundModifier implements SpecializedInterface
+class FillTransparentModifier extends GenericFillTransparentModifier implements SpecializedInterface
 {
     /**
      * @throws ModifierException

@@ -110,8 +110,8 @@ final class Image implements ImageInterface
      * Create new instance.
      */
     public function __construct(
-        public DriverInterface $driver,
-        protected CoreInterface $core,
+        private DriverInterface $driver,
+        private CoreInterface $core,
     ) {
         $this->origin = new Origin();
         $this->exif = new Collection();

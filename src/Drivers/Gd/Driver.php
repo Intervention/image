@@ -74,11 +74,7 @@ class Driver extends AbstractDriver
         imagecolortransparent($data, $background);
         imageresolution($data, 72, 72);
 
-        return Image::usingDriver($this)->setCore(
-            new Core([
-                new Frame($data)
-            ])
-        );
+        return new Image($this, new Core([new Frame($data)]));
     }
 
     /**

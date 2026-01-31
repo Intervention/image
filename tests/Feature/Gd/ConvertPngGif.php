@@ -6,7 +6,7 @@ namespace Intervention\Image\Tests\Feature\Gd;
 
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Format;
-use Intervention\Image\Image;
+use Intervention\Image\ImageManager;
 use Intervention\Image\Tests\GdTestCase;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
@@ -15,7 +15,7 @@ class ConvertPngGif extends GdTestCase
 {
     public function testConversionKeepsTransparency(): void
     {
-        $converted = Image::usingDriver(Driver::class)->fromBinary(
+        $converted = ImageManager::usingDriver(Driver::class)->decodeBinary(
             $this->readTestImage('circle.png')->encodeUsingFormat(Format::GIF)
         );
 

@@ -35,18 +35,18 @@ documentation](https://image.intervention.io/v4/).
 ## Code Examples
 
 ```php
-use Intervention\Image\Image;
+use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Alignment;
 use Intervention\Image\Color;
 use Intervention\Image\Format;
 use Intervention\Image\Fraction;
 
-// create image instance using the desired driver
-$image = Image::usingDriver(GdDriver::class);
+// create image manager instance using the desired driver
+$manager = ImageManager::usingDriver(GdDriver::class);
 
 // read image data from path
-$image->fromPath('images/example.webp');
+$image = $manager->decodePath('images/example.webp');
 
 // scale image by height
 $image->scale(height: 300);

@@ -53,7 +53,8 @@ class NativeObjectDecoder extends AbstractDecoder
         imagesavealpha($input, true);
 
         // build image instance
-        return Image::usingDriver($this->driver())->setCore(
+        return new Image(
+            $this->driver(),
             new Core([
                 new Frame($input)
             ])
@@ -106,7 +107,7 @@ class NativeObjectDecoder extends AbstractDecoder
         }
 
         // create (possibly) animated image
-        $image = Image::usingDriver($this->driver())->setCore($core);
+        $image = new Image($this->driver(), $core);
 
         // set media type
         $image->origin()->setMediaType('image/gif');

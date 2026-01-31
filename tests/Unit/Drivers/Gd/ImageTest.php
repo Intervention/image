@@ -36,17 +36,17 @@ final class ImageTest extends GdTestCase
 
     protected function setUp(): void
     {
-        $this->image = Image::usingDriver(new Driver())
-            ->setCore(
-                new Core([
-                    new Frame(imagecreatetruecolor(3, 2)),
-                    new Frame(imagecreatetruecolor(3, 2)),
-                ])
-            )->setExif(
-                new Collection([
-                    'test' => 'foo'
-                ])
-            );
+        $this->image = (new Image(
+            new Driver(),
+            new Core([
+                new Frame(imagecreatetruecolor(3, 2)),
+                new Frame(imagecreatetruecolor(3, 2)),
+            ])
+        ))->setExif(
+            new Collection([
+                'test' => 'foo'
+            ])
+        );
     }
 
     public function testClone(): void

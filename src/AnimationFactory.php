@@ -100,7 +100,7 @@ class AnimationFactory implements AnimationFactoryInterface
             $this->processingArguments,
         );
 
-        return Image::usingDriver($this->driver)->setCore($this->driver->createCore($frames));
+        return new Image($this->driver, $this->driver->createCore($frames));
     }
 
     /**

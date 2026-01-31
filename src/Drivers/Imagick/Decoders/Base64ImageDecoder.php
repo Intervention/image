@@ -33,7 +33,7 @@ class Base64ImageDecoder extends BinaryImageDecoder
         try {
             $data = $this->decodeBase64Data($input);
         } catch (DecoderException) {
-            throw new ImageDecoderException('Unable to decode Base64-encoded string');
+            throw new ImageDecoderException('Unable to Base64-decode string');
         }
 
         try {

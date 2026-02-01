@@ -270,7 +270,7 @@ final class ImageTest extends ImagickTestCase
     {
         $image = $this->readTestImage('gradient.gif');
         $this->assertColor(0, 0, 0, 0, $image->colorAt(1, 0));
-        $result = $image->fillTransparent();
+        $result = $image->fillTransparentAreas();
         $this->assertColor(255, 255, 255, 255, $image->colorAt(1, 0));
         $this->assertColor(255, 255, 255, 255, $result->colorAt(1, 0));
     }
@@ -279,7 +279,7 @@ final class ImageTest extends ImagickTestCase
     {
         $image = $this->readTestImage('gradient.gif');
         $this->assertColor(0, 0, 0, 0, $image->colorAt(1, 0));
-        $result = $image->fillTransparent('ff5500');
+        $result = $image->fillTransparentAreas('ff5500');
         $this->assertColor(255, 85, 0, 255, $image->colorAt(1, 0));
         $this->assertColor(255, 85, 0, 255, $result->colorAt(1, 0));
     }
@@ -288,7 +288,7 @@ final class ImageTest extends ImagickTestCase
     {
         $image = $this->readTestImage('gradient.gif');
         $this->assertColor(0, 0, 0, 0, $image->colorAt(1, 0));
-        $result = $image->fillTransparent('ff550033');
+        $result = $image->fillTransparentAreas('ff550033');
         $this->assertColor(255, 85, 0, 51, $image->colorAt(1, 0), 1);
         $this->assertColor(255, 85, 0, 51, $result->colorAt(1, 0), 1);
     }

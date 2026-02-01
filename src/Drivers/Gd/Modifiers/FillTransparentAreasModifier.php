@@ -8,14 +8,14 @@ use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
-use Intervention\Image\Modifiers\FillTransparentModifier as GenericFillTransparentModifier;
+use Intervention\Image\Modifiers\FillTransparentAreasModifier as GenericFillTransparentAreasModifier;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\StateException;
 
-class FillTransparentModifier extends GenericFillTransparentModifier implements SpecializedInterface
+class FillTransparentAreasModifier extends GenericFillTransparentAreasModifier implements SpecializedInterface
 {
     /**
      * {@inheritdoc}

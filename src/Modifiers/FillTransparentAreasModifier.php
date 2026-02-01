@@ -8,7 +8,7 @@ use Intervention\Image\Drivers\SpecializableModifier;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 
-class FillTransparentModifier extends SpecializableModifier
+class FillTransparentAreasModifier extends SpecializableModifier
 {
     /**
      * Create new modifier object.

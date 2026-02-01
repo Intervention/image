@@ -47,7 +47,7 @@ use Intervention\Image\Interfaces\ProfileInterface;
 use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Modifiers\AlignRotationModifier;
-use Intervention\Image\Modifiers\FillTransparentModifier;
+use Intervention\Image\Modifiers\FillTransparentAreasModifier;
 use Intervention\Image\Modifiers\BlurModifier;
 use Intervention\Image\Modifiers\BrightnessModifier;
 use Intervention\Image\Modifiers\ColorizeModifier;
@@ -846,11 +846,11 @@ final class Image implements ImageInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageInterface::fillTransparent()
+     * @see ImageInterface::fillTransparentAreas()
      */
-    public function fillTransparent(null|string|ColorInterface $color = null): ImageInterface
+    public function fillTransparentAreas(null|string|ColorInterface $color = null): ImageInterface
     {
-        return $this->modify(new FillTransparentModifier($color));
+        return $this->modify(new FillTransparentAreasModifier($color));
     }
 
     /**

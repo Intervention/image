@@ -198,7 +198,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Replace transparent areas of the image with given color or currently
      * configured background color.
      */
-    public function fillTransparent(null|string|ColorInterface $color = null): self;
+    public function fillTransparentAreas(null|string|ColorInterface $color = null): self;
 
     /**
      * Retrieve ICC color profile of image.

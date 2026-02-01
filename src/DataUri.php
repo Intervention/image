@@ -290,7 +290,7 @@ class DataUri implements DataUriInterface, Stringable
     /**
      * Show debug info for the current rectangle.
      *
-     * @return array<string, ?string>
+     * @return array<string, mixed>
      */
     public function __debugInfo(): array
     {

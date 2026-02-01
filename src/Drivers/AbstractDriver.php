@@ -56,7 +56,7 @@ abstract class AbstractDriver implements DriverInterface
     public function handleImageInput(mixed $input, ?array $decoders = null): ImageInterface
     {
         try {
-            $result = InputHandler::withDecoders( // todo: review all with* methods
+            $result = InputHandler::usingDecoders(
                 decoders: $decoders ?: InputHandler::IMAGE_DECODERS,
                 driver: $this
             )->handle($input);
@@ -85,7 +85,7 @@ abstract class AbstractDriver implements DriverInterface
     public function handleColorInput(mixed $input, ?array $decoders = null): ColorInterface
     {
         try {
-            $result = InputHandler::withDecoders(
+            $result = InputHandler::usingDecoders(
                 decoders: $decoders ?: InputHandler::COLOR_DECODERS,
                 driver: $this,
             )->handle($input);

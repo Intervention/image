@@ -82,7 +82,8 @@
 - AnimationFactory::__invoke() was removed, use AnimationFactory::build or AnimationFactory::animation()
 - Signatures of ImageInterface::drawRectangle(), ImageInterface::drawLine(), ImageInterface::drawEllipse(), ImageInterface::drawCircle() ImageInterface::drawPolygon() and ImageInterface::drawBezier() have changed
 - FrameInterface::dispose() was rename to FrameInterface::disposalMethod()
-- FrameInterface::setDispose() was rename to FrameInterface::setDisposalMethod()
+- FrameInterface::setDispose() was renamed to FrameInterface::setDisposalMethod()
+- InputHandler::withDecoders() was renamed to InputHandler::usingDecoders()
 
 ### Exceptions
 

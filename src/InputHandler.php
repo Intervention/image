@@ -84,7 +84,7 @@ class InputHandler implements InputHandlerInterface
      *
      * @param array<string|DecoderInterface> $decoders
      */
-    public static function withDecoders(array $decoders, ?DriverInterface $driver = null): self
+    public static function usingDecoders(array $decoders, ?DriverInterface $driver = null): self
     {
         return new self($decoders, $driver);
     }

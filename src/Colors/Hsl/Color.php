@@ -57,7 +57,7 @@ class Color extends AbstractColor
         }
 
         try {
-            $color = InputHandler::withDecoders([
+            $color = InputHandler::usingDecoders([
                 Decoders\StringColorDecoder::class,
             ])->handle($input);
         } catch (NotSupportedException) {

@@ -56,7 +56,7 @@ class Color extends AbstractColor
         }
 
         try {
-            $color = InputHandler::withDecoders([
+            $color = InputHandler::usingDecoders([
                 Decoders\HexColorDecoder::class,
                 Decoders\StringColorDecoder::class,
                 Decoders\TransparentColorDecoder::class,

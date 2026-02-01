@@ -6,7 +6,6 @@ namespace Intervention\Image;
 
 use Error;
 use Intervention\Gif\DisposalMethod;
-use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\AnimationFactoryInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\FrameInterface;
@@ -20,14 +19,14 @@ class AnimationFactory implements AnimationFactoryInterface
     protected int $currentFrameNumber = 0;
 
     /**
-     * Image source of animation frames.
+     * Image sources of animation frames.
      *
      * @var array<mixed>
      */
     protected array $sources = [];
 
     /**
-     * Frame delays of animation in seconds.
+     * Frame delays of animation frames in seconds.
      *
      * @var array<float>
      */
@@ -41,7 +40,7 @@ class AnimationFactory implements AnimationFactoryInterface
     protected array $processingCalls = [];
 
     /**
-     * Frame processing call arguments.
+     * Frame processing arguments of calls.
      *
      * @var array<null|array<mixed>>
      */

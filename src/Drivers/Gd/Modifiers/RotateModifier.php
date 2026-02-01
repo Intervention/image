@@ -74,7 +74,7 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
         // rotate original image against transparent background
         $rotated = imagerotate(
             $frame->native(),
-            $this->rotationAngle(),
+            $this->rotationAngle() * -1,
             $transparent
         );
 
@@ -91,7 +91,7 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
             $container->pivot()
         ))->alignHorizontally(Alignment::CENTER)
             ->alignVertically(Alignment::CENTER)
-            ->rotate($this->rotationAngle() * -1);
+            ->rotate($this->rotationAngle());
 
         // create new gd image
         $modified = Cloner::cloneEmpty($frame->native(), $container, $background);

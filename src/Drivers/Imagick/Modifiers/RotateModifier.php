@@ -21,16 +21,11 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
     {
         $background = $this->driver()
             ->colorProcessor($image)
-            ->colorToNative(
-                $this->backgroundColor()
-            );
+            ->colorToNative($this->backgroundColor());
 
         foreach ($image as $frame) {
             try {
-                $result = $frame->native()->rotateImage(
-                    $background,
-                    $this->rotationAngle() * -1
-                );
+                $result = $frame->native()->rotateImage($background, $this->rotationAngle());
 
                 if ($result === false) {
                     throw new ModifierException(

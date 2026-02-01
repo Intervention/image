@@ -18,7 +18,9 @@ class RotateModifier extends SpecializableModifier
     }
 
     /**
-     * Restrict rotations beyond 360 degrees because the end result is the same.
+     * Clockwise rotation angle.
+     *
+     * Restricted beyond 360 degrees because the end result is the same.
      */
     public function rotationAngle(): float
     {

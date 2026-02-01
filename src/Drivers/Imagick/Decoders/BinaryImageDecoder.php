@@ -42,7 +42,9 @@ class BinaryImageDecoder extends NativeObjectDecoder
     public function decode(mixed $input): ImageInterface
     {
         if (!is_string($input) && !$input instanceof Stringable) {
-            throw new InvalidArgumentException('Binary data must be either of type string or instance of Stringable');
+            throw new InvalidArgumentException(
+                'Image source must be binary data of type string or instance of ' . Stringable::class,
+            );
         }
 
         $input = (string) $input;

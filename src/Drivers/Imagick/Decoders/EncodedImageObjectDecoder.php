@@ -38,7 +38,7 @@ class EncodedImageObjectDecoder extends BinaryImageDecoder
     public function decode(mixed $input): ImageInterface
     {
         if (!$input instanceof EncodedImageInterface) {
-            throw new InvalidArgumentException('Input must be of type ' . EncodedImage::class);
+            throw new InvalidArgumentException('Image source must be of type ' . EncodedImage::class);
         }
 
         try {

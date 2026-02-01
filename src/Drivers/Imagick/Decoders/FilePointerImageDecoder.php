@@ -37,7 +37,7 @@ class FilePointerImageDecoder extends BinaryImageDecoder
     public function decode(mixed $input): ImageInterface
     {
         if (!is_resource($input) || !in_array(get_resource_type($input), ['file', 'stream'])) {
-            throw new InvalidArgumentException('Input must be a resource of type "file" or "stream"');
+            throw new InvalidArgumentException('Image source must be a resource of type "file" or "stream"');
         }
 
         $contents = '';
@@ -49,7 +49,7 @@ class FilePointerImageDecoder extends BinaryImageDecoder
         while (!feof($input)) {
             $chunk = fread($input, 1024);
             if ($chunk === false) {
-                throw new FilePointerException('Failed to read from file pointer');
+                throw new FilePointerException('Failed to read image from file pointer');
             }
 
             $contents .= $chunk;

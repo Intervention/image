@@ -9,6 +9,7 @@ use ImagickException;
 use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\SpecializableDecoder;
 use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -33,11 +34,16 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
      *
      * @see DecoderInterface::decode()
      *
+     * @throws InvalidArgumentException
      * @throws StateException
      * @throws DriverException
      */
     public function decode(mixed $input): ImageInterface
     {
+        if (!$input instanceof Imagick) {
+            throw new InvalidArgumentException('Image source must be of type Imagick');
+        }
+
         // For some JPEG formats, the "coalesceImages()" call leads to an image
         // completely filled with background color. The logic behind this is
         // incomprehensible for me; could be an imagick bug.

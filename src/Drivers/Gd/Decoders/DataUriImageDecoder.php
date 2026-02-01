@@ -45,7 +45,9 @@ class DataUriImageDecoder extends BinaryImageDecoder implements DecoderInterface
         $input = ($input instanceof DataUri) ? (string) $input : $input;
 
         if (!is_string($input)) {
-            throw new InvalidArgumentException('Data Uri must be of type string or ' . DataUri::class);
+            throw new InvalidArgumentException(
+                'Image source must be data uri scheme of type string or ' . DataUri::class,
+            );
         }
 
         $data = DataUri::decode($input)->data();

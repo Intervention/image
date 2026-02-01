@@ -46,6 +46,10 @@ class SplFileInfoImageDecoder extends FilePathImageDecoder implements DecoderInt
      */
     public function decode(mixed $input): ImageInterface
     {
+        if (!$input instanceof SplFileInfo) {
+            throw new InvalidArgumentException('Image source must be of type ' . SplFileInfo::class);
+        }
+
         try {
             return parent::decode($this->filePathFromSplFileInfoOrFail($input));
         } catch (DecoderException) {

@@ -49,8 +49,8 @@ final class FontFactoryTest extends BaseTestCase
         $this->assertEquals(Resource::create('test.ttf')->path(), $result->filepath());
         $this->assertEquals('#b01735', $result->color());
         $this->assertEquals(70, $result->size());
-        $this->assertEquals(Alignment::CENTER, $result->horizontalAlignment());
-        $this->assertEquals(Alignment::TOP, $result->verticalAlignment());
+        $this->assertEquals(Alignment::CENTER, $result->alignmentHorizontal());
+        $this->assertEquals(Alignment::TOP, $result->alignmentVertical());
         $this->assertEquals(1.6, $result->lineHeight());
         $this->assertEquals(10, $result->angle());
         $this->assertEquals(100, $result->wrapWidth());
@@ -75,8 +75,8 @@ final class FontFactoryTest extends BaseTestCase
         $this->assertEquals(Resource::create('test.ttf')->path(), $font->filepath());
         $this->assertEquals('#b01735', $font->color());
         $this->assertEquals(70, $font->size());
-        $this->assertEquals(Alignment::CENTER, $font->horizontalAlignment());
-        $this->assertEquals(Alignment::TOP, $font->verticalAlignment());
+        $this->assertEquals(Alignment::CENTER, $font->alignmentHorizontal());
+        $this->assertEquals(Alignment::TOP, $font->alignmentVertical());
         $this->assertEquals(1.6, $font->lineHeight());
         $this->assertEquals(10, $font->angle());
         $this->assertEquals(100, $font->wrapWidth());

@@ -67,29 +67,29 @@ final class FontTest extends BaseTestCase
     public function testSetGetAlignment(): void
     {
         $font = new Font();
-        $this->assertEquals(Alignment::LEFT, $font->horizontalAlignment());
+        $this->assertEquals(Alignment::LEFT, $font->alignmentHorizontal());
 
-        $result = $font->setHorizontalAlignment(Alignment::CENTER);
+        $result = $font->setAlignmentHorizontal(Alignment::CENTER);
         $this->assertInstanceOf(Font::class, $result);
-        $this->assertEquals(Alignment::CENTER, $font->horizontalAlignment());
+        $this->assertEquals(Alignment::CENTER, $font->alignmentHorizontal());
 
-        $result = $font->setHorizontalAlignment(Alignment::BOTTOM);
+        $result = $font->setAlignmentHorizontal(Alignment::BOTTOM);
         $this->assertInstanceOf(Font::class, $result);
-        $this->assertEquals(Alignment::BOTTOM, $font->horizontalAlignment());
+        $this->assertEquals(Alignment::BOTTOM, $font->alignmentHorizontal());
     }
 
     public function testSetGetVerticalAlignment(): void
     {
         $font = new Font();
-        $this->assertEquals(Alignment::BOTTOM, $font->verticalAlignment());
+        $this->assertEquals(Alignment::BOTTOM, $font->alignmentVertical());
 
-        $result = $font->setVerticalAlignment(Alignment::CENTER);
+        $result = $font->setAlignmentVertical(Alignment::CENTER);
         $this->assertInstanceOf(Font::class, $result);
-        $this->assertEquals(Alignment::CENTER, $font->verticalAlignment());
+        $this->assertEquals(Alignment::CENTER, $font->alignmentVertical());
 
-        $result = $font->setVerticalAlignment(Alignment::RIGHT);
+        $result = $font->setAlignmentVertical(Alignment::RIGHT);
         $this->assertInstanceOf(Font::class, $result);
-        $this->assertEquals(Alignment::RIGHT, $font->verticalAlignment());
+        $this->assertEquals(Alignment::RIGHT, $font->alignmentVertical());
     }
 
     public function testSetGetLineHeight(): void

@@ -25,8 +25,8 @@ class Font implements FontInterface
         protected string|ColorInterface $color = '000000',
         protected string|ColorInterface $strokeColor = 'ffffff',
         protected int $strokeWidth = 0,
-        protected Alignment $horizontalAlignment = Alignment::LEFT,
-        protected Alignment $verticalAlignment = Alignment::BOTTOM,
+        protected Alignment $alignmentHorizontal = Alignment::LEFT,
+        protected Alignment $alignmentVertical = Alignment::BOTTOM,
         protected float $lineHeight = 1.25,
         protected ?int $wrapWidth = null,
     ) {
@@ -205,21 +205,21 @@ class Font implements FontInterface
     /**
      * {@inheritdoc}
      *
-     * @see FontInterface::horizontalAlignment()
+     * @see FontInterface::alignmentHorizontal()
      */
-    public function horizontalAlignment(): Alignment
+    public function alignmentHorizontal(): Alignment
     {
-        return $this->horizontalAlignment;
+        return $this->alignmentHorizontal;
     }
 
     /**
      * {@inheritdoc}
      *
-     * @see FontInterface::setHorizontalAlignment()
+     * @see FontInterface::setAlignmentHorizontal()
      */
-    public function setHorizontalAlignment(string|Alignment $alignment): FontInterface
+    public function setAlignmentHorizontal(string|Alignment $alignment): FontInterface
     {
-        $this->horizontalAlignment = is_string($alignment) ? Alignment::from($alignment) : $alignment;
+        $this->alignmentHorizontal = is_string($alignment) ? Alignment::from($alignment) : $alignment;
 
         return $this;
     }
@@ -227,21 +227,21 @@ class Font implements FontInterface
     /**
      * {@inheritdoc}
      *
-     * @see FontInterface::verticalAlignment()
+     * @see FontInterface::alignmentVertical()
      */
-    public function verticalAlignment(): Alignment
+    public function alignmentVertical(): Alignment
     {
-        return $this->verticalAlignment;
+        return $this->alignmentVertical;
     }
 
     /**
      * {@inheritdoc}
      *
-     * @see FontInterface::setVerticalAlignment()
+     * @see FontInterface::setAlignmentVertical()
      */
-    public function setVerticalAlignment(string|Alignment $alignment): FontInterface
+    public function setAlignmentVertical(string|Alignment $alignment): FontInterface
     {
-        $this->verticalAlignment = is_string($alignment) ? Alignment::from($alignment) : $alignment;
+        $this->alignmentVertical = is_string($alignment) ? Alignment::from($alignment) : $alignment;
 
         return $this;
     }

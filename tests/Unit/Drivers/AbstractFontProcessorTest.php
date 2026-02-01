@@ -25,7 +25,7 @@ class AbstractFontProcessorTest extends BaseTestCase
             ->setWrapWidth(20)
             ->setSize(50)
             ->setLineHeight(1.25)
-            ->setHorizontalAlignment(Alignment::CENTER);
+            ->setAlignmentHorizontal(Alignment::CENTER);
 
         $processor = Mockery::mock(AbstractFontProcessor::class)->makePartial();
 

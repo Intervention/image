@@ -257,7 +257,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function contrast(int $level): self;
 
     /**
-     * Apply gamma correction on the current image
+     * Apply gamma correction on the current image.
      *
      * @link https://image.intervention.io/v3/modifying-images/effects#gamma-correction
      */

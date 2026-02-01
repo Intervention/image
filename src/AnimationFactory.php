@@ -6,6 +6,7 @@ namespace Intervention\Image;
 
 use Error;
 use Intervention\Gif\DisposalMethod;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\AnimationFactoryInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\FrameInterface;
@@ -83,6 +84,10 @@ class AnimationFactory implements AnimationFactoryInterface
      */
     public function build(DriverInterface $driver): ImageInterface
     {
+        if (count($this->sources) === 0) {
+            return $driver->createImage($this->width, $this->height);
+        }
+
         $frames = array_map(
             $this->buildFrame(...),
             array_fill(0, count($this->sources), $driver),

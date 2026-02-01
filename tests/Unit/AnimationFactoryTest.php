@@ -32,4 +32,30 @@ class AnimationFactoryTest extends BaseTestCase
             $this->assertEquals(.2, $frame->delay());
         }
     }
+
+    #[DataProviderExternal(DriverProvider::class, 'drivers')]
+    public function testAnimationEmptyCallback(DriverInterface $driver): void
+    {
+        $image = (new AnimationFactory(12, 4, function (): void {
+            //
+        }))->build($driver);
+
+        $this->assertEquals(12, $image->width());
+        $this->assertEquals(4, $image->height());
+        $this->assertEquals(1, $image->count());
+        $this->assertEquals(0, $image->loops());
+        $this->assertColor(255, 255, 255, 0, $image->colorAt(0, 0));
+    }
+
+    #[DataProviderExternal(DriverProvider::class, 'drivers')]
+    public function testAnimationEmptyFactory(DriverInterface $driver): void
+    {
+        $image = (new AnimationFactory(12, 4))->build($driver);
+
+        $this->assertEquals(12, $image->width());
+        $this->assertEquals(4, $image->height());
+        $this->assertEquals(1, $image->count());
+        $this->assertEquals(0, $image->loops());
+        $this->assertColor(255, 255, 255, 0, $image->colorAt(0, 0));
+    }
 }

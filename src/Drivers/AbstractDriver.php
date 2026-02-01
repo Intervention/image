@@ -11,6 +11,7 @@ use Intervention\Image\Exceptions\ImageDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\MissingDependencyException;
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -55,11 +56,14 @@ abstract class AbstractDriver implements DriverInterface
      */
     public function handleImageInput(mixed $input, ?array $decoders = null): ImageInterface
     {
+        $decoders = $decoders === null ? InputHandler::IMAGE_DECODERS : $decoders;
+
+        if (count($decoders) === 0) {
+            throw new StateException('No decoders in input handler stack');
+        }
+
         try {
-            $result = InputHandler::usingDecoders(
-                decoders: $decoders ?: InputHandler::IMAGE_DECODERS,
-                driver: $this
-            )->handle($input);
+            $result = InputHandler::usingDecoders($decoders, $this)->handle($input);
         } catch (NotSupportedException) {
             $type = is_object($input) ? $input::class : gettype($input);
             throw new NotSupportedException('Unsupported image source type "' . $type . '"');
@@ -84,11 +88,14 @@ abstract class AbstractDriver implements DriverInterface
      */
     public function handleColorInput(mixed $input, ?array $decoders = null): ColorInterface
     {
+        $decoders = $decoders === null ? InputHandler::COLOR_DECODERS : $decoders;
+
+        if (count($decoders) === 0) {
+            throw new StateException('No decoders in input handler stack');
+        }
+
         try {
-            $result = InputHandler::usingDecoders(
-                decoders: $decoders ?: InputHandler::COLOR_DECODERS,
-                driver: $this,
-            )->handle($input);
+            $result = InputHandler::usingDecoders($decoders, $this)->handle($input);
         } catch (NotSupportedException) {
             throw new NotSupportedException('Unsupported color format');
         }

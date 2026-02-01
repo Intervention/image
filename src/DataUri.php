@@ -286,4 +286,17 @@ class DataUri implements DataUriInterface, Stringable
     {
         return $this->toString();
     }
+
+    /**
+     * Show debug info for the current rectangle.
+     *
+     * @return array<string, ?string>
+     */
+    public function __debugInfo(): array
+    {
+        return [
+            'mediaType' => $this->mediaType,
+            'size' => strlen($this->data),
+        ];
+    }
 }

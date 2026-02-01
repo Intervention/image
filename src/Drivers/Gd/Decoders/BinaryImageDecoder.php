@@ -55,10 +55,7 @@ class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
             throw new InvalidArgumentException('Unable to decode binary data from empty string');
         }
 
-        return match ($this->isGifFormat($input)) {
-            true => $this->decodeGif($input),
-            default => $this->decodeBinary($input),
-        };
+        return $this->isGifFormat($input) ? $this->decodeGif($input) : $this->decodeBinary($input);
     }
 
     /**

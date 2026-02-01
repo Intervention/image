@@ -44,8 +44,8 @@ class InputHandler implements InputHandlerInterface
         FilePointerImageDecoder::class,
         SplFileInfoImageDecoder::class,
         EncodedImageObjectDecoder::class,
-        Base64ImageDecoder::class,
         DataUriImageDecoder::class,
+        Base64ImageDecoder::class,
         BinaryImageDecoder::class,
         FilePathImageDecoder::class,
     ];

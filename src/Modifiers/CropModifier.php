@@ -44,7 +44,7 @@ class CropModifier extends SpecializableModifier
     }
 
     /**
-     * Return color to fill the newly created areas after rotation
+     * Return color to fill the newly created areas after resizing
      *
      * @throws StateException
      */

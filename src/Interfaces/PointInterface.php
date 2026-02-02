@@ -47,7 +47,7 @@ interface PointInterface
     public function setPosition(int $x, int $y): self;
 
     /**
-     * Rotate point counter clock wise around given pivot point.
+     * Rotate the current point clockwise around given pivot point.
      */
     public function rotate(float $angle, self $pivot): self;
 }

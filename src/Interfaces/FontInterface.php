@@ -54,7 +54,7 @@ interface FontInterface
     public function size(): float;
 
     /**
-     * Set rotation angle of font.
+     * Set clockwise rotation angle of font.
      */
     public function setAngle(float $angle): self;
 

@@ -306,7 +306,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function pixelate(int $size): self;
 
     /**
-     * Rotate current image by given angle.
+     * Rotate current image clockwise by given angle.
      *
      * @link https://image.intervention.io/v3/modifying-images/effects#image-rotation
      *

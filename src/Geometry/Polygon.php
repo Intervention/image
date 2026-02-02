@@ -302,7 +302,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     }
 
     /**
-     * Rotate points of polygon around pivot point with given angle.
+     * Rotate points of polygon clockwise around pivot point with given angle.
      */
     public function rotate(float $angle): self
     {

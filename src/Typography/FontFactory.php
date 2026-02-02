@@ -128,7 +128,7 @@ class FontFactory
     }
 
     /**
-     * Set the rotation angle of the font to be built.
+     * Set the clockwise rotation angle of the font to be built.
      */
     public function angle(float $angle): self
     {

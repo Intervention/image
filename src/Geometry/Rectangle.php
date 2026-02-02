@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Geometry;
 
+use ArrayIterator;
 use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Size;
+use Traversable;
 
 class Rectangle extends Size implements SizeInterface
 {
@@ -20,5 +22,15 @@ class Rectangle extends Size implements SizeInterface
         parent::setPosition($position);
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see IteratorAggregate::getIterator()
+     */
+    public function getIterator(): Traversable
+    {
+        return new ArrayIterator($this->points);
     }
 }

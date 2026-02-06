@@ -6,11 +6,9 @@ namespace Intervention\Image\Geometry\Factories;
 
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Circle;
-use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DrawableFactoryInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
-use Intervention\Image\Interfaces\PointInterface;
 
 class CircleFactory implements DrawableFactoryInterface
 {
@@ -19,12 +17,9 @@ class CircleFactory implements DrawableFactoryInterface
     /**
      * Create new factory instance.
      */
-    public function __construct(
-        protected PointInterface $pivot = new Point(),
-        null|callable|Circle $circle = null,
-    ) {
+    public function __construct(null|callable|Circle $circle = null)
+    {
         $this->circle = is_a($circle, Circle::class) ? $circle : new Circle(0);
-        $this->circle->setPosition($pivot);
 
         if (is_callable($circle)) {
             $circle($this);
@@ -36,9 +31,9 @@ class CircleFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::create()
      */
-    public static function create(null|callable|DrawableInterface $drawable = null): self
+    public static function create(null|callable|DrawableInterface $circle = null): self
     {
-        return new self(circle: $drawable);
+        return new self($circle);
     }
 
     /**
@@ -46,9 +41,9 @@ class CircleFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::build()
      */
-    public static function build(null|callable|DrawableInterface $drawable = null): Circle
+    public static function build(null|callable|DrawableInterface $circle = null): Circle
     {
-        return (new self(circle: $drawable))->drawable();
+        return (new self($circle))->drawable();
     }
 
     /**
@@ -99,6 +94,13 @@ class CircleFactory implements DrawableFactoryInterface
     public function border(string|ColorInterface $color, int $size = 1): self
     {
         $this->circle->setBorder($color, $size);
+
+        return $this;
+    }
+
+    public function at(int $x, int $y): self
+    {
+        $this->circle->position()->setPosition($x, $y);
 
         return $this;
     }

@@ -470,7 +470,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function trim(int $tolerance = 0): self;
 
     /**
-     * Insert another image into the current image instance
+     * Insert another image into the current image instance.
      *
      * @link https://image.intervention.io/v3/modifying-images/inserting#insert-images
      */
@@ -544,6 +544,13 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-bezier-curves
      */
     public function drawBezier(callable|Bezier $bezier): self;
+
+    /**
+     * Draw a geometric object on the current image.
+     *
+     * @link https://image.intervention.io/v3/modifying-images/drawing
+     */
+    public function draw(DrawableInterface $drawable): self;
 
     /**
      * Encode the current image using the given encoder or by automatically

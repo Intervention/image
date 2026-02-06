@@ -36,6 +36,7 @@ use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\CoreInterface;
+use Intervention\Image\Interfaces\DrawableInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
@@ -95,7 +96,7 @@ use Traversable;
 final class Image implements ImageInterface
 {
     /**
-     * Origin containing the source from which it was originally created.
+     * Origin containing the source from which the image was originally created.
      */
     private Origin $origin;
 
@@ -870,6 +871,7 @@ final class Image implements ImageInterface
      *
      * @throws InvalidArgumentException
      */
+    // TODO: remove x, y arguments
     public function drawRectangle(int $x, int $y, callable|Rectangle $rectangle): ImageInterface
     {
         return $this->modify(
@@ -947,6 +949,23 @@ final class Image implements ImageInterface
                 BezierFactory::build($bezier)
             ),
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::draw()
+     */
+    public function draw(DrawableInterface $drawable): ImageInterface
+    {
+        return $this->modify(match ($drawable::class) {
+            Rectangle::class => new DrawRectangleModifier($drawable),
+            Circle::class, Ellipse::class => new DrawEllipseModifier($drawable),
+            Bezier::class => new DrawBezierModifier($drawable),
+            Line::class => new DrawLineModifier($drawable),
+            Polygon::class => new DrawPolygonModifier($drawable),
+            default => throw new \Exception('Not implemented'),
+        });
     }
 
     /**

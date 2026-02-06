@@ -6,11 +6,9 @@ namespace Intervention\Image\Geometry\Factories;
 
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Ellipse;
-use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DrawableFactoryInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
-use Intervention\Image\Interfaces\PointInterface;
 
 class EllipseFactory implements DrawableFactoryInterface
 {
@@ -19,12 +17,9 @@ class EllipseFactory implements DrawableFactoryInterface
     /**
      * Create new factory instance.
      */
-    public function __construct(
-        protected PointInterface $pivot = new Point(),
-        null|callable|Ellipse $ellipse = null,
-    ) {
+    public function __construct(null|callable|Ellipse $ellipse = null)
+    {
         $this->ellipse = is_a($ellipse, Ellipse::class) ? $ellipse : new Ellipse(0, 0);
-        $this->ellipse->setPosition($pivot);
 
         if (is_callable($ellipse)) {
             $ellipse($this);
@@ -109,6 +104,13 @@ class EllipseFactory implements DrawableFactoryInterface
     public function border(string|ColorInterface $color, int $size = 1): self
     {
         $this->ellipse->setBorder($color, $size);
+
+        return $this;
+    }
+
+    public function at(int $x, int $y): self
+    {
+        $this->ellipse->position()->setPosition($x, $y);
 
         return $this;
     }

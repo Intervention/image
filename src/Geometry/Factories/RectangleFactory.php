@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace Intervention\Image\Geometry\Factories;
 
 use Intervention\Image\Exceptions\InvalidArgumentException;
-use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DrawableFactoryInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
-use Intervention\Image\Interfaces\PointInterface;
 
 class RectangleFactory implements DrawableFactoryInterface
 {
@@ -19,12 +17,9 @@ class RectangleFactory implements DrawableFactoryInterface
     /**
      * Create new instance.
      */
-    public function __construct(
-        protected PointInterface $pivot = new Point(),
-        null|callable|Rectangle $rectangle = null,
-    ) {
-        $this->rectangle = is_a($rectangle, Rectangle::class) ? $rectangle : new Rectangle(0, 0, $pivot);
-        $this->rectangle->setPosition($pivot);
+    public function __construct(null|callable|Rectangle $rectangle = null)
+    {
+        $this->rectangle = is_a($rectangle, Rectangle::class) ? $rectangle : new Rectangle(0, 0);
 
         if (is_callable($rectangle)) {
             $rectangle($this);
@@ -40,7 +35,7 @@ class RectangleFactory implements DrawableFactoryInterface
      */
     public static function create(null|callable|DrawableInterface $drawable = null): self
     {
-        return new self(rectangle: $drawable);
+        return new self($drawable);
     }
 
     /**
@@ -50,7 +45,7 @@ class RectangleFactory implements DrawableFactoryInterface
      */
     public static function build(null|callable|DrawableInterface $drawable = null): Rectangle
     {
-        return (new self(rectangle: $drawable))->drawable();
+        return (new self($drawable))->drawable();
     }
 
     /**
@@ -111,6 +106,13 @@ class RectangleFactory implements DrawableFactoryInterface
     public function border(string|ColorInterface $color, int $size = 1): self
     {
         $this->rectangle->setBorder($color, $size);
+
+        return $this;
+    }
+
+    public function at(int $x, int $y): self
+    {
+        $this->rectangle->position()->setPosition($x, $y);
 
         return $this;
     }

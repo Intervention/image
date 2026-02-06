@@ -41,7 +41,7 @@ class CircleFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::build()
      */
-    public static function build(null|callable|DrawableInterface $circle = null): Circle
+    public static function build(null|callable|DrawableInterface $circle = null): Circle // TODO: rename to create(), remove old create()
     {
         return (new self($circle))->drawable();
     }

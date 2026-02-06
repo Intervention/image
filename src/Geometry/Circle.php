@@ -13,7 +13,7 @@ class Circle extends Ellipse
      */
     public function __construct(
         int $diameter,
-        PointInterface $pivot = new Point()
+        PointInterface $pivot = new Point() // TODO: maybe rename to position
     ) {
         parent::__construct($diameter, $diameter, $pivot);
     }

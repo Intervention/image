@@ -24,7 +24,7 @@ class RotateModifier extends SpecializableModifier
      */
     public function rotationAngle(): float
     {
-        return fmod($this->angle, 360); // TODO: check rotation direction of all modifiers with rotation
+        return fmod($this->angle, 360);
     }
 
     /**

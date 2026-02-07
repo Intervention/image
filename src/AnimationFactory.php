@@ -62,6 +62,20 @@ class AnimationFactory implements AnimationFactoryInterface
     /**
      * {@inheritdoc}
      *
+     * @see AnimationFactoryInterface::build()
+     */
+    public static function build(
+        int $width,
+        int $height,
+        callable $animation,
+        DriverInterface $driver,
+    ): ImageInterface {
+        return (new self($width, $height, $animation))->image($driver);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see AnimationFactoryInterface::add()
      */
     public function add(mixed $image, float $delay = 1): AnimationFactoryInterface
@@ -79,9 +93,9 @@ class AnimationFactory implements AnimationFactoryInterface
     /**
      * {@inheritdoc}
      *
-     * @see AnimationFactoryInterface::animation()
+     * @see AnimationFactoryInterface::image()
      */
-    public function build(DriverInterface $driver): ImageInterface
+    public function image(DriverInterface $driver): ImageInterface
     {
         if (count($this->sources) === 0) {
             return $driver->createImage($this->width, $this->height);

@@ -22,7 +22,7 @@ class AnimationFactoryTest extends BaseTestCase
             $animation->add(Resource::create('red.gif')->path(), .2);
             $animation->add(Resource::create('green.gif')->path(), .2);
             $animation->add(Resource::create('blue.gif')->path(), .2);
-        }))->build($driver);
+        }))->image($driver);
 
         $this->assertEquals(12, $image->width());
         $this->assertEquals(4, $image->height());
@@ -38,7 +38,7 @@ class AnimationFactoryTest extends BaseTestCase
     {
         $image = (new AnimationFactory(12, 4, function (): void {
             //
-        }))->build($driver);
+        }))->image($driver);
 
         $this->assertEquals(12, $image->width());
         $this->assertEquals(4, $image->height());
@@ -50,7 +50,19 @@ class AnimationFactoryTest extends BaseTestCase
     #[DataProviderExternal(DriverProvider::class, 'drivers')]
     public function testAnimationEmptyFactory(DriverInterface $driver): void
     {
-        $image = (new AnimationFactory(12, 4))->build($driver);
+        $image = (new AnimationFactory(12, 4))->image($driver);
+
+        $this->assertEquals(12, $image->width());
+        $this->assertEquals(4, $image->height());
+        $this->assertEquals(1, $image->count());
+        $this->assertEquals(0, $image->loops());
+        $this->assertColor(255, 255, 255, 0, $image->colorAt(0, 0));
+    }
+
+    #[DataProviderExternal(DriverProvider::class, 'drivers')]
+    public function testBuild(DriverInterface $driver): void
+    {
+        $image = AnimationFactory::build(12, 4, fn($animation) => $animation, $driver);
 
         $this->assertEquals(12, $image->width());
         $this->assertEquals(4, $image->height());

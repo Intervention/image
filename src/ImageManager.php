@@ -53,11 +53,11 @@ class ImageManager implements ImageManagerInterface
         null|callable|AnimationFactoryInterface $animation = null,
     ): ImageInterface {
         if ($animation instanceof AnimationFactoryInterface) {
-            return $animation->build($this->driver);
+            return $animation->image($this->driver);
         }
 
         if (is_callable($animation)) {
-            return (new AnimationFactory($width, $height, $animation))->build($this->driver);
+            return AnimationFactory::build($width, $height, $animation, $this->driver);
         }
 
         return $this->driver->createImage($width, $height);

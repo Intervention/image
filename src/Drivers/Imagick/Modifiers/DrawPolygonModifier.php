@@ -70,7 +70,7 @@ class DrawPolygonModifier extends GenericDrawPolygonModifier implements Speciali
     }
 
     /**
-     * Return points of drawable in processable form for ImagickDraw
+     * Return points of drawable in processable form for ImagickDraw.
      *
      * @return array<array<string, int>>
      */
@@ -78,6 +78,7 @@ class DrawPolygonModifier extends GenericDrawPolygonModifier implements Speciali
     {
         $points = [];
         foreach ($this->drawable as $point) {
+            $point->move($this->drawable->position()->x(), $this->drawable->position()->y());
             $points[] = ['x' => $point->x(), 'y' => $point->y()];
         }
 

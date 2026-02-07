@@ -86,14 +86,7 @@ class PolygonFactory implements DrawableFactoryInterface
      */
     public function at(int $x, int $y): self
     {
-        $delta = new Point(
-            $x - $this->polygon->first()->x(),
-            $y - $this->polygon->first()->y(),
-        );
-
-        foreach ($this->polygon as $point) {
-            $point->move(...$delta);
-        }
+        $this->polygon->position()->setPosition($x, $y);
 
         return $this;
     }

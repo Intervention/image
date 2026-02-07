@@ -86,14 +86,16 @@ class BezierFactory implements DrawableFactoryInterface
      */
     public function at(int $x, int $y): self
     {
-        $delta = new Point(
-            $x - $this->bezier->first()->x(),
-            $y - $this->bezier->first()->y(),
-        );
+        $this->bezier->position()->setPosition($x, $y);
 
-        foreach ($this->bezier as $point) {
-            $point->move(...$delta);
-        }
+        // $delta = new Point(
+        //     $x - $this->bezier->first()->x(),
+        //     $y - $this->bezier->first()->y(),
+        // );
+        //
+        // foreach ($this->bezier as $point) {
+        //     $point->move(...$delta);
+        // }
 
         return $this;
     }

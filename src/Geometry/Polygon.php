@@ -65,7 +65,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
      */
     public function getIterator(): Traversable
     {
-        return new ArrayIterator($this->points);
+        return new ArrayIterator($this->toArray());
     }
 
     /**
@@ -359,18 +359,36 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     }
 
     /**
-     * Return array of all x/y values of all points of polygon.
+     * Return array of all x/y values of all points of polygon
      *
      * @return array<int>
      */
-    public function toArray(): array
+    public function coordinates(): array
     {
         $coordinates = [];
         foreach ($this->points as $point) {
-            $coordinates[] = $point->x();
-            $coordinates[] = $point->y();
+            $coordinates[] = $this->pivot->x() + $point->x();
+            $coordinates[] = $this->pivot->y() + $point->y();
         }
 
         return $coordinates;
+    }
+
+    /**
+     * Return array of all points of polygon.
+     *
+     * @return array<PointInterface>
+     */
+    public function toArray(): array
+    {
+        $points = [];
+        foreach ($this->points as $point) {
+            $points[] = new Point(
+                $this->pivot->x() + $point->x(),
+                $this->pivot->y() + $point->y(),
+            );
+        }
+
+        return $points;
     }
 }

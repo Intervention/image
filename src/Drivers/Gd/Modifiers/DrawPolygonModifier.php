@@ -28,7 +28,7 @@ class DrawPolygonModifier extends ModifiersDrawPolygonModifier implements Specia
                 imagesetthickness($frame->native(), 0);
                 imagefilledpolygon(
                     $frame->native(),
-                    $this->points(),
+                    $this->drawable->coordinates(),
                     $this->driver()->colorProcessor($image)->colorToNative(
                         $this->backgroundColor()
                     )
@@ -40,7 +40,7 @@ class DrawPolygonModifier extends ModifiersDrawPolygonModifier implements Specia
                 imagesetthickness($frame->native(), $this->drawable->borderSize());
                 imagepolygon(
                     $frame->native(),
-                    $this->points(),
+                    $this->drawable->coordinates(),
                     $this->driver()->colorProcessor($image)->colorToNative(
                         $this->borderColor()
                     )
@@ -49,22 +49,5 @@ class DrawPolygonModifier extends ModifiersDrawPolygonModifier implements Specia
         }
 
         return $image;
-    }
-
-    /**
-     * Return points of drawable in processable form for GD.
-     *
-     * @return array<int>
-     */
-    private function points(): array
-    {
-        $points = [];
-        foreach ($this->drawable as $point) {
-            $point->move($this->drawable->position()->x(), $this->drawable->position()->y());
-            $points[] = $point->x();
-            $points[] = $point->y();
-        }
-
-        return $points;
     }
 }

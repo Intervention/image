@@ -78,7 +78,6 @@ class DrawPolygonModifier extends GenericDrawPolygonModifier implements Speciali
     {
         $points = [];
         foreach ($this->drawable as $point) {
-            $point->move($this->drawable->position()->x(), $this->drawable->position()->y());
             $points[] = ['x' => $point->x(), 'y' => $point->y()];
         }
 

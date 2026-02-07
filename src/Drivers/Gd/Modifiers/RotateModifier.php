@@ -101,7 +101,7 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
         imagealphablending($modified, false);
         imagefilledpolygon(
             $modified,
-            $cutout->toArray(),
+            $cutout->coordinates(),
             imagecolortransparent($modified)
         );
 

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
-interface PointInterface
+use IteratorAggregate;
+
+interface PointInterface extends IteratorAggregate
 {
     /**
      * Return x position.

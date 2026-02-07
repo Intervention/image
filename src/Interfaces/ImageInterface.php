@@ -508,21 +508,21 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-a-rectangle
      */
-    public function drawRectangle(int $x, int $y, callable|Rectangle $rectangle): self;
+    public function drawRectangle(callable|Rectangle $rectangle): self;
 
     /**
      * Draw ellipse on the current image
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-ellipses
      */
-    public function drawEllipse(int $x, int $y, callable|Ellipse $ellipse): self;
+    public function drawEllipse(callable|Ellipse $ellipse): self;
 
     /**
      * Draw circle on the current image.
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-a-circle
      */
-    public function drawCircle(int $x, int $y, callable|Circle $circle): self;
+    public function drawCircle(callable|Circle $circle): self;
 
     /**
      * Draw a polygon on the current image.

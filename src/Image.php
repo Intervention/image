@@ -871,12 +871,11 @@ final class Image implements ImageInterface
      *
      * @throws InvalidArgumentException
      */
-    // TODO: remove x, y arguments
-    public function drawRectangle(int $x, int $y, callable|Rectangle $rectangle): ImageInterface
+    public function drawRectangle(callable|Rectangle $rectangle): ImageInterface
     {
         return $this->modify(
             new DrawRectangleModifier(
-                RectangleFactory::build($rectangle)->setPosition(new Point($x, $y)),
+                RectangleFactory::build($rectangle)
             ),
         );
     }
@@ -886,11 +885,11 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawEllipse()
      */
-    public function drawEllipse(int $x, int $y, callable|Ellipse $ellipse): ImageInterface
+    public function drawEllipse(callable|Ellipse $ellipse): ImageInterface
     {
         return $this->modify(
             new DrawEllipseModifier(
-                EllipseFactory::build($ellipse)->setPosition(new Point($x, $y)),
+                EllipseFactory::build($ellipse)
             ),
         );
     }
@@ -900,11 +899,11 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawCircle()
      */
-    public function drawCircle(int $x, int $y, callable|Circle $circle): ImageInterface
+    public function drawCircle(callable|Circle $circle): ImageInterface
     {
         return $this->modify(
             new DrawEllipseModifier(
-                CircleFactory::build($circle)->setPosition(new Point($x, $y))
+                CircleFactory::build($circle)
             ),
         );
     }

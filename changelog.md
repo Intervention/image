@@ -84,6 +84,9 @@
 - FrameInterface::dispose() was rename to FrameInterface::disposalMethod()
 - FrameInterface::setDispose() was renamed to FrameInterface::setDisposalMethod()
 - InputHandler::withDecoders() was renamed to InputHandler::usingDecoders()
+- ImageInterface::drawCircle() has a different signature: coordinate arguments removed
+- ImageInterface::drawEllipse() has a different signature: coordinate arguments removed
+- ImageInterface::drawRectangle() has a different signature: coordinate arguments removed
 
 ### Exceptions
 

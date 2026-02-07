@@ -29,16 +29,6 @@ class EllipseFactory implements DrawableFactoryInterface
     /**
      * {@inheritdoc}
      *
-     * @see DrawableFactoryInterface::create()
-     */
-    public static function create(null|callable|DrawableInterface $drawable = null): self
-    {
-        return new self(ellipse: $drawable);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
      * @see DrawableFactoryInterface::build()
      */
     public static function build(null|callable|DrawableInterface $drawable = null): Ellipse

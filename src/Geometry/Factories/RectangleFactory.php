@@ -29,18 +29,6 @@ class RectangleFactory implements DrawableFactoryInterface
     /**
      * {@inheritdoc}
      *
-     * @see DrawableFactoryInterface::create()
-     *
-     * @throws InvalidArgumentException
-     */
-    public static function create(null|callable|DrawableInterface $drawable = null): self
-    {
-        return new self($drawable);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
      * @see DrawableFactoryInterface::build()
      */
     public static function build(null|callable|DrawableInterface $drawable = null): Rectangle

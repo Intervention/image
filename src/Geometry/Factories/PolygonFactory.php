@@ -30,16 +30,6 @@ class PolygonFactory implements DrawableFactoryInterface
     /**
      * {@inheritdoc}
      *
-     * @see DrawableFactoryInterface::create()
-     */
-    public static function create(null|callable|DrawableInterface $drawable = null): self
-    {
-        return new self($drawable);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
      * @see DrawableFactoryInterface::build()
      */
     public static function build(null|callable|DrawableInterface $drawable = null): Polygon
@@ -85,6 +75,25 @@ class PolygonFactory implements DrawableFactoryInterface
     public function border(string|ColorInterface $color, int $size = 1): self
     {
         $this->polygon->setBorder($color, $size);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DrawableFactoryInterface::at()
+     */
+    public function at(int $x, int $y): self
+    {
+        $delta = new Point(
+            $x - $this->polygon->first()->x(),
+            $y - $this->polygon->first()->y(),
+        );
+
+        foreach ($this->polygon as $point) {
+            $point->move(...$delta);
+        }
 
         return $this;
     }

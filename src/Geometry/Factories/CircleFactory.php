@@ -29,19 +29,9 @@ class CircleFactory implements DrawableFactoryInterface
     /**
      * {@inheritdoc}
      *
-     * @see DrawableFactoryInterface::create()
-     */
-    public static function create(null|callable|DrawableInterface $circle = null): self
-    {
-        return new self($circle);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
      * @see DrawableFactoryInterface::build()
      */
-    public static function build(null|callable|DrawableInterface $circle = null): Circle // TODO: rename to create(), remove old create()
+    public static function build(null|callable|DrawableInterface $circle = null): Circle
     {
         return (new self($circle))->drawable();
     }
@@ -98,6 +88,11 @@ class CircleFactory implements DrawableFactoryInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see DrawableFactoryInterface::at()
+     */
     public function at(int $x, int $y): self
     {
         $this->circle->position()->setPosition($x, $y);

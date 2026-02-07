@@ -30,16 +30,6 @@ class BezierFactory implements DrawableFactoryInterface
     /**
      * {@inheritdoc}
      *
-     * @see DrawableFactoryInterface::create()
-     */
-    public static function create(null|callable|DrawableInterface $drawable = null): self
-    {
-        return new self($drawable);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
      * @see DrawableFactoryInterface::build()
      */
     public static function build(null|callable|DrawableInterface $drawable = null): Bezier
@@ -85,6 +75,25 @@ class BezierFactory implements DrawableFactoryInterface
     public function border(string|ColorInterface $color, int $size = 1): self
     {
         $this->bezier->setBorder($color, $size);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DrawableFactoryInterface::at()
+     */
+    public function at(int $x, int $y): self
+    {
+        $delta = new Point(
+            $x - $this->bezier->first()->x(),
+            $y - $this->bezier->first()->y(),
+        );
+
+        foreach ($this->bezier as $point) {
+            $point->move(...$delta);
+        }
 
         return $this;
     }

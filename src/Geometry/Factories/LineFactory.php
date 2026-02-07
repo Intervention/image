@@ -29,16 +29,6 @@ class LineFactory implements DrawableFactoryInterface
     /**
      * {@inheritdoc}
      *
-     * @see DrawableFactoryInterface::create()
-     */
-    public static function create(null|callable|DrawableInterface $drawable = null): self
-    {
-        return new self($drawable);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
      * @see DrawableFactoryInterface::build()
      */
     public static function build(null|callable|DrawableInterface $drawable = null): Line
@@ -116,6 +106,24 @@ class LineFactory implements DrawableFactoryInterface
     public function to(int $x, int $y): self
     {
         $this->line->setEnd(new Point($x, $y));
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DrawableFactoryInterface::at()
+     */
+    public function at(int $x, int $y): DrawableFactoryInterface
+    {
+        $delta = new Point(
+            $x - $this->line->start()->x(),
+            $y - $this->line->start()->y(),
+        );
+
+        $this->line->setStart($this->line->start()->move(...$delta));
+        $this->line->setEnd($this->line->end()->move(...$delta));
 
         return $this;
     }

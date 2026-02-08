@@ -218,8 +218,7 @@ class Color extends AbstractColor
         $color->channels = array_map(
             function (ColorChannelInterface $channel) use ($percent): ColorChannelInterface {
                 return match ($channel::class) {
-                    Saturation::class => $channel->scale($percent * -1),
-                    Value::class => $channel->scale($percent),
+                    // TODO: implement
                     default => $channel,
                 };
             },

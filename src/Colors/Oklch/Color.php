@@ -18,9 +18,12 @@ use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
+use Intervention\Image\Traits\CanScaleInRange;
 
 class Color extends AbstractColor
 {
+    use CanScaleInRange;
+
     /**
      * Create new color object.
      */
@@ -218,8 +221,19 @@ class Color extends AbstractColor
         $color->channels = array_map(
             function (ColorChannelInterface $channel) use ($percent): ColorChannelInterface {
                 return match ($channel::class) {
-                    Lightness::class => $channel->scale($percent),
-                    Chroma::class => new Chroma($channel->value() - ($channel->value() / 100 * abs($percent))),
+                    Lightness::class => new Lightness((int) round($this->scaleInRange(
+                        $channel->value(),
+                        $percent,
+                        $channel::min(),
+                        $channel::max(),
+                    ))),
+
+                    // scale chroma towards 0 no matter if current chroma is positive or negative
+                    Chroma::class => new Chroma(
+                        $channel->value() < 0
+                            ? $this->scaleInRange($channel->value(), $percent, $channel::min(), 0)
+                            : $this->scaleInRange($channel->value(), $percent * -1, 0, $channel::max())
+                    ),
                     default => $channel,
                 };
             },

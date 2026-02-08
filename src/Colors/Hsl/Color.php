@@ -18,9 +18,12 @@ use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
+use Intervention\Image\Traits\CanScaleInRange;
 
 class Color extends AbstractColor
 {
+    use CanScaleInRange;
+
     /**
      * Create new color object.
      */
@@ -217,7 +220,12 @@ class Color extends AbstractColor
 
         $color->channels = array_map(
             function (ColorChannelInterface $channel) use ($percent): ColorChannelInterface {
-                return $channel instanceof Luminance ? $channel->scale($percent) : $channel;
+                return $channel instanceof Luminance ? new Luminance((int) round($this->scaleInRange(
+                    $channel->value(),
+                    $percent,
+                    $channel::min(),
+                    $channel::max(),
+                ))) : $channel;
             },
             $color->channels
         );

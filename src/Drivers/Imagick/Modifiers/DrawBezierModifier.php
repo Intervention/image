@@ -48,24 +48,24 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
 
         $drawing->pathStart();
         $drawing->pathMoveToAbsolute(
-            $this->drawable->position()->x() + $this->drawable->first()->x(),
-            $this->drawable->position()->y() + $this->drawable->first()->y()
+            $this->drawable->first()->x(),
+            $this->drawable->first()->y()
         );
         if ($this->drawable->count() === 3) {
             $drawing->pathCurveToQuadraticBezierAbsolute(
-                $this->drawable->position()->x() + $this->drawable->second()->x(),
-                $this->drawable->position()->y() + $this->drawable->second()->y(),
-                $this->drawable->position()->x() + $this->drawable->last()->x(),
-                $this->drawable->position()->y() + $this->drawable->last()->y()
+                $this->drawable->second()->x(),
+                $this->drawable->second()->y(),
+                $this->drawable->last()->x(),
+                $this->drawable->last()->y()
             );
         } elseif ($this->drawable->count() === 4) {
             $drawing->pathCurveToAbsolute(
-                $this->drawable->position()->x() + $this->drawable->second()->x(),
-                $this->drawable->position()->x() + $this->drawable->second()->y(),
-                $this->drawable->position()->x() + $this->drawable->third()->x(),
-                $this->drawable->position()->x() + $this->drawable->third()->y(),
-                $this->drawable->position()->x() + $this->drawable->last()->x(),
-                $this->drawable->position()->x() + $this->drawable->last()->y()
+                $this->drawable->second()->x(),
+                $this->drawable->second()->y(),
+                $this->drawable->third()->x(),
+                $this->drawable->third()->y(),
+                $this->drawable->last()->x(),
+                $this->drawable->last()->y()
             );
         }
         $drawing->pathFinish();

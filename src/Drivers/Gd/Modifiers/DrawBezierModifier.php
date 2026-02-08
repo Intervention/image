@@ -176,19 +176,19 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
         // define ratio t; equivalent to 5 percent distance along edge
         $t = 0.05;
 
-        $polygon[] = $this->drawable->position()->x() + $this->drawable->first()->x();
-        $polygon[] = $this->drawable->position()->y() + $this->drawable->first()->y();
+        $polygon[] = $this->drawable->first()->x();
+        $polygon[] = $this->drawable->first()->y();
         for ($i = $t; $i < 1; $i += $t) {
             if ($this->drawable->count() === 3) {
                 $ip = $this->calculateQuadraticBezierInterpolationPoint($i);
             } elseif ($this->drawable->count() === 4) {
                 $ip = $this->calculateCubicBezierInterpolationPoint($i);
             }
-            $polygon[] = $this->drawable->position()->x() + (int) $ip['x'];
-            $polygon[] = $this->drawable->position()->y() + (int) $ip['y'];
+            $polygon[] = (int) $ip['x'];
+            $polygon[] = (int) $ip['y'];
         }
-        $polygon[] = $this->drawable->position()->x() + $this->drawable->last()->x();
-        $polygon[] = $this->drawable->position()->y() + $this->drawable->last()->y();
+        $polygon[] = $this->drawable->last()->x();
+        $polygon[] = $this->drawable->last()->y();
 
         if ($this->drawable->hasBorder() && $this->drawable->borderSize() > 1) {
             // create the border/stroke effect by calculating two new curves with offset positions

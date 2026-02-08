@@ -78,16 +78,4 @@ class PolygonFactory implements DrawableFactoryInterface
 
         return $this;
     }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see DrawableFactoryInterface::at()
-     */
-    public function at(int $x, int $y): self
-    {
-        $this->polygon->position()->setPosition($x, $y);
-
-        return $this;
-    }
 }

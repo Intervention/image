@@ -9,20 +9,17 @@ use Intervention\Image\Geometry\Line;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DrawableFactoryInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
-use Intervention\Image\Interfaces\PointInterface;
 
 class LineFactory implements DrawableFactoryInterface
 {
     protected Line $line;
-    protected PointInterface $position;
 
     /**
      * Create the factory instance.
      */
     public function __construct(null|callable|Line $line = null)
     {
-        $this->position = new Point();
-        $this->line = is_a($line, Line::class) ? $line : new Line($this->position, $this->position);
+        $this->line = is_a($line, Line::class) ? $line : new Line(new Point(), new Point());
 
         if (is_callable($line)) {
             $line($this);
@@ -46,14 +43,6 @@ class LineFactory implements DrawableFactoryInterface
      */
     public function drawable(): Line
     {
-        $delta = new Point(
-            $this->position->x() - $this->line->start()->x(),
-            $this->position->y() - $this->line->start()->y(),
-        );
-
-        $this->line->start()->move(...$delta);
-        $this->line->end()->move(...$delta);
-
         return $this->line;
     }
 
@@ -117,18 +106,6 @@ class LineFactory implements DrawableFactoryInterface
     public function to(int $x, int $y): self
     {
         $this->line->setEnd(new Point($x, $y));
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see DrawableFactoryInterface::at()
-     */
-    public function at(int $x, int $y): DrawableFactoryInterface
-    {
-        $this->position = new Point($x, $y);
 
         return $this;
     }

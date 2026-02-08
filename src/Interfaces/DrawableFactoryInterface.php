@@ -25,9 +25,4 @@ interface DrawableFactoryInterface
      * Set the border size & color of the drawable object to be produced.
      */
     public function border(string|ColorInterface $color, int $size = 1): self;
-
-    /**
-     * Set the position where the drawable object should be drawn.
-     */
-    public function at(int $x, int $y): self;
 }

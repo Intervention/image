@@ -436,17 +436,7 @@ final class PolygonTest extends BaseTestCase
 
     public function testToArray(): void
     {
-        $points = [new Point(0, 0), new Point(50, 0), new Point(50, -50), new Point(0, -50)];
-        $poly = new Polygon($points);
-        $this->assertEquals($points, $poly->toArray());
-
-        $points = [new Point(0, 0), new Point(50, 0), new Point(50, -50), new Point(0, -50)];
-        $poly = new Polygon($points, new Point(100, 200));
-        $this->assertEquals([
-            new Point(100, 200),
-            new Point(150, 200),
-            new Point(150, 150),
-            new Point(100, 150),
-        ], $poly->toArray());
+        $poly = new Polygon([new Point(0, 0), new Point(50, 0), new Point(50, -50), new Point(0, -50)]);
+        $this->assertEquals([0, 0, 50, 0, 50, -50, 0, -50], $poly->toArray());
     }
 }

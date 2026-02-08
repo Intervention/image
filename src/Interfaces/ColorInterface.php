@@ -70,4 +70,6 @@ interface ColorInterface extends Stringable
      * Return a copy of the current color with the color's brightness adjusted by the given percent.
      */
     public function withBrightnessDelta(int $percent): self;
+
+    // TODO: implement withSaturationDelta(int $percent): self;
 }

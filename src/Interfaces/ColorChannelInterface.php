@@ -31,6 +31,11 @@ interface ColorChannelInterface extends Stringable
     public function value(): int|float;
 
     /**
+     * Update the color channel by scaling its value by the given percent.
+     */
+    public function scale(int $percent): self;
+
+    /**
      * Return the channels value normalized to a float value from 0.0 to 1.0 by its range.
      */
     public function normalizedValue(int $precision = 32): float;

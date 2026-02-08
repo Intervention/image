@@ -224,4 +224,23 @@ class Color extends AbstractColor
 
         return $color;
     }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::withBrightnessDelta()
+     */
+    public function withBrightnessDelta(int $percent): self
+    {
+        $color = clone $this;
+
+        $color->channels = array_map(
+            function (ColorChannelInterface $channel) use ($percent): ColorChannelInterface {
+                return $channel instanceof Alpha ? $channel : $channel->scale($percent * -1);
+            },
+            $color->channels
+        );
+
+        return $color;
+    }
 }

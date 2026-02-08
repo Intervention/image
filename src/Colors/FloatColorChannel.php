@@ -61,7 +61,7 @@ abstract class FloatColorChannel extends AbstractColorChannel
         }
 
         if ($percent < -100 || $percent > 100) {
-            throw new InvalidArgumentException('Percentage change must be between -100 and 100');
+            throw new InvalidArgumentException('Percentage value must be between -100 and 100');
         }
 
         $base = $percent >= 0 ? ((static::max() - static::min()) - $this->value) : $this->value;

@@ -90,6 +90,16 @@ abstract class AbstractColor implements ColorInterface, Stringable
     }
 
     /**
+     * Clone color.
+     */
+    public function __clone(): void
+    {
+        foreach ($this->channels as $key => $channel) {
+            $this->channels[$key] = clone $channel;
+        }
+    }
+
+    /**
      * {@inheritdoc}
      *
      * @see ColorInterface::__toString()

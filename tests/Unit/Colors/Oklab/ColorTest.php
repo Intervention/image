@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit\Colors\Oklab;
 
 use Intervention\Image\Colors\Oklab\Channels\A;
+use Intervention\Image\Colors\Oklab\Channels\Alpha;
 use Intervention\Image\Colors\Oklab\Channels\B;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Colors\Oklab\Colorspace as OklabColorspace;
@@ -172,6 +173,14 @@ final class ColorTest extends BaseTestCase
 
         $color = new Color(.5, .10, -0.2);
         $this->assertFalse($color->isGrayscale());
+    }
+
+    public function testSetTransparency(): void
+    {
+        $color = new Color(0, 0, 0, 1);
+        $result = $color->withTransparency(.2);
+        $this->assertEquals(255, $color->channel(Alpha::class)->value());
+        $this->assertEquals(51, $result->channel(Alpha::class)->value());
     }
 
     public function testDebugInfo(): void

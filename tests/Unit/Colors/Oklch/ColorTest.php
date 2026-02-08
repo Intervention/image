@@ -170,6 +170,14 @@ final class ColorTest extends BaseTestCase
         $this->assertFalse($color->isGrayscale());
     }
 
+    public function testSetTransparency(): void
+    {
+        $color = new Color(0, 0, 0, 1);
+        $result = $color->withTransparency(.2);
+        $this->assertEquals(255, $color->channel(Alpha::class)->value());
+        $this->assertEquals(51, $result->channel(Alpha::class)->value());
+    }
+
     public function testDebugInfo(): void
     {
         $info = (new Color(0, .1, 2))->__debugInfo();

@@ -87,6 +87,7 @@
 - ImageInterface::drawCircle() has a different signature: coordinate arguments removed
 - ImageInterface::drawEllipse() has a different signature: coordinate arguments removed
 - ImageInterface::drawRectangle() has a different signature: coordinate arguments removed
+- Added ColorInterface::withTransparency()
 
 ### Exceptions
 

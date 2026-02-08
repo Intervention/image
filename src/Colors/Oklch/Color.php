@@ -16,6 +16,7 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 
 class Color extends AbstractColor
@@ -185,5 +186,23 @@ class Color extends AbstractColor
     public function isClear(): bool
     {
         return $this->alpha()->value() == 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::withTransparency()
+     */
+    public function withTransparency(float $transparency): ColorInterface
+    {
+        $color = clone $this;
+
+        $color->channels = array_map(
+            fn(ColorChannelInterface $channel): ColorChannelInterface =>
+            $channel instanceof Alpha ? Alpha::fromNormalized($transparency) : $channel,
+            $this->channels
+        );
+
+        return $color;
     }
 }

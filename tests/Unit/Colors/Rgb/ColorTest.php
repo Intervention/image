@@ -7,6 +7,7 @@ namespace Intervention\Image\Tests\Unit\Colors\Rgb;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
 use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
+use Intervention\Image\Colors\Rgb\Channels\Alpha;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
@@ -261,6 +262,14 @@ final class ColorTest extends BaseTestCase
 
         $color = new Color(255, 255, 255, 0);
         $this->assertTrue($color->isClear());
+    }
+
+    public function testSetTransparency(): void
+    {
+        $color = new Color(0, 0, 0, 1);
+        $result = $color->withTransparency(.2);
+        $this->assertEquals(255, $color->channel(Alpha::class)->value());
+        $this->assertEquals(51, $result->channel(Alpha::class)->value());
     }
 
     public function testDebugInfo(): void

@@ -60,4 +60,9 @@ interface ColorInterface extends Stringable
      * Determine whether the current color is completely transparent.
      */
     public function isClear(): bool;
+
+    /**
+     * Return a copy of the current color with the specified transparency value.
+     */
+    public function withTransparency(float $transparency): self;
 }

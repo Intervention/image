@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Colors\Hsv;
 
+use Intervention\Image\Colors\Hsv\Channels\Alpha;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Colors\Hsv\Channels\Hue;
 use Intervention\Image\Colors\Hsv\Channels\Saturation;
@@ -150,6 +151,14 @@ final class ColorTest extends BaseTestCase
 
         $color = new Color(0, 1, 0, 0);
         $this->assertTrue($color->isClear());
+    }
+
+    public function testSetTransparency(): void
+    {
+        $color = new Color(0, 0, 0, 1);
+        $result = $color->withTransparency(.2);
+        $this->assertEquals(255, $color->channel(Alpha::class)->value());
+        $this->assertEquals(51, $result->channel(Alpha::class)->value());
     }
 
     public function testDebugInfo(): void

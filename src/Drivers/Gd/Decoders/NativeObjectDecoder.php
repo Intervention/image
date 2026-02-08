@@ -26,11 +26,11 @@ class NativeObjectDecoder extends AbstractDecoder
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_object($input)) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unable to decode input. Expected an object.');
         }
 
         if (!($input instanceof GdImage)) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unable to decode input. Expected a GdImage instance.');
         }
 
         if (!imageistruecolor($input)) {
@@ -66,7 +66,7 @@ class NativeObjectDecoder extends AbstractDecoder
             };
 
             if ($native === false) {
-                throw new DecoderException('Unable to decode input.');
+                throw new DecoderException('Unable to decode input. GIF image could not be created from the given data.');
             }
 
             $image = self::decode($native);

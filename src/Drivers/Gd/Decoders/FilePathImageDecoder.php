@@ -21,7 +21,7 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!$this->isFile($input)) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unable to decode input. The given path does not point to a readable file.');
         }
 
         // detect media (mime) type
@@ -37,7 +37,7 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
                 Format::PNG => @imagecreatefrompng($input),
                 Format::AVIF => @imagecreatefromavif($input),
                 Format::BMP => @imagecreatefrombmp($input),
-                default => throw new DecoderException('Unable to decode input'),
+                default => throw new DecoderException('Unable to decode input. The image format of the file is not supported.'),
             }),
         };
 

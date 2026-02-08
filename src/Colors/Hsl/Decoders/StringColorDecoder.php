@@ -19,12 +19,12 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_string($input)) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unable to decode input. Expected a string.');
         }
 
         $pattern = '/^hsl\((?P<h>[0-9\.]+), ?(?P<s>[0-9\.]+%?), ?(?P<l>[0-9\.]+%?)\)$/i';
         if (preg_match($pattern, $input, $matches) != 1) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unable to decode input. The given string is not a valid HSL color string.');
         }
 
         $values = array_map(function (string $value): int {

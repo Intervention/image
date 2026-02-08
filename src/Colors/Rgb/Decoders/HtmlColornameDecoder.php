@@ -164,11 +164,11 @@ class HtmlColornameDecoder extends HexColorDecoder implements DecoderInterface
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_string($input)) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unable to decode input. Expected a string.');
         }
 
         if (!array_key_exists(strtolower($input), static::$names)) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unable to decode input. The given string is not a recognized HTML color name.');
         }
 
         return parent::decode(static::$names[strtolower($input)]);

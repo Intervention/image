@@ -19,25 +19,25 @@ class HexColorDecoder extends AbstractDecoder implements DecoderInterface
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_string($input)) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unable to decode input. Expected a string.');
         }
 
         $pattern = '/^#?(?P<hex>[a-f\d]{3}(?:[a-f\d]?|(?:[a-f\d]{3}(?:[a-f\d]{2})?)?)\b)$/i';
         if (preg_match($pattern, $input, $matches) != 1) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unable to decode input. The given string is not a valid hex color code.');
         }
 
         $values = match (strlen($matches['hex'])) {
             3, 4 => str_split($matches['hex']),
             6, 8 => str_split($matches['hex'], 2),
-            default => throw new DecoderException('Unable to decode input'),
+            default => throw new DecoderException('Unable to decode input. Unexpected hex color code length.'),
         };
 
         $values = array_map(function (string $value): float|int {
             return match (strlen($value)) {
                 1 => hexdec($value . $value),
                 2 => hexdec($value),
-                default => throw new DecoderException('Unable to decode input'),
+                default => throw new DecoderException('Unable to decode input. Invalid hex color segment length.'),
             };
         }, $values);
 

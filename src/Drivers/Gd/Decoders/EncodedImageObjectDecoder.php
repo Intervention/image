@@ -19,7 +19,7 @@ class EncodedImageObjectDecoder extends BinaryImageDecoder
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_a($input, EncodedImage::class)) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unable to decode input. Expected an EncodedImage object.');
         }
 
         return parent::decode($input->toString());

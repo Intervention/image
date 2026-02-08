@@ -22,7 +22,7 @@ class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_string($input)) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unable to decode input. Expected a binary string.');
         }
 
         return match ($this->isGifFormat($input)) {
@@ -41,7 +41,7 @@ class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
         $gd = @imagecreatefromstring($input);
 
         if ($gd === false) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unable to decode input. The binary data could not be read as an image.');
         }
 
         // create image instance

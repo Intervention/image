@@ -25,11 +25,11 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_object($input)) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unable to decode input. Expected an object.');
         }
 
         if (!($input instanceof Imagick)) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unable to decode input. Expected an Imagick instance.');
         }
 
         // For some JPEG formats, the "coalesceImages()" call leads to an image

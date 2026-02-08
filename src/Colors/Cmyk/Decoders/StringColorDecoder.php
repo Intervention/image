@@ -19,12 +19,12 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_string($input)) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unable to decode input. Expected a string.');
         }
 
         $pattern = '/^cmyk\((?P<c>[0-9\.]+%?), ?(?P<m>[0-9\.]+%?), ?(?P<y>[0-9\.]+%?), ?(?P<k>[0-9\.]+%?)\)$/i';
         if (preg_match($pattern, $input, $matches) != 1) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unable to decode input. The given string is not a valid CMYK color string.');
         }
 
         $values = array_map(function (string $value): int {

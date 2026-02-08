@@ -19,7 +19,7 @@ class Base64ImageDecoder extends BinaryImageDecoder implements DecoderInterface
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!$this->isValidBase64($input)) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unable to decode input. Expected a valid base64 encoded string.');
         }
 
         return parent::decode(base64_decode((string) $input));

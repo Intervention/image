@@ -20,14 +20,14 @@ class FilePathImageDecoder extends NativeObjectDecoder
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!$this->isFile($input)) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unable to decode input. The given path does not point to a readable file.');
         }
 
         try {
             $imagick = new Imagick();
             $imagick->readImage($input);
         } catch (ImagickException) {
-            throw new DecoderException('Unable to decode input');
+            throw new DecoderException('Unable to decode input. The image format of the file is not supported.');
         }
 
         // decode image

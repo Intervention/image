@@ -6,6 +6,9 @@ namespace Intervention\Image\Interfaces;
 
 use IteratorAggregate;
 
+/**
+ * @extends IteratorAggregate<int>
+ */
 interface PointInterface extends IteratorAggregate
 {
     /**

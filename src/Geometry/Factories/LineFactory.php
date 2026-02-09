@@ -19,7 +19,7 @@ class LineFactory implements DrawableFactoryInterface
      */
     public function __construct(null|callable|Line $line = null)
     {
-        $this->line = is_a($line, Line::class) ? $line : new Line(new Point(), new Point());
+        $this->line = is_a($line, Line::class) ? clone $line : new Line(new Point(), new Point());
 
         if (is_callable($line)) {
             $line($this);
@@ -31,9 +31,17 @@ class LineFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::build()
      */
-    public static function build(null|callable|DrawableInterface $drawable = null): Line
-    {
-        return (new self($drawable))->drawable();
+    public static function build(
+        null|callable|DrawableInterface $drawable = null,
+        ?callable $adjustments = null,
+    ): Line {
+        $factory = new self($drawable);
+
+        if (is_callable($adjustments)) {
+            $adjustments($factory);
+        }
+
+        return $factory->drawable();
     }
 
     /**

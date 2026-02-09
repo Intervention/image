@@ -60,4 +60,9 @@ interface DrawableInterface
      * Determine if the drawable object has a border.
      */
     public function hasBorder(): bool;
+
+    /**
+     * Return the factory object with a copy of the current drawable object.
+     */
+    public function factory(): DrawableFactoryInterface;
 }

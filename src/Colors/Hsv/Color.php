@@ -216,7 +216,7 @@ class Color extends AbstractColor
         $color = clone $this;
 
         $color->channels = array_map(
-            function (ColorChannelInterface $channel) use ($percent): ColorChannelInterface {
+            function (ColorChannelInterface $channel): ColorChannelInterface {
                 return match ($channel::class) {
                     // TODO: implement
                     default => $channel,

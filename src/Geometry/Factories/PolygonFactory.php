@@ -20,7 +20,7 @@ class PolygonFactory implements DrawableFactoryInterface
      */
     public function __construct(null|callable|Polygon $polygon = null)
     {
-        $this->polygon = is_a($polygon, Polygon::class) ? $polygon : new Polygon([]);
+        $this->polygon = is_a($polygon, Polygon::class) ? clone $polygon : new Polygon([]);
 
         if (is_callable($polygon)) {
             $polygon($this);
@@ -32,9 +32,17 @@ class PolygonFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::build()
      */
-    public static function build(null|callable|DrawableInterface $drawable = null): Polygon
-    {
-        return (new self(polygon: $drawable))->drawable();
+    public static function build(
+        null|callable|DrawableInterface $drawable = null,
+        ?callable $adjustments = null,
+    ): Polygon {
+        $factory = new self($drawable);
+
+        if (is_callable($adjustments)) {
+            $adjustments($factory);
+        }
+
+        return $factory->drawable();
     }
 
     /**

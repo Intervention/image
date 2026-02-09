@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Intervention\Image\Geometry;
 
 use ArrayIterator;
+use Intervention\Image\Geometry\Factories\RectangleFactory;
+use Intervention\Image\Interfaces\DrawableFactoryInterface;
 use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Size;
@@ -32,5 +34,15 @@ class Rectangle extends Size implements SizeInterface
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->points);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DrawableInterface::factory()
+     */
+    public function factory(): DrawableFactoryInterface
+    {
+        return new RectangleFactory($this);
     }
 }

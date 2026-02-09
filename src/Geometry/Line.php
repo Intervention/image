@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Geometry;
 
+use Intervention\Image\Geometry\Factories\LineFactory;
 use Intervention\Image\Geometry\Traits\HasBackgroundColor;
 use Intervention\Image\Geometry\Traits\HasBorder;
+use Intervention\Image\Interfaces\DrawableFactoryInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
 use Intervention\Image\Interfaces\PointInterface;
 
@@ -121,5 +123,32 @@ class Line implements DrawableInterface
         $this->end = $end;
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DrawableInterface::factory()
+     */
+    public function factory(): DrawableFactoryInterface
+    {
+        return new LineFactory($this);
+    }
+
+    /**
+     * Clone polygon.
+     */
+    public function __clone(): void
+    {
+        $this->start = clone $this->start;
+        $this->end = clone $this->end;
+
+        if (is_object($this->backgroundColor)) {
+            $this->backgroundColor = clone $this->backgroundColor;
+        }
+
+        if (is_object($this->borderColor)) {
+            $this->borderColor = clone $this->borderColor;
+        }
     }
 }

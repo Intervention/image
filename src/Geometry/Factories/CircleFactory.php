@@ -19,7 +19,7 @@ class CircleFactory implements DrawableFactoryInterface
      */
     public function __construct(null|callable|Circle $circle = null)
     {
-        $this->circle = is_a($circle, Circle::class) ? $circle : new Circle(0);
+        $this->circle = $circle instanceof Circle ? clone $circle : new Circle(0);
 
         if (is_callable($circle)) {
             $circle($this);
@@ -31,9 +31,17 @@ class CircleFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::build()
      */
-    public static function build(null|callable|DrawableInterface $circle = null): Circle
-    {
-        return (new self($circle))->drawable();
+    public static function build(
+        null|callable|DrawableInterface $drawable = null,
+        ?callable $adjustments = null,
+    ): Circle {
+        $factory = new self($drawable);
+
+        if (is_callable($adjustments)) {
+            $adjustments($factory);
+        }
+
+        return $factory->drawable();
     }
 
     /**

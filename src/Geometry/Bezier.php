@@ -7,10 +7,12 @@ namespace Intervention\Image\Geometry;
 use ArrayAccess;
 use ArrayIterator;
 use Countable;
+use Intervention\Image\Geometry\Factories\BezierFactory;
 use Traversable;
 use IteratorAggregate;
 use Intervention\Image\Geometry\Traits\HasBackgroundColor;
 use Intervention\Image\Geometry\Traits\HasBorder;
+use Intervention\Image\Interfaces\DrawableFactoryInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
 use Intervention\Image\Interfaces\PointInterface;
 
@@ -198,5 +200,32 @@ class Bezier implements IteratorAggregate, Countable, ArrayAccess, DrawableInter
         }
 
         return $coordinates;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DrawableInterface::factory()
+     */
+    public function factory(): DrawableFactoryInterface
+    {
+        return new BezierFactory($this);
+    }
+
+    /**
+     * Clone polygon.
+     */
+    public function __clone(): void
+    {
+        $this->points = array_map(fn($point) => clone $point, $this->points);
+        $this->pivot = clone $this->pivot;
+
+        if (is_object($this->backgroundColor)) {
+            $this->backgroundColor = clone $this->backgroundColor;
+        }
+
+        if (is_object($this->borderColor)) {
+            $this->borderColor = clone $this->borderColor;
+        }
     }
 }

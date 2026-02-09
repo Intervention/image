@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Geometry;
 
+use Intervention\Image\Geometry\Factories\CircleFactory;
+use Intervention\Image\Interfaces\DrawableFactoryInterface;
 use Intervention\Image\Interfaces\PointInterface;
 
 class Circle extends Ellipse
@@ -13,7 +15,7 @@ class Circle extends Ellipse
      */
     public function __construct(
         int $diameter,
-        PointInterface $pivot = new Point() // TODO: maybe rename to position
+        PointInterface $pivot = new Point()
     ) {
         parent::__construct($diameter, $diameter, $pivot);
     }
@@ -51,5 +53,15 @@ class Circle extends Ellipse
     public function radius(): int
     {
         return intval(round($this->diameter() / 2));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DrawableInterface::factory()
+     */
+    public function factory(): DrawableFactoryInterface
+    {
+        return new CircleFactory($this);
     }
 }

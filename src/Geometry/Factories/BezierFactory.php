@@ -20,7 +20,7 @@ class BezierFactory implements DrawableFactoryInterface
      */
     public function __construct(null|callable|Bezier $bezier = null)
     {
-        $this->bezier = is_a($bezier, Bezier::class) ? $bezier : new Bezier([]);
+        $this->bezier = is_a($bezier, Bezier::class) ? clone $bezier : new Bezier([]);
 
         if (is_callable($bezier)) {
             $bezier($this);
@@ -32,9 +32,17 @@ class BezierFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::build()
      */
-    public static function build(null|callable|DrawableInterface $drawable = null): Bezier
-    {
-        return (new self($drawable))->drawable();
+    public static function build(
+        null|callable|DrawableInterface $drawable = null,
+        ?callable $adjustments = null,
+    ): Bezier {
+        $factory = new self($drawable);
+
+        if (is_callable($adjustments)) {
+            $adjustments($factory);
+        }
+
+        return $factory->drawable();
     }
 
     /**

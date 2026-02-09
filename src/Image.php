@@ -18,6 +18,7 @@ use Intervention\Image\Encoders\FormatEncoder;
 use Intervention\Image\Encoders\MediaTypeEncoder;
 use Intervention\Image\Exceptions\EncoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Geometry\Bezier;
 use Intervention\Image\Geometry\Circle;
 use Intervention\Image\Geometry\Ellipse;
@@ -871,11 +872,11 @@ final class Image implements ImageInterface
      *
      * @throws InvalidArgumentException
      */
-    public function drawRectangle(callable|Rectangle $rectangle): ImageInterface
+    public function drawRectangle(callable|Rectangle $rectangle, ?callable $adjustments = null): ImageInterface
     {
         return $this->modify(
             new DrawRectangleModifier(
-                RectangleFactory::build($rectangle)
+                RectangleFactory::build($rectangle, $adjustments)
             ),
         );
     }
@@ -885,11 +886,11 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawEllipse()
      */
-    public function drawEllipse(callable|Ellipse $ellipse): ImageInterface
+    public function drawEllipse(callable|Ellipse $ellipse, ?callable $adjustments = null): ImageInterface
     {
         return $this->modify(
             new DrawEllipseModifier(
-                EllipseFactory::build($ellipse)
+                EllipseFactory::build($ellipse, $adjustments)
             ),
         );
     }
@@ -899,12 +900,12 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawCircle()
      */
-    public function drawCircle(callable|Circle $circle): ImageInterface
+    public function drawCircle(callable|Circle $circle, ?callable $adjustments = null): ImageInterface
     {
         return $this->modify(
             new DrawEllipseModifier(
-                CircleFactory::build($circle)
-            ),
+                CircleFactory::build($circle, $adjustments)
+            )
         );
     }
 
@@ -913,11 +914,11 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawPolygon()
      */
-    public function drawPolygon(callable|Polygon $polygon): ImageInterface
+    public function drawPolygon(callable|Polygon $polygon, ?callable $adjustments = null): ImageInterface
     {
         return $this->modify(
             new DrawPolygonModifier(
-                PolygonFactory::build($polygon)
+                PolygonFactory::build($polygon, $adjustments)
             ),
         );
     }
@@ -927,11 +928,11 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawLine()
      */
-    public function drawLine(callable|Line $line): ImageInterface
+    public function drawLine(callable|Line $line, ?callable $adjustments = null): ImageInterface
     {
         return $this->modify(
             new DrawLineModifier(
-                LineFactory::build($line)
+                LineFactory::build($line, $adjustments)
             ),
         );
     }
@@ -941,7 +942,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::drawBezier()
      */
-    public function drawBezier(callable|Bezier $bezier): ImageInterface
+    public function drawBezier(callable|Bezier $bezier, ?callable $adjustments = null): ImageInterface
     {
         return $this->modify(
             new DrawBezierModifier(
@@ -955,15 +956,21 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::draw()
      */
-    public function draw(DrawableInterface $drawable): ImageInterface
+    public function draw(DrawableInterface $drawable, ?callable $adjustments = null): ImageInterface
     {
+        if (is_callable($adjustments)) {
+            $factory = $drawable->factory();
+            $adjustments($factory);
+            $drawable = $factory->drawable();
+        }
+
         return $this->modify(match ($drawable::class) {
             Rectangle::class => new DrawRectangleModifier($drawable),
             Circle::class, Ellipse::class => new DrawEllipseModifier($drawable),
             Bezier::class => new DrawBezierModifier($drawable),
             Line::class => new DrawLineModifier($drawable),
             Polygon::class => new DrawPolygonModifier($drawable),
-            default => throw new \Exception('Not implemented'),
+            default => throw new NotSupportedException('No modifier for ' . $drawable::class . ' found'),
         });
     }
 

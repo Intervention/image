@@ -19,7 +19,7 @@ class EllipseFactory implements DrawableFactoryInterface
      */
     public function __construct(null|callable|Ellipse $ellipse = null)
     {
-        $this->ellipse = is_a($ellipse, Ellipse::class) ? $ellipse : new Ellipse(0, 0);
+        $this->ellipse = is_a($ellipse, Ellipse::class) ? clone $ellipse : new Ellipse(0, 0);
 
         if (is_callable($ellipse)) {
             $ellipse($this);
@@ -31,9 +31,17 @@ class EllipseFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::build()
      */
-    public static function build(null|callable|DrawableInterface $drawable = null): Ellipse
-    {
-        return (new self(ellipse: $drawable))->drawable();
+    public static function build(
+        null|callable|DrawableInterface $drawable = null,
+        ?callable $adjustments = null,
+    ): Ellipse {
+        $factory = new self($drawable);
+
+        if (is_callable($adjustments)) {
+            $adjustments($factory);
+        }
+
+        return $factory->drawable();
     }
 
     /**

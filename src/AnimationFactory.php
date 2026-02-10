@@ -6,6 +6,8 @@ namespace Intervention\Image;
 
 use Error;
 use Intervention\Gif\DisposalMethod;
+use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\FilesystemException;
 use Intervention\Image\Interfaces\AnimationFactoryInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\FrameInterface;
@@ -78,11 +80,11 @@ class AnimationFactory implements AnimationFactoryInterface
      *
      * @see AnimationFactoryInterface::add()
      */
-    public function add(mixed $image, float $delay = 1): AnimationFactoryInterface
+    public function add(mixed $source, float $delay = 1): AnimationFactoryInterface
     {
         $this->currentFrameNumber++;
 
-        $this->sources[$this->currentFrameNumber] = $image;
+        $this->sources[$this->currentFrameNumber] = $source;
         $this->delays[$this->currentFrameNumber] = $delay;
         $this->processingCalls[$this->currentFrameNumber] = null;
         $this->processingArguments[$this->currentFrameNumber] = null;
@@ -125,24 +127,30 @@ class AnimationFactory implements AnimationFactoryInterface
         ?string $processingCall = null,
         ?array $processingArguments = null,
     ): FrameInterface {
-        // decode image source
-        $source = $driver->handleImageInput($source);
+        try {
+            // try to decode image source
+            $image = $driver->handleImageInput($source);
+        } catch (DecoderException | FilesystemException) {
+            // create empty image with colored background
+            $image = $driver->createImage($this->width, $this->height)
+                ->fill($driver->handleColorInput($source));
+        }
 
         // adjust size if necessary
-        if ($source->width() !== $this->width || $source->height() !== $this->height) {
-            $source->cover($this->width, $this->height);
+        if ($image->width() !== $this->width || $image->height() !== $this->height) {
+            $image->cover($this->width, $this->height);
         }
 
         // apply processing call if available
         if ($processingCall) {
-            call_user_func_array([$source, $processingCall], $processingArguments);
+            call_user_func_array([$image, $processingCall], $processingArguments);
         }
 
         // make sure to have to given output size only if resizing method is selectable by api
         // $image->resizeCanvas($this->width, $this->height);
 
         // return ready-made frame with all attributes
-        return $source
+        return $image
             ->core()
             ->first()
             ->setDelay($delay)

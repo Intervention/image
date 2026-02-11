@@ -282,7 +282,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @link https://image.intervention.io/v3/modifying-images/effects#mirror-image-horizontally
      */
-    public function flop(): self;
+    public function flop(): self; // TODO: maybe rename
 
     /**
      * Blur current image by given strength.

@@ -218,24 +218,9 @@ class Color extends AbstractColor
     {
         $color = clone $this;
 
-        $color->channels = array_map(
-            function (ColorChannelInterface $channel) use ($percent): ColorChannelInterface {
-                return match ($channel::class) {
-                    Lightness::class => new Lightness((int) round($this->scaleInRange(
-                        $channel->value(),
-                        $percent,
-                        $channel::min(),
-                        $channel::max(),
-                    ))),
-                    // TODO: implement A/B adjustment
-                    A::class => new A($channel->value() - ($channel->value() / 100 * abs($percent))),
-                    B::class => new B($channel->value() - ($channel->value() / 100 * abs($percent))),
-                    default => $channel,
-                };
-            },
-            $color->channels
-        );
-
-        return $color;
+        return $color
+            ->toColorspace(Rgb::class)
+            ->withBrightnessDelta($percent)
+            ->toColorspace(Colorspace::class);
     }
 }

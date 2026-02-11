@@ -67,7 +67,8 @@ interface ColorInterface extends Stringable
     public function withTransparency(float $transparency): self;
 
     /**
-     * Return a copy of the current color with the color's brightness adjusted by the given percent.
+     * Return a copy of the current color with the color's brightness
+     * adjusted by the given percent ranging from -1ßß tp 100.
      */
     public function withBrightnessDelta(int $percent): self;
 

@@ -243,7 +243,7 @@ class Color extends AbstractColor
 
         $color->channels = array_map(
             function (ColorChannelInterface $channel) use ($percent): ColorChannelInterface {
-                return $channel instanceof Alpha ? $channel : new ($channel::class)($this->scaleInRange(
+                return $channel instanceof Alpha ? $channel : new ($channel::class)((int) $this->scaleInRange(
                     $channel->value(),
                     $percent,
                     $channel::min(),

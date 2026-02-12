@@ -16,7 +16,6 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Traits\CanScaleInRange;
 
@@ -169,58 +168,5 @@ class Color extends AbstractColor
     public function isGrayscale(): bool
     {
         return $this->chroma()->value() === 0.0;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ColorInterface::isTransparent()
-     */
-    public function isTransparent(): bool
-    {
-        return $this->alpha()->value() < $this->alpha()->max();
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ColorInterface::isClear()
-     */
-    public function isClear(): bool
-    {
-        return $this->alpha()->value() == 0;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ColorInterface::withTransparency()
-     */
-    public function withTransparency(float $transparency): ColorInterface
-    {
-        $color = clone $this;
-
-        $color->channels = array_map(
-            fn(ColorChannelInterface $channel): ColorChannelInterface =>
-            $channel instanceof Alpha ? Alpha::fromNormalized($transparency) : $channel,
-            $this->channels
-        );
-
-        return $color;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ColorInterface::withBrightnessDelta()
-     */
-    public function withBrightnessDelta(int $percent): self
-    {
-        $color = clone $this;
-
-        return $color
-            ->toColorspace(Rgb::class)
-            ->withBrightnessDelta($percent)
-            ->toColorspace(Colorspace::class);
     }
 }

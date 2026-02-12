@@ -76,6 +76,44 @@ abstract class AbstractColor implements ColorInterface, Stringable
     }
 
     /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::isTransparent()
+     */
+    public function isTransparent(): bool
+    {
+        return $this->alpha()->value() < $this->alpha()->max();
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::isClear()
+     */
+    public function isClear(): bool
+    {
+        return $this->alpha()->value() == 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::withTransparency()
+     */
+    public function withTransparency(float $transparency): ColorInterface
+    {
+        $color = clone $this;
+
+        $color->channels = array_map(
+            fn(ColorChannelInterface $channel): ColorChannelInterface =>
+            $channel instanceof AlphaColorChannel ? $channel::fromNormalized($transparency) : $channel,
+            $this->channels
+        );
+
+        return $color;
+    }
+
+    /**
      * Show debug info for the current color.
      *
      * @return array<string, int>

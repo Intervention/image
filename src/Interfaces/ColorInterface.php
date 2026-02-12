@@ -42,6 +42,11 @@ interface ColorInterface extends Stringable
     public function channel(string $classname): ColorChannelInterface;
 
     /**
+     * Get the alpha channel of the color.
+     */
+    public function alpha(): ColorChannelInterface;
+
+    /**
      * Convert color to given colorspace.
      */
     public function toColorspace(string|ColorspaceInterface $colorspace): self;
@@ -65,12 +70,4 @@ interface ColorInterface extends Stringable
      * Return a copy of the current color with the specified transparency value.
      */
     public function withTransparency(float $transparency): self;
-
-    /**
-     * Return a copy of the current color with the color's brightness
-     * adjusted by the given percent ranging from -1ßß tp 100.
-     */
-    public function withBrightnessDelta(int $percent): self;
-
-    // TODO: implement withSaturationDelta(int $percent): self;
 }

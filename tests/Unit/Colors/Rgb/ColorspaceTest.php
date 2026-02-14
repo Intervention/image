@@ -14,6 +14,7 @@ use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Rgb\Channels\Alpha;
 use Intervention\Image\Colors\Rgb\Colorspace;
+use Intervention\Image\Colors\Rgb\NamedColor;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[CoversClass(Colorspace::class)]
@@ -86,5 +87,16 @@ final class ColorspaceTest extends BaseTestCase
         $this->assertEquals(128, $result->channel(Red::class)->value());
         $this->assertEquals(128, $result->channel(Green::class)->value());
         $this->assertEquals(128, $result->channel(Blue::class)->value());
+    }
+
+    public function testImportNamedColor(): void
+    {
+        $colorspace = new Colorspace();
+
+        $result = $colorspace->importColor(NamedColor::STEELBLUE);
+        $this->assertInstanceOf(RgbColor::class, $result);
+        $this->assertEquals(70, $result->channel(Red::class)->value());
+        $this->assertEquals(130, $result->channel(Green::class)->value());
+        $this->assertEquals(180, $result->channel(Blue::class)->value());
     }
 }

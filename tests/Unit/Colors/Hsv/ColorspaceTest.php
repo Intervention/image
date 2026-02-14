@@ -14,6 +14,7 @@ use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Hsv\Channels\Alpha;
 use Intervention\Image\Colors\Hsv\Colorspace;
+use Intervention\Image\Colors\Rgb\NamedColor;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[CoversClass(Colorspace::class)]
@@ -92,5 +93,16 @@ final class ColorspaceTest extends BaseTestCase
         $this->assertEquals(0, $result->channel(Hue::class)->value());
         $this->assertEquals(0, $result->channel(Saturation::class)->value());
         $this->assertEquals(50, $result->channel(Value::class)->value());
+    }
+
+    public function testImportNamedColor(): void
+    {
+        $colorspace = new Colorspace();
+
+        $result = $colorspace->importColor(NamedColor::WHITE);
+        $this->assertInstanceOf(HsvColor::class, $result);
+        $this->assertEquals(0, $result->channel(Hue::class)->value());
+        $this->assertEquals(0, $result->channel(Saturation::class)->value());
+        $this->assertEquals(100, $result->channel(Value::class)->value());
     }
 }

@@ -15,6 +15,7 @@ use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Cmyk\Colorspace;
+use Intervention\Image\Colors\Rgb\NamedColor;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[CoversClass(Colorspace::class)]
@@ -94,5 +95,17 @@ final class ColorspaceTest extends BaseTestCase
         $this->assertEquals(0, $result->channel(Magenta::class)->value());
         $this->assertEquals(0, $result->channel(Yellow::class)->value());
         $this->assertEquals(50, $result->channel(Key::class)->value());
+    }
+
+    public function testImportNamedColor(): void
+    {
+        $colorspace = new Colorspace();
+
+        $result = $colorspace->importColor(NamedColor::BLACK);
+        $this->assertInstanceOf(CmykColor::class, $result);
+        $this->assertEquals(0, $result->channel(Cyan::class)->value());
+        $this->assertEquals(0, $result->channel(Magenta::class)->value());
+        $this->assertEquals(0, $result->channel(Yellow::class)->value());
+        $this->assertEquals(100, $result->channel(Key::class)->value());
     }
 }

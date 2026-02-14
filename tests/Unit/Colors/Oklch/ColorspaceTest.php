@@ -16,6 +16,7 @@ use Intervention\Image\Colors\Oklch\Channels\Hue;
 use Intervention\Image\Colors\Oklch\Channels\Lightness;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Oklch\Colorspace;
+use Intervention\Image\Colors\Rgb\NamedColor;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[CoversClass(Colorspace::class)]
@@ -93,5 +94,15 @@ final class ColorspaceTest extends BaseTestCase
         $this->assertEquals(0.68, round($result->channel(Lightness::class)->value(), 2));
         $this->assertEquals(0.22, round($result->channel(Chroma::class)->value(), 2));
         $this->assertEquals(38.8, round($result->channel(Hue::class)->value(), 2));
+    }
+
+    public function testImportNamedColor(): void
+    {
+        $colorspace = new Colorspace();
+        $result = $colorspace->importColor(NamedColor::WHITE);
+        $this->assertInstanceOf(OklchColor::class, $result);
+        $this->assertEquals(1.0, round($result->channel(Lightness::class)->value(), 2));
+        $this->assertEquals(0, round($result->channel(Chroma::class)->value(), 2));
+        $this->assertEquals(89.88, round($result->channel(Hue::class)->value(), 2));
     }
 }

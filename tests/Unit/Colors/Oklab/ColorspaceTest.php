@@ -15,6 +15,7 @@ use Intervention\Image\Colors\Oklab\Channels\B;
 use Intervention\Image\Colors\Oklab\Channels\Lightness;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Oklab\Colorspace;
+use Intervention\Image\Colors\Rgb\NamedColor;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[CoversClass(Colorspace::class)]
@@ -82,5 +83,15 @@ final class ColorspaceTest extends BaseTestCase
         $this->assertEquals(0.7, round($result->channel(Lightness::class)->value(), 1));
         $this->assertEquals(0.3, round($result->channel(A::class)->value(), 1));
         $this->assertEquals(-0.2, round($result->channel(B::class)->value(), 1));
+    }
+
+    public function testImportNamedColor(): void
+    {
+        $colorspace = new Colorspace();
+        $result = $colorspace->importColor(NamedColor::WHITE);
+        $this->assertInstanceOf(OklabColor::class, $result);
+        $this->assertEquals(1.0, round($result->channel(Lightness::class)->value(), 1));
+        $this->assertEquals(0.0, round($result->channel(A::class)->value(), 1));
+        $this->assertEquals(0.0, round($result->channel(B::class)->value(), 1));
     }
 }

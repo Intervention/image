@@ -12,6 +12,7 @@ use Intervention\Image\Colors\Oklab\Color as OklabColor;
 use Intervention\Image\Colors\Oklch\Color as OklchColor;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
+use Intervention\Image\Colors\Rgb\NamedColor;
 use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
@@ -78,6 +79,7 @@ class Colorspace extends AbstractColorspace
         return match ($color::class) {
             OklchColor::class,
             OklabColor::class,
+            NamedColor::class,
             CmykColor::class => $this->importViaRgbColor($color),
             RgbColor::class => $this->importRgbColor($color),
             HsvColor::class => $this->importHsvColor($color),
@@ -165,7 +167,7 @@ class Colorspace extends AbstractColorspace
      *
      * @throws ColorDecoderException
      */
-    private function importViaRgbColor(CmykColor|OklabColor|OklchColor $color): HslColor
+    private function importViaRgbColor(NamedColor|CmykColor|OklabColor|OklchColor $color): HslColor
     {
         try {
             $color = $color->toColorspace(Rgb::class);

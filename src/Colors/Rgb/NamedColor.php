@@ -421,12 +421,6 @@ enum NamedColor: string implements ColorInterface
      */
     private function toRgbColor(): RgbColor
     {
-        $output = InputHandler::usingDecoders([
-            HexColorDecoder::class,
-        ])->handle($this->toHex());
-
-        return $output instanceof RgbColor
-            ? $output
-            : throw new ColorDecoderException('Failed to convert named color to rgb color object');
+        return $this->colorspace()->importColor($this);
     }
 }

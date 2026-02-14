@@ -12,9 +12,11 @@ use Intervention\Image\Colors\Oklab\Color as OklabColor;
 use Intervention\Image\Colors\Oklab\Colorspace as Oklab;
 use Intervention\Image\Colors\Oklch\Color as OklchColor;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
+use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder;
 use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use TypeError;
@@ -83,6 +85,7 @@ class Colorspace extends AbstractColorspace
             HslColor::class => $this->importHslColor($color),
             OklabColor::class => $this->importOklabColor($color),
             OklchColor::class => $this->importOklchColor($color),
+            NamedColor::class => $this->importNamedColor($color),
             RgbColor::class => $color,
             default => throw new NotSupportedException(
                 'Unable to import color ' . $color::class . ' to ' . $this::class,
@@ -230,5 +233,21 @@ class Colorspace extends AbstractColorspace
         }
 
         return $this->importOklabColor($color);
+    }
+
+    /**
+     * Import given named color to RGB color space.
+     *
+     * @throws ColorDecoderException
+     */
+    private function importNamedColor(NamedColor $color): RgbColor
+    {
+        $output = InputHandler::usingDecoders([
+            HexColorDecoder::class,
+        ])->handle($color->toHex());
+
+        return $output instanceof RgbColor
+            ? $output
+            : throw new ColorDecoderException('Failed to import named color to rgb color space');
     }
 }

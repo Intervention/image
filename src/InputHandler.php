@@ -11,7 +11,7 @@ use Intervention\Image\Colors\Hsv\Decoders\StringColorDecoder as HsvStringColorD
 use Intervention\Image\Colors\Oklab\Decoders\StringColorDecoder as OklabStringColorDecoder;
 use Intervention\Image\Colors\Oklch\Decoders\StringColorDecoder as OklchStringColorDecoder;
 use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder as RgbHexColorDecoder;
-use Intervention\Image\Colors\Rgb\Decoders\HtmlColornameDecoder;
+use Intervention\Image\Colors\Rgb\Decoders\NamedColorDecoder;
 use Intervention\Image\Colors\Rgb\Decoders\StringColorDecoder as RgbStringColorDecoder;
 use Intervention\Image\Colors\Rgb\Decoders\TransparentColorDecoder;
 use Intervention\Image\Decoders\Base64ImageDecoder;
@@ -54,7 +54,7 @@ class InputHandler implements InputHandlerInterface
      * All available color decoders.
      */
     public const array COLOR_DECODERS = [
-        HtmlColornameDecoder::class,
+        NamedColorDecoder::class,
         TransparentColorDecoder::class,
         ColorObjectDecoder::class,
         RgbHexColorDecoder::class,

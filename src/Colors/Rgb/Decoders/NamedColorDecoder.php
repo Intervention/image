@@ -8,7 +8,7 @@ use Intervention\Image\Colors\Rgb\NamedColor;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 
-class HtmlColornameDecoder extends HexColorDecoder implements DecoderInterface
+class NamedColorDecoder extends HexColorDecoder implements DecoderInterface
 {
     /**
      * {@inheritdoc}

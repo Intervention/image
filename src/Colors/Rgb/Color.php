@@ -63,7 +63,7 @@ class Color extends AbstractColor
                 Decoders\HexColorDecoder::class,
                 Decoders\StringColorDecoder::class,
                 Decoders\TransparentColorDecoder::class,
-                Decoders\HtmlColornameDecoder::class,
+                Decoders\NamedColorDecoder::class,
             ])->handle($input);
         } catch (NotSupportedException) {
             throw new ColorDecoderException(

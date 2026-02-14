@@ -67,7 +67,6 @@ use Intervention\Image\Modifiers\DrawPolygonModifier;
 use Intervention\Image\Modifiers\DrawRectangleModifier;
 use Intervention\Image\Modifiers\FillModifier;
 use Intervention\Image\Modifiers\FlipModifier;
-use Intervention\Image\Modifiers\FlopModifier;
 use Intervention\Image\Modifiers\GammaModifier;
 use Intervention\Image\Modifiers\GrayscaleModifier;
 use Intervention\Image\Modifiers\InsertModifier;
@@ -546,19 +545,9 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::flip()
      */
-    public function flip(): ImageInterface
+    public function flip(Direction $direction = Direction::HORIZONTAL): ImageInterface
     {
-        return $this->modify(new FlipModifier());
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ImageInterface::flop()
-     */
-    public function flop(): ImageInterface
-    {
-        return $this->modify(new FlopModifier());
+        return $this->modify(new FlipModifier($direction));
     }
 
     /**

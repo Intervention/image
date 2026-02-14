@@ -17,18 +17,28 @@ class AlignRotationModifier extends GenericAlignRotationModifier implements Spec
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        $image = match ($image->exif('IFD0.Orientation')) {
-            2 => $image->flop(),
+        $image = match ($this->orientation($image)) {
+            2 => $image->flip(),
             3 => $image->rotate(180),
-            4 => $image->rotate(180)->flop(),
-            5 => $image->rotate(270)->flop(),
-            6 => $image->rotate(270),
-            7 => $image->rotate(90)->flop(),
-            8 => $image->rotate(90),
+            4 => $image->rotate(180)->flip(),
+            5 => $image->rotate(90)->flip(),
+            6 => $image->rotate(90),
+            7 => $image->rotate(270)->flip(),
+            8 => $image->rotate(270),
             default => $image
         };
 
         return $this->markAligned($image);
+    }
+
+    /**
+     * Return exif information about image orientation.
+     */
+    private function orientation(ImageInterface $image): int
+    {
+        $orientation = $image->exif('IFD0.Orientation');
+
+        return is_numeric($orientation) ? (int) $orientation : 0;
     }
 
     /**

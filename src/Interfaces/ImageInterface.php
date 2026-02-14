@@ -15,6 +15,7 @@ use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\MediaType;
 use Intervention\Image\Origin;
 use Intervention\Image\Alignment;
+use Intervention\Image\Direction;
 use Intervention\Image\Fraction;
 use Intervention\Image\Format;
 use IteratorAggregate;
@@ -273,16 +274,9 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Mirror the current image horizontally.
      *
-     * @link https://image.intervention.io/v3/modifying-images/effects#mirror-image-vertically
+     * @link https://image.intervention.io/v3/modifying-images/effects
      */
-    public function flip(): self;
-
-    /**
-     * Mirror the current image vertically.
-     *
-     * @link https://image.intervention.io/v3/modifying-images/effects#mirror-image-horizontally
-     */
-    public function flop(): self; // TODO: maybe rename
+    public function flip(Direction $direction = Direction::HORIZONTAL): self;
 
     /**
      * Blur current image by given strength.

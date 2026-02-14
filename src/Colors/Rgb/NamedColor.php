@@ -7,9 +7,7 @@ namespace Intervention\Image\Colors\Rgb;
 use Intervention\Image\Colors\Rgb\Channels\Alpha;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
-use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder;
 use Intervention\Image\Exceptions\ColorDecoderException;
-use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
@@ -421,6 +419,10 @@ enum NamedColor: string implements ColorInterface
      */
     private function toRgbColor(): RgbColor
     {
-        return $this->colorspace()->importColor($this);
+        $color = $this->colorspace()->importColor($this);
+
+        return $color instanceof RgbColor
+            ? $color
+            : throw new ColorDecoderException('Failed to convert named color to rgb object');
     }
 }

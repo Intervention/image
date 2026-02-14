@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickException;
+use Intervention\Image\Direction;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
@@ -19,7 +20,9 @@ class FlipModifier extends GenericFlipModifier implements SpecializedInterface
     {
         foreach ($image as $frame) {
             try {
-                $result = $frame->native()->flipImage();
+                $result = $this->direction === Direction::HORIZONTAL
+                    ? $frame->native()->flopImage()
+                    : $frame->native()->flipImage();
                 if ($result === false) {
                     throw new ModifierException(
                         'Failed to apply ' . self::class . ', unable to mirror image',

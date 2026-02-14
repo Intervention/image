@@ -30,16 +30,16 @@ class AlignRotationModifier extends GenericAlignRotationModifier implements Spec
                 => $image->core()->native()->rotateImage('#000', 180) && $image->core()->native()->flopImage(), // 4
 
                 Imagick::ORIENTATION_LEFTTOP
-                => $image->core()->native()->rotateImage('#000', -270) && $image->core()->native()->flopImage(), // 5
+                => $image->core()->native()->rotateImage('#000', 90) && $image->core()->native()->flopImage(), // 5
 
                 Imagick::ORIENTATION_RIGHTTOP
-                => $image->core()->native()->rotateImage('#000', -270), // 6
+                => $image->core()->native()->rotateImage('#000', 90), // 6
 
                 Imagick::ORIENTATION_RIGHTBOTTOM
-                => $image->core()->native()->rotateImage('#000', -90) && $image->core()->native()->flopImage(), // 7
+                => $image->core()->native()->rotateImage('#000', 270) && $image->core()->native()->flopImage(), // 7
 
                 Imagick::ORIENTATION_LEFTBOTTOM
-                => $image->core()->native()->rotateImage('#000', -90), // 8
+                => $image->core()->native()->rotateImage('#000', 270), // 8
 
                 default => 'value',
             };

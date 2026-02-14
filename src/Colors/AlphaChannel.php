@@ -6,7 +6,7 @@ namespace Intervention\Image\Colors;
 
 use Intervention\Image\Exceptions\InvalidArgumentException;
 
-abstract class AlphaColorChannel extends AbstractColorChannel
+class AlphaChannel extends AbstractColorChannel
 {
     /**
      * Main color channel value

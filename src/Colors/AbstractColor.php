@@ -106,7 +106,7 @@ abstract class AbstractColor implements ColorInterface, Stringable
 
         $color->channels = array_map(
             fn(ColorChannelInterface $channel): ColorChannelInterface =>
-            $channel instanceof AlphaColorChannel ? $channel::fromNormalized($transparency) : $channel,
+            $channel instanceof AlphaChannel ? $channel::fromNormalized($transparency) : $channel,
             $this->channels
         );
 

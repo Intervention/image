@@ -84,7 +84,7 @@ class ColorDataProvider
         yield [['#b5371733'], [181, 55, 23, 51]];
     }
 
-    public static function rgbColorname(): Generator
+    public static function rgbNamedColor(): Generator
     {
         yield [['tomato'], [255, 99, 71, 255]];
         yield [['steelblue'], [70, 130, 180, 255]];

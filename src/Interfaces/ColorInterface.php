@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
-use Stringable;
-
-interface ColorInterface extends Stringable
+interface ColorInterface
 {
     /**
      * Static color factory method that takes any supported color format

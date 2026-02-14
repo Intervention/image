@@ -18,7 +18,7 @@ class ColorTest extends BaseTestCase
     #[DataProviderExternal(ColorDataProvider::class, 'rgbArray')]
     #[DataProviderExternal(ColorDataProvider::class, 'rgbString')]
     #[DataProviderExternal(ColorDataProvider::class, 'rgbHex')]
-    #[DataProviderExternal(ColorDataProvider::class, 'rgbColorname')]
+    #[DataProviderExternal(ColorDataProvider::class, 'rgbNamedColor')]
     public function testRgb(mixed $input, array $channels): void
     {
         $this->assertEquals(

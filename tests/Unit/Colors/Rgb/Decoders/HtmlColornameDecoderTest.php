@@ -17,7 +17,7 @@ final class HtmlColornameDecoderTest extends BaseTestCase
     /**
      * @param $channelValues array<int>
      */
-    #[DataProviderExternal(ColorDataProvider::class, 'rgbColorname')]
+    #[DataProviderExternal(ColorDataProvider::class, 'rgbNamedColor')]
     public function testDecode(mixed $input, array $channelValues): void
     {
         $decoder = new HtmlColornameDecoder();

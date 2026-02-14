@@ -89,6 +89,7 @@
 - ImageInterface::drawRectangle() has a different signature: coordinate arguments removed
 - Added ColorInterface::withTransparency()
 - Added ColorInterface::alpha()
+- Added NamedColor::enum
 
 ### Exceptions
 

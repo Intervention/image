@@ -11,6 +11,7 @@ class FractionTest extends BaseTestCase
 {
     public function testCalculation(): void
     {
+        $this->assertEquals(12, Fraction::FULL->of(12));
         $this->assertEquals(24, Fraction::DOUBLE->of(12));
         $this->assertEquals(18, Fraction::ONE_AND_A_HALF->of(12));
         $this->assertEquals(36, Fraction::TRIPLE->of(12));

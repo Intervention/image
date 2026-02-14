@@ -6,6 +6,7 @@ namespace Intervention\Image;
 
 enum Fraction
 {
+    case FULL;
     case HALF;
     case THIRD;
     case TWO_THIRDS;
@@ -22,6 +23,7 @@ enum Fraction
     public function multiplicator(): float
     {
         return match ($this) {
+            self::FULL => 1,
             self::HALF => .5,
             self::THIRD => .3333333333,
             self::TWO_THIRDS => .6666666667,

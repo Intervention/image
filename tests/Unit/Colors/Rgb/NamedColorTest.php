@@ -23,6 +23,9 @@ use PHPUnit\Framework\Attributes\DataProviderExternal;
 #[CoversClass(NamedColor::class)]
 class NamedColorTest extends BaseTestCase
 {
+    /**
+     * @param $channels array<int>
+     */
     #[DataProviderExternal(ColorDataProvider::class, 'rgbNamedColor')]
     public function testCreate(mixed $input, array $channels): void
     {

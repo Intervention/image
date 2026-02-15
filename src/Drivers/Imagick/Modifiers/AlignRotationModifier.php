@@ -18,8 +18,13 @@ class AlignRotationModifier extends GenericAlignRotationModifier implements Spec
      */
     public function apply(ImageInterface $image): ImageInterface
     {
+        $orientation = $image->core()->native()->getImageOrientation();
+        $orientation = $orientation === Imagick::ORIENTATION_UNDEFINED
+            ? $image->core()->meta()->get('originalImageOrientation', 0)
+            : $orientation;
+
         try {
-            $result = match ($image->core()->native()->getImageOrientation()) {
+            $result = match ($orientation) {
                 Imagick::ORIENTATION_TOPRIGHT
                 => $image->core()->native()->flopImage(), // 2
 

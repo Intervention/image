@@ -53,10 +53,15 @@ class Driver extends AbstractDriver
      *
      * @see DriverInterface::createImage()
      *
+     * @throws InvalidArgumentException
      * @throws DriverException
      */
     public function createImage(int $width, int $height): ImageInterface
     {
+        if ($width < 1 || $height < 1) {
+            throw new InvalidArgumentException('Invalid image size. Only use int<1, max>');
+        }
+
         try {
             $background = new ImagickPixel('rgba(255, 255, 255, 0)');
 

@@ -48,6 +48,14 @@ class ImageManagerTest extends BaseTestCase
         new ImageManager(DataUri::class);
     }
 
+    public function testConstructorWithOptions(): void
+    {
+        $manager = new ImageManager(new Driver(), backgroundColor: 'ff5500');
+        $this->assertInstanceOf(ImageManagerInterface::class, $manager);
+        $this->assertInstanceOf(Driver::class, $manager->driver);
+        $this->assertEquals('ff5500', $manager->driver->config()->backgroundColor);
+    }
+
     public function testUsingDriver(): void
     {
         $manager = ImageManager::usingDriver(new Driver());

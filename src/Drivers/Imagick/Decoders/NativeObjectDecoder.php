@@ -72,8 +72,6 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
         // If autoOrientation is disabled, automatic image alignment should be prevented.
         // Therefore, it is set to "undefined" here. To still be able to correct the
         // orientation manually later, we save the original value.
-        //
-        // TODO: add tests for decoding and autoOrientation
         if ($this->driver()->config()->autoOrientation === false) {
             $image->core()->meta()->set('originalImageOrientation', $input->getImageOrientation());
             $input->setImageOrientation(Imagick::ORIENTATION_UNDEFINED);

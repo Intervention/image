@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Geometry;
 
+use Intervention\Image\Colors\AbstractColor;
 use Intervention\Image\Geometry\Factories\LineFactory;
 use Intervention\Image\Geometry\Traits\HasBackgroundColor;
 use Intervention\Image\Geometry\Traits\HasBorder;
@@ -143,11 +144,11 @@ class Line implements DrawableInterface
         $this->start = clone $this->start;
         $this->end = clone $this->end;
 
-        if (is_object($this->backgroundColor)) {
+        if ($this->backgroundColor instanceof AbstractColor) {
             $this->backgroundColor = clone $this->backgroundColor;
         }
 
-        if (is_object($this->borderColor)) {
+        if ($this->borderColor instanceof AbstractColor) {
             $this->borderColor = clone $this->borderColor;
         }
     }

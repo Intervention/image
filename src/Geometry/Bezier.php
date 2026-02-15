@@ -7,6 +7,7 @@ namespace Intervention\Image\Geometry;
 use ArrayAccess;
 use ArrayIterator;
 use Countable;
+use Intervention\Image\Colors\AbstractColor;
 use Intervention\Image\Geometry\Factories\BezierFactory;
 use Traversable;
 use IteratorAggregate;
@@ -220,11 +221,11 @@ class Bezier implements IteratorAggregate, Countable, ArrayAccess, DrawableInter
         $this->points = array_map(fn($point) => clone $point, $this->points);
         $this->pivot = clone $this->pivot;
 
-        if (is_object($this->backgroundColor)) {
+        if ($this->backgroundColor instanceof AbstractColor) {
             $this->backgroundColor = clone $this->backgroundColor;
         }
 
-        if (is_object($this->borderColor)) {
+        if ($this->borderColor instanceof AbstractColor) {
             $this->borderColor = clone $this->borderColor;
         }
     }

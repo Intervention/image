@@ -8,6 +8,7 @@ use ArrayAccess;
 use ArrayIterator;
 use Countable;
 use Intervention\Image\Alignment;
+use Intervention\Image\Colors\AbstractColor;
 use Intervention\Image\Geometry\Factories\PolygonFactory;
 use Traversable;
 use IteratorAggregate;
@@ -394,11 +395,11 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
         $this->points = array_map(fn($point) => clone $point, $this->points);
         $this->pivot = clone $this->pivot;
 
-        if (is_object($this->backgroundColor)) {
+        if ($this->backgroundColor instanceof AbstractColor) {
             $this->backgroundColor = clone $this->backgroundColor;
         }
 
-        if (is_object($this->borderColor)) {
+        if ($this->borderColor instanceof AbstractColor) {
             $this->borderColor = clone $this->borderColor;
         }
     }

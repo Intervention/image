@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Geometry;
 
+use Intervention\Image\Colors\AbstractColor;
 use Intervention\Image\Geometry\Factories\EllipseFactory;
 use Intervention\Image\Geometry\Traits\HasBackgroundColor;
 use Intervention\Image\Geometry\Traits\HasBorder;
@@ -118,11 +119,11 @@ class Ellipse implements DrawableInterface
     {
         $this->pivot = clone $this->pivot;
 
-        if (is_object($this->backgroundColor)) {
+        if ($this->backgroundColor instanceof AbstractColor) {
             $this->backgroundColor = clone $this->backgroundColor;
         }
 
-        if (is_object($this->borderColor)) {
+        if ($this->borderColor instanceof AbstractColor) {
             $this->borderColor = clone $this->borderColor;
         }
     }

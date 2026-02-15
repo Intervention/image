@@ -7,7 +7,7 @@ namespace Intervention\Image\Interfaces;
 interface CoreInterface extends CollectionInterface
 {
     /**
-     * return driver's representation of the image core..
+     * Return driver's representation of the image core.
      */
     public function native(): mixed;
 

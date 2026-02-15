@@ -8,7 +8,7 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\DataUriInterface;
 use Stringable;
 
-class DataUri implements DataUriInterface, Stringable
+class DataUri implements DataUriInterface
 {
     /**
      * Pattern of data uri scheme.

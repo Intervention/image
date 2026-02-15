@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Intervention\Image\Interfaces;
 
 use Intervention\Image\MediaType;
+use Stringable;
 
-interface DataUriInterface
+interface DataUriInterface extends Stringable
 {
     /**
      * Create new object from given data uri scheme string.

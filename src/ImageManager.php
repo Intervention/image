@@ -12,13 +12,13 @@ use Intervention\Image\Decoders\FilePointerImageDecoder;
 use Intervention\Image\Decoders\SplFileInfoImageDecoder;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\AnimationFactoryInterface;
-use Intervention\Image\Interfaces\DriverInterface;
-use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\DataUriInterface;
+use Intervention\Image\Interfaces\DecoderInterface;
+use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ImageManagerInterface;
-use Stringable;
 use SplFileInfo;
+use Stringable;
 
 class ImageManager implements ImageManagerInterface
 {
@@ -28,9 +28,6 @@ class ImageManager implements ImageManagerInterface
      * Create new image manager instance.
      *
      * @link https://image.intervention.io/v3/basics/configuration-drivers#create-a-new-image-manager-instance
-     *
-     * @throws DriverException
-     * @throws InputException
      */
     public function __construct(string|DriverInterface $driver, mixed ...$options)
     {

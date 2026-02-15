@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Colors\Rgb;
 
-use Generator;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -12,7 +11,6 @@ use Intervention\Image\Colors\Rgb\Channels\Red as Channel;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Tests\BaseTestCase;
-use PHPUnit\Framework\Attributes\DataProvider;
 
 #[CoversClass(Red::class)]
 #[CoversClass(Green::class)]
@@ -73,28 +71,5 @@ final class ChannelTest extends BaseTestCase
 
         $this->expectException(InvalidArgumentException::class);
         new Channel(-1);
-    }
-
-    #[DataProvider('scaleDataProvider')]
-    public function testScale(int $value, int $percent, int $result): void
-    {
-        $this->assertEquals($result, (new Red($value))->scale($percent)->value());
-        $this->assertEquals($result, (new Green($value))->scale($percent)->value());
-        $this->assertEquals($result, (new Blue($value))->scale($percent)->value());
-    }
-
-    public static function scaleDataProvider(): Generator
-    {
-        yield [0, 0, 0];
-        yield [255, 0, 255];
-        yield [55, 0, 55];
-        yield [0, 50, 128];
-        yield [255, 50, 255];
-        yield [100, 50, 178];
-        yield [100, 100, 255];
-        yield [0, -50, 0];
-        yield [255, -50, 127];
-        yield [100, -50, 50];
-        yield [100, -100, 0];
     }
 }

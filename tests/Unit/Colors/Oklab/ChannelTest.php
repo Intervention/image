@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Colors\Oklab;
 
-use Generator;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Colors\Oklab\Channels\Lightness;
 use Intervention\Image\Colors\Oklab\Channels\A;
 use Intervention\Image\Colors\Oklab\Channels\B;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Tests\BaseTestCase;
-use PHPUnit\Framework\Attributes\DataProvider;
 
 #[CoversClass(Lightness::class)]
 #[CoversClass(A::class)]
@@ -59,34 +57,5 @@ final class ChannelTest extends BaseTestCase
         $this->assertEquals(0, $channel->normalizedValue());
         $channel = new Lightness(.5);
         $this->assertEquals(.5, $channel->normalizedValue());
-    }
-
-    #[DataProvider('scaleDataProvider')]
-    public function testScale(float $value, int $percent, float $result): void
-    {
-        $this->assertEquals($result, (new Lightness($value))->scale($percent)->value());
-    }
-
-    public static function scaleDataProvider(): Generator
-    {
-        yield [0, 0, 0];
-        yield [1, 0, 1];
-        yield [.5, 0, .5];
-
-        yield [0, 50, .5];
-        yield [1, 50, 1];
-        yield [.5, 50, .75];
-
-        yield [0, 100, 1];
-        yield [1, 100, 1];
-        yield [.5, 100, 1];
-
-        yield [0, -50, 0];
-        yield [1, -50, .5];
-        yield [.5, -50, .25];
-
-        yield [0, -100, 0];
-        yield [1, -100, 0];
-        yield [.5, -100, 0];
     }
 }

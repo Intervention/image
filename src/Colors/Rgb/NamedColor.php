@@ -12,6 +12,7 @@ use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 
+// todo: maybe rename to W3CColorName
 enum NamedColor: string implements ColorInterface
 {
     case ALICEBLUE = 'aliceblue';

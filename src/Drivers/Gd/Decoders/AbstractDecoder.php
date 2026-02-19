@@ -21,6 +21,17 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
      */
     protected function getMediaTypeByFilePath(string $filepath): MediaType
     {
+        if (function_exists('finfo_file') && function_exists('finfo_open')) {
+            $mediaType = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $filepath);
+            if (is_string($mediaType)) {
+                try {
+                    return MediaType::from($mediaType);
+                } catch (ValueError) {
+                    throw new NotSupportedException('Unsupported media type (MIME) ' . $mediaType . '.');
+                }
+            }
+        }
+
         $info = @getimagesize($filepath);
 
         if (!is_array($info)) {
@@ -42,6 +53,17 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
      */
     protected function getMediaTypeByBinary(string $data): MediaType
     {
+        if (function_exists('finfo_buffer') && function_exists('finfo_open')) {
+            $mediaType = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $data);
+            if (is_string($mediaType)) {
+                try {
+                    return MediaType::from($mediaType);
+                } catch (ValueError) {
+                    throw new NotSupportedException('Unsupported media type (MIME) ' . $mediaType . '.');
+                }
+            }
+        }
+
         $info = @getimagesizefromstring($data);
 
         if (!is_array($info)) {

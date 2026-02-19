@@ -30,7 +30,7 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
      * @throws FileNotFoundException
      * @throws FileNotReadableException
      */
-    protected function getMediaTypeByFilePath(string $filepath): MediaType
+    protected function mediaTypeByFilePath(string $filepath): MediaType
     {
         $filepath = $this->readableFilePathOrFail($filepath);
 
@@ -64,7 +64,7 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
      * @throws ImageDecoderException
      * @throws NotSupportedException
      */
-    protected function getMediaTypeByBinary(string $data): MediaType
+    protected function mediaTypeByBinary(string $data): MediaType
     {
         if (function_exists('finfo_buffer') && function_exists('finfo_open')) {
             $mediaType = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $data);

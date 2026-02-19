@@ -18,7 +18,7 @@ class ResizeModifier extends GenericResizeModifier implements SpecializedInterfa
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        $resizeTo = $this->getAdjustedSize($image);
+        $resizeTo = $this->adjustedSize($image);
 
         foreach ($image as $frame) {
             try {
@@ -37,7 +37,7 @@ class ResizeModifier extends GenericResizeModifier implements SpecializedInterfa
         return $image;
     }
 
-    protected function getAdjustedSize(ImageInterface $image): SizeInterface
+    protected function adjustedSize(ImageInterface $image): SizeInterface
     {
         return $image->size()->resize($this->width, $this->height);
     }

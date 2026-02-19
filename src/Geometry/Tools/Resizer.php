@@ -53,7 +53,7 @@ class Resizer
     /**
      * Return target width of resizer if available.
      */
-    protected function getTargetWidth(): ?int
+    protected function targetWidth(): ?int
     {
         return $this->hasTargetWidth() ? $this->width : null;
     }
@@ -69,7 +69,7 @@ class Resizer
     /**
      * Return target width of resizer if available.
      */
-    protected function getTargetHeight(): ?int
+    protected function targetHeight(): ?int
     {
         return $this->hasTargetHeight() ? $this->height : null;
     }
@@ -79,7 +79,7 @@ class Resizer
      *
      * @throws StateException
      */
-    protected function getTargetSize(): SizeInterface
+    protected function targetSize(): SizeInterface
     {
         if (!$this->hasTargetWidth() || !$this->hasTargetHeight()) {
             throw new StateException('Target size needs width and height');
@@ -126,7 +126,7 @@ class Resizer
     /**
      * Get proportinal width.
      */
-    protected function getProportionalWidth(SizeInterface $size): int
+    protected function proportionalWidth(SizeInterface $size): int
     {
         if (!$this->hasTargetHeight()) {
             return $size->width();
@@ -138,7 +138,7 @@ class Resizer
     /**
      * Get proportinal height.
      */
-    protected function getProportionalHeight(SizeInterface $size): int
+    protected function proportionalHeight(SizeInterface $size): int
     {
         if (!$this->hasTargetWidth()) {
             return $size->height();
@@ -156,11 +156,11 @@ class Resizer
     {
         $resized = new Size($size->width(), $size->height());
 
-        if ($width = $this->getTargetWidth()) {
+        if ($width = $this->targetWidth()) {
             $resized->setWidth($width);
         }
 
-        if ($height = $this->getTargetHeight()) {
+        if ($height = $this->targetHeight()) {
             $resized->setHeight($height);
         }
 
@@ -176,13 +176,13 @@ class Resizer
     {
         $resized = new Size($size->width(), $size->height());
 
-        if ($width = $this->getTargetWidth()) {
+        if ($width = $this->targetWidth()) {
             $resized->setWidth(
                 min($width, $size->width())
             );
         }
 
-        if ($height = $this->getTargetHeight()) {
+        if ($height = $this->targetHeight()) {
             $resized->setHeight(
                 min($height, $size->height())
             );
@@ -202,19 +202,19 @@ class Resizer
 
         if ($this->hasTargetWidth() && $this->hasTargetHeight()) {
             $resized->setWidth(min(
-                $this->getProportionalWidth($size),
-                $this->getTargetWidth()
+                $this->proportionalWidth($size),
+                $this->targetWidth()
             ));
             $resized->setHeight(min(
-                $this->getProportionalHeight($size),
-                $this->getTargetHeight()
+                $this->proportionalHeight($size),
+                $this->targetHeight()
             ));
         } elseif ($this->hasTargetWidth()) {
-            $resized->setWidth($this->getTargetWidth());
-            $resized->setHeight($this->getProportionalHeight($size));
+            $resized->setWidth($this->targetWidth());
+            $resized->setHeight($this->proportionalHeight($size));
         } elseif ($this->hasTargetHeight()) {
-            $resized->setWidth($this->getProportionalWidth($size));
-            $resized->setHeight($this->getTargetHeight());
+            $resized->setWidth($this->proportionalWidth($size));
+            $resized->setHeight($this->targetHeight());
         }
 
         return $resized;
@@ -231,31 +231,31 @@ class Resizer
 
         if ($this->hasTargetWidth() && $this->hasTargetHeight()) {
             $resized->setWidth(min(
-                $this->getProportionalWidth($size),
-                $this->getTargetWidth(),
+                $this->proportionalWidth($size),
+                $this->targetWidth(),
                 $size->width()
             ));
             $resized->setHeight(min(
-                $this->getProportionalHeight($size),
-                $this->getTargetHeight(),
+                $this->proportionalHeight($size),
+                $this->targetHeight(),
                 $size->height()
             ));
         } elseif ($this->hasTargetWidth()) {
             $resized->setWidth(min(
-                $this->getTargetWidth(),
+                $this->targetWidth(),
                 $size->width()
             ));
             $resized->setHeight(min(
-                $this->getProportionalHeight($size),
+                $this->proportionalHeight($size),
                 $size->height()
             ));
         } elseif ($this->hasTargetHeight()) {
             $resized->setWidth(min(
-                $this->getProportionalWidth($size),
+                $this->proportionalWidth($size),
                 $size->width()
             ));
             $resized->setHeight(min(
-                $this->getTargetHeight(),
+                $this->targetHeight(),
                 $size->height()
             ));
         }
@@ -275,13 +275,13 @@ class Resizer
         $resized = new Size($size->width(), $size->height());
 
         // auto height
-        $resized->setWidth($this->getTargetWidth());
-        $resized->setHeight($this->getProportionalHeight($size));
+        $resized->setWidth($this->targetWidth());
+        $resized->setHeight($this->proportionalHeight($size));
 
-        if ($resized->fitsInto($this->getTargetSize())) {
+        if ($resized->fitsInto($this->targetSize())) {
             // auto width
-            $resized->setWidth($this->getProportionalWidth($size));
-            $resized->setHeight($this->getTargetHeight());
+            $resized->setWidth($this->proportionalWidth($size));
+            $resized->setHeight($this->targetHeight());
         }
 
         return $resized;
@@ -299,13 +299,13 @@ class Resizer
         $resized = new Size($size->width(), $size->height());
 
         // auto height
-        $resized->setWidth($this->getTargetWidth());
-        $resized->setHeight($this->getProportionalHeight($size));
+        $resized->setWidth($this->targetWidth());
+        $resized->setHeight($this->proportionalHeight($size));
 
-        if (!$resized->fitsInto($this->getTargetSize())) {
+        if (!$resized->fitsInto($this->targetSize())) {
             // auto width
-            $resized->setWidth($this->getProportionalWidth($size));
-            $resized->setHeight($this->getTargetHeight());
+            $resized->setWidth($this->proportionalWidth($size));
+            $resized->setHeight($this->targetHeight());
         }
 
         return $resized;
@@ -324,20 +324,20 @@ class Resizer
 
         // auto height
         $resized->setWidth(
-            min($size->width(), $this->getTargetWidth())
+            min($size->width(), $this->targetWidth())
         );
 
         $resized->setHeight(
-            min($size->height(), $this->getProportionalHeight($size))
+            min($size->height(), $this->proportionalHeight($size))
         );
 
-        if (!$resized->fitsInto($this->getTargetSize())) {
+        if (!$resized->fitsInto($this->targetSize())) {
             // auto width
             $resized->setWidth(
-                min($size->width(), $this->getProportionalWidth($size))
+                min($size->width(), $this->proportionalWidth($size))
             );
             $resized->setHeight(
-                min($size->height(), $this->getTargetHeight())
+                min($size->height(), $this->targetHeight())
             );
         }
 

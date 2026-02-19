@@ -79,7 +79,7 @@ class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
         $image = parent::decode($gd);
 
         // get media type
-        $mediaType = $this->getMediaTypeByBinary($input);
+        $mediaType = $this->mediaTypeByBinary($input);
 
         // extract & set exif data for appropriate formats
         if (in_array($mediaType->format(), [Format::JPEG, Format::TIFF])) {

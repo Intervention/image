@@ -54,7 +54,7 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
 
         try {
             // detect media (mime) type
-            $mediaType = $this->getMediaTypeByFilePath($path);
+            $mediaType = $this->mediaTypeByFilePath($path);
         } catch (Throwable) {
             throw new ImageDecoderException('File contains unsupported image format');
         }

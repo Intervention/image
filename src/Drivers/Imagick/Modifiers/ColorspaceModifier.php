@@ -32,7 +32,7 @@ class ColorspaceModifier extends GenericColorspaceModifier implements Specialize
 
         try {
             $result = $imagick->transformImageColorspace(
-                $this->getImagickColorspaceOrFail($colorspace)
+                $this->imagickColorspaceOrFail($colorspace)
             );
 
             if ($result === false) {
@@ -53,7 +53,7 @@ class ColorspaceModifier extends GenericColorspaceModifier implements Specialize
     /**
      * @throws NotSupportedException
      */
-    private function getImagickColorspaceOrFail(ColorspaceInterface $colorspace): int
+    private function imagickColorspaceOrFail(ColorspaceInterface $colorspace): int
     {
         if ($colorspace instanceof Rgb) {
             return Imagick::COLORSPACE_SRGB;

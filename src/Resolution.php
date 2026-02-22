@@ -24,7 +24,7 @@ class Resolution implements ResolutionInterface, Stringable, IteratorAggregate
     public function __construct(
         protected float $x,
         protected float $y,
-        protected Length $unit = Length::INCH
+        protected Length $unit = Length::INCH // todo: refactor!
     ) {
         if ($x < 0) {
             throw new InvalidArgumentException(

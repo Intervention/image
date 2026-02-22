@@ -8,5 +8,4 @@ enum Length: string
 {
     case INCH = 'inch';
     case CM = 'cm';
-    case PX = 'px';
 }

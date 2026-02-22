@@ -16,9 +16,6 @@ final class ResolutionTest extends BaseTestCase
     {
         $resolution = new Resolution(1, 2);
         $this->assertInstanceOf(Resolution::class, $resolution);
-
-        $resolution = Resolution::create(1, 2);
-        $this->assertInstanceOf(Resolution::class, $resolution);
     }
 
     public function testIteration(): void
@@ -36,13 +33,13 @@ final class ResolutionTest extends BaseTestCase
         $this->assertEquals(3.4, $resolution->y());
     }
 
-    public function testUnit(): void
+    public function testLength(): void
     {
         $resolution = new Resolution(1, 1);
-        $this->assertEquals(Length::INCH, $resolution->unit());
+        $this->assertEquals(Length::INCH, $resolution->length());
 
         $resolution = new Resolution(1, 1, Length::CM);
-        $this->assertEquals(Length::CM, $resolution->unit());
+        $this->assertEquals(Length::CM, $resolution->length());
     }
 
     public function testConversion(): void

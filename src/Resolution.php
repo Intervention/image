@@ -24,7 +24,7 @@ class Resolution implements ResolutionInterface, Stringable, IteratorAggregate
     public function __construct(
         protected float $x,
         protected float $y,
-        protected Length $unit = Length::INCH // todo: refactor!
+        protected Length $length = Length::INCH,
     ) {
         if ($x < 0) {
             throw new InvalidArgumentException(
@@ -40,13 +40,23 @@ class Resolution implements ResolutionInterface, Stringable, IteratorAggregate
     }
 
     /**
-     * Static factory method to create new resolution instance.
+     * {@inheritdoc}
      *
-     * @throws InvalidArgumentException
+     * @see ResolutionInterface::dpi()
      */
-    public static function create(float $x, float $y, Length $unit = Length::INCH): self
+    public static function dpi(float $x, float $y): ResolutionInterface
     {
-        return new self($x, $y, $unit);
+        return new self($x, $y, Length::INCH);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ResolutionInterface::ppi()
+     */
+    public static function ppi(float $x, float $y): ResolutionInterface
+    {
+        return new self($x, $y, Length::CM);
     }
 
     /**
@@ -72,18 +82,6 @@ class Resolution implements ResolutionInterface, Stringable, IteratorAggregate
     /**
      * {@inheritdoc}
      *
-     * @see ResolutionInterface::setX()
-     */
-    public function setX(float $x): self
-    {
-        $this->x = $x;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
      * @see ResolutionInterface::y()
      */
     public function y(): float
@@ -94,35 +92,11 @@ class Resolution implements ResolutionInterface, Stringable, IteratorAggregate
     /**
      * {@inheritdoc}
      *
-     * @see ResolutionInterface::setY()
+     * @see ResolutionInterface::length()
      */
-    public function setY(float $y): self
+    public function length(): Length
     {
-        $this->y = $y;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ResolutionInterface::setUnit()
-     */
-    protected function setUnit(Length $unit): self
-    {
-        $this->unit = $unit;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ResolutionInterface::unit()
-     */
-    public function unit(): Length
-    {
-        return $this->unit;
+        return $this->length;
     }
 
     /**
@@ -132,11 +106,12 @@ class Resolution implements ResolutionInterface, Stringable, IteratorAggregate
      */
     public function perInch(): self
     {
-        return match ($this->unit) {
-            Length::CM => $this
-                ->setUnit(Length::INCH)
-                ->setX($this->x * 2.54)
-                ->setY($this->y * 2.54),
+        return match ($this->length) {
+            Length::CM => new self(
+                $this->x * 2.54,
+                $this->y * 2.54,
+                Length::INCH,
+            ),
             default => $this
         };
     }
@@ -148,11 +123,12 @@ class Resolution implements ResolutionInterface, Stringable, IteratorAggregate
      */
     public function perCm(): self
     {
-        return match ($this->unit) {
-            Length::INCH => $this
-                ->setUnit(Length::CM)
-                ->setX($this->x / 2.54)
-                ->setY($this->y / 2.54),
+        return match ($this->length) {
+            Length::INCH => new self(
+                $this->x / 2.54,
+                $this->y / 2.54,
+                Length::CM,
+            ),
             default => $this,
         };
     }
@@ -168,10 +144,9 @@ class Resolution implements ResolutionInterface, Stringable, IteratorAggregate
             "%1\$.2f x %2\$.2f %3\$s",
             $this->x,
             $this->y,
-            match ($this->unit) {
+            match ($this->length) {
                 Length::INCH => 'dpi',
                 Length::CM => 'dpcm',
-                default => '',
             },
         );
     }

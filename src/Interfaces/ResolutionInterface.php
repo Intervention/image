@@ -10,39 +10,39 @@ use Stringable;
 interface ResolutionInterface extends Stringable
 {
     /**
-     * Return resolution of x-axis.
+     * Factory method to create resolution with given dots per inch.
      */
-    public function x(): float;
+    public static function dpi(float $x, float $y): self;
 
     /**
-     * Set resolution on x-axis.
+     * Factory method to create resolution with given pixels per inch.
      */
-    public function setX(float $x): self;
+    public static function ppi(float $x, float $y): self;
 
     /**
-     * Return resolution on y-axis.
-     */
-    public function y(): float;
-
-    /**
-     * Set resolution on y-axis.
-     */
-    public function setY(float $y): self;
-
-    /**
-     * Convert the resolution to DPI.
+     * Convert resolution to units per inch.
      */
     public function perInch(): self;
 
     /**
-     * Convert the resolution to DPCM.
+     * Convert resolution to units per centimeter.
      */
     public function perCm(): self;
 
     /**
-     * Return unit.
+     * Return resolution of x-axis value.
      */
-    public function unit(): Length;
+    public function x(): float;
+
+    /**
+     * Return resolution on y-axis value.
+     */
+    public function y(): float;
+
+    /**
+     * Return length unit of resolution.
+     */
+    public function length(): Length;
 
     /**
      * Transform object to string.

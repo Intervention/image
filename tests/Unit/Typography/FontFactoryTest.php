@@ -83,4 +83,36 @@ final class FontFactoryTest extends BaseTestCase
         $this->assertEquals(4, $font->strokeWidth());
         $this->assertEquals('ff5500', $font->strokeColor());
     }
+
+    public function testFile(): void
+    {
+        $factory = new FontFactory();
+        $result = $factory->file(Resource::create('test.ttf')->path());
+        $this->assertInstanceOf(FontFactory::class, $result);
+        $this->assertEquals(Resource::create('test.ttf')->path(), $factory->font()->filepath());
+    }
+
+    public function testFilepath(): void
+    {
+        $factory = new FontFactory();
+        $result = $factory->filepath(Resource::create('test.ttf')->path());
+        $this->assertInstanceOf(FontFactory::class, $result);
+        $this->assertEquals(Resource::create('test.ttf')->path(), $factory->font()->filepath());
+    }
+
+    public function testAlignHorizontalOnly(): void
+    {
+        $factory = new FontFactory();
+        $result = $factory->align(Alignment::CENTER);
+        $this->assertInstanceOf(FontFactory::class, $result);
+        $this->assertEquals(Alignment::CENTER, $factory->font()->alignmentHorizontal());
+    }
+
+    public function testAlignVerticalOnly(): void
+    {
+        $factory = new FontFactory();
+        $result = $factory->align(null, Alignment::TOP);
+        $this->assertInstanceOf(FontFactory::class, $result);
+        $this->assertEquals(Alignment::TOP, $factory->font()->alignmentVertical());
+    }
 }

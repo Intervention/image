@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit;
 
+use Intervention\Image\Exceptions\DirectoryNotFoundException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\File;
 use Intervention\Image\Tests\BaseTestCase;
@@ -59,12 +61,32 @@ final class FileTest extends BaseTestCase
         }
     }
 
+    public function testSaveEmptyPath(): void
+    {
+        $file = new File('foo');
+        $this->expectException(InvalidArgumentException::class);
+        $file->save('');
+    }
+
+    public function testSaveDirectoryNotFound(): void
+    {
+        $file = new File('foo');
+        $this->expectException(DirectoryNotFoundException::class);
+        $file->save('/nonexistent_dir_' . strval(hrtime(true)) . '/file.txt');
+    }
+
     public function testToString(): void
     {
         $file = new File('foo');
         $string = $file->toString();
         $this->assertEquals('foo', $string);
         $this->assertEquals('foo', $string);
+    }
+
+    public function testCastToString(): void
+    {
+        $file = new File('foo');
+        $this->assertEquals('foo', (string) $file);
     }
 
     public function testToFilePointer(): void

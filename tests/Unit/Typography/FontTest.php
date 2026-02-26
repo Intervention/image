@@ -78,6 +78,14 @@ final class FontTest extends BaseTestCase
         $this->assertEquals(Alignment::BOTTOM, $font->alignmentHorizontal());
     }
 
+    public function testSetAlignmentHorizontalWithString(): void
+    {
+        $font = new Font();
+        $result = $font->setAlignmentHorizontal('center');
+        $this->assertInstanceOf(Font::class, $result);
+        $this->assertEquals(Alignment::CENTER, $font->alignmentHorizontal());
+    }
+
     public function testSetGetVerticalAlignment(): void
     {
         $font = new Font();
@@ -90,6 +98,14 @@ final class FontTest extends BaseTestCase
         $result = $font->setAlignmentVertical(Alignment::RIGHT);
         $this->assertInstanceOf(Font::class, $result);
         $this->assertEquals(Alignment::RIGHT, $font->alignmentVertical());
+    }
+
+    public function testSetAlignmentVerticalWithString(): void
+    {
+        $font = new Font();
+        $result = $font->setAlignmentVertical('top');
+        $this->assertInstanceOf(Font::class, $result);
+        $this->assertEquals(Alignment::TOP, $font->alignmentVertical());
     }
 
     public function testSetGetLineHeight(): void
@@ -124,5 +140,29 @@ final class FontTest extends BaseTestCase
         $font = new Font();
         $this->expectException(InvalidArgumentException::class);
         $font->setStrokeWidth(11);
+    }
+
+    public function testHasStrokeEffect(): void
+    {
+        $font = new Font();
+        $this->assertFalse($font->hasStrokeEffect());
+
+        $font->setStrokeWidth(1);
+        $this->assertTrue($font->hasStrokeEffect());
+
+        $font->setStrokeWidth(5);
+        $this->assertTrue($font->hasStrokeEffect());
+    }
+
+    public function testSetGetWrapWidth(): void
+    {
+        $font = new Font();
+        $this->assertNull($font->wrapWidth());
+        $result = $font->setWrapWidth(200);
+        $this->assertInstanceOf(Font::class, $result);
+        $this->assertEquals(200, $font->wrapWidth());
+
+        $font->setWrapWidth(null);
+        $this->assertNull($font->wrapWidth());
     }
 }

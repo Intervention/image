@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit;
 
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Length;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Resolution;
@@ -16,6 +17,18 @@ final class ResolutionTest extends BaseTestCase
     {
         $resolution = new Resolution(1, 2);
         $this->assertInstanceOf(Resolution::class, $resolution);
+    }
+
+    public function testConstructorNegativeX(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new Resolution(-1, 1);
+    }
+
+    public function testConstructorNegativeY(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new Resolution(1, -1);
     }
 
     public function testIteration(): void
@@ -42,6 +55,24 @@ final class ResolutionTest extends BaseTestCase
         $this->assertEquals(Length::CM, $resolution->length());
     }
 
+    public function testDpiFactory(): void
+    {
+        $resolution = Resolution::dpi(300, 150);
+        $this->assertInstanceOf(Resolution::class, $resolution);
+        $this->assertEquals(300, $resolution->x());
+        $this->assertEquals(150, $resolution->y());
+        $this->assertEquals(Length::INCH, $resolution->length());
+    }
+
+    public function testPpiFactory(): void
+    {
+        $resolution = Resolution::ppi(300, 150);
+        $this->assertInstanceOf(Resolution::class, $resolution);
+        $this->assertEquals(300, $resolution->x());
+        $this->assertEquals(150, $resolution->y());
+        $this->assertEquals(Length::CM, $resolution->length());
+    }
+
     public function testConversion(): void
     {
         $resolution = new Resolution(300, 150); // per inch
@@ -55,6 +86,26 @@ final class ResolutionTest extends BaseTestCase
         $resolution = new Resolution(118.11024, 59.06, Length::CM); // per cm
         $this->assertEquals(300, round($resolution->perInch()->x()));
         $this->assertEquals(150, round($resolution->perInch()->y()));
+    }
+
+    public function testPerCmWhenAlreadyCm(): void
+    {
+        $resolution = new Resolution(100, 200, Length::CM);
+        $result = $resolution->perCm();
+        $this->assertSame($resolution, $result);
+        $this->assertEquals(100, $result->x());
+        $this->assertEquals(200, $result->y());
+        $this->assertEquals(Length::CM, $result->length());
+    }
+
+    public function testPerInchWhenAlreadyInch(): void
+    {
+        $resolution = new Resolution(300, 150, Length::INCH);
+        $result = $resolution->perInch();
+        $this->assertSame($resolution, $result);
+        $this->assertEquals(300, $result->x());
+        $this->assertEquals(150, $result->y());
+        $this->assertEquals(Length::INCH, $result->length());
     }
 
     public function testToString(): void

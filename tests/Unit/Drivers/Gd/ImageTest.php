@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Drivers\Gd;
 
+use Intervention\Image\Alignment;
 use Intervention\Image\Analyzers\WidthAnalyzer;
 use Intervention\Image\Collection;
 use Intervention\Image\Colors\Hsl\Colorspace;
+use Intervention\Image\Direction;
 use Intervention\Image\Drivers\Gd\Core;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Drivers\Gd\Frame;
@@ -15,6 +17,15 @@ use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Exceptions\EncoderException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\FileExtension;
+use Intervention\Image\Format;
+use Intervention\Image\Fraction;
+use Intervention\Image\Geometry\Bezier;
+use Intervention\Image\Geometry\Circle;
+use Intervention\Image\Geometry\Ellipse;
+use Intervention\Image\Geometry\Line;
+use Intervention\Image\Geometry\Point;
+use Intervention\Image\Geometry\Polygon;
+use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
@@ -341,5 +352,421 @@ final class ImageTest extends GdTestCase
         $info = $this->readTestImage('trim.png')->__debugInfo();
         $this->assertArrayHasKey('width', $info);
         $this->assertArrayHasKey('height', $info);
+    }
+
+    public function testContrast(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->contrast(10);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testGamma(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->gamma(1.5);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testColorize(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->colorize(10, 20, 30);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testFlip(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->flip();
+        $this->assertInstanceOf(ImageInterface::class, $result);
+
+        $result = $image->flip(Direction::VERTICAL);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testBlur(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->blur(5);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testRotate(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->rotate(45);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testOrient(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->orient();
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testTrim(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->trim(10);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testInsert(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $watermark = $this->createTestImage(5, 5);
+        $result = $image->insert($watermark);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testInsertWithAlignment(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $watermark = $this->createTestImage(5, 5);
+        $result = $image->insert($watermark, 10, 10, Alignment::CENTER, 50);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testFill(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->fill('ff0000');
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testFillAtPosition(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->fill('ff0000', 0, 0);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testResize(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->resize(100, 100);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+        $this->assertEquals(100, $result->width());
+        $this->assertEquals(100, $result->height());
+    }
+
+    public function testResizeWithFraction(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $originalWidth = $image->width();
+        $originalHeight = $image->height();
+        $result = $image->resize(Fraction::HALF, Fraction::HALF);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+        $this->assertEquals((int) round($originalWidth * 0.5), $result->width());
+        $this->assertEquals((int) round($originalHeight * 0.5), $result->height());
+    }
+
+    public function testResizeDown(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->resizeDown(100, 100);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testScale(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->scale(100);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testScaleWithFraction(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->scale(Fraction::DOUBLE);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testScaleDown(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->scaleDown(100);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testCover(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->cover(10, 10);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+        $this->assertEquals(10, $result->width());
+        $this->assertEquals(10, $result->height());
+    }
+
+    public function testCoverWithFraction(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->cover(Fraction::HALF, Fraction::HALF);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testCoverDown(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->coverDown(10, 10);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+        $this->assertEquals(10, $result->width());
+        $this->assertEquals(10, $result->height());
+    }
+
+    public function testPad(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->pad(100, 100);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+        $this->assertEquals(100, $result->width());
+        $this->assertEquals(100, $result->height());
+    }
+
+    public function testPadWithBackground(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->pad(100, 100, 'ff0000', Alignment::CENTER);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testContain(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->contain(100, 100);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+        $this->assertEquals(100, $result->width());
+        $this->assertEquals(100, $result->height());
+    }
+
+    public function testContainWithBackground(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->contain(100, 100, 'ff0000', Alignment::CENTER);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testCropWithAlignment(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->crop(10, 10, 0, 0, null, Alignment::CENTER);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+        $this->assertEquals(10, $result->width());
+        $this->assertEquals(10, $result->height());
+    }
+
+    public function testCropWithFraction(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->crop(Fraction::HALF, Fraction::HALF);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testResizeCanvas(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->resizeCanvas(100, 100);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+        $this->assertEquals(100, $result->width());
+        $this->assertEquals(100, $result->height());
+    }
+
+    public function testResizeCanvasWithBackground(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->resizeCanvas(100, 100, 'ff0000', Alignment::CENTER);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testResizeCanvasRelative(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $originalWidth = $image->width();
+        $originalHeight = $image->height();
+        $result = $image->resizeCanvasRelative(10, 10);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+        $this->assertEquals($originalWidth + 10, $result->width());
+        $this->assertEquals($originalHeight + 10, $result->height());
+    }
+
+    public function testResizeCanvasRelativeWithBackground(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->resizeCanvasRelative(10, 10, 'ff0000', Alignment::CENTER);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testDrawPixel(): void
+    {
+        $image = $this->createTestImage(10, 10);
+        $result = $image->drawPixel(5, 5, 'ff0000');
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testDrawRectangle(): void
+    {
+        $image = $this->createTestImage(10, 10);
+        $result = $image->drawRectangle(function ($rectangle): void {
+            $rectangle->size(5, 5);
+            $rectangle->background('ff0000');
+        });
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testDrawRectangleObject(): void
+    {
+        $image = $this->createTestImage(10, 10);
+        $rect = new Rectangle(5, 5, new Point(0, 0));
+        $result = $image->drawRectangle($rect);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testDrawEllipse(): void
+    {
+        $image = $this->createTestImage(10, 10);
+        $result = $image->drawEllipse(function ($ellipse): void {
+            $ellipse->size(6, 4);
+            $ellipse->background('ff0000');
+        });
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testDrawCircle(): void
+    {
+        $image = $this->createTestImage(10, 10);
+        $result = $image->drawCircle(function ($circle): void {
+            $circle->radius(3);
+            $circle->background('ff0000');
+        });
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testDrawPolygon(): void
+    {
+        $image = $this->createTestImage(10, 10);
+        $result = $image->drawPolygon(function ($polygon): void {
+            $polygon->point(0, 0);
+            $polygon->point(5, 0);
+            $polygon->point(5, 5);
+        });
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testDrawLine(): void
+    {
+        $image = $this->createTestImage(10, 10);
+        $result = $image->drawLine(function ($line): void {
+            $line->from(0, 0);
+            $line->to(9, 9);
+            $line->color('ff0000');
+        });
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testDrawBezier(): void
+    {
+        $image = $this->createTestImage(10, 10);
+        $result = $image->drawBezier(function ($bezier): void {
+            $bezier->point(0, 0);
+            $bezier->point(3, 5);
+            $bezier->point(6, 2);
+            $bezier->point(9, 9);
+        });
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testDrawWithRectangle(): void
+    {
+        $image = $this->createTestImage(10, 10);
+        $rect = new Rectangle(5, 5, new Point(0, 0));
+        $result = $image->draw($rect);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testDrawWithEllipse(): void
+    {
+        $image = $this->createTestImage(10, 10);
+        $ellipse = new Ellipse(6, 4, new Point(5, 5));
+        $result = $image->draw($ellipse);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testDrawWithCircle(): void
+    {
+        $image = $this->createTestImage(10, 10);
+        $circle = new Circle(6, new Point(5, 5));
+        $result = $image->draw($circle);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testDrawWithLine(): void
+    {
+        $image = $this->createTestImage(10, 10);
+        $line = new Line(new Point(0, 0), new Point(9, 9));
+        $result = $image->draw($line);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testDrawWithBezier(): void
+    {
+        $image = $this->createTestImage(10, 10);
+        $bezier = new Bezier([new Point(0, 0), new Point(3, 5), new Point(6, 2), new Point(9, 9)]);
+        $result = $image->draw($bezier);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testDrawWithPolygon(): void
+    {
+        $image = $this->createTestImage(10, 10);
+        $polygon = new Polygon([new Point(0, 0), new Point(5, 0), new Point(5, 5)]);
+        $result = $image->draw($polygon);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testDrawWithAdjustments(): void
+    {
+        $image = $this->createTestImage(10, 10);
+        $rect = new Rectangle(5, 5, new Point(0, 0));
+        $result = $image->draw($rect, function ($factory): void {
+            $factory->background('ff0000');
+        });
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testEncodeUsingFormat(): void
+    {
+        $image = $this->readTestImage('blue.gif');
+        $result = $image->encodeUsingFormat(Format::PNG);
+        $this->assertInstanceOf(EncodedImage::class, $result);
+        $this->assertMediaType('image/png', $result);
+    }
+
+    public function testBackgroundColor(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->backgroundColor();
+        $this->assertInstanceOf(ColorInterface::class, $result);
+    }
+
+    public function testSetBackgroundColor(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->setBackgroundColor('ff0000');
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testSetProfile(): void
+    {
+        $this->expectException(NotSupportedException::class);
+        $this->readTestImage('trim.png')->profile();
+    }
+
+    public function testRemoveProfile(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $result = $image->removeProfile();
+        $this->assertInstanceOf(ImageInterface::class, $result);
     }
 }

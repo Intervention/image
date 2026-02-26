@@ -22,3 +22,7 @@ RUN apt update \
 
 # install composer
 COPY --from=composer /usr/bin/composer /usr/bin/composer
+
+# install composer dependencies
+COPY composer.json composer.lock ./
+RUN composer install

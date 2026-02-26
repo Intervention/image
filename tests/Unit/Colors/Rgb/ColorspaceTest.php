@@ -7,6 +7,8 @@ namespace Intervention\Image\Tests\Unit\Colors\Rgb;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
 use Intervention\Image\Colors\Hsv\Color as HsvColor;
+use Intervention\Image\Colors\Oklab\Color as OklabColor;
+use Intervention\Image\Colors\Oklch\Color as OklchColor;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
@@ -98,5 +100,50 @@ final class ColorspaceTest extends BaseTestCase
         $this->assertEquals(70, $result->channel(Red::class)->value());
         $this->assertEquals(130, $result->channel(Green::class)->value());
         $this->assertEquals(180, $result->channel(Blue::class)->value());
+    }
+
+    public function testImportOklabColor(): void
+    {
+        $colorspace = new Colorspace();
+
+        // Oklab(0.68, 0.17, 0.14) ≈ RGB(255, 85, 0)
+        $result = $colorspace->importColor(new OklabColor(0.68, 0.17, 0.14));
+        $this->assertInstanceOf(RgbColor::class, $result);
+        $this->assertEquals(255, $result->channel(Red::class)->value());
+        $this->assertEquals(86, $result->channel(Green::class)->value());
+        $this->assertEquals(0, $result->channel(Blue::class)->value());
+
+        // Oklab white: L=1, a=0, b=0
+        $result = $colorspace->importColor(new OklabColor(1.0, 0.0, 0.0));
+        $this->assertInstanceOf(RgbColor::class, $result);
+        $this->assertEquals(255, $result->channel(Red::class)->value());
+        $this->assertEquals(255, $result->channel(Green::class)->value());
+        $this->assertEquals(255, $result->channel(Blue::class)->value());
+
+        // Oklab black: L=0, a=0, b=0
+        $result = $colorspace->importColor(new OklabColor(0.0, 0.0, 0.0));
+        $this->assertInstanceOf(RgbColor::class, $result);
+        $this->assertEquals(0, $result->channel(Red::class)->value());
+        $this->assertEquals(0, $result->channel(Green::class)->value());
+        $this->assertEquals(0, $result->channel(Blue::class)->value());
+    }
+
+    public function testImportOklchColor(): void
+    {
+        $colorspace = new Colorspace();
+
+        // Oklch(0.68, 0.22, 38.8) ≈ RGB(255, 85, 0)
+        $result = $colorspace->importColor(new OklchColor(0.68, 0.22, 38.8));
+        $this->assertInstanceOf(RgbColor::class, $result);
+        $this->assertEquals(255, $result->channel(Red::class)->value());
+        $this->assertEquals(85, $result->channel(Green::class)->value());
+        $this->assertEquals(0, $result->channel(Blue::class)->value());
+
+        // Oklch white: L=1, C=0, H=0
+        $result = $colorspace->importColor(new OklchColor(1.0, 0.0, 0.0));
+        $this->assertInstanceOf(RgbColor::class, $result);
+        $this->assertEquals(255, $result->channel(Red::class)->value());
+        $this->assertEquals(255, $result->channel(Green::class)->value());
+        $this->assertEquals(255, $result->channel(Blue::class)->value());
     }
 }

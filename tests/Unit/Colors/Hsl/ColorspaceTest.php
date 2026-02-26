@@ -10,6 +10,8 @@ use Intervention\Image\Colors\Hsl\Channels\Hue;
 use Intervention\Image\Colors\Hsl\Channels\Luminance;
 use Intervention\Image\Colors\Hsl\Channels\Saturation;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
+use Intervention\Image\Colors\Oklab\Color as OklabColor;
+use Intervention\Image\Colors\Oklch\Color as OklchColor;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Hsl\Colorspace;
@@ -101,6 +103,37 @@ final class ColorspaceTest extends BaseTestCase
         $colorspace = new Colorspace();
 
         $result = $colorspace->importColor(NamedColor::WHITE);
+        $this->assertInstanceOf(HslColor::class, $result);
+        $this->assertEquals(0, $result->channel(Hue::class)->value());
+        $this->assertEquals(0, $result->channel(Saturation::class)->value());
+        $this->assertEquals(100, $result->channel(Luminance::class)->value());
+    }
+
+    public function testImportOklabColor(): void
+    {
+        $colorspace = new Colorspace();
+
+        // Oklab white (L=1, a=0, b=0) → HSL(0, 0, 100)
+        $result = $colorspace->importColor(new OklabColor(1.0, 0.0, 0.0));
+        $this->assertInstanceOf(HslColor::class, $result);
+        $this->assertEquals(0, $result->channel(Hue::class)->value());
+        $this->assertEquals(0, $result->channel(Saturation::class)->value());
+        $this->assertEquals(100, $result->channel(Luminance::class)->value());
+
+        // Oklab(0.63, 0.24, 0.09) ≈ red-ish → verify conversion works
+        $result = $colorspace->importColor(new OklabColor(0.63, 0.24, 0.09));
+        $this->assertInstanceOf(HslColor::class, $result);
+        $this->assertIsInt($result->channel(Hue::class)->value());
+        $this->assertIsInt($result->channel(Saturation::class)->value());
+        $this->assertIsInt($result->channel(Luminance::class)->value());
+    }
+
+    public function testImportOklchColor(): void
+    {
+        $colorspace = new Colorspace();
+
+        // Oklch white (L=1, C=0, H=0) → HSL(0, 0, 100)
+        $result = $colorspace->importColor(new OklchColor(1.0, 0.0, 0.0));
         $this->assertInstanceOf(HslColor::class, $result);
         $this->assertEquals(0, $result->channel(Hue::class)->value());
         $this->assertEquals(0, $result->channel(Saturation::class)->value());

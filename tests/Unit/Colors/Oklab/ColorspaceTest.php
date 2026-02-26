@@ -13,6 +13,7 @@ use Intervention\Image\Colors\Oklab\Channels\A;
 use Intervention\Image\Colors\Oklab\Channels\Alpha;
 use Intervention\Image\Colors\Oklab\Channels\B;
 use Intervention\Image\Colors\Oklab\Channels\Lightness;
+use Intervention\Image\Colors\Oklch\Color as OklchColor;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Oklab\Colorspace;
 use Intervention\Image\Colors\Rgb\NamedColor;
@@ -93,5 +94,17 @@ final class ColorspaceTest extends BaseTestCase
         $this->assertEquals(1.0, round($result->channel(Lightness::class)->value(), 1));
         $this->assertEquals(0.0, round($result->channel(A::class)->value(), 1));
         $this->assertEquals(0.0, round($result->channel(B::class)->value(), 1));
+    }
+
+    public function testImportOklchColor(): void
+    {
+        $colorspace = new Colorspace();
+
+        // Oklch(0.65, 0.24, 33.15) → Oklab via L, C*cos(H), C*sin(H)
+        $result = $colorspace->importColor(new OklchColor(0.65, 0.24, 33.15));
+        $this->assertInstanceOf(OklabColor::class, $result);
+        $this->assertEquals(0.65, round($result->channel(Lightness::class)->value(), 2));
+        $this->assertEquals(0.20, round($result->channel(A::class)->value(), 2));
+        $this->assertEquals(0.13, round($result->channel(B::class)->value(), 2));
     }
 }

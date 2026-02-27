@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Geometry;
 
-use PHPUnit\Framework\Attributes\CoversClass;
-use Intervention\Image\Geometry\Point;
+use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Geometry\Bezier;
+use Intervention\Image\Geometry\Factories\BezierFactory;
+use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 #[CoversClass(Bezier::class)]
 final class BezierTest extends BaseTestCase
@@ -173,5 +175,73 @@ final class BezierTest extends BaseTestCase
             new Point(50, 100),
         ]);
         $this->assertEquals([50, 50, 100, 50, -50, -100, 50, 100], $bezier->toArray());
+    }
+
+    public function testPosition(): void
+    {
+        $bezier = new Bezier([], new Point(10, 20));
+        $this->assertEquals(10, $bezier->position()->x());
+        $this->assertEquals(20, $bezier->position()->y());
+    }
+
+    public function testSetPosition(): void
+    {
+        $bezier = new Bezier([]);
+        $result = $bezier->setPosition(new Point(50, 60));
+        $this->assertInstanceOf(Bezier::class, $result);
+        $this->assertEquals(50, $bezier->pivot()->x());
+        $this->assertEquals(60, $bezier->pivot()->y());
+    }
+
+    public function testGetIterator(): void
+    {
+        $bezier = new Bezier([
+            new Point(1, 2),
+            new Point(3, 4),
+        ]);
+        $points = iterator_to_array($bezier->getIterator());
+        $this->assertCount(2, $points);
+        $this->assertEquals(1, $points[0]->x());
+        $this->assertEquals(2, $points[0]->y());
+        $this->assertEquals(3, $points[1]->x());
+        $this->assertEquals(4, $points[1]->y());
+    }
+
+    public function testFactory(): void
+    {
+        $bezier = new Bezier([new Point(0, 0), new Point(10, 10)]);
+        $factory = $bezier->factory();
+        $this->assertInstanceOf(BezierFactory::class, $factory);
+    }
+
+    public function testClone(): void
+    {
+        $bezier = new Bezier([
+            new Point(1, 2),
+            new Point(3, 4),
+        ], new Point(10, 20));
+        $clone = clone $bezier;
+
+        // verify deep copy of points
+        $clone->first()->setX(99);
+        $this->assertEquals(1, $bezier->first()->x());
+        $this->assertEquals(99, $clone->first()->x());
+
+        // verify deep copy of pivot
+        $clone->pivot()->setX(88);
+        $this->assertEquals(10, $bezier->pivot()->x());
+        $this->assertEquals(88, $clone->pivot()->x());
+    }
+
+    public function testCloneWithColors(): void
+    {
+        $bezier = new Bezier([new Point(0, 0)]);
+        $bezier->setBackgroundColor(new RgbColor(255, 0, 0));
+        $bezier->setBorderColor(new RgbColor(0, 0, 255));
+
+        $clone = clone $bezier;
+
+        $this->assertNotSame($bezier->backgroundColor(), $clone->backgroundColor());
+        $this->assertNotSame($bezier->borderColor(), $clone->borderColor());
     }
 }

@@ -17,8 +17,12 @@ use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\FileExtension;
+use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
+use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Origin;
 use Intervention\Image\Tests\BaseTestCase;
+use Mockery;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -111,5 +115,47 @@ final class FileExtensionEncoderTest extends BaseTestCase
     {
         $this->expectException(NotSupportedException::class);
         $this->testEncoder('test');
+    }
+
+    public function testEncoderByFileExtensionEmpty(): void
+    {
+        $this->expectException(NotSupportedException::class);
+        $this->testEncoder('');
+    }
+
+    public function testEncodeWithExplicitExtension(): void
+    {
+        $encoder = new FileExtensionEncoder('png');
+        $encodedImage = Mockery::mock(EncodedImageInterface::class);
+
+        $image = Mockery::mock(ImageInterface::class);
+        $image->shouldReceive('encode')->once()->andReturn($encodedImage);
+
+        $result = $encoder->encode($image);
+        $this->assertSame($encodedImage, $result);
+    }
+
+    public function testEncodeWithNullExtensionFromOrigin(): void
+    {
+        $encoder = new FileExtensionEncoder();
+        $encodedImage = Mockery::mock(EncodedImageInterface::class);
+
+        $image = Mockery::mock(ImageInterface::class);
+        $image->shouldReceive('origin')->andReturn(new Origin('image/png', '/path/to/image.png'));
+        $image->shouldReceive('encode')->once()->andReturn($encodedImage);
+
+        $result = $encoder->encode($image);
+        $this->assertSame($encodedImage, $result);
+    }
+
+    public function testEncodeWithNullExtensionAndNoOriginExtension(): void
+    {
+        $encoder = new FileExtensionEncoder();
+
+        $image = Mockery::mock(ImageInterface::class);
+        $image->shouldReceive('origin')->andReturn(new Origin('application/octet-stream'));
+
+        $this->expectException(NotSupportedException::class);
+        $encoder->encode($image);
     }
 }

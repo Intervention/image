@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Geometry;
 
+use Intervention\Image\Colors\Rgb\Color as RgbColor;
+use Intervention\Image\Geometry\Factories\LineFactory;
 use Intervention\Image\Geometry\Line;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\BaseTestCase;
@@ -23,6 +25,15 @@ final class LineTest extends BaseTestCase
         $line = new Line(new Point(1, 2), new Point(3, 4), 10);
         $this->assertEquals(1, $line->position()->x());
         $this->assertEquals(2, $line->position()->y());
+    }
+
+    public function testSetPosition(): void
+    {
+        $line = new Line(new Point(1, 2), new Point(3, 4), 10);
+        $result = $line->setPosition(new Point(50, 60));
+        $this->assertInstanceOf(Line::class, $result);
+        $this->assertEquals(50, $line->start()->x());
+        $this->assertEquals(60, $line->start()->y());
     }
 
     public function testSetGetStart(): void
@@ -47,7 +58,7 @@ final class LineTest extends BaseTestCase
         $this->assertEquals(40, $line->end()->y());
     }
 
-    public function setFrom(): void
+    public function testFrom(): void
     {
         $line = new Line(new Point(1, 2), new Point(3, 4), 10);
         $this->assertEquals(1, $line->start()->x());
@@ -58,7 +69,7 @@ final class LineTest extends BaseTestCase
         $this->assertEquals(20, $line->start()->y());
     }
 
-    public function setTo(): void
+    public function testTo(): void
     {
         $line = new Line(new Point(1, 2), new Point(3, 4), 10);
         $this->assertEquals(3, $line->end()->x());
@@ -76,5 +87,54 @@ final class LineTest extends BaseTestCase
         $result = $line->setWidth(20);
         $this->assertInstanceOf(Line::class, $result);
         $this->assertEquals(20, $line->width());
+    }
+
+    public function testFactory(): void
+    {
+        $line = new Line(new Point(1, 2), new Point(3, 4), 10);
+        $factory = $line->factory();
+        $this->assertInstanceOf(LineFactory::class, $factory);
+    }
+
+    public function testClone(): void
+    {
+        $line = new Line(new Point(1, 2), new Point(3, 4), 10);
+        $clone = clone $line;
+
+        $this->assertEquals(1, $clone->start()->x());
+        $this->assertEquals(2, $clone->start()->y());
+        $this->assertEquals(3, $clone->end()->x());
+        $this->assertEquals(4, $clone->end()->y());
+
+        // verify deep copy — changing clone should not affect original
+        $clone->start()->setX(99);
+        $this->assertEquals(1, $line->start()->x());
+        $this->assertEquals(99, $clone->start()->x());
+    }
+
+    public function testCloneWithColors(): void
+    {
+        $line = new Line(new Point(1, 2), new Point(3, 4), 10);
+        $line->setBackgroundColor(new RgbColor(255, 0, 0));
+        $line->setBorderColor(new RgbColor(0, 0, 255));
+
+        $clone = clone $line;
+
+        // AbstractColor instances are deep cloned
+        $this->assertNotSame($line->backgroundColor(), $clone->backgroundColor());
+        $this->assertNotSame($line->borderColor(), $clone->borderColor());
+    }
+
+    public function testCloneWithStringColors(): void
+    {
+        $line = new Line(new Point(1, 2), new Point(3, 4), 10);
+        $line->setBackgroundColor('ff0000');
+        $line->setBorderColor('0000ff');
+
+        $clone = clone $line;
+
+        // string colors are preserved after clone
+        $this->assertEquals('ff0000', $clone->backgroundColor());
+        $this->assertEquals('0000ff', $clone->borderColor());
     }
 }

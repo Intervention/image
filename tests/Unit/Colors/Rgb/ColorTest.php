@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit\Colors\Rgb;
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use Intervention\Image\Colors\AbstractColor;
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
 use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
 use Intervention\Image\Colors\Rgb\Channels\Alpha;
@@ -13,11 +14,14 @@ use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
+use Intervention\Image\Exceptions\ColorDecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[CoversClass(Color::class)]
+#[CoversClass(AbstractColor::class)]
 final class ColorTest extends BaseTestCase
 {
     public function testConstructor(): void
@@ -279,5 +283,62 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals('20', $info['green']);
         $this->assertEquals('30', $info['blue']);
         $this->assertEquals('0.2', $info['alpha']);
+    }
+
+    public function testCreateFailsInvalidArgumentCount(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        Color::create(10, 20);
+    }
+
+    public function testCreateFailsInvalidString(): void
+    {
+        $this->expectException(ColorDecoderException::class);
+        Color::create('not-a-color');
+    }
+
+    public function testCreateWithFourArgs(): void
+    {
+        $color = Color::create(10, 20, 30, .5);
+        $this->assertInstanceOf(Color::class, $color);
+        $this->assertEquals(10, $color->red()->value());
+        $this->assertEquals(20, $color->green()->value());
+        $this->assertEquals(30, $color->blue()->value());
+        $this->assertEquals(128, $color->alpha()->value());
+    }
+
+    public function testToColorspaceFailsInvalidClass(): void
+    {
+        $color = new Color(0, 0, 0);
+        $this->expectException(InvalidArgumentException::class);
+        $color->toColorspace('NonExistentColorspace');
+    }
+
+    public function testToColorspaceFailsNonColorspaceClass(): void
+    {
+        $color = new Color(0, 0, 0);
+        $this->expectException(InvalidArgumentException::class);
+        $color->toColorspace(\stdClass::class);
+    }
+
+    public function testCloneDeepCopiesChannels(): void
+    {
+        $original = new Color(100, 150, 200);
+        $cloned = clone $original;
+
+        $this->assertEquals(100, $original->red()->value());
+        $this->assertEquals(100, $cloned->red()->value());
+
+        // Verify they are separate objects (deep clone)
+        $this->assertNotSame($original->red(), $cloned->red());
+    }
+
+    public function testConstructorWithChannelObjects(): void
+    {
+        $color = new Color(new Red(10), new Green(20), new Blue(30), new Alpha(.5));
+        $this->assertEquals(10, $color->red()->value());
+        $this->assertEquals(20, $color->green()->value());
+        $this->assertEquals(30, $color->blue()->value());
+        $this->assertEquals(128, $color->alpha()->value());
     }
 }

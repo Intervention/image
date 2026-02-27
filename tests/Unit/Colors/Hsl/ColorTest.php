@@ -11,6 +11,7 @@ use Intervention\Image\Colors\Hsl\Channels\Luminance;
 use Intervention\Image\Colors\Hsl\Channels\Saturation;
 use Intervention\Image\Colors\Hsl\Color;
 use Intervention\Image\Colors\Hsl\Colorspace;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Tests\BaseTestCase;
@@ -140,5 +141,48 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals('20', $info['saturation']);
         $this->assertEquals('30', $info['luminance']);
         $this->assertEquals('1', $info['alpha']);
+    }
+
+    public function testCreateFailsInvalidArgumentCount(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        Color::create(10, 20);
+    }
+
+    public function testCreateFailsInvalidString(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        Color::create('not-a-color');
+    }
+
+    public function testCreateWithFourArgs(): void
+    {
+        $color = Color::create(180, 50, 50, .5);
+        $this->assertInstanceOf(Color::class, $color);
+        $this->assertEquals(180, $color->hue()->value());
+        $this->assertEquals(50, $color->saturation()->value());
+        $this->assertEquals(50, $color->luminance()->value());
+        $this->assertEquals(128, $color->alpha()->value());
+    }
+
+    public function testIsTransparentTrue(): void
+    {
+        $color = new Color(0, 50, 50, .5);
+        $this->assertTrue($color->isTransparent());
+    }
+
+    public function testIsClearTrue(): void
+    {
+        $color = new Color(0, 50, 50, 0);
+        $this->assertTrue($color->isClear());
+    }
+
+    public function testConstructorWithChannelObjects(): void
+    {
+        $color = new Color(new Hue(180), new Saturation(50), new Luminance(50), new Alpha(.5));
+        $this->assertEquals(180, $color->hue()->value());
+        $this->assertEquals(50, $color->saturation()->value());
+        $this->assertEquals(50, $color->luminance()->value());
+        $this->assertEquals(128, $color->alpha()->value());
     }
 }

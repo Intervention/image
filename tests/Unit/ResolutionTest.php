@@ -66,4 +66,41 @@ final class ResolutionTest extends BaseTestCase
         $this->assertEquals('300.00 x 150.00 dpi', $resolution->toString());
         $this->assertEquals('300.00 x 150.00 dpi', (string) $resolution);
     }
+
+    public function testDpiStaticFactory(): void
+    {
+        $resolution = Resolution::dpi(300, 150);
+        $this->assertInstanceOf(Resolution::class, $resolution);
+        $this->assertEquals(300, $resolution->x());
+        $this->assertEquals(150, $resolution->y());
+        $this->assertEquals(Length::INCH, $resolution->length());
+    }
+
+    public function testPpiStaticFactory(): void
+    {
+        $resolution = Resolution::ppi(118, 59);
+        $this->assertInstanceOf(Resolution::class, $resolution);
+        $this->assertEquals(118, $resolution->x());
+        $this->assertEquals(59, $resolution->y());
+        $this->assertEquals(Length::CM, $resolution->length());
+    }
+
+    public function testNegativeXThrowsException(): void
+    {
+        $this->expectException(\Intervention\Image\Exceptions\InvalidArgumentException::class);
+        new Resolution(-1, 100);
+    }
+
+    public function testNegativeYThrowsException(): void
+    {
+        $this->expectException(\Intervention\Image\Exceptions\InvalidArgumentException::class);
+        new Resolution(100, -1);
+    }
+
+    public function testZeroValuesAllowed(): void
+    {
+        $resolution = new Resolution(0, 0);
+        $this->assertEquals(0, $resolution->x());
+        $this->assertEquals(0, $resolution->y());
+    }
 }

@@ -18,6 +18,17 @@ final class EncodedImageTest extends BaseTestCase
         $this->assertInstanceOf(EncodedImage::class, $image);
     }
 
+    public function testConstructorFromResource(): void
+    {
+        $fp = fopen('php://temp', 'r+');
+        fwrite($fp, 'test data');
+        rewind($fp);
+        $image = new EncodedImage($fp, 'image/png');
+        $this->assertInstanceOf(EncodedImage::class, $image);
+        $this->assertEquals('image/png', $image->mediaType());
+        $this->assertEquals('test data', (string) $image);
+    }
+
     public function testSave(): void
     {
         $image = new EncodedImage('foo');
@@ -64,5 +75,23 @@ final class EncodedImageTest extends BaseTestCase
         $info = (new EncodedImage('foo', 'image/png'))->__debugInfo();
         $this->assertEquals('image/png', $info['mediaType']);
         $this->assertEquals(3, $info['size']);
+    }
+
+    public function testDebugInfoWhenSizeThrows(): void
+    {
+        // Create an EncodedImage, then close the internal file pointer to trigger
+        // the Throwable catch branch in __debugInfo
+        $image = new EncodedImage('foo', 'image/png');
+
+        // Use reflection to close the internal pointer so size() throws
+        $ref = new \ReflectionClass($image);
+        $prop = $ref->getProperty('pointer');
+        $prop->setAccessible(true);
+        $pointer = $prop->getValue($image);
+        fclose($pointer);
+
+        $info = $image->__debugInfo();
+        $this->assertEquals('image/png', $info['mediaType']);
+        $this->assertEquals(0, $info['size']);
     }
 }

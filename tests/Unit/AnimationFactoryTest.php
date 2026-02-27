@@ -70,4 +70,37 @@ class AnimationFactoryTest extends BaseTestCase
         $this->assertEquals(0, $image->loops());
         $this->assertColor(255, 255, 255, 0, $image->colorAt(0, 0));
     }
+
+    #[DataProviderExternal(DriverProvider::class, 'drivers')]
+    public function testCallMagicMethodOnFrame(DriverInterface $driver): void
+    {
+        $image = (new AnimationFactory(12, 4, function (AnimationFactory $animation): void {
+            $animation->add(Resource::create('red.gif')->path(), .2)->grayscale();
+        }))->image($driver);
+
+        $this->assertEquals(12, $image->width());
+        $this->assertEquals(4, $image->height());
+        $this->assertEquals(1, $image->count());
+    }
+
+    public function testCallMagicMethodWithInvalidMethod(): void
+    {
+        $this->expectException(\Error::class);
+        $factory = new AnimationFactory(12, 4);
+        $factory->add('test', .2);
+        $factory->nonExistentMethod();
+    }
+
+    #[DataProviderExternal(DriverProvider::class, 'drivers')]
+    public function testBuildFrameWithColorSource(DriverInterface $driver): void
+    {
+        // Use a color string as source — triggers DecoderException catch path in buildFrame
+        $image = (new AnimationFactory(12, 4, function (AnimationFactory $animation): void {
+            $animation->add('ff0000', .5);
+        }))->image($driver);
+
+        $this->assertEquals(12, $image->width());
+        $this->assertEquals(4, $image->height());
+        $this->assertEquals(1, $image->count());
+    }
 }

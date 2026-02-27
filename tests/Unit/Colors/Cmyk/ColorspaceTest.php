@@ -15,8 +15,13 @@ use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Cmyk\Colorspace;
+use Intervention\Image\Colors\Oklab\Color as OklabColor;
+use Intervention\Image\Colors\Oklch\Color as OklchColor;
 use Intervention\Image\Colors\Rgb\NamedColor;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Tests\BaseTestCase;
+use Mockery;
 
 #[CoversClass(Colorspace::class)]
 final class ColorspaceTest extends BaseTestCase
@@ -107,5 +112,61 @@ final class ColorspaceTest extends BaseTestCase
         $this->assertEquals(0, $result->channel(Magenta::class)->value());
         $this->assertEquals(0, $result->channel(Yellow::class)->value());
         $this->assertEquals(100, $result->channel(Key::class)->value());
+    }
+
+    public function testImportOklabColor(): void
+    {
+        $colorspace = new Colorspace();
+
+        $result = $colorspace->importColor(new OklabColor(0.68, 0.17, 0.14));
+        $this->assertInstanceOf(CmykColor::class, $result);
+        $this->assertEquals(0, $result->channel(Cyan::class)->value());
+        $this->assertEqualsWithDelta(67, $result->channel(Magenta::class)->value(), 2);
+        $this->assertEqualsWithDelta(100, $result->channel(Yellow::class)->value(), 1);
+        $this->assertEquals(0, $result->channel(Key::class)->value());
+    }
+
+    public function testImportOklchColor(): void
+    {
+        $colorspace = new Colorspace();
+
+        $result = $colorspace->importColor(new OklchColor(0.68, 0.22, 38.8));
+        $this->assertInstanceOf(CmykColor::class, $result);
+        $this->assertEquals(0, $result->channel(Cyan::class)->value());
+        $this->assertEqualsWithDelta(67, $result->channel(Magenta::class)->value(), 2);
+        $this->assertEqualsWithDelta(100, $result->channel(Yellow::class)->value(), 1);
+        $this->assertEquals(0, $result->channel(Key::class)->value());
+    }
+
+    public function testImportCmykColorPassthrough(): void
+    {
+        $colorspace = new Colorspace();
+
+        $color = new CmykColor(10, 20, 30, 40);
+        $result = $colorspace->importColor($color);
+        $this->assertInstanceOf(CmykColor::class, $result);
+        $this->assertSame($color, $result);
+    }
+
+    public function testColorFromNormalizedInvalidChannelCount(): void
+    {
+        $colorspace = new Colorspace();
+        $this->expectException(InvalidArgumentException::class);
+        $colorspace->colorFromNormalized([0.5, 0.5]);
+    }
+
+    public function testColorFromNormalizedWithNullValue(): void
+    {
+        $colorspace = new Colorspace();
+        $this->expectException(InvalidArgumentException::class);
+        $colorspace->colorFromNormalized([0.5, null, 0.5, 0.5]);
+    }
+
+    public function testImportUnsupportedColor(): void
+    {
+        $colorspace = new Colorspace();
+        $color = Mockery::mock(\Intervention\Image\Interfaces\ColorInterface::class);
+        $this->expectException(NotSupportedException::class);
+        $colorspace->importColor($color);
     }
 }

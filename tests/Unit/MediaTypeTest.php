@@ -29,6 +29,16 @@ final class MediaTypeTest extends BaseTestCase
         $this->assertEquals(MediaType::IMAGE_JPEG, MediaType::create('IMAGE/JPEG'));
     }
 
+    public function testCreateFromFileExtensionString(): void
+    {
+        $this->assertEquals(MediaType::IMAGE_PNG, MediaType::create('png'));
+        $this->assertEquals(MediaType::IMAGE_GIF, MediaType::create('gif'));
+        $this->assertEquals(MediaType::IMAGE_BMP, MediaType::create('bmp'));
+        $this->assertEquals(MediaType::IMAGE_WEBP, MediaType::create('webp'));
+        $this->assertEquals(MediaType::IMAGE_AVIF, MediaType::create('avif'));
+        $this->assertEquals(MediaType::IMAGE_TIFF, MediaType::create('tiff'));
+    }
+
     public function testCreateUnknown(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -113,6 +123,15 @@ final class MediaTypeTest extends BaseTestCase
 
         $mime = MediaType::IMAGE_X_BMP3;
         $this->assertEquals(Format::BMP, $mime->format());
+
+        $mime = MediaType::IMAGE_X_MS_BMP;
+        $this->assertEquals(Format::BMP, $mime->format());
+
+        $mime = MediaType::IMAGE_X_XBITMAP;
+        $this->assertEquals(Format::BMP, $mime->format());
+
+        $mime = MediaType::IMAGE_MS_BMP;
+        $this->assertEquals(Format::BMP, $mime->format());
     }
 
     public function testFormatTiff(): void
@@ -131,6 +150,18 @@ final class MediaTypeTest extends BaseTestCase
 
         $mime = MediaType::IMAGE_JP2;
         $this->assertEquals(Format::JP2, $mime->format());
+
+        $mime = MediaType::IMAGE_X_JP2_CODESTREAM;
+        $this->assertEquals(Format::JP2, $mime->format());
+    }
+
+    public function testFormatIco(): void
+    {
+        $mime = MediaType::IMAGE_X_ICON;
+        $this->assertEquals(Format::ICO, $mime->format());
+
+        $mime = MediaType::IMAGE_VND_MICROSOFT_ICON;
+        $this->assertEquals(Format::ICO, $mime->format());
     }
 
     public function testFormatHeic(): void

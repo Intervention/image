@@ -77,4 +77,46 @@ class InputHandlerTest extends BaseTestCase
         $result = $handler->handle('fff');
         $this->assertInstanceOf(ColorInterface::class, $result);
     }
+
+    public function testUsingDecodersStaticFactory(): void
+    {
+        $handler = InputHandler::usingDecoders([HexColorDecoder::class]);
+        $result = $handler->handle('fff');
+        $this->assertInstanceOf(ColorInterface::class, $result);
+    }
+
+    public function testUsingDecodersStaticFactoryWithDriver(): void
+    {
+        $handler = InputHandler::usingDecoders([HexColorDecoder::class], new GdDriver());
+        $result = $handler->handle('fff');
+        $this->assertInstanceOf(ColorInterface::class, $result);
+    }
+
+    public function testInvalidDecoderClass(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $handler = new InputHandler([self::class]);
+        $handler->handle('fff');
+    }
+
+    public function testHandleNull(): void
+    {
+        $handler = new InputHandler([HexColorDecoder::class]);
+        $this->expectException(InvalidArgumentException::class);
+        $handler->handle(null);
+    }
+
+    public function testHandleEmptyString(): void
+    {
+        $handler = new InputHandler([HexColorDecoder::class]);
+        $this->expectException(InvalidArgumentException::class);
+        $handler->handle('');
+    }
+
+    public function testHandleUnsupportedInput(): void
+    {
+        $handler = new InputHandler(InputHandler::COLOR_DECODERS, new GdDriver());
+        $this->expectException(\Intervention\Image\Exceptions\NotSupportedException::class);
+        $handler->handle(new \stdClass());
+    }
 }

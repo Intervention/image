@@ -139,4 +139,62 @@ class DataUriTest extends BaseTestCase
         $this->expectException($exception);
         DataUri::decode($input);
     }
+
+    public function testCreateStaticFactory(): void
+    {
+        $datauri = DataUri::create('test-data', 'text/plain', ['charset' => 'utf-8']);
+        $this->assertInstanceOf(DataUri::class, $datauri);
+        $this->assertEquals('test-data', $datauri->data());
+        $this->assertEquals('text/plain', $datauri->mediaType());
+        $this->assertEquals(['charset' => 'utf-8'], $datauri->parameters());
+    }
+
+    public function testCreateStaticFactoryMinimal(): void
+    {
+        $datauri = DataUri::create('data');
+        $this->assertEquals('data', $datauri->data());
+        $this->assertNull($datauri->mediaType());
+        $this->assertEquals([], $datauri->parameters());
+    }
+
+    public function testCreateStaticFactoryWithMediaTypeEnum(): void
+    {
+        $datauri = DataUri::create('data', MediaType::IMAGE_PNG);
+        $this->assertEquals('image/png', $datauri->mediaType());
+    }
+
+    public function testCreateBase64EncodedStaticFactory(): void
+    {
+        $datauri = DataUri::createBase64Encoded('hello', 'text/plain', ['charset' => 'utf-8']);
+        $this->assertInstanceOf(DataUri::class, $datauri);
+        $this->assertEquals(base64_encode('hello'), $datauri->data());
+        $this->assertEquals('text/plain', $datauri->mediaType());
+        $this->assertEquals(['charset' => 'utf-8'], $datauri->parameters());
+        $this->assertStringContainsString('base64', $datauri->toString());
+    }
+
+    public function testCreateBase64EncodedMinimal(): void
+    {
+        $datauri = DataUri::createBase64Encoded('data');
+        $this->assertEquals(base64_encode('data'), $datauri->data());
+        $this->assertNull($datauri->mediaType());
+    }
+
+    public function testDebugInfo(): void
+    {
+        $datauri = new DataUri('test-data', 'image/jpeg');
+        $debug = $datauri->__debugInfo();
+        $this->assertArrayHasKey('mediaType', $debug);
+        $this->assertArrayHasKey('size', $debug);
+        $this->assertEquals('image/jpeg', $debug['mediaType']);
+        $this->assertEquals(9, $debug['size']);
+    }
+
+    public function testDebugInfoWithoutMediaType(): void
+    {
+        $datauri = new DataUri('abc');
+        $debug = $datauri->__debugInfo();
+        $this->assertNull($debug['mediaType']);
+        $this->assertEquals(3, $debug['size']);
+    }
 }

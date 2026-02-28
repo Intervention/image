@@ -249,4 +249,18 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals(-.2, $color->b()->value());
         $this->assertEquals(128, $color->alpha()->value());
     }
+
+    public function testCloneDeepCopiesChannels(): void
+    {
+        $original = new Color(.5, .1, -.2);
+        $cloned = clone $original;
+
+        $this->assertEquals(.5, $original->lightness()->value());
+        $this->assertEquals(.5, $cloned->lightness()->value());
+
+        // Verify they are separate objects (deep clone)
+        $this->assertNotSame($original->lightness(), $cloned->lightness());
+        $this->assertNotSame($original->a(), $cloned->a());
+        $this->assertNotSame($original->b(), $cloned->b());
+    }
 }

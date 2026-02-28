@@ -163,6 +163,17 @@ final class ColorspaceTest extends BaseTestCase
         $colorspace->importColor(Mockery::mock(ColorInterface::class));
     }
 
+    public function testChannels(): void
+    {
+        $channels = Colorspace::channels();
+        $this->assertIsArray($channels);
+        $this->assertCount(4, $channels);
+        $this->assertEquals(Hue::class, $channels[0]);
+        $this->assertEquals(Saturation::class, $channels[1]);
+        $this->assertEquals(Value::class, $channels[2]);
+        $this->assertEquals(Alpha::class, $channels[3]);
+    }
+
     public function testImportRgbColorHueBranchMaxIsGreen(): void
     {
         $colorspace = new Colorspace();

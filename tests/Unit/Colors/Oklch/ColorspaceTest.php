@@ -137,4 +137,15 @@ final class ColorspaceTest extends BaseTestCase
         $colorspace = new Colorspace();
         $colorspace->importColor(Mockery::mock(ColorInterface::class));
     }
+
+    public function testChannels(): void
+    {
+        $channels = Colorspace::channels();
+        $this->assertIsArray($channels);
+        $this->assertCount(4, $channels);
+        $this->assertEquals(Lightness::class, $channels[0]);
+        $this->assertEquals(Chroma::class, $channels[1]);
+        $this->assertEquals(Hue::class, $channels[2]);
+        $this->assertEquals(Alpha::class, $channels[3]);
+    }
 }

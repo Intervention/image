@@ -169,4 +169,16 @@ final class ColorspaceTest extends BaseTestCase
         $this->expectException(NotSupportedException::class);
         $colorspace->importColor($color);
     }
+
+    public function testChannels(): void
+    {
+        $channels = Colorspace::channels();
+        $this->assertIsArray($channels);
+        $this->assertCount(5, $channels);
+        $this->assertEquals(Cyan::class, $channels[0]);
+        $this->assertEquals(Magenta::class, $channels[1]);
+        $this->assertEquals(Yellow::class, $channels[2]);
+        $this->assertEquals(Key::class, $channels[3]);
+        $this->assertEquals(Alpha::class, $channels[4]);
+    }
 }

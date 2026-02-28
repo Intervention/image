@@ -8,9 +8,9 @@ use ImagickException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
-use Intervention\Image\Modifiers\ProfileRemovalModifier as GenericProfileRemovalModifier;
+use Intervention\Image\Modifiers\RemoveProfileModifier as GenericRemoveProfileModifier;
 
-class ProfileRemovalModifier extends GenericProfileRemovalModifier implements SpecializedInterface
+class RemoveProfileModifier extends GenericRemoveProfileModifier implements SpecializedInterface
 {
     /**
      * @throws ModifierException

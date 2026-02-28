@@ -74,9 +74,9 @@ use Intervention\Image\Modifiers\InvertModifier;
 use Intervention\Image\Modifiers\ContainDownModifier;
 use Intervention\Image\Modifiers\PixelateModifier;
 use Intervention\Image\Modifiers\ProfileModifier;
-use Intervention\Image\Modifiers\ProfileRemovalModifier;
 use Intervention\Image\Modifiers\ReduceColorsModifier;
 use Intervention\Image\Modifiers\RemoveAnimationModifier;
+use Intervention\Image\Modifiers\RemoveProfileModifier;
 use Intervention\Image\Modifiers\ResizeCanvasModifier;
 use Intervention\Image\Modifiers\ResizeCanvasRelativeModifier;
 use Intervention\Image\Modifiers\ResizeDownModifier;
@@ -447,7 +447,7 @@ final class Image implements ImageInterface
      */
     public function removeProfile(): ImageInterface
     {
-        return $this->modify(new ProfileRemovalModifier());
+        return $this->modify(new RemoveProfileModifier());
     }
 
     /**

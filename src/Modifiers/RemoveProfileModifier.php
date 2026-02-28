@@ -6,7 +6,7 @@ namespace Intervention\Image\Modifiers;
 
 use Intervention\Image\Drivers\SpecializableModifier;
 
-class ProfileRemovalModifier extends SpecializableModifier
+class RemoveProfileModifier extends SpecializableModifier
 {
     //
 }

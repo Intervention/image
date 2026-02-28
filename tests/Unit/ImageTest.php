@@ -222,10 +222,10 @@ final class ImageTest extends BaseTestCase
         $this->assertEquals(50, $image->height());
     }
 
-    public function testPad(): void
+    public function testContainDown(): void
     {
         $image = $this->createImage(50, 50);
-        $result = $image->pad(100, 100, 'ffffff');
+        $result = $image->containDown(100, 100, 'ffffff');
         $this->assertInstanceOf(ImageInterface::class, $result);
         $this->assertEquals(100, $image->width());
         $this->assertEquals(100, $image->height());

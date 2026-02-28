@@ -6,20 +6,20 @@ namespace Intervention\Image\Tests\Unit\Drivers\Gd\Modifiers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
-use Intervention\Image\Modifiers\PadModifier;
+use Intervention\Image\Modifiers\ContainDownModifier;
 use Intervention\Image\Tests\GdTestCase;
 
 #[RequiresPhpExtension('gd')]
-#[CoversClass(\Intervention\Image\Modifiers\PadModifier::class)]
-#[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\PadModifier::class)]
-final class PadModifierTest extends GdTestCase
+#[CoversClass(\Intervention\Image\Modifiers\ContainDownModifier::class)]
+#[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\ContainDownModifier::class)]
+final class ContainDownModifierTest extends GdTestCase
 {
     public function testModify(): void
     {
         $image = $this->readTestImage('blue.gif');
         $this->assertEquals(16, $image->width());
         $this->assertEquals(16, $image->height());
-        $image->modify(new PadModifier(30, 20, 'f00'));
+        $image->modify(new ContainDownModifier(30, 20, 'f00'));
         $this->assertEquals(30, $image->width());
         $this->assertEquals(20, $image->height());
         $this->assertColor(255, 0, 0, 255, $image->colorAt(0, 0));

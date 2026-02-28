@@ -43,7 +43,7 @@ class Line implements DrawableInterface
      *
      * @see DrawableInterface::setPosition()
      */
-    public function setPosition(PointInterface $position): DrawableInterface
+    public function setPosition(PointInterface $position): self
     {
         $this->start = $position;
 

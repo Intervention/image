@@ -54,7 +54,7 @@ class Bezier implements IteratorAggregate, Countable, ArrayAccess, DrawableInter
      *
      * @see DrawableInterface::setPosition()
      */
-    public function setPosition(PointInterface $position): DrawableInterface
+    public function setPosition(PointInterface $position): self
     {
         $this->pivot = $position;
 

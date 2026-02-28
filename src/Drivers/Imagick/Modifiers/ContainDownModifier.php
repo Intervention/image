@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Drivers\Gd\Modifiers;
+namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
-class PadModifier extends ContainModifier
+class ContainDownModifier extends ContainModifier
 {
     /**
-     * Calculate crop size of the pad resizing process
+     * Calculate crop size of the contain down resizing process.
      */
     protected function cropSize(ImageInterface $image): SizeInterface
     {

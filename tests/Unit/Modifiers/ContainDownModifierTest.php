@@ -6,18 +6,18 @@ namespace Intervention\Image\Tests\Unit\Modifiers;
 
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
-use Intervention\Image\Modifiers\PadModifier;
+use Intervention\Image\Modifiers\ContainDownModifier;
 use Intervention\Image\Size;
 use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(PadModifier::class)]
-final class PadModifierTest extends BaseTestCase
+#[CoversClass(ContainDownModifier::class)]
+final class ContainDownModifierTest extends BaseTestCase
 {
     public function testGetCropSize(): void
     {
-        $modifier = new class (300, 200) extends PadModifier
+        $modifier = new class (300, 200) extends ContainDownModifier
         {
             public function getCropSize(ImageInterface $image): SizeInterface
             {

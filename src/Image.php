@@ -71,7 +71,7 @@ use Intervention\Image\Modifiers\GammaModifier;
 use Intervention\Image\Modifiers\GrayscaleModifier;
 use Intervention\Image\Modifiers\InsertModifier;
 use Intervention\Image\Modifiers\InvertModifier;
-use Intervention\Image\Modifiers\PadModifier;
+use Intervention\Image\Modifiers\ContainDownModifier;
 use Intervention\Image\Modifiers\PixelateModifier;
 use Intervention\Image\Modifiers\ProfileModifier;
 use Intervention\Image\Modifiers\ProfileRemovalModifier;
@@ -727,17 +727,17 @@ final class Image implements ImageInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageInterface::pad()
+     * @see ImageInterface::containDown()
      *
      * @throws InvalidArgumentException
      */
-    public function pad(
+    public function containDown(
         int|Fraction $width,
         int|Fraction $height,
         null|string|ColorInterface $background = null,
         string|Alignment $alignment = Alignment::CENTER
     ): ImageInterface {
-        return $this->modify(new PadModifier(...[
+        return $this->modify(new ContainDownModifier(...[
             ...$this->fractionize($width, $height),
             ...[
                 'background' => $background,

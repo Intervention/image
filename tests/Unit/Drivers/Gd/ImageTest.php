@@ -516,19 +516,19 @@ final class ImageTest extends GdTestCase
         $this->assertEquals(10, $result->height());
     }
 
-    public function testPad(): void
+    public function testContainDown(): void
     {
         $image = $this->readTestImage('trim.png');
-        $result = $image->pad(100, 100);
+        $result = $image->containDown(100, 100);
         $this->assertInstanceOf(ImageInterface::class, $result);
         $this->assertEquals(100, $result->width());
         $this->assertEquals(100, $result->height());
     }
 
-    public function testPadWithBackground(): void
+    public function testContainDownWithBackground(): void
     {
         $image = $this->readTestImage('trim.png');
-        $result = $image->pad(100, 100, 'ff0000', Alignment::CENTER);
+        $result = $image->containDown(100, 100, 'ff0000', Alignment::CENTER);
         $this->assertInstanceOf(ImageInterface::class, $result);
     }
 

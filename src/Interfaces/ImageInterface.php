@@ -406,9 +406,22 @@ interface ImageInterface extends IteratorAggregate, Countable
     ): self;
 
     /**
-     * Padded resizing means that the original image is scaled until it fits the
-     * defined target size with unchanged aspect ratio. The original image is
-     * not scaled up but only down.
+     * Resize the image to fit within the given dimensions while maintaining aspect ratio.
+     *
+     * @link https://image.intervention.io/v3/modifying-images/resizing#padded-resizing-with-upscaling
+     *
+     * @param string $background
+     */
+    public function contain(
+        int|Fraction $width,
+        int|Fraction $height,
+        null|string|ColorInterface $background = null,
+        string|Alignment $alignment = Alignment::CENTER
+    ): self;
+
+    /**
+     * Resize the image to fit within the given dimensions while maintaining aspect
+     * ratio and scaling the original image only down and not up.
      *
      * Compared to the cover() method, this method does not create cropped areas,
      * but possibly new empty areas on the sides of the result image. These are
@@ -418,22 +431,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @param string $background
      */
-    public function pad(
-        int|Fraction $width,
-        int|Fraction $height,
-        null|string|ColorInterface $background = null,
-        string|Alignment $alignment = Alignment::CENTER
-    ): self;
-
-    /**
-     * This method does the same as pad(), but the original image is also scaled
-     * up if the target size exceeds the original size.
-     *
-     * @link https://image.intervention.io/v3/modifying-images/resizing#padded-resizing-with-upscaling
-     *
-     * @param string $background
-     */
-    public function contain(
+    public function containDown(
         int|Fraction $width,
         int|Fraction $height,
         null|string|ColorInterface $background = null,
@@ -549,6 +547,8 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Encode the current image using the given encoder or by automatically
      * detecting the format based on the originally loaded image by default.
+     *
+     * @param null|class-string<EncoderInterface>|EncoderInterface $encoder
      */
     public function encode(null|string|EncoderInterface $encoder = null): EncodedImageInterface;
 

@@ -2,15 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Drivers\Imagick\Modifiers;
+namespace Intervention\Image\Modifiers;
 
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
-class PadModifier extends ContainModifier
+class ContainDownModifier extends ContainModifier
 {
     /**
-     * Calculate crop size of the pad resizing process
+     * Calculate crop size of the contain down resizing process.
+     *
+     * @throws InvalidArgumentException
      */
     protected function cropSize(ImageInterface $image): SizeInterface
     {

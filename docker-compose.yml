@@ -8,7 +8,7 @@ services:
   coverage:
     build: ./
     working_dir: /project
-    command: bash -c "./vendor/bin/phpunit --coverage-text"
+    entrypoint: ["./vendor/bin/phpunit", "--coverage-text"]
     volumes:
       - ./:/project
     environment:
@@ -16,12 +16,12 @@ services:
   analysis:
     build: ./
     working_dir: /project
-    command: bash -c "./vendor/bin/phpstan analyze --memory-limit=512M"
+    entrypoint: ["./vendor/bin/phpstan", "analyze", "--memory-limit=512M"]
     volumes:
       - ./:/project
   standards:
     build: ./
     working_dir: /project
-    command: bash -c "./vendor/bin/phpcs"
+    entrypoint: ["./vendor/bin/phpcs"]
     volumes:
       - ./:/project

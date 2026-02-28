@@ -164,6 +164,16 @@ final class PolygonTest extends BaseTestCase
         $this->assertFalse($poly->offsetExists(2));
     }
 
+    public function testOffsetGet(): void
+    {
+        $point = new Point(10, 20);
+        $poly = new Polygon([$point]);
+        $result = $poly->offsetGet(0);
+        $this->assertInstanceOf(Point::class, $result);
+        $this->assertEquals(10, $result->x());
+        $this->assertEquals(20, $result->y());
+    }
+
     public function testGetSetPivotPoint(): void
     {
         $poly = new Polygon();
@@ -648,5 +658,46 @@ final class PolygonTest extends BaseTestCase
 
         // Border color should be cloned independently
         $this->assertNotSame($poly->borderColor(), $clone->borderColor());
+    }
+
+    public function testSetBorder(): void
+    {
+        $poly = new Polygon([new Point(0, 0)]);
+        $result = $poly->setBorder('ff0000', 3);
+        $this->assertInstanceOf(Polygon::class, $result);
+        $this->assertEquals('ff0000', $poly->borderColor());
+        $this->assertEquals(3, $poly->borderSize());
+    }
+
+    public function testSetGetBorderSize(): void
+    {
+        $poly = new Polygon([new Point(0, 0)]);
+        $this->assertEquals(0, $poly->borderSize());
+        $result = $poly->setBorderSize(5);
+        $this->assertInstanceOf(Polygon::class, $result);
+        $this->assertEquals(5, $poly->borderSize());
+    }
+
+    public function testHasBorder(): void
+    {
+        $poly = new Polygon([new Point(0, 0)]);
+        $this->assertFalse($poly->hasBorder());
+
+        // Size alone is not enough
+        $poly->setBorderSize(3);
+        $this->assertFalse($poly->hasBorder());
+
+        // Need both size and color
+        $poly->setBorderColor('ff0000');
+        $this->assertTrue($poly->hasBorder());
+    }
+
+    public function testHasBackgroundColor(): void
+    {
+        $poly = new Polygon([new Point(0, 0)]);
+        $this->assertFalse($poly->hasBackgroundColor());
+
+        $poly->setBackgroundColor('ff0000');
+        $this->assertTrue($poly->hasBackgroundColor());
     }
 }

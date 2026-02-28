@@ -99,4 +99,27 @@ final class FrameTest extends BaseTestCase
         $frame = $this->getTestFrame();
         $this->assertInstanceOf(Image::class, $frame->toImage(new Driver()));
     }
+
+    public function testSetGetNative(): void
+    {
+        $frame = $this->getTestFrame();
+        $this->assertInstanceOf(Imagick::class, $frame->native());
+
+        $imagick = new Imagick();
+        $imagick->newImage(5, 5, new ImagickPixel('blue'), 'png');
+        $result = $frame->setNative($imagick);
+        $this->assertInstanceOf(Frame::class, $result);
+        $this->assertSame($imagick, $frame->native());
+    }
+
+    public function testDebugInfo(): void
+    {
+        $frame = $this->getTestFrame();
+        $info = $frame->__debugInfo();
+        $this->assertIsArray($info);
+        $this->assertArrayHasKey('delay', $info);
+        $this->assertArrayHasKey('left', $info);
+        $this->assertArrayHasKey('top', $info);
+        $this->assertArrayHasKey('disposalMethod', $info);
+    }
 }

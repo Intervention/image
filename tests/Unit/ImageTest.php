@@ -16,6 +16,8 @@ use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Image;
+use Intervention\Image\Colors\Profile;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -690,5 +692,19 @@ final class ImageTest extends BaseTestCase
         $image = $this->createImage();
         $resolution = $image->resolution();
         $this->assertInstanceOf(\Intervention\Image\Interfaces\ResolutionInterface::class, $resolution);
+    }
+
+    public function testSetProfile(): void
+    {
+        $image = $this->createImage();
+        $this->expectException(NotSupportedException::class);
+        $image->setProfile(new Profile(fopen('php://temp', 'r')));
+    }
+
+    public function testRemoveProfile(): void
+    {
+        $image = $this->createImage();
+        $result = $image->removeProfile();
+        $this->assertInstanceOf(ImageInterface::class, $result);
     }
 }

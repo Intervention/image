@@ -125,4 +125,24 @@ final class FontTest extends BaseTestCase
         $this->expectException(InvalidArgumentException::class);
         $font->setStrokeWidth(11);
     }
+
+    public function testHasStrokeEffect(): void
+    {
+        $font = new Font();
+        $this->assertFalse($font->hasStrokeEffect());
+        $font->setStrokeWidth(2);
+        $this->assertTrue($font->hasStrokeEffect());
+    }
+
+    public function testSetGetWrapWidth(): void
+    {
+        $font = new Font();
+        $this->assertNull($font->wrapWidth());
+        $result = $font->setWrapWidth(300);
+        $this->assertInstanceOf(Font::class, $result);
+        $this->assertEquals(300, $font->wrapWidth());
+
+        $font->setWrapWidth(null);
+        $this->assertNull($font->wrapWidth());
+    }
 }

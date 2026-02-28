@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit;
 
+use Intervention\Image\AnimationFactory;
 use Intervention\Image\Config;
 use Intervention\Image\DataUri;
 use Intervention\Image\Drivers\Imagick\Driver;
@@ -101,6 +102,18 @@ class ImageManagerTest extends BaseTestCase
             ['ff6464', '64ff64', '6464ff'],
             $image->colorsAt(0, 0)->map(fn(ColorInterface $color): string => $color->toHex())->toArray(),
         );
+    }
+
+    public function testCreateImageWithAnimationFactory(): void
+    {
+        $manager = new ImageManager(Driver::class);
+        $factory = new AnimationFactory(3, 2, function (AnimationFactoryInterface $animation): void {
+            $animation->add(Resource::create('red.gif')->path());
+        });
+        $image = $manager->createImage(3, 2, $factory);
+        $this->assertInstanceOf(ImageInterface::class, $image);
+        $this->assertEquals(3, $image->width());
+        $this->assertEquals(2, $image->height());
     }
 
     #[DataProviderExternal(ImageSourceProvider::class, 'filePaths')]

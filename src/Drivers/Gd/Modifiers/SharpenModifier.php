@@ -40,8 +40,8 @@ class SharpenModifier extends GenericSharpenModifier implements SpecializedInter
      */
     private function matrix(): array
     {
-        $min = $this->amount >= 10 ? $this->amount * -0.01 : 0;
-        $max = $this->amount * -0.025;
+        $min = $this->level >= 10 ? $this->level * -0.01 : 0;
+        $max = $this->level * -0.025;
         $abs = ((4 * $min + 4 * $max) * -1) + 1;
 
         return [

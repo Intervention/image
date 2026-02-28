@@ -465,9 +465,9 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::sharpen()
      */
-    public function sharpen(int $amount = 10): ImageInterface
+    public function sharpen(int $level = 10): ImageInterface
     {
-        return $this->modify(new SharpenModifier($amount));
+        return $this->modify(new SharpenModifier($level));
     }
 
     /**
@@ -555,9 +555,9 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::blur()
      */
-    public function blur(int $amount = 5): ImageInterface
+    public function blur(int $level = 5): ImageInterface
     {
-        return $this->modify(new BlurModifier($amount));
+        return $this->modify(new BlurModifier($level));
     }
 
     /**

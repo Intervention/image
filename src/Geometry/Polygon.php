@@ -338,24 +338,24 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     }
 
     /**
-     * Move all points by given amount on the x-axis.
+     * Move all points by given distance on the x-axis.
      */
-    public function movePointsX(int $amount): self
+    public function movePointsX(int $distance): self
     {
         foreach ($this->points as $point) {
-            $point->moveX($amount);
+            $point->moveX($distance);
         }
 
         return $this;
     }
 
     /**
-     * Move all points by given amount on the y-axis.
+     * Move all points by given distance on the y-axis.
      */
-    public function movePointsY(int $amount): self
+    public function movePointsY(int $distance): self
     {
         foreach ($this->points as $point) {
-            $point->moveY($amount);
+            $point->moveY($distance);
         }
 
         return $this;

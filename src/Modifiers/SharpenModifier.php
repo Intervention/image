@@ -8,7 +8,7 @@ use Intervention\Image\Drivers\SpecializableModifier;
 
 class SharpenModifier extends SpecializableModifier
 {
-    public function __construct(public int $amount)
+    public function __construct(public int $level)
     {
         //
     }

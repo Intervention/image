@@ -19,7 +19,7 @@ class SharpenModifier extends GenericSharpenModifier implements SpecializedInter
     {
         foreach ($image as $frame) {
             try {
-                $result = $frame->native()->unsharpMaskImage(1, 1, $this->amount / 6.25, 0);
+                $result = $frame->native()->unsharpMaskImage(1, 1, $this->level / 6.25, 0);
                 if ($result === false) {
                     throw new ModifierException(
                         'Failed to apply ' . self::class . ', unable to process unsharp mask',

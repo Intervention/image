@@ -19,7 +19,7 @@ class BlurModifier extends GenericBlurModifier implements SpecializedInterface
     {
         foreach ($image as $frame) {
             try {
-                $result = $frame->native()->blurImage($this->amount, 0.5 * $this->amount);
+                $result = $frame->native()->blurImage($this->level, 0.5 * $this->level);
                 if ($result === false) {
                     throw new ModifierException(
                         'Failed to apply ' . self::class . ', unable to blur image',

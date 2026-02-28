@@ -234,7 +234,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @link https://image.intervention.io/v3/modifying-images/effects#sharpening-effect
      */
-    public function sharpen(int $amount = 10): self;
+    public function sharpen(int $level = 10): self;
 
     /**
      * Turn image into a grayscale version.
@@ -283,7 +283,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @link https://image.intervention.io/v3/modifying-images/effects#blur-effect
      */
-    public function blur(int $amount = 5): self;
+    public function blur(int $level = 5): self;
 
     /**
      * Invert the colors of the current image.
@@ -435,7 +435,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Cut out a rectangular part of the current image with given width and
      * height at a given position. Define optional x,y offset coordinates
-     * to move the cutout by the given amount of pixels.
+     * to move the cutout by the given number of pixels.
      *
      * @link https://image.intervention.io/v3/modifying-images/resizing#cut-out-a-rectangular-part
      */

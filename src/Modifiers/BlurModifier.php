@@ -8,7 +8,7 @@ use Intervention\Image\Drivers\SpecializableModifier;
 
 class BlurModifier extends SpecializableModifier
 {
-    public function __construct(public int $amount)
+    public function __construct(public int $level)
     {
         //
     }

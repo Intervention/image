@@ -21,7 +21,7 @@ class BlurModifier extends GenericBlurModifier implements SpecializedInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            for ($i = 0; $i < $this->amount; $i++) {
+            for ($i = 0; $i < $this->level; $i++) {
                 $result = imagefilter($frame->native(), IMG_FILTER_GAUSSIAN_BLUR);
                 if ($result === false) {
                     throw new ModifierException(

@@ -18,12 +18,9 @@ use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
-use Intervention\Image\Traits\CanScaleInRange;
 
 class Color extends AbstractColor
 {
-    use CanScaleInRange;
-
     /**
      * Create new instance.
      */

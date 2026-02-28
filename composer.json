@@ -27,7 +27,7 @@
         "phpunit/phpunit": "^10.0 || ^11.0 || ^12.0",
         "mockery/mockery": "^1.6",
         "phpstan/phpstan": "^2.1",
-        "squizlabs/php_codesniffer": "^3.8",
+        "squizlabs/php_codesniffer": "^4",
         "slevomat/coding-standard": "~8.0"
     },
     "suggest": {

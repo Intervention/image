@@ -119,4 +119,10 @@ final class FileTest extends BaseTestCase
         $this->expectException(InvalidArgumentException::class);
         $file->save($longPath);
     }
+
+    public function testConstructorInvalidType(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new File(123);
+    }
 }

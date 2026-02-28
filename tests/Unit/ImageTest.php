@@ -17,7 +17,9 @@ use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Image;
 use Intervention\Image\Colors\Profile;
+use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -705,6 +707,43 @@ final class ImageTest extends BaseTestCase
     {
         $image = $this->createImage();
         $result = $image->removeProfile();
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testSetColorspace(): void
+    {
+        $image = $this->createImage();
+        $result = $image->setColorspace(RgbColorspace::class);
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testSetColorspaceWithObject(): void
+    {
+        $image = $this->createImage();
+        $result = $image->setColorspace(new RgbColorspace());
+        $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testColorsAt(): void
+    {
+        $image = $this->createImage();
+        $result = $image->colorsAt(0, 0);
+        $this->assertInstanceOf(CollectionInterface::class, $result);
+    }
+
+    public function testProfile(): void
+    {
+        $image = $this->createImage();
+        $this->expectException(NotSupportedException::class);
+        $image->profile();
+    }
+
+    public function testText(): void
+    {
+        $image = $this->createImage();
+        $result = $image->text('Hello', 10, 10, function ($font): void {
+            $font->size(20);
+        });
         $this->assertInstanceOf(ImageInterface::class, $result);
     }
 }

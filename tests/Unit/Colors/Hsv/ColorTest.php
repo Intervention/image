@@ -11,6 +11,8 @@ use Intervention\Image\Colors\Hsv\Channels\Saturation;
 use Intervention\Image\Colors\Hsv\Channels\Value;
 use Intervention\Image\Colors\Hsv\Color;
 use Intervention\Image\Colors\Hsv\Colorspace;
+use Intervention\Image\Colors\Rgb\Color as RgbColor;
+use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
@@ -214,5 +216,33 @@ final class ColorTest extends BaseTestCase
         $this->assertNotSame($original->hue(), $cloned->hue());
         $this->assertNotSame($original->saturation(), $cloned->saturation());
         $this->assertNotSame($original->value(), $cloned->value());
+    }
+
+    public function testToColorspace(): void
+    {
+        $color = new Color(16, 100, 100);
+        $result = $color->toColorspace(RgbColorspace::class);
+        $this->assertInstanceOf(RgbColor::class, $result);
+    }
+
+    public function testToColorspaceWithObject(): void
+    {
+        $color = new Color(16, 100, 100);
+        $result = $color->toColorspace(new RgbColorspace());
+        $this->assertInstanceOf(RgbColor::class, $result);
+    }
+
+    public function testToColorspaceFailsInvalidClass(): void
+    {
+        $color = new Color(0, 0, 0);
+        $this->expectException(InvalidArgumentException::class);
+        $color->toColorspace('NonExistentClass');
+    }
+
+    public function testToColorspaceFailsNonColorspaceClass(): void
+    {
+        $color = new Color(0, 0, 0);
+        $this->expectException(InvalidArgumentException::class);
+        $color->toColorspace(\stdClass::class);
     }
 }

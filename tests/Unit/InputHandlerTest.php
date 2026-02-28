@@ -6,14 +6,19 @@ namespace Intervention\Image\Tests\Unit;
 
 use Generator;
 use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder;
+use Intervention\Image\Decoders\FilePathImageDecoder;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
+use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Resource;
+use Mockery;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
@@ -118,5 +123,16 @@ class InputHandlerTest extends BaseTestCase
         $handler = new InputHandler(InputHandler::COLOR_DECODERS, new GdDriver());
         $this->expectException(\Intervention\Image\Exceptions\NotSupportedException::class);
         $handler->handle(new \stdClass());
+    }
+
+    public function testSpecializeDecoderThrowsDriverException(): void
+    {
+        $driver = Mockery::mock(DriverInterface::class);
+        $driver->shouldReceive('specializeDecoder')
+            ->andThrow(new NotSupportedException('Not supported'));
+
+        $handler = new InputHandler([FilePathImageDecoder::class], $driver);
+        $this->expectException(DriverException::class);
+        $handler->handle('/some/path');
     }
 }

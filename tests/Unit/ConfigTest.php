@@ -107,4 +107,11 @@ final class ConfigTest extends BaseTestCase
         $this->assertTrue($config->autoOrientation);
         $this->assertTrue($config->decodeAnimation);
     }
+
+    public function testSetOptionsWithSingleNonArrayPositionalArg(): void
+    {
+        $config = new Config();
+        $this->expectException(\TypeError::class);
+        $config->setOptions('someValue');
+    }
 }

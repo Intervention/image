@@ -377,6 +377,15 @@ final class ResizerTest extends BaseTestCase
         $this->assertEquals(50, $result->height());
     }
 
+    public function testResizeDownNoTarget(): void
+    {
+        $resizer = new Resizer();
+        $original = new Size(800, 600);
+        $result = $resizer->resizeDown($original);
+        $this->assertEquals(800, $result->width());
+        $this->assertEquals(600, $result->height());
+    }
+
     public function testScaleDownBothConstrainedSmaller(): void
     {
         // Both dimensions given, but original is already smaller — scaleDown should not upscale

@@ -83,4 +83,22 @@ final class FontFactoryTest extends BaseTestCase
         $this->assertEquals(4, $font->strokeWidth());
         $this->assertEquals('ff5500', $font->strokeColor());
     }
+
+    public function testFile(): void
+    {
+        $fontFile = Resource::create('test.ttf')->path();
+        $factory = new FontFactory();
+        $result = $factory->file($fontFile);
+        $this->assertSame($factory, $result);
+        $this->assertEquals($fontFile, $factory->font()->filepath());
+    }
+
+    public function testFilepath(): void
+    {
+        $fontFile = Resource::create('test.ttf')->path();
+        $factory = new FontFactory();
+        $result = $factory->filepath($fontFile);
+        $this->assertSame($factory, $result);
+        $this->assertEquals($fontFile, $factory->font()->filepath());
+    }
 }

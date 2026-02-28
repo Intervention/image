@@ -12,6 +12,8 @@ use Intervention\Image\Colors\Cmyk\Channels\Magenta;
 use Intervention\Image\Colors\Cmyk\Channels\Yellow;
 use Intervention\Image\Colors\Cmyk\Color;
 use Intervention\Image\Colors\Cmyk\Colorspace;
+use Intervention\Image\Colors\Rgb\Color as RgbColor;
+use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
@@ -203,5 +205,38 @@ final class ColorTest extends BaseTestCase
         $this->assertNotSame($original->magenta(), $cloned->magenta());
         $this->assertNotSame($original->yellow(), $cloned->yellow());
         $this->assertNotSame($original->key(), $cloned->key());
+    }
+
+    public function testToColorspace(): void
+    {
+        $color = new Color(0, 73, 100, 0);
+        $result = $color->toColorspace(RgbColorspace::class);
+        $this->assertInstanceOf(RgbColor::class, $result);
+
+        /** @var RgbColor $result */
+        $this->assertEquals(255, $result->red()->value());
+        $this->assertEquals(68, $result->green()->value());
+        $this->assertEquals(0, $result->blue()->value());
+    }
+
+    public function testToColorspaceWithObject(): void
+    {
+        $color = new Color(0, 73, 100, 0);
+        $result = $color->toColorspace(new RgbColorspace());
+        $this->assertInstanceOf(RgbColor::class, $result);
+    }
+
+    public function testToColorspaceFailsInvalidClass(): void
+    {
+        $color = new Color(0, 0, 0, 0);
+        $this->expectException(InvalidArgumentException::class);
+        $color->toColorspace('NonExistentClass');
+    }
+
+    public function testToColorspaceFailsNonColorspaceClass(): void
+    {
+        $color = new Color(0, 0, 0, 0);
+        $this->expectException(InvalidArgumentException::class);
+        $color->toColorspace(\stdClass::class);
     }
 }

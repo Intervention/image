@@ -32,6 +32,14 @@ final class CanDetectImageSourcesTest extends BaseTestCase
         $this->assertFalse($detector->callCouldBeBase64Data([]));
     }
 
+    public function testCouldBeBase64DataWithNonPaddedBase64(): void
+    {
+        $detector = $this->createDetector();
+        // "YWJj" is base64 for "abc" — no padding, passes through the final
+        // base64_encode($decoded) === $input check
+        $this->assertTrue($detector->callCouldBeBase64Data('YWJj'));
+    }
+
     public function testCouldBeBase64DataWithInvalidBase64(): void
     {
         $detector = $this->createDetector();

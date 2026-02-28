@@ -177,5 +177,6 @@ final class FileExtensionTest extends BaseTestCase
         yield [FileExtension::JP2K, 4, MediaType::IMAGE_JP2];
         yield [FileExtension::JPG2, 4, MediaType::IMAGE_JP2];
         yield [FileExtension::ICO, 2, MediaType::IMAGE_X_ICON];
+        yield [FileExtension::JPG, 4, MediaType::IMAGE_JPEG];
     }
 }

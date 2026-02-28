@@ -99,6 +99,20 @@ final class CanParseFilePathTest extends BaseTestCase
         $parser->callFilePathFromSplFileInfoOrFail($splFileInfo);
     }
 
+    public function testReadableFilePathOrFailWithPathExceedingMaxLength(): void
+    {
+        $parser = $this->createParser();
+        $this->expectException(InvalidArgumentException::class);
+        $parser->callReadableFilePathOrFail(str_repeat('a', PHP_MAXPATHLEN + 1));
+    }
+
+    public function testFilePathFromSplFileInfoOrFailWithEmptyPath(): void
+    {
+        $parser = $this->createParser();
+        $this->expectException(InvalidArgumentException::class);
+        $parser->callFilePathFromSplFileInfoOrFail(new SplFileInfo(''));
+    }
+
     /**
      * Create an anonymous class that exposes the protected trait methods.
      */

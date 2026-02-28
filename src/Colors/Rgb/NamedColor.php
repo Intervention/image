@@ -98,7 +98,7 @@ enum NamedColor: string implements ColorInterface
     case MEDIUMBLUE = 'mediumblue';
     case MEDIUMORCHID = 'mediumorchid';
     case MEDIUMPURPLE = 'mediumpurple';
-    case MEDIUMSEAGRE = 'mediumseagre';
+    case MEDIUMSEAGREEN = 'mediumseagreen';
     case MEDIUMSLATEBLUE = 'mediumslateblue';
     case MEDIUMSPRINGGREEN = 'mediumspringgreen';
     case MEDIUMTURQUOISE = 'mediumturquoise';
@@ -276,7 +276,7 @@ enum NamedColor: string implements ColorInterface
             self::MEDIUMBLUE => '0000cd',
             self::MEDIUMORCHID => 'ba55d3',
             self::MEDIUMPURPLE => '9370db',
-            self::MEDIUMSEAGRE => 'en 3cb371',
+            self::MEDIUMSEAGREEN => '3cb371',
             self::MEDIUMSLATEBLUE => '7b68ee',
             self::MEDIUMSPRINGGREEN => '00fa9a',
             self::MEDIUMTURQUOISE => '48d1cc',

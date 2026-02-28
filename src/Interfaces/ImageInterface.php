@@ -82,7 +82,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function modify(ModifierInterface $modifier): self;
 
     /**
-     * Analyzer current image with given analyzer.
+     * Analyze current image with given analyzer.
      */
     public function analyze(AnalyzerInterface $analyzer): mixed;
 
@@ -189,7 +189,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Set the background color to be used with self::background().
      *
-     * Settting the background color will have no effect unless image is
+     * Setting the background color will have no effect unless image is
      * converted into a format which does not support transparency or
      * self::background() is used.
      */
@@ -455,7 +455,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     ): self;
 
     /**
-     * Trim the image by removing border areas of similar color within a the given tolerance.
+     * Trim the image by removing border areas of similar color within the given tolerance.
      *
      * @link https://image.intervention.io/v3/modifying-images/resizing#remove-border-areas-in-similar-color
      */

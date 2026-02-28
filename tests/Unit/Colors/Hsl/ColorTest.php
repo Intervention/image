@@ -98,10 +98,10 @@ final class ColorTest extends BaseTestCase
     public function testToString(): void
     {
         $color = new Color(100, 50, 20);
-        $this->assertEquals('hsl(100 50 20)', (string) $color);
+        $this->assertEquals('hsl(100 50% 20%)', (string) $color);
 
         $color = new Color(100, 50, 20, .2);
-        $this->assertEquals('hsl(100 50 20 / 0.2)', (string) $color);
+        $this->assertEquals('hsl(100 50% 20% / 0.2)', (string) $color);
     }
 
     public function testIsGrayscale(): void

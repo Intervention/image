@@ -63,7 +63,7 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
                 $input->setImageColorspace(Imagick::COLORSPACE_SRGB);
             }
         } catch (ImagickException $e) {
-            throw new DriverException('Failed to convert image ro srgb', previous: $e);
+            throw new DriverException('Failed to convert image to sRGB', previous: $e);
         }
 
         // create image object
@@ -82,7 +82,7 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
             $image->modify(new RemoveAnimationModifier());
         }
 
-        // adjust image rotatation
+        // adjust image rotation
         if ($this->driver()->config()->autoOrientation) {
             $image->modify(new AlignRotationModifier());
         }

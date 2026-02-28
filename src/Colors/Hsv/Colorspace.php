@@ -92,7 +92,7 @@ class Colorspace extends AbstractColorspace
     }
 
     /**
-     * Import given RGB color HSV colorspace.
+     * Import given RGB color to HSV colorspace.
      */
     private function importRgbColor(RgbColor $color): HsvColor
     {
@@ -138,7 +138,7 @@ class Colorspace extends AbstractColorspace
     }
 
     /**
-     * Import given HSL color HSV colorspace.
+     * Import given HSL color to HSV colorspace.
      *
      * @throws InvalidArgumentException
      */

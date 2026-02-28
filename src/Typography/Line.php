@@ -34,7 +34,7 @@ class Line implements IteratorAggregate, Countable, Stringable
         protected PointInterface $position = new Point()
     ) {
         if (is_string($text)) {
-            $this->segments = $this->wordsSeperatedBySpaces($text) ? explode(" ", $text) : mb_str_split($text);
+            $this->segments = $this->wordsSeparatedBySpaces($text) ? explode(" ", $text) : mb_str_split($text);
         }
     }
 
@@ -93,9 +93,9 @@ class Line implements IteratorAggregate, Countable, Stringable
     }
 
     /**
-     * Dermine if words are sperarated by spaces in the written language of the given text.
+     * Determine if words are separated by spaces in the written language of the given text.
      */
-    private function wordsSeperatedBySpaces(string $text): bool
+    private function wordsSeparatedBySpaces(string $text): bool
     {
         return 1 !== preg_match(
             '/[' .
@@ -116,7 +116,7 @@ class Line implements IteratorAggregate, Countable, Stringable
     {
         $string = implode("", $this->segments);
 
-        if ($this->wordsSeperatedBySpaces($string)) {
+        if ($this->wordsSeparatedBySpaces($string)) {
             return implode(" ", $this->segments);
         }
 

@@ -12,7 +12,7 @@ interface FrameInterface
     public function native(): mixed;
 
     /**
-     * Set image data of drame in driver specific format.
+     * Set image data of frame in driver specific format.
      */
     public function setNative(mixed $native): self;
 
@@ -32,7 +32,7 @@ interface FrameInterface
     public function delay(): float;
 
     /**
-     * Set animation frame delay in seoncds.
+     * Set animation frame delay in seconds.
      */
     public function setDelay(float $delay): self;
 

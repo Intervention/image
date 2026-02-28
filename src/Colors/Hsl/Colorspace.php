@@ -77,6 +77,7 @@ class Colorspace extends AbstractColorspace
     public function importColor(ColorInterface $color): HslColor
     {
         return match ($color::class) {
+            HslColor::class => $color,
             OklchColor::class,
             OklabColor::class,
             NamedColor::class,
@@ -90,7 +91,7 @@ class Colorspace extends AbstractColorspace
     }
 
     /**
-     * Import given RGB color HSL colorspace.
+     * Import given RGB color to HSL colorspace.
      */
     private function importRgbColor(RgbColor $color): HslColor
     {
@@ -133,7 +134,7 @@ class Colorspace extends AbstractColorspace
     }
 
     /**
-     * Import given HSV color HSL colorspace.
+     * Import given HSV color to HSL colorspace.
      */
     private function importHsvColor(HsvColor $color): HslColor
     {

@@ -138,10 +138,9 @@ final class ColorspaceTest extends BaseTestCase
     {
         $colorspace = new Colorspace();
 
-        // HslColor is not in the match statement, so it falls to default and throws
         $color = new HslColor(200, 50, 60);
-        $this->expectException(NotSupportedException::class);
-        $colorspace->importColor($color);
+        $result = $colorspace->importColor($color);
+        $this->assertSame($color, $result);
     }
 
     public function testColorFromNormalizedInvalidChannelCount(): void

@@ -37,7 +37,7 @@ class Colorspace extends AbstractColorspace
     /**
      * {@inheritdoc}
      *
-     * @see ColorspaceInterface::createColor()
+     * @see ColorspaceInterface::colorFromNormalized()
      */
     public static function colorFromNormalized(array $normalized): CmykColor
     {

@@ -24,7 +24,7 @@ interface CollectionInterface extends Traversable
     public function push(mixed $item): self;
 
     /**
-     * Return item for given key or return default is key does not exist.
+     * Return item for given key or return default if key does not exist.
      */
     public function get(int|string $key, mixed $default = null): mixed;
 
@@ -59,7 +59,7 @@ interface CollectionInterface extends Traversable
     public function map(callable $callback): self;
 
     /**
-     * Run callback on each item of the collection an remove it if it does not return true.
+     * Run callback on each item of the collection and remove it if it does not return true.
      */
     public function filter(callable $callback): self;
 

@@ -10,7 +10,7 @@ use Stringable;
 interface ImageManagerInterface
 {
     /**
-     * Create a new image image instance by using the given driver instance or classname.
+     * Create a new image instance by using the given driver instance or classname.
      */
     public static function usingDriver(string|DriverInterface $driver, mixed ...$options): self;
 
@@ -38,7 +38,7 @@ interface ImageManagerInterface
      * To decode the source, you can optionally specify a decoding strategy
      * with the second parameter. This can be an array of class names or objects
      * of decoders to be processed in sequence. In this case, the source must be
-     * decodedable with one of the decoders passed. It is also possible to pass
+     * decodable with one of the decoders passed. It is also possible to pass
      * a single object or class name of a decoder.
      *
      * If the second parameter is not set, all available images decoders will be tried.

@@ -68,7 +68,7 @@ class FileExtensionEncoder extends AutoEncoder
             $extension = is_string($extension) ? FileExtension::from(strtolower($extension)) : $extension;
         } catch (Error) {
             throw new NotSupportedException(
-                'Unable to find encoder for unkown image file extension "' . $extension . '"',
+                'Unable to find encoder for unknown image file extension "' . $extension . '"',
             );
         }
 

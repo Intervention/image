@@ -141,7 +141,7 @@ class Color extends AbstractColor
     {
         if ($this->isTransparent()) {
             return sprintf(
-                'hsv(%d %d %d / %s)',
+                'hsv(%d %d%% %d%% / %s)',
                 $this->hue()->value(),
                 $this->saturation()->value(),
                 $this->value()->value(),

@@ -17,7 +17,7 @@ class FontFactory
      */
     public function __construct(null|callable|FontInterface $font = null)
     {
-        $this->font = is_a($font, FontInterface::class) ? $font : new Font();
+        $this->font = is_a($font, FontInterface::class) ? clone $font : new Font();
 
         if (is_callable($font)) {
             $font($this);

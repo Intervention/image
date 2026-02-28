@@ -48,7 +48,7 @@ use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\ProfileInterface;
 use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Interfaces\SizeInterface;
-use Intervention\Image\Modifiers\AlignRotationModifier;
+use Intervention\Image\Modifiers\OrientModifier;
 use Intervention\Image\Modifiers\FillTransparentAreasModifier;
 use Intervention\Image\Modifiers\BlurModifier;
 use Intervention\Image\Modifiers\BrightnessModifier;
@@ -577,7 +577,7 @@ final class Image implements ImageInterface
      */
     public function orient(): ImageInterface
     {
-        return $this->modify(new AlignRotationModifier());
+        return $this->modify(new OrientModifier());
     }
 
     /**

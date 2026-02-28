@@ -14,7 +14,7 @@ use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
-use Intervention\Image\Modifiers\AlignRotationModifier;
+use Intervention\Image\Modifiers\OrientModifier;
 use Intervention\Image\Modifiers\RemoveAnimationModifier;
 
 class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInterface
@@ -84,7 +84,7 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
 
         // adjust image rotation
         if ($this->driver()->config()->autoOrientation) {
-            $image->modify(new AlignRotationModifier());
+            $image->modify(new OrientModifier());
         }
 
         // set media type on origin

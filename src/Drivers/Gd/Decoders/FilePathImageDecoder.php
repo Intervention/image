@@ -16,7 +16,7 @@ use Intervention\Image\Format;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\MediaType;
-use Intervention\Image\Modifiers\AlignRotationModifier;
+use Intervention\Image\Modifiers\OrientModifier;
 use Intervention\Image\Traits\CanDetectImageSources;
 use Throwable;
 
@@ -77,7 +77,7 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
 
         // adjust image orientation
         if ($this->driver()->config()->autoOrientation) {
-            $image->modify(new AlignRotationModifier());
+            $image->modify(new OrientModifier());
         }
 
         return $image;

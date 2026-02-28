@@ -12,7 +12,7 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Format;
-use Intervention\Image\Modifiers\AlignRotationModifier;
+use Intervention\Image\Modifiers\OrientModifier;
 use Intervention\Image\Traits\CanDetectImageSources;
 use Stringable;
 
@@ -91,7 +91,7 @@ class BinaryImageDecoder extends NativeObjectDecoder implements DecoderInterface
 
         // adjust image orientation
         if ($this->driver()->config()->autoOrientation) {
-            $image->modify(new AlignRotationModifier());
+            $image->modify(new OrientModifier());
         }
 
         return $image;

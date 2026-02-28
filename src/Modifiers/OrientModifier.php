@@ -6,7 +6,7 @@ namespace Intervention\Image\Modifiers;
 
 use Intervention\Image\Drivers\SpecializableModifier;
 
-class AlignRotationModifier extends SpecializableModifier
+class OrientModifier extends SpecializableModifier
 {
     //
 }

@@ -20,7 +20,7 @@ class PolygonFactory implements DrawableFactoryInterface
      */
     public function __construct(null|callable|Polygon $polygon = null)
     {
-        $this->polygon = is_a($polygon, Polygon::class) ? clone $polygon : new Polygon([]);
+        $this->polygon = $polygon instanceof Polygon ? clone $polygon : new Polygon([]);
 
         if (is_callable($polygon)) {
             $polygon($this);

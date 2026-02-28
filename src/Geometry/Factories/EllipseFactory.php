@@ -19,7 +19,7 @@ class EllipseFactory implements DrawableFactoryInterface
      */
     public function __construct(null|callable|Ellipse $ellipse = null)
     {
-        $this->ellipse = is_a($ellipse, Ellipse::class) ? clone $ellipse : new Ellipse(0, 0);
+        $this->ellipse = $ellipse instanceof Ellipse ? clone $ellipse : new Ellipse(0, 0);
 
         if (is_callable($ellipse)) {
             $ellipse($this);

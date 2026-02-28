@@ -19,7 +19,7 @@ class LineFactory implements DrawableFactoryInterface
      */
     public function __construct(null|callable|Line $line = null)
     {
-        $this->line = is_a($line, Line::class) ? clone $line : new Line(new Point(), new Point());
+        $this->line = $line instanceof Line ? clone $line : new Line(new Point(), new Point());
 
         if (is_callable($line)) {
             $line($this);

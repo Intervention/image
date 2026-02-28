@@ -19,7 +19,7 @@ class RectangleFactory implements DrawableFactoryInterface
      */
     public function __construct(null|callable|Rectangle $rectangle = null)
     {
-        $this->rectangle = is_a($rectangle, Rectangle::class) ? clone $rectangle : new Rectangle(0, 0);
+        $this->rectangle = $rectangle instanceof Rectangle ? clone $rectangle : new Rectangle(0, 0);
 
         if (is_callable($rectangle)) {
             $rectangle($this);

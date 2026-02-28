@@ -20,7 +20,7 @@ class BezierFactory implements DrawableFactoryInterface
      */
     public function __construct(null|callable|Bezier $bezier = null)
     {
-        $this->bezier = is_a($bezier, Bezier::class) ? clone $bezier : new Bezier([]);
+        $this->bezier = $bezier instanceof Bezier ? clone $bezier : new Bezier([]);
 
         if (is_callable($bezier)) {
             $bezier($this);

@@ -75,7 +75,7 @@ use Intervention\Image\Modifiers\ContainDownModifier;
 use Intervention\Image\Modifiers\PixelateModifier;
 use Intervention\Image\Modifiers\ProfileModifier;
 use Intervention\Image\Modifiers\ProfileRemovalModifier;
-use Intervention\Image\Modifiers\QuantizeColorsModifier;
+use Intervention\Image\Modifiers\ReduceColorsModifier;
 use Intervention\Image\Modifiers\RemoveAnimationModifier;
 use Intervention\Image\Modifiers\ResizeCanvasModifier;
 use Intervention\Image\Modifiers\ResizeCanvasRelativeModifier;
@@ -457,7 +457,7 @@ final class Image implements ImageInterface
      */
     public function reduceColors(int $limit, string|ColorInterface $background = 'transparent'): ImageInterface
     {
-        return $this->modify(new QuantizeColorsModifier($limit, $background));
+        return $this->modify(new ReduceColorsModifier($limit, $background));
     }
 
     /**

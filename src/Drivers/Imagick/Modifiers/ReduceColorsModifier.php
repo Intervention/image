@@ -9,9 +9,9 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
-use Intervention\Image\Modifiers\QuantizeColorsModifier as GenericQuantizeColorsModifier;
+use Intervention\Image\Modifiers\ReduceColorsModifier as GenericReduceColorsModifier;
 
-class QuantizeColorsModifier extends GenericQuantizeColorsModifier implements SpecializedInterface
+class ReduceColorsModifier extends GenericReduceColorsModifier implements SpecializedInterface
 {
     /**
      * @throws InvalidArgumentException

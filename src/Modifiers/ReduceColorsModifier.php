@@ -9,7 +9,7 @@ use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
-class QuantizeColorsModifier extends SpecializableModifier
+class ReduceColorsModifier extends SpecializableModifier
 {
     /**
      * Create new modifier object.

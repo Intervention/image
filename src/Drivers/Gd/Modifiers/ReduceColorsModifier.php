@@ -10,11 +10,11 @@ use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
-use Intervention\Image\Modifiers\QuantizeColorsModifier as GenericQuantizeColorsModifier;
+use Intervention\Image\Modifiers\ReduceColorsModifier as GenericReduceColorsModifier;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Exceptions\DriverException;
 
-class QuantizeColorsModifier extends GenericQuantizeColorsModifier implements SpecializedInterface
+class ReduceColorsModifier extends GenericReduceColorsModifier implements SpecializedInterface
 {
     /**
      * {@inheritdoc}

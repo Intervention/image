@@ -727,7 +727,7 @@ final class Image implements ImageInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageInterface::padDown()
+     * @see ImageInterface::pad()
      *
      * @throws InvalidArgumentException
      */
@@ -749,7 +749,7 @@ final class Image implements ImageInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageInterface::pad()
+     * @see ImageInterface::contain()
      *
      * @throws InvalidArgumentException
      */
@@ -935,7 +935,7 @@ final class Image implements ImageInterface
     {
         return $this->modify(
             new DrawBezierModifier(
-                BezierFactory::build($bezier)
+                BezierFactory::build($bezier, $adjustments)
             ),
         );
     }

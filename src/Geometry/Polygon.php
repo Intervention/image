@@ -370,8 +370,8 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     {
         $coordinates = [];
         foreach ($this->points as $point) {
-            $coordinates[] = $this->pivot->x() + $point->x();
-            $coordinates[] = $this->pivot->y() + $point->y();
+            $coordinates[] = $point->x();
+            $coordinates[] = $point->y();
         }
 
         return $coordinates;

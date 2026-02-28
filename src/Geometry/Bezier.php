@@ -214,7 +214,7 @@ class Bezier implements IteratorAggregate, Countable, ArrayAccess, DrawableInter
     }
 
     /**
-     * Clone polygon.
+     * Clone bezier.
      */
     public function __clone(): void
     {

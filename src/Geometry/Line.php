@@ -137,7 +137,7 @@ class Line implements DrawableInterface
     }
 
     /**
-     * Clone polygon.
+     * Clone line.
      */
     public function __clone(): void
     {

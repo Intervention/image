@@ -85,7 +85,7 @@ class CircleFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Set the border color & border size of the ellipse to be produced.
+     * Set the border color & border size of the circle to be produced.
      *
      * @throws InvalidArgumentException
      */

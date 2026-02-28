@@ -8,6 +8,7 @@ use GdImage;
 use Intervention\Image\Drivers\Gd\Core;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
@@ -132,5 +133,22 @@ final class CoreTest extends BaseTestCase
     public function testLast(): void
     {
         $this->assertInstanceOf(Frame::class, $this->core->last());
+    }
+
+    public function testClone(): void
+    {
+        $cloned = clone $this->core;
+
+        $this->assertInstanceOf(Core::class, $cloned);
+        $this->assertEquals($this->core->count(), $cloned->count());
+
+        // Verify frames are independent (deep clone)
+        $this->assertNotSame($this->core->frame(0)->native(), $cloned->frame(0)->native());
+    }
+
+    public function testMeta(): void
+    {
+        $meta = $this->core->meta();
+        $this->assertInstanceOf(CollectionInterface::class, $meta);
     }
 }

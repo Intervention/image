@@ -81,10 +81,7 @@ final class ColorspaceModifierTest extends BaseTestCase
             Hsv::class,
             $this->colorspaceModifier('hsv')->getTargetColorspace(),
         );
-    }
 
-    public function testTargetColorspaceHsb(): void
-    {
         $this->assertInstanceOf(
             Hsv::class,
             $this->colorspaceModifier('hsb')->getTargetColorspace(),
@@ -107,24 +104,34 @@ final class ColorspaceModifierTest extends BaseTestCase
         );
     }
 
-    public function testTargetColorspaceFromClassName(): void
+    public function testTargetColorspaceSrgbAliases(): void
     {
         $this->assertInstanceOf(
             Rgb::class,
-            $this->colorspaceModifier(Rgb::class)->getTargetColorspace(),
+            $this->colorspaceModifier('srgb')->getTargetColorspace(),
         );
-    }
 
-    public function testTargetColorspaceFromInvalidClassName(): void
-    {
-        $this->expectException(NotSupportedException::class);
-        $this->colorspaceModifier(\stdClass::class)->getTargetColorspace();
+        $this->assertInstanceOf(
+            Rgb::class,
+            $this->colorspaceModifier('rgba')->getTargetColorspace(),
+        );
+
+        $this->assertInstanceOf(
+            Rgb::class,
+            $this->colorspaceModifier('srgba')->getTargetColorspace(),
+        );
     }
 
     public function testTargetColorspaceFail(): void
     {
         $this->expectException(NotSupportedException::class);
         $this->colorspaceModifier('not_existing')->getTargetColorspace();
+    }
+
+    public function testTargetColorspaceClassExistsButNotColorspace(): void
+    {
+        $this->expectException(NotSupportedException::class);
+        $this->colorspaceModifier(\stdClass::class)->getTargetColorspace();
     }
 
     private function colorspaceModifier(string|ColorspaceInterface $colorspace): ColorspaceModifier

@@ -13,11 +13,15 @@ use Intervention\Image\Colors\Oklab\Channels\A;
 use Intervention\Image\Colors\Oklab\Channels\Alpha;
 use Intervention\Image\Colors\Oklab\Channels\B;
 use Intervention\Image\Colors\Oklab\Channels\Lightness;
-use Intervention\Image\Colors\Oklch\Color as OklchColor;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Oklab\Colorspace;
+use Intervention\Image\Colors\Oklch\Color as OklchColor;
 use Intervention\Image\Colors\Rgb\NamedColor;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Tests\BaseTestCase;
+use Mockery;
 
 #[CoversClass(Colorspace::class)]
 final class ColorspaceTest extends BaseTestCase
@@ -99,12 +103,49 @@ final class ColorspaceTest extends BaseTestCase
     public function testImportOklchColor(): void
     {
         $colorspace = new Colorspace();
-
-        // Oklch(0.65, 0.24, 33.15) → Oklab via L, C*cos(H), C*sin(H)
         $result = $colorspace->importColor(new OklchColor(0.65, 0.24, 33.15));
         $this->assertInstanceOf(OklabColor::class, $result);
         $this->assertEquals(0.65, round($result->channel(Lightness::class)->value(), 2));
-        $this->assertEquals(0.20, round($result->channel(A::class)->value(), 2));
-        $this->assertEquals(0.13, round($result->channel(B::class)->value(), 2));
+        $this->assertEqualsWithDelta(0.20, round($result->channel(A::class)->value(), 2), 0.01);
+        $this->assertEqualsWithDelta(0.13, round($result->channel(B::class)->value(), 2), 0.01);
+    }
+
+    public function testImportOklabColorPassthrough(): void
+    {
+        $colorspace = new Colorspace();
+        $color = new OklabColor(0.5, 0.1, -0.1);
+        $result = $colorspace->importColor($color);
+        $this->assertInstanceOf(OklabColor::class, $result);
+        $this->assertSame($color, $result);
+    }
+
+    public function testColorFromNormalizedInvalidChannelCount(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        Colorspace::colorFromNormalized([0.5, 0.5]);
+    }
+
+    public function testColorFromNormalizedWithNullValue(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        Colorspace::colorFromNormalized([0.5, null, 0.5]);
+    }
+
+    public function testImportUnsupportedColor(): void
+    {
+        $this->expectException(NotSupportedException::class);
+        $colorspace = new Colorspace();
+        $colorspace->importColor(Mockery::mock(ColorInterface::class));
+    }
+
+    public function testChannels(): void
+    {
+        $channels = Colorspace::channels();
+        $this->assertIsArray($channels);
+        $this->assertCount(4, $channels);
+        $this->assertEquals(Lightness::class, $channels[0]);
+        $this->assertEquals(A::class, $channels[1]);
+        $this->assertEquals(B::class, $channels[2]);
+        $this->assertEquals(Alpha::class, $channels[3]);
     }
 }

@@ -101,22 +101,6 @@ final class LineTest extends BaseTestCase
         $this->assertInstanceOf(LineFactory::class, $factory);
     }
 
-    public function testClone(): void
-    {
-        $line = new Line(new Point(1, 2), new Point(3, 4), 10);
-        $clone = clone $line;
-
-        // cloned points are independent
-        $this->assertEquals(1, $clone->start()->x());
-        $this->assertEquals(2, $clone->start()->y());
-        $this->assertEquals(3, $clone->end()->x());
-        $this->assertEquals(4, $clone->end()->y());
-
-        $clone->start()->setX(99);
-        $this->assertEquals(99, $clone->start()->x());
-        $this->assertEquals(1, $line->start()->x());
-    }
-
     public function testCloneWithColors(): void
     {
         $line = new Line(new Point(1, 2), new Point(3, 4), 10);
@@ -132,5 +116,34 @@ final class LineTest extends BaseTestCase
         $this->assertNotSame($borderColor, $clone->borderColor());
         $this->assertInstanceOf(Color::class, $clone->backgroundColor());
         $this->assertInstanceOf(Color::class, $clone->borderColor());
+    }
+
+    public function testClone(): void
+    {
+        $line = new Line(new Point(1, 2), new Point(3, 4), 10);
+        $clone = clone $line;
+
+        $this->assertEquals(1, $clone->start()->x());
+        $this->assertEquals(2, $clone->start()->y());
+        $this->assertEquals(3, $clone->end()->x());
+        $this->assertEquals(4, $clone->end()->y());
+
+        // verify deep copy — changing clone should not affect original
+        $clone->start()->setX(99);
+        $this->assertEquals(1, $line->start()->x());
+        $this->assertEquals(99, $clone->start()->x());
+    }
+
+    public function testCloneWithStringColors(): void
+    {
+        $line = new Line(new Point(1, 2), new Point(3, 4), 10);
+        $line->setBackgroundColor('ff0000');
+        $line->setBorderColor('0000ff');
+
+        $clone = clone $line;
+
+        // string colors are preserved after clone
+        $this->assertEquals('ff0000', $clone->backgroundColor());
+        $this->assertEquals('0000ff', $clone->borderColor());
     }
 }

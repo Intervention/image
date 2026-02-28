@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit;
 
 use Intervention\Image\Config;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
@@ -89,5 +90,28 @@ final class ConfigTest extends BaseTestCase
         $this->assertFalse($result->decodeAnimation);
         $this->assertTrue($result->strip);
         $this->assertEquals('f00', $result->backgroundColor);
+    }
+
+    public function testSetOptionsInvalidProperty(): void
+    {
+        $config = new Config();
+        $this->expectException(InvalidArgumentException::class);
+        $config->setOptions(nonExistent: 'value');
+    }
+
+    public function testSetOptionsEmpty(): void
+    {
+        $config = new Config();
+        $result = $config->setOptions();
+        $this->assertSame($config, $result);
+        $this->assertTrue($config->autoOrientation);
+        $this->assertTrue($config->decodeAnimation);
+    }
+
+    public function testSetOptionsWithSingleNonArrayPositionalArg(): void
+    {
+        $config = new Config();
+        $this->expectException(\TypeError::class);
+        $config->setOptions('someValue');
     }
 }

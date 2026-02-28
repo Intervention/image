@@ -21,6 +21,12 @@ final class OriginTest extends BaseTestCase
         $this->assertEquals(Resource::create('example.jpg')->path(), $origin->filePath());
     }
 
+    public function testFilePathNull(): void
+    {
+        $origin = new Origin('image/jpeg');
+        $this->assertNull($origin->filePath());
+    }
+
     public function testFileExtension(): void
     {
         $origin = new Origin('image/jpeg', Resource::create('example.jpg')->path());
@@ -62,16 +68,20 @@ final class OriginTest extends BaseTestCase
 
     public function testSetFilePath(): void
     {
-        $origin = new Origin();
+        $origin = new Origin('image/jpeg');
         $this->assertNull($origin->filePath());
         $result = $origin->setFilePath('/some/path/image.jpg');
         $this->assertEquals('/some/path/image.jpg', $origin->filePath());
         $this->assertSame($origin, $result);
     }
 
-    public function testFormatSuccess(): void
+    public function testFormatJpeg(): void
     {
         $this->assertEquals(Format::JPEG, (new Origin('image/jpeg'))->format());
+    }
+
+    public function testFormatGif(): void
+    {
         $this->assertEquals(Format::GIF, (new Origin('image/gif'))->format());
     }
 
@@ -84,11 +94,18 @@ final class OriginTest extends BaseTestCase
     public function testDebugInfo(): void
     {
         $origin = new Origin('image/jpeg', '/path/to/image.jpg');
-        $debugInfo = $origin->__debugInfo();
-        $this->assertIsArray($debugInfo);
-        $this->assertArrayHasKey('mediaType', $debugInfo);
-        $this->assertArrayHasKey('filePath', $debugInfo);
-        $this->assertEquals('image/jpeg', $debugInfo['mediaType']);
-        $this->assertEquals('/path/to/image.jpg', $debugInfo['filePath']);
+        $debug = $origin->__debugInfo();
+        $this->assertArrayHasKey('mediaType', $debug);
+        $this->assertArrayHasKey('filePath', $debug);
+        $this->assertEquals('image/jpeg', $debug['mediaType']);
+        $this->assertEquals('/path/to/image.jpg', $debug['filePath']);
+    }
+
+    public function testDebugInfoWithoutFilePath(): void
+    {
+        $origin = new Origin('image/png');
+        $debug = $origin->__debugInfo();
+        $this->assertEquals('image/png', $debug['mediaType']);
+        $this->assertNull($debug['filePath']);
     }
 }

@@ -49,6 +49,16 @@ class AlignmentTest extends BaseTestCase
         $this->assertEquals($result, $base->alignVertically($alignTo));
     }
 
+    public function testAlignHorizontallyFallback(): void
+    {
+        $this->assertEquals(Alignment::CENTER, Alignment::CENTER->alignHorizontally('foo'));
+    }
+
+    public function testAlignVerticallyFallback(): void
+    {
+        $this->assertEquals(Alignment::CENTER, Alignment::CENTER->alignVertically('foo'));
+    }
+
     public function testHorizontal(): void
     {
         $this->assertEquals(Alignment::LEFT, Alignment::TOP_LEFT->horizontal());

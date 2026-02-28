@@ -8,6 +8,7 @@ use Intervention\Image\Encoders\AvifEncoder;
 use Intervention\Image\Encoders\BmpEncoder;
 use Intervention\Image\Encoders\GifEncoder;
 use Intervention\Image\Encoders\HeicEncoder;
+use Intervention\Image\Encoders\IcoEncoder;
 use Intervention\Image\Encoders\Jpeg2000Encoder;
 use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\Encoders\PngEncoder;
@@ -288,5 +289,47 @@ final class FormatTest extends BaseTestCase
         $this->assertCount(2, $extensions);
 
         $this->assertEquals(FileExtension::HEIC, $format->fileExtension());
+    }
+
+    public function testMediaTypesIco(): void
+    {
+        $format = Format::ICO;
+        $mediaTypes = $format->mediaTypes();
+        $this->assertIsArray($mediaTypes);
+        $this->assertCount(2, $mediaTypes);
+
+        $this->assertEquals(MediaType::IMAGE_X_ICON, $format->mediaType());
+    }
+
+    public function testFileExtensionsIco(): void
+    {
+        $format = Format::ICO;
+        $extensions = $format->fileExtensions();
+        $this->assertIsArray($extensions);
+        $this->assertCount(1, $extensions);
+
+        $this->assertEquals(FileExtension::ICO, $format->fileExtension());
+    }
+
+    public function testEncoderIco(): void
+    {
+        $format = Format::ICO;
+        $this->assertInstanceOf(IcoEncoder::class, $format->encoder());
+    }
+
+    public function testEncoderWithOptions(): void
+    {
+        $encoder = Format::JPEG->encoder(quality: 50, progressive: true);
+        $this->assertInstanceOf(JpegEncoder::class, $encoder);
+        $this->assertEquals(50, $encoder->quality);
+        $this->assertTrue($encoder->progressive);
+    }
+
+    public function testEncoderWithFilteredOptions(): void
+    {
+        // Options that don't exist on the encoder should be filtered out
+        $encoder = Format::JPEG->encoder(quality: 75, nonexistent: 'value');
+        $this->assertInstanceOf(JpegEncoder::class, $encoder);
+        $this->assertEquals(75, $encoder->quality);
     }
 }

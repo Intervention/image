@@ -110,6 +110,18 @@ final class FileExtensionTest extends BaseTestCase
 
         $ext = FileExtension::JP2K;
         $this->assertEquals(Format::JP2, $ext->format());
+
+        $ext = FileExtension::JPF;
+        $this->assertEquals(Format::JP2, $ext->format());
+
+        $ext = FileExtension::JPX;
+        $this->assertEquals(Format::JP2, $ext->format());
+
+        $ext = FileExtension::JPC;
+        $this->assertEquals(Format::JP2, $ext->format());
+
+        $ext = FileExtension::JPM;
+        $this->assertEquals(Format::JP2, $ext->format());
     }
 
     public function testFormatHeic(): void
@@ -119,6 +131,21 @@ final class FileExtensionTest extends BaseTestCase
 
         $ext = FileExtension::HEIF;
         $this->assertEquals(Format::HEIC, $ext->format());
+    }
+
+    public function testFormatIco(): void
+    {
+        $ext = FileExtension::ICO;
+        $this->assertEquals(Format::ICO, $ext->format());
+    }
+
+    public function testCreateFromMediaTypeString(): void
+    {
+        $this->assertEquals(FileExtension::JPG, FileExtension::create('image/jpeg'));
+        $this->assertEquals(FileExtension::PNG, FileExtension::create('image/png'));
+        $this->assertEquals(FileExtension::GIF, FileExtension::create('image/gif'));
+        $this->assertEquals(FileExtension::BMP, FileExtension::create('image/bmp'));
+        $this->assertEquals(FileExtension::WEBP, FileExtension::create('image/webp'));
     }
 
     #[DataProvider('mediaTypesDataProvider')]
@@ -140,5 +167,16 @@ final class FileExtensionTest extends BaseTestCase
         yield [FileExtension::TIF, 1, MediaType::IMAGE_TIFF];
         yield [FileExtension::JP2, 4, MediaType::IMAGE_JP2];
         yield [FileExtension::HEIC, 3, MediaType::IMAGE_HEIC];
+        yield [FileExtension::HEIF, 3, MediaType::IMAGE_HEIC];
+        yield [FileExtension::JPF, 4, MediaType::IMAGE_JP2];
+        yield [FileExtension::JPX, 4, MediaType::IMAGE_JP2];
+        yield [FileExtension::JPC, 4, MediaType::IMAGE_JP2];
+        yield [FileExtension::JPM, 4, MediaType::IMAGE_JP2];
+        yield [FileExtension::J2K, 4, MediaType::IMAGE_JP2];
+        yield [FileExtension::J2C, 4, MediaType::IMAGE_JP2];
+        yield [FileExtension::JP2K, 4, MediaType::IMAGE_JP2];
+        yield [FileExtension::JPG2, 4, MediaType::IMAGE_JP2];
+        yield [FileExtension::ICO, 2, MediaType::IMAGE_X_ICON];
+        yield [FileExtension::JPG, 4, MediaType::IMAGE_JPEG];
     }
 }

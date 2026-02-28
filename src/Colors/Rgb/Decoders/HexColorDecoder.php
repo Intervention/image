@@ -17,7 +17,7 @@ class HexColorDecoder extends AbstractDecoder implements DecoderInterface
     /**
      * Regex pattern of hexadecimal color syntax.
      */
-    private const string PATTERN = '/^#?(?P<hex>[a-f\d]{3}(?:[a-f\d]?|(?:[a-f\d]{3}(?:[a-f\d]{2})?)?)\b)$/i';
+    protected const string PATTERN = '/^#?(?P<hex>[a-f\d]{3}(?:[a-f\d]?|(?:[a-f\d]{3}(?:[a-f\d]{2})?)?)\b)$/i';
 
     /**
      * {@inheritdoc}
@@ -39,7 +39,7 @@ class HexColorDecoder extends AbstractDecoder implements DecoderInterface
             return true;
         }
 
-        return preg_match(self::PATTERN, $input) === 1;
+        return preg_match(static::PATTERN, $input) === 1;
     }
 
     /**
@@ -51,7 +51,7 @@ class HexColorDecoder extends AbstractDecoder implements DecoderInterface
      */
     public function decode(mixed $input): ColorInterface
     {
-        if (preg_match(self::PATTERN, $input, $matches) != 1) {
+        if (preg_match(static::PATTERN, $input, $matches) != 1) {
             throw new InvalidArgumentException('Hex color has an invalid format');
         }
 

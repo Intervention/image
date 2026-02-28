@@ -14,6 +14,7 @@ use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Typography\Font;
 use Mockery;
 use PHPUnit\Framework\Attributes\CoversClass;
+use ReflectionProperty;
 
 #[CoversClass(TextModifier::class)]
 final class TextModifierTest extends BaseTestCase
@@ -46,107 +47,143 @@ final class TextModifierTest extends BaseTestCase
         ], $modifier->testStrokeOffsets((new Font())->setStrokeWidth(1)));
     }
 
-    public function testTextColor(): void
+    public function testStrokeOffsetsWithWidth2(): void
     {
-        $color = Mockery::mock(ColorInterface::class);
-        $color->shouldReceive('isTransparent')->andReturn(false);
-
-        $driver = Mockery::mock(DriverInterface::class);
-        $driver->shouldReceive('handleColorInput')->with('ff0000')->andReturn($color);
-
-        $modifier = $this->createTextModifierWithDriver($driver);
-        $modifier->font = (new Font())->setColor('ff0000');
-
-        $result = $modifier->getTextColor();
-        $this->assertSame($color, $result);
-    }
-
-    public function testTextColorWithStrokeAndTransparency(): void
-    {
-        $color = Mockery::mock(ColorInterface::class);
-        $color->shouldReceive('isTransparent')->andReturn(true);
-
-        $driver = Mockery::mock(DriverInterface::class);
-        $driver->shouldReceive('handleColorInput')->with('ff0000')->andReturn($color);
-
-        $modifier = $this->createTextModifierWithDriver($driver);
-        $modifier->font = (new Font())->setColor('ff0000')->setStrokeWidth(2);
-
-        $this->expectException(StateException::class);
-        $modifier->getTextColor();
-    }
-
-    public function testTextColorWithStrokeAndOpaque(): void
-    {
-        $color = Mockery::mock(ColorInterface::class);
-        $color->shouldReceive('isTransparent')->andReturn(false);
-
-        $driver = Mockery::mock(DriverInterface::class);
-        $driver->shouldReceive('handleColorInput')->with('ff0000')->andReturn($color);
-
-        $modifier = $this->createTextModifierWithDriver($driver);
-        $modifier->font = (new Font())->setColor('ff0000')->setStrokeWidth(2);
-
-        $result = $modifier->getTextColor();
-        $this->assertSame($color, $result);
-    }
-
-    public function testStrokeColor(): void
-    {
-        $color = Mockery::mock(ColorInterface::class);
-        $color->shouldReceive('isTransparent')->andReturn(false);
-
-        $driver = Mockery::mock(DriverInterface::class);
-        $driver->shouldReceive('handleColorInput')->with('ffffff')->andReturn($color);
-
-        $modifier = $this->createTextModifierWithDriver($driver);
-        $modifier->font = new Font();
-
-        $result = $modifier->getStrokeColor();
-        $this->assertSame($color, $result);
-    }
-
-    public function testStrokeColorTransparent(): void
-    {
-        $color = Mockery::mock(ColorInterface::class);
-        $color->shouldReceive('isTransparent')->andReturn(true);
-
-        $driver = Mockery::mock(DriverInterface::class);
-        $driver->shouldReceive('handleColorInput')->with('ffffff')->andReturn($color);
-
-        $modifier = $this->createTextModifierWithDriver($driver);
-        $modifier->font = new Font();
-
-        $this->expectException(StateException::class);
-        $modifier->getStrokeColor();
-    }
-
-    /**
-     * @param DriverInterface $driver
-     */
-    private function createTextModifierWithDriver(mixed $driver): TextModifier
-    {
-        return new class ('test', new Point(), new Font(), $driver) extends TextModifier
+        $modifier = new class ('test', new Point(), new Font()) extends TextModifier
         {
-            public function __construct(
-                string $text,
-                Point $position,
-                FontInterface $font,
-                private readonly DriverInterface $mockDriver,
-            ) {
-                parent::__construct($text, $position, $font);
-                $this->driver = $this->mockDriver;
+            /**
+             * @return array<?Point>
+             */
+            public function testStrokeOffsets(FontInterface $font): array
+            {
+                return $this->strokeOffsets($font);
             }
+        };
 
-            public function getTextColor(): ColorInterface
+        $offsets = $modifier->testStrokeOffsets((new Font())->setStrokeWidth(2));
+        $this->assertCount(25, $offsets);
+        $this->assertEquals(new Point(-2, -2), $offsets[0]);
+        $this->assertEquals(new Point(2, 2), $offsets[24]);
+    }
+
+    public function testConstructor(): void
+    {
+        $position = new Point(10, 20);
+        $font = new Font();
+        $modifier = new class ('hello world', $position, $font) extends TextModifier
+        {
+        };
+
+        $this->assertEquals('hello world', $modifier->text);
+        $this->assertSame($position, $modifier->position);
+        $this->assertSame($font, $modifier->font);
+    }
+
+    public function testTextColorOpaque(): void
+    {
+        $font = new Font();
+        $modifier = new class ('test', new Point(), $font) extends TextModifier
+        {
+            /**
+             * Expose protected textColor method for testing.
+             */
+            public function testTextColor(): ColorInterface
             {
                 return $this->textColor();
             }
+        };
 
-            public function getStrokeColor(): ColorInterface
+        $color = Mockery::mock(ColorInterface::class);
+        $color->shouldReceive('isTransparent')->andReturn(false);
+
+        $driver = Mockery::mock(DriverInterface::class);
+        $driver->shouldReceive('handleColorInput')->andReturn($color);
+
+        $property = new ReflectionProperty(TextModifier::class, 'driver');
+        $property->setValue($modifier, $driver);
+
+        $result = $modifier->testTextColor();
+        $this->assertSame($color, $result);
+    }
+
+    public function testTextColorTransparentWithStrokeThrowsException(): void
+    {
+        $font = (new Font())->setStrokeWidth(2);
+        $modifier = new class ('test', new Point(), $font) extends TextModifier
+        {
+            /**
+             * Expose protected textColor method for testing.
+             */
+            public function testTextColor(): ColorInterface
+            {
+                return $this->textColor();
+            }
+        };
+
+        $color = Mockery::mock(ColorInterface::class);
+        $color->shouldReceive('isTransparent')->andReturn(true);
+
+        $driver = Mockery::mock(DriverInterface::class);
+        $driver->shouldReceive('handleColorInput')->andReturn($color);
+
+        $property = new ReflectionProperty(TextModifier::class, 'driver');
+        $property->setValue($modifier, $driver);
+
+        $this->expectException(StateException::class);
+        $modifier->testTextColor();
+    }
+
+    public function testStrokeColorOpaque(): void
+    {
+        $font = new Font();
+        $modifier = new class ('test', new Point(), $font) extends TextModifier
+        {
+            /**
+             * Expose protected strokeColor method for testing.
+             */
+            public function testStrokeColor(): ColorInterface
             {
                 return $this->strokeColor();
             }
         };
+
+        $color = Mockery::mock(ColorInterface::class);
+        $color->shouldReceive('isTransparent')->andReturn(false);
+
+        $driver = Mockery::mock(DriverInterface::class);
+        $driver->shouldReceive('handleColorInput')->andReturn($color);
+
+        $property = new ReflectionProperty(TextModifier::class, 'driver');
+        $property->setValue($modifier, $driver);
+
+        $result = $modifier->testStrokeColor();
+        $this->assertSame($color, $result);
+    }
+
+    public function testStrokeColorTransparentThrowsException(): void
+    {
+        $font = new Font();
+        $modifier = new class ('test', new Point(), $font) extends TextModifier
+        {
+            /**
+             * Expose protected strokeColor method for testing.
+             */
+            public function testStrokeColor(): ColorInterface
+            {
+                return $this->strokeColor();
+            }
+        };
+
+        $color = Mockery::mock(ColorInterface::class);
+        $color->shouldReceive('isTransparent')->andReturn(true);
+
+        $driver = Mockery::mock(DriverInterface::class);
+        $driver->shouldReceive('handleColorInput')->andReturn($color);
+
+        $property = new ReflectionProperty(TextModifier::class, 'driver');
+        $property->setValue($modifier, $driver);
+
+        $this->expectException(StateException::class);
+        $modifier->testStrokeColor();
     }
 }

@@ -13,6 +13,7 @@ use Intervention\Image\Colors\Oklch\Channels\Lightness;
 use Intervention\Image\Colors\Oklch\Color;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Tests\BaseTestCase;
@@ -185,5 +186,76 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals('0.1', $info['chroma']);
         $this->assertEquals('2', $info['hue']);
         $this->assertEquals('1', $info['alpha']);
+    }
+
+    public function testIsTransparent(): void
+    {
+        $color = new Color(0, 0, 0);
+        $this->assertFalse($color->isTransparent());
+
+        $color = new Color(0, 0, 0, 1);
+        $this->assertFalse($color->isTransparent());
+
+        $color = new Color(0, 0, 0, .5);
+        $this->assertTrue($color->isTransparent());
+
+        $color = new Color(0, 0, 0, 0);
+        $this->assertTrue($color->isTransparent());
+    }
+
+    public function testIsClear(): void
+    {
+        $color = new Color(0, 0, 0);
+        $this->assertFalse($color->isClear());
+
+        $color = new Color(0, 0, 0, 1);
+        $this->assertFalse($color->isClear());
+
+        $color = new Color(0, 0, 0, .2);
+        $this->assertFalse($color->isClear());
+
+        $color = new Color(0, 0, 0, 0);
+        $this->assertTrue($color->isClear());
+    }
+
+    public function testCreateFailsInvalidArgumentCount(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        Color::create(.1, .2);
+    }
+
+    public function testCreateFailsInvalidString(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        Color::create('not-a-color');
+    }
+
+    public function testToStringWithAlpha(): void
+    {
+        $color = new Color(.5, .1, 180, .5);
+        $this->assertEquals('oklch(0.5 0.1 180 / 0.5)', (string) $color);
+    }
+
+    public function testConstructorWithChannelObjects(): void
+    {
+        $color = new Color(new Lightness(.5), new Chroma(.1), new Hue(180), new Alpha(.5));
+        $this->assertEquals(.5, $color->lightness()->value());
+        $this->assertEquals(.1, $color->chroma()->value());
+        $this->assertEquals(180, $color->hue()->value());
+        $this->assertEquals(128, $color->alpha()->value());
+    }
+
+    public function testCloneDeepCopiesChannels(): void
+    {
+        $original = new Color(.5, .1, 180);
+        $cloned = clone $original;
+
+        $this->assertEquals(.5, $original->lightness()->value());
+        $this->assertEquals(.5, $cloned->lightness()->value());
+
+        // Verify they are separate objects (deep clone)
+        $this->assertNotSame($original->lightness(), $cloned->lightness());
+        $this->assertNotSame($original->chroma(), $cloned->chroma());
+        $this->assertNotSame($original->hue(), $cloned->hue());
     }
 }

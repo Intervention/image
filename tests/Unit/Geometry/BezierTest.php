@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit\Geometry;
 
 use Intervention\Image\Colors\Rgb\Color;
-use Intervention\Image\Geometry\Factories\BezierFactory;
-use PHPUnit\Framework\Attributes\CoversClass;
-use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Bezier;
+use Intervention\Image\Geometry\Factories\BezierFactory;
+use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\BaseTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 #[CoversClass(Bezier::class)]
 final class BezierTest extends BaseTestCase

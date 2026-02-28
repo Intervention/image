@@ -6,6 +6,7 @@ namespace Intervention\Image\Tests\Unit\Drivers\Gd\Modifiers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
+use Intervention\Image\Modifiers\AbstractDrawModifier;
 use Intervention\Image\Modifiers\DrawRectangleModifier;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Rectangle;
@@ -14,6 +15,7 @@ use Intervention\Image\Tests\GdTestCase;
 #[RequiresPhpExtension('gd')]
 #[CoversClass(\Intervention\Image\Modifiers\DrawRectangleModifier::class)]
 #[CoversClass(\Intervention\Image\Drivers\Gd\Modifiers\DrawRectangleModifier::class)]
+#[CoversClass(AbstractDrawModifier::class)]
 final class DrawRectangleModifierTest extends GdTestCase
 {
     public function testApply(): void
@@ -24,5 +26,15 @@ final class DrawRectangleModifierTest extends GdTestCase
         $rectangle->setBackgroundColor('ffffff');
         $image->modify(new DrawRectangleModifier($rectangle));
         $this->assertEquals('ffffff', $image->colorAt(14, 14)->toHex());
+    }
+
+    public function testApplyWithBorder(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $rectangle = new Rectangle(10, 10, new Point(0, 0));
+        $rectangle->setBackgroundColor('ffffff');
+        $rectangle->setBorder('ff0000', 1);
+        $image->modify(new DrawRectangleModifier($rectangle));
+        $this->assertEquals('ff0000', $image->colorAt(0, 0)->toHex());
     }
 }

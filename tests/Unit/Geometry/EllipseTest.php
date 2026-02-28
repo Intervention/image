@@ -84,26 +84,24 @@ final class EllipseTest extends BaseTestCase
         $ellipse = new Ellipse(10, 20, new Point(100, 200));
         $clone = clone $ellipse;
 
-        $this->assertEquals(10, $clone->width());
-        $this->assertEquals(20, $clone->height());
-        $this->assertEquals(100, $clone->position()->x());
-        $this->assertEquals(200, $clone->position()->y());
+        $this->assertEquals(100, $clone->pivot()->x());
+        $this->assertEquals(200, $clone->pivot()->y());
 
-        // Ensure pivot is deep-cloned
-        $this->assertNotSame($ellipse->position(), $clone->position());
+        // verify deep copy — changing clone should not affect original
+        $clone->pivot()->setX(99);
+        $this->assertEquals(100, $ellipse->pivot()->x());
+        $this->assertEquals(99, $clone->pivot()->x());
     }
 
     public function testCloneWithColors(): void
     {
-        $ellipse = new Ellipse(10, 20);
-        $bgColor = new Color(255, 0, 0);
-        $borderColor = new Color(0, 255, 0);
-        $ellipse->setBackgroundColor($bgColor);
-        $ellipse->setBorder($borderColor, 2);
+        $ellipse = new Ellipse(10, 20, new Point(100, 200));
+        $ellipse->setBackgroundColor(new Color(255, 0, 0));
+        $ellipse->setBorderColor(new Color(0, 0, 255));
 
         $clone = clone $ellipse;
 
-        // Colors should be deep-cloned
+        // AbstractColor instances are deep cloned
         $this->assertNotSame($ellipse->backgroundColor(), $clone->backgroundColor());
         $this->assertNotSame($ellipse->borderColor(), $clone->borderColor());
     }

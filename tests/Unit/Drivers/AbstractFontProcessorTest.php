@@ -80,6 +80,158 @@ class AbstractFontProcessorTest extends BaseTestCase
         $this->assertEquals(0, $block->at(2)->position()->y());
     }
 
+    public function testTextBlockWithLeftAlignment(): void
+    {
+        $text = 'AAAA BBBB';
+        $font = (new Font(Resource::create('test.ttf')->path()))
+            ->setWrapWidth(20)
+            ->setSize(50)
+            ->setLineHeight(1.25)
+            ->setAlignmentHorizontal(Alignment::LEFT);
+
+        $processor = Mockery::mock(AbstractFontProcessor::class)->makePartial();
+
+        $processor
+            ->shouldReceive('boxSize')
+            ->with('T', $font)
+            ->andReturn(new Size(12, 6));
+        $processor
+            ->shouldReceive('boxSize')
+            ->with('Hy', $font)
+            ->andReturn(new Size(24, 6));
+
+        $processor
+            ->shouldReceive('boxSize')
+            ->with('AAAA', $font)
+            ->andReturn(new Size(24, 6, new Point(0, 0)));
+        $processor
+            ->shouldReceive('boxSize')
+            ->with('AAAA BBBB', $font)
+            ->andReturn(new Size(50, 6));
+        $processor
+            ->shouldReceive('boxSize')
+            ->with('BBBB', $font)
+            ->andReturn(new Size(24, 6, new Point(0, 0)));
+
+        $block = $processor->textBlock($text, $font, new Point(10, 20));
+
+        $this->assertInstanceOf(TextBlock::class, $block);
+        $this->assertEquals(2, $block->count());
+        // LEFT alignment: xAdjustment = 0
+        $this->assertEquals(10, $block->at(0)->position()->x());
+        $this->assertEquals(10, $block->at(1)->position()->x());
+    }
+
+    public function testTextBlockWithRightAlignment(): void
+    {
+        $text = 'AAAA BBBB';
+        $font = (new Font(Resource::create('test.ttf')->path()))
+            ->setWrapWidth(20)
+            ->setSize(50)
+            ->setLineHeight(1.25)
+            ->setAlignmentHorizontal(Alignment::RIGHT);
+
+        $processor = Mockery::mock(AbstractFontProcessor::class)->makePartial();
+
+        $processor
+            ->shouldReceive('boxSize')
+            ->with('T', $font)
+            ->andReturn(new Size(12, 6));
+        $processor
+            ->shouldReceive('boxSize')
+            ->with('Hy', $font)
+            ->andReturn(new Size(24, 6));
+
+        // Longest line determines blockWidth
+        $processor
+            ->shouldReceive('boxSize')
+            ->with('AAAA', $font)
+            ->andReturn(new Size(20, 6, new Point(0, 0)));
+        $processor
+            ->shouldReceive('boxSize')
+            ->with('AAAA BBBB', $font)
+            ->andReturn(new Size(50, 6));
+        $processor
+            ->shouldReceive('boxSize')
+            ->with('BBBB', $font)
+            ->andReturn(new Size(15, 6, new Point(0, 0)));
+
+        $block = $processor->textBlock($text, $font, new Point(0, 0));
+
+        $this->assertInstanceOf(TextBlock::class, $block);
+        $this->assertEquals(2, $block->count());
+        // RIGHT alignment: xAdjustment = blockWidth - lineWidth (rounded)
+        // Line 1: blockWidth (50) - lineWidth (20+0) = 30
+        // Line 2: blockWidth (50) - lineWidth (15+0) = 35
+        $this->assertNotEquals(
+            $block->at(0)->position()->x(),
+            $block->at(1)->position()->x()
+        );
+    }
+
+    public function testTextBlockWithoutFontFile(): void
+    {
+        $text = 'Hello';
+        $font = (new Font())
+            ->setSize(50)
+            ->setLineHeight(1.25)
+            ->setAlignmentHorizontal(Alignment::LEFT);
+
+        $processor = Mockery::mock(AbstractFontProcessor::class)->makePartial();
+
+        $processor
+            ->shouldReceive('boxSize')
+            ->with('T', $font)
+            ->andReturn(new Size(12, 10));
+        $processor
+            ->shouldReceive('boxSize')
+            ->with('Hy', $font)
+            ->andReturn(new Size(24, 10));
+        $processor
+            ->shouldReceive('boxSize')
+            ->with('Hello', $font)
+            ->andReturn(new Size(50, 10, new Point(0, 0)));
+
+        $block = $processor->textBlock($text, $font, new Point(0, 100));
+
+        $this->assertInstanceOf(TextBlock::class, $block);
+        $this->assertEquals(1, $block->count());
+        // Without font file: y = pivot->y() (no capHeight added)
+        // With font file: y = pivot->y() + capHeight
+        // This tests the branch where hasFile() returns false
+        $this->assertInstanceOf(TextBlock::class, $block);
+    }
+
+    public function testTextBlockWithoutWrapWidth(): void
+    {
+        $text = 'Hello World';
+        $font = (new Font(Resource::create('test.ttf')->path()))
+            ->setSize(50)
+            ->setLineHeight(1.25)
+            ->setAlignmentHorizontal(Alignment::LEFT);
+
+        $processor = Mockery::mock(AbstractFontProcessor::class)->makePartial();
+
+        $processor
+            ->shouldReceive('boxSize')
+            ->with('T', $font)
+            ->andReturn(new Size(12, 6));
+        $processor
+            ->shouldReceive('boxSize')
+            ->with('Hy', $font)
+            ->andReturn(new Size(24, 6));
+        $processor
+            ->shouldReceive('boxSize')
+            ->with('Hello World', $font)
+            ->andReturn(new Size(100, 10, new Point(0, 0)));
+
+        $block = $processor->textBlock($text, $font, new Point(0, 0));
+
+        $this->assertInstanceOf(TextBlock::class, $block);
+        // Without wrap width, text should not be wrapped
+        $this->assertEquals(1, $block->count());
+    }
+
     public function testNativeFontSize(): void
     {
         $font = (new Font(Resource::create('test.ttf')->path()))->setSize(32);

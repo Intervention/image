@@ -117,4 +117,15 @@ final class FrameTest extends BaseTestCase
         $this->assertEquals(0, $info['top']);
         $this->assertEquals(1, $info['disposalMethod']);
     }
+
+    public function testClone(): void
+    {
+        $frame = $this->getTestFrame();
+        $cloned = clone $frame;
+
+        $this->assertInstanceOf(Frame::class, $cloned);
+        $this->assertNotSame($frame->native(), $cloned->native());
+        $this->assertEquals($frame->size()->width(), $cloned->size()->width());
+        $this->assertEquals($frame->size()->height(), $cloned->size()->height());
+    }
 }

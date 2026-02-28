@@ -48,26 +48,4 @@ abstract class FloatColorChannel extends AbstractColorChannel
     {
         return $this->value;
     }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ColorChannelInterface::scale()
-     */
-    public function scale(int $percent): self
-    {
-        if ($percent === 0) {
-            return $this;
-        }
-
-        if ($percent < -100 || $percent > 100) {
-            throw new InvalidArgumentException('Percentage value must be between -100 and 100');
-        }
-
-        $base = $percent >= 0 ? ((static::max() - static::min()) - $this->value) : $this->value;
-        $delta = $base / 100 * $percent;
-        $this->value = max(static::min(), min(static::max(), $this->value + $delta));
-
-        return $this;
-    }
 }

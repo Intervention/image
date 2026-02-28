@@ -218,4 +218,30 @@ final class ColorspaceTest extends BaseTestCase
         $this->assertEquals(100, $result->channel(Saturation::class)->value());
         $this->assertEquals(50, $result->channel(Luminance::class)->value());
     }
+
+    public function testImportHsvColorLuminanceBelowHalf(): void
+    {
+        $colorspace = new Colorspace();
+
+        // HSV(120, 100, 40) => s=1.0, v=0.4 => luminance=(2-1)*0.4/2=0.2
+        // hits $luminance < .5 branch: saturation = s*v/(luminance*2) = 1*0.4/(0.2*2) = 1.0
+        $result = $colorspace->importColor(new HsvColor(120, 100, 40));
+        $this->assertInstanceOf(HslColor::class, $result);
+        $this->assertEquals(120, $result->channel(Hue::class)->value());
+        $this->assertEquals(100, $result->channel(Saturation::class)->value());
+        $this->assertEquals(20, $result->channel(Luminance::class)->value());
+    }
+
+    public function testImportHsvColorLuminanceAboveHalf(): void
+    {
+        $colorspace = new Colorspace();
+
+        // HSV(120, 50, 80) => s=0.5, v=0.8 => luminance=(2-0.5)*0.8/2=0.6
+        // hits default branch: saturation = s*v/(2-luminance*2) = 0.5*0.8/(2-1.2) = 0.5
+        $result = $colorspace->importColor(new HsvColor(120, 50, 80));
+        $this->assertInstanceOf(HslColor::class, $result);
+        $this->assertEquals(120, $result->channel(Hue::class)->value());
+        $this->assertEquals(50, $result->channel(Saturation::class)->value());
+        $this->assertEquals(60, $result->channel(Luminance::class)->value());
+    }
 }

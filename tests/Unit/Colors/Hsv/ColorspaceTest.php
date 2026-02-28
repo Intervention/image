@@ -234,4 +234,16 @@ final class ColorspaceTest extends BaseTestCase
         $this->assertEquals(0, $result->channel(Saturation::class)->value());
         $this->assertEquals(0, $result->channel(Value::class)->value());
     }
+
+    public function testImportHslColorTypeCheck(): void
+    {
+        $colorspace = new Colorspace();
+
+        // Call protected importHslColor() with a non-HslColor to trigger type check
+        $method = new \ReflectionMethod($colorspace, 'importHslColor');
+        $method->setAccessible(true);
+
+        $this->expectException(InvalidArgumentException::class);
+        $method->invoke($colorspace, new RgbColor(255, 0, 0));
+    }
 }

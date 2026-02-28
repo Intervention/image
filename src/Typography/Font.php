@@ -135,7 +135,7 @@ class Font implements FontInterface
      *
      * @see FontInterface::color()
      */
-    public function color(): mixed
+    public function color(): null|string|ColorInterface
     {
         return $this->color;
     }
@@ -157,7 +157,7 @@ class Font implements FontInterface
      *
      * @see FontInterface::strokeColor()
      */
-    public function strokeColor(): mixed
+    public function strokeColor(): null|string|ColorInterface
     {
         return $this->strokeColor;
     }

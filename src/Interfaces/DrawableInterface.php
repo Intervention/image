@@ -24,7 +24,7 @@ interface DrawableInterface
     /**
      * Return background color of drawable object.
      */
-    public function backgroundColor(): mixed;
+    public function backgroundColor(): null|string|ColorInterface;
 
     /**
      * Determine if a background color was set.
@@ -54,7 +54,7 @@ interface DrawableInterface
     /**
      * Get border color of drawable object.
      */
-    public function borderColor(): mixed;
+    public function borderColor(): null|string|ColorInterface;
 
     /**
      * Determine if the drawable object has a border.

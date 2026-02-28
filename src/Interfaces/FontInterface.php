@@ -16,7 +16,7 @@ interface FontInterface
     /**
      * Get color of font.
      */
-    public function color(): mixed;
+    public function color(): null|string|ColorInterface;
 
     /**
      * Set stroke color of font.
@@ -26,7 +26,7 @@ interface FontInterface
     /**
      * Get stroke color of font
      */
-    public function strokeColor(): mixed;
+    public function strokeColor(): null|string|ColorInterface;
 
     /**
     * Set stroke width of font.

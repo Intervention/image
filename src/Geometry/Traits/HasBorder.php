@@ -71,7 +71,7 @@ trait HasBorder
      *
      * @see DrawableInterface::borderColor()
      */
-    public function borderColor(): mixed
+    public function borderColor(): null|string|ColorInterface
     {
         return $this->borderColor;
     }

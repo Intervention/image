@@ -118,11 +118,5 @@ Consistency is key. Adhere to the following guidelines when writing code.
 ## 5. Branching and Commits
 
 - **Branching:** Create new branches from the `develop` branch. Name branches descriptively (e.g., `feature/new-filter`, `bugfix/fix-resize-issue`).
-- **Commits:** Write clear and concise commit messages. The first line should be a short summary (max 50 chars). A more detailed explanation can follow after a blank line.
+- **Commits:** Write clear and concise commit messages. The first line should be a short summary (max 50 chars). A more detailed explanation can follow after a blank line. Always write the message in imperative and do NOT use any useless prefixes like "chore" or other.
 - **Pull Requests:** Target the `develop` branch for all pull requests. Ensure all checks (tests, linting, analysis) are passing before submitting.
-
-
-## 6. Plans
-
-- Make the plan extremely concise.
-- At the end of the plan give me a list of unresolved questions to answer, if any.

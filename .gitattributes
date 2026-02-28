@@ -12,3 +12,4 @@
 /phpstan.dist.neon  export-ignore
 /docker-compose.yml export-ignore
 /Dockerfile         export-ignore
+/AGENTS.md          export-ignore

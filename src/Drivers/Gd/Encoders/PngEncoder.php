@@ -6,11 +6,11 @@ namespace Intervention\Image\Drivers\Gd\Encoders;
 
 use GdImage;
 use Intervention\Image\Drivers\Gd\Cloner;
-use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\PngEncoder as GenericPngEncoder;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\FilePointerException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 
@@ -25,7 +25,7 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
      * @throws FilePointerException
      * @throws DriverException
      */
-    public function encode(ImageInterface $image): EncodedImage
+    public function encode(ImageInterface $image): EncodedImageInterface
     {
         $output = $this->prepareOutput($image);
 

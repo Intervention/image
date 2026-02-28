@@ -14,6 +14,7 @@ use Intervention\Image\Exceptions\EncoderException;
 use Intervention\Image\Exceptions\FilePointerException;
 use Intervention\Image\Exceptions\FilesystemException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 
@@ -29,7 +30,7 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
      * @throws DriverException
      * @throws FilePointerException
      */
-    public function encode(ImageInterface $image): EncodedImage
+    public function encode(ImageInterface $image): EncodedImageInterface
     {
         if ($image->isAnimated()) {
             return $this->encodeAnimated($image);
@@ -48,7 +49,7 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
      * @throws EncoderException
      * @throws DriverException
      */
-    protected function encodeAnimated(ImageInterface $image): EncodedImage
+    protected function encodeAnimated(ImageInterface $image): EncodedImageInterface
     {
         try {
             $builder = GifBuilder::canvas(

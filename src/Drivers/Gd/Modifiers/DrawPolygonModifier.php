@@ -8,9 +8,9 @@ use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
-use Intervention\Image\Modifiers\DrawPolygonModifier as ModifiersDrawPolygonModifier;
+use Intervention\Image\Modifiers\DrawPolygonModifier as GenericDrawPolygonModifier;
 
-class DrawPolygonModifier extends ModifiersDrawPolygonModifier implements SpecializedInterface
+class DrawPolygonModifier extends GenericDrawPolygonModifier implements SpecializedInterface
 {
     /**
      * {@inheritdoc}

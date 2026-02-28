@@ -7,13 +7,13 @@ namespace Intervention\Image\Drivers\Gd\Encoders;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Drivers\Gd\Cloner;
-use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\JpegEncoder as GenericJpegEncoder;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\FilePointerException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\StateException;
+use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 
@@ -30,7 +30,7 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
      * @throws DriverException
      * @throws FilePointerException
      */
-    public function encode(ImageInterface $image): EncodedImage
+    public function encode(ImageInterface $image): EncodedImageInterface
     {
         $backgroundColor = $this->driver()->handleColorInput(
             $this->driver()->config()->backgroundColor

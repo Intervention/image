@@ -17,7 +17,7 @@ use Traversable;
 class Size extends Polygon implements SizeInterface
 {
     /**
-     * Create new rectangle instance.
+     * Create new size instance.
      *
      * @throws InvalidArgumentException
      * @return void

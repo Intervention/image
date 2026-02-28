@@ -18,10 +18,8 @@ interface ColorChannelInterface extends Stringable
      */
     public static function min(): float;
 
-    /*
+    /**
      * Return the the maximal possible value of the color channel.
-     *
-     * @return int
      */
     public static function max(): float;
 

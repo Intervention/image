@@ -272,7 +272,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     public function colorize(int $red = 0, int $green = 0, int $blue = 0): self;
 
     /**
-     * Mirror the current image horizontally.
+     * Mirror the current image in the given direction.
      *
      * @link https://image.intervention.io/v3/modifying-images/effects
      */
@@ -303,8 +303,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Rotate current image clockwise by given angle.
      *
      * @link https://image.intervention.io/v3/modifying-images/effects#image-rotation
-     *
-     * @param string $background
      */
     public function rotate(float $angle, null|string|ColorInterface $background = null): self;
 
@@ -409,8 +407,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Resize the image to fit within the given dimensions while maintaining aspect ratio.
      *
      * @link https://image.intervention.io/v3/modifying-images/resizing#padded-resizing-with-upscaling
-     *
-     * @param string $background
      */
     public function contain(
         int|Fraction $width,
@@ -428,8 +424,6 @@ interface ImageInterface extends IteratorAggregate, Countable
      * filled with the specified background color.
      *
      * @link https://image.intervention.io/v3/modifying-images/resizing#resizing--padding-combined
-     *
-     * @param string $background
      */
     public function containDown(
         int|Fraction $width,

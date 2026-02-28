@@ -191,7 +191,7 @@ final class Image implements ImageInterface
     /**
      * {@inheritdoc}
      *
-     * @see ImageInterface::removeAnimation(
+     * @see ImageInterface::removeAnimation()
      */
     public function removeAnimation(int|string $position = 0): ImageInterface
     {

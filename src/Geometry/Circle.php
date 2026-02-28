@@ -11,7 +11,7 @@ use Intervention\Image\Interfaces\PointInterface;
 class Circle extends Ellipse
 {
     /**
-     * Create new Circle instance.
+     * Create new circle instance.
      */
     public function __construct(
         int $diameter,

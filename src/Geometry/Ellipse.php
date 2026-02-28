@@ -18,7 +18,7 @@ class Ellipse implements DrawableInterface
     use HasBackgroundColor;
 
     /**
-     * Create new Ellipse.
+     * Create new ellipse instance.
      */
     public function __construct(
         protected int $width,

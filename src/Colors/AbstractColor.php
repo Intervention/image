@@ -116,7 +116,7 @@ abstract class AbstractColor implements ColorInterface, Stringable
     /**
      * Show debug info for the current color.
      *
-     * @return array<string, int>
+     * @return array<string, string>
      */
     public function __debugInfo(): array
     {

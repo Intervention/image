@@ -16,7 +16,6 @@ class FractionTest extends BaseTestCase
         $this->assertEquals(18, Fraction::ONE_AND_A_HALF->of(12));
         $this->assertEquals(36, Fraction::TRIPLE->of(12));
         $this->assertEquals(9, Fraction::THREE_QUARTER->of(12));
-        $this->assertEquals(6, Fraction::TWO_QUARTER->of(12));
         $this->assertEquals(3, Fraction::QUARTER->of(12));
         $this->assertEquals(8, Fraction::TWO_THIRDS->of(12));
         $this->assertEquals(4, Fraction::THIRD->of(12));

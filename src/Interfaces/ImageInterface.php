@@ -461,7 +461,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @link https://image.intervention.io/v3/modifying-images/inserting#insert-images
      */
     public function insert(
-        string|ImageInterface $image,
+        string|self $image,
         int $x = 0,
         int $y = 0,
         string|Alignment $alignment = Alignment::TOP_LEFT,
@@ -541,8 +541,6 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Encode the current image using the given encoder or by automatically
      * detecting the format based on the originally loaded image by default.
-     *
-     * @param null|EncoderInterface $encoder
      */
     public function encode(?EncoderInterface $encoder = null): EncodedImageInterface;
 

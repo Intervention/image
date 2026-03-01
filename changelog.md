@@ -90,6 +90,9 @@
 - ImageInterface::drawEllipse() has a different signature: coordinate arguments removed
 - ImageInterface::drawRectangle() has a different signature: coordinate arguments removed
 - Added ColorInterface::withTransparency()
+- Added ColorInterface::withBrightness()
+- Added ColorInterface::withSaturation()
+- Added ColorInterface::withInversion()
 - Added ColorInterface::alpha()
 - Added NamedColor::enum
 

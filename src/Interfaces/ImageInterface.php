@@ -542,9 +542,9 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Encode the current image using the given encoder or by automatically
      * detecting the format based on the originally loaded image by default.
      *
-     * @param null|class-string<EncoderInterface>|EncoderInterface $encoder
+     * @param null|EncoderInterface $encoder
      */
-    public function encode(null|EncoderInterface $encoder = null): EncodedImageInterface;
+    public function encode(?EncoderInterface $encoder = null): EncodedImageInterface;
 
     /**
      * Encode the current image by resolving the encoder using the given image format.

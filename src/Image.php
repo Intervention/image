@@ -968,7 +968,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::encode()
      */
-    public function encode(null|EncoderInterface $encoder = null): EncodedImageInterface
+    public function encode(?EncoderInterface $encoder = null): EncodedImageInterface
     {
         return $this->driver()->specializeEncoder(
             $encoder ?: new AutoEncoder(),

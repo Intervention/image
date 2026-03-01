@@ -13,9 +13,11 @@ use Intervention\Image\ImageManager;
 use Intervention\Image\Interfaces\AnimationFactoryInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DataUriInterface;
+use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ImageManagerInterface;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Providers\DriverProvider;
 use Intervention\Image\Tests\Providers\ImageSourceProvider;
 use Intervention\Image\Tests\Resource;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
@@ -23,18 +25,20 @@ use SplFileInfo;
 
 class ImageManagerTest extends BaseTestCase
 {
-    public function testConstructor(): void
+    #[DataProviderExternal(DriverProvider::class, 'drivers')]
+    public function testConstructor(DriverInterface $driver): void
     {
-        $manager = new ImageManager(new Driver());
+        $manager = new ImageManager($driver);
         $this->assertInstanceOf(ImageManagerInterface::class, $manager);
-        $this->assertInstanceOf(Driver::class, $manager->driver);
+        $this->assertInstanceOf(DriverInterface::class, $manager->driver);
     }
 
-    public function testConstructorString(): void
+    #[DataProviderExternal(DriverProvider::class, 'driverClassnames')]
+    public function testConstructorString(string $driver): void
     {
-        $manager = new ImageManager(Driver::class);
+        $manager = new ImageManager($driver);
         $this->assertInstanceOf(ImageManagerInterface::class, $manager);
-        $this->assertInstanceOf(Driver::class, $manager->driver);
+        $this->assertInstanceOf(DriverInterface::class, $manager->driver);
     }
 
     public function testConstructorUnkownClass(): void
@@ -49,48 +53,50 @@ class ImageManagerTest extends BaseTestCase
         new ImageManager(DataUri::class);
     }
 
-    public function testConstructorWithOptions(): void
+    #[DataProviderExternal(DriverProvider::class, 'drivers')]
+    #[DataProviderExternal(DriverProvider::class, 'driverClassnames')]
+    public function testConstructorWithOptions(string|DriverInterface $driver): void
     {
-        $manager = new ImageManager(new Driver(), backgroundColor: 'ff5500');
+        $manager = new ImageManager($driver, backgroundColor: 'ff5500');
         $this->assertInstanceOf(ImageManagerInterface::class, $manager);
-        $this->assertInstanceOf(Driver::class, $manager->driver);
+        $this->assertInstanceOf(DriverInterface::class, $manager->driver);
         $this->assertEquals('ff5500', $manager->driver->config()->backgroundColor);
     }
 
-    public function testUsingDriver(): void
+    #[DataProviderExternal(DriverProvider::class, 'drivers')]
+    #[DataProviderExternal(DriverProvider::class, 'driverClassnames')]
+    public function testUsingDriver(string|DriverInterface $driver): void
     {
-        $manager = ImageManager::usingDriver(new Driver());
+        $manager = ImageManager::usingDriver($driver);
         $this->assertInstanceOf(ImageManagerInterface::class, $manager);
-        $this->assertInstanceOf(Driver::class, $manager->driver);
+        $this->assertInstanceOf(DriverInterface::class, $manager->driver);
     }
 
-    public function testUsingDriverString(): void
+    #[DataProviderExternal(DriverProvider::class, 'driverClassnames')]
+    public function testUsingDriverOptions(string $driverClassname): void
     {
-        $manager = ImageManager::usingDriver(Driver::class);
+        $manager = ImageManager::usingDriver(new $driverClassname(new Config(strip: true)), strip: false);
         $this->assertInstanceOf(ImageManagerInterface::class, $manager);
-        $this->assertInstanceOf(Driver::class, $manager->driver);
-    }
-
-    public function testUsingDriverOptions(): void
-    {
-        $manager = ImageManager::usingDriver(new Driver(new Config(strip: true)), strip: false);
-        $this->assertInstanceOf(ImageManagerInterface::class, $manager);
-        $this->assertInstanceOf(Driver::class, $manager->driver);
+        $this->assertInstanceOf(DriverInterface::class, $manager->driver);
         $this->assertFalse($manager->driver->config()->strip);
     }
 
-    public function testCreateImage(): void
+    #[DataProviderExternal(DriverProvider::class, 'drivers')]
+    #[DataProviderExternal(DriverProvider::class, 'driverClassnames')]
+    public function testCreateImage(string|DriverInterface $driver): void
     {
-        $manager = new ImageManager(Driver::class);
+        $manager = new ImageManager($driver);
         $image = $manager->createImage(3, 2);
         $this->assertEquals(3, $image->width());
         $this->assertEquals(2, $image->height());
         $this->assertColor(255, 255, 255, 0, $image->colorAt(0, 0));
     }
 
-    public function testCreateImageAnimated(): void
+    #[DataProviderExternal(DriverProvider::class, 'drivers')]
+    #[DataProviderExternal(DriverProvider::class, 'driverClassnames')]
+    public function testCreateImageAnimated(string|DriverInterface $driver): void
     {
-        $manager = new ImageManager(Driver::class);
+        $manager = new ImageManager($driver);
         $image = $manager->createImage(3, 2, function (AnimationFactoryInterface $animation): void {
             $animation->add(Resource::create('red.gif')->path());
             $animation->add(Resource::create('green.gif')->path());
@@ -101,13 +107,15 @@ class ImageManagerTest extends BaseTestCase
         $this->assertEquals(3, $image->count());
         $this->assertEquals(
             ['ff6464', '64ff64', '6464ff'],
-            $image->colorsAt(2, 2)->map(fn(ColorInterface $color): string => $color->toHex())->toArray(),
+            $image->colorsAt(1, 1)->map(fn(ColorInterface $color): string => $color->toHex())->toArray(),
         );
     }
 
-    public function testCreateImageWithAnimationFactory(): void
+    #[DataProviderExternal(DriverProvider::class, 'drivers')]
+    #[DataProviderExternal(DriverProvider::class, 'driverClassnames')]
+    public function testCreateImageWithAnimationFactory(string|DriverInterface $driver): void
     {
-        $manager = new ImageManager(Driver::class);
+        $manager = new ImageManager($driver);
         $factory = new AnimationFactory(3, 2, function (AnimationFactoryInterface $animation): void {
             $animation->add(Resource::create('red.gif')->path());
         });

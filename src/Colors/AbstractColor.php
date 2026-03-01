@@ -130,10 +130,7 @@ abstract class AbstractColor implements ColorInterface, Stringable
     public function withBrightness(int $level): ColorInterface
     {
         $hsl = clone $this->toColorspace(HslColorspace::class);
-
-        /** @var IntegerColorChannel $luminance */
-        $luminance = $hsl->channel(Luminance::class);
-        $luminance->scale($level);
+        $hsl->channel(Luminance::class)->scale($level);
 
         return $hsl->toColorspace($this->colorspace());
     }
@@ -148,10 +145,7 @@ abstract class AbstractColor implements ColorInterface, Stringable
     public function withSaturation(int $level): ColorInterface
     {
         $hsl = clone $this->toColorspace(HslColorspace::class);
-
-        /** @var IntegerColorChannel $saturation */
-        $saturation = $hsl->channel(Saturation::class);
-        $saturation->scale($level);
+        $hsl->channel(Saturation::class)->scale($level);
 
         return $hsl->toColorspace($this->colorspace());
     }

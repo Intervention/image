@@ -13,14 +13,14 @@ use Intervention\Image\Interfaces\ImageInterface;
 class FormatEncoder extends AbstractEncoder
 {
     /**
-     * Encoder options
+     * Encoder options.
      *
      * @var array<int|string, mixed>
      */
     protected array $options = [];
 
     /**
-     * Create new encoder instance to encode to given format
+     * Create new encoder instance to encode to given format.
      *
      * @return void
      */

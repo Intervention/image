@@ -14,14 +14,14 @@ use Intervention\Image\Interfaces\ImageInterface;
 class FileExtensionEncoder extends AutoEncoder
 {
     /**
-     * Encoder options
+     * Encoder options.
      *
      * @var array<int|string, mixed>
      */
     protected array $options = [];
 
     /**
-     * Create new encoder instance to encode to format of given file extension
+     * Create new encoder instance to encode to format of given file extension.
      *
      * @param null|string|FileExtension $extension Target file extension for example "png"
      * @return void

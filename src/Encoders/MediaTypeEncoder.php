@@ -15,14 +15,14 @@ use Intervention\Image\MediaType;
 class MediaTypeEncoder extends AbstractEncoder
 {
     /**
-     * Encoder options
+     * Encoder options.
      *
      * @var array<int|string, mixed>
      */
     protected array $options = [];
 
     /**
-     * Create new encoder instance
+     * Create new encoder instance.
      *
      * @param null|string|MediaType $mediaType Target media type for example "image/jpeg"
      * @return void
@@ -49,7 +49,7 @@ class MediaTypeEncoder extends AbstractEncoder
     }
 
     /**
-     * Return new encoder by given media (MIME) type
+     * Return new encoder by given media (MIME) type.
      *
      * @throws NotSupportedException
      */

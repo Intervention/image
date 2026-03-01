@@ -9,7 +9,7 @@ use Intervention\Image\Drivers\SpecializableEncoder;
 class PngEncoder extends SpecializableEncoder
 {
     /**
-     * Create new encoder object
+     * Create new encoder object.
      *
      * @return void
      */

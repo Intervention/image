@@ -323,16 +323,8 @@ final class ImageTest extends ImagickTestCase
 
         $result = $image->pixelate(10);
         $this->assertInstanceOf(ImageInterface::class, $result);
-
-        $this->assertEquals([0, 174, 240, 255], array_map(
-            fn(ColorChannelInterface $channel): int => $channel->value(),
-            $image->colorAt(0, 0)->channels()
-        ));
-
-        $this->assertEquals([107, 171, 140, 255], array_map(
-            fn(ColorChannelInterface $channel): int => $channel->value(),
-            $image->colorAt(14, 14)->channels()
-        ));
+        $this->assertEquals('00aef0', $image->colorAt(0, 0)->toHex());
+        $this->assertEquals('6bab8c', $image->colorAt(14, 14)->toHex());
     }
 
     public function testGrayscale(): void

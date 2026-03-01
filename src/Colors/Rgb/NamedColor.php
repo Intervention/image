@@ -415,6 +415,36 @@ enum NamedColor: string implements ColorInterface
     }
 
     /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::withBrightness()
+     */
+    public function withBrightness(int $level): ColorInterface
+    {
+        return $this->toRgbColor()->withBrightness($level);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::withSaturation()
+     */
+    public function withSaturation(int $level): ColorInterface
+    {
+        return $this->toRgbColor()->withSaturation($level);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::withInversion()
+     */
+    public function withInversion(): ColorInterface
+    {
+        return $this->toRgbColor()->withInversion();
+    }
+
+    /**
      * Convert current named color to rgb color object.
      */
     private function toRgbColor(): RgbColor

@@ -9,7 +9,7 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 abstract class IntegerColorChannel extends AbstractColorChannel
 {
     /**
-     * Main color channel value
+     * Main color channel value.
      */
     protected int $value;
 
@@ -50,9 +50,7 @@ abstract class IntegerColorChannel extends AbstractColorChannel
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @see ColorChannelInterface::scale()
+     * Scale channel value by given percent.
      */
     public function scale(int $percent): self
     {

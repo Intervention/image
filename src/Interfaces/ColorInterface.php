@@ -68,4 +68,21 @@ interface ColorInterface
      * Return a copy of the current color with the specified transparency value.
      */
     public function withTransparency(float $transparency): self;
+
+    /**
+     * Return a copy of the current color with adjusted brightness.
+     * Positive values lighten, negative values darken. Range: -100 to 100.
+     */
+    public function withBrightness(int $level): self;
+
+    /**
+     * Return a copy of the current color with adjusted saturation.
+     * Positive values saturate, negative values desaturate. Range: -100 to 100.
+     */
+    public function withSaturation(int $level): self;
+
+    /**
+     * Return an inverted copy of the current color.
+     */
+    public function withInversion(): self;
 }

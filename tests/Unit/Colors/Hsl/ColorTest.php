@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Colors\Hsl;
 
+use Intervention\Image\Colors\AbstractColor;
 use Intervention\Image\Colors\Hsl\Channels\Alpha;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Colors\Hsl\Channels\Hue;
@@ -19,6 +20,7 @@ use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[CoversClass(Color::class)]
+#[CoversClass(AbstractColor::class)]
 final class ColorTest extends BaseTestCase
 {
     public function testConstructor(): void
@@ -228,5 +230,119 @@ final class ColorTest extends BaseTestCase
         $color = new Color(0, 0, 0);
         $this->expectException(InvalidArgumentException::class);
         $color->toColorspace(\stdClass::class);
+    }
+
+    public function testWithBrightnessPositive(): void
+    {
+        $color = new Color(0, 100, 50);
+        $result = $color->withBrightness(20);
+        $this->assertInstanceOf(Color::class, $result);
+        $this->assertNotSame($color, $result);
+
+        // Luminance should increase, hue and saturation should stay the same
+        $this->assertEquals(0, $result->channel(Hue::class)->value());
+        $this->assertGreaterThan(50, $result->channel(Luminance::class)->value());
+    }
+
+    public function testWithBrightnessZero(): void
+    {
+        $color = new Color(180, 50, 50);
+        $result = $color->withBrightness(0);
+        $this->assertInstanceOf(Color::class, $result);
+        $this->assertEquals(180, $result->channel(Hue::class)->value());
+        $this->assertEquals(50, $result->channel(Saturation::class)->value());
+        $this->assertEquals(50, $result->channel(Luminance::class)->value());
+    }
+
+    public function testWithBrightnessPreservesAlpha(): void
+    {
+        $color = new Color(0, 100, 50, .5);
+        $result = $color->withBrightness(20);
+        $this->assertEquals($color->channel(Alpha::class)->value(), $result->channel(Alpha::class)->value());
+    }
+
+    public function testWithBrightnessInvalidLevelAbove(): void
+    {
+        $color = new Color(0, 100, 50);
+        $this->expectException(InvalidArgumentException::class);
+        $color->withBrightness(101);
+    }
+
+    public function testWithBrightnessInvalidLevelBelow(): void
+    {
+        $color = new Color(0, 100, 50);
+        $this->expectException(InvalidArgumentException::class);
+        $color->withBrightness(-101);
+    }
+
+    public function testWithBrightnessNegative(): void
+    {
+        $color = new Color(0, 100, 50);
+        $result = $color->withBrightness(-20);
+        $this->assertInstanceOf(Color::class, $result);
+        $this->assertNotSame($color, $result);
+
+        // Luminance should decrease
+        $this->assertEquals(0, $result->channel(Hue::class)->value());
+        $this->assertLessThan(50, $result->channel(Luminance::class)->value());
+    }
+
+    public function testWithSaturationPositive(): void
+    {
+        $color = new Color(0, 50, 50);
+        $result = $color->withSaturation(20);
+        $this->assertInstanceOf(Color::class, $result);
+        $this->assertNotSame($color, $result);
+
+        // Saturation should increase
+        $this->assertGreaterThan(50, $result->channel(Saturation::class)->value());
+    }
+
+    public function testWithSaturationInvalidLevelAbove(): void
+    {
+        $color = new Color(0, 100, 50);
+        $this->expectException(InvalidArgumentException::class);
+        $color->withSaturation(101);
+    }
+
+    public function testWithSaturationInvalidLevelBelow(): void
+    {
+        $color = new Color(0, 100, 50);
+        $this->expectException(InvalidArgumentException::class);
+        $color->withSaturation(-101);
+    }
+
+    public function testWithSaturationNegative(): void
+    {
+        $color = new Color(0, 100, 50);
+        $result = $color->withSaturation(-20);
+        $this->assertInstanceOf(Color::class, $result);
+        $this->assertNotSame($color, $result);
+
+        // Saturation should decrease
+        $this->assertLessThan(100, $result->channel(Saturation::class)->value());
+    }
+
+    public function testWithSaturationFullNegative(): void
+    {
+        $color = new Color(0, 100, 50);
+        $result = $color->withSaturation(-100);
+        $this->assertInstanceOf(Color::class, $result);
+        $this->assertEquals(0, $result->channel(Saturation::class)->value());
+    }
+
+    public function testInvert(): void
+    {
+        $color = new Color(0, 100, 50);
+        $result = $color->withInversion();
+        $this->assertInstanceOf(Color::class, $result);
+        $this->assertNotSame($color, $result);
+    }
+
+    public function testInvertPreservesAlpha(): void
+    {
+        $color = new Color(0, 100, 50, .5);
+        $result = $color->withInversion();
+        $this->assertEquals($color->channel(Alpha::class)->value(), $result->channel(Alpha::class)->value());
     }
 }

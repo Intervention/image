@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors;
 
+use Intervention\Image\Colors\Hsl\Channels\Luminance;
+use Intervention\Image\Colors\Hsl\Channels\Saturation;
+use Intervention\Image\Colors\Hsl\Colorspace as HslColorspace;
+use Intervention\Image\Colors\Rgb\Channels\Blue;
+use Intervention\Image\Colors\Rgb\Channels\Green;
+use Intervention\Image\Colors\Rgb\Channels\Red;
+use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
@@ -111,6 +118,61 @@ abstract class AbstractColor implements ColorInterface, Stringable
         );
 
         return $color;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::withBrightness()
+     *
+     * @throws InvalidArgumentException
+     */
+    public function withBrightness(int $level): ColorInterface
+    {
+        $hsl = clone $this->toColorspace(HslColorspace::class);
+
+        /** @var IntegerColorChannel $luminance */
+        $luminance = $hsl->channel(Luminance::class);
+        $luminance->scale($level);
+
+        return $hsl->toColorspace($this->colorspace());
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::withSaturation()
+     *
+     * @throws InvalidArgumentException
+     */
+    public function withSaturation(int $level): ColorInterface
+    {
+        $hsl = clone $this->toColorspace(HslColorspace::class);
+
+        /** @var IntegerColorChannel $saturation */
+        $saturation = $hsl->channel(Saturation::class);
+        $saturation->scale($level);
+
+        return $hsl->toColorspace($this->colorspace());
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorInterface::withInversion()
+     */
+    public function withInversion(): ColorInterface
+    {
+        $rgb = $this->toColorspace(RgbColorspace::class);
+
+        $inverted = new \Intervention\Image\Colors\Rgb\Color(
+            255 - $rgb->channel(Red::class)->value(),
+            255 - $rgb->channel(Green::class)->value(),
+            255 - $rgb->channel(Blue::class)->value(),
+            $rgb->alpha()->normalizedValue(),
+        );
+
+        return $inverted->toColorspace($this->colorspace());
     }
 
     /**

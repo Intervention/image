@@ -341,4 +341,167 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals(30, $color->blue()->value());
         $this->assertEquals(128, $color->alpha()->value());
     }
+
+    public function testWithBrightnessPositive(): void
+    {
+        $color = new Color(255, 0, 0);
+        $result = $color->withBrightness(50);
+        $this->assertInstanceOf(Color::class, $result);
+        $this->assertNotSame($color, $result);
+
+        // Original should be unchanged (immutability)
+        $this->assertEquals(255, $color->channel(Red::class)->value());
+        $this->assertEquals(0, $color->channel(Green::class)->value());
+        $this->assertEquals(0, $color->channel(Blue::class)->value());
+
+        // Lightened result should have higher channel values overall
+        $originalChannels = array_map(
+            fn(ColorChannelInterface $channel): int => $channel->value(),
+            $color->channels(),
+        );
+        $resultChannels = array_map(
+            fn(ColorChannelInterface $channel): int => $channel->value(),
+            $result->channels(),
+        );
+        $this->assertGreaterThan(
+            $originalChannels[1] + $originalChannels[2],
+            $resultChannels[1] + $resultChannels[2],
+        );
+    }
+
+    public function testWithBrightnessZero(): void
+    {
+        $color = new Color(100, 150, 200);
+        $result = $color->withBrightness(0);
+        $this->assertInstanceOf(Color::class, $result);
+
+        // Allow small rounding differences from colorspace roundtrip
+        $this->assertEqualsWithDelta(100, $result->channel(Red::class)->value(), 1);
+        $this->assertEqualsWithDelta(150, $result->channel(Green::class)->value(), 1);
+        $this->assertEqualsWithDelta(200, $result->channel(Blue::class)->value(), 1);
+    }
+
+    public function testWithBrightnessPreservesAlpha(): void
+    {
+        $color = new Color(255, 0, 0, .5);
+        $result = $color->withBrightness(20);
+        $this->assertInstanceOf(Color::class, $result);
+        $this->assertEquals($color->channel(Alpha::class)->value(), $result->channel(Alpha::class)->value());
+    }
+
+    public function testWithBrightnessInvalidLevelAbove(): void
+    {
+        $color = new Color(255, 0, 0);
+        $this->expectException(InvalidArgumentException::class);
+        $color->withBrightness(101);
+    }
+
+    public function testWithBrightnessInvalidLevelBelow(): void
+    {
+        $color = new Color(255, 0, 0);
+        $this->expectException(InvalidArgumentException::class);
+        $color->withBrightness(-101);
+    }
+
+    public function testWithBrightnessNegative(): void
+    {
+        $color = new Color(255, 0, 0);
+        $result = $color->withBrightness(-50);
+        $this->assertInstanceOf(Color::class, $result);
+        $this->assertNotSame($color, $result);
+
+        // Darkened red: red channel should be lower
+        $this->assertLessThan(
+            $color->channel(Red::class)->value(),
+            $result->channel(Red::class)->value(),
+        );
+    }
+
+    public function testWithSaturationPositive(): void
+    {
+        // Start with a desaturated color
+        $color = new Color(150, 100, 100);
+        $result = $color->withSaturation(50);
+        $this->assertInstanceOf(Color::class, $result);
+        $this->assertNotSame($color, $result);
+
+        // Saturating should increase difference between max and min channels
+        $origDiff = $color->channel(Red::class)->value() - $color->channel(Green::class)->value();
+        $resultDiff = $result->channel(Red::class)->value() - $result->channel(Green::class)->value();
+        $this->assertGreaterThan($origDiff, $resultDiff);
+    }
+
+    public function testWithSaturationInvalidLevelAbove(): void
+    {
+        $color = new Color(255, 0, 0);
+        $this->expectException(InvalidArgumentException::class);
+        $color->withSaturation(101);
+    }
+
+    public function testWithSaturationInvalidLevelBelow(): void
+    {
+        $color = new Color(255, 0, 0);
+        $this->expectException(InvalidArgumentException::class);
+        $color->withSaturation(-101);
+    }
+
+    public function testWithSaturationNegative(): void
+    {
+        $color = new Color(255, 0, 0);
+        $result = $color->withSaturation(-50);
+        $this->assertInstanceOf(Color::class, $result);
+        $this->assertNotSame($color, $result);
+
+        // Desaturating should reduce difference between channels
+        $origDiff = $color->channel(Red::class)->value() - $color->channel(Green::class)->value();
+        $resultDiff = $result->channel(Red::class)->value() - $result->channel(Green::class)->value();
+        $this->assertLessThan($origDiff, $resultDiff);
+    }
+
+    public function testWithSaturationFullNegative(): void
+    {
+        $color = new Color(255, 0, 0);
+        $result = $color->withSaturation(-100);
+        $this->assertInstanceOf(Color::class, $result);
+
+        // Fully desaturated should be grayscale (R=G=B)
+        $this->assertEquals($result->channel(Red::class)->value(), $result->channel(Green::class)->value());
+        $this->assertEquals($result->channel(Green::class)->value(), $result->channel(Blue::class)->value());
+    }
+
+    public function testInvert(): void
+    {
+        $color = new Color(255, 0, 0);
+        $result = $color->withInversion();
+        $this->assertInstanceOf(Color::class, $result);
+        $this->assertNotSame($color, $result);
+        $this->assertEquals(0, $result->channel(Red::class)->value());
+        $this->assertEquals(255, $result->channel(Green::class)->value());
+        $this->assertEquals(255, $result->channel(Blue::class)->value());
+    }
+
+    public function testInvertBlack(): void
+    {
+        $color = new Color(0, 0, 0);
+        $result = $color->withInversion();
+        $this->assertEquals(255, $result->channel(Red::class)->value());
+        $this->assertEquals(255, $result->channel(Green::class)->value());
+        $this->assertEquals(255, $result->channel(Blue::class)->value());
+    }
+
+    public function testInvertWhite(): void
+    {
+        $color = new Color(255, 255, 255);
+        $result = $color->withInversion();
+        $this->assertEquals(0, $result->channel(Red::class)->value());
+        $this->assertEquals(0, $result->channel(Green::class)->value());
+        $this->assertEquals(0, $result->channel(Blue::class)->value());
+    }
+
+    public function testInvertPreservesAlpha(): void
+    {
+        $color = new Color(255, 0, 0, .5);
+        $result = $color->withInversion();
+        $this->assertEquals($color->channel(Alpha::class)->value(), $result->channel(Alpha::class)->value());
+    }
 }

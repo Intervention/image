@@ -29,7 +29,6 @@ use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Image;
-use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -323,7 +322,7 @@ final class ImageTest extends ImagickTestCase
 
         $result = $image->pixelate(10);
         $this->assertInstanceOf(ImageInterface::class, $result);
-        $this->assertEquals('00aef0', $image->colorAt(0, 0)->toHex());
+        $this->assertEquals('00aef0', $image->colorAt(2, 2)->toHex());
         $this->assertEquals('6bab8c', $image->colorAt(14, 14)->toHex());
     }
 

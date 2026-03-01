@@ -100,7 +100,7 @@ class ImageManagerTest extends BaseTestCase
         $this->assertEquals(2, $image->height());
         $this->assertEquals(
             ['ff6464', '64ff64', '6464ff'],
-            $image->colorsAt(0, 0)->map(fn(ColorInterface $color): string => $color->toHex())->toArray(),
+            $image->colorsAt(2, 2)->map(fn(ColorInterface $color): string => $color->toHex())->toArray(),
         );
     }
 

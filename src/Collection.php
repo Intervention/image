@@ -103,11 +103,11 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
      */
     public function first(): mixed
     {
-        if ($item = reset($this->items)) {
-            return $item;
+        if (count($this->items) === 0) {
+            return null;
         }
 
-        return null;
+        return reset($this->items);
     }
 
     /**
@@ -115,11 +115,11 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
      */
     public function last(): mixed
     {
-        if ($item = end($this->items)) {
-            return $item;
+        if (count($this->items) === 0) {
+            return null;
         }
 
-        return null;
+        return end($this->items);
     }
 
     /**

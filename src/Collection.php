@@ -49,7 +49,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     /**
      * {@inheritdoc}
      *
-     * @see Collectionnterface::set()
+     * @see CollectionInterface::set()
      */
     public function set(int|string $key, mixed $item): self
     {

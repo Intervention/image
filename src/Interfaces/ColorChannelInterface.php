@@ -34,6 +34,11 @@ interface ColorChannelInterface extends Stringable
     public function normalizedValue(int $precision = 32): float;
 
     /**
+     * Scale channel value by given percent.
+     */
+    public function scale(int $percent): self;
+
+    /**
      * Transform color channel's value to string.
      */
     public function toString(): string;

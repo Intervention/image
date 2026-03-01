@@ -9,11 +9,6 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 class AlphaChannel extends AbstractColorChannel
 {
     /**
-     * Main color channel value
-     */
-    protected int $value;
-
-    /**
      * @throws InvalidArgumentException
      */
     final public function __construct(float $value = 1)

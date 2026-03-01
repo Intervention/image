@@ -11,6 +11,11 @@ use Stringable;
 abstract class AbstractColorChannel implements ColorChannelInterface, Stringable
 {
     /**
+     * Main color channel value
+     */
+    protected int|float $value;
+
+    /**
      * {@inheritdoc}
      *
      * @see ColorChannelInterface::normalizedValue()
@@ -18,6 +23,31 @@ abstract class AbstractColorChannel implements ColorChannelInterface, Stringable
     public function normalizedValue(int $precision = 32): float
     {
         return round(($this->value() - $this->min()) / ($this->max() - $this->min()), $precision);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorChannelInterface::scale()
+     *
+     * @throws InvalidArgumentException
+     */
+    public function scale(int $percent): self
+    {
+        if ($percent === 0) {
+            return $this;
+        }
+
+        if ($percent < -100 || $percent > 100) {
+            throw new InvalidArgumentException('Percentage value must be between -100 and 100');
+        }
+
+        $normalized = $this->normalizedValue();
+        $base = $percent >= 0 ? (1 - $normalized) : $normalized;
+        $scaled = min(1.0, max(0.0, $normalized + $base / 100 * $percent));
+        $this->value = static::fromNormalized($scaled)->value();
+
+        return $this;
     }
 
     /**

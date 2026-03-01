@@ -9,11 +9,6 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 abstract class IntegerColorChannel extends AbstractColorChannel
 {
     /**
-     * Main color channel value.
-     */
-    protected int $value;
-
-    /**
      * @throws InvalidArgumentException
      */
     final public function __construct(int $value)
@@ -47,35 +42,5 @@ abstract class IntegerColorChannel extends AbstractColorChannel
     public function value(): int
     {
         return $this->value;
-    }
-
-    /**
-     * Scale channel value by given percent.
-     */
-    public function scale(int $percent): self
-    {
-        if ($percent === 0) {
-            return $this;
-        }
-
-        if ($percent < -100 || $percent > 100) {
-            throw new InvalidArgumentException('Percentage value must be between -100 and 100');
-        }
-
-        $base = $percent >= 0 ? ((static::max() - static::min()) - $this->value) : $this->value;
-        $delta = (int) round($base / 100 * $percent);
-        $this->value = (int) round(max(static::min(), min(static::max(), $this->value + $delta)));
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ColorChannelInterface::normalize()
-     */
-    public function normalizedValue(int $precision = 32): float
-    {
-        return round(($this->value() - $this->min()) / ($this->max() - $this->min()), $precision);
     }
 }

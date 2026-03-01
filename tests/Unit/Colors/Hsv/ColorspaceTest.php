@@ -255,7 +255,6 @@ final class ColorspaceTest extends BaseTestCase
 
         // Call protected importHslColor() with a non-HslColor to trigger type check
         $method = new \ReflectionMethod($colorspace, 'importHslColor');
-        $method->setAccessible(true);
 
         $this->expectException(InvalidArgumentException::class);
         $method->invoke($colorspace, new RgbColor(255, 0, 0));

@@ -92,7 +92,6 @@ final class EncodedImageTest extends BaseTestCase
         // Use reflection to close the internal pointer so size() throws
         $ref = new \ReflectionClass($image);
         $prop = $ref->getProperty('pointer');
-        $prop->setAccessible(true);
         $pointer = $prop->getValue($image);
         fclose($pointer);
 

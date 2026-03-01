@@ -153,6 +153,12 @@ final class ColorspaceTest extends BaseTestCase
         $this->assertEquals(128, $result->channel(Red::class)->value());
         $this->assertEquals(128, $result->channel(Green::class)->value());
         $this->assertEquals(128, $result->channel(Blue::class)->value());
+
+        $result = $colorspace->importColor(new HslColor(346, 100, 15));
+        $this->assertInstanceOf(RgbColor::class, $result);
+        $this->assertEquals(77, $result->channel(Red::class)->value());
+        $this->assertEquals(0, $result->channel(Green::class)->value());
+        $this->assertEquals(18, $result->channel(Blue::class)->value());
     }
 
     public function testImportHslColorHueBranch1(): void

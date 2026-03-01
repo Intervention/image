@@ -127,7 +127,7 @@ class Colorspace extends AbstractColorspace
 
         // add to each value
         $values = array_map(
-            fn(float|int $value): float => $value + $color->value()->normalizedValue() - $chroma,
+            fn(float|int $value): float => max(0.0, min(1.0, $value + $color->value()->normalizedValue() - $chroma)),
             $values,
         );
 
@@ -163,7 +163,7 @@ class Colorspace extends AbstractColorspace
             default => [$c, 0, $x],
         };
 
-        $values = array_map(fn(float|int $value): float => $value + $m, $values);
+        $values = array_map(fn(float|int $value): float => max(0.0, min(1.0, $value + $m)), $values);
         $values[] = $color->alpha()->normalizedValue(); // append alpha channel value
 
         $color = $this->colorFromNormalized($values);

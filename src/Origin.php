@@ -6,8 +6,9 @@ namespace Intervention\Image;
 
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Interfaces\OriginInterface;
 
-class Origin
+class Origin implements OriginInterface
 {
     /**
      * Create new origin instance.
@@ -22,7 +23,9 @@ class Origin
     }
 
     /**
-     * Return media type of origin.
+     * {@inheritdoc}
+     *
+     * @see OriginInterface::mediaType()
      */
     public function mediaType(): string
     {
@@ -38,7 +41,9 @@ class Origin
     }
 
     /**
-     * Set media type of current instance.
+     * {@inheritdoc}
+     *
+     * @see OriginInterface::setMediaType()
      */
     public function setMediaType(string|MediaType $type): self
     {
@@ -48,7 +53,9 @@ class Origin
     }
 
     /**
-     * Return file path of origin.
+     * {@inheritdoc}
+     *
+     * @see OriginInterface::filePath()
      */
     public function filePath(): ?string
     {
@@ -56,7 +63,9 @@ class Origin
     }
 
     /**
-     * Set file path for origin.
+     * {@inheritdoc}
+     *
+     * @see OriginInterface::setFilePath()
      */
     public function setFilePath(string $path): self
     {
@@ -66,7 +75,9 @@ class Origin
     }
 
     /**
-     * Return file extension if origin was created from file path.
+     * {@inheritdoc}
+     *
+     * @see OriginInterface::fileExtension()
      */
     public function fileExtension(): ?string
     {
@@ -74,7 +85,9 @@ class Origin
     }
 
     /**
-     * Return format of the origin image.
+     * {@inheritdoc}
+     *
+     * @see OriginInterface::format()
      *
      * @throws NotSupportedException
      */

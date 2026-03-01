@@ -122,7 +122,7 @@ final class ImageTest extends ImagickTestCase
         $this->assertInstanceOf(Origin::class, $origin);
         $this->image->setOrigin(new Origin('test1', 'test2'));
         $this->assertInstanceOf(Origin::class, $this->image->origin());
-        $this->assertEquals('test1', $this->image->origin()->mimetype());
+        $this->assertEquals('test1', $this->image->origin()->mediaType());
         $this->assertEquals('test2', $this->image->origin()->filePath());
     }
 

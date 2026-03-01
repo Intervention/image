@@ -13,7 +13,6 @@ use Intervention\Image\Geometry\Line;
 use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\MediaType;
-use Intervention\Image\Origin;
 use Intervention\Image\Alignment;
 use Intervention\Image\Direction;
 use Intervention\Image\Fraction;
@@ -38,12 +37,12 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Return the origin of the image.
      */
-    public function origin(): Origin;
+    public function origin(): OriginInterface;
 
     /**
      * Set the origin of the image.
      */
-    public function setOrigin(Origin $origin): self;
+    public function setOrigin(OriginInterface $origin): self;
 
     /**
      * Return width of current image.

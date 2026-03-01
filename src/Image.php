@@ -45,6 +45,7 @@ use Intervention\Image\Interfaces\FontInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
+use Intervention\Image\Interfaces\OriginInterface;
 use Intervention\Image\Interfaces\ProfileInterface;
 use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -98,7 +99,7 @@ final class Image implements ImageInterface
     /**
      * Origin containing the source from which the image was originally created.
      */
-    private Origin $origin;
+    private OriginInterface $origin;
 
     /**
      * Exif data of the current image.
@@ -141,7 +142,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::origin()
      */
-    public function origin(): Origin
+    public function origin(): OriginInterface
     {
         return $this->origin;
     }
@@ -151,7 +152,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::setOrigin()
      */
-    public function setOrigin(Origin $origin): ImageInterface
+    public function setOrigin(OriginInterface $origin): ImageInterface
     {
         $this->origin = $origin;
 

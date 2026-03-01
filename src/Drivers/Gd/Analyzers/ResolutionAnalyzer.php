@@ -10,8 +10,8 @@ use Intervention\Image\Exceptions\FilePointerException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\MissingDependencyException;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\OriginInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
-use Intervention\Image\Origin;
 use Intervention\Image\Resolution;
 use Intervention\Image\Traits\CanBuildFilePointer;
 use Throwable;
@@ -61,7 +61,7 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
      * @throws FilePointerException
      * @return array<float>
      */
-    private function readResolutionFromOrigin(Origin $origin): array
+    private function readResolutionFromOrigin(OriginInterface $origin): array
     {
         $handle = $this->buildFilePointerOrFail(file_get_contents($origin->filePath()));
 

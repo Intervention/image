@@ -66,7 +66,7 @@ class Core implements CoreInterface, Iterator
      */
     public function map(callable $callback): CoreInterface
     {
-        return $this; // TODO: implementation
+        throw new \Exception('Not implemented');
     }
 
     /**
@@ -76,7 +76,7 @@ class Core implements CoreInterface, Iterator
      */
     public function filter(callable $callback): CoreInterface
     {
-        return $this; // TODO: implementation
+        throw new \Exception('Not implemented');
     }
 
     /**

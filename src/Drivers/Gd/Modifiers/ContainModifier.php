@@ -36,7 +36,7 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
         $backgroundColor = $this->backgroundColor()->toColorspace(Rgb::class);
 
         if (!$backgroundColor instanceof RgbColor) {
-            throw new ModifierException('Failed to normalize background color to rgb color space');
+            throw new ModifierException('Failed to normalize background color to RGB color space');
         }
 
         foreach ($image as $frame) {

@@ -32,7 +32,7 @@ class FillTransparentAreasModifier extends GenericFillTransparentAreasModifier i
         $backgroundColor = $this->backgroundColor($this->driver())->toColorspace(RgbColorspace::class);
 
         if (!$backgroundColor instanceof RgbColor) {
-            throw new ModifierException('Failed to normalize background color to rgb color space');
+            throw new ModifierException('Failed to normalize background color to RGB color space');
         }
 
         foreach ($image as $frame) {

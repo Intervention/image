@@ -77,7 +77,7 @@ class TrimModifier extends GenericTrimModifier implements SpecializedInterface
 
             if ($cornerColor === false) {
                 throw new ModifierException(
-                    'Unable to apply ' . self::class . ', failed to determine average color for process',
+                    'Failed to apply ' . self::class . ', unable to determine average color for process',
                 );
             }
 
@@ -85,7 +85,7 @@ class TrimModifier extends GenericTrimModifier implements SpecializedInterface
                 $rgb = imagecolorsforindex($image->core()->native(), $cornerColor);
             } catch (ValueError) {
                 throw new ModifierException(
-                    'Unable to apply ' . self::class . ', failed to read trim color from index',
+                    'Failed to apply ' . self::class . ', unable to read trim color from index',
                 );
             }
 
@@ -102,7 +102,7 @@ class TrimModifier extends GenericTrimModifier implements SpecializedInterface
 
         if ($color === false) {
             throw new ModifierException(
-                'Unable to apply ' . self::class . ', failed to allocate trim color',
+                'Failed to apply ' . self::class . ', unable to allocate trim color',
             );
         }
 

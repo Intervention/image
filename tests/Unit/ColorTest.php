@@ -12,6 +12,9 @@ use PHPUnit\Framework\Attributes\DataProviderExternal;
 
 class ColorTest extends BaseTestCase
 {
+    /**
+     * @param $channels array<int>
+     */
     #[DataProviderExternal(ColorDataProvider::class, 'rgbString')]
     #[DataProviderExternal(ColorDataProvider::class, 'rgbHex')]
     #[DataProviderExternal(ColorDataProvider::class, 'rgbNamedColor')]

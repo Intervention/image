@@ -70,6 +70,12 @@ final class EncodedImageTest extends BaseTestCase
         $this->assertEquals('image/jpeg', $image->mimetype());
     }
 
+    public function testToBase64(): void
+    {
+        $image = new EncodedImage('foo');
+        $this->assertEquals('Zm9v', $image->toBase64());
+    }
+
     public function testDebugInfo(): void
     {
         $info = (new EncodedImage('foo', 'image/png'))->__debugInfo();

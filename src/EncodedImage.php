@@ -56,6 +56,16 @@ class EncodedImage extends File implements EncodedImageInterface
     }
 
     /**
+     * {@inheritdoc}
+     *
+     * @see EncodedImageInterface::toBase64()
+     */
+    public function toBase64(): string
+    {
+        return base64_encode((string) $this);
+    }
+
+    /**
      * Show debug info for the current image.
      *
      * @return array<string, mixed>

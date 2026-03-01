@@ -20,4 +20,9 @@ interface EncodedImageInterface extends FileInterface
      * Transform encoded image data into an data uri string.
      */
     public function toDataUri(): DataUriInterface;
+
+    /**
+     * Return base64-encoded string from the current instance.
+     */
+    public function toBase64(): string;
 }

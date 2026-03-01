@@ -45,7 +45,7 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
     {
         if ($this->indexed) {
             $output = clone $image;
-            $output->reduceColors(255);
+            $output->reduceColors(256);
 
             return $output->core()->native();
         }

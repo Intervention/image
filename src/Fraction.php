@@ -17,9 +17,9 @@ enum Fraction
     case TRIPLE;
 
     /**
-     * Return multiplicator of fraction.
+     * Return multiplier of fraction.
      */
-    public function multiplicator(): float
+    public function multiplier(): float
     {
         return match ($this) {
             self::FULL => 1,
@@ -39,6 +39,6 @@ enum Fraction
      */
     public function of(int|float $value): float
     {
-        return round($value * $this->multiplicator(), 9);
+        return round($value * $this->multiplier(), 9);
     }
 }

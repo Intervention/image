@@ -12,9 +12,42 @@ use Intervention\Image\Colors\Oklab\Color as OklabColor;
 use Intervention\Image\Colors\Oklch\Color as OklchColor;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Colors\Cmyk\Decoders\StringColorDecoder as CmykStringColorDecoder;
+use Intervention\Image\Colors\Hsl\Decoders\StringColorDecoder as HslStringColorDecoder;
+use Intervention\Image\Colors\Hsv\Decoders\StringColorDecoder as HsvStringColorDecoder;
+use Intervention\Image\Colors\Oklab\Decoders\StringColorDecoder as OklabStringColorDecoder;
+use Intervention\Image\Colors\Oklch\Decoders\StringColorDecoder as OklchStringColorDecoder;
+use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder as RgbHexColorDecoder;
+use Intervention\Image\Colors\Rgb\Decoders\NamedColorDecoder;
+use Intervention\Image\Colors\Rgb\Decoders\StringColorDecoder as RgbStringColorDecoder;
+use Intervention\Image\Colors\Rgb\Decoders\TransparentColorDecoder;
+use Intervention\Image\Exceptions\NotSupportedException;
 
 class Color
 {
+    /**
+     * Parse color from string value.
+     */
+    public static function parse(string $input): ColorInterface
+    {
+        try {
+            return InputHandler::usingDecoders([
+                RgbStringColorDecoder::class,
+                CmykStringColorDecoder::class,
+                HsvStringColorDecoder::class,
+                HslStringColorDecoder::class,
+                OklabStringColorDecoder::class,
+                OklchStringColorDecoder::class,
+                NamedColorDecoder::class,
+                RgbHexColorDecoder::class,
+                TransparentColorDecoder::class,
+            ])->handle($input);
+        } catch (NotSupportedException) {
+            throw new NotSupportedException('Unable to parse color from input "' . $input . '"');
+        }
+    }
+
     /**
      * Create new RGB color.
      *

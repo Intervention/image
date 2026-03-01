@@ -12,6 +12,23 @@ use PHPUnit\Framework\Attributes\DataProviderExternal;
 
 class ColorTest extends BaseTestCase
 {
+    #[DataProviderExternal(ColorDataProvider::class, 'rgbString')]
+    #[DataProviderExternal(ColorDataProvider::class, 'rgbHex')]
+    #[DataProviderExternal(ColorDataProvider::class, 'rgbNamedColor')]
+    #[DataProviderExternal(ColorDataProvider::class, 'cmykString')]
+    #[DataProviderExternal(ColorDataProvider::class, 'hslString')]
+    #[DataProviderExternal(ColorDataProvider::class, 'hsvString')]
+    #[DataProviderExternal(ColorDataProvider::class, 'oklabString')]
+    #[DataProviderExternal(ColorDataProvider::class, 'oklchString')]
+    public function testParse(mixed $input, array $channels): void
+    {
+        $this->assertEquals(
+            $channels,
+            array_map(fn(ColorChannelInterface $channel): int|float =>
+            $channel->value(), Color::parse(...$input)->channels()),
+        );
+    }
+
     /**
      * @param $channels array<int>
      */

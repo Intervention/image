@@ -22,7 +22,7 @@
 - ImageInterface::blendTransparency() was renamed to ImageInterface::fillTransparentAreas() - Signature changed & allowed (semi) transparent colors
 - ImageInterface::setBlendingColor() was renamed to ImageInterface::setBackgroundColor()
 - ImageInterface::blendingColor() was renamed to ImageInterface::backgroundColor()
-- ImageInterface::pad() was renamed to ImageInterface::containDown()
+- ImageInterface::pad() was renamed to ImageInterface::containDown() with different signature
 - ImageInterface::encode() has a different signature
 - Config::class option blendingColor was renamed to backgroundColor
 - BlendTransparencyModifer::class was renamed to FillTransparentAreasModifier::class
@@ -30,7 +30,7 @@
 - Changed default value for `background` to `null` in ImageInterface::resizeCanvas()
 - Changed default value for `background` to `null` in ImageInterface::resizeCanvasRelative()
 - Changed default value for `background` to `null` in ImageInterface::contain()
-- Changed default value for `background` to `null` in ImageInterface::pad()
+- Changed default value for `background` to `null` in ImageInterface::containDown()
 - Changed default value for `background` to `null` in ImageInterface::crop()
 - Signature of ImageInterface::crop() changed from `offset_x` to `x` and `offset_y` to `y`
 - EncodedImageInterface::toDataUri() now returns `DataUriInterface` instead of `string´

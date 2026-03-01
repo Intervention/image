@@ -456,7 +456,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::reduceColors()
      */
-    public function reduceColors(int $limit, string|ColorInterface $background = 'transparent'): ImageInterface
+    public function reduceColors(int $limit, null|string|ColorInterface $background = null): ImageInterface
     {
         return $this->modify(new ReduceColorsModifier($limit, $background));
     }

@@ -16,7 +16,7 @@ class ReduceColorsModifier extends SpecializableModifier
      */
     public function __construct(
         public int $limit,
-        public string|ColorInterface $background = 'transparent'
+        public null|string|ColorInterface $background = null
     ) {
         //
     }
@@ -28,6 +28,8 @@ class ReduceColorsModifier extends SpecializableModifier
      */
     protected function backgroundColor(ImageInterface $image): ColorInterface
     {
-        return $this->driver()->handleColorInput($this->background)->toColorspace($image->colorspace());
+        return $this->driver()->handleColorInput(
+            $this->background ?? $this->driver()->config()->backgroundColor,
+        )->toColorspace($image->colorspace());
     }
 }

@@ -222,7 +222,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @link https://image.intervention.io/v3/modifying-images/effects#reduce-colors
      */
-    public function reduceColors(int $limit, string|ColorInterface $background = 'transparent'): self;
+    public function reduceColors(int $limit, null|string|ColorInterface $background = null): self;
 
     /**
      * Sharpen the image by the given level.

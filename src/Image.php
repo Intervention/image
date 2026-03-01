@@ -193,7 +193,7 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::removeAnimation()
      */
-    public function removeAnimation(int|string $position = 0): ImageInterface
+    public function removeAnimation(int|string $position = 0): ImageInterface // todo: maybe split method for percentage
     {
         return $this->modify(new RemoveAnimationModifier($position));
     }

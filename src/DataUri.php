@@ -29,7 +29,7 @@ class DataUri implements DataUriInterface
     protected array $parameters = [];
 
     /**
-     * Create new data uri instanceof.
+     * Create new data uri instance.
      *
      * @param array<string, string> $parameters
      */
@@ -288,7 +288,7 @@ class DataUri implements DataUriInterface
     }
 
     /**
-     * Show debug info for the current rectangle.
+     * Show debug info for the current data uri scheme.
      *
      * @return array<string, mixed>
      */

@@ -102,7 +102,7 @@ class Colorspace extends AbstractColorspace
         $m = intval(round($m - $k));
         $y = intval(round($y - $k));
 
-        return new CmykColor($c, $m, $y, $k);
+        return new CmykColor($c, $m, $y, $k, $color->alpha()->normalizedValue());
     }
 
     /**

@@ -115,7 +115,7 @@ class Colorspace extends AbstractColorspace
 
         if ($chroma == 0) {
             // grayscale color
-            return new Color(0, 0, intval(round($v)));
+            return new Color(0, 0, intval(round($v)), $color->alpha()->normalizedValue());
         }
 
         // calculate saturation

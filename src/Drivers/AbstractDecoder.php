@@ -22,7 +22,7 @@ abstract class AbstractDecoder implements DecoderInterface
     use CanParseFilePath;
 
     /**
-     * Determine if the given input is GIF data format
+     * Determine if the given input is GIF data format.
      */
     protected function isGifFormat(string $input): bool
     {
@@ -69,7 +69,7 @@ abstract class AbstractDecoder implements DecoderInterface
     }
 
     /**
-     * Decodes given base64 encoded data
+     * Decodes given base64 encoded data.
      *
      * @throws InvalidArgumentException
      * @throws DecoderException

@@ -11,7 +11,7 @@ use Stringable;
 abstract class AbstractColorChannel implements ColorChannelInterface, Stringable
 {
     /**
-     * Main color channel value
+     * Main color channel value.
      */
     protected int|float $value;
 

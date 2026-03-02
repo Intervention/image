@@ -17,7 +17,7 @@ abstract class AbstractEncoder implements EncoderInterface
     use CanBuildFilePointer;
 
     /**
-     * Default encoding quality
+     * Default encoding quality.
      */
     public const int DEFAULT_QUALITY = 75;
 
@@ -32,7 +32,7 @@ abstract class AbstractEncoder implements EncoderInterface
     }
 
     /**
-     * Build new file pointer, run callback with it and return result as encoded image
+     * Build new file pointer, run callback with it and return result as encoded image.
      *
      * @throws InvalidArgumentException
      * @throws FilePointerException

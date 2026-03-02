@@ -23,6 +23,6 @@ RUN apt update \
 # install composer
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-# install composer dependencies
-COPY composer.json composer.lock ./
-RUN composer install
+# setup entrypoint
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

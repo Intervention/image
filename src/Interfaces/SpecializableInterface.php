@@ -7,20 +7,20 @@ namespace Intervention\Image\Interfaces;
 interface SpecializableInterface
 {
     /**
-     * Return an array of constructor parameters, which is usually passed from
-     * the generic object to the specialized object.
+     * Return the constructor arguments of the specializable object. Keyed by
+     * parameter name, used to construct the driver-specialized counterpart.
      *
      * @return array<string, mixed>
      */
-    public function specializable(): array; // todo: try to refactor away
+    public function specializationArguments(): array;
 
     /**
-     * Set the driver for which the object is specialized.
+     * Set the driver for which the object will be specialized.
      */
     public function setDriver(DriverInterface $driver): self;
 
     /**
-     * Return the driver for which the object was specialized.
+     * Return the driver for which the object is specialized.
      */
     public function driver(): DriverInterface;
 }

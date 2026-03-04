@@ -7,8 +7,10 @@ namespace Intervention\Image\Tests\Unit\Drivers;
 use Intervention\Image\Drivers\AbstractEncoder;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\LogicException;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -24,6 +26,18 @@ final class AbstractEncoderTest extends BaseTestCase
         $image->shouldReceive('encode')->andReturn($encoded);
         $result = $encoder->encode($image);
         $this->assertInstanceOf(EncodedImage::class, $result);
+    }
+
+    public function testEncodeThrowsWhenSpecializedWithoutOverride(): void
+    {
+        $encoder = new class () extends AbstractEncoder implements SpecializedInterface {
+        };
+
+        $image = Mockery::mock(ImageInterface::class);
+
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('must override encode()');
+        $encoder->encode($image);
     }
 
     public function testSetOptions(): void

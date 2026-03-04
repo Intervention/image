@@ -22,7 +22,6 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\SpecializableInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
-use ReflectionClass;
 
 abstract class AbstractDriver implements DriverInterface
 {
@@ -174,15 +173,17 @@ abstract class AbstractDriver implements DriverInterface
         }
 
         // resolve classname for specializable object
+        $objectShortname = substr($object::class, (int) strrpos($object::class, '\\') + 1);
+
         $specializedClassname = implode("\\", [
-            (new ReflectionClass($this))->getNamespaceName(), // driver's namespace
+            substr($this::class, 0, (int) strrpos($this::class, '\\')), // driver's namespace
             match (true) {
                 $object instanceof ModifierInterface => 'Modifiers',
                 $object instanceof AnalyzerInterface => 'Analyzers',
                 $object instanceof EncoderInterface => 'Encoders',
                 $object instanceof DecoderInterface => 'Decoders',
             },
-            $objectShortname = (new ReflectionClass($object))->getShortName(),
+            $objectShortname,
         ]);
 
         // fail if driver specialized classname does not exists
@@ -193,7 +194,7 @@ abstract class AbstractDriver implements DriverInterface
         }
 
         // create a driver specialized object with the specializable properties of generic object
-        $specialized = new $specializedClassname(...$object->specializable());
+        $specialized = new $specializedClassname(...$object->specializationArguments());
 
         // attach driver
         return $specialized->setDriver($this);

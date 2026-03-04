@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers;
 
 use Intervention\Image\EncodedImage;
+use Intervention\Image\Exceptions\LogicException;
 use Intervention\Image\Exceptions\StreamException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Traits\CanBuildStream;
 
 abstract class AbstractEncoder implements EncoderInterface
@@ -25,9 +27,17 @@ abstract class AbstractEncoder implements EncoderInterface
      * {@inheritdoc}
      *
      * @see EncoderInterface::encode()
+     *
+     * @throws LogicException
      */
     public function encode(ImageInterface $image): EncodedImageInterface
     {
+        if ($this instanceof SpecializedInterface) {
+            throw new LogicException(
+                "Specialized class '" . static::class . "' must override encode()"
+            );
+        }
+
         return $image->encode($this);
     }
 

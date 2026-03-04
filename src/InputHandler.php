@@ -137,37 +137,30 @@ class InputHandler implements InputHandlerInterface
     }
 
     /**
-     * Resolve the given classname to an decoder object.
+     * Resolve the given classname or object to a decoder object.
      *
      * @throws InvalidArgumentException
      * @throws DriverException
      */
     private function decoder(string|DecoderInterface $decoder): DecoderInterface
     {
-        if (($decoder instanceof DecoderInterface) && empty($this->driver)) {
+        if (is_string($decoder)) {
+            if (!is_subclass_of($decoder, DecoderInterface::class)) {
+                throw new InvalidArgumentException('Decoder must implement ' . DecoderInterface::class);
+            }
+
+            $decoder = new $decoder();
+        }
+
+        if (empty($this->driver)) {
             return $decoder;
         }
 
-        if (($decoder instanceof DecoderInterface) && !empty($this->driver)) {
-            return $this->driver->specializeDecoder($decoder);
-        }
-
-        if (!is_subclass_of($decoder, DecoderInterface::class)) {
-            throw new InvalidArgumentException('Decoder must implement ' . DecoderInterface::class);
-        }
-
-        $resolved = new $decoder();
-
-        if (empty($this->driver)) {
-            return $resolved;
-        }
-
         try {
-            return $this->driver->specializeDecoder($resolved);
+            return $this->driver->specializeDecoder($decoder);
         } catch (NotSupportedException $e) {
             throw new DriverException(
-                'Failed to resolved decoder ' .
-                    (is_string($decoder) ? $decoder : $decoder::class) . ' with driver ' . $this->driver::class,
+                'Failed to resolve decoder ' . $decoder::class . ' with driver ' . $this->driver::class,
                 previous: $e,
             );
         }

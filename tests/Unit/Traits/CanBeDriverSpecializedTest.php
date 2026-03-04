@@ -26,7 +26,7 @@ final class CanBeDriverSpecializedTest extends BaseTestCase
             }
         };
 
-        $result = $object->specializable();
+        $result = $object->specializationArguments();
         $this->assertIsArray($result);
         $this->assertEquals(['amount' => 10, 'name' => 'foo'], $result);
     }
@@ -37,7 +37,7 @@ final class CanBeDriverSpecializedTest extends BaseTestCase
             use CanBeDriverSpecialized;
         };
 
-        $result = $object->specializable();
+        $result = $object->specializationArguments();
         $this->assertIsArray($result);
         $this->assertEmpty($result);
     }

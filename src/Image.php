@@ -606,7 +606,7 @@ final class Image implements ImageInterface
      */
     public function resize(null|int|Fraction $width = null, null|int|Fraction $height = null): ImageInterface
     {
-        return $this->modify(new ResizeModifier(...$this->fractionize($width, $height)));
+        return $this->modify(new ResizeModifier(...$this->resolveDimension($width, $height)));
     }
 
     /**
@@ -618,7 +618,7 @@ final class Image implements ImageInterface
      */
     public function resizeDown(null|int|Fraction $width = null, null|int|Fraction $height = null): ImageInterface
     {
-        return $this->modify(new ResizeDownModifier(...$this->fractionize($width, $height)));
+        return $this->modify(new ResizeDownModifier(...$this->resolveDimension($width, $height)));
     }
 
     /**
@@ -630,7 +630,7 @@ final class Image implements ImageInterface
      */
     public function scale(null|int|Fraction $width = null, null|int|Fraction $height = null): ImageInterface
     {
-        return $this->modify(new ScaleModifier(...$this->fractionize($width, $height)));
+        return $this->modify(new ScaleModifier(...$this->resolveDimension($width, $height)));
     }
 
     /**
@@ -642,7 +642,7 @@ final class Image implements ImageInterface
      */
     public function scaleDown(null|int|Fraction $width = null, null|int|Fraction $height = null): ImageInterface
     {
-        return $this->modify(new ScaleDownModifier(...$this->fractionize($width, $height)));
+        return $this->modify(new ScaleDownModifier(...$this->resolveDimension($width, $height)));
     }
 
     /**
@@ -658,7 +658,7 @@ final class Image implements ImageInterface
         string|Alignment $alignment = Alignment::CENTER,
     ): ImageInterface {
         return $this->modify(new CoverModifier(...[
-            ...$this->fractionize($width, $height),
+            ...$this->resolveDimension($width, $height),
             ...['alignment' => $alignment]
         ]));
     }
@@ -676,7 +676,7 @@ final class Image implements ImageInterface
         string|Alignment $alignment = Alignment::CENTER,
     ): ImageInterface {
         return $this->modify(new CoverDownModifier(...[
-            ...$this->fractionize($width, $height),
+            ...$this->resolveDimension($width, $height),
             ...['alignment' => $alignment]
         ]));
     }
@@ -695,7 +695,7 @@ final class Image implements ImageInterface
         string|Alignment $alignment = Alignment::CENTER
     ): ImageInterface {
         return $this->modify(new ResizeCanvasModifier(...[
-            ...$this->fractionize($width, $height),
+            ...$this->resolveDimension($width, $height),
             ...[
                 'background' => $background,
                 'alignment' => $alignment,
@@ -717,7 +717,7 @@ final class Image implements ImageInterface
         string|Alignment $alignment = Alignment::CENTER
     ): ImageInterface {
         return $this->modify(new ResizeCanvasRelativeModifier(...[
-            ...$this->fractionize($width, $height),
+            ...$this->resolveDimension($width, $height),
             ...[
                 'background' => $background,
                 'alignment' => $alignment,
@@ -739,7 +739,7 @@ final class Image implements ImageInterface
         string|Alignment $alignment = Alignment::CENTER
     ): ImageInterface {
         return $this->modify(new ContainDownModifier(...[
-            ...$this->fractionize($width, $height),
+            ...$this->resolveDimension($width, $height),
             ...[
                 'background' => $background,
                 'alignment' => $alignment,
@@ -761,7 +761,7 @@ final class Image implements ImageInterface
         string|Alignment $alignment = Alignment::CENTER
     ): ImageInterface {
         return $this->modify(new ContainModifier(...[
-            ...$this->fractionize($width, $height),
+            ...$this->resolveDimension($width, $height),
             ...[
                 'background' => $background,
                 'alignment' => $alignment,
@@ -785,7 +785,7 @@ final class Image implements ImageInterface
         string|Alignment $alignment = Alignment::TOP_LEFT
     ): ImageInterface {
         return $this->modify(new CropModifier(...[
-            ...$this->fractionize($width, $height),
+            ...$this->resolveDimension($width, $height),
             ...[
                 'x' => $x,
                 'y' => $y,
@@ -1019,13 +1019,12 @@ final class Image implements ImageInterface
     }
 
     /**
-     * Build array of resize width and height from various inputs including
-     * fractions based on the current image size.
+     * Build resizing dimension from various inputs including fractions based lengths.
      *
      * @throws InvalidArgumentException
      * @return array{'width': ?int, 'height': ?int}
      */
-    private function fractionize(null|int|Fraction $width, null|int|Fraction $height): array
+    private function resolveDimension(null|int|Fraction $width, null|int|Fraction $height): array
     {
         if ($width instanceof Fraction || $height instanceof Fraction) {
             $size = $this->size();

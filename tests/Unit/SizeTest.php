@@ -258,19 +258,19 @@ final class SizeTest extends BaseTestCase
     {
         $size = new Size(200, 100);
         $container = new Size(800, 600);
-        $this->assertTrue($size->fitsInto($container));
+        $this->assertTrue($size->fitsWithin($container));
 
         $size = new Size(800, 600);
         $container = new Size(800, 600);
-        $this->assertTrue($size->fitsInto($container));
+        $this->assertTrue($size->fitsWithin($container));
 
         $size = new Size(900, 600);
         $container = new Size(800, 600);
-        $this->assertFalse($size->fitsInto($container));
+        $this->assertFalse($size->fitsWithin($container));
 
         $size = new Size(800, 700);
         $container = new Size(800, 600);
-        $this->assertFalse($size->fitsInto($container));
+        $this->assertFalse($size->fitsWithin($container));
     }
 
     public function testIsLandscape(): void

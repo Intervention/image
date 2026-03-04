@@ -44,9 +44,9 @@ interface SizeInterface
     public function aspectRatio(): float;
 
     /**
-     * Determine if current size fits into given size.
+     * Determine if current size fits within given size.
      */
-    public function fitsInto(self $size): bool; // todo: rename to fitsWithin()
+    public function fitsWithin(self $size): bool;
 
     /**
      * Determine if size is in landscape format.

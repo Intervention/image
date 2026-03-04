@@ -67,31 +67,31 @@ final class RectangleTest extends BaseTestCase
     public function testFitsInto(): void
     {
         $box = new Rectangle(800, 600);
-        $fits = $box->fitsInto(new Rectangle(100, 100));
+        $fits = $box->fitsWithin(new Rectangle(100, 100));
         $this->assertFalse($fits);
 
         $box = new Rectangle(800, 600);
-        $fits = $box->fitsInto(new Rectangle(1000, 100));
+        $fits = $box->fitsWithin(new Rectangle(1000, 100));
         $this->assertFalse($fits);
 
         $box = new Rectangle(800, 600);
-        $fits = $box->fitsInto(new Rectangle(100, 1000));
+        $fits = $box->fitsWithin(new Rectangle(100, 1000));
         $this->assertFalse($fits);
 
         $box = new Rectangle(800, 600);
-        $fits = $box->fitsInto(new Rectangle(800, 600));
+        $fits = $box->fitsWithin(new Rectangle(800, 600));
         $this->assertTrue($fits);
 
         $box = new Rectangle(800, 600);
-        $fits = $box->fitsInto(new Rectangle(1000, 1000));
-        $this->assertTrue($fits);
-
-        $box = new Rectangle(100, 100);
-        $fits = $box->fitsInto(new Rectangle(800, 600));
+        $fits = $box->fitsWithin(new Rectangle(1000, 1000));
         $this->assertTrue($fits);
 
         $box = new Rectangle(100, 100);
-        $fits = $box->fitsInto(new Rectangle(80, 60));
+        $fits = $box->fitsWithin(new Rectangle(800, 600));
+        $this->assertTrue($fits);
+
+        $box = new Rectangle(100, 100);
+        $fits = $box->fitsWithin(new Rectangle(80, 60));
         $this->assertFalse($fits);
     }
 

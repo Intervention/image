@@ -215,9 +215,9 @@ class Size extends Polygon implements SizeInterface
     /**
      * {@inheritdoc}
      *
-     * @see SizeInterface::fitsInto()
+     * @see SizeInterface::fitsWithin()
      */
-    public function fitsInto(SizeInterface $size): bool
+    public function fitsWithin(SizeInterface $size): bool
     {
         if ($this->width() > $size->width()) {
             return false;

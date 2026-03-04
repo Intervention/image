@@ -6,19 +6,19 @@ namespace Intervention\Image\Drivers\Gd\Analyzers;
 
 use Intervention\Image\Analyzers\ResolutionAnalyzer as GenericResolutionAnalyzer;
 use Intervention\Image\Exceptions\AnalyzerException;
-use Intervention\Image\Exceptions\FilePointerException;
+use Intervention\Image\Exceptions\StreamException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\MissingDependencyException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\OriginInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Resolution;
-use Intervention\Image\Traits\CanBuildFilePointer;
+use Intervention\Image\Traits\CanBuildStream;
 use Throwable;
 
 class ResolutionAnalyzer extends GenericResolutionAnalyzer implements SpecializedInterface
 {
-    use CanBuildFilePointer;
+    use CanBuildStream;
 
     /**
      * {@inheritdoc}
@@ -58,12 +58,12 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
     /**
      * @throws AnalyzerException
      * @throws InvalidArgumentException
-     * @throws FilePointerException
+     * @throws StreamException
      * @return array<float>
      */
     private function readResolutionFromOrigin(OriginInterface $origin): array
     {
-        $handle = $this->buildFilePointerOrFail(file_get_contents($origin->filePath()));
+        $handle = $this->buildStreamOrFail(file_get_contents($origin->filePath()));
 
         try {
             return $this->resolutionFromJfifHeader($handle);

@@ -13,7 +13,7 @@ use Intervention\Image\Exceptions\EncoderException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
-use Intervention\Image\Exceptions\FilePointerException;
+use Intervention\Image\Exceptions\StreamException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\StateException;
 
@@ -21,7 +21,7 @@ class Jpeg2000Encoder extends GenericJpeg2000Encoder implements SpecializedInter
 {
     /**
      * @throws InvalidArgumentException
-     * @throws FilePointerException
+     * @throws StreamException
      * @throws StateException
      * @throws EncoderException
      */

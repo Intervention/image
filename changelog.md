@@ -96,6 +96,7 @@
 - Added ColorInterface::alpha()
 - Added NamedColor::enum
 - SizeInterface::relativePositionTo() was renamed to SizeInterface::offsetTo()
+- FileInterface::toFilePointer() was renamed to FileInterface::toStream()
 
 ### Exceptions
 
@@ -111,7 +112,7 @@ ImageException [1]
     ├── MissingDependencyException
     ├── FilesystemException
     │   ├── DirectoryNotFoundException
-    │   ├── FilePointerException
+    │   ├── StreamException
     │   ├── FileNotFoundException
     │   ├── FileNotReadableException
     │   └── FileNotWritableException

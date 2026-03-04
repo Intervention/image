@@ -8,7 +8,7 @@ use Intervention\Image\Decoders\Base64ImageDecoder;
 use Intervention\Image\Decoders\BinaryImageDecoder;
 use Intervention\Image\Decoders\DataUriImageDecoder;
 use Intervention\Image\Decoders\FilePathImageDecoder;
-use Intervention\Image\Decoders\FilePointerImageDecoder;
+use Intervention\Image\Decoders\StreamImageDecoder;
 use Intervention\Image\Decoders\SplFileInfoImageDecoder;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\AnimationFactoryInterface;
@@ -135,7 +135,7 @@ class ImageManager implements ImageManagerInterface
      */
     public function decodeStream(mixed $stream): ImageInterface
     {
-        return $this->decode($stream, FilePointerImageDecoder::class);
+        return $this->decode($stream, StreamImageDecoder::class);
     }
 
     /**

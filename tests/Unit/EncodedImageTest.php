@@ -85,15 +85,15 @@ final class EncodedImageTest extends BaseTestCase
 
     public function testDebugInfoWhenSizeThrows(): void
     {
-        // Create an EncodedImage, then close the internal file pointer to trigger
+        // Create an EncodedImage, then close the internal stream resource to trigger
         // the Throwable catch branch in __debugInfo
         $image = new EncodedImage('foo', 'image/png');
 
-        // Use reflection to close the internal pointer so size() throws
+        // Use reflection to close the internal stream so size() throws
         $ref = new \ReflectionClass($image);
-        $prop = $ref->getProperty('pointer');
-        $pointer = $prop->getValue($image);
-        fclose($pointer);
+        $prop = $ref->getProperty('stream');
+        $stream = $prop->getValue($image);
+        fclose($stream);
 
         $info = $image->__debugInfo();
         $this->assertEquals('image/png', $info['mediaType']);

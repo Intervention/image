@@ -8,33 +8,33 @@ use Intervention\Image\Exceptions\DirectoryNotFoundException;
 use Intervention\Image\Exceptions\FileNotFoundException;
 use Intervention\Image\Exceptions\FileNotReadableException;
 use Intervention\Image\Exceptions\FileNotWritableException;
-use Intervention\Image\Exceptions\FilePointerException;
+use Intervention\Image\Exceptions\StreamException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\FileInterface;
-use Intervention\Image\Traits\CanBuildFilePointer;
+use Intervention\Image\Traits\CanBuildStream;
 use Intervention\Image\Traits\CanParseFilePath;
 use Stringable;
 
 class File implements FileInterface, Stringable
 {
-    use CanBuildFilePointer;
+    use CanBuildStream;
     use CanParseFilePath;
 
     /**
      * @var resource
      */
-    protected $pointer;
+    protected $stream;
 
     /**
      * Create new instance.
      *
      * @param string|resource|null $data
      * @throws InvalidArgumentException
-     * @throws FilePointerException
+     * @throws StreamException
      */
     public function __construct(mixed $data = null)
     {
-        $this->pointer = $this->buildFilePointerOrFail($data);
+        $this->stream = $this->buildStreamOrFail($data);
     }
 
     /**
@@ -46,17 +46,17 @@ class File implements FileInterface, Stringable
      * @throws DirectoryNotFoundException
      * @throws FileNotFoundException
      * @throws FileNotReadableException
-     * @throws FilePointerException
+     * @throws StreamException
      */
     public static function fromPath(string $path): self
     {
-        $pointer = fopen(self::readableFilePathOrFail($path), 'r');
+        $stream = fopen(self::readableFilePathOrFail($path), 'r');
 
-        if ($pointer === false) {
+        if ($stream === false) {
             throw new FileNotReadableException('Failed to open file from path "' . $path . '"');
         }
 
-        return new self($pointer);
+        return new self($stream);
     }
 
     /**
@@ -67,7 +67,7 @@ class File implements FileInterface, Stringable
      * @throws InvalidArgumentException
      * @throws DirectoryNotFoundException
      * @throws FileNotWritableException
-     * @throws FilePointerException
+     * @throws StreamException
      */
     public function save(string $path): void
     {
@@ -102,7 +102,7 @@ class File implements FileInterface, Stringable
         }
 
         // write data
-        $saved = file_put_contents($path, $this->toFilePointer());
+        $saved = file_put_contents($path, $this->toStream());
 
         if ($saved === false) {
             throw new FileNotWritableException(
@@ -116,14 +116,14 @@ class File implements FileInterface, Stringable
      *
      * @see FileInterface::toString()
      *
-     * @throws FilePointerException
+     * @throws StreamException
      */
     public function toString(): string
     {
-        $data = stream_get_contents($this->toFilePointer(), offset: 0);
+        $data = stream_get_contents($this->toStream(), offset: 0);
 
         if ($data === false) {
-            throw new FilePointerException('Unable to read data from file pointer');
+            throw new StreamException('Unable to read data from stream');
         }
 
         return $data;
@@ -132,19 +132,19 @@ class File implements FileInterface, Stringable
     /**
      * {@inheritdoc}
      *
-     * @see FileInterface::toFilePointer()
+     * @see FileInterface::toStream()
      *
-     * @throws FilePointerException
+     * @throws StreamException
      */
-    public function toFilePointer()
+    public function toStream()
     {
-        $rewind = rewind($this->pointer);
+        $rewind = rewind($this->stream);
 
         if ($rewind === false) {
-            throw new FilePointerException('Failed to rewind file pointer');
+            throw new StreamException('Failed to rewind stream');
         }
 
-        return $this->pointer;
+        return $this->stream;
     }
 
     /**
@@ -152,14 +152,14 @@ class File implements FileInterface, Stringable
      *
      * @see FileInterface::size()
      *
-     * @throws FilePointerException
+     * @throws StreamException
      */
     public function size(): int
     {
-        $info = fstat($this->toFilePointer());
+        $info = fstat($this->toStream());
 
         if (!is_array($info)) {
-            throw new FilePointerException('Unable to read size of file pointer');
+            throw new StreamException('Unable to read size of stream');
         }
 
         return intval($info['size']);
@@ -170,7 +170,7 @@ class File implements FileInterface, Stringable
      *
      * @see FileInterface::__toString()
      *
-     * @throws FilePointerException
+     * @throws StreamException
      */
     public function __toString(): string
     {

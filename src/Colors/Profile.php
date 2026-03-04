@@ -14,8 +14,8 @@ class Profile extends File implements ProfileInterface
      */
     public static function fromPath(string $path): self
     {
-        $pointer = fopen(self::readableFilePathOrFail($path), 'r');
+        $stream = fopen(self::readableFilePathOrFail($path), 'r');
 
-        return new self($pointer);
+        return new self($stream);
     }
 }

@@ -6,7 +6,7 @@ namespace Intervention\Image\Decoders;
 
 use Intervention\Image\Drivers\SpecializableDecoder;
 
-class FilePointerImageDecoder extends SpecializableDecoder
+class StreamImageDecoder extends SpecializableDecoder
 {
     //
 }

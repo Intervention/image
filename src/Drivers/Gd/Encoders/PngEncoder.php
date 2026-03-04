@@ -8,7 +8,7 @@ use GdImage;
 use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Encoders\PngEncoder as GenericPngEncoder;
 use Intervention\Image\Exceptions\DriverException;
-use Intervention\Image\Exceptions\FilePointerException;
+use Intervention\Image\Exceptions\StreamException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -22,16 +22,16 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
      * @see EncoderInterface::encode()
      *
      * @throws InvalidArgumentException
-     * @throws FilePointerException
+     * @throws StreamException
      * @throws DriverException
      */
     public function encode(ImageInterface $image): EncodedImageInterface
     {
         $output = $this->prepareOutput($image);
 
-        return $this->createEncodedImage(function ($pointer) use ($output): void {
+        return $this->createEncodedImage(function ($stream) use ($output): void {
             imageinterlace($output, $this->interlaced);
-            imagepng($output, $pointer, -1);
+            imagepng($output, $stream, -1);
         }, 'image/png');
     }
 

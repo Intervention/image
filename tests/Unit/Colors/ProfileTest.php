@@ -56,10 +56,10 @@ final class ProfileTest extends BaseTestCase
         $this->assertEquals('foo', (string) $profile);
     }
 
-    public function testToFilePointer(): void
+    public function testToStream(): void
     {
         $profile = new Profile('foo');
-        $fp = $profile->toFilePointer();
+        $fp = $profile->toStream();
         $this->assertIsResource($fp);
     }
 

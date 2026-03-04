@@ -9,7 +9,7 @@ use Intervention\Image\Drivers\Imagick\Modifiers\StripMetaModifier;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\TiffEncoder as GenericTiffEncoder;
 use Intervention\Image\Exceptions\EncoderException;
-use Intervention\Image\Exceptions\FilePointerException;
+use Intervention\Image\Exceptions\StreamException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -24,7 +24,7 @@ class TiffEncoder extends GenericTiffEncoder implements SpecializedInterface
      * @see EncoderInterface::encode()
      *
      * @throws InvalidArgumentException
-     * @throws FilePointerException
+     * @throws StreamException
      * @throws StateException
      * @throws EncoderException
      */

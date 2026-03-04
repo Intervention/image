@@ -11,7 +11,7 @@ use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\GifEncoder as GenericGifEncoder;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\EncoderException;
-use Intervention\Image\Exceptions\FilePointerException;
+use Intervention\Image\Exceptions\StreamException;
 use Intervention\Image\Exceptions\FilesystemException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\EncodedImageInterface;
@@ -28,7 +28,7 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
      * @throws InvalidArgumentException
      * @throws EncoderException
      * @throws DriverException
-     * @throws FilePointerException
+     * @throws StreamException
      */
     public function encode(ImageInterface $image): EncodedImageInterface
     {
@@ -38,9 +38,9 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
 
         $gd = Cloner::clone($image->core()->native());
 
-        return $this->createEncodedImage(function ($pointer) use ($gd): void {
+        return $this->createEncodedImage(function ($stream) use ($gd): void {
             imageinterlace($gd, $this->interlaced);
-            imagegif($gd, $pointer);
+            imagegif($gd, $stream);
         }, 'image/gif');
     }
 
@@ -59,7 +59,7 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
 
             foreach ($image as $frame) {
                 $builder->addFrame(
-                    source: $this->encode($frame->toImage($image->driver()))->toFilePointer(),
+                    source: $this->encode($frame->toImage($image->driver()))->toStream(),
                     delay: $frame->delay(),
                     interlaced: $this->interlaced
                 );

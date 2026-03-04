@@ -19,11 +19,11 @@ interface FileInterface extends Stringable
     public function save(string $path): void;
 
     /**
-     * Create file pointer from encoded data.
+     * Create stream resource from encoded data.
      *
      * @return resource
      */
-    public function toFilePointer(); // todo: rename to "toStream()", also replace "file pointer" with "stream"
+    public function toStream();
 
     /**
      * Return size in bytes.

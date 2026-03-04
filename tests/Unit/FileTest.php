@@ -96,10 +96,10 @@ final class FileTest extends BaseTestCase
         $this->assertEquals('foo', (string) $file);
     }
 
-    public function testToFilePointer(): void
+    public function testToStream(): void
     {
         $file = new File('foo');
-        $fp = $file->toFilePointer();
+        $fp = $file->toStream();
         $this->assertIsResource($fp);
     }
 

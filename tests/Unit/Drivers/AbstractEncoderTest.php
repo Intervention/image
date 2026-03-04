@@ -69,8 +69,8 @@ final class AbstractEncoderTest extends BaseTestCase
 
             public function testCreateEncodedImage(): EncodedImage
             {
-                return $this->createEncodedImage(function ($pointer): void {
-                    fwrite($pointer, 'test data');
+                return $this->createEncodedImage(function ($stream): void {
+                    fwrite($stream, 'test data');
                 });
             }
         };
@@ -90,8 +90,8 @@ final class AbstractEncoderTest extends BaseTestCase
 
             public function testCreateEncodedImage(): EncodedImage
             {
-                return $this->createEncodedImage(function ($pointer): void {
-                    fwrite($pointer, 'png data');
+                return $this->createEncodedImage(function ($stream): void {
+                    fwrite($stream, 'png data');
                 }, 'image/png');
             }
         };

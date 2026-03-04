@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers;
 
 use Intervention\Image\EncodedImage;
-use Intervention\Image\Exceptions\FilePointerException;
+use Intervention\Image\Exceptions\StreamException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Traits\CanBuildFilePointer;
+use Intervention\Image\Traits\CanBuildStream;
 
 abstract class AbstractEncoder implements EncoderInterface
 {
-    use CanBuildFilePointer;
+    use CanBuildStream;
 
     /**
      * Default encoding quality.
@@ -32,17 +32,17 @@ abstract class AbstractEncoder implements EncoderInterface
     }
 
     /**
-     * Build new file pointer, run callback with it and return result as encoded image.
+     * Build new stream, run callback with it and return result as encoded image.
      *
      * @throws InvalidArgumentException
-     * @throws FilePointerException
+     * @throws StreamException
      */
     protected function createEncodedImage(callable $callback, ?string $mediaType = null): EncodedImage
     {
-        $pointer = $this->buildFilePointerOrFail();
-        $callback($pointer);
+        $stream = $this->buildStreamOrFail();
+        $callback($stream);
 
-        return is_string($mediaType) ? new EncodedImage($pointer, $mediaType) : new EncodedImage($pointer);
+        return is_string($mediaType) ? new EncodedImage($stream, $mediaType) : new EncodedImage($stream);
     }
 
     /**

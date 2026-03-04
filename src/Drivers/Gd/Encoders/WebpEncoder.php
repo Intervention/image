@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Encoders;
 
 use Intervention\Image\Encoders\WebpEncoder as GenericWebpEncoder;
-use Intervention\Image\Exceptions\FilePointerException;
+use Intervention\Image\Exceptions\StreamException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -19,14 +19,14 @@ class WebpEncoder extends GenericWebpEncoder implements SpecializedInterface
      * @see EncoderInterface::encode()
      *
      * @throws InvalidArgumentException
-     * @throws FilePointerException
+     * @throws StreamException
      */
     public function encode(ImageInterface $image): EncodedImageInterface
     {
         $quality = $this->quality === 100 && defined('IMG_WEBP_LOSSLESS') ? IMG_WEBP_LOSSLESS : $this->quality;
 
-        return $this->createEncodedImage(function ($pointer) use ($image, $quality): void {
-            imagewebp($image->core()->native(), $pointer, $quality);
+        return $this->createEncodedImage(function ($stream) use ($image, $quality): void {
+            imagewebp($image->core()->native(), $stream, $quality);
         }, 'image/webp');
     }
 }

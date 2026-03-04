@@ -11,14 +11,14 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
-use Intervention\Image\Traits\CanBuildFilePointer;
+use Intervention\Image\Traits\CanBuildStream;
 use Intervention\Image\Traits\CanParseFilePath;
 use Stringable;
 use Throwable;
 
 abstract class AbstractDecoder implements DecoderInterface
 {
-    use CanBuildFilePointer;
+    use CanBuildStream;
     use CanParseFilePath;
 
     /**
@@ -31,7 +31,7 @@ abstract class AbstractDecoder implements DecoderInterface
 
     /**
      * Extract and return EXIF data from given input which can be a file path
-     * or a file pointer stream resource.
+     * or a stream stream resource.
      *
      * @throws InvalidArgumentException
      * @throws DecoderException
@@ -48,8 +48,8 @@ abstract class AbstractDecoder implements DecoderInterface
             $source = $this->readableFilePathOrFail($input);
         } catch (Throwable) {
             try {
-                // source might be file pointer
-                $source = $this->buildFilePointerOrFail($input);
+                // source might be stream resource
+                $source = $this->buildStreamOrFail($input);
             } catch (RuntimeException) {
                 return new Collection();
             }

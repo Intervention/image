@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Drivers\Imagick\Encoders;
 
-use Intervention\Image\Drivers\Imagick\Decoders\FilePointerImageDecoder;
+use Intervention\Image\Drivers\Imagick\Decoders\StreamImageDecoder;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Drivers\Imagick\Encoders\JpegEncoder;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -50,7 +50,7 @@ final class JpegEncoderTest extends ImagickTestCase
         $this->assertMediaType('image/jpeg', $result);
         $this->assertEquals('image/jpeg', $result->mimetype());
 
-        $this->assertEmpty(exif_read_data($result->toFilePointer())['IFD0.Artist'] ?? null);
+        $this->assertEmpty(exif_read_data($result->toStream())['IFD0.Artist'] ?? null);
     }
 
     public function testEncodeStripExifKeepICCProfiles(): void
@@ -62,10 +62,10 @@ final class JpegEncoderTest extends ImagickTestCase
         $encoder->setDriver(new Driver());
         $result = $encoder->encode($image);
 
-        $decoder = new FilePointerImageDecoder();
+        $decoder = new StreamImageDecoder();
         $decoder->setDriver(new Driver());
 
-        $image = $decoder->decode($result->toFilePointer());
+        $image = $decoder->decode($result->toStream());
         $this->assertNotEmpty($image->core()->native()->getImageProfiles('icc'));
     }
 }

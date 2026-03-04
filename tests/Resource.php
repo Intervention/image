@@ -89,13 +89,13 @@ class Resource
         };
     }
 
-    public function pointer(): mixed
+    public function stream(): mixed
     {
-        $pointer = fopen('php://temp', 'rw');
-        fwrite($pointer, $this->data());
-        rewind($pointer);
+        $stream = fopen('php://temp', 'rw');
+        fwrite($stream, $this->data());
+        rewind($stream);
 
-        return $pointer;
+        return $stream;
     }
 
     public function imageObject(string|DriverInterface $driver): ImageInterface

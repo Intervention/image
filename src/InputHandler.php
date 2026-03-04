@@ -20,7 +20,7 @@ use Intervention\Image\Decoders\ColorObjectDecoder;
 use Intervention\Image\Decoders\DataUriImageDecoder;
 use Intervention\Image\Decoders\EncodedImageObjectDecoder;
 use Intervention\Image\Decoders\FilePathImageDecoder;
-use Intervention\Image\Decoders\FilePointerImageDecoder;
+use Intervention\Image\Decoders\StreamImageDecoder;
 use Intervention\Image\Decoders\ImageObjectDecoder;
 use Intervention\Image\Decoders\NativeObjectDecoder;
 use Intervention\Image\Decoders\SplFileInfoImageDecoder;
@@ -41,7 +41,7 @@ class InputHandler implements InputHandlerInterface
     public const array IMAGE_DECODERS = [
         ImageObjectDecoder::class,
         NativeObjectDecoder::class,
-        FilePointerImageDecoder::class,
+        StreamImageDecoder::class,
         SplFileInfoImageDecoder::class,
         EncodedImageObjectDecoder::class,
         DataUriImageDecoder::class,

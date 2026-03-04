@@ -69,7 +69,7 @@ interface DriverInterface
      * - Raw binary image data
      * - Base64 encoded image data
      * - Data Uri
-     * - File Pointer resource
+     * - Stream resource
      * - SplFileInfo object
      * - Intervention Image Instance (Intervention\Image\Image)
      * - Encoded Intervention Image (Intervention\Image\EncodedImage)

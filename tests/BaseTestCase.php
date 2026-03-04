@@ -68,11 +68,11 @@ abstract class BaseTestCase extends MockeryTestCase
 
     protected function assertMediaType(string|array $allowed, string|EncodedImage $input): void
     {
-        $pointer = fopen('php://temp', 'rw');
-        fwrite($pointer, (string) $input);
-        rewind($pointer);
-        $detected = mime_content_type($pointer);
-        fclose($pointer);
+        $stream = fopen('php://temp', 'rw');
+        fwrite($stream, (string) $input);
+        rewind($stream);
+        $detected = mime_content_type($stream);
+        fclose($stream);
 
         $allowed = is_string($allowed) ? [$allowed] : $allowed;
         $this->assertTrue(

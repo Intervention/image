@@ -34,9 +34,9 @@ final class AbstractDecoderTest extends BaseTestCase
     {
         $resource = Resource::create('exif.jpg');
         $source = $resource->data();
-        $pointer = $resource->pointer();
+        $stream = $resource->stream();
         $decoder = Mockery::mock(AbstractDecoder::class);
-        $decoder->shouldReceive('buildFilePointerOrFail')->with($source)->andReturn($pointer);
+        $decoder->shouldReceive('buildStreamOrFail')->with($source)->andReturn($stream);
         $result = $decoder->extractExifData($source);
         $this->assertInstanceOf(CollectionInterface::class, $result);
         $this->assertEquals('Oliver Vogel', $result->get('IFD0.Artist'));
@@ -78,6 +78,7 @@ final class AbstractDecoderTest extends BaseTestCase
         $this->assertTrue(
             $decoder->isValid('R0lGODdhAwADAKIAAAQyrKTy/ByS7AQytLT2/AAAAAAAAAAAACwAAAAAAwADAAADBhgU0gMgAQA7')
         );
+
         $this->assertFalse(
             $decoder->isValid('foo')
         );
@@ -90,9 +91,9 @@ final class AbstractDecoderTest extends BaseTestCase
     public function testExtractExifDataFromInvalidInput(): void
     {
         $decoder = Mockery::mock(AbstractDecoder::class);
-        // Input that fails both readableFilePathOrFail and buildFilePointerOrFail
+        // Input that fails both readableFilePathOrFail and buildStreamOrFail
         // This triggers the RuntimeException catch, returning empty Collection
-        $decoder->shouldReceive('buildFilePointerOrFail')
+        $decoder->shouldReceive('buildStreamOrFail')
             ->andThrow(new FilesystemException('not valid'));
         $result = $decoder->extractExifData('not-a-file-and-not-binary');
         $this->assertInstanceOf(CollectionInterface::class, $result);

@@ -31,7 +31,7 @@ interface ImageManagerInterface
      * - SplFileInfo object
      * - Base64 encoded image data
      * - Data URI string or instance of DataUriInterface
-     * - File pointer resource
+     * - Stream resource
      * - Instance of ImageInterface
      * - Instance of EncodedImageInterface
      *
@@ -70,7 +70,7 @@ interface ImageManagerInterface
     public function decodeDataUri(string|Stringable|DataUriInterface $dataUri): ImageInterface;
 
     /**
-     * Decode an image from the given file pointer resource.
+     * Decode an image from the given stream resource.
      */
     public function decodeStream(mixed $stream): ImageInterface;
 }

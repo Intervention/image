@@ -133,7 +133,7 @@ class AnimationFactory implements AnimationFactoryInterface
         } catch (DecoderException | FilesystemException) {
             // create empty image with colored background
             $image = $driver->createImage($this->width, $this->height)
-                ->fill($driver->handleColorInput($source));
+                ->fill($driver->decodeColor($source));
         }
 
         // adjust size if necessary

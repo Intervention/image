@@ -25,6 +25,6 @@ class DrawPixelModifier extends SpecializableModifier
      */
     protected function color(): ColorInterface
     {
-        return $this->driver()->handleColorInput($this->color);
+        return $this->driver()->decodeColor($this->color);
     }
 }

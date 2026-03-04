@@ -79,14 +79,14 @@ abstract class AbstractDriver implements DriverInterface
     /**
      * {@inheritdoc}
      *
-     * @see DriverInterface::handleColorInput()
+     * @see DriverInterface::decodeColor()
      *
      * @throws InvalidArgumentException
      * @throws ColorDecoderException
      * @throws DriverException
      * @throws NotSupportedException
      */
-    public function handleColorInput(mixed $input, ?array $decoders = null): ColorInterface
+    public function decodeColor(mixed $input, ?array $decoders = null): ColorInterface
     {
         $decoders = $decoders === null ? InputHandler::COLOR_DECODERS : $decoders;
 

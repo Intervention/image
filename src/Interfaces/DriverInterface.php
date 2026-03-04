@@ -84,7 +84,7 @@ interface DriverInterface
      *
      * @param array<string|DecoderInterface> $decoders
      */
-    public function handleColorInput(mixed $input, ?array $decoders = null): ColorInterface; // todo: maybe rename to decodeColor()
+    public function decodeColor(mixed $input, ?array $decoders = null): ColorInterface;
 
     /**
      * Return color processor for the given image and its colorspace.

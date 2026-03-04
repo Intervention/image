@@ -28,7 +28,7 @@ class ReduceColorsModifier extends SpecializableModifier
      */
     protected function backgroundColor(ImageInterface $image): ColorInterface
     {
-        return $this->driver()->handleColorInput(
+        return $this->driver()->decodeColor(
             $this->background ?? $this->driver()->config()->backgroundColor,
         )->toColorspace($image->colorspace());
     }

@@ -97,7 +97,7 @@ final class TextModifierTest extends BaseTestCase
         $color->shouldReceive('isTransparent')->andReturn(false);
 
         $driver = Mockery::mock(DriverInterface::class);
-        $driver->shouldReceive('handleColorInput')->andReturn($color);
+        $driver->shouldReceive('decodeColor')->andReturn($color);
 
         $property = new ReflectionProperty(TextModifier::class, 'driver');
         $property->setValue($modifier, $driver);
@@ -124,7 +124,7 @@ final class TextModifierTest extends BaseTestCase
         $color->shouldReceive('isTransparent')->andReturn(true);
 
         $driver = Mockery::mock(DriverInterface::class);
-        $driver->shouldReceive('handleColorInput')->andReturn($color);
+        $driver->shouldReceive('decodeColor')->andReturn($color);
 
         $property = new ReflectionProperty(TextModifier::class, 'driver');
         $property->setValue($modifier, $driver);
@@ -151,7 +151,7 @@ final class TextModifierTest extends BaseTestCase
         $color->shouldReceive('isTransparent')->andReturn(false);
 
         $driver = Mockery::mock(DriverInterface::class);
-        $driver->shouldReceive('handleColorInput')->andReturn($color);
+        $driver->shouldReceive('decodeColor')->andReturn($color);
 
         $property = new ReflectionProperty(TextModifier::class, 'driver');
         $property->setValue($modifier, $driver);
@@ -178,7 +178,7 @@ final class TextModifierTest extends BaseTestCase
         $color->shouldReceive('isTransparent')->andReturn(true);
 
         $driver = Mockery::mock(DriverInterface::class);
-        $driver->shouldReceive('handleColorInput')->andReturn($color);
+        $driver->shouldReceive('decodeColor')->andReturn($color);
 
         $property = new ReflectionProperty(TextModifier::class, 'driver');
         $property->setValue($modifier, $driver);

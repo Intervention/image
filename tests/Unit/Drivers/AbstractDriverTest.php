@@ -55,7 +55,7 @@ final class AbstractDriverTest extends BaseTestCase
         $driver = new GdDriver();
         $this->expectException(StateException::class);
         $this->expectExceptionMessage('No decoders in input handler stack');
-        $driver->handleColorInput('test', []);
+        $driver->decodeColor('test', []);
     }
 
     public function testHandleColorInputFailsWithUnsupportedInput(): void
@@ -63,7 +63,7 @@ final class AbstractDriverTest extends BaseTestCase
         $driver = new GdDriver();
         $this->expectException(NotSupportedException::class);
         $this->expectExceptionMessage('Unsupported color format');
-        $driver->handleColorInput(new \stdClass());
+        $driver->decodeColor(new \stdClass());
     }
 
     public function testSpecializeModifier(): void
@@ -123,7 +123,7 @@ final class AbstractDriverTest extends BaseTestCase
     public function testHandleColorInput(): void
     {
         $driver = new GdDriver();
-        $result = $driver->handleColorInput('ff0000');
+        $result = $driver->decodeColor('ff0000');
         $this->assertNotNull($result);
     }
 }

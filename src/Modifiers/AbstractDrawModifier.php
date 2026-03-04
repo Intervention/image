@@ -23,7 +23,7 @@ abstract class AbstractDrawModifier extends SpecializableModifier
      */
     protected function backgroundColor(): ColorInterface
     {
-        return $this->driver()->handleColorInput($this->drawable()->backgroundColor());
+        return $this->driver()->decodeColor($this->drawable()->backgroundColor());
     }
 
     /**
@@ -33,6 +33,6 @@ abstract class AbstractDrawModifier extends SpecializableModifier
      */
     protected function borderColor(): ColorInterface
     {
-        return $this->driver()->handleColorInput($this->drawable()->borderColor());
+        return $this->driver()->decodeColor($this->drawable()->borderColor());
     }
 }

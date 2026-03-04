@@ -28,7 +28,7 @@ final class InputDataProvider
         ];
     }
 
-    public static function handleColorInputDataProvider(): Generator
+    public static function decodeColorDataProvider(): Generator
     {
         yield [
             'ffffff',

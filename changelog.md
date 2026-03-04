@@ -48,7 +48,6 @@
 - ImageInterface::toAvif() is replaced by ImageInterface::encodeUsingFormat()
 - ImageInterface::toHeic() is replaced by ImageInterface::encodeUsingFormat()
 - ImageInterface::toTiff() and ImageInterface::toTif() are replaced by ImageInterface::encodeUsingFormat()
-- DriverInterface::handleColorInput() has null as default
 - Method ImageInterface::save() only processes known image file extensions
 - Method FontInterface::filename() is replaced by FontInterface::filepath()
 - Method FontInterface::hasFilename() is replaced by FontInterface::hasFile()

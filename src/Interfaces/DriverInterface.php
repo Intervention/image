@@ -61,7 +61,7 @@ interface DriverInterface
     public function createCore(array $frames): CoreInterface;
 
     /**
-     * Handle given image source by decoding it to ImageInterface.
+     * Decode image source with given decoders. Try all image decoders by default.
      *
      * Image sources can be as follows:
      *
@@ -77,10 +77,10 @@ interface DriverInterface
      *
      * @param array<string|DecoderInterface> $decoders
      */
-    public function handleImageInput(mixed $input, ?array $decoders = null): ImageInterface; // todo: maybe rename to decodeImage()
+    public function decodeImage(mixed $input, ?array $decoders = null): ImageInterface;
 
     /**
-     * Handle given image source by decoding it to ColorInterface.
+     * Decode color source with given decoders. Try all color decoders by default.
      *
      * @param array<string|DecoderInterface> $decoders
      */

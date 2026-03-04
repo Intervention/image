@@ -13,7 +13,7 @@ use Intervention\Image\Tests\Resource;
 
 final class InputDataProvider
 {
-    public static function handleImageInputDataProvider(): Generator
+    public static function decodeImageDataProvider(): Generator
     {
         yield [
             Resource::create('test.jpg')->path(),

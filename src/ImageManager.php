@@ -72,7 +72,7 @@ class ImageManager implements ImageManagerInterface
      */
     public function decode(mixed $source, null|string|array|DecoderInterface $decoders = null): ImageInterface
     {
-        return $this->driver->handleImageInput(
+        return $this->driver->decodeImage(
             $source,
             in_array(gettype($decoders), ['string', 'object']) ? [$decoders] : $decoders,
         );

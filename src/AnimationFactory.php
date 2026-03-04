@@ -129,7 +129,7 @@ class AnimationFactory implements AnimationFactoryInterface
     ): FrameInterface {
         try {
             // try to decode image source
-            $image = $driver->handleImageInput($source);
+            $image = $driver->decodeImage($source);
         } catch (DecoderException | FilesystemException) {
             // create empty image with colored background
             $image = $driver->createImage($this->width, $this->height)

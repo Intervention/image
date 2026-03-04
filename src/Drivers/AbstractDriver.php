@@ -47,14 +47,14 @@ abstract class AbstractDriver implements DriverInterface
     /**
      * {@inheritdoc}
      *
-     * @see DriverInterface::handleImageInput()
+     * @see DriverInterface::decodeImage()
      *
      * @throws InvalidArgumentException
      * @throws ImageDecoderException
      * @throws DriverException
      * @throws NotSupportedException
      */
-    public function handleImageInput(mixed $input, ?array $decoders = null): ImageInterface
+    public function decodeImage(mixed $input, ?array $decoders = null): ImageInterface
     {
         $decoders = $decoders === null ? InputHandler::IMAGE_DECODERS : $decoders;
 

@@ -39,7 +39,7 @@ final class AbstractDriverTest extends BaseTestCase
         $driver = new GdDriver();
         $this->expectException(StateException::class);
         $this->expectExceptionMessage('No decoders in input handler stack');
-        $driver->handleImageInput('test', []);
+        $driver->decodeImage('test', []);
     }
 
     public function testHandleImageInputFailsWithUnsupportedInput(): void
@@ -47,7 +47,7 @@ final class AbstractDriverTest extends BaseTestCase
         $driver = new GdDriver();
         $this->expectException(NotSupportedException::class);
         $this->expectExceptionMessage('Unsupported image source type');
-        $driver->handleImageInput(12345);
+        $driver->decodeImage(12345);
     }
 
     public function testHandleColorInputFailsWithEmptyDecoders(): void

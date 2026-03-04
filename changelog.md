@@ -58,7 +58,7 @@
 - Method DrawableFactoryInterface::create() is replaced by DrawableFactoryInterface::drawable()
 - Signature of Frame::__construct() has changed, argument $offset_left is know $offsetLeft and $offset_top is now $offsetTop
 - Signature of PixelColorAnalyzer::__construct() has changed, argument $frame_key is know $frame
-- DriverInterface::handleInput() is replaced by DriverInterface::handleImageInput(), DriverInterface::handleColorInput()
+- DriverInterface::handleInput() is replaced by DriverInterface::decodeImage() and DriverInterface::decodeColor()
 - ColorChannelInterface::max() and ColorChannelInterface::min() are now static
 - Method ColorInterface::convertTo() was renamed to ColorInterface::toColorspace()
 - Method ColorChannelInterface::toInt() was removed use ColorChannelInterface::value() instead

@@ -18,9 +18,9 @@ abstract class AbstractColorChannel implements ColorChannelInterface, Stringable
     /**
      * {@inheritdoc}
      *
-     * @see ColorChannelInterface::normalizedValue()
+     * @see ColorChannelInterface::normalized()
      */
-    public function normalizedValue(int $precision = 32): float
+    public function normalized(int $precision = 32): float
     {
         return round(($this->value() - $this->min()) / ($this->max() - $this->min()), $precision);
     }
@@ -42,7 +42,7 @@ abstract class AbstractColorChannel implements ColorChannelInterface, Stringable
             throw new InvalidArgumentException('Percentage value must be between -100 and 100');
         }
 
-        $normalized = $this->normalizedValue();
+        $normalized = $this->normalized();
         $base = $percent >= 0 ? (1 - $normalized) : $normalized;
         $scaled = min(1.0, max(0.0, $normalized + $base / 100 * $percent));
         $this->value = static::fromNormalized($scaled)->value();

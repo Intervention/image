@@ -14,6 +14,11 @@ interface ColorChannelInterface extends Stringable
     public static function fromNormalized(float $normalized): self;
 
     /**
+     * Return the channels value normalized to a float value from 0.0 to 1.0.
+     */
+    public function normalized(int $precision = 32): float;
+
+    /**
      * Return the the minimal possible value of the color channel.
      */
     public static function min(): float;
@@ -27,11 +32,6 @@ interface ColorChannelInterface extends Stringable
      * Return color channels value.
      */
     public function value(): int|float;
-
-    /**
-     * Return the channels value normalized to a float value from 0.0 to 1.0 by its range.
-     */
-    public function normalizedValue(int $precision = 32): float; // todo: maybe rename to normalized()
 
     /**
      * Scale channel value by given percent.

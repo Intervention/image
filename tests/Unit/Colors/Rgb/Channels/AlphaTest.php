@@ -88,12 +88,12 @@ final class AlphaTest extends BaseTestCase
     public function testNormalizedValue(): void
     {
         $alpha = new Alpha(1);
-        $this->assertEquals(1.0, $alpha->normalizedValue());
+        $this->assertEquals(1.0, $alpha->normalized());
 
         $alpha = new Alpha(0);
-        $this->assertEquals(0.0, $alpha->normalizedValue());
+        $this->assertEquals(0.0, $alpha->normalized());
 
         $alpha = new Alpha(0.5);
-        $this->assertEquals(0.5, $alpha->normalizedValue(1));
+        $this->assertEquals(0.5, $alpha->normalized(1));
     }
 }

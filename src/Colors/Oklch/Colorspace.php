@@ -104,7 +104,7 @@ class Colorspace extends AbstractColorspace
         $h = rad2deg(atan2($b, $a));
         $h = $h < 0 ? $h + 360 : $h;
 
-        return new Color($color->lightness()->value(), $c, $h, $color->alpha()->normalizedValue());
+        return new Color($color->lightness()->value(), $c, $h, $color->alpha()->normalized());
     }
 
     /**

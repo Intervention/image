@@ -56,13 +56,13 @@ final class ChannelTest extends BaseTestCase
     public function testNormalize(): void
     {
         $channel = new Hue(360);
-        $this->assertEquals(1, $channel->normalizedValue());
+        $this->assertEquals(1, $channel->normalized());
         $channel = new Hue(180);
-        $this->assertEquals(0.5, $channel->normalizedValue());
+        $this->assertEquals(0.5, $channel->normalized());
         $channel = new Hue(0);
-        $this->assertEquals(0, $channel->normalizedValue());
+        $this->assertEquals(0, $channel->normalized());
         $channel = new Luminance(90);
-        $this->assertEquals(.9, $channel->normalizedValue());
+        $this->assertEquals(.9, $channel->normalized());
     }
 
     public function testValidate(): void

@@ -62,7 +62,7 @@
 - Method ColorInterface::convertTo() was renamed to ColorInterface::toColorspace()
 - Method ColorChannelInterface::toInt() was removed use ColorChannelInterface::value() instead
 - Method ColorChannelInterface::colorFromNormalized() requires now a static implementation
-- Method ColorChannelInterface::normalize() was renamed to ColorChannelInterface::normalizedValue()
+- Method ColorChannelInterface::normalize() was renamed to ColorChannelInterface::normalized()
 - CoreInterface::class now requires implementation of CoreInterface::meta()
 - RectangleResizer::class was renamed to Resize::class
 - ImageInterface::pickColor() was renamed to ImageInterface::colorAt() and signature has changed, argument $frame_key is know $frame

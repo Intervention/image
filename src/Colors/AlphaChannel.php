@@ -71,6 +71,6 @@ class AlphaChannel extends AbstractColorChannel
      */
     public function toString(): string
     {
-        return strval($this->normalizedValue(2));
+        return strval($this->normalized(2));
     }
 }

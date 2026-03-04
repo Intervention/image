@@ -163,7 +163,7 @@ abstract class AbstractColor implements ColorInterface, Stringable
             255 - $rgb->channel(Red::class)->value(),
             255 - $rgb->channel(Green::class)->value(),
             255 - $rgb->channel(Blue::class)->value(),
-            $rgb->alpha()->normalizedValue(),
+            $rgb->alpha()->normalized(),
         );
 
         return $inverted->toColorspace($this->colorspace());

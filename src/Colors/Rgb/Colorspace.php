@@ -96,10 +96,10 @@ class Colorspace extends AbstractColorspace
     private function importCmykColor(CmykColor $color): RgbColor
     {
         return new Color(
-            (int) (255 * (1 - $color->cyan()->normalizedValue()) * (1 - $color->key()->normalizedValue())),
-            (int) (255 * (1 - $color->magenta()->normalizedValue()) * (1 - $color->key()->normalizedValue())),
-            (int) (255 * (1 - $color->yellow()->normalizedValue()) * (1 - $color->key()->normalizedValue())),
-            $color->alpha()->normalizedValue(),
+            (int) (255 * (1 - $color->cyan()->normalized()) * (1 - $color->key()->normalized())),
+            (int) (255 * (1 - $color->magenta()->normalized()) * (1 - $color->key()->normalized())),
+            (int) (255 * (1 - $color->yellow()->normalized()) * (1 - $color->key()->normalized())),
+            $color->alpha()->normalized(),
         );
     }
 
@@ -111,8 +111,8 @@ class Colorspace extends AbstractColorspace
      */
     private function importHsvColor(HsvColor $color): RgbColor
     {
-        $chroma = $color->value()->normalizedValue() * $color->saturation()->normalizedValue();
-        $hue = $color->hue()->normalizedValue() * 6;
+        $chroma = $color->value()->normalized() * $color->saturation()->normalized();
+        $hue = $color->hue()->normalized() * 6;
         $x = $chroma * (1 - abs(fmod($hue, 2) - 1));
 
         // connect channel values
@@ -127,11 +127,11 @@ class Colorspace extends AbstractColorspace
 
         // add to each value
         $values = array_map(
-            fn(float|int $value): float => max(0.0, min(1.0, $value + $color->value()->normalizedValue() - $chroma)),
+            fn(float|int $value): float => max(0.0, min(1.0, $value + $color->value()->normalized() - $chroma)),
             $values,
         );
 
-        $values[] = $color->alpha()->normalizedValue(); // append alpha channel value
+        $values[] = $color->alpha()->normalized(); // append alpha channel value
 
         return $this->colorFromNormalized($values);
     }
@@ -146,7 +146,7 @@ class Colorspace extends AbstractColorspace
     {
         // normalized values of hsl channels
         [$h, $s, $l] = array_map(
-            fn(ColorChannelInterface $channel): float => $channel->normalizedValue(),
+            fn(ColorChannelInterface $channel): float => $channel->normalized(),
             $color->channels()
         );
 
@@ -164,7 +164,7 @@ class Colorspace extends AbstractColorspace
         };
 
         $values = array_map(fn(float|int $value): float => max(0.0, min(1.0, $value + $m)), $values);
-        $values[] = $color->alpha()->normalizedValue(); // append alpha channel value
+        $values[] = $color->alpha()->normalized(); // append alpha channel value
 
         $color = $this->colorFromNormalized($values);
 
@@ -206,7 +206,7 @@ class Colorspace extends AbstractColorspace
             (int) round($r * 255),
             (int) round($g * 255),
             (int) round($b * 255),
-            $color->alpha()->normalizedValue(),
+            $color->alpha()->normalized(),
         );
     }
 

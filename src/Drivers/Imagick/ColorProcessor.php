@@ -58,10 +58,10 @@ class ColorProcessor implements ColorProcessorInterface
         if ($this->colorspace instanceof Cmyk) {
             try {
                 $pixel = new ImagickPixel();
-                $pixel->setColorValue(Imagick::COLOR_CYAN, $color->channel(Cyan::class)->normalizedValue());
-                $pixel->setColorValue(Imagick::COLOR_MAGENTA, $color->channel(Magenta::class)->normalizedValue());
-                $pixel->setColorValue(Imagick::COLOR_YELLOW, $color->channel(Yellow::class)->normalizedValue());
-                $pixel->setColorValue(Imagick::COLOR_BLACK, $color->channel(Key::class)->normalizedValue());
+                $pixel->setColorValue(Imagick::COLOR_CYAN, $color->channel(Cyan::class)->normalized());
+                $pixel->setColorValue(Imagick::COLOR_MAGENTA, $color->channel(Magenta::class)->normalized());
+                $pixel->setColorValue(Imagick::COLOR_YELLOW, $color->channel(Yellow::class)->normalized());
+                $pixel->setColorValue(Imagick::COLOR_BLACK, $color->channel(Key::class)->normalized());
             } catch (ImagickException $e) {
                 throw new DriverException('Failed to create CMYK color', previous: $e);
             }

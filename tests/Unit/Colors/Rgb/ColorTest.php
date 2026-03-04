@@ -121,7 +121,7 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals(
             [1.0, 0.0, 0.2, 1.0],
             array_map(
-                fn(ColorChannelInterface $channel): float => $channel->normalizedValue(),
+                fn(ColorChannelInterface $channel): float => $channel->normalized(),
                 $color->channels(),
             )
         );
@@ -130,7 +130,7 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals(
             [1.0, 0.0, 0.2, 1.0],
             array_map(
-                fn(ColorChannelInterface $channel): float => $channel->normalizedValue(),
+                fn(ColorChannelInterface $channel): float => $channel->normalized(),
                 $color->channels(),
             )
         );
@@ -139,7 +139,7 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals(
             [1.0, 0.0, 0.2, .2],
             array_map(
-                fn(ColorChannelInterface $channel): float => $channel->normalizedValue(),
+                fn(ColorChannelInterface $channel): float => $channel->normalized(),
                 $color->channels(),
             )
         );

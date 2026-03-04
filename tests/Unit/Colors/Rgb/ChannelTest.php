@@ -59,11 +59,11 @@ final class ChannelTest extends BaseTestCase
     public function testNormalize(): void
     {
         $channel = new Channel(255);
-        $this->assertEquals(1, $channel->normalizedValue());
+        $this->assertEquals(1, $channel->normalized());
         $channel = new Channel(0);
-        $this->assertEquals(0, $channel->normalizedValue());
+        $this->assertEquals(0, $channel->normalized());
         $channel = new Channel(51);
-        $this->assertEquals(.2, $channel->normalizedValue());
+        $this->assertEquals(.2, $channel->normalized());
     }
 
     public function testValidate(): void

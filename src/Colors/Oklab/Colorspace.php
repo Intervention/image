@@ -97,9 +97,9 @@ class Colorspace extends AbstractColorspace
         $cbrt = fn(float $x): float => $x < 0 ? -abs($x) ** (1 / 3) : $x ** (1 / 3);
         $rgbToLinear = fn(float $x): float => $x <= 0.04045 ? $x / 12.92 : (($x + 0.055) / 1.055) ** 2.4;
 
-        $r = $color->red()->normalizedValue();
-        $g = $color->green()->normalizedValue();
-        $b = $color->blue()->normalizedValue();
+        $r = $color->red()->normalized();
+        $g = $color->green()->normalized();
+        $b = $color->blue()->normalized();
 
         $r = $rgbToLinear($r);
         $g = $rgbToLinear($g);
@@ -117,7 +117,7 @@ class Colorspace extends AbstractColorspace
             0.2104542553 * $l + 0.7936177850 * $m - 0.0040720468 * $s,
             1.9779984951 * $l - 2.4285922050 * $m + 0.4505937099 * $s,
             0.0259040371 * $l + 0.7827717662 * $m - 0.8086757660 * $s,
-            $color->alpha()->normalizedValue(),
+            $color->alpha()->normalized(),
         );
     }
 
@@ -132,7 +132,7 @@ class Colorspace extends AbstractColorspace
             $color->lightness()->value(),
             $color->chroma()->value() * cos($hRad),
             $color->chroma()->value() * sin($hRad),
-            $color->alpha()->normalizedValue(),
+            $color->alpha()->normalized(),
         );
     }
 

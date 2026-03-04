@@ -97,7 +97,7 @@ class Colorspace extends AbstractColorspace
     {
         // normalized values of rgb channels
         $values = array_map(
-            fn(ColorChannelInterface $channel): float => $channel->normalizedValue(),
+            fn(ColorChannelInterface $channel): float => $channel->normalized(),
             $color->channels(),
         );
 
@@ -129,7 +129,7 @@ class Colorspace extends AbstractColorspace
             intval(round($hue)),
             intval(round($saturation * 100)),
             intval(round($luminance * 100)),
-            $color->alpha()->normalizedValue(),
+            $color->alpha()->normalized(),
         );
     }
 
@@ -140,7 +140,7 @@ class Colorspace extends AbstractColorspace
     {
         // normalized values of hsv channels
         [$h, $s, $v] = array_map(
-            fn(ColorChannelInterface $channel): float => $channel->normalizedValue(),
+            fn(ColorChannelInterface $channel): float => $channel->normalized(),
             $color->channels(),
         );
 
@@ -159,7 +159,7 @@ class Colorspace extends AbstractColorspace
             intval(round($h * 360)),
             intval(round($saturation * 100)),
             intval(round($luminance * 100)),
-            $color->alpha()->normalizedValue(),
+            $color->alpha()->normalized(),
         );
     }
 

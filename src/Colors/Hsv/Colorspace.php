@@ -98,7 +98,7 @@ class Colorspace extends AbstractColorspace
     {
         // normalized values of rgb channels
         $values = array_map(
-            fn(ColorChannelInterface $channel): float => $channel->normalizedValue(),
+            fn(ColorChannelInterface $channel): float => $channel->normalized(),
             $color->channels(),
         );
 
@@ -115,7 +115,7 @@ class Colorspace extends AbstractColorspace
 
         if ($chroma == 0) {
             // grayscale color
-            return new Color(0, 0, intval(round($v)), $color->alpha()->normalizedValue());
+            return new Color(0, 0, intval(round($v)), $color->alpha()->normalized());
         }
 
         // calculate saturation
@@ -133,7 +133,7 @@ class Colorspace extends AbstractColorspace
             intval(round($h)),
             intval(round($s)),
             intval(round($v)),
-            $color->alpha()->normalizedValue(),
+            $color->alpha()->normalized(),
         );
     }
 
@@ -150,14 +150,14 @@ class Colorspace extends AbstractColorspace
 
         // normalized values of hsl channels
         [$h, $s, $l] = array_map(
-            fn(ColorChannelInterface $channel): float => $channel->normalizedValue(),
+            fn(ColorChannelInterface $channel): float => $channel->normalized(),
             $color->channels()
         );
 
         $v = $l + $s * min($l, 1 - $l);
         $s = ($v == 0) ? 0 : 2 * (1 - $l / $v);
 
-        return $this->colorFromNormalized([$h, $s, $v, $color->alpha()->normalizedValue()]);
+        return $this->colorFromNormalized([$h, $s, $v, $color->alpha()->normalized()]);
     }
 
     /**

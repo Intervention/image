@@ -23,7 +23,7 @@ interface FileInterface extends Stringable
      *
      * @return resource
      */
-    public function toFilePointer();
+    public function toFilePointer(); // todo: rename to "toStream()", also replace "file pointer" with "stream"
 
     /**
      * Return size in bytes.

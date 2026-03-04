@@ -12,7 +12,7 @@ interface SpecializableInterface
      *
      * @return array<string, mixed>
      */
-    public function specializable(): array;
+    public function specializable(): array; // todo: try to refactor away
 
     /**
      * Set the driver for which the object is specialized.

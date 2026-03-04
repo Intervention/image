@@ -9,12 +9,12 @@ interface ColorProcessorInterface
     /**
      * Turn given color in the driver's color implementation.
      */
-    public function colorToNative(ColorInterface $color): mixed;
+    public function colorToNative(ColorInterface $color): mixed; // todo: maybe rename to import
 
     /**
      * Turn the given driver's definition of a color into a color object.
      */
-    public function nativeToColor(mixed $native): ColorInterface;
+    public function nativeToColor(mixed $native): ColorInterface; // todo: maybe rename to export
 
     /**
      * Return the colorspace the processor currently operates in.

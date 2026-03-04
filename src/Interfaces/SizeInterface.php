@@ -46,7 +46,7 @@ interface SizeInterface
     /**
      * Determine if current size fits into given size.
      */
-    public function fitsInto(self $size): bool;
+    public function fitsInto(self $size): bool; // todo: rename to fitsWithin()
 
     /**
      * Determine if size is in landscape format.
@@ -71,7 +71,7 @@ interface SizeInterface
     /**
      * Calculate the relative position to another Size based on the pivot point settings of both sizes.
      */
-    public function relativePositionTo(self $size): PointInterface;
+    public function relativePositionTo(self $size): PointInterface; // todo: rename to offsetTo()
 
     /**
      * @see Resizer::resize()

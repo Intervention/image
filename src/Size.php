@@ -183,7 +183,7 @@ class Size extends Polygon implements SizeInterface
         $reference->movePivot($alignment);
 
         $this->movePivot($alignment)->setPivot(
-            $reference->relativePositionTo($this)
+            $reference->offsetTo($this)
         );
 
         return $this;
@@ -192,9 +192,9 @@ class Size extends Polygon implements SizeInterface
     /**
      * {@inheritdoc}
      *
-     * @see SizeInterface::relativePositionTo()
+     * @see SizeInterface::offsetTo()
      */
-    public function relativePositionTo(SizeInterface $rectangle): PointInterface
+    public function offsetTo(SizeInterface $rectangle): PointInterface
     {
         return new Point(
             $this->pivot()->x() - $rectangle->pivot()->x(),

@@ -69,9 +69,9 @@ interface SizeInterface
     public function alignPivotTo(self $size, string|Alignment $alignment): self;
 
     /**
-     * Calculate the relative position to another Size based on the pivot point settings of both sizes.
+     * Calculate the relative position to another size based on the pivot point settings of both sizes.
      */
-    public function relativePositionTo(self $size): PointInterface; // todo: rename to offsetTo()
+    public function offsetTo(self $size): PointInterface;
 
     /**
      * @see Resizer::resize()

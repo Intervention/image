@@ -208,13 +208,13 @@ final class RectangleTest extends BaseTestCase
         $this->assertEquals(-500, $size->pivot()->y());
     }
 
-    public function testgetRelativePositionTo(): void
+    public function testOffsetTo(): void
     {
         $container = new Rectangle(800, 600);
         $input = new Rectangle(200, 100);
         $container->movePivot(Alignment::TOP_LEFT);
         $input->movePivot(Alignment::TOP_LEFT);
-        $pos = $container->relativePositionTo($input);
+        $pos = $container->offsetTo($input);
         $this->assertEquals(0, $pos->x());
         $this->assertEquals(0, $pos->y());
 
@@ -222,7 +222,7 @@ final class RectangleTest extends BaseTestCase
         $input = new Rectangle(200, 100);
         $container->movePivot(Alignment::CENTER);
         $input->movePivot(Alignment::TOP_LEFT);
-        $pos = $container->relativePositionTo($input);
+        $pos = $container->offsetTo($input);
         $this->assertEquals(400, $pos->x());
         $this->assertEquals(300, $pos->y());
 
@@ -230,7 +230,7 @@ final class RectangleTest extends BaseTestCase
         $input = new Rectangle(200, 100);
         $container->movePivot(Alignment::BOTTOM_RIGHT);
         $input->movePivot(Alignment::TOP_RIGHT);
-        $pos = $container->relativePositionTo($input);
+        $pos = $container->offsetTo($input);
         $this->assertEquals(600, $pos->x());
         $this->assertEquals(600, $pos->y());
 
@@ -238,7 +238,7 @@ final class RectangleTest extends BaseTestCase
         $input = new Rectangle(200, 100);
         $container->movePivot(Alignment::CENTER);
         $input->movePivot(Alignment::CENTER);
-        $pos = $container->relativePositionTo($input);
+        $pos = $container->offsetTo($input);
         $this->assertEquals(300, $pos->x());
         $this->assertEquals(250, $pos->y());
 
@@ -246,7 +246,7 @@ final class RectangleTest extends BaseTestCase
         $input = new Rectangle(100, 100);
         $container->movePivot(Alignment::CENTER);
         $input->movePivot(Alignment::CENTER);
-        $pos = $container->relativePositionTo($input);
+        $pos = $container->offsetTo($input);
         $this->assertEquals(0, $pos->x());
         $this->assertEquals(50, $pos->y());
     }

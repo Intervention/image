@@ -229,7 +229,7 @@ final class SizeTest extends BaseTestCase
         $this->assertEquals(500, $size->pivot()->y());
     }
 
-    public function testRelativePositionTo(): void
+    public function testOffsetTo(): void
     {
         $size1 = new Size(800, 600);
         $size1->movePivot(Alignment::CENTER);
@@ -237,7 +237,7 @@ final class SizeTest extends BaseTestCase
         $size2 = new Size(200, 100);
         $size2->movePivot(Alignment::CENTER);
 
-        $position = $size1->relativePositionTo($size2);
+        $position = $size1->offsetTo($size2);
         $this->assertEquals(300, $position->x());
         $this->assertEquals(250, $position->y());
     }

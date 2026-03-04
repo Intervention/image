@@ -95,6 +95,7 @@
 - Added ColorInterface::withInversion()
 - Added ColorInterface::alpha()
 - Added NamedColor::enum
+- SizeInterface::relativePositionTo() was renamed to SizeInterface::offsetTo()
 
 ### Exceptions
 

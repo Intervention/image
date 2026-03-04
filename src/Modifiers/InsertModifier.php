@@ -39,6 +39,6 @@ class InsertModifier extends SpecializableModifier
             $this->alignment
         );
 
-        return $imageSize->relativePositionTo($watermarkSize);
+        return $imageSize->offsetTo($watermarkSize);
     }
 }

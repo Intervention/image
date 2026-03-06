@@ -29,7 +29,7 @@ final class ColorTest extends BaseTestCase
 
     public function testCreate(): void
     {
-        $color = Color::create('oklch(0%, 0.123, 180)');
+        $color = Color::create(0, 0.123, 180);
         $this->assertInstanceOf(Color::class, $color);
         $this->assertEquals(
             [0.0, .123, 180, 255],
@@ -218,16 +218,10 @@ final class ColorTest extends BaseTestCase
         $this->assertTrue($color->isClear());
     }
 
-    public function testCreateFailsInvalidArgumentCount(): void
+    public function testCreateFailsInvalidArguments(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        Color::create(.1, .2);
-    }
-
-    public function testCreateFailsInvalidString(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        Color::create('not-a-color');
+        Color::create(1000, 2000, 1000);
     }
 
     public function testToStringWithAlpha(): void

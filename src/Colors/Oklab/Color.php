@@ -14,7 +14,6 @@ use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
-use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 
@@ -42,35 +41,9 @@ class Color extends AbstractColor
      * @throws ColorDecoderException
      * @throws DriverException
      */
-    public static function create(mixed ...$input): self
+    public static function create(float|Lightness $l, float|A $a, float|B $b, float|Alpha $alpha = 1): self
     {
-        $input = match (count($input)) {
-            1 => $input[0],
-            3, 4 => $input,
-            default => throw new InvalidArgumentException(
-                'Too few arguments to create OKLAB color, ' . count($input) . ' passed and 1, 3 or 4 expected',
-            ),
-        };
-
-        if (is_array($input)) {
-            return new self(...$input);
-        }
-
-        try {
-            $color = InputHandler::usingDecoders([
-                Decoders\StringColorDecoder::class,
-            ])->handle($input);
-        } catch (NotSupportedException) {
-            throw new ColorDecoderException('Failed to decode OKLAB color from string "' . $input . '"');
-        }
-
-        if (!$color instanceof self) {
-            throw new ColorDecoderException(
-                'Failed to decode OKLAB color from string "' . $input . '"',
-            );
-        }
-
-        return $color;
+        return new self($l, $a, $b, $alpha);
     }
 
     /**

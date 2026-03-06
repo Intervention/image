@@ -7,12 +7,6 @@ namespace Intervention\Image\Interfaces;
 interface ColorInterface
 {
     /**
-     * Static color factory method that takes any supported color format
-     * and returns a corresponding color object.
-     */
-    public static function create(mixed ...$input): self;
-
-    /**
      * Return colorspace of current color.
      */
     public function colorspace(): ColorspaceInterface;

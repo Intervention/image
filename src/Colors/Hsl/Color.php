@@ -14,7 +14,6 @@ use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
-use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 
@@ -42,36 +41,9 @@ class Color extends AbstractColor
      * @throws DriverException
      * @throws ColorDecoderException
      */
-    public static function create(mixed ...$input): self
+    public static function create(int|Hue $h, int|Saturation $s, int|Luminance $l, float|Alpha $a = 1): self
     {
-        $input = match (count($input)) {
-            1 => $input[0],
-            3, 4 => $input,
-            default => throw new InvalidArgumentException(
-                'Too few arguments to create HSL color, ' . count($input) . ' passed and 1, 3 or 4 expected',
-            ),
-        };
-
-        if (is_array($input)) {
-            return new self(...$input);
-        }
-
-        try {
-            $color = InputHandler::usingDecoders([
-                Decoders\StringColorDecoder::class,
-            ])->handle($input);
-        } catch (NotSupportedException) {
-            throw new ColorDecoderException('Failed to decode HSL color from string "' . $input . '"');
-        }
-
-        if (!$color instanceof self) {
-            throw new ColorDecoderException(
-                'Failed to decode HSL color from string "' . $input . '"',
-            );
-        }
-
-
-        return $color;
+        return new self($h, $s, $l, $a);
     }
 
     /**

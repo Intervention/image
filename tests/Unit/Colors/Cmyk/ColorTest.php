@@ -32,9 +32,6 @@ final class ColorTest extends BaseTestCase
 
     public function testCreate(): void
     {
-        $color = Color::create('cmyk(10, 20, 30, 40)');
-        $this->assertInstanceOf(Color::class, $color);
-
         $color = Color::create(10, 20, 30, 40);
         $this->assertInstanceOf(Color::class, $color);
     }
@@ -143,16 +140,10 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals(40, $info['key']);
     }
 
-    public function testCreateFailsInvalidArgumentCount(): void
+    public function testCreateFailsInvalidArguments(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        Color::create(10, 20, 30);
-    }
-
-    public function testCreateFailsInvalidString(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        Color::create('not-a-color');
+        Color::create(1000, 10, 20, 30);
     }
 
     public function testCreateWithFiveArgs(): void

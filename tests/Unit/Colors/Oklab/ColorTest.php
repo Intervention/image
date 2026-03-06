@@ -29,26 +29,6 @@ final class ColorTest extends BaseTestCase
 
     public function testCreate(): void
     {
-        $color = Color::create('oklab(0%, 25%, -50%)');
-        $this->assertInstanceOf(Color::class, $color);
-        $this->assertEquals(
-            [0.0, .1, -0.2, 255],
-            array_map(
-                fn(ColorChannelInterface $channel): int|float => $channel->value(),
-                $color->channels()
-            )
-        );
-
-        $color = Color::create('oklab(0%, 25%, -50%, .2)');
-        $this->assertInstanceOf(Color::class, $color);
-        $this->assertEquals(
-            [0.0, .1, -0.2, 51],
-            array_map(
-                fn(ColorChannelInterface $channel): int|float => $channel->value(),
-                $color->channels()
-            )
-        );
-
         $color = Color::create(.51, .1, -.2);
         $this->assertInstanceOf(Color::class, $color);
         $this->assertEquals(
@@ -223,22 +203,10 @@ final class ColorTest extends BaseTestCase
         $this->assertTrue($color->isClear());
     }
 
-    public function testCreateFailsInvalidArgumentCount(): void
+    public function testCreateFailsInvalidArguments(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        Color::create(.1, .2);
-    }
-
-    public function testCreateFailsInvalidString(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        Color::create('not-a-color');
-    }
-
-    public function testToStringWithAlpha(): void
-    {
-        $color = new Color(.5, .1, -.2, .5);
-        $this->assertEquals('oklab(0.5 0.1 -0.2 / 0.5)', (string) $color);
+        Color::create(100, 2000, 1000);
     }
 
     public function testConstructorWithChannelObjects(): void

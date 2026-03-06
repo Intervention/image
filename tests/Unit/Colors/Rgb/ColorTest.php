@@ -14,7 +14,6 @@ use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
-use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
@@ -35,26 +34,6 @@ final class ColorTest extends BaseTestCase
 
     public function testCreate(): void
     {
-        $color = Color::create('ccc');
-        $this->assertInstanceOf(Color::class, $color);
-        $this->assertEquals(
-            [204, 204, 204, 255],
-            array_map(
-                fn(ColorChannelInterface $channel): int => $channel->value(),
-                $color->channels(),
-            ),
-        );
-
-        $color = Color::create('rgba(10, 20, 30, .2)');
-        $this->assertInstanceOf(Color::class, $color);
-        $this->assertEquals(
-            [10, 20, 30, 51],
-            array_map(
-                fn(ColorChannelInterface $channel): int => $channel->value(),
-                $color->channels(),
-            ),
-        );
-
         $color = Color::create(10, 20, 30, .2);
         $this->assertInstanceOf(Color::class, $color);
         $this->assertEquals(
@@ -285,18 +264,6 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals('0.2', $info['alpha']);
     }
 
-    public function testCreateFailsInvalidArgumentCount(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        Color::create(10, 20);
-    }
-
-    public function testCreateFailsInvalidString(): void
-    {
-        $this->expectException(ColorDecoderException::class);
-        Color::create('not-a-color');
-    }
-
     public function testCreateWithFourArgs(): void
     {
         $color = Color::create(10, 20, 30, .5);
@@ -467,6 +434,12 @@ final class ColorTest extends BaseTestCase
         // Fully desaturated should be grayscale (R=G=B)
         $this->assertEquals($result->channel(Red::class)->value(), $result->channel(Green::class)->value());
         $this->assertEquals($result->channel(Green::class)->value(), $result->channel(Blue::class)->value());
+    }
+
+    public function testCreateFailsInvalidArguments(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        Color::create(1000, 2000, 1000);
     }
 
     public function testInvert(): void

@@ -36,9 +36,6 @@ class ColorTest extends BaseTestCase
      * @param $channels array<int>
      */
     #[DataProviderExternal(ColorDataProvider::class, 'rgbArray')]
-    #[DataProviderExternal(ColorDataProvider::class, 'rgbString')]
-    #[DataProviderExternal(ColorDataProvider::class, 'rgbHex')]
-    #[DataProviderExternal(ColorDataProvider::class, 'rgbNamedColor')]
     public function testRgb(mixed $input, array $channels): void
     {
         $this->assertEquals(
@@ -52,7 +49,6 @@ class ColorTest extends BaseTestCase
      * @param $channels array<int>
      */
     #[DataProviderExternal(ColorDataProvider::class, 'cmykArray')]
-    #[DataProviderExternal(ColorDataProvider::class, 'cmykString')]
     public function testCmyk(mixed $input, array $channels): void
     {
         $this->assertEquals(
@@ -66,7 +62,6 @@ class ColorTest extends BaseTestCase
      * @param $channels array<int>
      */
     #[DataProviderExternal(ColorDataProvider::class, 'hslArray')]
-    #[DataProviderExternal(ColorDataProvider::class, 'hslString')]
     public function testHsl(mixed $input, array $channels): void
     {
         $this->assertEquals(
@@ -80,7 +75,6 @@ class ColorTest extends BaseTestCase
      * @param $channels array<int>
      */
     #[DataProviderExternal(ColorDataProvider::class, 'hsvArray')]
-    #[DataProviderExternal(ColorDataProvider::class, 'hsvString')]
     public function testHsv(mixed $input, array $channels): void
     {
         $this->assertEquals(
@@ -94,7 +88,6 @@ class ColorTest extends BaseTestCase
      * @param $channels array<float>
      */
     #[DataProviderExternal(ColorDataProvider::class, 'oklabArray')]
-    #[DataProviderExternal(ColorDataProvider::class, 'oklabString')]
     public function testOklab(mixed $input, array $channels): void
     {
         $this->assertEquals(
@@ -108,7 +101,6 @@ class ColorTest extends BaseTestCase
      * @param $channels array<float>
      */
     #[DataProviderExternal(ColorDataProvider::class, 'oklchArray')]
-    #[DataProviderExternal(ColorDataProvider::class, 'oklchString')]
     public function testOklch(mixed $input, array $channels): void
     {
         $this->assertEquals(

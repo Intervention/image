@@ -16,11 +16,11 @@ final class PixelateModifierTest extends ImagickTestCase
 {
     public function testModify(): void
     {
-        $image = $this->readTestImage('trim.png');
-        $this->assertEquals('00aef0', $image->colorAt(0, 0)->toHex());
-        $this->assertEquals('00aef0', $image->colorAt(14, 14)->toHex());
+        $image = $this->readTestImage('sphere.webp');
+        $this->assertEquals('ff7c00', $image->colorAt(2, 2)->toHex());
+        $this->assertEquals('ff7a0d', $image->colorAt(29, 29)->toHex());
         $image->modify(new PixelateModifier(10));
-        $this->assertEquals('00aef0', $image->colorAt(0, 0)->toHex());
-        $this->assertEquals('6bab8c', $image->colorAt(14, 14)->toHex());
+        $this->assertEquals('e6ab6f', $image->colorAt(2, 2)->toHex());
+        $this->assertEquals('a58b6e', $image->colorAt(29, 29)->toHex());
     }
 }

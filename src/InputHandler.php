@@ -13,7 +13,6 @@ use Intervention\Image\Colors\Oklch\Decoders\StringColorDecoder as OklchStringCo
 use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder as RgbHexColorDecoder;
 use Intervention\Image\Colors\Rgb\Decoders\NamedColorDecoder;
 use Intervention\Image\Colors\Rgb\Decoders\StringColorDecoder as RgbStringColorDecoder;
-use Intervention\Image\Colors\Rgb\Decoders\TransparentColorDecoder;
 use Intervention\Image\Decoders\Base64ImageDecoder;
 use Intervention\Image\Decoders\BinaryImageDecoder;
 use Intervention\Image\Decoders\ColorObjectDecoder;
@@ -55,7 +54,6 @@ class InputHandler implements InputHandlerInterface
      */
     public const array COLOR_DECODERS = [
         NamedColorDecoder::class,
-        TransparentColorDecoder::class,
         ColorObjectDecoder::class,
         RgbHexColorDecoder::class,
         RgbStringColorDecoder::class,

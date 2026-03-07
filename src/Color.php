@@ -45,7 +45,6 @@ use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder as RgbHexColorDecoder;
 use Intervention\Image\Colors\Rgb\Decoders\NamedColorDecoder;
 use Intervention\Image\Colors\Rgb\Decoders\StringColorDecoder as RgbStringColorDecoder;
-use Intervention\Image\Colors\Rgb\Decoders\TransparentColorDecoder;
 use Intervention\Image\Exceptions\NotSupportedException;
 
 class Color
@@ -65,7 +64,6 @@ class Color
                 OklchStringColorDecoder::class,
                 NamedColorDecoder::class,
                 RgbHexColorDecoder::class,
-                TransparentColorDecoder::class,
             ])->handle($input);
         } catch (NotSupportedException) {
             throw new NotSupportedException('Unable to parse color from input "' . $input . '"');
@@ -149,5 +147,13 @@ class Color
         float|OklchAlpha $a = 1,
     ): OklchColor {
         return new OklchColor($l, $c, $h, $a);
+    }
+
+    /**
+     * Create transparent RGB color.
+     */
+    public static function transparent(): ColorInterface
+    {
+        return new RgbColor(255, 255, 255, 0);
     }
 }

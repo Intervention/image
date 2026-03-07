@@ -57,7 +57,6 @@ class InputHandlerTest extends BaseTestCase
             [InputHandler::COLOR_DECODERS, 'cmyk(0, 0, 0, 0)', ColorInterface::class],
             [InputHandler::COLOR_DECODERS, 'hsv(0, 0, 0)', ColorInterface::class],
             [InputHandler::COLOR_DECODERS, 'hsl(0, 0, 0)', ColorInterface::class],
-            [InputHandler::COLOR_DECODERS, 'transparent', ColorInterface::class],
             [InputHandler::COLOR_DECODERS, 'steelblue', ColorInterface::class],
             [InputHandler::IMAGE_DECODERS, Resource::create()->path(), ImageInterface::class],
             [InputHandler::IMAGE_DECODERS, Resource::create()->data(), ImageInterface::class],

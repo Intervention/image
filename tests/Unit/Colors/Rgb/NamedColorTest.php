@@ -53,8 +53,8 @@ class NamedColorTest extends BaseTestCase
     {
         $this->assertEquals('4682b4', NamedColor::STEELBLUE->toHex());
         $this->assertEquals('f0f8ff', NamedColor::ALICEBLUE->toHex());
-        $this->assertEquals('#4682b4', NamedColor::STEELBLUE->toHex('#'));
-        $this->assertEquals('#f0f8ff', NamedColor::ALICEBLUE->toHex('#'));
+        $this->assertEquals('#4682b4', NamedColor::STEELBLUE->toHex(true));
+        $this->assertEquals('#f0f8ff', NamedColor::ALICEBLUE->toHex(true));
     }
 
     public function testChannels(): void

@@ -189,9 +189,9 @@ enum NamedColor: string implements ColorInterface
      *
      * @see ColorInterface::toHex()
      */
-    public function toHex(string $prefix = ''): string
+    public function toHex(bool $prefix = false): string
     {
-        return $prefix . match ($this) {
+        return ($prefix ? '#' : '') . match ($this) {
             self::ALICEBLUE => 'f0f8ff',
             self::ANTIQUEWHITE => 'faebd7',
             self::AQUA => '00ffff',

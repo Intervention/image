@@ -99,12 +99,12 @@ class Color extends AbstractColor
      * @throws InvalidArgumentException
      * @throws NotSupportedException
      */
-    public function toHex(string $prefix = ''): string
+    public function toHex(bool $prefix = false): string
     {
         if ($this->isTransparent()) {
             return sprintf(
                 '%s%02x%02x%02x%02x',
-                $prefix,
+                $prefix ? '#' : '',
                 $this->red()->value(),
                 $this->green()->value(),
                 $this->blue()->value(),
@@ -114,7 +114,7 @@ class Color extends AbstractColor
 
         return sprintf(
             '%s%02x%02x%02x',
-            $prefix,
+            $prefix ? '#' : '',
             $this->red()->value(),
             $this->green()->value(),
             $this->blue()->value()

@@ -99,7 +99,7 @@ class Color extends AbstractColor
      *
      * @throws NotSupportedException
      */
-    public function toHex(string $prefix = ''): string
+    public function toHex(bool $prefix = false): string
     {
         return $this->toColorspace(Rgb::class)->toHex($prefix);
     }

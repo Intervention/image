@@ -17,9 +17,9 @@ interface ColorInterface
     public function toString(): string;
 
     /**
-     * Cast color object to hex encoded web color.
+     * Transform color object to hex encoded web color.
      */
-    public function toHex(string $prefix = ''): string;
+    public function toHex(bool $prefix = false): string;
 
     /**
      * Return array of all color channels.

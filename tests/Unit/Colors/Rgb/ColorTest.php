@@ -88,7 +88,7 @@ final class ColorTest extends BaseTestCase
     {
         $color = new Color(181, 55, 23);
         $this->assertEquals('b53717', $color->toHex());
-        $this->assertEquals('#b53717', $color->toHex('#'));
+        $this->assertEquals('#b53717', $color->toHex(true));
 
         $color = new Color(181, 55, 23, .2);
         $this->assertEquals('b5371733', $color->toHex());

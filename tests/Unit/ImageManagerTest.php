@@ -98,15 +98,15 @@ class ImageManagerTest extends BaseTestCase
     {
         $manager = new ImageManager($driver);
         $image = $manager->createImage(3, 2, function (AnimationFactoryInterface $animation): void {
-            $animation->add(Resource::create('red.gif')->path());
-            $animation->add(Resource::create('green.gif')->path());
-            $animation->add(Resource::create('blue.gif')->path());
+            $animation->add('f00');
+            $animation->add('0f0');
+            $animation->add('00f');
         });
         $this->assertEquals(3, $image->width());
         $this->assertEquals(2, $image->height());
         $this->assertEquals(3, $image->count());
         $this->assertEquals(
-            ['ff6464', '64ff64', '6464ff'],
+            ['ff0000', '00ff00', '0000ff'],
             $image->colorsAt(1, 1)->map(fn(ColorInterface $color): string => $color->toHex())->toArray(),
         );
     }

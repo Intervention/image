@@ -612,6 +612,15 @@ final class PolygonTest extends BaseTestCase
         $this->assertInstanceOf(PolygonFactory::class, $factory);
     }
 
+    public function testAdjust(): void
+    {
+        $polygon = new Polygon();
+        $this->assertEquals(null, $polygon->backgroundColor());
+        $adjusted = $polygon->adjust(fn(PolygonFactory $factory) => $factory->background('f50'));
+        $this->assertEquals(null, $polygon->backgroundColor());
+        $this->assertEquals('f50', $adjusted->backgroundColor());
+    }
+
     public function testClone(): void
     {
         $poly = new Polygon([new Point(10, 20), new Point(30, 40)], new Point(5, 5));

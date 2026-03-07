@@ -96,6 +96,7 @@
 - Added NamedColor::enum
 - SizeInterface::relativePositionTo() was renamed to SizeInterface::offsetTo()
 - FileInterface::toFilePointer() was renamed to FileInterface::toStream()
+- DrawableInterface requires the implementation of `factory()` and `adjust()`.
 
 ### Exceptions
 

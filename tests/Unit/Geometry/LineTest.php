@@ -101,6 +101,15 @@ final class LineTest extends BaseTestCase
         $this->assertInstanceOf(LineFactory::class, $factory);
     }
 
+    public function testAdjust(): void
+    {
+        $line = new Line(new Point(1, 2), new Point(3, 4), 10);
+        $this->assertEquals(null, $line->backgroundColor());
+        $adjusted = $line->adjust(fn(LineFactory $factory) => $factory->background('f50'));
+        $this->assertEquals(null, $line->backgroundColor());
+        $this->assertEquals('f50', $adjusted->backgroundColor());
+    }
+
     public function testCloneWithColors(): void
     {
         $line = new Line(new Point(1, 2), new Point(3, 4), 10);

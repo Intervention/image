@@ -388,6 +388,19 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     }
 
     /**
+     * {@inheritdoc}
+     *
+     * @see DrawableInterface::adjust()
+     */
+    public function adjust(callable $adjustments): DrawableInterface
+    {
+        $factory = $this->factory();
+        $adjustments($factory);
+
+        return $factory->drawable();
+    }
+
+    /**
      * Clone polygon.
      */
     public function __clone(): void

@@ -65,4 +65,9 @@ interface DrawableInterface
      * Return the factory object with a copy of the current drawable object.
      */
     public function factory(): DrawableFactoryInterface;
+
+    /**
+     * Return a copy of the current drawable by making adjustments via a callback on the objects factory.
+     */
+    public function adjust(callable $adjustments): self;
 }

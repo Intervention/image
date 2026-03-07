@@ -214,6 +214,19 @@ class Bezier implements IteratorAggregate, Countable, ArrayAccess, DrawableInter
     }
 
     /**
+     * {@inheritdoc}
+     *
+     * @see DrawableInterface::adjust()
+     */
+    public function adjust(callable $adjustments): DrawableInterface
+    {
+        $factory = $this->factory();
+        $adjustments($factory);
+
+        return $factory->drawable();
+    }
+
+    /**
      * Clone bezier.
      */
     public function __clone(): void

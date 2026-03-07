@@ -113,6 +113,19 @@ class Ellipse implements DrawableInterface
     }
 
     /**
+     * {@inheritdoc}
+     *
+     * @see DrawableInterface::adjust()
+     */
+    public function adjust(callable $adjustments): DrawableInterface
+    {
+        $factory = $this->factory();
+        $adjustments($factory);
+
+        return $factory->drawable();
+    }
+
+    /**
      * Clone ellipse.
      */
     public function __clone(): void

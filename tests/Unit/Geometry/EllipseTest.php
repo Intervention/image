@@ -79,6 +79,15 @@ final class EllipseTest extends BaseTestCase
         $this->assertInstanceOf(EllipseFactory::class, $factory);
     }
 
+    public function testAdjust(): void
+    {
+        $ellipse = new Ellipse(10, 10);
+        $this->assertEquals(null, $ellipse->backgroundColor());
+        $adjusted = $ellipse->adjust(fn(EllipseFactory $factory) => $factory->background('f50'));
+        $this->assertEquals(null, $ellipse->backgroundColor());
+        $this->assertEquals('f50', $adjusted->backgroundColor());
+    }
+
     public function testClone(): void
     {
         $ellipse = new Ellipse(10, 20, new Point(100, 200));

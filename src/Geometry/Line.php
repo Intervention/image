@@ -137,6 +137,19 @@ class Line implements DrawableInterface
     }
 
     /**
+     * {@inheritdoc}
+     *
+     * @see DrawableInterface::adjust()
+     */
+    public function adjust(callable $adjustments): DrawableInterface
+    {
+        $factory = $this->factory();
+        $adjustments($factory);
+
+        return $factory->drawable();
+    }
+
+    /**
      * Clone line.
      */
     public function __clone(): void

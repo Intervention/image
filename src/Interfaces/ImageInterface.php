@@ -483,49 +483,49 @@ interface ImageInterface extends IteratorAggregate, Countable
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-a-rectangle
      */
-    public function drawRectangle(callable|Rectangle $rectangle, ?callable $adjustments = null): self;
+    public function drawRectangle(callable|Rectangle $rectangle): self;
 
     /**
      * Draw an ellipse on the image.
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-ellipses
      */
-    public function drawEllipse(callable|Ellipse $ellipse, ?callable $adjustments = null): self;
+    public function drawEllipse(callable|Ellipse $ellipse): self;
 
     /**
      * Draw a circle on the image.
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-a-circle
      */
-    public function drawCircle(callable|Circle $circle, ?callable $adjustments = null): self;
+    public function drawCircle(callable|Circle $circle): self;
 
     /**
      * Draw a polygon on the image.
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-a-polygon
      */
-    public function drawPolygon(callable|Polygon $polygon, ?callable $adjustments = null): self;
+    public function drawPolygon(callable|Polygon $polygon): self;
 
     /**
      * Draw a line on the image.
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-a-line
      */
-    public function drawLine(callable|Line $line, ?callable $adjustments = null): self;
+    public function drawLine(callable|Line $line): self;
 
     /**
      * Draw a bezier curve on the image.
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing#draw-bezier-curves
      */
-    public function drawBezier(callable|Bezier $bezier, ?callable $adjustments = null): self;
+    public function drawBezier(callable|Bezier $bezier): self;
 
     /**
      * Draw a geometric object on the image.
      *
      * @link https://image.intervention.io/v3/modifying-images/drawing
      */
-    public function draw(DrawableInterface $drawable, ?callable $adjustments = null): self;
+    public function draw(DrawableInterface $drawable): self;
 
     /**
      * Encode the image with the given encoder. If no encoder is provided,

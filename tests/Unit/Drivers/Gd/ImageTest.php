@@ -725,16 +725,6 @@ final class ImageTest extends GdTestCase
         $this->assertInstanceOf(ImageInterface::class, $result);
     }
 
-    public function testDrawWithAdjustments(): void
-    {
-        $image = $this->createTestImage(10, 10);
-        $rect = new Rectangle(5, 5, new Point(0, 0));
-        $result = $image->draw($rect, function ($factory): void {
-            $factory->background('ff0000');
-        });
-        $this->assertInstanceOf(ImageInterface::class, $result);
-    }
-
     public function testEncodeUsingFormat(): void
     {
         $image = $this->readTestImage('blue.gif');

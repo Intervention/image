@@ -498,16 +498,6 @@ final class ImageTest extends BaseTestCase
         $this->assertInstanceOf(ImageInterface::class, $result);
     }
 
-    public function testDrawWithAdjustments(): void
-    {
-        $image = $this->createImage();
-        $rectangle = new Rectangle(50, 50, new Point(10, 10));
-        $result = $image->draw($rectangle, function ($factory): void {
-            $factory->background('ff0000');
-        });
-        $this->assertInstanceOf(ImageInterface::class, $result);
-    }
-
     public function testColorAt(): void
     {
         $image = $this->createImage();

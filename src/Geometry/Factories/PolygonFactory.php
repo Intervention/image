@@ -32,17 +32,9 @@ class PolygonFactory implements DrawableFactoryInterface
      *
      * @see DrawableFactoryInterface::build()
      */
-    public static function build(
-        null|callable|DrawableInterface $drawable = null,
-        ?callable $adjustments = null,
-    ): Polygon {
-        $factory = new self($drawable);
-
-        if (is_callable($adjustments)) {
-            $adjustments($factory);
-        }
-
-        return $factory->drawable();
+    public static function build(null|callable|DrawableInterface $drawable = null): Polygon
+    {
+        return (new self($drawable))->drawable();
     }
 
     /**

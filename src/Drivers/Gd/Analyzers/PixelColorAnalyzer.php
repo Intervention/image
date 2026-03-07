@@ -52,6 +52,6 @@ class PixelColorAnalyzer extends GenericPixelColorAnalyzer implements Specialize
             );
         }
 
-        return $processor->nativeToColor($index);
+        return $processor->import($index);
     }
 }

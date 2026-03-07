@@ -97,6 +97,8 @@
 - SizeInterface::relativePositionTo() was renamed to SizeInterface::offsetTo()
 - FileInterface::toFilePointer() was renamed to FileInterface::toStream()
 - DrawableInterface requires the implementation of `factory()` and `adjust()`.
+- ColorProcessorInterface::colorToNative() was renamed to ColorProcessorInterface::export() 
+- ColorProcessorInterface::nativeToColor() was renamed to ColorProcessorInterface::import() 
 
 ### Exceptions
 

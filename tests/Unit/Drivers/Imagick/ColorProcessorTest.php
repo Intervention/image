@@ -28,18 +28,18 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 #[CoversClass(ColorProcessor::class)]
 final class ColorProcessorTest extends BaseTestCase
 {
-    public function testColorToNative(): void
+    public function testExport(): void
     {
         $processor = new ColorProcessor(new Colorspace());
-        $result = $processor->colorToNative(new Color(255, 55, 0, .2));
+        $result = $processor->export(new Color(255, 55, 0, .2));
         $this->assertInstanceOf(ImagickPixel::class, $result);
         $this->assertEquals(['r' => 1, 'g' => 0.21568627450980393, 'b' => 0, 'a' => .2], $result->getColor(1));
     }
 
-    public function testColorToNativeCmyk(): void
+    public function testExportCmyk(): void
     {
         $processor = new ColorProcessor(new CmykColorspace());
-        $result = $processor->colorToNative(new CmykColor(100, 0, 0, 0));
+        $result = $processor->export(new CmykColor(100, 0, 0, 0));
         $this->assertInstanceOf(ImagickPixel::class, $result);
         $this->assertEquals(1.0, $result->getColorValue(Imagick::COLOR_CYAN));
         $this->assertEquals(0.0, $result->getColorValue(Imagick::COLOR_MAGENTA));
@@ -47,21 +47,21 @@ final class ColorProcessorTest extends BaseTestCase
         $this->assertEquals(0.0, $result->getColorValue(Imagick::COLOR_BLACK));
     }
 
-    public function testColorToNativeHsl(): void
+    public function testExportHsl(): void
     {
         $processor = new ColorProcessor(new HslColorspace());
-        $result = $processor->colorToNative(new Color(255, 0, 0));
+        $result = $processor->export(new Color(255, 0, 0));
         $this->assertInstanceOf(ImagickPixel::class, $result);
     }
 
-    public function testNativeToColor(): void
+    public function testImport(): void
     {
         $processor = new ColorProcessor(new Colorspace());
-        $result = $processor->nativeToColor(new ImagickPixel('rgb(255, 55, 0)'));
+        $result = $processor->import(new ImagickPixel('rgb(255, 55, 0)'));
         $this->assertInstanceOf(ColorInterface::class, $result);
         $this->assertColor(255, 55, 0, 255, $result);
 
-        $result = $processor->nativeToColor(new ImagickPixel('rgba(255, 55, 0, .2)'));
+        $result = $processor->import(new ImagickPixel('rgba(255, 55, 0, .2)'));
         $this->assertInstanceOf(ColorInterface::class, $result);
         $this->assertColor(255, 55, 0, 51, $result);
 
@@ -70,12 +70,12 @@ final class ColorProcessorTest extends BaseTestCase
         $pixel->setColorValue(Imagick::COLOR_GREEN, .3);
         $pixel->setColorValue(Imagick::COLOR_BLUE, 0);
         $pixel->setColorValue(Imagick::COLOR_ALPHA, .2);
-        $result = $processor->nativeToColor($pixel);
+        $result = $processor->import($pixel);
         $this->assertInstanceOf(ColorInterface::class, $result);
         $this->assertColor(255, 77, 0, 51, $result);
     }
 
-    public function testNativeToColorCmyk(): void
+    public function testImportColorCmyk(): void
     {
         $processor = new ColorProcessor(new CmykColorspace());
         $pixel = new ImagickPixel();
@@ -83,35 +83,35 @@ final class ColorProcessorTest extends BaseTestCase
         $pixel->setColorValue(Imagick::COLOR_MAGENTA, 0.0);
         $pixel->setColorValue(Imagick::COLOR_YELLOW, 0.0);
         $pixel->setColorValue(Imagick::COLOR_BLACK, 0.0);
-        $result = $processor->nativeToColor($pixel);
+        $result = $processor->import($pixel);
         $this->assertInstanceOf(CmykColor::class, $result);
     }
 
-    public function testNativeToColorHsl(): void
+    public function testImportHsl(): void
     {
         $processor = new ColorProcessor(new HslColorspace());
-        $result = $processor->nativeToColor(new ImagickPixel('rgb(255, 0, 0)'));
+        $result = $processor->import(new ImagickPixel('rgb(255, 0, 0)'));
         $this->assertInstanceOf(HslColor::class, $result);
     }
 
-    public function testNativeToColorHsv(): void
+    public function testImportHsv(): void
     {
         $processor = new ColorProcessor(new HsvColorspace());
-        $result = $processor->nativeToColor(new ImagickPixel('rgb(255, 0, 0)'));
+        $result = $processor->import(new ImagickPixel('rgb(255, 0, 0)'));
         $this->assertInstanceOf(HsvColor::class, $result);
     }
 
-    public function testNativeToColorOklab(): void
+    public function testImportOklab(): void
     {
         $processor = new ColorProcessor(new OklabColorspace());
-        $result = $processor->nativeToColor(new ImagickPixel('rgb(255, 0, 0)'));
+        $result = $processor->import(new ImagickPixel('rgb(255, 0, 0)'));
         $this->assertInstanceOf(OklabColor::class, $result);
     }
 
-    public function testNativeToColorOklch(): void
+    public function testImportOklch(): void
     {
         $processor = new ColorProcessor(new OklchColorspace());
-        $result = $processor->nativeToColor(new ImagickPixel('rgb(255, 0, 0)'));
+        $result = $processor->import(new ImagickPixel('rgb(255, 0, 0)'));
         $this->assertInstanceOf(OklchColor::class, $result);
     }
 }

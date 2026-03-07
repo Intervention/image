@@ -25,7 +25,7 @@ class FillTransparentAreasModifier extends GenericFillTransparentAreasModifier i
         // get imagickpixel from background color
         $pixel = $this->driver()
             ->colorProcessor($image)
-            ->colorToNative($backgroundColor);
+            ->export($backgroundColor);
 
         // merge transparent areas with the background color
         foreach ($image as $frame) {

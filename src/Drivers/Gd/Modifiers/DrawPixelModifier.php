@@ -22,7 +22,7 @@ class DrawPixelModifier extends GenericDrawPixelModifier implements SpecializedI
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        $color = $this->driver()->colorProcessor($image)->colorToNative($this->color());
+        $color = $this->driver()->colorProcessor($image)->export($this->color());
 
         foreach ($image as $frame) {
             imagealphablending($frame->native(), true);

@@ -23,7 +23,7 @@ class DrawLineModifier extends GenericDrawLineModifier implements SpecializedInt
             return $image;
         }
 
-        $color = $this->driver()->colorProcessor($image)->colorToNative(
+        $color = $this->driver()->colorProcessor($image)->export(
             $this->backgroundColor()
         );
 

@@ -29,7 +29,7 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
 
         $background = $this->driver()
             ->colorProcessor($image)
-            ->colorToNative(
+            ->export(
                 $this->backgroundColor()
             );
 

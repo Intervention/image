@@ -48,7 +48,7 @@ class ReduceColorsModifier extends GenericReduceColorsModifier implements Specia
 
         $nativeBackgroundColor = $this->driver()
             ->colorProcessor($image)
-            ->colorToNative($backgroundColor);
+            ->export($backgroundColor);
 
         foreach ($image as $frame) {
             // create new image for color quantization

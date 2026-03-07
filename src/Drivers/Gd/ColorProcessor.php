@@ -30,9 +30,9 @@ class ColorProcessor implements ColorProcessorInterface
     /**
      * {@inheritdoc}
      *
-     * @see ColorProcessorInterface::colorToNative()
+     * @see ColorProcessorInterface::export()
      */
-    public function colorToNative(ColorInterface $color): int
+    public function export(ColorInterface $color): int
     {
         // convert color to colorspace
         $color = $color->toColorspace($this->colorspace());
@@ -53,34 +53,34 @@ class ColorProcessor implements ColorProcessorInterface
     /**
      * {@inheritdoc}
      *
-     * @see ColorProcessorInterface::nativeToColor()
+     * @see ColorProcessorInterface::import()
      *
      * @throws ColorDecoderException
      */
-    public function nativeToColor(mixed $value): ColorInterface
+    public function import(mixed $color): ColorInterface
     {
-        if (!is_int($value) && !is_array($value)) {
+        if (!is_int($color) && !is_array($color)) {
             throw new ColorDecoderException('GD driver can only decode colors in integer or array format');
         }
 
-        if (is_array($value)) {
+        if (is_array($color)) {
             // array conversion
-            if (!$this->isValidArrayColor($value)) {
+            if (!$this->isValidArrayColor($color)) {
                 throw new ColorDecoderException(
                     'GD driver can only decode array color format array{red: int, green: int, blue: int, alpha: int}',
                 );
             }
 
-            $r = $value['red'];
-            $g = $value['green'];
-            $b = $value['blue'];
-            $a = $value['alpha'];
+            $r = $color['red'];
+            $g = $color['green'];
+            $b = $color['blue'];
+            $a = $color['alpha'];
         } else {
             // integer conversion
-            $a = ($value >> 24) & 0xFF;
-            $r = ($value >> 16) & 0xFF;
-            $g = ($value >> 8) & 0xFF;
-            $b = $value & 0xFF;
+            $a = ($color >> 24) & 0xFF;
+            $r = ($color >> 16) & 0xFF;
+            $g = ($color >> 8) & 0xFF;
+            $b = $color & 0xFF;
         }
 
         // convert gd apha integer to intervention alpha integer

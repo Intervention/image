@@ -29,7 +29,7 @@ class DrawPolygonModifier extends GenericDrawPolygonModifier implements Speciali
                 imagefilledpolygon(
                     $frame->native(),
                     $this->drawable->toArray(),
-                    $this->driver()->colorProcessor($image)->colorToNative(
+                    $this->driver()->colorProcessor($image)->export(
                         $this->backgroundColor()
                     )
                 );
@@ -41,7 +41,7 @@ class DrawPolygonModifier extends GenericDrawPolygonModifier implements Speciali
                 imagepolygon(
                     $frame->native(),
                     $this->drawable->toArray(),
-                    $this->driver()->colorProcessor($image)->colorToNative(
+                    $this->driver()->colorProcessor($image)->export(
                         $this->borderColor()
                     )
                 );

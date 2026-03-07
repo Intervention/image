@@ -38,7 +38,7 @@ class PixelColorAnalyzer extends GenericPixelColorAnalyzer implements Specialize
     protected function colorAt(ColorProcessorInterface $processor, FrameInterface $frame): ColorInterface
     {
         try {
-            return $processor->nativeToColor(
+            return $processor->import(
                 $frame->native()->getImagePixelColor($this->x, $this->y)
             );
         } catch (ImagickException $e) {

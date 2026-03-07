@@ -7,14 +7,14 @@ namespace Intervention\Image\Interfaces;
 interface ColorProcessorInterface
 {
     /**
-     * Turn given color in the driver's color implementation.
+     * Transform the given color object into the driver's color represenation.
      */
-    public function colorToNative(ColorInterface $color): mixed; // todo: maybe rename to import
+    public function export(ColorInterface $color): mixed;
 
     /**
-     * Turn the given driver's definition of a color into a color object.
+     * Transform the given driver's represenation of a color into a color object.
      */
-    public function nativeToColor(mixed $native): ColorInterface; // todo: maybe rename to export
+    public function import(mixed $color): ColorInterface;
 
     /**
      * Return the colorspace the processor currently operates in.

@@ -34,7 +34,7 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
                         $this->drawable->position()->y(),
                         $this->drawable->width() - 1,
                         $this->drawable->height() - 1,
-                        $this->driver()->colorProcessor($image)->colorToNative(
+                        $this->driver()->colorProcessor($image)->export(
                             $this->backgroundColor()
                         )
                     );
@@ -55,7 +55,7 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
                     $this->drawable->height(),
                     0,
                     360,
-                    $this->driver()->colorProcessor($image)->colorToNative(
+                    $this->driver()->colorProcessor($image)->export(
                         $this->borderColor()
                     )
                 );
@@ -68,7 +68,7 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
                     $this->drawable()->position()->y(),
                     $this->drawable->width(),
                     $this->drawable->height(),
-                    $this->driver()->colorProcessor($image)->colorToNative(
+                    $this->driver()->colorProcessor($image)->export(
                         $this->backgroundColor()
                     )
                 );

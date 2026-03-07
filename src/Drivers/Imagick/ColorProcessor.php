@@ -51,7 +51,7 @@ class ColorProcessor implements ColorProcessorInterface
     /**
      * @throws DriverException
      */
-    public function colorToNative(ColorInterface $color): ImagickPixel
+    public function export(ColorInterface $color): ImagickPixel
     {
         $color = $this->colorspace->importColor($color);
 
@@ -90,44 +90,44 @@ class ColorProcessor implements ColorProcessorInterface
      * @throws InvalidArgumentException
      * @throws NotSupportedException
      */
-    public function nativeToColor(mixed $native): ColorInterface
+    public function import(mixed $color): ColorInterface
     {
         return match ($this->colorspace::class) {
             Cmyk::class => $this->colorspace->colorFromNormalized([
-                $native->getColorValue(Imagick::COLOR_CYAN),
-                $native->getColorValue(Imagick::COLOR_MAGENTA),
-                $native->getColorValue(Imagick::COLOR_YELLOW),
-                $native->getColorValue(Imagick::COLOR_BLACK),
+                $color->getColorValue(Imagick::COLOR_CYAN),
+                $color->getColorValue(Imagick::COLOR_MAGENTA),
+                $color->getColorValue(Imagick::COLOR_YELLOW),
+                $color->getColorValue(Imagick::COLOR_BLACK),
             ]),
             Rgb::class => $this->colorspace->colorFromNormalized([
-                $native->getColorValue(Imagick::COLOR_RED),
-                $native->getColorValue(Imagick::COLOR_GREEN),
-                $native->getColorValue(Imagick::COLOR_BLUE),
-                $native->getColorValue(Imagick::COLOR_ALPHA),
+                $color->getColorValue(Imagick::COLOR_RED),
+                $color->getColorValue(Imagick::COLOR_GREEN),
+                $color->getColorValue(Imagick::COLOR_BLUE),
+                $color->getColorValue(Imagick::COLOR_ALPHA),
             ]),
             Hsl::class => Rgb::class::colorFromNormalized([
-                $native->getColorValue(Imagick::COLOR_RED),
-                $native->getColorValue(Imagick::COLOR_GREEN),
-                $native->getColorValue(Imagick::COLOR_BLUE),
-                $native->getColorValue(Imagick::COLOR_ALPHA),
+                $color->getColorValue(Imagick::COLOR_RED),
+                $color->getColorValue(Imagick::COLOR_GREEN),
+                $color->getColorValue(Imagick::COLOR_BLUE),
+                $color->getColorValue(Imagick::COLOR_ALPHA),
             ])->toColorspace(Hsl::class),
             Hsv::class => Rgb::colorFromNormalized([
-                $native->getColorValue(Imagick::COLOR_RED),
-                $native->getColorValue(Imagick::COLOR_GREEN),
-                $native->getColorValue(Imagick::COLOR_BLUE),
-                $native->getColorValue(Imagick::COLOR_ALPHA),
+                $color->getColorValue(Imagick::COLOR_RED),
+                $color->getColorValue(Imagick::COLOR_GREEN),
+                $color->getColorValue(Imagick::COLOR_BLUE),
+                $color->getColorValue(Imagick::COLOR_ALPHA),
             ])->toColorspace(Hsv::class),
             Oklab::class => Rgb::colorFromNormalized([
-                $native->getColorValue(Imagick::COLOR_RED),
-                $native->getColorValue(Imagick::COLOR_GREEN),
-                $native->getColorValue(Imagick::COLOR_BLUE),
-                $native->getColorValue(Imagick::COLOR_ALPHA),
+                $color->getColorValue(Imagick::COLOR_RED),
+                $color->getColorValue(Imagick::COLOR_GREEN),
+                $color->getColorValue(Imagick::COLOR_BLUE),
+                $color->getColorValue(Imagick::COLOR_ALPHA),
             ])->toColorspace(Oklab::class),
             Oklch::class => Rgb::colorFromNormalized([
-                $native->getColorValue(Imagick::COLOR_RED),
-                $native->getColorValue(Imagick::COLOR_GREEN),
-                $native->getColorValue(Imagick::COLOR_BLUE),
-                $native->getColorValue(Imagick::COLOR_ALPHA),
+                $color->getColorValue(Imagick::COLOR_RED),
+                $color->getColorValue(Imagick::COLOR_GREEN),
+                $color->getColorValue(Imagick::COLOR_BLUE),
+                $color->getColorValue(Imagick::COLOR_ALPHA),
             ])->toColorspace(Oklch::class),
             default => throw new NotSupportedException(
                 'Colorspace ' . $this->colorspace::class . ' is not supported by driver'

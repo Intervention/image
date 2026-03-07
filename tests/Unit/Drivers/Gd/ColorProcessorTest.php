@@ -19,17 +19,17 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 #[CoversClass(ColorProcessor::class)]
 final class ColorProcessorTest extends BaseTestCase
 {
-    public function testColorToNative(): void
+    public function testExport(): void
     {
         $processor = new ColorProcessor();
-        $result = $processor->colorToNative(new Color(255, 55, 0, 1));
+        $result = $processor->export(new Color(255, 55, 0, 1));
         $this->assertEquals(16725760, $result);
     }
 
-    public function testNativeToColorInteger(): void
+    public function testImport(): void
     {
         $processor = new ColorProcessor();
-        $result = $processor->nativeToColor(16725760);
+        $result = $processor->import(16725760);
         $this->assertInstanceOf(Color::class, $result);
         $this->assertEquals(255, $result->channel(Red::class)->value());
         $this->assertEquals(55, $result->channel(Green::class)->value());
@@ -37,17 +37,17 @@ final class ColorProcessorTest extends BaseTestCase
         $this->assertEquals(255, $result->channel(Alpha::class)->value());
     }
 
-    public function testNativeToColorArray(): void
+    public function testImportArray(): void
     {
         $processor = new ColorProcessor();
-        $result = $processor->nativeToColor(['red' => 255, 'green' => 55, 'blue' => 0, 'alpha' => 0]);
+        $result = $processor->import(['red' => 255, 'green' => 55, 'blue' => 0, 'alpha' => 0]);
         $this->assertInstanceOf(Color::class, $result);
         $this->assertEquals(255, $result->channel(Red::class)->value());
         $this->assertEquals(55, $result->channel(Green::class)->value());
         $this->assertEquals(0, $result->channel(Blue::class)->value());
         $this->assertEquals(255, $result->channel(Alpha::class)->value());
 
-        $result = $processor->nativeToColor(['red' => 255, 'green' => 55, 'blue' => 0, 'alpha' => 127]);
+        $result = $processor->import(['red' => 255, 'green' => 55, 'blue' => 0, 'alpha' => 127]);
         $this->assertInstanceOf(Color::class, $result);
         $this->assertEquals(255, $result->channel(Red::class)->value());
         $this->assertEquals(55, $result->channel(Green::class)->value());
@@ -55,10 +55,10 @@ final class ColorProcessorTest extends BaseTestCase
         $this->assertEquals(0, $result->channel(Alpha::class)->value());
     }
 
-    public function testNativeToColorInvalid(): void
+    public function testImportInvalid(): void
     {
         $processor = new ColorProcessor();
         $this->expectException(DriverException::class);
-        $processor->nativeToColor('test');
+        $processor->import('test');
     }
 }

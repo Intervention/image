@@ -23,7 +23,7 @@ class FillModifier extends GenericFillModifier implements SpecializedInterface
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        $color = $this->driver()->colorProcessor($image)->colorToNative(
+        $color = $this->driver()->colorProcessor($image)->export(
             $this->color()
         );
 

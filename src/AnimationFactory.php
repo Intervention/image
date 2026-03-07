@@ -146,9 +146,6 @@ class AnimationFactory implements AnimationFactoryInterface
             call_user_func_array([$image, $processingCall], $processingArguments);
         }
 
-        // make sure to have to given output size only if resizing method is selectable by api
-        // $image->resizeCanvas($this->width, $this->height);
-
         // return ready-made frame with all attributes
         return $image
             ->core()

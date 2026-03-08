@@ -40,6 +40,7 @@ use Intervention\Image\Tests\ImagickTestCase;
 use Intervention\Image\Tests\Resource;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(Image::class)]
@@ -314,14 +315,18 @@ final class ImageTest extends ImagickTestCase
         $this->assertEquals('0059fe', $image->colorAt(25, 25)->toHex());
     }
 
+    /**
+     * Runs in separate process because of possible imagick-6 memory bug
+     */
+    #[RunInSeparateProcess]
     public function testPixelate(): void
     {
-        $image = $this->readTestImage('sphere.webp');
-        $this->assertEquals('ff7c00', $image->colorAt(2, 2)->toHex());
-        $this->assertEquals('ff7a0d', $image->colorAt(29, 29)->toHex());
+        $image = $this->readTestImage('trim.png');
+        $this->assertEquals('00aef0', $image->colorAt(2, 2)->toHex());
+        $this->assertEquals('ffa601', $image->colorAt(29, 29)->toHex());
         $image->pixelate(10);
-        $this->assertEquals('e6ab6f', $image->colorAt(2, 2)->toHex());
-        $this->assertEquals('a58b6e', $image->colorAt(29, 29)->toHex());
+        $this->assertEquals('00aef0', $image->colorAt(2, 2)->toHex());
+        $this->assertEquals('ffa601', $image->colorAt(29, 29)->toHex());
     }
 
     public function testGrayscale(): void

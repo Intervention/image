@@ -58,7 +58,7 @@ abstract class AbstractDriver implements DriverInterface
         $decoders = $decoders === null ? InputHandler::IMAGE_DECODERS : $decoders;
 
         if (count($decoders) === 0) {
-            throw new StateException('No decoders in input handler stack');
+            throw new StateException('No decoders in stack');
         }
 
         try {
@@ -90,7 +90,7 @@ abstract class AbstractDriver implements DriverInterface
         $decoders = $decoders === null ? InputHandler::COLOR_DECODERS : $decoders;
 
         if (count($decoders) === 0) {
-            throw new StateException('No decoders in input handler stack');
+            throw new StateException('No decoders in stack');
         }
 
         try {

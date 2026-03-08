@@ -38,7 +38,7 @@ final class AbstractDriverTest extends BaseTestCase
     {
         $driver = new GdDriver();
         $this->expectException(StateException::class);
-        $this->expectExceptionMessage('No decoders in input handler stack');
+        $this->expectExceptionMessage('No decoders in stack');
         $driver->decodeImage('test', []);
     }
 
@@ -54,7 +54,7 @@ final class AbstractDriverTest extends BaseTestCase
     {
         $driver = new GdDriver();
         $this->expectException(StateException::class);
-        $this->expectExceptionMessage('No decoders in input handler stack');
+        $this->expectExceptionMessage('No decoders in stack');
         $driver->decodeColor('test', []);
     }
 

@@ -145,13 +145,13 @@ class ImageManager implements ImageManagerInterface
     {
         if (is_string($driver) && !class_exists($driver)) {
             throw new InvalidArgumentException(
-                'Argument $driver must be existing class name or instance of ' . DriverInterface::class,
+                'Argument $driver must be existing class name'
             );
         }
 
         if (is_string($driver) && !is_subclass_of($driver, DriverInterface::class)) {
             throw new InvalidArgumentException(
-                'Argument $driver must be existing class name or instance of ' . DriverInterface::class,
+                'Argument $driver must be existing class name of an implementation of ' . DriverInterface::class,
             );
         }
 

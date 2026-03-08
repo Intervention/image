@@ -109,4 +109,9 @@ class ColorTest extends BaseTestCase
             $channel->value(), Color::oklch(...$input)->channels()),
         );
     }
+
+    public function testTransparent(): void
+    {
+        $this->assertTrue(Color::transparent()->isClear());
+    }
 }

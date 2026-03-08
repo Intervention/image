@@ -5,8 +5,12 @@ declare(strict_types=1);
 namespace Intervention\Image\Interfaces;
 
 use Intervention\Image\Alignment;
+use Traversable;
 
-interface SizeInterface
+/**
+ * @extends Traversable<int>
+ */
+interface SizeInterface extends Traversable
 {
     /**
      * Get width.

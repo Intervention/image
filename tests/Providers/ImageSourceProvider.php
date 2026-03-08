@@ -30,6 +30,7 @@ class ImageSourceProvider
         yield [realpath($basePath . '/test.jpg')];
         yield [realpath($basePath . '/tile.png')];
         yield [realpath($basePath . '/trim.png')];
+        yield [realpath($basePath . '/sphere.webp')];
     }
 
     public static function binaryData(): Generator

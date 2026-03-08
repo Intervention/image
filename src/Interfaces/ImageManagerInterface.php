@@ -38,7 +38,7 @@ interface ImageManagerInterface
      * Optionally, one or more specific decoders can be provided. If no
      * decoders are specified, all available decoders will be tried.
      *
-     * @link https://image.intervention.io/v3/basics/instantiation#read-image-sources
+     * @link https://image.intervention.io/v4/basics/instantiation#read-image-sources
      *
      * @param null|string|array<string|DecoderInterface>|DecoderInterface $decoders
      */
@@ -46,31 +46,43 @@ interface ImageManagerInterface
 
     /**
      * Decode an image from the given file path.
+     *
+     * @link https://image.intervention.io/v4/basics/instantiation#read-images-from-file-paths
      */
     public function decodePath(string|Stringable $path): ImageInterface;
 
     /**
      * Decode an image from the given raw binary data.
+     *
+     * @link https://image.intervention.io/v4/basics/instantiation#read-images-from-binary-data
      */
     public function decodeBinary(string|Stringable $binary): ImageInterface;
 
     /**
      * Decode an image from the given SplFileInfo object.
+     *
+     * @link https://image.intervention.io/v4/basics/instantiation#read-images-from-splfileinfo-objects
      */
     public function decodeSplFileInfo(SplFileInfo $splFileInfo): ImageInterface;
 
     /**
      * Decode an image from the given base64 encoded data.
+     *
+     * @link https://image.intervention.io/v4/basics/instantiation#read-images-from-base64-encoded-data
      */
     public function decodeBase64(string|Stringable $base64): ImageInterface;
 
     /**
      * Decode an image from the given data URI.
+     *
+     * @link https://image.intervention.io/v4/basics/instantiation#read-images-from-data-uri-scheme
      */
     public function decodeDataUri(string|Stringable|DataUriInterface $dataUri): ImageInterface;
 
     /**
      * Decode an image from the given stream resource.
+     *
+     * @link https://image.intervention.io/v4/basics/instantiation#read-images-from-stream
      */
     public function decodeStream(mixed $stream): ImageInterface;
 }

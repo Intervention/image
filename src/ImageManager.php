@@ -27,7 +27,7 @@ class ImageManager implements ImageManagerInterface
     /**
      * Create new image manager instance.
      *
-     * @link https://image.intervention.io/v3/basics/configuration-drivers#create-a-new-image-manager-instance
+     * @link https://image.intervention.io/v4/basics/configuration-drivers#create-a-new-image-manager-instance
      */
     public function __construct(string|DriverInterface $driver, mixed ...$options)
     {

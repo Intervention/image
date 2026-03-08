@@ -6,6 +6,7 @@ namespace Intervention\Image\Modifiers;
 
 use Intervention\Image\Alignment;
 use Intervention\Image\Drivers\SpecializableModifier;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\PointInterface;
 
@@ -21,7 +22,9 @@ class InsertModifier extends SpecializableModifier
         public string|Alignment $alignment = Alignment::TOP_LEFT,
         public int $opacity = 100
     ) {
-        //
+        if ($this->opacity < 0 || $this->opacity > 100) {
+            throw new InvalidArgumentException('Opacity must be in range 0 to 100');
+        }
     }
 
     /**

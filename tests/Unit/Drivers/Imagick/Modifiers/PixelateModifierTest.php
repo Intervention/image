@@ -8,7 +8,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\PixelateModifier;
 use Intervention\Image\Tests\ImagickTestCase;
-use PHPUnit\Framework\Attributes\PreserveGlobalState;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 
 #[RequiresPhpExtension('imagick')]
@@ -20,7 +19,6 @@ final class PixelateModifierTest extends ImagickTestCase
      * Runs in separate process because of possible imagick-6 memory bug
      */
     #[RunInSeparateProcess]
-    #[PreserveGlobalState(true)]
     public function testModify(): void
     {
         $image = $this->readTestImage('trim.png');

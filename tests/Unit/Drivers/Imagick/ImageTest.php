@@ -39,7 +39,6 @@ use Intervention\Image\Origin;
 use Intervention\Image\Tests\ImagickTestCase;
 use Intervention\Image\Tests\Resource;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\PreserveGlobalState;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 
@@ -320,7 +319,6 @@ final class ImageTest extends ImagickTestCase
      * Runs in separate process because of possible imagick-6 memory bug
      */
     #[RunInSeparateProcess]
-    #[PreserveGlobalState(true)]
     public function testPixelate(): void
     {
         $image = $this->readTestImage('trim.png');

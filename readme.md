@@ -39,7 +39,7 @@ use Intervention\Image\Color;
 use Intervention\Image\Format;
 use Intervention\Image\Fraction;
 
-// create image manager instance using the desired driver
+// create image manager instance using the preferred driver
 $manager = ImageManager::usingDriver(GdDriver::class);
 
 // read image data from path
@@ -47,9 +47,6 @@ $image = $manager->decodePath('images/example.webp');
 
 // scale image by height
 $image->scale(height: 300);
-
-// resize image canvas
-$image->resizeCanvas(height: Fraction::THIRD, background: Color::rgb(255, 55, 0));
 
 // insert a watermark
 $image->insert('images/watermark.png', alignment: Alignment::BOTTOM_RIGHT);

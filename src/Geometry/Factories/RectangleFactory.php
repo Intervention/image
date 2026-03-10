@@ -98,6 +98,9 @@ class RectangleFactory implements DrawableFactoryInterface
         return $this;
     }
 
+    /**
+     * Set the position where the rectangle should be drawn.
+     */
     public function at(int $x, int $y): self
     {
         $this->rectangle->position()->setPosition($x, $y);

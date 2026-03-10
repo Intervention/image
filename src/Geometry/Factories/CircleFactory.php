@@ -89,9 +89,7 @@ class CircleFactory implements DrawableFactoryInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @see DrawableFactoryInterface::at()
+     * Set the position where the circle should be drawn.
      */
     public function at(int $x, int $y): self
     {

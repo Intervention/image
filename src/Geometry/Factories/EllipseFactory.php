@@ -98,6 +98,9 @@ class EllipseFactory implements DrawableFactoryInterface
         return $this;
     }
 
+    /**
+     * Set the position where the ellipse should be drawn.
+     */
     public function at(int $x, int $y): self
     {
         $this->ellipse->position()->setPosition($x, $y);

@@ -37,9 +37,9 @@ class Resizer
      *
      * @throws InvalidArgumentException
      */
-    public static function to(mixed ...$arguments): self // todo: check why variadic
+    public static function to(?int $width = null, ?int $height = null): self
     {
-        return new self(...$arguments);
+        return new self($width, $height);
     }
 
     /**

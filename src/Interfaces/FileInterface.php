@@ -11,7 +11,7 @@ interface FileInterface extends Stringable
     /**
      * Create file object from path in file system.
      */
-    public static function fromPath(string $path): self; // todo: maybe rename to parse
+    public static function fromPath(string $path): self;
 
     /**
      * Save data in given path in file system.

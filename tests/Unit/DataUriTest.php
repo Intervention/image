@@ -82,6 +82,9 @@ class DataUriTest extends BaseTestCase
         $this->assertEquals($result, (string) $datauri);
     }
 
+    /**
+     * @param array<string, string> $parameters
+     */
     #[DataProvider('toStringDataProvider')]
     public function testCreateStaticFactory(
         string $data,
@@ -98,6 +101,9 @@ class DataUriTest extends BaseTestCase
         $this->assertEquals($result, (string) $datauri);
     }
 
+    /**
+     * @param array<string, string> $parameters
+     */
     #[DataProvider('toStringDataProvider')]
     public function testCreateParse(
         string $data,

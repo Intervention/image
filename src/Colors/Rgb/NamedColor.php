@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors\Rgb;
 
+use Error;
 use Intervention\Image\Colors\Rgb\Channels\Alpha;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
@@ -155,13 +156,23 @@ enum NamedColor: string implements ColorInterface
     case YELLOWGREEN = 'yellowgreen';
 
     /**
-     * {@inheritdoc}
-     *
-     * @see ColorInterface::create()
+     * Create new named color.
      */
-    public static function create(mixed ...$input): ColorInterface // todo: check why variadic
+    public static function create(string $input): ColorInterface
     {
-        return self::from(strtolower($input[0]));
+        return self::from(strtolower($input));
+    }
+
+    /**
+     * Create new named color or return null of creation fails.
+     */
+    public static function tryCreate(string $input): ?ColorInterface
+    {
+        try {
+            return self::from(strtolower($input));
+        } catch (Error) {
+            return null;
+        }
     }
 
     /**

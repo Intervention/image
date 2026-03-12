@@ -38,6 +38,26 @@ class NamedColorTest extends BaseTestCase
         );
     }
 
+    /**
+     * @param $channels array<int>
+     */
+    #[DataProviderExternal(ColorDataProvider::class, 'rgbNamedColor')]
+    public function testTryCreate(mixed $input, array $channels): void
+    {
+        $color = NamedColor::tryCreate(...$input);
+        $this->assertInstanceOf(NamedColor::class, $color);
+        $this->assertEquals(
+            $channels,
+            array_map(fn(ColorChannelInterface $channel): int|float =>
+            $channel->value(), $color->channels()),
+        );
+    }
+
+    public function testTryCreateInvalid(): void
+    {
+        $this->assertNull(NamedColor::tryCreate('foo'));
+    }
+
     public function testColorspace(): void
     {
         $this->assertInstanceOf(Rgb::class, NamedColor::STEELBLUE->colorspace());

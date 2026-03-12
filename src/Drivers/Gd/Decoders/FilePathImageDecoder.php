@@ -50,7 +50,7 @@ class FilePathImageDecoder extends NativeObjectDecoder implements DecoderInterfa
     public function decode(mixed $input): ImageInterface
     {
         // make sure path is valid
-        $path = $this->readableFilePathOrFail($input);
+        $path = self::readableFilePathOrFail($input);
 
         try {
             // detect media (mime) type

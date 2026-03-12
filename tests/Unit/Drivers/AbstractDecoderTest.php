@@ -152,7 +152,7 @@ final class AbstractDecoderTest extends BaseTestCase
             public function checkValidityResult(string $path, bool $result): bool
             {
                 try {
-                    $this->readableFilePathOrFail($path);
+                    self::readableFilePathOrFail($path);
                 } catch (Throwable) {
                     return $result === false;
                 }

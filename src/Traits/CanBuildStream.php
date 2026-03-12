@@ -17,7 +17,7 @@ trait CanBuildStream
      * @throws StreamException
      * @return resource
      */
-    public function buildStreamOrFail(mixed $data = null)
+    public static function buildStreamOrFail(mixed $data = null)
     {
         $buildStrategy = match (true) {
             is_null($data) => fn(mixed $data) => fopen('php://temp', 'r+'),

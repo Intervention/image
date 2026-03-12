@@ -81,7 +81,7 @@ trait CanParseFilePath
      * @throws FileNotFoundException
      * @throws FileNotReadableException
      */
-    protected function filePathFromSplFileInfoOrFail(SplFileInfo $splFileInfo): string
+    protected static function filePathFromSplFileInfoOrFail(SplFileInfo $splFileInfo): string
     {
         $path = $splFileInfo->getPathname();
         $dirname = pathinfo($path, PATHINFO_DIRNAME);

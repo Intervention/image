@@ -46,7 +46,7 @@ class FilePathImageDecoder extends NativeObjectDecoder
     public function decode(mixed $input): ImageInterface
     {
         // make sure path is valid
-        $path = $this->readableFilePathOrFail($input);
+        $path = self::readableFilePathOrFail($input);
 
         try {
             $imagick = new Imagick();

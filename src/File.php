@@ -34,7 +34,7 @@ class File implements FileInterface, Stringable
      */
     public function __construct(mixed $data = null)
     {
-        $this->stream = $this->buildStreamOrFail($data);
+        $this->stream = self::buildStreamOrFail($data);
     }
 
     /**

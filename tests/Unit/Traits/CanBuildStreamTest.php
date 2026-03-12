@@ -13,7 +13,7 @@ final class CanBuildStreamTest extends BaseTestCase
     public function testBuildStreamFromNull(): void
     {
         $builder = $this->createBuilder();
-        $result = $builder->buildStreamOrFail(null);
+        $result = $builder::buildStreamOrFail(null);
         $this->assertIsResource($result);
         fclose($result);
     }
@@ -21,7 +21,7 @@ final class CanBuildStreamTest extends BaseTestCase
     public function testBuildStreamFromString(): void
     {
         $builder = $this->createBuilder();
-        $result = $builder->buildStreamOrFail('test data');
+        $result = $builder::buildStreamOrFail('test data');
         $this->assertIsResource($result);
         $this->assertEquals('test data', stream_get_contents($result));
         fclose($result);
@@ -32,7 +32,7 @@ final class CanBuildStreamTest extends BaseTestCase
         $builder = $this->createBuilder();
         $resource = fopen('php://temp', 'r+');
         fwrite($resource, 'resource data');
-        $result = $builder->buildStreamOrFail($resource);
+        $result = $builder::buildStreamOrFail($resource);
         $this->assertIsResource($result);
         $this->assertEquals('resource data', stream_get_contents($result));
         fclose($result);
@@ -43,7 +43,7 @@ final class CanBuildStreamTest extends BaseTestCase
         $builder = $this->createBuilder();
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Unable to create stream');
-        $builder->buildStreamOrFail(12345);
+        $builder::buildStreamOrFail(12345);
     }
 
     /**

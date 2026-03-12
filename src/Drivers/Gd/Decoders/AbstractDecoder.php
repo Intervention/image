@@ -32,7 +32,7 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
      */
     protected function mediaTypeByFilePath(string $filepath): MediaType
     {
-        $filepath = $this->readableFilePathOrFail($filepath);
+        $filepath = self::readableFilePathOrFail($filepath);
 
         if (function_exists('finfo_file') && function_exists('finfo_open')) {
             $mediaType = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $filepath);

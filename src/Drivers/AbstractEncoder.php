@@ -49,7 +49,7 @@ abstract class AbstractEncoder implements EncoderInterface
      */
     protected function createEncodedImage(callable $callback, ?string $mediaType = null): EncodedImage
     {
-        $stream = $this->buildStreamOrFail();
+        $stream = self::buildStreamOrFail();
         $callback($stream);
 
         return is_string($mediaType) ? new EncodedImage($stream, $mediaType) : new EncodedImage($stream);

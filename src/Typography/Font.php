@@ -89,7 +89,7 @@ class Font implements FontInterface
      */
     public function setFilepath(string $path): FontInterface
     {
-        $this->filepath = $this->readableFilePathOrFail($path);
+        $this->filepath = self::readableFilePathOrFail($path);
 
         return $this;
     }
@@ -102,7 +102,7 @@ class Font implements FontInterface
     public function filepath(): ?string
     {
         try {
-            return $this->readableFilePathOrFail($this->filepath);
+            return self::readableFilePathOrFail($this->filepath);
         } catch (FilesystemException | InvalidArgumentException) {
             return null;
         }

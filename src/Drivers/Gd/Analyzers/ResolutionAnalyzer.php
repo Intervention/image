@@ -63,7 +63,7 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
      */
     private function readResolutionFromOrigin(OriginInterface $origin): array
     {
-        $handle = $this->buildStreamOrFail(file_get_contents($origin->filePath()));
+        $handle = self::buildStreamOrFail(file_get_contents($origin->filePath()));
 
         try {
             return $this->resolutionFromJfifHeader($handle);

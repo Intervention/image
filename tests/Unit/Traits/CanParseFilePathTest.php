@@ -128,7 +128,7 @@ final class CanParseFilePathTest extends BaseTestCase
 
             public function callFilePathFromSplFileInfoOrFail(SplFileInfo $splFileInfo): string
             {
-                return $this->filePathFromSplFileInfoOrFail($splFileInfo);
+                return self::filePathFromSplFileInfoOrFail($splFileInfo);
             }
         };
     }

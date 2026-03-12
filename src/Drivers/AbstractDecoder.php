@@ -45,11 +45,11 @@ abstract class AbstractDecoder implements DecoderInterface
 
         try {
             // source might be file path
-            $source = $this->readableFilePathOrFail($input);
+            $source = self::readableFilePathOrFail($input);
         } catch (Throwable) {
             try {
                 // source might be stream resource
-                $source = $this->buildStreamOrFail($input);
+                $source = self::buildStreamOrFail($input);
             } catch (RuntimeException) {
                 return new Collection();
             }

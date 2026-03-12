@@ -159,7 +159,7 @@ enum NamedColor: string implements ColorInterface
      *
      * @see ColorInterface::create()
      */
-    public static function create(mixed ...$input): ColorInterface
+    public static function create(mixed ...$input): ColorInterface // todo: check why variadic
     {
         return self::from(strtolower($input[0]));
     }

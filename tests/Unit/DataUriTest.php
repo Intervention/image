@@ -74,12 +74,39 @@ class DataUriTest extends BaseTestCase
         string $data,
         null|string|MediaType $mediaType,
         array $parameters,
-        bool $isBase64Encoded,
+        bool $base64,
         string $result,
     ): void {
-        $datauri = new DataUri($data, $mediaType, $parameters, $isBase64Encoded);
+        $datauri = new DataUri($data, $mediaType, $parameters, $base64);
         $this->assertEquals($result, $datauri->toString());
         $this->assertEquals($result, (string) $datauri);
+    }
+
+    #[DataProvider('toStringDataProvider')]
+    public function testCreateStaticFactory(
+        string $data,
+        ?string $mediaType,
+        array $parameters,
+        bool $base64,
+        string $result,
+    ): void {
+        $datauri = DataUri::create($data, $mediaType, $parameters, $base64);
+        $this->assertInstanceOf(DataUri::class, $datauri);
+        $this->assertEquals($data, $datauri->data());
+        $this->assertEquals($mediaType, $datauri->mediaType());
+        $this->assertEquals($parameters, $datauri->parameters());
+        $this->assertEquals($result, (string) $datauri);
+    }
+
+    #[DataProvider('toStringDataProvider')]
+    public function testCreateParse(
+        string $data,
+        ?string $mediaType,
+        array $parameters,
+        bool $base64,
+        string $result,
+    ): void {
+        $this->assertEquals($result, DataUri::create($data, $mediaType, $parameters, $base64)->toString());
     }
 
     public static function toStringDataProvider(): Generator
@@ -121,32 +148,39 @@ class DataUriTest extends BaseTestCase
             'text/plain',
             ['charset' => 'utf-8'],
             true,
-            'data:text/plain;charset=utf-8;base64,foo'
+            'data:text/plain;charset=utf-8;base64,Zm9v'
+        ];
+
+        yield [
+            'hello',
+            'text/plain',
+            ['charset' => 'utf-8'],
+            true,
+            'data:text/plain;charset=utf-8;base64,aGVsbG8=',
+        ];
+
+        yield [
+            'hello',
+            'text/plain',
+            [],
+            false,
+            'data:text/plain,hello',
         ];
     }
 
     #[DataProviderExternal(DataUriDataProvider::class, 'validDataUris')]
-    public function testDecode(string $dataUriScheme, string $resultData): void
+    public function testParse(string $dataUriScheme, string $resultData): void
     {
-        $datauri = DataUri::decode($dataUriScheme);
+        $datauri = DataUri::parse($dataUriScheme);
         $this->assertInstanceOf(DataUri::class, $datauri);
         $this->assertEquals($resultData, $datauri->data());
     }
 
     #[DataProviderExternal(DataUriDataProvider::class, 'invalidDataUris')]
-    public function testDecodeInvalid(string $input, string $exception): void
+    public function testParseInvalid(string $input, string $exception): void
     {
         $this->expectException($exception);
-        DataUri::decode($input);
-    }
-
-    public function testCreateStaticFactory(): void
-    {
-        $datauri = DataUri::create('test-data', 'text/plain', ['charset' => 'utf-8']);
-        $this->assertInstanceOf(DataUri::class, $datauri);
-        $this->assertEquals('test-data', $datauri->data());
-        $this->assertEquals('text/plain', $datauri->mediaType());
-        $this->assertEquals(['charset' => 'utf-8'], $datauri->parameters());
+        DataUri::parse($input);
     }
 
     public function testCreateStaticFactoryMinimal(): void
@@ -165,18 +199,19 @@ class DataUriTest extends BaseTestCase
 
     public function testCreateBase64EncodedStaticFactory(): void
     {
-        $datauri = DataUri::createBase64Encoded('hello', 'text/plain', ['charset' => 'utf-8']);
+        $datauri = DataUri::create('hello', 'text/plain', ['charset' => 'utf-8'], base64: true);
         $this->assertInstanceOf(DataUri::class, $datauri);
-        $this->assertEquals(base64_encode('hello'), $datauri->data());
+        $this->assertEquals('data:text/plain;charset=utf-8;base64,aGVsbG8=', $datauri->toString());
+        $this->assertEquals('hello', $datauri->data());
         $this->assertEquals('text/plain', $datauri->mediaType());
         $this->assertEquals(['charset' => 'utf-8'], $datauri->parameters());
-        $this->assertStringContainsString('base64', $datauri->toString());
     }
 
     public function testCreateBase64EncodedMinimal(): void
     {
-        $datauri = DataUri::createBase64Encoded('data');
-        $this->assertEquals(base64_encode('data'), $datauri->data());
+        $datauri = DataUri::create('test123', base64: true);
+        $this->assertEquals('data:;base64,dGVzdDEyMw==', $datauri->toString());
+        $this->assertEquals('test123', $datauri->data());
         $this->assertNull($datauri->mediaType());
     }
 

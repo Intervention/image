@@ -10,9 +10,9 @@ use Stringable;
 interface DataUriInterface extends Stringable
 {
     /**
-     * Create new object from given data uri scheme string.
+     * Parse new object from given data uri scheme string.
      */
-    public static function decode(string $dataUriScheme): self;
+    public static function parse(string $dataUriScheme): self;
 
     /**
      * Create data uri object from given unencoded data.
@@ -20,17 +20,6 @@ interface DataUriInterface extends Stringable
      * @param array<string, string> $parameters
      */
     public static function create(
-        string $data,
-        null|string|MediaType $mediaType = null,
-        array $parameters = [],
-    ): self;
-
-    /**
-     * Create base 64 encoded data uri object from given unencoded data.
-     *
-     * @param array<string, string> $parameters
-     */
-    public static function createBase64Encoded(
         string $data,
         null|string|MediaType $mediaType = null,
         array $parameters = [],

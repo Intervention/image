@@ -49,7 +49,7 @@ class EncodedImage extends File implements EncodedImageInterface
      */
     public function toDataUri(): DataUriInterface
     {
-        return DataUri::createBase64Encoded(
+        return DataUri::create(
             data: (string) $this,
             mediaType: $this->mediaType(),
         );

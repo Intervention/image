@@ -12,7 +12,7 @@ class Profile extends File implements ProfileInterface
     /**
      * Create color profile instance from given path in file system.
      */
-    public static function fromPath(string $path): self
+    public static function fromPath(string $path): self // todo: maybe rename to parse
     {
         $stream = fopen(self::readableFilePathOrFail($path), 'r');
 

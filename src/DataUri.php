@@ -37,7 +37,7 @@ class DataUri implements DataUriInterface
         protected string|Stringable $data = '',
         null|string|MediaType $mediaType = null,
         array $parameters = [],
-        protected bool $isBase64Encoded = false
+        protected bool $base64 = true
     ) {
         $this->setMediaType($mediaType);
         $this->setParameters($parameters);
@@ -46,11 +46,30 @@ class DataUri implements DataUriInterface
     /**
      * {@inheritdoc}
      *
-     * @see DataUriInterface::decode()
+     * @see DataUriInterface::create()
+     */
+    public static function create(
+        string $data,
+        null|string|MediaType $mediaType = null,
+        array $parameters = [],
+        bool $base64 = true
+    ): self {
+        return new self(
+            data: $data,
+            mediaType: $mediaType,
+            parameters: $parameters,
+            base64: $base64,
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DataUriInterface::parse()
      *
      * @throws InvalidArgumentException
      */
-    public static function decode(string|Stringable $dataUriScheme): self
+    public static function parse(string|Stringable $dataUriScheme): self
     {
         $result = preg_match(self::PATTERN, (string) $dataUriScheme, $matches);
 
@@ -63,7 +82,7 @@ class DataUri implements DataUriInterface
         $datauri = new self(
             data: $isBase64Encoded ? base64_decode($matches['data'], strict: true) : rawurldecode($matches['data']),
             mediaType: $matches['mediaType'],
-            isBase64Encoded: $isBase64Encoded,
+            base64: $isBase64Encoded,
         );
 
         if ($matches['parameters'] !== '') {
@@ -76,41 +95,6 @@ class DataUri implements DataUriInterface
         }
 
         return $datauri;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see DataUriInterface::create()
-     */
-    public static function create(
-        string $data,
-        null|string|MediaType $mediaType = null,
-        array $parameters = [],
-    ): self {
-        return new self(
-            data: $data,
-            mediaType: $mediaType,
-            parameters: $parameters,
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see DataUriInterface::createBase64Encoded()
-     */
-    public static function createBase64Encoded(
-        string $data,
-        null|string|MediaType $mediaType = null,
-        array $parameters = [],
-    ): self {
-        return new self(
-            data: base64_encode($data),
-            mediaType: $mediaType,
-            parameters: $parameters,
-            isBase64Encoded: true
-        );
     }
 
     /**
@@ -242,7 +226,7 @@ class DataUri implements DataUriInterface
      */
     private function encodedData(): string
     {
-        return $this->isBase64Encoded ? (string) $this->data : rawurlencode((string) $this->data);
+        return $this->base64 === true ? (string) base64_encode($this->data) : rawurlencode((string) $this->data);
     }
 
     /**
@@ -250,7 +234,7 @@ class DataUri implements DataUriInterface
      */
     private function encodedParameters(): string
     {
-        if (count($this->parameters) === 0 && $this->isBase64Encoded === false) {
+        if (count($this->parameters) === 0 && $this->base64 === false) {
             return '';
         }
 
@@ -260,7 +244,7 @@ class DataUri implements DataUriInterface
 
         $parameterString = count($parameters) ? ';' . implode(';', $parameters) : '';
 
-        if ($this->isBase64Encoded) {
+        if ($this->base64 === true) {
             $parameterString .= ';base64';
         }
 

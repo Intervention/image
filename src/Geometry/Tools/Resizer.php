@@ -37,7 +37,7 @@ class Resizer
      *
      * @throws InvalidArgumentException
      */
-    public static function to(mixed ...$arguments): self
+    public static function to(mixed ...$arguments): self // todo: check why variadic
     {
         return new self(...$arguments);
     }

@@ -46,6 +46,16 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
+     * Create size statically.
+     *
+     * @throws InvalidArgumentException
+     */
+    public static function create(int $width, int $height, PointInterface $pivot = new Point()): self
+    {
+        return new self($width, $height, $pivot);
+    }
+
+    /**
      * Set size of rectangle.
      */
     public function setSize(int $width, int $height): self

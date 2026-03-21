@@ -21,7 +21,7 @@
     "require": {
         "php": "^8.3",
         "ext-mbstring": "*",
-        "intervention/gif": "^5@beta"
+        "intervention/gif": "^5"
     },
     "require-dev": {
         "phpunit/phpunit": "^12.0",

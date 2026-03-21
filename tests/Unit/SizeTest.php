@@ -204,10 +204,8 @@ final class SizeTest extends BaseTestCase
     public function testMovePivotWithInvalidAlignmentFallsToDefault(): void
     {
         $size = new Size(800, 600);
+        $this->expectException(InvalidArgumentException::class);
         $size->movePivot('invalid-alignment', 5, 10);
-        // default branch behaves like TOP_LEFT
-        $this->assertEquals(5, $size->pivot()->x());
-        $this->assertEquals(10, $size->pivot()->y());
     }
 
     public function testAlignPivotTo(): void

@@ -815,9 +815,9 @@ final class Image implements ImageInterface
         int $x = 0,
         int $y = 0,
         string|Alignment $alignment = Alignment::TOP_LEFT,
-        int $opacity = 100
+        float $transparency = 1
     ): ImageInterface {
-        return $this->modify(new InsertModifier($image, $x, $y, $alignment, $opacity));
+        return $this->modify(new InsertModifier($image, $x, $y, $alignment, $transparency));
     }
 
     /**

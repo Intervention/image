@@ -14,9 +14,12 @@ use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorProcessorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
+use Intervention\Image\Traits\CanConvertRange;
 
 class ColorProcessor implements ColorProcessorInterface
 {
+    use CanConvertRange;
+
     /**
      * {@inheritdoc}
      *
@@ -45,7 +48,7 @@ class ColorProcessor implements ColorProcessorInterface
 
         // convert alpha value to gd alpha
         // ([opaque]1-0[transparent]) to ([opaque]0-127[transparent])
-        $a = (int) round($this->convertRange($a, Alpha::min(), Alpha::max(), 127, 0));
+        $a = (int) round(self::convertRange($a, Alpha::min(), Alpha::max(), 127, 0));
 
         return ($a << 24) + ($r << 16) + ($g << 8) + $b;
     }
@@ -85,23 +88,9 @@ class ColorProcessor implements ColorProcessorInterface
 
         // convert gd apha integer to intervention alpha integer
         // ([opaque]0-127[transparent]) to ([opaque]1-0[transparent])
-        $a = $this->convertRange($a, 127, 0, 0, 1);
+        $a = self::convertRange($a, 127, 0, 0, 1);
 
         return new Color($r, $g, $b, $a);
-    }
-
-    /**
-     * Convert input in range (min) to (max) to the corresponding value
-     * in target range (targetMin) to (targetMax).
-     */
-    private function convertRange(
-        float|int $input,
-        float|int $min,
-        float|int $max,
-        float|int $targetMin,
-        float|int $targetMax
-    ): float {
-        return ((($input - $min) * ($targetMax - $targetMin)) / ($max - $min)) + $targetMin;
     }
 
     /**

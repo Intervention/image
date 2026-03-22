@@ -464,7 +464,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         int $x = 0,
         int $y = 0,
         string|Alignment $alignment = Alignment::TOP_LEFT,
-        int $opacity = 100
+        float $transparency = 1
     ): self;
 
     /**

@@ -417,7 +417,7 @@ final class ImageTest extends ImagickTestCase
     {
         $image = $this->readTestImage('trim.png');
         $watermark = $this->createTestImage(5, 5);
-        $result = $image->insert($watermark, 10, 10, Alignment::CENTER, 50);
+        $result = $image->insert($watermark, 10, 10, Alignment::CENTER, .5);
         $this->assertInstanceOf(ImageInterface::class, $result);
     }
 

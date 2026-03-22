@@ -20,10 +20,10 @@ class InsertModifier extends SpecializableModifier
         public int $x = 0,
         public int $y = 0,
         public string|Alignment $alignment = Alignment::TOP_LEFT,
-        public int $opacity = 100
+        public float $transparency = 1
     ) {
-        if ($this->opacity < 0 || $this->opacity > 100) {
-            throw new InvalidArgumentException('Opacity must be in range 0 to 100');
+        if ($this->transparency < 0 || $this->transparency > 1) {
+            throw new InvalidArgumentException('Transparency must be in range 0 to 1');
         }
     }
 

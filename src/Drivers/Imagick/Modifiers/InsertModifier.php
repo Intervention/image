@@ -11,9 +11,12 @@ use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\InsertModifier as GenericInsertModifier;
+use Intervention\Image\Traits\CanConvertRange;
 
 class InsertModifier extends GenericInsertModifier implements SpecializedInterface
 {
+    use CanConvertRange;
+
     /**
      * @throws ModifierException
      * @throws StateException
@@ -24,23 +27,26 @@ class InsertModifier extends GenericInsertModifier implements SpecializedInterfa
         $position = $this->position($image, $watermark);
 
         // set opacity of watermark
-        if ($this->opacity < 100) {
+        if ($this->transparency < 1) {
+            $opacity = (int) round(self::convertRange($this->transparency, 0, 1, 0, 100));
+            $alphaEval = $opacity > 0 ? 100 / $opacity : 1000;
+
             try {
                 $result = $watermark->core()->native()->setImageAlphaChannel(Imagick::ALPHACHANNEL_SET)
                     && $watermark->core()->native()->evaluateImage(
                         Imagick::EVALUATE_DIVIDE,
-                        $this->opacity > 0 ? 100 / $this->opacity : 1000,
+                        $alphaEval,
                         Imagick::CHANNEL_ALPHA,
                     );
 
                 if ($result === false) {
                     throw new ModifierException(
-                        'Failed to apply ' . self::class . ', unable to set opacity of watermark',
+                        'Failed to apply ' . self::class . ', unable to set transparency of watermark',
                     );
                 }
             } catch (ImagickException $e) {
                 throw new ModifierException(
-                    'Failed to apply ' . self::class . ', unable to set opacity of watermark',
+                    'Failed to apply ' . self::class . ', unable to set transparency of watermark',
                     previous: $e
                 );
             }

@@ -11,9 +11,12 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\InsertModifier as GenericInsertModifier;
+use Intervention\Image\Traits\CanConvertRange;
 
 class InsertModifier extends GenericInsertModifier implements SpecializedInterface
 {
+    use CanConvertRange;
+
     /**
      * {@inheritdoc}
      *
@@ -30,7 +33,7 @@ class InsertModifier extends GenericInsertModifier implements SpecializedInterfa
         foreach ($image as $frame) {
             imagealphablending($frame->native(), true);
 
-            if ($this->opacity === 100) {
+            if ($this->transparency === 1.0) {
                 $this->insertOpaque($frame, $watermark, $position);
             } else {
                 $this->insertTransparent($frame, $watermark, $position);
@@ -60,7 +63,7 @@ class InsertModifier extends GenericInsertModifier implements SpecializedInterfa
     }
 
     /**
-     * Insert watermark transparent with current opacity
+     * Insert watermark transparent with current transparency
      *
      * Unfortunately, the original PHP function imagecopymerge does not work reliably.
      * For example, any transparency of the image to be inserted is not applied correctly.
@@ -104,6 +107,7 @@ class InsertModifier extends GenericInsertModifier implements SpecializedInterfa
             imagesy($cut)
         );
 
+
         imagecopymerge(
             $frame->native(),
             $cut,
@@ -113,7 +117,7 @@ class InsertModifier extends GenericInsertModifier implements SpecializedInterfa
             0,
             $watermark->width(),
             $watermark->height(),
-            $this->opacity
+            (int) round(self::convertRange($this->transparency, 0, 1, 0, 100)),
         );
     }
 }

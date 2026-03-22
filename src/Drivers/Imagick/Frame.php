@@ -18,9 +18,7 @@ use Intervention\Image\Size;
 class Frame extends AbstractFrame implements FrameInterface
 {
     /**
-     * Create new frame object
-     *
-     * @return void
+     * Create new frame.
      */
     public function __construct(protected Imagick $native)
     {

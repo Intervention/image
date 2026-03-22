@@ -11,8 +11,6 @@ class Config
 {
     /**
      * Create config object instance.
-     *
-     * @return void
      */
     public function __construct(
         public bool $autoOrientation = true,

@@ -11,9 +11,7 @@ use Intervention\Image\Interfaces\EncodedImageInterface;
 class FilePathEncoder extends FileExtensionEncoder
 {
     /**
-     * Create new encoder instance to encode to format of file extension in given path
-     *
-     * @return void
+     * Create new encoder instance to encode to format of file extension in given path.
      */
     public function __construct(protected ?string $path = null, mixed ...$options)
     {

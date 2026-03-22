@@ -10,8 +10,6 @@ class ResolutionModifier extends SpecializableModifier
 {
     /**
      * Create new modifier object.
-     *
-     * @return void
      */
     public function __construct(public float $x, public float $y)
     {

@@ -25,8 +25,6 @@ class Core implements CoreInterface, Iterator
 
     /**
      * Create new core instance
-     *
-     * @return void
      */
     public function __construct(protected Imagick $imagick)
     {

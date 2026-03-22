@@ -24,7 +24,6 @@ class FileExtensionEncoder extends AutoEncoder
      * Create new encoder instance to encode to format of given file extension.
      *
      * @param null|string|FileExtension $extension Target file extension for example "png"
-     * @return void
      */
     public function __construct(public null|string|FileExtension $extension = null, mixed ...$options)
     {

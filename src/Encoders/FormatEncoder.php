@@ -21,8 +21,6 @@ class FormatEncoder extends AbstractEncoder
 
     /**
      * Create new encoder instance to encode to given format.
-     *
-     * @return void
      */
     public function __construct(protected ?Format $format = null, mixed ...$options)
     {

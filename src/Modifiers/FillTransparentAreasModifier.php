@@ -12,8 +12,6 @@ class FillTransparentAreasModifier extends SpecializableModifier
 {
     /**
      * Create new modifier object.
-     *
-     * @return void
      */
     public function __construct(public null|string|ColorInterface $color = null)
     {

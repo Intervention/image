@@ -20,7 +20,6 @@ class Size extends Polygon implements SizeInterface
      * Create new size instance.
      *
      * @throws InvalidArgumentException
-     * @return void
      */
     public function __construct(
         int $width,

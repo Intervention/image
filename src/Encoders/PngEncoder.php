@@ -10,8 +10,6 @@ class PngEncoder extends SpecializableEncoder
 {
     /**
      * Create new encoder object.
-     *
-     * @return void
      */
     public function __construct(public bool $interlaced = false, public bool $indexed = false)
     {

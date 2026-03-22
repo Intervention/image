@@ -19,8 +19,6 @@ class Frame extends AbstractFrame implements FrameInterface
 {
     /**
      * Create new frame instance
-     *
-     * @return void
      */
     public function __construct(
         protected GdImage $native,

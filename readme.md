@@ -9,10 +9,10 @@
 Intervention Image is a **PHP image processing library** that provides a simple
 and expressive way to create, edit, and compose images. It comes with a universal
 interface for the popular PHP image manipulation extensions. You can
-choose between the GD library or Imagick as the base layer for all operations.
+choose between the GD library, Imagick or libvips as the base layer for all operations.
 
-- Simple & fluent interface for common image editing tasks
-- Interchangeable driver architecture with support for GD, Imagick and libvips
+- Fluent interface for common image editing tasks
+- Interchangeable driver architecture with support for **GD, Imagick and libvips**
 - Support for animated images with all drivers
 - Framework-agnostic
 

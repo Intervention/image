@@ -1,0 +1,117 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Intervention\Image\Tests\Unit;
+
+use Intervention\Image\Color;
+use Intervention\Image\Interfaces\ColorChannelInterface;
+use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Providers\ColorDataProvider;
+use PHPUnit\Framework\Attributes\DataProviderExternal;
+
+class ColorTest extends BaseTestCase
+{
+    /**
+     * @param $channels array<int>
+     */
+    #[DataProviderExternal(ColorDataProvider::class, 'rgbString')]
+    #[DataProviderExternal(ColorDataProvider::class, 'rgbHex')]
+    #[DataProviderExternal(ColorDataProvider::class, 'rgbNamedColor')]
+    #[DataProviderExternal(ColorDataProvider::class, 'cmykString')]
+    #[DataProviderExternal(ColorDataProvider::class, 'hslString')]
+    #[DataProviderExternal(ColorDataProvider::class, 'hsvString')]
+    #[DataProviderExternal(ColorDataProvider::class, 'oklabString')]
+    #[DataProviderExternal(ColorDataProvider::class, 'oklchString')]
+    public function testParse(mixed $input, array $channels): void
+    {
+        $this->assertEquals(
+            $channels,
+            array_map(fn(ColorChannelInterface $channel): int|float =>
+            $channel->value(), Color::parse(...$input)->channels()),
+        );
+    }
+
+    /**
+     * @param $channels array<int>
+     */
+    #[DataProviderExternal(ColorDataProvider::class, 'rgbArray')]
+    public function testRgb(mixed $input, array $channels): void
+    {
+        $this->assertEquals(
+            $channels,
+            array_map(fn(ColorChannelInterface $channel): int|float =>
+            $channel->value(), Color::rgb(...$input)->channels()),
+        );
+    }
+
+    /**
+     * @param $channels array<int>
+     */
+    #[DataProviderExternal(ColorDataProvider::class, 'cmykArray')]
+    public function testCmyk(mixed $input, array $channels): void
+    {
+        $this->assertEquals(
+            $channels,
+            array_map(fn(ColorChannelInterface $channel): int|float =>
+            $channel->value(), Color::cmyk(...$input)->channels()),
+        );
+    }
+
+    /**
+     * @param $channels array<int>
+     */
+    #[DataProviderExternal(ColorDataProvider::class, 'hslArray')]
+    public function testHsl(mixed $input, array $channels): void
+    {
+        $this->assertEquals(
+            $channels,
+            array_map(fn(ColorChannelInterface $channel): int|float =>
+            $channel->value(), Color::hsl(...$input)->channels()),
+        );
+    }
+
+    /**
+     * @param $channels array<int>
+     */
+    #[DataProviderExternal(ColorDataProvider::class, 'hsvArray')]
+    public function testHsv(mixed $input, array $channels): void
+    {
+        $this->assertEquals(
+            $channels,
+            array_map(fn(ColorChannelInterface $channel): int|float =>
+            $channel->value(), Color::hsv(...$input)->channels()),
+        );
+    }
+
+    /**
+     * @param $channels array<float>
+     */
+    #[DataProviderExternal(ColorDataProvider::class, 'oklabArray')]
+    public function testOklab(mixed $input, array $channels): void
+    {
+        $this->assertEquals(
+            $channels,
+            array_map(fn(ColorChannelInterface $channel): int|float =>
+            $channel->value(), Color::oklab(...$input)->channels()),
+        );
+    }
+
+    /**
+     * @param $channels array<float>
+     */
+    #[DataProviderExternal(ColorDataProvider::class, 'oklchArray')]
+    public function testOklch(mixed $input, array $channels): void
+    {
+        $this->assertEquals(
+            $channels,
+            array_map(fn(ColorChannelInterface $channel): int|float =>
+            $channel->value(), Color::oklch(...$input)->channels()),
+        );
+    }
+
+    public function testTransparent(): void
+    {
+        $this->assertTrue(Color::transparent()->isClear());
+    }
+}

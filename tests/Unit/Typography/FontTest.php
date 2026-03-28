@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Typography;
 
-use Intervention\Image\Exceptions\FontException;
+use Intervention\Image\Alignment;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Resource;
 use Intervention\Image\Typography\Font;
 use PHPUnit\Framework\Attributes\CoversClass;
 
@@ -16,7 +18,11 @@ final class FontTest extends BaseTestCase
     {
         $font = new Font('foo.ttf');
         $this->assertInstanceOf(Font::class, $font);
-        $this->assertEquals('foo.ttf', $font->filename());
+        $this->assertNull($font->filepath());
+
+        $font = new Font(Resource::create('test.ttf')->path());
+        $this->assertInstanceOf(Font::class, $font);
+        $this->assertEquals('test.ttf', basename($font->filepath()));
     }
 
     public function testSetGetSize(): void
@@ -40,13 +46,13 @@ final class FontTest extends BaseTestCase
     public function testSetGetFilename(): void
     {
         $font = new Font();
-        $this->assertEquals(null, $font->filename());
-        $this->assertFalse($font->hasFilename());
-        $filename = $this->getTestResourcePath();
-        $result = $font->setFilename($filename);
-        $this->assertTrue($font->hasFilename());
+        $this->assertEquals(null, $font->filepath());
+        $this->assertFalse($font->hasFile());
+        $filename = Resource::create()->path();
+        $result = $font->setFilepath($filename);
+        $this->assertTrue($font->hasFile());
         $this->assertInstanceOf(Font::class, $result);
-        $this->assertEquals($filename, $font->filename());
+        $this->assertEquals($filename, $font->filepath());
     }
 
     public function testSetGetColor(): void
@@ -61,19 +67,45 @@ final class FontTest extends BaseTestCase
     public function testSetGetAlignment(): void
     {
         $font = new Font();
-        $this->assertEquals('left', $font->alignment());
-        $result = $font->setAlignment('center');
+        $this->assertEquals(Alignment::LEFT, $font->alignmentHorizontal());
+
+        $result = $font->setAlignmentHorizontal(Alignment::CENTER);
         $this->assertInstanceOf(Font::class, $result);
-        $this->assertEquals('center', $font->alignment());
+        $this->assertEquals(Alignment::CENTER, $font->alignmentHorizontal());
+
+        $result = $font->setAlignmentHorizontal(Alignment::BOTTOM);
+        $this->assertInstanceOf(Font::class, $result);
+        $this->assertEquals(Alignment::BOTTOM, $font->alignmentHorizontal());
     }
 
-    public function testSetGetValignment(): void
+    public function testSetAlignmentHorizontalWithString(): void
     {
         $font = new Font();
-        $this->assertEquals('bottom', $font->valignment());
-        $result = $font->setValignment('center');
+        $result = $font->setAlignmentHorizontal('center');
         $this->assertInstanceOf(Font::class, $result);
-        $this->assertEquals('center', $font->valignment());
+        $this->assertEquals(Alignment::CENTER, $font->alignmentHorizontal());
+    }
+
+    public function testSetGetVerticalAlignment(): void
+    {
+        $font = new Font();
+        $this->assertEquals(Alignment::BOTTOM, $font->alignmentVertical());
+
+        $result = $font->setAlignmentVertical(Alignment::CENTER);
+        $this->assertInstanceOf(Font::class, $result);
+        $this->assertEquals(Alignment::CENTER, $font->alignmentVertical());
+
+        $result = $font->setAlignmentVertical(Alignment::RIGHT);
+        $this->assertInstanceOf(Font::class, $result);
+        $this->assertEquals(Alignment::RIGHT, $font->alignmentVertical());
+    }
+
+    public function testSetAlignmentVerticalWithString(): void
+    {
+        $font = new Font();
+        $result = $font->setAlignmentVertical('top');
+        $this->assertInstanceOf(Font::class, $result);
+        $this->assertEquals(Alignment::TOP, $font->alignmentVertical());
     }
 
     public function testSetGetLineHeight(): void
@@ -106,7 +138,31 @@ final class FontTest extends BaseTestCase
     public function testSetStrokeWidthOutOfRange(): void
     {
         $font = new Font();
-        $this->expectException(FontException::class);
+        $this->expectException(InvalidArgumentException::class);
         $font->setStrokeWidth(11);
+    }
+
+    public function testHasStrokeEffect(): void
+    {
+        $font = new Font();
+        $this->assertFalse($font->hasStrokeEffect());
+
+        $font->setStrokeWidth(1);
+        $this->assertTrue($font->hasStrokeEffect());
+
+        $font->setStrokeWidth(5);
+        $this->assertTrue($font->hasStrokeEffect());
+    }
+
+    public function testSetGetWrapWidth(): void
+    {
+        $font = new Font();
+        $this->assertNull($font->wrapWidth());
+        $result = $font->setWrapWidth(200);
+        $this->assertInstanceOf(Font::class, $result);
+        $this->assertEquals(200, $font->wrapWidth());
+
+        $font->setWrapWidth(null);
+        $this->assertNull($font->wrapWidth());
     }
 }

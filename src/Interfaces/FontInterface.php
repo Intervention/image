@@ -4,120 +4,117 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
-use Intervention\Image\Exceptions\FontException;
+use Intervention\Image\Alignment;
 
 interface FontInterface
 {
     /**
-     * Set color of font
+     * Set color of font.
      */
-    public function setColor(mixed $color): self;
+    public function setColor(string|ColorInterface $color): self;
 
     /**
-     * Get color of font
+     * Get color of font.
      */
-    public function color(): mixed;
+    public function color(): null|string|ColorInterface;
 
     /**
-     * Set stroke color of font
+     * Set stroke color of font.
      */
-    public function setStrokeColor(mixed $color): self;
+    public function setStrokeColor(string|ColorInterface $color): self;
 
     /**
      * Get stroke color of font
      */
-    public function strokeColor(): mixed;
+    public function strokeColor(): null|string|ColorInterface;
 
     /**
-        /**
-    * Set stroke width of font
-    *
-    * @throws FontException
+    * Set stroke width of font.
     */
     public function setStrokeWidth(int $width): self;
 
     /**
-     * Get stroke width of font
+     * Get stroke width of font.
      */
     public function strokeWidth(): int;
 
     /**
-     * Determine if the font is drawn with outline stroke effect
+     * Determine if the font is drawn with outline stroke effect.
      */
     public function hasStrokeEffect(): bool;
 
     /**
-     * Set font size
+     * Set font size.
      */
     public function setSize(float $size): self;
 
     /**
-     * Get font size
+     * Get font size.
      */
     public function size(): float;
 
     /**
-     * Set rotation angle of font
+     * Set clockwise rotation angle of font.
      */
     public function setAngle(float $angle): self;
 
     /**
-     * Get rotation angle of font
+     * Get rotation angle of font.
      */
     public function angle(): float;
 
     /**
-     * Set font filename
+     * Set font file path.
      */
-    public function setFilename(string $filename): self;
+    public function setFilepath(string $path): self;
 
     /**
-     * Get font filename
+     * Get font file path.
      */
-    public function filename(): ?string;
+    public function filepath(): ?string;
 
     /**
-     * Determine if font has a corresponding filename
+     * Determine if font has a corresponding file.
      */
-    public function hasFilename(): bool;
+    public function hasFile(): bool;
 
     /**
-     * Set horizontal alignment of font
+     * Set horizontal alignment of font.
      */
-    public function setAlignment(string $align): self;
+    public function setAlignmentHorizontal(string|Alignment $alignment): self;
 
     /**
-     * Get horizontal alignment of font
+     * Get horizontal alignment of font.
      */
-    public function alignment(): string;
+    public function alignmentHorizontal(): Alignment;
 
     /**
-     * Set vertical alignment of font
+     * Set vertical alignment of font.
      */
-    public function setValignment(string $align): self;
+    public function setAlignmentVertical(string|Alignment $alignment): self;
 
     /**
-     * Get vertical alignment of font
+     * Get vertical alignment of font.
      */
-    public function valignment(): string;
+    public function alignmentVertical(): Alignment;
 
     /**
-     * Set typographical line height
+     * Set typographical line height.
      */
-    public function setLineHeight(float $value): self;
+    public function setLineHeight(float $height): self;
 
     /**
-     * Get line height of font
+     * Get line height of font.
      */
     public function lineHeight(): float;
 
     /**
-     *  Set the wrap width with which the text is rendered
+     *  Set the wrap width with which the text is rendered.
      */
     public function setWrapWidth(?int $width): self;
 
     /**
-     * Get wrap width with which the text is rendered
+     * Get wrap width with which the text is rendered.
      */
     public function wrapWidth(): ?int;
 }

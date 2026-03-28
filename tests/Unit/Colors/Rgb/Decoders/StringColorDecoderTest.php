@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Colors\Rgb\Decoders;
 
-use Generator;
-use PHPUnit\Framework\Attributes\CoversClass;
-use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Colors\Rgb\Decoders\StringColorDecoder;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Tests\BaseTestCase;
-use PHPUnit\Framework\Attributes\DataProvider;
+use Intervention\Image\Tests\Providers\ColorDataProvider;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProviderExternal;
 
 #[CoversClass(StringColorDecoder::class)]
 final class StringColorDecoderTest extends BaseTestCase
@@ -17,56 +18,54 @@ final class StringColorDecoderTest extends BaseTestCase
     /**
      * @param $channelValues array<int>
      */
-    #[DataProvider('decodeDataProvier')]
-    public function testDecode(string $input, string $classname, array $channelValues): void
+    #[DataProviderExternal(ColorDataProvider::class, 'rgbString')]
+    public function testDecode(mixed $input, array $channelValues): void
     {
         $decoder = new StringColorDecoder();
-        $result = $decoder->decode($input);
-        $this->assertInstanceOf($classname, $result);
-        $this->assertEquals($channelValues, $result->toArray());
+        $result = $decoder->decode($input[0]);
+        $this->assertEquals(
+            $channelValues,
+            array_map(
+                fn(ColorChannelInterface $channel): int => $channel->value(),
+                $result->channels(),
+            ),
+        );
     }
 
-    public static function decodeDataProvier(): Generator
+    /**
+     * @param $channelValues array<int>
+     */
+    #[DataProviderExternal(ColorDataProvider::class, 'rgbStringInvalid')]
+    public function testDecodeInvalid(string $input): void
     {
-        yield [
-            'rgb(204, 204, 204)',
-            Color::class,
-            [204, 204, 204, 255],
-        ];
-        yield [
-            'rgb(204,204,204)',
-            Color::class,
-            [204, 204, 204, 255],
-        ];
-        yield [
-            'rgb(100%,20%,0%)',
-            Color::class,
-            [255, 51, 0, 255],
-        ];
-        yield [
-            'rgb(100%,19.8064%,0.1239483%)',
-            Color::class,
-            [255, 51, 0, 255],
-        ];
-        yield [
-            'rgba(204, 204, 204, 1)',
-            Color::class,
-            [204, 204, 204, 255],
-        ];
-        yield [
-            'rgba(204,204,204,.2)',
-            Color::class,
-            [204, 204, 204, 51],
-        ];
-        yield [
-            'rgba(204,204,204,0.2)',
-            Color::class,
-            [204, 204, 204, 51],
-        ];
-        yield [
-            'srgb(255, 0, 0)',
-            Color::class,
-            [255, 0, 0, 255],
-        ];
+        $decoder = new StringColorDecoder();
+        $this->expectException(InvalidArgumentException::class);
+        $decoder->decode($input);
+    }
+
+    public function testSupportsString(): void
+    {
+        $decoder = new StringColorDecoder();
+        $this->assertTrue($decoder->supports('rgb(255, 0, 0)'));
+        $this->assertTrue($decoder->supports('rgba(255, 0, 0, 1)'));
+        $this->assertTrue($decoder->supports('srgb(255, 0, 0)'));
+        $this->assertTrue($decoder->supports('srgba(255, 0, 0, 1)'));
+        $this->assertTrue($decoder->supports('RGB(255, 0, 0)'));
+    }
+
+    public function testSupportsNonString(): void
+    {
+        $decoder = new StringColorDecoder();
+        $this->assertFalse($decoder->supports(123));
+        $this->assertFalse($decoder->supports(null));
+        $this->assertFalse($decoder->supports([]));
+    }
+
+    public function testSupportsInvalidString(): void
+    {
+        $decoder = new StringColorDecoder();
+        $this->assertFalse($decoder->supports('not-a-color'));
+        $this->assertFalse($decoder->supports('#fff'));
+        $this->assertFalse($decoder->supports('hsl(0, 100%, 50%)'));
     }
 }

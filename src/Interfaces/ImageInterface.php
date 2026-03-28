@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
-use Closure;
 use Countable;
-use Intervention\Image\Encoders\AutoEncoder;
-use Intervention\Image\Exceptions\AnimationException;
-use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Geometry\Bezier;
 use Intervention\Image\Geometry\Circle;
@@ -17,7 +13,10 @@ use Intervention\Image\Geometry\Line;
 use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\MediaType;
-use Intervention\Image\Origin;
+use Intervention\Image\Alignment;
+use Intervention\Image\Direction;
+use Intervention\Image\Fraction;
+use Intervention\Image\Format;
 use IteratorAggregate;
 
 /**
@@ -26,746 +25,549 @@ use IteratorAggregate;
 interface ImageInterface extends IteratorAggregate, Countable
 {
     /**
-     * Return driver of current image
+     * Return the image driver.
      */
     public function driver(): DriverInterface;
 
     /**
-     * Return core of current image
+     * Return the image core.
      */
     public function core(): CoreInterface;
 
     /**
-     * Return the origin of the image
+     * Return the image origin.
      */
-    public function origin(): Origin;
+    public function origin(): OriginInterface;
 
     /**
-     * Set the origin of the image
+     * Set the image origin.
      */
-    public function setOrigin(Origin $origin): self;
+    public function setOrigin(OriginInterface $origin): self;
 
     /**
-     * Return width of current image
+     * Return the image width in pixels.
      *
-     * @link https://image.intervention.io/v3/basics/meta-information#read-the-pixel-width
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/basics/meta-information#read-the-pixel-width
      */
     public function width(): int;
 
     /**
-     * Return height of current image
+     * Return the image height in pixels.
      *
-     * @link https://image.intervention.io/v3/basics/meta-information#read-the-pixel-height
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/basics/meta-information#read-the-pixel-height
      */
     public function height(): int;
 
     /**
-     * Return size of current image
+     * Return the image size as an object.
      *
-     * @link https://image.intervention.io/v3/basics/meta-information#read-the-image-size-as-an-object
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/basics/meta-information#read-the-image-size-as-an-object
      */
     public function size(): SizeInterface;
 
     /**
-     * Encode image with given encoder
+     * Save the image to the given path. If no path is given, the image will
+     * be saved at its original location.
      *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-images
-     *
-     * @throws RuntimeException
-     */
-    public function encode(EncoderInterface $encoder = new AutoEncoder()): EncodedImageInterface;
-
-    /**
-     * Save the image to the specified path in the file system. If no path is
-     * given, the image will be saved at its original location.
-     *
-     * @link https://image.intervention.io/v3/basics/image-output#encode--save-combined
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/basics/image-output#encode--save-combined
      */
     public function save(?string $path = null, mixed ...$options): self;
 
     /**
-     * Apply given modifier to current image
+     * Apply the given modifier to the image.
      *
-     * @link https://image.intervention.io/v3/modifying-images/custom-modifiers
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/custom-modifiers
      */
     public function modify(ModifierInterface $modifier): self;
 
     /**
-     * Analyzer current image with given analyzer
-     *
-     * @throws RuntimeException
+     * Analyze the image with the given analyzer.
      */
     public function analyze(AnalyzerInterface $analyzer): mixed;
 
     /**
-     * Determine if current image is animated
+     * Determine if the image is animated.
      *
-     * @link https://image.intervention.io/v3/modifying-images/animations#check-the-current-image-instance-for-animation
+     * @link https://image.intervention.io/v4/modifying-images/animations#check-the-current-image-instance-for-animation
      */
     public function isAnimated(): bool;
 
     /**
-     * Remove all frames but keep the one at the specified position
+     * Remove all frames but keep the one at the specified position.
      *
-     * It is possible to specify the position as integer or string values.
-     * With the former, the exact position passed is searched for, while
-     * string values must represent a percentage value between '0%' and '100%'
-     * and the respective frame position is only determined approximately.
+     * Integer values select the exact frame position, while string values
+     * represent a percentage between '0%' and '100%' to determine the
+     * approximate frame position.
      *
-     * @link https://image.intervention.io/v3/modifying-images/animations#remove-animation
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/animations#remove-animation
      */
     public function removeAnimation(int|string $position = 0): self;
 
     /**
-     * Extract animation frames based on given values and discard the rest
+     * Keep only the frames defined by offset and length, discarding the rest.
      *
-     * @link https://image.intervention.io/v3/modifying-images/animations#change-the-animation-iteration-count
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/animations#change-the-animation-frames
      */
     public function sliceAnimation(int $offset = 0, ?int $length = null): self;
 
     /**
-     * Return loop count of animated image
+     * Return the animation loop count.
      *
-     * @link https://image.intervention.io/v3/modifying-images/animations#read-the-animation-iteration-count
+     * @link https://image.intervention.io/v4/modifying-images/animations#read-the-animation-iteration-count
      */
     public function loops(): int;
 
     /**
-     * Set loop count of animated image
+     * Set the animation loop count.
      *
-     * @link https://image.intervention.io/v3/modifying-images/animations#change-the-animation-iteration-count
+     * @link https://image.intervention.io/v4/modifying-images/animations#change-the-animation-iteration-count
      */
     public function setLoops(int $loops): self;
 
     /**
-     * Return exif data of current image
+     * Return the EXIF data of the image.
      *
-     * @link https://image.intervention.io/v3/basics/meta-information#exif-information
+     * @link https://image.intervention.io/v4/basics/meta-information#exif-information
      */
     public function exif(?string $query = null): mixed;
 
     /**
-     * Set exif data for the image object
+     * Set the EXIF data of the image.
      */
     public function setExif(CollectionInterface $exif): self;
 
     /**
-     * Return image resolution/density
+     * Return the image resolution in DPI.
      *
-     * @link https://image.intervention.io/v3/basics/meta-information#image-resolution
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/basics/meta-information#image-resolution
      */
     public function resolution(): ResolutionInterface;
 
     /**
-     * Set image resolution
+     * Set the image resolution in DPI.
      *
-     * @link https://image.intervention.io/v3/basics/meta-information#image-resolution
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/basics/meta-information#image-resolution
      */
     public function setResolution(float $x, float $y): self;
 
     /**
-     * Get the colorspace of the image
+     * Return the image colorspace.
      *
-     * @link https://image.intervention.io/v3/basics/colors#read-the-image-colorspace
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/basics/colors#read-the-image-colorspace
      */
     public function colorspace(): ColorspaceInterface;
 
     /**
-     * Transform image to given colorspace
+     * Transform the image to the given colorspace.
      *
-     * @link https://image.intervention.io/v3/basics/colors#change-the-image-colorspace
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/basics/colors#change-the-image-colorspace
      */
     public function setColorspace(string|ColorspaceInterface $colorspace): self;
 
     /**
-     * Return color of pixel at given position on given frame position
+     * Return the color of the pixel at the given position and frame.
      *
-     * @link https://image.intervention.io/v3/basics/colors#color-information
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/basics/colors#color-information
      */
-    public function pickColor(int $x, int $y, int $frame_key = 0): ColorInterface;
+    public function colorAt(int $x, int $y, int $frame = 0): ColorInterface;
 
     /**
-     * Return all colors of pixel at given position for all frames of image
+     * Return the colors of the pixel at the given position across all frames.
      *
-     * @link https://image.intervention.io/v3/basics/colors#color-information
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/basics/colors#read-all-colors-of-certain-pixels-in-animated-images
      */
-    public function pickColors(int $x, int $y): CollectionInterface;
+    public function colorsAt(int $x, int $y): CollectionInterface;
 
     /**
-     * Return color that is mixed with transparent areas when converting to a format which
-     * does not support transparency.
+     * Return the background color used to replace transparent areas during
+     * encoding to formats that do not support transparency.
      *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/basics/configuration-drivers#configuration-options
      */
-    public function blendingColor(): ColorInterface;
+    public function backgroundColor(): ColorInterface;
 
     /**
-     * Set blending color will have no effect unless image is converted into a format
-     * which does not support transparency.
+     * Set the background color used to replace transparent areas during
+     * encoding to formats that do not support transparency.
      *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/basics/configuration-drivers#configuration-options
      */
-    public function setBlendingColor(mixed $color): self;
+    public function setBackgroundColor(string|ColorInterface $color): self;
 
     /**
-     * Replace transparent areas of the image with given color
+     * Replace transparent areas with the given color or the configured background color.
      *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/basics/colors#merge-transparent-areas-with-color
      */
-    public function blendTransparency(mixed $color = null): self;
+    public function fillTransparentAreas(null|string|ColorInterface $color = null): self;
 
     /**
-     * Retrieve ICC color profile of image
+     * Return the ICC color profile.
      *
-     * @link https://image.intervention.io/v3/basics/colors#color-profiles
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/basics/colors#color-profiles
      */
     public function profile(): ProfileInterface;
 
     /**
-     * Set given icc color profile to image
+     * Set the ICC color profile.
      *
-     * @link https://image.intervention.io/v3/basics/colors#color-profiles
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/basics/colors#color-profiles
      */
     public function setProfile(ProfileInterface $profile): self;
 
     /**
-     * Remove ICC color profile from the current image
+     * Remove the ICC color profile.
      *
-     * @link https://image.intervention.io/v3/basics/colors#color-profiles
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/basics/colors#color-profiles
      */
     public function removeProfile(): self;
 
     /**
-     * Apply color quantization to the current image
+     * Reduce the number of colors in the image to the given limit.
      *
-     * @link https://image.intervention.io/v3/modifying-images/effects#reduce-colors
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/effects#reduce-colors
      */
-    public function reduceColors(int $limit, mixed $background = 'transparent'): self;
+    public function reduceColors(int $limit, null|string|ColorInterface $background = null): self;
 
     /**
-     * Sharpen the current image with given strength
+     * Sharpen the image by the given level.
      *
-     * @link https://image.intervention.io/v3/modifying-images/effects#sharpening-effect
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/effects#sharpening-effect
      */
-    public function sharpen(int $amount = 10): self;
+    public function sharpen(int $level = 10): self;
 
     /**
-     * Turn image into a greyscale version
+     * Turn the image into a grayscale version.
      *
-     * @link https://image.intervention.io/v3/modifying-images/effects#convert-image-to-a-greyscale-version
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/effects#convert-image-to-a-grayscale-version
      */
-    public function greyscale(): self;
+    public function grayscale(): self;
 
     /**
-     * Adjust brightness of the current image
+     * Adjust the image brightness by the given level.
      *
-     * @link https://image.intervention.io/v3/modifying-images/effects#change-the-image-brightness
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/effects#change-the-image-brightness
      */
     public function brightness(int $level): self;
 
     /**
-     * Adjust color contrast of the current image
+     * Adjust the image contrast by the given level.
      *
-     * @link https://image.intervention.io/v3/modifying-images/effects#change-the-image-contrast
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/effects#change-the-image-contrast
      */
     public function contrast(int $level): self;
 
     /**
-     * Apply gamma correction on the current image
+     * Apply gamma correction to the image.
      *
-     * @link https://image.intervention.io/v3/modifying-images/effects#gamma-correction
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/effects#gamma-correction
      */
     public function gamma(float $gamma): self;
 
     /**
-     * Adjust the intensity of the RGB color channels
+     * Adjust the intensity of the RGB color channels.
      *
-     * @link https://image.intervention.io/v3/modifying-images/effects#color-correction
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/effects#color-correction
      */
     public function colorize(int $red = 0, int $green = 0, int $blue = 0): self;
 
     /**
-     * Mirror the current image vertically by swapping top and bottom
+     * Mirror the image in the given direction.
      *
-     * @link https://image.intervention.io/v3/modifying-images/effects#mirror-image-vertically
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/effects#mirror-images
      */
-    public function flip(): self;
+    public function flip(Direction $direction = Direction::HORIZONTAL): self;
 
     /**
-     * Mirror the current image horizontally by swapping left and right
+     * Apply a blur effect with the given level.
      *
-     * @link https://image.intervention.io/v3/modifying-images/effects#mirror-image-horizontally
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/effects#blur-effect
      */
-    public function flop(): self;
+    public function blur(int $level = 5): self;
 
     /**
-     * Blur current image by given strength
+     * Invert the image colors.
      *
-     * @link https://image.intervention.io/v3/modifying-images/effects#blur-effect
-     *
-     * @throws RuntimeException
-     */
-    public function blur(int $amount = 5): self;
-
-    /**
-     * Invert the colors of the current image
-     *
-     * @link https://image.intervention.io/v3/modifying-images/effects#invert-colors
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/effects#invert-colors
      */
     public function invert(): self;
 
     /**
-     * Apply pixelation filter effect on current image
+     * Apply a pixelation effect with the given tile size.
      *
-     * @link https://image.intervention.io/v3/modifying-images/effects#pixelation-effect
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/effects#pixelation-effect
      */
     public function pixelate(int $size): self;
 
     /**
-     * Rotate current image by given angle
+     * Rotate the image clockwise by the given angle.
      *
-     * @link https://image.intervention.io/v3/modifying-images/effects#image-rotation
-     *
-     * @param string $background
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/effects#image-rotation
      */
-    public function rotate(float $angle, mixed $background = 'ffffff'): self;
+    public function rotate(float $angle, null|string|ColorInterface $background = null): self;
 
     /**
-     * Rotate the image to be upright according to exif information
+     * Orient the image upright based on EXIF data.
      *
-     * @link https://image.intervention.io/v3/modifying-images/effects#image-orientation-according-to-exif-data
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/effects#image-orientation-according-to-exif-data
      */
     public function orient(): self;
 
     /**
-     * Draw text on image
+     * Draw text on the image.
      *
-     * @link https://image.intervention.io/v3/modifying-images/text-fonts
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/text-fonts
      */
-    public function text(string $text, int $x, int $y, callable|Closure|FontInterface $font): self;
+    public function text(string $text, int $x, int $y, callable|FontInterface $font): self;
 
     /**
-     * Resize image to the given width and/or height
+     * Resize the image to the given width and/or height.
      *
-     * @link https://image.intervention.io/v3/modifying-images/resizing#simple-image-resizing
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/resizing#simple-image-resizing
      */
-    public function resize(?int $width = null, ?int $height = null): self;
+    public function resize(null|int|Fraction $width = null, null|int|Fraction $height = null): self;
 
     /**
-     * Resize image to the given width and/or height without exceeding the original dimensions
+     * Resize the image to the given width and/or height without exceeding
+     * the original dimensions.
      *
-     * @link https://image.intervention.io/v3/modifying-images/resizing#resize-without-exceeding-the-original-size
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/resizing#resize-without-exceeding-the-original-size
      */
-    public function resizeDown(?int $width = null, ?int $height = null): self;
+    public function resizeDown(null|int|Fraction $width = null, null|int|Fraction $height = null): self;
 
     /**
-     * Resize image to the given width and/or height and keep the original aspect ratio
+     * Resize the image to the given width and/or height while maintaining
+     * the aspect ratio.
      *
-     * @link https://image.intervention.io/v3/modifying-images/resizing#resize-images-proportionally
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/resizing#resize-images-proportionally
      */
-    public function scale(?int $width = null, ?int $height = null): self;
+    public function scale(null|int|Fraction $width = null, null|int|Fraction $height = null): self;
 
     /**
-     * Resize image to the given width and/or height, keep the original aspect ratio
-     * and do not exceed the original image width or height
+     * Resize the image to the given width and/or height while maintaining
+     * the aspect ratio and without exceeding the original dimensions.
      *
-     * @link https://image.intervention.io/v3/modifying-images/resizing#scale-images-but-do-not-exceed-the-original-size
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/resizing#scale-images-but-do-not-exceed-the-original-size
      */
-    public function scaleDown(?int $width = null, ?int $height = null): self;
+    public function scaleDown(null|int|Fraction $width = null, null|int|Fraction $height = null): self;
 
     /**
-     * Takes the specified width and height and scales them to the largest
-     * possible size that fits within the original size. This scaled size is
-     * then positioned on the original and cropped, before this result is resized
-     * to the desired size using the arguments
+     * Crop and resize the image to cover the given dimensions exactly.
      *
-     * @link https://image.intervention.io/v3/modifying-images/resizing#cropping--resizing-combined
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/resizing#cropping--resizing-combined
      */
-    public function cover(int $width, int $height, string $position = 'center'): self;
+    public function cover(
+        int|Fraction $width,
+        int|Fraction $height,
+        string|Alignment $alignment = Alignment::CENTER,
+    ): self;
 
     /**
-     * Same as cover() but do not exceed the original image size
+     * Crop and resize the image to cover the given dimensions without
+     * exceeding the original dimensions.
      *
-     * @link https://image.intervention.io/v3/modifying-images/resizing#fitted-resizing-without-exceeding-the-original-size
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/resizing#fitted-resizing-without-exceeding-the-original-size
      */
-    public function coverDown(int $width, int $height, string $position = 'center'): self;
+    public function coverDown(
+        int|Fraction $width,
+        int|Fraction $height,
+        string|Alignment $alignment = Alignment::CENTER,
+    ): self;
 
     /**
-     * Resize the boundaries of the current image to given width and height.
-     * An anchor position can be defined to determine where the original image
-     * is fixed. A background color can be passed to define the color of the
-     * new emerging areas.
+     * Resize the image canvas to the given width and height without resampling
      *
-     * @link https://image.intervention.io/v3/modifying-images/resizing#resize-image-boundaries-without-resampling-the-original-image
+     * The alignment position defines where the original image is fixed,
+     * and new areas are filled with the given background color.
      *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/resizing#resize-image-boundaries-without-resampling-the-original-image
      */
     public function resizeCanvas(
-        ?int $width = null,
-        ?int $height = null,
-        mixed $background = 'ffffff',
-        string $position = 'center'
+        null|int|Fraction $width = null,
+        null|int|Fraction $height = null,
+        null|string|ColorInterface $background = null,
+        string|Alignment $alignment = Alignment::CENTER
     ): self;
 
     /**
-     * Resize canvas in the same way as resizeCanvas() but takes relative values
-     * for the width and height, which will be added or subtracted to the
-     * original image size.
+     * Resize the image canvas by adding or subtracting the given width and
+     * height relative to the original dimensions.
      *
-     * @link https://image.intervention.io/v3/modifying-images/resizing#resize-image-boundaries-relative-to-the-original
+     * The alignment position defines where the original image is fixed,
+     * and new areas are filled with the given background color.
      *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/resizing#resize-image-boundaries-relative-to-the-original
      */
     public function resizeCanvasRelative(
-        ?int $width = null,
-        ?int $height = null,
-        mixed $background = 'ffffff',
-        string $position = 'center'
+        null|int|Fraction $width = null,
+        null|int|Fraction $height = null,
+        null|string|ColorInterface $background = null,
+        string|Alignment $alignment = Alignment::CENTER
     ): self;
 
     /**
-     * Padded resizing means that the original image is scaled until it fits the
-     * defined target size with unchanged aspect ratio. The original image is
-     * not scaled up but only down.
+     * Resize the image to fit within the given dimensions while maintaining
+     * the aspect ratio. New areas are filled with the given background color.
      *
-     * Compared to the cover() method, this method does not create cropped areas,
-     * but possibly new empty areas on the sides of the result image. These are
-     * filled with the specified background color.
-     *
-     * @link https://image.intervention.io/v3/modifying-images/resizing#resizing--padding-combined
-     *
-     * @param string $background
-     * @throws RuntimeException
-     */
-    public function pad(
-        int $width,
-        int $height,
-        mixed $background = 'ffffff',
-        string $position = 'center'
-    ): self;
-
-    /**
-     * This method does the same as pad(), but the original image is also scaled
-     * up if the target size exceeds the original size.
-     *
-     * @link https://image.intervention.io/v3/modifying-images/resizing#padded-resizing-with-upscaling
-     *
-     * @param string $background
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/resizing#contain-resizing-1
      */
     public function contain(
-        int $width,
-        int $height,
-        mixed $background = 'ffffff',
-        string $position = 'center'
+        int|Fraction $width,
+        int|Fraction $height,
+        null|string|ColorInterface $background = null,
+        string|Alignment $alignment = Alignment::CENTER
     ): self;
 
     /**
-     * Cut out a rectangular part of the current image with given width and
-     * height at a given position. Define optional x,y offset coordinates
-     * to move the cutout by the given amount of pixels.
+     * Resize the image to fit within the given dimensions while maintaining
+     * the aspect ratio and without exceeding the original dimensions. New
+     * areas are filled with the given background color.
      *
-     * @link https://image.intervention.io/v3/modifying-images/resizing#cut-out-a-rectangular-part
+     * @link https://image.intervention.io/v4/modifying-images/resizing#contain-resizing-without-upscaling
+     */
+    public function containDown(
+        int|Fraction $width,
+        int|Fraction $height,
+        null|string|ColorInterface $background = null,
+        string|Alignment $alignment = Alignment::CENTER
+    ): self;
+
+    /**
+     * Cut out a rectangular part of the image with the given width and height
+     * at the given alignment position offset by x and y.
      *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/resizing#cut-out-a-rectangular-part
      */
     public function crop(
-        int $width,
-        int $height,
-        int $offset_x = 0,
-        int $offset_y = 0,
-        mixed $background = 'ffffff',
-        string $position = 'top-left'
+        int|Fraction $width,
+        int|Fraction $height,
+        int $x = 0,
+        int $y = 0,
+        null|string|ColorInterface $background = null,
+        string|Alignment $alignment = Alignment::TOP_LEFT
     ): self;
 
     /**
-     * Trim the image by removing border areas of similar color within a the given tolerance
+     * Trim border areas of similar color within the given tolerance.
      *
-     * @link https://image.intervention.io/v3/modifying-images/resizing#remove-border-areas-in-similar-color
-     *
-     * @throws RuntimeException
-     * @throws AnimationException
+     * @link https://image.intervention.io/v4/modifying-images/resizing#remove-border-areas-in-similar-color
      */
     public function trim(int $tolerance = 0): self;
 
     /**
-     * Place another image into the current image instance
+     * Insert another image at the given position relative to the alignment position.
      *
-     * @link https://image.intervention.io/v3/modifying-images/inserting#insert-images
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/inserting#insert-images
      */
-    public function place(
-        mixed $element,
-        string $position = 'top-left',
-        int $offset_x = 0,
-        int $offset_y = 0,
-        int $opacity = 100
+    public function insert(
+        mixed $image,
+        int $x = 0,
+        int $y = 0,
+        string|Alignment $alignment = Alignment::TOP_LEFT,
+        float $transparency = 1
     ): self;
 
     /**
-     * Fill image with given color
+     * Fill the image with the given color. If coordinates are specified, the
+     * fill is applied as a flood fill starting at that position. Otherwise
+     * the entire image area is filled.
      *
-     * If an optional position is specified for the filling process ln the form
-     * of x and y coordinates, the process is executed as flood fill. This means
-     * that the color at the specified position is taken as a reference and all
-     * adjacent pixels are also filled with the filling color.
-     *
-     * If no coordinates are specified, the entire image area is filled.
-     *
-     * @link https://image.intervention.io/v3/modifying-images/drawing#fill-images-with-color
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/drawing#fill-images-with-color
      */
-    public function fill(mixed $color, ?int $x = null, ?int $y = null): self;
+    public function fill(string|ColorInterface $color, ?int $x = null, ?int $y = null): self;
 
     /**
-     * Draw a single pixel at given position defined by the coordinates x and y in a given color.
+     * Draw a single pixel at the given position in the given color.
      *
-     * @link https://image.intervention.io/v3/modifying-images/drawing#draw-pixels
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/drawing#draw-pixels
      */
-    public function drawPixel(int $x, int $y, mixed $color): self;
+    public function drawPixel(int $x, int $y, string|ColorInterface $color): self;
 
     /**
-     * Draw a rectangle on the current image
+     * Draw a rectangle on the image.
      *
-     * @link https://image.intervention.io/v3/modifying-images/drawing#draw-a-rectangle
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/drawing#draw-a-rectangle
      */
-    public function drawRectangle(int $x, int $y, callable|Closure|Rectangle $init): self;
+    public function drawRectangle(callable|Rectangle $rectangle): self;
 
     /**
-     * Draw ellipse on the current image
+     * Draw an ellipse on the image.
      *
-     * @link https://image.intervention.io/v3/modifying-images/drawing#draw-ellipses
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/drawing#draw-ellipses
      */
-    public function drawEllipse(int $x, int $y, callable|Closure|Ellipse $init): self;
+    public function drawEllipse(callable|Ellipse $ellipse): self;
 
     /**
-     * Draw circle on the current image
+     * Draw a circle on the image.
      *
-     * @link https://image.intervention.io/v3/modifying-images/drawing#draw-a-circle
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/drawing#draw-a-circle
      */
-    public function drawCircle(int $x, int $y, callable|Closure|Circle $init): self;
+    public function drawCircle(callable|Circle $circle): self;
 
     /**
-     * Draw a polygon on the current image
+     * Draw a polygon on the image.
      *
-     * @link https://image.intervention.io/v3/modifying-images/drawing#draw-a-polygon
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/drawing#draw-a-polygon
      */
-    public function drawPolygon(callable|Closure|Polygon $init): self;
+    public function drawPolygon(callable|Polygon $polygon): self;
 
     /**
-     * Draw a line on the current image
+     * Draw a line on the image.
      *
-     * @link https://image.intervention.io/v3/modifying-images/drawing#draw-a-line
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/drawing#draw-a-line
      */
-    public function drawLine(callable|Closure|Line $init): self;
+    public function drawLine(callable|Line $line): self;
 
     /**
-     * Draw a bezier curve on the current image
+     * Draw a bezier curve on the image.
      *
-     * @link https://image.intervention.io/v3/modifying-images/drawing#draw-bezier-curves
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/drawing#draw-bezier-curves
      */
-    public function drawBezier(callable|Closure|Bezier $init): self;
+    public function drawBezier(callable|Bezier $bezier): self;
 
     /**
-     * Encode image to given media (mime) type. If no type is given the image
-     * will be encoded to the format of the originally read image.
+     * Draw a geometric object on the image.
      *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-images-by-media-mime-type
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/modifying-images/drawing
      */
-    public function encodeByMediaType(null|string|MediaType $type = null, mixed ...$options): EncodedImageInterface;
+    public function draw(DrawableInterface $drawable): self;
 
     /**
-     * Encode the image into the format represented by the given extension. If no
-     * extension is given the image will be encoded to the format of the
-     * originally read image.
+     * Encode the image with the given encoder. If no encoder is provided,
+     * the format is detected from the original image automatically.
      *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-images-by-file-extension
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/basics/image-output#encode-images-with-encoder-objects
      */
-    public function encodeByExtension(
-        null|string|FileExtension $extension = null,
-        mixed ...$options
+    public function encode(?EncoderInterface $encoder = null): EncodedImageInterface;
+
+    /**
+     * Encode the image in the given format.
+     *
+     * @link https://image.intervention.io/v4/basics/image-output#encode-images-using-format
+     */
+    public function encodeUsingFormat(Format $format, mixed ...$options): EncodedImageInterface;
+
+    /**
+     * Encode the image based on the given media (MIME) type.
+     *
+     * @link https://image.intervention.io/v4/basics/image-output#encode-images-using-media-mime-types
+     */
+    public function encodeUsingMediaType(string|MediaType $mediaType, mixed ...$options): EncodedImageInterface;
+
+    /**
+     * Encode the image based on the given file extension.
+     *
+     * @link https://image.intervention.io/v4/basics/image-output#encode-images-using-file-extensions
+     */
+    public function encodeUsingFileExtension(
+        string|FileExtension $fileExtension,
+        mixed ...$options,
     ): EncodedImageInterface;
 
     /**
-     * Encode the image into the format represented by the given extension of
-     * the given file path extension is given the image will be encoded to
-     * the format of the originally read image.
+     * Encode the image based on the given file path's extension.
      *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-images-by-file-path
-     *
-     * @throws RuntimeException
+     * @link https://image.intervention.io/v4/basics/image-output#encode-images-using-file-paths
      */
-    public function encodeByPath(?string $path = null, mixed ...$options): EncodedImageInterface;
-
-    /**
-     * Encode image to JPEG format
-     *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-jpeg-format
-     *
-     * @throws RuntimeException
-     */
-    public function toJpeg(mixed ...$options): EncodedImageInterface;
-
-    /**
-     * Encode image to Jpeg2000 format
-     *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-jpeg-2000-format
-     *
-     * @throws RuntimeException
-     */
-    public function toJpeg2000(mixed ...$options): EncodedImageInterface;
-
-    /**
-     * Encode image to Webp format
-     *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-webp-format
-     *
-     * @throws RuntimeException
-     */
-    public function toWebp(mixed ...$options): EncodedImageInterface;
-
-    /**
-     * Encode image to PNG format
-     *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-png-format
-     *
-     * @throws RuntimeException
-     */
-    public function toPng(mixed ...$options): EncodedImageInterface;
-
-    /**
-     * Encode image to GIF format
-     *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-gif-format
-     *
-     * @throws RuntimeException
-     */
-    public function toGif(mixed ...$options): EncodedImageInterface;
-
-    /**
-     * Encode image to Bitmap format
-     *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-windows-bitmap-format
-     *
-     * @throws RuntimeException
-     */
-    public function toBitmap(mixed ...$options): EncodedImageInterface;
-
-    /**
-     * Encode image to AVIF format
-     *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-av1-image-file-format-avif
-     *
-     * @throws RuntimeException
-     */
-    public function toAvif(mixed ...$options): EncodedImageInterface;
-
-    /**
-     * Encode image to TIFF format
-     *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-tiff-format
-     *
-     * @throws RuntimeException
-     */
-    public function toTiff(mixed ...$options): EncodedImageInterface;
-
-    /**
-     * Encode image to HEIC format
-     *
-     * @link https://image.intervention.io/v3/basics/image-output#encode-heic-format
-     *
-     * @throws RuntimeException
-     */
-    public function toHeic(mixed ...$options): EncodedImageInterface;
+    public function encodeUsingPath(string $path, mixed ...$options): EncodedImageInterface;
 }

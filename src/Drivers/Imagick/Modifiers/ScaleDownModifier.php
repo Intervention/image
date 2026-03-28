@@ -9,7 +9,7 @@ use Intervention\Image\Interfaces\SizeInterface;
 
 class ScaleDownModifier extends ResizeModifier
 {
-    protected function getAdjustedSize(ImageInterface $image): SizeInterface
+    protected function adjustedSize(ImageInterface $image): SizeInterface
     {
         return $image->size()->scaleDown($this->width, $this->height);
     }

@@ -6,16 +6,23 @@ namespace Intervention\Image\Drivers;
 
 use Exception;
 use Intervention\Image\Collection;
+use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
-use Intervention\Image\Traits\CanBuildFilePointer;
+use Intervention\Image\Traits\CanBuildStream;
+use Intervention\Image\Traits\CanParseFilePath;
+use Stringable;
+use Throwable;
 
 abstract class AbstractDecoder implements DecoderInterface
 {
-    use CanBuildFilePointer;
+    use CanBuildStream;
+    use CanParseFilePath;
 
     /**
-     * Determine if the given input is GIF data format
+     * Determine if the given input is GIF data format.
      */
     protected function isGifFormat(string $input): bool
     {
@@ -23,47 +30,32 @@ abstract class AbstractDecoder implements DecoderInterface
     }
 
     /**
-     * Determine if given input is a path to an existing regular file
-     */
-    protected function isFile(mixed $input): bool
-    {
-        if (!is_string($input)) {
-            return false;
-        }
-
-        if (strlen($input) > PHP_MAXPATHLEN) {
-            return false;
-        }
-
-        try {
-            if (!@is_file($input)) {
-                return false;
-            }
-        } catch (Exception) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Extract and return EXIF data from given input which can be binary image
-     * data or a file path.
+     * Extract and return EXIF data from given input which can be a file path
+     * or a stream stream resource.
      *
+     * @throws InvalidArgumentException
+     * @throws DecoderException
      * @return CollectionInterface<string, mixed>
      */
-    protected function extractExifData(string $path_or_data): CollectionInterface
+    protected function extractExifData(string $input): CollectionInterface
     {
         if (!function_exists('exif_read_data')) {
             return new Collection();
         }
 
         try {
-            $source = match (true) {
-                $this->isFile($path_or_data) => $path_or_data, // path
-                default => $this->buildFilePointer($path_or_data), // data
-            };
+            // source might be file path
+            $source = self::readableFilePathOrFail($input);
+        } catch (Throwable) {
+            try {
+                // source might be stream resource
+                $source = self::buildStreamOrFail($input);
+            } catch (RuntimeException) {
+                return new Collection();
+            }
+        }
 
+        try {
             // extract exif data
             $data = @exif_read_data($source, null, true);
             if (is_resource($source)) {
@@ -77,70 +69,29 @@ abstract class AbstractDecoder implements DecoderInterface
     }
 
     /**
-     * Determine if given input is base64 encoded data
+     * Decodes given base64 encoded data.
+     *
+     * @throws InvalidArgumentException
+     * @throws DecoderException
      */
-    protected function isValidBase64(mixed $input): bool
+    protected function decodeBase64Data(mixed $input): string
     {
-        if (!is_string($input)) {
-            return false;
+        if (!is_string($input) && !$input instanceof Stringable) {
+            throw new InvalidArgumentException(
+                'Base64-encoded data must be either of type string or instance of Stringable',
+            );
         }
 
-        return base64_encode(base64_decode($input)) === str_replace(["\n", "\r"], '', $input);
-    }
+        $decoded = base64_decode((string) $input, true);
 
-    /**
-     * Parse data uri
-     */
-    protected function parseDataUri(mixed $input): object
-    {
-        $pattern = "/^data:(?P<mediatype>\w+\/[-+.\w]+)?" .
-            "(?P<parameters>(;[-\w]+=[-\w]+)*)(?P<base64>;base64)?,(?P<data>.*)/";
+        if ($decoded === false) {
+            throw new DecoderException('Input is not valid Base64-encoded data');
+        }
 
-        $result = preg_match($pattern, (string) $input, $matches);
+        if (base64_encode($decoded) !== str_replace(["\n", "\r"], '', (string) $input)) {
+            throw new DecoderException('Input is not valid Base64-encoded data');
+        }
 
-        return new class ($matches, $result)
-        {
-            /**
-             * @param array<mixed> $matches
-             * @return void
-             */
-            public function __construct(private array $matches, private int|false $result)
-            {
-                //
-            }
-
-            public function isValid(): bool
-            {
-                return (bool) $this->result;
-            }
-
-            public function mediaType(): ?string
-            {
-                if (isset($this->matches['mediatype']) && !empty($this->matches['mediatype'])) {
-                    return $this->matches['mediatype'];
-                }
-
-                return null;
-            }
-
-            public function hasMediaType(): bool
-            {
-                return !empty($this->mediaType());
-            }
-
-            public function isBase64Encoded(): bool
-            {
-                return isset($this->matches['base64']) && $this->matches['base64'] === ';base64';
-            }
-
-            public function data(): ?string
-            {
-                if (isset($this->matches['data']) && !empty($this->matches['data'])) {
-                    return $this->matches['data'];
-                }
-
-                return null;
-            }
-        };
+        return $decoded;
     }
 }

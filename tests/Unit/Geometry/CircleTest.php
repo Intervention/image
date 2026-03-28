@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit\Geometry;
 
 use Intervention\Image\Geometry\Circle;
+use Intervention\Image\Geometry\Factories\CircleFactory;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -40,5 +41,12 @@ final class CircleTest extends BaseTestCase
         $this->assertEquals(400, $circle->diameter());
         $this->assertEquals(200, $result->radius());
         $this->assertEquals(200, $circle->radius());
+    }
+
+    public function testFactory(): void
+    {
+        $circle = new Circle(100, new Point(1, 2));
+        $factory = $circle->factory();
+        $this->assertInstanceOf(CircleFactory::class, $factory);
     }
 }

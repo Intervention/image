@@ -7,6 +7,7 @@ namespace Intervention\Image\Tests\Unit;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Collection;
 use Intervention\Image\Tests\BaseTestCase;
+use stdClass;
 
 #[CoversClass(Collection::class)]
 final class CollectionTest extends BaseTestCase
@@ -95,6 +96,17 @@ final class CollectionTest extends BaseTestCase
         $this->assertEquals(['foo', 'bar', 'baz'], $mapped->toArray());
     }
 
+    public function testSetGet(): void
+    {
+        $collection = new Collection();
+        $collection->set('foo', 1);
+        $collection->set('bar', true);
+        $collection->set('baz', new stdClass());
+        $this->assertEquals(1, $collection->get('foo'));
+        $this->assertTrue($collection->get('bar'));
+        $this->assertInstanceOf(stdClass::class, $collection->get('baz'));
+    }
+
     public function testGet(): void
     {
         // phpcs:ignore SlevomatCodingStandard.Arrays.DisallowPartiallyKeyed
@@ -132,25 +144,25 @@ final class CollectionTest extends BaseTestCase
     {
         // phpcs:ignore SlevomatCodingStandard.Arrays.DisallowPartiallyKeyed
         $collection = new Collection([1, 2, 'foo' => 'bar']);
-        $this->assertEquals(1, $collection->getAtPosition(0));
-        $this->assertEquals(2, $collection->getAtPosition(1));
-        $this->assertEquals('bar', $collection->getAtPosition(2));
-        $this->assertNull($collection->getAtPosition(3));
-        $this->assertEquals('default', $collection->getAtPosition(3, 'default'));
+        $this->assertEquals(1, $collection->at(0));
+        $this->assertEquals(2, $collection->at(1));
+        $this->assertEquals('bar', $collection->at(2));
+        $this->assertNull($collection->at(3));
+        $this->assertEquals('default', $collection->at(3, 'default'));
     }
 
     public function testGetAtPositionEmpty(): void
     {
         $collection = new Collection();
-        $this->assertNull($collection->getAtPosition());
-        $this->assertEquals('default', $collection->getAtPosition(3, 'default'));
+        $this->assertNull($collection->at());
+        $this->assertEquals('default', $collection->at(3, 'default'));
     }
 
     public function testEmpty(): void
     {
         $collection = new Collection([1, 2, 3]);
         $this->assertEquals(3, $collection->count());
-        $result = $collection->empty();
+        $result = $collection->clear();
         $this->assertEquals(0, $collection->count());
         $this->assertEquals(0, $result->count());
     }

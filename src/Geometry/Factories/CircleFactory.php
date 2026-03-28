@@ -4,56 +4,50 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Geometry\Factories;
 
-use Closure;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Circle;
-use Intervention\Image\Geometry\Point;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DrawableFactoryInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
-use Intervention\Image\Interfaces\PointInterface;
 
 class CircleFactory implements DrawableFactoryInterface
 {
     protected Circle $circle;
 
     /**
-     * Create new factory instance
-     *
-     * @return void
+     * Create new factory instance.
      */
-    public function __construct(
-        protected PointInterface $pivot = new Point(),
-        null|Closure|Circle $init = null,
-    ) {
-        $this->circle = is_a($init, Circle::class) ? $init : new Circle(0);
-        $this->circle->setPosition($pivot);
+    public function __construct(null|callable|Circle $circle = null)
+    {
+        $this->circle = $circle instanceof Circle ? clone $circle : new Circle(0);
 
-        if (is_callable($init)) {
-            $init($this);
+        if (is_callable($circle)) {
+            $circle($this);
         }
     }
 
     /**
      * {@inheritdoc}
      *
-     * @see DrawableFactoryInterface::init()
+     * @see DrawableFactoryInterface::build()
      */
-    public static function init(null|Closure|DrawableInterface $init = null): self
+    public static function build(null|callable|DrawableInterface $drawable = null): Circle
     {
-        return new self(init: $init);
+        return (new self($drawable))->drawable();
     }
 
     /**
      * {@inheritdoc}
      *
-     * @see DrawableFactoryInterface::create()
+     * @see DrawableFactoryInterface::drawable()
      */
-    public function create(): DrawableInterface
+    public function drawable(): Circle
     {
         return $this->circle;
     }
 
     /**
-     * Set the radius of the circle to be produced
+     * Set the radius of the circle to be produced.
      */
     public function radius(int $radius): self
     {
@@ -63,7 +57,7 @@ class CircleFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Set the diameter of the circle to be produced
+     * Set the diameter of the circle to be produced.
      */
     public function diameter(int $diameter): self
     {
@@ -73,9 +67,9 @@ class CircleFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Set the background color of the circle to be produced
+     * Set the background color of the circle to be produced.
      */
-    public function background(mixed $color): self
+    public function background(string|ColorInterface $color): self
     {
         $this->circle->setBackgroundColor($color);
 
@@ -83,9 +77,11 @@ class CircleFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Set the border color & border size of the ellipse to be produced
+     * Set the border color & border size of the circle to be produced.
+     *
+     * @throws InvalidArgumentException
      */
-    public function border(mixed $color, int $size = 1): self
+    public function border(string|ColorInterface $color, int $size = 1): self
     {
         $this->circle->setBorder($color, $size);
 
@@ -93,10 +89,12 @@ class CircleFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Produce the circle
+     * Set the position where the circle should be drawn.
      */
-    public function __invoke(): Circle
+    public function at(int $x, int $y): self
     {
-        return $this->circle;
+        $this->circle->position()->setPosition($x, $y);
+
+        return $this;
     }
 }

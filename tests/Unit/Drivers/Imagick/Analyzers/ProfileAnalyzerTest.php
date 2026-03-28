@@ -6,9 +6,9 @@ namespace Intervention\Image\Tests\Unit\Drivers\Imagick\Analyzers;
 
 use Intervention\Image\Drivers\Imagick\Analyzers\ProfileAnalyzer;
 use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\Exceptions\AnalyzerException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
-use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Tests\ImagickTestCase;
 
 #[RequiresPhpExtension('imagick')]
@@ -20,7 +20,7 @@ final class ProfileAnalyzerTest extends ImagickTestCase
         $image = $this->readTestImage('tile.png');
         $analyzer = new ProfileAnalyzer();
         $analyzer->setDriver(new Driver());
-        $this->expectException(ColorException::class);
+        $this->expectException(AnalyzerException::class);
         $analyzer->analyze($image);
     }
 }

@@ -11,6 +11,7 @@ use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Resource;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(Base64ImageDecoder::class)]
@@ -26,10 +27,7 @@ final class Base64ImageDecoderTest extends BaseTestCase
 
     public function testDecode(): void
     {
-        $result = $this->decoder->decode(
-            base64_encode($this->getTestResourceData('blue.gif'))
-        );
-
+        $result = $this->decoder->decode(Resource::create('blue.gif')->base64());
         $this->assertInstanceOf(Image::class, $result);
     }
 

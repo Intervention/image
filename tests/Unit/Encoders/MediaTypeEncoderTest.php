@@ -15,10 +15,14 @@ use Intervention\Image\Encoders\MediaTypeEncoder;
 use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
-use Intervention\Image\Exceptions\EncoderException;
+use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
+use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\MediaType;
+use Intervention\Image\Origin;
 use Intervention\Image\Tests\BaseTestCase;
+use Mockery;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -97,7 +101,32 @@ final class MediaTypeEncoderTest extends BaseTestCase
 
     public function testEncoderByFileExtensionUnknown(): void
     {
-        $this->expectException(EncoderException::class);
+        $this->expectException(NotSupportedException::class);
         $this->testEncoder('test');
+    }
+
+    public function testEncodeWithExplicitMediaType(): void
+    {
+        $encoder = new MediaTypeEncoder('image/png');
+        $encodedImage = Mockery::mock(EncodedImageInterface::class);
+
+        $image = Mockery::mock(ImageInterface::class);
+        $image->shouldReceive('encode')->once()->andReturn($encodedImage);
+
+        $result = $encoder->encode($image);
+        $this->assertSame($encodedImage, $result);
+    }
+
+    public function testEncodeWithNullMediaTypeFromOrigin(): void
+    {
+        $encoder = new MediaTypeEncoder();
+        $encodedImage = Mockery::mock(EncodedImageInterface::class);
+
+        $image = Mockery::mock(ImageInterface::class);
+        $image->shouldReceive('origin')->andReturn(new Origin('image/jpeg'));
+        $image->shouldReceive('encode')->once()->andReturn($encodedImage);
+
+        $result = $encoder->encode($image);
+        $this->assertSame($encodedImage, $result);
     }
 }

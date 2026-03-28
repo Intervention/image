@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Analyzers;
 
-use GdImage;
 use Intervention\Image\Analyzers\PixelColorAnalyzer as GenericPixelColorAnalyzer;
-use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Exceptions\GeometryException;
+use Intervention\Image\Exceptions\AnalyzerException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ColorInterface;
-use Intervention\Image\Interfaces\ColorspaceInterface;
+use Intervention\Image\Interfaces\ColorProcessorInterface;
+use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
+use ValueError;
 
 class PixelColorAnalyzer extends GenericPixelColorAnalyzer implements SpecializedInterface
 {
@@ -19,33 +21,37 @@ class PixelColorAnalyzer extends GenericPixelColorAnalyzer implements Specialize
      * {@inheritdoc}
      *
      * @see AnalyzerInterface::analyze()
+     *
+     * @throws InvalidArgumentException
+     * @throws AnalyzerException
+     * @throws StateException
      */
     public function analyze(ImageInterface $image): mixed
     {
-        return $this->colorAt(
-            $image->colorspace(),
-            $image->core()->frame($this->frame_key)->native()
-        );
+        $colorProcessor = $this->driver()->colorProcessor($image);
+
+        return $this->colorAt($colorProcessor, $image->core()->frame($this->frame));
     }
 
-    /**
-     * @throws GeometryException
-     * @throws ColorException
-     */
-    protected function colorAt(ColorspaceInterface $colorspace, GdImage $gd): ColorInterface
+    protected function colorAt(ColorProcessorInterface $processor, FrameInterface $frame): ColorInterface
     {
+        $gd = $frame->native();
         $index = @imagecolorat($gd, $this->x, $this->y);
 
-        if (!imageistruecolor($gd)) {
-            $index = imagecolorsforindex($gd, $index);
-        }
-
-        if ($index === false) {
-            throw new GeometryException(
-                'The specified position is not in the valid image area.'
+        if (!is_int($index)) {
+            throw new InvalidArgumentException(
+                'The specified position (' . $this->x . ', ' . $this->y . ') is not within the image area',
             );
         }
 
-        return $this->driver()->colorProcessor($colorspace)->nativeToColor($index);
+        try {
+            $index = imagecolorsforindex($gd, $index);
+        } catch (ValueError) {
+            throw new AnalyzerException(
+                'The specified index is outside of the range',
+            );
+        }
+
+        return $processor->import($index);
     }
 }

@@ -5,31 +5,32 @@ declare(strict_types=1);
 namespace Intervention\Image\Colors\Cmyk;
 
 use Intervention\Image\Colors\AbstractColor;
+use Intervention\Image\Colors\Cmyk\Channels\Alpha;
 use Intervention\Image\Colors\Cmyk\Channels\Cyan;
 use Intervention\Image\Colors\Cmyk\Channels\Magenta;
 use Intervention\Image\Colors\Cmyk\Channels\Yellow;
 use Intervention\Image\Colors\Cmyk\Channels\Key;
-use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
-use Intervention\Image\InputHandler;
+use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
+use Intervention\Image\Exceptions\ColorDecoderException;
+use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 
 class Color extends AbstractColor
 {
     /**
-     * Create new instance
-     *
-     * @return void
+     * Create new instance.
      */
-    public function __construct(int $c, int $m, int $y, int $k)
+    public function __construct(int|Cyan $c, int|Magenta $m, int|Yellow $y, int|Key $k, float|Alpha $a = 1)
     {
-        /** @throws void */
         $this->channels = [
-            new Cyan($c),
-            new Magenta($m),
-            new Yellow($y),
-            new Key($k),
+            is_int($c) ? new Cyan($c) : $c,
+            is_int($m) ? new Magenta($m) : $m,
+            is_int($y) ? new Yellow($y) : $y,
+            is_int($k) ? new Key($k) : $k,
+            is_float($a) ? new Alpha($a) : $a,
         ];
     }
 
@@ -37,12 +38,14 @@ class Color extends AbstractColor
      * {@inheritdoc}
      *
      * @see ColorInterface::create()
+     *
+     * @throws InvalidArgumentException
+     * @throws DriverException
+     * @throws ColorDecoderException
      */
-    public static function create(mixed $input): ColorInterface
+    public static function create(int|Cyan $c, int|Magenta $m, int|Yellow $y, int|Key $k, float|Alpha $a = 1): self
     {
-        return InputHandler::withDecoders([
-            Decoders\StringColorDecoder::class,
-        ])->handle($input);
+        return new self($c, $m, $y, $k, $a);
     }
 
     /**
@@ -59,14 +62,16 @@ class Color extends AbstractColor
      * {@inheritdoc}
      *
      * @see ColorInterface::toHex()
+     *
+     * @throws NotSupportedException
      */
-    public function toHex(string $prefix = ''): string
+    public function toHex(bool $prefix = false): string
     {
-        return $this->convertTo(RgbColorspace::class)->toHex($prefix);
+        return $this->toColorspace(Rgb::class)->toHex($prefix);
     }
 
     /**
-     * Return the CMYK cyan channel
+     * Return the CMYK cyan channel.
      */
     public function cyan(): ColorChannelInterface
     {
@@ -75,7 +80,7 @@ class Color extends AbstractColor
     }
 
     /**
-     * Return the CMYK magenta channel
+     * Return the CMYK magenta channel.
      */
     public function magenta(): ColorChannelInterface
     {
@@ -84,7 +89,7 @@ class Color extends AbstractColor
     }
 
     /**
-     * Return the CMYK yellow channel
+     * Return the CMYK yellow channel.
      */
     public function yellow(): ColorChannelInterface
     {
@@ -93,12 +98,21 @@ class Color extends AbstractColor
     }
 
     /**
-     * Return the CMYK key channel
+     * Return the CMYK key channel.
      */
     public function key(): ColorChannelInterface
     {
         /** @throws void */
         return $this->channel(Key::class);
+    }
+
+    /**
+     * Return the CMYK alpha channel.
+     */
+    public function alpha(): ColorChannelInterface
+    {
+        /** @throws void */
+        return $this->channel(Alpha::class);
     }
 
     /**
@@ -108,8 +122,19 @@ class Color extends AbstractColor
      */
     public function toString(): string
     {
+        if ($this->isTransparent()) {
+            return sprintf(
+                'cmyk(%d %d %d %d / %s)',
+                $this->cyan()->value(),
+                $this->magenta()->value(),
+                $this->yellow()->value(),
+                $this->key()->value(),
+                $this->alpha()->toString(),
+            );
+        }
+
         return sprintf(
-            'cmyk(%d%%, %d%%, %d%%, %d%%)',
+            'cmyk(%d %d %d %d)',
             $this->cyan()->value(),
             $this->magenta()->value(),
             $this->yellow()->value(),
@@ -120,34 +145,14 @@ class Color extends AbstractColor
     /**
      * {@inheritdoc}
      *
-     * @see ColorInterface::isGreyscale()
+     * @see ColorInterface::isGrayscale()
      */
-    public function isGreyscale(): bool
+    public function isGrayscale(): bool
     {
         return 0 === array_sum([
             $this->cyan()->value(),
             $this->magenta()->value(),
             $this->yellow()->value(),
         ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ColorInterface::isTransparent()
-     */
-    public function isTransparent(): bool
-    {
-        return false;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see ColorInterface::isClear()
-     */
-    public function isClear(): bool
-    {
-        return false;
     }
 }

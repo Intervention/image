@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Colors\Rgb\Channels\Blue;
-use Intervention\Image\Colors\Rgb\Channels\Green;
-use Intervention\Image\Colors\Rgb\Channels\Red;
+use Intervention\Image\Alignment;
+use Intervention\Image\Colors\Rgb\Color as RgbColor;
+use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Drivers\Gd\Cloner;
-use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\ModifierException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\RotateModifier as GenericRotateModifier;
+use Intervention\Image\Size;
 
 class RotateModifier extends GenericRotateModifier implements SpecializedInterface
 {
@@ -22,10 +25,15 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
      * {@inheritdoc}
      *
      * @see ModifierInterface::apply()
+     *
+     * @throws InvalidArgumentException
+     * @throws ModifierException
+     * @throws StateException
+     * @throws DriverException
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        $background = $this->driver()->handleInput($this->background);
+        $background = $this->backgroundColor();
 
         foreach ($image as $frame) {
             $this->modifyFrame($frame, $background);
@@ -38,17 +46,26 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
      * Apply rotation modification on given frame, given background
      * color is used for newly create image areas
      *
-     * @throws ColorException
+     * @throws InvalidArgumentException
+     * @throws ModifierException
+     * @throws DriverException
      */
     protected function modifyFrame(FrameInterface $frame, ColorInterface $background): void
     {
+        // normalize color to rgb colorspace
+        $background = $background->toColorspace(Rgb::class);
+
+        if (!$background instanceof RgbColor) {
+            throw new ModifierException('Failed to normalize background color to RGB color space');
+        }
+
         // get transparent color from frame core
         $transparent = match ($transparent = imagecolortransparent($frame->native())) {
             -1 => imagecolorallocatealpha(
                 $frame->native(),
-                $background->channel(Red::class)->value(),
-                $background->channel(Green::class)->value(),
-                $background->channel(Blue::class)->value(),
+                $background->red()->value(),
+                $background->green()->value(),
+                $background->blue()->value(),
                 127
             ),
             default => $transparent,
@@ -57,24 +74,24 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
         // rotate original image against transparent background
         $rotated = imagerotate(
             $frame->native(),
-            $this->rotationAngle(),
+            $this->rotationAngle() * -1,
             $transparent
         );
 
         // create size from original after rotation
-        $container = (new Rectangle(
+        $container = (new Size(
             imagesx($rotated),
             imagesy($rotated),
-        ))->movePivot('center');
+        ))->movePivot(Alignment::CENTER);
 
         // create size from original and rotate points
-        $cutout = (new Rectangle(
+        $cutout = (new Size(
             imagesx($frame->native()),
             imagesy($frame->native()),
             $container->pivot()
-        ))->align('center')
-            ->valign('center')
-            ->rotate($this->rotationAngle() * -1);
+        ))->alignHorizontally(Alignment::CENTER)
+            ->alignVertically(Alignment::CENTER)
+            ->rotate($this->rotationAngle());
 
         // create new gd image
         $modified = Cloner::cloneEmpty($frame->native(), $container, $background);

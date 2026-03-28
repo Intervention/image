@@ -6,28 +6,26 @@ namespace Intervention\Image\Drivers\Gd;
 
 use GdImage;
 use Intervention\Image\Drivers\AbstractFrame;
-use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Exceptions\InputException;
-use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Size;
 
 class Frame extends AbstractFrame implements FrameInterface
 {
     /**
      * Create new frame instance
-     *
-     * @return void
      */
     public function __construct(
         protected GdImage $native,
         protected float $delay = 0,
-        protected int $dispose = 1,
-        protected int $offset_left = 0,
-        protected int $offset_top = 0
+        protected int $disposalMethod = 1,
+        protected int $offsetLeft = 0,
+        protected int $offsetTop = 0
     ) {
         //
     }
@@ -68,10 +66,12 @@ class Frame extends AbstractFrame implements FrameInterface
      * {@inheritdoc}
      *
      * @see FrameInterface::size()
+     *
+     * @throws InvalidArgumentException
      */
     public function size(): SizeInterface
     {
-        return new Rectangle(imagesx($this->native), imagesy($this->native));
+        return new Size(imagesx($this->native), imagesy($this->native));
     }
 
     /**
@@ -99,27 +99,27 @@ class Frame extends AbstractFrame implements FrameInterface
     /**
      * {@inheritdoc}
      *
-     * @see FrameInterface::dispose()
+     * @see FrameInterface::disposalMethod()
      */
-    public function dispose(): int
+    public function disposalMethod(): int
     {
-        return $this->dispose;
+        return $this->disposalMethod;
     }
 
     /**
      * {@inheritdoc}
      *
-     * @see FrameInterface::setDispose()
+     * @see FrameInterface::setDisposalMethod()
      *
-     * @throws InputException
+     * @throws InvalidArgumentException
      */
-    public function setDispose(int $dispose): FrameInterface
+    public function setDisposalMethod(int $method): FrameInterface
     {
-        if (!in_array($dispose, [0, 1, 2, 3])) {
-            throw new InputException('Value for argument $dispose must be 0, 1, 2 or 3.');
+        if (!in_array($method, [0, 1, 2, 3])) {
+            throw new InvalidArgumentException('Value for disposal method "$method" must be 0, 1, 2 or 3');
         }
 
-        $this->dispose = $dispose;
+        $this->disposalMethod = $method;
 
         return $this;
     }
@@ -131,8 +131,8 @@ class Frame extends AbstractFrame implements FrameInterface
      */
     public function setOffset(int $left, int $top): FrameInterface
     {
-        $this->offset_left = $left;
-        $this->offset_top = $top;
+        $this->offsetLeft = $left;
+        $this->offsetTop = $top;
 
         return $this;
     }
@@ -144,7 +144,7 @@ class Frame extends AbstractFrame implements FrameInterface
      */
     public function offsetLeft(): int
     {
-        return $this->offset_left;
+        return $this->offsetLeft;
     }
 
     /**
@@ -154,7 +154,7 @@ class Frame extends AbstractFrame implements FrameInterface
      */
     public function setOffsetLeft(int $offset): FrameInterface
     {
-        $this->offset_left = $offset;
+        $this->offsetLeft = $offset;
 
         return $this;
     }
@@ -166,7 +166,7 @@ class Frame extends AbstractFrame implements FrameInterface
      */
     public function offsetTop(): int
     {
-        return $this->offset_top;
+        return $this->offsetTop;
     }
 
     /**
@@ -176,7 +176,7 @@ class Frame extends AbstractFrame implements FrameInterface
      */
     public function setOffsetTop(int $offset): FrameInterface
     {
-        $this->offset_top = $offset;
+        $this->offsetTop = $offset;
 
         return $this;
     }
@@ -184,7 +184,8 @@ class Frame extends AbstractFrame implements FrameInterface
     /**
      * This workaround helps cloning GdImages which is currently not possible.
      *
-     * @throws ColorException
+     * @throws InvalidArgumentException
+     * @throws DriverException
      */
     public function __clone(): void
     {

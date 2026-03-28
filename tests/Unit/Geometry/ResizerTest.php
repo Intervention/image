@@ -1,0 +1,133 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Intervention\Image\Tests\Unit\Geometry;
+
+use Intervention\Image\Alignment;
+use PHPUnit\Framework\Attributes\CoversClass;
+use Intervention\Image\Geometry\Tools\Resizer;
+use Intervention\Image\Size;
+use Intervention\Image\Tests\Providers\ResizeDataProvider;
+use PHPUnit\Framework\Attributes\DataProviderExternal;
+use PHPUnit\Framework\TestCase;
+
+#[CoversClass(Resizer::class)]
+final class ResizerTest extends TestCase
+{
+    public function testMake(): void
+    {
+        $resizer = Resizer::to();
+        $this->assertInstanceOf(Resizer::class, $resizer);
+
+        $resizer = Resizer::to(height: 100);
+        $this->assertInstanceOf(Resizer::class, $resizer);
+
+        $resizer = Resizer::to(100);
+        $this->assertInstanceOf(Resizer::class, $resizer);
+
+        $resizer = Resizer::to(100, 100);
+        $this->assertInstanceOf(Resizer::class, $resizer);
+    }
+
+    public function testToWidth(): void
+    {
+        $resizer = new Resizer();
+        $result = $resizer->toWidth(100);
+        $this->assertInstanceOf(Resizer::class, $result);
+    }
+
+    public function testToHeight(): void
+    {
+        $resizer = new Resizer();
+        $result = $resizer->toHeight(100);
+        $this->assertInstanceOf(Resizer::class, $result);
+    }
+
+    public function testToSize(): void
+    {
+        $resizer = new Resizer();
+        $resizer = $resizer->toSize(new Size(200, 100));
+        $this->assertInstanceOf(Resizer::class, $resizer);
+    }
+
+    /**
+     * @param $resizeParameters array<string, int>
+     */
+    #[DataProviderExternal(ResizeDataProvider::class, 'resizeDataProvider')]
+    public function testResize(Size $input, array $resizeParameters, Size $result): void
+    {
+        $resizer = new Resizer(...$resizeParameters);
+        $resized = $resizer->resize($input);
+        $this->assertEquals($result->width(), $resized->width());
+        $this->assertEquals($result->height(), $resized->height());
+    }
+
+    /**
+     * @param $resizeParameters array<string, int>
+     */
+    #[DataProviderExternal(ResizeDataProvider::class, 'resizeDownDataProvider')]
+    public function testResizeDown(Size $input, array $resizeParameters, Size $result): void
+    {
+        $resizer = new Resizer(...$resizeParameters);
+        $resized = $resizer->resizeDown($input);
+        $this->assertEquals($result->width(), $resized->width());
+        $this->assertEquals($result->height(), $resized->height());
+    }
+
+    /**
+     * @param $resizeParameters array<string, int>
+     */
+    #[DataProviderExternal(ResizeDataProvider::class, 'scaleDataProvider')]
+    public function testScale(Size $input, array $resizeParameters, Size $result): void
+    {
+        $resizer = new Resizer(...$resizeParameters);
+        $resized = $resizer->scale($input);
+        $this->assertEquals($result->width(), $resized->width());
+        $this->assertEquals($result->height(), $resized->height());
+    }
+
+    /**
+     * @param $resizeParameters array<string, int>
+     */
+    #[DataProviderExternal(ResizeDataProvider::class, 'scaleDownDataProvider')]
+    public function testScaleDown(Size $input, array $resizeParameters, Size $result): void
+    {
+        $resizer = new Resizer(...$resizeParameters);
+        $resized = $resizer->scaleDown($input);
+        $this->assertEquals($result->width(), $resized->width());
+        $this->assertEquals($result->height(), $resized->height());
+    }
+
+    #[DataProviderExternal(ResizeDataProvider::class, 'coverDataProvider')]
+    public function testCover(Size $origin, Size $target, Size $result): void
+    {
+        $resizer = new Resizer();
+        $resizer->toSize($target);
+        $resized = $resizer->cover($origin);
+        $this->assertEquals($result->width(), $resized->width());
+        $this->assertEquals($result->height(), $resized->height());
+    }
+
+    #[DataProviderExternal(ResizeDataProvider::class, 'containDataProvider')]
+    public function testContain(Size $origin, Size $target, Size $result): void
+    {
+        $resizer = new Resizer();
+        $resizer->toSize($target);
+        $resized = $resizer->contain($origin);
+        $this->assertEquals($result->width(), $resized->width());
+        $this->assertEquals($result->height(), $resized->height());
+    }
+
+    #[DataProviderExternal(ResizeDataProvider::class, 'cropDataProvider')]
+    public function testCrop(Size $origin, Size $target, string|Alignment $position, Size $result): void
+    {
+        $resizer = new Resizer();
+        $resizer->toSize($target);
+        $resized = $resizer->crop($origin, $position);
+        $this->assertEquals($result->width(), $resized->width());
+        $this->assertEquals($result->height(), $resized->height());
+        $this->assertEquals($result->pivot()->x(), $resized->pivot()->x());
+        $this->assertEquals($result->pivot()->y(), $resized->pivot()->y());
+    }
+}

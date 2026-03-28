@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
-use RuntimeException;
+use ImagickException;
+use Intervention\Image\Exceptions\ModifierException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\DrawEllipseModifier as GenericDrawEllipseModifier;
@@ -13,25 +15,56 @@ use Intervention\Image\Modifiers\DrawEllipseModifier as GenericDrawEllipseModifi
 class DrawEllipseModifier extends GenericDrawEllipseModifier implements SpecializedInterface
 {
     /**
-     * @throws RuntimeException
+     * @throws ModifierException
+     * @throws StateException
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        $background_color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
-            $this->backgroundColor()
-        );
-
-        $border_color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
-            $this->borderColor()
-        );
+        $drawing = $this->buildDrawing($image);
 
         foreach ($image as $frame) {
+            try {
+                $result = $frame->native()->drawImage($drawing);
+                if ($result === false) {
+                    throw new ModifierException(
+                        'Failed to apply ' . self::class . ', unable to draw ellipse on image',
+                    );
+                }
+            } catch (ImagickException $e) {
+                throw new ModifierException(
+                    'Failed to apply ' . self::class . ', unable to draw ellipse on image',
+                    previous: $e
+                );
+            }
+        }
+
+        return $image;
+    }
+
+    /**
+     * @throws ModifierException
+     * @throws StateException
+     */
+    private function buildDrawing(ImageInterface $image): ImagickDraw
+    {
+        try {
             $drawing = new ImagickDraw();
-            $drawing->setFillColor($background_color);
+
+            if ($this->drawable->hasBackgroundColor()) {
+                $backgroundColor = $this->driver()->colorProcessor($image)->export(
+                    $this->backgroundColor()
+                );
+
+                $drawing->setFillColor($backgroundColor);
+            }
 
             if ($this->drawable->hasBorder()) {
+                $borderColor = $this->driver()->colorProcessor($image)->export(
+                    $this->borderColor()
+                );
+
                 $drawing->setStrokeWidth($this->drawable->borderSize());
-                $drawing->setStrokeColor($border_color);
+                $drawing->setStrokeColor($borderColor);
             }
 
             $drawing->ellipse(
@@ -42,10 +75,13 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
                 0,
                 360
             );
-
-            $frame->native()->drawImage($drawing);
+        } catch (ImagickException $e) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to build ImagickDraw object',
+                previous: $e
+            );
         }
 
-        return $image;
+        return $drawing;
     }
 }

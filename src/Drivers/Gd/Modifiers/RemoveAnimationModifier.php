@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\RemoveAnimationModifier as GenericRemoveAnimationModifier;
@@ -14,6 +15,8 @@ class RemoveAnimationModifier extends GenericRemoveAnimationModifier implements 
      * {@inheritdoc}
      *
      * @see ModifierInterface::apply()
+     *
+     * @throws InvalidArgumentException
      */
     public function apply(ImageInterface $image): ImageInterface
     {

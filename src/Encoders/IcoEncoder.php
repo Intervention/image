@@ -1,0 +1,18 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Intervention\Image\Encoders;
+
+use Intervention\Image\Drivers\SpecializableEncoder;
+
+class IcoEncoder extends SpecializableEncoder
+{
+    /**
+     * Create new encoder object.
+     */
+    public function __construct()
+    {
+        //
+    }
+}

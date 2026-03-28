@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
-use Exception;
 use GdImage;
-use Intervention\Gif\Decoder as GifDecoder;
+use Intervention\Gif\Exceptions\GifException;
 use Intervention\Gif\Splitter as GifSplitter;
 use Intervention\Image\Drivers\Gd\Core;
 use Intervention\Image\Drivers\Gd\Frame;
-use Intervention\Image\Exceptions\DecoderException;
-use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\ImageDecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Image;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
 class NativeObjectDecoder extends AbstractDecoder
@@ -21,20 +21,33 @@ class NativeObjectDecoder extends AbstractDecoder
     /**
      * {@inheritdoc}
      *
-     * @see DecoderInterface::decode()
+     * @see DecoderInterface::supports()
      */
-    public function decode(mixed $input): ImageInterface|ColorInterface
+    public function supports(mixed $input): bool
     {
-        if (!is_object($input)) {
-            throw new DecoderException('Unable to decode input');
-        }
+        return $input instanceof GdImage;
+    }
 
-        if (!($input instanceof GdImage)) {
-            throw new DecoderException('Unable to decode input');
+    /**
+     * {@inheritdoc}
+     *
+     * @see DecoderInterface::decode()
+     *
+     * @throws InvalidArgumentException
+     * @throws DriverException
+     * @throws StateException
+     */
+    public function decode(mixed $input): ImageInterface
+    {
+        if (!$input instanceof GdImage) {
+            throw new InvalidArgumentException('Image source must be of type ' . GdImage::class);
         }
 
         if (!imageistruecolor($input)) {
-            imagepalettetotruecolor($input);
+            $result = imagepalettetotruecolor($input);
+            if ($result === false) {
+                throw new DriverException('Failed to convert image to true color');
+            }
         }
 
         imagesavealpha($input, true);
@@ -49,24 +62,24 @@ class NativeObjectDecoder extends AbstractDecoder
     }
 
     /**
-     * Decode image from given GIF source which can be either a file path or binary data
+     * Decode image from given GIF source which can be either a file path or binary data.
      *
      * Depending on the configuration, this is taken over by the native GD function
      * or, if animations are required, by our own extended decoder.
      *
-     * @throws RuntimeException
+     * @throws InvalidArgumentException
+     * @throws ImageDecoderException
+     * @throws DriverException
+     * @throws StateException
      */
     protected function decodeGif(mixed $input): ImageInterface
     {
         // create non-animated image depending on config
-        if (!$this->driver()->config()->decodeAnimation) {
-            $native = match (true) {
-                $this->isGifFormat($input) => @imagecreatefromstring($input),
-                default => @imagecreatefromgif($input),
-            };
+        if ($this->driver()->config()->decodeAnimation === false) {
+            $native = $this->isGifFormat($input) ? @imagecreatefromstring($input) : @imagecreatefromgif($input);
 
             if ($native === false) {
-                throw new DecoderException('Unable to decode input.');
+                throw new ImageDecoderException('Failed to decode GIF format');
             }
 
             $image = self::decode($native);
@@ -79,23 +92,18 @@ class NativeObjectDecoder extends AbstractDecoder
             // create empty core
             $core = new Core();
 
-            $gif = GifDecoder::decode($input);
-            $splitter = GifSplitter::create($gif)->split();
-            $delays = $splitter->getDelays();
+            // add frames to core
+            $splitter = GifSplitter::decode($input)
+                ->split()
+                ->flatten()
+                ->each(function (GdImage $native, int $delay) use ($core): void {
+                    $core->push(new Frame($native, $delay / 100));
+                });
 
             // set loops on core
-            if ($loops = $gif->getMainApplicationExtension()?->getLoops()) {
-                $core->setLoops($loops);
-            }
-
-            // add GDImage instances to core
-            foreach ($splitter->coalesceToResources() as $key => $native) {
-                $core->push(
-                    new Frame($native, $delays[$key] / 100)
-                );
-            }
-        } catch (Exception $e) {
-            throw new DecoderException($e->getMessage(), $e->getCode(), $e);
+            $core->setLoops($splitter->loops());
+        } catch (GifException $e) {
+            throw new ImageDecoderException('Failed to decode GIF format', previous: $e);
         }
 
         // create (possibly) animated image

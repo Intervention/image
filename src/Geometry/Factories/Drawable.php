@@ -4,53 +4,60 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Geometry\Factories;
 
+use Intervention\Image\Geometry\Bezier;
+use Intervention\Image\Geometry\Circle;
+use Intervention\Image\Geometry\Ellipse;
+use Intervention\Image\Geometry\Line;
+use Intervention\Image\Geometry\Polygon;
+use Intervention\Image\Geometry\Rectangle;
+
 class Drawable
 {
     /**
-     * Creeate BezierFactory statically
+     * Create Bezier statically.
      */
-    public static function bezier(): BezierFactory
+    public static function bezier(null|callable|Bezier $bezier = null): Bezier
     {
-        return new BezierFactory();
+        return BezierFactory::build($bezier);
     }
 
     /**
-     * Creeate CircleFactory statically
+     * Create Circle statically.
      */
-    public static function circle(): CircleFactory
+    public static function circle(null|callable|Circle $circle = null): Circle
     {
-        return new CircleFactory();
+        return CircleFactory::build($circle);
     }
 
     /**
-     * Create EllipseFactory statically
+     * Create Ellipse statically.
      */
-    public static function ellipse(): EllipseFactory
+    public static function ellipse(null|callable|Ellipse $ellipse = null): Ellipse
     {
-        return new EllipseFactory();
+        return EllipseFactory::build($ellipse);
     }
 
     /**
-     * Creeate LineFactory statically
+     * Create Line statically.
      */
-    public static function line(): LineFactory
+    public static function line(null|callable|Line $line = null): Line
     {
-        return new LineFactory();
+        return LineFactory::build($line);
     }
 
     /**
-     * Creeate PolygonFactory statically
+     * Create Polygon statically.
      */
-    public static function polygon(): PolygonFactory
+    public static function polygon(null|callable|Polygon $polygon = null): Polygon
     {
-        return new PolygonFactory();
+        return PolygonFactory::build($polygon);
     }
 
     /**
-     * Creeate RectangleFactory statically
+     * Create Rectangle statically.
      */
-    public static function rectangle(): RectangleFactory
+    public static function rectangle(null|callable|Rectangle $rectangle = null): Rectangle
     {
-        return new RectangleFactory();
+        return RectangleFactory::build($rectangle);
     }
 }

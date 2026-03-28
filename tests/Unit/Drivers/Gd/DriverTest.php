@@ -6,8 +6,6 @@ namespace Intervention\Image\Tests\Unit\Drivers\Gd;
 
 use Generator;
 use Intervention\Image\Analyzers\WidthAnalyzer as GenericWidthAnalyzer;
-use Intervention\Image\Colors\Rgb\Colorspace;
-use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder;
 use Intervention\Image\Decoders\FilePathImageDecoder as GenericFilePathImageDecoder;
 use Intervention\Image\Drivers\Gd\Analyzers\WidthAnalyzer;
 use Intervention\Image\Drivers\Gd\Decoders\FilePathImageDecoder;
@@ -15,20 +13,24 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Drivers\Gd\Encoders\PngEncoder;
 use Intervention\Image\Drivers\Gd\Modifiers\ResizeModifier;
 use Intervention\Image\Encoders\PngEncoder as GenericPngEncoder;
+use Intervention\Image\Exceptions\ImageException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Format;
 use Intervention\Image\Interfaces\AnalyzerInterface;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorProcessorInterface;
+use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializableInterface;
 use Intervention\Image\MediaType;
 use Intervention\Image\Modifiers\ResizeModifier as GenericResizeModifier;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Providers\InputDataProvider;
+use Intervention\Image\Tests\Resource;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 #[RequiresPhpExtension('gd')]
@@ -55,51 +57,47 @@ final class DriverTest extends BaseTestCase
         $this->assertEquals(2, $image->height());
     }
 
-    public function testCreateAnimation(): void
+    /**
+     * @param array<string|DecoderInterface> $decoders
+     */
+    #[DataProviderExternal(InputDataProvider::class, 'decodeImageDataProvider')]
+    public function testHandleImageInput(mixed $input, ?array $decoders, string $resultClassname): void
     {
-        $image = $this->driver->createAnimation(function ($animation): void {
-            $animation->add($this->getTestResourcePath('red.gif'), .25);
-            $animation->add($this->getTestResourcePath('green.gif'), .25);
-        })->setLoops(5);
-        $this->assertInstanceOf(ImageInterface::class, $image);
-
-        $this->assertEquals(16, $image->width());
-        $this->assertEquals(16, $image->height());
-        $this->assertEquals(5, $image->loops());
-        $this->assertEquals(2, $image->count());
+        $this->assertInstanceOf($resultClassname, $this->driver->decodeImage($input, $decoders));
     }
 
-    public function testHandleInputImage(): void
+    /**
+     * @param array<string|DecoderInterface> $decoders
+     */
+    #[DataProviderExternal(InputDataProvider::class, 'decodeColorDataProvider')]
+    public function testHandleColorInput(mixed $input, ?array $decoders, string $resultClassname): void
     {
-        $result = $this->driver->handleInput($this->getTestResourcePath('test.jpg'));
-        $this->assertInstanceOf(ImageInterface::class, $result);
+        $this->assertInstanceOf($resultClassname, $this->driver->decodeColor($input, $decoders));
     }
 
-    public function testHandleInputColor(): void
+    /**
+     * @param array<string|DecoderInterface> $decoders
+     */
+    #[DataProviderExternal(InputDataProvider::class, 'decodeImageDataProvider')]
+    public function testHandleColorInputFail(mixed $input, ?array $decoders, string $resultClassname): void
     {
-        $result = $this->driver->handleInput('ffffff');
-        $this->assertInstanceOf(ColorInterface::class, $result);
+        $this->expectException(ImageException::class);
+        $this->driver->decodeColor($input);
     }
 
-    public function testHandleInputObjects(): void
+    /**
+     * @param array<string|DecoderInterface> $decoders
+     */
+    #[DataProviderExternal(InputDataProvider::class, 'decodeColorDataProvider')]
+    public function testHandleImageInputFail(mixed $input, ?array $decoders, string $resultClassname): void
     {
-        $result = $this->driver->handleInput('ffffff', [
-            new HexColorDecoder()
-        ]);
-        $this->assertInstanceOf(ColorInterface::class, $result);
-    }
-
-    public function testHandleInputClassnames(): void
-    {
-        $result = $this->driver->handleInput('ffffff', [
-            HexColorDecoder::class
-        ]);
-        $this->assertInstanceOf(ColorInterface::class, $result);
+        $this->expectException(ImageException::class);
+        $this->driver->decodeImage($input);
     }
 
     public function testColorProcessor(): void
     {
-        $result = $this->driver->colorProcessor(new Colorspace());
+        $result = $this->driver->colorProcessor(Resource::create()->imageObject(Driver::class));
         $this->assertInstanceOf(ColorProcessorInterface::class, $result);
     }
 
@@ -224,31 +222,62 @@ final class DriverTest extends BaseTestCase
         $this->assertTrue(is_string($this->driver->version()));
     }
 
-    #[DataProvider('spezializeDataProvider')]
-    public function testSpecialize(string $inputClassname, string $outputClassname): void
+    public function testSpecializeModifier(): void
     {
-        $this->assertInstanceOf($outputClassname, $this->driver->specialize(new $inputClassname()));
+        $this->assertInstanceOf(
+            ResizeModifier::class,
+            $this->driver->specializeModifier(new GenericResizeModifier(100)),
+        );
+
+        $this->assertInstanceOf(
+            ResizeModifier::class,
+            $this->driver->specializeModifier(new ResizeModifier(100)),
+        );
     }
 
-    public static function spezializeDataProvider(): Generator
+    public function testSpecializeAnalyzer(): void
     {
-        // specializing possible
-        yield [GenericResizeModifier::class, ResizeModifier::class];
-        yield [GenericWidthAnalyzer::class, WidthAnalyzer::class];
-        yield [GenericPngEncoder::class, PngEncoder::class];
-        yield [GenericFilePathImageDecoder::class, FilePathImageDecoder::class];
+        $this->assertInstanceOf(
+            WidthAnalyzer::class,
+            $this->driver->specializeAnalyzer(new GenericWidthAnalyzer()),
+        );
 
-        // already specialized
-        yield [ResizeModifier::class, ResizeModifier::class];
-        yield [WidthAnalyzer::class, WidthAnalyzer::class];
-        yield [PngEncoder::class, PngEncoder::class];
-        yield [FilePathImageDecoder::class, FilePathImageDecoder::class];
+        $this->assertInstanceOf(
+            WidthAnalyzer::class,
+            $this->driver->specializeAnalyzer(new WidthAnalyzer()),
+        );
+    }
+
+    public function testSpecializeEncoder(): void
+    {
+        $this->assertInstanceOf(
+            PngEncoder::class,
+            $this->driver->specializeEncoder(new GenericPngEncoder()),
+        );
+
+        $this->assertInstanceOf(
+            PngEncoder::class,
+            $this->driver->specializeEncoder(new PngEncoder()),
+        );
+    }
+
+    public function testSpecializeDecoder(): void
+    {
+        $this->assertInstanceOf(
+            FilePathImageDecoder::class,
+            $this->driver->specializeDecoder(new GenericFilePathImageDecoder()),
+        );
+
+        $this->assertInstanceOf(
+            FilePathImageDecoder::class,
+            $this->driver->specializeDecoder(new FilePathImageDecoder()),
+        );
     }
 
     public function testSpecializeFailure(): void
     {
         $this->expectException(NotSupportedException::class);
-        $this->driver->specialize(new class () implements AnalyzerInterface, SpecializableInterface
+        $this->driver->specializeAnalyzer(new class () implements AnalyzerInterface, SpecializableInterface
         {
             protected DriverInterface $driver;
 
@@ -258,7 +287,7 @@ final class DriverTest extends BaseTestCase
             }
 
             /** @return array<string, mixed> **/
-            public function specializable(): array
+            public function specializationArguments(): array
             {
                 return [];
             }

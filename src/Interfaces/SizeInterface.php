@@ -4,120 +4,111 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
-use Intervention\Image\Exceptions\GeometryException;
+use Intervention\Image\Alignment;
+use Traversable;
 
-interface SizeInterface
+/**
+ * @extends Traversable<int>
+ */
+interface SizeInterface extends Traversable
 {
     /**
-     * Get width
+     * Get width.
      */
     public function width(): int;
 
     /**
-     * Get height
+     * Get height.
      */
     public function height(): int;
 
     /**
-     * Get pivot point
+     * Get pivot point.
      */
     public function pivot(): PointInterface;
 
     /**
-     * Set width
+     * Set width.
      */
     public function setWidth(int $width): self;
 
     /**
-     * Set height
+     * Set height.
      */
     public function setHeight(int $height): self;
 
     /**
-     * Set pivot point
+     * Set pivot point.
      */
     public function setPivot(PointInterface $pivot): self;
 
     /**
-     * Calculate aspect ratio of the current size
+     * Calculate aspect ratio of the current size.
      */
     public function aspectRatio(): float;
 
     /**
-     * Determine if current size fits into given size
+     * Determine if current size fits within given size.
      */
-    public function fitsInto(self $size): bool;
+    public function fitsWithin(self $size): bool;
 
     /**
-     * Determine if size is in landscape format
+     * Determine if size is in landscape format.
      */
     public function isLandscape(): bool;
 
     /**
-     * Determine if size is in portrait format
+     * Determine if size is in portrait format.
      */
     public function isPortrait(): bool;
 
     /**
-     * Move pivot to given position in size
+     * Move pivot to the given alignment position in the size and adjust the new position by given offset values.
      */
-    public function movePivot(string $position, int $offset_x = 0, int $offset_y = 0): self;
+    public function movePivot(string|Alignment $alignment, int $x = 0, int $y = 0): self;
 
     /**
-     * Align pivot of current object to given position
+     * Align pivot relative to given size at given alignment position.
      */
-    public function alignPivotTo(self $size, string $position): self;
+    public function alignPivotTo(self $size, string|Alignment $alignment): self;
 
     /**
-     * Calculate the relative position to another Size
-     * based on the pivot point settings of both sizes.
+     * Calculate the relative position to another size based on the pivot point settings of both sizes.
      */
-    public function relativePositionTo(self $size): PointInterface;
+    public function offsetTo(self $size): PointInterface;
 
     /**
-     * @see ImageInterface::resize()
-     *
-     * @throws GeometryException
+     * @see Resizer::resize()
      */
     public function resize(?int $width = null, ?int $height = null): self;
 
     /**
-     * @see ImageInterface::resizeDown()
-     *
-     * @throws GeometryException
+     * @see Resizer::resizeDown()
      */
     public function resizeDown(?int $width = null, ?int $height = null): self;
 
     /**
-     * @see ImageInterface::scale()
-     *
-     * @throws GeometryException
+     * @see Resizer::scale()
      */
     public function scale(?int $width = null, ?int $height = null): self;
 
     /**
-     * @see ImageInterface::scaleDown()
-     *
-     * @throws GeometryException
+     * @see Resizer::scaleDown()
      */
     public function scaleDown(?int $width = null, ?int $height = null): self;
 
     /**
-     * @see ImageInterface::cover()
-     *
-     * @throws GeometryException
+     * @see Resizer::cover()
      */
     public function cover(int $width, int $height): self;
 
     /**
-     * @see ImageInterface::contain()
-     *
-     * @throws GeometryException
+     * @see Resizer::contain()
      */
     public function contain(int $width, int $height): self;
 
     /**
-     * @throws GeometryException
+     * @see Resizer::containDown()
      */
-    public function containMax(int $width, int $height): self;
+    public function containDown(int $width, int $height): self;
 }

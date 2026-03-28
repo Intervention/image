@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
-use Intervention\Image\Exceptions\RuntimeException;
-
 interface DecoderInterface
 {
     /**
-     * Decode given input either to color or image
+     * Determine if the given input is supported by decoder.
      *
-     * @throws RuntimeException
+     * Support does not mean that the input can necessarily be decoded, but only
+     * that the input might match the decoder and that it is worth trying.
+     */
+    public function supports(mixed $input): bool;
+
+    /**
+     * Decode given input either to color or image.
      */
     public function decode(mixed $input): ImageInterface|ColorInterface;
 }

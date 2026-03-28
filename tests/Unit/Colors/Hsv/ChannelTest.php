@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Colors\Hsv\Channels\Hue;
 use Intervention\Image\Colors\Hsv\Channels\Saturation;
 use Intervention\Image\Colors\Hsv\Channels\Value;
-use Intervention\Image\Exceptions\ColorException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[CoversClass(Hue::class)]
@@ -24,26 +24,20 @@ final class ChannelTest extends BaseTestCase
         $channel = new Hue(value: 0);
         $this->assertInstanceOf(Hue::class, $channel);
 
-        $channel = new Hue(normalized: 0);
+        $channel = Hue::fromNormalized(0);
         $this->assertInstanceOf(Hue::class, $channel);
-
-        $this->expectException(ColorException::class);
-        new Hue();
-
-        $this->expectException(ColorException::class);
-        new Hue(normalized: 2);
     }
 
-    public function testConstructorFail(): void
+    public function testConstructorFailInvalidArgument(): void
     {
-        $this->expectException(ColorException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Hue(400);
     }
 
-    public function testToInt(): void
+    public function testConstructorFailInvalidArgumentNormalized(): void
     {
-        $channel = new Hue(10);
-        $this->assertEquals(10, $channel->toInt());
+        $this->expectException(InvalidArgumentException::class);
+        Hue::fromNormalized(2);
     }
 
     public function testToString(): void
@@ -62,33 +56,33 @@ final class ChannelTest extends BaseTestCase
     public function testNormalize(): void
     {
         $channel = new Hue(360);
-        $this->assertEquals(1, $channel->normalize());
+        $this->assertEquals(1, $channel->normalized());
         $channel = new Hue(180);
-        $this->assertEquals(0.5, $channel->normalize());
+        $this->assertEquals(0.5, $channel->normalized());
         $channel = new Hue(0);
-        $this->assertEquals(0, $channel->normalize());
+        $this->assertEquals(0, $channel->normalized());
         $channel = new Hue(90);
-        $this->assertEquals(.25, $channel->normalize());
+        $this->assertEquals(.25, $channel->normalized());
     }
 
     public function testValidate(): void
     {
-        $this->expectException(ColorException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Hue(361);
 
-        $this->expectException(ColorException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Hue(-1);
 
-        $this->expectException(ColorException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Saturation(101);
 
-        $this->expectException(ColorException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Saturation(-1);
 
-        $this->expectException(ColorException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Value(101);
 
-        $this->expectException(ColorException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Value(-1);
     }
 }

@@ -8,7 +8,8 @@ use Imagick;
 use ImagickPixel;
 use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\Imagick\Frame;
-use Intervention\Image\Exceptions\AnimationException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
@@ -84,7 +85,7 @@ final class CoreTest extends BaseTestCase
         $this->assertInstanceOf(Frame::class, $this->core->frame(0));
         $this->assertInstanceOf(Frame::class, $this->core->frame(1));
         $this->assertInstanceOf(Frame::class, $this->core->frame(2));
-        $this->expectException(AnimationException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->core->frame(3);
     }
 
@@ -123,9 +124,9 @@ final class CoreTest extends BaseTestCase
         $this->assertEquals('foo', $this->core->get(3, 'foo'));
     }
 
-    public function testEmpty(): void
+    public function testClear(): void
     {
-        $result = $this->core->empty();
+        $result = $this->core->clear();
         $this->assertEquals(0, $this->core->count());
         $this->assertEquals(0, $result->count());
     }
@@ -146,5 +147,42 @@ final class CoreTest extends BaseTestCase
     public function testLast(): void
     {
         $this->assertInstanceOf(Frame::class, $this->core->last());
+    }
+
+    public function testClone(): void
+    {
+        $cloned = clone $this->core;
+
+        $this->assertInstanceOf(Core::class, $cloned);
+        $this->assertEquals($this->core->count(), $cloned->count());
+
+        // Verify the underlying Imagick objects are independent
+        $this->assertNotSame($this->core->native(), $cloned->native());
+    }
+
+    public function testMeta(): void
+    {
+        $meta = $this->core->meta();
+        $this->assertInstanceOf(CollectionInterface::class, $meta);
+    }
+
+    public function testToArray(): void
+    {
+        $array = $this->core->toArray();
+        $this->assertIsArray($array);
+        $this->assertCount(3, $array);
+        foreach ($array as $frame) {
+            $this->assertInstanceOf(Frame::class, $frame);
+        }
+    }
+
+    public function testSet(): void
+    {
+        $imagick = new Imagick();
+        $imagick->newImage(100, 100, new ImagickPixel('yellow'));
+        $this->assertEquals(3, $this->core->count());
+        $result = $this->core->set(0, new Frame($imagick));
+        $this->assertInstanceOf(CollectionInterface::class, $result);
+        $this->assertEquals(4, $this->core->count());
     }
 }

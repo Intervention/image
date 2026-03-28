@@ -6,6 +6,7 @@ namespace Intervention\Image\Tests\Unit\Drivers\Imagick\Analyzers;
 
 use Intervention\Image\Drivers\Imagick\Analyzers\PixelColorAnalyzer;
 use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -23,5 +24,14 @@ final class PixelColorAnalyzerTest extends ImagickTestCase
         $result = $analyzer->analyze($image);
         $this->assertInstanceOf(ColorInterface::class, $result);
         $this->assertEquals('b4e000', $result->toHex());
+    }
+
+    public function testAnalyzeOutsideImageArea(): void
+    {
+        $image = $this->readTestImage('tile.png');
+        $analyzer = new PixelColorAnalyzer(200, 0);
+        $analyzer->setDriver(new Driver());
+        $this->expectException(InvalidArgumentException::class);
+        $analyzer->analyze($image);
     }
 }

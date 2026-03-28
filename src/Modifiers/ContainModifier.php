@@ -4,27 +4,32 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Modifiers;
 
+use Intervention\Image\Alignment;
 use Intervention\Image\Drivers\SpecializableModifier;
-use Intervention\Image\Exceptions\RuntimeException;
-use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Size;
 
 class ContainModifier extends SpecializableModifier
 {
     public function __construct(
         public int $width,
         public int $height,
-        public mixed $background = 'ffffff',
-        public string $position = 'center'
+        public null|string|ColorInterface $background = null,
+        public string|Alignment $alignment = Alignment::CENTER
     ) {
         //
     }
 
     /**
-     * @throws RuntimeException
+     * Calculate the crop size of the contain resizing process
+     *
+     * @throws InvalidArgumentException
      */
-    public function getCropSize(ImageInterface $image): SizeInterface
+    protected function cropSize(ImageInterface $image): SizeInterface
     {
         return $image->size()
             ->contain(
@@ -32,13 +37,30 @@ class ContainModifier extends SpecializableModifier
                 $this->height
             )
             ->alignPivotTo(
-                $this->getResizeSize($image),
-                $this->position
+                $this->resizeSize($image),
+                $this->alignment
             );
     }
 
-    public function getResizeSize(ImageInterface $image): SizeInterface
+    /**
+     * Calculate the resize target size of the contain resizing process
+     *
+     * @throws InvalidArgumentException
+     */
+    protected function resizeSize(ImageInterface $image): SizeInterface
     {
-        return new Rectangle($this->width, $this->height);
+        return new Size($this->width, $this->height);
+    }
+
+    /**
+     * Return color to fill the newly created areas after resizing
+     *
+     * @throws StateException
+     */
+    protected function backgroundColor(): ColorInterface
+    {
+        return $this->driver()->decodeColor(
+            $this->background ?? $this->driver()->config()->backgroundColor,
+        );
     }
 }

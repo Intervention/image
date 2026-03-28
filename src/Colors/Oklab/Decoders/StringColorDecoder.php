@@ -1,0 +1,93 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Intervention\Image\Colors\Oklab\Decoders;
+
+use Intervention\Image\Colors\Oklab\Color;
+use Intervention\Image\Colors\Oklab\Channels\Lightness;
+use Intervention\Image\Colors\Oklab\Channels\A;
+use Intervention\Image\Colors\Oklab\Channels\B;
+use Intervention\Image\Drivers\AbstractDecoder;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Interfaces\DecoderInterface;
+
+class StringColorDecoder extends AbstractDecoder implements DecoderInterface
+{
+    /**
+     * Regex pattern of oklab color syntax.
+     */
+    private const string PATTERN =
+        '/^oklab ?\( ?' .
+        '(?P<l>(1|0|0?\.[0-9]+)|[0-9\.]+%)((, ?)|( ))' .
+        '(?P<a>(-?0|-?0?\.[0-9\.]+)|(-?[0-9\.]+%))((, ?)|( ))' .
+        '(?P<b>(-?0|-?0?\.[0-9\.]+)|(-?[0-9\.]+%))' .
+        '(?:(?:(?: ?\/ ?)|(?:[, ]) ?)' .
+        '(?<alpha>(?:0\.[0-9]+)|1\.0|\.[0-9]+|[0-9]{1,3}%|1|0))?' .
+        ' ?\)$/i';
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DecoderInterface::supports()
+     */
+    public function supports(mixed $input): bool
+    {
+        if (!is_string($input)) {
+            return false;
+        }
+
+        if (!str_starts_with(strtolower($input), 'oklab')) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Decode hsl color strings.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function decode(mixed $input): ColorInterface
+    {
+        if (preg_match(self::PATTERN, $input, $matches) != 1) {
+            throw new InvalidArgumentException('Invalid oklab() color syntax "' . $input . '"');
+        }
+
+        $values = [
+            $this->decodeChannelValue($matches['l'], Lightness::class),
+            $this->decodeChannelValue($matches['a'], A::class),
+            $this->decodeChannelValue($matches['b'], B::class),
+        ];
+
+        // alpha value
+        if (array_key_exists('alpha', $matches)) {
+            $values[] = $this->decodeAlphaChannelValue($matches['alpha']);
+        }
+
+        return new Color(...$values);
+    }
+
+    /**
+     * Decode channel value.
+     */
+    private function decodeChannelValue(string $value, string $channel): float
+    {
+        if (strpos($value, '%')) {
+            return floatval(trim(str_replace('%', '', $value))) * $channel::max() / 100;
+        }
+
+        return floatval(trim($value));
+    }
+
+    private function decodeAlphaChannelValue(string $value): float
+    {
+        if (strpos($value, '%')) {
+            return floatval(trim(str_replace('%', '', $value))) / 100;
+        }
+
+        return floatval(trim($value));
+    }
+}

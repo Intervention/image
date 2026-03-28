@@ -8,12 +8,23 @@ use Imagick;
 use Intervention\Image\Drivers\Imagick\Modifiers\StripMetaModifier;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\AvifEncoder as GenericAvifEncoder;
+use Intervention\Image\Exceptions\EncoderException;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Exceptions\StreamException;
+use Intervention\Image\Exceptions\ImageException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
 
 class AvifEncoder extends GenericAvifEncoder implements SpecializedInterface
 {
+    /**
+     * @throws InvalidArgumentException
+     * @throws StreamException
+     * @throws StateException
+     * @throws EncoderException
+     */
     public function encode(ImageInterface $image): EncodedImageInterface
     {
         $format = 'AVIF';
@@ -24,14 +35,18 @@ class AvifEncoder extends GenericAvifEncoder implements SpecializedInterface
             $image->modify(new StripMetaModifier());
         }
 
-        $imagick = $image->core()->native();
-        $imagick->setFormat($format);
-        $imagick->setImageFormat($format);
-        $imagick->setCompression($compression);
-        $imagick->setImageCompression($compression);
-        $imagick->setCompressionQuality($this->quality);
-        $imagick->setImageCompressionQuality($this->quality);
+        try {
+            $imagick = $image->core()->native();
+            $imagick->setFormat($format);
+            $imagick->setImageFormat($format);
+            $imagick->setCompression($compression);
+            $imagick->setImageCompression($compression);
+            $imagick->setCompressionQuality($this->quality);
+            $imagick->setImageCompressionQuality($this->quality);
 
-        return new EncodedImage($imagick->getImagesBlob(), 'image/avif');
+            return new EncodedImage($imagick->getImagesBlob(), 'image/avif');
+        } catch (ImageException $e) {
+            throw new EncoderException('Failed to encode avif format', previous: $e);
+        }
     }
 }

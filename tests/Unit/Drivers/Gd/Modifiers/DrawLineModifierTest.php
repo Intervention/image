@@ -19,10 +19,10 @@ final class DrawLineModifierTest extends GdTestCase
     public function testApply(): void
     {
         $image = $this->readTestImage('trim.png');
-        $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
+        $this->assertEquals('00aef0', $image->colorAt(14, 14)->toHex());
         $line = new Line(new Point(0, 0), new Point(10, 0), 4);
         $line->setBackgroundColor('b53517');
         $image->modify(new DrawLineModifier($line));
-        $this->assertEquals('b53517', $image->pickColor(0, 0)->toHex());
+        $this->assertEquals('b53517', $image->colorAt(0, 0)->toHex());
     }
 }

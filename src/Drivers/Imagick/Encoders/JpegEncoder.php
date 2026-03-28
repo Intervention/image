@@ -5,27 +5,38 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Encoders;
 
 use Imagick;
+use ImagickException;
 use Intervention\Image\Drivers\Imagick\Modifiers\StripMetaModifier;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\JpegEncoder as GenericJpegEncoder;
+use Intervention\Image\Exceptions\EncoderException;
+use Intervention\Image\Exceptions\StreamException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 
 class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
 {
+    /**
+     * @throws InvalidArgumentException
+     * @throws StreamException
+     * @throws StateException
+     * @throws EncoderException
+     */
     public function encode(ImageInterface $image): EncodedImageInterface
     {
         $format = 'JPEG';
         $compression = Imagick::COMPRESSION_JPEG;
-        $blendingColor = $this->driver()->handleInput(
-            $this->driver()->config()->blendingColor
+        $backgroundColor = $this->driver()->decodeColor(
+            $this->driver()->config()->backgroundColor
         );
 
-        // resolve blending color because jpeg has no transparency
+        // resolve background color because jpeg has no transparency
         $background = $this->driver()
-            ->colorProcessor($image->colorspace())
-            ->colorToNative($blendingColor);
+            ->colorProcessor($image)
+            ->export($backgroundColor);
 
         // set alpha value to 1 because Imagick renders
         // possible full transparent colors as black
@@ -36,22 +47,25 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
             $image->modify(new StripMetaModifier());
         }
 
-        /** @var Imagick $imagick */
-        $imagick = $image->core()->native();
-        $imagick->setImageBackgroundColor($background);
-        $imagick->setBackgroundColor($background);
-        $imagick->setFormat($format);
-        $imagick->setImageFormat($format);
-        $imagick->setCompression($compression);
-        $imagick->setImageCompression($compression);
-        $imagick->setCompressionQuality($this->quality);
-        $imagick->setImageCompressionQuality($this->quality);
-        $imagick->setImageAlphaChannel(Imagick::ALPHACHANNEL_REMOVE);
+        try {
+            $imagick = $image->core()->native();
+            $imagick->setImageBackgroundColor($background);
+            $imagick->setBackgroundColor($background);
+            $imagick->setFormat($format);
+            $imagick->setImageFormat($format);
+            $imagick->setCompression($compression);
+            $imagick->setImageCompression($compression);
+            $imagick->setCompressionQuality($this->quality);
+            $imagick->setImageCompressionQuality($this->quality);
+            $imagick->setImageAlphaChannel(Imagick::ALPHACHANNEL_REMOVE);
 
-        if ($this->progressive) {
-            $imagick->setInterlaceScheme(Imagick::INTERLACE_PLANE);
+            if ($this->progressive) {
+                $imagick->setInterlaceScheme(Imagick::INTERLACE_PLANE);
+            }
+
+            return new EncodedImage($imagick->getImagesBlob(), 'image/jpeg');
+        } catch (ImagickException $e) {
+            throw new EncoderException('Failed to encode jpeg format', previous: $e);
         }
-
-        return new EncodedImage($imagick->getImagesBlob(), 'image/jpeg');
     }
 }

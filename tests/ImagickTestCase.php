@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests;
 
 use Imagick;
-use ImagickException;
 use ImagickPixel;
 use Intervention\Image\Decoders\FilePathImageDecoder;
 use Intervention\Image\Drivers\Imagick\Core;
@@ -16,15 +15,13 @@ abstract class ImagickTestCase extends BaseTestCase
 {
     public static function readTestImage(string $filename = 'test.jpg'): Image
     {
-        return (new Driver())->specialize(new FilePathImageDecoder())->decode(
-            static::getTestResourcePath($filename)
+        return (new Driver())->specializeDecoder(new FilePathImageDecoder())->decode(
+            Resource::create($filename)->path()
         );
     }
 
     /**
      * Create test image with red (#ff0000) background
-     *
-     * @throws ImagickException
      */
     public static function createTestImage(int $width, int $height): Image
     {
@@ -39,7 +36,7 @@ abstract class ImagickTestCase extends BaseTestCase
 
         return new Image(
             new Driver(),
-            new Core($imagick)
+            new Core($imagick),
         );
     }
 
@@ -55,9 +52,6 @@ abstract class ImagickTestCase extends BaseTestCase
             $imagick->addImage($frame);
         }
 
-        return new Image(
-            new Driver(),
-            new Core($imagick)
-        );
+        return new Image(new Driver(), new Core($imagick));
     }
 }

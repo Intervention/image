@@ -1,0 +1,94 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Intervention\Image\Tests\Unit\Colors\Oklab;
+
+use PHPUnit\Framework\Attributes\CoversClass;
+use Intervention\Image\Colors\FloatColorChannel;
+use Intervention\Image\Colors\Oklab\Channels\Lightness;
+use Intervention\Image\Colors\Oklab\Channels\A;
+use Intervention\Image\Colors\Oklab\Channels\B;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Tests\BaseTestCase;
+
+#[CoversClass(Lightness::class)]
+#[CoversClass(A::class)]
+#[CoversClass(B::class)]
+#[CoversClass(FloatColorChannel::class)]
+final class ChannelTest extends BaseTestCase
+{
+    public function testConstructor(): void
+    {
+        $channel = new Lightness(0);
+        $this->assertInstanceOf(Lightness::class, $channel);
+
+        $channel = Lightness::fromNormalized(1);
+        $this->assertInstanceOf(Lightness::class, $channel);
+    }
+
+    public function testConstructorFailInvalidArgument(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new Lightness(300);
+    }
+
+    public function testConstructorFailInvalidArgumentNormalized(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        Lightness::fromNormalized(2);
+    }
+
+    public function testToString(): void
+    {
+        $channel = new Lightness(1);
+        $this->assertEquals("1", $channel->toString());
+        $this->assertEquals("1", (string) $channel);
+    }
+
+    public function testValue(): void
+    {
+        $this->assertEquals(1, (new Lightness(1))->value());
+    }
+
+    public function testNormalize(): void
+    {
+        $channel = new Lightness(1);
+        $this->assertEquals(1, $channel->normalized());
+        $channel = new Lightness(0);
+        $this->assertEquals(0, $channel->normalized());
+        $channel = new Lightness(.5);
+        $this->assertEquals(.5, $channel->normalized());
+    }
+
+    public function testFromNormalizedOnFloatChannel(): void
+    {
+        // A channel: min=-0.4, max=0.4 — fromNormalized(0.5) = -0.4 + 0.5*(0.4-(-0.4)) = -0.4 + 0.4 = 0
+        $channel = A::fromNormalized(0.5);
+        $this->assertEqualsWithDelta(0.0, $channel->value(), 0.0001);
+
+        $channel = A::fromNormalized(0);
+        $this->assertEqualsWithDelta(-0.4, $channel->value(), 0.0001);
+
+        $channel = A::fromNormalized(1);
+        $this->assertEqualsWithDelta(0.4, $channel->value(), 0.0001);
+    }
+
+    public function testFromNormalizedFailsNegative(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        Lightness::fromNormalized(-0.1);
+    }
+
+    public function testValidateA(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new A(0.5);
+    }
+
+    public function testValidateB(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new B(0.5);
+    }
+}

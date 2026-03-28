@@ -11,7 +11,7 @@ use ImagickPixel;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Drivers\Imagick\Frame;
 use Intervention\Image\Image;
-use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Size;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('imagick')]
@@ -38,7 +38,7 @@ final class FrameTest extends BaseTestCase
     public function testGetSize(): void
     {
         $frame = $this->getTestFrame();
-        $this->assertInstanceOf(Rectangle::class, $frame->size());
+        $this->assertInstanceOf(Size::class, $frame->size());
     }
 
     public function testSetGetDelay(): void
@@ -52,14 +52,14 @@ final class FrameTest extends BaseTestCase
         $this->assertEquals(250, $frame->native()->getImageDelay());
     }
 
-    public function testSetGetDispose(): void
+    public function testSetGetDisposalMethod(): void
     {
         $frame = $this->getTestFrame();
-        $this->assertEquals(0, $frame->dispose());
+        $this->assertEquals(0, $frame->disposalMethod());
 
-        $result = $frame->setDispose(3);
+        $result = $frame->setDisposalMethod(3);
         $this->assertInstanceOf(Frame::class, $result);
-        $this->assertEquals(3, $frame->dispose());
+        $this->assertEquals(3, $frame->disposalMethod());
     }
 
     public function testSetGetOffsetLeft(): void
@@ -98,5 +98,28 @@ final class FrameTest extends BaseTestCase
     {
         $frame = $this->getTestFrame();
         $this->assertInstanceOf(Image::class, $frame->toImage(new Driver()));
+    }
+
+    public function testSetGetNative(): void
+    {
+        $frame = $this->getTestFrame();
+        $this->assertInstanceOf(Imagick::class, $frame->native());
+
+        $imagick = new Imagick();
+        $imagick->newImage(5, 5, new ImagickPixel('blue'), 'png');
+        $result = $frame->setNative($imagick);
+        $this->assertInstanceOf(Frame::class, $result);
+        $this->assertSame($imagick, $frame->native());
+    }
+
+    public function testDebugInfo(): void
+    {
+        $frame = $this->getTestFrame();
+        $info = $frame->__debugInfo();
+        $this->assertIsArray($info);
+        $this->assertArrayHasKey('delay', $info);
+        $this->assertArrayHasKey('left', $info);
+        $this->assertArrayHasKey('top', $info);
+        $this->assertArrayHasKey('disposalMethod', $info);
     }
 }

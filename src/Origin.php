@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
-class Origin
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Interfaces\OriginInterface;
+
+class Origin implements OriginInterface
 {
     /**
-     * Create new origin instance
-     *
-     * @return void
+     * Create new origin instance.
      */
     public function __construct(
         protected string $mediaType = 'application/octet-stream',
@@ -19,7 +21,9 @@ class Origin
     }
 
     /**
-     * Return media type of origin
+     * {@inheritdoc}
+     *
+     * @see OriginInterface::mediaType()
      */
     public function mediaType(): string
     {
@@ -27,7 +31,7 @@ class Origin
     }
 
     /**
-     * Alias of self::mediaType()
+     * @see self::mediaType()
      */
     public function mimetype(): string
     {
@@ -35,20 +39,21 @@ class Origin
     }
 
     /**
-     * Set media type of current instance
+     * {@inheritdoc}
+     *
+     * @see OriginInterface::setMediaType()
      */
     public function setMediaType(string|MediaType $type): self
     {
-        $this->mediaType = match (true) {
-            is_string($type) => $type,
-            default => $type->value,
-        };
+        $this->mediaType = is_string($type) ? $type : $type->value;
 
         return $this;
     }
 
     /**
-     * Return file path of origin
+     * {@inheritdoc}
+     *
+     * @see OriginInterface::filePath()
      */
     public function filePath(): ?string
     {
@@ -56,7 +61,9 @@ class Origin
     }
 
     /**
-     * Set file path for origin
+     * {@inheritdoc}
+     *
+     * @see OriginInterface::setFilePath()
      */
     public function setFilePath(string $path): self
     {
@@ -66,7 +73,9 @@ class Origin
     }
 
     /**
-     * Return file extension if origin was created from file path
+     * {@inheritdoc}
+     *
+     * @see OriginInterface::fileExtension()
      */
     public function fileExtension(): ?string
     {
@@ -74,7 +83,23 @@ class Origin
     }
 
     /**
-     * Show debug info for the current image
+     * {@inheritdoc}
+     *
+     * @see OriginInterface::format()
+     *
+     * @throws NotSupportedException
+     */
+    public function format(): Format
+    {
+        try {
+            return MediaType::create($this->mediaType())->format();
+        } catch (InvalidArgumentException) {
+            throw new NotSupportedException('Media type "' . $this->mediaType() . '" is not supported');
+        }
+    }
+
+    /**
+     * Show debug info for the current image.
      *
      * @return array<string, null|string>
      */

@@ -8,19 +8,17 @@
 
 Intervention Image is a **PHP image processing library** that provides a simple
 and expressive way to create, edit, and compose images. It comes with a universal
-interface for the two most popular PHP image manipulation extensions. You can
-choose between the GD library or Imagick as the base layer for all operations.
+interface for the popular PHP image manipulation extensions. You can
+choose between the GD library, Imagick or libvips as the base layer for all operations.
 
-- Simple interface for common image editing tasks
-- Interchangeable driver architecture
-- Support for animated images
+- Fluent interface for common image editing tasks
+- Interchangeable driver architecture with support for **GD, Imagick and libvips**
+- Support for animated images with all drivers
 - Framework-agnostic
-- PSR-12 compliant
 
 ## Installation
 
-You can easily install this library using [Composer](https://getcomposer.org).
-Simply request the package with the following command:
+Install this library using [Composer](https://getcomposer.org). Simply request the package with the following command:
 
 ```bash
 composer require intervention/image
@@ -28,31 +26,33 @@ composer require intervention/image
 
 ## Getting Started
 
-Learn the [basics](https://image.intervention.io/v3/basics/instantiation/) on
-how to use Intervention Image and more with the [official
-documentation](https://image.intervention.io/v3/).
+Learn the [basics](https://image.intervention.io/v4/basics/instantiation/) on
+how to use Intervention Image and more with the [official documentation](https://image.intervention.io/v4/).
 
 ## Code Examples
 
 ```php
 use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver as GdDriver;
+use Intervention\Image\Alignment;
+use Intervention\Image\Color;
+use Intervention\Image\Format;
+use Intervention\Image\Fraction;
 
-// create image manager with desired driver
-$manager = new ImageManager(
-    new Intervention\Image\Drivers\Gd\Driver()
-);
+// create image manager instance using the preferred driver
+$manager = ImageManager::usingDriver(GdDriver::class);
 
-// open an image file
-$image = $manager->read('images/example.gif');
+// read image data from path
+$image = $manager->decodePath('images/example.webp');
 
-// resize image instance
-$image->resize(height: 300);
+// scale image by height
+$image->scale(height: 300);
 
 // insert a watermark
-$image->place('images/watermark.png');
+$image->insert('images/watermark.png', alignment: Alignment::BOTTOM_RIGHT);
 
 // encode edited image
-$encoded = $image->toJpg();
+$encoded = $image->encodeUsingFormat(Format::JPEG, quality: 65);
 
 // save encoded image
 $encoded->save('images/example.jpg');
@@ -63,9 +63,9 @@ $encoded->save('images/example.jpg');
 Before you begin with the installation make sure that your server environment
 supports the following requirements.
 
-- PHP >= 8.1
+- PHP >= 8.3
 - Mbstring PHP Extension
-- Image Processing PHP Extension
+- Image Processing PHP Extension (GD, Imagick or libvips)
 
 ## Supported Image Libraries
 

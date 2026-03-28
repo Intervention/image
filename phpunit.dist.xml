@@ -9,6 +9,9 @@
     cacheDirectory=".phpunit.cache" 
     colors="true" 
     displayDetailsOnTestsThatTriggerNotices="true"
+    displayDetailsOnTestsThatTriggerDeprecations="true"
+    displayDetailsOnPhpunitDeprecations="true"
+    displayDetailsOnTestsThatTriggerWarnings="true"
     processIsolation="false" 
     stopOnFailure="false">
   <testsuites>

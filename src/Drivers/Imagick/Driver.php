@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick;
 
 use Imagick;
+use ImagickException;
 use ImagickPixel;
 use Intervention\Image\Drivers\AbstractDriver;
 use Intervention\Image\Exceptions\DriverException;
-use Intervention\Image\Exceptions\NotSupportedException;
-use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Exceptions\MissingDependencyException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Format;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorProcessorInterface;
-use Intervention\Image\Interfaces\ColorspaceInterface;
-use Intervention\Image\Interfaces\DriverInterface;
+use Intervention\Image\Interfaces\CoreInterface;
 use Intervention\Image\Interfaces\FontProcessorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\MediaType;
@@ -42,8 +42,8 @@ class Driver extends AbstractDriver
     public function checkHealth(): void
     {
         if (!extension_loaded('imagick') || !class_exists('Imagick')) {
-            throw new DriverException(
-                'Imagick PHP extension must be installed to use this driver.'
+            throw new MissingDependencyException(
+                'Imagick PHP extension must be installed to use this driver'
             );
         }
     }
@@ -52,18 +52,25 @@ class Driver extends AbstractDriver
      * {@inheritdoc}
      *
      * @see DriverInterface::createImage()
+     *
+     * @throws InvalidArgumentException
+     * @throws DriverException
      */
     public function createImage(int $width, int $height): ImageInterface
     {
-        $background = new ImagickPixel('rgba(255, 255, 255, 0)');
+        if ($width < 1 || $height < 1) {
+            throw new InvalidArgumentException('Invalid image size. Only use int<1, max>');
+        }
 
-        $imagick = new Imagick();
-        $imagick->newImage($width, $height, $background, 'png');
-        $imagick->setType(Imagick::IMGTYPE_UNDEFINED);
-        $imagick->setImageType(Imagick::IMGTYPE_UNDEFINED);
-        $imagick->setColorspace(Imagick::COLORSPACE_SRGB);
-        $imagick->setImageResolution(96, 96);
-        $imagick->setImageBackgroundColor($background);
+        try {
+            $background = new ImagickPixel('rgba(255, 255, 255, 0)');
+
+            $imagick = new Imagick();
+            $imagick->newImage($width, $height, $background, 'png');
+            $this->applyDefaultSettings($imagick);
+        } catch (ImagickException $e) {
+            throw new DriverException('Failed to create new image', previous: $e);
+        }
 
         return new Image($this, new Core($imagick));
     }
@@ -71,52 +78,19 @@ class Driver extends AbstractDriver
     /**
      * {@inheritdoc}
      *
-     * @see DriverInterface::createAnimation()
-     *
-     * @throws RuntimeException
+     * @see DriverInterface::createCore()
      */
-    public function createAnimation(callable $init): ImageInterface
+    public function createCore(array $frames): CoreInterface
     {
-        $imagick = new Imagick();
-        $imagick->setFormat('gif');
+        $core = new Core(new Imagick());
 
-        $animation = new class ($this, $imagick)
-        {
-            public function __construct(
-                protected DriverInterface $driver,
-                public Imagick $imagick
-            ) {
-                //
-            }
+        foreach ($frames as $frame) {
+            $core->add($frame);
+        }
 
-            /**
-             * @throws RuntimeException
-             */
-            public function add(mixed $source, float $delay = 1): self
-            {
-                $native = $this->driver->handleInput($source)->core()->native();
-                $native->setImageDelay(intval(round($delay * 100)));
+        $this->applyDefaultSettings($core->native());
 
-                $this->imagick->addImage($native);
-
-                return $this;
-            }
-
-            /**
-             * @throws RuntimeException
-             */
-            public function __invoke(): ImageInterface
-            {
-                return new Image(
-                    $this->driver,
-                    new Core($this->imagick)
-                );
-            }
-        };
-
-        $init($animation);
-
-        return call_user_func($animation);
+        return $core;
     }
 
     /**
@@ -124,9 +98,9 @@ class Driver extends AbstractDriver
      *
      * @see DriverInterface::colorProcessor()
      */
-    public function colorProcessor(ColorspaceInterface $colorspace): ColorProcessorInterface
+    public function colorProcessor(ImageInterface $image): ColorProcessorInterface
     {
-        return new ColorProcessor($colorspace);
+        return new ColorProcessor($image->colorspace());
     }
 
     /**
@@ -148,7 +122,7 @@ class Driver extends AbstractDriver
     {
         try {
             $format = Format::create($identifier);
-        } catch (NotSupportedException) {
+        } catch (InvalidArgumentException) {
             return false;
         }
 
@@ -160,16 +134,40 @@ class Driver extends AbstractDriver
      *
      * @throws DriverException
      */
-    public static function version(): string
+    public function version(): string
     {
         $pattern = '/^ImageMagick (?P<version>(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)' .
             '(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?' .
             '(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)/';
 
         if (preg_match($pattern, Imagick::getVersion()['versionString'], $matches) !== 1) {
-            throw new DriverException('Unable to read ImageMagick version number.');
+            throw new DriverException('Unable to read ImageMagick version number');
         }
 
         return $matches['version'];
+    }
+
+    /**
+     * Apply default settings for native image object.
+     *
+     * @throws DriverException
+     */
+    private function applyDefaultSettings(Imagick $imagick): Imagick
+    {
+        try {
+            $background = new ImagickPixel('rgba(255, 255, 255, 0)');
+
+            $imagick->setType(Imagick::IMGTYPE_UNDEFINED);
+            $imagick->setImageType(Imagick::IMGTYPE_UNDEFINED);
+            $imagick->setColorspace(Imagick::COLORSPACE_SRGB);
+            $imagick->setImageResolution(72, 72);
+            $imagick->setImageUnits(Imagick::RESOLUTION_PIXELSPERINCH);
+            $imagick->setImageBackgroundColor($background);
+            $imagick->setImageIterations(0);
+
+            return $imagick;
+        } catch (ImagickException $e) {
+            throw new DriverException('Failed to apply default image settings', previous: $e);
+        }
     }
 }

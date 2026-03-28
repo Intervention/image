@@ -8,6 +8,7 @@ use Intervention\Image\Drivers\Gd\FontProcessor;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Resource;
 use Intervention\Image\Typography\Font;
 use Intervention\Image\Typography\TextBlock;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -20,16 +21,16 @@ final class FontProcessorTest extends BaseTestCase
     public function testBoxSizeGdOne(): void
     {
         $processor = new FontProcessor();
-        $size = $processor->boxSize('test', new Font());
+        $size = $processor->boxSize('test', (new Font())->setSize(1));
         $this->assertInstanceOf(SizeInterface::class, $size);
-        $this->assertEquals(16, $size->width());
+        $this->assertEquals(20, $size->width());
         $this->assertEquals(8, $size->height());
     }
 
     public function testBoxSizeGdTwo(): void
     {
         $processor = new FontProcessor();
-        $size = $processor->boxSize('test', new Font('2'));
+        $size = $processor->boxSize('test', (new Font())->setSize(2));
         $this->assertInstanceOf(SizeInterface::class, $size);
         $this->assertEquals(24, $size->width());
         $this->assertEquals(14, $size->height());
@@ -38,7 +39,7 @@ final class FontProcessorTest extends BaseTestCase
     public function testBoxSizeGdThree(): void
     {
         $processor = new FontProcessor();
-        $size = $processor->boxSize('test', new Font('3'));
+        $size = $processor->boxSize('test', (new Font())->setSize(3));
         $this->assertInstanceOf(SizeInterface::class, $size);
         $this->assertEquals(28, $size->width());
         $this->assertEquals(14, $size->height());
@@ -47,7 +48,7 @@ final class FontProcessorTest extends BaseTestCase
     public function testBoxSizeGdFour(): void
     {
         $processor = new FontProcessor();
-        $size = $processor->boxSize('test', new Font('4'));
+        $size = $processor->boxSize('test', (new Font())->setSize(4));
         $this->assertInstanceOf(SizeInterface::class, $size);
         $this->assertEquals(32, $size->width());
         $this->assertEquals(16, $size->height());
@@ -56,7 +57,7 @@ final class FontProcessorTest extends BaseTestCase
     public function testBoxSizeGdFive(): void
     {
         $processor = new FontProcessor();
-        $size = $processor->boxSize('test', new Font('5'));
+        $size = $processor->boxSize('test', (new Font())->setSize(5));
         $this->assertInstanceOf(SizeInterface::class, $size);
         $this->assertEquals(36, $size->width());
         $this->assertEquals(16, $size->height());
@@ -143,6 +144,6 @@ final class FontProcessorTest extends BaseTestCase
 
     private function testFont(): Font
     {
-        return (new Font($this->getTestResourcePath('test.ttf')))->setSize(56);
+        return (new Font(Resource::create('test.ttf')->path()))->setSize(56);
     }
 }

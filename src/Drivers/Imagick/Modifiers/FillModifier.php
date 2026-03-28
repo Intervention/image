@@ -6,17 +6,24 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
 use ImagickDraw;
+use ImagickException;
 use ImagickPixel;
+use Intervention\Image\Exceptions\ModifierException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\FillModifier as ModifiersFillModifier;
 
 class FillModifier extends ModifiersFillModifier implements SpecializedInterface
 {
+    /**
+     * @throws ModifierException
+     * @throws StateException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
-        $pixel = $this->driver()->colorProcessor($image->colorspace())->colorToNative(
-            $this->driver()->handleInput($this->color)
+        $pixel = $this->driver()->colorProcessor($image)->export(
+            $this->color()
         );
 
         foreach ($image->core()->native() as $frame) {
@@ -30,34 +37,79 @@ class FillModifier extends ModifiersFillModifier implements SpecializedInterface
         return $image;
     }
 
+    /**
+     * @throws ModifierException
+     */
     private function floodFillWithColor(Imagick $frame, ImagickPixel $pixel): void
     {
-        $target = $frame->getImagePixelColor(
-            $this->position->x(),
-            $this->position->y()
-        );
+        try {
+            $target = $frame->getImagePixelColor(
+                $this->position->x(),
+                $this->position->y()
+            );
+        } catch (ImagickException $e) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to find target flood fill color',
+                previous: $e
+            );
+        }
 
-        $frame->floodfillPaintImage(
-            $pixel,
-            100,
-            $target,
-            $this->position->x(),
-            $this->position->y(),
-            false,
-            Imagick::CHANNEL_ALL
-        );
+        try {
+            $result = $frame->floodfillPaintImage(
+                $pixel,
+                100,
+                $target,
+                $this->position->x(),
+                $this->position->y(),
+                false,
+                Imagick::CHANNEL_ALL
+            );
+
+            if ($result === false) {
+                throw new ModifierException(
+                    'Failed to apply ' . self::class . ', unable to flood fill image',
+                );
+            }
+        } catch (ImagickException $e) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to flood fill image',
+                previous: $e
+            );
+        }
     }
 
+    /**
+     * @throws ModifierException
+     */
     private function fillAllWithColor(Imagick $frame, ImagickPixel $pixel): void
     {
-        $draw = new ImagickDraw();
-        $draw->setFillColor($pixel);
-        $draw->rectangle(0, 0, $frame->getImageWidth(), $frame->getImageHeight());
-        $frame->drawImage($draw);
+        try {
+            $draw = new ImagickDraw();
+            $draw->setFillColor($pixel);
+            $draw->rectangle(0, 0, $frame->getImageWidth(), $frame->getImageHeight());
+            $frame->drawImage($draw);
+        } catch (ImagickException $e) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to build ImagickDraw object',
+                previous: $e
+            );
+        }
 
-        // deactive alpha channel when image was filled with opaque color
-        if ($pixel->getColorValue(Imagick::COLOR_ALPHA) == 1) {
-            $frame->setImageAlphaChannel(Imagick::ALPHACHANNEL_DEACTIVATE);
+        try {
+            // deactive alpha channel when image was filled with opaque color
+            if ($pixel->getColorValue(Imagick::COLOR_ALPHA) == 1) {
+                $result = $frame->setImageAlphaChannel(Imagick::ALPHACHANNEL_DEACTIVATE);
+                if ($result === false) {
+                    throw new ModifierException(
+                        'Failed to apply ' . self::class . ', unable to adjust alpha channel',
+                    );
+                }
+            }
+        } catch (ImagickException $e) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to adjust alpha channel',
+                previous: $e
+            );
         }
     }
 }

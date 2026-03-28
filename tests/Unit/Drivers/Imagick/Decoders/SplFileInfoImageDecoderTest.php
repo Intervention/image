@@ -10,7 +10,7 @@ use Intervention\Image\Drivers\Imagick\Decoders\SplFileInfoImageDecoder;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\BaseTestCase;
-use SplFileInfo;
+use Intervention\Image\Tests\Resource;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(SplFileInfoImageDecoder::class)]
@@ -20,9 +20,7 @@ final class SplFileInfoImageDecoderTest extends BaseTestCase
     {
         $decoder = new SplFileInfoImageDecoder();
         $decoder->setDriver(new Driver());
-        $result = $decoder->decode(
-            new SplFileInfo($this->getTestResourcePath('blue.gif'))
-        );
+        $result = $decoder->decode(Resource::create('blue.gif')->splFileInfo());
         $this->assertInstanceOf(Image::class, $result);
     }
 }

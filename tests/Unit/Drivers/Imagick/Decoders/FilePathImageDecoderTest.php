@@ -9,10 +9,13 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Drivers\Imagick\Decoders\FilePathImageDecoder;
 use Intervention\Image\Drivers\Imagick\Driver;
-use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\FileNotFoundException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Resource;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Stringable;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(FilePathImageDecoder::class)]
@@ -27,29 +30,30 @@ final class FilePathImageDecoderTest extends BaseTestCase
     }
 
     #[DataProvider('validFormatPathsProvider')]
-    public function testDecode(string $path, bool $result): void
+    public function testDecode(string|Stringable $path, ?string $exception): void
     {
-        if ($result === false) {
-            $this->expectException(DecoderException::class);
+        if ($exception !== null) {
+            $this->expectException($exception);
         }
 
         $result = $this->decoder->decode($path);
 
-        if ($result === true) {
+        if ($exception === null) {
             $this->assertInstanceOf(Image::class, $result);
         }
     }
 
     public static function validFormatPathsProvider(): Generator
     {
-        yield [self::getTestResourcePath('cats.gif'), true];
-        yield [self::getTestResourcePath('animation.gif'), true];
-        yield [self::getTestResourcePath('red.gif'), true];
-        yield [self::getTestResourcePath('green.gif'), true];
-        yield [self::getTestResourcePath('blue.gif'), true];
-        yield [self::getTestResourcePath('gradient.bmp'), true];
-        yield [self::getTestResourcePath('circle.png'), true];
-        yield ['no-path', false];
-        yield [str_repeat('x', PHP_MAXPATHLEN + 1), false];
+        yield [Resource::create('cats.gif')->path(), null];
+        yield [Resource::create('animation.gif')->path(), null];
+        yield [Resource::create('red.gif')->path(), null];
+        yield [Resource::create('green.gif')->path(), null];
+        yield [Resource::create('blue.gif')->path(), null];
+        yield [Resource::create('gradient.bmp')->path(), null];
+        yield [Resource::create('circle.png')->path(), null];
+        yield [Resource::create('circle.png')->stringablePath(), null];
+        yield ['no-path', FileNotFoundException::class];
+        yield [str_repeat('x', PHP_MAXPATHLEN + 1), InvalidArgumentException::class];
     }
 }

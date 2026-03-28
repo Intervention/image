@@ -5,13 +5,27 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd;
 
 use Intervention\Image\Collection;
-use Intervention\Image\Exceptions\AnimationException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\CoreInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 
 class Core extends Collection implements CoreInterface
 {
     protected int $loops = 0;
+    protected CollectionInterface $meta;
+
+    /**
+     * Create new core
+     *
+     * @param array<int|string, FrameInterface> $items
+     */
+    public function __construct(array $items = [])
+    {
+        parent::__construct($items);
+
+        $this->meta = new Collection();
+    }
 
     /**
      * {@inheritdoc}
@@ -42,7 +56,7 @@ class Core extends Collection implements CoreInterface
      */
     public function setNative(mixed $native): self
     {
-        $this->empty()->push(new Frame($native));
+        $this->clear()->push(new Frame($native));
 
         return $this;
     }
@@ -51,13 +65,15 @@ class Core extends Collection implements CoreInterface
      * {@inheritdoc}
      *
      * @see CoreInterface::frame()
+     *
+     * @throws InvalidArgumentException
      */
     public function frame(int $position): FrameInterface
     {
-        $frame = $this->getAtPosition($position);
+        $frame = $this->at($position);
 
-        if (!($frame instanceof FrameInterface)) {
-            throw new AnimationException('Frame #' . $position . ' could not be found in the image.');
+        if ($frame === null || $position < 0 || $position > $this->count()) {
+            throw new InvalidArgumentException('Frame #' . $position . ' could not be found in the image');
         }
 
         return $frame;
@@ -106,10 +122,22 @@ class Core extends Collection implements CoreInterface
     }
 
     /**
+     * {@inheritdoc}
+     *
+     * @see CoreInterface::meta()
+     */
+    public function meta(): CollectionInterface
+    {
+        return $this->meta;
+    }
+
+    /**
      * Clone instance
      */
     public function __clone(): void
     {
+        $this->meta = clone $this->meta;
+
         foreach ($this->items as $key => $frame) {
             $this->items[$key] = clone $frame;
         }

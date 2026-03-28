@@ -14,7 +14,7 @@ final class PolygonFactoryTest extends BaseTestCase
 {
     public function testFactoryCallback(): void
     {
-        $factory = new PolygonFactory(function ($polygon): void {
+        $factory = new PolygonFactory(function (PolygonFactory $polygon): void {
             $polygon->background('fff');
             $polygon->border('ccc', 10);
             $polygon->point(1, 2);
@@ -22,7 +22,25 @@ final class PolygonFactoryTest extends BaseTestCase
             $polygon->point(5, 6);
         });
 
-        $polygon = $factory();
+        $polygon = $factory->drawable();
+        $this->assertInstanceOf(Polygon::class, $polygon);
+        $this->assertTrue($polygon->hasBackgroundColor());
+        $this->assertEquals('fff', $polygon->backgroundColor());
+        $this->assertEquals('ccc', $polygon->borderColor());
+        $this->assertEquals(10, $polygon->borderSize());
+        $this->assertEquals(3, $polygon->count());
+    }
+
+    public function testBuild(): void
+    {
+        $polygon = PolygonFactory::build(function (PolygonFactory $polygon): void {
+            $polygon->background('fff');
+            $polygon->border('ccc', 10);
+            $polygon->point(1, 2);
+            $polygon->point(3, 4);
+            $polygon->point(5, 6);
+        });
+
         $this->assertInstanceOf(Polygon::class, $polygon);
         $this->assertTrue($polygon->hasBackgroundColor());
         $this->assertEquals('fff', $polygon->backgroundColor());

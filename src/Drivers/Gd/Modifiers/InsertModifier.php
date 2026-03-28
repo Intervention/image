@@ -1,0 +1,123 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Intervention\Image\Drivers\Gd\Modifiers;
+
+use Intervention\Image\Exceptions\ModifierException;
+use Intervention\Image\Exceptions\StateException;
+use Intervention\Image\Interfaces\FrameInterface;
+use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\PointInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\InsertModifier as GenericInsertModifier;
+use Intervention\Image\Traits\CanConvertRange;
+
+class InsertModifier extends GenericInsertModifier implements SpecializedInterface
+{
+    use CanConvertRange;
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     *
+     * @throws ModifierException
+     * @throws StateException
+     */
+    public function apply(ImageInterface $image): ImageInterface
+    {
+        $watermark = $this->driver()->decodeImage($this->image);
+        $position = $this->position($image, $watermark);
+
+        foreach ($image as $frame) {
+            imagealphablending($frame->native(), true);
+
+            if ($this->transparency === 1.0) {
+                $this->insertOpaque($frame, $watermark, $position);
+            } else {
+                $this->insertTransparent($frame, $watermark, $position);
+            }
+        }
+
+        return $image;
+    }
+
+    /**
+     * Insert watermark with 100% opacity
+     *
+     * @throws ModifierException
+     */
+    private function insertOpaque(FrameInterface $frame, ImageInterface $watermark, PointInterface $position): void
+    {
+        imagecopy(
+            $frame->native(),
+            $watermark->core()->native(),
+            $position->x(),
+            $position->y(),
+            0,
+            0,
+            $watermark->width(),
+            $watermark->height()
+        );
+    }
+
+    /**
+     * Insert watermark transparent with current transparency
+     *
+     * Unfortunately, the original PHP function imagecopymerge does not work reliably.
+     * For example, any transparency of the image to be inserted is not applied correctly.
+     * For this reason, a new GDImage is created into which the original image is inserted
+     * in the first step and the watermark is inserted with 100% opacity in the second
+     * step. This combination is then transferred to the original image again with the
+     * respective opacity.
+     *
+     * Please note: Unfortunately, there is still an edge case, when a transparent image
+     * is inserted on a transparent background, the "double" transparent areas appear opaque!
+     *
+     * @throws ModifierException
+     */
+    private function insertTransparent(FrameInterface $frame, ImageInterface $watermark, PointInterface $position): void
+    {
+        $cut = imagecreatetruecolor($watermark->width(), $watermark->height());
+
+        if ($cut === false) {
+            throw new ModifierException('Failed to insert image');
+        }
+
+        imagecopy(
+            $cut,
+            $frame->native(),
+            0,
+            0,
+            $position->x(),
+            $position->y(),
+            imagesx($cut),
+            imagesy($cut)
+        );
+
+        imagecopy(
+            $cut,
+            $watermark->core()->native(),
+            0,
+            0,
+            0,
+            0,
+            imagesx($cut),
+            imagesy($cut)
+        );
+
+
+        imagecopymerge(
+            $frame->native(),
+            $cut,
+            $position->x(),
+            $position->y(),
+            0,
+            0,
+            $watermark->width(),
+            $watermark->height(),
+            (int) round(self::convertRange($this->transparency, 0, 1, 0, 100)),
+        );
+    }
+}

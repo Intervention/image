@@ -6,41 +6,64 @@ namespace Intervention\Image\Colors\Rgb\Decoders;
 
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Drivers\AbstractDecoder;
-use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
-use Intervention\Image\Interfaces\ImageInterface;
 
 class StringColorDecoder extends AbstractDecoder implements DecoderInterface
 {
     /**
-     * Decode rgb color strings
+     * Regex pattern of rgb color syntax.
      */
-    public function decode(mixed $input): ImageInterface|ColorInterface
+    private const string PATTERN =
+    '/^s?rgba? ?\( ?' .
+        '(?P<r>[0-9]{1,3})([, ]) ?' .
+        '(?P<g>[0-9]{1,3})\2 ?' .
+        '(?<b>[0-9]{1,3})' .
+        '(?:(?:(?: ?\/ ?)|(?:[, ]) ?)' .
+        '(?<a>(?:0\.[0-9]+)|1\.0|\.[0-9]+|[0-9]{1,3}%|1|0))?' .
+        ' ?\)$/i';
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DecoderInterface::supports()
+     */
+    public function supports(mixed $input): bool
     {
         if (!is_string($input)) {
-            throw new DecoderException('Unable to decode input');
+            return false;
         }
 
-        $pattern = '/^s?rgba?\((?P<r>[0-9\.]+%?), ?(?P<g>[0-9\.]+%?), ?(?P<b>[0-9\.]+%?)' .
-            '(?:, ?(?P<a>(?:1)|(?:1\.0*)|(?:0)|(?:0?\.\d+%?)|(?:\d{1,3}%)))?\)$/i';
-        if (preg_match($pattern, $input, $matches) != 1) {
-            throw new DecoderException('Unable to decode input');
+        if (preg_match('/^s?rgb/i', $input) != 1) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Decode rgb color strings.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function decode(mixed $input): ColorInterface
+    {
+        if (preg_match(self::PATTERN, $input, $matches) != 1) {
+            throw new InvalidArgumentException('Invalid rgb() color syntax "' . $input . '"');
         }
 
         // rgb values
-        $values = array_map(function (string $value): int {
-            return match (strpos($value, '%')) {
-                false => intval(trim($value)),
-                default => intval(round(floatval(trim(str_replace('%', '', $value))) / 100 * 255)),
-            };
+        $values = array_map(fn(string $value): int => match (strpos($value, '%')) {
+            false => intval(trim($value)),
+            default => intval(round(floatval(trim(str_replace('%', '', $value))) / 100 * 255)),
         }, [$matches['r'], $matches['g'], $matches['b']]);
 
         // alpha value
         if (array_key_exists('a', $matches)) {
-            $values[] = match (true) {
-                strpos($matches['a'], '%') => round(intval(trim(str_replace('%', '', $matches['a']))) / 2.55),
-                default => intval(round(floatval(trim($matches['a'])) * 255)),
+            $values[] = match (strpos($matches['a'], '%')) {
+                false => floatval(trim($matches['a'])),
+                default => floatval(trim(str_replace('%', '', $matches['a']))) / 100,
             };
         }
 

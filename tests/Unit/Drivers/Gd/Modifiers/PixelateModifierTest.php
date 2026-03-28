@@ -16,11 +16,11 @@ final class PixelateModifierTest extends GdTestCase
 {
     public function testModify(): void
     {
-        $image = $this->readTestImage('trim.png');
-        $this->assertEquals('00aef0', $image->pickColor(0, 0)->toHex());
-        $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
+        $image = $this->readTestImage('sphere.webp');
+        $this->assertEquals('ff7c00', $image->colorAt(2, 2)->toHex());
+        $this->assertEquals('ff7a0d', $image->colorAt(29, 29)->toHex());
         $image->modify(new PixelateModifier(10));
-        $this->assertEquals('00aef0', $image->pickColor(0, 0)->toHex());
-        $this->assertEquals('6aaa8b', $image->pickColor(14, 14)->toHex());
+        $this->assertEquals('e6a562', $image->colorAt(2, 2)->toHex());
+        $this->assertEquals('6f95b2', $image->colorAt(29, 29)->toHex());
     }
 }

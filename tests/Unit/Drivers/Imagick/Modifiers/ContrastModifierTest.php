@@ -17,8 +17,8 @@ final class ContrastModifierTest extends ImagickTestCase
     public function testApply(): void
     {
         $image = $this->readTestImage('trim.png');
-        $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
+        $this->assertEquals('00aef0', $image->colorAt(14, 14)->toHex());
         $image->modify(new ContrastModifier(30));
-        $this->assertEquals('00fcff', $image->pickColor(14, 14)->toHex());
+        $this->assertEquals('00fcff', $image->colorAt(14, 14)->toHex());
     }
 }

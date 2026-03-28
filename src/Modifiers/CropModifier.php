@@ -4,41 +4,54 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Modifiers;
 
+use Intervention\Image\Alignment;
 use Intervention\Image\Drivers\SpecializableModifier;
-use Intervention\Image\Exceptions\RuntimeException;
-use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StateException;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Size;
 
 class CropModifier extends SpecializableModifier
 {
     /**
-     * Create new modifier object
-     *
-     * @return void
+     * Create new modifier object.
      */
     public function __construct(
         public int $width,
         public int $height,
-        public int $offset_x = 0,
-        public int $offset_y = 0,
-        public mixed $background = 'ffffff',
-        public string $position = 'top-left'
+        public int $x = 0,
+        public int $y = 0,
+        public null|string|ColorInterface $background = null,
+        public string|Alignment $alignment = Alignment::TOP_LEFT
     ) {
         //
     }
 
     /**
-     * @throws RuntimeException
+     * @throws InvalidArgumentException
      */
-    public function crop(ImageInterface $image): SizeInterface
+    protected function crop(ImageInterface $image): SizeInterface
     {
-        $crop = new Rectangle($this->width, $this->height);
-        $crop->align($this->position);
+        $crop = new Size($this->width, $this->height);
+        $crop->movePivot($this->alignment);
 
         return $crop->alignPivotTo(
             $image->size(),
-            $this->position
+            $this->alignment
+        );
+    }
+
+    /**
+     * Return color to fill the newly created areas after resizing
+     *
+     * @throws StateException
+     */
+    protected function backgroundColor(): ColorInterface
+    {
+        return $this->driver()->decodeColor(
+            $this->background ?? $this->driver()->config()->backgroundColor,
         );
     }
 }

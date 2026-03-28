@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Geometry;
 
+use Intervention\Image\Geometry\Factories\CircleFactory;
+use Intervention\Image\Interfaces\DrawableFactoryInterface;
 use Intervention\Image\Interfaces\PointInterface;
 
 class Circle extends Ellipse
 {
     /**
-     * Create new Circle instance
-     *
-     * @return void
+     * Create new circle instance.
      */
     public function __construct(
         int $diameter,
@@ -21,7 +21,7 @@ class Circle extends Ellipse
     }
 
     /**
-     * Set diameter of circle
+     * Set diameter of circle.
      */
     public function setDiameter(int $diameter): self
     {
@@ -32,7 +32,7 @@ class Circle extends Ellipse
     }
 
     /**
-     * Get diameter of circle
+     * Get diameter of circle.
      */
     public function diameter(): int
     {
@@ -40,7 +40,7 @@ class Circle extends Ellipse
     }
 
     /**
-     * Set radius of circle
+     * Set radius of circle.
      */
     public function setRadius(int $radius): self
     {
@@ -48,10 +48,20 @@ class Circle extends Ellipse
     }
 
     /**
-     * Get radius of circle
+     * Get radius of circle.
      */
     public function radius(): int
     {
         return intval(round($this->diameter() / 2));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DrawableInterface::factory()
+     */
+    public function factory(): DrawableFactoryInterface
+    {
+        return new CircleFactory($this);
     }
 }

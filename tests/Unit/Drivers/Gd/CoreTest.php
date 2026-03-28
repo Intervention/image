@@ -7,7 +7,8 @@ namespace Intervention\Image\Tests\Unit\Drivers\Gd;
 use GdImage;
 use Intervention\Image\Drivers\Gd\Core;
 use Intervention\Image\Drivers\Gd\Frame;
-use Intervention\Image\Exceptions\AnimationException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
@@ -72,7 +73,7 @@ final class CoreTest extends BaseTestCase
         $this->assertInstanceOf(Frame::class, $this->core->frame(0));
         $this->assertInstanceOf(Frame::class, $this->core->frame(1));
         $this->assertInstanceOf(Frame::class, $this->core->frame(2));
-        $this->expectException(AnimationException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->core->frame(3);
     }
 
@@ -109,9 +110,9 @@ final class CoreTest extends BaseTestCase
         $this->assertEquals('foo', $this->core->get(3, 'foo'));
     }
 
-    public function testEmpty(): void
+    public function testClear(): void
     {
-        $result = $this->core->empty();
+        $result = $this->core->clear();
         $this->assertEquals(0, $this->core->count());
         $this->assertEquals(0, $result->count());
     }
@@ -132,5 +133,22 @@ final class CoreTest extends BaseTestCase
     public function testLast(): void
     {
         $this->assertInstanceOf(Frame::class, $this->core->last());
+    }
+
+    public function testClone(): void
+    {
+        $cloned = clone $this->core;
+
+        $this->assertInstanceOf(Core::class, $cloned);
+        $this->assertEquals($this->core->count(), $cloned->count());
+
+        // Verify frames are independent (deep clone)
+        $this->assertNotSame($this->core->frame(0)->native(), $cloned->frame(0)->native());
+    }
+
+    public function testMeta(): void
+    {
+        $meta = $this->core->meta();
+        $this->assertInstanceOf(CollectionInterface::class, $meta);
     }
 }

@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Modifiers;
 
 use Intervention\Image\Drivers\SpecializableModifier;
-use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FontInterface;
@@ -15,9 +14,7 @@ use Intervention\Image\Interfaces\PointInterface;
 class TextModifier extends SpecializableModifier
 {
     /**
-     * Create new modifier object
-     *
-     * @return void
+     * Create new modifier object.
      */
     public function __construct(
         public string $text,
@@ -28,23 +25,22 @@ class TextModifier extends SpecializableModifier
     }
 
     /**
-     * Decode text color
+     * Decode text color.
      *
      * The text outline effect is drawn with a trick by plotting additional text
      * under the actual text with an offset in the color of the outline effect.
      * For this reason, no colors with transparency can be used for the text
      * color or the color of the stroke effect, as this would be superimposed.
      *
-     * @throws RuntimeException
-     * @throws ColorException
+     * @throws StateException
      */
     protected function textColor(): ColorInterface
     {
-        $color = $this->driver()->handleInput($this->font->color());
+        $color = $this->driver()->decodeColor($this->font->color());
 
         if ($this->font->hasStrokeEffect() && $color->isTransparent()) {
-            throw new ColorException(
-                'The text color must be fully opaque when using the stroke effect.'
+            throw new StateException(
+                'The text color must be fully opaque when using the stroke effect'
             );
         }
 
@@ -52,18 +48,17 @@ class TextModifier extends SpecializableModifier
     }
 
     /**
-     * Decode outline stroke color
+     * Decode outline stroke color.
      *
-     * @throws RuntimeException
-     * @throws ColorException
+     * @throws StateException
      */
     protected function strokeColor(): ColorInterface
     {
-        $color = $this->driver()->handleInput($this->font->strokeColor());
+        $color = $this->driver()->decodeColor($this->font->strokeColor());
 
         if ($color->isTransparent()) {
-            throw new ColorException(
-                'The stroke color must be fully opaque.'
+            throw new StateException(
+                'The stroke color must be fully opaque'
             );
         }
 
@@ -71,7 +66,7 @@ class TextModifier extends SpecializableModifier
     }
 
     /**
-     * Return array of offset points to draw text stroke effect below the actual text
+     * Return array of offset points to draw text stroke effect below the actual text.
      *
      * @return array<PointInterface>
      */

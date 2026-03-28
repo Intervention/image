@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Colors\Hsv\Decoders;
 
-use Generator;
-use PHPUnit\Framework\Attributes\CoversClass;
-use Intervention\Image\Colors\Hsv\Color;
 use Intervention\Image\Colors\Hsv\Decoders\StringColorDecoder;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Tests\BaseTestCase;
-use PHPUnit\Framework\Attributes\DataProvider;
+use Intervention\Image\Tests\Providers\ColorDataProvider;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProviderExternal;
 
 #[CoversClass(StringColorDecoder::class)]
 final class StringColorDecoderTest extends BaseTestCase
@@ -17,56 +18,36 @@ final class StringColorDecoderTest extends BaseTestCase
     /**
      * @param $channelValues array<int>
      */
-    #[DataProvider('decodeDataProvier')]
-    public function testDecodeHsv(string $input, string $classname, array $channelValues): void
+    #[DataProviderExternal(ColorDataProvider::class, 'hsvString')]
+    public function testDecode(mixed $input, array $channelValues): void
     {
         $decoder = new StringColorDecoder();
-        $result = $decoder->decode($input);
-        $this->assertInstanceOf($classname, $result);
-        $this->assertEquals($channelValues, $result->toArray());
+        $result = $decoder->decode($input[0]);
+        $this->assertEquals(
+            $channelValues,
+            array_map(
+                fn(ColorChannelInterface $channel): int => $channel->value(),
+                $result->channels(),
+            ),
+        );
     }
 
-    public static function decodeDataProvier(): Generator
+    public function testSupportsString(): void
     {
-        yield [
-            'hsv(0,0,0)',
-            Color::class,
-            [0, 0, 0],
-        ];
-        yield [
-            'hsv(0, 100, 100)',
-            Color::class,
-            [0, 100, 100],
-        ];
-        yield [
-            'hsv(360, 100, 100)',
-            Color::class,
-            [360, 100, 100],
-        ];
-        yield [
-            'hsv(180, 100%, 100%)',
-            Color::class,
-            [180, 100, 100],
-        ];
-        yield [
-            'hsb(0,0,0)',
-            Color::class,
-            [0, 0, 0],
-        ];
-        yield [
-            'hsb(0, 100, 100)',
-            Color::class,
-            [0, 100, 100],
-        ];
-        yield [
-            'hsb(360, 100, 100)',
-            Color::class,
-            [360, 100, 100],
-        ];
-        yield [
-            'hsb(180, 100%, 100%)',
-            Color::class,
-            [180, 100, 100],
-        ];
+        $decoder = new StringColorDecoder();
+        $this->assertTrue($decoder->supports('hsv(0, 0%, 0%)'));
+        $this->assertTrue($decoder->supports('HSV(360, 100%, 100%)'));
+        $this->assertTrue($decoder->supports('hsb(0, 0%, 0%)'));
+        $this->assertTrue($decoder->supports('HSB(360, 100%, 100%)'));
+        $this->assertFalse($decoder->supports('rgb(0, 0, 0)'));
+        $this->assertFalse($decoder->supports(123));
+        $this->assertFalse($decoder->supports(null));
+    }
+
+    public function testDecodeInvalid(): void
+    {
+        $decoder = new StringColorDecoder();
+        $this->expectException(InvalidArgumentException::class);
+        $decoder->decode('hsv(invalid)');
     }
 }

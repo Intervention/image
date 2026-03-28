@@ -4,32 +4,25 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
-use Closure;
-
 interface DrawableFactoryInterface
 {
     /**
-     * Create a new factory instance statically
+     * Create the drawable end product.
      */
-    public static function init(null|Closure|DrawableInterface $init = null): self;
+    public static function build(null|callable|DrawableInterface $drawable = null): DrawableInterface;
 
     /**
-     * Create the end product of the factory
+     * Create the end product of the factory.
      */
-    public function create(): DrawableInterface;
+    public function drawable(): DrawableInterface;
 
     /**
-     * Define the background color of the drawable object
+     * Define the background color of the drawable object.
      */
-    public function background(mixed $color): self;
+    public function background(string|ColorInterface $color): self;
 
     /**
-     * Set the border size & color of the drawable object to be produced
+     * Set the border size & color of the drawable object to be produced.
      */
-    public function border(mixed $color, int $size = 1): self;
-
-    /**
-     * Create the end product by invoking the factory
-     */
-    public function __invoke(): DrawableInterface;
+    public function border(string|ColorInterface $color, int $size = 1): self;
 }

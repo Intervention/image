@@ -8,19 +8,22 @@ use Intervention\Image\Drivers\Imagick\Analyzers\ColorspaceAnalyzer;
 use Intervention\Image\Drivers\Imagick\Driver;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
-use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Tests\ImagickTestCase;
+use Intervention\Image\Tests\Providers\ResourceProvider;
+use Intervention\Image\Tests\Resource;
+use PHPUnit\Framework\Attributes\DataProviderExternal;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(ColorspaceAnalyzer::class)]
 final class ColorspaceAnalyzerTest extends ImagickTestCase
 {
-    public function testAnalyze(): void
+    #[DataProviderExternal(ResourceProvider::class, 'colorspaceData')]
+    public function testAnalyze(Resource $resource, string $colorspace): void
     {
-        $image = $this->readTestImage('tile.png');
+        $driver = new Driver();
         $analyzer = new ColorspaceAnalyzer();
-        $analyzer->setDriver(new Driver());
-        $result = $analyzer->analyze($image);
-        $this->assertInstanceOf(ColorspaceInterface::class, $result);
+        $analyzer->setDriver($driver);
+        $result = $analyzer->analyze($resource->imageObject($driver));
+        $this->assertInstanceOf($colorspace, $result);
     }
 }

@@ -9,8 +9,10 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Drivers\Imagick\Decoders\DataUriImageDecoder;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Exceptions\DecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Resource;
 use stdClass;
 
 #[RequiresPhpExtension('imagick')]
@@ -27,22 +29,19 @@ final class DataUriImageDecoderTest extends BaseTestCase
 
     public function testDecode(): void
     {
-        $result = $this->decoder->decode(
-            sprintf('data:image/jpeg;base64,%s', base64_encode($this->getTestResourceData('blue.gif')))
-        );
-
+        $result = $this->decoder->decode(Resource::create('blue.gif')->dataUri());
         $this->assertInstanceOf(Image::class, $result);
     }
 
     public function testDecoderNonString(): void
     {
-        $this->expectException(DecoderException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->decoder->decode(new stdClass());
     }
 
     public function testDecoderInvalid(): void
     {
-        $this->expectException(DecoderException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->decoder->decode('invalid');
     }
 

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Drivers\Imagick\Modifiers;
 
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
-use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Modifiers\RemoveAnimationModifier;
 use Intervention\Image\Tests\ImagickTestCase;
 
@@ -45,7 +45,7 @@ final class RemoveAnimationModifierTest extends ImagickTestCase
     public function testApplyInvalid(): void
     {
         $image = $this->readTestImage('animation.gif');
-        $this->expectException(InputException::class);
+        $this->expectException(InvalidArgumentException::class);
         $image->modify(new RemoveAnimationModifier('test'));
     }
 }

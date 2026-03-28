@@ -13,7 +13,7 @@ class CropResizePngTest extends ImagickTestCase
         $image = $this->readTestImage('tile.png');
         $image->crop(100, 100);
         $image->resize(200, 200);
-        $this->assertTransparency($image->pickColor(7, 22));
-        $this->assertTransparency($image->pickColor(22, 7));
+        $this->assertTransparency($image->colorAt(7, 22));
+        $this->assertTransparency($image->colorAt(22, 7));
     }
 }

@@ -4,15 +4,9 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors\Rgb\Channels;
 
-class Alpha extends Red
+use Intervention\Image\Colors\AlphaChannel;
+
+class Alpha extends AlphaChannel
 {
-    /**
-     * {@inheritdoc}
-     *
-     * @see ColorChannelInterface::toString()
-     */
-    public function toString(): string
-    {
-        return strval(round($this->normalize(), 6));
-    }
+    //
 }

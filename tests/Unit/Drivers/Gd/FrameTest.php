@@ -10,7 +10,7 @@ use GdImage;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Drivers\Gd\Frame;
 use Intervention\Image\Image;
-use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Size;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[RequiresPhpExtension('gd')]
@@ -48,7 +48,7 @@ final class FrameTest extends BaseTestCase
     public function testGetSize(): void
     {
         $frame = $this->getTestFrame();
-        $this->assertInstanceOf(Rectangle::class, $frame->size());
+        $this->assertInstanceOf(Size::class, $frame->size());
     }
 
     public function testSetGetDelay(): void
@@ -61,14 +61,14 @@ final class FrameTest extends BaseTestCase
         $this->assertEquals(1.5, $frame->delay());
     }
 
-    public function testSetGetDispose(): void
+    public function testSetGetDisposalMethod(): void
     {
         $frame = $this->getTestFrame();
-        $this->assertEquals(1, $frame->dispose());
+        $this->assertEquals(1, $frame->disposalMethod());
 
-        $result = $frame->setDispose(3);
+        $result = $frame->setDisposalMethod(3);
         $this->assertInstanceOf(Frame::class, $result);
-        $this->assertEquals(3, $frame->dispose());
+        $this->assertEquals(3, $frame->disposalMethod());
     }
 
     public function testSetGetOffsetLeft(): void
@@ -115,6 +115,17 @@ final class FrameTest extends BaseTestCase
         $this->assertEquals(0, $info['delay']);
         $this->assertEquals(0, $info['left']);
         $this->assertEquals(0, $info['top']);
-        $this->assertEquals(1, $info['dispose']);
+        $this->assertEquals(1, $info['disposalMethod']);
+    }
+
+    public function testClone(): void
+    {
+        $frame = $this->getTestFrame();
+        $cloned = clone $frame;
+
+        $this->assertInstanceOf(Frame::class, $cloned);
+        $this->assertNotSame($frame->native(), $cloned->native());
+        $this->assertEquals($frame->size()->width(), $cloned->size()->width());
+        $this->assertEquals($frame->size()->height(), $cloned->size()->height());
     }
 }

@@ -9,7 +9,7 @@ use Intervention\Image\Interfaces\FrameInterface;
 abstract class AbstractFrame implements FrameInterface
 {
     /**
-     * Show debug info for the current image
+     * Show debug info for the current image.
      *
      * @return array<string, mixed>
      */
@@ -19,7 +19,7 @@ abstract class AbstractFrame implements FrameInterface
             'delay' => $this->delay(),
             'left' => $this->offsetLeft(),
             'top' => $this->offsetTop(),
-            'dispose' => $this->dispose(),
+            'disposalMethod' => $this->disposalMethod(),
         ];
     }
 }

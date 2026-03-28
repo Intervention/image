@@ -4,20 +4,33 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Exceptions\ColorException;
+use ImagickException;
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\ProfileModifier as GenericProfileModifier;
 
 class ProfileModifier extends GenericProfileModifier implements SpecializedInterface
 {
+    /**
+     * @throws ModifierException
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $imagick = $image->core()->native();
-        $result = $imagick->profileImage('icc', (string) $this->profile);
 
-        if ($result === false) {
-            throw new ColorException('ICC color profile could not be set.');
+        try {
+            $result = $imagick->profileImage('icc', (string) $this->profile);
+            if ($result === false) {
+                throw new ModifierException(
+                    'Failed to apply ' . self::class . ', unable to set ICC color profile',
+                );
+            }
+        } catch (ImagickException $e) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to set ICC color profile',
+                previous: $e
+            );
         }
 
         return $image;

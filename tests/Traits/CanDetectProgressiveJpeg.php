@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Traits;
 
 use Intervention\Image\EncodedImage;
-use Intervention\Image\Traits\CanBuildFilePointer;
+use Intervention\Image\Traits\CanBuildStream;
 
 trait CanDetectProgressiveJpeg
 {
-    use CanBuildFilePointer;
+    use CanBuildStream;
 
     /**
      * Checks if the given image data is progressive encoded Jpeg format
@@ -18,7 +18,7 @@ trait CanDetectProgressiveJpeg
      */
     private function isProgressiveJpeg(EncodedImage $image): bool
     {
-        $f = $image->toFilePointer();
+        $f = $image->toStream();
 
         while (!feof($f)) {
             if (unpack('C', fread($f, 1))[1] !== 0xff) {

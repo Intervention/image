@@ -5,24 +5,20 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick;
 
 use Imagick;
-use ImagickException;
 use ImagickPixel;
 use Intervention\Image\Drivers\AbstractFrame;
-use Intervention\Image\Exceptions\InputException;
-use Intervention\Image\Geometry\Rectangle;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Size;
 
 class Frame extends AbstractFrame implements FrameInterface
 {
     /**
-     * Create new frame object
-     *
-     * @throws ImagickException
-     * @return void
+     * Create new frame.
      */
     public function __construct(protected Imagick $native)
     {
@@ -67,10 +63,12 @@ class Frame extends AbstractFrame implements FrameInterface
      * {@inheritdoc}
      *
      * @see DriverInterface::size()
+     *
+     * @throws InvalidArgumentException
      */
     public function size(): SizeInterface
     {
-        return new Rectangle(
+        return new Size(
             $this->native->getImageWidth(),
             $this->native->getImageHeight()
         );
@@ -101,9 +99,9 @@ class Frame extends AbstractFrame implements FrameInterface
     /**
      * {@inheritdoc}
      *
-     * @see DriverInterface::dispose()
+     * @see DriverInterface::disposalMethod()
      */
-    public function dispose(): int
+    public function disposalMethod(): int
     {
         return $this->native->getImageDispose();
     }
@@ -111,17 +109,17 @@ class Frame extends AbstractFrame implements FrameInterface
     /**
      * {@inheritdoc}
      *
-     * @see DriverInterface::setDispose()
+     * @see DriverInterface::setDisposalMethod()
      *
-     * @throws InputException
+     * @throws InvalidArgumentException
      */
-    public function setDispose(int $dispose): FrameInterface
+    public function setDisposalMethod(int $method): FrameInterface
     {
-        if (!in_array($dispose, [0, 1, 2, 3])) {
-            throw new InputException('Value for argument $dispose must be 0, 1, 2 or 3.');
+        if (!in_array($method, [0, 1, 2, 3])) {
+            throw new InvalidArgumentException('Value for argument disposal method "$method" must be 0, 1, 2 or 3');
         }
 
-        $this->native->setImageDispose($dispose);
+        $this->native->setImageDispose($method);
 
         return $this;
     }

@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd;
 
+use GdImage;
 use Intervention\Image\Drivers\AbstractDriver;
 use Intervention\Image\Exceptions\DriverException;
-use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Exceptions\MissingDependencyException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Format;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorProcessorInterface;
-use Intervention\Image\Interfaces\ColorspaceInterface;
-use Intervention\Image\Interfaces\DriverInterface;
+use Intervention\Image\Interfaces\CoreInterface;
 use Intervention\Image\Interfaces\FontProcessorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\MediaType;
@@ -39,8 +40,8 @@ class Driver extends AbstractDriver
     public function checkHealth(): void
     {
         if (!extension_loaded('gd') || !function_exists('gd_info')) {
-            throw new DriverException(
-                'GD PHP extension must be installed to use this driver.'
+            throw new MissingDependencyException(
+                'GD PHP extension must be installed to use this driver'
             );
         }
     }
@@ -49,70 +50,41 @@ class Driver extends AbstractDriver
      * {@inheritdoc}
      *
      * @see DriverInterface::createImage()
+     *
+     * @throws InvalidArgumentException
+     * @throws DriverException
      */
     public function createImage(int $width, int $height): ImageInterface
     {
+        if ($width < 1 || $height < 1) {
+            throw new InvalidArgumentException('Invalid image size. Only use int<1, max>');
+        }
+
         // build new transparent GDImage
         $data = imagecreatetruecolor($width, $height);
+        if (!$data instanceof GDImage) {
+            throw new DriverException('Failed to create new image');
+        }
+
         imagesavealpha($data, true);
         $background = imagecolorallocatealpha($data, 255, 255, 255, 127);
+
         imagealphablending($data, false);
         imagefill($data, 0, 0, $background);
         imagecolortransparent($data, $background);
+        imageresolution($data, 72, 72);
 
-        return new Image(
-            $this,
-            new Core([
-                new Frame($data)
-            ])
-        );
+        return new Image($this, new Core([new Frame($data)]));
     }
 
     /**
      * {@inheritdoc}
      *
-     * @see DriverInterface::createAnimation()
-     *
-     * @throws RuntimeException
+     * @see DriverInterface::createCore()
      */
-    public function createAnimation(callable $init): ImageInterface
+    public function createCore(array $frames): CoreInterface
     {
-        $animation = new class ($this)
-        {
-            public function __construct(
-                protected DriverInterface $driver,
-                public Core $core = new Core()
-            ) {
-                //
-            }
-
-            /**
-             * @throws RuntimeException
-             */
-            public function add(mixed $source, float $delay = 1): self
-            {
-                $this->core->add(
-                    $this->driver->handleInput($source)->core()->first()->setDelay($delay)
-                );
-
-                return $this;
-            }
-
-            /**
-             * @throws RuntimeException
-             */
-            public function __invoke(): ImageInterface
-            {
-                return new Image(
-                    $this->driver,
-                    $this->core
-                );
-            }
-        };
-
-        $init($animation);
-
-        return call_user_func($animation);
+        return new Core($frames);
     }
 
     /**
@@ -120,9 +92,9 @@ class Driver extends AbstractDriver
      *
      * @see DriverInterface::colorProcessor()
      */
-    public function colorProcessor(ColorspaceInterface $colorspace): ColorProcessorInterface
+    public function colorProcessor(ImageInterface $image): ColorProcessorInterface
     {
-        return new ColorProcessor($colorspace);
+        return new ColorProcessor();
     }
 
     /**
@@ -156,7 +128,7 @@ class Driver extends AbstractDriver
     /**
      * Return version of GD library
      */
-    public static function version(): string
+    public function version(): string
     {
         return gd_info()['GD Version'];
     }

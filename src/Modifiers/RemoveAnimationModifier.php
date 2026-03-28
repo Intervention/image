@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Modifiers;
 
 use Intervention\Image\Drivers\SpecializableModifier;
-use Intervention\Image\Exceptions\InputException;
-use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
@@ -14,11 +13,13 @@ class RemoveAnimationModifier extends SpecializableModifier
 {
     public function __construct(public int|string $position = 0)
     {
-        //
+        if (is_int($this->position) && $this->position < 0) {
+            throw new InvalidArgumentException('Invalid position argument. Only use int<0, max>');
+        }
     }
 
     /**
-     * @throws RuntimeException
+     * @throws InvalidArgumentException
      */
     protected function selectedFrame(ImageInterface $image): FrameInterface
     {
@@ -26,9 +27,9 @@ class RemoveAnimationModifier extends SpecializableModifier
     }
 
     /**
-     * Return the position of the selected frame as integer
+     * Return the position of the selected frame as integer.
      *
-     * @throws InputException
+     * @throws InvalidArgumentException
      */
     protected function normalizePosition(ImageInterface $image): int
     {
@@ -42,8 +43,8 @@ class RemoveAnimationModifier extends SpecializableModifier
 
         // calculate position from percentage value
         if (preg_match("/^(?P<percent>[0-9]{1,3})%$/", $this->position, $matches) != 1) {
-            throw new InputException(
-                'Position must be either integer or a percent value as string.'
+            throw new InvalidArgumentException(
+                'Position must be either integer or a percent value as string'
             );
         }
 

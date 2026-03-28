@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Geometry\Factories;
 
-use Closure;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DrawableFactoryInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
 
@@ -15,41 +16,39 @@ class PolygonFactory implements DrawableFactoryInterface
     protected Polygon $polygon;
 
     /**
-     * Create new factory instance
-     *
-     * @return void
+     * Create new factory instance.
      */
-    public function __construct(null|Closure|Polygon $init = null)
+    public function __construct(null|callable|Polygon $polygon = null)
     {
-        $this->polygon = is_a($init, Polygon::class) ? $init : new Polygon([]);
+        $this->polygon = $polygon instanceof Polygon ? clone $polygon : new Polygon([]);
 
-        if (is_callable($init)) {
-            $init($this);
+        if (is_callable($polygon)) {
+            $polygon($this);
         }
     }
 
     /**
      * {@inheritdoc}
      *
-     * @see DrawableFactoryInterface::init()
+     * @see DrawableFactoryInterface::build()
      */
-    public static function init(null|Closure|DrawableInterface $init = null): self
+    public static function build(null|callable|DrawableInterface $drawable = null): Polygon
     {
-        return new self($init);
+        return (new self($drawable))->drawable();
     }
 
     /**
      * {@inheritdoc}
      *
-     * @see DrawableFactoryInterface::create()
+     * @see DrawableFactoryInterface::drawable()
      */
-    public function create(): DrawableInterface
+    public function drawable(): Polygon
     {
         return $this->polygon;
     }
 
     /**
-     * Add a point to the polygon to be produced
+     * Add a point to the polygon to be produced.
      */
     public function point(int $x, int $y): self
     {
@@ -59,9 +58,9 @@ class PolygonFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Set the background color of the polygon to be produced
+     * Set the background color of the polygon to be produced.
      */
-    public function background(mixed $color): self
+    public function background(string|ColorInterface $color): self
     {
         $this->polygon->setBackgroundColor($color);
 
@@ -69,20 +68,14 @@ class PolygonFactory implements DrawableFactoryInterface
     }
 
     /**
-     * Set the border color & border size of the polygon to be produced
+     * Set the border color & border size of the polygon to be produced.
+     *
+     * @throws InvalidArgumentException
      */
-    public function border(mixed $color, int $size = 1): self
+    public function border(string|ColorInterface $color, int $size = 1): self
     {
         $this->polygon->setBorder($color, $size);
 
         return $this;
-    }
-
-    /**
-     * Produce the polygon
-     */
-    public function __invoke(): Polygon
-    {
-        return $this->polygon;
     }
 }

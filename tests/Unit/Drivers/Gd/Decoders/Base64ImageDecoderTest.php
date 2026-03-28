@@ -11,6 +11,7 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Resource;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(Base64ImageDecoder::class)]
@@ -27,7 +28,7 @@ final class Base64ImageDecoderTest extends BaseTestCase
     public function testDecode(): void
     {
         $result = $this->decoder->decode(
-            base64_encode($this->getTestResourceData('blue.gif'))
+            Resource::create('blue.gif')->base64()
         );
 
         $this->assertInstanceOf(Image::class, $result);

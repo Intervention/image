@@ -67,6 +67,15 @@ final class PointTest extends BaseTestCase
         $this->assertEquals(150, $point->y());
     }
 
+    public function testMove(): void
+    {
+        $point = new Point(50, 50);
+        $result = $point->move(10, 20);
+        $this->assertInstanceOf(Point::class, $result);
+        $this->assertEquals(60, $point->x());
+        $this->assertEquals(70, $point->y());
+    }
+
     public function testSetPosition(): void
     {
         $point = new Point(0, 0);

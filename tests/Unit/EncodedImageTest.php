@@ -7,6 +7,7 @@ namespace Intervention\Image\Tests\Unit;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Resource;
 
 #[CoversClass(EncodedImage::class)]
 final class EncodedImageTest extends BaseTestCase
@@ -15,6 +16,17 @@ final class EncodedImageTest extends BaseTestCase
     {
         $image = new EncodedImage('foo');
         $this->assertInstanceOf(EncodedImage::class, $image);
+    }
+
+    public function testConstructorFromResource(): void
+    {
+        $fp = fopen('php://temp', 'r+');
+        fwrite($fp, 'test data');
+        rewind($fp);
+        $image = new EncodedImage($fp, 'image/png');
+        $this->assertInstanceOf(EncodedImage::class, $image);
+        $this->assertEquals('image/png', $image->mediaType());
+        $this->assertEquals('test data', (string) $image);
     }
 
     public function testSave(): void
@@ -45,7 +57,7 @@ final class EncodedImageTest extends BaseTestCase
         $image = new EncodedImage('foo');
         $this->assertEquals('application/octet-stream', $image->mediaType());
 
-        $image = new EncodedImage($this->getTestResourceData(), 'image/jpeg');
+        $image = new EncodedImage(Resource::create()->data(), 'image/jpeg');
         $this->assertEquals('image/jpeg', $image->mediaType());
     }
 
@@ -54,8 +66,14 @@ final class EncodedImageTest extends BaseTestCase
         $image = new EncodedImage('foo');
         $this->assertEquals('application/octet-stream', $image->mimetype());
 
-        $image = new EncodedImage($this->getTestResourceData(), 'image/jpeg');
+        $image = new EncodedImage(Resource::create()->data(), 'image/jpeg');
         $this->assertEquals('image/jpeg', $image->mimetype());
+    }
+
+    public function testToBase64(): void
+    {
+        $image = new EncodedImage('foo');
+        $this->assertEquals('Zm9v', $image->toBase64());
     }
 
     public function testDebugInfo(): void
@@ -63,5 +81,22 @@ final class EncodedImageTest extends BaseTestCase
         $info = (new EncodedImage('foo', 'image/png'))->__debugInfo();
         $this->assertEquals('image/png', $info['mediaType']);
         $this->assertEquals(3, $info['size']);
+    }
+
+    public function testDebugInfoWhenSizeThrows(): void
+    {
+        // Create an EncodedImage, then close the internal stream resource to trigger
+        // the Throwable catch branch in __debugInfo
+        $image = new EncodedImage('foo', 'image/png');
+
+        // Use reflection to close the internal stream so size() throws
+        $ref = new \ReflectionClass($image);
+        $prop = $ref->getProperty('stream');
+        $stream = $prop->getValue($image);
+        fclose($stream);
+
+        $info = $image->__debugInfo();
+        $this->assertEquals('image/png', $info['mediaType']);
+        $this->assertEquals(0, $info['size']);
     }
 }

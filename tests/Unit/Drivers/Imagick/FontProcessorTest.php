@@ -8,6 +8,7 @@ use Intervention\Image\Drivers\Imagick\FontProcessor;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Resource;
 use Intervention\Image\Typography\Font;
 use Intervention\Image\Typography\TextBlock;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -73,6 +74,6 @@ final class FontProcessorTest extends BaseTestCase
 
     private function testFont(): Font
     {
-        return new Font($this->getTestResourcePath('test.ttf'));
+        return new Font(Resource::create('test.ttf')->path());
     }
 }

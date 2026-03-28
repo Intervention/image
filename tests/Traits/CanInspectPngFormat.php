@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Traits;
 
 use Intervention\Image\EncodedImage;
-use Intervention\Image\Traits\CanBuildFilePointer;
+use Intervention\Image\Traits\CanBuildStream;
 
 trait CanInspectPngFormat
 {
-    use CanBuildFilePointer;
+    use CanBuildStream;
 
     /**
      * Checks if the given image data is interlaced encoded PNG format
      */
     private function isInterlacedPng(EncodedImage $image): bool
     {
-        $f = $image->toFilePointer();
+        $f = $image->toStream();
         $contents = fread($f, 32);
         fclose($f);
 

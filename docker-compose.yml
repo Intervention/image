@@ -2,13 +2,13 @@ services:
   tests:
     build: ./
     working_dir: /project
-    entrypoint: ["./vendor/bin/phpunit"]
+    entrypoint: ["/usr/local/bin/entrypoint.sh", "./vendor/bin/phpunit"]
     volumes:
       - ./:/project
   coverage:
     build: ./
     working_dir: /project
-    entrypoint: ["./vendor/bin/phpunit", "--coverage-text"]
+    entrypoint: ["/usr/local/bin/entrypoint.sh", "./vendor/bin/phpunit", "--coverage-text"]
     volumes:
       - ./:/project
     environment:
@@ -16,12 +16,12 @@ services:
   analysis:
     build: ./
     working_dir: /project
-    entrypoint: ["./vendor/bin/phpstan", "analyze", "--memory-limit=512M"]
+    entrypoint: ["/usr/local/bin/entrypoint.sh", "./vendor/bin/phpstan", "analyze", "--memory-limit=512M"]
     volumes:
       - ./:/project
   standards:
     build: ./
     working_dir: /project
-    entrypoint: ["./vendor/bin/phpcs"]
+    entrypoint: ["/usr/local/bin/entrypoint.sh", "./vendor/bin/phpcs"]
     volumes:
       - ./:/project

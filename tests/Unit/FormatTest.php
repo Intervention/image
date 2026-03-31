@@ -205,7 +205,7 @@ final class FormatTest extends BaseTestCase
         $format = Format::JPEG;
         $extensions = $format->fileExtensions();
         $this->assertIsArray($extensions);
-        $this->assertCount(2, $extensions);
+        $this->assertCount(4, $extensions);
 
         $this->assertEquals(FileExtension::JPG, $format->fileExtension());
     }

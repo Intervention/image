@@ -157,10 +157,10 @@ final class MediaTypeTest extends BaseTestCase
 
     public static function fileExtensionsDataProvider(): Generator
     {
-        yield [MediaType::IMAGE_JPEG, 2, FileExtension::JPG];
-        yield [MediaType::IMAGE_JPG, 2, FileExtension::JPG];
-        yield [MediaType::IMAGE_PJPEG, 2, FileExtension::JPG];
-        yield [MediaType::IMAGE_X_JPEG, 2, FileExtension::JPG];
+        yield [MediaType::IMAGE_JPEG, 4, FileExtension::JPG];
+        yield [MediaType::IMAGE_JPG, 4, FileExtension::JPG];
+        yield [MediaType::IMAGE_PJPEG, 4, FileExtension::JPG];
+        yield [MediaType::IMAGE_X_JPEG, 4, FileExtension::JPG];
         yield [MediaType::IMAGE_WEBP, 1, FileExtension::WEBP];
         yield [MediaType::IMAGE_X_WEBP, 1, FileExtension::WEBP];
         yield [MediaType::IMAGE_GIF, 1, FileExtension::GIF];

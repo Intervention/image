@@ -112,7 +112,7 @@ enum FileExtension: string
     }
 
     /**
-     * Return media types for the current format
+     * Return media types for the current file extension.
      *
      * @return array<MediaType>
      */
@@ -122,7 +122,7 @@ enum FileExtension: string
     }
 
     /**
-     * Return the first found media type for the current format
+     * Return the first found media type for the current file extension.
      */
     public function mediaType(): MediaType
     {

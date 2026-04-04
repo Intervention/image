@@ -17,6 +17,8 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Providers\ColorDataProvider;
+use PHPUnit\Framework\Attributes\DataProviderExternal;
 
 #[CoversClass(Color::class)]
 final class ColorTest extends BaseTestCase
@@ -31,6 +33,20 @@ final class ColorTest extends BaseTestCase
     {
         $color = Color::create(10, 20, 30);
         $this->assertInstanceOf(Color::class, $color);
+    }
+
+    /**
+     * @param $input array<string>
+     * @param $channels array<string>
+     */
+    #[DataProviderExternal(ColorDataProvider::class, 'hsvString')]
+    public function testParse(array $input, array $channels): void
+    {
+        $this->assertEquals(
+            $channels,
+            array_map(fn(ColorChannelInterface $channel): int|float =>
+            $channel->value(), Color::parse(...$input)->channels()),
+        );
     }
 
     public function testColorspace(): void

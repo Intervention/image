@@ -9,11 +9,13 @@ use Intervention\Image\Colors\Hsv\Channels\Alpha;
 use Intervention\Image\Colors\Hsv\Channels\Hue;
 use Intervention\Image\Colors\Hsv\Channels\Saturation;
 use Intervention\Image\Colors\Hsv\Channels\Value;
+use Intervention\Image\Colors\Hsv\Decoders\StringColorDecoder;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 
@@ -44,6 +46,26 @@ class Color extends AbstractColor
     public static function create(int|Hue $h, int|Saturation $s, int|Value $v, float|Alpha $a = 1): self
     {
         return new self($h, $s, $v, $a);
+    }
+
+    /**
+     * Parse HSV color from string.
+     */
+    public static function parse(string $input): self
+    {
+        try {
+            $color = InputHandler::usingDecoders([
+                StringColorDecoder::class,
+            ])->handle($input);
+        } catch (NotSupportedException) {
+            throw new NotSupportedException('Unable to parse HSV color from input "' . $input . '"');
+        }
+
+        if (!$color instanceof self) {
+            throw new ColorDecoderException('Result must be instance of ' . self::class);
+        }
+
+        return $color;
     }
 
     /**

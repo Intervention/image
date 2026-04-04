@@ -9,11 +9,13 @@ use Intervention\Image\Colors\Oklab\Channels\A;
 use Intervention\Image\Colors\Oklab\Channels\B;
 use Intervention\Image\Colors\Oklab\Channels\Alpha;
 use Intervention\Image\Colors\Oklab\Channels\Lightness;
+use Intervention\Image\Colors\Oklab\Decoders\StringColorDecoder;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 
@@ -44,6 +46,26 @@ class Color extends AbstractColor
     public static function create(float|Lightness $l, float|A $a, float|B $b, float|Alpha $alpha = 1): self
     {
         return new self($l, $a, $b, $alpha);
+    }
+
+    /**
+     * Parse OKLAB color from string.
+     */
+    public static function parse(string $input): self
+    {
+        try {
+            $color = InputHandler::usingDecoders([
+                StringColorDecoder::class,
+            ])->handle($input);
+        } catch (NotSupportedException) {
+            throw new NotSupportedException('Unable to parse OKLAB color from input "' . $input . '"');
+        }
+
+        if (!$color instanceof self) {
+            throw new ColorDecoderException('Result must be instance of ' . self::class);
+        }
+
+        return $color;
     }
 
     /**

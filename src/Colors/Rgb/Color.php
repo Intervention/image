@@ -5,14 +5,18 @@ declare(strict_types=1);
 namespace Intervention\Image\Colors\Rgb;
 
 use Intervention\Image\Colors\AbstractColor;
+use Intervention\Image\Colors\Rgb\Channels\Alpha;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
-use Intervention\Image\Colors\Rgb\Channels\Alpha;
+use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder;
+use Intervention\Image\Colors\Rgb\Decoders\NamedColorDecoder;
+use Intervention\Image\Colors\Rgb\Decoders\StringColorDecoder;
 use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\InputHandler;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 
@@ -43,6 +47,28 @@ class Color extends AbstractColor
     public static function create(int|Red $r, int|Green $g, int|Blue $b, float|Alpha $a = 1): self
     {
         return new self($r, $g, $b, $a);
+    }
+
+    /**
+     * Parse RGB color from string.
+     */
+    public static function parse(string $input): self
+    {
+        try {
+            $color = InputHandler::usingDecoders([
+                StringColorDecoder::class,
+                NamedColorDecoder::class,
+                HexColorDecoder::class,
+            ])->handle($input);
+        } catch (NotSupportedException) {
+            throw new NotSupportedException('Unable to parse RGB color from input "' . $input . '"');
+        }
+
+        if (!$color instanceof self) {
+            throw new ColorDecoderException('Result must be instance of ' . self::class);
+        }
+
+        return $color;
     }
 
     /**

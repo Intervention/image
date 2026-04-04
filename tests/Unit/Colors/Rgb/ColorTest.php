@@ -18,6 +18,8 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Providers\ColorDataProvider;
+use PHPUnit\Framework\Attributes\DataProviderExternal;
 
 #[CoversClass(Color::class)]
 #[CoversClass(AbstractColor::class)]
@@ -42,6 +44,22 @@ final class ColorTest extends BaseTestCase
                 fn(ColorChannelInterface $channel): int => $channel->value(),
                 $color->channels(),
             ),
+        );
+    }
+
+    /**
+     * @param $input array<string>
+     * @param $channels array<string>
+     */
+    #[DataProviderExternal(ColorDataProvider::class, 'rgbString')]
+    #[DataProviderExternal(ColorDataProvider::class, 'rgbHex')]
+    #[DataProviderExternal(ColorDataProvider::class, 'rgbNamedColor')]
+    public function testParse(array $input, array $channels): void
+    {
+        $this->assertEquals(
+            $channels,
+            array_map(fn(ColorChannelInterface $channel): int|float =>
+            $channel->value(), Color::parse(...$input)->channels()),
         );
     }
 

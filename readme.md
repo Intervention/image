@@ -37,7 +37,6 @@ use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Alignment;
 use Intervention\Image\Color;
 use Intervention\Image\Format;
-use Intervention\Image\Fraction;
 
 // create image manager instance using the preferred driver
 $manager = ImageManager::usingDriver(GdDriver::class);

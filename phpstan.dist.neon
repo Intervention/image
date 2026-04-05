@@ -2,3 +2,6 @@ parameters:
     level: 6
     paths:
         - src
+    exceptions:
+        check:
+            missingCheckedExceptionInThrows: true

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Exceptions\ModifierException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -107,6 +108,11 @@ class InsertModifier extends GenericInsertModifier implements SpecializedInterfa
             imagesy($cut)
         );
 
+        try {
+            $transparency = (int) round(self::convertRange($this->transparency, 0, 1, 0, 100));
+        } catch (RuntimeException $e) {
+            throw new ModifierException('Failed to convert transparency', previous: $e);
+        }
 
         imagecopymerge(
             $frame->native(),
@@ -117,7 +123,7 @@ class InsertModifier extends GenericInsertModifier implements SpecializedInterfa
             0,
             $watermark->width(),
             $watermark->height(),
-            (int) round(self::convertRange($this->transparency, 0, 1, 0, 100)),
+            $transparency,
         );
     }
 }

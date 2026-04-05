@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Geometry;
 
 use ArrayIterator;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Geometry\Factories\RectangleFactory;
 use Intervention\Image\Interfaces\DrawableFactoryInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
@@ -41,9 +42,12 @@ class Rectangle extends Size implements SizeInterface
      * {@inheritdoc}
      *
      * @see DrawableInterface::factory()
+     *
+     * @throws RuntimeException
      */
     public function factory(): DrawableFactoryInterface
     {
+        // @phpstan-ignore missingType.checkedException
         return new RectangleFactory($this);
     }
 
@@ -51,6 +55,8 @@ class Rectangle extends Size implements SizeInterface
      * {@inheritdoc}
      *
      * @see DrawableInterface::adjust()
+     *
+     * @throws RuntimeException
      */
     public function adjust(callable $adjustments): DrawableInterface
     {

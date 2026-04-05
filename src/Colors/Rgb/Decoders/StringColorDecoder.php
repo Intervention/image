@@ -6,6 +6,7 @@ namespace Intervention\Image\Colors\Rgb\Decoders;
 
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Drivers\AbstractDecoder;
+use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
@@ -46,6 +47,7 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
      * Decode rgb color strings.
      *
      * @throws InvalidArgumentException
+     * @throws ColorDecoderException
      */
     public function decode(mixed $input): ColorInterface
     {
@@ -67,6 +69,10 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
             };
         }
 
-        return new Color(...$values);
+        try {
+            return new Color(...$values);
+        } catch (InvalidArgumentException $e) {
+            throw new ColorDecoderException('Failed to decode RGB color string', previous: $e);
+        }
     }
 }

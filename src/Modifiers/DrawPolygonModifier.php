@@ -10,6 +10,9 @@ use Intervention\Image\Interfaces\DrawableInterface;
 
 class DrawPolygonModifier extends AbstractDrawModifier
 {
+    /**
+     * @throws InvalidArgumentException
+     */
     public function __construct(public Polygon $drawable)
     {
         if ($drawable->count() < 3) {

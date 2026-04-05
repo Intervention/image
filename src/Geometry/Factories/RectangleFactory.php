@@ -16,6 +16,8 @@ class RectangleFactory implements DrawableFactoryInterface
 
     /**
      * Create new instance.
+     *
+     * @throws InvalidArgumentException
      */
     public function __construct(null|callable|Rectangle $rectangle = null)
     {
@@ -30,6 +32,8 @@ class RectangleFactory implements DrawableFactoryInterface
      * {@inheritdoc}
      *
      * @see DrawableFactoryInterface::build()
+     *
+     * @throws InvalidArgumentException
      */
     public static function build(null|callable|DrawableInterface $drawable = null): Rectangle
     {

@@ -13,9 +13,8 @@ use Intervention\Image\Colors\Oklch\Color as OklchColor;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Colors\Rgb\NamedColor;
-use Intervention\Image\Exceptions\ColorDecoderException;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
-use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorInterface;
 use TypeError;
 
@@ -38,6 +37,8 @@ class Colorspace extends AbstractColorspace
      * {@inheritdoc}
      *
      * @see ColorspaceInterface::colorFromNormalized()
+     *
+     * @throws InvalidArgumentException
      */
     public static function colorFromNormalized(array $normalized): CmykColor
     {
@@ -69,8 +70,7 @@ class Colorspace extends AbstractColorspace
      *
      * @see ColorspaceInterface::importColor()
      *
-     * @throws NotSupportedException
-     * @throws ColorDecoderException
+     * @throws ColorException
      */
     public function importColor(ColorInterface $color): CmykColor
     {
@@ -82,14 +82,16 @@ class Colorspace extends AbstractColorspace
             HslColor::class => $this->importViaRgbColor($color),
             RgbColor::class => $this->importRgbColor($color),
             CmykColor::class => $color,
-            default => throw new NotSupportedException(
+            default => throw new ColorException(
                 'Unable to import color ' . $color::class . ' to ' . $this::class,
             ),
         };
     }
 
     /**
-     * Import given RGB color to CMYK colorspace
+     * Import given RGB color to CMYK colorspace.
+     *
+     * @throws ColorException
      */
     private function importRgbColor(RgbColor $color): CmykColor
     {
@@ -102,29 +104,34 @@ class Colorspace extends AbstractColorspace
         $m = intval(round($m - $k));
         $y = intval(round($y - $k));
 
-        return new CmykColor($c, $m, $y, $k, $color->alpha()->normalized());
+        try {
+            return new CmykColor($c, $m, $y, $k, $color->alpha()->normalized());
+        } catch (InvalidArgumentException $e) {
+            throw new ColorException(
+                'Failed to import color ' . $color::class . ' to ' . $this::class,
+                previous: $e,
+            );
+        }
     }
 
     /**
-     * Import given color to CMYK colorspace by converting it to RGB first
+     * Import given color to CMYK colorspace by converting it to RGB first.
      *
-     * @throws ColorDecoderException
+     * @throws ColorException
      */
     private function importViaRgbColor(NamedColor|OklabColor|OklchColor|HslColor|HsvColor $color): CmykColor
     {
         try {
             $color = $color->toColorspace(RgbColorspace::class);
-        } catch (InvalidArgumentException | NotSupportedException $e) {
-            throw new ColorDecoderException(
-                'Failed to transform color to CMYK color space',
-                previous: $e
+        } catch (InvalidArgumentException $e) {
+            throw new ColorException(
+                'Failed to import color ' . $color::class . ' to ' . $this::class,
+                previous: $e,
             );
         }
 
         if (!$color instanceof RgbColor) {
-            throw new ColorDecoderException(
-                'Failed to transform color to CMYK color space',
-            );
+            throw new ColorException('Failed to import color ' . $color::class . ' to ' . $this::class);
         }
 
         return $this->importRgbColor($color);

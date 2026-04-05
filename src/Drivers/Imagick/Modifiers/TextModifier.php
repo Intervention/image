@@ -10,6 +10,7 @@ use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\ImageException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\ModifierException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\FontInterface;
@@ -31,6 +32,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
      * @throws StateException
      * @throws DriverException
      * @throws ModifierException
+     * @throws RuntimeException
      */
     public function apply(ImageInterface $image): ImageInterface
     {
@@ -58,6 +60,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
      *
      * @throws StateException
      * @throws DriverException
+     * @throws RuntimeException
      */
     private function imagickDrawText(ImageInterface $image, FontInterface $font): ImagickDraw
     {
@@ -79,6 +82,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
      *
      * @throws StateException
      * @throws DriverException
+     * @throws RuntimeException
      */
     private function imagickDrawStroke(ImageInterface $image, FontInterface $font): ?ImagickDraw
     {

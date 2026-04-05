@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
+use ImagickDrawException;
 use ImagickException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\StateException;
@@ -26,7 +27,7 @@ class DrawPixelModifier extends GenericDrawPixelModifier implements SpecializedI
             $pixel = new ImagickDraw();
             $pixel->setFillColor($color);
             $pixel->point($this->position->x(), $this->position->y());
-        } catch (ImagickException $e) {
+        } catch (ImagickException | ImagickDrawException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to build ImagickDraw object',
                 previous: $e
@@ -41,7 +42,7 @@ class DrawPixelModifier extends GenericDrawPixelModifier implements SpecializedI
                         'Failed to apply ' . self::class . ', unable to draw pixel on image',
                     );
                 }
-            } catch (ImagickException $e) {
+            } catch (ImagickException | ImagickDrawException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to draw pixel on image',
                     previous: $e

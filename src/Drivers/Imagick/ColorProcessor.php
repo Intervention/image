@@ -7,6 +7,7 @@ namespace Intervention\Image\Drivers\Imagick;
 use Imagick;
 use ImagickException;
 use ImagickPixel;
+use ImagickPixelException;
 use Intervention\Image\Colors\Cmyk\Channels\Cyan;
 use Intervention\Image\Colors\Cmyk\Channels\Key;
 use Intervention\Image\Colors\Cmyk\Channels\Magenta;
@@ -62,7 +63,7 @@ class ColorProcessor implements ColorProcessorInterface
                 $pixel->setColorValue(Imagick::COLOR_MAGENTA, $color->channel(Magenta::class)->normalized());
                 $pixel->setColorValue(Imagick::COLOR_YELLOW, $color->channel(Yellow::class)->normalized());
                 $pixel->setColorValue(Imagick::COLOR_BLACK, $color->channel(Key::class)->normalized());
-            } catch (ImagickException $e) {
+            } catch (ImagickException | ImagickPixelException $e) {
                 throw new DriverException('Failed to create CMYK color', previous: $e);
             }
 
@@ -81,57 +82,71 @@ class ColorProcessor implements ColorProcessorInterface
                     $color->channel(Alpha::class)->toString(),
                 )
             );
-        } catch (ImagickException $e) {
+        } catch (ImagickException | ImagickPixelException $e) {
             throw new DriverException('Failed to create color', previous: $e);
         }
     }
 
     /**
      * @throws InvalidArgumentException
+     * @throws DriverException
      * @throws NotSupportedException
      */
     public function import(mixed $color): ColorInterface
     {
-        return match ($this->colorspace::class) {
-            Cmyk::class => $this->colorspace->colorFromNormalized([
-                $color->getColorValue(Imagick::COLOR_CYAN),
-                $color->getColorValue(Imagick::COLOR_MAGENTA),
-                $color->getColorValue(Imagick::COLOR_YELLOW),
-                $color->getColorValue(Imagick::COLOR_BLACK),
-            ]),
-            Rgb::class => $this->colorspace->colorFromNormalized([
-                $color->getColorValue(Imagick::COLOR_RED),
-                $color->getColorValue(Imagick::COLOR_GREEN),
-                $color->getColorValue(Imagick::COLOR_BLUE),
-                $color->getColorValue(Imagick::COLOR_ALPHA),
-            ]),
-            Hsl::class => Rgb::class::colorFromNormalized([
-                $color->getColorValue(Imagick::COLOR_RED),
-                $color->getColorValue(Imagick::COLOR_GREEN),
-                $color->getColorValue(Imagick::COLOR_BLUE),
-                $color->getColorValue(Imagick::COLOR_ALPHA),
-            ])->toColorspace(Hsl::class),
-            Hsv::class => Rgb::colorFromNormalized([
-                $color->getColorValue(Imagick::COLOR_RED),
-                $color->getColorValue(Imagick::COLOR_GREEN),
-                $color->getColorValue(Imagick::COLOR_BLUE),
-                $color->getColorValue(Imagick::COLOR_ALPHA),
-            ])->toColorspace(Hsv::class),
-            Oklab::class => Rgb::colorFromNormalized([
-                $color->getColorValue(Imagick::COLOR_RED),
-                $color->getColorValue(Imagick::COLOR_GREEN),
-                $color->getColorValue(Imagick::COLOR_BLUE),
-                $color->getColorValue(Imagick::COLOR_ALPHA),
-            ])->toColorspace(Oklab::class),
-            Oklch::class => Rgb::colorFromNormalized([
-                $color->getColorValue(Imagick::COLOR_RED),
-                $color->getColorValue(Imagick::COLOR_GREEN),
-                $color->getColorValue(Imagick::COLOR_BLUE),
-                $color->getColorValue(Imagick::COLOR_ALPHA),
-            ])->toColorspace(Oklch::class),
-            default => throw new NotSupportedException(
-                'Colorspace ' . $this->colorspace::class . ' is not supported by driver'
-            )
-        };
+        if (!$color instanceof ImagickPixel) {
+            throw new InvalidArgumentException(
+                'Imagick driver can only process colors from instances of ' . ImagickPixel::class,
+            );
+        }
+
+        try {
+            return match ($this->colorspace::class) {
+                Cmyk::class => $this->colorspace->colorFromNormalized([
+                    $color->getColorValue(Imagick::COLOR_CYAN),
+                    $color->getColorValue(Imagick::COLOR_MAGENTA),
+                    $color->getColorValue(Imagick::COLOR_YELLOW),
+                    $color->getColorValue(Imagick::COLOR_BLACK),
+                ]),
+                Rgb::class => $this->colorspace->colorFromNormalized([
+                    $color->getColorValue(Imagick::COLOR_RED),
+                    $color->getColorValue(Imagick::COLOR_GREEN),
+                    $color->getColorValue(Imagick::COLOR_BLUE),
+                    $color->getColorValue(Imagick::COLOR_ALPHA),
+                ]),
+                Hsl::class => Rgb::class::colorFromNormalized([
+                    $color->getColorValue(Imagick::COLOR_RED),
+                    $color->getColorValue(Imagick::COLOR_GREEN),
+                    $color->getColorValue(Imagick::COLOR_BLUE),
+                    $color->getColorValue(Imagick::COLOR_ALPHA),
+                ])->toColorspace(Hsl::class),
+                Hsv::class => Rgb::colorFromNormalized([
+                    $color->getColorValue(Imagick::COLOR_RED),
+                    $color->getColorValue(Imagick::COLOR_GREEN),
+                    $color->getColorValue(Imagick::COLOR_BLUE),
+                    $color->getColorValue(Imagick::COLOR_ALPHA),
+                ])->toColorspace(Hsv::class),
+                Oklab::class => Rgb::colorFromNormalized([
+                    $color->getColorValue(Imagick::COLOR_RED),
+                    $color->getColorValue(Imagick::COLOR_GREEN),
+                    $color->getColorValue(Imagick::COLOR_BLUE),
+                    $color->getColorValue(Imagick::COLOR_ALPHA),
+                ])->toColorspace(Oklab::class),
+                Oklch::class => Rgb::colorFromNormalized([
+                    $color->getColorValue(Imagick::COLOR_RED),
+                    $color->getColorValue(Imagick::COLOR_GREEN),
+                    $color->getColorValue(Imagick::COLOR_BLUE),
+                    $color->getColorValue(Imagick::COLOR_ALPHA),
+                ])->toColorspace(Oklch::class),
+                default => throw new NotSupportedException(
+                    'Colorspace ' . $this->colorspace::class . ' is not supported by driver'
+                )
+            };
+        } catch (ImagickPixelException $e) {
+            throw new DriverException(
+                'Failed to import color from ' . ImagickPixel::class,
+                previous: $e,
+            );
+        }
     }
 }

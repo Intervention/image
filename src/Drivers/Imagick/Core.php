@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick;
 
+use Exception;
 use Imagick;
 use ImagickException;
 use Intervention\Image\Collection;
@@ -11,6 +12,7 @@ use Intervention\Image\Exceptions\DriverException;
 use Iterator;
 use Intervention\Image\Interfaces\CoreInterface;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\FrameInterface;
@@ -61,6 +63,8 @@ class Core implements CoreInterface, Iterator
      * {@inheritdoc}
      *
      * @see CoreInterface::map()
+     *
+     * @throws Exception
      */
     public function map(callable $callback): CoreInterface
     {
@@ -71,6 +75,8 @@ class Core implements CoreInterface, Iterator
      * {@inheritdoc}
      *
      * @see CoreInterface::filter()
+     *
+     * @throws Exception
      */
     public function filter(callable $callback): CoreInterface
     {
@@ -94,7 +100,7 @@ class Core implements CoreInterface, Iterator
 
         try {
             return new Frame($this->imagick->current());
-        } catch (ImagickException $e) {
+        } catch (ImagickException | RuntimeException $e) {
             throw new DriverException('Failed to get current frame data', previous: $e);
         }
     }
@@ -150,7 +156,12 @@ class Core implements CoreInterface, Iterator
             $allowedIndexes[] = $i;
         }
 
-        $sliced = new Imagick();
+        try {
+            $sliced = new Imagick();
+        } catch (ImagickException $e) {
+            throw new DriverException('Failed to slice image', previous: $e);
+        }
+
         foreach ($this->imagick as $key => $native) {
             if (in_array($key, $allowedIndexes)) {
                 try {
@@ -236,7 +247,7 @@ class Core implements CoreInterface, Iterator
             $this->imagick->setIteratorIndex($this->iteratorIndex);
 
             return new Frame($this->imagick->current());
-        } catch (ImagickException $e) {
+        } catch (ImagickException | RuntimeException $e) {
             throw new DriverException('Failed to iterate image frames', previous: $e);
         }
     }
@@ -301,9 +312,15 @@ class Core implements CoreInterface, Iterator
      * {@inheritdoc}
      *
      * @see CoreInterface::setNative()
+     *
+     * @throws InvalidArgumentException
      */
     public function setNative(mixed $native): CoreInterface
     {
+        if (!$native instanceof Imagick) {
+            throw new InvalidArgumentException('Argument $native must be of type ' . Imagick::class);
+        }
+
         $this->imagick = $native;
 
         return $this;
@@ -324,7 +341,7 @@ class Core implements CoreInterface, Iterator
                 if ($core->getIteratorIndex() === $position) {
                     return new Frame($core);
                 }
-            } catch (ImagickException $e) {
+            } catch (ImagickException | RuntimeException $e) {
                 throw new DriverException('Failed to load image frame a position ' . $position, previous: $e);
             }
         }

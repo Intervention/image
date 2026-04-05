@@ -63,9 +63,13 @@ class FilePathImageDecoder extends NativeObjectDecoder
         // set file path on origin
         $image->origin()->setFilePath($path);
 
-        // extract exif data for the appropriate formats
-        if (in_array($imagick->getImageFormat(), ['JPEG', 'TIFF', 'TIF'])) {
-            $image->setExif($this->extractExifData($path));
+        try {
+            // extract exif data for the appropriate formats
+            if (in_array($imagick->getImageFormat(), ['JPEG', 'TIFF', 'TIF'])) {
+                $image->setExif($this->extractExifData($path));
+            }
+        } catch (ImagickException $e) {
+            throw new ImageDecoderException('Failed to retrieve image format', previous: $e);
         }
 
         return $image;

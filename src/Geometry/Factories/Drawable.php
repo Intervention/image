@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Geometry\Factories;
 
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Bezier;
 use Intervention\Image\Geometry\Circle;
 use Intervention\Image\Geometry\Ellipse;
@@ -15,6 +16,8 @@ class Drawable
 {
     /**
      * Create Bezier statically.
+     *
+     * @throws InvalidArgumentException
      */
     public static function bezier(null|callable|Bezier $bezier = null): Bezier
     {
@@ -23,6 +26,8 @@ class Drawable
 
     /**
      * Create Circle statically.
+     *
+     * @throws InvalidArgumentException
      */
     public static function circle(null|callable|Circle $circle = null): Circle
     {
@@ -31,6 +36,8 @@ class Drawable
 
     /**
      * Create Ellipse statically.
+     *
+     * @throws InvalidArgumentException
      */
     public static function ellipse(null|callable|Ellipse $ellipse = null): Ellipse
     {
@@ -39,6 +46,8 @@ class Drawable
 
     /**
      * Create Line statically.
+     *
+     * @throws InvalidArgumentException
      */
     public static function line(null|callable|Line $line = null): Line
     {
@@ -47,6 +56,8 @@ class Drawable
 
     /**
      * Create Polygon statically.
+     *
+     * @throws InvalidArgumentException
      */
     public static function polygon(null|callable|Polygon $polygon = null): Polygon
     {
@@ -55,6 +66,8 @@ class Drawable
 
     /**
      * Create Rectangle statically.
+     *
+     * @throws InvalidArgumentException
      */
     public static function rectangle(null|callable|Rectangle $rectangle = null): Rectangle
     {

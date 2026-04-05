@@ -9,6 +9,9 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 
 class SharpenModifier extends SpecializableModifier
 {
+    /**
+     * @throws InvalidArgumentException
+     */
     public function __construct(public int $level)
     {
         if ($this->level < 0) {

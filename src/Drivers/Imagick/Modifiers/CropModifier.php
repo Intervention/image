@@ -7,6 +7,7 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use Imagick;
 use ImagickException;
 use ImagickPixel;
+use ImagickPixelException;
 use Intervention\Image\Colors\Cmyk\Colorspace as Cmyk;
 use Intervention\Image\Colors\Hsl\Colorspace as Hsl;
 use Intervention\Image\Colors\Hsv\Colorspace as Hsv;
@@ -31,8 +32,15 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
             $this->backgroundColor()
         );
 
-        // create empty container imagick to rebuild core
-        $imagick = new Imagick();
+        try {
+            // create empty container imagick to rebuild core
+            $imagick = new Imagick();
+        } catch (ImagickException $e) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to create new imagick instance',
+                previous: $e
+            );
+        }
 
         // save resolution to add it later
         $resolution = $image->resolution()->perInch();
@@ -98,7 +106,7 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
 
                 // add newly built frame to container imagick
                 $imagick->addImage($canvas);
-            } catch (ImagickException $e) {
+            } catch (ImagickException | ImagickPixelException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to clear transparent areas',
                     previous: $e

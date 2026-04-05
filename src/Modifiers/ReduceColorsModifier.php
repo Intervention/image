@@ -14,6 +14,8 @@ class ReduceColorsModifier extends SpecializableModifier
 {
     /**
      * Create new modifier object.
+     *
+     * @throws InvalidArgumentException
      */
     public function __construct(
         public int $limit,

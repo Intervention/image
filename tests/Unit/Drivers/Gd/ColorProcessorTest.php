@@ -10,7 +10,7 @@ use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Drivers\Gd\ColorProcessor;
-use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
@@ -58,7 +58,7 @@ final class ColorProcessorTest extends BaseTestCase
     public function testImportInvalid(): void
     {
         $processor = new ColorProcessor();
-        $this->expectException(DriverException::class);
+        $this->expectException(InvalidArgumentException::class);
         $processor->import('test');
     }
 }

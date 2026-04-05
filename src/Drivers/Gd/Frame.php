@@ -44,9 +44,17 @@ class Frame extends AbstractFrame implements FrameInterface
      * {@inheritdoc}
      *
      * @see FrameInterface::setNative()
+     *
+     * @throws InvalidArgumentException
      */
     public function setNative(mixed $native): FrameInterface
     {
+        if (!$native instanceof GdImage) {
+            throw new InvalidArgumentException(
+                'Value for argument setNative() "$native" must be instanceof of ' . GdImage::class,
+            );
+        }
+
         $this->native = $native;
 
         return $this;

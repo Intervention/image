@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
+use ImagickDrawException;
 use ImagickException;
 use ImagickPixel;
+use ImagickPixelException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\StateException;
@@ -25,7 +27,15 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
     {
         $crop = $this->cropSize($image);
         $resize = $this->resizeSize($image);
-        $transparent = new ImagickPixel('transparent');
+
+        try {
+            $transparent = new ImagickPixel('transparent');
+        } catch (ImagickPixelException $e) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to create ImagickPixel',
+                previous: $e,
+            );
+        }
 
         $background = $this->driver()
             ->colorProcessor($image)
@@ -78,7 +88,7 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
                         'Failed to apply ' . self::class . ', unable to resize image',
                     );
                 }
-            } catch (ImagickException $e) {
+            } catch (ImagickException | ImagickDrawException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to resize image',
                     previous: $e
@@ -87,35 +97,35 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
 
             if ($resize->width() > $crop->width()) {
                 // fill new emerged background
-                $draw = new ImagickDraw();
-                $draw->setFillColor($background);
+                try {
+                    $draw = new ImagickDraw();
+                    $draw->setFillColor($background);
 
-                $delta = abs($crop->pivot()->x());
+                    $delta = abs($crop->pivot()->x());
 
-                if ($delta > 0) {
+                    if ($delta > 0) {
+                        $draw->rectangle(
+                            0,
+                            0,
+                            $delta - 1,
+                            $resize->height()
+                        );
+                    }
+
                     $draw->rectangle(
+                        $crop->width() + $delta,
                         0,
-                        0,
-                        $delta - 1,
+                        $resize->width(),
                         $resize->height()
                     );
-                }
 
-                $draw->rectangle(
-                    $crop->width() + $delta,
-                    0,
-                    $resize->width(),
-                    $resize->height()
-                );
-
-                try {
                     $result = $frame->native()->drawImage($draw);
                     if ($result === false) {
                         throw new ModifierException(
                             'Failed to apply ' . self::class . ', unable fill new image areas with replacement color',
                         );
                     }
-                } catch (ImagickException $e) {
+                } catch (ImagickException | ImagickDrawException $e) {
                     throw new ModifierException(
                         'Failed to apply ' . self::class . ', unable fill new image areas with replacement color',
                         previous: $e
@@ -125,35 +135,35 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
 
             if ($resize->height() > $crop->height()) {
                 // fill new emerged background
-                $draw = new ImagickDraw();
-                $draw->setFillColor($background);
+                try {
+                    $draw = new ImagickDraw();
+                    $draw->setFillColor($background);
 
-                $delta = abs($crop->pivot()->y());
+                    $delta = abs($crop->pivot()->y());
 
-                if ($delta > 0) {
+                    if ($delta > 0) {
+                        $draw->rectangle(
+                            0,
+                            0,
+                            $resize->width(),
+                            $delta - 1
+                        );
+                    }
+
                     $draw->rectangle(
                         0,
-                        0,
+                        $crop->height() + $delta,
                         $resize->width(),
-                        $delta - 1
+                        $resize->height()
                     );
-                }
 
-                $draw->rectangle(
-                    0,
-                    $crop->height() + $delta,
-                    $resize->width(),
-                    $resize->height()
-                );
-
-                try {
                     $result = $frame->native()->drawImage($draw);
                     if ($result === false) {
                         throw new ModifierException(
                             'Failed to apply ' . self::class . ', unable fill new image areas with replacement color',
                         );
                     }
-                } catch (ImagickException $e) {
+                } catch (ImagickException | ImagickDrawException $e) {
                     throw new ModifierException(
                         'Failed to apply ' . self::class . ', unable fill new image areas with replacement color',
                         previous: $e

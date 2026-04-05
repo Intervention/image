@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Intervention\Image;
 
 use ArrayIterator;
+use DivisionByZeroError;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Geometry\Tools\Resizer;
 use Intervention\Image\Interfaces\PointInterface;
@@ -213,10 +215,16 @@ class Size extends Polygon implements SizeInterface
      * {@inheritdoc}
      *
      * @see SizeInterface::aspectRatio()
+     *
+     * @throws RuntimeException
      */
     public function aspectRatio(): float
     {
-        return $this->width() / $this->height();
+        try {
+            return $this->width() / $this->height();
+        } catch (DivisionByZeroError) {
+            throw new RuntimeException('Division by zero');
+        }
     }
 
     /**

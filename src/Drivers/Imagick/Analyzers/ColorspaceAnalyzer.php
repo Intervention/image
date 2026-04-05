@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Analyzers;
 
+use Error;
 use Imagick;
 use Intervention\Image\Analyzers\ColorspaceAnalyzer as GenericColorspaceAnalyzer;
 use Intervention\Image\Colors\Cmyk\Colorspace as Cmyk;
@@ -23,14 +24,18 @@ class ColorspaceAnalyzer extends GenericColorspaceAnalyzer implements Specialize
      */
     public function analyze(ImageInterface $image): mixed
     {
-        return match ($image->core()->native()->getImageColorspace()) {
-            Imagick::COLORSPACE_CMYK => new Cmyk(),
-            Imagick::COLORSPACE_SRGB, Imagick::COLORSPACE_RGB => new Rgb(),
-            Imagick::COLORSPACE_HSL => new Hsl(),
-            Imagick::COLORSPACE_HSB => new Hsv(),
-            constant(Imagick::class . '::COLORSPACE_OKLAB') => new Oklab(),
-            constant(Imagick::class . '::COLORSPACE_OKLCH') => new Oklch(),
-            default => throw new AnalyzerException('Failed to analyze unknown colorspace'),
-        };
+        try {
+            return match ($image->core()->native()->getImageColorspace()) {
+                Imagick::COLORSPACE_CMYK => new Cmyk(),
+                Imagick::COLORSPACE_SRGB, Imagick::COLORSPACE_RGB => new Rgb(),
+                Imagick::COLORSPACE_HSL => new Hsl(),
+                Imagick::COLORSPACE_HSB => new Hsv(),
+                constant(Imagick::class . '::COLORSPACE_OKLAB') => new Oklab(),
+                constant(Imagick::class . '::COLORSPACE_OKLCH') => new Oklch(),
+                default => throw new AnalyzerException('Failed to analyze unknown colorspace'),
+            };
+        } catch (Error $e) {
+            throw new AnalyzerException('Failed to analyze colorspace', previous: $e);
+        }
     }
 }

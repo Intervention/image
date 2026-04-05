@@ -157,6 +157,10 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
 
             $values = array_map(fn(string $value): int => intval($value), explode('/', $value));
 
+            if ($values[1] === 0) {
+                throw new AnalyzerException('Unable to read exif data, division by zero');
+            }
+
             return $values[0] / $values[1];
         }, $resolution);
     }

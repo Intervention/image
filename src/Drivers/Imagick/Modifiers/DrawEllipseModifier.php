@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
+use ImagickDrawException;
 use ImagickException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\StateException;
@@ -30,7 +31,7 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
                         'Failed to apply ' . self::class . ', unable to draw ellipse on image',
                     );
                 }
-            } catch (ImagickException $e) {
+            } catch (ImagickException | ImagickDrawException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to draw ellipse on image',
                     previous: $e
@@ -75,7 +76,7 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
                 0,
                 360
             );
-        } catch (ImagickException $e) {
+        } catch (ImagickException | ImagickDrawException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to build ImagickDraw object',
                 previous: $e

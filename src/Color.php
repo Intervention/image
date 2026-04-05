@@ -45,17 +45,21 @@ use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder as RgbHexColorDecoder;
 use Intervention\Image\Colors\Rgb\Decoders\NamedColorDecoder;
 use Intervention\Image\Colors\Rgb\Decoders\StringColorDecoder as RgbStringColorDecoder;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\NotSupportedException;
 
 class Color
 {
     /**
      * Parse color from string value.
+     *
+     * @throws InvalidArgumentException
+     * @throws ColorException
      */
     public static function parse(string $input): ColorInterface
     {
         try {
-            return InputHandler::usingDecoders([
+            $color = InputHandler::usingDecoders([
                 RgbStringColorDecoder::class,
                 CmykStringColorDecoder::class,
                 HsvStringColorDecoder::class,
@@ -65,9 +69,18 @@ class Color
                 NamedColorDecoder::class,
                 RgbHexColorDecoder::class,
             ])->handle($input);
-        } catch (NotSupportedException) {
-            throw new NotSupportedException('Unable to parse color from input "' . $input . '"');
+        } catch (NotSupportedException | DriverException $e) {
+            throw new InvalidArgumentException(
+                'Unable to parse RGB color from input "' . $input . '"',
+                previous: $e,
+            );
         }
+
+        if (!$color instanceof ColorInterface) {
+            throw new ColorException('Result must be instance of ' . self::class . ', got ' . $color::class);
+        }
+
+        return $color;
     }
 
     /**
@@ -154,6 +167,7 @@ class Color
      */
     public static function transparent(): ColorInterface
     {
+        // @phpstan-ignore missingType.checkedException
         return new RgbColor(255, 255, 255, 0);
     }
 }

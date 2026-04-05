@@ -28,6 +28,8 @@ class ImageManager implements ImageManagerInterface
      * Create new image manager instance.
      *
      * @link https://image.intervention.io/v4/basics/configuration-drivers#create-a-new-image-manager-instance
+     *
+     * @throws InvalidArgumentException
      */
     public function __construct(string|DriverInterface $driver, mixed ...$options)
     {
@@ -38,6 +40,8 @@ class ImageManager implements ImageManagerInterface
      * {@inheritdoc}
      *
      * @see ImageManagerInterface::usingDriver()
+     *
+     * @throws InvalidArgumentException
      */
     public static function usingDriver(string|DriverInterface $driver, mixed ...$options): ImageManagerInterface
     {
@@ -140,6 +144,8 @@ class ImageManager implements ImageManagerInterface
 
     /**
      * Resolve given string or driver to a driver instance with given options.
+     *
+     * @throws InvalidArgumentException
      */
     private static function resolveDriver(string|DriverInterface $driver, mixed ...$options): DriverInterface
     {

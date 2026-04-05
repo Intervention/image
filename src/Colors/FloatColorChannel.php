@@ -13,7 +13,7 @@ abstract class FloatColorChannel extends AbstractColorChannel
      */
     final public function __construct(float $value)
     {
-        $this->value = $this->validValueOrFail($value);
+        $this->value = (float) $this->validValueOrFail($value);
     }
 
     /**
@@ -41,6 +41,6 @@ abstract class FloatColorChannel extends AbstractColorChannel
      */
     public function value(): float
     {
-        return $this->value;
+        return (float) $this->value;
     }
 }

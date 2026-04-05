@@ -45,11 +45,11 @@ class TextBlock extends Collection
      */
     public function line(string|int|float $key): ?Line
     {
-        if (!array_key_exists($key, $this->lines())) {
+        if (!array_key_exists((string) $key, $this->lines())) {
             return null;
         }
 
-        return $this->lines()[$key];
+        return $this->lines()[(string) $key];
     }
 
     /**

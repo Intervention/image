@@ -13,7 +13,6 @@ use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Drivers\SpecializableModifier;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorspaceInterface;
-use TypeError;
 
 class ColorspaceModifier extends SpecializableModifier
 {
@@ -34,13 +33,15 @@ class ColorspaceModifier extends SpecializableModifier
         }
 
         if (class_exists($this->target)) {
-            try {
-                return new $this->target();
-            } catch (TypeError) {
+            $colorspace = new $this->target();
+
+            if (!$colorspace instanceof ColorspaceInterface) {
                 throw new NotSupportedException(
                     'Target colorspace "' . $this->target . '" is not supported by driver'
                 );
             }
+
+            return $colorspace;
         }
 
         return match (strtolower($this->target)) {

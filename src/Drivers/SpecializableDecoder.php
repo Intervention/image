@@ -6,11 +6,12 @@ namespace Intervention\Image\Drivers;
 
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializableInterface;
 use Intervention\Image\Traits\CanBeDriverSpecialized;
 
-abstract class SpecializableDecoder extends AbstractDecoder implements SpecializableInterface
+abstract class SpecializableDecoder extends AbstractDecoder implements DecoderInterface, SpecializableInterface
 {
     use CanBeDriverSpecialized;
 

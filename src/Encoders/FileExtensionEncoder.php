@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Encoders;
 
 use Error;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Interfaces\EncodedImageInterface;
@@ -36,6 +37,7 @@ class FileExtensionEncoder extends AutoEncoder
      * @see EncoderInterface::encode()
      *
      * @throws NotSupportedException
+     * @throws InvalidArgumentException
      */
     public function encode(ImageInterface $image): EncodedImageInterface
     {
@@ -55,12 +57,13 @@ class FileExtensionEncoder extends AutoEncoder
     /**
      * Create matching encoder for given file extension
      *
+     * @throws InvalidArgumentException
      * @throws NotSupportedException
      */
     protected function encoderByFileExtension(string|FileExtension $extension): EncoderInterface
     {
         if ($extension === '') {
-            throw new NotSupportedException('Unable to find encoder for empty file extension');
+            throw new InvalidArgumentException('Argument $extension must not be an empty string');
         }
 
         try {

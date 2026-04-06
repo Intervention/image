@@ -18,6 +18,7 @@ use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Image;
 use Intervention\Image\Colors\Profile;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -597,6 +598,13 @@ final class ImageTest extends BaseTestCase
                 unlink($path);
             }
         }
+    }
+
+    public function testSaveWithEmptyString(): void
+    {
+        $image = $this->createImage();
+        $this->expectException(InvalidArgumentException::class);
+        $image->save('');
     }
 
     public function testSaveWithoutPathAndNoOrigin(): void

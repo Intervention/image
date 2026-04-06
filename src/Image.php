@@ -299,6 +299,10 @@ final class Image implements ImageInterface
      */
     public function save(?string $path = null, mixed ...$options): ImageInterface
     {
+        if ($path === '') {
+            throw new InvalidArgumentException('Argument $path must not be an empty string');
+        }
+
         if (is_null($path) && is_null($this->origin()->filePath())) {
             throw new EncoderException('Unable to determine path for saving');
         }

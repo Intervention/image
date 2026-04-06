@@ -9,6 +9,7 @@ use ArrayIterator;
 use Countable;
 use Intervention\Image\Alignment;
 use Intervention\Image\Colors\AbstractColor;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Factories\PolygonFactory;
 use Traversable;
 use IteratorAggregate;
@@ -260,6 +261,8 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
 
     /**
      * Align all points of the polygon horizontally to given position around pivot point.
+     *
+     * @throws InvalidArgumentException
      */
     public function alignHorizontally(string|Alignment $position): self
     {
@@ -283,6 +286,8 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
 
     /**
      * Align all points of the polygon vertically to given position around pivot point.
+     *
+     * @throws InvalidArgumentException
      */
     public function alignVertically(string|Alignment $position): self
     {

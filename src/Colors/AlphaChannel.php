@@ -19,7 +19,7 @@ class AlphaChannel extends AbstractColorChannel
             );
         }
 
-        $this->value = $this->validValueOrFail(intval(round($value * $this->max())));
+        $this->value = (int) $this->validValueOrFail(intval(round($value * $this->max())));
     }
 
     /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
+use DivisionByZeroError;
 use ImagickException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\FrameInterface;
@@ -47,6 +48,11 @@ class PixelateModifier extends GenericPixelateModifier implements SpecializedInt
                 );
             }
         } catch (ImagickException $e) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to pixelate image',
+                previous: $e
+            );
+        } catch (DivisionByZeroError $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to pixelate image',
                 previous: $e

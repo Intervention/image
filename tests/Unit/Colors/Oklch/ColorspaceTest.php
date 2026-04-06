@@ -17,8 +17,8 @@ use Intervention\Image\Colors\Oklch\Channels\Lightness;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Oklch\Colorspace;
 use Intervention\Image\Colors\Rgb\NamedColor;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
-use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
@@ -133,7 +133,7 @@ final class ColorspaceTest extends BaseTestCase
 
     public function testImportUnsupportedColor(): void
     {
-        $this->expectException(NotSupportedException::class);
+        $this->expectException(ColorException::class);
         $colorspace = new Colorspace();
         $colorspace->importColor(Mockery::mock(ColorInterface::class));
     }

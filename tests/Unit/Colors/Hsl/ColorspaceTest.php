@@ -17,8 +17,8 @@ use Intervention\Image\Colors\Hsv\Color as HsvColor;
 use Intervention\Image\Colors\Hsl\Colorspace;
 use Intervention\Image\Colors\Hsl\Channels\Alpha;
 use Intervention\Image\Colors\Rgb\NamedColor;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
-use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
 
@@ -161,7 +161,7 @@ final class ColorspaceTest extends BaseTestCase
     {
         $colorspace = new Colorspace();
         $color = Mockery::mock(\Intervention\Image\Interfaces\ColorInterface::class);
-        $this->expectException(NotSupportedException::class);
+        $this->expectException(ColorException::class);
         $colorspace->importColor($color);
     }
 

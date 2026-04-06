@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Encoders;
 
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\EncodedImageInterface;
@@ -26,6 +27,7 @@ class FilePathEncoder extends FileExtensionEncoder
      *
      * @see EncoderInterface::encode()
      *
+     * @throws InvalidArgumentException
      * @throws NotSupportedException
      */
     public function encode(ImageInterface $image): EncodedImageInterface
@@ -35,8 +37,8 @@ class FilePathEncoder extends FileExtensionEncoder
             pathinfo($this->path, PATHINFO_EXTENSION);
 
         if ($extension === null) {
-            throw new NotSupportedException(
-                'Unable to find encoder by extension of file path "' . $this->path . '"',
+            throw new InvalidArgumentException(
+                'Unable to extract file extension from path "' . $this->path . '"',
             );
         }
 

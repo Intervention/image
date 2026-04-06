@@ -193,6 +193,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::removeAnimation()
+     *
+     * @throws InvalidArgumentException
      */
     public function removeAnimation(int|string $position = 0): ImageInterface
     {
@@ -203,6 +205,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::sliceAnimation()
+     *
+     * @throws InvalidArgumentException
      */
     public function sliceAnimation(int $offset = 0, ?int $length = null): ImageInterface
     {
@@ -455,6 +459,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::reduceColors()
+     *
+     * @throws InvalidArgumentException
      */
     public function reduceColors(int $limit, null|string|ColorInterface $background = null): ImageInterface
     {
@@ -465,6 +471,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::sharpen()
+     *
+     * @throws InvalidArgumentException
      */
     public function sharpen(int $level = 10): ImageInterface
     {
@@ -485,6 +493,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::pixelate()
+     *
+     * @throws InvalidArgumentException
      */
     public function pixelate(int $size): ImageInterface
     {
@@ -555,6 +565,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::blur()
+     *
+     * @throws InvalidArgumentException
      */
     public function blur(int $level = 5): ImageInterface
     {
@@ -799,6 +811,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::trim()
+     *
+     * @throws InvalidArgumentException
      */
     public function trim(int $tolerance = 0): ImageInterface
     {
@@ -809,6 +823,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::insert()
+     *
+     * @throws InvalidArgumentException
      */
     public function insert(
         mixed $image,
@@ -903,6 +919,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::drawPolygon()
+     *
+     * @throws InvalidArgumentException
      */
     public function drawPolygon(callable|Polygon $polygon): ImageInterface
     {
@@ -945,6 +963,9 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::draw()
+     *
+     * @throws InvalidArgumentException
+     * @throws NotSupportedException
      */
     public function draw(DrawableInterface $drawable): ImageInterface
     {

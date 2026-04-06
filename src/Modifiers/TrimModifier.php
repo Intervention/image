@@ -11,6 +11,8 @@ class TrimModifier extends SpecializableModifier
 {
     /**
      * Create new modifier object.
+     *
+     * @throws InvalidArgumentException
      */
     public function __construct(public int $tolerance = 0)
     {

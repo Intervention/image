@@ -14,7 +14,6 @@ use Intervention\Image\Colors\Oklab\Color;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Exceptions\InvalidArgumentException;
-use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Providers\ColorDataProvider;
@@ -89,7 +88,7 @@ final class ColorTest extends BaseTestCase
     public function testChannelNotFound(): void
     {
         $color = new Color(0, .1, .2);
-        $this->expectException(NotSupportedException::class);
+        $this->expectException(InvalidArgumentException::class);
         $color->channel('none');
     }
 

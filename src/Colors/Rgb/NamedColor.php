@@ -8,10 +8,13 @@ use Error;
 use Intervention\Image\Colors\Rgb\Channels\Alpha;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
-use Intervention\Image\Exceptions\ColorDecoderException;
+use Intervention\Image\Exceptions\ColorException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
+use TypeError;
+use ValueError;
 
 enum NamedColor: string implements ColorInterface
 {
@@ -157,10 +160,16 @@ enum NamedColor: string implements ColorInterface
 
     /**
      * Create new named color.
+     *
+     * @throws InvalidArgumentException
      */
     public static function create(string $input): ColorInterface
     {
-        return self::from(strtolower($input));
+        try {
+            return self::from(strtolower($input));
+        } catch (TypeError | ValueError) {
+            throw new InvalidArgumentException('Failed to create color from input "' . $input . '"');
+        }
     }
 
     /**
@@ -349,6 +358,8 @@ enum NamedColor: string implements ColorInterface
      * {@inheritdoc}
      *
      * @see ColorInterface::channels()
+     *
+     * @throws ColorException
      */
     public function channels(): array
     {
@@ -359,6 +370,9 @@ enum NamedColor: string implements ColorInterface
      * {@inheritdoc}
      *
      * @see ColorInterface::channel()
+     *
+     * @throws InvalidArgumentException
+     * @throws ColorException
      */
     public function channel(string $classname): ColorChannelInterface
     {
@@ -372,6 +386,7 @@ enum NamedColor: string implements ColorInterface
      */
     public function alpha(): ColorChannelInterface
     {
+        // @phpstan-ignore missingType.checkedException
         return new Alpha();
     }
 
@@ -379,6 +394,9 @@ enum NamedColor: string implements ColorInterface
      * {@inheritdoc}
      *
      * @see ColorInterface::toColorspace()
+     *
+     * @throws InvalidArgumentException
+     * @throws ColorException
      */
     public function toColorspace(string|ColorspaceInterface $colorspace): ColorInterface
     {
@@ -389,6 +407,8 @@ enum NamedColor: string implements ColorInterface
      * {@inheritdoc}
      *
      * @see ColorInterface::isGrayscale()
+     *
+     * @throws ColorException
      */
     public function isGrayscale(): bool
     {
@@ -419,6 +439,9 @@ enum NamedColor: string implements ColorInterface
      * {@inheritdoc}
      *
      * @see ColorInterface::withTransparency()
+     *
+     * @throws InvalidArgumentException
+     * @throws ColorException
      */
     public function withTransparency(float $transparency): ColorInterface
     {
@@ -429,6 +452,9 @@ enum NamedColor: string implements ColorInterface
      * {@inheritdoc}
      *
      * @see ColorInterface::withBrightness()
+     *
+     * @throws InvalidArgumentException
+     * @throws ColorException
      */
     public function withBrightness(int $level): ColorInterface
     {
@@ -439,6 +465,9 @@ enum NamedColor: string implements ColorInterface
      * {@inheritdoc}
      *
      * @see ColorInterface::withSaturation()
+     *
+     * @throws InvalidArgumentException
+     * @throws ColorException
      */
     public function withSaturation(int $level): ColorInterface
     {
@@ -449,6 +478,8 @@ enum NamedColor: string implements ColorInterface
      * {@inheritdoc}
      *
      * @see ColorInterface::withInversion()
+     *
+     * @throws ColorException
      */
     public function withInversion(): ColorInterface
     {
@@ -457,6 +488,8 @@ enum NamedColor: string implements ColorInterface
 
     /**
      * Convert current named color to rgb color object.
+     *
+     * @throws ColorException
      */
     private function toRgbColor(): RgbColor
     {
@@ -464,6 +497,6 @@ enum NamedColor: string implements ColorInterface
 
         return $color instanceof RgbColor
             ? $color
-            : throw new ColorDecoderException('Failed to convert named color to rgb object');
+            : throw new ColorException('Failed to convert named color to rgb object');
     }
 }

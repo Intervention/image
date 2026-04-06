@@ -12,7 +12,7 @@ use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder;
 use Intervention\Image\Colors\Rgb\Decoders\NamedColorDecoder;
 use Intervention\Image\Colors\Rgb\Decoders\StringColorDecoder;
-use Intervention\Image\Exceptions\ColorDecoderException;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
@@ -24,6 +24,8 @@ class Color extends AbstractColor
 {
     /**
      * Create new instance.
+     *
+     * @throws InvalidArgumentException
      */
     public function __construct(int|Red $r, int|Green $g, int|Blue $b, float|Alpha $a = 1)
     {
@@ -41,8 +43,6 @@ class Color extends AbstractColor
      * @see ColorInterface::create()
      *
      * @throws InvalidArgumentException
-     * @throws DriverException
-     * @throws ColorDecoderException
      */
     public static function create(int|Red $r, int|Green $g, int|Blue $b, float|Alpha $a = 1): self
     {
@@ -51,6 +51,9 @@ class Color extends AbstractColor
 
     /**
      * Parse RGB color from string.
+     *
+     * @throws InvalidArgumentException
+     * @throws ColorException
      */
     public static function parse(string $input): self
     {
@@ -60,12 +63,15 @@ class Color extends AbstractColor
                 NamedColorDecoder::class,
                 HexColorDecoder::class,
             ])->handle($input);
-        } catch (NotSupportedException) {
-            throw new NotSupportedException('Unable to parse RGB color from input "' . $input . '"');
+        } catch (NotSupportedException | DriverException $e) {
+            throw new InvalidArgumentException(
+                'Unable to parse RGB color from input "' . $input . '"',
+                previous: $e,
+            );
         }
 
         if (!$color instanceof self) {
-            throw new ColorDecoderException('Result must be instance of ' . self::class);
+            throw new ColorException('Result must be instance of ' . self::class);
         }
 
         return $color;
@@ -121,9 +127,6 @@ class Color extends AbstractColor
      * {@inheritdoc}
      *
      * @see ColorInterface::toHex()
-     *
-     * @throws InvalidArgumentException
-     * @throws NotSupportedException
      */
     public function toHex(bool $prefix = false): string
     {

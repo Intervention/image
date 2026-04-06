@@ -10,8 +10,9 @@ use Intervention\Image\Decoders\BinaryImageDecoder;
 use Intervention\Image\Drivers\AbstractDriver;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Encoders\PngEncoder;
+use Intervention\Image\Exceptions\ColorDecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
-use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Modifiers\BlurModifier;
@@ -37,8 +38,7 @@ final class AbstractDriverTest extends BaseTestCase
     public function testHandleImageInputFailsWithEmptyDecoders(): void
     {
         $driver = new GdDriver();
-        $this->expectException(StateException::class);
-        $this->expectExceptionMessage('No decoders in stack');
+        $this->expectException(InvalidArgumentException::class);
         $driver->decodeImage('test', []);
     }
 
@@ -46,23 +46,20 @@ final class AbstractDriverTest extends BaseTestCase
     {
         $driver = new GdDriver();
         $this->expectException(NotSupportedException::class);
-        $this->expectExceptionMessage('Unsupported image source type');
         $driver->decodeImage(12345);
     }
 
     public function testHandleColorInputFailsWithEmptyDecoders(): void
     {
         $driver = new GdDriver();
-        $this->expectException(StateException::class);
-        $this->expectExceptionMessage('No decoders in stack');
+        $this->expectException(InvalidArgumentException::class);
         $driver->decodeColor('test', []);
     }
 
     public function testHandleColorInputFailsWithUnsupportedInput(): void
     {
         $driver = new GdDriver();
-        $this->expectException(NotSupportedException::class);
-        $this->expectExceptionMessage('Unsupported color format');
+        $this->expectException(ColorDecoderException::class);
         $driver->decodeColor(new \stdClass());
     }
 

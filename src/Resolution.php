@@ -43,6 +43,8 @@ class Resolution implements ResolutionInterface, Stringable, IteratorAggregate
      * {@inheritdoc}
      *
      * @see ResolutionInterface::dpi()
+     *
+     * @throws InvalidArgumentException
      */
     public static function dpi(float $x, float $y): ResolutionInterface
     {
@@ -53,6 +55,8 @@ class Resolution implements ResolutionInterface, Stringable, IteratorAggregate
      * {@inheritdoc}
      *
      * @see ResolutionInterface::ppi()
+     *
+     * @throws InvalidArgumentException
      */
     public static function ppi(float $x, float $y): ResolutionInterface
     {
@@ -107,6 +111,7 @@ class Resolution implements ResolutionInterface, Stringable, IteratorAggregate
     public function perInch(): self
     {
         return match ($this->length) {
+            // @phpstan-ignore missingType.checkedException
             Length::CM => new self(
                 $this->x * 2.54,
                 $this->y * 2.54,
@@ -124,6 +129,7 @@ class Resolution implements ResolutionInterface, Stringable, IteratorAggregate
     public function perCm(): self
     {
         return match ($this->length) {
+            // @phpstan-ignore missingType.checkedException
             Length::INCH => new self(
                 $this->x / 2.54,
                 $this->y / 2.54,

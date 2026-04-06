@@ -18,8 +18,8 @@ use Intervention\Image\Colors\Cmyk\Colorspace;
 use Intervention\Image\Colors\Oklab\Color as OklabColor;
 use Intervention\Image\Colors\Oklch\Color as OklchColor;
 use Intervention\Image\Colors\Rgb\NamedColor;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
-use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Tests\BaseTestCase;
 use Mockery;
 
@@ -167,7 +167,7 @@ final class ColorspaceTest extends BaseTestCase
     {
         $colorspace = new Colorspace();
         $color = Mockery::mock(\Intervention\Image\Interfaces\ColorInterface::class);
-        $this->expectException(NotSupportedException::class);
+        $this->expectException(ColorException::class);
         $colorspace->importColor($color);
     }
 

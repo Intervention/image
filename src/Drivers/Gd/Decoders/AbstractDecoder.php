@@ -14,6 +14,7 @@ use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\MediaType;
 use Intervention\Image\Traits\CanParseFilePath;
+use TypeError;
 use ValueError;
 
 abstract class AbstractDecoder extends SpecializableDecoder implements SpecializedInterface
@@ -39,7 +40,7 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
             if (is_string($mediaType)) {
                 try {
                     return MediaType::from($mediaType);
-                } catch (ValueError) {
+                } catch (ValueError | TypeError) {
                     throw new NotSupportedException('Unsupported media type (MIME) ' . $mediaType . '.');
                 }
             }
@@ -53,7 +54,7 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
 
         try {
             return MediaType::from($info['mime']);
-        } catch (ValueError) {
+        } catch (ValueError | TypeError) {
             throw new NotSupportedException('Unsupported media type (MIME) ' . $info['mime'] . '.');
         }
     }
@@ -71,7 +72,7 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
             if (is_string($mediaType)) {
                 try {
                     return MediaType::from($mediaType);
-                } catch (ValueError) {
+                } catch (ValueError | TypeError) {
                     throw new NotSupportedException('Unsupported media type (MIME) ' . $mediaType . '.');
                 }
             }
@@ -85,7 +86,7 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
 
         try {
             return MediaType::from($info['mime']);
-        } catch (ValueError) {
+        } catch (ValueError | TypeError) {
             throw new NotSupportedException('Unsupported media type (MIME) ' . $info['mime'] . '.');
         }
     }

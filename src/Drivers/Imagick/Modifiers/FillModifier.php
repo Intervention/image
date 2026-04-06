@@ -6,8 +6,10 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
 use ImagickDraw;
+use ImagickDrawException;
 use ImagickException;
 use ImagickPixel;
+use ImagickPixelException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -88,7 +90,7 @@ class FillModifier extends ModifiersFillModifier implements SpecializedInterface
             $draw->setFillColor($pixel);
             $draw->rectangle(0, 0, $frame->getImageWidth(), $frame->getImageHeight());
             $frame->drawImage($draw);
-        } catch (ImagickException $e) {
+        } catch (ImagickException | ImagickDrawException | ImagickPixelException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to build ImagickDraw object',
                 previous: $e
@@ -105,7 +107,7 @@ class FillModifier extends ModifiersFillModifier implements SpecializedInterface
                     );
                 }
             }
-        } catch (ImagickException $e) {
+        } catch (ImagickException | ImagickPixelException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to adjust alpha channel',
                 previous: $e

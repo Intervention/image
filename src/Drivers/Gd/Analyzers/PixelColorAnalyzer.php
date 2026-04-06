@@ -33,6 +33,10 @@ class PixelColorAnalyzer extends GenericPixelColorAnalyzer implements Specialize
         return $this->colorAt($colorProcessor, $image->core()->frame($this->frame));
     }
 
+    /**
+     * @throws InvalidArgumentException
+     * @throws AnalyzerException
+     */
     protected function colorAt(ColorProcessorInterface $processor, FrameInterface $frame): ColorInterface
     {
         $gd = $frame->native();

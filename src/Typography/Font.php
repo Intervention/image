@@ -13,6 +13,8 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FontInterface;
 use Intervention\Image\Traits\CanParseFilePath;
+use TypeError;
+use ValueError;
 
 class Font implements FontInterface
 {
@@ -216,10 +218,16 @@ class Font implements FontInterface
      * {@inheritdoc}
      *
      * @see FontInterface::setAlignmentHorizontal()
+     *
+     * @throws InvalidArgumentException
      */
     public function setAlignmentHorizontal(string|Alignment $alignment): FontInterface
     {
-        $this->alignmentHorizontal = is_string($alignment) ? Alignment::from($alignment) : $alignment;
+        try {
+            $this->alignmentHorizontal = is_string($alignment) ? Alignment::from($alignment) : $alignment;
+        } catch (ValueError | TypeError) {
+            throw new InvalidArgumentException('Invalid value for alignment');
+        }
 
         return $this;
     }
@@ -238,10 +246,16 @@ class Font implements FontInterface
      * {@inheritdoc}
      *
      * @see FontInterface::setAlignmentVertical()
+     *
+     * @throws InvalidArgumentException
      */
     public function setAlignmentVertical(string|Alignment $alignment): FontInterface
     {
-        $this->alignmentVertical = is_string($alignment) ? Alignment::from($alignment) : $alignment;
+        try {
+            $this->alignmentVertical = is_string($alignment) ? Alignment::from($alignment) : $alignment;
+        } catch (ValueError | TypeError) {
+            throw new InvalidArgumentException('Invalid value for alignment');
+        }
 
         return $this;
     }

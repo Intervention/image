@@ -20,11 +20,11 @@ class RemoveAnimationModifier extends GenericRemoveAnimationModifier implements 
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        // create new imagick with just one image
-        $imagick = new Imagick();
-        $frame = $this->selectedFrame($image);
-
         try {
+            // create new imagick with just one image
+            $imagick = new Imagick();
+            $frame = $this->selectedFrame($image);
+
             $result = $imagick->addImage($frame->native()->getImage());
             if ($result === false) {
                 throw new ModifierException(

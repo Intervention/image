@@ -9,6 +9,9 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 
 class PixelateModifier extends SpecializableModifier
 {
+    /**
+     * @throws InvalidArgumentException
+     */
     public function __construct(public int $size)
     {
         if ($this->size < 1) {

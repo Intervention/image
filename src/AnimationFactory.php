@@ -158,6 +158,7 @@ class AnimationFactory implements AnimationFactoryInterface
      * Collect processing calls on frame images.
      *
      * @param array<null|array<mixed>> $arguments
+     * @throws Error
      */
     public function __call(string $name, array $arguments): self
     {

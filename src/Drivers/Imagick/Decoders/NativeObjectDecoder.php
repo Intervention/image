@@ -9,6 +9,7 @@ use ImagickException;
 use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\SpecializableDecoder;
 use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\ImageDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Image;
@@ -37,6 +38,7 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
      * @throws InvalidArgumentException
      * @throws StateException
      * @throws DriverException
+     * @throws ImageDecoderException
      */
     public function decode(mixed $input): ImageInterface
     {
@@ -73,8 +75,15 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
         // Therefore, it is set to "undefined" here. To still be able to correct the
         // orientation manually later, we save the original value.
         if ($this->driver()->config()->autoOrientation === false) {
-            $image->core()->meta()->set('originalImageOrientation', $input->getImageOrientation());
-            $input->setImageOrientation(Imagick::ORIENTATION_UNDEFINED);
+            try {
+                $image->core()->meta()->set('originalImageOrientation', $input->getImageOrientation());
+                $input->setImageOrientation(Imagick::ORIENTATION_UNDEFINED);
+            } catch (ImagickException $e) {
+                throw new ImageDecoderException(
+                    'Failed to set adjust image orientation',
+                    previous: $e
+                );
+            }
         }
 
         // discard animation depending on config
@@ -88,7 +97,11 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
         }
 
         // set media type on origin
-        $image->origin()->setMediaType($input->getImageMimeType());
+        try {
+            $image->origin()->setMediaType($input->getImageMimeType());
+        } catch (ImagickException $e) {
+            throw new ImageDecoderException('Failed to retrieve image media type', previous: $e);
+        }
 
         return $image;
     }

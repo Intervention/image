@@ -13,9 +13,8 @@ use Intervention\Image\Colors\Oklch\Color as OklchColor;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Colors\Rgb\NamedColor;
-use Intervention\Image\Exceptions\ColorDecoderException;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
-use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorInterface;
 use TypeError;
 
@@ -70,8 +69,7 @@ class Colorspace extends AbstractColorspace
      *
      * @see ColorspaceInterface::importColor()
      *
-     * @throws NotSupportedException
-     * @throws ColorDecoderException
+     * @throws ColorException
      */
     public function importColor(ColorInterface $color): OklabColor
     {
@@ -83,7 +81,7 @@ class Colorspace extends AbstractColorspace
             RgbColor::class => $this->importRgbColor($color),
             OklchColor::class => $this->importOklchColor($color),
             OklabColor::class => $color,
-            default => throw new NotSupportedException(
+            default => throw new ColorException(
                 'Unable to import color ' . $color::class . ' to ' . $this::class,
             ),
         };
@@ -91,6 +89,8 @@ class Colorspace extends AbstractColorspace
 
     /**
      * Import given RGB color OKLAB colorspace.
+     *
+     * @throws ColorException
      */
     private function importRgbColor(RgbColor $color): OklabColor
     {
@@ -113,49 +113,63 @@ class Colorspace extends AbstractColorspace
         $m = $cbrt($m);
         $s = $cbrt($s);
 
-        return new Color(
-            0.2104542553 * $l + 0.7936177850 * $m - 0.0040720468 * $s,
-            1.9779984951 * $l - 2.4285922050 * $m + 0.4505937099 * $s,
-            0.0259040371 * $l + 0.7827717662 * $m - 0.8086757660 * $s,
-            $color->alpha()->normalized(),
-        );
+        try {
+            return new Color(
+                0.2104542553 * $l + 0.7936177850 * $m - 0.0040720468 * $s,
+                1.9779984951 * $l - 2.4285922050 * $m + 0.4505937099 * $s,
+                0.0259040371 * $l + 0.7827717662 * $m - 0.8086757660 * $s,
+                $color->alpha()->normalized(),
+            );
+        } catch (InvalidArgumentException $e) {
+            throw new ColorException(
+                'Failed to import color ' . $color::class . ' to ' . $this::class,
+                previous: $e,
+            );
+        }
     }
 
     /**
      * Import given OKLCH color OKLAB colorspace.
+     *
+     * @throws ColorException
      */
     private function importOklchColor(OklchColor $color): OklabColor
     {
         $hRad = deg2rad($color->hue()->value());
 
-        return new Color(
-            $color->lightness()->value(),
-            $color->chroma()->value() * cos($hRad),
-            $color->chroma()->value() * sin($hRad),
-            $color->alpha()->normalized(),
-        );
+        try {
+            return new Color(
+                $color->lightness()->value(),
+                $color->chroma()->value() * cos($hRad),
+                $color->chroma()->value() * sin($hRad),
+                $color->alpha()->normalized(),
+            );
+        } catch (InvalidArgumentException $e) {
+            throw new ColorException(
+                'Failed to import color ' . $color::class . ' to ' . $this::class,
+                previous: $e,
+            );
+        }
     }
 
     /**
      * Import given color to OKLAB color space by converting it to RGB first.
      *
-     * @throws ColorDecoderException
+     * @throws ColorException
      */
     private function importViaRgbColor(NamedColor|CmykColor|HslColor|HsvColor $color): OklabColor
     {
         try {
             $color = $color->toColorspace(Rgb::class)->toColorspace($this::class);
-        } catch (InvalidArgumentException | NotSupportedException $e) {
-            throw new ColorDecoderException(
-                'Failed to transform color to OKLAB color space',
-                previous: $e
+        } catch (InvalidArgumentException $e) {
+            throw new ColorException(
+                'Failed to import color ' . $color::class . ' to ' . $this::class,
+                previous: $e,
             );
         }
 
         if (!$color instanceof OklabColor) {
-            throw new ColorDecoderException(
-                'Failed to transform color to OKLAB color space',
-            );
+            throw new ColorException('Failed to import color ' . $color::class . ' to ' . $this::class);
         }
 
         return $color;

@@ -10,7 +10,9 @@ use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Color;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
-use Intervention\Image\Exceptions\ColorDecoderException;
+use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorProcessorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
@@ -34,6 +36,8 @@ class ColorProcessor implements ColorProcessorInterface
      * {@inheritdoc}
      *
      * @see ColorProcessorInterface::export()
+     *
+     * @throws DriverException
      */
     public function export(ColorInterface $color): int
     {
@@ -46,9 +50,13 @@ class ColorProcessor implements ColorProcessorInterface
         $b = $color->channel(Blue::class)->value();
         $a = $color->channel(Alpha::class)->value();
 
-        // convert alpha value to gd alpha
-        // ([opaque]1-0[transparent]) to ([opaque]0-127[transparent])
-        $a = (int) round(self::convertRange($a, Alpha::min(), Alpha::max(), 127, 0));
+        try {
+            // convert alpha value to gd alpha
+            // ([opaque]1-0[transparent]) to ([opaque]0-127[transparent])
+            $a = (int) round(self::convertRange($a, Alpha::min(), Alpha::max(), 127, 0));
+        } catch (RuntimeException $e) {
+            throw new DriverException('Failed to export color', previous: $e);
+        }
 
         return ($a << 24) + ($r << 16) + ($g << 8) + $b;
     }
@@ -58,18 +66,19 @@ class ColorProcessor implements ColorProcessorInterface
      *
      * @see ColorProcessorInterface::import()
      *
-     * @throws ColorDecoderException
+     * @throws InvalidArgumentException
+     * @throws DriverException
      */
     public function import(mixed $color): ColorInterface
     {
         if (!is_int($color) && !is_array($color)) {
-            throw new ColorDecoderException('GD driver can only decode colors in integer or array format');
+            throw new InvalidArgumentException('GD driver can only decode colors in integer or array format');
         }
 
         if (is_array($color)) {
             // array conversion
             if (!$this->isValidArrayColor($color)) {
-                throw new ColorDecoderException(
+                throw new InvalidArgumentException(
                     'GD driver can only decode array color format array{red: int, green: int, blue: int, alpha: int}',
                 );
             }
@@ -86,11 +95,19 @@ class ColorProcessor implements ColorProcessorInterface
             $b = $color & 0xFF;
         }
 
-        // convert gd apha integer to intervention alpha integer
-        // ([opaque]0-127[transparent]) to ([opaque]1-0[transparent])
-        $a = self::convertRange($a, 127, 0, 0, 1);
+        try {
+            // convert gd apha integer to intervention alpha integer
+            // ([opaque]0-127[transparent]) to ([opaque]1-0[transparent])
+            $a = self::convertRange($a, 127, 0, 0, 1);
+        } catch (RuntimeException $e) {
+            throw new DriverException('Failed to import color', previous: $e);
+        }
 
-        return new Color($r, $g, $b, $a);
+        try {
+            return new Color($r, $g, $b, $a);
+        } catch (InvalidArgumentException $e) {
+            throw new DriverException('Failed to import color', previous: $e);
+        }
     }
 
     /**

@@ -7,6 +7,7 @@ namespace Intervention\Image\Drivers\Imagick;
 use Imagick;
 use ImagickException;
 use ImagickPixel;
+use ImagickPixelException;
 use Intervention\Image\Drivers\AbstractDriver;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\MissingDependencyException;
@@ -68,7 +69,7 @@ class Driver extends AbstractDriver
             $imagick = new Imagick();
             $imagick->newImage($width, $height, $background, 'png');
             $this->applyDefaultSettings($imagick);
-        } catch (ImagickException $e) {
+        } catch (ImagickException | ImagickPixelException $e) {
             throw new DriverException('Failed to create new image', previous: $e);
         }
 
@@ -79,10 +80,16 @@ class Driver extends AbstractDriver
      * {@inheritdoc}
      *
      * @see DriverInterface::createCore()
+     *
+     * @throws DriverException
      */
     public function createCore(array $frames): CoreInterface
     {
-        $core = new Core(new Imagick());
+        try {
+            $core = new Core(new Imagick());
+        } catch (ImagickException $e) {
+            throw new DriverException('Failed to create new core', previous: $e);
+        }
 
         foreach ($frames as $frame) {
             $core->add($frame);
@@ -166,7 +173,7 @@ class Driver extends AbstractDriver
             $imagick->setImageIterations(0);
 
             return $imagick;
-        } catch (ImagickException $e) {
+        } catch (ImagickException | ImagickPixelException $e) {
             throw new DriverException('Failed to apply default image settings', previous: $e);
         }
     }

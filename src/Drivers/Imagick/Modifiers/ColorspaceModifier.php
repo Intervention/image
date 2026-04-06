@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
+use Error;
 use Imagick;
 use ImagickException;
 use Intervention\Image\Colors\Cmyk\Colorspace as Cmyk;
@@ -51,6 +52,7 @@ class ColorspaceModifier extends GenericColorspaceModifier implements Specialize
     }
 
     /**
+     * @throws ModifierException
      * @throws NotSupportedException
      */
     private function imagickColorspaceOrFail(ColorspaceInterface $colorspace): int
@@ -71,12 +73,19 @@ class ColorspaceModifier extends GenericColorspaceModifier implements Specialize
             return Imagick::COLORSPACE_HSB;
         }
 
-        if ($colorspace instanceof Oklab && defined(Imagick::class . '::COLORSPACE_OKLAB')) {
-            return constant(Imagick::class . '::COLORSPACE_OKLAB');
-        }
+        try {
+            if ($colorspace instanceof Oklab && defined(Imagick::class . '::COLORSPACE_OKLAB')) {
+                return constant(Imagick::class . '::COLORSPACE_OKLAB');
+            }
 
-        if ($colorspace instanceof Oklch && defined(Imagick::class . '::COLORSPACE_OKLCH')) {
-            return constant(Imagick::class . '::COLORSPACE_OKLCH');
+            if ($colorspace instanceof Oklch && defined(Imagick::class . '::COLORSPACE_OKLCH')) {
+                return constant(Imagick::class . '::COLORSPACE_OKLCH');
+            }
+        } catch (Error $e) {
+            throw new ModifierException(
+                'Failed to convert colorspace to Imagick constant',
+                previous: $e,
+            );
         }
 
         throw new NotSupportedException('Colorspace ' . $colorspace::class . ' is not supported by driver');

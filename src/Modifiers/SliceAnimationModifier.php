@@ -9,6 +9,9 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 
 class SliceAnimationModifier extends SpecializableModifier
 {
+    /**
+     * @throws InvalidArgumentException
+     */
     public function __construct(public int $offset = 0, public ?int $length = null)
     {
         if ($this->length !== null && $this->length <= 0) {

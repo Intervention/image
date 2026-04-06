@@ -18,9 +18,8 @@ use Intervention\Image\Colors\Oklch\Color as OklchColor;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Colors\Rgb\NamedColor;
-use Intervention\Image\Exceptions\ColorDecoderException;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
-use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorInterface;
 use TypeError;
 
@@ -42,6 +41,8 @@ class Colorspace extends AbstractColorspace
      * {@inheritdoc}
      *
      * @see ColorspaceInterface::colorFromNormalized()
+     *
+     * @throws InvalidArgumentException
      */
     public static function colorFromNormalized(array $normalized): OklchColor
     {
@@ -73,8 +74,7 @@ class Colorspace extends AbstractColorspace
      *
      * @see ColorspaceInterface::importColor()
      *
-     * @throws NotSupportedException
-     * @throws ColorDecoderException
+     * @throws ColorException
      */
     public function importColor(ColorInterface $color): OklchColor
     {
@@ -86,7 +86,7 @@ class Colorspace extends AbstractColorspace
             OklabColor::class => $this->importOklabColor($color),
             RgbColor::class => $this->importRgbColor($color),
             OklchColor::class => $color,
-            default => throw new NotSupportedException(
+            default => throw new ColorException(
                 'Unable to import color ' . $color::class . ' to ' . $this::class,
             ),
         };
@@ -94,6 +94,8 @@ class Colorspace extends AbstractColorspace
 
     /**
      * Import given OKLAB color OKLCH colorspace.
+     *
+     * @throws ColorException
      */
     private function importOklabColor(OklabColor $color): OklchColor
     {
@@ -104,27 +106,34 @@ class Colorspace extends AbstractColorspace
         $h = rad2deg(atan2($b, $a));
         $h = $h < 0 ? $h + 360 : $h;
 
-        return new Color($color->lightness()->value(), $c, $h, $color->alpha()->normalized());
+        try {
+            return new Color($color->lightness()->value(), $c, $h, $color->alpha()->normalized());
+        } catch (InvalidArgumentException $e) {
+            throw new ColorException(
+                'Failed to import color ' . $color::class . ' to ' . $this::class,
+                previous: $e,
+            );
+        }
     }
 
     /**
      * Import given RGB color to OKLCH color space.
      *
-     * @throws ColorDecoderException
+     * @throws ColorException
      */
     private function importRgbColor(RgbColor $color): OklchColor
     {
         try {
             $color = $color->toColorspace(Oklab::class);
-        } catch (InvalidArgumentException | NotSupportedException $e) {
-            throw new ColorDecoderException(
-                'Failed to transform RGB color to OKLCH color space',
-                previous: $e
+        } catch (InvalidArgumentException $e) {
+            throw new ColorException(
+                'Failed to import color ' . $color::class . ' to ' . $this::class,
+                previous: $e,
             );
         }
 
         if (!$color instanceof OklabColor) {
-            throw new ColorDecoderException('Failed to transform RGB color to OKLCH color space');
+            throw new ColorException('Failed to import color ' . $color::class . ' to ' . $this::class);
         }
 
         return $this->importOklabColor($color);
@@ -133,23 +142,21 @@ class Colorspace extends AbstractColorspace
     /**
      * Import given color to OKLCH color space by converting it to RGB first.
      *
-     * @throws ColorDecoderException
+     * @throws ColorException
      */
     private function importViaRgbColor(NamedColor|HslColor|HsvColor|CmykColor $color): OklchColor
     {
         try {
             $color = $color->toColorspace(Rgb::class)->toColorspace($this::class);
-        } catch (InvalidArgumentException | NotSupportedException $e) {
-            throw new ColorDecoderException(
-                'Failed to transform color to OKLCH color space',
-                previous: $e
+        } catch (InvalidArgumentException $e) {
+            throw new ColorException(
+                'Failed to import color ' . $color::class . ' to ' . $this::class,
+                previous: $e,
             );
         }
 
         if (!$color instanceof OklchColor) {
-            throw new ColorDecoderException(
-                'Failed to transform color to OKLCH color space',
-            );
+            throw new ColorException('Failed to import color ' . $color::class . ' to ' . $this::class);
         }
 
         return $color;

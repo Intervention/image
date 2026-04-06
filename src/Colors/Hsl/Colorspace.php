@@ -13,9 +13,8 @@ use Intervention\Image\Colors\Oklch\Color as OklchColor;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Colors\Rgb\NamedColor;
-use Intervention\Image\Exceptions\ColorDecoderException;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
-use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use TypeError;
@@ -71,8 +70,7 @@ class Colorspace extends AbstractColorspace
      *
      * @see ColorspaceInterface::importColor()
      *
-     * @throws NotSupportedException
-     * @throws ColorDecoderException
+     * @throws ColorException
      */
     public function importColor(ColorInterface $color): HslColor
     {
@@ -84,7 +82,7 @@ class Colorspace extends AbstractColorspace
             CmykColor::class => $this->importViaRgbColor($color),
             RgbColor::class => $this->importRgbColor($color),
             HsvColor::class => $this->importHsvColor($color),
-            default => throw new NotSupportedException(
+            default => throw new ColorException(
                 'Unable to import color ' . $color::class . ' to ' . $this::class,
             ),
         };
@@ -92,6 +90,8 @@ class Colorspace extends AbstractColorspace
 
     /**
      * Import given RGB color to HSL colorspace.
+     *
+     * @throws ColorException
      */
     private function importRgbColor(RgbColor $color): HslColor
     {
@@ -125,16 +125,25 @@ class Colorspace extends AbstractColorspace
 
         $hue = (round($hue) + 360) % 360; // normalize hue
 
-        return new Color(
-            intval(round($hue)),
-            intval(round($saturation * 100)),
-            intval(round($luminance * 100)),
-            $color->alpha()->normalized(),
-        );
+        try {
+            return new Color(
+                intval(round($hue)),
+                intval(round($saturation * 100)),
+                intval(round($luminance * 100)),
+                $color->alpha()->normalized(),
+            );
+        } catch (InvalidArgumentException $e) {
+            throw new ColorException(
+                'Failed to import color ' . $color::class . ' to ' . $this::class,
+                previous: $e,
+            );
+        }
     }
 
     /**
      * Import given HSV color to HSL colorspace.
+     *
+     * @throws ColorException
      */
     private function importHsvColor(HsvColor $color): HslColor
     {
@@ -155,34 +164,39 @@ class Colorspace extends AbstractColorspace
             default => $s * $v / (2 - $luminance * 2),
         };
 
-        return new Color(
-            intval(round($h * 360)),
-            intval(round($saturation * 100)),
-            intval(round($luminance * 100)),
-            $color->alpha()->normalized(),
-        );
+        try {
+            return new Color(
+                intval(round($h * 360)),
+                intval(round($saturation * 100)),
+                intval(round($luminance * 100)),
+                $color->alpha()->normalized(),
+            );
+        } catch (InvalidArgumentException $e) {
+            throw new ColorException(
+                'Failed to import color ' . $color::class . ' to ' . $this::class,
+                previous: $e,
+            );
+        }
     }
 
     /**
      * Import given color to HSL color space by converting it to RGB first.
      *
-     * @throws ColorDecoderException
+     * @throws ColorException
      */
     private function importViaRgbColor(NamedColor|CmykColor|OklabColor|OklchColor $color): HslColor
     {
         try {
             $color = $color->toColorspace(Rgb::class);
-        } catch (InvalidArgumentException | NotSupportedException $e) {
-            throw new ColorDecoderException(
-                'Failed to transform color to HSL color space',
-                previous: $e
+        } catch (InvalidArgumentException $e) {
+            throw new ColorException(
+                'Failed to import color ' . $color::class . ' to ' . $this::class,
+                previous: $e,
             );
         }
 
         if (!$color instanceof RgbColor) {
-            throw new ColorDecoderException(
-                'Failed to transform color to HSL color space',
-            );
+            throw new ColorException('Failed to import color ' . $color::class . ' to ' . $this::class);
         }
 
         return $this->importRgbColor($color);

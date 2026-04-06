@@ -14,6 +14,8 @@ class InsertModifier extends SpecializableModifier
 {
     /**
      * Create new modifier object.
+     *
+     * @throws InvalidArgumentException
      */
     public function __construct(
         public mixed $image,

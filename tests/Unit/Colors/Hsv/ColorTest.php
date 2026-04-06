@@ -14,7 +14,6 @@ use Intervention\Image\Colors\Hsv\Colorspace;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Exceptions\InvalidArgumentException;
-use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Providers\ColorDataProvider;
@@ -73,7 +72,7 @@ final class ColorTest extends BaseTestCase
     public function testChannelNotFound(): void
     {
         $color = new Color(10, 20, 30);
-        $this->expectException(NotSupportedException::class);
+        $this->expectException(InvalidArgumentException::class);
         $color->channel('none');
     }
 

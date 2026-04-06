@@ -7,6 +7,7 @@ namespace Intervention\Image\Drivers\Imagick\Encoders;
 use Imagick;
 use ImagickException;
 use ImagickPixel;
+use ImagickPixelException;
 use Intervention\Image\Drivers\Imagick\Modifiers\StripMetaModifier;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\WebpEncoder as GenericWebpEncoder;
@@ -42,7 +43,12 @@ class WebpEncoder extends GenericWebpEncoder implements SpecializedInterface
 
         try {
             $imagick = $image->core()->native();
-            $imagick->setImageBackgroundColor(new ImagickPixel('transparent'));
+
+            try {
+                $imagick->setImageBackgroundColor(new ImagickPixel('transparent'));
+            } catch (ImagickPixelException $e) {
+                throw new EncoderException('Failed to encode webp format', previous: $e);
+            }
 
             if (!$image->isAnimated()) {
                 $imagick = $imagick->mergeImageLayers(Imagick::LAYERMETHOD_MERGE);

@@ -13,7 +13,7 @@ abstract class IntegerColorChannel extends AbstractColorChannel
      */
     final public function __construct(int $value)
     {
-        $this->value = $this->validValueOrFail($value);
+        $this->value = (int) $this->validValueOrFail($value);
     }
 
     /**
@@ -41,6 +41,6 @@ abstract class IntegerColorChannel extends AbstractColorChannel
      */
     public function value(): int
     {
-        return $this->value;
+        return (int) $this->value;
     }
 }

@@ -11,6 +11,9 @@ use Intervention\Image\Interfaces\ImageInterface;
 
 class RemoveAnimationModifier extends SpecializableModifier
 {
+    /**
+     * @throws InvalidArgumentException
+     */
     public function __construct(public int|string $position = 0)
     {
         if (is_int($this->position) && $this->position < 0) {

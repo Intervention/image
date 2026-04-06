@@ -11,8 +11,8 @@ use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
-use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
@@ -43,7 +43,7 @@ abstract class AbstractColor implements ColorInterface, Stringable
      *
      * @see ColorInterface::channel()
      *
-     * @throws NotSupportedException
+     * @throws InvalidArgumentException
      */
     public function channel(string $classname): ColorChannelInterface
     {
@@ -53,7 +53,7 @@ abstract class AbstractColor implements ColorInterface, Stringable
         );
 
         if (count($channels) === 0) {
-            throw new NotSupportedException('Color channel ' . $classname . ' could not be found');
+            throw new InvalidArgumentException('Color channel ' . $classname . ' could not be found');
         }
 
         return reset($channels);
@@ -65,7 +65,6 @@ abstract class AbstractColor implements ColorInterface, Stringable
      * @see ColorInterface::toColorspace()
      *
      * @throws InvalidArgumentException
-     * @throws NotSupportedException
      */
     public function toColorspace(string|ColorspaceInterface $colorspace): ColorInterface
     {
@@ -106,6 +105,8 @@ abstract class AbstractColor implements ColorInterface, Stringable
      * {@inheritdoc}
      *
      * @see ColorInterface::withTransparency()
+     *
+     * @throws InvalidArgumentException
      */
     public function withTransparency(float $transparency): ColorInterface
     {
@@ -154,19 +155,28 @@ abstract class AbstractColor implements ColorInterface, Stringable
      * {@inheritdoc}
      *
      * @see ColorInterface::withInversion()
+     *
+     * @throws ColorException
      */
     public function withInversion(): ColorInterface
     {
-        $rgb = $this->toColorspace(RgbColorspace::class);
+        try {
+            $rgb = $this->toColorspace(RgbColorspace::class);
+        } catch (InvalidArgumentException) {
+            throw new ColorException('Failed to invert color');
+        }
 
-        $inverted = new \Intervention\Image\Colors\Rgb\Color(
-            255 - $rgb->channel(Red::class)->value(),
-            255 - $rgb->channel(Green::class)->value(),
-            255 - $rgb->channel(Blue::class)->value(),
-            $rgb->alpha()->normalized(),
-        );
-
-        return $inverted->toColorspace($this->colorspace());
+        try {
+            $inverted = new \Intervention\Image\Colors\Rgb\Color(
+                255 - $rgb->channel(Red::class)->value(),
+                255 - $rgb->channel(Green::class)->value(),
+                255 - $rgb->channel(Blue::class)->value(),
+                $rgb->alpha()->normalized(),
+            );
+            return $inverted->toColorspace($this->colorspace());
+        } catch (InvalidArgumentException) {
+            throw new ColorException('Failed to invert color');
+        }
     }
 
     /**

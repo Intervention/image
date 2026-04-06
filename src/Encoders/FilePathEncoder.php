@@ -36,7 +36,7 @@ class FilePathEncoder extends FileExtensionEncoder
             $image->origin()->fileExtension() :
             pathinfo($this->path, PATHINFO_EXTENSION);
 
-        if ($extension === null) {
+        if ($extension === null || $extension === '') {
             throw new InvalidArgumentException(
                 'Unable to extract file extension from path "' . $this->path . '"',
             );

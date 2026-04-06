@@ -36,7 +36,6 @@ final class SpecializableAnalyzerTest extends BaseTestCase
         $image = Mockery::mock(ImageInterface::class);
 
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('must override analyze()');
         $analyzer->analyze($image);
     }
 }

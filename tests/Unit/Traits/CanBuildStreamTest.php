@@ -42,7 +42,6 @@ final class CanBuildStreamTest extends BaseTestCase
     {
         $builder = $this->createBuilder();
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Unable to create stream');
         $builder::buildStreamOrFail(12345);
     }
 

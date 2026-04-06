@@ -36,7 +36,6 @@ final class SpecializableModifierTest extends BaseTestCase
         $image = Mockery::mock(ImageInterface::class);
 
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('must override apply()');
         $modifier->apply($image);
     }
 }

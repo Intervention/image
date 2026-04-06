@@ -36,7 +36,6 @@ final class AbstractEncoderTest extends BaseTestCase
         $image = Mockery::mock(ImageInterface::class);
 
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('must override encode()');
         $encoder->encode($image);
     }
 

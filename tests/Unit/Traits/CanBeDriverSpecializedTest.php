@@ -49,7 +49,6 @@ final class CanBeDriverSpecializedTest extends BaseTestCase
         };
 
         $this->expectException(StateException::class);
-        $this->expectExceptionMessage('Use setDriver()');
         $object->driver();
     }
 

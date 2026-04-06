@@ -98,11 +98,11 @@ class InputHandler implements InputHandlerInterface
     public function handle(mixed $input): ImageInterface|ColorInterface
     {
         if ($input === null) {
-            throw new InvalidArgumentException('Unable to decode image from null');
+            throw new InvalidArgumentException('Unable to decode from null');
         }
 
         if ($input === '') {
-            throw new InvalidArgumentException('Unable to decode image from empty string');
+            throw new InvalidArgumentException('Unable to decode from empty string');
         }
 
         // if handler has only one single decoder run it can run directly

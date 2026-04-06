@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -19,6 +20,7 @@ class DrawRectangleModifier extends GenericDrawRectangleModifier implements Spec
      *
      * @throws ModifierException
      * @throws StateException
+     * @throws ColorDecoderException
      */
     public function apply(ImageInterface $image): ImageInterface
     {

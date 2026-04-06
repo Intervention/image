@@ -16,9 +16,16 @@ use Intervention\Image\Encoders\FileExtensionEncoder;
 use Intervention\Image\Encoders\FilePathEncoder;
 use Intervention\Image\Encoders\FormatEncoder;
 use Intervention\Image\Encoders\MediaTypeEncoder;
+use Intervention\Image\Exceptions\AnalyzerException;
+use Intervention\Image\Exceptions\ColorDecoderException;
+use Intervention\Image\Exceptions\DirectoryNotFoundException;
 use Intervention\Image\Exceptions\EncoderException;
+use Intervention\Image\Exceptions\FileNotWritableException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Exceptions\StateException;
+use Intervention\Image\Exceptions\StreamException;
 use Intervention\Image\Geometry\Bezier;
 use Intervention\Image\Geometry\Circle;
 use Intervention\Image\Geometry\Ellipse;
@@ -195,6 +202,7 @@ final class Image implements ImageInterface
      * @see ImageInterface::removeAnimation()
      *
      * @throws InvalidArgumentException
+     * @throws ModifierException
      */
     public function removeAnimation(int|string $position = 0): ImageInterface
     {
@@ -207,6 +215,7 @@ final class Image implements ImageInterface
      * @see ImageInterface::sliceAnimation()
      *
      * @throws InvalidArgumentException
+     * @throws ModifierException
      */
     public function sliceAnimation(int $offset = 0, ?int $length = null): ImageInterface
     {
@@ -282,7 +291,11 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::save()
      *
+     * @throws InvalidArgumentException
      * @throws EncoderException
+     * @throws DirectoryNotFoundException
+     * @throws FileNotWritableException
+     * @throws StreamException
      */
     public function save(?string $path = null, mixed ...$options): ImageInterface
     {
@@ -309,6 +322,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::width()
+     *
+     * @throws AnalyzerException
      */
     public function width(): int
     {
@@ -319,6 +334,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::height()
+     *
+     * @throws AnalyzerException
      */
     public function height(): int
     {
@@ -330,17 +347,23 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::size()
      *
-     * @throws InvalidArgumentException
+     * @throws AnalyzerException
      */
     public function size(): SizeInterface
     {
-        return new Size($this->width(), $this->height());
+        try {
+            return new Size($this->width(), $this->height());
+        } catch (InvalidArgumentException $e) {
+            throw new AnalyzerException('Failed to read image size', previous: $e);
+        }
     }
 
     /**
      * {@inheritdoc}
      *
      * @see ImageInterface::colorspace()
+     *
+     * @throws AnalyzerException
      */
     public function colorspace(): ColorspaceInterface
     {
@@ -351,6 +374,9 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::setColorspace()
+     *
+     * @throws ModifierException
+     * @throws NotSupportedException
      */
     public function setColorspace(string|ColorspaceInterface $colorspace): ImageInterface
     {
@@ -361,6 +387,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::resolution()
+     *
+     * @throws AnalyzerException
      */
     public function resolution(): ResolutionInterface
     {
@@ -371,6 +399,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::setResolution()
+     *
+     * @throws ModifierException
      */
     public function setResolution(float $x, float $y): ImageInterface
     {
@@ -381,6 +411,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::colorAt()
+     *
+     * @throws AnalyzerException
      */
     public function colorAt(int $x, int $y, int $frame = 0): ColorInterface
     {
@@ -391,6 +423,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::colorsAt()
+     *
+     * @throws AnalyzerException
      */
     public function colorsAt(int $x, int $y): CollectionInterface
     {
@@ -401,6 +435,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::backgroundColor()
+     *
+     * @throws ColorDecoderException
      */
     public function backgroundColor(): ColorInterface
     {
@@ -415,6 +451,7 @@ final class Image implements ImageInterface
      * @see ImageInterface::setBackgroundColor()
      *
      * @throws InvalidArgumentException
+     * @throws ColorDecoderException
      */
     public function setBackgroundColor(string|ColorInterface $color): ImageInterface
     {
@@ -429,6 +466,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::profile()
+     *
+     * @throws AnalyzerException
      */
     public function profile(): ProfileInterface
     {
@@ -439,6 +478,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::setProfile()
+     *
+     * @throws ModifierException
      */
     public function setProfile(ProfileInterface $profile): ImageInterface
     {
@@ -449,6 +490,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::removeProfile()
+     *
+     * @throws ModifierException
      */
     public function removeProfile(): ImageInterface
     {
@@ -461,6 +504,7 @@ final class Image implements ImageInterface
      * @see ImageInterface::reduceColors()
      *
      * @throws InvalidArgumentException
+     * @throws ModifierException
      */
     public function reduceColors(int $limit, null|string|ColorInterface $background = null): ImageInterface
     {
@@ -473,6 +517,7 @@ final class Image implements ImageInterface
      * @see ImageInterface::sharpen()
      *
      * @throws InvalidArgumentException
+     * @throws ModifierException
      */
     public function sharpen(int $level = 10): ImageInterface
     {
@@ -483,6 +528,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::invert()
+     *
+     * @throws ModifierException
      */
     public function invert(): ImageInterface
     {
@@ -495,6 +542,7 @@ final class Image implements ImageInterface
      * @see ImageInterface::pixelate()
      *
      * @throws InvalidArgumentException
+     * @throws ModifierException
      */
     public function pixelate(int $size): ImageInterface
     {
@@ -505,6 +553,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::grayscale()
+     *
+     * @throws ModifierException
      */
     public function grayscale(): ImageInterface
     {
@@ -515,6 +565,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::brightness()
+     *
+     * @throws ModifierException
      */
     public function brightness(int $level): ImageInterface
     {
@@ -525,6 +577,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::contrast()
+     *
+     * @throws ModifierException
      */
     public function contrast(int $level): ImageInterface
     {
@@ -535,6 +589,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::gamma()
+     *
+     * @throws ModifierException
      */
     public function gamma(float $gamma): ImageInterface
     {
@@ -545,6 +601,9 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::colorize()
+     *
+     * @throws InvalidArgumentException
+     * @throws ModifierException
      */
     public function colorize(int $red = 0, int $green = 0, int $blue = 0): ImageInterface
     {
@@ -555,6 +614,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::flip()
+     *
+     * @throws ModifierException
      */
     public function flip(Direction $direction = Direction::HORIZONTAL): ImageInterface
     {
@@ -567,6 +628,7 @@ final class Image implements ImageInterface
      * @see ImageInterface::blur()
      *
      * @throws InvalidArgumentException
+     * @throws ModifierException
      */
     public function blur(int $level = 5): ImageInterface
     {
@@ -577,6 +639,10 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::rotate()
+     *
+     * @throws InvalidArgumentException
+     * @throws ColorDecoderException
+     * @throws ModifierException
      */
     public function rotate(float $angle, null|string|ColorInterface $background = null): ImageInterface
     {
@@ -587,6 +653,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::orient()
+     *
+     * @throws ModifierException
      */
     public function orient(): ImageInterface
     {
@@ -597,6 +665,10 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::text()
+     *
+     * @throws InvalidArgumentException
+     * @throws ModifierException
+     * @throws StateException
      */
     public function text(string $text, int $x, int $y, callable|FontInterface $font): ImageInterface
     {
@@ -615,10 +687,15 @@ final class Image implements ImageInterface
      * @see ImageInterface::resize()
      *
      * @throws InvalidArgumentException
+     * @throws ModifierException
      */
     public function resize(null|int|Fraction $width = null, null|int|Fraction $height = null): ImageInterface
     {
-        return $this->modify(new ResizeModifier(...$this->resolveDimension($width, $height)));
+        try {
+            return $this->modify(new ResizeModifier(...$this->resolveDimension($width, $height)));
+        } catch (AnalyzerException $e) {
+            throw new ModifierException('Failed to resize image', previous: $e);
+        }
     }
 
     /**
@@ -627,10 +704,15 @@ final class Image implements ImageInterface
      * @see ImageInterface::resizeDown()
      *
      * @throws InvalidArgumentException
+     * @throws ModifierException
      */
     public function resizeDown(null|int|Fraction $width = null, null|int|Fraction $height = null): ImageInterface
     {
-        return $this->modify(new ResizeDownModifier(...$this->resolveDimension($width, $height)));
+        try {
+            return $this->modify(new ResizeDownModifier(...$this->resolveDimension($width, $height)));
+        } catch (AnalyzerException $e) {
+            throw new ModifierException('Failed to resize image', previous: $e);
+        }
     }
 
     /**
@@ -639,10 +721,15 @@ final class Image implements ImageInterface
      * @see ImageInterface::scale()
      *
      * @throws InvalidArgumentException
+     * @throws ModifierException
      */
     public function scale(null|int|Fraction $width = null, null|int|Fraction $height = null): ImageInterface
     {
-        return $this->modify(new ScaleModifier(...$this->resolveDimension($width, $height)));
+        try {
+            return $this->modify(new ScaleModifier(...$this->resolveDimension($width, $height)));
+        } catch (AnalyzerException $e) {
+            throw new ModifierException('Failed to resize image', previous: $e);
+        }
     }
 
     /**
@@ -651,10 +738,15 @@ final class Image implements ImageInterface
      * @see ImageInterface::scaleDown()
      *
      * @throws InvalidArgumentException
+     * @throws ModifierException
      */
     public function scaleDown(null|int|Fraction $width = null, null|int|Fraction $height = null): ImageInterface
     {
-        return $this->modify(new ScaleDownModifier(...$this->resolveDimension($width, $height)));
+        try {
+            return $this->modify(new ScaleDownModifier(...$this->resolveDimension($width, $height)));
+        } catch (AnalyzerException $e) {
+            throw new ModifierException('Failed to resize image', previous: $e);
+        }
     }
 
     /**
@@ -663,16 +755,21 @@ final class Image implements ImageInterface
      * @see ImageInterface::cover()
      *
      * @throws InvalidArgumentException
+     * @throws ModifierException
      */
     public function cover(
         int|Fraction $width,
         int|Fraction $height,
         string|Alignment $alignment = Alignment::CENTER,
     ): ImageInterface {
-        return $this->modify(new CoverModifier(...[
-            ...$this->resolveDimension($width, $height),
-            ...['alignment' => $alignment]
-        ]));
+        try {
+            return $this->modify(new CoverModifier(...[
+                ...$this->resolveDimension($width, $height),
+                ...['alignment' => $alignment]
+            ]));
+        } catch (AnalyzerException $e) {
+            throw new ModifierException('Failed to resize image', previous: $e);
+        }
     }
 
     /**
@@ -681,16 +778,21 @@ final class Image implements ImageInterface
      * @see ImageInterface::coverDown()
      *
      * @throws InvalidArgumentException
+     * @throws ModifierException
      */
     public function coverDown(
         int|Fraction $width,
         int|Fraction $height,
         string|Alignment $alignment = Alignment::CENTER,
     ): ImageInterface {
-        return $this->modify(new CoverDownModifier(...[
-            ...$this->resolveDimension($width, $height),
-            ...['alignment' => $alignment]
-        ]));
+        try {
+            return $this->modify(new CoverDownModifier(...[
+                ...$this->resolveDimension($width, $height),
+                ...['alignment' => $alignment]
+            ]));
+        } catch (AnalyzerException $e) {
+            throw new ModifierException('Failed to resize image', previous: $e);
+        }
     }
 
     /**
@@ -699,6 +801,7 @@ final class Image implements ImageInterface
      * @see ImageInterface::resizeCanvas()
      *
      * @throws InvalidArgumentException
+     * @throws ModifierException
      */
     public function resizeCanvas(
         null|int|Fraction $width = null,
@@ -706,13 +809,17 @@ final class Image implements ImageInterface
         null|string|ColorInterface $background = null,
         string|Alignment $alignment = Alignment::CENTER
     ): ImageInterface {
-        return $this->modify(new ResizeCanvasModifier(...[
-            ...$this->resolveDimension($width, $height),
-            ...[
-                'background' => $background,
-                'alignment' => $alignment,
-            ]
-        ]));
+        try {
+            return $this->modify(new ResizeCanvasModifier(...[
+                ...$this->resolveDimension($width, $height),
+                ...[
+                    'background' => $background,
+                    'alignment' => $alignment,
+                ]
+            ]));
+        } catch (AnalyzerException $e) {
+            throw new ModifierException('Failed to resize image', previous: $e);
+        }
     }
 
     /**
@@ -721,6 +828,7 @@ final class Image implements ImageInterface
      * @see ImageInterface::resizeCanvasRelative()
      *
      * @throws InvalidArgumentException
+     * @throws ModifierException
      */
     public function resizeCanvasRelative(
         null|int|Fraction $width = null,
@@ -728,13 +836,17 @@ final class Image implements ImageInterface
         null|string|ColorInterface $background = null,
         string|Alignment $alignment = Alignment::CENTER
     ): ImageInterface {
-        return $this->modify(new ResizeCanvasRelativeModifier(...[
-            ...$this->resolveDimension($width, $height),
-            ...[
-                'background' => $background,
-                'alignment' => $alignment,
-            ]
-        ]));
+        try {
+            return $this->modify(new ResizeCanvasRelativeModifier(...[
+                ...$this->resolveDimension($width, $height),
+                ...[
+                    'background' => $background,
+                    'alignment' => $alignment,
+                ]
+            ]));
+        } catch (AnalyzerException $e) {
+            throw new ModifierException('Failed to resize image', previous: $e);
+        }
     }
 
     /**
@@ -743,6 +855,7 @@ final class Image implements ImageInterface
      * @see ImageInterface::containDown()
      *
      * @throws InvalidArgumentException
+     * @throws ModifierException
      */
     public function containDown(
         int|Fraction $width,
@@ -750,13 +863,17 @@ final class Image implements ImageInterface
         null|string|ColorInterface $background = null,
         string|Alignment $alignment = Alignment::CENTER
     ): ImageInterface {
-        return $this->modify(new ContainDownModifier(...[
-            ...$this->resolveDimension($width, $height),
-            ...[
-                'background' => $background,
-                'alignment' => $alignment,
-            ]
-        ]));
+        try {
+            return $this->modify(new ContainDownModifier(...[
+                ...$this->resolveDimension($width, $height),
+                ...[
+                    'background' => $background,
+                    'alignment' => $alignment,
+                ]
+            ]));
+        } catch (AnalyzerException $e) {
+            throw new ModifierException('Failed to resize image', previous: $e);
+        }
     }
 
     /**
@@ -765,6 +882,7 @@ final class Image implements ImageInterface
      * @see ImageInterface::contain()
      *
      * @throws InvalidArgumentException
+     * @throws ModifierException
      */
     public function contain(
         int|Fraction $width,
@@ -772,13 +890,17 @@ final class Image implements ImageInterface
         null|string|ColorInterface $background = null,
         string|Alignment $alignment = Alignment::CENTER
     ): ImageInterface {
-        return $this->modify(new ContainModifier(...[
-            ...$this->resolveDimension($width, $height),
-            ...[
-                'background' => $background,
-                'alignment' => $alignment,
-            ]
-        ]));
+        try {
+            return $this->modify(new ContainModifier(...[
+                ...$this->resolveDimension($width, $height),
+                ...[
+                    'background' => $background,
+                    'alignment' => $alignment,
+                ]
+            ]));
+        } catch (AnalyzerException $e) {
+            throw new ModifierException('Failed to resize image', previous: $e);
+        }
     }
 
     /**
@@ -787,6 +909,7 @@ final class Image implements ImageInterface
      * @see ImageInterface::crop()
      *
      * @throws InvalidArgumentException
+     * @throws ModifierException
      */
     public function crop(
         int|Fraction $width,
@@ -796,15 +919,19 @@ final class Image implements ImageInterface
         null|string|ColorInterface $background = null,
         string|Alignment $alignment = Alignment::TOP_LEFT
     ): ImageInterface {
-        return $this->modify(new CropModifier(...[
-            ...$this->resolveDimension($width, $height),
-            ...[
-                'x' => $x,
-                'y' => $y,
-                'background' => $background,
-                'alignment' => $alignment,
-            ]
-        ]));
+        try {
+            return $this->modify(new CropModifier(...[
+                ...$this->resolveDimension($width, $height),
+                ...[
+                    'x' => $x,
+                    'y' => $y,
+                    'background' => $background,
+                    'alignment' => $alignment,
+                ]
+            ]));
+        } catch (AnalyzerException $e) {
+            throw new ModifierException('Failed to resize image', previous: $e);
+        }
     }
 
     /**
@@ -813,6 +940,8 @@ final class Image implements ImageInterface
      * @see ImageInterface::trim()
      *
      * @throws InvalidArgumentException
+     * @throws ModifierException
+     * @throws NotSupportedException
      */
     public function trim(int $tolerance = 0): ImageInterface
     {
@@ -825,6 +954,7 @@ final class Image implements ImageInterface
      * @see ImageInterface::insert()
      *
      * @throws InvalidArgumentException
+     * @throws ModifierException
      */
     public function insert(
         mixed $image,
@@ -840,6 +970,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::fill()
+     *
+     * @throws ModifierException
      */
     public function fill(string|ColorInterface $color, ?int $x = null, ?int $y = null): ImageInterface
     {
@@ -865,6 +997,9 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::drawPixel()
+     *
+     * @throws ModifierException
+     * @throws ColorDecoderException
      */
     public function drawPixel(int $x, int $y, string|ColorInterface $color): ImageInterface
     {
@@ -877,6 +1012,8 @@ final class Image implements ImageInterface
      * @see ImageInterface::drawRectangle()
      *
      * @throws InvalidArgumentException
+     * @throws ModifierException
+     * @throws ColorDecoderException
      */
     public function drawRectangle(callable|Rectangle $rectangle): ImageInterface
     {
@@ -891,6 +1028,9 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::drawEllipse()
+     *
+     * @throws ModifierException
+     * @throws ColorDecoderException
      */
     public function drawEllipse(callable|Ellipse $ellipse): ImageInterface
     {
@@ -905,6 +1045,9 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::drawCircle()
+     *
+     * @throws ModifierException
+     * @throws ColorDecoderException
      */
     public function drawCircle(callable|Circle $circle): ImageInterface
     {
@@ -921,6 +1064,8 @@ final class Image implements ImageInterface
      * @see ImageInterface::drawPolygon()
      *
      * @throws InvalidArgumentException
+     * @throws ModifierException
+     * @throws ColorDecoderException
      */
     public function drawPolygon(callable|Polygon $polygon): ImageInterface
     {
@@ -935,6 +1080,9 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::drawLine()
+     *
+     * @throws ModifierException
+     * @throws ColorDecoderException
      */
     public function drawLine(callable|Line $line): ImageInterface
     {
@@ -949,6 +1097,9 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::drawBezier()
+     *
+     * @throws ModifierException
+     * @throws ColorDecoderException
      */
     public function drawBezier(callable|Bezier $bezier): ImageInterface
     {
@@ -966,6 +1117,8 @@ final class Image implements ImageInterface
      *
      * @throws InvalidArgumentException
      * @throws NotSupportedException
+     * @throws ModifierException
+     * @throws ColorDecoderException
      */
     public function draw(DrawableInterface $drawable): ImageInterface
     {
@@ -983,6 +1136,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::encode()
+     *
+     * @throws EncoderException
      */
     public function encode(?EncoderInterface $encoder = null): EncodedImageInterface
     {
@@ -995,6 +1150,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::encodeUsingFormat()
+     *
+     * @throws EncoderException
      */
     public function encodeUsingFormat(Format $format, mixed ...$options): EncodedImageInterface
     {
@@ -1005,6 +1162,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::encodeUsingMediaType()
+     *
+     * @throws EncoderException
      */
     public function encodeUsingMediaType(string|MediaType $mediaType, mixed ...$options): EncodedImageInterface
     {
@@ -1015,6 +1174,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::encodeUsingFileExtension()
+     *
+     * @throws EncoderException
      */
     public function encodeUsingFileExtension(
         string|FileExtension $fileExtension,
@@ -1027,6 +1188,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::encodeUsingPath()
+     *
+     * @throws EncoderException
      */
     public function encodeUsingPath(string $path, mixed ...$options,): EncodedImageInterface
     {
@@ -1037,6 +1200,7 @@ final class Image implements ImageInterface
      * Build resizing dimension from various inputs including fractions based lengths.
      *
      * @throws InvalidArgumentException
+     * @throws AnalyzerException
      * @return array{'width': ?int, 'height': ?int}
      */
     private function resolveDimension(null|int|Fraction $width, null|int|Fraction $height): array

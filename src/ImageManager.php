@@ -10,6 +10,8 @@ use Intervention\Image\Decoders\DataUriImageDecoder;
 use Intervention\Image\Decoders\FilePathImageDecoder;
 use Intervention\Image\Decoders\StreamImageDecoder;
 use Intervention\Image\Decoders\SplFileInfoImageDecoder;
+use Intervention\Image\Exceptions\DriverException;
+use Intervention\Image\Exceptions\ImageDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\AnimationFactoryInterface;
 use Intervention\Image\Interfaces\DataUriInterface;
@@ -52,6 +54,9 @@ class ImageManager implements ImageManagerInterface
      * {@inheritdoc}
      *
      * @see ImageManagerInterface::createImage()
+     *
+     * @throws InvalidArgumentException
+     * @throws DriverException
      */
     public function createImage(
         int $width,
@@ -73,6 +78,10 @@ class ImageManager implements ImageManagerInterface
      * {@inheritdoc}
      *
      * @see ImageManagerInterface::decode()
+     *
+     * @throws InvalidArgumentException
+     * @throws ImageDecoderException
+     * @throws DriverException
      */
     public function decode(mixed $source, null|string|array|DecoderInterface $decoders = null): ImageInterface
     {
@@ -86,6 +95,10 @@ class ImageManager implements ImageManagerInterface
      * {@inheritdoc}
      *
      * @see ImageManagerInterface::decodePath()
+     *
+     * @throws InvalidArgumentException
+     * @throws ImageDecoderException
+     * @throws DriverException
      */
     public function decodePath(string|Stringable $path): ImageInterface
     {
@@ -96,6 +109,10 @@ class ImageManager implements ImageManagerInterface
      * {@inheritdoc}
      *
      * @see ImageManagerInterface::decodeBinary()
+     *
+     * @throws InvalidArgumentException
+     * @throws ImageDecoderException
+     * @throws DriverException
      */
     public function decodeBinary(string|Stringable $binary): ImageInterface
     {
@@ -106,6 +123,10 @@ class ImageManager implements ImageManagerInterface
      * {@inheritdoc}
      *
      * @see ImageManagerInterface::decodeSplFileInfo()
+     *
+     * @throws InvalidArgumentException
+     * @throws ImageDecoderException
+     * @throws DriverException
      */
     public function decodeSplFileInfo(SplFileInfo $splFileInfo): ImageInterface
     {
@@ -116,6 +137,10 @@ class ImageManager implements ImageManagerInterface
      * {@inheritdoc}
      *
      * @see ImageManagerInterface::decodeBase64()
+     *
+     * @throws InvalidArgumentException
+     * @throws ImageDecoderException
+     * @throws DriverException
      */
     public function decodeBase64(string|Stringable $base64): ImageInterface
     {
@@ -126,6 +151,10 @@ class ImageManager implements ImageManagerInterface
      * {@inheritdoc}
      *
      * @see ImageManagerInterface::decodeDataUri()
+     *
+     * @throws InvalidArgumentException
+     * @throws ImageDecoderException
+     * @throws DriverException
      */
     public function decodeDataUri(string|Stringable|DataUriInterface $dataUri): ImageInterface
     {
@@ -136,6 +165,10 @@ class ImageManager implements ImageManagerInterface
      * {@inheritdoc}
      *
      * @see ImageManagerInterface::decodeStream()
+     *
+     * @throws InvalidArgumentException
+     * @throws ImageDecoderException
+     * @throws DriverException
      */
     public function decodeStream(mixed $stream): ImageInterface
     {

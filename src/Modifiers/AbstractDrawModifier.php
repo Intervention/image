@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Modifiers;
 
 use Intervention\Image\Drivers\SpecializableModifier;
+use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
@@ -20,6 +21,7 @@ abstract class AbstractDrawModifier extends SpecializableModifier
      * Return the background color of the object rendered by the modifier.
      *
      * @throws StateException
+     * @throws ColorDecoderException
      */
     protected function backgroundColor(): ColorInterface
     {
@@ -30,6 +32,7 @@ abstract class AbstractDrawModifier extends SpecializableModifier
      * Return the border color of the object rendered by the modifier.
      *
      * @throws StateException
+     * @throws ColorDecoderException
      */
     protected function borderColor(): ColorInterface
     {

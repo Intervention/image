@@ -45,7 +45,7 @@ final class AbstractDriverTest extends BaseTestCase
     public function testHandleImageInputFailsWithUnsupportedInput(): void
     {
         $driver = new GdDriver();
-        $this->expectException(NotSupportedException::class);
+        $this->expectException(InvalidArgumentException::class);
         $driver->decodeImage(12345);
     }
 

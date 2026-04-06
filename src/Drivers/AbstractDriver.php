@@ -50,7 +50,6 @@ abstract class AbstractDriver implements DriverInterface
      * @throws InvalidArgumentException
      * @throws ImageDecoderException
      * @throws DriverException
-     * @throws NotSupportedException
      */
     public function decodeImage(mixed $input, ?array $decoders = null): ImageInterface
     {
@@ -64,7 +63,7 @@ abstract class AbstractDriver implements DriverInterface
             $result = InputHandler::usingDecoders($decoders, $this)->handle($input);
         } catch (NotSupportedException) {
             $type = is_object($input) ? $input::class : gettype($input);
-            throw new NotSupportedException('Unsupported image source type "' . $type . '"');
+            throw new InvalidArgumentException('Unsupported image source type "' . $type . '"');
         }
 
         if (!$result instanceof ImageInterface) {

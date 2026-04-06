@@ -7,6 +7,7 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use ImagickDraw;
 use ImagickDrawException;
 use ImagickException;
+use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -18,6 +19,7 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
     /**
      * @throws ModifierException
      * @throws StateException
+     * @throws ColorDecoderException
      */
     public function apply(ImageInterface $image): ImageInterface
     {
@@ -45,6 +47,7 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
     /**
      * @throws ModifierException
      * @throws StateException
+     * @throws ColorDecoderException
      */
     private function buildDrawing(ImageInterface $image): ImagickDraw
     {

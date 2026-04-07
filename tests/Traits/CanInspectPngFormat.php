@@ -12,7 +12,7 @@ trait CanInspectPngFormat
     use CanBuildStream;
 
     /**
-     * Checks if the given image data is interlaced encoded PNG format
+     * Checks if the given image data is interlaced encoded PNG format.
      */
     private function isInterlacedPng(EncodedImage $image): bool
     {
@@ -24,7 +24,7 @@ trait CanInspectPngFormat
     }
 
     /**
-     * Try to detect PNG color type from given binary data
+     * Try to detect PNG color type from given binary data.
      */
     private function pngColorType(EncodedImage $image): string
     {

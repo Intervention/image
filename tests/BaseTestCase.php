@@ -17,7 +17,7 @@ use PHPUnit\Framework\ExpectationFailedException;
 abstract class BaseTestCase extends MockeryTestCase
 {
     /**
-     * Assert that given color equals the given color channel values in the given optional tolerance
+     * Assert that given color equals the given color channel values in the given optional tolerance.
      */
     protected function assertColor(int $r, int $g, int $b, int $a, ColorInterface $color, int $tolerance = 0): void
     {

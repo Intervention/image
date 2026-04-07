@@ -21,7 +21,7 @@ abstract class ImagickTestCase extends BaseTestCase
     }
 
     /**
-     * Create test image with red (#ff0000) background
+     * Create test image with red (#ff0000) background.
      */
     public static function createTestImage(int $width, int $height): Image
     {

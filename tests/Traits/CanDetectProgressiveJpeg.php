@@ -12,7 +12,7 @@ trait CanDetectProgressiveJpeg
     use CanBuildStream;
 
     /**
-     * Checks if the given image data is progressive encoded Jpeg format
+     * Checks if the given image data is progressive encoded Jpeg format.
      *
      * @param EncodedImage $imagedata
      */

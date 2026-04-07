@@ -56,12 +56,11 @@ use Intervention\Image\Interfaces\OriginInterface;
 use Intervention\Image\Interfaces\ProfileInterface;
 use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Interfaces\SizeInterface;
-use Intervention\Image\Modifiers\OrientModifier;
-use Intervention\Image\Modifiers\FillTransparentAreasModifier;
 use Intervention\Image\Modifiers\BlurModifier;
 use Intervention\Image\Modifiers\BrightnessModifier;
 use Intervention\Image\Modifiers\ColorizeModifier;
 use Intervention\Image\Modifiers\ColorspaceModifier;
+use Intervention\Image\Modifiers\ContainDownModifier;
 use Intervention\Image\Modifiers\ContainModifier;
 use Intervention\Image\Modifiers\ContrastModifier;
 use Intervention\Image\Modifiers\CoverDownModifier;
@@ -74,12 +73,13 @@ use Intervention\Image\Modifiers\DrawPixelModifier;
 use Intervention\Image\Modifiers\DrawPolygonModifier;
 use Intervention\Image\Modifiers\DrawRectangleModifier;
 use Intervention\Image\Modifiers\FillModifier;
+use Intervention\Image\Modifiers\FillTransparentAreasModifier;
 use Intervention\Image\Modifiers\FlipModifier;
 use Intervention\Image\Modifiers\GammaModifier;
 use Intervention\Image\Modifiers\GrayscaleModifier;
 use Intervention\Image\Modifiers\InsertModifier;
 use Intervention\Image\Modifiers\InvertModifier;
-use Intervention\Image\Modifiers\ContainDownModifier;
+use Intervention\Image\Modifiers\OrientModifier;
 use Intervention\Image\Modifiers\PixelateModifier;
 use Intervention\Image\Modifiers\ProfileModifier;
 use Intervention\Image\Modifiers\ReduceColorsModifier;
@@ -270,6 +270,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::modify()
+     *
+     * @throws ModifierException
      */
     public function modify(ModifierInterface $modifier): ImageInterface
     {
@@ -280,6 +282,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::analyze()
+     *
+     * @throws AnalyzerException
      */
     public function analyze(AnalyzerInterface $analyzer): mixed
     {
@@ -945,7 +949,6 @@ final class Image implements ImageInterface
      *
      * @throws InvalidArgumentException
      * @throws ModifierException
-     * @throws NotSupportedException
      */
     public function trim(int $tolerance = 0): ImageInterface
     {
@@ -991,6 +994,8 @@ final class Image implements ImageInterface
      * {@inheritdoc}
      *
      * @see ImageInterface::fillTransparentAreas()
+     *
+     * @throws ModifierException
      */
     public function fillTransparentAreas(null|string|ColorInterface $color = null): ImageInterface
     {

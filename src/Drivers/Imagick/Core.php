@@ -173,13 +173,15 @@ class Core implements CoreInterface, Iterator
         }
 
         try {
-            $sliced = $sliced->coalesceImages();
-            $sliced->setImageIterations($this->imagick->getImageIterations());
+            $coalesced = $sliced->coalesceImages();
+            $sliced->clear();
+            $coalesced->setImageIterations($this->imagick->getImageIterations());
         } catch (ImagickException $e) {
             throw new DriverException('Failed to slice image', previous: $e);
         }
 
-        $this->imagick = $sliced;
+        $this->imagick->clear();
+        $this->imagick = $coalesced;
 
         return $this;
     }
@@ -321,6 +323,7 @@ class Core implements CoreInterface, Iterator
             throw new InvalidArgumentException('Argument $native must be of type ' . Imagick::class);
         }
 
+        $this->imagick->clear();
         $this->imagick = $native;
 
         return $this;
@@ -375,7 +378,9 @@ class Core implements CoreInterface, Iterator
     public function setLoops(int $loops): CoreInterface
     {
         try {
-            $this->imagick = $this->imagick->coalesceImages();
+            $coalesced = $this->imagick->coalesceImages();
+            $this->imagick->clear();
+            $this->imagick = $coalesced;
             $this->imagick->setImageIterations($loops);
         } catch (ImagickException $e) {
             throw new DriverException('Failed to set image loop count', previous: $e);

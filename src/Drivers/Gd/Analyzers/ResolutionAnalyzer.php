@@ -66,24 +66,28 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
         $handle = self::buildStreamOrFail(file_get_contents($origin->filePath()));
 
         try {
-            return $this->resolutionFromJfifHeader($handle);
-        } catch (Throwable) {
-            # code ...
-        }
+            try {
+                return $this->resolutionFromJfifHeader($handle);
+            } catch (Throwable) {
+                # code ...
+            }
 
-        try {
-            return $this->resolutionFromExifHeader($handle);
-        } catch (Throwable) {
-            # code ...
-        }
+            try {
+                return $this->resolutionFromExifHeader($handle);
+            } catch (Throwable) {
+                # code ...
+            }
 
-        try {
-            return $this->resolutionFromPngPhys($handle);
-        } catch (Throwable) {
-            # code ...
-        }
+            try {
+                return $this->resolutionFromPngPhys($handle);
+            } catch (Throwable) {
+                # code ...
+            }
 
-        throw new AnalyzerException('Unable to read resolution from path');
+            throw new AnalyzerException('Unable to read resolution from path');
+        } finally {
+            fclose($handle);
+        }
     }
 
     /**
@@ -107,8 +111,6 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
         $units = ord($header[$offset + 7]);
         $x = unpack('n', substr($header, $offset + 8, 2))[1];
         $y = unpack('n', substr($header, $offset + 10, 2))[1];
-
-        fclose($handle);
 
         if ($units == 1) { // DPI
             return [$x, $y];
@@ -177,7 +179,6 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
 
         // no PNG content
         if ($signature !== "\x89PNG\x0D\x0A\x1A\x0A") {
-            fclose($handle);
             throw new AnalyzerException('Input must be PNG format');
         }
 
@@ -199,8 +200,6 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
 
                 $x = unpack('N', substr($data, 0, 4))[1];
                 $y = unpack('N', substr($data, 4, 4))[1];
-
-                fclose($handle);
 
                 return [
                     round($x * .0254),

@@ -30,13 +30,16 @@ class IcoEncoder extends GenericIcoEncoder implements SpecializedInterface
         $compression = Imagick::COMPRESSION_NO;
 
         try {
-            $imagick = $image->core()->native();
+            $imagick = clone $image->core()->native();
             $imagick->setFormat($format);
             $imagick->setImageFormat($format);
             $imagick->setCompression($compression);
             $imagick->setImageCompression($compression);
 
-            return new EncodedImage($imagick->getImagesBlob(), 'image/x-icon');
+            $result = new EncodedImage($imagick->getImagesBlob(), 'image/x-icon');
+            $imagick->clear();
+
+            return $result;
         } catch (ImagickException $e) {
             throw new EncoderException('Failed to encode ico format', previous: $e);
         }

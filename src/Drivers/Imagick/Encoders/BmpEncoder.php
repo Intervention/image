@@ -30,13 +30,16 @@ class BmpEncoder extends GenericBmpEncoder implements SpecializedInterface
         $compression = Imagick::COMPRESSION_NO;
 
         try {
-            $imagick = $image->core()->native();
+            $imagick = clone $image->core()->native();
             $imagick->setFormat($format);
             $imagick->setImageFormat($format);
             $imagick->setCompression($compression);
             $imagick->setImageCompression($compression);
 
-            return new EncodedImage($imagick->getImagesBlob(), 'image/bmp');
+            $result = new EncodedImage($imagick->getImagesBlob(), 'image/bmp');
+            $imagick->clear();
+
+            return $result;
         } catch (ImageException $e) {
             throw new EncoderException('Failed to encode bmp format', previous: $e);
         }

@@ -42,7 +42,7 @@ class WebpEncoder extends GenericWebpEncoder implements SpecializedInterface
         }
 
         try {
-            $imagick = $image->core()->native();
+            $imagick = clone $image->core()->native();
 
             try {
                 $imagick->setImageBackgroundColor(new ImagickPixel('transparent'));
@@ -64,7 +64,10 @@ class WebpEncoder extends GenericWebpEncoder implements SpecializedInterface
                 $imagick->setOption('webp:lossless', 'true');
             }
 
-            return new EncodedImage($imagick->getImagesBlob(), 'image/webp');
+            $result = new EncodedImage($imagick->getImagesBlob(), 'image/webp');
+            $imagick->clear();
+
+            return $result;
         } catch (ImagickException $e) {
             throw new EncoderException('Failed to encode webp format', previous: $e);
         }

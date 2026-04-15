@@ -36,7 +36,7 @@ class Jpeg2000Encoder extends GenericJpeg2000Encoder implements SpecializedInter
         }
 
         try {
-            $imagick = $image->core()->native();
+            $imagick = clone $image->core()->native();
             $imagick->setImageBackgroundColor('white');
             $imagick->setBackgroundColor('white');
             $imagick->setFormat($format);
@@ -46,7 +46,10 @@ class Jpeg2000Encoder extends GenericJpeg2000Encoder implements SpecializedInter
             $imagick->setCompressionQuality($this->quality);
             $imagick->setImageCompressionQuality($this->quality);
 
-            return new EncodedImage($imagick->getImagesBlob(), 'image/jp2');
+            $result = new EncodedImage($imagick->getImagesBlob(), 'image/jp2');
+            $imagick->clear();
+
+            return $result;
         } catch (ImagickException $e) {
             throw new EncoderException('Failed to encode jp2 format', previous: $e);
         }

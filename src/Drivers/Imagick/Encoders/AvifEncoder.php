@@ -36,7 +36,7 @@ class AvifEncoder extends GenericAvifEncoder implements SpecializedInterface
         }
 
         try {
-            $imagick = $image->core()->native();
+            $imagick = clone $image->core()->native();
             $imagick->setFormat($format);
             $imagick->setImageFormat($format);
             $imagick->setCompression($compression);
@@ -44,7 +44,10 @@ class AvifEncoder extends GenericAvifEncoder implements SpecializedInterface
             $imagick->setCompressionQuality($this->quality);
             $imagick->setImageCompressionQuality($this->quality);
 
-            return new EncodedImage($imagick->getImagesBlob(), 'image/avif');
+            $result = new EncodedImage($imagick->getImagesBlob(), 'image/avif');
+            $imagick->clear();
+
+            return $result;
         } catch (ImageException $e) {
             throw new EncoderException('Failed to encode avif format', previous: $e);
         }

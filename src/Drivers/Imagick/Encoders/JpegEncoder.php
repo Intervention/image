@@ -48,7 +48,7 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
         }
 
         try {
-            $imagick = $image->core()->native();
+            $imagick = clone $image->core()->native();
             $imagick->setImageBackgroundColor($background);
             $imagick->setBackgroundColor($background);
             $imagick->setFormat($format);
@@ -63,7 +63,10 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
                 $imagick->setInterlaceScheme(Imagick::INTERLACE_PLANE);
             }
 
-            return new EncodedImage($imagick->getImagesBlob(), 'image/jpeg');
+            $result = new EncodedImage($imagick->getImagesBlob(), 'image/jpeg');
+            $imagick->clear();
+
+            return $result;
         } catch (ImagickException $e) {
             throw new EncoderException('Failed to encode jpeg format', previous: $e);
         }

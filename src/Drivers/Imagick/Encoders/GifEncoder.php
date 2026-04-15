@@ -30,7 +30,7 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
         $compression = Imagick::COMPRESSION_LZW;
 
         try {
-            $imagick = $image->core()->native();
+            $imagick = clone $image->core()->native();
             $imagick->setFormat($format);
             $imagick->setImageFormat($format);
             $imagick->setCompression($compression);
@@ -40,7 +40,10 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
                 $imagick->setInterlaceScheme(Imagick::INTERLACE_LINE);
             }
 
-            return new EncodedImage($imagick->getImagesBlob(), 'image/gif');
+            $result = new EncodedImage($imagick->getImagesBlob(), 'image/gif');
+            $imagick->clear();
+
+            return $result;
         } catch (ImageException $e) {
             throw new EncoderException('Failed to encode gif format', previous: $e);
         }

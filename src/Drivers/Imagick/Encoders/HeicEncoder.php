@@ -34,13 +34,16 @@ class HeicEncoder extends GenericHeicEncoder implements SpecializedInterface
         }
 
         try {
-            $imagick = $image->core()->native();
+            $imagick = clone $image->core()->native();
             $imagick->setFormat($format);
             $imagick->setImageFormat($format);
             $imagick->setCompressionQuality($this->quality);
             $imagick->setImageCompressionQuality($this->quality);
 
-            return new EncodedImage($imagick->getImagesBlob(), 'image/heic');
+            $result = new EncodedImage($imagick->getImagesBlob(), 'image/heic');
+            $imagick->clear();
+
+            return $result;
         } catch (ImageException $e) {
             throw new EncoderException('Failed to encode heic format', previous: $e);
         }

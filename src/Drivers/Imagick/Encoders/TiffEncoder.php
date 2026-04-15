@@ -38,7 +38,7 @@ class TiffEncoder extends GenericTiffEncoder implements SpecializedInterface
         }
 
         try {
-            $imagick = $image->core()->native();
+            $imagick = clone $image->core()->native();
             $imagick->setFormat($format);
             $imagick->setImageFormat($format);
             $imagick->setCompression($imagick->getImageCompression());
@@ -46,7 +46,10 @@ class TiffEncoder extends GenericTiffEncoder implements SpecializedInterface
             $imagick->setCompressionQuality($this->quality);
             $imagick->setImageCompressionQuality($this->quality);
 
-            return new EncodedImage($imagick->getImagesBlob(), 'image/tiff');
+            $result = new EncodedImage($imagick->getImagesBlob(), 'image/tiff');
+            $imagick->clear();
+
+            return $result;
         } catch (ImagickException $e) {
             throw new EncoderException('Failed to encode tiff format', previous: $e);
         }

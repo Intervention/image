@@ -100,12 +100,14 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
                     new ImagickPixel('black'),
                 );
                 $canvas->compositeImage($clearer, Imagick::COMPOSITE_DSTOUT, ...$position);
+                $clearer->clear();
 
                 // place original frame content onto prepared frame canvas
                 $canvas->compositeImage($frame->native(), Imagick::COMPOSITE_DEFAULT, ...$position);
 
                 // add newly built frame to container imagick
                 $imagick->addImage($canvas);
+                $canvas->clear();
             } catch (ImagickException | ImagickPixelException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to clear transparent areas',

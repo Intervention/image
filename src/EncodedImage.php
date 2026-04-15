@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\StreamException;
 use Intervention\Image\Interfaces\DataUriInterface;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Throwable;
@@ -14,6 +16,8 @@ class EncodedImage extends File implements EncodedImageInterface
      * Create new instance.
      *
      * @param string|resource $data
+     * @throws InvalidArgumentException
+     * @throws StreamException
      */
     public function __construct(
         mixed $data,
@@ -46,6 +50,8 @@ class EncodedImage extends File implements EncodedImageInterface
      * {@inheritdoc}
      *
      * @see EncodedImageInterface::toDataUri()
+     *
+     * @throws StreamException
      */
     public function toDataUri(): DataUriInterface
     {
@@ -59,6 +65,8 @@ class EncodedImage extends File implements EncodedImageInterface
      * {@inheritdoc}
      *
      * @see EncodedImageInterface::toBase64()
+     *
+     * @throws StreamException
      */
     public function toBase64(): string
     {

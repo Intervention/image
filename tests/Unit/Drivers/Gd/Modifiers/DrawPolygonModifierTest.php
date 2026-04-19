@@ -25,4 +25,15 @@ final class DrawPolygonModifierTest extends GdTestCase
         $image->modify(new DrawPolygonModifier($drawable));
         $this->assertEquals('b53717', $image->colorAt(14, 14)->toHex());
     }
+
+    public function testApplyWithoutBackgroundColor(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $this->assertEquals('00aef0', $image->colorAt(14, 14)->toHex());
+        $drawable = new Polygon([new Point(10, 10), new Point(40, 10), new Point(40, 30)]);
+        $drawable->setBorder('fff', 4);
+        $image->modify(new DrawPolygonModifier($drawable));
+        $this->assertEquals('ffffff', $image->colorAt(19, 10)->toHex()); // border
+        $this->assertEquals('ffa601', $image->colorAt(30, 17)->toHex()); // background
+    }
 }

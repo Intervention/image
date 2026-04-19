@@ -25,4 +25,15 @@ final class DrawRectangleModifierTest extends GdTestCase
         $image->modify(new DrawRectangleModifier($rectangle));
         $this->assertEquals('ffffff', $image->pickColor(14, 14)->toHex());
     }
+
+    public function testApplyWithoutBackground(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
+        $rectangle = new Rectangle(30, 30, new Point(0, 0));
+        $rectangle->setBorder('fff', 5);
+        $image->modify(new DrawRectangleModifier($rectangle));
+        $this->assertEquals('ffffff', $image->pickColor(2, 2)->toHex()); // border
+        $this->assertEquals('ffa601', $image->pickColor(20, 20)->toHex()); // background
+    }
 }

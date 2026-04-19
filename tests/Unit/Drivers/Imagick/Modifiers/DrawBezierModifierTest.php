@@ -30,4 +30,20 @@ final class DrawBezierModifierTest extends ImagickTestCase
         $image->modify(new DrawBezierModifier($drawable));
         $this->assertEquals('b53717', $image->pickColor(5, 5)->toHex());
     }
+
+    public function testApplyWithoutBackgroundColor(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
+        $drawable = new Bezier([
+            new Point(15, 15),
+            new Point(30, 15),
+            new Point(30, 30),
+            new Point(15, 30)
+        ]);
+        $drawable->setBorder('fff', 5);
+        $image->modify(new DrawBezierModifier($drawable));
+        $this->assertEquals('ffffff', $image->pickColor(26, 24)->toHex()); // border
+        $this->assertEquals('ffa601', $image->pickColor(19, 23)->toHex()); // background
+    }
 }

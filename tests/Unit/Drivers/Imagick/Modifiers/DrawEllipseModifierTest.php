@@ -25,4 +25,15 @@ final class DrawEllipseModifierTest extends ImagickTestCase
         $image->modify(new DrawEllipseModifier($drawable));
         $this->assertEquals('b53717', $image->pickColor(14, 14)->toHex());
     }
+
+    public function testApplyWithoutBackground(): void
+    {
+        $image = $this->readTestImage('trim.png');
+        $this->assertEquals('00aef0', $image->pickColor(14, 14)->toHex());
+        $drawable = new Ellipse(30, 30, new Point(14, 14));
+        $drawable->setBorder('fff', 5);
+        $image->modify(new DrawEllipseModifier($drawable));
+        $this->assertEquals('ffffff', $image->pickColor(5, 5)->toHex()); // border of circle
+        $this->assertEquals('ffa601', $image->pickColor(20, 20)->toHex()); // background of circle
+    }
 }

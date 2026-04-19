@@ -7,8 +7,6 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use ImagickDraw;
 use ImagickDrawException;
 use ImagickException;
-use ImagickPixel;
-use ImagickPixelException;
 use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\StateException;
@@ -27,15 +25,11 @@ class DrawRectangleModifier extends GenericDrawRectangleModifier implements Spec
     {
         try {
             $drawing = new ImagickDraw();
-            $backgroundColor = new ImagickPixel('transparent'); // default to no backgroundColor
-
-            if ($this->drawable->hasBackgroundColor()) {
-                $backgroundColor = $this->driver()->colorProcessor($image)->export(
+            $drawing->setFillColor(
+                $this->driver()->colorProcessor($image)->export(
                     $this->backgroundColor()
-                );
-            }
-
-            $drawing->setFillColor($backgroundColor);
+                )
+            );
 
             if ($this->drawable->hasBorder()) {
                 $borderColor = $this->driver()->colorProcessor($image)->export(
@@ -53,7 +47,7 @@ class DrawRectangleModifier extends GenericDrawRectangleModifier implements Spec
                 $this->drawable->position()->x() + $this->drawable->width(),
                 $this->drawable->position()->y() + $this->drawable->height()
             );
-        } catch (ImagickException | ImagickDrawException | ImagickPixelException $e) {
+        } catch (ImagickException | ImagickDrawException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to build ImagickDraw object',
                 previous: $e

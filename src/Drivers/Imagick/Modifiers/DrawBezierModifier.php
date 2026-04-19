@@ -7,8 +7,6 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use ImagickDraw;
 use ImagickDrawException;
 use ImagickException;
-use ImagickPixel;
-use ImagickPixelException;
 use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\ModifierException;
@@ -33,15 +31,12 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
 
         try {
             $drawing = new ImagickDraw();
-            $backgroundColor = new ImagickPixel('transparent'); // default to no backgroundColor
 
-            if ($this->drawable->hasBackgroundColor()) {
-                $backgroundColor = $this->driver()->colorProcessor($image)->export(
+            $drawing->setFillColor(
+                $this->driver()->colorProcessor($image)->export(
                     $this->backgroundColor()
-                );
-            }
-
-            $drawing->setFillColor($backgroundColor);
+                )
+            );
 
             if ($this->drawable->hasBorder() && $this->drawable->borderSize() > 0) {
                 $borderColor = $this->driver()->colorProcessor($image)->export(
@@ -84,7 +79,7 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
                     );
                 }
             }
-        } catch (ImagickException | ImagickDrawException | ImagickPixelException $e) {
+        } catch (ImagickException | ImagickDrawException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to draw bezier curve',
                 previous: $e,

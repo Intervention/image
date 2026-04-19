@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Modifiers;
 
+use Intervention\Image\Color;
 use Intervention\Image\Drivers\SpecializableModifier;
 use Intervention\Image\Exceptions\ColorDecoderException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
@@ -25,7 +27,11 @@ abstract class AbstractDrawModifier extends SpecializableModifier
      */
     protected function backgroundColor(): ColorInterface
     {
-        return $this->driver()->decodeColor($this->drawable()->backgroundColor());
+        try {
+            return $this->driver()->decodeColor($this->drawable()->backgroundColor());
+        } catch (InvalidArgumentException) {
+            return Color::transparent();
+        }
     }
 
     /**
@@ -36,6 +42,10 @@ abstract class AbstractDrawModifier extends SpecializableModifier
      */
     protected function borderColor(): ColorInterface
     {
-        return $this->driver()->decodeColor($this->drawable()->borderColor());
+        try {
+            return $this->driver()->decodeColor($this->drawable()->borderColor());
+        } catch (InvalidArgumentException) {
+            return Color::transparent();
+        }
     }
 }

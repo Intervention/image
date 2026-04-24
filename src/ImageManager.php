@@ -19,11 +19,14 @@ use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ImageManagerInterface;
+use Intervention\Image\Traits\CanResolveDriver;
 use SplFileInfo;
 use Stringable;
 
 class ImageManager implements ImageManagerInterface
 {
+    use CanResolveDriver;
+
     public DriverInterface $driver;
 
     /**
@@ -173,30 +176,5 @@ class ImageManager implements ImageManagerInterface
     public function decodeStream(mixed $stream): ImageInterface
     {
         return $this->decode($stream, StreamImageDecoder::class);
-    }
-
-    /**
-     * Resolve given string or driver to a driver instance with given options.
-     *
-     * @throws InvalidArgumentException
-     */
-    private static function resolveDriver(string|DriverInterface $driver, mixed ...$options): DriverInterface
-    {
-        if (is_string($driver) && !class_exists($driver)) {
-            throw new InvalidArgumentException(
-                'Argument $driver must be existing class name'
-            );
-        }
-
-        if (is_string($driver) && !is_subclass_of($driver, DriverInterface::class)) {
-            throw new InvalidArgumentException(
-                'Argument $driver must be an implementation of ' . DriverInterface::class,
-            );
-        }
-
-        $driver = is_string($driver) ? new $driver() : $driver;
-        $driver->config()->setOptions(...$options);
-
-        return $driver;
     }
 }

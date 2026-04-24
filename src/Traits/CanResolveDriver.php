@@ -14,7 +14,7 @@ trait CanResolveDriver
      *
      * @throws InvalidArgumentException
      */
-    private static function resolveDriver(string|DriverInterface $driver, mixed ...$options): DriverInterface
+    protected static function resolveDriver(string|DriverInterface $driver, mixed ...$options): DriverInterface
     {
         if (is_string($driver) && !class_exists($driver)) {
             throw new InvalidArgumentException(

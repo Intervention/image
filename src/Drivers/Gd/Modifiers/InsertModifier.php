@@ -5,19 +5,15 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Exceptions\ModifierException;
-use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\InsertModifier as GenericInsertModifier;
-use Intervention\Image\Traits\CanConvertRange;
 
 class InsertModifier extends GenericInsertModifier implements SpecializedInterface
 {
-    use CanConvertRange;
-
     /**
      * {@inheritdoc}
      *
@@ -64,66 +60,60 @@ class InsertModifier extends GenericInsertModifier implements SpecializedInterfa
     }
 
     /**
-     * Insert watermark transparent with current transparency
+     * Insert watermark with the given partial transparency.
      *
-     * Unfortunately, the original PHP function imagecopymerge does not work reliably.
-     * For example, any transparency of the image to be inserted is not applied correctly.
-     * For this reason, a new GDImage is created into which the original image is inserted
-     * in the first step and the watermark is inserted with 100% opacity in the second
-     * step. This combination is then transferred to the original image again with the
-     * respective opacity.
+     * The previous implementation copied the base region into an opaque black
+     * scratch canvas and then used imagecopymerge() to blend the watermark
+     * back. That worked for opaque base images but had two known failures:
+     * imagecopymerge() does not preserve source alpha, and any transparent
+     * pixel in the base region was overwritten with opaque black before the
+     * merge ran, so the watermark's bounding box ended up filled with black
+     * wherever the base used to be transparent.
      *
-     * Please note: Unfortunately, there is still an edge case, when a transparent image
-     * is inserted on a transparent background, the "double" transparent areas appear opaque!
+     * Instead, build a faded copy of the watermark by scaling each pixel's
+     * alpha by the requested transparency factor, then composite that copy
+     * with imagecopy() relying on the destination's alpha blending. The base
+     * image's transparent regions stay transparent and partial alpha in the
+     * watermark is preserved.
      *
      * @throws ModifierException
      */
     private function insertTransparent(FrameInterface $frame, ImageInterface $watermark, PointInterface $position): void
     {
-        $cut = imagecreatetruecolor($watermark->width(), $watermark->height());
+        $width = $watermark->width();
+        $height = $watermark->height();
 
-        if ($cut === false) {
+        $faded = imagecreatetruecolor($width, $height);
+
+        if ($faded === false) {
             throw new ModifierException('Failed to insert image');
         }
 
-        imagecopy(
-            $cut,
-            $frame->native(),
-            0,
-            0,
-            $position->x(),
-            $position->y(),
-            imagesx($cut),
-            imagesy($cut)
-        );
+        imagealphablending($faded, false);
+        imagesavealpha($faded, true);
 
-        imagecopy(
-            $cut,
-            $watermark->core()->native(),
-            0,
-            0,
-            0,
-            0,
-            imagesx($cut),
-            imagesy($cut)
-        );
+        $watermarkNative = $watermark->core()->native();
 
-        try {
-            $transparency = (int) round(self::convertRange($this->transparency, 0, 1, 0, 100));
-        } catch (RuntimeException $e) {
-            throw new ModifierException('Failed to convert transparency', previous: $e);
+        for ($y = 0; $y < $height; $y++) {
+            for ($x = 0; $x < $width; $x++) {
+                $color = imagecolorat($watermarkNative, $x, $y);
+                $alpha = ($color >> 24) & 0x7F;
+                // GD stores alpha as 0 (opaque) … 127 (transparent), so scale
+                // the opacity (127 - alpha) and flip back to GD's convention.
+                $newAlpha = 127 - (int) round((127 - $alpha) * $this->transparency);
+                imagesetpixel($faded, $x, $y, ($newAlpha << 24) | ($color & 0xFFFFFF));
+            }
         }
 
-        imagecopymerge(
+        imagecopy(
             $frame->native(),
-            $cut,
+            $faded,
             $position->x(),
             $position->y(),
             0,
             0,
-            $watermark->width(),
-            $watermark->height(),
-            $transparency,
+            $width,
+            $height,
         );
     }
 }

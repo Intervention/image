@@ -23,4 +23,14 @@ final class InvertModifierTest extends ImagickTestCase
         $this->assertEquals('ff510f', $image->pickColor(0, 0)->toHex());
         $this->assertEquals('0059fe', $image->pickColor(25, 25)->toHex());
     }
+
+    public function testApplyPreservesAlphaChannel(): void
+    {
+        $image = $this->readTestImage('circle.png');
+        $this->assertColor(0, 0, 0, 0, $image->pickColor(0, 0));
+        $this->assertColor(0, 0, 0, 204, $image->pickColor(25, 25));
+        $image->modify(new InvertModifier());
+        $this->assertColor(255, 255, 255, 0, $image->pickColor(0, 0));
+        $this->assertColor(255, 255, 255, 204, $image->pickColor(25, 25));
+    }
 }

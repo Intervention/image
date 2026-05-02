@@ -25,10 +25,30 @@ class FileExtensionEncoder extends AutoEncoder
      * Create new encoder instance to encode to format of given file extension.
      *
      * @param null|string|FileExtension $extension Target file extension for example "png"
+     * @throws InvalidArgumentException
+     * @throws NotSupportedException
      */
     public function __construct(public null|string|FileExtension $extension = null, mixed ...$options)
     {
-        $this->options = $options;
+        if ($extension === '') {
+            throw new InvalidArgumentException('Unable to define file extension from empty string');
+        }
+
+        $mediaType = null;
+
+        if (is_string($extension)) {
+            try {
+                $mediaType = FileExtension::create($extension)->mediaType();
+            } catch (InvalidArgumentException) {
+                throw new NotSupportedException('Unable to create file extension from ' . $extension);
+            }
+        }
+
+        if ($extension instanceof FileExtension) {
+            $mediaType = $extension->mediaType();
+        }
+
+        parent::__construct($mediaType, ...$options);
     }
 
     /**

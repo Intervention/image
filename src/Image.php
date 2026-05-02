@@ -300,6 +300,7 @@ final class Image implements ImageInterface
      * @throws DirectoryNotFoundException
      * @throws FileNotWritableException
      * @throws StreamException
+     * @throws NotSupportedException
      */
     public function save(?string $path = null, mixed ...$options): ImageInterface
     {
@@ -1184,6 +1185,8 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::encodeUsingFileExtension()
      *
+     * @throws InvalidArgumentException
+     * @throws NotSupportedException
      * @throws EncoderException
      */
     public function encodeUsingFileExtension(
@@ -1198,6 +1201,8 @@ final class Image implements ImageInterface
      *
      * @see ImageInterface::encodeUsingPath()
      *
+     * @throws InvalidArgumentException
+     * @throws NotSupportedException
      * @throws EncoderException
      */
     public function encodeUsingPath(string $path, mixed ...$options,): EncodedImageInterface

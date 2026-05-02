@@ -49,7 +49,7 @@ class BinaryImageDecoder extends NativeObjectDecoder
 
         $input = (string) $input;
 
-        if (empty($input)) {
+        if ($input === '') {
             throw new InvalidArgumentException('Unable to decode binary data from empty string');
         }
 

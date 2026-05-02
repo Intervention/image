@@ -149,7 +149,7 @@ class InputHandler implements InputHandlerInterface
             $decoder = new $decoder();
         }
 
-        if (empty($this->driver)) {
+        if ($this->driver === null) {
             return $decoder;
         }
 

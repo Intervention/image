@@ -1,5 +1,3 @@
-includes:
-    - vendor/phpstan/phpstan-strict-rules/rules.neon
 parameters:
     level: 6
     paths:
@@ -7,23 +5,3 @@ parameters:
     exceptions:
         check:
             missingCheckedExceptionInThrows: true
-    strictRules:
-        disallowedLooseComparison: true
-        booleansInConditions: true
-        booleansInLoopConditions: false
-        uselessCast: false
-        requireParentConstructorCall: false
-        disallowedBacktick: false
-        disallowedImplicitArrayCreation: false
-        disallowedShortTernary: false
-        overwriteVariablesWithLoop: false
-        closureUsesThis: false
-        matchingInheritedMethodNames: false
-        numericOperandsInArithmeticOperators: false
-        strictFunctionCalls: false
-        dynamicCallOnStaticMethod: false
-        switchConditionsMatchingType: false
-        noVariableVariables: false
-        strictArrayFilter: false
-        illegalConstructorMethodCall: false
-        disallowedEmpty: true

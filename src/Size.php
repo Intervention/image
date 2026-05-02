@@ -40,10 +40,12 @@ class Size extends Polygon implements SizeInterface
             );
         }
 
-        $this->addPoint(new Point($this->pivot->x(), $this->pivot->y()));
-        $this->addPoint(new Point($this->pivot->x() + $width, $this->pivot->y()));
-        $this->addPoint(new Point($this->pivot->x() + $width, $this->pivot->y() - $height));
-        $this->addPoint(new Point($this->pivot->x(), $this->pivot->y() - $height));
+        parent::__construct([
+            new Point($this->pivot->x(), $this->pivot->y()),
+            new Point($this->pivot->x() + $width, $this->pivot->y()),
+            new Point($this->pivot->x() + $width, $this->pivot->y() - $height),
+            new Point($this->pivot->x(), $this->pivot->y() - $height),
+        ], $pivot);
     }
 
     /**

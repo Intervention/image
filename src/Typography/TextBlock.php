@@ -13,9 +13,10 @@ class TextBlock extends Collection
      */
     public function __construct(string $text)
     {
-        foreach (explode("\n", $text) as $line) {
-            $this->push(new Line($line));
-        }
+        parent::__construct(array_map(
+            fn(string $line): Line => new Line($line),
+            explode("\n", $text),
+        ));
     }
 
     /**

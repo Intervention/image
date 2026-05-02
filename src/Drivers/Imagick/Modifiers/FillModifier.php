@@ -101,7 +101,7 @@ class FillModifier extends ModifiersFillModifier implements SpecializedInterface
 
         try {
             // deactive alpha channel when image was filled with opaque color
-            if ($pixel->getColorValue(Imagick::COLOR_ALPHA) == 1) {
+            if ($pixel->getColorValue(Imagick::COLOR_ALPHA) === 1.0) {
                 $result = $frame->setImageAlphaChannel(Imagick::ALPHACHANNEL_DEACTIVATE);
                 if ($result === false) {
                     throw new ModifierException(

@@ -165,7 +165,8 @@ enum Format
         // get parameters of target encoder
         $parameters = [];
         $reflectionClass = new ReflectionClass($classname);
-        if ($constructor = $reflectionClass->getConstructor()) {
+        $constructor = $reflectionClass->getConstructor();
+        if ($constructor !== null) {
             $parameters = array_map(
                 fn(ReflectionParameter $parameter): string => $parameter->getName(),
                 $constructor->getParameters(),

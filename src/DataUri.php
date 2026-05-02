@@ -242,7 +242,7 @@ class DataUri implements DataUriInterface
             return $key . '=' . $value;
         }, array_keys($this->parameters), $this->parameters);
 
-        $parameterString = count($parameters) ? ';' . implode(';', $parameters) : '';
+        $parameterString = count($parameters) > 0 ? ';' . implode(';', $parameters) : '';
 
         if ($this->base64 === true) {
             $parameterString .= ';base64';

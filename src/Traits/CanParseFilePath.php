@@ -66,7 +66,7 @@ trait CanParseFilePath
 
         $realpath = realpath($path);
 
-        if ($realpath == false) {
+        if ($realpath === false) {
             throw new FileNotReadableException('File "' . $path . '" is not readable');
         }
 

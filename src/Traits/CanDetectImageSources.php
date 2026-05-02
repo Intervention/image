@@ -29,7 +29,7 @@ trait CanDetectImageSources
 
         $decoded = base64_decode($input);
 
-        if (!$decoded) {
+        if ((bool) $decoded === false) {
             return false;
         }
 

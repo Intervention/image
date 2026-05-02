@@ -155,12 +155,14 @@ class Resizer
     public function resize(SizeInterface $size): SizeInterface
     {
         $resized = new Size($size->width(), $size->height());
+        $width = $this->targetWidth();
+        $height = $this->targetHeight();
 
-        if ($width = $this->targetWidth()) {
+        if ($width !== null) {
             $resized->setWidth($width);
         }
 
-        if ($height = $this->targetHeight()) {
+        if ($height !== null) {
             $resized->setHeight($height);
         }
 
@@ -175,14 +177,16 @@ class Resizer
     public function resizeDown(SizeInterface $size): SizeInterface
     {
         $resized = new Size($size->width(), $size->height());
+        $width = $this->targetWidth();
+        $height = $this->targetHeight();
 
-        if ($width = $this->targetWidth()) {
+        if ($width !== null) {
             $resized->setWidth(
                 min($width, $size->width())
             );
         }
 
-        if ($height = $this->targetHeight()) {
+        if ($height !== null) {
             $resized->setHeight(
                 min($height, $size->height())
             );

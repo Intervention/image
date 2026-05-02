@@ -28,7 +28,8 @@
         "mockery/mockery": "^1.6",
         "phpstan/phpstan": "^2.1",
         "squizlabs/php_codesniffer": "^4",
-        "slevomat/coding-standard": "~8.0"
+        "slevomat/coding-standard": "~8.0",
+        "phpstan/phpstan-strict-rules": "~2"
     },
     "suggest": {
         "ext-exif": "Recommended to be able to read EXIF data properly."

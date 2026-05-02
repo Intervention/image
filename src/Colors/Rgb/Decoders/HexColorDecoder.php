@@ -49,7 +49,7 @@ class HexColorDecoder extends AbstractDecoder implements DecoderInterface
      */
     public function decode(mixed $input): ColorInterface
     {
-        if (preg_match(static::PATTERN, $input, $matches) != 1) {
+        if (preg_match(static::PATTERN, $input, $matches) !== 1) {
             throw new InvalidArgumentException('Hex color has an invalid format');
         }
 

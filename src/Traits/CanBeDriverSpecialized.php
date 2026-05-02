@@ -36,7 +36,8 @@ trait CanBeDriverSpecialized
         if (!isset(self::$parameterCache[$class])) {
             $names = [];
             $reflectionClass = new ReflectionClass($class);
-            if ($constructor = $reflectionClass->getConstructor()) {
+            $constructor = $reflectionClass->getConstructor();
+            if ($constructor !== null) {
                 foreach ($constructor->getParameters() as $parameter) {
                     $names[] = $parameter->getName();
                 }

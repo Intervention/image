@@ -36,7 +36,7 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
             return false;
         }
 
-        if (preg_match('/^s?rgb/i', $input) != 1) {
+        if (preg_match('/^s?rgb/i', $input) !== 1) {
             return false;
         }
 
@@ -51,7 +51,7 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
      */
     public function decode(mixed $input): ColorInterface
     {
-        if (preg_match(self::PATTERN, $input, $matches) != 1) {
+        if (preg_match(self::PATTERN, $input, $matches) !== 1) {
             throw new InvalidArgumentException('Invalid rgb() color syntax "' . $input . '"');
         }
 

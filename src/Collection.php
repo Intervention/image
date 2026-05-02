@@ -129,7 +129,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
      */
     public function at(int $key = 0, mixed $default = null): mixed
     {
-        if ($this->count() == 0) {
+        if ($this->count() === 0) {
             return $default;
         }
 
@@ -148,7 +148,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
      */
     public function get(int|string $query, mixed $default = null): mixed
     {
-        if ($this->count() == 0) {
+        if ($this->count() === 0) {
             return $default;
         }
 

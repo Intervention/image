@@ -45,7 +45,7 @@ class RemoveAnimationModifier extends SpecializableModifier
         }
 
         // calculate position from percentage value
-        if (preg_match("/^(?P<percent>[0-9]{1,3})%$/", $this->position, $matches) != 1) {
+        if (preg_match("/^(?P<percent>[0-9]{1,3})%$/", $this->position, $matches) !== 1) {
             throw new InvalidArgumentException(
                 'Position must be either integer or a percent value as string'
             );
@@ -54,6 +54,6 @@ class RemoveAnimationModifier extends SpecializableModifier
         $total = count($image);
         $position = intval(round($total / 100 * intval($matches['percent'])));
 
-        return $position == $total ? $position - 1 : $position;
+        return $position === $total ? $position - 1 : $position;
     }
 }

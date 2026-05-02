@@ -163,6 +163,6 @@ class Color extends AbstractColor
      */
     public function isGrayscale(): bool
     {
-        return $this->saturation()->value() == 0;
+        return floatval($this->saturation()->value()) === 0.0;
     }
 }

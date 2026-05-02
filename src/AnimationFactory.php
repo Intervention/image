@@ -142,7 +142,7 @@ class AnimationFactory implements AnimationFactoryInterface
         }
 
         // apply processing call if available
-        if ($processingCall) {
+        if ($processingCall !== null) {
             call_user_func_array([$image, $processingCall], $processingArguments);
         }
 

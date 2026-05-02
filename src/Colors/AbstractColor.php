@@ -98,7 +98,7 @@ abstract class AbstractColor implements ColorInterface, Stringable
      */
     public function isClear(): bool
     {
-        return $this->alpha()->value() == 0;
+        return floatval($this->alpha()->value()) === 0.0;
     }
 
     /**

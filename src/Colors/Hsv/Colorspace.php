@@ -113,7 +113,7 @@ class Colorspace extends AbstractColorspace
         // calculate value
         $v = 100 * $max;
 
-        if ($chroma == 0) {
+        if ($chroma === 0.0) {
             // grayscale color
             try {
                 return new Color(0, 0, intval(round($v)), $color->alpha()->normalized());
@@ -131,8 +131,8 @@ class Colorspace extends AbstractColorspace
         // calculate hue
         [$r, $g, $b] = $values;
         $h = match (true) {
-            ($r == $min) => 3 - (($g - $b) / $chroma),
-            ($b == $min) => 1 - (($r - $g) / $chroma),
+            ($r === $min) => 3 - (($g - $b) / $chroma),
+            ($b === $min) => 1 - (($r - $g) / $chroma),
             default => 5 - (($b - $r) / $chroma),
         } * 60;
 
@@ -169,7 +169,7 @@ class Colorspace extends AbstractColorspace
         );
 
         $v = $l + $s * min($l, 1 - $l);
-        $s = ($v == 0) ? 0 : 2 * (1 - $l / $v);
+        $s = ($v === 0.0) ? 0 : 2 * (1 - $l / $v);
 
         return $this->colorFromNormalized([$h, $s, $v, $color->alpha()->normalized()]);
     }

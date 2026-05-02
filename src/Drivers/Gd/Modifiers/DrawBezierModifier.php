@@ -204,10 +204,10 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
                 if (array_key_exists($i + 2, $polygon) && array_key_exists($i + 3, $polygon)) {
                     $dx = $polygon[$i + 2] - $polygon[$i];
                     $dy = $polygon[$i + 3] - $polygon[$i + 1];
-                    $dxySqrt = ($dx * $dx + $dy * $dy) ** 0.5;
+                    $dxySqrt = sqrt($dx * $dx + $dy * $dy);
 
                     // prevent division by zero
-                    if ($dxySqrt == 0) {
+                    if ($dxySqrt === 0.0) {
                         throw new ModifierException('Failed to apply ' . self::class . ', division by zero');
                     }
 

@@ -111,15 +111,15 @@ class Colorspace extends AbstractColorspace
         $delta = $max - $min;
 
         // calculate saturation
-        $saturation = $delta == 0 ? 0 : $delta / (1 - abs(2 * $luminance - 1));
+        $saturation = $delta === 0.0 ? 0 : $delta / (1 - abs(2 * $luminance - 1));
 
         // calculate hue
         [$r, $g, $b] = $values;
         $hue = match (true) {
-            ($delta == 0) => 0,
-            ($max == $r) => 60 * fmod((($g - $b) / $delta), 6),
-            ($max == $g) => 60 * ((($b - $r) / $delta) + 2),
-            ($max == $b) => 60 * ((($r - $g) / $delta) + 4),
+            ($delta === 0.0) => 0,
+            ($max === $r) => 60 * fmod((($g - $b) / $delta), 6),
+            ($max === $g) => 60 * ((($b - $r) / $delta) + 2),
+            ($max === $b) => 60 * ((($r - $g) / $delta) + 4),
             default => 0,
         };
 
@@ -154,12 +154,12 @@ class Colorspace extends AbstractColorspace
         );
 
         // calculate Luminance
-        $luminance = (2 - $s) * $v / 2;
+        $luminance = (2.0 - $s) * $v / 2.0;
 
         // calculate Saturation
         $saturation = match (true) {
-            $luminance == 0 => $s,
-            $luminance == 1 => 0,
+            $luminance === 0.0 => $s,
+            $luminance === 1.0 => 0,
             $luminance < .5 => $s * $v / ($luminance * 2),
             default => $s * $v / (2 - $luminance * 2),
         };

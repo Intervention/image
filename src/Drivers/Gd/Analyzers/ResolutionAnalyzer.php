@@ -42,7 +42,7 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
         //
         // If GD's default resolution is returned here and the resolution is still unchanged
         // we will make an attempt to find the resolution from origin.
-        if ($result[0] == 96 && $result[1] == 96 && $image->core()->meta()->get('resolutionChanged') !== true) {
+        if ($this->isGdDefaultResolution($result) && $image->core()->meta()->get('resolutionChanged') !== true) {
             try {
                 $alternativeResoltion = $this->readResolutionFromOrigin($image->origin());
             } catch (Throwable) {
@@ -53,6 +53,14 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
         }
 
         return new Resolution(...$result);
+    }
+
+    /**
+     * @param array<int|float> $resolution
+     */
+    private function isGdDefaultResolution(array $resolution): bool
+    {
+        return intval($resolution[0] ?? 0) === 96 && intval($resolution[1] ?? 0) === 96;
     }
 
     /**
@@ -112,13 +120,11 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
         $x = unpack('n', substr($header, $offset + 8, 2))[1];
         $y = unpack('n', substr($header, $offset + 10, 2))[1];
 
-        if ($units == 1) { // DPI
-            return [$x, $y];
-        } elseif ($units == 2) { // dots per cm → convert to DPI
+        if ($units === 2) { // unit is dots per cm → convert to DPI
             return [round($x * 2.54), round($y * 2.54)];
-        } else { // no units
-            return [$x, $y];
         }
+
+        return [$x, $y]; // unit is DPI or no unit
     }
 
     /**

@@ -44,7 +44,7 @@ class StringColorDecoder extends AbstractDecoder implements DecoderInterface
      */
     public function decode(mixed $input): ColorInterface
     {
-        if (preg_match(self::PATTERN, (string) $input, $matches) != 1) {
+        if (preg_match(self::PATTERN, (string) $input, $matches) !== 1) {
             throw new InvalidArgumentException('Invalid cmyk() color syntax "' . $input . '"');
         }
 

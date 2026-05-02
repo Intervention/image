@@ -106,11 +106,11 @@ class FontFactory
      */
     public function align(null|string|Alignment $horizontal = null, null|string|Alignment $vertical = null): self
     {
-        if ($horizontal) {
+        if ($horizontal !== null) {
             $this->font->setAlignmentHorizontal($horizontal);
         }
 
-        if ($vertical) {
+        if ($vertical !== null) {
             $this->font->setAlignmentVertical($vertical);
         }
 

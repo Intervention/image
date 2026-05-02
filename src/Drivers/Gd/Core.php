@@ -54,7 +54,7 @@ class Core extends Collection implements CoreInterface
      *
      * @see CoreInterface::setNative()
      */
-    public function setNative(mixed $native): self
+    public function setNative(mixed $native): CoreInterface
     {
         $this->clear()->push(new Frame($native));
 
@@ -94,7 +94,7 @@ class Core extends Collection implements CoreInterface
      *
      * @see CoreInterface::setLoops()
      */
-    public function setLoops(int $loops): self
+    public function setLoops(int $loops): CoreInterface
     {
         $this->loops = $loops;
 

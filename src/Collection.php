@@ -80,6 +80,8 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
 
     /**
      * Count items in collection.
+     *
+     * @return int<0, max>
      */
     public function count(): int
     {

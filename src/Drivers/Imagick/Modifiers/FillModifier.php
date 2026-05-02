@@ -59,7 +59,7 @@ class FillModifier extends ModifiersFillModifier implements SpecializedInterface
         }
 
         try {
-            $result = $frame->floodfillPaintImage(
+            $result = $frame->floodFillPaintImage(
                 $pixel,
                 100,
                 $target,

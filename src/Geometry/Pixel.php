@@ -16,7 +16,7 @@ class Pixel extends Point
         protected int $x,
         protected int $y
     ) {
-        //
+        parent::__construct($x, $y);
     }
 
     /**

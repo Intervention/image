@@ -40,7 +40,9 @@ class FileExtensionEncoder extends AutoEncoder
             try {
                 $mediaType = FileExtension::create($extension)->mediaType();
             } catch (InvalidArgumentException) {
-                throw new NotSupportedException('Unable to create file extension from ' . $extension);
+                throw new NotSupportedException(
+                    'Unable to find encoder for unknown file extension "' . $extension . '"',
+                );
             }
         }
 

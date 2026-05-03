@@ -31,7 +31,7 @@ class FileExtensionEncoder extends AutoEncoder
     public function __construct(public null|string|FileExtension $extension = null, mixed ...$options)
     {
         if ($extension === '') {
-            throw new InvalidArgumentException('Unable to define file extension from empty string');
+            throw new InvalidArgumentException('Unable to find file extension from empty string');
         }
 
         $mediaType = null;

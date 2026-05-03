@@ -38,8 +38,8 @@ class FileExtensionEncoder extends AutoEncoder
 
         if (is_string($extension)) {
             try {
-                $mediaType = FileExtension::create($extension)->mediaType();
-            } catch (InvalidArgumentException) {
+                $mediaType = FileExtension::from(strtolower($extension))->mediaType();
+            } catch (Error) {
                 throw new NotSupportedException(
                     'Unable to find encoder for unknown file extension "' . $extension . '"',
                 );

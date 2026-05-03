@@ -58,7 +58,7 @@ class MediaTypeEncoder extends AbstractEncoder
             $mediaType = is_string($mediaType) ? MediaType::from($mediaType) : $mediaType;
         } catch (Error) {
             throw new NotSupportedException(
-                'Unable to find encoder by unknown image media type "' . $mediaType . '"',
+                'Unable to find encoder for unknown image media type "' . $mediaType . '"',
             );
         }
 

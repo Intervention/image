@@ -61,6 +61,14 @@ final class SizeTest extends BaseTestCase
         $this->assertIsInt($dimensions[1]);
     }
 
+    public function testDimensionsEnablesArrayDestructuring(): void
+    {
+        [$width, $height] = (new Size(120, 80))->dimensions();
+
+        $this->assertSame(120, $width);
+        $this->assertSame(80, $height);
+    }
+
     public function testCreate(): void
     {
         $size = Size::create(300, 200, new Point(10, 20));

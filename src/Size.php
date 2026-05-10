@@ -67,6 +67,18 @@ class Size extends Polygon implements SizeInterface
     /**
      * {@inheritdoc}
      *
+     * @see SizeInterface::dimensions()
+     *
+     * @return array{0: int, 1: int}
+     */
+    public function dimensions(): array
+    {
+        return [$this->width(), $this->height()];
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see SizeInterface::setWidth()
      */
     public function setWidth(int $width): self

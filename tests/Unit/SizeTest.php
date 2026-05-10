@@ -51,6 +51,16 @@ final class SizeTest extends BaseTestCase
         $this->assertEquals(0, $size->height());
     }
 
+    public function testDimensionsReturnsWidthAndHeightAsInts(): void
+    {
+        $size = new Size(100, 50);
+        $dimensions = $size->dimensions();
+
+        $this->assertSame([100, 50], $dimensions);
+        $this->assertIsInt($dimensions[0]);
+        $this->assertIsInt($dimensions[1]);
+    }
+
     public function testCreate(): void
     {
         $size = Size::create(300, 200, new Point(10, 20));

@@ -23,6 +23,17 @@ interface SizeInterface extends Traversable
     public function height(): int;
 
     /**
+     * Get the size's width and height as a two-element list of integers.
+     *
+     * Intended for array destructuring:
+     *
+     *     [$width, $height] = $image->size()->dimensions();
+     *
+     * @return array{0: int, 1: int}
+     */
+    public function dimensions(): array;
+
+    /**
      * Get pivot point.
      */
     public function pivot(): PointInterface;

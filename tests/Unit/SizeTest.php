@@ -69,6 +69,14 @@ final class SizeTest extends BaseTestCase
         $this->assertSame(80, $height);
     }
 
+    public function testDimensionsReflectsSetWidthAndSetHeight(): void
+    {
+        $size = new Size(100, 50);
+        $size->setWidth(200)->setHeight(150);
+
+        $this->assertSame([200, 150], $size->dimensions());
+    }
+
     public function testCreate(): void
     {
         $size = Size::create(300, 200, new Point(10, 20));

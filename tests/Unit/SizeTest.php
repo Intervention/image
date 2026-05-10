@@ -7,6 +7,7 @@ namespace Intervention\Image\Tests\Unit;
 use Intervention\Image\Alignment;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Point;
+use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Size;
 use Intervention\Image\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -564,5 +565,20 @@ final class SizeTest extends BaseTestCase
         $result = $size->containDown(200, 200);
         $this->assertLessThanOrEqual(200, $result->width());
         $this->assertLessThanOrEqual(200, $result->height());
+    }
+
+    public function testArrayAccessStillReturnsCornerPoints(): void
+    {
+        // BC guard for #1480: Size extends Polygon, so $size[0..3] must
+        // continue to return the four corner Points (top-left, top-right,
+        // bottom-right, bottom-left). dimensions() is the new, non-breaking
+        // way to get [width, height].
+        $size = new Size(10, 20);
+
+        $this->assertInstanceOf(PointInterface::class, $size[0]);
+        $this->assertSame(0, $size[0]->x());
+        $this->assertSame(0, $size[0]->y());
+        $this->assertSame(10, $size[1]->x());
+        $this->assertSame(0, $size[1]->y());
     }
 }

@@ -19,6 +19,7 @@ use Traversable;
 
 /**
  * @implements IteratorAggregate<int>
+ * @implements ArrayAccess<int|string, int>
  */
 class Size implements SizeInterface, ArrayAccess, IteratorAggregate
 {

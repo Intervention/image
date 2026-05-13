@@ -7,6 +7,7 @@ namespace Intervention\Image;
 use ArrayAccess;
 use ArrayIterator;
 use DivisionByZeroError;
+use ErrorException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Exceptions\StateException;
@@ -429,52 +430,40 @@ class Size implements SizeInterface, ArrayAccess, IteratorAggregate
      */
     public function offsetExists(mixed $offset): bool
     {
-        return array_key_exists($offset, [$this->width, $this->height]);
+        return in_array($offset, [0, 1, 'width', 'height']);
     }
 
     /**
-     * Return point at given offset.
+     * Return value at given offset.
+     *
+     * @throws ErrorException
      */
     public function offsetGet(mixed $offset): mixed
     {
-        $array = [$this->width, $this->height];
-
-        return $array[$offset];
+        return match ($offset) {
+            0, 'width' => $this->width,
+            1, 'height' => $this->height,
+            default => throw new ErrorException('Undefined array key ' . $offset)
+        };
     }
 
     /**
-     * Set point at given offset
+     * Set given offset.
+     *
+     * @throws RuntimeException
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {
-        if ($offset === 0) {
-            $this->width = $value;
-        }
-
-        if ($offset === 1) {
-            $this->height = $value;
-        }
+        throw new RuntimeException('Unable to set array key, use setWidth() or setHeight()');
     }
 
     /**
-     * Unset offset at given offset.
+     * Unset given offset.
+     *
+     * @throws RuntimeException
      */
     public function offsetUnset(mixed $offset): void
     {
-        //
-    }
-
-    /**
-     * Show debug info for the current rectangle.
-     *
-     * @return array<string, int|object>
-     */
-    public function __debugInfo(): array
-    {
-        return [
-            'width' => $this->width(),
-            'height' => $this->height(),
-            'pivot' => $this->pivot,
-        ];
+        throw new RuntimeException('Unable to unset array key, use setWidth() or setHeight()');
     }
 }

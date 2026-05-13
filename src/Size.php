@@ -68,7 +68,7 @@ class Size implements SizeInterface, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * Set size of rectangle.
+     * Set current size.
      */
     public function setSize(int $width, int $height): self
     {
@@ -210,11 +210,11 @@ class Size implements SizeInterface, ArrayAccess, IteratorAggregate
      *
      * @see SizeInterface::offsetTo()
      */
-    public function offsetTo(SizeInterface $rectangle): PointInterface
+    public function offsetTo(SizeInterface $size): PointInterface
     {
         return new Point(
-            $this->pivot()->x() - $rectangle->pivot()->x(),
-            $this->pivot()->y() - $rectangle->pivot()->y()
+            $this->pivot()->x() - $size->pivot()->x(),
+            $this->pivot()->y() - $size->pivot()->y()
         );
     }
 
@@ -468,7 +468,7 @@ class Size implements SizeInterface, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * Show debug info for the current rectangle.
+     * Show debug info for the current size.
      *
      * @return array<string, int|object>
      */

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
+use ArrayAccess;
 use ArrayIterator;
 use DivisionByZeroError;
 use Intervention\Image\Exceptions\InvalidArgumentException;
@@ -13,10 +14,13 @@ use Intervention\Image\Geometry\Tools\Resizer;
 use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Geometry\Point;
-use Intervention\Image\Geometry\Polygon;
+use IteratorAggregate;
 use Traversable;
 
-class Size extends Polygon implements SizeInterface
+/**
+ * @implements IteratorAggregate<int>
+ */
+class Size implements SizeInterface, ArrayAccess, IteratorAggregate
 {
     /**
      * Create new size instance.
@@ -24,8 +28,8 @@ class Size extends Polygon implements SizeInterface
      * @throws InvalidArgumentException
      */
     public function __construct(
-        int $width,
-        int $height,
+        protected int $width,
+        protected int $height,
         protected PointInterface $pivot = new Point()
     ) {
         if ($width < 0) {
@@ -39,13 +43,6 @@ class Size extends Polygon implements SizeInterface
                 'Height of ' . $this::class . ' must be greater than or equal to 0'
             );
         }
-
-        parent::__construct([
-            new Point($this->pivot->x(), $this->pivot->y()),
-            new Point($this->pivot->x() + $width, $this->pivot->y()),
-            new Point($this->pivot->x() + $width, $this->pivot->y() - $height),
-            new Point($this->pivot->x(), $this->pivot->y() - $height),
-        ], $pivot);
     }
 
     /**
@@ -56,6 +53,16 @@ class Size extends Polygon implements SizeInterface
     public static function create(int $width, int $height, PointInterface $pivot = new Point()): self
     {
         return new self($width, $height, $pivot);
+    }
+
+    public function width(): int
+    {
+        return $this->width;
+    }
+
+    public function height(): int
+    {
+        return $this->height;
     }
 
     /**
@@ -73,8 +80,7 @@ class Size extends Polygon implements SizeInterface
      */
     public function setWidth(int $width): self
     {
-        $this[1]->setX($this[0]->x() + $width);
-        $this[2]->setX($this[3]->x() + $width);
+        $this->width = $width;
 
         return $this;
     }
@@ -86,8 +92,7 @@ class Size extends Polygon implements SizeInterface
      */
     public function setHeight(int $height): self
     {
-        $this[2]->setY($this[1]->y() + $height);
-        $this[3]->setY($this[0]->y() + $height);
+        $this->height = $height;
 
         return $this;
     }
@@ -121,9 +126,7 @@ class Size extends Polygon implements SizeInterface
      */
     public function setPosition(PointInterface $position): self
     {
-        parent::setPosition($position);
-
-        return $this;
+        return $this->setPivot($position);
     }
 
     /**
@@ -417,7 +420,47 @@ class Size extends Polygon implements SizeInterface
      */
     public function getIterator(): Traversable
     {
-        return new ArrayIterator([$this->width(), $this->height()]);
+        return new ArrayIterator([$this->width, $this->height]);
+    }
+
+    /**
+     * Determine if point exists at given offset.
+     */
+    public function offsetExists(mixed $offset): bool
+    {
+        return array_key_exists($offset, [$this->width, $this->height]);
+    }
+
+    /**
+     * Return point at given offset.
+     */
+    public function offsetGet(mixed $offset): mixed
+    {
+        $array = [$this->width, $this->height];
+
+        return $array[$offset];
+    }
+
+    /**
+     * Set point at given offset
+     */
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        if ($offset === 0) {
+            $this->width = $value;
+        }
+
+        if ($offset === 1) {
+            $this->height = $value;
+        }
+    }
+
+    /**
+     * Unset offset at given offset.
+     */
+    public function offsetUnset(mixed $offset): void
+    {
+        //
     }
 
     /**

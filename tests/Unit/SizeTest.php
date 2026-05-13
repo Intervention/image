@@ -22,6 +22,14 @@ final class SizeTest extends BaseTestCase
         $this->assertEquals(600, $size->height());
     }
 
+    public function testDeconstruction(): void
+    {
+        $size  = new Size(800, 600);
+        [$width, $height] = $size;
+        $this->assertEquals(800, $width);
+        $this->assertEquals(600, $height);
+    }
+
     public function testConstructorWithPivot(): void
     {
         $pivot = new Point(10, 20);

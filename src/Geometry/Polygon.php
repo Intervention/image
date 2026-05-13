@@ -18,6 +18,7 @@ use Intervention\Image\Geometry\Traits\HasBorder;
 use Intervention\Image\Interfaces\DrawableFactoryInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
 use Intervention\Image\Interfaces\PointInterface;
+use Intervention\Image\Interfaces\SizeInterface;
 
 /**
  * @implements IteratorAggregate<PointInterface>
@@ -38,6 +39,19 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
         protected PointInterface $pivot = new Point()
     ) {
         //
+    }
+
+    public static function fromSize(SizeInterface $size): self
+    {
+        return new self(
+            [
+                new Point(0, 0),
+                new Point($size->width(), 0),
+                new Point($size->width(), $size->height() * -1),
+                new Point(0, $size->height() * -1),
+            ],
+            $size->pivot()
+        );
     }
 
     /**

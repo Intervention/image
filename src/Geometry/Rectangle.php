@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Geometry;
 
-use ArrayAccess;
-use Countable;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Geometry\Factories\RectangleFactory;
 use Intervention\Image\Geometry\Traits\HasBackgroundColor;
@@ -13,70 +12,69 @@ use Intervention\Image\Geometry\Traits\HasBorder;
 use Intervention\Image\Interfaces\DrawableFactoryInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
 use Intervention\Image\Interfaces\PointInterface;
-use Intervention\Image\Interfaces\SizeInterface;
-use Intervention\Image\Size;
-use Traversable;
 
-/**
- * @implements ArrayAccess<int, PointInterface>
- */
-class Rectangle extends Size implements SizeInterface, DrawableInterface, ArrayAccess, Countable
+class Rectangle implements DrawableInterface
 {
     use HasBackgroundColor;
     use HasBorder;
 
     /**
-     * @return array<int, PointInterface>
+     * Create new rectangle.
+     *
+     * @throws InvalidArgumentException
      */
-    public function points(): array
-    {
-        $points = [];
-
-        foreach (Polygon::fromSize($this) as $point) {
-            $points[] = $point;
+    public function __construct(
+        protected int $width,
+        protected int $height,
+        protected PointInterface $pivot = new Point()
+    ) {
+        if ($width < 0) {
+            throw new InvalidArgumentException(
+                'Width of ' . $this::class . ' must be greater than or equal to 0'
+            );
         }
 
-        return $points;
+        if ($height < 0) {
+            throw new InvalidArgumentException(
+                'Height of ' . $this::class . ' must be greater than or equal to 0'
+            );
+        }
     }
 
     /**
-     * Return rectangle's point count.
+     * Get width of rectangle.
      */
-    public function count(): int
+    public function width(): int
     {
-        return count($this->points());
+        return $this->width;
     }
 
     /**
-     * Determine if point exists at given offset.
+     * Set width of rectangle.
      */
-    public function offsetExists(mixed $offset): bool
+    public function setWidth(int $width): self
     {
-        return array_key_exists($offset, $this->points());
+        $this->width = $width;
+
+        return $this;
     }
 
     /**
-     * Return point at given offset.
+     * Get height of rectangle.
      */
-    public function offsetGet(mixed $offset): mixed
+    public function height(): int
     {
-        return $this->points()[$offset];
+        return $this->height;
     }
 
     /**
-     * Set point at given offset
+     * Set height of rectangle.
      */
-    public function offsetSet(mixed $offset, mixed $value): void
+    public function setHeight(int $height): self
     {
-        $this->points()[$offset] = $value;
-    }
+        $this->height = $height;
 
-    /**
-     * Unset offset at given offset.
-     */
-    public function offsetUnset(mixed $offset): void
-    {
-        unset($this->points()[$offset]);
+        return $this;
     }
 
     /**
@@ -86,7 +84,7 @@ class Rectangle extends Size implements SizeInterface, DrawableInterface, ArrayA
      */
     public function setPosition(PointInterface $position): self
     {
-        parent::setPosition($position);
+        $this->pivot = $position;
 
         return $this;
     }
@@ -94,16 +92,6 @@ class Rectangle extends Size implements SizeInterface, DrawableInterface, ArrayA
     public function position(): PointInterface
     {
         return $this->pivot;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see IteratorAggregate::getIterator()
-     */
-    public function getIterator(): Traversable
-    {
-        return Polygon::fromSize($this)->getIterator();
     }
 
     /**

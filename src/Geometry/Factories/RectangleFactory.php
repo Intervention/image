@@ -55,7 +55,8 @@ class RectangleFactory implements DrawableFactoryInterface
      */
     public function size(int $width, int $height): self
     {
-        $this->rectangle->setSize($width, $height);
+        $this->rectangle->setWidth($width);
+        $this->rectangle->setHeight($height);
 
         return $this;
     }

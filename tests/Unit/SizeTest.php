@@ -547,4 +547,72 @@ final class SizeTest extends BaseTestCase
         $this->assertLessThanOrEqual(200, $result->width());
         $this->assertLessThanOrEqual(200, $result->height());
     }
+
+    public function testGetAspectRatio(): void
+    {
+        $size = new Size(800, 600);
+        $this->assertEquals(1.333, round($size->aspectRatio(), 3));
+
+        $size = new Size(100, 100);
+        $this->assertEquals(1, $size->aspectRatio());
+
+        $size = new Size(1920, 1080);
+        $this->assertEquals(1.778, round($size->aspectRatio(), 3));
+    }
+
+    public function testSetGetPivot(): void
+    {
+        $size = new Size(800, 600);
+        $pivot = $size->pivot();
+        $this->assertInstanceOf(Point::class, $pivot);
+        $this->assertEquals(0, $pivot->x());
+        $result = $size->setPivot(new Point(10, 0));
+        $this->assertInstanceOf(Size::class, $result);
+        $this->assertEquals(10, $size->pivot()->x());
+    }
+
+    public function testAlignPivot(): void
+    {
+        $size = new Size(640, 480);
+        $this->assertEquals(0, $size->pivot()->x());
+        $this->assertEquals(0, $size->pivot()->y());
+
+        $size->movePivot(Alignment::TOP_LEFT, 3, 3);
+        $this->assertEquals(3, $size->pivot()->x());
+        $this->assertEquals(3, $size->pivot()->y());
+
+        $size->movePivot(Alignment::TOP, 3, 3);
+        $this->assertEquals(323, $size->pivot()->x());
+        $this->assertEquals(3, $size->pivot()->y());
+
+        $size->movePivot(Alignment::TOP_RIGHT, 3, 3);
+        $this->assertEquals(637, $size->pivot()->x());
+        $this->assertEquals(3, $size->pivot()->y());
+
+        $size->movePivot(Alignment::LEFT, 3, 3);
+        $this->assertEquals(3, $size->pivot()->x());
+        $this->assertEquals(243, $size->pivot()->y());
+
+        $size->movePivot(Alignment::CENTER, 3, 3);
+        $this->assertEquals(323, $size->pivot()->x());
+        $this->assertEquals(243, $size->pivot()->y());
+
+        $size->movePivot(Alignment::RIGHT, 3, 3);
+        $this->assertEquals(637, $size->pivot()->x());
+        $this->assertEquals(243, $size->pivot()->y());
+
+        $size->movePivot(Alignment::BOTTOM_LEFT, 3, 3);
+        $this->assertEquals(3, $size->pivot()->x());
+        $this->assertEquals(477, $size->pivot()->y());
+
+        $size->movePivot(Alignment::BOTTOM, 3, 3);
+        $this->assertEquals(323, $size->pivot()->x());
+        $this->assertEquals(477, $size->pivot()->y());
+
+        $result = $size->movePivot(Alignment::BOTTOM_RIGHT, 3, 3);
+        $this->assertEquals(637, $size->pivot()->x());
+        $this->assertEquals(477, $size->pivot()->y());
+
+        $this->assertInstanceOf(Size::class, $result);
+    }
 }

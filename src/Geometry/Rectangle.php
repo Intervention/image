@@ -51,6 +51,18 @@ class Rectangle extends Polygon implements DrawableInterface, SizeInterface
     }
 
     /**
+     * Create rectangle statically.
+     *
+     * @deprecated Use Intervention\Image\Size::class instead.
+     *
+     * @throws InvalidArgumentException
+     */
+    public static function create(int $width, int $height, PointInterface $pivot = new Point()): self
+    {
+        return new self($width, $height, $pivot);
+    }
+
+    /**
      * Calculate width of rectangle.
      */
     public function width(): int
@@ -140,6 +152,16 @@ class Rectangle extends Polygon implements DrawableInterface, SizeInterface
         $adjustments($factory);
 
         return $factory->drawable();
+    }
+
+    /**
+     * Set current size.
+     *
+     * @deprecated Use Intervention\Image\Size::class instead.
+     */
+    public function setSize(int $width, int $height): self
+    {
+        return $this->setWidth($width)->setHeight($height);
     }
 
     /**

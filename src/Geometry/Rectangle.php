@@ -7,25 +7,20 @@ namespace Intervention\Image\Geometry;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Geometry\Factories\RectangleFactory;
-use Intervention\Image\Geometry\Traits\HasBackgroundColor;
-use Intervention\Image\Geometry\Traits\HasBorder;
 use Intervention\Image\Interfaces\DrawableFactoryInterface;
 use Intervention\Image\Interfaces\DrawableInterface;
 use Intervention\Image\Interfaces\PointInterface;
 
-class Rectangle implements DrawableInterface
+class Rectangle extends Polygon implements DrawableInterface
 {
-    use HasBackgroundColor;
-    use HasBorder;
-
     /**
      * Create new rectangle.
      *
      * @throws InvalidArgumentException
      */
     public function __construct(
-        protected int $width,
-        protected int $height,
+        int $width,
+        int $height,
         protected PointInterface $pivot = new Point()
     ) {
         if ($width < 0) {
@@ -39,40 +34,53 @@ class Rectangle implements DrawableInterface
                 'Height of ' . $this::class . ' must be greater than or equal to 0'
             );
         }
+
+        parent::__construct([
+            new Point($this->pivot->x(), $this->pivot->y()),
+            new Point($this->pivot->x() + $width, $this->pivot->y()),
+            new Point($this->pivot->x() + $width, $this->pivot->y() - $height),
+            new Point($this->pivot->x(), $this->pivot->y() - $height),
+        ], $pivot);
     }
 
     /**
-     * Get width of rectangle.
+     * Calculate width of rectangle.
      */
     public function width(): int
     {
-        return $this->width;
+        return abs($this->mostLeftPoint()->x() - $this->mostRightPoint()->x());
     }
 
     /**
-     * Set width of rectangle.
+     * Calculate height of rectangle.
+     */
+    public function height(): int
+    {
+        return abs($this->mostBottomPoint()->y() - $this->mostTopPoint()->y());
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see SizeInterface::setWidth()
      */
     public function setWidth(int $width): self
     {
-        $this->width = $width;
+        $this[1]->setX($this[0]->x() + $width);
+        $this[2]->setX($this[3]->x() + $width);
 
         return $this;
     }
 
     /**
-     * Get height of rectangle.
-     */
-    public function height(): int
-    {
-        return $this->height;
-    }
-
-    /**
-     * Set height of rectangle.
+     * {@inheritdoc}
+     *
+     * @see SizeInterface::setHeight()
      */
     public function setHeight(int $height): self
     {
-        $this->height = $height;
+        $this[2]->setY($this[1]->y() + $height);
+        $this[3]->setY($this[0]->y() + $height);
 
         return $this;
     }

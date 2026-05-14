@@ -41,6 +41,9 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
         //
     }
 
+    /**
+     * Create polygon from given size.
+     */
     public static function fromSize(SizeInterface $size): self
     {
         return new self(

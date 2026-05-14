@@ -474,7 +474,7 @@ class Size implements SizeInterface, ArrayAccess, IteratorAggregate
      */
     public function offsetUnset(mixed $offset): void
     {
-        throw new RuntimeException('Unable to unset array key, use setWidth() or setHeight()');
+        throw new RuntimeException('Unable to unset array key');
     }
 
     /**

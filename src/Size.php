@@ -7,7 +7,6 @@ namespace Intervention\Image;
 use ArrayAccess;
 use ArrayIterator;
 use DivisionByZeroError;
-use ErrorException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Exceptions\StateException;
@@ -452,14 +451,14 @@ class Size implements SizeInterface, ArrayAccess, IteratorAggregate
      *
      * @see ArrayAccess::offsetExists()
      *
-     * @throws ErrorException
+     * @throws RuntimeException
      */
     public function offsetGet(mixed $offset): mixed
     {
         return match ($offset) {
             0, 'width' => $this->width,
             1, 'height' => $this->height,
-            default => throw new ErrorException('Undefined array key ' . $offset)
+            default => throw new RuntimeException('Undefined array key ' . $offset)
         };
     }
 

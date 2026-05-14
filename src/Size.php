@@ -57,11 +57,21 @@ class Size implements SizeInterface, ArrayAccess, IteratorAggregate
         return new self($width, $height, $pivot);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see SizeInterface::width()
+     */
     public function width(): int
     {
         return $this->width;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see SizeInterface::height()
+     */
     public function height(): int
     {
         return $this->height;

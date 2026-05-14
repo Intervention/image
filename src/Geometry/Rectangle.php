@@ -97,6 +97,11 @@ class Rectangle extends Polygon implements DrawableInterface
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see DrawableInterface::position()
+     */
     public function position(): PointInterface
     {
         return $this->pivot;

@@ -14,6 +14,7 @@ use Intervention\Image\Geometry\Factories\PolygonFactory;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
+use Intervention\Image\Size;
 use Intervention\Image\Tests\BaseTestCase;
 
 #[CoversClass(Polygon::class)]
@@ -708,5 +709,22 @@ final class PolygonTest extends BaseTestCase
 
         $poly->setBackgroundColor('ff0000');
         $this->assertTrue($poly->hasBackgroundColor());
+    }
+
+    public function testFromSize(): void
+    {
+        $poly = Polygon::fromSize(new Size(300, 200, new Point(30, 20)));
+        $this->assertEquals(0, $poly[0]->x());
+        $this->assertEquals(0, $poly[0]->y());
+        $this->assertEquals(300, $poly[1]->x());
+        $this->assertEquals(0, $poly[1]->y());
+        $this->assertEquals(300, $poly[2]->x());
+        $this->assertEquals(-200, $poly[2]->y());
+        $this->assertEquals(0, $poly[3]->x());
+        $this->assertEquals(-200, $poly[3]->y());
+        $this->assertEquals(30, $poly->pivot()->x());
+        $this->assertEquals(20, $poly->pivot()->y());
+        $this->assertEquals(300, $poly->width());
+        $this->assertEquals(200, $poly->height());
     }
 }

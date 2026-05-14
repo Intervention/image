@@ -155,7 +155,7 @@ class Rectangle extends Polygon implements DrawableInterface, SizeInterface
     }
 
     /**
-     * Set current size.
+     * Set size of rectangle.
      *
      * @deprecated Use Intervention\Image\Size::class instead.
      */

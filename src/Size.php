@@ -426,7 +426,9 @@ class Size implements SizeInterface, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * Implement iteration.
+     * {@inheritdoc}
+     *
+     * @see IteratorAggregate::getIterator()
      *
      * @return Traversable<mixed>
      */
@@ -436,7 +438,9 @@ class Size implements SizeInterface, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * Determine if point exists at given offset.
+     * {@inheritdoc}
+     *
+     * @see ArrayAccess::offsetExists()
      */
     public function offsetExists(mixed $offset): bool
     {
@@ -444,7 +448,9 @@ class Size implements SizeInterface, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * Return value at given offset.
+     * {@inheritdoc}
+     *
+     * @see ArrayAccess::offsetExists()
      *
      * @throws ErrorException
      */
@@ -458,7 +464,9 @@ class Size implements SizeInterface, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * Set given offset.
+     * {@inheritdoc}
+     *
+     * @see ArrayAccess::offsetExists()
      *
      * @throws RuntimeException
      */
@@ -468,7 +476,9 @@ class Size implements SizeInterface, ArrayAccess, IteratorAggregate
     }
 
     /**
-     * Unset given offset.
+     * {@inheritdoc}
+     *
+     * @see ArrayAccess::offsetExists()
      *
      * @throws RuntimeException
      */

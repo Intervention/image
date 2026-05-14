@@ -43,10 +43,10 @@ class Rectangle extends Polygon implements DrawableInterface, SizeInterface
         }
 
         parent::__construct([
-            new Point($this->pivot->x(), $this->pivot->y()),
-            new Point($this->pivot->x() + $width, $this->pivot->y()),
-            new Point($this->pivot->x() + $width, $this->pivot->y() - $height),
-            new Point($this->pivot->x(), $this->pivot->y() - $height),
+            new Point(0, 0),
+            new Point($width, 0),
+            new Point($width, $height * -1),
+            new Point(0, $height * -1),
         ], $pivot);
     }
 

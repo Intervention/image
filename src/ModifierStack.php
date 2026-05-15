@@ -20,6 +20,16 @@ class ModifierStack implements ModifierInterface
     }
 
     /**
+     * Create new modifier stack object statically.
+     *
+     * @param array<ModifierInterface> $modifiers
+     */
+    public static function create(array $modifiers): self
+    {
+        return new self($modifiers);
+    }
+
+    /**
      * Apply all modifiers in stack to the given image.
      */
     public function apply(ImageInterface $image): ImageInterface

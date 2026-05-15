@@ -12,6 +12,9 @@ enum Orientation: string
     case LANDSCAPE = 'landscape';
     case SQUARE = 'square';
 
+    /**
+     * Create orientation of given size.
+     */
     public static function fromSize(SizeInterface $size): self
     {
         return match (true) {

@@ -7,6 +7,7 @@ namespace Intervention\Image\Tests\Unit;
 use Intervention\Image\Alignment;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Point;
+use Intervention\Image\Orientation;
 use Intervention\Image\Size;
 use Intervention\Image\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -551,5 +552,12 @@ final class SizeTest extends BaseTestCase
         $result = $size->containDown(200, 200);
         $this->assertLessThanOrEqual(200, $result->width());
         $this->assertLessThanOrEqual(200, $result->height());
+    }
+
+    public function testOrientation(): void
+    {
+        $this->assertEquals(Orientation::LANDSCAPE, (new Size(300, 200))->orientation());
+        $this->assertEquals(Orientation::PORTRAIT, (new Size(200, 300))->orientation());
+        $this->assertEquals(Orientation::SQUARE, (new Size(300, 300))->orientation());
     }
 }

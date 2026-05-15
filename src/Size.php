@@ -282,6 +282,14 @@ class Size implements SizeInterface, ArrayAccess, IteratorAggregate
     }
 
     /**
+     * Return orientation of current size.
+     */
+    public function orientation(): Orientation
+    {
+        return Orientation::fromSize($this);
+    }
+
+    /**
      * {@inheritdoc}
      *
      * @see SizeInterface::resize()

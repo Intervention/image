@@ -45,6 +45,14 @@ final class RectangleTest extends BaseTestCase
         $this->assertEquals('f50', $adjusted->backgroundColor());
     }
 
+    public function testSetSize(): void
+    {
+        $rectangle = new Rectangle(300, 200);
+        $rectangle->setSize(12, 34);
+        $this->assertEquals(12, $rectangle->width());
+        $this->assertEquals(34, $rectangle->height());
+    }
+
     public function testSetWidth(): void
     {
         $rectangle = new Rectangle(300, 200);
@@ -63,123 +71,123 @@ final class RectangleTest extends BaseTestCase
 
     public function testGetAspectRatio(): void
     {
-        $rectangle = new Rectangle(800, 600);
-        $this->assertEquals(1.333, round($rectangle->aspectRatio(), 3));
+        $size = new Rectangle(800, 600);
+        $this->assertEquals(1.333, round($size->aspectRatio(), 3));
 
-        $rectangle = new Rectangle(100, 100);
-        $this->assertEquals(1, $rectangle->aspectRatio());
+        $size = new Rectangle(100, 100);
+        $this->assertEquals(1, $size->aspectRatio());
 
-        $rectangle = new Rectangle(1920, 1080);
-        $this->assertEquals(1.778, round($rectangle->aspectRatio(), 3));
+        $size = new Rectangle(1920, 1080);
+        $this->assertEquals(1.778, round($size->aspectRatio(), 3));
     }
 
     public function testFitsInto(): void
     {
-        $rectangle = new Rectangle(800, 600);
-        $fits = $rectangle->fitsWithin(new Rectangle(100, 100));
+        $box = new Rectangle(800, 600);
+        $fits = $box->fitsWithin(new Rectangle(100, 100));
         $this->assertFalse($fits);
 
-        $rectangle = new Rectangle(800, 600);
-        $fits = $rectangle->fitsWithin(new Rectangle(1000, 100));
+        $box = new Rectangle(800, 600);
+        $fits = $box->fitsWithin(new Rectangle(1000, 100));
         $this->assertFalse($fits);
 
-        $rectangle = new Rectangle(800, 600);
-        $fits = $rectangle->fitsWithin(new Rectangle(100, 1000));
+        $box = new Rectangle(800, 600);
+        $fits = $box->fitsWithin(new Rectangle(100, 1000));
         $this->assertFalse($fits);
 
-        $rectangle = new Rectangle(800, 600);
-        $fits = $rectangle->fitsWithin(new Rectangle(800, 600));
+        $box = new Rectangle(800, 600);
+        $fits = $box->fitsWithin(new Rectangle(800, 600));
         $this->assertTrue($fits);
 
-        $rectangle = new Rectangle(800, 600);
-        $fits = $rectangle->fitsWithin(new Rectangle(1000, 1000));
+        $box = new Rectangle(800, 600);
+        $fits = $box->fitsWithin(new Rectangle(1000, 1000));
         $this->assertTrue($fits);
 
-        $rectangle = new Rectangle(100, 100);
-        $fits = $rectangle->fitsWithin(new Rectangle(800, 600));
+        $box = new Rectangle(100, 100);
+        $fits = $box->fitsWithin(new Rectangle(800, 600));
         $this->assertTrue($fits);
 
-        $rectangle = new Rectangle(100, 100);
-        $fits = $rectangle->fitsWithin(new Rectangle(80, 60));
+        $box = new Rectangle(100, 100);
+        $fits = $box->fitsWithin(new Rectangle(80, 60));
         $this->assertFalse($fits);
     }
 
     public function testIsLandscape(): void
     {
-        $rectangle = new Rectangle(100, 100);
-        $this->assertFalse($rectangle->isLandscape());
+        $box = new Rectangle(100, 100);
+        $this->assertFalse($box->isLandscape());
 
-        $rectangle = new Rectangle(100, 200);
-        $this->assertFalse($rectangle->isLandscape());
+        $box = new Rectangle(100, 200);
+        $this->assertFalse($box->isLandscape());
 
-        $rectangle = new Rectangle(300, 200);
-        $this->assertTrue($rectangle->isLandscape());
+        $box = new Rectangle(300, 200);
+        $this->assertTrue($box->isLandscape());
     }
 
     public function testIsPortrait(): void
     {
-        $rectangle = new Rectangle(100, 100);
-        $this->assertFalse($rectangle->isPortrait());
+        $box = new Rectangle(100, 100);
+        $this->assertFalse($box->isPortrait());
 
-        $rectangle = new Rectangle(200, 100);
-        $this->assertFalse($rectangle->isPortrait());
+        $box = new Rectangle(200, 100);
+        $this->assertFalse($box->isPortrait());
 
-        $rectangle = new Rectangle(200, 300);
-        $this->assertTrue($rectangle->isPortrait());
+        $box = new Rectangle(200, 300);
+        $this->assertTrue($box->isPortrait());
     }
 
     public function testSetGetPivot(): void
     {
-        $rectangle = new Rectangle(800, 600);
-        $pivot = $rectangle->pivot();
+        $box = new Rectangle(800, 600);
+        $pivot = $box->pivot();
         $this->assertInstanceOf(Point::class, $pivot);
         $this->assertEquals(0, $pivot->x());
-        $result = $rectangle->setPivot(new Point(10, 0));
+        $result = $box->setPivot(new Point(10, 0));
         $this->assertInstanceOf(Rectangle::class, $result);
-        $this->assertEquals(10, $rectangle->pivot()->x());
+        $this->assertEquals(10, $box->pivot()->x());
     }
 
     public function testAlignPivot(): void
     {
-        $rectangle = new Rectangle(640, 480);
-        $this->assertEquals(0, $rectangle->pivot()->x());
-        $this->assertEquals(0, $rectangle->pivot()->y());
+        $box = new Rectangle(640, 480);
+        $this->assertEquals(0, $box->pivot()->x());
+        $this->assertEquals(0, $box->pivot()->y());
 
-        $rectangle->movePivot(Alignment::TOP_LEFT, 3, 3);
-        $this->assertEquals(3, $rectangle->pivot()->x());
-        $this->assertEquals(3, $rectangle->pivot()->y());
+        $box->movePivot(Alignment::TOP_LEFT, 3, 3);
+        $this->assertEquals(3, $box->pivot()->x());
+        $this->assertEquals(3, $box->pivot()->y());
 
-        $rectangle->movePivot(Alignment::TOP, 3, 3);
-        $this->assertEquals(323, $rectangle->pivot()->x());
-        $this->assertEquals(3, $rectangle->pivot()->y());
+        $box->movePivot(Alignment::TOP, 3, 3);
+        $this->assertEquals(323, $box->pivot()->x());
+        $this->assertEquals(3, $box->pivot()->y());
 
-        $rectangle->movePivot(Alignment::TOP_RIGHT, 3, 3);
-        $this->assertEquals(637, $rectangle->pivot()->x());
-        $this->assertEquals(3, $rectangle->pivot()->y());
+        $box->movePivot(Alignment::TOP_RIGHT, 3, 3);
+        $this->assertEquals(637, $box->pivot()->x());
+        $this->assertEquals(3, $box->pivot()->y());
 
-        $rectangle->movePivot(Alignment::LEFT, 3, 3);
-        $this->assertEquals(3, $rectangle->pivot()->x());
-        $this->assertEquals(243, $rectangle->pivot()->y());
+        $box->movePivot(Alignment::LEFT, 3, 3);
+        $this->assertEquals(3, $box->pivot()->x());
+        $this->assertEquals(243, $box->pivot()->y());
 
-        $rectangle->movePivot(Alignment::CENTER, 3, 3);
-        $this->assertEquals(323, $rectangle->pivot()->x());
-        $this->assertEquals(243, $rectangle->pivot()->y());
+        $box->movePivot(Alignment::CENTER, 3, 3);
+        $this->assertEquals(323, $box->pivot()->x());
+        $this->assertEquals(243, $box->pivot()->y());
 
-        $rectangle->movePivot(Alignment::RIGHT, 3, 3);
-        $this->assertEquals(637, $rectangle->pivot()->x());
-        $this->assertEquals(243, $rectangle->pivot()->y());
+        $box->movePivot(Alignment::RIGHT, 3, 3);
+        $this->assertEquals(637, $box->pivot()->x());
+        $this->assertEquals(243, $box->pivot()->y());
 
-        $rectangle->movePivot(Alignment::BOTTOM_LEFT, 3, 3);
-        $this->assertEquals(3, $rectangle->pivot()->x());
-        $this->assertEquals(477, $rectangle->pivot()->y());
+        $box->movePivot(Alignment::BOTTOM_LEFT, 3, 3);
+        $this->assertEquals(3, $box->pivot()->x());
+        $this->assertEquals(477, $box->pivot()->y());
 
-        $rectangle->movePivot(Alignment::BOTTOM, 3, 3);
-        $this->assertEquals(323, $rectangle->pivot()->x());
-        $this->assertEquals(477, $rectangle->pivot()->y());
+        $box->movePivot(Alignment::BOTTOM, 3, 3);
+        $this->assertEquals(323, $box->pivot()->x());
+        $this->assertEquals(477, $box->pivot()->y());
 
-        $result = $rectangle->movePivot(Alignment::BOTTOM_RIGHT, 3, 3);
-        $this->assertEquals(637, $rectangle->pivot()->x());
-        $this->assertEquals(477, $rectangle->pivot()->y());
+        $result = $box->movePivot(Alignment::BOTTOM_RIGHT, 3, 3);
+        $this->assertEquals(637, $box->pivot()->x());
+        $this->assertEquals(477, $box->pivot()->y());
 
         $this->assertInstanceOf(Rectangle::class, $result);
     }
@@ -187,75 +195,75 @@ final class RectangleTest extends BaseTestCase
     public function testAlignPivotTo(): void
     {
         $container = new Rectangle(800, 600);
-        $rectangle = new Rectangle(200, 100);
-        $rectangle->alignPivotTo($container, Alignment::CENTER);
-        $this->assertEquals(300, $rectangle->pivot()->x());
-        $this->assertEquals(250, $rectangle->pivot()->y());
+        $size = new Rectangle(200, 100);
+        $size->alignPivotTo($container, Alignment::CENTER);
+        $this->assertEquals(300, $size->pivot()->x());
+        $this->assertEquals(250, $size->pivot()->y());
 
         $container = new Rectangle(800, 600);
-        $rectangle = new Rectangle(100, 100);
-        $rectangle->alignPivotTo($container, Alignment::CENTER);
-        $this->assertEquals(350, $rectangle->pivot()->x());
-        $this->assertEquals(250, $rectangle->pivot()->y());
+        $size = new Rectangle(100, 100);
+        $size->alignPivotTo($container, Alignment::CENTER);
+        $this->assertEquals(350, $size->pivot()->x());
+        $this->assertEquals(250, $size->pivot()->y());
 
         $container = new Rectangle(800, 600);
-        $rectangle = new Rectangle(800, 600);
-        $rectangle->alignPivotTo($container, Alignment::CENTER);
-        $this->assertEquals(0, $rectangle->pivot()->x());
-        $this->assertEquals(0, $rectangle->pivot()->y());
+        $size = new Rectangle(800, 600);
+        $size->alignPivotTo($container, Alignment::CENTER);
+        $this->assertEquals(0, $size->pivot()->x());
+        $this->assertEquals(0, $size->pivot()->y());
 
         $container = new Rectangle(100, 100);
-        $rectangle = new Rectangle(800, 600);
-        $rectangle->alignPivotTo($container, Alignment::CENTER);
-        $this->assertEquals(-350, $rectangle->pivot()->x());
-        $this->assertEquals(-250, $rectangle->pivot()->y());
+        $size = new Rectangle(800, 600);
+        $size->alignPivotTo($container, Alignment::CENTER);
+        $this->assertEquals(-350, $size->pivot()->x());
+        $this->assertEquals(-250, $size->pivot()->y());
 
         $container = new Rectangle(100, 100);
-        $rectangle = new Rectangle(800, 600);
-        $rectangle->alignPivotTo($container, Alignment::BOTTOM_RIGHT);
-        $this->assertEquals(-700, $rectangle->pivot()->x());
-        $this->assertEquals(-500, $rectangle->pivot()->y());
+        $size = new Rectangle(800, 600);
+        $size->alignPivotTo($container, Alignment::BOTTOM_RIGHT);
+        $this->assertEquals(-700, $size->pivot()->x());
+        $this->assertEquals(-500, $size->pivot()->y());
     }
 
     public function testOffsetTo(): void
     {
         $container = new Rectangle(800, 600);
-        $rectangle = new Rectangle(200, 100);
+        $input = new Rectangle(200, 100);
         $container->movePivot(Alignment::TOP_LEFT);
-        $rectangle->movePivot(Alignment::TOP_LEFT);
-        $pos = $container->offsetTo($rectangle);
+        $input->movePivot(Alignment::TOP_LEFT);
+        $pos = $container->offsetTo($input);
         $this->assertEquals(0, $pos->x());
         $this->assertEquals(0, $pos->y());
 
         $container = new Rectangle(800, 600);
-        $rectangle = new Rectangle(200, 100);
+        $input = new Rectangle(200, 100);
         $container->movePivot(Alignment::CENTER);
-        $rectangle->movePivot(Alignment::TOP_LEFT);
-        $pos = $container->offsetTo($rectangle);
+        $input->movePivot(Alignment::TOP_LEFT);
+        $pos = $container->offsetTo($input);
         $this->assertEquals(400, $pos->x());
         $this->assertEquals(300, $pos->y());
 
         $container = new Rectangle(800, 600);
-        $rectangle = new Rectangle(200, 100);
+        $input = new Rectangle(200, 100);
         $container->movePivot(Alignment::BOTTOM_RIGHT);
-        $rectangle->movePivot(Alignment::TOP_RIGHT);
-        $pos = $container->offsetTo($rectangle);
+        $input->movePivot(Alignment::TOP_RIGHT);
+        $pos = $container->offsetTo($input);
         $this->assertEquals(600, $pos->x());
         $this->assertEquals(600, $pos->y());
 
         $container = new Rectangle(800, 600);
-        $rectangle = new Rectangle(200, 100);
+        $input = new Rectangle(200, 100);
         $container->movePivot(Alignment::CENTER);
-        $rectangle->movePivot(Alignment::CENTER);
-        $pos = $container->offsetTo($rectangle);
+        $input->movePivot(Alignment::CENTER);
+        $pos = $container->offsetTo($input);
         $this->assertEquals(300, $pos->x());
         $this->assertEquals(250, $pos->y());
 
         $container = new Rectangle(100, 200);
-        $rectangle = new Rectangle(100, 100);
+        $input = new Rectangle(100, 100);
         $container->movePivot(Alignment::CENTER);
-        $rectangle->movePivot(Alignment::CENTER);
-        $pos = $container->offsetTo($rectangle);
+        $input->movePivot(Alignment::CENTER);
+        $pos = $container->offsetTo($input);
         $this->assertEquals(0, $pos->x());
         $this->assertEquals(50, $pos->y());
     }

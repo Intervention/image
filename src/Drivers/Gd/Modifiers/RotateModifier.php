@@ -12,6 +12,7 @@ use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\StateException;
+use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -85,7 +86,7 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
         ))->movePivot(Alignment::CENTER);
 
         // create size from original and rotate points
-        $cutout = (new Size(
+        $cutout = Polygon::fromSize(new Size(
             imagesx($frame->native()),
             imagesy($frame->native()),
             $container->pivot()

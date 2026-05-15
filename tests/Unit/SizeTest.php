@@ -51,6 +51,19 @@ final class SizeTest extends BaseTestCase
         $this->assertEquals(0, $size->height());
     }
 
+    public function testDeconstruction(): void
+    {
+        $size = new Size(800, 600);
+
+        [$width, $height] = $size;
+        $this->assertEquals(800, $width);
+        $this->assertEquals(600, $height);
+
+        ['width' => $width, 'height' => $height] = $size;
+        $this->assertEquals(800, $width);
+        $this->assertEquals(600, $height);
+    }
+
     public function testCreate(): void
     {
         $size = Size::create(300, 200, new Point(10, 20));

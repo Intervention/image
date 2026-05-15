@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
+use ArrayAccess;
 use ArrayIterator;
 use DivisionByZeroError;
 use Intervention\Image\Exceptions\InvalidArgumentException;
@@ -13,10 +14,14 @@ use Intervention\Image\Geometry\Tools\Resizer;
 use Intervention\Image\Interfaces\PointInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Geometry\Point;
-use Intervention\Image\Geometry\Polygon;
+use IteratorAggregate;
 use Traversable;
 
-class Size extends Polygon implements SizeInterface
+/**
+ * @implements IteratorAggregate<int>
+ * @implements ArrayAccess<int|string, int>
+ */
+class Size implements SizeInterface, ArrayAccess, IteratorAggregate
 {
     /**
      * Create new size instance.
@@ -24,8 +29,8 @@ class Size extends Polygon implements SizeInterface
      * @throws InvalidArgumentException
      */
     public function __construct(
-        int $width,
-        int $height,
+        protected int $width,
+        protected int $height,
         protected PointInterface $pivot = new Point()
     ) {
         if ($width < 0) {
@@ -39,13 +44,6 @@ class Size extends Polygon implements SizeInterface
                 'Height of ' . $this::class . ' must be greater than or equal to 0'
             );
         }
-
-        parent::__construct([
-            new Point($this->pivot->x(), $this->pivot->y()),
-            new Point($this->pivot->x() + $width, $this->pivot->y()),
-            new Point($this->pivot->x() + $width, $this->pivot->y() - $height),
-            new Point($this->pivot->x(), $this->pivot->y() - $height),
-        ], $pivot);
     }
 
     /**
@@ -59,7 +57,27 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
-     * Set size of rectangle.
+     * {@inheritdoc}
+     *
+     * @see SizeInterface::width()
+     */
+    public function width(): int
+    {
+        return $this->width;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see SizeInterface::height()
+     */
+    public function height(): int
+    {
+        return $this->height;
+    }
+
+    /**
+     * Set current size.
      */
     public function setSize(int $width, int $height): self
     {
@@ -73,8 +91,7 @@ class Size extends Polygon implements SizeInterface
      */
     public function setWidth(int $width): self
     {
-        $this[1]->setX($this[0]->x() + $width);
-        $this[2]->setX($this[3]->x() + $width);
+        $this->width = $width;
 
         return $this;
     }
@@ -86,8 +103,7 @@ class Size extends Polygon implements SizeInterface
      */
     public function setHeight(int $height): self
     {
-        $this[2]->setY($this[1]->y() + $height);
-        $this[3]->setY($this[0]->y() + $height);
+        $this->height = $height;
 
         return $this;
     }
@@ -121,9 +137,7 @@ class Size extends Polygon implements SizeInterface
      */
     public function setPosition(PointInterface $position): self
     {
-        parent::setPosition($position);
-
-        return $this;
+        return $this->setPivot($position);
     }
 
     /**
@@ -205,11 +219,11 @@ class Size extends Polygon implements SizeInterface
      *
      * @see SizeInterface::offsetTo()
      */
-    public function offsetTo(SizeInterface $rectangle): PointInterface
+    public function offsetTo(SizeInterface $size): PointInterface
     {
         return new Point(
-            $this->pivot()->x() - $rectangle->pivot()->x(),
-            $this->pivot()->y() - $rectangle->pivot()->y()
+            $this->pivot()->x() - $size->pivot()->x(),
+            $this->pivot()->y() - $size->pivot()->y()
         );
     }
 
@@ -411,17 +425,69 @@ class Size extends Polygon implements SizeInterface
     }
 
     /**
-     * Implement iteration.
+     * {@inheritdoc}
+     *
+     * @see IteratorAggregate::getIterator()
      *
      * @return Traversable<mixed>
      */
     public function getIterator(): Traversable
     {
-        return new ArrayIterator([$this->width(), $this->height()]);
+        return new ArrayIterator([$this->width, $this->height]);
     }
 
     /**
-     * Show debug info for the current rectangle.
+     * {@inheritdoc}
+     *
+     * @see ArrayAccess::offsetExists()
+     */
+    public function offsetExists(mixed $offset): bool
+    {
+        return in_array($offset, [0, 1, 'width', 'height']);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ArrayAccess::offsetExists()
+     *
+     * @throws RuntimeException
+     */
+    public function offsetGet(mixed $offset): mixed
+    {
+        return match ($offset) {
+            0, 'width' => $this->width,
+            1, 'height' => $this->height,
+            default => throw new RuntimeException('Undefined array key ' . $offset)
+        };
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ArrayAccess::offsetExists()
+     *
+     * @throws RuntimeException
+     */
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        throw new RuntimeException('Unable to set array key, use setWidth() or setHeight()');
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ArrayAccess::offsetExists()
+     *
+     * @throws RuntimeException
+     */
+    public function offsetUnset(mixed $offset): void
+    {
+        throw new RuntimeException('Unable to unset array key');
+    }
+
+    /**
+     * Show debug info for the current size.
      *
      * @return array<string, int|object>
      */

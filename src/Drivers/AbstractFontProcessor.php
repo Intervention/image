@@ -7,6 +7,7 @@ namespace Intervention\Image\Drivers;
 use Intervention\Image\Alignment;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Geometry\Point;
+use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Interfaces\FontInterface;
 use Intervention\Image\Interfaces\FontProcessorInterface;
 use Intervention\Image\Interfaces\PointInterface;
@@ -155,10 +156,10 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
     protected function buildPivot(TextBlock $block, FontInterface $font, PointInterface $position): PointInterface
     {
         // bounding box
-        $box = new Size(
+        $box = Polygon::fromSize(new Size(
             $this->boxSize((string) $block->longestLine(), $font)->width(),
             $this->leading($font) * ($block->count() - 1) + $this->capHeight($font)
-        );
+        ));
 
         // set position
         $box->setPivot($position);

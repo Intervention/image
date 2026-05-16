@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Alignment;
+use Intervention\Image\Drivers\Gd\Core;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Drivers\Gd\Frame;
+use Intervention\Image\Image;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\InsertModifier;
@@ -40,5 +44,41 @@ final class InsertModifierTest extends GdTestCase
         $this->assertEquals('0000ff', $image->colorAt(10, 10)->toHex());
         $image->modify(new InsertModifier(Resource::create('exif.jpg')->path(), transparency: .5));
         $this->assertColor(127, 83, 127, 255, $image->colorAt(10, 10), tolerance: 1);
+    }
+
+    public function testInsertWithTransparencyKeepsTransparentBaseTransparent(): void
+    {
+        $image = $this->createTransparentBase(50, 50);
+        $this->assertTransparency($image->colorAt(0, 0));
+
+        $image->modify(new InsertModifier(
+            Resource::create('circle.png')->path(),
+            0,
+            0,
+            Alignment::TOP_LEFT,
+            .5,
+        ));
+
+        // circle.png's (0, 0) is fully transparent. The previous
+        // imagecreatetruecolor + imagecopymerge path filled the whole
+        // watermark bbox with opaque black wherever the base was
+        // transparent. The corner must still be transparent.
+        $this->assertTransparency($image->colorAt(0, 0));
+    }
+
+    private function createTransparentBase(int $width, int $height): Image
+    {
+        $gd = imagecreatetruecolor($width, $height);
+        imagealphablending($gd, false);
+        imagesavealpha($gd, true);
+        $transparent = imagecolorallocatealpha($gd, 0, 0, 0, 127);
+        imagefilledrectangle($gd, 0, 0, $width - 1, $height - 1, $transparent);
+
+        return new Image(
+            new Driver(),
+            new Core([
+                new Frame($gd),
+            ]),
+        );
     }
 }

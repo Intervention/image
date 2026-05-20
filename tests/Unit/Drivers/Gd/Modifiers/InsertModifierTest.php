@@ -5,10 +5,6 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Alignment;
-use Intervention\Image\Drivers\Gd\Core;
-use Intervention\Image\Drivers\Gd\Driver;
-use Intervention\Image\Drivers\Gd\Frame;
-use Intervention\Image\Image;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Modifiers\InsertModifier;
@@ -48,7 +44,7 @@ final class InsertModifierTest extends GdTestCase
 
     public function testInsertWithTransparencyKeepsTransparentBaseTransparent(): void
     {
-        $image = $this->createTransparentBase(50, 50);
+        $image = self::createTestImageTransparent(50, 50);
         $this->assertTransparency($image->colorAt(0, 0));
 
         $image->modify(new InsertModifier(
@@ -64,21 +60,5 @@ final class InsertModifierTest extends GdTestCase
         // watermark bbox with opaque black wherever the base was
         // transparent. The corner must still be transparent.
         $this->assertTransparency($image->colorAt(0, 0));
-    }
-
-    private function createTransparentBase(int $width, int $height): Image
-    {
-        $gd = imagecreatetruecolor($width, $height);
-        imagealphablending($gd, false);
-        imagesavealpha($gd, true);
-        $transparent = imagecolorallocatealpha($gd, 0, 0, 0, 127);
-        imagefilledrectangle($gd, 0, 0, $width - 1, $height - 1, $transparent);
-
-        return new Image(
-            new Driver(),
-            new Core([
-                new Frame($gd),
-            ]),
-        );
     }
 }

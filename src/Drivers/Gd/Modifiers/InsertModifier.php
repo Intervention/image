@@ -54,7 +54,7 @@ class InsertModifier extends GenericInsertModifier implements SpecializedInterfa
         try {
             $watermark = $this->driver()->decodeImage($this->image);
 
-            return $this->transparency === 1.0 ? $watermark : $this->buildFadedWatermark($watermark);
+            return $this->transparency === 1.0 ? $watermark : $this->fadeWatermark($watermark);
         } catch (ImageException $e) {
             throw new ModifierException('Failed to build watermark', previous: $e);
         }
@@ -62,12 +62,12 @@ class InsertModifier extends GenericInsertModifier implements SpecializedInterfa
 
     /**
      * Build a faded copy of the watermark by scaling each pixel's alpha
-     * by the requested transparency factor. Created once and reused for
-     * every frame.
+     * by the requested transparency factor of the modifier. Created once
+     * and reused for every frame.
      *
      * @throws ModifierException
      */
-    private function buildFadedWatermark(ImageInterface $watermark): ImageInterface
+    private function fadeWatermark(ImageInterface $watermark): ImageInterface
     {
         $width = $watermark->width();
         $height = $watermark->height();

@@ -44,7 +44,7 @@ class Config
      * array instead of named parameters.
      *
      * @param array<mixed> $options
-     * @return array<string, mixed>
+     * @return array<mixed>
      */
     private function prepareOptions(array $options): array
     {

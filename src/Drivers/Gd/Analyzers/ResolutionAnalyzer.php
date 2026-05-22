@@ -206,11 +206,18 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
 
                 $x = unpack('N', substr($data, 0, 4))[1];
                 $y = unpack('N', substr($data, 4, 4))[1];
+                $unit = ord(substr($data, 8, 1));
 
-                return [
-                    round($x * .0254),
-                    round($y * .0254),
-                ];
+                // unit=1 means pixels per metre → convert to DPI
+                // unit=0 means unknown unit (just a ratio) → return raw values
+                if ($unit === 1) {
+                    return [
+                        round($x * .0254),
+                        round($y * .0254),
+                    ];
+                }
+
+                return [$x, $y];
             }
         }
 

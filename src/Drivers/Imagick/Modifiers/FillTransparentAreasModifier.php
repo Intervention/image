@@ -32,7 +32,7 @@ class FillTransparentAreasModifier extends GenericFillTransparentAreasModifier i
             try {
                 $frame->native()->setImageBackgroundColor($pixel);
                 $frame->native()->setImageAlphaChannel(Imagick::ALPHACHANNEL_REMOVE);
-                $frame->native()->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+                $frame->setNative($frame->native()->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN));
             } catch (ImagickException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to set image background color',

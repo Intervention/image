@@ -51,7 +51,9 @@ class WebpEncoder extends GenericWebpEncoder implements SpecializedInterface
             }
 
             if (!$image->isAnimated()) {
-                $imagick = $imagick->mergeImageLayers(Imagick::LAYERMETHOD_MERGE);
+                $merged = $imagick->mergeImageLayers(Imagick::LAYERMETHOD_MERGE);
+                $imagick->clear();
+                $imagick = $merged;
             }
 
             $imagick->setFormat($format);

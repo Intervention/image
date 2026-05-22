@@ -21,7 +21,12 @@ class BrightnessModifier extends GenericBrightnessModifier implements Specialize
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $result = imagefilter($frame->native(), IMG_FILTER_BRIGHTNESS, intval($this->level * 2.55));
+            $result = imagefilter(
+                $frame->native(),
+                IMG_FILTER_BRIGHTNESS,
+                max(-255, min(255, intval($this->level * 2.55))),
+            );
+
             if ($result === false) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to set image brightness',

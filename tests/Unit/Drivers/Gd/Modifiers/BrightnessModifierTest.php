@@ -21,4 +21,22 @@ final class BrightnessModifierTest extends GdTestCase
         $image->modify(new BrightnessModifier(30));
         $this->assertEquals('4cfaff', $image->colorAt(14, 14)->toHex());
     }
+
+    public function testApplyOutOfRangeLevelMaxBrightness(): void
+    {
+        // level > 100 produces intval(level * 2.55) > 255, which GD rejects,
+        // causing imagefilter() to return false and the modifier to throw.
+        // Out-of-range levels should be clamped, not rejected.
+        $image = $this->readTestImage('trim.png');
+        $image->modify(new BrightnessModifier(200));
+        $this->assertEquals('ffffff', $image->colorAt(14, 14)->toHex());
+    }
+
+    public function testApplyOutOfRangeLevelMinBrightness(): void
+    {
+        // level < -100 produces intval(level * 2.55) < -255, same problem.
+        $image = $this->readTestImage('trim.png');
+        $image->modify(new BrightnessModifier(-200));
+        $this->assertEquals('000000', $image->colorAt(14, 14)->toHex());
+    }
 }

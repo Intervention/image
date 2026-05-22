@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Encoders;
 
+use ImagickException;
 use Intervention\Image\Drivers\Imagick\Modifiers\StripMetaModifier;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\HeicEncoder as GenericHeicEncoder;
@@ -44,7 +45,7 @@ class HeicEncoder extends GenericHeicEncoder implements SpecializedInterface
             $imagick->clear();
 
             return $result;
-        } catch (ImageException $e) {
+        } catch (ImagickException | ImageException $e) {
             throw new EncoderException('Failed to encode heic format', previous: $e);
         }
     }

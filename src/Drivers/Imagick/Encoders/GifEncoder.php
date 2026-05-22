@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Encoders;
 
 use Imagick;
+use ImagickException;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\GifEncoder as GenericGifEncoder;
 use Intervention\Image\Exceptions\EncoderException;
+use Intervention\Image\Exceptions\ImageException;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Exceptions\StreamException;
-use Intervention\Image\Exceptions\ImageException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\StateException;
 
@@ -44,7 +45,7 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
             $imagick->clear();
 
             return $result;
-        } catch (ImageException $e) {
+        } catch (ImagickException | ImageException $e) {
             throw new EncoderException('Failed to encode gif format', previous: $e);
         }
     }

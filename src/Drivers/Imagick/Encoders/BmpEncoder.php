@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Encoders;
 
 use Imagick;
+use ImagickException;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\BmpEncoder as GenericBmpEncoder;
 use Intervention\Image\Exceptions\EncoderException;
@@ -40,7 +41,7 @@ class BmpEncoder extends GenericBmpEncoder implements SpecializedInterface
             $imagick->clear();
 
             return $result;
-        } catch (ImageException $e) {
+        } catch (ImagickException | ImageException $e) {
             throw new EncoderException('Failed to encode bmp format', previous: $e);
         }
     }

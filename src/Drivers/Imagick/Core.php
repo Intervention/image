@@ -12,6 +12,7 @@ use Intervention\Image\Exceptions\DriverException;
 use Iterator;
 use Intervention\Image\Interfaces\CoreInterface;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\CollectionInterface;
@@ -64,11 +65,11 @@ class Core implements CoreInterface, Iterator
      *
      * @see CoreInterface::map()
      *
-     * @throws Exception
+     * @throws NotSupportedException
      */
     public function map(callable $callback): CoreInterface
     {
-        throw new \Exception('Not implemented');
+        throw new NotSupportedException('Not implemented');
     }
 
     /**

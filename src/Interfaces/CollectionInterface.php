@@ -82,5 +82,5 @@ interface CollectionInterface extends Traversable
      *
      * @return CollectionInterface<int|string, mixed>
      */
-    public function slice(int $offset, ?int $length = 0): self;
+    public function slice(int $offset, ?int $length = null): self;
 }

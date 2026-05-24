@@ -72,7 +72,7 @@ class NativeObjectDecoder extends AbstractDecoder
      * @throws DriverException
      * @throws StateException
      */
-    protected function decodeGif(mixed $input): ImageInterface
+    protected function decodeGif(string $input): ImageInterface
     {
         // create non-animated image depending on config
         if ($this->driver()->config()->decodeAnimation === false) {

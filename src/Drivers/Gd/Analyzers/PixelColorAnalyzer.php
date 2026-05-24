@@ -49,13 +49,13 @@ class PixelColorAnalyzer extends GenericPixelColorAnalyzer implements Specialize
         }
 
         try {
-            $index = imagecolorsforindex($gd, $index);
+            $colors = imagecolorsforindex($gd, $index);
         } catch (ValueError) {
             throw new AnalyzerException(
                 'The specified index is outside of the range',
             );
         }
 
-        return $processor->import($index);
+        return $processor->import($colors);
     }
 }

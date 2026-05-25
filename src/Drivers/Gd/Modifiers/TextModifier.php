@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use GdImage;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\StateException;
+use Intervention\Image\Interfaces\FontProcessorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SpecializedInterface;
 use Intervention\Image\Modifiers\TextModifier as GenericTextModifier;
+use Intervention\Image\Typography\TextBlock;
 
 class TextModifier extends GenericTextModifier implements SpecializedInterface
 {
@@ -32,57 +35,82 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
         foreach ($image as $frame) {
             imagealphablending($frame->native(), true);
             if ($this->font->hasFile()) {
-                foreach ($lines as $line) {
-                    foreach ($this->strokeOffsets($this->font) as $offset) {
-                        imagettftext(
-                            image: $frame->native(),
-                            size: $fontProcessor->nativeFontSize($this->font),
-                            angle: $this->font->angle() * -1,
-                            x: $line->position()->x() + $offset->x(),
-                            y: $line->position()->y() + $offset->y(),
-                            color: $strokeColor,
-                            font_filename: $this->font->filepath(),
-                            text: (string) $line
-                        );
-                    }
-
-                    imagettftext(
-                        image: $frame->native(),
-                        size: $fontProcessor->nativeFontSize($this->font),
-                        angle: $this->font->angle() * -1,
-                        x: $line->position()->x(),
-                        y: $line->position()->y(),
-                        color: $textColor,
-                        font_filename: $this->font->filepath(),
-                        text: (string) $line
-                    );
-                }
+                $this->drawFontFileLines($frame->native(), $lines, $fontProcessor, $textColor, $strokeColor);
             } else {
-                foreach ($lines as $line) {
-                    foreach ($this->strokeOffsets($this->font) as $offset) {
-                        imagestring(
-                            image: $frame->native(),
-                            font: $this->gdFont(),
-                            x: $line->position()->x() + $offset->x(),
-                            y: $line->position()->y() + $offset->y(),
-                            string: (string) $line,
-                            color: $strokeColor
-                        );
-                    }
-
-                    imagestring(
-                        image: $frame->native(),
-                        font: $this->gdFont(),
-                        x: $line->position()->x(),
-                        y: $line->position()->y(),
-                        string: (string) $line,
-                        color: $textColor
-                    );
-                }
+                $this->drawGdFontLines($frame->native(), $lines, $textColor, $strokeColor);
             }
         }
 
         return $image;
+    }
+
+    /**
+     * Draw text lines using a font file
+     */
+    private function drawFontFileLines(
+        GdImage $canvas,
+        TextBlock $lines,
+        FontProcessorInterface $fontProcessor,
+        int $textColor,
+        int $strokeColor,
+    ): void {
+        foreach ($lines as $line) {
+            foreach ($this->strokeOffsets($this->font) as $offset) {
+                imagettftext(
+                    image: $canvas,
+                    size: $fontProcessor->nativeFontSize($this->font),
+                    angle: $this->font->angle() * -1,
+                    x: $line->position()->x() + $offset->x(),
+                    y: $line->position()->y() + $offset->y(),
+                    color: $strokeColor,
+                    font_filename: $this->font->filepath(),
+                    text: (string) $line
+                );
+            }
+
+            imagettftext(
+                image: $canvas,
+                size: $fontProcessor->nativeFontSize($this->font),
+                angle: $this->font->angle() * -1,
+                x: $line->position()->x(),
+                y: $line->position()->y(),
+                color: $textColor,
+                font_filename: $this->font->filepath(),
+                text: (string) $line
+            );
+        }
+    }
+
+    /**
+     * Draw text lines using GD's built-in font
+     */
+    private function drawGdFontLines(
+        GdImage $canvas,
+        TextBlock $lines,
+        int $textColor,
+        int $strokeColor,
+    ): void {
+        foreach ($lines as $line) {
+            foreach ($this->strokeOffsets($this->font) as $offset) {
+                imagestring(
+                    image: $canvas,
+                    font: $this->gdFont(),
+                    x: $line->position()->x() + $offset->x(),
+                    y: $line->position()->y() + $offset->y(),
+                    string: (string) $line,
+                    color: $strokeColor
+                );
+            }
+
+            imagestring(
+                image: $canvas,
+                font: $this->gdFont(),
+                x: $line->position()->x(),
+                y: $line->position()->y(),
+                string: (string) $line,
+                color: $textColor
+            );
+        }
     }
 
     /**

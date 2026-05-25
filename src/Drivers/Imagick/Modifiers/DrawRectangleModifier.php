@@ -7,6 +7,8 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use ImagickDraw;
 use ImagickDrawException;
 use ImagickException;
+use ImagickPixel;
+use Intervention\Image\Drivers\Imagick\Traits\CanDraw;
 use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\StateException;
@@ -16,6 +18,8 @@ use Intervention\Image\Modifiers\DrawRectangleModifier as GenericDrawRectangleMo
 
 class DrawRectangleModifier extends GenericDrawRectangleModifier implements SpecializedInterface
 {
+    use CanDraw;
+
     /**
      * @throws ModifierException
      * @throws StateException
@@ -23,53 +27,47 @@ class DrawRectangleModifier extends GenericDrawRectangleModifier implements Spec
      */
     public function apply(ImageInterface $image): ImageInterface
     {
+        $rectangle = $this->rectangle(
+            $this->driver()->colorProcessor($image)->export($this->backgroundColor()),
+            $this->driver()->colorProcessor($image)->export($this->borderColor()),
+        );
+
+        foreach ($image as $frame) {
+            $this->draw($frame->native(), $rectangle);
+        }
+
+        return $image;
+    }
+
+    /**
+     * Build drawable rectangle.
+     *
+     * @throws ModifierException
+     */
+    private function rectangle(ImagickPixel $backgroundColor, ImagickPixel $borderColor): ImagickDraw
+    {
         try {
             $drawing = new ImagickDraw();
-            $drawing->setFillColor(
-                $this->driver()->colorProcessor($image)->export(
-                    $this->backgroundColor()
-                )
-            );
+            $drawing->setFillColor($backgroundColor);
 
             if ($this->drawable->hasBorder()) {
-                $borderColor = $this->driver()->colorProcessor($image)->export(
-                    $this->borderColor()
-                );
-
                 $drawing->setStrokeColor($borderColor);
                 $drawing->setStrokeWidth($this->drawable->borderSize());
             }
 
-            // build rectangle
             $drawing->rectangle(
                 $this->drawable->position()->x(),
                 $this->drawable->position()->y(),
                 $this->drawable->position()->x() + $this->drawable->width(),
                 $this->drawable->position()->y() + $this->drawable->height()
             );
+
+            return $drawing;
         } catch (ImagickException | ImagickDrawException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to build ImagickDraw object',
                 previous: $e
             );
         }
-
-        foreach ($image as $frame) {
-            try {
-                $result = $frame->native()->drawImage($drawing);
-                if ($result === false) {
-                    throw new ModifierException(
-                        'Failed to apply ' . self::class . ', unable to draw rectangle on image',
-                    );
-                }
-            } catch (ImagickException $e) {
-                throw new ModifierException(
-                    'Failed to apply ' . self::class . ', unable to draw rectangle on image',
-                    previous: $e
-                );
-            }
-        }
-
-        return $image;
     }
 }

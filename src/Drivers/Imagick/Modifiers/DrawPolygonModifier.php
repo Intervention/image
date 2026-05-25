@@ -7,6 +7,8 @@ namespace Intervention\Image\Drivers\Imagick\Modifiers;
 use ImagickDraw;
 use ImagickDrawException;
 use ImagickException;
+use ImagickPixel;
+use Intervention\Image\Drivers\Imagick\Traits\CanDraw;
 use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\StateException;
@@ -16,6 +18,8 @@ use Intervention\Image\Modifiers\DrawPolygonModifier as GenericDrawPolygonModifi
 
 class DrawPolygonModifier extends GenericDrawPolygonModifier implements SpecializedInterface
 {
+    use CanDraw;
+
     /**
      * @throws ModifierException
      * @throws StateException
@@ -23,49 +27,43 @@ class DrawPolygonModifier extends GenericDrawPolygonModifier implements Speciali
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        try {
-            $drawing = new ImagickDraw();
+        $polygon = $this->polygon(
+            $this->driver()->colorProcessor($image)->export($this->backgroundColor()),
+            $this->driver()->colorProcessor($image)->export($this->borderColor()),
+        );
 
-            $drawing->setFillColor(
-                $this->driver()->colorProcessor($image)->export(
-                    $this->backgroundColor()
-                )
-            );
+        foreach ($image as $frame) {
+            $this->draw($frame->native(), $polygon);
+        }
+
+        return $image;
+    }
+
+    /**
+     * Create drawable polygon.
+     *
+     * @throws ModifierException
+     */
+    private function polygon(ImagickPixel $backgroundColor, ImagickPixel $borderColor): ImagickDraw
+    {
+        try {
+            $polygon = new ImagickDraw();
+            $polygon->setFillColor($backgroundColor);
 
             if ($this->drawable->hasBorder()) {
-                $borderColor = $this->driver()->colorProcessor($image)->export(
-                    $this->borderColor()
-                );
-
-                $drawing->setStrokeColor($borderColor);
-                $drawing->setStrokeWidth($this->drawable->borderSize());
+                $polygon->setStrokeColor($borderColor);
+                $polygon->setStrokeWidth($this->drawable->borderSize());
             }
 
-            $drawing->polygon($this->points());
+            $polygon->polygon($this->points());
+
+            return $polygon;
         } catch (ImagickException | ImagickDrawException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to build ImagickDraw object',
                 previous: $e
             );
         }
-
-        foreach ($image as $frame) {
-            try {
-                $result = $frame->native()->drawImage($drawing);
-                if ($result === false) {
-                    throw new ModifierException(
-                        'Failed to apply ' . self::class . ', unable to draw polygon on image',
-                    );
-                }
-            } catch (ImagickException $e) {
-                throw new ModifierException(
-                    'Failed to apply ' . self::class . ', unable to draw polygon on image',
-                    previous: $e
-                );
-            }
-        }
-
-        return $image;
     }
 
     /**

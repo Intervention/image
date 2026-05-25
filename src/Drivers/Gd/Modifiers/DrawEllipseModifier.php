@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use GdImage;
 use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\StateException;
@@ -24,59 +25,63 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
      */
     public function apply(ImageInterface $image): ImageInterface
     {
+        $backgroundColor = $this->driver()->colorProcessor($image)->export($this->backgroundColor());
+        $borderColor = $this->driver()->colorProcessor($image)->export($this->borderColor());
+
         foreach ($image as $frame) {
-            if ($this->drawable->hasBorder()) {
-                imagealphablending($frame->native(), true);
+            $this->drawEllipse($frame->native(), $backgroundColor, $borderColor);
+        }
 
-                // slightly smaller ellipse to keep 1px bordered edges clean
-                if ($this->drawable->hasBackgroundColor()) {
-                    imagefilledellipse(
-                        $frame->native(),
-                        $this->drawable()->position()->x(),
-                        $this->drawable->position()->y(),
-                        $this->drawable->width() - 1,
-                        $this->drawable->height() - 1,
-                        $this->driver()->colorProcessor($image)->export(
-                            $this->backgroundColor()
-                        )
-                    );
-                }
+        return $image;
+    }
 
-                // gd's imageellipse ignores imagesetthickness
-                // so i use imagearc with 360 degrees instead.
-                imagesetthickness(
-                    $frame->native(),
-                    $this->drawable->borderSize(),
-                );
+    /**
+     * Draw ellipse in given colors.
+     *
+     * @throws ModifierException
+     */
+    private function drawEllipse(GdImage $canvas, int $backgroundColor, int $borderColor): void
+    {
+        imagealphablending($canvas, true);
 
+        // draw background
+        if ($this->drawable->hasBackgroundColor()) {
+            $this->abortUnless(imagesetthickness($canvas, 0), 'Unable to set line thickness');
+            $this->abortUnless(
+                imagefilledellipse(
+                    $canvas,
+                    $this->drawable->position()->x(),
+                    $this->drawable->position()->y(),
+                    // slightly smaller ellipse to keep 1px bordered edges clean
+                    $this->drawable->hasBorder() ? $this->drawable->width() - 1 : $this->drawable->width(),
+                    $this->drawable->hasBorder() ? $this->drawable->height() - 1 : $this->drawable->height(),
+                    $backgroundColor,
+                ),
+                'Unable to draw ellipse',
+            );
+        }
+
+        // draw border
+        if ($this->drawable()->hasBorder()) {
+            // gd's imageellipse ignores imagesetthickness
+            // so i use imagearc with 360 degrees instead.
+            $this->abortUnless(
+                imagesetthickness($canvas, $this->drawable->borderSize()),
+                'Unable to set line thickness'
+            );
+            $this->abortUnless(
                 imagearc(
-                    $frame->native(),
-                    $this->drawable()->position()->x(),
-                    $this->drawable()->position()->y(),
+                    $canvas,
+                    $this->drawable->position()->x(),
+                    $this->drawable->position()->y(),
                     $this->drawable->width(),
                     $this->drawable->height(),
                     0,
                     360,
-                    $this->driver()->colorProcessor($image)->export(
-                        $this->borderColor()
-                    )
-                );
-            } elseif ($this->drawable->hasBackgroundColor()) {
-                imagealphablending($frame->native(), true);
-                imagesetthickness($frame->native(), 0);
-                imagefilledellipse(
-                    $frame->native(),
-                    $this->drawable()->position()->x(),
-                    $this->drawable()->position()->y(),
-                    $this->drawable->width(),
-                    $this->drawable->height(),
-                    $this->driver()->colorProcessor($image)->export(
-                        $this->backgroundColor()
-                    )
-                );
-            }
+                    $borderColor,
+                ),
+                'Unable to draw ellipse border',
+            );
         }
-
-        return $image;
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use GdImage;
 use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\StateException;
@@ -26,30 +27,54 @@ class DrawPolygonModifier extends GenericDrawPolygonModifier implements Speciali
     {
         foreach ($image as $frame) {
             if ($this->drawable->hasBackgroundColor()) {
-                imagealphablending($frame->native(), true);
-                imagesetthickness($frame->native(), 0);
-                imagefilledpolygon(
-                    $frame->native(),
-                    $this->drawable->toArray(),
-                    $this->driver()->colorProcessor($image)->export(
-                        $this->backgroundColor()
-                    )
-                );
+                $color = $this->driver()->colorProcessor($image)->export($this->backgroundColor());
+                $this->drawPolygonBackground($frame->native(), $color);
             }
 
             if ($this->drawable->hasBorder()) {
-                imagealphablending($frame->native(), true);
-                imagesetthickness($frame->native(), $this->drawable->borderSize());
-                imagepolygon(
-                    $frame->native(),
-                    $this->drawable->toArray(),
-                    $this->driver()->colorProcessor($image)->export(
-                        $this->borderColor()
-                    )
-                );
+                $borderColor = $this->driver()->colorProcessor($image)->export($this->borderColor());
+                $this->drawPolygonBorder($frame->native(), $borderColor);
             }
         }
 
         return $image;
+    }
+
+    /**
+     * Draw polygon background in given color.
+     *
+     * @throws ModifierException
+     */
+    private function drawPolygonBackground(GdImage $canvas, int $color): void
+    {
+        $this->abortUnless(imagealphablending($canvas, true), 'Unable to set alpha blending');
+        $this->abortUnless(imagesetthickness($canvas, 0), 'Unable to set line thickness');
+        $this->abortUnless(
+            imagefilledpolygon(
+                $canvas,
+                $this->drawable->toArray(),
+                $color,
+            ),
+            'Unable to draw polygon background'
+        );
+    }
+
+    /**
+     * Draw polygon border in given color.
+     *
+     * @throws ModifierException
+     */
+    private function drawPolygonBorder(GdImage $canvas, int $borderColor): void
+    {
+        $this->abortUnless(imagealphablending($canvas, true), 'Unable to set alpha blending');
+        $this->abortUnless(imagesetthickness($canvas, $this->drawable->borderSize()), 'Unable to set line thickness');
+        $this->abortUnless(
+            imagepolygon(
+                $canvas,
+                $this->drawable->toArray(),
+                $borderColor,
+            ),
+            'Unable to draw polygon border'
+        );
     }
 }

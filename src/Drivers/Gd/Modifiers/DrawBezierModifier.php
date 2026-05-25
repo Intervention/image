@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
+use GdImage;
 use Intervention\Image\Exceptions\ColorDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\ModifierException;
@@ -26,75 +27,24 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
      */
     public function apply(ImageInterface $image): ImageInterface
     {
+        $this->validatePointCount();
+
+        [$polygon, $polygonBorderSegments] = $this->calculateBezierPoints();
+
         foreach ($image as $frame) {
-            if ($this->drawable->count() !== 3 && $this->drawable->count() !== 4) {
-                throw new InvalidArgumentException('You must specify either 3 or 4 points to create a bezier curve');
-            }
-
-            [$polygon, $polygonBorderSegments] = $this->calculateBezierPoints();
-
             if ($this->drawable->hasBackgroundColor() || $this->drawable->hasBorder()) {
-                $result = imagealphablending($frame->native(), true);
-                $this->abortUnless($result, 'Unable to set alpha blending');
-
-                $result = imageantialias($frame->native(), true);
-                $this->abortUnless($result, 'Unable to set image antialias option');
+                $this->abortUnless(imagealphablending($frame->native(), true), 'Unable to set alpha blending');
+                $this->abortUnless(imageantialias($frame->native(), true), 'Unable to set image antialias option');
             }
 
             if ($this->drawable->hasBackgroundColor()) {
-                $backgroundColor = $this->driver()->colorProcessor($image)->export(
-                    $this->backgroundColor()
-                );
-
-                $result = imagesetthickness($frame->native(), 0);
-                $this->abortUnless($result, 'Unable to set line thickness');
-
-                $result = imagefilledpolygon(
-                    $frame->native(),
-                    $polygon,
-                    $backgroundColor
-                );
-
-                $this->abortUnless($result, 'Unable to draw line on image');
+                $backgroundColor = $this->driver()->colorProcessor($image)->export($this->backgroundColor());
+                $this->drawBezierBackground($frame->native(), $polygon, $backgroundColor);
             }
 
             if ($this->drawable->hasBorder() && $this->drawable->borderSize() > 0) {
-                $borderColor = $this->driver()->colorProcessor($image)->export(
-                    $this->borderColor()
-                );
-
-                if ($this->drawable->borderSize() === 1) {
-                    $result = imagesetthickness($frame->native(), $this->drawable->borderSize());
-                    $this->abortUnless($result, 'Unable to set line thickness');
-
-                    $count = count($polygon);
-                    for ($i = 0; $i < $count; $i += 2) {
-                        if (array_key_exists($i + 2, $polygon) && array_key_exists($i + 3, $polygon)) {
-                            $result = imageline(
-                                $frame->native(),
-                                $polygon[$i],
-                                $polygon[$i + 1],
-                                $polygon[$i + 2],
-                                $polygon[$i + 3],
-                                $borderColor
-                            );
-
-                            $this->abortUnless($result, 'Unable to draw line on image');
-                        }
-                    }
-                } else {
-                    $polygonBorderSegmentsTotal = count($polygonBorderSegments);
-
-                    for ($i = 0; $i < $polygonBorderSegmentsTotal; $i += 1) {
-                        $result = imagefilledpolygon(
-                            $frame->native(),
-                            $polygonBorderSegments[$i],
-                            $borderColor
-                        );
-
-                        $this->abortUnless($result, 'Unable to draw line on image');
-                    }
-                }
+                $borderColor = $this->driver()->colorProcessor($image)->export($this->borderColor());
+                $this->drawBezierBorder($frame->native(), $polygon, $polygonBorderSegments, $borderColor);
             }
         }
 
@@ -102,7 +52,90 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
     }
 
     /**
-     * Calculate interpolation points for quadratic beziers using the Bernstein polynomial form
+     * Validate that the drawable has exactly 3 or 4 points.
+     *
+     * @throws InvalidArgumentException
+     */
+    private function validatePointCount(): void
+    {
+        if ($this->drawable->count() !== 3 && $this->drawable->count() !== 4) {
+            throw new InvalidArgumentException('You must specify either 3 or 4 points to create a bezier curve');
+        }
+    }
+
+    /**
+     * Draw the bezier polygon with the background color.
+     *
+     * @param array<mixed> $polygon
+     * @throws ModifierException
+     */
+    private function drawBezierBackground(GdImage $canvas, array $polygon, int $color): void
+    {
+        $this->abortUnless(imagesetthickness($canvas, 0), 'Unable to set line thickness');
+        $this->abortUnless(imagefilledpolygon($canvas, $polygon, $color), 'Unable to draw line on image');
+    }
+
+    /**
+     * Draw the bezier border, using thin lines for size 1 or filled polygon segments otherwise
+     *
+     * @param array<mixed> $polygon
+     * @param array<mixed> $polygonBorderSegments
+     * @throws ModifierException
+     */
+    private function drawBezierBorder(
+        GdImage $canvas,
+        array $polygon,
+        array $polygonBorderSegments,
+        int $borderColor,
+    ): void {
+        if ($this->drawable->borderSize() === 1) {
+            $this->drawThinBorder($canvas, $polygon, $borderColor);
+        } else {
+            $this->drawThickBorder($canvas, $polygonBorderSegments, $borderColor);
+        }
+    }
+
+    /**
+     * Draw a 1px border by connecting each consecutive polygon point pair with a line.
+     *
+     * @param array<mixed> $polygon
+     * @throws ModifierException
+     */
+    private function drawThinBorder(GdImage $canvas, array $polygon, int $borderColor): void
+    {
+        $this->abortUnless(imagesetthickness($canvas, $this->drawable->borderSize()), 'Unable to set line thickness');
+
+        $count = count($polygon);
+        for ($i = 0; $i < $count; $i += 2) {
+            if (!array_key_exists($i + 2, $polygon) || !array_key_exists($i + 3, $polygon)) {
+                continue;
+            }
+
+            $this->abortUnless(
+                imageline($canvas, $polygon[$i], $polygon[$i + 1], $polygon[$i + 2], $polygon[$i + 3], $borderColor),
+                'Unable to draw line on image'
+            );
+        }
+    }
+
+    /**
+     * Draw a thick border by filling each pre-computed border segment polygon.
+     *
+     * @param array<mixed> $polygonBorderSegments
+     * @throws ModifierException
+     */
+    private function drawThickBorder(GdImage $canvas, array $polygonBorderSegments, int $borderColor): void
+    {
+        foreach ($polygonBorderSegments as $segment) {
+            $this->abortUnless(
+                imagefilledpolygon($canvas, $segment, $borderColor),
+                'Unable to draw line on image'
+            );
+        }
+    }
+
+    /**
+     * Calculate interpolation points for quadratic beziers using the Bernstein polynomial form.
      *
      * @return array{'x': float, 'y': float}
      */
@@ -128,7 +161,7 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
     }
 
     /**
-     * Calculate interpolation points for cubic beziers using the Bernstein polynomial form
+     * Calculate interpolation points for cubic beziers using the Bernstein polynomial form.
      *
      * @return array{'x': float, 'y': float}
      */
@@ -159,7 +192,7 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
     }
 
     /**
-     * Calculate the points needed to draw a quadratic or cubic bezier with optional border/stroke
+     * Calculate the points needed to draw a quadratic or cubic bezier with optional border/stroke.
      *
      * @throws InvalidArgumentException
      * @throws ModifierException
@@ -167,104 +200,122 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
      */
     private function calculateBezierPoints(): array
     {
-        if ($this->drawable->count() !== 3 && $this->drawable->count() !== 4) {
-            throw new InvalidArgumentException('You must specify either 3 or 4 points to create a bezier curve');
-        }
-
         $polygon = [];
-        $innerPolygon = [];
-        $outerPolygon = [];
         $polygonBorderSegments = [];
 
-        // define ratio t; equivalent to 5 percent distance along edge
         $t = 0.05;
 
         $polygon[] = $this->drawable->first()->x();
         $polygon[] = $this->drawable->first()->y();
+
         for ($i = $t; $i < 1; $i += $t) {
-            if ($this->drawable->count() === 3) {
-                $ip = $this->calculateQuadraticBezierInterpolationPoint($i);
-            } elseif ($this->drawable->count() === 4) {
-                $ip = $this->calculateCubicBezierInterpolationPoint($i);
-            }
-            $polygon[] = (int) $ip['x'];
-            $polygon[] = (int) $ip['y'];
+            ['x' => $x, 'y' => $y] = $this->calculateBezierInterpolationPoint($i);
+            $polygon[] = (int) $x;
+            $polygon[] = (int) $y;
         }
+
         $polygon[] = $this->drawable->last()->x();
         $polygon[] = $this->drawable->last()->y();
 
         if ($this->drawable->hasBorder() && $this->drawable->borderSize() > 1) {
-            // create the border/stroke effect by calculating two new curves with offset positions
-            // from the main polygon and then connecting the inner/outer curves to create separate
-            // 4-point polygon segments
-            $polygonTotalPoints = count($polygon);
-            $offset = ($this->drawable->borderSize() / 2);
-
-            for ($i = 0; $i < $polygonTotalPoints; $i += 2) {
-                if (array_key_exists($i + 2, $polygon) && array_key_exists($i + 3, $polygon)) {
-                    $dx = $polygon[$i + 2] - $polygon[$i];
-                    $dy = $polygon[$i + 3] - $polygon[$i + 1];
-                    $dxySqrt = sqrt($dx * $dx + $dy * $dy);
-
-                    // prevent division by zero
-                    if ($dxySqrt === 0.0) {
-                        throw new ModifierException('Failed to apply ' . self::class . ', division by zero');
-                    }
-
-                    // inner polygon
-                    $scale = $offset / $dxySqrt;
-                    $ox = -$dy * $scale;
-                    $oy = $dx * $scale;
-
-                    $innerPolygon[] = $ox + $polygon[$i];
-                    $innerPolygon[] = $oy + $polygon[$i + 1];
-                    $innerPolygon[] = $ox + $polygon[$i + 2];
-                    $innerPolygon[] = $oy + $polygon[$i + 3];
-
-                    // outer polygon
-                    $scale = -$offset / $dxySqrt;
-                    $ox = -$dy * $scale;
-                    $oy = $dx * $scale;
-
-                    $outerPolygon[] = $ox + $polygon[$i];
-                    $outerPolygon[] = $oy + $polygon[$i + 1];
-                    $outerPolygon[] = $ox + $polygon[$i + 2];
-                    $outerPolygon[] = $oy + $polygon[$i + 3];
-                }
-            }
-
-            $innerPolygonTotalPoints = count($innerPolygon);
-
-            for ($i = 0; $i < $innerPolygonTotalPoints; $i += 2) {
-                if (array_key_exists($i + 2, $innerPolygon) && array_key_exists($i + 3, $innerPolygon)) {
-                    $polygonBorderSegments[] = [
-                        $innerPolygon[$i],
-                        $innerPolygon[$i + 1],
-                        $outerPolygon[$i],
-                        $outerPolygon[$i + 1],
-                        $outerPolygon[$i + 2],
-                        $outerPolygon[$i + 3],
-                        $innerPolygon[$i + 2],
-                        $innerPolygon[$i + 3],
-                    ];
-                }
-            }
+            $polygonBorderSegments = $this->calculateBorderSegments($polygon);
         }
 
         return [$polygon, $polygonBorderSegments];
     }
 
     /**
-     * Throw ModifierException with given message if result is 'false'
+     * Dispatch to the correct interpolation method based on point count.
      *
-     * @throws ModifierException
+     * @return array{'x': float, 'y': float}
      */
-    private function abortUnless(mixed $result, string $message): void
+    private function calculateBezierInterpolationPoint(float $t): array
     {
-        if ($result === false) {
-            throw new ModifierException(
-                'Failed to apply ' . self::class . ', ' . $message
-            );
+        if ($this->drawable->count() === 3) {
+            return $this->calculateQuadraticBezierInterpolationPoint($t);
         }
+
+        return $this->calculateCubicBezierInterpolationPoint($t);
+    }
+
+    /**
+     * Build the inner/outer offset polygons and stitch them into border segments.
+     *
+     * @param array<mixed> $polygon
+     * @throws ModifierException
+     * @return array<mixed>
+     */
+    private function calculateBorderSegments(array $polygon): array
+    {
+        $innerPolygon = [];
+        $outerPolygon = [];
+        $offset = $this->drawable->borderSize() / 2;
+        $total = count($polygon);
+
+        for ($i = 0; $i < $total; $i += 2) {
+            if (!array_key_exists($i + 2, $polygon) || !array_key_exists($i + 3, $polygon)) {
+                continue;
+            }
+
+            $dx = $polygon[$i + 2] - $polygon[$i];
+            $dy = $polygon[$i + 3] - $polygon[$i + 1];
+            $dxySqrt = sqrt($dx * $dx + $dy * $dy);
+
+            if ($dxySqrt === 0.0) {
+                throw new ModifierException('Failed to apply ' . self::class . ', division by zero');
+            }
+
+            $scale = $offset / $dxySqrt;
+            $ox = -$dy * $scale;
+            $oy = $dx * $scale;
+
+            $innerPolygon[] = $ox + $polygon[$i];
+            $innerPolygon[] = $oy + $polygon[$i + 1];
+            $innerPolygon[] = $ox + $polygon[$i + 2];
+            $innerPolygon[] = $oy + $polygon[$i + 3];
+
+            $scale = -$offset / $dxySqrt;
+            $ox = -$dy * $scale;
+            $oy = $dx * $scale;
+
+            $outerPolygon[] = $ox + $polygon[$i];
+            $outerPolygon[] = $oy + $polygon[$i + 1];
+            $outerPolygon[] = $ox + $polygon[$i + 2];
+            $outerPolygon[] = $oy + $polygon[$i + 3];
+        }
+
+        return $this->stitchBorderSegments($innerPolygon, $outerPolygon);
+    }
+
+    /**
+     * Stitch inner and outer polygon point arrays into 4-corner segment quads.
+     *
+     * @param array<mixed> $innerPolygon
+     * @param array<mixed> $outerPolygon
+     * @return array<mixed>
+     */
+    private function stitchBorderSegments(array $innerPolygon, array $outerPolygon): array
+    {
+        $segments = [];
+        $total = count($innerPolygon);
+
+        for ($i = 0; $i < $total; $i += 2) {
+            if (!array_key_exists($i + 2, $innerPolygon) || !array_key_exists($i + 3, $innerPolygon)) {
+                continue;
+            }
+
+            $segments[] = [
+                $innerPolygon[$i],
+                $innerPolygon[$i + 1],
+                $outerPolygon[$i],
+                $outerPolygon[$i + 1],
+                $outerPolygon[$i + 2],
+                $outerPolygon[$i + 3],
+                $innerPolygon[$i + 2],
+                $innerPolygon[$i + 3],
+            ];
+        }
+
+        return $segments;
     }
 }

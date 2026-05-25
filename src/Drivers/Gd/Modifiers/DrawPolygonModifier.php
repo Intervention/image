@@ -47,8 +47,8 @@ class DrawPolygonModifier extends GenericDrawPolygonModifier implements Speciali
      */
     private function drawPolygonBackground(GdImage $canvas, int $color): void
     {
-        $this->abortUnless(imagealphablending($canvas, true), 'Unable to set alpha blending');
-        $this->abortUnless(imagesetthickness($canvas, 0), 'Unable to set line thickness');
+        imagealphablending($canvas, true);
+        imagesetthickness($canvas, 0);
         $this->abortUnless(
             imagefilledpolygon(
                 $canvas,
@@ -66,8 +66,8 @@ class DrawPolygonModifier extends GenericDrawPolygonModifier implements Speciali
      */
     private function drawPolygonBorder(GdImage $canvas, int $borderColor): void
     {
-        $this->abortUnless(imagealphablending($canvas, true), 'Unable to set alpha blending');
-        $this->abortUnless(imagesetthickness($canvas, $this->drawable->borderSize()), 'Unable to set line thickness');
+        imagealphablending($canvas, true);
+        imagesetthickness($canvas, $this->drawable->borderSize());
         $this->abortUnless(
             imagepolygon(
                 $canvas,

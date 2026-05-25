@@ -46,18 +46,15 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
 
         // draw background
         if ($this->drawable->hasBackgroundColor()) {
-            $this->abortUnless(imagesetthickness($canvas, 0), 'Unable to set line thickness');
-            $this->abortUnless(
-                imagefilledellipse(
-                    $canvas,
-                    $this->drawable->position()->x(),
-                    $this->drawable->position()->y(),
-                    // slightly smaller ellipse to keep 1px bordered edges clean
-                    $this->drawable->hasBorder() ? $this->drawable->width() - 1 : $this->drawable->width(),
-                    $this->drawable->hasBorder() ? $this->drawable->height() - 1 : $this->drawable->height(),
-                    $backgroundColor,
-                ),
-                'Unable to draw ellipse',
+            imagesetthickness($canvas, 0);
+            imagefilledellipse(
+                $canvas,
+                $this->drawable->position()->x(),
+                $this->drawable->position()->y(),
+                // slightly smaller ellipse to keep 1px bordered edges clean
+                $this->drawable->hasBorder() ? $this->drawable->width() - 1 : $this->drawable->width(),
+                $this->drawable->hasBorder() ? $this->drawable->height() - 1 : $this->drawable->height(),
+                $backgroundColor,
             );
         }
 
@@ -65,22 +62,16 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
         if ($this->drawable()->hasBorder()) {
             // gd's imageellipse ignores imagesetthickness
             // so i use imagearc with 360 degrees instead.
-            $this->abortUnless(
-                imagesetthickness($canvas, $this->drawable->borderSize()),
-                'Unable to set line thickness'
-            );
-            $this->abortUnless(
-                imagearc(
-                    $canvas,
-                    $this->drawable->position()->x(),
-                    $this->drawable->position()->y(),
-                    $this->drawable->width(),
-                    $this->drawable->height(),
-                    0,
-                    360,
-                    $borderColor,
-                ),
-                'Unable to draw ellipse border',
+            imagesetthickness($canvas, $this->drawable->borderSize());
+            imagearc(
+                $canvas,
+                $this->drawable->position()->x(),
+                $this->drawable->position()->y(),
+                $this->drawable->width(),
+                $this->drawable->height(),
+                0,
+                360,
+                $borderColor,
             );
         }
     }

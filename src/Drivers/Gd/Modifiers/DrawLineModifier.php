@@ -41,22 +41,16 @@ class DrawLineModifier extends GenericDrawLineModifier implements SpecializedInt
      */
     private function drawLine(GdImage $canvas, int $color): void
     {
-        $this->abortUnless(imagealphablending($canvas, true), 'Unable to set alpha blending');
-        $this->abortUnless(imageantialias($canvas, true), 'Unable to enable antialiasing');
-        $this->abortUnless(
-            imagesetthickness($canvas, $this->drawable->width()),
-            'Unable to set line thickness',
-        );
-        $this->abortUnless(
-            imageline(
-                $canvas,
-                $this->drawable->start()->x(),
-                $this->drawable->start()->y(),
-                $this->drawable->end()->x(),
-                $this->drawable->end()->y(),
-                $color
-            ),
-            'Unable to draw line'
+        imagealphablending($canvas, true);
+        imageantialias($canvas, true);
+        imagesetthickness($canvas, $this->drawable->width());
+        imageline(
+            $canvas,
+            $this->drawable->start()->x(),
+            $this->drawable->start()->y(),
+            $this->drawable->end()->x(),
+            $this->drawable->end()->y(),
+            $color
         );
     }
 }

@@ -50,16 +50,16 @@ class DrawRectangleModifier extends GenericDrawRectangleModifier implements Spec
      */
     private function drawRectangleBackground(GdImage $canvas, PointInterface $position, int $backgroundColor): void
     {
-        $this->abortUnless(imagealphablending($canvas, true), 'Unable to set alpha blending');
-        $this->abortUnless(imagesetthickness($canvas, 0), 'Unable to set line thickness');
-        $this->abortUnless(imagefilledrectangle(
+        imagealphablending($canvas, true);
+        imagesetthickness($canvas, 0);
+        imagefilledrectangle(
             $canvas,
             $position->x(),
             $position->y(),
             $position->x() + $this->drawable->width(),
             $position->y() + $this->drawable->height(),
             $backgroundColor,
-        ), 'Unable to draw rectangle');
+        );
     }
 
     /**
@@ -69,15 +69,15 @@ class DrawRectangleModifier extends GenericDrawRectangleModifier implements Spec
      */
     private function drawRectangleBorder(GdImage $canvas, PointInterface $position, int $borderColor): void
     {
-        $this->abortUnless(imagealphablending($canvas, true), 'Unable to set alpha blending');
-        $this->abortUnless(imagesetthickness($canvas, $this->drawable->borderSize()), 'Unable to set line thickness');
-        $this->abortUnless(imagerectangle(
+        imagealphablending($canvas, true);
+        imagesetthickness($canvas, $this->drawable->borderSize());
+        imagerectangle(
             $canvas,
             $position->x(),
             $position->y(),
             $position->x() + $this->drawable->width(),
             $position->y() + $this->drawable->height(),
             $borderColor,
-        ), 'Unable to draw rectangle');
+        );
     }
 }

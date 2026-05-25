@@ -33,8 +33,8 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
 
         foreach ($image as $frame) {
             if ($this->drawable->hasBackgroundColor() || $this->drawable->hasBorder()) {
-                $this->abortUnless(imagealphablending($frame->native(), true), 'Unable to set alpha blending');
-                $this->abortUnless(imageantialias($frame->native(), true), 'Unable to set image antialias option');
+                imagealphablending($frame->native(), true);
+                imageantialias($frame->native(), true);
             }
 
             if ($this->drawable->hasBackgroundColor()) {
@@ -71,8 +71,8 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
      */
     private function drawBezierBackground(GdImage $canvas, array $polygon, int $color): void
     {
-        $this->abortUnless(imagesetthickness($canvas, 0), 'Unable to set line thickness');
-        $this->abortUnless(imagefilledpolygon($canvas, $polygon, $color), 'Unable to draw line on image');
+        imagesetthickness($canvas, 0);
+        $this->abortUnless(imagefilledpolygon($canvas, $polygon, $color), 'Unable to draw bezier background');
     }
 
     /**
@@ -103,7 +103,7 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
      */
     private function drawThinBorder(GdImage $canvas, array $polygon, int $borderColor): void
     {
-        $this->abortUnless(imagesetthickness($canvas, $this->drawable->borderSize()), 'Unable to set line thickness');
+        imagesetthickness($canvas, $this->drawable->borderSize());
 
         $count = count($polygon);
         for ($i = 0; $i < $count; $i += 2) {
@@ -111,10 +111,7 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
                 continue;
             }
 
-            $this->abortUnless(
-                imageline($canvas, $polygon[$i], $polygon[$i + 1], $polygon[$i + 2], $polygon[$i + 3], $borderColor),
-                'Unable to draw line on image'
-            );
+            imageline($canvas, $polygon[$i], $polygon[$i + 1], $polygon[$i + 2], $polygon[$i + 3], $borderColor);
         }
     }
 
@@ -127,10 +124,7 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
     private function drawThickBorder(GdImage $canvas, array $polygonBorderSegments, int $borderColor): void
     {
         foreach ($polygonBorderSegments as $segment) {
-            $this->abortUnless(
-                imagefilledpolygon($canvas, $segment, $borderColor),
-                'Unable to draw line on image'
-            );
+            $this->abortUnless(imagefilledpolygon($canvas, $segment, $borderColor), 'Unable to draw line on image');
         }
     }
 

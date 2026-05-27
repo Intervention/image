@@ -1,25 +1,27 @@
-FROM php:8.3-cli
+FROM php:8.3-cli-alpine
 
 ARG IMAGEMAGICK_VERSION=7.1.2-15
 
 # install dependencies for building ImageMagick and PHP extensions
-RUN apt update \
-        && apt install -y \
-            libjpeg-dev \
-            libgif-dev \
-            libtiff-dev \
-            libpng-dev \
-            libwebp-dev \
-            libavif-dev \
-            libheif-dev \
-            libraqm-dev \
-            libopenjp2-7-dev \
-            liblcms2-dev \
-            git \
-            zip \
-            curl \
-            xz-utils \
-        && apt-get clean
+RUN apk add --no-cache \
+        jpeg-dev \
+        giflib-dev \
+        tiff-dev \
+        libpng-dev \
+        libwebp-dev \
+        libavif-dev \
+        libheif-dev \
+        harfbuzz-dev \
+        openjpeg-dev \
+        lcms2-dev \
+        freetype-dev \
+        git \
+        zip \
+        curl \
+        xz \
+        autoconf \
+        g++ \
+        make
 
 # build and install ImageMagick from source
 RUN curl -o /tmp/ImageMagick.tar.xz -sL \
@@ -30,7 +32,6 @@ RUN curl -o /tmp/ImageMagick.tar.xz -sL \
         && ./configure \
         && make -j$(nproc) \
         && make install \
-        && ldconfig \
         && cd / \
         && rm -rf /tmp/ImageMagick*
 

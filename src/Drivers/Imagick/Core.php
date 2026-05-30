@@ -151,22 +151,14 @@ class Core implements CoreInterface, Iterator
      */
     public function slice(int $offset, ?int $length = null): CollectionInterface
     {
-        $allowedIndexes = [];
         $length = is_null($length) ? $this->count() : $length;
-        for ($i = $offset; $i < $offset + $length; $i++) {
-            $allowedIndexes[] = $i;
-        }
+        $count = $this->count();
 
-        try {
-            $sliced = new Imagick();
-        } catch (ImagickException $e) {
-            throw new DriverException('Failed to slice image', previous: $e);
-        }
-
-        foreach ($this->imagick as $key => $native) {
-            if (in_array($key, $allowedIndexes)) {
+        for ($i = $count - 1; $i >= 0; $i--) {
+            if ($i < $offset || $i >= $offset + $length) {
                 try {
-                    $sliced->addImage($native->getImage());
+                    $this->imagick->setIteratorIndex($i);
+                    $this->imagick->removeImage();
                 } catch (ImagickException $e) {
                     throw new DriverException('Failed to slice image', previous: $e);
                 }
@@ -174,15 +166,14 @@ class Core implements CoreInterface, Iterator
         }
 
         try {
-            $coalesced = $sliced->coalesceImages();
-            $sliced->clear();
-            $coalesced->setImageIterations($this->imagick->getImageIterations());
+            $loops = $this->imagick->getImageIterations();
+            $coalesced = $this->imagick->coalesceImages();
+            $this->imagick->clear();
+            $this->imagick = $coalesced;
+            $this->imagick->setImageIterations($loops);
         } catch (ImagickException $e) {
             throw new DriverException('Failed to slice image', previous: $e);
         }
-
-        $this->imagick->clear();
-        $this->imagick = $coalesced;
 
         return $this;
     }
@@ -379,9 +370,7 @@ class Core implements CoreInterface, Iterator
     public function setLoops(int $loops): CoreInterface
     {
         try {
-            $coalesced = $this->imagick->coalesceImages();
-            $this->imagick->clear();
-            $this->imagick = $coalesced;
+            $this->imagick->resetIterator();
             $this->imagick->setImageIterations($loops);
         } catch (ImagickException $e) {
             throw new DriverException('Failed to set image loop count', previous: $e);

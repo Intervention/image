@@ -27,7 +27,7 @@ class FillModifier extends ModifiersFillModifier implements SpecializedInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         $pixel = $this->driver()->colorProcessor($image)->export(
-            $this->color()
+            $this->color(),
         );
 
         foreach ($image->core()->native() as $frame) {
@@ -49,12 +49,12 @@ class FillModifier extends ModifiersFillModifier implements SpecializedInterface
         try {
             $target = $frame->getImagePixelColor(
                 $this->position->x(),
-                $this->position->y()
+                $this->position->y(),
             );
         } catch (ImagickException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to find target flood fill color',
-                previous: $e
+                previous: $e,
             );
         }
 
@@ -66,7 +66,7 @@ class FillModifier extends ModifiersFillModifier implements SpecializedInterface
                 $this->position->x(),
                 $this->position->y(),
                 false,
-                Imagick::CHANNEL_ALL
+                Imagick::CHANNEL_ALL,
             );
 
             if ($result === false) {
@@ -77,7 +77,7 @@ class FillModifier extends ModifiersFillModifier implements SpecializedInterface
         } catch (ImagickException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to flood fill image',
-                previous: $e
+                previous: $e,
             );
         }
     }
@@ -95,7 +95,7 @@ class FillModifier extends ModifiersFillModifier implements SpecializedInterface
         } catch (ImagickException | ImagickDrawException | ImagickPixelException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to build ImagickDraw object',
-                previous: $e
+                previous: $e,
             );
         }
 
@@ -112,7 +112,7 @@ class FillModifier extends ModifiersFillModifier implements SpecializedInterface
         } catch (ImagickException | ImagickPixelException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to adjust alpha channel',
-                previous: $e
+                previous: $e,
             );
         }
     }

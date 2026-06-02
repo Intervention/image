@@ -76,15 +76,15 @@ final class AbstractDecoderTest extends BaseTestCase
         };
 
         $this->assertTrue(
-            $decoder->isValid('R0lGODdhAwADAKIAAAQyrKTy/ByS7AQytLT2/AAAAAAAAAAAACwAAAAAAwADAAADBhgU0gMgAQA7')
+            $decoder->isValid('R0lGODdhAwADAKIAAAQyrKTy/ByS7AQytLT2/AAAAAAAAAAAACwAAAAAAwADAAADBhgU0gMgAQA7'),
         );
 
         $this->assertFalse(
-            $decoder->isValid('foo')
+            $decoder->isValid('foo'),
         );
 
         $this->assertFalse(
-            $decoder->isValid(new stdClass())
+            $decoder->isValid(new stdClass()),
         );
     }
 

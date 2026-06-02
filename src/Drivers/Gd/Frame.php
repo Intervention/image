@@ -25,7 +25,7 @@ class Frame extends AbstractFrame implements FrameInterface
         protected float $delay = 0,
         protected int $disposalMethod = 1,
         protected int $offsetLeft = 0,
-        protected int $offsetTop = 0
+        protected int $offsetTop = 0,
     ) {
         //
     }

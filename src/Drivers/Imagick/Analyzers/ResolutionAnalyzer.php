@@ -32,7 +32,7 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
         return new Resolution(
             $imageResolution['x'],
             $imageResolution['y'],
-            $imagick->getImageUnits() === 2 ? Length::CM : Length::INCH
+            $imagick->getImageUnits() === 2 ? Length::CM : Length::INCH,
         );
     }
 }

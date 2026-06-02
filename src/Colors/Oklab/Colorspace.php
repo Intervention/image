@@ -55,12 +55,12 @@ class Colorspace extends AbstractColorspace
                 } catch (TypeError $e) {
                     throw new InvalidArgumentException(
                         'Normalized color value must be in range 0 to 1',
-                        previous: $e
+                        previous: $e,
                     );
                 }
             },
             self::$channels,
-            $normalized
+            $normalized,
         ));
     }
 

@@ -122,7 +122,7 @@ class DataUriTest extends BaseTestCase
             null,
             [],
             false,
-            'data:,'
+            'data:,',
         ];
 
         yield [
@@ -130,7 +130,7 @@ class DataUriTest extends BaseTestCase
             null,
             [],
             false,
-            'data:,foo'
+            'data:,foo',
         ];
 
         yield [
@@ -138,7 +138,7 @@ class DataUriTest extends BaseTestCase
             'text/plain',
             [],
             false,
-            'data:text/plain,foo'
+            'data:text/plain,foo',
         ];
 
         yield [
@@ -146,7 +146,7 @@ class DataUriTest extends BaseTestCase
             'text/plain',
             ['charset' => 'utf-8'],
             false,
-            'data:text/plain;charset=utf-8,foo'
+            'data:text/plain;charset=utf-8,foo',
         ];
 
         yield [
@@ -154,7 +154,7 @@ class DataUriTest extends BaseTestCase
             'text/plain',
             ['charset' => 'utf-8'],
             true,
-            'data:text/plain;charset=utf-8;base64,Zm9v'
+            'data:text/plain;charset=utf-8;base64,Zm9v',
         ];
 
         yield [

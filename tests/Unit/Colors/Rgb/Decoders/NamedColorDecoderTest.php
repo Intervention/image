@@ -26,8 +26,8 @@ final class NamedColorDecoderTest extends BaseTestCase
             $channelValues,
             array_map(
                 fn(ColorChannelInterface $channel): int|float => $channel->value(),
-                $result->channels()
-            )
+                $result->channels(),
+            ),
         );
     }
 

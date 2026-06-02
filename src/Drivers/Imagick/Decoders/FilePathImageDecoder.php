@@ -53,7 +53,7 @@ class FilePathImageDecoder extends NativeObjectDecoder
             $imagick->readImage($path);
         } catch (ImagickException) {
             throw new ImageDecoderException(
-                'Failed to decode image data from file "' . $path . '"'
+                'Failed to decode image data from file "' . $path . '"',
             );
         }
 

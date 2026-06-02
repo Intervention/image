@@ -23,7 +23,7 @@ class Ellipse implements DrawableInterface
     public function __construct(
         protected int $width,
         protected int $height,
-        protected PointInterface $pivot = new Point()
+        protected PointInterface $pivot = new Point(),
     ) {
         //
     }

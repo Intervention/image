@@ -39,7 +39,7 @@ class FillTransparentAreasModifier extends GenericFillTransparentAreasModifier i
             // create new canvas with background color as background
             $modified = Cloner::cloneBlended(
                 $frame->native(),
-                background: $backgroundColor
+                background: $backgroundColor,
             );
 
             // set new gd image

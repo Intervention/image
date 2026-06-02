@@ -28,7 +28,7 @@ class BlurModifier extends GenericBlurModifier implements SpecializedInterface
             } catch (ImagickException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to blur image',
-                    previous: $e
+                    previous: $e,
                 );
             }
         }

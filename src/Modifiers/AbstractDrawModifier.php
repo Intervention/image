@@ -62,7 +62,7 @@ abstract class AbstractDrawModifier extends SpecializableModifier
     {
         if ($result === false) {
             throw new ModifierException(
-                'Failed to apply ' . self::class . ', ' . $message
+                'Failed to apply ' . self::class . ', ' . $message,
             );
         }
     }

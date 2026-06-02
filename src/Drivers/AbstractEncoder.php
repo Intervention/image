@@ -34,7 +34,7 @@ abstract class AbstractEncoder implements EncoderInterface
     {
         if ($this instanceof SpecializedInterface) {
             throw new LogicException(
-                "Specialized class '" . static::class . "' must override encode()"
+                "Specialized class '" . static::class . "' must override encode()",
             );
         }
 

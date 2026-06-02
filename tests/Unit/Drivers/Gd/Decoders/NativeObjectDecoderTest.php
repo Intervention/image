@@ -26,7 +26,7 @@ final class NativeObjectDecoderTest extends BaseTestCase
     public function testDecode(): void
     {
         $result = $this->decoder->decode(
-            imagecreatetruecolor(3, 2)
+            imagecreatetruecolor(3, 2),
         );
 
         $this->assertInstanceOf(Image::class, $result);

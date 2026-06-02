@@ -71,8 +71,8 @@ class FileExtensionEncoder extends AutoEncoder
 
         return $image->encode(
             $this->encoderByFileExtension(
-                $extension
-            )
+                $extension,
+            ),
         );
     }
 

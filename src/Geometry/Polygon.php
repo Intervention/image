@@ -36,7 +36,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
      */
     public function __construct(
         protected array $points = [],
-        protected PointInterface $pivot = new Point()
+        protected PointInterface $pivot = new Point(),
     ) {
         //
     }
@@ -53,7 +53,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
                 new Point($size->width(), $size->height() * -1),
                 new Point(0, $size->height() * -1),
             ],
-            $size->pivot()
+            $size->pivot(),
         );
     }
 
@@ -272,7 +272,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     {
         return new Point(
             $this->mostRightPoint()->x() - (intval(round($this->width() / 2))),
-            $this->mostTopPoint()->y() - (intval(round($this->height() / 2)))
+            $this->mostTopPoint()->y() - (intval(round($this->height() / 2))),
         );
     }
 

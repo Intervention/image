@@ -165,7 +165,7 @@ class Color extends AbstractColor
             $this->cyan()->value(),
             $this->magenta()->value(),
             $this->yellow()->value(),
-            $this->key()->value()
+            $this->key()->value(),
         );
     }
 

@@ -23,7 +23,7 @@ class ColorspaceModifier extends GenericColorspaceModifier implements Specialize
     {
         if (!$this->targetColorspace() instanceof RgbColorspace) {
             throw new NotSupportedException(
-                'Only RGB colorspace is supported by GD driver'
+                'Only RGB colorspace is supported by GD driver',
             );
         }
 

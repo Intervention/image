@@ -28,7 +28,7 @@ class ColorizeModifier extends GenericColorizeModifier implements SpecializedInt
             } catch (ImageException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to get quantum range',
-                    previous: $e
+                    previous: $e,
                 );
             }
 
@@ -45,7 +45,7 @@ class ColorizeModifier extends GenericColorizeModifier implements SpecializedInt
             } catch (ImageException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to adjust image colors',
-                    previous: $e
+                    previous: $e,
                 );
             }
         }

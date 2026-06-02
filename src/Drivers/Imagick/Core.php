@@ -191,7 +191,7 @@ class Core implements CoreInterface, Iterator
 
         try {
             $imagick->setImageDelay(
-                (int) round($frame->delay() * 100)
+                (int) round($frame->delay() * 100),
             );
 
             $imagick->setImageDispose($frame->disposalMethod());
@@ -201,7 +201,7 @@ class Core implements CoreInterface, Iterator
                 $size->width(),
                 $size->height(),
                 $frame->offsetLeft(),
-                $frame->offsetTop()
+                $frame->offsetTop(),
             );
 
             $this->imagick->addImage($imagick);

@@ -52,11 +52,11 @@ final class ImageTest extends GdTestCase
             new Core([
                 new Frame(imagecreatetruecolor(3, 2)),
                 new Frame(imagecreatetruecolor(3, 2)),
-            ])
+            ]),
         ))->setExif(
             new Collection([
-                'test' => 'foo'
-            ])
+                'test' => 'foo',
+            ]),
         );
     }
 

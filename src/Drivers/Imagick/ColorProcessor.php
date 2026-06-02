@@ -80,7 +80,7 @@ class ColorProcessor implements ColorProcessorInterface
                     $color->channel(Green::class)->value(),
                     $color->channel(Blue::class)->value(),
                     $color->channel(Alpha::class)->toString(),
-                )
+                ),
             );
         } catch (ImagickException | ImagickPixelException $e) {
             throw new DriverException('Failed to create color', previous: $e);
@@ -139,7 +139,7 @@ class ColorProcessor implements ColorProcessorInterface
                     $color->getColorValue(Imagick::COLOR_ALPHA),
                 ])->toColorspace(Oklch::class),
                 default => throw new NotSupportedException(
-                    'Colorspace ' . $this->colorspace::class . ' is not supported by driver'
+                    'Colorspace ' . $this->colorspace::class . ' is not supported by driver',
                 )
             };
         } catch (ImagickPixelException $e) {

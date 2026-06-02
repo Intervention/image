@@ -33,7 +33,7 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
     public function encode(ImageInterface $image): EncodedImageInterface
     {
         $backgroundColor = $this->driver()->decodeColor(
-            $this->driver()->config()->backgroundColor
+            $this->driver()->config()->backgroundColor,
         )->toColorspace(Rgb::class);
 
 
@@ -43,7 +43,7 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
 
         $output = Cloner::cloneBlended(
             $image->core()->native(),
-            background: $backgroundColor
+            background: $backgroundColor,
         );
 
         return $this->createEncodedImage(function ($stream) use ($output): void {

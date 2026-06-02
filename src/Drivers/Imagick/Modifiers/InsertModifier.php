@@ -48,12 +48,12 @@ class InsertModifier extends GenericInsertModifier implements SpecializedInterfa
             } catch (ImagickException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to set transparency of watermark',
-                    previous: $e
+                    previous: $e,
                 );
             } catch (RuntimeException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to set transparency of watermark',
-                    previous: $e
+                    previous: $e,
                 );
             }
         }
@@ -64,7 +64,7 @@ class InsertModifier extends GenericInsertModifier implements SpecializedInterfa
                     $watermark->core()->native(),
                     Imagick::COMPOSITE_DEFAULT,
                     $position->x(),
-                    $position->y()
+                    $position->y(),
                 );
                 if ($result === false) {
                     throw new ModifierException(
@@ -74,7 +74,7 @@ class InsertModifier extends GenericInsertModifier implements SpecializedInterfa
             } catch (ImagickException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to insert watermark image',
-                    previous: $e
+                    previous: $e,
                 );
             }
         }

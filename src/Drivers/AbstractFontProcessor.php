@@ -158,7 +158,7 @@ abstract class AbstractFontProcessor implements FontProcessorInterface
         // bounding box
         $box = Polygon::fromSize(new Size(
             $this->boxSize((string) $block->longestLine(), $font)->width(),
-            $this->leading($font) * ($block->count() - 1) + $this->capHeight($font)
+            $this->leading($font) * ($block->count() - 1) + $this->capHeight($font),
         ));
 
         // set position

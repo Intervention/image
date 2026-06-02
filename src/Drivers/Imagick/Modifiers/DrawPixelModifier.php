@@ -28,7 +28,7 @@ class DrawPixelModifier extends GenericDrawPixelModifier implements SpecializedI
     public function apply(ImageInterface $image): ImageInterface
     {
         $pixel = $this->pixel(
-            $this->driver()->colorProcessor($image)->export($this->color())
+            $this->driver()->colorProcessor($image)->export($this->color()),
         );
 
         foreach ($image as $frame) {
@@ -54,7 +54,7 @@ class DrawPixelModifier extends GenericDrawPixelModifier implements SpecializedI
         } catch (ImagickException | ImagickDrawException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to build ImagickDraw object',
-                previous: $e
+                previous: $e,
             );
         }
     }

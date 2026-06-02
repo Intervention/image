@@ -18,7 +18,7 @@ class JpegEncoder extends SpecializableEncoder
     public function __construct(
         public int $quality = self::DEFAULT_QUALITY,
         public bool $progressive = false,
-        public ?bool $strip = null
+        public ?bool $strip = null,
     ) {
         if ($quality < 0 || $quality > 100) {
             throw new InvalidArgumentException('Quality must be in range 0 to 100');

@@ -19,7 +19,7 @@ class Point implements PointInterface, IteratorAggregate
      */
     public function __construct(
         protected int $x = 0,
-        protected int $y = 0
+        protected int $y = 0,
     ) {
         //
     }
@@ -137,7 +137,7 @@ class Point implements PointInterface, IteratorAggregate
 
         return $this->setPosition(
             intval($cos * ($this->x() - $pivot->x()) - $sin * ($this->y() - $pivot->y()) + $pivot->x()),
-            intval($sin * ($this->x() - $pivot->x()) + $cos * ($this->y() - $pivot->y()) + $pivot->y())
+            intval($sin * ($this->x() - $pivot->x()) + $cos * ($this->y() - $pivot->y()) + $pivot->y()),
         );
     }
 }

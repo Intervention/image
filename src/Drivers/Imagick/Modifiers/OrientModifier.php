@@ -60,7 +60,7 @@ class OrientModifier extends GenericOrientModifier implements SpecializedInterfa
         } catch (ImagickException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to process rotation',
-                previous: $e
+                previous: $e,
             );
         }
 

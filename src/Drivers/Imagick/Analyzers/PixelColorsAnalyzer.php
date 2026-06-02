@@ -22,7 +22,7 @@ class PixelColorsAnalyzer extends PixelColorAnalyzer
 
         foreach ($image as $frame) {
             $colors->push(
-                parent::colorAt($colorProcessor, $frame)
+                parent::colorAt($colorProcessor, $frame),
             );
         }
 

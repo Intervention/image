@@ -19,7 +19,7 @@ class TextModifier extends SpecializableModifier
     public function __construct(
         public string $text,
         public PointInterface $position,
-        public FontInterface $font
+        public FontInterface $font,
     ) {
         //
     }
@@ -40,7 +40,7 @@ class TextModifier extends SpecializableModifier
 
         if ($this->font->hasStrokeEffect() && $color->isTransparent()) {
             throw new StateException(
-                'The text color must be fully opaque when using the stroke effect'
+                'The text color must be fully opaque when using the stroke effect',
             );
         }
 
@@ -58,7 +58,7 @@ class TextModifier extends SpecializableModifier
 
         if ($color->isTransparent()) {
             throw new StateException(
-                'The stroke color must be fully opaque'
+                'The stroke color must be fully opaque',
             );
         }
 

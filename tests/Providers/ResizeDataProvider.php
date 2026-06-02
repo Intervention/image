@@ -102,49 +102,49 @@ class ResizeDataProvider
             new Size(800, 600),
             new Size(100, 100),
             Alignment::CENTER,
-            new Size(100, 100, new Point(350, 250))
+            new Size(100, 100, new Point(350, 250)),
         ];
         yield [
             new Size(800, 600),
             new Size(200, 100),
             Alignment::CENTER,
-            new Size(200, 100, new Point(300, 250))
+            new Size(200, 100, new Point(300, 250)),
         ];
         yield [
             new Size(800, 600),
             new Size(100, 200),
             Alignment::CENTER,
-            new Size(100, 200, new Point(350, 200))
+            new Size(100, 200, new Point(350, 200)),
         ];
         yield [
             new Size(800, 600),
             new Size(2000, 10),
             Alignment::CENTER,
-            new Size(2000, 10, new Point(-600, 295))
+            new Size(2000, 10, new Point(-600, 295)),
         ];
         yield [
             new Size(800, 600),
             new Size(10, 2000),
             Alignment::CENTER,
-            new Size(10, 2000, new Point(395, -700))
+            new Size(10, 2000, new Point(395, -700)),
         ];
         yield [
             new Size(800, 600),
             new Size(800, 600),
             Alignment::CENTER,
-            new Size(800, 600, new Point(0, 0))
+            new Size(800, 600, new Point(0, 0)),
         ];
         yield [
             new Size(400, 300),
             new Size(120, 120),
             Alignment::CENTER,
-            new Size(120, 120, new Point(140, 90))
+            new Size(120, 120, new Point(140, 90)),
         ];
         yield [
             new Size(600, 800),
             new Size(100, 100),
             Alignment::CENTER,
-            new Size(100, 100, new Point(250, 350))
+            new Size(100, 100, new Point(250, 350)),
         ];
     }
 }

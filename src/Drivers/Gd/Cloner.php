@@ -43,7 +43,7 @@ class Cloner
     public static function cloneEmpty(
         GdImage $gd,
         ?SizeInterface $size = null,
-        Color $background = new Color(255, 255, 255, 0)
+        Color $background = new Color(255, 255, 255, 0),
     ): GdImage {
         // define size
         $size = $size ?: new Size(imagesx($gd), imagesy($gd));

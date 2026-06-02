@@ -180,7 +180,7 @@ final class MediaTypeTest extends BaseTestCase
     public function testFileExtensions(
         MediaType $mediaType,
         int $fileExtensionCount,
-        FileExtension $fileExtension
+        FileExtension $fileExtension,
     ): void {
         $this->assertCount($fileExtensionCount, $mediaType->fileExtensions());
         $this->assertEquals($fileExtension, $mediaType->fileExtension());

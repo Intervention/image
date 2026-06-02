@@ -56,7 +56,7 @@ class ResizeModifier extends GenericResizeModifier implements SpecializedInterfa
             $resizeTo->width(),
             $resizeTo->height(),
             $frame->size()->width(),
-            $frame->size()->height()
+            $frame->size()->height(),
         );
 
         // set new content as resource

@@ -25,7 +25,7 @@ final class ColorObjectDecoderTest extends BaseTestCase
             new Red(255),
             new Green(0),
             new Blue(0),
-            new Alpha(1)
+            new Alpha(1),
         );
         $this->assertTrue($decoder->supports($color));
     }
@@ -46,7 +46,7 @@ final class ColorObjectDecoderTest extends BaseTestCase
             new Red(255),
             new Green(0),
             new Blue(0),
-            new Alpha(1)
+            new Alpha(1),
         );
         $result = $decoder->decode($color);
         $this->assertInstanceOf(ColorInterface::class, $result);

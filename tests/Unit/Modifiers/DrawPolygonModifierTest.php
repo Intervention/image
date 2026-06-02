@@ -23,7 +23,7 @@ final class DrawPolygonModifierTest extends BaseTestCase
     public function testConstructorWithThreePoints(): void
     {
         $modifier = new DrawPolygonModifier(
-            new Polygon([new Point(0, 0), new Point(1, 1), new Point(2, 0)])
+            new Polygon([new Point(0, 0), new Point(1, 1), new Point(2, 0)]),
         );
         $this->assertInstanceOf(DrawPolygonModifier::class, $modifier);
     }

@@ -28,7 +28,7 @@ class StripMetaModifier implements ModifierInterface, SpecializedInterface
         } catch (ImagickException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to preserve icc profiles',
-                previous: $e
+                previous: $e,
             );
         }
 
@@ -43,7 +43,7 @@ class StripMetaModifier implements ModifierInterface, SpecializedInterface
         } catch (ImagickException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to strip meta data',
-                previous: $e
+                previous: $e,
             );
         }
 
@@ -61,7 +61,7 @@ class StripMetaModifier implements ModifierInterface, SpecializedInterface
             } catch (ImagickException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to re-apply icc profile',
-                    previous: $e
+                    previous: $e,
                 );
             }
         }

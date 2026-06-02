@@ -35,10 +35,10 @@ class FontProcessor extends AbstractFontProcessor
             $chars = mb_strlen($text);
             if ($chars > 0) {
                 $box->setWidth(
-                    $chars * $this->gdCharacterWidth($gdFont)
+                    $chars * $this->gdCharacterWidth($gdFont),
                 );
                 $box->setHeight(
-                    $this->gdCharacterHeight($gdFont)
+                    $this->gdCharacterHeight($gdFont),
                 );
             }
             return $box;

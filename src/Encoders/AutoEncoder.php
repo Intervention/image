@@ -18,8 +18,8 @@ class AutoEncoder extends MediaTypeEncoder
     {
         return $image->encode(
             $this->encoderByMediaType(
-                $image->origin()->mediaType()
-            )
+                $image->origin()->mediaType(),
+            ),
         );
     }
 }

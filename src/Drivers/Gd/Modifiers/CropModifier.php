@@ -55,7 +55,7 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
         FrameInterface $frame,
         SizeInterface $originalSize,
         SizeInterface $resizeTo,
-        RgbColor $background
+        RgbColor $background,
     ): void {
         // create new image with transparent background
         $modified = Cloner::cloneEmpty($frame->native(), $resizeTo, $background);
@@ -84,7 +84,7 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
             $targetWidth,
             $targetHeight,
             $targetWidth,
-            $targetHeight
+            $targetHeight,
         );
 
         // set new content as resource

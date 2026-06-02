@@ -19,7 +19,7 @@ class ReduceColorsModifier extends SpecializableModifier
      */
     public function __construct(
         public int $limit,
-        public null|string|ColorInterface $background = null
+        public null|string|ColorInterface $background = null,
     ) {
         if ($this->limit < 1) {
             throw new InvalidArgumentException('Invalid color limit. Only use int<1, max>');

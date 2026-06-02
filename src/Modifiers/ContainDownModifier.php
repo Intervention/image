@@ -20,11 +20,11 @@ class ContainDownModifier extends ContainModifier
         return $image->size()
             ->containDown(
                 $this->width,
-                $this->height
+                $this->height,
             )
             ->alignPivotTo(
                 $this->resizeSize($image),
-                $this->alignment
+                $this->alignment,
             );
     }
 }

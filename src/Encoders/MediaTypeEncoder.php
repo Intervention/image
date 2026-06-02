@@ -43,7 +43,7 @@ class MediaTypeEncoder extends AbstractEncoder
         $mediaType = is_null($this->mediaType) ? $image->origin()->mediaType() : $this->mediaType;
 
         return $image->encode(
-            $this->encoderByMediaType($mediaType)
+            $this->encoderByMediaType($mediaType),
         );
     }
 

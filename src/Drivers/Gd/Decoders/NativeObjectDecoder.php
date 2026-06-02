@@ -56,8 +56,8 @@ class NativeObjectDecoder extends AbstractDecoder
         return new Image(
             $this->driver(),
             new Core([
-                new Frame($input)
-            ])
+                new Frame($input),
+            ]),
         );
     }
 

@@ -55,7 +55,7 @@ class DrawPolygonModifier extends GenericDrawPolygonModifier implements Speciali
                 $this->drawable->toArray(),
                 $color,
             ),
-            'Unable to draw polygon background'
+            'Unable to draw polygon background',
         );
     }
 
@@ -74,7 +74,7 @@ class DrawPolygonModifier extends GenericDrawPolygonModifier implements Speciali
                 $this->drawable->toArray(),
                 $borderColor,
             ),
-            'Unable to draw polygon border'
+            'Unable to draw polygon border',
         );
     }
 }

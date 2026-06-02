@@ -58,7 +58,7 @@ class CoverModifier extends GenericCoverModifier implements SpecializedInterface
             $resize->width(),
             $resize->height(),
             $crop->width(),
-            $crop->height()
+            $crop->height(),
         );
 
         // set new content as resource

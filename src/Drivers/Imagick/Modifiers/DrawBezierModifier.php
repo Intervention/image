@@ -71,7 +71,7 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
         $bezierCurve->pathStart();
         $bezierCurve->pathMoveToAbsolute(
             $this->drawable->first()->x(),
-            $this->drawable->first()->y()
+            $this->drawable->first()->y(),
         );
 
         match ($this->drawable->count()) {
@@ -79,7 +79,7 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
                 $this->drawable->second()->x(),
                 $this->drawable->second()->y(),
                 $this->drawable->last()->x(),
-                $this->drawable->last()->y()
+                $this->drawable->last()->y(),
             ),
             4 => $bezierCurve->pathCurveToAbsolute(
                 $this->drawable->second()->x(),
@@ -87,7 +87,7 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
                 $this->drawable->third()->x(),
                 $this->drawable->third()->y(),
                 $this->drawable->last()->x(),
-                $this->drawable->last()->y()
+                $this->drawable->last()->y(),
             ),
             default => throw new InvalidArgumentException(
                 'You must specify either 3 or 4 points to create a bezier curve',

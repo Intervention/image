@@ -15,7 +15,7 @@ abstract class GdTestCase extends BaseTestCase
     public static function readTestImage(string $filename = 'test.jpg'): Image
     {
         return (new Driver())->specializeDecoder(new FilePathImageDecoder())->decode(
-            Resource::create($filename)->path()
+            Resource::create($filename)->path(),
         );
     }
 
@@ -27,8 +27,8 @@ abstract class GdTestCase extends BaseTestCase
         return new Image(
             new Driver(),
             new Core([
-                new Frame($gd)
-            ])
+                new Frame($gd),
+            ]),
         );
     }
 
@@ -63,7 +63,7 @@ abstract class GdTestCase extends BaseTestCase
                 new Frame($gd1),
                 new Frame($gd2),
                 new Frame($gd3),
-            ])
+            ]),
         );
     }
 }

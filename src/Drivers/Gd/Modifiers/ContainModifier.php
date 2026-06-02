@@ -55,7 +55,7 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
         FrameInterface $frame,
         SizeInterface $crop,
         SizeInterface $resize,
-        RgbColor $backgroundColor
+        RgbColor $backgroundColor,
     ): void {
         // create new gd image
         $modified = Cloner::cloneEmpty($frame->native(), $resize, $backgroundColor);
@@ -79,7 +79,7 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
             $crop->pivot()->y(),
             $crop->pivot()->x() + $crop->width() - 1,
             $crop->pivot()->y() + $crop->height() - 1,
-            $transparent
+            $transparent,
         );
 
         // copy image from original with background alpha
@@ -94,7 +94,7 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
             $crop->width(),
             $crop->height(),
             $frame->size()->width(),
-            $frame->size()->height()
+            $frame->size()->height(),
         );
 
         // set new content as resource

@@ -35,7 +35,7 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
             } catch (ImagickException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to rotate image',
-                    previous: $e
+                    previous: $e,
                 );
             }
         }

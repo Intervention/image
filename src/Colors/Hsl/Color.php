@@ -154,7 +154,7 @@ class Color extends AbstractColor
             'hsl(%d %d%% %d%%)',
             $this->hue()->value(),
             $this->saturation()->value(),
-            $this->luminance()->value()
+            $this->luminance()->value(),
         );
     }
 

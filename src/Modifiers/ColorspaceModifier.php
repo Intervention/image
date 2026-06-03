@@ -37,7 +37,7 @@ class ColorspaceModifier extends SpecializableModifier
 
             if (!$colorspace instanceof ColorspaceInterface) {
                 throw new NotSupportedException(
-                    'Target colorspace "' . $this->target . '" is not supported by driver'
+                    'Target colorspace "' . $this->target . '" is not supported by driver',
                 );
             }
 

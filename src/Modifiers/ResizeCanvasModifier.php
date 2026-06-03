@@ -22,7 +22,7 @@ class ResizeCanvasModifier extends SpecializableModifier
         public ?int $width = null,
         public ?int $height = null,
         public null|string|ColorInterface $background = null,
-        public string|Alignment $alignment = Alignment::CENTER
+        public string|Alignment $alignment = Alignment::CENTER,
     ) {
         //
     }

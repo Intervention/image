@@ -414,7 +414,7 @@ final class PolygonTest extends BaseTestCase
     {
         $poly = new Polygon([
             new Point(10, 20),
-            new Point(30, 40)
+            new Point(30, 40),
         ]);
 
         $result = $poly->movePointsX(100);
@@ -645,7 +645,7 @@ final class PolygonTest extends BaseTestCase
             new Red(255),
             new Green(0),
             new Blue(0),
-            new Alpha(1)
+            new Alpha(1),
         );
         $poly->setBackgroundColor($color);
         $clone = clone $poly;
@@ -661,7 +661,7 @@ final class PolygonTest extends BaseTestCase
             new Red(0),
             new Green(255),
             new Blue(0),
-            new Alpha(1)
+            new Alpha(1),
         );
         $poly->setBorderColor($color);
         $clone = clone $poly;

@@ -37,7 +37,7 @@ class TrimModifier extends GenericTrimModifier implements SpecializedInterface
         } catch (ImagickException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to processs image trimming',
-                previous: $e
+                previous: $e,
             );
         }
 

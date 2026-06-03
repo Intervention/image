@@ -24,12 +24,12 @@ class ResizeModifier extends GenericResizeModifier implements SpecializedInterfa
             try {
                 $frame->native()->scaleImage(
                     $resizeTo->width(),
-                    $resizeTo->height()
+                    $resizeTo->height(),
                 );
             } catch (ImagickException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to process resizing',
-                    previous: $e
+                    previous: $e,
                 );
             }
         }

@@ -28,7 +28,7 @@ final class Base64ImageDecoderTest extends BaseTestCase
     public function testDecode(): void
     {
         $result = $this->decoder->decode(
-            Resource::create('blue.gif')->base64()
+            Resource::create('blue.gif')->base64(),
         );
 
         $this->assertInstanceOf(Image::class, $result);

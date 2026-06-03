@@ -56,12 +56,12 @@ class Colorspace extends AbstractColorspace
                 } catch (TypeError $e) {
                     throw new InvalidArgumentException(
                         'Normalized color value must be in range 0 to 1',
-                        previous: $e
+                        previous: $e,
                     );
                 }
             },
             self::$channels,
-            $normalized
+            $normalized,
         ));
     }
 
@@ -165,7 +165,7 @@ class Colorspace extends AbstractColorspace
         // normalized values of hsl channels
         [$h, $s, $l] = array_map(
             fn(ColorChannelInterface $channel): float => $channel->normalized(),
-            $color->channels()
+            $color->channels(),
         );
 
         $v = $l + $s * min($l, 1 - $l);

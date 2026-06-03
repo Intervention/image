@@ -47,7 +47,7 @@ class SharpenModifier extends GenericSharpenModifier implements SpecializedInter
         return [
             [$min, $max, $min],
             [$max, $abs, $max],
-            [$min, $max, $min]
+            [$min, $max, $min],
         ];
     }
 }

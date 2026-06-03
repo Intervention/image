@@ -33,7 +33,7 @@ class ColorspaceModifier extends GenericColorspaceModifier implements Specialize
 
         try {
             $result = $imagick->transformImageColorspace(
-                $this->imagickColorspaceOrFail($colorspace)
+                $this->imagickColorspaceOrFail($colorspace),
             );
 
             if ($result === false) {
@@ -44,7 +44,7 @@ class ColorspaceModifier extends GenericColorspaceModifier implements Specialize
         } catch (ImagickException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to transform image colorspace',
-                previous: $e
+                previous: $e,
             );
         }
 

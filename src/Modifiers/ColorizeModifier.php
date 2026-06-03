@@ -17,7 +17,7 @@ class ColorizeModifier extends SpecializableModifier
     public function __construct(
         public int $red = 0,
         public int $green = 0,
-        public int $blue = 0
+        public int $blue = 0,
     ) {
         if ($red < -100 || $red > 100) {
             throw new InvalidArgumentException('Color level for argument $red must be in range -100 to 100');

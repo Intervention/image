@@ -14,7 +14,7 @@ class Pixel extends Point
     public function __construct(
         protected ColorInterface $background,
         protected int $x,
-        protected int $y
+        protected int $y,
     ) {
         parent::__construct($x, $y);
     }

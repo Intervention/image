@@ -24,7 +24,7 @@ class CropModifier extends SpecializableModifier
         public int $x = 0,
         public int $y = 0,
         public null|string|ColorInterface $background = null,
-        public string|Alignment $alignment = Alignment::TOP_LEFT
+        public string|Alignment $alignment = Alignment::TOP_LEFT,
     ) {
         //
     }
@@ -39,7 +39,7 @@ class CropModifier extends SpecializableModifier
 
         return $crop->alignPivotTo(
             $image->size(),
-            $this->alignment
+            $this->alignment,
         );
     }
 

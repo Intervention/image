@@ -89,7 +89,7 @@ class Frame extends AbstractFrame implements FrameInterface
         try {
             return new Size(
                 $this->native->getImageWidth(),
-                $this->native->getImageHeight()
+                $this->native->getImageHeight(),
             );
         } catch (ImagickException | InvalidArgumentException $e) {
             throw new DriverException('Failed to get frame size', previous: $e);
@@ -183,7 +183,7 @@ class Frame extends AbstractFrame implements FrameInterface
                 $this->native->getImageWidth(),
                 $this->native->getImageHeight(),
                 $left,
-                $top
+                $top,
             );
         } catch (ImagickException $e) {
             throw new DriverException('Failed to set frame offset', previous: $e);

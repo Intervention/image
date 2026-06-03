@@ -36,8 +36,8 @@ final class ColorTest extends BaseTestCase
             [.51, .1, -.2, 255],
             array_map(
                 fn(ColorChannelInterface $channel): int|float => $channel->value(),
-                $color->channels()
-            )
+                $color->channels(),
+            ),
         );
     }
 
@@ -120,7 +120,7 @@ final class ColorTest extends BaseTestCase
             array_map(
                 fn(ColorChannelInterface $channel): float => $channel->normalized(),
                 $color->channels(),
-            )
+            ),
         );
 
         $color = new Color(0, 0, 0);
@@ -129,7 +129,7 @@ final class ColorTest extends BaseTestCase
             array_map(
                 fn(ColorChannelInterface $channel): float => $channel->normalized(),
                 $color->channels(),
-            )
+            ),
         );
 
         $color = new Color(0, 0, 0, .5);
@@ -138,7 +138,7 @@ final class ColorTest extends BaseTestCase
             array_map(
                 fn(ColorChannelInterface $channel): float => $channel->normalized(),
                 $color->channels(),
-            )
+            ),
         );
     }
 
@@ -157,8 +157,8 @@ final class ColorTest extends BaseTestCase
             [255, 55, 0, 255],
             array_map(
                 fn(ColorChannelInterface $channel): int|float => $channel->value(),
-                $converted->channels()
-            )
+                $converted->channels(),
+            ),
         );
     }
 

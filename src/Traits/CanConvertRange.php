@@ -20,7 +20,7 @@ trait CanConvertRange
         float|int $min,
         float|int $max,
         float|int $targetMin,
-        float|int $targetMax
+        float|int $targetMax,
     ): float {
         try {
             return ((($input - $min) * ($targetMax - $targetMin)) / ($max - $min)) + $targetMin;

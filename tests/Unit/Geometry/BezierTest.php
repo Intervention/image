@@ -27,7 +27,7 @@ final class BezierTest extends BaseTestCase
             new Point(),
             new Point(),
             new Point(),
-            new Point()
+            new Point(),
         ]);
         $this->assertEquals(4, $bezier->count());
     }
@@ -38,7 +38,7 @@ final class BezierTest extends BaseTestCase
             new Point(),
             new Point(),
             new Point(),
-            new Point()
+            new Point(),
         ]);
         $this->assertInstanceOf(Point::class, $bezier[0]);
         $this->assertInstanceOf(Point::class, $bezier[1]);
@@ -50,7 +50,7 @@ final class BezierTest extends BaseTestCase
     {
         $bezier = new Bezier([
             new Point(),
-            new Point()
+            new Point(),
         ]);
         $this->assertEquals(2, $bezier->count());
         $result = $bezier->addPoint(new Point());

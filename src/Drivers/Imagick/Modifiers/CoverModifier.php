@@ -28,19 +28,19 @@ class CoverModifier extends GenericCoverModifier implements SpecializedInterface
                     $crop->width(),
                     $crop->height(),
                     $crop->pivot()->x(),
-                    $crop->pivot()->y()
+                    $crop->pivot()->y(),
                 );
 
                 $frame->native()->scaleImage(
                     $resize->width(),
-                    $resize->height()
+                    $resize->height(),
                 );
 
                 $frame->native()->setImagePage(0, 0, 0, 0);
             } catch (ImagickException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to resize image',
-                    previous: $e
+                    previous: $e,
                 );
             }
         }

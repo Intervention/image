@@ -56,8 +56,8 @@ final class ImageTest extends ImagickTestCase
             new Core($imagick),
         ))->setExif(
             new Collection([
-                'test' => 'foo'
-            ])
+                'test' => 'foo',
+            ]),
         );
     }
 

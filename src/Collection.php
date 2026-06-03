@@ -189,7 +189,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
             array_map(
                 fn(mixed $item) => $callback($item),
                 $this->items,
-            )
+            ),
         );
     }
 
@@ -204,7 +204,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
             array_filter(
                 $this->items,
                 fn(mixed $item) => $callback($item),
-            )
+            ),
         );
     }
 

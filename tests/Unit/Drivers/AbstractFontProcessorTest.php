@@ -165,7 +165,7 @@ class AbstractFontProcessorTest extends BaseTestCase
         // Line 2: blockWidth (50) - lineWidth (15+0) = 35
         $this->assertNotEquals(
             $block->at(0)->position()->x(),
-            $block->at(1)->position()->x()
+            $block->at(1)->position()->x(),
         );
     }
 

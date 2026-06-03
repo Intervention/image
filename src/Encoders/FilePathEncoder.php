@@ -18,7 +18,7 @@ class FilePathEncoder extends FileExtensionEncoder
     {
         parent::__construct(
             is_null($path) ? $path : pathinfo($path, PATHINFO_EXTENSION),
-            ...$options
+            ...$options,
         );
     }
 
@@ -44,8 +44,8 @@ class FilePathEncoder extends FileExtensionEncoder
 
         return $image->encode(
             $this->encoderByFileExtension(
-                $extension
-            )
+                $extension,
+            ),
         );
     }
 }

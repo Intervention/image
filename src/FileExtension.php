@@ -51,7 +51,7 @@ enum FileExtension: string
             } catch (NotSupportedException $e) {
                 throw new InvalidArgumentException(
                     'Unable to create file extension from "' . $identifier::class . '"',
-                    previous: $e
+                    previous: $e,
                 );
             }
         }
@@ -62,7 +62,7 @@ enum FileExtension: string
             } catch (NotSupportedException $e) {
                 throw new InvalidArgumentException(
                     'Unable to create file extension from "' . $identifier->value . '"',
-                    previous: $e
+                    previous: $e,
                 );
             }
         }

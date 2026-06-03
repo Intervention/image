@@ -34,7 +34,7 @@ class RemoveAnimationModifier extends GenericRemoveAnimationModifier implements 
         } catch (ImagickException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to re-apply image frame',
-                previous: $e
+                previous: $e,
             );
         }
 

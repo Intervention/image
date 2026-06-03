@@ -35,7 +35,7 @@ class ReduceColorsModifier extends GenericReduceColorsModifier implements Specia
                     $frame->native()->getImageColorspace(),
                     0,
                     false,
-                    false
+                    false,
                 );
                 if ($result === false) {
                     throw new ModifierException(
@@ -45,7 +45,7 @@ class ReduceColorsModifier extends GenericReduceColorsModifier implements Specia
             } catch (ImagickException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to process quantization',
-                    previous: $e
+                    previous: $e,
                 );
             }
         }

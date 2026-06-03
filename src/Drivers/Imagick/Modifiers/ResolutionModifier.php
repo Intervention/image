@@ -29,7 +29,7 @@ class ResolutionModifier extends GenericResolutionModifier implements Specialize
         } catch (ImagickException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to set image resolution',
-                previous: $e
+                previous: $e,
             );
         }
 

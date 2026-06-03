@@ -21,13 +21,13 @@ class Resizer
     ) {
         if (is_int($width) && $width < 1) {
             throw new InvalidArgumentException(
-                'Width must be greater than or equal to 1'
+                'Width must be greater than or equal to 1',
             );
         }
 
         if (is_int($height) && $height < 1) {
             throw new InvalidArgumentException(
-                'Height must be greater than or equal to 1'
+                'Height must be greater than or equal to 1',
             );
         }
     }
@@ -182,13 +182,13 @@ class Resizer
 
         if ($width !== null) {
             $resized->setWidth(
-                min($width, $size->width())
+                min($width, $size->width()),
             );
         }
 
         if ($height !== null) {
             $resized->setHeight(
-                min($height, $size->height())
+                min($height, $size->height()),
             );
         }
 
@@ -207,11 +207,11 @@ class Resizer
         if ($this->hasTargetWidth() && $this->hasTargetHeight()) {
             $resized->setWidth(min(
                 $this->proportionalWidth($size),
-                $this->targetWidth()
+                $this->targetWidth(),
             ));
             $resized->setHeight(min(
                 $this->proportionalHeight($size),
-                $this->targetHeight()
+                $this->targetHeight(),
             ));
         } elseif ($this->hasTargetWidth()) {
             $resized->setWidth($this->targetWidth());
@@ -237,30 +237,30 @@ class Resizer
             $resized->setWidth(min(
                 $this->proportionalWidth($size),
                 $this->targetWidth(),
-                $size->width()
+                $size->width(),
             ));
             $resized->setHeight(min(
                 $this->proportionalHeight($size),
                 $this->targetHeight(),
-                $size->height()
+                $size->height(),
             ));
         } elseif ($this->hasTargetWidth()) {
             $resized->setWidth(min(
                 $this->targetWidth(),
-                $size->width()
+                $size->width(),
             ));
             $resized->setHeight(min(
                 $this->proportionalHeight($size),
-                $size->height()
+                $size->height(),
             ));
         } elseif ($this->hasTargetHeight()) {
             $resized->setWidth(min(
                 $this->proportionalWidth($size),
-                $size->width()
+                $size->width(),
             ));
             $resized->setHeight(min(
                 $this->targetHeight(),
-                $size->height()
+                $size->height(),
             ));
         }
 
@@ -328,20 +328,20 @@ class Resizer
 
         // auto height
         $resized->setWidth(
-            min($size->width(), $this->targetWidth())
+            min($size->width(), $this->targetWidth()),
         );
 
         $resized->setHeight(
-            min($size->height(), $this->proportionalHeight($size))
+            min($size->height(), $this->proportionalHeight($size)),
         );
 
         if (!$resized->fitsWithin($this->targetSize())) {
             // auto width
             $resized->setWidth(
-                min($size->width(), $this->proportionalWidth($size))
+                min($size->width(), $this->proportionalWidth($size)),
             );
             $resized->setHeight(
-                min($size->height(), $this->targetHeight())
+                min($size->height(), $this->targetHeight()),
             );
         }
 
@@ -357,7 +357,7 @@ class Resizer
     {
         return $this->resize($size)->alignPivotTo(
             $size->movePivot($alignment),
-            $alignment
+            $alignment,
         );
     }
 }

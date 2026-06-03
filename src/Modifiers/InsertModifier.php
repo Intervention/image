@@ -22,7 +22,7 @@ class InsertModifier extends SpecializableModifier
         public int $x = 0,
         public int $y = 0,
         public string|Alignment $alignment = Alignment::TOP_LEFT,
-        public float $transparency = 1
+        public float $transparency = 1,
     ) {
         if ($this->transparency < 0 || $this->transparency > 1) {
             throw new InvalidArgumentException('Transparency must be in range 0 to 1');
@@ -37,11 +37,11 @@ class InsertModifier extends SpecializableModifier
         $imageSize = $image->size()->movePivot(
             $this->alignment,
             $this->x,
-            $this->y
+            $this->y,
         );
 
         $watermarkSize = $watermark->size()->movePivot(
-            $this->alignment
+            $this->alignment,
         );
 
         return $imageSize->offsetTo($watermarkSize);

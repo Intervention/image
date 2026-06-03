@@ -17,7 +17,7 @@ class DrawPixelModifier extends SpecializableModifier
      */
     public function __construct(
         public PointInterface $position,
-        public string|ColorInterface $color
+        public string|ColorInterface $color,
     ) {
         //
     }

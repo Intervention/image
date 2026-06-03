@@ -30,7 +30,7 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
         $format = 'JPEG';
         $compression = Imagick::COMPRESSION_JPEG;
         $backgroundColor = $this->driver()->decodeColor(
-            $this->driver()->config()->backgroundColor
+            $this->driver()->config()->backgroundColor,
         );
 
         // resolve background color because jpeg has no transparency

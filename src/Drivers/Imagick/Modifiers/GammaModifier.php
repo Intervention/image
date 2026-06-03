@@ -28,7 +28,7 @@ class GammaModifier extends GenericGammaModifier implements SpecializedInterface
             } catch (ImagickException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to adjust image gamma',
-                    previous: $e
+                    previous: $e,
                 );
             }
         }

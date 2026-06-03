@@ -31,17 +31,17 @@ class Size implements SizeInterface, ArrayAccess, IteratorAggregate
     public function __construct(
         protected int $width,
         protected int $height,
-        protected PointInterface $pivot = new Point()
+        protected PointInterface $pivot = new Point(),
     ) {
         if ($width < 0) {
             throw new InvalidArgumentException(
-                'Width of ' . $this::class . ' must be greater than or equal to 0'
+                'Width of ' . $this::class . ' must be greater than or equal to 0',
             );
         }
 
         if ($height < 0) {
             throw new InvalidArgumentException(
-                'Height of ' . $this::class . ' must be greater than or equal to 0'
+                'Height of ' . $this::class . ' must be greater than or equal to 0',
             );
         }
     }
@@ -208,7 +208,7 @@ class Size implements SizeInterface, ArrayAccess, IteratorAggregate
         $reference->movePivot($alignment);
 
         $this->movePivot($alignment)->setPivot(
-            $reference->offsetTo($this)
+            $reference->offsetTo($this),
         );
 
         return $this;
@@ -223,7 +223,7 @@ class Size implements SizeInterface, ArrayAccess, IteratorAggregate
     {
         return new Point(
             $this->pivot()->x() - $size->pivot()->x(),
-            $this->pivot()->y() - $size->pivot()->y()
+            $this->pivot()->y() - $size->pivot()->y(),
         );
     }
 

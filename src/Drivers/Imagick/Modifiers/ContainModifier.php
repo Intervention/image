@@ -65,7 +65,7 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
         } catch (ImagickException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to resize image',
-                previous: $e
+                previous: $e,
             );
         }
     }
@@ -88,7 +88,7 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
         } catch (ImagickException | ImagickPixelException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to set image background color',
-                previous: $e
+                previous: $e,
             );
         }
     }
@@ -105,7 +105,7 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
                 $resize->width(),
                 $resize->height(),
                 $crop->pivot()->x() * -1,
-                $crop->pivot()->y() * -1
+                $crop->pivot()->y() * -1,
             );
             if ($result === false) {
                 throw new ModifierException(
@@ -115,7 +115,7 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
         } catch (ImagickException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to resize image',
-                previous: $e
+                previous: $e,
             );
         }
     }
@@ -153,7 +153,7 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
         } catch (ImagickException | ImagickDrawException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable fill new image areas with replacement color',
-                previous: $e
+                previous: $e,
             );
         }
     }
@@ -191,7 +191,7 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
         } catch (ImagickException | ImagickDrawException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable fill new image areas with replacement color',
-                previous: $e
+                previous: $e,
             );
         }
     }

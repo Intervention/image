@@ -99,7 +99,7 @@ class AutoOrientationTest extends BaseTestCase
                 $color['color'][2],
                 $color['color'][3],
                 $image->colorAt($color['position'][0], $color['position'][1]),
-                3
+                3,
             );
         }
     }
@@ -122,7 +122,7 @@ class AutoOrientationTest extends BaseTestCase
                     ['position' => self::LANDSCAPE_TOP_RIGHT, 'color' => [0, 255, 0, 255]],
                     ['position' => self::LANDSCAPE_BOTTOM_LEFT, 'color' => [0, 0, 255, 255]],
                     ['position' => self::LANDSCAPE_BOTTOM_RIGHT, 'color' => [51, 51, 51, 255]],
-                ]
+                ],
             ];
 
             yield [
@@ -135,7 +135,7 @@ class AutoOrientationTest extends BaseTestCase
                     ['position' => self::LANDSCAPE_TOP_RIGHT, 'color' => [0, 255, 0, 255]],
                     ['position' => self::LANDSCAPE_BOTTOM_LEFT, 'color' => [0, 0, 255, 255]],
                     ['position' => self::LANDSCAPE_BOTTOM_RIGHT, 'color' => [51, 51, 51, 255]],
-                ]
+                ],
             ];
 
             yield [
@@ -148,7 +148,7 @@ class AutoOrientationTest extends BaseTestCase
                     ['position' => self::LANDSCAPE_TOP_RIGHT, 'color' => [255, 0, 0, 255]],
                     ['position' => self::LANDSCAPE_BOTTOM_LEFT, 'color' => [51, 51, 51, 255]],
                     ['position' => self::LANDSCAPE_BOTTOM_RIGHT, 'color' => [0, 0, 255, 255]],
-                ]
+                ],
             ];
 
             yield [
@@ -161,7 +161,7 @@ class AutoOrientationTest extends BaseTestCase
                     ['position' => self::LANDSCAPE_TOP_RIGHT, 'color' => [0, 0, 255, 255]],
                     ['position' => self::LANDSCAPE_BOTTOM_LEFT, 'color' => [0, 255, 0, 255]],
                     ['position' => self::LANDSCAPE_BOTTOM_RIGHT, 'color' => [255, 0, 0, 255]],
-                ]
+                ],
             ];
 
             yield [
@@ -174,7 +174,7 @@ class AutoOrientationTest extends BaseTestCase
                     ['position' => self::LANDSCAPE_TOP_RIGHT, 'color' => [51, 51, 51, 255]],
                     ['position' => self::LANDSCAPE_BOTTOM_LEFT, 'color' => [255, 0, 0, 255]],
                     ['position' => self::LANDSCAPE_BOTTOM_RIGHT, 'color' => [0, 255, 0, 255]],
-                ]
+                ],
             ];
 
             yield [
@@ -187,7 +187,7 @@ class AutoOrientationTest extends BaseTestCase
                     ['position' => self::PORTRAIT_TOP_RIGHT, 'color' => [0, 0, 255, 255]],
                     ['position' => self::PORTRAIT_BOTTOM_LEFT, 'color' => [0, 255, 0, 255]],
                     ['position' => self::PORTRAIT_BOTTOM_RIGHT, 'color' => [51, 51, 51, 255]],
-                ]
+                ],
             ];
 
             yield [
@@ -200,7 +200,7 @@ class AutoOrientationTest extends BaseTestCase
                     ['position' => self::PORTRAIT_TOP_RIGHT, 'color' => [51, 51, 51, 255]],
                     ['position' => self::PORTRAIT_BOTTOM_LEFT, 'color' => [255, 0, 0, 255]],
                     ['position' => self::PORTRAIT_BOTTOM_RIGHT, 'color' => [0, 0, 255, 255]],
-                ]
+                ],
             ];
 
             yield [
@@ -213,7 +213,7 @@ class AutoOrientationTest extends BaseTestCase
                     ['position' => self::PORTRAIT_TOP_RIGHT, 'color' => [0, 255, 0, 255]],
                     ['position' => self::PORTRAIT_BOTTOM_LEFT, 'color' => [0, 0, 255, 255]],
                     ['position' => self::PORTRAIT_BOTTOM_RIGHT, 'color' => [255, 0, 0, 255]],
-                ]
+                ],
             ];
 
             yield [
@@ -226,7 +226,7 @@ class AutoOrientationTest extends BaseTestCase
                     ['position' => self::PORTRAIT_TOP_RIGHT, 'color' => [255, 0, 0, 255]],
                     ['position' => self::PORTRAIT_BOTTOM_LEFT, 'color' => [51, 51, 51, 255]],
                     ['position' => self::PORTRAIT_BOTTOM_RIGHT, 'color' => [0, 255, 0, 255]],
-                ]
+                ],
             ];
         }
     }

@@ -36,7 +36,7 @@ class TrimModifier extends GenericTrimModifier implements SpecializedInterface
             $image->core()->native(),
             IMG_CROP_THRESHOLD,
             max([.5, $this->tolerance / 10]),
-            $this->trimColor($image)
+            $this->trimColor($image),
         );
 
         // if the tolerance is very high, it is possible that no image is left.

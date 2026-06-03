@@ -67,7 +67,7 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
                 $background->red()->value(),
                 $background->green()->value(),
                 $background->blue()->value(),
-                127
+                127,
             ),
             default => $transparent,
         };
@@ -76,7 +76,7 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
         $rotated = imagerotate(
             $frame->native(),
             $this->rotationAngle() * -1,
-            $transparent
+            $transparent,
         );
 
         // create size from original after rotation
@@ -89,7 +89,7 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
         $cutout = Polygon::fromSize(new Size(
             imagesx($frame->native()),
             imagesy($frame->native()),
-            $container->pivot()
+            $container->pivot(),
         ))->alignHorizontally(Alignment::CENTER)
             ->alignVertically(Alignment::CENTER)
             ->rotate($this->rotationAngle());
@@ -103,7 +103,7 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
         imagefilledpolygon(
             $modified,
             $cutout->toArray(),
-            imagecolortransparent($modified)
+            imagecolortransparent($modified),
         );
 
         // place rotated image on new gd image
@@ -116,7 +116,7 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
             0,
             0,
             imagesx($rotated),
-            imagesy($rotated)
+            imagesy($rotated),
         );
 
         $frame->setNative($modified);

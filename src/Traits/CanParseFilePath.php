@@ -35,7 +35,7 @@ trait CanParseFilePath
 
         if (strlen($path) > PHP_MAXPATHLEN) {
             throw new InvalidArgumentException(
-                "Path is longer than the configured max. value of " . PHP_MAXPATHLEN
+                "Path is longer than the configured max. value of " . PHP_MAXPATHLEN,
             );
         }
 

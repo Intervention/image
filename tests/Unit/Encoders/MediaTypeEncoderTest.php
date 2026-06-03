@@ -57,7 +57,7 @@ final class MediaTypeEncoderTest extends BaseTestCase
     ): void {
         $this->assertInstanceOf(
             $targetEncoderClassname,
-            $this->testEncoder($mediaType)
+            $this->testEncoder($mediaType),
         );
     }
 

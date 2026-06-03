@@ -68,7 +68,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
 
         if ($font->hasStrokeEffect() && $color->isTransparent()) {
             throw new StateException(
-                'The text color must be fully opaque when using the stroke effect'
+                'The text color must be fully opaque when using the stroke effect',
             );
         }
 
@@ -94,7 +94,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
 
         if ($color->isTransparent()) {
             throw new StateException(
-                'The stroke color must be fully opaque'
+                'The stroke color must be fully opaque',
             );
         }
 
@@ -122,12 +122,12 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
                     $textline->position()->x() + $offset->x(),
                     $textline->position()->y() + $offset->y(),
                     $this->font->angle(),
-                    (string) $textline
+                    (string) $textline,
                 );
             } catch (ImageException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to draw text line',
-                    previous: $e
+                    previous: $e,
                 );
             }
 

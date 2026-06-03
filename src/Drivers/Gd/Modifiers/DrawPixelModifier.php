@@ -30,7 +30,7 @@ class DrawPixelModifier extends GenericDrawPixelModifier implements SpecializedI
                 $frame->native(),
                 $this->position->x(),
                 $this->position->y(),
-                $color
+                $color,
             );
         }
 

@@ -35,7 +35,7 @@ trait HasBorder
     {
         if ($size < 0) {
             throw new InvalidArgumentException(
-                'Border size must be greater than or equal to 0'
+                'Border size must be greater than or equal to 0',
             );
         }
 

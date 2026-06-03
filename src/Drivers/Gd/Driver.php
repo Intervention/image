@@ -41,7 +41,7 @@ class Driver extends AbstractDriver
     {
         if (!extension_loaded('gd') || !function_exists('gd_info')) {
             throw new MissingDependencyException(
-                'GD PHP extension must be installed to use this driver'
+                'GD PHP extension must be installed to use this driver',
             );
         }
     }

@@ -19,7 +19,7 @@ class ContainModifier extends SpecializableModifier
         public int $width,
         public int $height,
         public null|string|ColorInterface $background = null,
-        public string|Alignment $alignment = Alignment::CENTER
+        public string|Alignment $alignment = Alignment::CENTER,
     ) {
         //
     }
@@ -34,11 +34,11 @@ class ContainModifier extends SpecializableModifier
         return $image->size()
             ->contain(
                 $this->width,
-                $this->height
+                $this->height,
             )
             ->alignPivotTo(
                 $this->resizeSize($image),
-                $this->alignment
+                $this->alignment,
             );
     }
 

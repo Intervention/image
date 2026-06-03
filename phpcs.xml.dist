@@ -48,6 +48,7 @@
                 <element value="static constructors"/>
                 <element value="methods"/>
                 <element value="magic methods"/>
+                <element value="destructor"/>
             </property>
         </properties>
     </rule>

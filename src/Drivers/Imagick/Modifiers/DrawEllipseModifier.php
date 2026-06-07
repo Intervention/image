@@ -63,12 +63,12 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
                 $this->drawable->width() / 2,
                 $this->drawable->height() / 2,
                 0,
-                360
+                360,
             );
         } catch (ImagickException | ImagickDrawException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to draw ellipse',
-                previous: $e
+                previous: $e,
             );
         }
 

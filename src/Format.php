@@ -90,7 +90,7 @@ enum Format
     {
         return array_filter(
             MediaType::cases(),
-            fn(MediaType $mediaType): bool => $mediaType->format() === $this
+            fn(MediaType $mediaType): bool => $mediaType->format() === $this,
         );
     }
 
@@ -121,7 +121,7 @@ enum Format
     {
         return array_filter(
             FileExtension::cases(),
-            fn(FileExtension $fileExtension): bool => $fileExtension->format() === $this
+            fn(FileExtension $fileExtension): bool => $fileExtension->format() === $this,
         );
     }
 

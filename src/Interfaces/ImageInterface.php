@@ -386,7 +386,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         null|int|Fraction $width = null,
         null|int|Fraction $height = null,
         null|string|ColorInterface $background = null,
-        string|Alignment $alignment = Alignment::CENTER
+        string|Alignment $alignment = Alignment::CENTER,
     ): self;
 
     /**
@@ -402,7 +402,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         null|int|Fraction $width = null,
         null|int|Fraction $height = null,
         null|string|ColorInterface $background = null,
-        string|Alignment $alignment = Alignment::CENTER
+        string|Alignment $alignment = Alignment::CENTER,
     ): self;
 
     /**
@@ -415,7 +415,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         int|Fraction $width,
         int|Fraction $height,
         null|string|ColorInterface $background = null,
-        string|Alignment $alignment = Alignment::CENTER
+        string|Alignment $alignment = Alignment::CENTER,
     ): self;
 
     /**
@@ -429,7 +429,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         int|Fraction $width,
         int|Fraction $height,
         null|string|ColorInterface $background = null,
-        string|Alignment $alignment = Alignment::CENTER
+        string|Alignment $alignment = Alignment::CENTER,
     ): self;
 
     /**
@@ -444,7 +444,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         int $x = 0,
         int $y = 0,
         null|string|ColorInterface $background = null,
-        string|Alignment $alignment = Alignment::TOP_LEFT
+        string|Alignment $alignment = Alignment::TOP_LEFT,
     ): self;
 
     /**
@@ -464,7 +464,7 @@ interface ImageInterface extends IteratorAggregate, Countable
         int $x = 0,
         int $y = 0,
         string|Alignment $alignment = Alignment::TOP_LEFT,
-        float $transparency = 1
+        float $transparency = 1,
     ): self;
 
     /**

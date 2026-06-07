@@ -18,7 +18,7 @@ trait CanResolveDriver
     {
         if (is_string($driver) && !class_exists($driver)) {
             throw new InvalidArgumentException(
-                'Argument $driver must be existing class name'
+                'Argument $driver must be existing class name',
             );
         }
 

@@ -21,7 +21,7 @@ class EncodedImage extends File implements EncodedImageInterface
      */
     public function __construct(
         mixed $data,
-        protected string $mediaType = 'application/octet-stream'
+        protected string $mediaType = 'application/octet-stream',
     ) {
         parent::__construct($data);
     }

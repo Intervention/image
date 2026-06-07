@@ -23,7 +23,7 @@ class Line implements DrawableInterface
     public function __construct(
         protected PointInterface $start,
         protected PointInterface $end,
-        protected int $width = 1
+        protected int $width = 1,
     ) {
         //
     }

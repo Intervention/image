@@ -37,7 +37,7 @@ class DataUri implements DataUriInterface
         protected string|Stringable $data = '',
         null|string|MediaType $mediaType = null,
         array $parameters = [],
-        protected bool $base64 = true
+        protected bool $base64 = true,
     ) {
         $this->setMediaType($mediaType);
         $this->setParameters($parameters);
@@ -52,7 +52,7 @@ class DataUri implements DataUriInterface
         string $data,
         null|string|MediaType $mediaType = null,
         array $parameters = [],
-        bool $base64 = true
+        bool $base64 = true,
     ): self {
         return new self(
             data: $data,

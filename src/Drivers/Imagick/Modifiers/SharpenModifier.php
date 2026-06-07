@@ -28,7 +28,7 @@ class SharpenModifier extends GenericSharpenModifier implements SpecializedInter
             } catch (ImagickException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to process unsharp mask',
-                    previous: $e
+                    previous: $e,
                 );
             }
         }

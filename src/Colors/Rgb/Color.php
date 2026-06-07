@@ -137,7 +137,7 @@ class Color extends AbstractColor
                 $this->red()->value(),
                 $this->green()->value(),
                 $this->blue()->value(),
-                $this->alpha()->value()
+                $this->alpha()->value(),
             );
         }
 
@@ -146,7 +146,7 @@ class Color extends AbstractColor
             $prefix ? '#' : '',
             $this->red()->value(),
             $this->green()->value(),
-            $this->blue()->value()
+            $this->blue()->value(),
         );
     }
 
@@ -171,7 +171,7 @@ class Color extends AbstractColor
             'rgb(%d %d %d)',
             $this->red()->value(),
             $this->green()->value(),
-            $this->blue()->value()
+            $this->blue()->value(),
         );
     }
 

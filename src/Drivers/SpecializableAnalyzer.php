@@ -22,7 +22,7 @@ abstract class SpecializableAnalyzer extends Specializable implements AnalyzerIn
     {
         if ($this instanceof SpecializedInterface) {
             throw new LogicException(
-                "Specialized class '" . static::class . "' must override analyze()"
+                "Specialized class '" . static::class . "' must override analyze()",
             );
         }
 

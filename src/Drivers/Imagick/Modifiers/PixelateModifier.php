@@ -36,10 +36,10 @@ class PixelateModifier extends GenericPixelateModifier implements SpecializedInt
         try {
             $result = $frame->native()->scaleImage(
                 (int) round(max(1, $size->width() / $this->size)),
-                (int) round(max(1, $size->height() / $this->size))
+                (int) round(max(1, $size->height() / $this->size)),
             ) && $frame->native()->scaleImage(
                 $size->width(),
-                $size->height()
+                $size->height(),
             );
 
             if ($result === false) {
@@ -50,12 +50,12 @@ class PixelateModifier extends GenericPixelateModifier implements SpecializedInt
         } catch (ImagickException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to pixelate image',
-                previous: $e
+                previous: $e,
             );
         } catch (DivisionByZeroError $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to pixelate image',
-                previous: $e
+                previous: $e,
             );
         }
     }

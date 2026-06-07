@@ -64,7 +64,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
                     y: $line->position()->y() + $offset->y(),
                     color: $strokeColor,
                     font_filename: $this->font->filepath(),
-                    text: (string) $line
+                    text: (string) $line,
                 );
             }
 
@@ -76,7 +76,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
                 y: $line->position()->y(),
                 color: $textColor,
                 font_filename: $this->font->filepath(),
-                text: (string) $line
+                text: (string) $line,
             );
         }
     }
@@ -98,7 +98,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
                     x: $line->position()->x() + $offset->x(),
                     y: $line->position()->y() + $offset->y(),
                     string: (string) $line,
-                    color: $strokeColor
+                    color: $strokeColor,
                 );
             }
 
@@ -108,7 +108,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
                 x: $line->position()->x(),
                 y: $line->position()->y(),
                 string: (string) $line,
-                color: $textColor
+                color: $textColor,
             );
         }
     }

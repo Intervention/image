@@ -37,7 +37,7 @@ class ContrastModifier extends GenericContrastModifier implements SpecializedInt
             } catch (ImagickException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to adjust image contrast',
-                    previous: $e
+                    previous: $e,
                 );
             }
         }

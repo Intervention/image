@@ -19,7 +19,7 @@ class CoverModifier extends SpecializableModifier
     public function __construct(
         public int $width,
         public int $height,
-        public string|Alignment $alignment = Alignment::CENTER
+        public string|Alignment $alignment = Alignment::CENTER,
     ) {
         //
     }
@@ -36,7 +36,7 @@ class CoverModifier extends SpecializableModifier
 
         return $crop->contain(
             $imagesize->width(),
-            $imagesize->height()
+            $imagesize->height(),
         )->alignPivotTo($imagesize, $this->alignment);
     }
 

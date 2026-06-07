@@ -61,7 +61,7 @@ class DrawPolygonModifier extends GenericDrawPolygonModifier implements Speciali
         } catch (ImagickException | ImagickDrawException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to build ImagickDraw object',
-                previous: $e
+                previous: $e,
             );
         }
     }

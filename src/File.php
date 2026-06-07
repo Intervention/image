@@ -77,7 +77,7 @@ class File implements FileInterface, Stringable
 
         if (strlen($path) > PHP_MAXPATHLEN) {
             throw new InvalidArgumentException(
-                "Path is longer than the configured max. value of " . PHP_MAXPATHLEN
+                "Path is longer than the configured max. value of " . PHP_MAXPATHLEN,
             );
         }
 
@@ -85,19 +85,19 @@ class File implements FileInterface, Stringable
 
         if (!is_dir($dir)) {
             throw new DirectoryNotFoundException(
-                'Can\'t write to path. Directory "' . $dir . '" does not exist'
+                'Can\'t write to path. Directory "' . $dir . '" does not exist',
             );
         }
 
         if (!is_writable($dir)) {
             throw new FileNotWritableException(
-                'Can\'t write to path. Directory "' . $dir . '" is not writable'
+                'Can\'t write to path. Directory "' . $dir . '" is not writable',
             );
         }
 
         if (is_file($path) && !is_writable($path)) {
             throw new FileNotWritableException(
-                "Can't write to path. Existing file " . $path . " is not writable"
+                "Can't write to path. Existing file " . $path . " is not writable",
             );
         }
 
@@ -106,7 +106,7 @@ class File implements FileInterface, Stringable
 
         if ($saved === false) {
             throw new FileNotWritableException(
-                "Failed to write file to path " . $path
+                "Failed to write file to path " . $path,
             );
         }
     }

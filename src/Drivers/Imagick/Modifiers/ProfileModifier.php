@@ -29,7 +29,7 @@ class ProfileModifier extends GenericProfileModifier implements SpecializedInter
         } catch (ImagickException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to set ICC color profile',
-                previous: $e
+                previous: $e,
             );
         }
 

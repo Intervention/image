@@ -54,14 +54,14 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
         try {
             $builder = GifBuilder::canvas(
                 $image->width(),
-                $image->height()
+                $image->height(),
             );
 
             foreach ($image as $frame) {
                 $builder->addFrame(
                     source: $this->encode($frame->toImage($image->driver()))->toStream(),
                     delay: $frame->delay(),
-                    interlaced: $this->interlaced
+                    interlaced: $this->interlaced,
                 );
             }
 

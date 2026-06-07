@@ -29,7 +29,7 @@ class Line implements IteratorAggregate, Countable, Stringable
      */
     public function __construct(
         ?string $text = null,
-        protected PointInterface $position = new Point()
+        protected PointInterface $position = new Point(),
     ) {
         if (is_string($text)) {
             $this->segments = $this->wordsSeparatedBySpaces($text) ? explode(" ", $text) : mb_str_split($text);
@@ -103,7 +103,7 @@ class Line implements IteratorAggregate, Countable, Stringable
             '\x{30A0}-\x{30FF}' . // katakana (japanese)
             '\x{0E00}-\x{0E7F}' . // thai
             ']/u',
-            $text
+            $text,
         );
     }
 

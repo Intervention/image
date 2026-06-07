@@ -14,7 +14,7 @@ class FillModifier extends SpecializableModifier
 {
     public function __construct(
         public string|ColorInterface $color,
-        public ?PointInterface $position = null
+        public ?PointInterface $position = null,
     ) {
         //
     }

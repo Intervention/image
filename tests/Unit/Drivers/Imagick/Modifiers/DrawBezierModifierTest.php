@@ -24,7 +24,7 @@ final class DrawBezierModifierTest extends ImagickTestCase
             new Point(0, 0),
             new Point(15, 0),
             new Point(15, 15),
-            new Point(0, 15)
+            new Point(0, 15),
         ]);
         $drawable->setBackgroundColor('b53717');
         $image->modify(new DrawBezierModifier($drawable));
@@ -39,7 +39,7 @@ final class DrawBezierModifierTest extends ImagickTestCase
             new Point(15, 15),
             new Point(30, 15),
             new Point(30, 30),
-            new Point(15, 30)
+            new Point(15, 30),
         ]);
         $drawable->setBorder('fff', 5);
         $image->modify(new DrawBezierModifier($drawable));

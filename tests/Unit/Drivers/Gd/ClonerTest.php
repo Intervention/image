@@ -28,7 +28,7 @@ final class ClonerTest extends BaseTestCase
 
         $this->assertEquals(
             imagecolorsforindex($gd, imagecolorat($gd, 10, 10)),
-            imagecolorsforindex($clone, imagecolorat($clone, 10, 10))
+            imagecolorsforindex($clone, imagecolorat($clone, 10, 10)),
         );
     }
 
@@ -49,7 +49,7 @@ final class ClonerTest extends BaseTestCase
 
         $this->assertEquals(
             ['red' => 255, 'green' => 0, 'blue' => 0, 'alpha' => 127],
-            imagecolorsforindex($clone, imagecolorat($clone, 10, 10))
+            imagecolorsforindex($clone, imagecolorat($clone, 10, 10)),
         );
     }
 
@@ -70,7 +70,7 @@ final class ClonerTest extends BaseTestCase
 
         $this->assertEquals(
             ['red' => 255, 'green' => 0, 'blue' => 255, 'alpha' => 0],
-            imagecolorsforindex($clone, imagecolorat($clone, 1, 0))
+            imagecolorsforindex($clone, imagecolorat($clone, 1, 0)),
         );
     }
 }

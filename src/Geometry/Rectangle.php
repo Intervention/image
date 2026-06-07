@@ -28,17 +28,17 @@ class Rectangle extends Polygon implements DrawableInterface, SizeInterface
     public function __construct(
         int $width,
         int $height,
-        protected PointInterface $pivot = new Point()
+        protected PointInterface $pivot = new Point(),
     ) {
         if ($width < 0) {
             throw new InvalidArgumentException(
-                'Width of ' . $this::class . ' must be greater than or equal to 0'
+                'Width of ' . $this::class . ' must be greater than or equal to 0',
             );
         }
 
         if ($height < 0) {
             throw new InvalidArgumentException(
-                'Height of ' . $this::class . ' must be greater than or equal to 0'
+                'Height of ' . $this::class . ' must be greater than or equal to 0',
             );
         }
 
@@ -305,7 +305,7 @@ class Rectangle extends Polygon implements DrawableInterface, SizeInterface
         $reference->movePivot($alignment);
 
         $this->movePivot($alignment)->setPivot(
-            $reference->offsetTo($this)
+            $reference->offsetTo($this),
         );
 
         return $this;
@@ -321,7 +321,7 @@ class Rectangle extends Polygon implements DrawableInterface, SizeInterface
     {
         return new Point(
             $this->pivot()->x() - $rectangle->pivot()->x(),
-            $this->pivot()->y() - $rectangle->pivot()->y()
+            $this->pivot()->y() - $rectangle->pivot()->y(),
         );
     }
 

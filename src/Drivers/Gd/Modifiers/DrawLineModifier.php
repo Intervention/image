@@ -50,7 +50,7 @@ class DrawLineModifier extends GenericDrawLineModifier implements SpecializedInt
             $this->drawable->start()->y(),
             $this->drawable->end()->x(),
             $this->drawable->end()->y(),
-            $color
+            $color,
         );
     }
 }

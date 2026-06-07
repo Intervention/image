@@ -36,7 +36,7 @@ class InvertModifier extends GenericInvertModifier implements SpecializedInterfa
             } catch (ImagickException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to invert image colors',
-                    previous: $e
+                    previous: $e,
                 );
             }
         }

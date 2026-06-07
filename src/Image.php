@@ -450,7 +450,7 @@ final class Image implements ImageInterface
     public function backgroundColor(): ColorInterface
     {
         return $this->driver()->decodeColor(
-            $this->driver()->config()->backgroundColor
+            $this->driver()->config()->backgroundColor,
         );
     }
 
@@ -465,7 +465,7 @@ final class Image implements ImageInterface
     public function setBackgroundColor(string|ColorInterface $color): ImageInterface
     {
         $this->driver()->config()->setOptions(
-            backgroundColor: $this->driver()->decodeColor($color)
+            backgroundColor: $this->driver()->decodeColor($color),
         );
 
         return $this;
@@ -774,7 +774,7 @@ final class Image implements ImageInterface
         try {
             return $this->modify(new CoverModifier(...[
                 ...$this->resolveDimension($width, $height),
-                ...['alignment' => $alignment]
+                ...['alignment' => $alignment],
             ]));
         } catch (AnalyzerException $e) {
             throw new ModifierException('Failed to resize image', previous: $e);
@@ -797,7 +797,7 @@ final class Image implements ImageInterface
         try {
             return $this->modify(new CoverDownModifier(...[
                 ...$this->resolveDimension($width, $height),
-                ...['alignment' => $alignment]
+                ...['alignment' => $alignment],
             ]));
         } catch (AnalyzerException $e) {
             throw new ModifierException('Failed to resize image', previous: $e);
@@ -816,7 +816,7 @@ final class Image implements ImageInterface
         null|int|Fraction $width = null,
         null|int|Fraction $height = null,
         null|string|ColorInterface $background = null,
-        string|Alignment $alignment = Alignment::CENTER
+        string|Alignment $alignment = Alignment::CENTER,
     ): ImageInterface {
         try {
             return $this->modify(new ResizeCanvasModifier(...[
@@ -824,7 +824,7 @@ final class Image implements ImageInterface
                 ...[
                     'background' => $background,
                     'alignment' => $alignment,
-                ]
+                ],
             ]));
         } catch (AnalyzerException $e) {
             throw new ModifierException('Failed to resize image', previous: $e);
@@ -843,7 +843,7 @@ final class Image implements ImageInterface
         null|int|Fraction $width = null,
         null|int|Fraction $height = null,
         null|string|ColorInterface $background = null,
-        string|Alignment $alignment = Alignment::CENTER
+        string|Alignment $alignment = Alignment::CENTER,
     ): ImageInterface {
         try {
             return $this->modify(new ResizeCanvasRelativeModifier(...[
@@ -851,7 +851,7 @@ final class Image implements ImageInterface
                 ...[
                     'background' => $background,
                     'alignment' => $alignment,
-                ]
+                ],
             ]));
         } catch (AnalyzerException $e) {
             throw new ModifierException('Failed to resize image', previous: $e);
@@ -870,7 +870,7 @@ final class Image implements ImageInterface
         int|Fraction $width,
         int|Fraction $height,
         null|string|ColorInterface $background = null,
-        string|Alignment $alignment = Alignment::CENTER
+        string|Alignment $alignment = Alignment::CENTER,
     ): ImageInterface {
         try {
             return $this->modify(new ContainDownModifier(...[
@@ -878,7 +878,7 @@ final class Image implements ImageInterface
                 ...[
                     'background' => $background,
                     'alignment' => $alignment,
-                ]
+                ],
             ]));
         } catch (AnalyzerException $e) {
             throw new ModifierException('Failed to resize image', previous: $e);
@@ -897,7 +897,7 @@ final class Image implements ImageInterface
         int|Fraction $width,
         int|Fraction $height,
         null|string|ColorInterface $background = null,
-        string|Alignment $alignment = Alignment::CENTER
+        string|Alignment $alignment = Alignment::CENTER,
     ): ImageInterface {
         try {
             return $this->modify(new ContainModifier(...[
@@ -905,7 +905,7 @@ final class Image implements ImageInterface
                 ...[
                     'background' => $background,
                     'alignment' => $alignment,
-                ]
+                ],
             ]));
         } catch (AnalyzerException $e) {
             throw new ModifierException('Failed to resize image', previous: $e);
@@ -926,7 +926,7 @@ final class Image implements ImageInterface
         int $x = 0,
         int $y = 0,
         null|string|ColorInterface $background = null,
-        string|Alignment $alignment = Alignment::TOP_LEFT
+        string|Alignment $alignment = Alignment::TOP_LEFT,
     ): ImageInterface {
         try {
             return $this->modify(new CropModifier(...[
@@ -936,7 +936,7 @@ final class Image implements ImageInterface
                     'y' => $y,
                     'background' => $background,
                     'alignment' => $alignment,
-                ]
+                ],
             ]));
         } catch (AnalyzerException $e) {
             throw new ModifierException('Failed to resize image', previous: $e);
@@ -969,7 +969,7 @@ final class Image implements ImageInterface
         int $x = 0,
         int $y = 0,
         string|Alignment $alignment = Alignment::TOP_LEFT,
-        float $transparency = 1
+        float $transparency = 1,
     ): ImageInterface {
         return $this->modify(new InsertModifier($image, $x, $y, $alignment, $transparency));
     }
@@ -1029,7 +1029,7 @@ final class Image implements ImageInterface
     {
         return $this->modify(
             new DrawRectangleModifier(
-                RectangleFactory::build($rectangle)
+                RectangleFactory::build($rectangle),
             ),
         );
     }
@@ -1046,7 +1046,7 @@ final class Image implements ImageInterface
     {
         return $this->modify(
             new DrawEllipseModifier(
-                EllipseFactory::build($ellipse)
+                EllipseFactory::build($ellipse),
             ),
         );
     }
@@ -1063,8 +1063,8 @@ final class Image implements ImageInterface
     {
         return $this->modify(
             new DrawEllipseModifier(
-                CircleFactory::build($circle)
-            )
+                CircleFactory::build($circle),
+            ),
         );
     }
 
@@ -1081,7 +1081,7 @@ final class Image implements ImageInterface
     {
         return $this->modify(
             new DrawPolygonModifier(
-                PolygonFactory::build($polygon)
+                PolygonFactory::build($polygon),
             ),
         );
     }
@@ -1098,7 +1098,7 @@ final class Image implements ImageInterface
     {
         return $this->modify(
             new DrawLineModifier(
-                LineFactory::build($line)
+                LineFactory::build($line),
             ),
         );
     }
@@ -1115,7 +1115,7 @@ final class Image implements ImageInterface
     {
         return $this->modify(
             new DrawBezierModifier(
-                BezierFactory::build($bezier)
+                BezierFactory::build($bezier),
             ),
         );
     }

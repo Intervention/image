@@ -28,7 +28,7 @@ class BrightnessModifier extends GenericBrightnessModifier implements Specialize
             } catch (ImagickException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to adjust image brightness',
-                    previous: $e
+                    previous: $e,
                 );
             }
         }

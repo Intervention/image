@@ -155,7 +155,7 @@ abstract class AbstractDriver implements DriverInterface
      * @throws NotSupportedException
      */
     private function specialize(
-        ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface $object
+        ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface $object,
     ): ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface {
         // return object directly if no specializing is possible
         if (!$object instanceof SpecializableInterface) {
@@ -186,7 +186,7 @@ abstract class AbstractDriver implements DriverInterface
         // fail if driver specialized classname does not exists
         if (!class_exists($specializedClassname)) {
             throw new NotSupportedException(
-                "Class '" . $objectShortname . "' is not supported by " . $this->id() . " driver"
+                "Class '" . $objectShortname . "' is not supported by " . $this->id() . " driver",
             );
         }
 

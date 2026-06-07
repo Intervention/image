@@ -82,7 +82,7 @@ trait CanBeDriverSpecialized
     {
         if (!$this->belongsToDriver($driver)) {
             throw new NotSupportedException(
-                "Class '" . $this::class . "' can not be used with " . $driver->id() . " driver"
+                "Class '" . $this::class . "' can not be used with " . $driver->id() . " driver",
             );
         }
 

@@ -28,7 +28,7 @@ class DrawLineModifier extends GenericDrawLineModifier implements SpecializedInt
     public function apply(ImageInterface $image): ImageInterface
     {
         $line = $this->line(
-            $this->driver()->colorProcessor($image)->export($this->backgroundColor())
+            $this->driver()->colorProcessor($image)->export($this->backgroundColor()),
         );
 
         foreach ($image as $frame) {
@@ -65,7 +65,7 @@ class DrawLineModifier extends GenericDrawLineModifier implements SpecializedInt
         } catch (ImagickException | ImagickDrawException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to build ImagickDraw object',
-                previous: $e
+                previous: $e,
             );
         }
     }

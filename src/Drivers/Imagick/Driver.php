@@ -44,7 +44,7 @@ class Driver extends AbstractDriver
     {
         if (!extension_loaded('imagick') || !class_exists('Imagick')) {
             throw new MissingDependencyException(
-                'Imagick PHP extension must be installed to use this driver'
+                'Imagick PHP extension must be installed to use this driver',
             );
         }
     }

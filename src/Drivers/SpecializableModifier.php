@@ -22,7 +22,7 @@ abstract class SpecializableModifier extends Specializable implements ModifierIn
     {
         if ($this instanceof SpecializedInterface) {
             throw new LogicException(
-                "Specialized class '" . static::class . "' must override apply()"
+                "Specialized class '" . static::class . "' must override apply()",
             );
         }
 

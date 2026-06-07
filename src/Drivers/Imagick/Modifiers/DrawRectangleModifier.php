@@ -59,14 +59,14 @@ class DrawRectangleModifier extends GenericDrawRectangleModifier implements Spec
                 $this->drawable->position()->x(),
                 $this->drawable->position()->y(),
                 $this->drawable->position()->x() + $this->drawable->width(),
-                $this->drawable->position()->y() + $this->drawable->height()
+                $this->drawable->position()->y() + $this->drawable->height(),
             );
 
             return $drawing;
         } catch (ImagickException | ImagickDrawException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to build ImagickDraw object',
-                previous: $e
+                previous: $e,
             );
         }
     }

@@ -175,7 +175,7 @@ class Font implements FontInterface
     {
         if (!in_array($width, range(0, 10))) {
             throw new InvalidArgumentException(
-                'The stroke width must be in the range from 0 to 10'
+                'The stroke width must be in the range from 0 to 10',
             );
         }
 

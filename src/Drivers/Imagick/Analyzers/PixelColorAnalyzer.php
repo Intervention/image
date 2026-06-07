@@ -42,12 +42,12 @@ class PixelColorAnalyzer extends GenericPixelColorAnalyzer implements Specialize
     {
         try {
             return $processor->import(
-                $frame->native()->getImagePixelColor($this->x, $this->y)
+                $frame->native()->getImagePixelColor($this->x, $this->y),
             );
         } catch (ImagickException $e) {
             throw new AnalyzerException(
                 'Failed to read pixel color at position ' . $this->x . ', ' . $this->y,
-                previous: $e
+                previous: $e,
             );
         }
     }

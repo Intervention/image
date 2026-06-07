@@ -24,7 +24,7 @@ class FillTransparentAreasModifier extends SpecializableModifier
     protected function backgroundColor(DriverInterface $driver): ColorInterface
     {
         return $driver->decodeColor(
-            $this->color !== null ? $this->color : $driver->config()->backgroundColor
+            $this->color !== null ? $this->color : $driver->config()->backgroundColor,
         );
     }
 }

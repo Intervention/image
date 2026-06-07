@@ -15,7 +15,7 @@ class Origin implements OriginInterface
      */
     public function __construct(
         protected string $mediaType = 'application/octet-stream',
-        protected ?string $filePath = null
+        protected ?string $filePath = null,
     ) {
         //
     }

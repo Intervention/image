@@ -31,7 +31,7 @@ class FlipModifier extends GenericFlipModifier implements SpecializedInterface
             } catch (ImagickException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to mirror image',
-                    previous: $e
+                    previous: $e,
                 );
             }
         }

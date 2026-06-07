@@ -29,7 +29,7 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
     {
         // decode background color
         $background = $this->driver()->colorProcessor($image)->export(
-            $this->backgroundColor()
+            $this->backgroundColor(),
         );
 
         try {
@@ -38,7 +38,7 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
         } catch (ImagickException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to create new imagick instance',
-                previous: $e
+                previous: $e,
             );
         }
 
@@ -68,7 +68,7 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
             } catch (ImagickException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to create new frame canvas',
-                    previous: $e
+                    previous: $e,
                 );
             }
 
@@ -81,7 +81,7 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
                 } catch (ImagickException $e) {
                     throw new ModifierException(
                         'Failed to apply ' . self::class . ', unable to set animation details',
-                        previous: $e
+                        previous: $e,
                     );
                 }
             }
@@ -111,7 +111,7 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
             } catch (ImagickException | ImagickPixelException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to clear transparent areas',
-                    previous: $e
+                    previous: $e,
                 );
             }
         }

@@ -58,7 +58,7 @@ enum MediaType: string
             } catch (NotSupportedException $e) {
                 throw new InvalidArgumentException(
                     'Unable to create media type from ' . $identifier::class,
-                    previous: $e
+                    previous: $e,
                 );
             }
         }
@@ -69,7 +69,7 @@ enum MediaType: string
             } catch (NotSupportedException $e) {
                 throw new InvalidArgumentException(
                     'Unable to create media type from "' . $identifier->value . '"',
-                    previous: $e
+                    previous: $e,
                 );
             }
         }

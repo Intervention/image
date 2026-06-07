@@ -29,7 +29,7 @@ class RemoveProfileModifier extends GenericRemoveProfileModifier implements Spec
         } catch (ImagickException $e) {
             throw new ModifierException(
                 'Failed to apply ' . self::class . ', unable to remove ICC color profile',
-                previous: $e
+                previous: $e,
             );
         }
 

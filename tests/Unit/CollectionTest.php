@@ -120,9 +120,9 @@ final class CollectionTest extends BaseTestCase
                 'test1' => '1',
                 'test2' => '2',
                 'test3' => [
-                    'example' => 'value'
-                ]
-            ]
+                    'example' => 'value',
+                ],
+            ],
         ]);
 
         $this->assertEquals('first', $collection->get(0));

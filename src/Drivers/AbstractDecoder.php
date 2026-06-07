@@ -58,11 +58,12 @@ abstract class AbstractDecoder implements DecoderInterface
         try {
             // extract exif data
             $data = @exif_read_data($source, null, true);
+        } catch (Exception) {
+            $data = [];
+        } finally {
             if (is_resource($source)) {
                 fclose($source);
             }
-        } catch (Exception) {
-            $data = [];
         }
 
         return new Collection(is_array($data) ? $data : []);

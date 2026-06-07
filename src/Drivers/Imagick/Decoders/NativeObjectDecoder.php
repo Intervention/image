@@ -81,7 +81,7 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
             } catch (ImagickException $e) {
                 throw new ImageDecoderException(
                     'Failed to set adjust image orientation',
-                    previous: $e
+                    previous: $e,
                 );
             }
         }

@@ -44,6 +44,7 @@
                 <element value="public properties, protected properties, private properties"/>
                 <element value="abstract methods"/>
                 <element value="constructor"/>
+                <element value="invoke method"/>
                 <element value="phpunit"/>
                 <element value="static constructors"/>
                 <element value="methods"/>

@@ -201,6 +201,11 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
                 $length = unpack('N', $length)[1];
                 fseek($handle, 4, SEEK_CUR);
 
+                // pHYs chunk must be exactly 9 bytes
+                if ($length !== 9) {
+                    throw new AnalyzerException('Invalid pHYs chunk length');
+                }
+
                 // read data
                 $data = fread($handle, $length);
 

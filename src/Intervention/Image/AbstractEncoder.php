@@ -157,6 +157,7 @@ abstract class AbstractEncoder
             case 'x-win-bitmap':
             case 'x-windows-bmp':
             case 'x-xbitmap':
+            case 'image/bmp':
             case 'image/ms-bmp':
             case 'image/x-bitmap':
             case 'image/x-bmp':

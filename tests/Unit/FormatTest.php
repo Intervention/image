@@ -332,4 +332,10 @@ final class FormatTest extends BaseTestCase
         $this->assertInstanceOf(JpegEncoder::class, $encoder);
         $this->assertEquals(75, $encoder->quality);
     }
+
+    public function testFilename(): void
+    {
+        $this->assertMatchesRegularExpression('/^[a-f0-9]{32}\.gif$/', Format::GIF->filename());
+        $this->assertEquals('test.gif', Format::GIF->filename('test'));
+    }
 }

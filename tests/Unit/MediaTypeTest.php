@@ -219,4 +219,10 @@ final class MediaTypeTest extends BaseTestCase
         yield [MediaType::IMAGE_X_ICON, 1, FileExtension::ICO];
         yield [MediaType::IMAGE_VND_MICROSOFT_ICON, 1, FileExtension::ICO];
     }
+
+    public function testFilename(): void
+    {
+        $this->assertMatchesRegularExpression('/^[a-f0-9]{32}\.gif$/', MediaType::IMAGE_GIF->filename());
+        $this->assertEquals('test.gif', MediaType::IMAGE_GIF->filename('test'));
+    }
 }

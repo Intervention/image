@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Intervention\Image;
 
 use Error;
+use Intervention\Image\Exceptions\ImageException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Exceptions\RuntimeException;
 
 enum MediaType: string
 {
@@ -156,5 +158,19 @@ enum MediaType: string
     public function fileExtension(): FileExtension
     {
         return $this->format()->fileExtension();
+    }
+
+    /**
+     * Create a (random) filename with the current media type.
+     *
+     * @throws RuntimeException
+     */
+    public function filename(?string $name = null): string
+    {
+        try {
+            return $this->fileExtension()->filename($name);
+        } catch (ImageException $e) {
+            throw new RuntimeException('Failed to create filename', previous: $e);
+        }
     }
 }

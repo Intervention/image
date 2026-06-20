@@ -5,11 +5,16 @@ declare(strict_types=1);
 namespace Intervention\Image;
 
 use Error;
+use Intervention\Image\Exceptions\ImageException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Traits\CanCreateRandomString;
 
 enum FileExtension: string
 {
+    use CanCreateRandomString;
+
     case JPG = 'jpg';
     case JPEG = 'jpeg';
     case PJPG = 'pjpg';
@@ -142,5 +147,19 @@ enum FileExtension: string
     public function mediaType(): MediaType
     {
         return $this->format()->mediaType();
+    }
+
+    /**
+     * Create a (random) filename with the current file extension.
+     *
+     * @throws RuntimeException
+     */
+    public function filename(?string $name = null): string
+    {
+        try {
+            return ($name ?? self::randomString()) . '.' . $this->value;
+        } catch (ImageException $e) {
+            throw new RuntimeException('Failed to create filename', previous: $e);
+        }
     }
 }

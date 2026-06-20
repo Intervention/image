@@ -15,8 +15,10 @@ use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
+use Intervention\Image\Exceptions\ImageException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\EncoderInterface;
 use ReflectionClass;
 use ReflectionParameter;
@@ -181,5 +183,19 @@ enum Format
         );
 
         return new $classname(...$options);
+    }
+
+    /**
+     * Create a (random) filename with the current format.
+     *
+     * @throws RuntimeException
+     */
+    public function filename(?string $name = null): string
+    {
+        try {
+            return $this->fileExtension()->filename($name);
+        } catch (ImageException $e) {
+            throw new RuntimeException('Failed to create filename', previous: $e);
+        }
     }
 }

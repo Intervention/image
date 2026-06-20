@@ -179,4 +179,10 @@ final class FileExtensionTest extends BaseTestCase
         yield [FileExtension::ICO, 2, MediaType::IMAGE_X_ICON];
         yield [FileExtension::JPG, 4, MediaType::IMAGE_JPEG];
     }
+
+    public function testFilename(): void
+    {
+        $this->assertMatchesRegularExpression('/^[a-f0-9]{32}\.gif$/', FileExtension::GIF->filename());
+        $this->assertEquals('test.gif', FileExtension::GIF->filename('test'));
+    }
 }

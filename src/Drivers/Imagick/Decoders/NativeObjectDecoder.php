@@ -64,6 +64,15 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
             if ($input->getImageColorspace() === Imagick::COLORSPACE_GRAY) {
                 $input->setImageColorspace(Imagick::COLORSPACE_SRGB);
             }
+
+            // AVIF/HEIF store their pixels in a luma/chroma (YCbCr) colorspace.
+            // Recent ImageMagick normalizes this to sRGB on decode, but older
+            // releases report the image as YCbCr, which leaves every later color
+            // operation (colorspace analysis, pixel reads) working on raw
+            // luma/chroma values. Convert it to sRGB so colors are correct.
+            if ($input->getImageColorspace() === Imagick::COLORSPACE_YCBCR) {
+                $input->transformImageColorspace(Imagick::COLORSPACE_SRGB);
+            }
         } catch (ImagickException $e) {
             throw new DriverException('Failed to convert image to sRGB', previous: $e);
         }

@@ -25,13 +25,22 @@ class ColorspaceAnalyzer extends GenericColorspaceAnalyzer implements Specialize
     public function analyze(ImageInterface $image): mixed
     {
         try {
-            return match ($image->core()->native()->getImageColorspace()) {
-                Imagick::COLORSPACE_CMYK => new Cmyk(),
-                Imagick::COLORSPACE_SRGB, Imagick::COLORSPACE_RGB => new Rgb(),
-                Imagick::COLORSPACE_HSL => new Hsl(),
-                Imagick::COLORSPACE_HSB => new Hsv(),
-                constant(Imagick::class . '::COLORSPACE_OKLAB') => new Oklab(),
-                constant(Imagick::class . '::COLORSPACE_OKLCH') => new Oklch(),
+            $colorspace = $image->core()->native()->getImageColorspace();
+
+            // OKLAB/OKLCH only exist on recent ImageMagick builds, so the
+            // constants are resolved through defined()/constant() (mirroring the
+            // ColorspaceModifier) to avoid referencing them where they are
+            // undefined. Any unexpected resolution error is normalized below.
+            return match (true) {
+                $colorspace === Imagick::COLORSPACE_CMYK => new Cmyk(),
+                $colorspace === Imagick::COLORSPACE_SRGB,
+                $colorspace === Imagick::COLORSPACE_RGB => new Rgb(),
+                $colorspace === Imagick::COLORSPACE_HSL => new Hsl(),
+                $colorspace === Imagick::COLORSPACE_HSB => new Hsv(),
+                defined(Imagick::class . '::COLORSPACE_OKLAB')
+                    && $colorspace === constant(Imagick::class . '::COLORSPACE_OKLAB') => new Oklab(),
+                defined(Imagick::class . '::COLORSPACE_OKLCH')
+                    && $colorspace === constant(Imagick::class . '::COLORSPACE_OKLCH') => new Oklch(),
                 default => throw new AnalyzerException('Failed to analyze unknown colorspace'),
             };
         } catch (Error $e) {

@@ -17,7 +17,7 @@ class RemoveAnimationModifier extends SpecializableModifier
     public function __construct(public int|string $position = 0)
     {
         if (is_int($this->position) && $this->position < 0) {
-            throw new InvalidArgumentException('Invalid position argument. Only use int<0, max>');
+            throw new InvalidArgumentException('Invalid position argument. Must be int<0, max>');
         }
     }
 

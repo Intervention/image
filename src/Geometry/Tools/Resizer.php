@@ -124,7 +124,7 @@ class Resizer
     }
 
     /**
-     * Get proportinal width.
+     * Get proportional width.
      */
     protected function proportionalWidth(SizeInterface $size): int
     {
@@ -136,7 +136,7 @@ class Resizer
     }
 
     /**
-     * Get proportinal height.
+     * Get proportional height.
      */
     protected function proportionalHeight(SizeInterface $size): int
     {
@@ -196,7 +196,7 @@ class Resizer
     }
 
     /**
-     * Resize given size to target size proportinally.
+     * Resize given size to target size proportionally.
      *
      * @throws InvalidArgumentException
      */
@@ -225,7 +225,7 @@ class Resizer
     }
 
     /**
-     * Resize given size to target size proportinally but do not exceed original size.
+     * Resize given size to target size proportionally but do not exceed original size.
      *
      * @throws InvalidArgumentException
      */

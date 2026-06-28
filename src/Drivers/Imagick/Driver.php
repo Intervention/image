@@ -60,7 +60,7 @@ class Driver extends AbstractDriver
     public function createImage(int $width, int $height): ImageInterface
     {
         if ($width < 1 || $height < 1) {
-            throw new InvalidArgumentException('Invalid image size. Only use int<1, max>');
+            throw new InvalidArgumentException('Invalid image size. Must be int<1, max>');
         }
 
         try {

@@ -24,7 +24,7 @@ interface FontInterface
     public function setStrokeColor(string|ColorInterface $color): self;
 
     /**
-     * Get stroke color of font
+     * Get stroke color of font.
      */
     public function strokeColor(): null|string|ColorInterface;
 

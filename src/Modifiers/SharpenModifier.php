@@ -15,7 +15,7 @@ class SharpenModifier extends SpecializableModifier
     public function __construct(public int $level)
     {
         if ($this->level < 0) {
-            throw new InvalidArgumentException('Invalid sharpening level. Only use int<0, max>');
+            throw new InvalidArgumentException('Invalid sharpening level. Must be int<0, max>');
         }
     }
 }

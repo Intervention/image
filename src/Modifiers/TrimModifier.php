@@ -17,7 +17,7 @@ class TrimModifier extends SpecializableModifier
     public function __construct(public int $tolerance = 0)
     {
         if ($this->tolerance < 0) {
-            throw new InvalidArgumentException('Invalid trim tolerance. Only use int<0, max>');
+            throw new InvalidArgumentException('Invalid trim tolerance. Must be int<0, max>');
         }
     }
 }

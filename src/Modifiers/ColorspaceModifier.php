@@ -22,7 +22,7 @@ class ColorspaceModifier extends SpecializableModifier
     }
 
     /**
-     * Build target color space
+     * Build the target color space.
      *
      * @throws NotSupportedException
      */

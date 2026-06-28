@@ -49,7 +49,7 @@ class ResizeCanvasModifier extends SpecializableModifier
     }
 
     /**
-     * Return color to fill the newly created areas after rotation.
+     * Return the color to fill newly created areas after resizing.
      *
      * @throws StateException
      */

@@ -23,7 +23,7 @@ class DrawPixelModifier extends SpecializableModifier
     }
 
     /**
-     * Return color for the new pixel.
+     * Return the color for the new pixel.
      *
      * @throws StateException
      * @throws ColorDecoderException

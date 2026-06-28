@@ -22,12 +22,12 @@ class ReduceColorsModifier extends SpecializableModifier
         public null|string|ColorInterface $background = null,
     ) {
         if ($this->limit < 1) {
-            throw new InvalidArgumentException('Invalid color limit. Only use int<1, max>');
+            throw new InvalidArgumentException('Invalid color limit. Must be int<1, max>');
         }
     }
 
     /**
-     * Return color in colorspace of image to fill transparent areas.
+     * Return the color in the image's colorspace to fill transparent areas.
      *
      * @throws StateException
      */

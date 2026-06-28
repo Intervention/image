@@ -156,7 +156,7 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
     }
 
     /**
-     * Set point at given offset
+     * Set point at given offset.
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {

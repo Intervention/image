@@ -18,7 +18,7 @@ choose between the GD library, Imagick or libvips as the base layer for all oper
 
 ## Installation
 
-Install this library using [Composer](https://getcomposer.org). Simply request the package with the following command:
+Install this library using [Composer](https://getcomposer.org). Add the package with the following command:
 
 ```bash
 composer require intervention/image
@@ -59,8 +59,7 @@ $encoded->save('images/example.jpg');
 
 ## Requirements
 
-Before you begin with the installation make sure that your server environment
-supports the following requirements.
+Ensure that your server environment meets the following requirements before installation:
 
 - PHP >= 8.3
 - Mbstring PHP Extension

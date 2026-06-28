@@ -17,7 +17,7 @@ class ResizeModifier extends SpecializableModifier
     public function __construct(public ?int $width = null, public ?int $height = null)
     {
         if ($width === null && $height === null) {
-            throw new InvalidArgumentException('Please provide at least one argument: width, height, or both.');
+            throw new InvalidArgumentException('At least one argument must be provided: width, height, or both.');
         }
     }
 }

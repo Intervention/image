@@ -7,12 +7,12 @@ namespace Intervention\Image\Interfaces;
 interface DrawableFactoryInterface
 {
     /**
-     * Create the drawable end product.
+     * Create the drawable.
      */
     public static function build(null|callable|DrawableInterface $drawable = null): DrawableInterface;
 
     /**
-     * Create the end product of the factory.
+     * Return the drawable.
      */
     public function drawable(): DrawableInterface;
 

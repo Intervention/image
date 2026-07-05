@@ -1,6 +1,6 @@
 FROM php:8.3-cli-alpine
 
-ARG IMAGEMAGICK_VERSION=7.1.2-15
+ARG IMAGEMAGICK_VERSION=7.1.2-25
 
 # install dependencies for building ImageMagick and PHP extensions
 RUN apk add --no-cache \
@@ -25,7 +25,7 @@ RUN apk add --no-cache \
 
 # build and install ImageMagick from source
 RUN curl -o /tmp/ImageMagick.tar.xz -sL \
-        "https://imagemagick.org/archive/releases/ImageMagick-${IMAGEMAGICK_VERSION}.tar.xz" \
+        "https://download.imagemagick.org/archive/releases/ImageMagick-${IMAGEMAGICK_VERSION}.tar.xz" \
         && cd /tmp \
         && tar xf ImageMagick.tar.xz \
         && cd "ImageMagick-${IMAGEMAGICK_VERSION}" \

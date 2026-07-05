@@ -15,7 +15,7 @@ class BlurModifier extends SpecializableModifier
     public function __construct(public int $level)
     {
         if ($this->level < 0) {
-            throw new InvalidArgumentException('Invalid blur level. Only use int<0, max>');
+            throw new InvalidArgumentException('Invalid blur level. Must be int<0, max>');
         }
     }
 }

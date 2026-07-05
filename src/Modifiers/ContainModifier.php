@@ -25,7 +25,7 @@ class ContainModifier extends SpecializableModifier
     }
 
     /**
-     * Calculate the crop size of the contain resizing process
+     * Calculate the crop size of the contain resizing process.
      *
      * @throws InvalidArgumentException
      */
@@ -43,7 +43,7 @@ class ContainModifier extends SpecializableModifier
     }
 
     /**
-     * Calculate the resize target size of the contain resizing process
+     * Calculate the resize target size of the contain resizing process.
      *
      * @throws InvalidArgumentException
      */
@@ -53,7 +53,7 @@ class ContainModifier extends SpecializableModifier
     }
 
     /**
-     * Return color to fill the newly created areas after resizing
+     * Return the color to fill newly created areas after resizing.
      *
      * @throws StateException
      */

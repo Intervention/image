@@ -15,7 +15,7 @@ class PixelateModifier extends SpecializableModifier
     public function __construct(public int $size)
     {
         if ($this->size < 1) {
-            throw new InvalidArgumentException('Invalid pixelation size. Only use int<1, max>');
+            throw new InvalidArgumentException('Invalid pixelation size. Must be int<1, max>');
         }
     }
 }

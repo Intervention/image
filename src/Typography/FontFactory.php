@@ -25,7 +25,7 @@ class FontFactory
     }
 
     /**
-     * Create the end product of the factory statically by calling given callable
+     * Create the font statically by calling the given callable.
      */
     public static function build(null|callable|FontInterface $font = null): FontInterface
     {
@@ -33,7 +33,7 @@ class FontFactory
     }
 
     /**
-     * Return the end product of the factory
+     * Return the font.
      */
     public function font(): FontInterface
     {

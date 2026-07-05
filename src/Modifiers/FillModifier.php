@@ -28,7 +28,7 @@ class FillModifier extends SpecializableModifier
     }
 
     /**
-     * Return filling color object:
+     * Return the filling color object.
      *
      * @throws ColorDecoderException
      * @throws StateException

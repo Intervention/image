@@ -57,7 +57,7 @@ interface AnimationFactoryInterface
     public function add(mixed $source, float $delay = 1): self;
 
     /**
-     * Build ready-made animation as end product.
+     * Build the animation as an image.
      */
     public function image(DriverInterface $driver): ImageInterface;
 }

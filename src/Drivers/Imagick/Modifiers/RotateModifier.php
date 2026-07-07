@@ -32,6 +32,12 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
                         'Failed to apply ' . self::class . ', unable to rotate image',
                     );
                 }
+
+                // Reset the virtual canvas page that rotateImage() leaves behind. A
+                // non-right angle produces a negative page offset which otherwise
+                // corrupts the animated-AVIF (libheif sequences) writer, leaving the
+                // bottom/right region transparent. Mirrors TrimModifier/CoverModifier.
+                $frame->native()->setImagePage(0, 0, 0, 0);
             } catch (ImagickException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to rotate image',

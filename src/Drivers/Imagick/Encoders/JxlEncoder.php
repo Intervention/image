@@ -34,15 +34,12 @@ class JxlEncoder extends GenericJxlEncoder implements SpecializedInterface
             $image->modify(new StripMetaModifier());
         }
 
-        // In ImageMagick, JXL lossless encoding is triggered by a compression quality of 100.
-        $quality = $this->lossless ? 100 : $this->quality;
-
         try {
             $imagick = clone $image->core()->native();
             $imagick->setFormat($format);
             $imagick->setImageFormat($format);
-            $imagick->setCompressionQuality($quality);
-            $imagick->setImageCompressionQuality($quality);
+            $imagick->setCompressionQuality($this->quality);
+            $imagick->setImageCompressionQuality($this->quality);
 
             $result = new EncodedImage($imagick->getImagesBlob(), 'image/jxl');
             $imagick->clear();

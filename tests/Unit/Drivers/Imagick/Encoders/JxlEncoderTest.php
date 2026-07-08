@@ -31,14 +31,4 @@ final class JxlEncoderTest extends ImagickTestCase
         $this->assertMediaType(['image/jxl', 'image/x-jxl'], $result);
         $this->assertEquals('image/jxl', $result->mimetype());
     }
-
-    public function testEncodeLossless(): void
-    {
-        $image = $this->createTestImage(3, 2);
-        $encoder = new JxlEncoder(lossless: true);
-        $encoder->setDriver(new Driver());
-        $result = $encoder->encode($image);
-        $this->assertMediaType(['image/jxl', 'image/x-jxl'], $result);
-        $this->assertEquals('image/jxl', $result->mimetype());
-    }
 }

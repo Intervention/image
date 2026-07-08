@@ -11,6 +11,7 @@ use Intervention\Image\Encoders\HeicEncoder;
 use Intervention\Image\Encoders\IcoEncoder;
 use Intervention\Image\Encoders\Jpeg2000Encoder;
 use Intervention\Image\Encoders\JpegEncoder;
+use Intervention\Image\Encoders\JxlEncoder;
 use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
@@ -147,6 +148,16 @@ final class FormatTest extends BaseTestCase
         $this->assertEquals(MediaType::IMAGE_HEIC, $format->mediaType());
     }
 
+    public function testMediaTypesJxl(): void
+    {
+        $format = Format::JXL;
+        $mediaTypes = $format->mediaTypes();
+        $this->assertIsArray($mediaTypes);
+        $this->assertCount(2, $mediaTypes);
+
+        $this->assertEquals(MediaType::IMAGE_JXL, $format->mediaType());
+    }
+
     public function testEncoderJpeg(): void
     {
         $format = Format::JPEG;
@@ -199,6 +210,12 @@ final class FormatTest extends BaseTestCase
     {
         $format = Format::HEIC;
         $this->assertInstanceOf(HeicEncoder::class, $format->encoder());
+    }
+
+    public function testEncoderJxl(): void
+    {
+        $format = Format::JXL;
+        $this->assertInstanceOf(JxlEncoder::class, $format->encoder());
     }
 
     public function testFileExtensionsJpeg(): void
@@ -289,6 +306,16 @@ final class FormatTest extends BaseTestCase
         $this->assertCount(2, $extensions);
 
         $this->assertEquals(FileExtension::HEIC, $format->fileExtension());
+    }
+
+    public function testFileExtensionsJxl(): void
+    {
+        $format = Format::JXL;
+        $extensions = $format->fileExtensions();
+        $this->assertIsArray($extensions);
+        $this->assertCount(1, $extensions);
+
+        $this->assertEquals(FileExtension::JXL, $format->fileExtension());
     }
 
     public function testMediaTypesIco(): void

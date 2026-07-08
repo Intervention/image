@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit\Drivers\Imagick;
 
 use Generator;
+use Imagick;
 use Intervention\Image\Analyzers\WidthAnalyzer as GenericWidthAnalyzer;
 use Intervention\Image\Decoders\FilePathImageDecoder as GenericFilePathImageDecoder;
 use Intervention\Image\Encoders\PngEncoder as GenericPngEncoder;
@@ -104,6 +105,21 @@ final class DriverTest extends BaseTestCase
     public function testSupports(bool $result, mixed $identifier): void
     {
         $this->assertEquals($result, $this->driver->supports($identifier));
+    }
+
+    public function testSupportsJxl(): void
+    {
+        if (Imagick::queryFormats('JXL') === []) {
+            $this->markTestSkipped('ImageMagick was built without JXL (libjxl) support');
+        }
+
+        $this->assertTrue($this->driver->supports(Format::JXL));
+        $this->assertTrue($this->driver->supports(MediaType::IMAGE_JXL));
+        $this->assertTrue($this->driver->supports(MediaType::IMAGE_X_JXL));
+        $this->assertTrue($this->driver->supports(FileExtension::JXL));
+        $this->assertTrue($this->driver->supports('jxl'));
+        $this->assertTrue($this->driver->supports('image/jxl'));
+        $this->assertTrue($this->driver->supports('image/x-jxl'));
     }
 
     public static function supportsDataProvider(): Generator

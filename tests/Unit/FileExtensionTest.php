@@ -133,6 +133,12 @@ final class FileExtensionTest extends BaseTestCase
         $this->assertEquals(Format::HEIC, $ext->format());
     }
 
+    public function testFormatJxl(): void
+    {
+        $ext = FileExtension::JXL;
+        $this->assertEquals(Format::JXL, $ext->format());
+    }
+
     public function testFormatIco(): void
     {
         $ext = FileExtension::ICO;
@@ -168,6 +174,7 @@ final class FileExtensionTest extends BaseTestCase
         yield [FileExtension::JP2, 4, MediaType::IMAGE_JP2];
         yield [FileExtension::HEIC, 3, MediaType::IMAGE_HEIC];
         yield [FileExtension::HEIF, 3, MediaType::IMAGE_HEIC];
+        yield [FileExtension::JXL, 2, MediaType::IMAGE_JXL];
         yield [FileExtension::JPF, 4, MediaType::IMAGE_JP2];
         yield [FileExtension::JPX, 4, MediaType::IMAGE_JP2];
         yield [FileExtension::JPC, 4, MediaType::IMAGE_JP2];

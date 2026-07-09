@@ -176,6 +176,15 @@ final class MediaTypeTest extends BaseTestCase
         $this->assertEquals(Format::HEIC, $mime->format());
     }
 
+    public function testFormatJxl(): void
+    {
+        $mime = MediaType::IMAGE_JXL;
+        $this->assertEquals(Format::JXL, $mime->format());
+
+        $mime = MediaType::IMAGE_X_JXL;
+        $this->assertEquals(Format::JXL, $mime->format());
+    }
+
     #[DataProvider('fileExtensionsDataProvider')]
     public function testFileExtensions(
         MediaType $mediaType,
@@ -215,6 +224,8 @@ final class MediaTypeTest extends BaseTestCase
         yield [MediaType::IMAGE_HEIC, 2, FileExtension::HEIC];
         yield [MediaType::IMAGE_X_HEIC, 2, FileExtension::HEIC];
         yield [MediaType::IMAGE_HEIF, 2, FileExtension::HEIC];
+        yield [MediaType::IMAGE_JXL, 1, FileExtension::JXL];
+        yield [MediaType::IMAGE_X_JXL, 1, FileExtension::JXL];
         yield [MediaType::IMAGE_X_JP2_CODESTREAM, 9, FileExtension::JP2];
         yield [MediaType::IMAGE_X_ICON, 1, FileExtension::ICO];
         yield [MediaType::IMAGE_VND_MICROSOFT_ICON, 1, FileExtension::ICO];

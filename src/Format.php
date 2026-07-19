@@ -12,6 +12,7 @@ use Intervention\Image\Encoders\HeicEncoder;
 use Intervention\Image\Encoders\IcoEncoder;
 use Intervention\Image\Encoders\Jpeg2000Encoder;
 use Intervention\Image\Encoders\JpegEncoder;
+use Intervention\Image\Encoders\JxlEncoder;
 use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
@@ -30,6 +31,7 @@ enum Format
     case ICO;
     case JP2;
     case JPEG;
+    case JXL;
     case PNG;
     case TIFF;
     case WEBP;
@@ -157,6 +159,7 @@ enum Format
             self::ICO => IcoEncoder::class,
             self::JP2 => Jpeg2000Encoder::class,
             self::JPEG => JpegEncoder::class,
+            self::JXL => JxlEncoder::class,
             self::PNG => PngEncoder::class,
             self::TIFF => TiffEncoder::class,
             self::WEBP => WebpEncoder::class,

@@ -11,6 +11,7 @@ use Intervention\Image\Analyzers\PixelColorsAnalyzer;
 use Intervention\Image\Analyzers\ProfileAnalyzer;
 use Intervention\Image\Analyzers\ResolutionAnalyzer;
 use Intervention\Image\Analyzers\WidthAnalyzer;
+use Intervention\Image\Colors\Palette;
 use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\Encoders\FileExtensionEncoder;
 use Intervention\Image\Encoders\FilePathEncoder;
@@ -53,6 +54,7 @@ use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\OriginInterface;
+use Intervention\Image\Interfaces\PaletteInterface;
 use Intervention\Image\Interfaces\ProfileInterface;
 use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -1208,6 +1210,14 @@ final class Image implements ImageInterface
     public function encodeUsingPath(string $path, mixed ...$options,): EncodedImageInterface
     {
         return $this->encode(new FilePathEncoder($path, ...$options));
+    }
+
+    /**
+     * Get unique colors of image.
+     */
+    public function colors(): PaletteInterface
+    {
+        return new Palette($this);
     }
 
     /**

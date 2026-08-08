@@ -146,6 +146,15 @@ class ImageManagerTest extends BaseTestCase
         );
     }
 
+    #[DataProviderExternal(ImageSourceProvider::class, 'filePaths')]
+    public function testDecodePathDiscardAnimation(string $path): void
+    {
+        $this->assertInstanceOf(
+            ImageInterface::class,
+            ImageManager::usingDriver(Driver::class, decodeAnimation: false)->decodePath($path),
+        );
+    }
+
     #[DataProviderExternal(ImageSourceProvider::class, 'binaryData')]
     public function testDecodeBinary(string $binary): void
     {

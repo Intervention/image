@@ -17,7 +17,7 @@ use Traversable;
 class Palette implements PaletteInterface, Countable, IteratorAggregate
 {
     /**
-     * @var null|array<mixed>
+     * @var null|array<ColorInterface>
      */
     protected ?array $colors = null;
 
@@ -38,10 +38,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
      */
     public function colors(): array
     {
-        return array_map(
-            fn(array $normalized) => $this->colorFromNormalized($normalized),
-            $this->extractedColors(),
-        );
+        return $this->extractedColors();
     }
 
     /**
@@ -63,7 +60,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
     {
         $colors = $this->extractedColors();
 
-        return $this->colorFromNormalized(reset($colors));
+        return reset($colors);
     }
 
     /**
@@ -84,14 +81,6 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
     public function dominant(int $size = 10): PaletteInterface
     {
         return new self($this->image);
-    }
-
-    /**
-     * @param array<float> $normalized
-     */
-    private function colorFromNormalized(array $normalized): ColorInterface
-    {
-        return $this->image->colorspace()::colorFromNormalized($normalized);
     }
 
     /**

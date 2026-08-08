@@ -8,15 +8,11 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 
 class Quantizer
 {
-    protected int $levels;
-
-    public function __construct(int $precision = 65)
+    public function __construct(protected int $levels = 8)
     {
-        if ($precision < 0 || $precision > 100) {
-            throw new InvalidArgumentException('Quantization precision must be between 0 and 100');
+        if ($this->levels < 1 || $this->levels > 256) {
+            throw new InvalidArgumentException('Quantization levels must be between 1 and 256');
         }
-
-        $this->levels = (int) round(2 + 254 * (exp(0.1067982567 * $precision) - 1) / (exp(0.1067982567 * 100) - 1));
     }
 
     /**

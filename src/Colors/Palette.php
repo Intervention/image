@@ -7,7 +7,7 @@ namespace Intervention\Image\Colors;
 use ArrayIterator;
 use Countable;
 use Intervention\Image\Analyzers\QuantizedPaletteAnalyzer;
-use Intervention\Image\Analyzers\KmeansPaletteAnalyzer;
+use Intervention\Image\Analyzers\DominantPaletteAnalyzer;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -18,7 +18,9 @@ use Traversable;
 class Palette implements PaletteInterface, Countable, IteratorAggregate
 {
     /**
-     * @var null|array<ColorInterface>
+     * Colors in palette.
+     *
+     * @var null|array<PaletteColor>
      */
     protected ?array $colors = null;
 
@@ -35,7 +37,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
     /**
      * Get colors of palette.
      *
-     * @return array<ColorInterface>
+     * @return array<PaletteColor>
      */
     public function colors(): array
     {
@@ -45,7 +47,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
     /**
      * Implementation of IteratorAggregate.
      *
-     * @return Traversable<ColorInterface>
+     * @return Traversable<PaletteColor>
      */
     public function getIterator(): Traversable
     {
@@ -57,7 +59,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
      *
      * @see PaletteInterface::first()
      */
-    public function first(): ColorInterface
+    public function first(): PaletteColor
     {
         $colors = $this->extractedColors();
 
@@ -77,11 +79,21 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
     /**
      * {@inheritdoc}
      *
+     * @see PaletteInterface::hasColor()
+     */
+    public function hasColor(ColorInterface $color): bool
+    {
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see PaletteInterface::dominant()
      */
     public function dominant(int $maxColors = 16): PaletteInterface
     {
-        return new self($this->image, new KmeansPaletteAnalyzer($maxColors));
+        return new self($this->image, new DominantPaletteAnalyzer($maxColors));
     }
 
     /**

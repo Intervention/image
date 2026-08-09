@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Intervention\Image\Analyzers;
 
 use Generator;
+use Intervention\Image\Colors\PaletteColor;
 use Intervention\Image\Colors\Quantizer;
 use Intervention\Image\Interfaces\AnalyzerInterface;
-use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -15,25 +15,70 @@ use Intervention\Image\Interfaces\SizeInterface;
 class QuantizedPaletteAnalyzer implements AnalyzerInterface
 {
     /**
-     * @return array<ColorInterface>
+     * @return array<PaletteColor>
      */
     public function analyze(ImageInterface $image): array
     {
         $pixels = $this->collectPixels($image);
-        $pixels = $this->quantizePixels($pixels, $this->quantizationLevel($image));
 
-        return array_map(fn(array $item): ColorInterface => $item['color'], $pixels);
+        return $this->quantizePixels($pixels, $this->quantizationLevel($image));
     }
 
     /**
-     * @return array<float>
+     * Collect pixel data from the image.
+     *
+     * @return Generator<ColorInterface>
      */
-    protected function normalizedChannelValues(ColorInterface $color): array
+    protected function collectPixels(ImageInterface $image): Generator
     {
-        return array_map(
-            fn(ColorChannelInterface $channel) => $channel->normalized(),
-            $color->channels(),
-        );
+        foreach ($this->sampleCoordinates($image->size()) as $coordinate) {
+            $color = $image->colorAt(...$coordinate);
+            if ($color->isClear()) {
+                continue;
+            }
+
+            yield $color;
+        }
+    }
+
+    /**
+     * Quantize pixel colors.
+     *
+     * @return array<PaletteColor>
+     */
+    protected function quantizePixels(Generator $pixels, int $quantizationLevel = 8): array
+    {
+        $pixelMap = [];
+        $quantizer = new Quantizer($quantizationLevel);
+        foreach ($pixels as $color) {
+            $color = $quantizer->quantizeColor($color);
+            $key = $color->hash();
+
+            if (!isset($pixelMap[$key])) {
+                $pixelMap[$key] = $color;
+            }
+
+            $pixelMap[$key]->increasePopulation();
+        }
+
+        // sort by population desc
+        usort($pixelMap, fn(PaletteColor $a, PaletteColor $b): int => $b->population <=> $a->population);
+
+        return $pixelMap;
+    }
+
+    /**
+     * Determine quantization level according to color count of given image.
+     */
+    protected function quantizationLevel(ImageInterface $image): int
+    {
+        $colorCount = $image->analyze(new ColorCountAnalyzer());
+
+        if ($colorCount === null) {
+            return Quantizer::QUANTIZATION_LEVEL_DEFAULT;
+        }
+
+        return $colorCount < 256 ? Quantizer::QUANTIZATION_LEVEL_MAX : Quantizer::QUANTIZATION_LEVEL_DEFAULT;
     }
 
     /**
@@ -59,90 +104,5 @@ class QuantizedPaletteAnalyzer implements AnalyzerInterface
                 yield ['x' => $x, 'y' => $y];
             }
         }
-    }
-
-    /**
-     * Collect pixel data from the image.
-     *
-     * @return Generator<ColorInterface>
-     */
-    protected function collectPixels(ImageInterface $image): Generator
-    {
-        foreach ($this->sampleCoordinates($image->size()) as $coordinate) {
-            $color = $image->colorAt(...$coordinate);
-            if ($color->isClear()) {
-                continue;
-            }
-
-            yield $color;
-        }
-    }
-
-    /**
-     * Quantize pixel colors.
-     *
-     * @return array<array{color: ColorInterface, count: int}>
-     */
-    protected function quantizePixels(Generator $pixels, int $quantizationLevel = 8): array
-    {
-        $pixelMap = [];
-        $quantizer = new Quantizer($quantizationLevel);
-        foreach ($pixels as $color) {
-            $color = $quantizer->quantizeColor($color);
-            $key = $this->colorHash($color);
-
-            if (!isset($pixelMap[$key])) {
-                $pixelMap[$key] = ['color' => $color, 'count' => 0];
-            }
-
-            $pixelMap[$key]['count']++;
-        }
-
-        // sort by count desc
-        usort($pixelMap, fn(array $a, array $b): int => $b['count'] <=> $a['count']);
-
-        return $pixelMap;
-    }
-
-    /**
-     * Normalize pixel colors.
-     *
-     * @return Generator<array<float>>
-     */
-    protected function normalizePixels(Generator $pixels): Generator
-    {
-        foreach ($pixels as $color) {
-            yield array_map(
-                fn(ColorChannelInterface $channel): float => $channel->normalized(),
-                $color->channels(),
-            );
-        }
-    }
-
-    /**
-     * Build unique hash from color.
-     */
-    protected function colorHash(ColorInterface $color): string
-    {
-        $channelValues = array_map(
-            fn(ColorChannelInterface $channel): int|float => $channel->value(),
-            $color->channels(),
-        );
-
-        return md5(implode(',', $channelValues));
-    }
-
-    /**
-     * Determine quantization level according to color count of given image.
-     */
-    protected function quantizationLevel(ImageInterface $image): int
-    {
-        $colorCount = $image->analyze(new ColorCountAnalyzer());
-
-        if ($colorCount === null) {
-            return Quantizer::QUANTIZATION_LEVEL_DEFAULT;
-        }
-
-        return $colorCount < 256 ? Quantizer::QUANTIZATION_LEVEL_MAX : Quantizer::QUANTIZATION_LEVEL_DEFAULT;
     }
 }

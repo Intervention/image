@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Analyzers;
+namespace Intervention\Image\Colors;
 
+use Intervention\Image\Interfaces\PaletteInterface;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Hsl\Colorspace as Hsl;
 use Intervention\Image\Interfaces\ColorInterface;
-use Intervention\Image\Interfaces\ImageInterface;
 
-class ColorPaletteAndroidAnalyzer extends QuantizedPaletteAnalyzer
+class Classifier
 {
     /**
-     * Palette category definitions (HSL-based)
+     * Classification categories.
      */
     private const VIBRANT = 'vibrant';
     private const MUTED = 'muted';
@@ -22,7 +22,7 @@ class ColorPaletteAndroidAnalyzer extends QuantizedPaletteAnalyzer
     private const LIGHT_MUTED = 'lightMuted';
 
     /**
-     * HSL thresholds for category classification
+     * HSL thresholds for category classification.
      */
     private const MIN_VIBRANT_SATURATION = 0.35;
     private const MIN_MUTED_SATURATION = 0.1;
@@ -38,50 +38,57 @@ class ColorPaletteAndroidAnalyzer extends QuantizedPaletteAnalyzer
     private const MAX_LIGHT_LIGHTNESS = 0.9;
 
     /**
-     * Scoring weights
+     * Scoring weights.
      */
     private const WEIGHT_SATURATION = 3.0;
     private const WEIGHT_LIGHTNESS = 6.0;
     private const WEIGHT_POPULATION = 1.0;
 
-    /**
-     * Analyze image and extract classified color palette.
-     *
-     * @return array<string, ColorInterface|null>
-     */
-    public function analyze(ImageInterface $image): array
+    public function __construct(protected PaletteInterface $palette)
     {
-        $pixels = $this->collectPixels($image);
-        $quantizedPixels = $this->quantizePixels($pixels, $this->quantizationLevel($image));
+        //
+    }
 
-        // Calculate total population for normalization
-        $totalPopulation = array_sum(array_column($quantizedPixels, 'count'));
+    public function vibrant(): ?ColorInterface
+    {
+        return $this->findBestColor(self::VIBRANT);
+    }
 
-        // Find best color for each category
-        $colors = [
-            self::VIBRANT => $this->findBestColor($quantizedPixels, $totalPopulation, self::VIBRANT),
-            self::MUTED => $this->findBestColor($quantizedPixels, $totalPopulation, self::MUTED),
-            self::DARK_VIBRANT => $this->findBestColor($quantizedPixels, $totalPopulation, self::DARK_VIBRANT),
-            self::DARK_MUTED => $this->findBestColor($quantizedPixels, $totalPopulation, self::DARK_MUTED),
-            self::LIGHT_VIBRANT => $this->findBestColor($quantizedPixels, $totalPopulation, self::LIGHT_VIBRANT),
-            self::LIGHT_MUTED => $this->findBestColor($quantizedPixels, $totalPopulation, self::LIGHT_MUTED),
-        ];
+    public function muted(): ?ColorInterface
+    {
+        return $this->findBestColor(self::MUTED);
+    }
 
-        return array_values($colors);
+    public function darkVibrant(): ?ColorInterface
+    {
+        return $this->findBestColor(self::DARK_VIBRANT);
+    }
+
+    public function darkMuted(): ?ColorInterface
+    {
+        return $this->findBestColor(self::DARK_MUTED);
+    }
+
+    public function lightVibrant(): ?ColorInterface
+    {
+        return $this->findBestColor(self::LIGHT_VIBRANT);
+    }
+
+    public function lightMuted(): ?ColorInterface
+    {
+        return $this->findBestColor(self::LIGHT_MUTED);
     }
 
     /**
      * Find the best color for a specific category
-     *
-     * @param array<array{color: ColorInterface, count: int}> $quantizedPixels
      */
-    private function findBestColor(array $quantizedPixels, int $totalPopulation, string $category): ?ColorInterface
+    private function findBestColor(string $category): ?ColorInterface
     {
         $bestScore = 0.0;
         $bestColor = null;
+        $totalPopulation = $this->samplePopulation();
 
-        foreach ($quantizedPixels as $pixel) {
-            $color = $pixel['color'];
+        foreach ($this->palette as $color) {
             $hslColor = $color->toColorspace(Hsl::class);
 
             if (!$this->isColorInCategory($hslColor, $category)) {
@@ -90,7 +97,7 @@ class ColorPaletteAndroidAnalyzer extends QuantizedPaletteAnalyzer
 
             $score = $this->calculateScore(
                 $hslColor,
-                $pixel['count'],
+                $color->population,
                 $totalPopulation,
                 $category,
             );
@@ -104,13 +111,23 @@ class ColorPaletteAndroidAnalyzer extends QuantizedPaletteAnalyzer
         return $bestColor;
     }
 
+    private function samplePopulation(): int
+    {
+        $samplePopulation = 0;
+        foreach ($this->palette as $color) {
+            $samplePopulation += $color->population;
+        }
+
+        return $samplePopulation;
+    }
+
     /**
-     * Check if color matches category criteria
+     * Check if color matches category criteria.
      */
     private function isColorInCategory(HslColor $color, string $category): bool
     {
-        $saturation = $color->saturation()->value() / 100.0; // Normalize to 0-1
-        $lightness = $color->luminance()->value() / 100.0; // Normalize to 0-1
+        $saturation = $color->saturation()->normalized();
+        $lightness = $color->luminance()->normalized();
 
         return match ($category) {
             self::VIBRANT => $saturation >= self::MIN_VIBRANT_SATURATION
@@ -145,7 +162,7 @@ class ColorPaletteAndroidAnalyzer extends QuantizedPaletteAnalyzer
     }
 
     /**
-     * Calculate score for a color based on category targets
+     * Calculate score for a color based on category targets.
      */
     private function calculateScore(
         HslColor $color,
@@ -157,14 +174,14 @@ class ColorPaletteAndroidAnalyzer extends QuantizedPaletteAnalyzer
         $lightness = $color->luminance()->value() / 100.0;
         $populationRatio = $population / $totalPopulation;
 
-        // Get target values for this category
+        // get target values for this category
         [$targetSaturation, $targetLightness] = $this->getCategoryTargets($category);
 
-        // Calculate distances from target values
+        // calculate distances from target values
         $saturationScore = 1.0 - abs($saturation - $targetSaturation);
         $lightnessScore = 1.0 - abs($lightness - $targetLightness);
 
-        // Weighted score
+        // weighted score
         return (
             ($saturationScore * self::WEIGHT_SATURATION) +
             ($lightnessScore * self::WEIGHT_LIGHTNESS) +
@@ -173,7 +190,7 @@ class ColorPaletteAndroidAnalyzer extends QuantizedPaletteAnalyzer
     }
 
     /**
-     * Get ideal saturation and lightness targets for each category
+     * Get ideal saturation and lightness targets for each category.
      *
      * @return array{float, float}
      */

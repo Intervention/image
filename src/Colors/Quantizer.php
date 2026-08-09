@@ -28,7 +28,7 @@ class Quantizer
     /**
      * Return a quantized version of the given color.
      */
-    public function quantizeColor(ColorInterface $color): ColorInterface
+    public function quantizeColor(ColorInterface $color): PaletteColor
     {
         // preserve alpha unquantized
         $alpha = $color->alpha()->normalized();
@@ -51,7 +51,7 @@ class Quantizer
         // apply preserve alpha
         $dequantized[3] = $alpha;
 
-        return $color->colorspace()->colorFromNormalized($dequantized);
+        return new PaletteColor($color->colorspace()->colorFromNormalized($dequantized));
     }
 
     /**

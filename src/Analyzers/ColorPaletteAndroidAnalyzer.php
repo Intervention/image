@@ -9,7 +9,7 @@ use Intervention\Image\Colors\Hsl\Colorspace as Hsl;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
-class ColorPaletteAndroidAnalyzer extends ColorPaletteAnalyzer
+class ColorPaletteAndroidAnalyzer extends QuantizedPaletteAnalyzer
 {
     /**
      * Palette category definitions (HSL-based)

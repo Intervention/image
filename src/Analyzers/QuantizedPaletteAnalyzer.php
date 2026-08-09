@@ -12,7 +12,7 @@ use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
-class ColorPaletteAnalyzer implements AnalyzerInterface
+class QuantizedPaletteAnalyzer implements AnalyzerInterface
 {
     /**
      * @return array<ColorInterface>

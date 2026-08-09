@@ -10,7 +10,7 @@ use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
-class ColorPaletteKmeansAnalyzer extends ColorPaletteAnalyzer
+class KmeansPaletteAnalyzer extends QuantizedPaletteAnalyzer
 {
     /**
      * Maximum iterations for K-means algorithm.

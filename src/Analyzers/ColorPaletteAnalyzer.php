@@ -50,7 +50,8 @@ class ColorPaletteAnalyzer implements AnalyzerInterface
             $totalPixels <= 10000 => 1, // <= 10k pixels: sample all
             $totalPixels <= 100000 => 5, // 10k-100k: every 5th pixel
             $totalPixels <= 500000 => 10, // 100k-500k: every 10th pixel
-            default => 15, // > 500k: every 15th pixel
+            $totalPixels <= 2000000 => 20, // 500k-2m: every 20th pixel
+            default => 30, // > 2m: every 30th pixel
         };
 
         for ($y = 0; $y < $height; $y += $sampleRate) {

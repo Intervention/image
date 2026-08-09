@@ -7,6 +7,7 @@ namespace Intervention\Image\Colors;
 use ArrayIterator;
 use Countable;
 use Intervention\Image\Analyzers\ColorPaletteAnalyzer;
+use Intervention\Image\Analyzers\ColorPaletteKmeansAnalyzer;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -78,9 +79,10 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
      *
      * @see PaletteInterface::dominant()
      */
-    public function dominant(int $size = 10): PaletteInterface
+    public function dominant(int $maxColors = 16): PaletteInterface
     {
-        return new self($this->image);
+        // return new self($this->image, new ColorPaletteAndroidAnalyzer());
+        return new self($this->image, new ColorPaletteKmeansAnalyzer($maxColors));
     }
 
     /**

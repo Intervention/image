@@ -17,42 +17,12 @@ class ColorPaletteAnalyzer implements AnalyzerInterface
     /**
      * @return array<ColorInterface>
      */
-    public function analyze(ImageInterface $image): array // TODO: maybe generator
+    public function analyze(ImageInterface $image): array
     {
-        $colors = [];
-        $quantizer = $this->quantizer($image);
-        $colorspace = $image->colorspace();
+        $pixels = $this->collectPixels($image);
+        $pixels = $this->quantizePixels($pixels, $this->quantizationLevel($image));
 
-        foreach ($this->sampleCoordinates($image->size()) as $coordinate) {
-            $color = $image->colorAt(...$coordinate);
-
-            if ($color->isClear()) {
-                continue; // TODO: count clear as a single color
-            }
-
-            // normalize channel values, quantize and join to bin index
-            $bin = implode(',', array_map(
-                fn(float $value) => $quantizer->quantize($value),
-                $this->normalizedChannelValues($color),
-            ));
-
-            if (!array_key_exists($bin, $colors)) {
-                $colors[$bin] = 0;
-            }
-
-            $colors[$bin]++;
-        }
-
-        // sort most used first
-        arsort($colors, SORT_REGULAR);
-        $colors = array_keys($colors);
-
-        // split bin index, dequantize and transform to color object
-        return array_map(function (string $bin) use ($colorspace, $quantizer) {
-            return $colorspace::colorFromNormalized(
-                array_map(fn(int $value) => $quantizer->dequantize($value), explode(',', $bin)),
-            );
-        }, $colors);
+        return array_map(fn(array $item): ColorInterface => $item['color'], $pixels);
     }
 
     /**
@@ -63,20 +33,6 @@ class ColorPaletteAnalyzer implements AnalyzerInterface
         return array_map(
             fn(ColorChannelInterface $channel) => $channel->normalized(),
             $color->channels(),
-        );
-    }
-
-    /**
-     * @param array<float> $normalized
-     * @return array<int>
-     */
-    protected function quantizeNormalizedValues(array $normalized): array
-    {
-        $quantizer = new Quantizer();
-
-        return array_map(
-            fn(float $value) => $quantizer->quantize($value),
-            $normalized,
         );
     }
 
@@ -104,10 +60,88 @@ class ColorPaletteAnalyzer implements AnalyzerInterface
         }
     }
 
-    private function quantizer(ImageInterface $image): Quantizer
+    /**
+     * Collect pixel data from the image.
+     *
+     * @return Generator<ColorInterface>
+     */
+    protected function collectPixels(ImageInterface $image): Generator
+    {
+        foreach ($this->sampleCoordinates($image->size()) as $coordinate) {
+            $color = $image->colorAt(...$coordinate);
+            if ($color->isClear()) {
+                continue;
+            }
+
+            yield $color;
+        }
+    }
+
+    /**
+     * Quantize pixel colors.
+     *
+     * @return array<array{color: ColorInterface, count: int}>
+     */
+    protected function quantizePixels(Generator $pixels, int $quantizationLevel = 8): array
+    {
+        $pixelMap = [];
+        $quantizer = new Quantizer($quantizationLevel);
+        foreach ($pixels as $color) {
+            $color = $quantizer->quantizeColor($color);
+            $key = $this->colorHash($color);
+
+            if (!isset($pixelMap[$key])) {
+                $pixelMap[$key] = ['color' => $color, 'count' => 0];
+            }
+
+            $pixelMap[$key]['count']++;
+        }
+
+        // sort by count desc
+        usort($pixelMap, fn(array $a, array $b): int => $b['count'] <=> $a['count']);
+
+        return $pixelMap;
+    }
+
+    /**
+     * Normalize pixel colors.
+     *
+     * @return Generator<array<float>>
+     */
+    protected function normalizePixels(Generator $pixels): Generator
+    {
+        foreach ($pixels as $color) {
+            yield array_map(
+                fn(ColorChannelInterface $channel): float => $channel->normalized(),
+                $color->channels(),
+            );
+        }
+    }
+
+    /**
+     * Build unique hash from color.
+     */
+    protected function colorHash(ColorInterface $color): string
+    {
+        $channelValues = array_map(
+            fn(ColorChannelInterface $channel): int|float => $channel->value(),
+            $color->channels(),
+        );
+
+        return md5(implode(',', $channelValues));
+    }
+
+    /**
+     * Determine quantization level according to color count of given image.
+     */
+    protected function quantizationLevel(ImageInterface $image): int
     {
         $colorCount = $image->analyze(new ColorCountAnalyzer());
 
-        return new Quantizer(levels: $colorCount <= 256 ? 256 : 8);
+        if ($colorCount === null) {
+            return Quantizer::QUANTIZATION_LEVEL_DEFAULT;
+        }
+
+        return $colorCount < 256 ? Quantizer::QUANTIZATION_LEVEL_MAX : Quantizer::QUANTIZATION_LEVEL_DEFAULT;
     }
 }

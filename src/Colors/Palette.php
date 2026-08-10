@@ -64,7 +64,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
      *
      * @see PaletteInterface::first()
      */
-    public function first(): ?PaletteColor
+    public function first(): ?ColorInterface
     {
         $colors = $this->colors();
 
@@ -76,7 +76,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
      *
      * @see PaletteInterface::last()
      */
-    public function last(): ?PaletteColor
+    public function last(): ?ColorInterface
     {
         $colors = $this->colors();
 
@@ -112,7 +112,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
      *
      * @return array<mixed>
      */
-    public function extractedColors(): array
+    private function extractedColors(): array
     {
         if ($this->colors === null) {
             $this->colors = $this->image->analyze($this->extractionStrategy);

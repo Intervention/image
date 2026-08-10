@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
-use Intervention\Image\Colors\PaletteColor;
 use Traversable;
 
 /**
@@ -15,12 +14,12 @@ interface PaletteInterface extends Traversable
     /**
      * Get first color of palette.
      */
-    public function first(): ?PaletteColor;
+    public function first(): ?ColorInterface;
 
     /**
      * Get last color of palette.
      */
-    public function last(): ?PaletteColor;
+    public function last(): ?ColorInterface;
 
     /**
      * Return number of colors in palette.

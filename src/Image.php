@@ -1215,7 +1215,7 @@ final class Image implements ImageInterface
     /**
      * Get unique colors of image.
      */
-    public function colors(?int $precision = null): PaletteInterface
+    public function colors(): PaletteInterface
     {
         return new Palette($this);
     }

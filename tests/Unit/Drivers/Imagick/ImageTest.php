@@ -32,6 +32,7 @@ use Intervention\Image\Image;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\PaletteInterface;
 use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Modifiers\GrayscaleModifier;
@@ -744,5 +745,13 @@ final class ImageTest extends ImagickTestCase
         $image = $this->readTestImage('trim.png');
         $result = $image->removeProfile();
         $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testColors(): void
+    {
+        $image = $this->readTestImage('blue.gif');
+        $result = $image->colors();
+        $this->assertInstanceOf(PaletteInterface::class, $result);
+        $this->assertCount(1, $result);
     }
 }

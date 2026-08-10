@@ -8,6 +8,8 @@ use ArrayIterator;
 use Countable;
 use Intervention\Image\Analyzers\QuantizedPaletteAnalyzer;
 use Intervention\Image\Analyzers\DominantPaletteAnalyzer;
+use Intervention\Image\Exceptions\ColorException;
+use Intervention\Image\Exceptions\PaletteException;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
@@ -16,6 +18,9 @@ use Intervention\Image\Interfaces\PaletteInterface;
 use IteratorAggregate;
 use Traversable;
 
+/**
+ * @implements IteratorAggregate<ColorInterface>
+ */
 class Palette implements PaletteInterface, Countable, IteratorAggregate
 {
     /**
@@ -38,6 +43,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
     /**
      * Get colors of palette.
      *
+     * @throws PaletteException
      * @return array<ColorInterface>
      */
     public function colors(): array
@@ -53,6 +59,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
     /**
      * Implementation of IteratorAggregate.
      *
+     * @throws PaletteException
      * @return Traversable<ColorInterface>
      */
     public function getIterator(): Traversable
@@ -64,6 +71,8 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
      * {@inheritdoc}
      *
      * @see PaletteInterface::first()
+     *
+     * @throws PaletteException
      */
     public function first(): ?ColorInterface
     {
@@ -76,6 +85,8 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
      * {@inheritdoc}
      *
      * @see PaletteInterface::last()
+     *
+     * @throws PaletteException
      */
     public function last(): ?ColorInterface
     {
@@ -92,12 +103,21 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
      * {@inheritdoc}
      *
      * @see PaletteInterface::count()
+     *
+     * @throws PaletteException
      */
     public function count(): int
     {
         return count($this->extractedColors());
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see PaletteInterface::toColorspace()
+     *
+     * @throws PaletteException
+     */
     public function toColorspace(string|ColorspaceInterface $colorspace): PaletteInterface
     {
         $palette = clone $this;
@@ -114,6 +134,8 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
      * {@inheritdoc}
      *
      * @see PaletteInterface::dominant()
+     *
+     * @throws PaletteException
      */
     public function dominant(int $maxColors = 8): PaletteInterface
     {
@@ -124,6 +146,8 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
      * {@inheritdoc}
      *
      * @see PaletteInterface::vibrant()
+     *
+     * @throws ColorException
      */
     public function vibrant(): ?ColorInterface
     {
@@ -134,6 +158,8 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
      * {@inheritdoc}
      *
      * @see PaletteInterface::muted()
+     *
+     * @throws ColorException
      */
     public function muted(): ?ColorInterface
     {
@@ -144,6 +170,8 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
      * {@inheritdoc}
      *
      * @see PaletteInterface::darkVibrant()
+     *
+     * @throws ColorException
      */
     public function darkVibrant(): ?ColorInterface
     {
@@ -154,6 +182,8 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
      * {@inheritdoc}
      *
      * @see PaletteInterface::lightVibrant()
+     *
+     * @throws ColorException
      */
     public function lightVibrant(): ?ColorInterface
     {
@@ -164,6 +194,8 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
      * {@inheritdoc}
      *
      * @see PaletteInterface::darkMuted()
+     *
+     * @throws ColorException
      */
     public function darkMuted(): ?ColorInterface
     {
@@ -174,6 +206,8 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
      * {@inheritdoc}
      *
      * @see PaletteInterface::lightMuted()
+     *
+     * @throws ColorException
      */
     public function lightMuted(): ?ColorInterface
     {
@@ -184,6 +218,8 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
      * {@inheritdoc}
      *
      * @see PaletteInterface::toArray()
+     *
+     * @throws PaletteException
      */
     public function toArray(): array
     {
@@ -192,6 +228,8 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
 
     /**
      * Get color classifier for current palette.
+     *
+     * @throws PaletteException
      */
     private function classifier(): Classifier
     {
@@ -201,12 +239,19 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
     /**
      * Extract colors from image if we've not already done so.
      *
+     * @throws PaletteException
      * @return array<QuantizedColor>
      */
     private function extractedColors(): array
     {
         if ($this->colors === null) {
-            $this->colors = $this->image->analyze($this->extractionStrategy);
+            $colors = $this->image->analyze($this->extractionStrategy);
+
+            if (!is_array($colors)) {
+                throw new PaletteException('Failed to extract colors');
+            }
+
+            $this->colors = $colors;
         }
 
         return $this->colors;

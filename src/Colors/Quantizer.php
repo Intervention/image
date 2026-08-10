@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors;
 
+use DivisionByZeroError;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 
@@ -14,6 +17,9 @@ class Quantizer
     public const int QUANTIZATION_LEVEL_MAX = 256;
     public const int QUANTIZATION_LEVEL_DEFAULT = 16;
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function __construct(protected int $levels = self::QUANTIZATION_LEVEL_DEFAULT)
     {
         if ($this->levels < self::QUANTIZATION_LEVEL_MIN || $this->levels > self::QUANTIZATION_LEVEL_MAX) {
@@ -27,26 +33,32 @@ class Quantizer
 
     /**
      * Return a quantized version of the given color.
+     *
+     * @throws ColorException
      */
     public function quantizeColor(ColorInterface $color): QuantizedColor
     {
-        // preserve alpha unquantized
-        $alpha = $color->alpha()->normalized();
+        try {
+            // preserve alpha unquantized
+            $alpha = $color->alpha()->normalized();
 
-        $normalized = array_map(
-            fn(ColorChannelInterface $channel): float => $channel->normalized(),
-            $color->channels(),
-        );
+            $normalized = array_map(
+                fn(ColorChannelInterface $channel): float => $channel->normalized(),
+                $color->channels(),
+            );
 
-        $quantized = array_map(
-            fn(float $normalized): int => $this->normalizedToBinIndex($normalized),
-            $normalized,
-        );
+            $quantized = array_map(
+                fn(float $normalized): int => $this->normalizedToBinIndex($normalized),
+                $normalized,
+            );
 
-        $dequantized = array_map(
-            fn(int $quantized): float => $this->binIndexToNormalized($quantized),
-            $quantized,
-        );
+            $dequantized = array_map(
+                fn(int $quantized): float => $this->binIndexToNormalized($quantized),
+                $quantized,
+            );
+        } catch (InvalidArgumentException | RuntimeException $e) {
+            throw new ColorException('Failed to quantize color', previous: $e);
+        }
 
         // apply preserve alpha
         $dequantized[3] = $alpha;
@@ -56,6 +68,8 @@ class Quantizer
 
     /**
      * Convert a normalized value [0, 1] to a bin index.
+     *
+     * @throws InvalidArgumentException
      */
     private function normalizedToBinIndex(float $value): int
     {
@@ -71,11 +85,17 @@ class Quantizer
 
     /**
      * Convert a bin index to the center value of that bin.
+     *
+     * @throws RuntimeException
      */
     private function binIndexToNormalized(int $bin): float
     {
         $bin = max(0, min($this->levels - 1, $bin));
 
-        return ($bin + 0.5) / $this->levels;
+        try {
+            return ($bin + 0.5) / $this->levels;
+        } catch (DivisionByZeroError) {
+            throw new RuntimeException('Division by zero');
+        }
     }
 }

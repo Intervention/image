@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Analyzers;
 
+use DivisionByZeroError;
 use Intervention\Image\Colors\Oklab\Color as OklabColor;
 use Intervention\Image\Colors\Oklab\Colorspace as Oklab;
 use Intervention\Image\Colors\QuantizedColor;
+use Intervention\Image\Exceptions\AnalyzerException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
@@ -57,8 +60,8 @@ class DominantPaletteAnalyzer extends QuantizedPaletteAnalyzer
             iterator_to_array($pixels),
         );
 
-        // perform K-means clustering
-        $clusters = $this->kMeansClustering($pixels);
+        // @phpstan-ignore argument.type
+        $clusters = $this->kMeansClustering($pixels); // perform K-means clustering
 
         // convert centroids back to original colorspace
         $dominantColors = [];
@@ -72,14 +75,21 @@ class DominantPaletteAnalyzer extends QuantizedPaletteAnalyzer
             }
 
             // convert back to the original image colorspace
-            $dominantColors[] = new QuantizedColor(
-                $cluster['centroid']->toColorspace($image->colorspace()),
-                $cluster['size'],
-            );
+            try {
+                $dominantColors[] = new QuantizedColor(
+                    $cluster['centroid']->toColorspace($image->colorspace()),
+                    $cluster['size'],
+                );
+            } catch (InvalidArgumentException $e) {
+                throw new AnalyzerException('Failed to analyze dominant color palette', previous: $e);
+            }
         }
 
         // sort by population desc
-        uasort($dominantColors, fn(QuantizedColor $a, QuantizedColor $b): int => $b->population <=> $a->population);
+        uasort(
+            $dominantColors,
+            fn(QuantizedColor $a, QuantizedColor $b): int => $b->population <=> $a->population,
+        );
 
         return $dominantColors;
     }
@@ -88,7 +98,8 @@ class DominantPaletteAnalyzer extends QuantizedPaletteAnalyzer
      * Perform K-means clustering on Oklab pixel data.
      *
      * @param array<OklabColor> $pixels
-     * @return array<array{centroid: array<OklabColor>, size: int}>
+     * @throws AnalyzerException
+     * @return array<array{centroid: OklabColor, size: int}>
      */
     private function kMeansClustering(array $pixels): array
     {
@@ -135,6 +146,7 @@ class DominantPaletteAnalyzer extends QuantizedPaletteAnalyzer
      * Initialize centroids using K-means++ algorithm for better starting positions.
      *
      * @param array<OklabColor> $pixels
+     * @throws AnalyzerException
      * @return array<OklabColor>
      */
     private function initializeCentroids(array $pixels, int $k): array
@@ -164,7 +176,12 @@ class DominantPaletteAnalyzer extends QuantizedPaletteAnalyzer
             }
 
             // choose next centroid with weighted probability (deterministic with seed)
-            $target = (mt_rand() / mt_getrandmax()) * $sumDistances;
+            try {
+                $target = (mt_rand() / mt_getrandmax()) * $sumDistances;
+            } catch (DivisionByZeroError $e) {
+                throw new AnalyzerException('Failed to initialize centroids', previous: $e);
+            }
+
             $cumulative = 0.0;
             $chosenIndex = 0;
 
@@ -216,6 +233,7 @@ class DominantPaletteAnalyzer extends QuantizedPaletteAnalyzer
      *
      * @param array<OklabColor> $pixels
      * @param array<int> $assignments
+     * @throws AnalyzerException
      * @return array<OklabColor>
      */
     private function updateCentroids(array $pixels, array $assignments, int $k): array
@@ -248,11 +266,15 @@ class DominantPaletteAnalyzer extends QuantizedPaletteAnalyzer
                 }
 
                 $count = count($clusterPixels);
-                $centroids[$i] = new OklabColor(
-                    $sumL / $count,
-                    $sumA / $count,
-                    $sumB / $count,
-                );
+                try {
+                    $centroids[$i] = new OklabColor(
+                        $sumL / $count,
+                        $sumA / $count,
+                        $sumB / $count,
+                    );
+                } catch (InvalidArgumentException $e) {
+                    throw new AnalyzerException('Failed to update centroids', previous: $e);
+                }
             }
         }
 

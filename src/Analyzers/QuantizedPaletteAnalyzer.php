@@ -7,6 +7,9 @@ namespace Intervention\Image\Analyzers;
 use Generator;
 use Intervention\Image\Colors\QuantizedColor;
 use Intervention\Image\Colors\Quantizer;
+use Intervention\Image\Exceptions\AnalyzerException;
+use Intervention\Image\Exceptions\ColorException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -28,13 +31,18 @@ class QuantizedPaletteAnalyzer implements AnalyzerInterface
      *
      * @see AnalyzerInterface::analyze()
      *
+     * @throws AnalyzerException
      * @return array<QuantizedColor>
      */
     public function analyze(ImageInterface $image): array
     {
         $pixels = $this->collectPixels($image);
 
-        return $this->quantizePixels($pixels, $this->quantizationLevel($image));
+        try {
+            return $this->quantizePixels($pixels, $this->quantizationLevel($image));
+        } catch (InvalidArgumentException $e) {
+            throw new AnalyzerException('Failed to analyze image pixels', previous: $e);
+        }
     }
 
     /**
@@ -57,6 +65,8 @@ class QuantizedPaletteAnalyzer implements AnalyzerInterface
     /**
      * Quantize pixel colors.
      *
+     * @throws InvalidArgumentException
+     * @throws AnalyzerException
      * @return array<QuantizedColor>
      */
     protected function quantizePixels(Generator $pixels, int $quantizationLevel = 8): array
@@ -64,7 +74,11 @@ class QuantizedPaletteAnalyzer implements AnalyzerInterface
         $pixelMap = [];
         $quantizer = new Quantizer($quantizationLevel);
         foreach ($pixels as $color) {
-            $color = $quantizer->quantizeColor($color);
+            try {
+                $color = $quantizer->quantizeColor($color);
+            } catch (ColorException $e) {
+                throw new AnalyzerException('Failed to quantize color', previous: $e);
+            }
             $key = $color->hash();
 
             if (!isset($pixelMap[$key])) {
@@ -105,7 +119,8 @@ class QuantizedPaletteAnalyzer implements AnalyzerInterface
      */
     protected function sampleCoordinates(SizeInterface $size): Generator
     {
-        [$width, $height] = $size;
+        $width = $size->width();
+        $height = $size->height();
         $totalPixels = $width * $height;
 
         $sampleRate = match (true) {

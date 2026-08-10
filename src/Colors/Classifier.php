@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors;
 
+use DivisionByZeroError;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Hsl\Colorspace as Hsl;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Interfaces\ColorInterface;
+use RuntimeException;
 
 class Classifier
 {
@@ -53,38 +56,58 @@ class Classifier
         //
     }
 
+    /**
+     * @throws ColorException
+     */
     public function vibrant(): ?ColorInterface
     {
         return $this->findBestColor(self::VIBRANT);
     }
 
+    /**
+     * @throws ColorException
+     */
     public function muted(): ?ColorInterface
     {
         return $this->findBestColor(self::MUTED);
     }
 
+    /**
+     * @throws ColorException
+     */
     public function darkVibrant(): ?ColorInterface
     {
         return $this->findBestColor(self::DARK_VIBRANT);
     }
 
+    /**
+     * @throws ColorException
+     */
     public function darkMuted(): ?ColorInterface
     {
         return $this->findBestColor(self::DARK_MUTED);
     }
 
+    /**
+     * @throws ColorException
+     */
     public function lightVibrant(): ?ColorInterface
     {
         return $this->findBestColor(self::LIGHT_VIBRANT);
     }
 
+    /**
+     * @throws ColorException
+     */
     public function lightMuted(): ?ColorInterface
     {
         return $this->findBestColor(self::LIGHT_MUTED);
     }
 
     /**
-     * Find the best color for a specific category
+     * Find the best color for a specific category.
+     *
+     * @throws ColorException
      */
     private function findBestColor(string $category): ?ColorInterface
     {
@@ -94,17 +117,24 @@ class Classifier
 
         foreach ($this->colors as $color) {
             $hslColor = $color->toColorspace(Hsl::class);
+            if (!$hslColor instanceof HslColor) {
+                throw new ColorException('Unable to find best color, failed to transform color space for comparision');
+            }
 
             if (!$this->isColorInCategory($hslColor, $category)) {
                 continue;
             }
 
-            $score = $this->calculateScore(
-                $hslColor,
-                $color->population,
-                $totalPopulation,
-                $category,
-            );
+            try {
+                $score = $this->calculateScore(
+                    $hslColor,
+                    $color->population,
+                    $totalPopulation,
+                    $category,
+                );
+            } catch (RuntimeException $e) {
+                throw new ColorException('Unable to find best color, failed to calculate score', previous: $e);
+            }
 
             if ($score > $bestScore) {
                 $bestScore = $score;
@@ -112,9 +142,12 @@ class Classifier
             }
         }
 
-        return $bestColor->color;
+        return $bestColor === null ? $bestColor : $bestColor->color;
     }
 
+    /**
+     * Count total color population.
+     */
     private function totalPopulation(): int
     {
         $samplePopulation = 0;
@@ -167,6 +200,8 @@ class Classifier
 
     /**
      * Calculate score for a color based on category targets.
+     *
+     * @throws RuntimeException
      */
     private function calculateScore(
         HslColor $color,
@@ -176,7 +211,12 @@ class Classifier
     ): float {
         $saturation = $color->saturation()->value() / 100.0;
         $lightness = $color->luminance()->value() / 100.0;
-        $populationRatio = $population / $totalPopulation;
+
+        try {
+            $populationRatio = $population / $totalPopulation;
+        } catch (DivisionByZeroError) {
+            throw new RuntimeException('Division by zero');
+        }
 
         // get target values for this category
         [$targetSaturation, $targetLightness] = $this->getCategoryTargets($category);

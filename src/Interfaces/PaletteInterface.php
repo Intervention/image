@@ -36,7 +36,7 @@ interface PaletteInterface extends Traversable
     /**
      * Get a version of the palette that contains the visually most dominant colors.
      */
-    public function dominant(int $maxColors = 16): self;
+    public function dominant(int $maxColors = 8): self;
 
     /**
      * Try to find the best "vibrant" color in the palette.

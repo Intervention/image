@@ -9,6 +9,7 @@ use Countable;
 use Intervention\Image\Analyzers\QuantizedPaletteAnalyzer;
 use Intervention\Image\Analyzers\DominantPaletteAnalyzer;
 use Intervention\Image\Exceptions\ColorException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\PaletteException;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -135,6 +136,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
      *
      * @see PaletteInterface::dominant()
      *
+     * @throws InvalidArgumentException
      * @throws PaletteException
      */
     public function dominant(int $maxColors = 8): PaletteInterface

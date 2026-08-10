@@ -37,10 +37,14 @@ class DominantPaletteAnalyzer extends QuantizedPaletteAnalyzer
 
     /**
      * Create new instance.
+     *
+     * @throws InvalidArgumentException
      */
-    public function __construct(protected int $maxColors = 16)
+    public function __construct(protected int $maxColors = 8)
     {
-        $this->maxColors = max(1, $maxColors);
+        if ($this->maxColors < 1) {
+            throw new InvalidArgumentException('Invalid value for $maxColors. Must be int<1, max>');
+        }
     }
 
     /**

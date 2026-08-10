@@ -71,6 +71,7 @@ class DominantPaletteAnalyzer extends QuantizedPaletteAnalyzer
         $dominantColors = [];
         $totalPixels = count($pixels);
         $minClusterSize = ($totalPixels * self::MIN_CLUSTER_SIZE_PERCENT) / 100;
+        $colorspace = $image->colorspace();
 
         foreach ($clusters as $cluster) {
             // filter out very small clusters
@@ -78,10 +79,10 @@ class DominantPaletteAnalyzer extends QuantizedPaletteAnalyzer
                 continue;
             }
 
-            // convert back to the original image colorspace
             try {
+                // convert back to the original image colorspace
                 $dominantColors[] = new QuantizedColor(
-                    $cluster['centroid']->toColorspace($image->colorspace()),
+                    $cluster['centroid']->toColorspace($colorspace),
                     $cluster['size'],
                 );
             } catch (InvalidArgumentException $e) {

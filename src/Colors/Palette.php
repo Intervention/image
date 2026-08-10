@@ -52,7 +52,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
         return array_values(
             array_map(
                 fn(QuantizedColor $paletteColor): ColorInterface => $paletteColor->color,
-                $this->extractedColors(),
+                $this->lazyColorExtraction(),
             ),
         );
     }
@@ -109,7 +109,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
      */
     public function count(): int
     {
-        return count($this->extractedColors());
+        return count($this->lazyColorExtraction());
     }
 
     /**
@@ -125,7 +125,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
 
         $palette->colors = array_map(
             fn(QuantizedColor $color): QuantizedColor => new QuantizedColor($color->toColorspace($colorspace)),
-            $palette->extractedColors(),
+            $palette->lazyColorExtraction(),
         );
 
         return $palette;
@@ -235,7 +235,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
      */
     private function classifier(): Classifier
     {
-        return new Classifier($this->extractedColors());
+        return new Classifier($this->lazyColorExtraction());
     }
 
     /**
@@ -244,7 +244,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
      * @throws PaletteException
      * @return array<QuantizedColor>
      */
-    private function extractedColors(): array
+    private function lazyColorExtraction(): array
     {
         if ($this->colors === null) {
             $colors = $this->image->analyze($this->extractionStrategy);

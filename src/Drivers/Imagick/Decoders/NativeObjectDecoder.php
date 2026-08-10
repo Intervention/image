@@ -46,6 +46,12 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
             throw new InvalidArgumentException('Image source must be an instance of Imagick');
         }
 
+        try {
+            $originalMimeType = $input->getImageMimeType();
+        } catch (ImagickException $e) {
+            throw new ImageDecoderException('Failed to retrieve image media type', previous: $e);
+        }
+
         // For some JPEG formats, the "coalesceImages()" call leads to an image
         // completely filled with background color. The logic behind this is
         // incomprehensible for me; could be an imagick bug.
@@ -106,11 +112,7 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
         }
 
         // set media type on origin
-        try {
-            $image->origin()->setMediaType($input->getImageMimeType());
-        } catch (ImagickException $e) {
-            throw new ImageDecoderException('Failed to retrieve image media type', previous: $e);
-        }
+        $image->origin()->setMediaType($originalMimeType);
 
         return $image;
     }

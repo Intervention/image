@@ -15,6 +15,18 @@ use Intervention\Image\Interfaces\SizeInterface;
 class QuantizedPaletteAnalyzer implements AnalyzerInterface
 {
     /**
+     * Create instance.
+     */
+    public function __construct(protected ?int $quantizationLevel = null)
+    {
+        //
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see AnalyzerInterface::analyze()
+     *
      * @return array<PaletteColor>
      */
     public function analyze(ImageInterface $image): array
@@ -72,6 +84,10 @@ class QuantizedPaletteAnalyzer implements AnalyzerInterface
      */
     protected function quantizationLevel(ImageInterface $image): int
     {
+        if ($this->quantizationLevel !== null) {
+            return $this->quantizationLevel;
+        }
+
         $colorCount = $image->analyze(new ColorCountAnalyzer());
 
         if ($colorCount === null) {

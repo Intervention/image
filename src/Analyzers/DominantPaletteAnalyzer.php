@@ -79,7 +79,7 @@ class DominantPaletteAnalyzer extends QuantizedPaletteAnalyzer
         }
 
         // sort by population desc
-        usort($dominantColors, fn(PaletteColor $a, PaletteColor $b): int => $b->population <=> $a->population);
+        uasort($dominantColors, fn(PaletteColor $a, PaletteColor $b): int => $b->population <=> $a->population);
 
         return $dominantColors;
     }

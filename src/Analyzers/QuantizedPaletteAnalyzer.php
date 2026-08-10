@@ -62,7 +62,7 @@ class QuantizedPaletteAnalyzer implements AnalyzerInterface
         }
 
         // sort by population desc
-        usort($pixelMap, fn(PaletteColor $a, PaletteColor $b): int => $b->population <=> $a->population);
+        uasort($pixelMap, fn(PaletteColor $a, PaletteColor $b): int => $b->population <=> $a->population);
 
         return $pixelMap;
     }

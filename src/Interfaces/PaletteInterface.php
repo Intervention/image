@@ -15,7 +15,12 @@ interface PaletteInterface extends Traversable
     /**
      * Get first color of palette.
      */
-    public function first(): PaletteColor;
+    public function first(): ?PaletteColor;
+
+    /**
+     * Get last color of palette.
+     */
+    public function last(): ?PaletteColor;
 
     /**
      * Return number of colors in palette.
@@ -27,11 +32,6 @@ interface PaletteInterface extends Traversable
      */
     public function dominant(int $maxColors = 16): self;
 
-    /**
-     * Determine if the given color is part of the palette.
-     */
-    public function hasColor(ColorInterface $color): bool;
-
     // public function toColorspace(string|ColorspaceInterface): self;
-    // public function last(): ColorInterface;
+    // public function map(callable $callback): self;
 }

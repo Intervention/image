@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Colors;
 
+use Intervention\Image\Analyzers\DominantPaletteAnalyzer;
+use Intervention\Image\Analyzers\QuantizedPaletteAnalyzer;
+use Intervention\Image\Colors\Cmyk\Color as CmykColor;
+use Intervention\Image\Colors\Cmyk\Colorspace as Cmyk;
 use Intervention\Image\Colors\Palette;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DriverInterface;
+use Intervention\Image\Interfaces\PaletteInterface;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Providers\DriverProvider;
 use Intervention\Image\Tests\Resource;
@@ -17,12 +22,24 @@ use PHPUnit\Framework\Attributes\DataProviderExternal;
 class PaletteTest extends BaseTestCase
 {
     #[DataProviderExternal(DriverProvider::class, 'drivers')]
+    public function testExtractionStrategy(DriverInterface $driver): void
+    {
+        $image = Resource::create('gradient.gif')->imageObject($driver);
+        $palette = new Palette($image, new QuantizedPaletteAnalyzer());
+        $this->assertCount(14, $palette);
+
+        $palette = new Palette($image, new DominantPaletteAnalyzer(6));
+        $this->assertCount(6, $palette);
+    }
+
+    #[DataProviderExternal(DriverProvider::class, 'drivers')]
     public function testCountableIteration(DriverInterface $driver): void
     {
         $image = Resource::create('red.gif')->imageObject($driver);
         $palette = new Palette($image);
 
         $this->assertCount(1, $palette);
+        $this->assertCount(1, $palette->toArray());
 
         foreach ($palette->colors() as $color) {
             $this->assertInstanceOf(ColorInterface::class, $color);
@@ -40,6 +57,17 @@ class PaletteTest extends BaseTestCase
         $palette = new Palette($image);
         $this->assertInstanceOf(ColorInterface::class, $palette->first());
         $this->assertInstanceOf(ColorInterface::class, $palette->last());
+    }
+
+    #[DataProviderExternal(DriverProvider::class, 'drivers')]
+    public function testToColorspace(DriverInterface $driver): void
+    {
+        $image = Resource::create('red.gif')->imageObject($driver);
+        $result = (new Palette($image))->toColorspace(Cmyk::class);
+        $this->assertInstanceOf(PaletteInterface::class, $result);
+        foreach ($result as $color) {
+            $this->assertInstanceOf(CmykColor::class, $color);
+        }
     }
 
     #[DataProviderExternal(DriverProvider::class, 'drivers')]

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors;
 
-use Intervention\Image\Interfaces\PaletteInterface;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Hsl\Colorspace as Hsl;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -44,7 +43,12 @@ class Classifier
     private const WEIGHT_LIGHTNESS = 6.0;
     private const WEIGHT_POPULATION = 1.0;
 
-    public function __construct(protected PaletteInterface $palette)
+    /**
+     * Create instance.
+     *
+     * @param array<PaletteColor> $colors
+     */
+    public function __construct(protected array $colors)
     {
         //
     }
@@ -86,9 +90,9 @@ class Classifier
     {
         $bestScore = 0.0;
         $bestColor = null;
-        $totalPopulation = $this->samplePopulation();
+        $totalPopulation = $this->totalPopulation();
 
-        foreach ($this->palette as $color) {
+        foreach ($this->colors as $color) {
             $hslColor = $color->toColorspace(Hsl::class);
 
             if (!$this->isColorInCategory($hslColor, $category)) {
@@ -111,10 +115,10 @@ class Classifier
         return $bestColor;
     }
 
-    private function samplePopulation(): int
+    private function totalPopulation(): int
     {
         $samplePopulation = 0;
-        foreach ($this->palette as $color) {
+        foreach ($this->colors as $color) {
             $samplePopulation += $color->population;
         }
 

@@ -12,6 +12,13 @@ use Traversable;
 interface PaletteInterface extends Traversable
 {
     /**
+     * Get colors of palette.
+     *
+     * @return array<ColorInterface>
+     */
+    public function colors(): array;
+
+    /**
      * Get first color of palette.
      */
     public function first(): ?ColorInterface;
@@ -31,6 +38,45 @@ interface PaletteInterface extends Traversable
      */
     public function dominant(int $maxColors = 16): self;
 
-    // public function toColorspace(string|ColorspaceInterface): self;
-    // public function map(callable $callback): self;
+    /**
+     * Try to find the best "vibrant" color in the palette.
+     */
+    public function vibrant(): ?ColorInterface;
+
+    /**
+     * Try to find the best "muted" color in the palette.
+     */
+    public function muted(): ?ColorInterface;
+
+    /**
+     * Try to find the best "dark vibrant" color in the palette.
+     */
+    public function darkVibrant(): ?ColorInterface;
+
+    /**
+     * Try to find the best "light vibrant" color in the palette.
+     */
+    public function lightVibrant(): ?ColorInterface;
+
+    /**
+     * Try to find the best "dark muted" color in the palette.
+     */
+    public function darkMuted(): ?ColorInterface;
+
+    /**
+     * Try to find the best "light muted" color in the palette.
+     */
+    public function lightMuted(): ?ColorInterface;
+
+    /**
+     * Transform colors of palette to given color space.
+     */
+    public function toColorspace(string|ColorspaceInterface $colorspace): self;
+
+    /**
+     * Transform collection as array.
+     *
+     * @return array<ColorInterface>
+     */
+    public function toArray(): array;
 }

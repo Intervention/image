@@ -8,7 +8,6 @@ use ArrayIterator;
 use Countable;
 use Intervention\Image\Analyzers\QuantizedPaletteAnalyzer;
 use Intervention\Image\Analyzers\DominantPaletteAnalyzer;
-use Intervention\Image\Color;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -38,21 +37,26 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
     /**
      * Get colors of palette.
      *
-     * @return array<PaletteColor>
+     * @return array<ColorInterface>
      */
     public function colors(): array
     {
-        return $this->extractedColors();
+        return array_values(
+            array_map(
+                fn(PaletteColor $paletteColor): ColorInterface => $paletteColor->color,
+                $this->extractedColors(),
+            ),
+        );
     }
 
     /**
      * Implementation of IteratorAggregate.
      *
-     * @return Traversable<PaletteColor>
+     * @return Traversable<ColorInterface>
      */
     public function getIterator(): Traversable
     {
-        return new ArrayIterator(array_values($this->colors()));
+        return new ArrayIterator($this->colors());
     }
 
     /**
@@ -62,7 +66,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
      */
     public function first(): ?PaletteColor
     {
-        $colors = $this->extractedColors();
+        $colors = $this->colors();
 
         return reset($colors);
     }
@@ -74,7 +78,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
      */
     public function last(): ?PaletteColor
     {
-        $colors = $this->extractedColors();
+        $colors = $this->colors();
 
         if (count($colors) === 0) {
             return null;

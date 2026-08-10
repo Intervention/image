@@ -13,7 +13,7 @@ class PaletteColor implements ColorInterface
     /**
      * Create instance.
      */
-    public function __construct(protected ColorInterface $color, public int $population = 0)
+    public function __construct(public ColorInterface $color, public int $population = 0)
     {
         //
     }

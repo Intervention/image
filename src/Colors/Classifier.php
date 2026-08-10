@@ -11,7 +11,7 @@ use Intervention\Image\Interfaces\ColorInterface;
 class Classifier
 {
     /**
-     * Classification categories.
+     * Color classification categories.
      */
     private const VIBRANT = 'vibrant';
     private const MUTED = 'muted';
@@ -46,7 +46,7 @@ class Classifier
     /**
      * Create instance.
      *
-     * @param array<PaletteColor> $colors
+     * @param array<QuantizedColor> $colors
      */
     public function __construct(protected array $colors)
     {
@@ -112,7 +112,7 @@ class Classifier
             }
         }
 
-        return $bestColor;
+        return $bestColor->color;
     }
 
     private function totalPopulation(): int

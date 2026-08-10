@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Analyzers;
 
 use Generator;
-use Intervention\Image\Colors\PaletteColor;
+use Intervention\Image\Colors\QuantizedColor;
 use Intervention\Image\Colors\Quantizer;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -15,7 +15,8 @@ use Intervention\Image\Interfaces\SizeInterface;
 class QuantizedPaletteAnalyzer implements AnalyzerInterface
 {
     /**
-     * Create instance.
+     * Create instance with quantization level ranging from 1
+     * to 256 (best quality) or null for auto detection.
      */
     public function __construct(protected ?int $quantizationLevel = null)
     {
@@ -27,7 +28,7 @@ class QuantizedPaletteAnalyzer implements AnalyzerInterface
      *
      * @see AnalyzerInterface::analyze()
      *
-     * @return array<PaletteColor>
+     * @return array<QuantizedColor>
      */
     public function analyze(ImageInterface $image): array
     {
@@ -56,7 +57,7 @@ class QuantizedPaletteAnalyzer implements AnalyzerInterface
     /**
      * Quantize pixel colors.
      *
-     * @return array<PaletteColor>
+     * @return array<QuantizedColor>
      */
     protected function quantizePixels(Generator $pixels, int $quantizationLevel = 8): array
     {
@@ -74,7 +75,7 @@ class QuantizedPaletteAnalyzer implements AnalyzerInterface
         }
 
         // sort by population desc
-        uasort($pixelMap, fn(PaletteColor $a, PaletteColor $b): int => $b->population <=> $a->population);
+        uasort($pixelMap, fn(QuantizedColor $a, QuantizedColor $b): int => $b->population <=> $a->population);
 
         return $pixelMap;
     }

@@ -6,7 +6,7 @@ namespace Intervention\Image\Analyzers;
 
 use Intervention\Image\Colors\Oklab\Color as OklabColor;
 use Intervention\Image\Colors\Oklab\Colorspace as Oklab;
-use Intervention\Image\Colors\PaletteColor;
+use Intervention\Image\Colors\QuantizedColor;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
@@ -41,7 +41,7 @@ class DominantPaletteAnalyzer extends QuantizedPaletteAnalyzer
     }
 
     /**
-     * @return array<PaletteColor>
+     * @return array<QuantizedColor>
      */
     public function analyze(ImageInterface $image): array
     {
@@ -72,14 +72,14 @@ class DominantPaletteAnalyzer extends QuantizedPaletteAnalyzer
             }
 
             // convert back to the original image colorspace
-            $dominantColors[] = new PaletteColor(
+            $dominantColors[] = new QuantizedColor(
                 $cluster['centroid']->toColorspace($image->colorspace()),
                 $cluster['size'],
             );
         }
 
         // sort by population desc
-        uasort($dominantColors, fn(PaletteColor $a, PaletteColor $b): int => $b->population <=> $a->population);
+        uasort($dominantColors, fn(QuantizedColor $a, QuantizedColor $b): int => $b->population <=> $a->population);
 
         return $dominantColors;
     }

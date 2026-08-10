@@ -21,7 +21,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
     /**
      * Colors in palette.
      *
-     * @var null|array<PaletteColor>
+     * @var null|array<QuantizedColor>
      */
     protected ?array $colors = null;
 
@@ -44,7 +44,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
     {
         return array_values(
             array_map(
-                fn(PaletteColor $paletteColor): ColorInterface => $paletteColor->color,
+                fn(QuantizedColor $paletteColor): ColorInterface => $paletteColor->color,
                 $this->extractedColors(),
             ),
         );
@@ -103,7 +103,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
         $palette = clone $this;
 
         $palette->colors = array_map(
-            fn(PaletteColor $color): PaletteColor => new PaletteColor($color->toColorspace($colorspace)),
+            fn(QuantizedColor $color): QuantizedColor => new QuantizedColor($color->toColorspace($colorspace)),
             $palette->extractedColors(),
         );
 
@@ -115,7 +115,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
      *
      * @see PaletteInterface::dominant()
      */
-    public function dominant(int $maxColors = 16): PaletteInterface
+    public function dominant(int $maxColors = 8): PaletteInterface
     {
         return new self($this->image, new DominantPaletteAnalyzer($maxColors));
     }
@@ -201,7 +201,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
     /**
      * Extract colors from image if we've not already done so.
      *
-     * @return array<PaletteColor>
+     * @return array<QuantizedColor>
      */
     private function extractedColors(): array
     {

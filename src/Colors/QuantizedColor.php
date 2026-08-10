@@ -8,7 +8,7 @@ use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 
-class PaletteColor implements ColorInterface
+class QuantizedColor implements ColorInterface
 {
     /**
      * Create instance.

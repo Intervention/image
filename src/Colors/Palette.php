@@ -30,21 +30,41 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
         //
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ArrayAccess::offsetExists()
+     */
     public function offsetExists(mixed $offset): bool
     {
         return array_key_exists($offset, $this->colors);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ArrayAccess::offsetGet()
+     */
     public function offsetGet(mixed $offset): ColorInterface
     {
         return $this->colors[$offset];
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ArrayAccess::offsetSet()
+     */
     public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->colors[$offset] = $value;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see ArrayAccess::offsetUnset()
+     */
     public function offsetUnset(mixed $offset): void
     {
         unset($this->colors[$offset]);

@@ -32,9 +32,12 @@ class Quantizer
         }
     }
 
-    // todo: calibrate limit to level transformation
+    /**
+     * @throws InvalidArgumentException
+     */
     public static function usingColorLimit(int $limit): self
     {
+        // todo: calibrate limit to level transformation
         return new self(match (true) {
             $limit <= 16 => 4,
             $limit <= 32 => 6,
@@ -85,6 +88,7 @@ class Quantizer
 
     /**
      * @param array<ColorInterface> $colors
+     * @throws AnalyzerException
      * @return array<RatedColor>
      */
     public function quantizeColors(array $colors): array

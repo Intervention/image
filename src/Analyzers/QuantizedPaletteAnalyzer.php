@@ -49,6 +49,11 @@ class QuantizedPaletteAnalyzer extends AbstractPaletteAnalyzer implements Analyz
         return $colors;
     }
 
+    /**
+     * Build quantizer according to image and current limit.
+     *
+     * @throws InvalidArgumentException
+     */
     private function quantizer(ImageInterface $image): Quantizer
     {
         $colorCount = $image->analyze(new ColorCountAnalyzer());

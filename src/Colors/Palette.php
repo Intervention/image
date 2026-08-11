@@ -150,6 +150,8 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      * {@inheritdoc}
      *
      * @see PaletteInterface::sortByChannel()
+     *
+     * @throws InvalidArgumentException
      */
     public function sortByChannel(string|ColorChannelInterface $channel): PaletteInterface
     {
@@ -217,9 +219,12 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      * {@inheritdoc}
      *
      * @see PaletteInterface::sortByChannelDesc()
+     *
+     * @throws InvalidArgumentException
      */
     public function sortByChannelDesc(string|ColorChannelInterface $channel): PaletteInterface
     {
+        // @phpstan-ignore property.notFound
         $this->colors = array_reverse($this->sortByChannel($channel)->colors);
 
         return $this;

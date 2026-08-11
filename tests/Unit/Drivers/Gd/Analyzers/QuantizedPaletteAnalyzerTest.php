@@ -18,21 +18,21 @@ use PHPUnit\Framework\Attributes\DataProvider;
 final class QuantizedPaletteAnalyzerTest extends BaseTestCase
 {
     #[DataProvider('colorCountProvider')]
-    public function testAnalyze(string $filename, ?int $level, ?int $count): void
+    public function testAnalyze(string $filename, int $limit, int $count): void
     {
         $image = Resource::create($filename)->imageObject(new Driver());
-        $analyzer = new QuantizedPaletteAnalyzer($level);
+        $analyzer = new QuantizedPaletteAnalyzer($limit);
         $result = $analyzer->analyze($image);
         $this->assertCount($count, $result);
     }
 
     public static function colorCountProvider(): Generator
     {
-        yield ['rgb.png', null, 682];
-        yield ['rgb.png', 32, 1261];
-        yield ['rgb.png', 8, 182];
+        yield ['rgb.png', 256, 256];
+        yield ['rgb.png', 32, 32];
+        yield ['rgb.png', 8, 8];
 
-        yield ['blocks.png', null, 3];
-        yield ['red.gif', null, 1];
+        yield ['blocks.png', 256, 3];
+        yield ['red.gif', 32, 1];
     }
 }

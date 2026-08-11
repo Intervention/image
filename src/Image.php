@@ -11,7 +11,7 @@ use Intervention\Image\Analyzers\PixelColorsAnalyzer;
 use Intervention\Image\Analyzers\ProfileAnalyzer;
 use Intervention\Image\Analyzers\ResolutionAnalyzer;
 use Intervention\Image\Analyzers\WidthAnalyzer;
-use Intervention\Image\Colors\Palette;
+use Intervention\Image\Colors\ColorExtractor;
 use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\Encoders\FileExtensionEncoder;
 use Intervention\Image\Encoders\FilePathEncoder;
@@ -42,6 +42,7 @@ use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\CollectionInterface;
+use Intervention\Image\Interfaces\ColorExtractorInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\CoreInterface;
@@ -54,7 +55,6 @@ use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\OriginInterface;
-use Intervention\Image\Interfaces\PaletteInterface;
 use Intervention\Image\Interfaces\ProfileInterface;
 use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -1213,11 +1213,11 @@ final class Image implements ImageInterface
     }
 
     /**
-     * Get unique colors of image.
+     * Get color extractor.
      */
-    public function colors(): PaletteInterface
+    public function colors(): ColorExtractorInterface
     {
-        return new Palette($this);
+        return new ColorExtractor($this);
     }
 
     /**

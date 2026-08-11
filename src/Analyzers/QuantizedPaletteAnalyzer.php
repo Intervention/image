@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Analyzers;
 
 use Generator;
-use Intervention\Image\Colors\QuantizedColor;
+use Intervention\Image\Colors\RatedColor;
 use Intervention\Image\Colors\Quantizer;
 use Intervention\Image\Exceptions\AnalyzerException;
 use Intervention\Image\Exceptions\ColorException;
@@ -13,17 +13,19 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\SizeInterface;
 
-class QuantizedPaletteAnalyzer implements AnalyzerInterface
+class QuantizedPaletteAnalyzer extends AbstractPaletteAnalyzer implements AnalyzerInterface
 {
     /**
-     * Create instance with quantization level ranging from 1
-     * to 256 (best quality) or null for auto detection.
+     * Create new instance.
+     *
+     * @throws InvalidArgumentException
      */
-    public function __construct(protected ?int $quantizationLevel = null)
+    public function __construct(protected int $limit = 256)
     {
-        //
+        if ($this->limit < 1) {
+            throw new InvalidArgumentException('Invalid $limit value. Must be int<1, max>');
+        }
     }
 
     /**
@@ -32,50 +34,41 @@ class QuantizedPaletteAnalyzer implements AnalyzerInterface
      * @see AnalyzerInterface::analyze()
      *
      * @throws AnalyzerException
-     * @return array<QuantizedColor>
+     * @return array<RatedColor>
      */
     public function analyze(ImageInterface $image): array
     {
-        $pixels = $this->collectPixels($image);
-
         try {
-            return $this->quantizePixels($pixels, $this->quantizationLevel($image));
+            $colors = $this->quantizeColors(
+                $this->collectColors($image),
+                $this->quantizationLevel($image),
+            );
         } catch (InvalidArgumentException $e) {
             throw new AnalyzerException('Failed to analyze image pixels', previous: $e);
         }
-    }
 
-    /**
-     * Collect pixel data from the image.
-     *
-     * @return Generator<ColorInterface>
-     */
-    protected function collectPixels(ImageInterface $image): Generator
-    {
-        foreach ($this->sampleCoordinates($image->size()) as $coordinate) {
-            $color = $image->colorAt(...$coordinate);
-            if ($color->isClear()) {
-                continue;
-            }
+        // sort by rating desc
+        uasort($colors, fn(RatedColor $a, RatedColor $b): int => $b->rating <=> $a->rating);
 
-            yield $color;
-        }
+        return array_slice($colors, 0, $this->limit);
     }
 
     /**
      * Quantize pixel colors.
      *
+     * @param Generator<ColorInterface> $colors
      * @throws InvalidArgumentException
      * @throws AnalyzerException
-     * @return array<QuantizedColor>
+     * @return array<RatedColor>
      */
-    protected function quantizePixels(Generator $pixels, int $quantizationLevel = 8): array
+    private function quantizeColors(Generator $colors, int $quantizationLevel = 8): array
     {
         $pixelMap = [];
         $quantizer = new Quantizer($quantizationLevel);
-        foreach ($pixels as $color) {
+
+        foreach ($colors as $color) {
             try {
-                $color = $quantizer->quantizeColor($color);
+                $color = new RatedColor($quantizer->quantizeColor($color));
             } catch (ColorException $e) {
                 throw new AnalyzerException('Failed to quantize color', previous: $e);
             }
@@ -85,56 +78,50 @@ class QuantizedPaletteAnalyzer implements AnalyzerInterface
                 $pixelMap[$key] = $color;
             }
 
-            $pixelMap[$key]->increasePopulation();
+            $pixelMap[$key]->increaseRating();
         }
-
-        // sort by population desc
-        uasort($pixelMap, fn(QuantizedColor $a, QuantizedColor $b): int => $b->population <=> $a->population);
 
         return $pixelMap;
     }
 
     /**
-     * Determine quantization level according to color count of given image.
+     * Determine quantization level according to color count of given image and limit of analyzer.
      */
-    protected function quantizationLevel(ImageInterface $image): int
+    private function quantizationLevel(ImageInterface $image): int
     {
-        if ($this->quantizationLevel !== null) {
-            return $this->quantizationLevel;
-        }
+        // 256 -> 1530
+        // 128 -> 1414
+        // 64 -> 1048
+        // 54 -> 946
+        // 32 -> 685
+        // 24 -> 541
+        // 18 -> 403
+        // 16 -> 343
+        // 12 -> 242
+        // 8 -> 134
+        // 7 -> 102
+        // 6 -> 85
+        // 5 -> 54
+        // 4 -> 35
+        // 3 -> 21
+        // 2 -> 7
 
         $colorCount = $image->analyze(new ColorCountAnalyzer());
 
-        if ($colorCount === null) {
-            return Quantizer::QUANTIZATION_LEVEL_DEFAULT;
+        if ($colorCount !== null && $colorCount < 256) {
+            return Quantizer::QUANTIZATION_LEVEL_MAX; // no quantization, slice to limit later
         }
 
-        return $colorCount < 256 ? Quantizer::QUANTIZATION_LEVEL_MAX : Quantizer::QUANTIZATION_LEVEL_DEFAULT;
-    }
-
-    /**
-     * Get dynamic grid of pixel sample coordinates according to current image size.
-     *
-     * @return Generator<array{x: int, y: int}>
-     */
-    protected function sampleCoordinates(SizeInterface $size): Generator
-    {
-        $width = $size->width();
-        $height = $size->height();
-        $totalPixels = $width * $height;
-
-        $sampleRate = match (true) {
-            $totalPixels <= 10000 => 1, // <= 10k pixels: sample all
-            $totalPixels <= 100000 => 5, // 10k-100k: every 5th pixel
-            $totalPixels <= 500000 => 10, // 100k-500k: every 10th pixel
-            $totalPixels <= 2000000 => 20, // 500k-2m: every 20th pixel
-            default => 30, // > 2m: every 30th pixel
+        // quantization adapting to limit, slice to limit later
+        return match (true) {
+            $this->limit <= 16 => 4,
+            $this->limit <= 32 => 6,
+            $this->limit <= 64 => 8,
+            $this->limit <= 128 => 16,
+            $this->limit <= 256 => 18,
+            $this->limit <= 515 => 32,
+            $this->limit <= 1000 => 128,
+            default => 256,
         };
-
-        for ($y = 0; $y < $height; $y += $sampleRate) {
-            for ($x = 0; $x < $width; $x += $sampleRate) {
-                yield ['x' => $x, 'y' => $y];
-            }
-        }
     }
 }

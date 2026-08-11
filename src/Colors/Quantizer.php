@@ -36,7 +36,7 @@ class Quantizer
      *
      * @throws ColorException
      */
-    public function quantizeColor(ColorInterface $color): QuantizedColor
+    public function quantizeColor(ColorInterface $color): ColorInterface
     {
         try {
             // preserve alpha unquantized
@@ -60,10 +60,11 @@ class Quantizer
             throw new ColorException('Failed to quantize color', previous: $e);
         }
 
-        // apply preserve alpha
-        $dequantized[3] = $alpha;
+        // transform quantized channel values to color object
+        $color = $color->colorspace()->colorFromNormalized($dequantized);
 
-        return new QuantizedColor($color->colorspace()->colorFromNormalized($dequantized));
+        // re-apply preserve alpha
+        return $color->withTransparency($alpha);
     }
 
     /**

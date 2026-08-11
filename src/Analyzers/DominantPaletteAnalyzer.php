@@ -7,13 +7,14 @@ namespace Intervention\Image\Analyzers;
 use DivisionByZeroError;
 use Intervention\Image\Colors\Oklab\Color as OklabColor;
 use Intervention\Image\Colors\Oklab\Colorspace as Oklab;
-use Intervention\Image\Colors\QuantizedColor;
+use Intervention\Image\Colors\RatedColor;
 use Intervention\Image\Exceptions\AnalyzerException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
-class DominantPaletteAnalyzer extends QuantizedPaletteAnalyzer
+class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer implements AnalyzerInterface
 {
     /**
      * Maximum iterations for K-means algorithm.
@@ -40,15 +41,18 @@ class DominantPaletteAnalyzer extends QuantizedPaletteAnalyzer
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(protected int $maxColors = 8)
+    public function __construct(protected int $limit = 8)
     {
-        if ($this->maxColors < 1) {
-            throw new InvalidArgumentException('Invalid value for $maxColors. Must be int<1, max>');
+        if ($this->limit < 1) {
+            throw new InvalidArgumentException('Invalid $limit value. Must be int<1, max>');
         }
     }
 
     /**
-     * @return array<QuantizedColor>
+     * Analyze dominant colors in given image.
+     *
+     * @throws AnalyzerException
+     * @return array<RatedColor>
      */
     public function analyze(ImageInterface $image): array
     {
@@ -56,7 +60,7 @@ class DominantPaletteAnalyzer extends QuantizedPaletteAnalyzer
         mt_srand(self::SEED);
 
         // get pixels
-        $pixels = $this->collectPixels($image);
+        $pixels = $this->collectColors($image);
 
         // convert to oklab
         $pixels = array_map(
@@ -81,7 +85,7 @@ class DominantPaletteAnalyzer extends QuantizedPaletteAnalyzer
 
             try {
                 // convert back to the original image colorspace
-                $dominantColors[] = new QuantizedColor(
+                $dominantColors[] = new RatedColor(
                     $cluster['centroid']->toColorspace($colorspace),
                     $cluster['size'],
                 );
@@ -90,10 +94,10 @@ class DominantPaletteAnalyzer extends QuantizedPaletteAnalyzer
             }
         }
 
-        // sort by population desc
+        // sort by rating desc
         uasort(
             $dominantColors,
-            fn(QuantizedColor $a, QuantizedColor $b): int => $b->population <=> $a->population,
+            fn(RatedColor $a, RatedColor $b): int => $b->rating <=> $a->rating,
         );
 
         return $dominantColors;
@@ -108,7 +112,7 @@ class DominantPaletteAnalyzer extends QuantizedPaletteAnalyzer
      */
     private function kMeansClustering(array $pixels): array
     {
-        $k = min($this->maxColors, count($pixels));
+        $k = min($this->limit, count($pixels));
 
         // initialize centroids using K-means++
         $centroids = $this->initializeCentroids($pixels, $k);

@@ -27,10 +27,10 @@ use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Image;
+use Intervention\Image\Interfaces\ColorExtractorInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\PaletteInterface;
 use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\MediaType;
@@ -765,7 +765,6 @@ final class ImageTest extends GdTestCase
     {
         $image = $this->readTestImage('blue.gif');
         $result = $image->colors();
-        $this->assertInstanceOf(PaletteInterface::class, $result);
-        $this->assertCount(1, $result);
+        $this->assertInstanceOf(ColorExtractorInterface::class, $result);
     }
 }

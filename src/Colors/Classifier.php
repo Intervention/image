@@ -49,7 +49,7 @@ class Classifier
     /**
      * Create instance.
      *
-     * @param array<QuantizedColor> $colors
+     * @param array<RatedColor> $colors
      */
     public function __construct(protected array $colors)
     {
@@ -128,7 +128,7 @@ class Classifier
             try {
                 $score = $this->calculateScore(
                     $hslColor,
-                    $color->population,
+                    $color->rating,
                     $totalPopulation,
                     $category,
                 );
@@ -150,12 +150,12 @@ class Classifier
      */
     private function totalPopulation(): int
     {
-        $samplePopulation = 0;
+        $totalPopulation = 0;
         foreach ($this->colors as $color) {
-            $samplePopulation += $color->population;
+            $totalPopulation += $color->rating;
         }
 
-        return $samplePopulation;
+        return $totalPopulation;
     }
 
     /**

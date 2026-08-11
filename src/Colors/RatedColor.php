@@ -8,12 +8,12 @@ use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 
-class QuantizedColor implements ColorInterface
+class RatedColor implements ColorInterface
 {
     /**
      * Create instance.
      */
-    public function __construct(public ColorInterface $color, public int $population = 0)
+    public function __construct(public ColorInterface $color, public int $rating = 0)
     {
         //
     }
@@ -32,13 +32,11 @@ class QuantizedColor implements ColorInterface
     }
 
     /**
-     * Increase population of color.
+     * Increase rating of color.
      */
-    public function increasePopulation(): self
+    public function increaseRating(): void
     {
-        $this->population++;
-
-        return $this;
+        $this->rating++;
     }
 
     /**

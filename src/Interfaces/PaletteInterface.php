@@ -37,4 +37,21 @@ interface PaletteInterface extends Traversable
      * @return array<ColorInterface>
      */
     public function toArray(): array;
+
+    /**
+     * Convert the palette to a version sorted by given color channel.
+     */
+    public function sortByChannel(string|ColorChannelInterface $channel): self;
+
+    /**
+     * Convert the palette to a version sorted by given color channel in reverse order.
+     */
+    public function sortByChannelDesc(string|ColorChannelInterface $channel): self;
+
+    /**
+     * ...
+     *
+     * @return self<int, ColorInterface>
+     */
+    public function slice(int $offset, ?int $length = null): self;
 }

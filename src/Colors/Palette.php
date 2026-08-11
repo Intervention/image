@@ -7,7 +7,8 @@ namespace Intervention\Image\Colors;
 use ArrayAccess;
 use ArrayIterator;
 use Countable;
-use Intervention\Image\Exceptions\PaletteException;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
@@ -84,8 +85,6 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      * {@inheritdoc}
      *
      * @see PaletteInterface::first()
-     *
-     * @throws PaletteException
      */
     public function first(): ?ColorInterface
     {
@@ -98,8 +97,6 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      * {@inheritdoc}
      *
      * @see PaletteInterface::last()
-     *
-     * @throws PaletteException
      */
     public function last(): ?ColorInterface
     {
@@ -116,8 +113,6 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      * {@inheritdoc}
      *
      * @see PaletteInterface::count()
-     *
-     * @throws PaletteException
      */
     public function count(): int
     {
@@ -128,8 +123,6 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      * {@inheritdoc}
      *
      * @see PaletteInterface::toColorspace()
-     *
-     * @throws PaletteException
      */
     public function toColorspace(string|ColorspaceInterface $colorspace): PaletteInterface
     {
@@ -147,11 +140,98 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      * {@inheritdoc}
      *
      * @see PaletteInterface::toArray()
-     *
-     * @throws PaletteException
      */
     public function toArray(): array
     {
         return $this->colors;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see PaletteInterface::sortByChannel()
+     */
+    public function sortByChannel(string|ColorChannelInterface $channel): PaletteInterface
+    {
+        $originalColorspace = $this->first()->colorspace()::class;
+        $sortColorspace = match (is_string($channel) ? $channel : $channel::class) {
+            Rgb\Channels\Red::class,
+            Rgb\Channels\Green::class,
+            Rgb\Channels\Blue::class,
+            Rgb\Channels\Alpha::class => Rgb\Colorspace::class,
+            Cmyk\Channels\Cyan::class,
+            Cmyk\Channels\Magenta::class,
+            Cmyk\Channels\Yellow::class,
+            Cmyk\Channels\Key::class,
+            Cmyk\Channels\Alpha::class => Cmyk\Colorspace::class,
+            Hsl\Channels\Hue::class,
+            Hsl\Channels\Saturation::class,
+            Hsl\Channels\Luminance::class,
+            Hsl\Channels\Alpha::class => Hsl\Colorspace::class,
+            Hsv\Channels\Hue::class,
+            Hsv\Channels\Saturation::class,
+            Hsv\Channels\Value::class,
+            Hsv\Channels\Alpha::class => Hsv\Colorspace::class,
+            Oklab\Channels\Lightness::class,
+            Oklab\Channels\A::class,
+            Oklab\Channels\B::class,
+            Oklab\Channels\Alpha::class => Oklab\Colorspace::class,
+            Oklch\Channels\Lightness::class,
+            Oklch\Channels\Chroma::class,
+            Oklch\Channels\Hue::class,
+            Oklch\Channels\Alpha::class => Oklch\Colorspace::class,
+            default => throw new InvalidArgumentException('Unable to sort by color channel ' . $channel),
+        };
+
+        $colors = $this->colors;
+
+        // transform colors to sort channel
+        if ($sortColorspace !== $originalColorspace) {
+            $colors = array_map(
+                fn(ColorInterface $color): ColorInterface => $color->toColorspace($sortColorspace),
+                $colors,
+            );
+        }
+
+        // sorting
+        usort(
+            $colors,
+            fn(ColorInterface $a, ColorInterface $b): int
+            => $b->channel($channel)->value() <=> $a->channel($channel)->value(),
+        );
+
+        // transform back to original color space
+        if ($sortColorspace !== $originalColorspace) {
+            $colors = array_map(
+                fn(ColorInterface $color): ColorInterface => $color->toColorspace($originalColorspace),
+                $colors,
+            );
+        }
+
+        return new self($colors);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see PaletteInterface::sortByChannelDesc()
+     */
+    public function sortByChannelDesc(string|ColorChannelInterface $channel): PaletteInterface
+    {
+        return new self(
+            array_reverse($this->sortByChannel($channel)->colors),
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see PaletteInterface::slice()
+     */
+    public function slice(int $offset, ?int $length = null): PaletteInterface
+    {
+        $this->colors = array_slice($this->colors, $offset, $length);
+
+        return $this;
     }
 }

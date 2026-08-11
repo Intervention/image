@@ -9,6 +9,9 @@ use Intervention\Image\Colors\Cmyk\Color as CmykColor;
 use Intervention\Image\Colors\Cmyk\Colorspace as Cmyk;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Palette;
+use Intervention\Image\Colors\Rgb\Channels\Blue;
+use Intervention\Image\Colors\Rgb\Channels\Green;
+use Intervention\Image\Colors\Rgb\Channels\Red;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
 use Intervention\Image\Tests\BaseTestCase;
@@ -59,5 +62,34 @@ class PaletteTest extends BaseTestCase
         foreach ($this->palette as $color) {
             $this->assertInstanceOf(RgbColor::class, $color);
         }
+    }
+
+    public function testSortByChannel(): void
+    {
+        $result = $this->palette->sortByChannel(Red::class);
+        $this->assertColor(255, 0, 0, 255, $result->first());
+
+        $result = $this->palette->sortByChannel(Green::class);
+        $this->assertColor(0, 255, 0, 255, $result->first());
+
+        $result = $this->palette->sortByChannel(Blue::class);
+        $this->assertColor(0, 0, 255, 255, $result->first());
+
+        $result = $this->palette->sortByChannelDesc(Red::class);
+        $this->assertColor(255, 0, 0, 255, $result->last());
+
+        $result = $this->palette->sortByChannelDesc(Green::class);
+        $this->assertColor(0, 255, 0, 255, $result->last());
+
+        $result = $this->palette->sortByChannelDesc(Blue::class);
+        $this->assertColor(0, 0, 255, 255, $result->last());
+    }
+
+    public function testSlice(): void
+    {
+        $result = $this->palette->slice(1, 2);
+        $this->assertCount(2, $result);
+        $this->assertColor(0, 255, 0, 255, $result->first());
+        $this->assertColor(0, 0, 255, 255, $result->last());
     }
 }

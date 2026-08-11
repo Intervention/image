@@ -208,7 +208,9 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
             );
         }
 
-        return new self($colors);
+        $this->colors = $colors;
+
+        return $this;
     }
 
     /**
@@ -218,9 +220,9 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      */
     public function sortByChannelDesc(string|ColorChannelInterface $channel): PaletteInterface
     {
-        return new self(
-            array_reverse($this->sortByChannel($channel)->colors),
-        );
+        $this->colors = array_reverse($this->sortByChannel($channel)->colors);
+
+        return $this;
     }
 
     /**

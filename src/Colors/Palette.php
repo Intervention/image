@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors;
 
+use ArrayAccess;
 use ArrayIterator;
 use Countable;
 use Intervention\Image\Exceptions\PaletteException;
@@ -15,8 +16,9 @@ use Traversable;
 
 /**
  * @implements IteratorAggregate<ColorInterface>
+ * @implements ArrayAccess<int, ColorInterface>
  */
-class Palette implements PaletteInterface, Countable, IteratorAggregate
+class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAccess
 {
     /**
      * Create new instance.
@@ -26,6 +28,26 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate
     public function __construct(public array $colors)
     {
         //
+    }
+
+    public function offsetExists(mixed $offset): bool
+    {
+        return array_key_exists($offset, $this->colors);
+    }
+
+    public function offsetGet(mixed $offset): ColorInterface
+    {
+        return $this->colors[$offset];
+    }
+
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        $this->colors[$offset] = $value;
+    }
+
+    public function offsetUnset(mixed $offset): void
+    {
+        unset($this->colors[$offset]);
     }
 
     /**

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Colors;
 
 use DivisionByZeroError;
+use Intervention\Image\Exceptions\AnalyzerException;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\RuntimeException;
@@ -20,7 +21,7 @@ class Quantizer
     /**
      * @throws InvalidArgumentException
      */
-    public function __construct(protected int $levels = self::QUANTIZATION_LEVEL_DEFAULT)
+    public function __construct(protected int $levels = self::QUANTIZATION_LEVEL_DEFAULT, protected ?int $limit = null)
     {
         if ($this->levels < self::QUANTIZATION_LEVEL_MIN || $this->levels > self::QUANTIZATION_LEVEL_MAX) {
             throw new InvalidArgumentException(
@@ -29,6 +30,21 @@ class Quantizer
                     self::QUANTIZATION_LEVEL_MAX,
             );
         }
+    }
+
+    // todo: calibrate limit to level transformation
+    public static function usingColorLimit(int $limit): self
+    {
+        return new self(match (true) {
+            $limit <= 16 => 4,
+            $limit <= 32 => 6,
+            $limit <= 64 => 8,
+            $limit <= 128 => 16,
+            $limit <= 256 => 18,
+            $limit <= 515 => 32,
+            $limit <= 1000 => 128,
+            default => 256,
+        }, $limit);
     }
 
     /**
@@ -65,6 +81,36 @@ class Quantizer
 
         // re-apply preserve alpha
         return $color->withTransparency($alpha);
+    }
+
+    /**
+     * @param array<ColorInterface> $colors
+     * @return array<RatedColor>
+     */
+    public function quantizeColors(array $colors): array
+    {
+        $quantized = [];
+
+        foreach ($colors as $color) {
+            try {
+                $color = new RatedColor($this->quantizeColor($color));
+            } catch (ColorException $e) {
+                throw new AnalyzerException('Failed to quantize colors', previous: $e);
+            }
+            $key = $color->hash();
+
+            if (!isset($quantized[$key])) {
+                $quantized[$key] = $color;
+            }
+
+            $quantized[$key]->increaseRating();
+        }
+
+        if ($this->limit !== null) {
+            return array_slice($quantized, 0, $this->limit);
+        }
+
+        return $quantized;
     }
 
     /**

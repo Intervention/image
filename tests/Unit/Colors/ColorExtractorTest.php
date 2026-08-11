@@ -24,12 +24,12 @@ class ColorExtractorTest extends BaseTestCase
         $this->assertCount(8, $result);
         $this->assertColor(96, 223, 223, 255, $result[0]);
         $this->assertColor(96, 159, 223, 255, $result[1]);
-        $this->assertColor(223, 159, 159, 255, $result[2]);
-        $this->assertColor(159, 32, 32, 255, $result[3]);
-        $this->assertColor(223, 32, 32, 255, $result[4]);
-        $this->assertColor(96, 159, 96, 255, $result[5]);
-        $this->assertColor(159, 96, 96, 255, $result[6]);
-        $this->assertColor(96, 32, 32, 255, $result[7]);
+        $this->assertColor(96, 159, 96, 255, $result[2]);
+        $this->assertColor(96, 96, 32, 255, $result[3]);
+        $this->assertColor(96, 159, 159, 255, $result[4]);
+        $this->assertColor(32, 96, 32, 255, $result[5]);
+        $this->assertColor(96, 159, 32, 255, $result[6]);
+        $this->assertColor(96, 223, 159, 255, $result[7]);
     }
 
     #[DataProviderExternal(DriverProvider::class, 'drivers')]

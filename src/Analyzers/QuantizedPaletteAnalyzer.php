@@ -8,6 +8,7 @@ use Intervention\Image\Colors\RatedColor;
 use Intervention\Image\Colors\Quantizer;
 use Intervention\Image\Exceptions\AnalyzerException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
@@ -46,7 +47,7 @@ class QuantizedPaletteAnalyzer extends AbstractPaletteAnalyzer implements Analyz
         // sort by rating desc
         uasort($colors, fn(RatedColor $a, RatedColor $b): int => $b->rating <=> $a->rating);
 
-        return $colors;
+        return array_slice($colors, 0, $this->limit);
     }
 
     /**
@@ -56,17 +57,22 @@ class QuantizedPaletteAnalyzer extends AbstractPaletteAnalyzer implements Analyz
      */
     private function quantizer(ImageInterface $image): Quantizer
     {
-        $colorCount = $image->analyze(new ColorCountAnalyzer());
-
-        if ($colorCount !== null && $colorCount < 256) {
-            // no quantization, slice to limit later
-            return new Quantizer(
-                Quantizer::QUANTIZATION_LEVEL_MAX,
-                $this->limit,
-            );
+        try {
+            $colorCount = $image->analyze(new ColorCountAnalyzer());
+        } catch (NotSupportedException) {
+            $colorCount = null;
         }
 
-        // quantization adapting to limit, slice to limit later
-        return Quantizer::usingColorLimit($this->limit);
+        // if image has less or equal than 256 colors, quantization is performed with highest detail level
+        if ($colorCount !== null && $colorCount <= 256) {
+            return new Quantizer(Quantizer::LEVEL_MAX);
+        }
+
+        return new Quantizer(match (true) {
+            $this->limit <= 256 => 20,
+            $this->limit <= 512 => 30,
+            $this->limit <= 1024 => 60,
+            default => 256,
+        });
     }
 }

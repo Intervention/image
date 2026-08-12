@@ -22,14 +22,14 @@ class ColorExtractorTest extends BaseTestCase
         $result = $extractor->popular(8);
         $this->assertInstanceOf(PaletteInterface::class, $result);
         $this->assertCount(8, $result);
-        $this->assertColor(96, 223, 223, 255, $result[0]);
-        $this->assertColor(96, 159, 223, 255, $result[1]);
-        $this->assertColor(96, 159, 96, 255, $result[2]);
-        $this->assertColor(96, 96, 32, 255, $result[3]);
-        $this->assertColor(96, 159, 159, 255, $result[4]);
-        $this->assertColor(32, 96, 32, 255, $result[5]);
-        $this->assertColor(96, 159, 32, 255, $result[6]);
-        $this->assertColor(96, 223, 159, 255, $result[7]);
+        $this->assertColor(96, 198, 210, 255, $result[0]);
+        $this->assertColor(83, 198, 210, 255, $result[1]);
+        $this->assertColor(108, 198, 210, 255, $result[2]);
+        $this->assertColor(96, 198, 198, 255, $result[3]);
+        $this->assertColor(70, 185, 198, 255, $result[4]);
+        $this->assertColor(108, 210, 210, 255, $result[5]);
+        $this->assertColor(83, 185, 198, 255, $result[6]);
+        $this->assertColor(96, 185, 198, 255, $result[7]);
     }
 
     #[DataProviderExternal(DriverProvider::class, 'drivers')]

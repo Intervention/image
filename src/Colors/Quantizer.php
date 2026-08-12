@@ -14,40 +14,22 @@ use Intervention\Image\Interfaces\ColorInterface;
 
 class Quantizer
 {
-    public const int QUANTIZATION_LEVEL_MIN = 1;
-    public const int QUANTIZATION_LEVEL_MAX = 256;
-    public const int QUANTIZATION_LEVEL_DEFAULT = 16;
+    public const int LEVEL_MIN = 1;
+    public const int LEVEL_MAX = 256;
+    public const int LEVEL_DEFAULT = 16;
 
     /**
      * @throws InvalidArgumentException
      */
-    public function __construct(protected int $levels = self::QUANTIZATION_LEVEL_DEFAULT, protected ?int $limit = null)
+    public function __construct(protected int $levels = self::LEVEL_DEFAULT)
     {
-        if ($this->levels < self::QUANTIZATION_LEVEL_MIN || $this->levels > self::QUANTIZATION_LEVEL_MAX) {
+        if ($this->levels < self::LEVEL_MIN || $this->levels > self::LEVEL_MAX) {
             throw new InvalidArgumentException(
                 'Quantization levels must be between ' .
-                    self::QUANTIZATION_LEVEL_MIN . ' and ' .
-                    self::QUANTIZATION_LEVEL_MAX,
+                    self::LEVEL_MIN . ' and ' .
+                    self::LEVEL_MAX,
             );
         }
-    }
-
-    /**
-     * @throws InvalidArgumentException
-     */
-    public static function usingColorLimit(int $limit): self
-    {
-        // todo: calibrate limit to level transformation
-        return new self(match (true) {
-            $limit <= 16 => 4,
-            $limit <= 32 => 6,
-            $limit <= 64 => 8,
-            $limit <= 128 => 16,
-            $limit <= 256 => 18,
-            $limit <= 515 => 32,
-            $limit <= 1000 => 128,
-            default => 256,
-        }, $limit);
     }
 
     /**
@@ -87,6 +69,8 @@ class Quantizer
     }
 
     /**
+     * Quantize all colors in given array.
+     *
      * @param array<ColorInterface> $colors
      * @throws AnalyzerException
      * @return array<RatedColor>
@@ -108,10 +92,6 @@ class Quantizer
             }
 
             $quantized[$key]->increaseRating();
-        }
-
-        if ($this->limit !== null) {
-            return array_slice($quantized, 0, $this->limit);
         }
 
         return $quantized;

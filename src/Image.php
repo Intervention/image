@@ -1212,7 +1212,7 @@ final class Image implements ImageInterface
     }
 
     /**
-     * Get color extractor.
+     * Get color extractor for the current image.
      */
     public function colors(): ColorExtractor
     {

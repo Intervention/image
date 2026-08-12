@@ -31,7 +31,7 @@ class Swatches extends Palette implements SwatchesInterface
      *
      * @throws ColorException
      */
-    public function vibrant(): ColorInterface
+    public function vibrant(): ?ColorInterface
     {
         return $this->classifier()->vibrant();
     }

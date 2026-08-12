@@ -46,62 +46,16 @@ class Classifier
     private const WEIGHT_LIGHTNESS = 6.0;
     private const WEIGHT_POPULATION = 1.0;
 
-    /**
-     * Create instance.
-     *
-     * @param array<RatedColor> $colors
-     */
-    public function __construct(protected array $colors)
+    public function swatches(Histogram $histogram): Swatches
     {
-        //
-    }
-
-    /**
-     * @throws ColorException
-     */
-    public function vibrant(): ?ColorInterface
-    {
-        return $this->findBestColor(self::VIBRANT);
-    }
-
-    /**
-     * @throws ColorException
-     */
-    public function muted(): ?ColorInterface
-    {
-        return $this->findBestColor(self::MUTED);
-    }
-
-    /**
-     * @throws ColorException
-     */
-    public function darkVibrant(): ?ColorInterface
-    {
-        return $this->findBestColor(self::DARK_VIBRANT);
-    }
-
-    /**
-     * @throws ColorException
-     */
-    public function darkMuted(): ?ColorInterface
-    {
-        return $this->findBestColor(self::DARK_MUTED);
-    }
-
-    /**
-     * @throws ColorException
-     */
-    public function lightVibrant(): ?ColorInterface
-    {
-        return $this->findBestColor(self::LIGHT_VIBRANT);
-    }
-
-    /**
-     * @throws ColorException
-     */
-    public function lightMuted(): ?ColorInterface
-    {
-        return $this->findBestColor(self::LIGHT_MUTED);
+        return new Swatches(
+            $this->findBestColor(self::VIBRANT, $histogram),
+            $this->findBestColor(self::MUTED, $histogram),
+            $this->findBestColor(self::DARK_VIBRANT, $histogram),
+            $this->findBestColor(self::DARK_MUTED, $histogram),
+            $this->findBestColor(self::LIGHT_VIBRANT, $histogram),
+            $this->findBestColor(self::LIGHT_MUTED, $histogram),
+        );
     }
 
     /**
@@ -109,14 +63,14 @@ class Classifier
      *
      * @throws ColorException
      */
-    private function findBestColor(string $category): ?ColorInterface
+    private function findBestColor(string $category, Histogram $histogram): ?ColorInterface
     {
         $bestScore = 0.0;
         $bestColor = null;
-        $totalPopulation = $this->totalPopulation();
+        $totalPopulation = $histogram->totalCount();
 
-        foreach ($this->colors as $color) {
-            $hslColor = $color->toColorspace(Hsl::class);
+        foreach ($histogram as $bin) {
+            $hslColor = $bin->color->toColorspace(Hsl::class);
             if (!$hslColor instanceof HslColor) {
                 throw new ColorException('Unable to find best color, failed to transform color space for comparision');
             }
@@ -128,7 +82,7 @@ class Classifier
             try {
                 $score = $this->calculateScore(
                     $hslColor,
-                    $color->rating,
+                    $bin->count,
                     $totalPopulation,
                     $category,
                 );
@@ -138,24 +92,11 @@ class Classifier
 
             if ($score > $bestScore) {
                 $bestScore = $score;
-                $bestColor = $color;
+                $bestColor = $bin->color;
             }
         }
 
-        return $bestColor === null ? $bestColor : $bestColor->color;
-    }
-
-    /**
-     * Count total color population.
-     */
-    private function totalPopulation(): int
-    {
-        $totalPopulation = 0;
-        foreach ($this->colors as $color) {
-            $totalPopulation += $color->rating;
-        }
-
-        return $totalPopulation;
+        return $bestColor;
     }
 
     /**

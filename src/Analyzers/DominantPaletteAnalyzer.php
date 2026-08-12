@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Intervention\Image\Analyzers;
 
 use DivisionByZeroError;
+use Intervention\Image\Colors\Histogram;
 use Intervention\Image\Colors\Oklab\Color as OklabColor;
 use Intervention\Image\Colors\Oklab\Colorspace as Oklab;
-use Intervention\Image\Colors\RatedColor;
 use Intervention\Image\Exceptions\AnalyzerException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\AnalyzerInterface;
@@ -52,9 +52,8 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer implements Analyze
      * Analyze dominant colors in given image.
      *
      * @throws AnalyzerException
-     * @return array<RatedColor>
      */
-    public function analyze(ImageInterface $image): array
+    public function analyze(ImageInterface $image): Histogram
     {
         // set seed for deterministic results
         mt_srand(self::SEED);
@@ -72,7 +71,7 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer implements Analyze
         $clusters = $this->kMeansClustering($pixels); // perform K-means clustering
 
         // convert centroids back to original colorspace
-        $dominantColors = [];
+        $histogram = new Histogram();
         $totalPixels = count($pixels);
         $minClusterSize = ($totalPixels * self::MIN_CLUSTER_SIZE_PERCENT) / 100;
         $colorspace = $image->colorspace();
@@ -83,24 +82,13 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer implements Analyze
                 continue;
             }
 
-            try {
-                // convert back to the original image colorspace
-                $dominantColors[] = new RatedColor(
-                    $cluster['centroid']->toColorspace($colorspace),
-                    $cluster['size'],
-                );
-            } catch (InvalidArgumentException $e) {
-                throw new AnalyzerException('Failed to analyze dominant color palette', previous: $e);
-            }
+            $histogram->addColor(
+                $cluster['centroid']->toColorspace($colorspace),
+                $cluster['size'],
+            );
         }
 
-        // sort by rating desc
-        uasort(
-            $dominantColors,
-            fn(RatedColor $a, RatedColor $b): int => $b->rating <=> $a->rating,
-        );
-
-        return $dominantColors;
+        return $histogram;
     }
 
     /**

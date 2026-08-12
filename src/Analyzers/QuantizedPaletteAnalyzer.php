@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Analyzers;
 
-use Intervention\Image\Colors\RatedColor;
+use Intervention\Image\Colors\Histogram;
 use Intervention\Image\Colors\Quantizer;
 use Intervention\Image\Exceptions\AnalyzerException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
@@ -32,22 +32,16 @@ class QuantizedPaletteAnalyzer extends AbstractPaletteAnalyzer implements Analyz
      * @see AnalyzerInterface::analyze()
      *
      * @throws AnalyzerException
-     * @return array<RatedColor>
      */
-    public function analyze(ImageInterface $image): array
+    public function analyze(ImageInterface $image): Histogram
     {
         try {
-            $colors = $this->quantizer($image)->quantizeColors(
+            return $this->quantizer($image)->quantizeColors(
                 iterator_to_array($this->collectColors($image)),
-            );
+            )->slice(0, $this->limit);
         } catch (InvalidArgumentException $e) {
             throw new AnalyzerException('Failed to analyze image pixels', previous: $e);
         }
-
-        // sort by rating desc
-        uasort($colors, fn(RatedColor $a, RatedColor $b): int => $b->rating <=> $a->rating);
-
-        return array_slice($colors, 0, $this->limit);
     }
 
     /**

@@ -15,11 +15,15 @@ class Swatches extends Palette
 {
     /**
      * Create new instance.
-     *
-     * @param array<RatedColor> $colors
      */
-    public function __construct(public array $colors)
-    {
+    public function __construct(
+        public ?ColorInterface $vibrant,
+        public ?ColorInterface $muted,
+        public ?ColorInterface $darkVibrant,
+        public ?ColorInterface $darkMuted,
+        public ?ColorInterface $lightVibrant,
+        public ?ColorInterface $lightMuted,
+    ) {
         //
     }
 
@@ -30,7 +34,7 @@ class Swatches extends Palette
      */
     public function vibrant(): ?ColorInterface
     {
-        return $this->classifier()->vibrant();
+        return $this->vibrant;
     }
 
     /**
@@ -40,7 +44,7 @@ class Swatches extends Palette
      */
     public function muted(): ?ColorInterface
     {
-        return $this->classifier()->muted();
+        return $this->muted;
     }
 
     /**
@@ -50,7 +54,7 @@ class Swatches extends Palette
      */
     public function darkVibrant(): ?ColorInterface
     {
-        return $this->classifier()->darkVibrant();
+        return $this->darkVibrant;
     }
 
     /**
@@ -60,7 +64,7 @@ class Swatches extends Palette
      */
     public function darkMuted(): ?ColorInterface
     {
-        return $this->classifier()->darkMuted();
+        return $this->darkMuted;
     }
 
     /**
@@ -70,7 +74,7 @@ class Swatches extends Palette
      */
     public function lightVibrant(): ?ColorInterface
     {
-        return $this->classifier()->lightVibrant();
+        return $this->lightVibrant;
     }
 
     /**
@@ -80,7 +84,7 @@ class Swatches extends Palette
      */
     public function lightMuted(): ?ColorInterface
     {
-        return $this->classifier()->lightMuted();
+        return $this->lightMuted;
     }
 
     /**
@@ -169,7 +173,7 @@ class Swatches extends Palette
         $colors = array_map(
             fn(RatedColor $color): ColorInterface
             => new RatedColor($color->toColorspace($colorspace), $color->rating),
-            $this->colors,
+            $this->swatches(),
         );
 
         return new self($colors);
@@ -185,13 +189,5 @@ class Swatches extends Palette
     public function toArray(): array
     {
         return $this->swatches();
-    }
-
-    /**
-     * Build color classifier.
-     */
-    private function classifier(): Classifier
-    {
-        return new Classifier($this->colors);
     }
 }

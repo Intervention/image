@@ -33,6 +33,21 @@ class Quantizer
     }
 
     /**
+     * Quantize all colors in given array.
+     *
+     * @param array<ColorInterface> $colors
+     * @throws AnalyzerException
+     * @return Histogram<ColorInterface>
+     */
+    public function quantizeColors(array $colors): Histogram
+    {
+        return Histogram::fromColors(array_map(
+            fn(ColorInterface $color) => $this->quantizeColor($color),
+            $colors,
+        ));
+    }
+
+    /**
      * Return a quantized version of the given color.
      *
      * @throws ColorException
@@ -66,35 +81,6 @@ class Quantizer
 
         // re-apply preserve alpha
         return $color->withTransparency($alpha);
-    }
-
-    /**
-     * Quantize all colors in given array.
-     *
-     * @param array<ColorInterface> $colors
-     * @throws AnalyzerException
-     * @return array<RatedColor>
-     */
-    public function quantizeColors(array $colors): array
-    {
-        $quantized = [];
-
-        foreach ($colors as $color) {
-            try {
-                $color = new RatedColor($this->quantizeColor($color));
-            } catch (ColorException $e) {
-                throw new AnalyzerException('Failed to quantize colors', previous: $e);
-            }
-            $key = $color->hash();
-
-            if (!isset($quantized[$key])) {
-                $quantized[$key] = $color;
-            }
-
-            $quantized[$key]->increaseRating();
-        }
-
-        return $quantized;
     }
 
     /**

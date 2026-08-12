@@ -9,7 +9,6 @@ use Intervention\Image\Analyzers\QuantizedPaletteAnalyzer;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\AnalyzerInterface;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
 
@@ -30,14 +29,7 @@ class ColorExtractor
      */
     public function popular(int $limit = 256): PaletteInterface
     {
-        $colors = $this->extractColors(new QuantizedPaletteAnalyzer($limit));
-
-        $colors = array_map(
-            fn(RatedColor $color): ColorInterface => $color->color,
-            array_values($colors),
-        );
-
-        return new Palette($colors);
+        return $this->extractColors(new QuantizedPaletteAnalyzer($limit))->toPalette();
     }
 
     /**
@@ -47,14 +39,7 @@ class ColorExtractor
      */
     public function dominant(int $limit = 8): PaletteInterface
     {
-        $colors = $this->extractColors(new DominantPaletteAnalyzer($limit));
-
-        $colors = array_map(
-            fn(RatedColor $color): ColorInterface => $color->color,
-            array_values($colors),
-        );
-
-        return new Palette($colors);
+        return $this->extractColors(new DominantPaletteAnalyzer($limit))->toPalette();
     }
 
     /**
@@ -62,23 +47,21 @@ class ColorExtractor
      *
      * @throws ColorException
      */
-    public function swatches(): Swatches
+    public function swatches(Classifier $classifier = new Classifier()): Swatches
     {
         try {
-            $colors = $this->extractColors(new QuantizedPaletteAnalyzer(256 * 256 * 256));
+            $histogram = $this->extractColors(new QuantizedPaletteAnalyzer(256 * 256 * 256));
         } catch (InvalidArgumentException) {
             throw new ColorException('Failed to extract color swatches');
         }
 
-        return new Swatches($colors);
+        return $classifier->swatches($histogram);
     }
 
     /**
      * Extract colors from current image.
-     *
-     * @return array<RatedColor>
      */
-    private function extractColors(AnalyzerInterface $strategy): array
+    private function extractColors(AnalyzerInterface $strategy): Histogram
     {
         return $this->image->analyze($strategy);
     }

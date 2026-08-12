@@ -8,11 +8,10 @@ use ArrayIterator;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
-use Intervention\Image\Interfaces\SwatchesInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
 use Traversable;
 
-class Swatches extends Palette implements SwatchesInterface
+class Swatches extends Palette
 {
     /**
      * Create new instance.
@@ -25,9 +24,7 @@ class Swatches extends Palette implements SwatchesInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @see SwatchesInterface::vibrant()
+     * Find the best color in the "vibrant" category.
      *
      * @throws ColorException
      */
@@ -37,9 +34,7 @@ class Swatches extends Palette implements SwatchesInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @see SwatchesInterface::muted()
+     * Find the best color in the "muted" category.
      *
      * @throws ColorException
      */
@@ -49,9 +44,7 @@ class Swatches extends Palette implements SwatchesInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @see SwatchesInterface::darkVibrant()
+     * Find the best color in the "dark vibrant" category.
      *
      * @throws ColorException
      */
@@ -61,9 +54,7 @@ class Swatches extends Palette implements SwatchesInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @see SwatchesInterface::darkMuted()
+     * Find the best color in the "dark muted" category.
      *
      * @throws ColorException
      */
@@ -73,9 +64,7 @@ class Swatches extends Palette implements SwatchesInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @see SwatchesInterface::lightVibrant()
+     * Find the best color in the "light vibrant" category.
      *
      * @throws ColorException
      */
@@ -85,9 +74,7 @@ class Swatches extends Palette implements SwatchesInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @see SwatchesInterface::lightMuted()
+     * Find the best color in the "light muted" category.
      *
      * @throws ColorException
      */
@@ -177,7 +164,7 @@ class Swatches extends Palette implements SwatchesInterface
      *
      * @throws ColorException
      */
-    public function toColorspace(string|ColorspaceInterface $colorspace): SwatchesInterface
+    public function toColorspace(string|ColorspaceInterface $colorspace): self
     {
         $colors = array_map(
             fn(RatedColor $color): ColorInterface

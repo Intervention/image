@@ -9,13 +9,11 @@ use Intervention\Image\Analyzers\QuantizedPaletteAnalyzer;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\AnalyzerInterface;
-use Intervention\Image\Interfaces\ColorExtractorInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
-use Intervention\Image\Interfaces\SwatchesInterface;
 
-class ColorExtractor implements ColorExtractorInterface
+class ColorExtractor
 {
     /**
      * Create new instance.
@@ -26,9 +24,7 @@ class ColorExtractor implements ColorExtractorInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @see ColorExtractorInterface::popular()
+     * Extract the colors that appear most frequently in the image, sorted by popularity (highest first).
      *
      * @throws InvalidArgumentException
      */
@@ -45,9 +41,7 @@ class ColorExtractor implements ColorExtractorInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @see ColorExtractorInterface::dominant()
+     * Extract the visually dominant colors in the image, starting with the most dominant ones.
      *
      * @throws InvalidArgumentException
      */
@@ -64,13 +58,11 @@ class ColorExtractor implements ColorExtractorInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @see ColorExtractorInterface::swatches()
+     * Extract categorized color swatches.
      *
      * @throws ColorException
      */
-    public function swatches(): SwatchesInterface
+    public function swatches(): Swatches
     {
         try {
             $colors = $this->extractColors(new QuantizedPaletteAnalyzer(256 * 256 * 256));

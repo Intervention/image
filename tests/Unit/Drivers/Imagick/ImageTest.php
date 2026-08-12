@@ -9,6 +9,7 @@ use Intervention\Image\Alignment;
 use Intervention\Image\Analyzers\WidthAnalyzer;
 use Intervention\Image\Collection;
 use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
+use Intervention\Image\Colors\ColorExtractor;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Direction;
 use Intervention\Image\Drivers\Imagick\Core;
@@ -29,7 +30,6 @@ use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Image;
-use Intervention\Image\Interfaces\ColorExtractorInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -751,6 +751,6 @@ final class ImageTest extends ImagickTestCase
     {
         $image = $this->readTestImage('blue.gif');
         $result = $image->colors();
-        $this->assertInstanceOf(ColorExtractorInterface::class, $result);
+        $this->assertInstanceOf(ColorExtractor::class, $result);
     }
 }

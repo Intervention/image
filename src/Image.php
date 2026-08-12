@@ -42,7 +42,6 @@ use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\CollectionInterface;
-use Intervention\Image\Interfaces\ColorExtractorInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\CoreInterface;
@@ -1215,7 +1214,7 @@ final class Image implements ImageInterface
     /**
      * Get color extractor.
      */
-    public function colors(): ColorExtractorInterface
+    public function colors(): ColorExtractor
     {
         return new ColorExtractor($this);
     }

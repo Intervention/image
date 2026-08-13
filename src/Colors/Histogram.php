@@ -52,12 +52,7 @@ class Histogram implements IteratorAggregate
      */
     public function totalCount(): int
     {
-        $totalPopulation = 0;
-        foreach ($this as $bin) {
-            $totalPopulation += $bin->count;
-        }
-
-        return $totalPopulation;
+        return array_sum(array_map(fn(Bin $bin): int => $bin->count, $this->bins));
     }
 
     /**

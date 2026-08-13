@@ -11,6 +11,9 @@ use Intervention\Image\Interfaces\PaletteInterface;
 use IteratorAggregate;
 use Traversable;
 
+/**
+ * @implements IteratorAggregate<Bin>
+ */
 class Histogram implements IteratorAggregate
 {
     /**
@@ -30,22 +33,6 @@ class Histogram implements IteratorAggregate
         foreach ($colors as $color) {
             $this->addColor($color);
         }
-    }
-
-    /**
-     * Create histogram from array of colors.
-     *
-     * @param array<ColorInterface> $colors
-     */
-    public static function fromColors(array $colors): self
-    {
-        $histogram = new self();
-
-        foreach ($colors as $color) {
-            $histogram->addColor($color);
-        }
-
-        return $histogram;
     }
 
     /**
@@ -108,6 +95,14 @@ class Histogram implements IteratorAggregate
         $this->bins = array_slice($this->bins, $offset, $length);
 
         return $this;
+    }
+
+    /**
+     * @return array<Bin>
+     */
+    public function toArray(): array
+    {
+        return $this->bins;
     }
 
     /**

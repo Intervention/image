@@ -2,16 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Colors;
+namespace Intervention\Image\Colors\Swatches\Filters;
 
 use DivisionByZeroError;
+use Intervention\Image\Colors\Histogram;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Hsl\Colorspace as Hsl;
+use Intervention\Image\Colors\Swatches\VibrantMuted;
 use Intervention\Image\Exceptions\ColorException;
+use Intervention\Image\Interfaces\ColorFilterInterface;
 use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Interfaces\SwatchesInterface;
 use RuntimeException;
 
-class Classifier
+class VibrantMutedFilter implements ColorFilterInterface
 {
     /**
      * Color classification categories.
@@ -46,9 +50,16 @@ class Classifier
     private const WEIGHT_LIGHTNESS = 6.0;
     private const WEIGHT_POPULATION = 1.0;
 
-    public function swatches(Histogram $histogram): Swatches
+    /**
+     * {@inheritdoc}
+     *
+     * @see ColorFilterInterface::filterColors()
+     *
+     * @throws ColorException
+     */
+    public function filterColors(Histogram $histogram): SwatchesInterface
     {
-        return new Swatches(
+        return new VibrantMuted(
             $this->findBestColor(self::VIBRANT, $histogram),
             $this->findBestColor(self::MUTED, $histogram),
             $this->findBestColor(self::DARK_VIBRANT, $histogram),

@@ -82,10 +82,14 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer implements Analyze
                 continue;
             }
 
-            $histogram->addColor(
-                $cluster['centroid']->toColorspace($colorspace),
-                $cluster['size'],
-            );
+            try {
+                $histogram->addColor(
+                    $cluster['centroid']->toColorspace($colorspace),
+                    $cluster['size'],
+                );
+            } catch (InvalidArgumentException $e) {
+                throw new AnalyzerException('');
+            }
         }
 
         return $histogram;

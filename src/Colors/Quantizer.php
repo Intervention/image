@@ -37,14 +37,22 @@ class Quantizer
      *
      * @param array<ColorInterface> $colors
      * @throws AnalyzerException
-     * @return Histogram<ColorInterface>
+     * @throws ColorException
      */
     public function quantizeColors(array $colors): Histogram
     {
-        return Histogram::fromColors(array_map(
+        $histogram = new Histogram();
+
+        $quantizedColors = array_map(
             fn(ColorInterface $color) => $this->quantizeColor($color),
             $colors,
-        ));
+        );
+
+        foreach ($quantizedColors as $color) {
+            $histogram->addColor($color);
+        }
+
+        return $histogram;
     }
 
     /**

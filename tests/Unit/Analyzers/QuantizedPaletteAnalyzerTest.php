@@ -2,27 +2,29 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Tests\Unit\Drivers\Gd\Analyzers;
+namespace Intervention\Image\Tests\Unit\Analyzers;
 
 use Generator;
 use Intervention\Image\Analyzers\QuantizedPaletteAnalyzer;
-use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Drivers\Gd\Driver as GdDriver;
+use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 use Intervention\Image\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Tests\Resource;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-#[RequiresPhpExtension('gd')]
 #[CoversClass(QuantizedPaletteAnalyzer::class)]
 final class QuantizedPaletteAnalyzerTest extends BaseTestCase
 {
     #[DataProvider('colorCountProvider')]
     public function testAnalyze(string $filename, int $limit, int $count): void
     {
-        $image = Resource::create($filename)->imageObject(new Driver());
         $analyzer = new QuantizedPaletteAnalyzer($limit);
-        $result = $analyzer->analyze($image);
+
+        $result = $analyzer->analyze(Resource::create($filename)->imageObject(new GdDriver()));
+        $this->assertCount($count, $result);
+
+        $result = $analyzer->analyze(Resource::create($filename)->imageObject(new ImagickDriver()));
         $this->assertCount($count, $result);
     }
 

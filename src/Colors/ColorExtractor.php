@@ -6,11 +6,10 @@ namespace Intervention\Image\Colors;
 
 use Intervention\Image\Analyzers\DominantPaletteAnalyzer;
 use Intervention\Image\Analyzers\QuantizedPaletteAnalyzer;
-use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
-use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
+use Intervention\Image\Interfaces\SwatchesInterface;
 
 class ColorExtractor
 {
@@ -29,7 +28,7 @@ class ColorExtractor
      */
     public function popular(int $limit = 256): PaletteInterface
     {
-        return $this->extractColors(new QuantizedPaletteAnalyzer($limit))->toPalette();
+        return $this->image->analyze(new QuantizedPaletteAnalyzer($limit))->toPalette();
     }
 
     /**
@@ -39,30 +38,32 @@ class ColorExtractor
      */
     public function dominant(int $limit = 8): PaletteInterface
     {
-        return $this->extractColors(new DominantPaletteAnalyzer($limit))->toPalette();
+        return $this->image->analyze(new DominantPaletteAnalyzer($limit))->toPalette();
     }
 
     /**
-     * Extract categorized color swatches.
+     * Extract color swatches.
      *
-     * @throws ColorException
+     * @throws InvalidArgumentException
      */
-    public function swatches(Classifier $classifier = new Classifier()): Swatches
+    public function swatches(string|SwatchesInterface $swatches = new Swatches\VibrantMuted()): SwatchesInterface
     {
-        try {
-            $histogram = $this->extractColors(new QuantizedPaletteAnalyzer(256 * 256 * 256));
-        } catch (InvalidArgumentException) {
-            throw new ColorException('Failed to extract color swatches');
+        if (is_string($swatches) && !class_exists($swatches)) {
+            throw new InvalidArgumentException(
+                'The specified swatches class "' . $swatches . '" does not exist',
+            );
         }
 
-        return $classifier->swatches($histogram);
-    }
+        $swatches = is_string($swatches) ? new $swatches() : $swatches;
 
-    /**
-     * Extract colors from current image.
-     */
-    private function extractColors(AnalyzerInterface $strategy): Histogram
-    {
-        return $this->image->analyze($strategy);
+        if (!$swatches instanceof SwatchesInterface) {
+            throw new InvalidArgumentException(
+                'The specified swatches argument must be a classname of or implement ' . SwatchesInterface::class,
+            );
+        }
+
+        return $swatches->colorFilter()->filterColors(
+            $this->image->analyze(new QuantizedPaletteAnalyzer(256 * 256 * 256)),
+        );
     }
 }

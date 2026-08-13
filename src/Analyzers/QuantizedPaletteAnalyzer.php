@@ -7,6 +7,7 @@ namespace Intervention\Image\Analyzers;
 use Intervention\Image\Colors\Histogram;
 use Intervention\Image\Colors\Quantizer;
 use Intervention\Image\Exceptions\AnalyzerException;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\AnalyzerInterface;
@@ -32,6 +33,7 @@ class QuantizedPaletteAnalyzer extends AbstractPaletteAnalyzer implements Analyz
      * @see AnalyzerInterface::analyze()
      *
      * @throws AnalyzerException
+     * @throws ColorException
      */
     public function analyze(ImageInterface $image): Histogram
     {

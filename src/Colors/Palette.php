@@ -203,7 +203,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
         usort(
             $colors,
             fn(ColorInterface $a, ColorInterface $b): int
-            => $b->channel($channel)->value() <=> $a->channel($channel)->value(),
+            => $a->channel($channel)->value() <=> $b->channel($channel)->value(),
         );
 
         // transform back to original color space

@@ -124,6 +124,7 @@
                     @uses,
                     "/>
                 <element value="
+                    @template,
                     @param,
                     @throws,
                     @return,

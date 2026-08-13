@@ -88,13 +88,13 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      */
     public function first(): ?ColorInterface
     {
-        $colors = $this->colors;
-
-        if ($colors === []) {
+        if ($this->colors === []) {
             return null;
         }
 
-        return reset($colors);
+        $key = array_key_first($this->colors);
+
+        return $this->colors[$key];
     }
 
     /**
@@ -104,13 +104,13 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      */
     public function last(): ?ColorInterface
     {
-        $colors = $this->colors;
-
-        if (count($colors) === 0) {
+        if ($this->colors === []) {
             return null;
         }
 
-        return end($colors);
+        $key = array_key_last($this->colors);
+
+        return $this->colors[$key];
     }
 
     /**

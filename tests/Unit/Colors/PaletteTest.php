@@ -60,29 +60,29 @@ class PaletteTest extends BaseTestCase
         }
 
         foreach ($this->palette as $color) {
-            $this->assertInstanceOf(RgbColor::class, $color);
+            $this->assertInstanceOf(CmykColor::class, $color);
         }
     }
 
     public function testSortByChannel(): void
     {
         $result = $this->palette->sortByChannel(Red::class);
-        $this->assertColor(255, 0, 0, 255, $result->first());
-
-        $result = $this->palette->sortByChannel(Green::class);
-        $this->assertColor(0, 255, 0, 255, $result->first());
-
-        $result = $this->palette->sortByChannel(Blue::class);
-        $this->assertColor(0, 0, 255, 255, $result->first());
-
-        $result = $this->palette->sortByChannelDesc(Red::class);
         $this->assertColor(255, 0, 0, 255, $result->last());
 
-        $result = $this->palette->sortByChannelDesc(Green::class);
+        $result = $this->palette->sortByChannel(Green::class);
         $this->assertColor(0, 255, 0, 255, $result->last());
 
-        $result = $this->palette->sortByChannelDesc(Blue::class);
+        $result = $this->palette->sortByChannel(Blue::class);
         $this->assertColor(0, 0, 255, 255, $result->last());
+
+        $result = $this->palette->sortByChannelDesc(Red::class);
+        $this->assertColor(255, 0, 0, 255, $result->first());
+
+        $result = $this->palette->sortByChannelDesc(Green::class);
+        $this->assertColor(0, 255, 0, 255, $result->first());
+
+        $result = $this->palette->sortByChannelDesc(Blue::class);
+        $this->assertColor(0, 0, 255, 255, $result->first());
     }
 
     public function testSlice(): void

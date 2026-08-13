@@ -13,6 +13,8 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Random\Engine\Mt19937;
+use Random\Randomizer;
 
 class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer implements AnalyzerInterface
 {
@@ -37,6 +39,11 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer implements Analyze
     private const SEED = 1024;
 
     /**
+     * Local RNG instance (does not affect global mt_rand state).
+     */
+    private Randomizer $rng;
+
+    /**
      * Create new instance.
      *
      * @throws InvalidArgumentException
@@ -46,6 +53,9 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer implements Analyze
         if ($this->limit < 1) {
             throw new InvalidArgumentException('Invalid $limit value. Must be int<1, max>');
         }
+
+        // use local RNG to avoid corrupting global mt_rand state
+        $this->rng = new Randomizer(new Mt19937(self::SEED));
     }
 
     /**
@@ -55,9 +65,6 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer implements Analyze
      */
     public function analyze(ImageInterface $image): Histogram
     {
-        // set seed for deterministic results
-        mt_srand(self::SEED);
-
         // get pixels
         $pixels = $this->collectColors($image);
 
@@ -156,7 +163,7 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer implements Analyze
         $pixelIndices = array_keys($pixels);
 
         // choose first centroid randomly (deterministic with seed)
-        $firstIndex = $pixelIndices[array_rand($pixelIndices)];
+        $firstIndex = $pixelIndices[$this->rng->getInt(0, count($pixelIndices) - 1)];
         $centroids[] = $pixels[$firstIndex];
 
         // choose remaining centroids with probability proportional to distance from existing centroids
@@ -178,7 +185,7 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer implements Analyze
 
             // choose next centroid with weighted probability (deterministic with seed)
             try {
-                $target = (mt_rand() / mt_getrandmax()) * $sumDistances;
+                $target = $this->rng->getFloat(0, $sumDistances);
             } catch (DivisionByZeroError $e) {
                 throw new AnalyzerException('Failed to initialize centroids', previous: $e);
             }
@@ -252,7 +259,7 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer implements Analyze
 
             if (count($clusterPixels) === 0) {
                 // if cluster is empty, reinitialize randomly
-                $randomIndex = array_rand($pixels);
+                $randomIndex = $this->rng->getInt(0, count($pixels) - 1);
                 $centroids[$i] = $pixels[$randomIndex];
             } else {
                 // calculate mean of all pixels in cluster

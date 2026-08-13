@@ -31,22 +31,22 @@ final class DominantPaletteAnalyzerTest extends BaseTestCase
         $colors = array_values(array_map(fn(Bin $bin): ColorInterface => $bin->color, $result->toArray()));
         $counts = array_values(array_map(fn(Bin $bin): int => $bin->count, $result->toArray()));
 
-        $this->assertEquals([337, 309, 266, 112,], $counts);
+        $this->assertEquals([351, 247, 226, 200,], $counts);
         $this->assertEquals(
             [
-                Color::rgb(197, 223, 249),
-                Color::rgb(99, 172, 243),
-                Color::rgb(243, 131, 27),
-                Color::rgb(172, 153, 116),
+                Color::rgb(229, 138, 56),
+                Color::rgb(210, 229, 249),
+                Color::rgb(88, 162, 231),
+                Color::rgb(145, 197, 248),
             ],
             $colors,
         );
         $this->assertEquals(
             [
-                '12d4ebfcc0279f56beb86387e2eee01f',
-                'acd2464c5360c4446048fe64cf3cf98e',
-                '72268790d5cb7d7c0bd5a4473373acf3',
-                'f19e833a19538c984d4746468804df1d',
+                '759b9ee6f5cf5e919e48d991fbb97859',
+                'd8f4cbe42b13daa0974a085f052c3cab',
+                '2cc2550b32218818ba5874dab2f7a4aa',
+                '3c4655e39b1e5f7c88ad98e2e43b0280',
             ],
             $hashes,
         );

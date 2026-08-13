@@ -206,32 +206,39 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
             default => throw new InvalidArgumentException('Unable to sort by color channel ' . $channel),
         };
 
-        $colors = $this->colors;
+        // create indexed array to track original colors
+        $originalColors = $this->colors;
+        $indices = array_keys($originalColors);
 
-        // transform colors to sort channel
-        if ($sortColorspace !== $originalColorspace) {
-            $colors = array_map(
-                fn(ColorInterface $color): ColorInterface => $color->toColorspace($sortColorspace),
-                $colors,
-            );
-        }
-
-        // sorting
+        // sort indices based on channel values in the sort colorspace
         usort(
-            $colors,
-            fn(ColorInterface $a, ColorInterface $b): int
-            => $a->channel($channel)->value() <=> $b->channel($channel)->value(),
+            $indices,
+            function (
+                int $indexA,
+                int $indexB,
+            ) use (
+                $channel,
+                $sortColorspace,
+                $originalColorspace,
+                $originalColors,
+            ): int {
+                $colorA = $originalColors[$indexA];
+                $colorB = $originalColors[$indexB];
+
+                if ($sortColorspace !== $originalColorspace) {
+                    $colorA = $colorA->toColorspace($sortColorspace);
+                    $colorB = $colorB->toColorspace($sortColorspace);
+                }
+
+                return $colorA->channel($channel)->value() <=> $colorB->channel($channel)->value();
+            },
         );
 
-        // transform back to original color space
-        if ($sortColorspace !== $originalColorspace) {
-            $colors = array_map(
-                fn(ColorInterface $color): ColorInterface => $color->toColorspace($originalColorspace),
-                $colors,
-            );
-        }
-
-        $this->colors = $colors;
+        // reorder colors based on sorted indices
+        $this->colors = array_map(
+            fn(int $index): ColorInterface => $originalColors[$index],
+            $indices,
+        );
 
         return $this;
     }

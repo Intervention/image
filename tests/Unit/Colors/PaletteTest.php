@@ -7,7 +7,7 @@ namespace Intervention\Image\Tests\Unit\Colors;
 use Intervention\Image\Color;
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
 use Intervention\Image\Colors\Cmyk\Colorspace as Cmyk;
-use Intervention\Image\Colors\Rgb\Color as RgbColor;
+use Intervention\Image\Colors\Hsl\Channels\Luminance;
 use Intervention\Image\Colors\Palette;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
@@ -83,6 +83,20 @@ class PaletteTest extends BaseTestCase
 
         $result = $this->palette->sortByChannelDesc(Blue::class);
         $this->assertColor(0, 0, 255, 255, $result->first());
+    }
+
+    public function testSortingKeepsChannelValues(): void
+    {
+        $palette = new Palette([
+            Color::rgb(55, 55, 55),
+            Color::rgb(100, 150, 200),
+            Color::rgb(10, 20, 30),
+            Color::rgb(55, 55, 55),
+        ]);
+
+        $result = $palette->sortByChannelDesc(Luminance::class);
+        $this->assertColor(100, 150, 200, 255, $result->first());
+        $this->assertColor(10, 20, 30, 255, $result->last());
     }
 
     public function testSlice(): void

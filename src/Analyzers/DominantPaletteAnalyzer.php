@@ -9,13 +9,12 @@ use Intervention\Image\Colors\Oklab\Color as OklabColor;
 use Intervention\Image\Colors\Oklab\Colorspace as Oklab;
 use Intervention\Image\Exceptions\AnalyzerException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
-use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Random\Engine\Mt19937;
 use Random\Randomizer;
 
-class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer implements AnalyzerInterface
+class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
 {
     /**
      * Maximum iterations for K-means algorithm.

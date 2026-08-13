@@ -13,7 +13,7 @@ use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
-class QuantizedPaletteAnalyzer extends AbstractPaletteAnalyzer implements AnalyzerInterface
+class QuantizedPaletteAnalyzer extends AbstractPaletteAnalyzer
 {
     /**
      * Create new instance.

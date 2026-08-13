@@ -159,8 +159,27 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      */
     public function sortByChannel(string|ColorChannelInterface $channel): PaletteInterface
     {
+        if ($this->colors === []) {
+            return $this;
+        }
+
+        if (is_string($channel) && !class_exists($channel)) {
+            throw new InvalidArgumentException(
+                'The channel class "' . $channel . '" does not exist',
+            );
+        }
+
+        if (!is_string($channel) && !$channel instanceof ColorChannelInterface) {
+            throw new InvalidArgumentException(
+                'The argument $channel must be a classname of or implement ' . ColorChannelInterface::class,
+            );
+        }
+
+        // normalize to channel classname
+        $channel = is_string($channel) ? $channel : $channel::class;
+
         $originalColorspace = $this->first()->colorspace()::class;
-        $sortColorspace = match (is_string($channel) ? $channel : $channel::class) {
+        $sortColorspace = match ($channel) {
             Rgb\Channels\Red::class,
             Rgb\Channels\Green::class,
             Rgb\Channels\Blue::class,

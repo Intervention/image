@@ -161,20 +161,13 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
             return $this;
         }
 
-        if (is_string($channel) && !class_exists($channel)) {
+        // normalize to channel classname
+        $channel = is_string($channel) ? $channel : $channel::class;
+        if (!class_exists($channel)) {
             throw new InvalidArgumentException(
                 'The channel class "' . $channel . '" does not exist',
             );
         }
-
-        if (!is_string($channel) && !$channel instanceof ColorChannelInterface) {
-            throw new InvalidArgumentException(
-                'The argument $channel must be a classname of or implement ' . ColorChannelInterface::class,
-            );
-        }
-
-        // normalize to channel classname
-        $channel = is_string($channel) ? $channel : $channel::class;
 
         $originalColorspace = $this->first()->colorspace()::class;
         $sortColorspace = match ($channel) {

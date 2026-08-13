@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors\Swatches\Filters;
 
-use DivisionByZeroError;
 use Intervention\Image\Colors\Histogram;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Hsl\Colorspace as Hsl;
@@ -79,6 +78,10 @@ class VibrantMutedFilter implements ColorFilterInterface
         $bestScore = 0.0;
         $bestColor = null;
         $totalPopulation = $histogram->totalCount();
+
+        if ($totalPopulation === 0) {
+            return $bestColor;
+        }
 
         foreach ($histogram as $bin) {
             $hslColor = $bin->color->toColorspace(Hsl::class);
@@ -164,11 +167,8 @@ class VibrantMutedFilter implements ColorFilterInterface
         $saturation = $color->saturation()->value() / 100.0;
         $lightness = $color->luminance()->value() / 100.0;
 
-        try {
-            $populationRatio = $population / $totalPopulation;
-        } catch (DivisionByZeroError) {
-            throw new RuntimeException('Division by zero');
-        }
+        // @phpstan-ignore missingType.checkedException
+        $populationRatio = $population / $totalPopulation;
 
         // get target values for this category
         [$targetSaturation, $targetLightness] = $this->getCategoryTargets($category);

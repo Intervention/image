@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors;
 
-use DivisionByZeroError;
 use Intervention\Image\Exceptions\AnalyzerException;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
@@ -117,10 +116,7 @@ class Quantizer
     {
         $bin = max(0, min($this->levels - 1, $bin));
 
-        try {
-            return ($bin + 0.5) / $this->levels;
-        } catch (DivisionByZeroError) {
-            throw new RuntimeException('Division by zero');
-        }
+        // @phpstan-ignore missingType.checkedException
+        return ($bin + 0.5) / $this->levels;
     }
 }

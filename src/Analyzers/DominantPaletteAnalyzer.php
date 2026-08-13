@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Analyzers;
 
-use DivisionByZeroError;
 use Intervention\Image\Colors\Histogram;
 use Intervention\Image\Colors\Oklab\Color as OklabColor;
 use Intervention\Image\Colors\Oklab\Colorspace as Oklab;
@@ -189,11 +188,7 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer implements Analyze
             }
 
             // choose next centroid with weighted probability (deterministic with seed)
-            try {
-                $target = $this->rng->getFloat(0, $sumDistances);
-            } catch (DivisionByZeroError $e) {
-                throw new AnalyzerException('Failed to initialize centroids', previous: $e);
-            }
+            $target = $this->rng->getFloat(0, $sumDistances);
 
             $cumulative = 0.0;
             $chosenIndex = 0;

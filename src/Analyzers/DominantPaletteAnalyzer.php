@@ -160,6 +160,11 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer implements Analyze
     private function initializeCentroids(array $pixels, int $k): array
     {
         $centroids = [];
+
+        if (count($pixels) === 0) {
+            return $centroids;
+        }
+
         $pixelIndices = array_keys($pixels);
 
         // choose first centroid randomly (deterministic with seed)

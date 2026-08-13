@@ -90,6 +90,10 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
     {
         $colors = $this->colors;
 
+        if ($colors === []) {
+            return null;
+        }
+
         return reset($colors);
     }
 

@@ -130,14 +130,12 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      */
     public function toColorspace(string|ColorspaceInterface $colorspace): PaletteInterface
     {
-        $palette = clone $this;
-
-        $palette->colors = array_map(
+        $this->colors = array_map(
             fn(ColorInterface $color): ColorInterface => $color->toColorspace($colorspace),
-            $palette->colors,
+            $this->colors,
         );
 
-        return $palette;
+        return $this;
     }
 
     /**

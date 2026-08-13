@@ -27,31 +27,31 @@ interface PaletteInterface extends Traversable
     public function count(): int;
 
     /**
-     * Transform colors of palette to given color space.
+     * Transform all colors in palette to given color space.
      */
     public function toColorspace(string|ColorspaceInterface $colorspace): self;
 
     /**
-     * Transform collection as array.
+     * Transform palette to array.
      *
      * @return array<ColorInterface>
      */
     public function toArray(): array;
 
     /**
-     * Convert the palette to a version sorted by given color channel.
+     * Sort the palette by given color channel.
      */
     public function sortByChannel(string|ColorChannelInterface $channel): self;
 
     /**
-     * Convert the palette to a version sorted by given color channel in reverse order.
+     * Sort the palette by given color channel in reverse order.
      */
     public function sortByChannelDesc(string|ColorChannelInterface $channel): self;
 
     /**
-     * ...
+     * Transform the palette by retaining only the specified number of colors after the offset.
      *
-     * @return self<int, ColorInterface>
+     * @return self<ColorInterface>
      */
     public function slice(int $offset, ?int $length = null): self;
 }

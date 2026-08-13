@@ -12,7 +12,7 @@ use Traversable;
 interface SwatchesInterface extends Traversable
 {
     /**
-     * Create a filter instance that matches the swatches.
+     * Create a filter instance that can categorize the swatches.
      */
     public function colorFilter(): ColorFilterInterface;
 

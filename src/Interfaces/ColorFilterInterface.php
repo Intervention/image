@@ -8,5 +8,8 @@ use Intervention\Image\Colors\Histogram;
 
 interface ColorFilterInterface
 {
+    /**
+     * Filter colors.
+     */
     public function filterColors(Histogram $histogram): SwatchesInterface;
 }

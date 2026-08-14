@@ -184,6 +184,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
      */
     public function map(callable $callback): self
     {
+
         return new self(
             array_map(
                 fn(mixed $item) => $callback($item),

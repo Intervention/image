@@ -7,6 +7,7 @@ namespace Intervention\Image\Colors;
 use ArrayAccess;
 use ArrayIterator;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
@@ -61,20 +62,24 @@ class Palette implements PaletteInterface
      * {@inheritdoc}
      *
      * @see ArrayAccess::offsetSet()
+     *
+     * @throws NotSupportedException
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {
-        $this->toArray()[$offset] = $value;
+        throw new NotSupportedException('Unable to set color via array access, use addColor() instead');
     }
 
     /**
      * {@inheritdoc}
      *
      * @see ArrayAccess::offsetUnset()
+     *
+     * @throws NotSupportedException
      */
     public function offsetUnset(mixed $offset): void
     {
-        unset($this->toArray()[$offset]);
+        throw new NotSupportedException('Unable to remove color from palette via array access');
     }
 
     /**
@@ -169,9 +174,20 @@ class Palette implements PaletteInterface
      */
     public function toColorspace(string|ColorspaceInterface $colorspace): PaletteInterface
     {
-        array_walk($this->bins, function (Bin $bin) use ($colorspace): void {
-            $bin->color = $bin->color->toColorspace($colorspace);
-        });
+        // rebuild bins because the keys are hashed from the colors; colors that
+        // become identical after conversion are merged into one bin
+        $bins = [];
+        foreach ($this->bins as $bin) {
+            $color = $bin->color->toColorspace($colorspace);
+            $hash = $this->hashColor($color);
+            if (array_key_exists($hash, $bins)) {
+                $bins[$hash]->increaseCount($bin->count);
+            } else {
+                $bins[$hash] = new Bin($color, $bin->count);
+            }
+        }
+
+        $this->bins = $bins;
 
         return $this;
     }
@@ -210,7 +226,6 @@ class Palette implements PaletteInterface
             );
         }
 
-        $originalColorspace = $this->first()->colorspace()::class;
         $sortColorspace = match ($channel) {
             Rgb\Channels\Red::class,
             Rgb\Channels\Green::class,
@@ -244,7 +259,8 @@ class Palette implements PaletteInterface
         $originalBins = $this->bins;
         $indices = array_keys($originalBins);
 
-        // sort indices based on channel values in the sort colorspace
+        // sort indices based on channel values in the sort colorspace; each
+        // color is converted individually because palettes may mix colorspaces
         usort(
             $indices,
             function (
@@ -253,14 +269,16 @@ class Palette implements PaletteInterface
             ) use (
                 $channel,
                 $sortColorspace,
-                $originalColorspace,
                 $originalBins,
             ): int {
                 $colorA = $originalBins[$indexA]->color;
                 $colorB = $originalBins[$indexB]->color;
 
-                if ($sortColorspace !== $originalColorspace) {
+                if ($colorA->colorspace()::class !== $sortColorspace) {
                     $colorA = $colorA->toColorspace($sortColorspace);
+                }
+
+                if ($colorB->colorspace()::class !== $sortColorspace) {
                     $colorB = $colorB->toColorspace($sortColorspace);
                 }
 

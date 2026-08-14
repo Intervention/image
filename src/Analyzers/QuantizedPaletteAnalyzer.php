@@ -33,18 +33,21 @@ class QuantizedPaletteAnalyzer extends AbstractPaletteAnalyzer
      *
      * @see AnalyzerInterface::analyze()
      *
+     * @throws InvalidArgumentException
      * @throws AnalyzerException
      * @throws ColorException
      */
     public function analyze(ImageInterface $image): PaletteInterface
     {
         try {
-            return $this->quantizer($image)->quantizeColors(
-                iterator_to_array($this->collectColors($image, $this->region)),
-            )->slice(0, $this->limit);
+            $quantizer = $this->quantizer($image);
         } catch (InvalidArgumentException $e) {
             throw new AnalyzerException('Failed to analyze image pixels', previous: $e);
         }
+
+        return $quantizer->quantizeColors(
+            iterator_to_array($this->collectColors($image, $this->region)),
+        )->slice(0, $this->limit);
     }
 
     /**

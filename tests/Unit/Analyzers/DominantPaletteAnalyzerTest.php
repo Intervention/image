@@ -9,6 +9,7 @@ use Intervention\Image\Color;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
+use Intervention\Image\Size;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Providers\DriverProvider;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -34,6 +35,24 @@ final class DominantPaletteAnalyzerTest extends BaseTestCase
                 Color::rgb(210, 229, 249),
                 Color::rgb(88, 162, 231),
                 Color::rgb(145, 197, 248),
+            ],
+            $result->toArray(),
+        );
+    }
+
+    #[DataProviderExternal(DriverProvider::class, 'drivers')]
+    public function testAnalyzeRegion(DriverInterface $driver): void
+    {
+        $image = Resource::create('trim.png')->imageObject($driver);
+        $analyzer = new DominantPaletteAnalyzer(4, new Size(5, 5));
+        $result = $analyzer->analyze($image);
+        $this->assertInstanceOf(PaletteInterface::class, $result);
+
+        $counts = array_map(fn(ColorInterface $color) => $result->colorCount($color), $result->toArray());
+        $this->assertEquals([25], $counts);
+        $this->assertEquals(
+            [
+                Color::rgb(0, 174, 240),
             ],
             $result->toArray(),
         );

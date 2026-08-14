@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Analyzers;
 
 use Generator;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -15,6 +16,7 @@ abstract class AbstractPaletteAnalyzer implements AnalyzerInterface
     /**
      * Collect pixel colors from the image.
      *
+     * @throws InvalidArgumentException
      * @return Generator<ColorInterface>
      */
     protected function collectColors(ImageInterface $image, ?SizeInterface $region = null): Generator
@@ -32,11 +34,17 @@ abstract class AbstractPaletteAnalyzer implements AnalyzerInterface
     /**
      * Get dynamic grid of pixel sample coordinates according to current image size.
      *
+     * @throws InvalidArgumentException
      * @return Generator<array{x: int, y: int}>
      */
     protected function sampleCoordinates(SizeInterface $size, ?SizeInterface $region = null): Generator
     {
         $region = $region === null ? $size : $region;
+
+        if (!$region->fitsWithin($size)) {
+            throw new InvalidArgumentException('The region must not be larger than the actual image size');
+        }
+
         $startX = $region->pivot()->x();
         $startY = $region->pivot()->y();
         $width = $region->width();

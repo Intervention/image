@@ -61,6 +61,7 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
     /**
      * Analyze dominant colors in given image.
      *
+     * @throws InvalidArgumentException
      * @throws AnalyzerException
      */
     public function analyze(ImageInterface $image): PaletteInterface
@@ -114,6 +115,9 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
 
         // initialize centroids using K-means++
         $centroids = $this->initializeCentroids($pixels, $k);
+
+        // update k to actual number of centroids found (may be less due to early termination)
+        $k = count($centroids);
         $assignments = [];
 
         // iteratively refine clusters
@@ -185,6 +189,11 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
 
                 $distances[$index] = $minDistance * $minDistance; // square for better spread
                 $sumDistances += $distances[$index];
+            }
+
+            // if all distances are zero, all unique colors have been found
+            if ($sumDistances === 0.0) {
+                break;
             }
 
             // choose next centroid with weighted probability (deterministic with seed)

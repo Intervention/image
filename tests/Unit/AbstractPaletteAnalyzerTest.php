@@ -20,9 +20,9 @@ use PHPUnit\Framework\Attributes\DataProviderExternal;
 class AbstractPaletteAnalyzerTest extends BaseTestCase
 {
     #[DataProvider('sizeCountProvider')]
-    public function testSampleCoordinates(SizeInterface $size, int $count): void
+    public function testSampleCoordinates(SizeInterface $size, ?SizeInterface $region, int $count): void
     {
-        $result = $this->analyzer()->sampleCoordinates($size);
+        $result = $this->analyzer()->sampleCoordinates($size, $region);
         $this->assertCount($count, iterator_to_array($result));
     }
 
@@ -37,11 +37,14 @@ class AbstractPaletteAnalyzerTest extends BaseTestCase
 
     public static function sizeCountProvider(): Generator
     {
-        yield [new Size(30, 30), 900];
-        yield [new Size(300, 300), 3600];
-        yield [new Size(500, 500), 2500];
-        yield [new Size(1000, 1000), 2500];
-        yield [new Size(10000, 10000), 111556];
+        yield [new Size(30, 30), null, 900];
+        yield [new Size(300, 300), null, 3600];
+        yield [new Size(500, 500), null, 2500];
+        yield [new Size(1000, 1000), null, 2500];
+        yield [new Size(10000, 10000), null, 111556];
+
+        yield [new Size(10000, 10000), new Size(30, 30), 900];
+        yield [new Size(300, 300), new Size(300, 300), 3600];
     }
 
     private function analyzer(): object

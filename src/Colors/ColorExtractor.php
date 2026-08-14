@@ -9,6 +9,7 @@ use Intervention\Image\Analyzers\QuantizedPaletteAnalyzer;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
+use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Interfaces\SwatchesInterface;
 
 class ColorExtractor
@@ -26,9 +27,9 @@ class ColorExtractor
      *
      * @throws InvalidArgumentException
      */
-    public function popular(int $limit = 256): PaletteInterface
+    public function popular(int $limit = 256, ?SizeInterface $region = null): PaletteInterface
     {
-        return $this->image->analyze(new QuantizedPaletteAnalyzer($limit));
+        return $this->image->analyze(new QuantizedPaletteAnalyzer($limit, $region));
     }
 
     /**
@@ -36,9 +37,9 @@ class ColorExtractor
      *
      * @throws InvalidArgumentException
      */
-    public function dominant(int $limit = 8): PaletteInterface
+    public function dominant(int $limit = 8, ?SizeInterface $region = null): PaletteInterface
     {
-        return $this->image->analyze(new DominantPaletteAnalyzer($limit));
+        return $this->image->analyze(new DominantPaletteAnalyzer($limit, $region));
     }
 
     /**

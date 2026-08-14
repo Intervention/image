@@ -53,14 +53,14 @@ class AbstractPaletteAnalyzerTest extends BaseTestCase
                 return false;
             }
 
-            public function sampleCoordinates(SizeInterface $size): Generator
+            public function sampleCoordinates(SizeInterface $size, ?SizeInterface $region = null): Generator
             {
-                return parent::sampleCoordinates($size);
+                return parent::sampleCoordinates($size, $region);
             }
 
-            public function collectColors(ImageInterface $image): Generator
+            public function collectColors(ImageInterface $image, ?SizeInterface $region = null): Generator
             {
-                return parent::collectColors($image);
+                return parent::collectColors($image, $region);
             }
         };
     }

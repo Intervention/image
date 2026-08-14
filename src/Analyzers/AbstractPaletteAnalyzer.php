@@ -17,9 +17,9 @@ abstract class AbstractPaletteAnalyzer implements AnalyzerInterface
      *
      * @return Generator<ColorInterface>
      */
-    protected function collectColors(ImageInterface $image): Generator
+    protected function collectColors(ImageInterface $image, ?SizeInterface $region = null): Generator
     {
-        foreach ($this->sampleCoordinates($image->size()) as $coordinate) {
+        foreach ($this->sampleCoordinates($image->size(), $region) as $coordinate) {
             $color = $image->colorAt(...$coordinate);
             if ($color->isClear()) {
                 continue;
@@ -34,10 +34,13 @@ abstract class AbstractPaletteAnalyzer implements AnalyzerInterface
      *
      * @return Generator<array{x: int, y: int}>
      */
-    protected function sampleCoordinates(SizeInterface $size): Generator
+    protected function sampleCoordinates(SizeInterface $size, ?SizeInterface $region = null): Generator
     {
-        $width = $size->width();
-        $height = $size->height();
+        $region = $region === null ? $size : $region;
+        $startX = $region->pivot()->x();
+        $startY = $region->pivot()->y();
+        $width = $region->width();
+        $height = $region->height();
         $totalPixels = $width * $height;
 
         $sampleRate = match (true) {
@@ -48,8 +51,11 @@ abstract class AbstractPaletteAnalyzer implements AnalyzerInterface
             default => 30, // > 2m: every 30th pixel
         };
 
-        for ($y = 0; $y < $height; $y += $sampleRate) {
-            for ($x = 0; $x < $width; $x += $sampleRate) {
+        $endX = $startX + $width;
+        $endY = $startY + $height;
+
+        for ($y = $startY; $y < $endY; $y += $sampleRate) {
+            for ($x = $startX; $x < $endX; $x += $sampleRate) {
                 yield ['x' => $x, 'y' => $y];
             }
         }

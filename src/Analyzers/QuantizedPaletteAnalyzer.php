@@ -12,6 +12,7 @@ use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
+use Intervention\Image\Interfaces\SizeInterface;
 
 class QuantizedPaletteAnalyzer extends AbstractPaletteAnalyzer
 {
@@ -20,7 +21,7 @@ class QuantizedPaletteAnalyzer extends AbstractPaletteAnalyzer
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(protected int $limit = 256)
+    public function __construct(protected int $limit = 256, protected ?SizeInterface $region = null)
     {
         if ($this->limit < 1) {
             throw new InvalidArgumentException('Invalid $limit value. Must be int<1, max>');
@@ -39,7 +40,7 @@ class QuantizedPaletteAnalyzer extends AbstractPaletteAnalyzer
     {
         try {
             return $this->quantizer($image)->quantizeColors(
-                iterator_to_array($this->collectColors($image)),
+                iterator_to_array($this->collectColors($image, $this->region)),
             )->slice(0, $this->limit);
         } catch (InvalidArgumentException $e) {
             throw new AnalyzerException('Failed to analyze image pixels', previous: $e);

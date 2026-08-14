@@ -12,6 +12,7 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
+use Intervention\Image\Interfaces\SizeInterface;
 use Random\Engine\Mt19937;
 use Random\Randomizer;
 
@@ -47,7 +48,7 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(protected int $limit = 8)
+    public function __construct(protected int $limit = 8, protected ?SizeInterface $region = null)
     {
         if ($this->limit < 1) {
             throw new InvalidArgumentException('Invalid $limit value. Must be int<1, max>');
@@ -65,7 +66,7 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
     public function analyze(ImageInterface $image): PaletteInterface
     {
         // get pixels
-        $pixels = $this->collectColors($image);
+        $pixels = $this->collectColors($image, $this->region);
 
         // convert to oklab
         $pixels = array_map(

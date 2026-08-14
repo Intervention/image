@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors\Swatches\Filters;
 
-use Intervention\Image\Colors\Histogram;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Hsl\Colorspace as Hsl;
+use Intervention\Image\Colors\Palette;
 use Intervention\Image\Colors\Swatches\VibrantMuted;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Interfaces\ColorFilterInterface;
 use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Interfaces\PaletteInterface;
 use Intervention\Image\Interfaces\SwatchesInterface;
 use RuntimeException;
 
@@ -56,15 +57,15 @@ class VibrantMutedFilter implements ColorFilterInterface
      *
      * @throws ColorException
      */
-    public function filterColors(Histogram $histogram): SwatchesInterface
+    public function filterColors(PaletteInterface $palette): SwatchesInterface
     {
         return new VibrantMuted(
-            $this->findBestColor(self::VIBRANT, $histogram),
-            $this->findBestColor(self::MUTED, $histogram),
-            $this->findBestColor(self::DARK_VIBRANT, $histogram),
-            $this->findBestColor(self::DARK_MUTED, $histogram),
-            $this->findBestColor(self::LIGHT_VIBRANT, $histogram),
-            $this->findBestColor(self::LIGHT_MUTED, $histogram),
+            $this->findBestColor(self::VIBRANT, $palette),
+            $this->findBestColor(self::MUTED, $palette),
+            $this->findBestColor(self::DARK_VIBRANT, $palette),
+            $this->findBestColor(self::DARK_MUTED, $palette),
+            $this->findBestColor(self::LIGHT_VIBRANT, $palette),
+            $this->findBestColor(self::LIGHT_MUTED, $palette),
         );
     }
 
@@ -73,18 +74,18 @@ class VibrantMutedFilter implements ColorFilterInterface
      *
      * @throws ColorException
      */
-    private function findBestColor(string $category, Histogram $histogram): ?ColorInterface
+    private function findBestColor(string $category, PaletteInterface $palette): ?ColorInterface
     {
         $bestScore = 0.0;
         $bestColor = null;
-        $totalPopulation = $histogram->totalCount();
+        $totalPopulation = $palette->totalCount();
 
         if ($totalPopulation === 0) {
             return $bestColor;
         }
 
-        foreach ($histogram as $bin) {
-            $hslColor = $bin->color->toColorspace(Hsl::class);
+        foreach ($palette as $color) {
+            $hslColor = $color->toColorspace(Hsl::class);
             if (!$hslColor instanceof HslColor) {
                 throw new ColorException('Unable to find best color, failed to transform color space for comparision');
             }
@@ -96,7 +97,7 @@ class VibrantMutedFilter implements ColorFilterInterface
             try {
                 $score = $this->calculateScore(
                     $hslColor,
-                    $bin->count,
+                    $palette->colorCount($color),
                     $totalPopulation,
                     $category,
                 );
@@ -106,7 +107,7 @@ class VibrantMutedFilter implements ColorFilterInterface
 
             if ($score > $bestScore) {
                 $bestScore = $score;
-                $bestColor = $bin->color;
+                $bestColor = $color;
             }
         }
 

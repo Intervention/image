@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
+use ArrayAccess;
+use Countable;
+use IteratorAggregate;
 use Traversable;
 
 /**
  * @extends Traversable<int|string, mixed>
+ * @extends IteratorAggregate<int, ColorInterface>
+ * @extends ArrayAccess<int, ColorInterface>
  */
-interface PaletteInterface extends Traversable
+interface PaletteInterface extends Traversable, Countable, IteratorAggregate, ArrayAccess
 {
     /**
      * Get first color of palette.
@@ -22,9 +27,19 @@ interface PaletteInterface extends Traversable
     public function last(): ?ColorInterface;
 
     /**
-     * Return number of colors in palette.
+     * Return number of unique colors in palette.
      */
     public function count(): int;
+
+    /**
+     * Return the number of times the color appears in the palette.
+     */
+    public function colorCount(ColorInterface $color): int;
+
+    /**
+     * Count total sum of all color in palette.
+     */
+    public function totalCount(): int;
 
     /**
      * Transform all colors in palette to given color space.
@@ -54,4 +69,9 @@ interface PaletteInterface extends Traversable
      * @return self<ColorInterface>
      */
     public function slice(int $offset, ?int $length = null): self;
+
+    /**
+     * Add color to palette.
+     */
+    public function addColor(ColorInterface $color, int $amount = 1): self;
 }

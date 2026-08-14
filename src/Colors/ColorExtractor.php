@@ -28,7 +28,7 @@ class ColorExtractor
      */
     public function popular(int $limit = 256): PaletteInterface
     {
-        return $this->image->analyze(new QuantizedPaletteAnalyzer($limit))->toPalette();
+        return $this->image->analyze(new QuantizedPaletteAnalyzer($limit));
     }
 
     /**
@@ -38,7 +38,7 @@ class ColorExtractor
      */
     public function dominant(int $limit = 8): PaletteInterface
     {
-        return $this->image->analyze(new DominantPaletteAnalyzer($limit))->toPalette();
+        return $this->image->analyze(new DominantPaletteAnalyzer($limit));
     }
 
     /**

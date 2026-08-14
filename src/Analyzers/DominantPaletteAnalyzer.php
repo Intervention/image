@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Analyzers;
 
-use Intervention\Image\Colors\Histogram;
 use Intervention\Image\Colors\Oklab\Color as OklabColor;
 use Intervention\Image\Colors\Oklab\Colorspace as Oklab;
+use Intervention\Image\Colors\Palette;
 use Intervention\Image\Exceptions\AnalyzerException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\PaletteInterface;
 use Random\Engine\Mt19937;
 use Random\Randomizer;
 
@@ -61,7 +62,7 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
      *
      * @throws AnalyzerException
      */
-    public function analyze(ImageInterface $image): Histogram
+    public function analyze(ImageInterface $image): PaletteInterface
     {
         // get pixels
         $pixels = $this->collectColors($image);
@@ -75,8 +76,7 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
         // @phpstan-ignore argument.type
         $clusters = $this->kMeansClustering($pixels); // perform K-means clustering
 
-        // convert centroids back to original colorspace
-        $histogram = new Histogram();
+        $palette = new Palette();
         $totalPixels = count($pixels);
         $minClusterSize = ($totalPixels * self::MIN_CLUSTER_SIZE_PERCENT) / 100;
         $colorspace = $image->colorspace();
@@ -88,16 +88,16 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
             }
 
             try {
-                $histogram->addColor(
-                    $cluster['centroid']->toColorspace($colorspace),
+                $palette->addColor(
+                    $cluster['centroid']->toColorspace($colorspace), // convert centroids back to original colorspace
                     $cluster['size'],
                 );
             } catch (InvalidArgumentException $e) {
-                throw new AnalyzerException('');
+                throw new AnalyzerException('Unable to analyze image colors', previous: $e);
             }
         }
 
-        return $histogram;
+        return $palette;
     }
 
     /**

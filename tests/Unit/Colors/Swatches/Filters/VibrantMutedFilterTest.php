@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit\Colors\Swatches\Filters;
 
 use Intervention\Image\Color;
-use Intervention\Image\Colors\Histogram;
+use Intervention\Image\Colors\Palette;
 use Intervention\Image\Colors\Swatches\Filters\VibrantMutedFilter;
 use Intervention\Image\Tests\BaseTestCase;
 
@@ -13,7 +13,7 @@ class VibrantMutedFilterTest extends BaseTestCase
 {
     public function testFilterColors(): void
     {
-        $histogram = new Histogram([
+        $palette = new Palette([
             Color::rgb(255, 0, 0), // vibrant
             Color::rgb(170, 100, 100), // muted
             Color::rgb(100, 0, 0), // dark vibrant
@@ -23,7 +23,7 @@ class VibrantMutedFilterTest extends BaseTestCase
         ]);
 
         $filter = new VibrantMutedFilter();
-        $result = $filter->filterColors($histogram);
+        $result = $filter->filterColors($palette);
 
         $this->assertColor(255, 0, 0, 255, $result->vibrant);
         $this->assertColor(170, 100, 100, 255, $result->muted);
@@ -35,7 +35,7 @@ class VibrantMutedFilterTest extends BaseTestCase
 
     public function testFilterColorsNotFound(): void
     {
-        $histogram = new Histogram([
+        $palette = new Palette([
             Color::rgb(255, 0, 0), // vibrant
             Color::rgb(170, 100, 100), // muted
             Color::rgb(100, 0, 0), // dark vibrant
@@ -45,7 +45,7 @@ class VibrantMutedFilterTest extends BaseTestCase
         ]);
 
         $filter = new VibrantMutedFilter();
-        $result = $filter->filterColors($histogram);
+        $result = $filter->filterColors($palette);
 
         $this->assertColor(255, 0, 0, 255, $result->vibrant);
         $this->assertColor(170, 100, 100, 255, $result->muted);

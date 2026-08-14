@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
-use Intervention\Image\Colors\Histogram;
-
 interface ColorFilterInterface
 {
     /**
      * Filter colors.
      */
-    public function filterColors(Histogram $histogram): SwatchesInterface;
+    public function filterColors(PaletteInterface $palette): SwatchesInterface;
 }

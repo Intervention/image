@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Colors\Swatches;
 
+use Intervention\Image\Color;
 use Intervention\Image\Colors\Swatches\AbstractSwatches;
 use Intervention\Image\Colors\Swatches\Filters\VibrantMutedFilter;
 use Intervention\Image\Interfaces\ColorFilterInterface;
@@ -24,10 +25,10 @@ class AbstractSwatchesTest extends BaseTestCase
         $iterations = 0;
         foreach ($this->testImplementation() as $color) {
             $iterations++;
-            $this->assertNull($color);
+            $this->assertInstanceOf(ColorInterface::class, $color);
         }
 
-        $this->assertEquals(6, $iterations);
+        $this->assertEquals(2, $iterations);
     }
 
     public function testToArray(): void
@@ -37,7 +38,7 @@ class AbstractSwatchesTest extends BaseTestCase
 
     public function testToCount(): void
     {
-        $this->assertEquals(6, $this->testImplementation()->count());
+        $this->assertEquals(2, $this->testImplementation()->count());
     }
 
     private function testImplementation(): AbstractSwatches
@@ -52,7 +53,8 @@ class AbstractSwatchesTest extends BaseTestCase
                 public ?ColorInterface $lightVibrant = null,
                 public ?ColorInterface $lightMuted = null,
             ) {
-                //
+                $this->vibrant = Color::rgb(0, 0, 0);
+                $this->muted = Color::rgb(255, 255, 255);
             }
 
             public function colorFilter(): ColorFilterInterface

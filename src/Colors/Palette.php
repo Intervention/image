@@ -6,29 +6,32 @@ namespace Intervention\Image\Colors;
 
 use ArrayAccess;
 use ArrayIterator;
-use Countable;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
-use IteratorAggregate;
 use Traversable;
 
-/**
- * @implements IteratorAggregate<ColorInterface>
- * @implements ArrayAccess<int, ColorInterface>
- */
-class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAccess
+class Palette implements PaletteInterface
 {
+    /**
+     * Color data.
+     *
+     * @var array<string, Bin> $bins
+     */
+    protected array $bins = [];
+
     /**
      * Create new instance.
      *
      * @param array<ColorInterface> $colors
      */
-    public function __construct(public array $colors)
+    public function __construct(array $colors = [])
     {
-        //
+        foreach ($colors as $color) {
+            $this->addColor($color);
+        }
     }
 
     /**
@@ -38,7 +41,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      */
     public function offsetExists(mixed $offset): bool
     {
-        return array_key_exists($offset, $this->colors);
+        return array_key_exists($offset, $this->toArray());
     }
 
     /**
@@ -48,7 +51,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      */
     public function offsetGet(mixed $offset): ColorInterface
     {
-        return $this->colors[$offset];
+        return $this->toArray()[$offset];
     }
 
     /**
@@ -58,7 +61,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {
-        $this->colors[$offset] = $value;
+        $this->toArray()[$offset] = $value;
     }
 
     /**
@@ -68,7 +71,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      */
     public function offsetUnset(mixed $offset): void
     {
-        unset($this->colors[$offset]);
+        unset($this->toArray()[$offset]);
     }
 
     /**
@@ -78,7 +81,24 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      */
     public function getIterator(): Traversable
     {
-        return new ArrayIterator($this->colors);
+        return new ArrayIterator($this->toArray());
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see PaletteInterface::addColor()
+     */
+    public function addColor(ColorInterface $color, int $amount = 1): self
+    {
+        $hash = $this->hashColor($color);
+        if (!array_key_exists($hash, $this->bins)) {
+            $this->bins[$hash] = new Bin($color);
+        }
+
+        $this->bins[$hash]->increaseCount($amount);
+
+        return $this;
     }
 
     /**
@@ -88,13 +108,11 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      */
     public function first(): ?ColorInterface
     {
-        if ($this->colors === []) {
+        if ($this->bins === []) {
             return null;
         }
 
-        $key = array_key_first($this->colors);
-
-        return $this->colors[$key];
+        return $this->bins[array_key_first($this->bins)]->color;
     }
 
     /**
@@ -104,13 +122,11 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      */
     public function last(): ?ColorInterface
     {
-        if ($this->colors === []) {
+        if ($this->bins === []) {
             return null;
         }
 
-        $key = array_key_last($this->colors);
-
-        return $this->colors[$key];
+        return $this->bins[array_key_last($this->bins)]->color;
     }
 
     /**
@@ -120,7 +136,27 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      */
     public function count(): int
     {
-        return count($this->colors);
+        return count($this->bins);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see PaletteInterface::colorCount()
+     */
+    public function colorCount(ColorInterface $color): int
+    {
+        return $this->bins[$this->hashColor($color)]->count;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see PaletteInterface::totalCount()
+     */
+    public function totalCount(): int
+    {
+        return array_sum(array_map(fn(Bin $bin): int => $bin->count, $this->bins));
     }
 
     /**
@@ -130,10 +166,9 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      */
     public function toColorspace(string|ColorspaceInterface $colorspace): PaletteInterface
     {
-        $this->colors = array_map(
-            fn(ColorInterface $color): ColorInterface => $color->toColorspace($colorspace),
-            $this->colors,
-        );
+        array_walk($this->bins, function (Bin $bin) use ($colorspace): void {
+            $bin->color = $bin->color->toColorspace($colorspace);
+        });
 
         return $this;
     }
@@ -145,7 +180,10 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      */
     public function toArray(): array
     {
-        return $this->colors;
+        return array_map(
+            fn(Bin $bin): ColorInterface => $bin->color,
+            array_values($this->bins),
+        );
     }
 
     /**
@@ -157,7 +195,7 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      */
     public function sortByChannel(string|ColorChannelInterface $channel): PaletteInterface
     {
-        if ($this->colors === []) {
+        if ($this->bins === []) {
             return $this;
         }
 
@@ -200,23 +238,23 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
         };
 
         // create indexed array to track original colors
-        $originalColors = $this->colors;
-        $indices = array_keys($originalColors);
+        $originalBins = $this->bins;
+        $indices = array_keys($originalBins);
 
         // sort indices based on channel values in the sort colorspace
         usort(
             $indices,
             function (
-                int $indexA,
-                int $indexB,
+                string $indexA,
+                string $indexB,
             ) use (
                 $channel,
                 $sortColorspace,
                 $originalColorspace,
-                $originalColors,
+                $originalBins,
             ): int {
-                $colorA = $originalColors[$indexA];
-                $colorB = $originalColors[$indexB];
+                $colorA = $originalBins[$indexA]->color;
+                $colorB = $originalBins[$indexB]->color;
 
                 if ($sortColorspace !== $originalColorspace) {
                     $colorA = $colorA->toColorspace($sortColorspace);
@@ -227,10 +265,11 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
             },
         );
 
-        // reorder colors based on sorted indices
-        $this->colors = array_map(
-            fn(int $index): ColorInterface => $originalColors[$index],
+        // reorder colors based on sorted indices and preserve keys
+        // @phpstan-ignore missingType.checkedException
+        $this->bins = array_combine(
             $indices,
+            array_map(fn(string $index): Bin => $originalBins[$index], $indices),
         );
 
         return $this;
@@ -245,8 +284,9 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      */
     public function sortByChannelDesc(string|ColorChannelInterface $channel): PaletteInterface
     {
-        // @phpstan-ignore property.notFound
-        $this->colors = array_reverse($this->sortByChannel($channel)->colors);
+        $this->sortByChannel($channel);
+
+        $this->bins = array_reverse($this->bins, preserve_keys: true);
 
         return $this;
     }
@@ -258,8 +298,21 @@ class Palette implements PaletteInterface, Countable, IteratorAggregate, ArrayAc
      */
     public function slice(int $offset, ?int $length = null): PaletteInterface
     {
-        $this->colors = array_slice($this->colors, $offset, $length);
+        $this->bins = array_slice($this->bins, $offset, $length);
 
         return $this;
+    }
+
+    /**
+     * Build hash for color.
+     */
+    private function hashColor(ColorInterface $color): string
+    {
+        $channelValues = array_map(
+            fn(ColorChannelInterface $channel): int|float => $channel->value(),
+            $color->channels(),
+        );
+
+        return md5($color->colorspace()::class . implode(',', $channelValues));
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors\Swatches;
 
+use ArrayIterator;
 use Countable;
 use Intervention\Image\Colors\Palette;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -44,9 +45,12 @@ abstract class AbstractSwatches implements SwatchesInterface, Countable, Iterato
             fn(ReflectionProperty $property): bool => $property->getType()?->getName() === ColorInterface::class,
         );
 
-        foreach ($publicColorProperties as $property) {
-            yield $this->{$property->getName()};
-        }
+        $colors = array_map(
+            fn(ReflectionProperty $property): null|ColorInterface => $this->{$property->getName()},
+            $publicColorProperties,
+        );
+
+        return new ArrayIterator(array_filter($colors, fn(null|ColorInterface $color): bool => $color !== null));
     }
 
     /**

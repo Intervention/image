@@ -36,7 +36,7 @@ class PaletteTest extends BaseTestCase
         $this->assertCount(3, $this->palette);
         $this->assertCount(3, $this->palette->toArray());
 
-        foreach ($this->palette->colors as $color) {
+        foreach ($this->palette as $color) {
             $this->assertInstanceOf(ColorInterface::class, $color);
         }
 
@@ -105,5 +105,40 @@ class PaletteTest extends BaseTestCase
         $this->assertCount(2, $result);
         $this->assertColor(0, 255, 0, 255, $result->first());
         $this->assertColor(0, 0, 255, 255, $result->last());
+    }
+
+    public function testAddColor(): void
+    {
+        $palette = new Palette();
+        $this->assertEquals(0, $palette->totalCount());
+        $palette->addColor(Color::rgb(0, 0, 0));
+        $this->assertEquals(1, $palette->totalCount());
+        $palette->addColor(Color::rgb(0, 0, 0));
+        $this->assertEquals(2, $palette->totalCount());
+        $palette->addColor(Color::rgb(0, 0, 0), 3);
+        $this->assertEquals(5, $palette->totalCount());
+    }
+
+    public function testTotalCount(): void
+    {
+        $palette = new Palette([
+            Color::rgb(255, 0, 0),
+            Color::rgb(255, 0, 0),
+            Color::rgb(255, 0, 0),
+            Color::rgb(255, 0, 0),
+            Color::rgb(255, 0, 0),
+            Color::rgb(170, 100, 100),
+            Color::rgb(170, 100, 100),
+            Color::rgb(170, 100, 100),
+            Color::rgb(170, 100, 100),
+            Color::rgb(100, 0, 0),
+            Color::rgb(100, 0, 0),
+            Color::rgb(100, 0, 0),
+            Color::rgb(80, 45, 45),
+            Color::rgb(80, 45, 45),
+            Color::rgb(255, 200, 200),
+        ]);
+
+        $this->assertEquals(15, $palette->totalCount());
     }
 }

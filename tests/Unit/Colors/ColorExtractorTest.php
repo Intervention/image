@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Colors;
 
+use Intervention\Image\Analyzers\QuantizedPaletteAnalyzer;
 use Intervention\Image\Colors\ColorExtractor;
+use Intervention\Image\Colors\Swatches\Filters\VibrantMutedFilter;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
 use Intervention\Image\Interfaces\SwatchesInterface;
@@ -62,5 +64,22 @@ class ColorExtractorTest extends BaseTestCase
         $this->assertColor(96, 51, 56, 255, $result->darkMuted);
         $this->assertColor(233, 166, 140, 255, $result->lightVibrant);
         $this->assertColor(186, 171, 164, 255, $result->lightMuted);
+    }
+
+    #[DataProviderExternal(DriverProvider::class, 'drivers')]
+    public function testColorDiv(DriverInterface $driver): void
+    {
+        $image = Resource::create('apple.jpg')->imageObject($driver);
+
+        // ok
+        $palette = $image->analyze(new QuantizedPaletteAnalyzer(256 * 256 * 256));
+        $swatches = (new VibrantMutedFilter())->filterColors($palette);
+        $this->assertColor(98, 160, 123, 255, $swatches->muted);
+
+        // fails
+        $palette = $image->analyze(new QuantizedPaletteAnalyzer(256 * 256 * 256));
+        $palette = $palette->sortByPresenceDesc();
+        $swatches = (new VibrantMutedFilter())->filterColors($palette);
+        $this->assertColor(98, 160, 123, 255, $swatches->muted);
     }
 }

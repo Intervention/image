@@ -11,10 +11,13 @@ use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
+use Intervention\Image\Traits\CanHashColor;
 use Traversable;
 
 class Palette implements PaletteInterface
 {
+    use CanHashColor;
+
     /**
      * Color data.
      *
@@ -327,18 +330,5 @@ class Palette implements PaletteInterface
         $this->bins = array_slice($this->bins, $offset, $length);
 
         return $this;
-    }
-
-    /**
-     * Build hash for color.
-     */
-    private function hashColor(ColorInterface $color): string
-    {
-        $channelValues = array_map(
-            fn(ColorChannelInterface $channel): int|float => $channel->value(),
-            $color->channels(),
-        );
-
-        return md5($color->colorspace()::class . implode(',', $channelValues));
     }
 }

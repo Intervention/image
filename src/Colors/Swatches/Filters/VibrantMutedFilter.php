@@ -12,10 +12,12 @@ use Intervention\Image\Interfaces\ColorFilterInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
 use Intervention\Image\Interfaces\SwatchesInterface;
-use RuntimeException;
+use Intervention\Image\Traits\CanHashColor;
 
 class VibrantMutedFilter implements ColorFilterInterface
 {
+    use CanHashColor;
+
     /**
      * Color classification categories.
      */
@@ -75,8 +77,9 @@ class VibrantMutedFilter implements ColorFilterInterface
      */
     private function findBestColor(string $category, PaletteInterface $palette): ?ColorInterface
     {
-        $bestScore = 0.0;
+        $bestScore = null;
         $bestColor = null;
+        $bestColorHash = null;
         $totalPopulation = $palette->totalCount();
 
         if ($totalPopulation === 0) {
@@ -93,24 +96,41 @@ class VibrantMutedFilter implements ColorFilterInterface
                 continue;
             }
 
-            try {
-                $score = $this->calculateScore(
-                    $hslColor,
-                    $palette->colorCount($color),
-                    $totalPopulation,
-                    $category,
-                );
-            } catch (RuntimeException $e) {
-                throw new ColorException('Unable to find best color, failed to calculate score', previous: $e);
-            }
+            $population = $palette->colorCount($color);
+            $score = $this->calculateScore($hslColor, $population, $totalPopulation, $category);
 
-            if ($score > $bestScore) {
+            if ($this->isBetterColor($color, $score, $bestScore, $bestColorHash)) {
                 $bestScore = $score;
                 $bestColor = $color;
+                $bestColorHash = $this->hashColor($color);
             }
         }
 
         return $bestColor;
+    }
+
+    /**
+     * Determine if given color is better than given score.
+     */
+    private function isBetterColor(
+        ColorInterface $candidateColor,
+        float $candidateScore,
+        ?float $currentBestScore,
+        ?string $currentBestHash,
+    ): bool {
+        if ($currentBestScore === null) {
+            return true;
+        }
+
+        if ($candidateScore > $currentBestScore) {
+            return true;
+        }
+
+        if ($candidateScore === $currentBestScore) {
+            return $this->hashColor($candidateColor) < $currentBestHash;
+        }
+
+        return false;
     }
 
     /**
@@ -155,8 +175,6 @@ class VibrantMutedFilter implements ColorFilterInterface
 
     /**
      * Calculate score for a color based on category targets.
-     *
-     * @throws RuntimeException
      */
     private function calculateScore(
         HslColor $color,

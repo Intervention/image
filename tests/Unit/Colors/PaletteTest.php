@@ -12,6 +12,7 @@ use Intervention\Image\Colors\Palette;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
+use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
 use Intervention\Image\Tests\BaseTestCase;
@@ -64,6 +65,35 @@ class PaletteTest extends BaseTestCase
         }
     }
 
+    public function testToColorspaceRehashesBins(): void
+    {
+        // color lookups must work with the converted colors
+        $palette = new Palette([Color::rgb(255, 0, 0)]);
+        $palette->toColorspace(Cmyk::class);
+        $this->assertEquals(1, $palette->colorCount(Color::rgb(255, 0, 0)->toColorspace(Cmyk::class)));
+    }
+
+    public function testToColorspaceMergesIdenticalColors(): void
+    {
+        // both colors convert to cmyk(0 100 100 0) and must end up in one bin
+        $palette = new Palette([Color::rgb(255, 0, 0), Color::rgb(254, 0, 0)]);
+        $palette->toColorspace(Cmyk::class);
+        $this->assertCount(1, $palette);
+        $this->assertEquals(2, $palette->totalCount());
+    }
+
+    public function testOffsetSetNotSupported(): void
+    {
+        $this->expectException(NotSupportedException::class);
+        $this->palette[0] = Color::rgb(1, 2, 3);
+    }
+
+    public function testOffsetUnsetNotSupported(): void
+    {
+        $this->expectException(NotSupportedException::class);
+        unset($this->palette[0]);
+    }
+
     public function testSortByChannel(): void
     {
         $result = $this->palette->sortByChannel(Red::class);
@@ -83,6 +113,18 @@ class PaletteTest extends BaseTestCase
 
         $result = $this->palette->sortByChannelDesc(Blue::class);
         $this->assertColor(0, 0, 255, 255, $result->first());
+    }
+
+    public function testSortByChannelMixedColorspaces(): void
+    {
+        $palette = new Palette([
+            Color::rgb(255, 0, 0),
+            Color::cmyk(100, 0, 0, 0), // rgb(0 255 255), no red at all
+        ]);
+
+        $result = $palette->sortByChannel(Red::class);
+        $this->assertInstanceOf(CmykColor::class, $result->first());
+        $this->assertColor(255, 0, 0, 255, $result->last());
     }
 
     public function testSortingKeepsChannelValues(): void

@@ -12,8 +12,8 @@ use Intervention\Image\Interfaces\PaletteInterface;
 use Intervention\Image\Size;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Providers\DriverProvider;
-use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Tests\Resource;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
 
 #[CoversClass(DominantPaletteAnalyzer::class)]
@@ -37,6 +37,18 @@ final class DominantPaletteAnalyzerTest extends BaseTestCase
                 Color::rgb(145, 197, 248),
             ],
             $result->toArray(),
+        );
+    }
+
+    #[DataProviderExternal(DriverProvider::class, 'drivers')]
+    public function testAnalyzeRepeatedCallsAreDeterministic(DriverInterface $driver): void
+    {
+        $image = Resource::create('sphere.webp')->imageObject($driver);
+        $analyzer = new DominantPaletteAnalyzer(4);
+
+        $this->assertEquals(
+            $analyzer->analyze($image)->toArray(),
+            $analyzer->analyze($image)->toArray(),
         );
     }
 

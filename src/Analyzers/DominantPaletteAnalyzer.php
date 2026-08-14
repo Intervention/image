@@ -9,7 +9,6 @@ use Intervention\Image\Colors\Oklab\Colorspace as Oklab;
 use Intervention\Image\Colors\Palette;
 use Intervention\Image\Exceptions\AnalyzerException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
-use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -66,20 +65,26 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
      */
     public function analyze(ImageInterface $image): PaletteInterface
     {
-        $colors = $this->collectColors($image, $this->region);
+        // re-seed on every run so the result only depends on the image,
+        // even when the analyzer instance is reused
+        $this->rng = new Randomizer(new Mt19937(self::SEED));
 
-        // convert to oklab
-        $colors = array_map(
-            fn(ColorInterface $color): ColorInterface => $color->toColorspace(Oklab::class),
-            iterator_to_array($colors),
-        );
+        // flatten colors to plain oklab value triples once, so the clustering
+        // works on raw floats instead of repeated object accessor calls
+        $points = [];
+        foreach ($this->collectColors($image, $this->region) as $color) {
+            $oklab = $color->toColorspace(Oklab::class);
+            if (!$oklab instanceof OklabColor) {
+                throw new AnalyzerException('Unable to analyze image colors, failed to transform color space');
+            }
 
-        // @phpstan-ignore argument.type
-        $clusters = $this->kMeansClustering($colors); // perform K-means clustering
+            $points[] = [$oklab->lightness()->value(), $oklab->a()->value(), $oklab->b()->value()];
+        }
+
+        $clusters = $this->kMeansClustering($points); // perform K-means clustering
 
         $palette = new Palette();
-        $totalColors = count($colors);
-        $minClusterSize = ($totalColors * self::MIN_CLUSTER_SIZE_PERCENT) / 100;
+        $minClusterSize = (count($points) * self::MIN_CLUSTER_SIZE_PERCENT) / 100;
         $colorspace = $image->colorspace();
 
         foreach ($clusters as $cluster) {
@@ -90,7 +95,8 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
 
             try {
                 $palette->addColor(
-                    $cluster['centroid']->toColorspace($colorspace), // convert centroids back to original colorspace
+                    // convert centroids back to original colorspace
+                    (new OklabColor(...$cluster['centroid']))->toColorspace($colorspace),
                     $cluster['size'],
                 );
             } catch (InvalidArgumentException $e) {
@@ -103,18 +109,17 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
     }
 
     /**
-     * Perform K-means clustering on Oklab color data.
+     * Perform K-means clustering on Oklab value triples.
      *
-     * @param array<OklabColor> $colors
-     * @throws AnalyzerException
-     * @return array<array{centroid: OklabColor, size: int}>
+     * @param array<array{float, float, float}> $points
+     * @return array<array{centroid: array{float, float, float}, size: int}>
      */
-    private function kMeansClustering(array $colors): array
+    private function kMeansClustering(array $points): array
     {
-        $k = min($this->limit, count($colors));
+        $k = min($this->limit, count($points));
 
         // initialize centroids using K-means++
-        $centroids = $this->initializeCentroids($colors, $k);
+        $centroids = $this->initializeCentroids($points, $k);
 
         // update k to actual number of centroids found (may be less due to early termination)
         $k = count($centroids);
@@ -122,11 +127,11 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
 
         // iteratively refine clusters
         for ($iteration = 0; $iteration < self::MAX_ITERATIONS; $iteration++) {
-            // assign colors to nearest centroid
-            $assignments = $this->assignClusters($colors, $centroids);
+            // assign points to nearest centroid
+            $assignments = $this->assignClusters($points, $centroids);
 
             // calculate new centroids
-            $newCentroids = $this->updateCentroids($colors, $assignments, $k);
+            $newCentroids = $this->updateCentroids($points, $assignments, $k);
 
             // check for convergence
             if ($this->hasConverged($centroids, $newCentroids)) {
@@ -156,42 +161,38 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
     /**
      * Initialize centroids using K-means++ algorithm for better starting positions.
      *
-     * @param array<OklabColor> $colors
-     * @throws AnalyzerException
-     * @return array<OklabColor>
+     * @param array<array{float, float, float}> $points
+     * @return array<array{float, float, float}>
      */
-    private function initializeCentroids(array $colors, int $k): array
+    private function initializeCentroids(array $points, int $k): array
     {
         $centroids = [];
 
-        if (count($colors) === 0) {
+        if (count($points) === 0) {
             return $centroids;
         }
 
-        $colorIndices = array_keys($colors);
-
         // choose first centroid randomly (deterministic with seed)
-        $firstIndex = $colorIndices[$this->rng->getInt(0, count($colorIndices) - 1)];
-        $centroids[] = $colors[$firstIndex];
+        $centroids[] = $points[$this->rng->getInt(0, count($points) - 1)];
 
         // choose remaining centroids with probability proportional to distance from existing centroids
         for ($i = 1; $i < $k; $i++) {
             $distances = [];
             $sumDistances = 0.0;
 
-            foreach ($colors as $index => $color) {
-                // find minimum distance to any existing centroid
+            foreach ($points as $index => $point) {
+                // find minimum squared distance to any existing centroid
                 $minDistance = PHP_FLOAT_MAX;
                 foreach ($centroids as $centroid) {
-                    $distance = $this->euclideanDistance($color, $centroid);
+                    $distance = $this->squaredDistance($point, $centroid);
                     $minDistance = min($minDistance, $distance);
                 }
 
-                $distances[$index] = $minDistance * $minDistance; // square for better spread
-                $sumDistances += $distances[$index];
+                $distances[$index] = $minDistance; // squared for better spread
+                $sumDistances += $minDistance;
             }
 
-            // if all distances are zero, all unique colors have been found
+            // if all distances are zero, all unique points have been found
             if ($sumDistances === 0.0) {
                 break;
             }
@@ -210,29 +211,29 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
                 }
             }
 
-            $centroids[] = $colors[$chosenIndex];
+            $centroids[] = $points[$chosenIndex];
         }
 
         return $centroids;
     }
 
     /**
-     * Assign each color to the nearest centroid.
+     * Assign each point to the nearest centroid.
      *
-     * @param array<OklabColor> $colors
-     * @param array<OklabColor> $centroids
+     * @param array<array{float, float, float}> $points
+     * @param array<array{float, float, float}> $centroids
      * @return array<int>
      */
-    private function assignClusters(array $colors, array $centroids): array
+    private function assignClusters(array $points, array $centroids): array
     {
         $assignments = [];
 
-        foreach ($colors as $color) {
+        foreach ($points as $point) {
             $minDistance = PHP_FLOAT_MAX;
             $closestCluster = 0;
 
             foreach ($centroids as $index => $centroid) {
-                $distance = $this->euclideanDistance($color, $centroid);
+                $distance = $this->squaredDistance($point, $centroid);
                 if ($distance < $minDistance) {
                     $minDistance = $distance;
                     $closestCluster = $index;
@@ -248,50 +249,37 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
     /**
      * Calculate new centroid positions based on cluster assignments.
      *
-     * @param array<OklabColor> $colors
+     * Accumulates per-cluster sums in a single pass over the assignments.
+     *
+     * @param array<array{float, float, float}> $points
      * @param array<int> $assignments
-     * @throws AnalyzerException
-     * @return array<OklabColor>
+     * @return array<array{float, float, float}>
      */
-    private function updateCentroids(array $colors, array $assignments, int $k): array
+    private function updateCentroids(array $points, array $assignments, int $k): array
     {
+        $sums = array_fill(0, $k, [0.0, 0.0, 0.0]);
+        $counts = array_fill(0, $k, 0);
+
+        foreach ($assignments as $index => $cluster) {
+            $sums[$cluster][0] += $points[$index][0];
+            $sums[$cluster][1] += $points[$index][1];
+            $sums[$cluster][2] += $points[$index][2];
+            $counts[$cluster]++;
+        }
+
         $centroids = [];
 
         for ($i = 0; $i < $k; $i++) {
-            $clusterColors = [];
-
-            foreach ($assignments as $colorIndex => $cluster) {
-                if ($cluster === $i) {
-                    $clusterColors[] = $colors[$colorIndex];
-                }
-            }
-
-            if (count($clusterColors) === 0) {
+            if ($counts[$i] === 0) {
                 // if cluster is empty, reinitialize randomly
-                $randomIndex = $this->rng->getInt(0, count($colors) - 1);
-                $centroids[$i] = $colors[$randomIndex];
+                $centroids[$i] = $points[$this->rng->getInt(0, count($points) - 1)];
             } else {
-                // calculate mean of all colors in cluster
-                $sumL = 0.0;
-                $sumA = 0.0;
-                $sumB = 0.0;
-
-                foreach ($clusterColors as $color) {
-                    $sumL += $color->lightness()->value();
-                    $sumA += $color->a()->value();
-                    $sumB += $color->b()->value();
-                }
-
-                $count = count($clusterColors);
-                try {
-                    $centroids[$i] = new OklabColor(
-                        $sumL / $count,
-                        $sumA / $count,
-                        $sumB / $count,
-                    );
-                } catch (InvalidArgumentException $e) {
-                    throw new AnalyzerException('Failed to update centroids', previous: $e);
-                }
+                // calculate mean of all points in cluster
+                $centroids[$i] = [
+                    $sums[$i][0] / $counts[$i],
+                    $sums[$i][1] / $counts[$i],
+                    $sums[$i][2] / $counts[$i],
+                ];
             }
         }
 
@@ -301,14 +289,14 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
     /**
      * Check if centroids have converged.
      *
-     * @param array<OklabColor> $oldCentroids
-     * @param array<OklabColor> $newCentroids
+     * @param array<array{float, float, float}> $oldCentroids
+     * @param array<array{float, float, float}> $newCentroids
      */
     private function hasConverged(array $oldCentroids, array $newCentroids): bool
     {
         foreach ($oldCentroids as $index => $oldCentroid) {
-            $distance = $this->euclideanDistance($oldCentroid, $newCentroids[$index]);
-            if ($distance > self::CONVERGENCE_THRESHOLD) {
+            $distance = $this->squaredDistance($oldCentroid, $newCentroids[$index]);
+            if ($distance > self::CONVERGENCE_THRESHOLD ** 2) {
                 return false;
             }
         }
@@ -317,14 +305,17 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
     }
 
     /**
-     * Calculate Euclidean distance in Oklab color space.
+     * Calculate squared Euclidean distance between two Oklab value triples.
+     *
+     * @param array{float, float, float} $point1
+     * @param array{float, float, float} $point2
      */
-    private function euclideanDistance(OklabColor $color1, OklabColor $color2): float
+    private function squaredDistance(array $point1, array $point2): float
     {
-        $dl = $color1->lightness()->value() - $color2->lightness()->value();
-        $da = $color1->a()->value() - $color2->a()->value();
-        $db = $color1->b()->value() - $color2->b()->value();
+        $dl = $point1[0] - $point2[0];
+        $da = $point1[1] - $point2[1];
+        $db = $point1[2] - $point2[2];
 
-        return sqrt($dl * $dl + $da * $da + $db * $db);
+        return $dl * $dl + $da * $da + $db * $db;
     }
 }

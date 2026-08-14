@@ -41,14 +41,21 @@ abstract class AbstractPaletteAnalyzer implements AnalyzerInterface
     {
         $region = $region === null ? $size : $region;
 
-        if (!$region->fitsWithin($size)) {
-            throw new InvalidArgumentException('The region must not be larger than the actual image size');
-        }
-
         $startX = $region->pivot()->x();
         $startY = $region->pivot()->y();
         $width = $region->width();
         $height = $region->height();
+
+        // validate the region including its position, otherwise offset
+        // regions would sample coordinates outside of the image
+        if (
+            $startX < 0 || $startY < 0
+            || $startX + $width > $size->width()
+            || $startY + $height > $size->height()
+        ) {
+            throw new InvalidArgumentException('The region must fit within the actual image size');
+        }
+
         $totalPixels = $width * $height;
 
         $sampleRate = match (true) {

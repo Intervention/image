@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Tests\Unit;
+namespace Intervention\Image\Tests\Unit\Analyzers;
 
 use Generator;
 use Intervention\Image\Analyzers\AbstractPaletteAnalyzer;
+use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -14,9 +16,11 @@ use Intervention\Image\Size;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Providers\DriverProvider;
 use Intervention\Image\Tests\Resource;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
 
+#[CoversClass(AbstractPaletteAnalyzer::class)]
 class AbstractPaletteAnalyzerTest extends BaseTestCase
 {
     #[DataProvider('sizeCountProvider')]
@@ -24,6 +28,32 @@ class AbstractPaletteAnalyzerTest extends BaseTestCase
     {
         $result = $this->analyzer()->sampleCoordinates($size, $region);
         $this->assertCount($count, iterator_to_array($result));
+    }
+
+    public function testSampleCoordinatesOffsetRegion(): void
+    {
+        $coordinates = iterator_to_array($this->analyzer()->sampleCoordinates(
+            new Size(300, 200),
+            new Size(10, 10, new Point(290, 190)),
+        ));
+
+        $this->assertCount(100, $coordinates);
+        foreach ($coordinates as $coordinate) {
+            $this->assertLessThan(300, $coordinate['x']);
+            $this->assertLessThan(200, $coordinate['y']);
+        }
+    }
+
+    public function testSampleCoordinatesOffsetRegionOutOfBounds(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        // the region fits the image dimensions but its position places
+        // it partially outside of the image
+        iterator_to_array($this->analyzer()->sampleCoordinates(
+            new Size(300, 200),
+            new Size(10, 10, new Point(295, 195)),
+        ));
     }
 
     #[DataProviderExternal(DriverProvider::class, 'drivers')]

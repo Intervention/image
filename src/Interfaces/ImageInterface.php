@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Interfaces;
 
 use Countable;
+use Intervention\Image\Colors\ColorExtractor;
 use Intervention\Image\FileExtension;
 use Intervention\Image\Geometry\Bezier;
 use Intervention\Image\Geometry\Circle;
@@ -177,6 +178,11 @@ interface ImageInterface extends IteratorAggregate, Countable
      * @link https://image.intervention.io/v4/basics/colors#read-all-colors-of-certain-pixels-in-animated-images
      */
     public function colorsAt(int $x, int $y): CollectionInterface;
+
+    /**
+     * Get color extractor for the current image.
+     */
+    public function colors(): ColorExtractor;
 
     /**
      * Return the background color used to replace transparent areas during

@@ -1212,7 +1212,9 @@ final class Image implements ImageInterface
     }
 
     /**
-     * Get color extractor for the current image.
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::colors()
      */
     public function colors(): ColorExtractor
     {

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit\Colors\Swatches;
 
 use Intervention\Image\Color;
+use Intervention\Image\Colors\Cmyk\Colorspace as Cmyk;
+use Intervention\Image\Colors\Cmyk\Color as CmykColor;
 use Intervention\Image\Colors\Swatches\AbstractSwatches;
 use Intervention\Image\Colors\Swatches\Filters\VibrantMutedFilter;
 use Intervention\Image\Interfaces\ColorFilterInterface;
@@ -14,31 +16,67 @@ use Intervention\Image\Tests\BaseTestCase;
 
 class AbstractSwatchesTest extends BaseTestCase
 {
-    public function testToPalette(): void
-    {
-        $result = $this->testImplementation()->toPalette();
-        $this->assertInstanceOf(PaletteInterface::class, $result);
-    }
-
     public function testIteration(): void
     {
         $iterations = 0;
-        foreach ($this->testImplementation() as $color) {
+        foreach ($this->testImplementation() as $key => $color) {
             $iterations++;
-            $this->assertInstanceOf(ColorInterface::class, $color);
+            if ($key === 'vibrant' || $key === 'muted') {
+                $this->assertInstanceOf(ColorInterface::class, $color);
+            } else {
+                $this->assertNull($color);
+            }
         }
 
-        $this->assertEquals(2, $iterations);
+        $this->assertEquals(6, $iterations);
     }
 
     public function testToArray(): void
     {
-        $this->assertIsArray($this->testImplementation()->toArray());
+        $swatchesArray = $this->testImplementation()->toArray();
+        $this->assertIsArray($swatchesArray);
+        $this->assertCount(6, $swatchesArray);
+        foreach ($swatchesArray as $key => $color) {
+            if ($key === 'vibrant' || $key === 'muted') {
+                $this->assertInstanceOf(ColorInterface::class, $color);
+            } else {
+                $this->assertNull($color);
+            }
+        }
     }
 
-    public function testToCount(): void
+    public function testCount(): void
     {
-        $this->assertEquals(2, $this->testImplementation()->count());
+        $this->assertEquals(6, $this->testImplementation()->count());
+    }
+
+    public function testToColorspace(): void
+    {
+        $result = $this->testImplementation()->toColorspace(Cmyk::class);
+        foreach ($result as $key => $color) {
+            if ($key === 'vibrant' || $key === 'muted') {
+                $this->assertInstanceOf(CmykColor::class, $color);
+            } else {
+                $this->assertNull($color);
+            }
+        }
+    }
+
+    public function testArrayAccess(): void
+    {
+        $swatches = $this->testImplementation();
+        $this->assertColor(0, 0, 0, 255, $swatches['vibrant']);
+        $this->assertColor(255, 255, 255, 255, $swatches['muted']);
+        $this->assertNull($swatches['darkMuted']);
+    }
+
+    public function testToPalette(): void
+    {
+        $palette = $this->testImplementation()->toPalette();
+        $this->assertInstanceOf(PaletteInterface::class, $palette);
+        $this->assertCount(2, $palette);
+        $this->assertColor(0, 0, 0, 255, $palette[0]);
+        $this->assertColor(255, 255, 255, 255, $palette[1]);
     }
 
     private function testImplementation(): AbstractSwatches

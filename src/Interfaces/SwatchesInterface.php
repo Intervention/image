@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Interfaces;
 
+use ArrayAccess;
+use Countable;
+use IteratorAggregate;
 use Traversable;
 
 /**
- * @extends Traversable<ColorInterface>
+ * @extends Traversable<string, null|ColorInterface>
+ * @extends IteratorAggregate<string, null|ColorInterface>
+ * @extends ArrayAccess<string, null|ColorInterface>
  */
-interface SwatchesInterface extends Traversable
+interface SwatchesInterface extends Traversable, Countable, IteratorAggregate, ArrayAccess
 {
     /**
      * Create a filter instance that can categorize the swatches.
@@ -17,7 +22,19 @@ interface SwatchesInterface extends Traversable
     public function colorFilter(): ColorFilterInterface;
 
     /**
-     * Transform swatches to color palette.
+     * Transform all swatches to given color space.
+     */
+    public function toColorspace(string|ColorspaceInterface $colorspace): self;
+
+    /**
+     * Transform swatches to palette
      */
     public function toPalette(): PaletteInterface;
+
+    /**
+     * Transform swatches to array.
+     *
+     * @return array<string, null|ColorInterface>
+     */
+    public function toArray(): array;
 }

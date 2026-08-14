@@ -6,7 +6,6 @@ namespace Intervention\Image\Colors\Swatches\Filters;
 
 use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Hsl\Colorspace as Hsl;
-use Intervention\Image\Colors\Palette;
 use Intervention\Image\Colors\Swatches\VibrantMuted;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Interfaces\ColorFilterInterface;

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Analyzers;
 
-use Intervention\Image\Colors\Palette;
 use Intervention\Image\Colors\Quantizer;
 use Intervention\Image\Exceptions\AnalyzerException;
 use Intervention\Image\Exceptions\ColorException;

@@ -10,7 +10,7 @@ use IteratorAggregate;
 use Traversable;
 
 /**
- * @extends Traversable<int|string, mixed>
+ * @extends Traversable<int, ColorInterface>
  * @extends IteratorAggregate<int, ColorInterface>
  * @extends ArrayAccess<int, ColorInterface>
  */

@@ -149,7 +149,7 @@ class Palette implements PaletteInterface
      */
     public function colorCount(ColorInterface $color): int
     {
-        return $this->bins[$this->hashColor($color)]->count;
+        return $this->bins[$this->hashColor($color)]->count ?? 0;
     }
 
     /**

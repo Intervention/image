@@ -7,6 +7,7 @@ namespace Intervention\Image\Tests\Unit\Colors;
 use Intervention\Image\Analyzers\QuantizedPaletteAnalyzer;
 use Intervention\Image\Colors\ColorExtractor;
 use Intervention\Image\Colors\Swatches\Filters\VibrantMutedFilter;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
 use Intervention\Image\Interfaces\SwatchesInterface;
@@ -25,14 +26,26 @@ class ColorExtractorTest extends BaseTestCase
         $result = $extractor->popular(8);
         $this->assertInstanceOf(PaletteInterface::class, $result);
         $this->assertCount(8, $result);
-        $this->assertColor(96, 198, 210, 255, $result[0]);
-        $this->assertColor(108, 198, 210, 255, $result[1]);
-        $this->assertColor(96, 198, 198, 255, $result[2]);
-        $this->assertColor(108, 210, 210, 255, $result[3]);
-        $this->assertColor(83, 185, 198, 255, $result[4]);
-        $this->assertColor(96, 185, 198, 255, $result[5]);
-        $this->assertColor(83, 198, 198, 255, $result[6]);
-        $this->assertColor(83, 134, 108, 255, $result[7]);
+        $this->assertColor(101, 202, 210, 255, $result[0]);
+        $this->assertColor(89, 196, 206, 255, $result[1]);
+        $this->assertColor(103, 201, 210, 255, $result[2]);
+        $this->assertColor(95, 193, 202, 255, $result[3]);
+        $this->assertColor(71, 188, 198, 255, $result[4]);
+        $this->assertColor(103, 204, 212, 255, $result[5]);
+        $this->assertColor(89, 190, 200, 255, $result[6]);
+        $this->assertColor(93, 191, 200, 255, $result[7]);
+    }
+
+    #[DataProviderExternal(DriverProvider::class, 'drivers')]
+    public function testPopularSortedByPresence(DriverInterface $driver): void
+    {
+        $image = Resource::create('apple.jpg')->imageObject($driver);
+        $result = (new ColorExtractor($image))->popular(8);
+
+        $counts = array_map(fn(ColorInterface $color): int => $result->colorCount($color), $result->toArray());
+        $sorted = $counts;
+        rsort($sorted);
+        $this->assertEquals($sorted, $counts);
     }
 
     #[DataProviderExternal(DriverProvider::class, 'drivers')]
@@ -58,27 +71,22 @@ class ColorExtractorTest extends BaseTestCase
         $this->assertInstanceOf(SwatchesInterface::class, $result);
         $this->assertCount(6, $result);
         $this->assertColor(217, 37, 38, 255, $result->vibrant);
-        $this->assertColor(98, 160, 123, 255, $result->muted);
-        $this->assertColor(131, 21, 20, 255, $result->darkVibrant);
+        $this->assertColor(122, 160, 101, 255, $result->muted);
+        $this->assertColor(128, 19, 25, 255, $result->darkVibrant);
         $this->assertColor(96, 51, 56, 255, $result->darkMuted);
         $this->assertColor(233, 166, 140, 255, $result->lightVibrant);
         $this->assertColor(186, 171, 164, 255, $result->lightMuted);
     }
 
     #[DataProviderExternal(DriverProvider::class, 'drivers')]
-    public function testColorDiv(DriverInterface $driver): void
+    public function testSwatchesIndependentOfPaletteOrder(DriverInterface $driver): void
     {
         $image = Resource::create('apple.jpg')->imageObject($driver);
+        $palette = $image->analyze(new QuantizedPaletteAnalyzer(256));
 
-        // ok
-        $palette = $image->analyze(new QuantizedPaletteAnalyzer(256 * 256 * 256));
         $swatches = (new VibrantMutedFilter())->filterColors($palette);
-        $this->assertColor(98, 160, 123, 255, $swatches->muted);
+        $reordered = (new VibrantMutedFilter())->filterColors($palette->sortByPresence());
 
-        // fails
-        $palette = $image->analyze(new QuantizedPaletteAnalyzer(256 * 256 * 256));
-        $palette = $palette->sortByPresenceDesc();
-        $swatches = (new VibrantMutedFilter())->filterColors($palette);
-        $this->assertColor(98, 160, 123, 255, $swatches->muted);
+        $this->assertEquals($swatches->toArray(), $reordered->toArray());
     }
 }

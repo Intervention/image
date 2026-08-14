@@ -66,21 +66,20 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
      */
     public function analyze(ImageInterface $image): PaletteInterface
     {
-        // get pixels
-        $pixels = $this->collectColors($image, $this->region);
+        $colors = $this->collectColors($image, $this->region);
 
         // convert to oklab
-        $pixels = array_map(
+        $colors = array_map(
             fn(ColorInterface $color): ColorInterface => $color->toColorspace(Oklab::class),
-            iterator_to_array($pixels),
+            iterator_to_array($colors),
         );
 
         // @phpstan-ignore argument.type
-        $clusters = $this->kMeansClustering($pixels); // perform K-means clustering
+        $clusters = $this->kMeansClustering($colors); // perform K-means clustering
 
         $palette = new Palette();
-        $totalPixels = count($pixels);
-        $minClusterSize = ($totalPixels * self::MIN_CLUSTER_SIZE_PERCENT) / 100;
+        $totalColors = count($colors);
+        $minClusterSize = ($totalColors * self::MIN_CLUSTER_SIZE_PERCENT) / 100;
         $colorspace = $image->colorspace();
 
         foreach ($clusters as $cluster) {
@@ -103,18 +102,18 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
     }
 
     /**
-     * Perform K-means clustering on Oklab pixel data.
+     * Perform K-means clustering on Oklab color data.
      *
-     * @param array<OklabColor> $pixels
+     * @param array<OklabColor> $colors
      * @throws AnalyzerException
      * @return array<array{centroid: OklabColor, size: int}>
      */
-    private function kMeansClustering(array $pixels): array
+    private function kMeansClustering(array $colors): array
     {
-        $k = min($this->limit, count($pixels));
+        $k = min($this->limit, count($colors));
 
         // initialize centroids using K-means++
-        $centroids = $this->initializeCentroids($pixels, $k);
+        $centroids = $this->initializeCentroids($colors, $k);
 
         // update k to actual number of centroids found (may be less due to early termination)
         $k = count($centroids);
@@ -122,11 +121,11 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
 
         // iteratively refine clusters
         for ($iteration = 0; $iteration < self::MAX_ITERATIONS; $iteration++) {
-            // assign pixels to nearest centroid
-            $assignments = $this->assignClusters($pixels, $centroids);
+            // assign colors to nearest centroid
+            $assignments = $this->assignClusters($colors, $centroids);
 
             // calculate new centroids
-            $newCentroids = $this->updateCentroids($pixels, $assignments, $k);
+            $newCentroids = $this->updateCentroids($colors, $assignments, $k);
 
             // check for convergence
             if ($this->hasConverged($centroids, $newCentroids)) {
@@ -156,34 +155,34 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
     /**
      * Initialize centroids using K-means++ algorithm for better starting positions.
      *
-     * @param array<OklabColor> $pixels
+     * @param array<OklabColor> $colors
      * @throws AnalyzerException
      * @return array<OklabColor>
      */
-    private function initializeCentroids(array $pixels, int $k): array
+    private function initializeCentroids(array $colors, int $k): array
     {
         $centroids = [];
 
-        if (count($pixels) === 0) {
+        if (count($colors) === 0) {
             return $centroids;
         }
 
-        $pixelIndices = array_keys($pixels);
+        $colorIndices = array_keys($colors);
 
         // choose first centroid randomly (deterministic with seed)
-        $firstIndex = $pixelIndices[$this->rng->getInt(0, count($pixelIndices) - 1)];
-        $centroids[] = $pixels[$firstIndex];
+        $firstIndex = $colorIndices[$this->rng->getInt(0, count($colorIndices) - 1)];
+        $centroids[] = $colors[$firstIndex];
 
         // choose remaining centroids with probability proportional to distance from existing centroids
         for ($i = 1; $i < $k; $i++) {
             $distances = [];
             $sumDistances = 0.0;
 
-            foreach ($pixels as $index => $pixel) {
+            foreach ($colors as $index => $color) {
                 // find minimum distance to any existing centroid
                 $minDistance = PHP_FLOAT_MAX;
                 foreach ($centroids as $centroid) {
-                    $distance = $this->euclideanDistance($pixel, $centroid);
+                    $distance = $this->euclideanDistance($color, $centroid);
                     $minDistance = min($minDistance, $distance);
                 }
 
@@ -210,29 +209,29 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
                 }
             }
 
-            $centroids[] = $pixels[$chosenIndex];
+            $centroids[] = $colors[$chosenIndex];
         }
 
         return $centroids;
     }
 
     /**
-     * Assign each pixel to the nearest centroid.
+     * Assign each color to the nearest centroid.
      *
-     * @param array<OklabColor> $pixels
+     * @param array<OklabColor> $colors
      * @param array<OklabColor> $centroids
      * @return array<int>
      */
-    private function assignClusters(array $pixels, array $centroids): array
+    private function assignClusters(array $colors, array $centroids): array
     {
         $assignments = [];
 
-        foreach ($pixels as $pixel) {
+        foreach ($colors as $color) {
             $minDistance = PHP_FLOAT_MAX;
             $closestCluster = 0;
 
             foreach ($centroids as $index => $centroid) {
-                $distance = $this->euclideanDistance($pixel, $centroid);
+                $distance = $this->euclideanDistance($color, $centroid);
                 if ($distance < $minDistance) {
                     $minDistance = $distance;
                     $closestCluster = $index;
@@ -248,41 +247,41 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
     /**
      * Calculate new centroid positions based on cluster assignments.
      *
-     * @param array<OklabColor> $pixels
+     * @param array<OklabColor> $colors
      * @param array<int> $assignments
      * @throws AnalyzerException
      * @return array<OklabColor>
      */
-    private function updateCentroids(array $pixels, array $assignments, int $k): array
+    private function updateCentroids(array $colors, array $assignments, int $k): array
     {
         $centroids = [];
 
         for ($i = 0; $i < $k; $i++) {
-            $clusterPixels = [];
+            $clusterColors = [];
 
-            foreach ($assignments as $pixelIndex => $cluster) {
+            foreach ($assignments as $colorIndex => $cluster) {
                 if ($cluster === $i) {
-                    $clusterPixels[] = $pixels[$pixelIndex];
+                    $clusterColors[] = $colors[$colorIndex];
                 }
             }
 
-            if (count($clusterPixels) === 0) {
+            if (count($clusterColors) === 0) {
                 // if cluster is empty, reinitialize randomly
-                $randomIndex = $this->rng->getInt(0, count($pixels) - 1);
-                $centroids[$i] = $pixels[$randomIndex];
+                $randomIndex = $this->rng->getInt(0, count($colors) - 1);
+                $centroids[$i] = $colors[$randomIndex];
             } else {
-                // calculate mean of all pixels in cluster
+                // calculate mean of all colors in cluster
                 $sumL = 0.0;
                 $sumA = 0.0;
                 $sumB = 0.0;
 
-                foreach ($clusterPixels as $pixel) {
-                    $sumL += $pixel->lightness()->value();
-                    $sumA += $pixel->a()->value();
-                    $sumB += $pixel->b()->value();
+                foreach ($clusterColors as $color) {
+                    $sumL += $color->lightness()->value();
+                    $sumA += $color->a()->value();
+                    $sumB += $color->b()->value();
                 }
 
-                $count = count($clusterPixels);
+                $count = count($clusterColors);
                 try {
                     $centroids[$i] = new OklabColor(
                         $sumL / $count,

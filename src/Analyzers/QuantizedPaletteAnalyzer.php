@@ -42,7 +42,7 @@ class QuantizedPaletteAnalyzer extends AbstractPaletteAnalyzer
         try {
             $quantizer = $this->quantizer($image);
         } catch (InvalidArgumentException $e) {
-            throw new AnalyzerException('Failed to analyze image pixels', previous: $e);
+            throw new AnalyzerException('Failed to analyze image colors', previous: $e);
         }
 
         return $quantizer->quantizeColors(

@@ -11,8 +11,8 @@ use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Size;
 use Intervention\Image\Tests\BaseTestCase;
-use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\Tests\Resource;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 #[CoversClass(QuantizedPaletteAnalyzer::class)]
@@ -28,6 +28,22 @@ final class QuantizedPaletteAnalyzerTest extends BaseTestCase
 
         $result = $analyzer->analyze(Resource::create($filename)->imageObject(new ImagickDriver()));
         $this->assertCount($count, $result);
+    }
+
+    public function testAnalyzeReturnsIdenticalActualColorsOnAllDrivers(): void
+    {
+        // low color images must result in the exact source colors,
+        // independent of the driver
+        foreach ([new GdDriver(), new ImagickDriver()] as $driver) {
+            $result = (new QuantizedPaletteAnalyzer(256))->analyze(
+                Resource::create('blocks.png')->imageObject($driver),
+            );
+
+            $this->assertCount(3, $result);
+            $this->assertColor(0, 0, 255, 255, $result[0]);
+            $this->assertColor(0, 255, 0, 255, $result[1]);
+            $this->assertColor(255, 0, 0, 255, $result[2]);
+        }
     }
 
     public static function colorCountProvider(): Generator

@@ -33,6 +33,33 @@ class QuantizerTest extends BaseTestCase
         $this->assertEquals($output, (new Quantizer($level))->quantizeColor($input));
     }
 
+    public function testQuantizeColorsKeepsActualColors(): void
+    {
+        // the palette must contain the first actual color of each bin
+        // instead of the calculated bin center
+        $palette = (new Quantizer(16))->quantizeColors([
+            Color::rgb(100, 100, 100),
+            Color::rgb(101, 101, 101), // same bin as previous color
+        ]);
+
+        $this->assertCount(1, $palette);
+        $this->assertColor(100, 100, 100, 255, $palette->first());
+        $this->assertEquals(2, $palette->totalCount());
+    }
+
+    public function testQuantizeColorsGroupsColorsIgnoringAlpha(): void
+    {
+        // colors that only differ in alpha must share one bin
+        $palette = (new Quantizer(16))->quantizeColors([
+            Color::rgb(100, 100, 100),
+            Color::rgb(100, 100, 100)->withTransparency(0.5),
+        ]);
+
+        $this->assertCount(1, $palette);
+        $this->assertColor(100, 100, 100, 255, $palette->first());
+        $this->assertEquals(2, $palette->totalCount());
+    }
+
     public static function rgb(): Generator
     {
         yield [8, Color::rgb(255, 0, 0), Color::rgb(239, 16, 16)];

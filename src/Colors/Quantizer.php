@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors;
 
-use Intervention\Image\Exceptions\AnalyzerException;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
-use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
+use Intervention\Image\Traits\CanHashColor;
 
 class Quantizer
 {
+    use CanHashColor;
+
     public const int LEVEL_MIN = 1;
     public const int LEVEL_MAX = 256;
     public const int LEVEL_DEFAULT = 16;
@@ -33,18 +34,28 @@ class Quantizer
     }
 
     /**
-     * Quantize all colors in given array.
+     * Build a palette by grouping the given colors into quantized bins.
+     *
+     * Each bin is represented by the first actual color assigned to it, so the
+     * palette only contains colors that really occur in the source data. Alpha
+     * is left out of the bin key to prevent visually identical colors from
+     * occupying separate bins.
      *
      * @param array<ColorInterface> $colors
-     * @throws AnalyzerException
      * @throws ColorException
      */
     public function quantizeColors(array $colors): PaletteInterface
     {
-        return new Palette(array_map(
-            fn(ColorInterface $color) => $this->quantizeColor($color),
-            $colors,
-        ));
+        $palette = new Palette();
+        $representatives = [];
+
+        foreach ($colors as $color) {
+            $key = $this->hashColor($this->quantizeColor($color)->withTransparency(1.0));
+            $representatives[$key] ??= $color;
+            $palette->addColor($representatives[$key]);
+        }
+
+        return $palette;
     }
 
     /**
@@ -72,7 +83,7 @@ class Quantizer
                 fn(int $quantized): float => $this->binIndexToNormalized($quantized),
                 $quantized,
             );
-        } catch (InvalidArgumentException | RuntimeException $e) {
+        } catch (InvalidArgumentException $e) {
             throw new ColorException('Failed to quantize color', previous: $e);
         }
 
@@ -94,7 +105,6 @@ class Quantizer
             throw new InvalidArgumentException('Value must be normalized between 0 and 1');
         }
 
-        $value = max(0.0, min(1.0, $value));
         $bin = (int) floor($value * $this->levels); // 1.0 belongs to the last bin.
 
         return min($bin, $this->levels - 1);
@@ -102,13 +112,12 @@ class Quantizer
 
     /**
      * Convert a bin index to the center value of that bin.
-     *
-     * @throws RuntimeException
      */
     private function binIndexToNormalized(int $bin): float
     {
         $bin = max(0, min($this->levels - 1, $bin));
 
+        // levels is always >= 1, division by zero is impossible
         // @phpstan-ignore missingType.checkedException
         return ($bin + 0.5) / $this->levels;
     }

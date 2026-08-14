@@ -45,26 +45,21 @@ class ColorExtractor
     /**
      * Extract color swatches.
      *
-     * @template T of SwatchesInterface
-     * @param class-string<T>|T $swatches
      * @throws InvalidArgumentException
-     * @return T
      */
     public function swatches(string|SwatchesInterface $swatches = new Swatches\VibrantMuted()): SwatchesInterface
     {
-        if (is_string($swatches) && !class_exists($swatches)) {
-            throw new InvalidArgumentException(
-                'The specified swatches class "' . $swatches . '" does not exist',
-            );
-        }
+        // validate the classname before instantiation, otherwise abstract
+        // classes or constructors with required parameters throw undeclared
+        // errors instead of the intended exception
+        if (is_string($swatches)) {
+            if (!is_a($swatches, SwatchesInterface::class, allow_string: true)) {
+                throw new InvalidArgumentException(
+                    'The specified swatches argument must be a classname of or implement ' . SwatchesInterface::class,
+                );
+            }
 
-        $swatches = is_string($swatches) ? new $swatches() : $swatches;
-
-        // @phpstan-ignore instanceof.alwaysTrue
-        if (!$swatches instanceof SwatchesInterface) {
-            throw new InvalidArgumentException(
-                'The specified swatches argument must be a classname of or implement ' . SwatchesInterface::class,
-            );
+            $swatches = new $swatches();
         }
 
         return $swatches->colorFilter()->filterColors(

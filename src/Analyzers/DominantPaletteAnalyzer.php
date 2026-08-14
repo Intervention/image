@@ -39,7 +39,7 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
     private const SEED = 1024;
 
     /**
-     * Local RNG instance (does not affect global mt_rand state).
+     * Local RNG instance.
      */
     private Randomizer $rng;
 

@@ -10,7 +10,7 @@ use Intervention\Image\Interfaces\ColorFilterInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\SwatchesInterface;
 
-class VibrantMuted extends AbstractSwatches implements SwatchesInterface
+class VibrantMuted extends AbstractSwatches
 {
     /**
      * Create new instance.

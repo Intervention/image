@@ -84,7 +84,9 @@ abstract class AbstractSwatches implements SwatchesInterface
      */
     public function offsetUnset(mixed $offset): void
     {
-        unset($this->{$offset});
+        // assign null instead of unset() which would leave the
+        // typed property in uninitialized state
+        $this->{$offset} = null;
     }
 
     /**
@@ -94,17 +96,9 @@ abstract class AbstractSwatches implements SwatchesInterface
      */
     public function getIterator(): Traversable
     {
-        $publicColorProperties = [];
-        $reflection = new ReflectionClass($this);
-        $publicColorProperties = array_filter(
-            $reflection->getProperties(ReflectionProperty::IS_PUBLIC),
-            // @phpstan-ignore method.notFound
-            fn(ReflectionProperty $property): bool => $property->getType()?->getName() === ColorInterface::class,
-        );
-
         $colors = [];
-        foreach ($publicColorProperties as $property) {
-            $colors[$property->getName()] = $this->{$property->getName()};
+        foreach ($this->swatchNames() as $name) {
+            $colors[$name] = $this->{$name};
         }
 
         return new ArrayIterator($colors);
@@ -139,17 +133,15 @@ abstract class AbstractSwatches implements SwatchesInterface
      */
     private function swatchNames(): array
     {
-        $names = [];
-        $reflection = new ReflectionClass($this);
-        $names = array_filter(
-            $reflection->getProperties(ReflectionProperty::IS_PUBLIC),
+        $properties = array_filter(
+            (new ReflectionClass($this))->getProperties(ReflectionProperty::IS_PUBLIC),
             // @phpstan-ignore method.notFound
             fn(ReflectionProperty $property): bool => $property->getType()?->getName() === ColorInterface::class,
         );
 
         return array_map(
             fn(ReflectionProperty $property): string => $property->getName(),
-            $names,
+            $properties,
         );
     }
 }

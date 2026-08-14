@@ -6,8 +6,8 @@ namespace Intervention\Image\Tests\Unit\Colors\Swatches;
 
 use Intervention\Image\Analyzers\QuantizedPaletteAnalyzer;
 use Intervention\Image\Color;
-use Intervention\Image\Colors\Cmyk\Colorspace as Cmyk;
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
+use Intervention\Image\Colors\Cmyk\Colorspace as Cmyk;
 use Intervention\Image\Colors\Swatches\AbstractSwatches;
 use Intervention\Image\Colors\Swatches\Filters\VibrantMutedFilter;
 use Intervention\Image\Interfaces\AnalyzerInterface;
@@ -70,6 +70,17 @@ class AbstractSwatchesTest extends BaseTestCase
         $this->assertColor(0, 0, 0, 255, $swatches['vibrant']);
         $this->assertColor(255, 255, 255, 255, $swatches['muted']);
         $this->assertNull($swatches['darkMuted']);
+    }
+
+    public function testOffsetUnset(): void
+    {
+        $swatches = $this->testImplementation();
+        unset($swatches['vibrant']);
+        $this->assertNull($swatches['vibrant']);
+
+        // object must remain fully usable after unset
+        $this->assertEquals(6, $swatches->count());
+        $this->assertCount(6, $swatches->toArray());
     }
 
     public function testToPalette(): void

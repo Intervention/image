@@ -294,6 +294,32 @@ class Palette implements PaletteInterface
     /**
      * {@inheritdoc}
      *
+     * @see PaletteInterface::sortByPresence()
+     */
+    public function sortByPresence(): PaletteInterface
+    {
+        uasort($this->bins, fn(Bin $binA, Bin $binB): int => $binA->count <=> $binB->count);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see PaletteInterface::sortByPresenceDesc()
+     */
+    public function sortByPresenceDesc(): PaletteInterface
+    {
+        $this->sortByPresence();
+
+        $this->bins = array_reverse($this->bins, preserve_keys: true);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see PaletteInterface::slice()
      */
     public function slice(int $offset, ?int $length = null): PaletteInterface

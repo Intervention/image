@@ -64,6 +64,16 @@ interface PaletteInterface extends Traversable, Countable, IteratorAggregate, Ar
     public function sortByChannelDesc(string|ColorChannelInterface $channel): self;
 
     /**
+     * Sort the palette by the number of times each color appears in the image starting with the smallest number.
+     */
+    public function sortByPresence(): self;
+
+    /**
+     * Sort the palette by the number of times each color appears in the image in reverse order.
+     */
+    public function sortByPresenceDesc(): self;
+
+    /**
      * Transform the palette by retaining only the specified number of colors after the offset.
      *
      * @return self<ColorInterface>

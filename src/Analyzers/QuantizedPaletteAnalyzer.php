@@ -47,7 +47,7 @@ class QuantizedPaletteAnalyzer extends AbstractPaletteAnalyzer
 
         return $quantizer->quantizeColors(
             iterator_to_array($this->collectColors($image, $this->region)),
-        )->slice(0, $this->limit);
+        )->slice(0, $this->limit)->sortByPresenceDesc();
     }
 
     /**

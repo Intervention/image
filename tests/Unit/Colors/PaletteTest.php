@@ -141,4 +141,28 @@ class PaletteTest extends BaseTestCase
 
         $this->assertEquals(15, $palette->totalCount());
     }
+
+    public function testSortByPresence(): void
+    {
+        $palette = new Palette([]);
+        $palette->addColor(Color::rgb(0, 0, 0));
+        $palette->addColor(Color::rgb(0, 0, 0));
+        $palette->addColor(Color::rgb(255, 255, 255));
+        $palette->addColor(Color::rgb(11, 11, 11));
+        $palette->addColor(Color::rgb(255, 255, 255));
+        $palette->addColor(Color::rgb(255, 255, 255));
+
+        // unsorted
+        $this->assertColor(0, 0, 0, 255, $palette->first());
+
+        // low presence first
+        $sorted = $palette->sortByPresence();
+        $this->assertColor(11, 11, 11, 255, $sorted->first());
+        $this->assertColor(11, 11, 11, 255, $palette->first());
+
+        // hight presence first
+        $sorted = $palette->sortByPresenceDesc();
+        $this->assertColor(255, 255, 255, 255, $sorted->first());
+        $this->assertColor(255, 255, 255, 255, $palette->first());
+    }
 }

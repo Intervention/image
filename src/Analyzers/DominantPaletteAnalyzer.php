@@ -98,6 +98,7 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
             }
         }
 
+        // palette has already a limit of k and is already sorted by cluster size
         return $palette;
     }
 

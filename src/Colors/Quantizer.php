@@ -10,6 +10,7 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Interfaces\PaletteInterface;
 
 class Quantizer
 {
@@ -38,7 +39,7 @@ class Quantizer
      * @throws AnalyzerException
      * @throws ColorException
      */
-    public function quantizeColors(array $colors): Palette
+    public function quantizeColors(array $colors): PaletteInterface
     {
         return new Palette(array_map(
             fn(ColorInterface $color) => $this->quantizeColor($color),

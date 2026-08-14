@@ -17,7 +17,12 @@ use Traversable;
 interface SwatchesInterface extends Traversable, Countable, IteratorAggregate, ArrayAccess
 {
     /**
-     * Create a filter instance that can categorize the swatches.
+     * Create an analyzer instance to extract colors from the image for the swatches filter.
+     */
+    public function colorAnalyzer(): AnalyzerInterface;
+
+    /**
+     * Create a filter instance that can categorize the extracted colors to swatches.
      */
     public function colorFilter(): ColorFilterInterface;
 

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors\Swatches;
 
+use Intervention\Image\Analyzers\QuantizedPaletteAnalyzer;
+use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ColorFilterInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\SwatchesInterface;
@@ -22,6 +24,17 @@ class VibrantMuted extends AbstractSwatches implements SwatchesInterface
         public ?ColorInterface $lightMuted = null,
     ) {
         //
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see SwatchesInterface::colorAnalyzer()
+     */
+    public function colorAnalyzer(): AnalyzerInterface
+    {
+        // @phpstan-ignore missingType.checkedException
+        return new QuantizedPaletteAnalyzer(256 * 256 * 256);
     }
 
     /**

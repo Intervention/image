@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Colors\Swatches;
 
+use Intervention\Image\Analyzers\QuantizedPaletteAnalyzer;
 use Intervention\Image\Color;
 use Intervention\Image\Colors\Cmyk\Colorspace as Cmyk;
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
 use Intervention\Image\Colors\Swatches\AbstractSwatches;
 use Intervention\Image\Colors\Swatches\Filters\VibrantMutedFilter;
+use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ColorFilterInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
@@ -93,6 +95,11 @@ class AbstractSwatchesTest extends BaseTestCase
             ) {
                 $this->vibrant = Color::rgb(0, 0, 0);
                 $this->muted = Color::rgb(255, 255, 255);
+            }
+
+            public function colorAnalyzer(): AnalyzerInterface
+            {
+                return new QuantizedPaletteAnalyzer();
             }
 
             public function colorFilter(): ColorFilterInterface

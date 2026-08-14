@@ -67,7 +67,7 @@ class ColorExtractor
         }
 
         return $swatches->colorFilter()->filterColors(
-            $this->image->analyze(new QuantizedPaletteAnalyzer(256 * 256 * 256)),
+            $this->image->analyze($swatches->colorAnalyzer()),
         );
     }
 }

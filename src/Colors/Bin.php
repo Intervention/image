@@ -11,7 +11,7 @@ class Bin
     /**
      * Create new instance.
      */
-    public function __construct(public ColorInterface $color, public int $count = 0)
+    public function __construct(public ColorInterface $color, public int $count = 0, public ?string $type = null)
     {
         //
     }

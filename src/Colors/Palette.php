@@ -319,7 +319,10 @@ class Palette implements PaletteInterface
      */
     public function sortByPresence(): PaletteInterface
     {
-        uasort($this->bins, fn(Bin $binA, Bin $binB): int => $binA->count <=> $binB->count);
+        // sort by bin count first and hash secondary
+        uksort($this->bins, function (string $hashA, string $hashB): int {
+            return [$this->bins[$hashA]->count, $hashA] <=> [$this->bins[$hashB]->count, $hashB];
+        });
 
         return $this;
     }

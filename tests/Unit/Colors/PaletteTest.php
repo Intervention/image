@@ -190,19 +190,21 @@ class PaletteTest extends BaseTestCase
         $palette->addColor(Color::rgb(0, 0, 0));
         $palette->addColor(Color::rgb(0, 0, 0));
         $palette->addColor(Color::rgb(255, 255, 255));
-        $palette->addColor(Color::rgb(11, 11, 11));
+        $palette->addColor(Color::rgb(0, 1, 2));
+        $palette->addColor(Color::rgb(1, 2, 3));
         $palette->addColor(Color::rgb(255, 255, 255));
         $palette->addColor(Color::rgb(255, 255, 255));
 
         // unsorted
         $this->assertColor(0, 0, 0, 255, $palette->first());
 
-        // low presence first
+        // low presence first, there are two colors with low presence (1)
+        // but 1, 2, 3 comes first because of secondary hash sorting
         $sorted = $palette->sortByPresence();
-        $this->assertColor(11, 11, 11, 255, $sorted->first());
-        $this->assertColor(11, 11, 11, 255, $palette->first());
+        $this->assertColor(1, 2, 3, 255, $sorted->first());
+        $this->assertColor(1, 2, 3, 255, $palette->first());
 
-        // hight presence first
+        // high presence first
         $sorted = $palette->sortByPresenceDesc();
         $this->assertColor(255, 255, 255, 255, $sorted->first());
         $this->assertColor(255, 255, 255, 255, $palette->first());

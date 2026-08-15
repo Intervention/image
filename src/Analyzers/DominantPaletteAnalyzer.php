@@ -38,7 +38,7 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
     private const SEED = 1024;
 
     /**
-     * Local RNG instance.
+     * Local RNG.
      */
     private Randomizer $rng;
 
@@ -53,8 +53,7 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
             throw new InvalidArgumentException('Invalid $limit value. Must be int<1, max>');
         }
 
-        // use local RNG to avoid corrupting global mt_rand state
-        $this->rng = new Randomizer(new Mt19937(self::SEED));
+        $this->randomize();
     }
 
     /**
@@ -65,9 +64,8 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
      */
     public function analyze(ImageInterface $image): PaletteInterface
     {
-        // re-seed on every run so the result only depends on the image,
-        // even when the analyzer instance is reused
-        $this->rng = new Randomizer(new Mt19937(self::SEED));
+        // re-seed on every run so the result only depends on the image
+        $this->randomize();
 
         // flatten colors to plain oklab value triples once, so the clustering
         // works on raw floats instead of repeated object accessor calls
@@ -317,5 +315,13 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
         $db = $point1[2] - $point2[2];
 
         return $dl * $dl + $da * $da + $db * $db;
+    }
+
+    /**
+     * Re-seed local RNG.
+     */
+    private function randomize(): void
+    {
+        $this->rng = new Randomizer(new Mt19937(self::SEED));
     }
 }

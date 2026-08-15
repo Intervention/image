@@ -32,7 +32,7 @@ abstract class AbstractPaletteAnalyzer implements AnalyzerInterface
     }
 
     /**
-     * Get dynamic grid of pixel sample coordinates according to current image size.
+     * Get dynamic grid of pixel sample coordinates in the given region of the image size.
      *
      * @throws InvalidArgumentException
      * @return Generator<array{x: int, y: int}>

@@ -84,8 +84,6 @@ abstract class AbstractSwatches implements SwatchesInterface
      */
     public function offsetUnset(mixed $offset): void
     {
-        // assign null instead of unset() which would leave the
-        // typed property in uninitialized state
         $this->{$offset} = null;
     }
 

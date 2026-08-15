@@ -49,10 +49,8 @@ class ColorExtractor
      */
     public function swatches(string|SwatchesInterface $swatches = new Swatches\VibrantMuted()): SwatchesInterface
     {
-        // validate the classname before instantiation, otherwise abstract
-        // classes or constructors with required parameters throw undeclared
-        // errors instead of the intended exception
         if (is_string($swatches)) {
+            // validate the classname before instantiation
             if (!is_a($swatches, SwatchesInterface::class, allow_string: true)) {
                 throw new InvalidArgumentException(
                     'The specified swatches argument must be a classname of or implement ' . SwatchesInterface::class,

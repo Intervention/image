@@ -37,28 +37,23 @@ class QuantizedPaletteAnalyzer extends AbstractPaletteAnalyzer
      *
      * @throws InvalidArgumentException
      * @throws AnalyzerException
-     * @throws ColorException
      */
     public function analyze(ImageInterface $image): PaletteInterface
     {
-        $colors = iterator_to_array($this->collectColors($image, $this->region));
-
         try {
-            $quantizer = $this->quantizer($colors);
-        } catch (InvalidArgumentException $e) {
-            throw new AnalyzerException('Failed to analyze image colors', previous: $e);
+            $colors = iterator_to_array($this->collectColors($image, $this->region));
+            return $this->quantizer($colors)->quantizeColors($colors)
+                ->sortByPresenceDesc()
+                ->slice(0, $this->limit);
+        } catch (ColorException $e) {
+            throw new AnalyzerException('Unable to analyze image colors', previous: $e);
         }
-
-        return $quantizer->quantizeColors($colors)
-            ->sortByPresenceDesc()
-            ->slice(0, $this->limit);
     }
 
     /**
      * Build quantizer according to the sampled colors and current limit.
      *
      * @param array<ColorInterface> $colors
-     * @throws InvalidArgumentException
      */
     private function quantizer(array $colors): Quantizer
     {
@@ -74,9 +69,11 @@ class QuantizedPaletteAnalyzer extends AbstractPaletteAnalyzer
         }
 
         if (count($distinct) <= 256) {
+            // @phpstan-ignore missingType.checkedException
             return new Quantizer(Quantizer::LEVEL_MAX);
         }
 
+        // @phpstan-ignore missingType.checkedException
         return new Quantizer(match (true) {
             $this->limit <= 256 => 20,
             $this->limit <= 512 => 30,

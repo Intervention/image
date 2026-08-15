@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Analyzers;
 
+use Generator;
 use Intervention\Image\Colors\Oklab\Color as OklabColor;
 use Intervention\Image\Colors\Oklab\Colorspace as Oklab;
 use Intervention\Image\Colors\Palette;
 use Intervention\Image\Exceptions\AnalyzerException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -67,18 +69,7 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
         // re-seed on every run so the result only depends on the image
         $this->randomize();
 
-        // flatten colors to plain oklab value triples once, so the clustering
-        // works on raw floats instead of repeated object accessor calls
-        $points = [];
-        foreach ($this->collectColors($image, $this->region) as $color) {
-            $oklab = $color->toColorspace(Oklab::class);
-            if (!$oklab instanceof OklabColor) {
-                throw new AnalyzerException('Unable to analyze image colors, failed to transform color space');
-            }
-
-            $points[] = [$oklab->lightness()->value(), $oklab->a()->value(), $oklab->b()->value()];
-        }
-
+        $points = $this->clusterableColors($this->collectColors($image, $this->region));
         $clusters = $this->kMeansClustering($points); // perform K-means clustering
 
         $palette = new Palette();
@@ -104,6 +95,32 @@ class DominantPaletteAnalyzer extends AbstractPaletteAnalyzer
 
         // palette has already a limit of k and is already sorted by cluster size
         return $palette;
+    }
+
+    /**
+     * Transform color to flattened oklab color channel triples which can be used for clustering.
+     *
+     * @param Generator<ColorInterface> $colors
+     * @throws AnalyzerException
+     * @return array<array{float, float, float}>
+     */
+    private function clusterableColors(Generator $colors): array
+    {
+        $clusterable = [];
+        foreach ($colors as $color) {
+            $oklab = $color->toColorspace(Oklab::class);
+            if (!$oklab instanceof OklabColor) {
+                throw new AnalyzerException('Unable to analyze image colors, failed to transform color space');
+            }
+
+            $clusterable[] = [
+                $oklab->lightness()->value(),
+                $oklab->a()->value(),
+                $oklab->b()->value(),
+            ];
+        }
+
+        return $clusterable;
     }
 
     /**

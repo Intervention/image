@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit\Analyzers;
 
 use Generator;
-use Intervention\Image\Analyzers\QuantizedPaletteAnalyzer;
+use Intervention\Image\Analyzers\PopularPaletteAnalyzer;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -15,13 +15,13 @@ use Intervention\Image\Tests\Resource;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-#[CoversClass(QuantizedPaletteAnalyzer::class)]
-final class QuantizedPaletteAnalyzerTest extends BaseTestCase
+#[CoversClass(PopularPaletteAnalyzer::class)]
+final class PopularPaletteAnalyzerTest extends BaseTestCase
 {
     #[DataProvider('colorCountProvider')]
     public function testAnalyze(string $filename, int $limit, ?SizeInterface $region, int $count): void
     {
-        $analyzer = new QuantizedPaletteAnalyzer($limit, $region);
+        $analyzer = new PopularPaletteAnalyzer($limit, $region);
 
         $result = $analyzer->analyze(Resource::create($filename)->imageObject(new GdDriver()));
         $this->assertCount($count, $result);
@@ -35,7 +35,7 @@ final class QuantizedPaletteAnalyzerTest extends BaseTestCase
         // low color images must result in the exact source colors,
         // independent of the driver
         foreach ([new GdDriver(), new ImagickDriver()] as $driver) {
-            $result = (new QuantizedPaletteAnalyzer(256))->analyze(
+            $result = (new PopularPaletteAnalyzer(256))->analyze(
                 Resource::create('blocks.png')->imageObject($driver),
             );
 

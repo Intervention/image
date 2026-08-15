@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Colors\Swatches;
 
-use Intervention\Image\Analyzers\QuantizedPaletteAnalyzer;
+use Intervention\Image\Analyzers\PopularPaletteAnalyzer;
 use Intervention\Image\Color;
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
 use Intervention\Image\Colors\Cmyk\Colorspace as Cmyk;
@@ -110,7 +110,7 @@ class AbstractSwatchesTest extends BaseTestCase
 
             public function colorAnalyzer(): AnalyzerInterface
             {
-                return new QuantizedPaletteAnalyzer();
+                return new PopularPaletteAnalyzer();
             }
 
             public function colorFilter(): ColorFilterInterface

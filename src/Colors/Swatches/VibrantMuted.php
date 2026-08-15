@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors\Swatches;
 
-use Intervention\Image\Analyzers\QuantizedPaletteAnalyzer;
+use Intervention\Image\Analyzers\PopularPaletteAnalyzer;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\ColorFilterInterface;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -36,7 +36,7 @@ class VibrantMuted extends AbstractSwatches
         // a coarsely quantized palette keeps the population of each color
         // meaningful for the scoring in the color filter
         // @phpstan-ignore missingType.checkedException
-        return new QuantizedPaletteAnalyzer(256);
+        return new PopularPaletteAnalyzer(256);
     }
 
     /**

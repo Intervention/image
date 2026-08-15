@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Colors;
 
 use Intervention\Image\Analyzers\DominantPaletteAnalyzer;
-use Intervention\Image\Analyzers\QuantizedPaletteAnalyzer;
+use Intervention\Image\Analyzers\PopularPaletteAnalyzer;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
@@ -29,7 +29,7 @@ class ColorExtractor
      */
     public function popular(int $limit = 256, ?SizeInterface $region = null): PaletteInterface
     {
-        return $this->image->analyze(new QuantizedPaletteAnalyzer($limit, $region));
+        return $this->image->analyze(new PopularPaletteAnalyzer($limit, $region));
     }
 
     /**

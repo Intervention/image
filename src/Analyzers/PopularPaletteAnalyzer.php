@@ -14,7 +14,7 @@ use Intervention\Image\Interfaces\PaletteInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Traits\CanHashColor;
 
-class QuantizedPaletteAnalyzer extends AbstractPaletteAnalyzer
+class PopularPaletteAnalyzer extends AbstractPaletteAnalyzer
 {
     use CanHashColor;
 

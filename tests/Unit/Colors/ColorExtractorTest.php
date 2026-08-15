@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Colors;
 
-use Intervention\Image\Analyzers\QuantizedPaletteAnalyzer;
+use Intervention\Image\Analyzers\PopularPaletteAnalyzer;
 use Intervention\Image\Colors\ColorExtractor;
 use Intervention\Image\Colors\Swatches\Filters\VibrantMutedFilter;
 use Intervention\Image\Interfaces\ColorInterface;
@@ -82,7 +82,7 @@ class ColorExtractorTest extends BaseTestCase
     public function testSwatchesIndependentOfPaletteOrder(DriverInterface $driver): void
     {
         $image = Resource::create('apple.jpg')->imageObject($driver);
-        $palette = $image->analyze(new QuantizedPaletteAnalyzer(256));
+        $palette = $image->analyze(new PopularPaletteAnalyzer(256));
 
         $swatches = (new VibrantMutedFilter())->filterColors($palette);
         $reordered = (new VibrantMutedFilter())->filterColors($palette->sortByPresence());

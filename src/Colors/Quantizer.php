@@ -8,13 +8,9 @@ use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
-use Intervention\Image\Interfaces\PaletteInterface;
-use Intervention\Image\Traits\CanHashColor;
 
 class Quantizer
 {
-    use CanHashColor;
-
     public const int LEVEL_MIN = 1;
     public const int LEVEL_MAX = 256;
     public const int LEVEL_DEFAULT = 16;
@@ -31,31 +27,6 @@ class Quantizer
                     self::LEVEL_MAX,
             );
         }
-    }
-
-    /**
-     * Build a palette by grouping the given colors into quantized bins.
-     *
-     * Each bin is represented by the first actual color assigned to it, so the
-     * palette only contains colors that really occur in the source data. Alpha
-     * is left out of the bin key to prevent visually identical colors from
-     * occupying separate bins.
-     *
-     * @param array<ColorInterface> $colors
-     * @throws ColorException
-     */
-    public function quantizeColors(array $colors): PaletteInterface
-    {
-        $palette = new Palette();
-        $representatives = [];
-
-        foreach ($colors as $color) {
-            $key = $this->hashColor($this->quantizeColor($color)->withTransparency(1.0));
-            $representatives[$key] ??= $color;
-            $palette->addColor($representatives[$key]);
-        }
-
-        return $palette;
     }
 
     /**

@@ -33,8 +33,6 @@ class VibrantMuted extends AbstractSwatches
      */
     public function colorAnalyzer(): AnalyzerInterface
     {
-        // a coarsely quantized palette keeps the population of each color
-        // meaningful for the scoring in the color filter
         // @phpstan-ignore missingType.checkedException
         return new PopularPaletteAnalyzer(256);
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Analyzers;
 
+use Intervention\Image\Colors\Palette;
 use Intervention\Image\Colors\Quantizer;
 use Intervention\Image\Exceptions\AnalyzerException;
 use Intervention\Image\Exceptions\ColorException;
@@ -42,12 +43,38 @@ class PopularPaletteAnalyzer extends AbstractPaletteAnalyzer
     {
         try {
             $colors = iterator_to_array($this->collectColors($image, $this->region));
-            return $this->quantizer($colors)->quantizeColors($colors)
-                ->sortByPresenceDesc()
-                ->slice(0, $this->limit);
+            $quantizer = $this->quantizer($colors);
+
+            $palette = new Palette();
+            $representatives = [];
+
+            foreach ($colors as $color) {
+                // first color selected is ok but I dont like the code duplication from palette hashin with $representatives here
+                //
+                // objective: a way to add colors to palette saving them with a quantized
+                // hash and keeping the original values
+                //
+                // maybe new Palette([], quantizationlevels: 16, keepOriginal: true);
+                // maybe $palette->addWithHash($hash, $color); <- NOPE
+                // maybe $palette->addSimilar($color, $count, $levels);
+                //
+                // maybe palette with all colors in array then:
+                // $palette->quantize() or/and $palette->reduce()
+                //
+                // maybe implement quantize() to Color itself then:
+                // $color->quantize()->hash();
+                $quantizedHash = $this->hashColor($quantizer->quantizeColor($color));
+                $representatives[$quantizedHash] ??= $color;
+                $palette->addColor($representatives[$quantizedHash]);
+
+            }
         } catch (ColorException $e) {
             throw new AnalyzerException('Unable to analyze image colors', previous: $e);
         }
+
+        return $palette
+            ->sortByPresenceDesc()
+            ->slice(0, $this->limit);
     }
 
     /**

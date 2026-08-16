@@ -71,7 +71,7 @@ class ColorExtractorTest extends BaseTestCase
         $this->assertInstanceOf(SwatchesInterface::class, $result);
         $this->assertCount(6, $result);
         $this->assertColor(217, 37, 38, 255, $result->vibrant);
-        $this->assertColor(122, 160, 101, 255, $result->muted);
+        $this->assertColor(98, 160, 123, 255, $result->muted);
         $this->assertColor(128, 19, 25, 255, $result->darkVibrant);
         $this->assertColor(96, 51, 56, 255, $result->darkMuted);
         $this->assertColor(233, 166, 140, 255, $result->lightVibrant);

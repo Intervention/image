@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Colors;
 
+use Generator;
 use Intervention\Image\Color;
 use Intervention\Image\Colors\Cmyk\Color as CmykColor;
 use Intervention\Image\Colors\Cmyk\Colorspace as Cmyk;
@@ -17,6 +18,7 @@ use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
 use Intervention\Image\Tests\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 #[CoversClass(Palette::class)]
 class PaletteTest extends BaseTestCase
@@ -225,5 +227,99 @@ class PaletteTest extends BaseTestCase
         $this->assertEquals(2, $palette->colorCount(Color::rgb(0, 100, 0)));
         $this->assertEquals(1, $palette->colorCount(Color::rgb(0, 0, 100)));
         $this->assertEquals(0, $palette->colorCount(Color::rgb(0, 0, 0)));
+    }
+
+    /**
+     * @param array<ColorInterface> $colors
+     */
+    #[DataProvider('quantizePaletteProvider')]
+    public function testQuantize(
+        array $colors,
+        int $levels,
+        int $totalCount,
+        int $countBeforeQuantization,
+        int $countAfterQuantization,
+        ColorInterface $firstColorAfterQuantization,
+        ColorInterface $lastColorAfterQuantization,
+    ): void {
+        $palette = new Palette($colors);
+        $this->assertEquals($countBeforeQuantization, $palette->count());
+        $this->assertEquals($totalCount, $palette->totalCount());
+
+        $quantizedPalette = $palette->quantize($levels);
+
+        $this->assertEquals($countAfterQuantization, $quantizedPalette->count());
+        $this->assertEquals($totalCount, $quantizedPalette->totalCount());
+        $this->assertEquals($firstColorAfterQuantization, $quantizedPalette->first());
+        $this->assertEquals($lastColorAfterQuantization, $quantizedPalette->last());
+        $this->assertEquals($countAfterQuantization, $palette->count());
+        $this->assertEquals($totalCount, $palette->totalCount());
+        $this->assertEquals($firstColorAfterQuantization, $palette->first());
+        $this->assertEquals($lastColorAfterQuantization, $palette->last());
+    }
+
+    public static function quantizePaletteProvider(): Generator
+    {
+        $colors = [];
+        for ($i = 0; $i < 256; $i++) {
+            $colors[] = Color::rgb($i, $i, $i);
+        }
+
+        yield [$colors, 1, 256, 256, 1, Color::rgb(128, 128, 128), Color::rgb(128, 128, 128)];
+        yield [$colors, 2, 256, 256, 2, Color::rgb(64, 64, 64), Color::rgb(191, 191, 191)];
+        yield [$colors, 4, 256, 256, 4, Color::rgb(32, 32, 32), Color::rgb(223, 223, 223)];
+        yield [$colors, 6, 256, 256, 6, Color::rgb(21, 21, 21), Color::rgb(234, 234, 234)];
+        yield [$colors, 8, 256, 256, 8, Color::rgb(16, 16, 16), Color::rgb(239, 239, 239)];
+        yield [$colors, 10, 256, 256, 10, Color::rgb(13, 13, 13), Color::rgb(242, 242, 242)];
+        yield [$colors, 12, 256, 256, 12, Color::rgb(11, 11, 11), Color::rgb(244, 244, 244)];
+        yield [$colors, 14, 256, 256, 14, Color::rgb(9, 9, 9), Color::rgb(246, 246, 246)];
+        yield [$colors, 16, 256, 256, 16, Color::rgb(8, 8, 8), Color::rgb(247, 247, 247)];
+    }
+
+    /**
+     * @param array<ColorInterface> $colors
+     */
+    #[DataProvider('reducePaletteProvider')]
+    public function testReduce(
+        array $colors,
+        int $levels,
+        int $totalCount,
+        int $countBeforeQuantization,
+        int $countAfterQuantization,
+        ColorInterface $firstColorAfterQuantization,
+        ColorInterface $lastColorAfterQuantization,
+    ): void {
+        $palette = new Palette($colors);
+        $this->assertEquals($countBeforeQuantization, $palette->count());
+        $this->assertEquals($totalCount, $palette->totalCount());
+
+        $quantizedPalette = $palette->reduce($levels);
+
+        $this->assertEquals($countAfterQuantization, $quantizedPalette->count());
+        $this->assertEquals($totalCount, $quantizedPalette->totalCount());
+        $this->assertEquals($firstColorAfterQuantization, $quantizedPalette->first());
+        $this->assertEquals($lastColorAfterQuantization, $quantizedPalette->last());
+        $this->assertEquals($countAfterQuantization, $palette->count());
+        $this->assertEquals($totalCount, $palette->totalCount());
+        $this->assertEquals($firstColorAfterQuantization, $palette->first());
+        $this->assertEquals($lastColorAfterQuantization, $palette->last());
+    }
+
+    public static function reducePaletteProvider(): Generator
+    {
+        $colors = [];
+        for ($i = 0; $i < 256; $i++) {
+            $colors[] = Color::rgb($i, $i, $i);
+        }
+
+        yield [$colors, 1, 256, 256, 1, Color::rgb(0, 0, 0), Color::rgb(0, 0, 0)];
+        yield [$colors, 2, 256, 256, 2, Color::rgb(0, 0, 0), Color::rgb(128, 128, 128)];
+        yield [$colors, 4, 256, 256, 4, Color::rgb(0, 0, 0), Color::rgb(192, 192, 192)];
+        yield [$colors, 6, 256, 256, 6, Color::rgb(0, 0, 0), Color::rgb(213, 213, 213)];
+        yield [$colors, 8, 256, 256, 8, Color::rgb(0, 0, 0), Color::rgb(224, 224, 224)];
+        yield [$colors, 10, 256, 256, 10, Color::rgb(0, 0, 0), Color::rgb(230, 230, 230)];
+        yield [$colors, 12, 256, 256, 12, Color::rgb(0, 0, 0), Color::rgb(234, 234, 234)];
+        yield [$colors, 14, 256, 256, 14, Color::rgb(0, 0, 0), Color::rgb(237, 237, 237)];
+        yield [$colors, 16, 256, 256, 16, Color::rgb(0, 0, 0), Color::rgb(240, 240, 240)];
     }
 }

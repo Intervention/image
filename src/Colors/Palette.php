@@ -112,6 +112,54 @@ class Palette implements PaletteInterface
     /**
      * {@inheritdoc}
      *
+     * @see PaletteInterface::quantize()
+     *
+     * @throws InvalidArgumentException
+     */
+    public function quantize(int $levels): self
+    {
+        $bins = $this->bins;
+        $this->bins = [];
+
+        foreach ($bins as $bin) {
+            $this->addColor($this->quantizeColor($bin->color, $levels), $bin->count);
+        }
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see PaletteInterface::reduce()
+     *
+     * @throws InvalidArgumentException
+     */
+    public function reduce(int $levels): self
+    {
+        $originals = [];
+
+        foreach ($this->bins as $bin) {
+            $quantizedHash = $this->hashColor($this->quantizeColor($bin->color, $levels));
+            if (!array_key_exists($quantizedHash, $originals)) {
+                $originals[$quantizedHash] = $bin;
+            } else {
+                $originals[$quantizedHash]->increaseCount($bin->count);
+            }
+        }
+
+        $this->bins = [];
+
+        foreach ($originals as $bin) {
+            $this->addColor($bin->color, $bin->count);
+        }
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see PaletteInterface::first()
      */
     public function first(): ?ColorInterface
@@ -351,5 +399,50 @@ class Palette implements PaletteInterface
         $this->bins = array_slice($this->bins, $offset, $length);
 
         return $this;
+    }
+
+    /**
+     * Quantize given color to number of levels.
+     *
+     * @throws InvalidArgumentException
+     */
+    private function quantizeColor(ColorInterface $color, int $levels): ColorInterface
+    {
+        if ($levels < 1 || $levels > 256) {
+            throw new InvalidArgumentException('Quantization levels value must be between 1 and 256');
+        }
+
+        // preserve alpha unquantized
+        $alpha = $color->alpha()->normalized();
+
+        // normalized channel values
+        $normalized = array_map(
+            fn(ColorChannelInterface $channel): float => $channel->normalized(),
+            $color->channels(),
+        );
+
+        // normalized channel values to bin index
+        $quantized = array_map(
+            function (float $normalized) use ($levels): int {
+                $bin = (int) floor($normalized * $levels); // 1.0 belongs to the last bin.
+                return min($bin, $levels - 1);
+            },
+            $normalized,
+        );
+
+        // bin index to quantized normalized channel values
+        $quantizedNormalized = array_map(
+            function (int $bin) use ($levels): float {
+                $bin = max(0, min($levels - 1, $bin));
+                return ($bin + 0.5) / $levels;
+            },
+            $quantized,
+        );
+
+        // transform quantized channel values to color object
+        $color = $color->colorspace()->colorFromNormalized($quantizedNormalized);
+
+        // re-apply preserve alpha
+        return $color->withTransparency($alpha);
     }
 }

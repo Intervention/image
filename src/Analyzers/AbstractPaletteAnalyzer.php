@@ -14,7 +14,7 @@ use Intervention\Image\Interfaces\SizeInterface;
 abstract class AbstractPaletteAnalyzer implements AnalyzerInterface
 {
     /**
-     * Collect pixel colors from the image.
+     * Collect sample colors from the image dependant on the image size and the given region.
      *
      * @throws InvalidArgumentException
      * @return Generator<ColorInterface>

@@ -70,6 +70,8 @@ class AbstractSwatchesTest extends BaseTestCase
         $this->assertColor(0, 0, 0, 255, $swatches['vibrant']);
         $this->assertColor(255, 255, 255, 255, $swatches['muted']);
         $this->assertNull($swatches['darkMuted']);
+        $this->assertTrue(isset($swatches['vibrant']));
+        $this->assertFalse(isset($swatches['darkMuted']));
     }
 
     public function testOffsetUnset(): void

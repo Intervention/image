@@ -7,6 +7,7 @@ namespace Intervention\Image\Colors\Swatches;
 use ArrayIterator;
 use Countable;
 use Intervention\Image\Colors\Palette;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
@@ -54,7 +55,7 @@ abstract class AbstractSwatches implements SwatchesInterface
      */
     public function offsetExists(mixed $offset): bool
     {
-        return property_exists($this, $offset);
+        return property_exists($this, $offset) && $this->{$offset} !== null;
     }
 
     /**
@@ -71,9 +72,15 @@ abstract class AbstractSwatches implements SwatchesInterface
      * {@inheritdoc}
      *
      * @see ArrayAccess::offsetSet()
+     *
+     * @throws RuntimeException
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {
+        if (!property_exists($this, $offset)) {
+            throw new RuntimeException('Unable to set unknown property "' . $offset . '"');
+        }
+
         $this->{$offset} = $value;
     }
 
@@ -81,9 +88,15 @@ abstract class AbstractSwatches implements SwatchesInterface
      * {@inheritdoc}
      *
      * @see ArrayAccess::offsetUnset()
+     *
+     * @throws RuntimeException
      */
     public function offsetUnset(mixed $offset): void
     {
+        if (!property_exists($this, $offset)) {
+            throw new RuntimeException('Unable to unset unknown property "' . $offset . '"');
+        }
+
         $this->{$offset} = null;
     }
 

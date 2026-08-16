@@ -310,6 +310,7 @@ class PaletteTest extends BaseTestCase
         $palette = new Palette($colors);
         $this->assertEquals($countBeforeQuantization, $palette->count());
         $this->assertEquals($totalCount, $palette->totalCount());
+        $preserveThisColor = $palette->first();
 
         $quantizedPalette = $palette->reduce($levels);
 
@@ -321,6 +322,8 @@ class PaletteTest extends BaseTestCase
         $this->assertEquals($totalCount, $palette->totalCount());
         $this->assertEquals($firstColorAfterQuantization, $palette->first());
         $this->assertEquals($lastColorAfterQuantization, $palette->last());
+        $this->assertTrue($quantizedPalette->hasColor($preserveThisColor));
+        $this->assertTrue($palette->hasColor($preserveThisColor));
     }
 
     public static function reducePaletteProvider(): Generator

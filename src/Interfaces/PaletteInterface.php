@@ -91,12 +91,14 @@ interface PaletteInterface extends Traversable, Countable, IteratorAggregate, Ar
     public function hasColor(ColorInterface $color): bool;
 
     /**
-     * Combine similar colors in the palette into an quantized color.
+     * Combine similar colors in the palette to their quantized
+     * version according to the given level of quantization.
      */
     public function quantize(int $levels): self;
 
     /**
-     * Reduce similar colors in the palette by quantization but keep the original first color values.
+     * Reduce similar colors in the palette by quantization with the
+     * given levels of detail but keep original first color values.
      */
     public function reduce(int $levels): self;
 }

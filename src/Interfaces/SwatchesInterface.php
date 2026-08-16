@@ -32,7 +32,7 @@ interface SwatchesInterface extends Traversable, Countable, IteratorAggregate, A
     public function toColorspace(string|ColorspaceInterface $colorspace): self;
 
     /**
-     * Transform swatches to palette
+     * Transform swatches to palette.
      */
     public function toPalette(): PaletteInterface;
 

@@ -75,8 +75,6 @@ interface PaletteInterface extends Traversable, Countable, IteratorAggregate, Ar
 
     /**
      * Transform the palette by retaining only the specified number of colors after the offset.
-     *
-     * @return self<ColorInterface>
      */
     public function slice(int $offset, ?int $length = null): self;
 

@@ -402,6 +402,16 @@ class Palette implements PaletteInterface
     }
 
     /**
+     * {@inheritdoc}
+     *
+     * @see PaletteInterface::hasColor()
+     */
+    public function hasColor(ColorInterface $color): bool
+    {
+        return array_key_exists($this->hashColor($color), $this->bins);
+    }
+
+    /**
      * Quantize given color to number of levels.
      *
      * @throws InvalidArgumentException

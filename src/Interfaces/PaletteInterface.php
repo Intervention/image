@@ -86,6 +86,11 @@ interface PaletteInterface extends Traversable, Countable, IteratorAggregate, Ar
     public function addColor(ColorInterface $color, int $amount = 1): self;
 
     /**
+     * Determine if given color exists in the palette.
+     */
+    public function hasColor(ColorInterface $color): bool;
+
+    /**
      * Combine similar colors in the palette into an quantized color.
      */
     public function quantize(int $levels): self;

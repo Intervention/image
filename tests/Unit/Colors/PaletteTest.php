@@ -229,6 +229,24 @@ class PaletteTest extends BaseTestCase
         $this->assertEquals(0, $palette->colorCount(Color::rgb(0, 0, 0)));
     }
 
+    public function testHasColor(): void
+    {
+        $palette = new Palette();
+        $this->assertFalse($palette->hasColor(Color::rgb(0, 0, 0)));
+        $this->assertFalse($palette->hasColor(Color::rgb(255, 255, 255)));
+        $this->assertFalse($palette->hasColor(Color::rgb(1, 1, 1)));
+
+        $palette->addColor(Color::rgb(0, 0, 0));
+        $this->assertTrue($palette->hasColor(Color::rgb(0, 0, 0)));
+        $this->assertFalse($palette->hasColor(Color::rgb(255, 255, 255)));
+        $this->assertFalse($palette->hasColor(Color::rgb(1, 1, 1)));
+
+        $palette->addColor(Color::rgb(255, 255, 255));
+        $this->assertTrue($palette->hasColor(Color::rgb(0, 0, 0)));
+        $this->assertTrue($palette->hasColor(Color::rgb(255, 255, 255)));
+        $this->assertFalse($palette->hasColor(Color::rgb(1, 1, 1)));
+    }
+
     /**
      * @param array<ColorInterface> $colors
      */

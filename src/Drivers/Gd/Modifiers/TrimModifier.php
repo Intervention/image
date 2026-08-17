@@ -57,10 +57,16 @@ class TrimModifier extends GenericTrimModifier implements SpecializedInterface
      */
     private function trimColor(ImageInterface $image): int
     {
+        // read raw (unblended) pixel values instead of values composited
+        // against a background, so sampled corners match the allocated color
+        imagealphablending($image->core()->native(), false);
+        imagesavealpha($image->core()->native(), true);
+
         // trim color base
         $red = 0;
         $green = 0;
         $blue = 0;
+        $alpha = 0;
 
         // corner coordinates
         $size = $image->size();
@@ -92,13 +98,15 @@ class TrimModifier extends GenericTrimModifier implements SpecializedInterface
             $red += round(round($rgb['red'] / 51) * 51);
             $green += round(round($rgb['green'] / 51) * 51);
             $blue += round(round($rgb['blue'] / 51) * 51);
+            $alpha += $rgb['alpha'];
         }
 
         $red = (int) round($red / 4);
         $green = (int) round($green / 4);
         $blue = (int) round($blue / 4);
+        $alpha = (int) round($alpha / 4);
 
-        $color = imagecolorallocate($image->core()->native(), $red, $green, $blue);
+        $color = imagecolorallocatealpha($image->core()->native(), $red, $green, $blue, $alpha);
 
         if ($color === false) {
             throw new ModifierException(

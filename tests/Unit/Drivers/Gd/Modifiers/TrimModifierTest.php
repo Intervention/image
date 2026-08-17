@@ -52,4 +52,16 @@ final class TrimModifierTest extends GdTestCase
         $this->expectException(NotSupportedException::class);
         $image->modify(new TrimModifier());
     }
+
+    public function testTrimTransparentMargin(): void
+    {
+        // circle on transparent background, asymmetric margins
+        // (left 5, top 8, right 12, bottom 15)
+        $image = $this->readTestImage('trim-transparent.png');
+        $this->assertEquals(41, $image->width());
+        $this->assertEquals(47, $image->height());
+        $image->modify(new TrimModifier());
+        $this->assertEquals(25, $image->width());
+        $this->assertEquals(25, $image->height());
+    }
 }

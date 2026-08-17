@@ -24,7 +24,7 @@ abstract class AbstractPaletteAnalyzer implements AnalyzerInterface
         $pixelAnalyzer = $image->driver()->specializeAnalyzer(new PixelColorAnalyzer(0, 0));
 
         foreach ($this->sampleCoordinates($image->size(), $region) as $coordinate) {
-            ['x' => $pixelAnalyzer->x, 'y' => $pixelAnalyzer->y] = $coordinate;
+            [$pixelAnalyzer->x, $pixelAnalyzer->y] = $coordinate;
             $color = $image->analyze($pixelAnalyzer);
             if ($color->isClear()) {
                 continue;
@@ -38,7 +38,7 @@ abstract class AbstractPaletteAnalyzer implements AnalyzerInterface
      * Get dynamic grid of pixel sample coordinates in the given region of the image size.
      *
      * @throws InvalidArgumentException
-     * @return Generator<array{x: int, y: int}>
+     * @return Generator<array<int, int>>
      */
     protected function sampleCoordinates(SizeInterface $size, ?SizeInterface $region = null): Generator
     {
@@ -74,7 +74,7 @@ abstract class AbstractPaletteAnalyzer implements AnalyzerInterface
 
         for ($y = $startY; $y < $endY; $y += $sampleRate) {
             for ($x = $startX; $x < $endX; $x += $sampleRate) {
-                yield ['x' => $x, 'y' => $y];
+                yield [$x, $y];
             }
         }
     }

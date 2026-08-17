@@ -39,8 +39,9 @@ class AbstractPaletteAnalyzerTest extends BaseTestCase
 
         $this->assertCount(100, $coordinates);
         foreach ($coordinates as $coordinate) {
-            $this->assertLessThan(300, $coordinate['x']);
-            $this->assertLessThan(200, $coordinate['y']);
+            [$x, $y] = $coordinate;
+            $this->assertLessThan(300, $x);
+            $this->assertLessThan(200, $y);
         }
     }
 

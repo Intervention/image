@@ -29,21 +29,37 @@ interface DriverInterface
 
     /**
      * Resolve given modifier into a specialized version for the current driver.
+     *
+     * @template T of ModifierInterface
+     * @param T $modifier
+     * @return T
      */
     public function specializeModifier(ModifierInterface $modifier): ModifierInterface;
 
     /**
      * Resolve given analyzer into a specialized version for the current driver.
+     *
+     * @template T of AnalyzerInterface
+     * @param T $analyzer
+     * @return T
      */
     public function specializeAnalyzer(AnalyzerInterface $analyzer): AnalyzerInterface;
 
     /**
      * Resolve given encoder into a specialized version for the current driver.
+     *
+     * @template T of EncoderInterface
+     * @param T $encoder
+     * @return T
      */
     public function specializeEncoder(EncoderInterface $encoder): EncoderInterface;
 
     /**
      * Resolve given decoder into a specialized version for the current driver.
+     *
+     * @template T of DecoderInterface
+     * @param T $decoder
+     * @return T
      */
     public function specializeDecoder(DecoderInterface $decoder): DecoderInterface;
 

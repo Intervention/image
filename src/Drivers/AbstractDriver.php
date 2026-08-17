@@ -152,7 +152,10 @@ abstract class AbstractDriver implements DriverInterface
     }
 
     /**
+     * @template T of ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface
+     * @param T $object
      * @throws NotSupportedException
+     * @return T
      */
     private function specialize(
         ModifierInterface|AnalyzerInterface|EncoderInterface|DecoderInterface $object,

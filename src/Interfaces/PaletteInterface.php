@@ -95,8 +95,8 @@ interface PaletteInterface extends Traversable, Countable, IteratorAggregate, Ar
     public function quantize(int $levels): self;
 
     /**
-     * Reduce similar colors in the palette by quantization with the given levels of quant-
-     * ization but select an original color from the palette instead of replacing it.
+     * Reduce similar colors in the palette by quantization with the given levels of detail
+     * but keep nearest original color instead of its quantized version.
      */
     public function reduce(int $levels): self;
 }

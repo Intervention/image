@@ -21,8 +21,11 @@ abstract class AbstractPaletteAnalyzer implements AnalyzerInterface
      */
     protected function collectColors(ImageInterface $image, ?SizeInterface $region = null): Generator
     {
+        $pixelAnalyzer = $image->driver()->specializeAnalyzer(new PixelColorAnalyzer(0, 0));
+
         foreach ($this->sampleCoordinates($image->size(), $region) as $coordinate) {
-            $color = $image->colorAt(...$coordinate);
+            ['x' => $pixelAnalyzer->x, 'y' => $pixelAnalyzer->y] = $coordinate;
+            $color = $image->analyze($pixelAnalyzer);
             if ($color->isClear()) {
                 continue;
             }

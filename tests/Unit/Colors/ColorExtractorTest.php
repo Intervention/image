@@ -26,13 +26,13 @@ class ColorExtractorTest extends BaseTestCase
         $result = $extractor->popular(8);
         $this->assertInstanceOf(PaletteInterface::class, $result);
         $this->assertCount(8, $result);
-        $this->assertColor(101, 202, 210, 255, $result[0]);
-        $this->assertColor(89, 196, 206, 255, $result[1]);
-        $this->assertColor(103, 201, 210, 255, $result[2]);
-        $this->assertColor(95, 193, 202, 255, $result[3]);
-        $this->assertColor(71, 188, 198, 255, $result[4]);
-        $this->assertColor(103, 204, 212, 255, $result[5]);
-        $this->assertColor(89, 190, 200, 255, $result[6]);
+        $this->assertColor(99, 197, 206, 255, $result[0]);
+        $this->assertColor(88, 196, 208, 255, $result[1]);
+        $this->assertColor(104, 202, 211, 255, $result[2]);
+        $this->assertColor(97, 194, 203, 255, $result[3]);
+        $this->assertColor(73, 186, 200, 255, $result[4]);
+        $this->assertColor(103, 204, 214, 255, $result[5]);
+        $this->assertColor(88, 189, 199, 255, $result[6]);
         $this->assertColor(93, 191, 200, 255, $result[7]);
     }
 

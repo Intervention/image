@@ -137,21 +137,27 @@ class Palette implements PaletteInterface
      */
     public function reduce(int $levels): self
     {
-        $originals = [];
-
+        $groups = []; // group colors by quantized hash
         foreach ($this->bins as $bin) {
             $quantizedHash = $this->hashColor($this->quantizeColor($bin->color, $levels));
-            if (!array_key_exists($quantizedHash, $originals)) {
-                $originals[$quantizedHash] = $bin;
-            } else {
-                $originals[$quantizedHash]->increaseCount($bin->count);
-            }
+            $groups[$quantizedHash][] = $bin;
         }
 
         $this->bins = [];
 
-        foreach ($originals as $bin) {
-            $this->addColor($bin->color, $bin->count);
+        // select color with highest count per group
+        foreach ($groups as $bins) {
+            $total = 0;
+            $representative = $bins[0]; // select first color as representative of group by default
+            foreach ($bins as $bin) {
+                $total += $bin->count;
+                if ($bin->count > $representative->count) {
+                    $representative = $bin; // update representative if count is higher
+                }
+            }
+
+            // finally add representative of group as new color
+            $this->addColor($representative->color, $total);
         }
 
         return $this;

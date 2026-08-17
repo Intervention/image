@@ -326,6 +326,16 @@ class PaletteTest extends BaseTestCase
         $this->assertTrue($palette->hasColor($preserveThisColor));
     }
 
+    public function testReduceSelectsPopularColors(): void
+    {
+        $palette = new Palette();
+        $palette->addColor(Color::rgb(0, 0, 0), 100);
+        $palette->addColor(Color::rgb(255, 255, 255), 100);
+        $palette->addColor(Color::rgb(25, 25, 25), 10000);
+        $palette->reduce(4);
+        $this->assertColor(25, 25, 25, 255, $palette->first());
+    }
+
     public static function reducePaletteProvider(): Generator
     {
         $colors = [];

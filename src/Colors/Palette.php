@@ -97,14 +97,14 @@ class Palette implements PaletteInterface
      *
      * @see PaletteInterface::addColor()
      */
-    public function addColor(ColorInterface $color, int $amount = 1): self
+    public function addColor(ColorInterface $color, int $count = 1): self
     {
         $hash = $this->hashColor($color);
         if (!array_key_exists($hash, $this->bins)) {
             $this->bins[$hash] = new Bin($color);
         }
 
-        $this->bins[$hash]->increaseCount($amount);
+        $this->bins[$hash]->increaseCount($count);
 
         return $this;
     }

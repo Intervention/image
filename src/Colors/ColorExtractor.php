@@ -10,7 +10,8 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
 use Intervention\Image\Interfaces\SizeInterface;
-use Intervention\Image\Interfaces\SwatchesInterface;
+use Intervention\Image\Interfaces\ThemeDefinitionInterface;
+use Intervention\Image\Interfaces\ThemeInterface;
 
 class ColorExtractor
 {
@@ -43,28 +44,12 @@ class ColorExtractor
     }
 
     /**
-     * Extract color swatches.
-     *
-     * @template T of SwatchesInterface
-     * @param class-string<T>|T $swatches
-     * @throws InvalidArgumentException
-     * @return T
+     * Extract color theme according to given definition.
      */
-    public function swatches(string|SwatchesInterface $swatches = new Swatches\VibrantMuted()): SwatchesInterface
+    public function theme(ThemeDefinitionInterface $definition = new Themes\VibrantMuted\Definition()): ThemeInterface
     {
-        if (is_string($swatches)) {
-            // @phpstan-ignore function.alreadyNarrowedType
-            if (!is_a($swatches, SwatchesInterface::class, allow_string: true)) {
-                throw new InvalidArgumentException(
-                    'The specified swatches argument must be a classname of or implement ' . SwatchesInterface::class,
-                );
-            }
-
-            $swatches = new $swatches();
-        }
-
-        return $swatches->colorFilter()->filterColors(
-            $this->image->analyze($swatches->colorAnalyzer()),
+        return $definition->themeColors(
+            $definition->extractColors($this->image),
         );
     }
 }

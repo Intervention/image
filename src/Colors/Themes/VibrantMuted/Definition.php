@@ -2,24 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Intervention\Image\Colors\Swatches\Filters;
+namespace Intervention\Image\Colors\Themes\VibrantMuted;
 
+use Intervention\Image\Analyzers\PopularPaletteAnalyzer;
 use Intervention\Image\Colors\Hsl\Color as HslColor;
 use Intervention\Image\Colors\Hsl\Colorspace as Hsl;
-use Intervention\Image\Colors\Swatches\VibrantMuted;
 use Intervention\Image\Exceptions\ColorException;
-use Intervention\Image\Interfaces\ColorFilterInterface;
+use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
-use Intervention\Image\Interfaces\SwatchesInterface;
+use Intervention\Image\Interfaces\ThemeDefinitionInterface;
+use Intervention\Image\Interfaces\ThemeInterface;
 use Intervention\Image\Traits\CanHashColor;
+use Override;
 
-class VibrantMutedFilter implements ColorFilterInterface
+class Definition implements ThemeDefinitionInterface
 {
     use CanHashColor;
 
     /**
-     * Color classification categories.
+     * Color swatches.
      */
     private const VIBRANT = 'vibrant';
     private const MUTED = 'muted';
@@ -54,13 +57,25 @@ class VibrantMutedFilter implements ColorFilterInterface
     /**
      * {@inheritdoc}
      *
-     * @see ColorFilterInterface::filterColors()
+     * @see ThemeDefinitionInterface::extractColors()
+     *
+     * @throws InvalidArgumentException
+     */
+    public function extractColors(ImageInterface $image): PaletteInterface
+    {
+        return $image->analyze(new PopularPaletteAnalyzer(256));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ThemeDefinitionInterface::theme()
      *
      * @throws ColorException
      */
-    public function filterColors(PaletteInterface $palette): SwatchesInterface
+    public function themeColors(PaletteInterface $palette): ThemeInterface
     {
-        return new VibrantMuted(
+        return new Theme(
             $this->findBestColor(self::VIBRANT, $palette),
             $this->findBestColor(self::MUTED, $palette),
             $this->findBestColor(self::DARK_VIBRANT, $palette),

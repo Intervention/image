@@ -6,11 +6,11 @@ namespace Intervention\Image\Tests\Unit\Colors;
 
 use Intervention\Image\Analyzers\PopularPaletteAnalyzer;
 use Intervention\Image\Colors\ColorExtractor;
-use Intervention\Image\Colors\Swatches\Filters\VibrantMutedFilter;
+use Intervention\Image\Colors\Themes\VibrantMuted\Definition;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\PaletteInterface;
-use Intervention\Image\Interfaces\SwatchesInterface;
+use Intervention\Image\Interfaces\ThemeInterface;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Providers\DriverProvider;
 use Intervention\Image\Tests\Resource;
@@ -63,13 +63,12 @@ class ColorExtractorTest extends BaseTestCase
     }
 
     #[DataProviderExternal(DriverProvider::class, 'drivers')]
-    public function testSwatches(DriverInterface $driver): void
+    public function testTheme(DriverInterface $driver): void
     {
         $image = Resource::create('apple.jpg')->imageObject($driver);
         $extractor = new ColorExtractor($image);
-        $result = $extractor->swatches();
-        $this->assertInstanceOf(SwatchesInterface::class, $result);
-        $this->assertCount(6, $result);
+        $result = $extractor->theme();
+        $this->assertInstanceOf(ThemeInterface::class, $result);
         $this->assertColor(217, 37, 38, 255, $result->vibrant);
         $this->assertColor(98, 160, 123, 255, $result->muted);
         $this->assertColor(128, 19, 25, 255, $result->darkVibrant);
@@ -79,14 +78,14 @@ class ColorExtractorTest extends BaseTestCase
     }
 
     #[DataProviderExternal(DriverProvider::class, 'drivers')]
-    public function testSwatchesIndependentOfPaletteOrder(DriverInterface $driver): void
+    public function testThemeIndependentOfPaletteOrder(DriverInterface $driver): void
     {
         $image = Resource::create('apple.jpg')->imageObject($driver);
         $palette = $image->analyze(new PopularPaletteAnalyzer(256));
 
-        $swatches = (new VibrantMutedFilter())->filterColors($palette);
-        $reordered = (new VibrantMutedFilter())->filterColors($palette->sortByPresence());
+        $theme = (new Definition())->themeColors($palette);
+        $reordered = (new Definition())->themeColors($palette->sortByPresence());
 
-        $this->assertEquals($swatches->toArray(), $reordered->toArray());
+        $this->assertEquals($theme->toPalette()->toArray(), $reordered->toPalette()->toArray());
     }
 }

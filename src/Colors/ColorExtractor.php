@@ -49,7 +49,7 @@ class ColorExtractor
     public function theme(ThemeDefinitionInterface $definition = new Themes\VibrantMuted\Definition()): ThemeInterface
     {
         return $definition->themeColors(
-            $definition->extractColors($this->image),
+            $definition->collectColors($this->image),
         );
     }
 }

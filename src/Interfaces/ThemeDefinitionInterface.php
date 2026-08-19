@@ -7,9 +7,9 @@ namespace Intervention\Image\Interfaces;
 interface ThemeDefinitionInterface
 {
     /**
-     * Extract the colors needed to define the theme.
+     * Collect the colors needed to define the theme.
      */
-    public function extractColors(ImageInterface $image): PaletteInterface;
+    public function collectColors(ImageInterface $image): PaletteInterface;
 
     /**
      * Assign the colors based on the theme definition.

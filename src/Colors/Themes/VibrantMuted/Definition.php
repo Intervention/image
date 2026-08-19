@@ -15,7 +15,6 @@ use Intervention\Image\Interfaces\PaletteInterface;
 use Intervention\Image\Interfaces\ThemeDefinitionInterface;
 use Intervention\Image\Interfaces\ThemeInterface;
 use Intervention\Image\Traits\CanHashColor;
-use Override;
 
 class Definition implements ThemeDefinitionInterface
 {
@@ -57,11 +56,11 @@ class Definition implements ThemeDefinitionInterface
     /**
      * {@inheritdoc}
      *
-     * @see ThemeDefinitionInterface::extractColors()
+     * @see ThemeDefinitionInterface::collectColors()
      *
      * @throws InvalidArgumentException
      */
-    public function extractColors(ImageInterface $image): PaletteInterface
+    public function collectColors(ImageInterface $image): PaletteInterface
     {
         return $image->analyze(new PopularPaletteAnalyzer(256));
     }

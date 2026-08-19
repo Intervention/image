@@ -20,7 +20,7 @@ class DefinitionTest extends BaseTestCase
     public function testExtractColors(DriverInterface $driver): void
     {
         $definition = new Definition();
-        $result = $definition->extractColors(Resource::create('trim.png')->imageObject($driver));
+        $result = $definition->collectColors(Resource::create('trim.png')->imageObject($driver));
         $this->assertInstanceOf(PaletteInterface::class, $result);
         $this->assertCount(16, $result);
     }

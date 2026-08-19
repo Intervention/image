@@ -46,8 +46,11 @@ class ColorExtractor
     /**
      * Extract color theme according to given definition.
      */
-    public function theme(ThemeDefinitionInterface $definition = new Themes\VibrantMuted\Definition()): ThemeInterface
-    {
+    public function theme(
+        Theme|ThemeDefinitionInterface $theme = new Themes\VibrantMuted\Definition(),
+    ): ThemeInterface {
+        $definition = $theme instanceof Theme ? $theme->definition() : $theme;
+
         return $definition->themeColors(
             $definition->collectColors($this->image),
         );

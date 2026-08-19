@@ -151,6 +151,25 @@ class PaletteTest extends BaseTestCase
         $this->assertColor(0, 0, 255, 255, $result->last());
     }
 
+    public function testFilter(): void
+    {
+        $result = $this->palette->filter(function (ColorInterface $color): bool {
+            return $color->channel(Red::class)->value() === 255;
+        });
+        $this->assertCount(1, $result);
+    }
+
+    public function testMap(): void
+    {
+        $result = $this->palette->map(function (ColorInterface $color): ColorInterface {
+            return $color->withTransparency(0);
+        });
+
+        $this->assertColor(255, 0, 0, 0, $result[0]);
+        $this->assertColor(0, 255, 0, 0, $result[1]);
+        $this->assertColor(0, 0, 255, 0, $result[2]);
+    }
+
     public function testAddColor(): void
     {
         $palette = new Palette();

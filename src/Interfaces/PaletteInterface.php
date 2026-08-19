@@ -54,6 +54,16 @@ interface PaletteInterface extends Traversable, Countable, IteratorAggregate, Ar
     public function toArray(): array;
 
     /**
+     * Run callback on each color in the palette and keep only the ones that return true.
+     */
+    public function filter(callable $callback): self;
+
+    /**
+     * Map each color of the palette by given callback.
+     */
+    public function map(callable $callback): self;
+
+    /**
      * Sort the palette by given color channel.
      */
     public function sortByChannel(string|ColorChannelInterface $channel): self;

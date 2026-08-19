@@ -262,6 +262,36 @@ class Palette implements PaletteInterface
     /**
      * {@inheritdoc}
      *
+     * @see PaletteInterface::filter()
+     */
+    public function filter(callable $callback): PaletteInterface
+    {
+        return new self(
+            array_filter(
+                array_map(fn(Bin $bin): ColorInterface => $bin->color, $this->bins),
+                fn(ColorInterface $color) => $callback($color),
+            ),
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see PaletteInterface::map()
+     */
+    public function map(callable $callback): PaletteInterface
+    {
+        return new self(
+            array_map(
+                fn(ColorInterface $color) => $callback($color),
+                array_map(fn(Bin $bin): ColorInterface => $bin->color, $this->bins),
+            ),
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see PaletteInterface::sortByChannel()
      *
      * @throws InvalidArgumentException

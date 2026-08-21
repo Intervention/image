@@ -52,4 +52,28 @@ final class TrimModifierTest extends GdTestCase
         $this->expectException(NotSupportedException::class);
         $image->modify(new TrimModifier());
     }
+
+    public function testTrimTransparentTrueColor(): void
+    {
+        $image = $this->readTestImage('trim-alpha-truecolor.png');
+        $this->assertEquals(50, $image->width());
+        $this->assertEquals(50, $image->height());
+        $this->assertTransparency($image->colorAt(0, 0));
+        $image->modify(new TrimModifier());
+        $this->assertEquals(40, $image->width());
+        $this->assertEquals(40, $image->height());
+        $this->assertTransparency($image->colorAt(0, 0));
+    }
+
+    public function testTrimTransparentIndexed(): void
+    {
+        $image = $this->readTestImage('trim-alpha-indexed.png');
+        $this->assertEquals(50, $image->width());
+        $this->assertEquals(50, $image->height());
+        $this->assertTransparency($image->colorAt(0, 0));
+        $image->modify(new TrimModifier());
+        $this->assertEquals(40, $image->width());
+        $this->assertEquals(40, $image->height());
+        $this->assertTransparency($image->colorAt(0, 0));
+    }
 }

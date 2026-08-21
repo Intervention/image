@@ -9,6 +9,7 @@ use Intervention\Image\Alignment;
 use Intervention\Image\Analyzers\WidthAnalyzer;
 use Intervention\Image\Collection;
 use Intervention\Image\Colors\Cmyk\Colorspace as CmykColorspace;
+use Intervention\Image\Colors\ColorExtractor;
 use Intervention\Image\Colors\Rgb\Colorspace as RgbColorspace;
 use Intervention\Image\Direction;
 use Intervention\Image\Drivers\Imagick\Core;
@@ -744,5 +745,12 @@ final class ImageTest extends ImagickTestCase
         $image = $this->readTestImage('trim.png');
         $result = $image->removeProfile();
         $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testColors(): void
+    {
+        $image = $this->readTestImage('blue.gif');
+        $result = $image->colors();
+        $this->assertInstanceOf(ColorExtractor::class, $result);
     }
 }

@@ -238,4 +238,20 @@ class DataUriTest extends BaseTestCase
         $this->assertNull($debug['mediaType']);
         $this->assertEquals(3, $debug['size']);
     }
+
+    /**
+     * @param array<string, string> $parameters
+     */
+    #[DataProvider('toStringDataProvider')]
+    public function testJsonSerialize(
+        string $data,
+        null|string|MediaType $mediaType,
+        array $parameters,
+        bool $base64,
+        string $result,
+    ): void {
+        $datauri = new DataUri($data, $mediaType, $parameters, $base64);
+        $this->assertEquals($result, $datauri->jsonSerialize());
+        $this->assertEquals('[' . json_encode($result) . ']', json_encode([$datauri]));
+    }
 }

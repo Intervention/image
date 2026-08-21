@@ -52,6 +52,12 @@ final class EncodedImageTest extends BaseTestCase
         $this->assertEquals('foo', (string) $image);
     }
 
+    public function testJsonSerialze(): void
+    {
+        $image = new EncodedImage('foo');
+        $this->assertEquals('["data:application\/octet-stream;base64,Zm9v"]', json_encode([$image]));
+    }
+
     public function testMediaType(): void
     {
         $image = new EncodedImage('foo');

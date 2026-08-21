@@ -156,6 +156,21 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals('rgb(181 55 23 / 0)', (string) $color);
     }
 
+    public function testJsonSerialize(): void
+    {
+        $color = new Color(181, 55, 23);
+        $this->assertEquals('["rgb(181 55 23)"]', json_encode([$color]));
+
+        $color = new Color(181, 55, 23, 1);
+        $this->assertEquals('["rgb(181 55 23)"]', json_encode([$color]));
+
+        $color = new Color(181, 55, 23, .2);
+        $this->assertEquals('["rgb(181 55 23 \/ 0.2)"]', json_encode([$color]));
+
+        $color = new Color(181, 55, 23, 0);
+        $this->assertEquals('["rgb(181 55 23 \/ 0)"]', json_encode([$color]));
+    }
+
     public function testToColorspace(): void
     {
         $color = new Color(0, 0, 0);

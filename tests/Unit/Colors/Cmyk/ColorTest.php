@@ -126,6 +126,12 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals('cmyk(100 50 20 0)', (string) $color);
     }
 
+    public function testJsonSerialize(): void
+    {
+        $color = new Color(100, 50, 20, 0);
+        $this->assertEquals('["cmyk(100 50 20 0)"]', json_encode([$color]));
+    }
+
     public function testIsTransparent(): void
     {
         $color = new Color(100, 50, 50, 0);

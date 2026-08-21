@@ -118,6 +118,15 @@ final class ResolutionTest extends BaseTestCase
         $this->assertEquals('300.00 x 150.00 dpi', (string) $resolution);
     }
 
+    public function testJsonSerialize(): void
+    {
+        $resolution = new Resolution(300, 150, Length::CM);
+        $this->assertEquals('["300.00 x 150.00 dpcm"]', json_encode([$resolution]));
+
+        $resolution = new Resolution(300, 150, Length::INCH);
+        $this->assertEquals('["300.00 x 150.00 dpi"]', json_encode([$resolution]));
+    }
+
     public function testDpiStaticFactory(): void
     {
         $resolution = Resolution::dpi(300, 150);

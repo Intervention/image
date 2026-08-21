@@ -126,6 +126,18 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals('hsv(100 50% 20% / 0.2)', (string) $color);
     }
 
+    public function testJsonSerialize(): void
+    {
+        $color = new Color(100, 50, 20);
+        $this->assertEquals('["hsv(100 50% 20%)"]', json_encode([$color]));
+
+        $color = new Color(100, 50, 20, 1);
+        $this->assertEquals('["hsv(100 50% 20%)"]', json_encode([$color]));
+
+        $color = new Color(100, 50, 20, .2);
+        $this->assertEquals('["hsv(100 50% 20% \/ 0.2)"]', json_encode([$color]));
+    }
+
     public function testIsGrayscale(): void
     {
         $color = new Color(0, 1, 0);

@@ -148,6 +148,12 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals('oklab(0 0.1 -0.2)', (string) $color);
     }
 
+    public function testJsonSerialize(): void
+    {
+        $color = new Color(0, .1, -0.2);
+        $this->assertEquals('["oklab(0 0.1 -0.2)"]', json_encode([$color]));
+    }
+
     public function testToColorspace(): void
     {
         $color = new Color(0.64905124115, 0.19974263609074, 0.13044605841927);

@@ -16,10 +16,11 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ColorChannelInterface;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\ColorspaceInterface;
+use JsonSerializable;
 use ReflectionClass;
 use Stringable;
 
-abstract class AbstractColor implements ColorInterface, Stringable
+abstract class AbstractColor implements ColorInterface, Stringable, JsonSerializable
 {
     /**
      * Color channels.
@@ -177,6 +178,11 @@ abstract class AbstractColor implements ColorInterface, Stringable
         } catch (InvalidArgumentException) {
             throw new ColorException('Failed to invert color');
         }
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return $this->toString();
     }
 
     /**

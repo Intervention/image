@@ -9,6 +9,8 @@ use Intervention\Image\Colors\Cmyk\Colorspace as Cmyk;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Drivers\Imagick\Modifiers\ColorspaceModifier as ImagickColorspaceModifier;
 use Intervention\Image\Exceptions\NotSupportedException;
+use Intervention\Image\Interfaces\ColorInterface;
+use Intervention\Image\Interfaces\ColorspaceInterface;
 use Intervention\Image\Modifiers\ColorspaceModifier;
 use Intervention\Image\Tests\ImagickTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -30,6 +32,16 @@ final class ColorspaceModifierTest extends ImagickTestCase
     public function testApplyAnimated(): void
     {
         $image = $this->createTestAnimation();
+        $this->assertEquals(3, count($image));
+
+        foreach ($image as $key => $frame) {
+            $this->assertEquals(
+                Imagick::COLORSPACE_SRGB,
+                $frame->native()->getImageColorspace(),
+                'Frame ' . $key . ' does not start in the source colorspace.',
+            );
+        }
+
         $image->modify(new ColorspaceModifier(Cmyk::class));
 
         foreach ($image as $key => $frame) {
@@ -41,10 +53,37 @@ final class ColorspaceModifierTest extends ImagickTestCase
         }
     }
 
-    public function testApplyUnsupportedColorspace(): void
+    public function testApplyColorspaceUnsupportedByDriver(): void
     {
+        $colorspace = new class () implements ColorspaceInterface {
+            /**
+             * @return array<string>
+             */
+            public static function channels(): array
+            {
+                return [];
+            }
+
+            /**
+             * @param array<float> $normalized
+             */
+            public static function colorFromNormalized(array $normalized): ColorInterface
+            {
+                throw new NotSupportedException('Not implemented');
+            }
+
+            public function importColor(ColorInterface $color): ColorInterface
+            {
+                throw new NotSupportedException('Not implemented');
+            }
+        };
+
         $image = $this->readTestImage('test.jpg');
         $this->expectException(NotSupportedException::class);
-        $image->modify(new ColorspaceModifier('not_existing'));
+
+        // the generic modifier passes a colorspace instance straight through,
+        // so this has to come from the driver rather than from target parsing
+        $this->expectExceptionMessageMatches('/^Colorspace .+@anonymous.* is not supported by driver$/');
+        $image->modify(new ColorspaceModifier($colorspace));
     }
 }

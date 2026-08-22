@@ -11,7 +11,9 @@ use ImagickPixel;
 use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Drivers\Imagick\Frame;
+use Intervention\Image\Direction;
 use Intervention\Image\Image;
+use Intervention\Image\Modifiers\FlipModifier;
 use Intervention\Image\Size;
 use Intervention\Image\Tests\BaseTestCase;
 
@@ -138,6 +140,22 @@ final class FrameTest extends BaseTestCase
         // the resulting image must not share the sequence of the core, which
         // still holds all frames and gets seeked around by every frame access
         $this->assertNotSame($core->native(), $image->core()->native());
+
+        // mirroring the result must not reach back into the animation
+        $image->modify(new FlipModifier(Direction::HORIZONTAL));
+        $this->assertEquals('ff0000', $core->frame(0)->toImage(new Driver())->colorAt(0, 0)->toHex());
+    }
+
+    public function testToImageOfAnimationFrameAfterFurtherFrameAccess(): void
+    {
+        $core = new Core($this->getTestAnimation());
+
+        // taking another frame moves the shared iterator away, the frame that
+        // was taken first still has to convert to its own position
+        $frame = $core->frame(1);
+        $core->frame(0);
+
+        $this->assertEquals('0000ff', $frame->toImage(new Driver())->colorAt(0, 0)->toHex());
     }
 
     public function testSetGetNative(): void

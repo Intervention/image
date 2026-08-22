@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
+use Imagick;
 use ImagickException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -19,15 +20,24 @@ class GrayscaleModifier extends GenericGrayscaleModifier implements SpecializedI
     {
         foreach ($image as $frame) {
             try {
-                $result = $frame->native()->modulateImage(100, 0, 100);
+                // turn image to grayscale
+                $result = $frame->native()->transformImageColorspace(Imagick::COLORSPACE_GRAY);
                 if ($result === false) {
                     throw new ModifierException(
-                        'Failed to apply ' . self::class . ', unable to modulate image',
+                        'Failed to apply ' . self::class . ', unable to transform image to grayscale',
+                    );
+                }
+
+                // return to srgb colorspace with grayscale image
+                $result = $frame->native()->transformImageColorspace(Imagick::COLORSPACE_SRGB);
+                if ($result === false) {
+                    throw new ModifierException(
+                        'Failed to apply ' . self::class . ', unable to transform image to grayscale',
                     );
                 }
             } catch (ImagickException $e) {
                 throw new ModifierException(
-                    'Failed to apply ' . self::class . ', unable to modulate image',
+                    'Failed to apply ' . self::class . ', unable to transform image to grayscale',
                     previous: $e,
                 );
             }

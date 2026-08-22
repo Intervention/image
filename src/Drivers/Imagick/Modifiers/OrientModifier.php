@@ -18,6 +18,11 @@ class OrientModifier extends GenericOrientModifier implements SpecializedInterfa
      */
     public function apply(ImageInterface $image): ImageInterface
     {
+        // getImageOrientation() reads the frame the iterator is pointing at as
+        // well, so read it off the first frame rather than off whichever one
+        // the last operation happened to leave it on
+        $image->core()->native()->setFirstIterator();
+
         $orientation = $image->core()->native()->getImageOrientation();
         $orientation = $orientation === Imagick::ORIENTATION_UNDEFINED
             ? $image->core()->meta()->get('originalImageOrientation', 0)

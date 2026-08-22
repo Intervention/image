@@ -47,10 +47,12 @@ final class OrientModifierTest extends ImagickTestCase
         // every frame is red on the left and blue on the right, so a
         // horizontal mirror has to swap the two pixels of each of them
         for ($key = 0; $key < count($image); $key++) {
+            $this->assertEquals('0000ff', $image->colorAt(0, 0, $key)->toHex(), 'Frame ' . $key . ' left');
+            $this->assertEquals('ff0000', $image->colorAt(1, 0, $key)->toHex(), 'Frame ' . $key . ' right');
             $this->assertEquals(
-                '0000ff',
-                $image->colorAt(0, 0, $key)->toHex(),
-                'Frame ' . $key . ' was not mirrored',
+                Imagick::ORIENTATION_TOPLEFT,
+                $image->core()->frame($key)->native()->getImageOrientation(),
+                'Frame ' . $key . ' was not marked as aligned',
             );
         }
     }

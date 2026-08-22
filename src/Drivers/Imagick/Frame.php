@@ -41,10 +41,21 @@ class Frame extends AbstractFrame implements FrameInterface
      * {@inheritdoc}
      *
      * @see DriverInterface::toImage()
+     *
+     * @throws DriverException
      */
     public function toImage(DriverInterface $driver): ImageInterface
     {
-        return new Image($driver, new Core($this->native()));
+        try {
+            // Imagick::current() returns the wand itself, so the native of a
+            // frame taken from an animation still holds the whole sequence.
+            // Copy the current frame out, otherwise the resulting image would
+            // report every frame and read whichever one the shared wand is
+            // seeked to.
+            return new Image($driver, new Core($this->native->getImage()));
+        } catch (ImagickException $e) {
+            throw new DriverException('Failed to transform frame into image', previous: $e);
+        }
     }
 
     /**

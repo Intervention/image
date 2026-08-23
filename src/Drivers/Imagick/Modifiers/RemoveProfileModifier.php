@@ -17,20 +17,22 @@ class RemoveProfileModifier extends GenericRemoveProfileModifier implements Spec
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        $imagick = $image->core()->native();
-
-        try {
-            $result = $imagick->profileImage('icc', null);
-            if ($result === false) {
+        // profileImage() only acts on the frame the iterator is currently
+        // pointing at, so every frame has to be cleared individually.
+        foreach ($image as $frame) {
+            try {
+                $result = $frame->native()->profileImage('icc', null);
+                if ($result === false) {
+                    throw new ModifierException(
+                        'Failed to apply ' . self::class . ', unable to remove ICC color profile',
+                    );
+                }
+            } catch (ImagickException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to remove ICC color profile',
+                    previous: $e,
                 );
             }
-        } catch (ImagickException $e) {
-            throw new ModifierException(
-                'Failed to apply ' . self::class . ', unable to remove ICC color profile',
-                previous: $e,
-            );
         }
 
         return $image;

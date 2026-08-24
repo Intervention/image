@@ -52,10 +52,13 @@ final class EncodedImageTest extends BaseTestCase
         $this->assertEquals('foo', (string) $image);
     }
 
-    public function testJsonSerialze(): void
+    public function testNotJsonSerializable(): void
     {
+        // EncodedImage must not implement JsonSerializable, since frameworks
+        // like Laravel treat that as a signal to encode HTTP responses as
+        // JSON, overriding the correct image content type.
         $image = new EncodedImage('foo');
-        $this->assertEquals('["data:application\/octet-stream;base64,Zm9v"]', json_encode([$image]));
+        $this->assertNotInstanceOf(\JsonSerializable::class, $image);
     }
 
     public function testMediaType(): void

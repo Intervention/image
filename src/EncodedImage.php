@@ -8,10 +8,9 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\StreamException;
 use Intervention\Image\Interfaces\DataUriInterface;
 use Intervention\Image\Interfaces\EncodedImageInterface;
-use JsonSerializable;
 use Throwable;
 
-class EncodedImage extends File implements EncodedImageInterface, JsonSerializable
+class EncodedImage extends File implements EncodedImageInterface
 {
     /**
      * Create new instance.
@@ -72,18 +71,6 @@ class EncodedImage extends File implements EncodedImageInterface, JsonSerializab
     public function toBase64(): string
     {
         return base64_encode((string) $this);
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see JsonSerializable::jsonSerialize()
-     *
-     * @throws StreamException
-     */
-    public function jsonSerialize(): mixed
-    {
-        return $this->toDataUri();
     }
 
     /**

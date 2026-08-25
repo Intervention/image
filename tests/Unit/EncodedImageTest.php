@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit;
 
-use JsonSerializable;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Tests\BaseTestCase;

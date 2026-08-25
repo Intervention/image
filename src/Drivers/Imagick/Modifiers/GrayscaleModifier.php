@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
+use Imagick;
 use ImagickException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -19,15 +20,30 @@ class GrayscaleModifier extends GenericGrayscaleModifier implements SpecializedI
     {
         foreach ($image as $frame) {
             try {
-                $result = $frame->native()->modulateImage(100, 0, 100);
+                // read the colorspace of the frame to be able to restore it,
+                // getImageColorspace() only reports the frame the iterator is
+                // currently pointing at
+                $colorspace = $frame->native()->getImageColorspace();
+
+                // turn image to grayscale
+                $result = $frame->native()->transformImageColorspace(Imagick::COLORSPACE_GRAY);
                 if ($result === false) {
                     throw new ModifierException(
-                        'Failed to apply ' . self::class . ', unable to modulate image',
+                        'Failed to apply ' . self::class . ', unable to transform image to grayscale',
+                    );
+                }
+
+                // return to the colorspace of the source, grayscale is a color
+                // operation and is not meant to move the image to another one
+                $result = $frame->native()->transformImageColorspace($colorspace);
+                if ($result === false) {
+                    throw new ModifierException(
+                        'Failed to apply ' . self::class . ', unable to transform image to grayscale',
                     );
                 }
             } catch (ImagickException $e) {
                 throw new ModifierException(
-                    'Failed to apply ' . self::class . ', unable to modulate image',
+                    'Failed to apply ' . self::class . ', unable to transform image to grayscale',
                     previous: $e,
                 );
             }

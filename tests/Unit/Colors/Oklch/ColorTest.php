@@ -163,6 +163,12 @@ final class ColorTest extends BaseTestCase
         $this->assertEquals('oklch(0 0.1 2)', (string) $color);
     }
 
+    public function testJsonSerialize(): void
+    {
+        $color = new Color(0, .1, 2);
+        $this->assertEquals('["oklch(0 0.1 2)"]', json_encode([$color]));
+    }
+
     public function testToColorspace(): void
     {
         $color = new Color(0.6759, 0.21747, 38.8022);

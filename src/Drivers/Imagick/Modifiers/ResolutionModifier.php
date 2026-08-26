@@ -17,20 +17,22 @@ class ResolutionModifier extends GenericResolutionModifier implements Specialize
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        $imagick = $image->core()->native();
-
-        try {
-            $result = $imagick->setImageResolution($this->x, $this->y);
-            if ($result === false) {
+        // setImageResolution() only acts on the frame the iterator is
+        // currently pointing at, so every frame has to be set individually.
+        foreach ($image as $frame) {
+            try {
+                $result = $frame->native()->setImageResolution($this->x, $this->y);
+                if ($result === false) {
+                    throw new ModifierException(
+                        'Failed to apply ' . self::class . ', unable to set image resolution',
+                    );
+                }
+            } catch (ImagickException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to set image resolution',
+                    previous: $e,
                 );
             }
-        } catch (ImagickException $e) {
-            throw new ModifierException(
-                'Failed to apply ' . self::class . ', unable to set image resolution',
-                previous: $e,
-            );
         }
 
         return $image;

@@ -7,6 +7,7 @@ namespace Intervention\Image\Tests\Unit\Drivers\Gd;
 use Intervention\Image\Alignment;
 use Intervention\Image\Analyzers\WidthAnalyzer;
 use Intervention\Image\Collection;
+use Intervention\Image\Colors\ColorExtractor;
 use Intervention\Image\Colors\Hsl\Colorspace;
 use Intervention\Image\Direction;
 use Intervention\Image\Drivers\Gd\Core;
@@ -758,5 +759,12 @@ final class ImageTest extends GdTestCase
         $image = $this->readTestImage('trim.png');
         $result = $image->removeProfile();
         $this->assertInstanceOf(ImageInterface::class, $result);
+    }
+
+    public function testColors(): void
+    {
+        $image = $this->readTestImage('blue.gif');
+        $result = $image->colors();
+        $this->assertInstanceOf(ColorExtractor::class, $result);
     }
 }

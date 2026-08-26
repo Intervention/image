@@ -11,6 +11,7 @@ use Intervention\Image\Analyzers\PixelColorsAnalyzer;
 use Intervention\Image\Analyzers\ProfileAnalyzer;
 use Intervention\Image\Analyzers\ResolutionAnalyzer;
 use Intervention\Image\Analyzers\WidthAnalyzer;
+use Intervention\Image\Colors\ColorExtractor;
 use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\Encoders\FileExtensionEncoder;
 use Intervention\Image\Encoders\FilePathEncoder;
@@ -1208,6 +1209,14 @@ final class Image implements ImageInterface
     public function encodeUsingPath(string $path, mixed ...$options,): EncodedImageInterface
     {
         return $this->encode(new FilePathEncoder($path, ...$options));
+    }
+
+    /**
+     * Get color extractor for the current image.
+     */
+    public function colors(): ColorExtractor
+    {
+        return new ColorExtractor($this);
     }
 
     /**

@@ -8,13 +8,14 @@ use ArrayIterator;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\ResolutionInterface;
 use IteratorAggregate;
+use JsonSerializable;
 use Stringable;
 use Traversable;
 
 /**
  * @implements IteratorAggregate<float>
  */
-class Resolution implements ResolutionInterface, Stringable, IteratorAggregate
+class Resolution implements ResolutionInterface, Stringable, IteratorAggregate, JsonSerializable
 {
     /**
      * Create new instance.
@@ -137,6 +138,16 @@ class Resolution implements ResolutionInterface, Stringable, IteratorAggregate
             ),
             default => $this,
         };
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see JsonSerializable::jsonSerialize()
+     */
+    public function jsonSerialize(): mixed
+    {
+        return $this->toString();
     }
 
     /**

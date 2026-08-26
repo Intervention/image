@@ -22,49 +22,56 @@ class StripMetaModifier implements ModifierInterface, SpecializedInterface
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        // preserve icc profiles
-        try {
-            $profiles = $image->core()->native()->getImageProfiles('icc');
-        } catch (ImagickException $e) {
-            throw new ModifierException(
-                'Failed to apply ' . self::class . ', unable to preserve icc profiles',
-                previous: $e,
-            );
-        }
-
-        // remove meta data
-        try {
-            $result = $image->core()->native()->stripImage();
-            if ($result === false) {
+        // getImageProfiles(), stripImage() and profileImage() all act on the
+        // frame the iterator is currently pointing at, so every frame has to
+        // be stripped individually. Otherwise the meta data of an animated
+        // image survives on every frame but one.
+        foreach ($image as $frame) {
+            // preserve icc profiles
+            try {
+                $profiles = $frame->native()->getImageProfiles('icc');
+            } catch (ImagickException $e) {
                 throw new ModifierException(
-                    'Failed to apply ' . self::class . ', unable to strip meta data',
+                    'Failed to apply ' . self::class . ', unable to preserve icc profiles',
+                    previous: $e,
                 );
             }
-        } catch (ImagickException $e) {
-            throw new ModifierException(
-                'Failed to apply ' . self::class . ', unable to strip meta data',
-                previous: $e,
-            );
-        }
 
-        $image->setExif(new Collection());
-
-        if ($profiles !== []) {
-            // re-apply icc profiles
+            // remove meta data
             try {
-                $result = $image->core()->native()->profileImage("icc", $profiles['icc']);
+                $result = $frame->native()->stripImage();
                 if ($result === false) {
                     throw new ModifierException(
-                        'Failed to apply ' . self::class . ', unable to re-apply icc profile',
+                        'Failed to apply ' . self::class . ', unable to strip meta data',
                     );
                 }
             } catch (ImagickException $e) {
                 throw new ModifierException(
-                    'Failed to apply ' . self::class . ', unable to re-apply icc profile',
+                    'Failed to apply ' . self::class . ', unable to strip meta data',
                     previous: $e,
                 );
             }
+
+            if ($profiles !== []) {
+                // re-apply icc profiles
+                try {
+                    $result = $frame->native()->profileImage("icc", $profiles['icc']);
+                    if ($result === false) {
+                        throw new ModifierException(
+                            'Failed to apply ' . self::class . ', unable to re-apply icc profile',
+                        );
+                    }
+                } catch (ImagickException $e) {
+                    throw new ModifierException(
+                        'Failed to apply ' . self::class . ', unable to re-apply icc profile',
+                        previous: $e,
+                    );
+                }
+            }
         }
+
+        $image->setExif(new Collection());
+
         return $image;
     }
 }

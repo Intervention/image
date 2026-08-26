@@ -22,6 +22,12 @@ use Intervention\Image\Size;
 class Frame extends AbstractFrame implements FrameInterface
 {
     /**
+     * Position this frame was taken from, or null if it is not bound to a
+     * position in a sequence.
+     */
+    protected ?int $position = null;
+
+    /**
      * Create new frame.
      *
      * @throws DriverException
@@ -29,6 +35,11 @@ class Frame extends AbstractFrame implements FrameInterface
     public function __construct(protected Imagick $native)
     {
         try {
+            // Imagick::current() returns the wand itself, so a frame taken
+            // from an animation shares the whole sequence with its core. Keep
+            // the position it was taken from to be able to seek back to it.
+            $this->position = $this->native->getIteratorIndex();
+
             $background = new ImagickPixel('rgba(255, 255, 255, 0)');
             $this->native->setImageBackgroundColor($background);
             $this->native->setBackgroundColor($background);
@@ -41,10 +52,25 @@ class Frame extends AbstractFrame implements FrameInterface
      * {@inheritdoc}
      *
      * @see DriverInterface::toImage()
+     *
+     * @throws DriverException
      */
     public function toImage(DriverInterface $driver): ImageInterface
     {
-        return new Image($driver, new Core($this->native()));
+        try {
+            // The native of a frame taken from an animation still holds the
+            // whole sequence, and any other frame access in the meantime has
+            // moved its pointer. Seek back before copying the frame out,
+            // otherwise the resulting image would report every frame and hold
+            // whichever one the shared wand was left on.
+            if ($this->position !== null) {
+                $this->native->setIteratorIndex($this->position);
+            }
+
+            return new Image($driver, new Core($this->native->getImage()));
+        } catch (ImagickException $e) {
+            throw new DriverException('Failed to transform frame into image', previous: $e);
+        }
     }
 
     /**
@@ -63,6 +89,10 @@ class Frame extends AbstractFrame implements FrameInterface
         }
 
         $this->native = $native;
+
+        // the replacement carries its own sequence, so the position this
+        // frame was taken from does not apply to it anymore
+        $this->position = null;
 
         return $this;
     }

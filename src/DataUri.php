@@ -6,9 +6,10 @@ namespace Intervention\Image;
 
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Interfaces\DataUriInterface;
+use JsonSerializable;
 use Stringable;
 
-class DataUri implements DataUriInterface
+class DataUri implements DataUriInterface, JsonSerializable
 {
     /**
      * Pattern of data uri scheme.
@@ -219,6 +220,16 @@ class DataUri implements DataUriInterface
         $this->setParameter('charset', $charset);
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see JsonSerializable::jsonSerialize()
+     */
+    public function jsonSerialize(): mixed
+    {
+        return $this->toString();
     }
 
     /**

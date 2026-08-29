@@ -28,24 +28,27 @@ class ColorspaceModifier extends GenericColorspaceModifier implements Specialize
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        $colorspace = $this->targetColorspace();
-        $imagick = $image->core()->native();
+        $target = $this->imagickColorspaceOrFail($this->targetColorspace());
 
-        try {
-            $result = $imagick->transformImageColorspace(
-                $this->imagickColorspaceOrFail($colorspace),
-            );
+        // Imagick::transformImageColorspace() only affects the frame the
+        // iterator is currently pointing at, so every frame has to be
+        // transformed individually. Otherwise all frames but one would keep
+        // their original colorspace on animated images.
+        foreach ($image as $frame) {
+            try {
+                $result = $frame->native()->transformImageColorspace($target);
 
-            if ($result === false) {
+                if ($result === false) {
+                    throw new ModifierException(
+                        'Failed to apply ' . self::class . ', unable to transform image colorspace',
+                    );
+                }
+            } catch (ImagickException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to transform image colorspace',
+                    previous: $e,
                 );
             }
-        } catch (ImagickException $e) {
-            throw new ModifierException(
-                'Failed to apply ' . self::class . ', unable to transform image colorspace',
-                previous: $e,
-            );
         }
 
         return $image;

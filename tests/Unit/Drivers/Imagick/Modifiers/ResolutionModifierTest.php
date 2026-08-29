@@ -23,4 +23,16 @@ final class ResolutionModifierTest extends ImagickTestCase
         $this->assertEquals(1.0, $image->resolution()->x());
         $this->assertEquals(2.0, $image->resolution()->y());
     }
+
+    public function testResolutionChangeAnimated(): void
+    {
+        $image = $this->createTestAnimation();
+        $image->modify(new ResolutionModifier(300, 150));
+
+        foreach ($image as $key => $frame) {
+            $resolution = $frame->native()->getImageResolution();
+            $this->assertEquals(300.0, $resolution['x'], 'Frame ' . $key . ' kept its resolution');
+            $this->assertEquals(150.0, $resolution['y'], 'Frame ' . $key . ' kept its resolution');
+        }
+    }
 }

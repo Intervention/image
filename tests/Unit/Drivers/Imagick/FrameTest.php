@@ -8,9 +8,12 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Imagick;
 use ImagickPixel;
+use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Drivers\Imagick\Frame;
+use Intervention\Image\Direction;
 use Intervention\Image\Image;
+use Intervention\Image\Modifiers\FlipModifier;
 use Intervention\Image\Size;
 use Intervention\Image\Tests\BaseTestCase;
 
@@ -27,6 +30,24 @@ final class FrameTest extends BaseTestCase
         $imagick->setImagePage(3, 2, 8, 9);
 
         return new Frame($imagick);
+    }
+
+    /**
+     * Create a two frame animation, the first frame red and the second blue.
+     */
+    protected function getTestAnimation(): Imagick
+    {
+        $imagick = new Imagick();
+        $imagick->setFormat('gif');
+
+        foreach (['red', 'blue'] as $color) {
+            $frame = new Imagick();
+            $frame->newImage(3, 2, new ImagickPixel($color), 'gif');
+            $frame->setImageDelay(10);
+            $imagick->addImage($frame);
+        }
+
+        return $imagick;
     }
 
     public function testConstructor(): void
@@ -98,6 +119,43 @@ final class FrameTest extends BaseTestCase
     {
         $frame = $this->getTestFrame();
         $this->assertInstanceOf(Image::class, $frame->toImage(new Driver()));
+    }
+
+    public function testToImageOfAnimationFrame(): void
+    {
+        $core = new Core($this->getTestAnimation());
+
+        foreach (['ff0000', '0000ff'] as $position => $hex) {
+            $image = $core->frame($position)->toImage(new Driver());
+            $this->assertEquals(1, $image->count());
+            $this->assertEquals($hex, $image->colorAt(0, 0)->toHex());
+        }
+    }
+
+    public function testToImageOfAnimationFrameIsDetached(): void
+    {
+        $core = new Core($this->getTestAnimation());
+        $image = $core->frame(0)->toImage(new Driver());
+
+        // the resulting image must not share the sequence of the core, which
+        // still holds all frames and gets seeked around by every frame access
+        $this->assertNotSame($core->native(), $image->core()->native());
+
+        // mirroring the result must not reach back into the animation
+        $image->modify(new FlipModifier(Direction::HORIZONTAL));
+        $this->assertEquals('ff0000', $core->frame(0)->toImage(new Driver())->colorAt(0, 0)->toHex());
+    }
+
+    public function testToImageOfAnimationFrameAfterFurtherFrameAccess(): void
+    {
+        $core = new Core($this->getTestAnimation());
+
+        // taking another frame moves the shared iterator away, the frame that
+        // was taken first still has to convert to its own position
+        $frame = $core->frame(1);
+        $core->frame(0);
+
+        $this->assertEquals('0000ff', $frame->toImage(new Driver())->colorAt(0, 0)->toHex());
     }
 
     public function testSetGetNative(): void

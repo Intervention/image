@@ -77,19 +77,19 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
             try {
                 return $this->resolutionFromJfifHeader($handle);
             } catch (Throwable) {
-                # code ...
+                //
             }
 
             try {
                 return $this->resolutionFromExifHeader($handle);
             } catch (Throwable) {
-                # code ...
+                //
             }
 
             try {
                 return $this->resolutionFromPngPhys($handle);
             } catch (Throwable) {
-                # code ...
+                //
             }
 
             throw new AnalyzerException('Unable to read resolution from path');

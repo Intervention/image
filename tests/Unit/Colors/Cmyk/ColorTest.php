@@ -224,10 +224,10 @@ final class ColorTest extends BaseTestCase
     public function testToColorspace(): void
     {
         $color = new Color(0, 73, 100, 0);
+        /** @var RgbColor $result */
         $result = $color->toColorspace(RgbColorspace::class);
         $this->assertInstanceOf(RgbColor::class, $result);
 
-        /** @var RgbColor $result */
         $this->assertEquals(255, $result->red()->value());
         $this->assertEquals(68, $result->green()->value());
         $this->assertEquals(0, $result->blue()->value());

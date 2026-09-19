@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Drivers\Imagick\Encoders;
 
+use Imagick;
 use Intervention\Image\Drivers\Imagick\Decoders\StreamImageDecoder;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Drivers\Imagick\Encoders\JpegEncoder;
@@ -67,5 +68,46 @@ final class JpegEncoderTest extends ImagickTestCase
 
         $image = $decoder->decode($result->toStream());
         $this->assertNotEmpty($image->core()->native()->getImageProfiles('icc'));
+    }
+
+    public function testEncodeKeepsUltraHdrGainMap(): void
+    {
+        if (Imagick::queryFormats('UHDR') === []) {
+            $this->markTestSkipped('ImageMagick was built without Ultra HDR (libuhdr) support');
+        }
+
+        $image = $this->readTestImage('ultrahdr.jpg');
+        $this->assertNotEmpty($image->core()->native()->getImageProfiles('hdrgm'));
+
+        $encoder = new JpegEncoder();
+        $encoder->setDriver(new Driver());
+        $result = $encoder->encode($image);
+
+        $decoder = new StreamImageDecoder();
+        $decoder->setDriver(new Driver());
+
+        $image = $decoder->decode($result->toStream());
+        $this->assertNotEmpty($image->core()->native()->getImageProfiles('hdrgm'));
+    }
+
+    public function testEncodeStripKeepsUltraHdrGainMap(): void
+    {
+        if (Imagick::queryFormats('UHDR') === []) {
+            $this->markTestSkipped('ImageMagick was built without Ultra HDR (libuhdr) support');
+        }
+
+        $image = $this->readTestImage('ultrahdr.jpg');
+        $this->assertNotEmpty($image->core()->native()->getImageProfiles('hdrgm'));
+
+        $encoder = new JpegEncoder(strip: true);
+        $encoder->setDriver(new Driver());
+        $result = $encoder->encode($image);
+
+        $decoder = new StreamImageDecoder();
+        $decoder->setDriver(new Driver());
+
+        $image = $decoder->decode($result->toStream());
+        $this->assertNotEmpty($image->core()->native()->getImageProfiles('hdrgm'));
+        $this->assertNotEmpty($image->core()->native()->getImageProperties('hdrgm:*'));
     }
 }

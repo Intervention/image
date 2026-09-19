@@ -154,6 +154,35 @@ final class StripMetaModifierTest extends ImagickTestCase
         $this->assertFalse($result->getImageProperty('[hidden'), 'Encoded png carries hidden meta data');
     }
 
+    public function testApplyKeepsUltraHdrGainMapProfile(): void
+    {
+        $image = $this->createTestAnimation();
+        foreach ($image as $frame) {
+            $frame->native()->setImageProperty('comment', 'strip me');
+            $frame->native()->profileImage('hdrgm', 'fake gain map data');
+            $frame->native()->setImageProperty('hdrgm:GainMapMax', '1,1,1');
+        }
+
+        $image->modify(new StripMetaModifier());
+
+        foreach ($image as $key => $frame) {
+            $this->assertEmpty(
+                $frame->native()->getImageProperty('comment'),
+                'Frame ' . $key . ' kept its meta data',
+            );
+            $this->assertEquals(
+                'fake gain map data',
+                $frame->native()->getImageProfiles('hdrgm')['hdrgm'] ?? null,
+                'Frame ' . $key . ' lost its ultra hdr gain map profile',
+            );
+            $this->assertEquals(
+                '1,1,1',
+                $frame->native()->getImageProperty('hdrgm:GainMapMax'),
+                'Frame ' . $key . ' lost its ultra hdr gain map metadata',
+            );
+        }
+    }
+
     public function testApplyDoesNotAffectLaterPngEncoding(): void
     {
         // the modifier runs on the image itself, so anything it leaves behind

@@ -22,6 +22,7 @@ use Mockery;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
+use Stringable;
 
 #[RequiresPhpExtension('gd')]
 #[RequiresPhpExtension('imagick')]
@@ -67,6 +68,53 @@ class InputHandlerTest extends BaseTestCase
             foreach ($base as $line) {
                 array_unshift($line, $driver); // prepend driver
                 yield $line;
+            }
+        }
+    }
+
+    /**
+     * Decode real Unicode paths through the default decoder selection.
+     */
+    #[DataProvider('unicodeFilePathsProvider')]
+    public function testHandleUnicodeFilePath(
+        string $driver,
+        string|Stringable $input,
+    ): void {
+        $handler = new InputHandler(InputHandler::IMAGE_DECODERS, new $driver());
+        $image = $handler->handle($input);
+
+        $this->assertInstanceOf(ImageInterface::class, $image);
+        $this->assertSame(20, $image->width());
+        $this->assertSame(30, $image->height());
+        $this->assertSame(realpath((string) $input), $image->origin()->filePath());
+    }
+
+    /**
+     * Cover both drivers, path forms and supported string representations.
+     */
+    public static function unicodeFilePathsProvider(): Generator
+    {
+        foreach (['фото.jpg', '图片.jpg'] as $filename) {
+            $resource = Resource::create($filename);
+            $relativePath = 'tests/resources/' . $filename;
+            $relativeStringable = new class ($relativePath) implements Stringable {
+                public function __construct(private string $path)
+                {
+                    //
+                }
+
+                public function __toString(): string
+                {
+                    return $this->path;
+                }
+            };
+
+            $inputs = [$resource->path(), $resource->stringablePath(), $relativePath, $relativeStringable];
+
+            foreach ([GdDriver::class, ImagickDriver::class] as $driver) {
+                foreach ($inputs as $input) {
+                    yield [$driver, $input];
+                }
             }
         }
     }

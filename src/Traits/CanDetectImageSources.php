@@ -52,7 +52,8 @@ trait CanDetectImageSources
 
         // contains non printable ascii
         if (preg_match('/[^ -~]/', $input) === 1) {
-            return true;
+            // file names may contain non-ASCII bytes as well.
+            return !($this->couldBeFilePath($input) && is_file($input));
         }
 
         // contains only printable ascii
@@ -92,7 +93,8 @@ trait CanDetectImageSources
 
         $input = (string) $input;
 
-        if (strlen($input) > PHP_MAXPATHLEN) {
+        // reject empty, oversized or NUL-containing paths before probing the filesystem.
+        if ($input === '' || strlen($input) > PHP_MAXPATHLEN || str_contains($input, "\0")) {
             return false;
         }
 
@@ -101,7 +103,8 @@ trait CanDetectImageSources
         }
 
         if (preg_match('/[^ -~]/', $input) === 1) {
-            return false;
+            // file names may contain non-ASCII bytes as well.
+            return is_file($input);
         }
 
         return true;

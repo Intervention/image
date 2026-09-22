@@ -23,7 +23,7 @@ RUN apt update \
 
 # build and install ImageMagick from source
 RUN curl -o /tmp/ImageMagick.tar.xz -sL \
-        "https://imagemagick.org/archive/releases/ImageMagick-${IMAGEMAGICK_VERSION}.tar.xz" \
+        "https://download.imagemagick.org/archive/releases/ImageMagick-${IMAGEMAGICK_VERSION}.tar.xz" \
         && cd /tmp \
         && tar xf ImageMagick.tar.xz \
         && cd "ImageMagick-${IMAGEMAGICK_VERSION}" \

@@ -56,6 +56,7 @@ final class CanDetectImageSourcesTest extends BaseTestCase
     public function testCouldBeBinaryDataWithBinaryContent(): void
     {
         $this->assertTrue($this->createDetector()->callCouldBeBinaryData(Resource::create('test.jpg')->data()));
+        $this->assertTrue($this->createDetector()->callCouldBeBinaryData("\xC3\x28")); // invalid UTF-8 sequence
     }
 
     public function testCouldBeBinaryDataWithPlainText(): void
@@ -67,6 +68,9 @@ final class CanDetectImageSourcesTest extends BaseTestCase
         $this->assertFalse($detector->callCouldBeBinaryData('画像/test.jpg'));
         $this->assertFalse($detector->callCouldBeBinaryData('images/画像.jpg'));
         $this->assertFalse($detector->callCouldBeBinaryData('images/📂/test.jpg'));
+        $this->assertFalse($detector->callCouldBeBinaryData("\xC3\xA4")); // ä
+        $this->assertFalse($detector->callCouldBeBinaryData("\xC3\xA4.jpg"));
+        $this->assertFalse($detector->callCouldBeBinaryData("Übersicht.jpg"));
     }
 
     public function testCouldBeBinaryDataWithNonString(): void
@@ -117,6 +121,7 @@ final class CanDetectImageSourcesTest extends BaseTestCase
         $this->assertTrue($detector->callCouldBeFilePath('画像.jpg'));
         $this->assertTrue($detector->callCouldBeFilePath('画像'));
         $this->assertTrue($detector->callCouldBeFilePath('images/📂/test.jpg'));
+        $this->assertTrue($detector->callCouldBeFilePath('Übersicht.jpg'));
     }
 
     public function testCouldBeFilePathWithNonString(): void

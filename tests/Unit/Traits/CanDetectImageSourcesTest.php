@@ -138,6 +138,7 @@ final class CanDetectImageSourcesTest extends BaseTestCase
     {
         $this->assertFalse($this->createDetector()->callCouldBeFilePath("\x00\x01\x02binary"));
         $this->assertFalse($this->createDetector()->callCouldBeFilePath(Resource::create('test.jpg')->data()));
+        $this->assertFalse($this->createDetector()->callCouldBeFilePath("\0test"));
     }
 
     public function testCouldBeFilePathWithTooLongPath(): void

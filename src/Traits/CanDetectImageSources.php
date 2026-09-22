@@ -50,17 +50,17 @@ trait CanDetectImageSources
 
         $input = (string) $input;
 
-        // contains non printable ascii
-        if (preg_match('/[^ -~]/', $input) === 1) {
-            return true;
-        }
-
-        // contains only printable ascii
-        if (preg_match('/^[ -~]+$/', $input) === 1) {
+        if ($input === '') {
             return false;
         }
 
-        return true;
+        // ASCII control bytes (except tab, LF, CR) are a strong binary signal
+        if (preg_match('/[\x00-\x08\x0E-\x1F\x7F]/', $input) === 1) {
+            return true;
+        }
+
+        // invalid UTF-8 byte sequences usually indicate raw binary content
+        return preg_match('//u', $input) !== 1;
     }
 
     /**
@@ -92,16 +92,21 @@ trait CanDetectImageSources
 
         $input = (string) $input;
 
+        if ($input === '') {
+            return false;
+        }
+
         if (strlen($input) > PHP_MAXPATHLEN) {
+            return false;
+        }
+
+        // file paths usually do not contain control characters (incl. null byte).
+        if (preg_match('/[\x00-\x1F\x7F]/', $input) === 1) {
             return false;
         }
 
         if (str_starts_with($input, DIRECTORY_SEPARATOR)) {
             return true;
-        }
-
-        if (preg_match('/[^ -~]/', $input) === 1) {
-            return false;
         }
 
         return true;

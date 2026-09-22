@@ -9,6 +9,7 @@ use Intervention\Image\Collection;
 use Intervention\Image\Interfaces\CollectionInterface;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Traits\CanBuildFilePointer;
+use ValueError;
 
 abstract class AbstractDecoder implements DecoderInterface
 {
@@ -36,10 +37,12 @@ abstract class AbstractDecoder implements DecoderInterface
         }
 
         try {
-            if (!@is_file($input)) {
+            if (!is_file($input)) {
                 return false;
             }
         } catch (Exception) {
+            return false;
+        } catch (ValueError) {
             return false;
         }
 

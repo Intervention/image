@@ -121,6 +121,8 @@ final class CanDetectImageSourcesTest extends BaseTestCase
         $this->assertTrue($detector->callCouldBeFilePath('画像.jpg'));
         $this->assertTrue($detector->callCouldBeFilePath('画像'));
         $this->assertTrue($detector->callCouldBeFilePath('images/📂/test.jpg'));
+        $this->assertTrue($detector->callCouldBeFilePath("\xC3\xA4")); // ä
+        $this->assertTrue($detector->callCouldBeFilePath("\xC3\xA4.jpg"));
         $this->assertTrue($detector->callCouldBeFilePath('Übersicht.jpg'));
     }
 

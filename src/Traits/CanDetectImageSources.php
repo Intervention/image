@@ -54,6 +54,11 @@ trait CanDetectImageSources
             return false;
         }
 
+        // svg patterns are raw image data
+        if (preg_match('/^(<\?xml[^>]*\?>.*)?<svg[^>]*>/is', $input) === 1) {
+            return true;
+        }
+
         // ASCII control bytes (except tab, LF, CR) are a strong binary signal
         if (preg_match('/[\x00-\x08\x0E-\x1F\x7F]/', $input) === 1) {
             return true;

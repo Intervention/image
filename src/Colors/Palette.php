@@ -371,7 +371,6 @@ class Palette implements PaletteInterface
         );
 
         // reorder colors based on sorted indices and preserve keys
-        // @phpstan-ignore missingType.checkedException
         $this->bins = array_combine(
             $indices,
             array_map(fn(string $index): Bin => $originalBins[$index], $indices),

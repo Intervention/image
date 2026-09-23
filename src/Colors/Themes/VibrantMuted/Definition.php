@@ -199,7 +199,6 @@ class Definition implements ThemeDefinitionInterface
         $saturation = $color->saturation()->value() / 100.0;
         $lightness = $color->luminance()->value() / 100.0;
 
-        // @phpstan-ignore missingType.checkedException
         $populationRatio = $population / $totalPopulation;
 
         // get target values for this category

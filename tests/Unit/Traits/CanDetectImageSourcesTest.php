@@ -4,166 +4,129 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Traits;
 
+use Generator;
 use Intervention\Image\DataUri;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Resource;
 use Intervention\Image\Traits\CanDetectImageSources;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Stringable;
 
 final class CanDetectImageSourcesTest extends BaseTestCase
 {
-    public function testCouldBeBase64DataWithValidBase64(): void
+    protected object $detector;
+
+    protected function setUp(): void
     {
-        $this->assertTrue($this->createDetector()->callCouldBeBase64Data(Resource::create('test.jpg')->base64()));
+        $this->detector = $this->createDetector();
     }
 
-    public function testCouldBeBase64DataWithPaddedBase64(): void
+    #[DataProvider('provideBase64Input')]
+    public function testCouldBeBase64(mixed $input, bool $result): void
     {
-        $this->assertTrue($this->createDetector()->callCouldBeBase64Data('dGVzdA=='));
+        $this->assertEquals($result, $this->detector->callCouldBeBase64Data($input));
     }
 
-    public function testCouldBeBase64DataWithNonString(): void
+    public static function provideBase64Input(): Generator
     {
-        $detector = $this->createDetector();
-        $this->assertFalse($detector->callCouldBeBase64Data(12345));
-        $this->assertFalse($detector->callCouldBeBase64Data(null));
-        $this->assertFalse($detector->callCouldBeBase64Data([]));
+        yield [Resource::create('test.jpg')->base64(), true];
+        yield ['dGVzdA==', true];
+        yield ['YWJj', true]; // "YWJj" is base64 for "abc" — no padding
+        yield [
+            new class () implements Stringable {
+                public function __toString(): string
+                {
+                    return 'dGVzdA==';
+                }
+            },
+            true,
+        ];
+        yield [12345, false];
+        yield [null, false];
+        yield [[], false];
+        yield ['not base64 content!@#', false];
+        yield ['images/test.jpg', false];
     }
 
-    public function testCouldBeBase64DataWithNonPaddedBase64(): void
+    #[DataProvider('provideBinaryInput')]
+    public function testCouldBeBinary(mixed $input, bool $result): void
     {
-        // "YWJj" is base64 for "abc" — no padding, passes through the final
-        // base64_encode($decoded) === $input check
-        $this->assertTrue($this->createDetector()->callCouldBeBase64Data('YWJj'));
+        $this->assertEquals($result, $this->detector->callCouldBeBinaryData($input));
     }
 
-    public function testCouldBeBase64DataWithInvalidBase64(): void
+    public static function provideBinaryInput(): Generator
     {
-        $this->assertFalse($this->createDetector()->callCouldBeBase64Data('not base64 content!@#'));
+        yield [Resource::create('test.jpg')->data(), true];
+        yield [Resource::create('test.svg')->data(), true];
+        yield [Resource::create('test.jpg')->stringableData(), true];
+        yield ["\xC3\x28", true]; // invalid UTF-8 sequence
+        yield ['Hello World', false];
+        yield ['画像.jpeg', false];
+        yield ['画像', false];
+        yield ['画像/test.jpg', false];
+        yield ['images/画像.jpg', false];
+        yield ['images/📂/test.jpg', false];
+        yield ["\xC3\xA4", false]; // ä
+        yield ["\xC3\xA4.jpg", false];
+        yield ["Übersicht.jpg", false];
+        yield [12345, false];
+        yield [null, false];
+        yield ['', false];
     }
 
-    public function testCouldBeBase64DataWithStringable(): void
+    #[DataProvider('provideDataUrlInput')]
+    public function testCouldBeDataUrl(mixed $input, bool $result): void
     {
-        $stringable = new class () implements Stringable {
-            public function __toString(): string
-            {
-                return 'dGVzdA==';
-            }
-        };
-        $this->assertTrue($this->createDetector()->callCouldBeBase64Data($stringable));
+        $this->assertEquals($result, $this->detector->callCouldBeDataUrl($input));
     }
 
-    public function testCouldBeBinaryDataWithBinaryContent(): void
+    public static function provideDataUrlInput(): Generator
     {
-        $this->assertTrue($this->createDetector()->callCouldBeBinaryData(Resource::create('test.jpg')->data()));
-        $this->assertTrue($this->createDetector()->callCouldBeBinaryData(Resource::create('test.svg')->data()));
-        $this->assertTrue($this->createDetector()->callCouldBeBinaryData("\xC3\x28")); // invalid UTF-8 sequence
+        yield ['data:image/jpeg;base64,/9j/4AAQ', true];
+        yield [new DataUri('test', 'image/jpeg'), true];
+        yield ['http://example.com', false];
+        yield ['/path/to/file.jpg', false];
+        yield [12345, false];
     }
 
-    public function testCouldBeBinaryDataWithPlainText(): void
+    #[DataProvider('provideFilePathInput')]
+    public function testCouldBeFilePathValid(mixed $input, bool $result): void
     {
-        $detector = $this->createDetector();
-        $this->assertFalse($detector->callCouldBeBinaryData('Hello World'));
-        $this->assertFalse($detector->callCouldBeBinaryData('画像.jpeg'));
-        $this->assertFalse($detector->callCouldBeBinaryData('画像'));
-        $this->assertFalse($detector->callCouldBeBinaryData('画像/test.jpg'));
-        $this->assertFalse($detector->callCouldBeBinaryData('images/画像.jpg'));
-        $this->assertFalse($detector->callCouldBeBinaryData('images/📂/test.jpg'));
-        $this->assertFalse($detector->callCouldBeBinaryData("\xC3\xA4")); // ä
-        $this->assertFalse($detector->callCouldBeBinaryData("\xC3\xA4.jpg"));
-        $this->assertFalse($detector->callCouldBeBinaryData("Übersicht.jpg"));
+        $this->assertEquals($result, $this->detector->callCouldBeFilePath($input));
     }
 
-    public function testCouldBeBinaryDataWithNonString(): void
+    public static function provideFilePathInput(): Generator
     {
-        $detector = $this->createDetector();
-        $this->assertFalse($detector->callCouldBeBinaryData(12345));
-        $this->assertFalse($detector->callCouldBeBinaryData(null));
-    }
+        yield ['/path/to/file.jpg', true];
+        yield ['relative/path/file.jpg', true];
+        yield ['file.jpg', true];
+        yield ['画像/image.jpg', true];
+        yield ['images/画像.jpg', true];
+        yield ['画像.jpg', true];
+        yield ['画像', true];
+        yield ['images/📂/test.jpg', true];
+        yield ["\xC3\xA4", true]; // ä
+        yield ["\xC3\xA4.jpg", true];
+        yield ['Übersicht.jpg', true];
+        yield [DIRECTORY_SEPARATOR . 'absolute' . DIRECTORY_SEPARATOR . 'path', true];
+        yield [
+            new class () implements Stringable {
+                public function __toString(): string
+                {
+                    return '/path/to/file.jpg';
+                }
+            },
+            true,
+        ];
 
-    public function testCouldBeBinaryDataWithEmptyString(): void
-    {
-        $this->assertFalse($this->createDetector()->callCouldBeBinaryData(''));
-    }
-
-    public function testCouldBeBinaryDataWithStringable(): void
-    {
-        $stringable = Resource::create('test.jpg')->stringableData();
-        $this->assertTrue($this->createDetector()->callCouldBeBinaryData($stringable));
-    }
-
-    public function testCouldBeDataUrlWithValidDataUrl(): void
-    {
-        $this->assertTrue($this->createDetector()->callCouldBeDataUrl('data:image/jpeg;base64,/9j/4AAQ'));
-    }
-
-    public function testCouldBeDataUrlWithDataUriInterface(): void
-    {
-        $dataUri = new DataUri('test', 'image/jpeg');
-        $this->assertTrue($this->createDetector()->callCouldBeDataUrl($dataUri));
-    }
-
-    public function testCouldBeDataUrlWithNonDataUrl(): void
-    {
-        $detector = $this->createDetector();
-        $this->assertFalse($detector->callCouldBeDataUrl('http://example.com'));
-        $this->assertFalse($detector->callCouldBeDataUrl('/path/to/file.jpg'));
-        $this->assertFalse($detector->callCouldBeDataUrl(12345));
-    }
-
-    public function testCouldBeFilePathWithValidPath(): void
-    {
-        $detector = $this->createDetector();
-        $this->assertTrue($detector->callCouldBeFilePath('/path/to/file.jpg'));
-        $this->assertTrue($detector->callCouldBeFilePath('relative/path/file.jpg'));
-        $this->assertTrue($detector->callCouldBeFilePath('file.jpg'));
-        $this->assertTrue($detector->callCouldBeFilePath('画像/image.jpg'));
-        $this->assertTrue($detector->callCouldBeFilePath('images/画像.jpg'));
-        $this->assertTrue($detector->callCouldBeFilePath('画像.jpg'));
-        $this->assertTrue($detector->callCouldBeFilePath('画像'));
-        $this->assertTrue($detector->callCouldBeFilePath('images/📂/test.jpg'));
-        $this->assertTrue($detector->callCouldBeFilePath("\xC3\xA4")); // ä
-        $this->assertTrue($detector->callCouldBeFilePath("\xC3\xA4.jpg"));
-        $this->assertTrue($detector->callCouldBeFilePath('Übersicht.jpg'));
-    }
-
-    public function testCouldBeFilePathWithNonString(): void
-    {
-        $detector = $this->createDetector();
-        $this->assertFalse($detector->callCouldBeFilePath(12345));
-        $this->assertFalse($detector->callCouldBeFilePath(null));
-        $this->assertFalse($detector->callCouldBeFilePath(''));
-    }
-
-    public function testCouldBeFilePathWithBinaryData(): void
-    {
-        $this->assertFalse($this->createDetector()->callCouldBeFilePath("\x00\x01\x02binary"));
-        $this->assertFalse($this->createDetector()->callCouldBeFilePath(Resource::create('test.jpg')->data()));
-        $this->assertFalse($this->createDetector()->callCouldBeFilePath(Resource::create('test.svg')->data()));
-        $this->assertFalse($this->createDetector()->callCouldBeFilePath("\0test"));
-    }
-
-    public function testCouldBeFilePathWithTooLongPath(): void
-    {
-        $longPath = str_repeat('a', PHP_MAXPATHLEN + 1);
-        $this->assertFalse($this->createDetector()->callCouldBeFilePath($longPath));
-    }
-
-    public function testCouldBeFilePathWithAbsolutePath(): void
-    {
-        $path = DIRECTORY_SEPARATOR . 'absolute' . DIRECTORY_SEPARATOR . 'path';
-        $this->assertTrue($this->createDetector()->callCouldBeFilePath($path));
-    }
-
-    public function testCouldBeFilePathWithStringable(): void
-    {
-        $stringable = new class () implements Stringable {
-            public function __toString(): string
-            {
-                return '/path/to/file.jpg';
-            }
-        };
-        $this->assertTrue($this->createDetector()->callCouldBeFilePath($stringable));
+        yield [12345, false];
+        yield [null, false];
+        yield ['', false];
+        yield ["\x00\x01\x02binary", false];
+        yield [Resource::create('test.jpg')->data(), false];
+        yield [Resource::create('test.svg')->data(), false];
+        yield ["\0test", false];
+        yield [str_repeat('a', PHP_MAXPATHLEN + 1), false];
     }
 
     /**

@@ -51,4 +51,63 @@ final class NativeObjectDecoderTest extends BaseTestCase
         $this->assertInstanceOf(RgbColorspace::class, $result->colorspace());
         $this->assertColor(80, 160, 240, 255, $result->colorAt(0, 0), tolerance: 2);
     }
+
+    public function testDecodeRemovesGrayProfileOfGrayscaleImage(): void
+    {
+        // A grayscale image is relabeled as sRGB. Its gray ICC profile would
+        // then contradict the pixels, and an AVIF encoded from it (YUV420 plus
+        // a gray profile) is refused by Chrome.
+        $native = new Imagick();
+        $native->newImage(3, 2, new ImagickPixel('gray50'), 'jpeg');
+        $native->transformImageColorspace(Imagick::COLORSPACE_GRAY);
+        $native->setImageProfile('icc', $this->profile('GRAY'));
+
+        $result = $this->decoder->decode($native);
+
+        $this->assertInstanceOf(RgbColorspace::class, $result->colorspace());
+        $this->assertArrayNotHasKey('icc', $result->core()->native()->getImageProfiles('icc'));
+    }
+
+    public function testDecodeKeepsRgbProfile(): void
+    {
+        $profile = $this->profile('RGB ');
+        $native = new Imagick();
+        $native->newImage(3, 2, new ImagickPixel('red'), 'jpeg');
+        $native->setImageProfile('icc', $profile);
+
+        $result = $this->decoder->decode($native);
+
+        $this->assertSame($profile, $result->core()->native()->getImageProfile('icc'));
+    }
+
+    /**
+     * Build a minimal ICC v2 display profile of the given color space.
+     */
+    private function profile(string $colorspace): string
+    {
+        $description = 'Test profile';
+        $d50 = pack('NNN', 0xF6D6, 0x10000, 0xD32D);
+
+        $tags = [
+            'desc' => 'desc' . "\0\0\0\0" . pack('N', strlen($description) + 1) . $description . "\0"
+                . pack('NNnC', 0, 0, 0, 0) . str_repeat("\0", 67),
+            'wtpt' => 'XYZ ' . "\0\0\0\0" . $d50,
+            'kTRC' => 'curv' . "\0\0\0\0" . pack('Nn', 1, 0x0233),
+            'cprt' => 'text' . "\0\0\0\0" . "No copyright\0",
+        ];
+
+        $offset = 128 + 4 + 12 * count($tags);
+        $table = pack('N', count($tags));
+        $data = '';
+
+        foreach ($tags as $signature => $tag) {
+            $table .= $signature . pack('NN', $offset + strlen($data), strlen($tag));
+            $data .= str_pad($tag, (int) ceil(strlen($tag) / 4) * 4, "\0");
+        }
+
+        $header = pack('N', $offset + strlen($data)) . "\0\0\0\0" . pack('N', 0x02100000) . 'mntr' . $colorspace
+            . 'XYZ ' . str_repeat("\0", 12) . 'acsp' . str_repeat("\0", 28) . $d50 . str_repeat("\0", 48);
+
+        return $header . $table . $data;
+    }
 }

@@ -13,6 +13,7 @@ use Intervention\Image\Drivers\Imagick\Decoders\NativeObjectDecoder;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Resource;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(NativeObjectDecoder::class)]
@@ -54,60 +55,17 @@ final class NativeObjectDecoderTest extends BaseTestCase
 
     public function testDecodeRemovesGrayProfileOfGrayscaleImage(): void
     {
-        // A grayscale image is relabeled as sRGB. Its gray ICC profile would
-        // then contradict the pixels, and an AVIF encoded from it (YUV420 plus
-        // a gray profile) is refused by Chrome.
-        $native = new Imagick();
-        $native->newImage(3, 2, new ImagickPixel('gray50'), 'jpeg');
-        $native->transformImageColorspace(Imagick::COLORSPACE_GRAY);
-        $native->setImageProfile('icc', $this->profile('GRAY'));
-
+        $native = Resource::create('profile_gray.png')->imageObject(Driver::class)->core()->native();
         $result = $this->decoder->decode($native);
-
         $this->assertInstanceOf(RgbColorspace::class, $result->colorspace());
         $this->assertArrayNotHasKey('icc', $result->core()->native()->getImageProfiles('icc'));
     }
 
     public function testDecodeKeepsRgbProfile(): void
     {
-        $profile = $this->profile('RGB ');
-        $native = new Imagick();
-        $native->newImage(3, 2, new ImagickPixel('red'), 'jpeg');
-        $native->setImageProfile('icc', $profile);
-
+        $native = Resource::create('profile_rgb.png')->imageObject(Driver::class)->core()->native();
         $result = $this->decoder->decode($native);
-
-        $this->assertSame($profile, $result->core()->native()->getImageProfile('icc'));
-    }
-
-    /**
-     * Build a minimal ICC v2 display profile of the given color space.
-     */
-    private function profile(string $colorspace): string
-    {
-        $description = 'Test profile';
-        $d50 = pack('NNN', 0xF6D6, 0x10000, 0xD32D);
-
-        $tags = [
-            'desc' => 'desc' . "\0\0\0\0" . pack('N', strlen($description) + 1) . $description . "\0"
-                . pack('NNnC', 0, 0, 0, 0) . str_repeat("\0", 67),
-            'wtpt' => 'XYZ ' . "\0\0\0\0" . $d50,
-            'kTRC' => 'curv' . "\0\0\0\0" . pack('Nn', 1, 0x0233),
-            'cprt' => 'text' . "\0\0\0\0" . "No copyright\0",
-        ];
-
-        $offset = 128 + 4 + 12 * count($tags);
-        $table = pack('N', count($tags));
-        $data = '';
-
-        foreach ($tags as $signature => $tag) {
-            $table .= $signature . pack('NN', $offset + strlen($data), strlen($tag));
-            $data .= str_pad($tag, (int) ceil(strlen($tag) / 4) * 4, "\0");
-        }
-
-        $header = pack('N', $offset + strlen($data)) . "\0\0\0\0" . pack('N', 0x02100000) . 'mntr' . $colorspace
-            . 'XYZ ' . str_repeat("\0", 12) . 'acsp' . str_repeat("\0", 28) . $d50 . str_repeat("\0", 48);
-
-        return $header . $table . $data;
+        $this->assertInstanceOf(RgbColorspace::class, $result->colorspace());
+        $this->assertArrayHasKey('icc', $result->core()->native()->getImageProfiles('icc'));
     }
 }

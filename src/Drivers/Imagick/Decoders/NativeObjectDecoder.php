@@ -69,6 +69,14 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
         try {
             if ($input->getImageColorspace() === Imagick::COLORSPACE_GRAY) {
                 $input->setImageColorspace(Imagick::COLORSPACE_SRGB);
+
+                // A gray ICC profile no longer describes the relabeled pixels.
+                // Encoders would embed it anyway, and browsers refuse to decode
+                // a color AVIF that carries a gray profile.
+                $profiles = $input->getImageProfiles('icc');
+                if (substr($profiles['icc'] ?? '', 16, 4) === 'GRAY') {
+                    $input->removeImageProfile('icc');
+                }
             }
 
             // AVIF/HEIF store their pixels in a luma/chroma (YCbCr) colorspace.

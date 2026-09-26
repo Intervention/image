@@ -13,6 +13,7 @@ use Intervention\Image\Drivers\Imagick\Decoders\NativeObjectDecoder;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Tests\Resource;
 
 #[RequiresPhpExtension('imagick')]
 #[CoversClass(NativeObjectDecoder::class)]
@@ -50,5 +51,21 @@ final class NativeObjectDecoderTest extends BaseTestCase
 
         $this->assertInstanceOf(RgbColorspace::class, $result->colorspace());
         $this->assertColor(80, 160, 240, 255, $result->colorAt(0, 0), tolerance: 2);
+    }
+
+    public function testDecodeRemovesGrayProfileOfGrayscaleImage(): void
+    {
+        $native = Resource::create('profile_gray.png')->imageObject(Driver::class)->core()->native();
+        $result = $this->decoder->decode($native);
+        $this->assertInstanceOf(RgbColorspace::class, $result->colorspace());
+        $this->assertArrayNotHasKey('icc', $result->core()->native()->getImageProfiles('icc'));
+    }
+
+    public function testDecodeKeepsRgbProfile(): void
+    {
+        $native = Resource::create('profile_rgb.png')->imageObject(Driver::class)->core()->native();
+        $result = $this->decoder->decode($native);
+        $this->assertInstanceOf(RgbColorspace::class, $result->colorspace());
+        $this->assertArrayHasKey('icc', $result->core()->native()->getImageProfiles('icc'));
     }
 }

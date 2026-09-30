@@ -6,6 +6,7 @@ namespace Intervention\Image\Drivers\Imagick\Encoders;
 
 use Imagick;
 use ImagickException;
+use Intervention\Image\Drivers\Imagick\Modifiers\StripMetaModifier;
 use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\PngEncoder as GenericPngEncoder;
 use Intervention\Image\Exceptions\EncoderException;
@@ -30,6 +31,11 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
      */
     public function encode(ImageInterface $image): EncodedImageInterface
     {
+        // strip meta data
+        if ($this->strip || (is_null($this->strip) && $this->driver()->config()->strip)) {
+            $image->modify(new StripMetaModifier());
+        }
+
         try {
             if ($this->indexed) {
                 // reduce colors

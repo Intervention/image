@@ -1,6 +1,6 @@
 FROM php:8.3-cli
 
-ARG IMAGEMAGICK_VERSION=7.1.2-25
+ARG IMAGEMAGICK_VERSION=7.1.2-32
 
 # install dependencies for building ImageMagick and PHP extensions
 RUN apt update \

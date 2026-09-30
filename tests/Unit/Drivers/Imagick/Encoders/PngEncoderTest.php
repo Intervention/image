@@ -81,11 +81,10 @@ final class PngEncoderTest extends ImagickTestCase
             new PngEncoder(indexed: true),
             'indexed',
         ];
-
         yield [
             static::createTestImage(3, 2)->fill('ccc'), // new grayscale
             new PngEncoder(indexed: true),
-            'indexed',
+            'grayscale',
         ];
         yield [
             static::readTestImage('circle.png'), // truecolor-alpha

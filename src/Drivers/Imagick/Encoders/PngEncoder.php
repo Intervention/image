@@ -32,7 +32,7 @@ class PngEncoder extends GenericPngEncoder implements SpecializedInterface
     public function encode(ImageInterface $image): EncodedImageInterface
     {
         // strip meta data
-        if ($this->strip || (is_null($this->strip) && $this->driver()->config()->strip)) {
+        if ($this->strip === true || ($this->strip === null && $this->driver()->config()->strip === true)) {
             $image->modify(new StripMetaModifier());
         }
 

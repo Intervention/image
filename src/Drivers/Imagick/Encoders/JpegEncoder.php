@@ -43,7 +43,7 @@ class JpegEncoder extends GenericJpegEncoder implements SpecializedInterface
         $background->setColorValue(Imagick::COLOR_ALPHA, 1);
 
         // strip meta data
-        if ($this->strip || (is_null($this->strip) && $this->driver()->config()->strip)) {
+        if ($this->strip === true || ($this->strip === null && $this->driver()->config()->strip === true)) {
             $image->modify(new StripMetaModifier());
         }
 

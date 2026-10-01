@@ -54,4 +54,12 @@ abstract class ImagickTestCase extends BaseTestCase
 
         return new Image(new Driver(), new Core($imagick));
     }
+
+    /**
+     * Return current imagick version.
+     */
+    public static function imagickVersion(): string
+    {
+        return (new Driver())->version();
+    }
 }

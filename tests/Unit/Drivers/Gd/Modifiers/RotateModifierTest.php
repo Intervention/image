@@ -119,4 +119,34 @@ final class RotateModifierTest extends GdTestCase
         $this->assertColor(255, 255, 0, 255, $image->colorAt($width - 1, $height - 1));
         $this->assertColor(255, 0, 0, 255, $image->colorAt(intdiv($width, 2), intdiv($height, 2)), 5);
     }
+
+    public function testRotateZeroDegreesWithSemiTransparentBackground(): void
+    {
+        $image = $this->createTestImage(10, 10);
+        $image->modify(new RotateModifier(0, 'ffff0040'));
+        $this->assertEquals(-1, imagecolortransparent($image->core()->native()));
+        $this->assertColor(255, 0, 0, 255, $image->colorAt(5, 5));
+    }
+
+    public function testRotateZeroDegreesKeepsPixels(): void
+    {
+        $image = $this->readTestImage('circle.png');
+        $native = $image->core()->native();
+        $image->modify(new RotateModifier(360, 'ffffff00'));
+        $this->assertSame($native, $image->core()->native());
+        $this->assertTransparency($image->colorAt(0, 0));
+        $this->assertEquals(
+            $this->readTestImage('circle.png')->colorAt(25, 25)->toHex(),
+            $image->colorAt(25, 25)->toHex(),
+        );
+        $this->assertNotEquals(-1, imagecolortransparent($image->core()->native()));
+    }
+
+    public function testRotateZeroDegreesRemovesTransparentColorWithOpaqueBackground(): void
+    {
+        $image = $this->readTestImage('cats.gif');
+        $this->assertNotEquals(-1, imagecolortransparent($image->core()->native()));
+        $image->modify(new RotateModifier(0, 'fff'));
+        $this->assertEquals(-1, imagecolortransparent($image->core()->native()));
+    }
 }

@@ -66,10 +66,14 @@ final class RotateModifierTest extends GdTestCase
     {
         $image = $this->createTestImage(10, 10);
         $image->modify(new RotateModifier(45, 'ff0'));
-        $this->assertEquals(13, $image->width());
-        $this->assertEquals(14, $image->height());
+
+        // the exact size of the rotated image depends on the libgd version
+        $width = $image->width();
+        $height = $image->height();
+        $this->assertGreaterThan(10, $width);
+        $this->assertGreaterThan(10, $height);
         $this->assertColor(255, 255, 0, 255, $image->colorAt(0, 0));
-        $this->assertColor(255, 255, 0, 255, $image->colorAt(12, 13));
-        $this->assertColor(255, 0, 0, 255, $image->colorAt(6, 6), 5);
+        $this->assertColor(255, 255, 0, 255, $image->colorAt($width - 1, $height - 1));
+        $this->assertColor(255, 0, 0, 255, $image->colorAt(intdiv($width, 2), intdiv($height, 2)), 5);
     }
 }

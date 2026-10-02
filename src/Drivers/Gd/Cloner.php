@@ -71,9 +71,11 @@ class Cloner
         imagealphablending($clone, true);
         imagesavealpha($clone, true);
 
-        // set background image as transparent if alpha channel value if color is below .5
-        // comes into effect when the end format only supports binary transparency (like GIF)
-        if ($background->alpha()->value() < .5) {
+        // mark a fully transparent background as transparent color, which comes
+        // into effect when the end format only supports binary transparency (like GIF)
+        // semi-transparent backgrounds must not be marked, as GD treats the transparent
+        // color of truecolor images as color key and skips matching pixels when copying
+        if ($background->isClear()) {
             imagecolortransparent($clone, $processor->export($background));
         }
 

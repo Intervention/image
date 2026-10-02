@@ -72,8 +72,10 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
             default => $transparent,
         };
 
-        // rotate original image against transparent background
-        $rotated = imagerotate(
+        // rotate original image against transparent background, the bundled GD
+        // of PHP turns pixels of the transparent color opaque black when rotating
+        // by 0 degrees, so the original image is used directly in this case
+        $rotated = $this->rotationAngle() === 0.0 ? $frame->native() : imagerotate(
             $frame->native(),
             $this->rotationAngle() * -1,
             $transparent,

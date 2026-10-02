@@ -67,7 +67,10 @@ class Cloner
         // fill with background
         $processor = new ColorProcessor();
 
-        imagefill($clone, 0, 0, $processor->export($background));
+        // filled rectangle without blending is equivalent to imagefill() on a
+        // blank canvas but avoids the much slower flood fill algorithm
+        imagealphablending($clone, false);
+        imagefilledrectangle($clone, 0, 0, $size->width() - 1, $size->height() - 1, $processor->export($background));
         imagealphablending($clone, true);
         imagesavealpha($clone, true);
 

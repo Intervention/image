@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Drivers\Gd\Modifiers;
 
+use GdImage;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
@@ -60,6 +61,48 @@ final class RotateModifierTest extends GdTestCase
             '180 degrees' => [180],
             '270 degrees' => [270],
         ];
+    }
+
+    #[DataProvider('rotateKeepsTransparencyOfTransparentColorDataProvider')]
+    public function testRotateKeepsTransparencyOfTransparentColor(float $angle, string $background): void
+    {
+        // tile.png has a transparent color, right angles do not add new areas
+        $image = $this->readTestImage('tile.png');
+        $this->assertNotEquals(-1, imagecolortransparent($image->core()->native()));
+        $transparent = $this->countFullyTransparentPixels($image->core()->native());
+        $this->assertGreaterThan(0, $transparent);
+
+        $image->modify(new RotateModifier($angle, $background));
+        $this->assertEquals($transparent, $this->countFullyTransparentPixels($image->core()->native()));
+    }
+
+    /**
+     * @return array<string, array{float, string}>
+     */
+    public static function rotateKeepsTransparencyOfTransparentColorDataProvider(): array
+    {
+        $data = [];
+        foreach ([0, 90, 180, 270, 360, -90] as $angle) {
+            foreach (['ffffff', 'ff000080'] as $background) {
+                $data[$angle . ' degrees on ' . $background] = [$angle, $background];
+            }
+        }
+
+        return $data;
+    }
+
+    private function countFullyTransparentPixels(GdImage $gd): int
+    {
+        $count = 0;
+        for ($y = 0; $y < imagesy($gd); $y++) {
+            for ($x = 0; $x < imagesx($gd); $x++) {
+                if ((imagecolorat($gd, $x, $y) >> 24 & 0x7F) === 127) {
+                    $count++;
+                }
+            }
+        }
+
+        return $count;
     }
 
     public function testRotateFillsNewAreasWithBackground(): void

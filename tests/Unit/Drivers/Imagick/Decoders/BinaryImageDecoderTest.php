@@ -69,7 +69,8 @@ final class BinaryImageDecoderTest extends BaseTestCase
         $this->assertEquals(10, $image->width());
         $this->assertEquals(8, $image->height());
         $this->assertColor(255, 0, 0, 255, $image->colorAt(2, 1));
-        $this->assertColor(255, 255, 255, 255, $image->colorAt(0, 0));
+        // the canvas color outside of the frame depends on the ImageMagick version
+        $this->assertNotEquals('ff0000', $image->colorAt(0, 0)->toHex());
     }
 
     public function testDecodeGif(): void

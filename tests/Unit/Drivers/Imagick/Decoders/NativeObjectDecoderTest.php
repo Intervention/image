@@ -36,6 +36,18 @@ final class NativeObjectDecoderTest extends BaseTestCase
         $this->assertInstanceOf(Image::class, $result);
     }
 
+    public function testDecodeDoesNotModifyGivenObject(): void
+    {
+        $native = new Imagick();
+        $native->newImage(3, 2, new ImagickPixel('red'), 'png');
+
+        $result = $this->decoder->decode($native);
+        $this->assertNotSame($native, $result->core()->native());
+
+        $result->resize(1, 1);
+        $this->assertEquals(3, $native->getImageWidth());
+    }
+
     public function testDecodeNormalizesYcbcrColorspaceToSrgb(): void
     {
         // Older ImageMagick reports decoded AVIF/HEIF images in a YCbCr

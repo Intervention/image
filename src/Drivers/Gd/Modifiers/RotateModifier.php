@@ -97,13 +97,20 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
         // create new gd image
         $modified = Cloner::cloneEmpty($frame->native(), $container, $background);
 
-        // draw the cutout on new gd image to have a transparent
-        // background where the rotated image will be placed
+        // draw the cutout on new gd image to have a fully transparent
+        // background where the rotated image will be placed, fully
+        // transparent pixels of the rotated image will keep this color
         imagealphablending($modified, false);
         imagefilledpolygon(
             $modified,
             $cutout->toArray(),
-            imagecolortransparent($modified),
+            imagecolorallocatealpha(
+                $modified,
+                $background->red()->value(),
+                $background->green()->value(),
+                $background->blue()->value(),
+                127,
+            ),
         );
 
         // place rotated image on new gd image

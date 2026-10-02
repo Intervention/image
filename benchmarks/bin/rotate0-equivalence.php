@@ -5,7 +5,7 @@ require __DIR__ . '/equivalence-lib.php';
 $files = array_merge(glob(__DIR__ . '/../../tests/resources/*.*'), glob(__DIR__ . '/../fixtures/*.*'), glob(__DIR__ . '/../fixtures/edge/*.*'));
 $problems = 0; $checked = 0; $fast = 0;
 foreach (['ffffff', 'rgba(255, 255, 255, 0)', 'ff000080'] as $bg) {
-    // GD: visible pixels unchanged, transparent index as the old code would set it
+    // GD: alpha and visible pixels unchanged, transparent index as the old code would set it
     $m = ImageManager::usingDriver(Intervention\Image\Drivers\Gd\Driver::class, backgroundColor: $bg);
     $bgColor = $m->driver->decodeColor($bg);
     foreach ($files as $f) {
@@ -21,7 +21,9 @@ foreach (['ffffff', 'rgba(255, 255, 255, 0)', 'ff000080'] as $bg) {
             for ($y = 0; $y < imagesy($ga); $y++) for ($x = 0; $x < imagesx($ga); $x++) {
                 $pa = imagecolorat($ga, $x, $y); $pb = imagecolorat($gb, $x, $y);
                 if (!imageistruecolor($ga)) { $c = imagecolorsforindex($ga, $pa); $pa = ($c['alpha'] << 24) | ($c['red'] << 16) | ($c['green'] << 8) | $c['blue']; }
-                if ($pa !== $pb && (($pa >> 24) & 0x7F) !== 127) { $err[] = "visible pixel $x,$y differs"; break 2; }
+                // alpha must always match, RGB only matters for pixels that are not fully transparent
+                $alphaA = ($pa >> 24) & 0x7F; $alphaB = ($pb >> 24) & 0x7F;
+                if ($alphaA !== $alphaB || ($alphaA !== 127 && $pa !== $pb)) { $err[] = sprintf('pixel %d,%d differs (%08x -> %08x)', $x, $y, $pa, $pb); break 2; }
             }
             if ($err) { $problems++; printf("GD  %-22s bg=%-24s frame %d fast=%s: %s\n", basename($f), $bg, $i, $wasFast ? 'y' : 'n', implode('; ', $err)); }
         }

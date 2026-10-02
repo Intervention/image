@@ -5,6 +5,7 @@
 /.well-known        export-ignore
 /CONTRIBUTING.md    export-ignore
 /tests              export-ignore
+/benchmarks         export-ignore
 /.gitattributes     export-ignore
 /.gitignore         export-ignore
 /phpcs.xml.dist     export-ignore

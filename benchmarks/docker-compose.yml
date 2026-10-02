@@ -1,0 +1,13 @@
+services:
+  debian:
+    build: { context: ., dockerfile: docker/debian.Dockerfile }
+    working_dir: /project/benchmarks
+    volumes: [ "../:/project" ]
+  alpine:
+    build: { context: ., dockerfile: docker/alpine.Dockerfile }
+    working_dir: /project/benchmarks
+    volumes: [ "../:/project" ]
+  im6:
+    build: { context: ., dockerfile: docker/im6.Dockerfile }
+    working_dir: /project/benchmarks
+    volumes: [ "../:/project" ]

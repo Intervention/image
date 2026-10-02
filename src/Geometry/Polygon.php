@@ -202,16 +202,15 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
      */
     public function mostLeftPoint(): PointInterface
     {
-        $points = $this->points;
+        $result = array_values($this->points)[0];
 
-        usort($points, function (PointInterface $a, PointInterface $b): int {
-            if ($a->x() === $b->x()) {
-                return 0;
+        foreach ($this->points as $point) {
+            if ($point->x() < $result->x()) {
+                $result = $point;
             }
-            return $a->x() < $b->x() ? -1 : 1;
-        });
+        }
 
-        return $points[0];
+        return $result;
     }
 
     /**
@@ -219,16 +218,15 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
      */
     public function mostRightPoint(): PointInterface
     {
-        $points = $this->points;
+        $result = array_values($this->points)[0];
 
-        usort($points, function (PointInterface $a, PointInterface $b): int {
-            if ($a->x() === $b->x()) {
-                return 0;
+        foreach ($this->points as $point) {
+            if ($point->x() > $result->x()) {
+                $result = $point;
             }
-            return $a->x() > $b->x() ? -1 : 1;
-        });
+        }
 
-        return $points[0];
+        return $result;
     }
 
     /**
@@ -236,16 +234,15 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
      */
     public function mostTopPoint(): PointInterface
     {
-        $points = $this->points;
+        $result = array_values($this->points)[0];
 
-        usort($points, function (PointInterface $a, PointInterface $b): int {
-            if ($a->y() === $b->y()) {
-                return 0;
+        foreach ($this->points as $point) {
+            if ($point->y() > $result->y()) {
+                $result = $point;
             }
-            return $a->y() > $b->y() ? -1 : 1;
-        });
+        }
 
-        return $points[0];
+        return $result;
     }
 
     /**
@@ -253,16 +250,15 @@ class Polygon implements IteratorAggregate, Countable, ArrayAccess, DrawableInte
      */
     public function mostBottomPoint(): PointInterface
     {
-        $points = $this->points;
+        $result = array_values($this->points)[0];
 
-        usort($points, function (PointInterface $a, PointInterface $b): int {
-            if ($a->y() === $b->y()) {
-                return 0;
+        foreach ($this->points as $point) {
+            if ($point->y() < $result->y()) {
+                $result = $point;
             }
-            return $a->y() < $b->y() ? -1 : 1;
-        });
+        }
 
-        return $points[0];
+        return $result;
     }
 
     /**

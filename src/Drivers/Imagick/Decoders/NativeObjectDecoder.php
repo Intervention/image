@@ -21,6 +21,14 @@ use Intervention\Image\Modifiers\RemoveAnimationModifier;
 class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInterface
 {
     /**
+     * Media types by ImageMagick format name. Imagick::getImageMimeType() is
+     * expensive (~0.3ms per call) and only depends on the image format.
+     *
+     * @var array<string, string>
+     */
+    private static array $mediaTypes = [];
+
+    /**
      * {@inheritdoc}
      *
      * @see DecoderInterface::supports()
@@ -47,7 +55,7 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
         }
 
         try {
-            $originalMimeType = $input->getImageMimeType();
+            $originalMimeType = self::$mediaTypes[$input->getImageFormat()] ??= $input->getImageMimeType();
         } catch (ImagickException $e) {
             throw new ImageDecoderException('Failed to retrieve image media type', previous: $e);
         }

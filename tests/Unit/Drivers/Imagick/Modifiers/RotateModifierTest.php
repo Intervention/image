@@ -38,4 +38,20 @@ final class RotateModifierTest extends ImagickTestCase
             $this->assertSame(0, $frame->offsetTop());
         }
     }
+
+    public function testRotateZeroDegreesKeepsPixels(): void
+    {
+        $image = $this->readTestImage('animation.gif');
+        $signatures = [];
+        foreach ($image as $frame) {
+            $signatures[] = $frame->native()->getImageSignature();
+        }
+
+        $image->modify(new RotateModifier(-360, 'ff0000'));
+
+        foreach ($image as $index => $frame) {
+            $this->assertEquals($signatures[$index], $frame->native()->getImageSignature());
+            $this->assertEquals(['width' => 0, 'height' => 0, 'x' => 0, 'y' => 0], $frame->native()->getImagePage());
+        }
+    }
 }

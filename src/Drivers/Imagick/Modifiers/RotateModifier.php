@@ -25,7 +25,11 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
 
         foreach ($image as $frame) {
             try {
-                $result = $frame->native()->rotateImage($background, $this->rotationAngle());
+                // rotating by 0° results in an identical copy of the image, so
+                // only the background color is set like rotateImage() would do
+                $result = $this->rotationAngle() === 0.0
+                    ? $frame->native()->setImageBackgroundColor($background)
+                    : $frame->native()->rotateImage($background, $this->rotationAngle());
 
                 if ($result === false) {
                     throw new ModifierException(

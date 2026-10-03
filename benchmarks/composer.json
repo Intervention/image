@@ -1,0 +1,25 @@
+{
+    "name": "intervention/image-benchmarks",
+    "description": "Benchmark harness for intervention/image (not published)",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "..",
+            "options": {
+                "symlink": true,
+                "versions": { "intervention/image": "4.99.0" }
+            }
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "intervention/image": "4.99.0",
+        "intervention/image-driver-vips": "dev-develop"
+    },
+    "autoload": {
+        "psr-4": { "Intervention\\Image\\Benchmarks\\": "src/" }
+    }
+}

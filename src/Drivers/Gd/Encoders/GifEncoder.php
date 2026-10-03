@@ -50,6 +50,12 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
 
         $gd = Cloner::cloneBlended($image->core()->native(), $backgroundColor);
 
+        // Register transparent color on truecolor source first. Some PHP/GD
+        // builds retain this through palette conversion more reliably than
+        // assigning transparency only after quantization.
+        imagealphablending($gd, false);
+        imagesavealpha($gd, true);
+
         $transparent = imagecolorallocatealpha(
             $gd,
             $backgroundColor->red()->value(),

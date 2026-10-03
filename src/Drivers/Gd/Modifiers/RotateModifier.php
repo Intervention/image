@@ -150,11 +150,19 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
      */
     private function isNoOp(GdImage $gd, RgbColor $background): bool
     {
-        if ($this->rotationAngle() !== 0.0 || !imageistruecolor($gd)) {
+        if ($this->rotationAngle() !== 0.0) {
             return false;
         }
 
-        return $background->isClear() || imagecolortransparent($gd) === -1;
+        if (!imageistruecolor($gd)) {
+            return false;
+        }
+
+        if (!$background->isClear() && imagecolortransparent($gd) !== -1) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

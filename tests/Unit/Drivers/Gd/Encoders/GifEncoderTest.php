@@ -14,7 +14,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Tests\GdTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
-use ReflectionMethod;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(GifEncoder::class)]
@@ -82,6 +81,20 @@ final class GifEncoderTest extends GdTestCase
         $this->assertTrue($result->colorAt(0, 0)->isClear());
     }
 
+    public function testEncodeKeepsOpaquePixelsWhenBackgroundIsVeryClose(): void
+    {
+        $manager = ImageManager::usingDriver(
+            Driver::class,
+            backgroundColor: 'ff0000',
+        );
+
+        $image = $manager->createImage(4, 4)->fill(new Color(248, 0, 0, 1));
+        $result = $manager->decodeBinary((string) (new GifEncoder())->encode($image));
+
+        $this->assertFalse($result->colorAt(1, 1)->isClear());
+        $this->assertColor(248, 0, 0, 255, $result->colorAt(1, 1), 8);
+    }
+
     public function testEncodeOpaqueImageWithoutBackgroundLikeColorsStaysOpaque(): void
     {
         $manager = ImageManager::usingDriver(
@@ -94,38 +107,6 @@ final class GifEncoderTest extends GdTestCase
 
         $this->assertFalse($result->colorAt(4, 4)->isClear());
         $this->assertColor(0, 0, 255, 255, $result->colorAt(4, 4), 4);
-    }
-
-    public function testResolveTransparentIndexReturnsClosestWithinTolerance(): void
-    {
-        $image = imagecreate(1, 1);
-        if ($image === false) {
-            $this->fail('Failed to create palette image for test');
-        }
-
-        $index = imagecolorallocate($image, 108, 108, 108);
-        $result = $this->resolveTransparentIndex(
-            $image,
-            new Color(100, 100, 100, 1),
-        );
-
-        $this->assertSame($index, $result);
-    }
-
-    public function testResolveTransparentIndexReturnsNullOutsideTolerance(): void
-    {
-        $image = imagecreate(1, 1);
-        if ($image === false) {
-            $this->fail('Failed to create palette image for test');
-        }
-
-        imagecolorallocate($image, 109, 108, 108);
-        $result = $this->resolveTransparentIndex(
-            $image,
-            new Color(100, 100, 100, 1),
-        );
-
-        $this->assertNull($result);
     }
 
     #[DataProvider('encodeBackgroundTransparencyDataProvider')]
@@ -213,12 +194,5 @@ final class GifEncoderTest extends GdTestCase
             new Color(0, 255, 0, 0),
             new Color(0, 255, 0, 0),
         ];
-    }
-
-    private function resolveTransparentIndex(\GdImage $gd, Color $background): ?int
-    {
-        $method = new ReflectionMethod(GifEncoder::class, 'resolveTransparentIndex');
-
-        return $method->invoke(new GifEncoder(), $gd, $background);
     }
 }

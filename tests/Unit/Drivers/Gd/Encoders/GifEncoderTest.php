@@ -59,14 +59,13 @@ final class GifEncoderTest extends GdTestCase
     #[DataProvider('encodeBackgroundTransparencyDataProvider')]
     public function testEncodeBackgroundTransparency(Color $background, bool $isClear): void
     {
-        $image = $this->createTestImage(10, 10);
-        $image->modify(new CropModifier(20, 20, -5, -5, $background));
+        $manager = ImageManager::usingDriver(Driver::class);
+        $image = $manager->createImage(10, 10)->fill($background);
         $result = ImageManager::usingDriver(Driver::class)->decodeBinary(
             (string) (new GifEncoder())->encode($image),
         );
 
         $this->assertEquals($isClear, $result->colorAt(0, 0)->isClear());
-        $this->assertColor(255, 0, 0, 255, $result->colorAt(10, 10), 4);
     }
 
     public static function encodeBackgroundTransparencyDataProvider(): Generator

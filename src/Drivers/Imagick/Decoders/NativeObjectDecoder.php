@@ -47,23 +47,10 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
             throw new InvalidArgumentException('Image source must be an instance of Imagick');
         }
 
-        // the given object belongs to the caller and must not be used directly
-        return $this->decodeImagick($input, isOwned: false);
-    }
+        // work on a copy so the given object is never modified, which is cheap
+        // as ImageMagick shares the pixel data of clones until it is changed
+        $input = clone $input;
 
-    /**
-     * Build image from given Imagick object.
-     *
-     * Objects created by the decoder itself (isOwned) can be used directly,
-     * whereas objects provided by the caller are always copied by coalescing.
-     *
-     * @throws InvalidArgumentException
-     * @throws StateException
-     * @throws DriverException
-     * @throws ImageDecoderException
-     */
-    protected function decodeImagick(Imagick $input, bool $isOwned): ImageInterface
-    {
         try {
             $originalMimeType = $input->getImageMimeType();
         } catch (ImagickException $e) {
@@ -75,9 +62,9 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
         // incomprehensible for me; could be an imagick bug.
         try {
             if ($input->getImageFormat() !== 'JPEG') {
-                $input = $isOwned && !$this->requiresCoalescing($input)
-                    ? $this->resetVirtualCanvas($input)
-                    : $input->coalesceImages();
+                $input = $this->requiresCoalescing($input)
+                    ? $input->coalesceImages()
+                    : $this->resetVirtualCanvas($input);
             }
         } catch (ImagickException | ImagickPixelException $e) {
             throw new DriverException('Failed to coalesce image', previous: $e);

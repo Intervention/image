@@ -61,7 +61,7 @@ class BinaryImageDecoder extends NativeObjectDecoder
         }
 
         // decode image
-        $image = $this->decodeImagick($imagick, isOwned: true);
+        $image = parent::decode($imagick);
 
         // get media type enum from string media type
         $format = Format::tryCreate($image->origin()->mediaType());

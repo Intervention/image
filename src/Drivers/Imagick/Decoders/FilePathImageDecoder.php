@@ -64,7 +64,7 @@ class FilePathImageDecoder extends NativeObjectDecoder
         }
 
         // decode image
-        $image = $this->decodeImagick($imagick, isOwned: true);
+        $image = parent::decode($imagick);
 
         // set file path on origin
         $image->origin()->setFilePath($path);

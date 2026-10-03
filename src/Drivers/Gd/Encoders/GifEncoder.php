@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Encoders;
 
+use Intervention\Image\Colors\Rgb\Color as RgbColor;
+use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Gif\Builder as GifBuilder;
 use Intervention\Gif\Exceptions\GifException;
 use Intervention\Image\Drivers\Gd\Cloner;
@@ -11,6 +13,7 @@ use Intervention\Image\EncodedImage;
 use Intervention\Image\Encoders\GifEncoder as GenericGifEncoder;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\EncoderException;
+use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\StreamException;
 use Intervention\Image\Exceptions\FilesystemException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
@@ -28,6 +31,7 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
      * @throws InvalidArgumentException
      * @throws EncoderException
      * @throws DriverException
+     * @throws ModifierException
      * @throws StreamException
      */
     public function encode(ImageInterface $image): EncodedImageInterface
@@ -36,7 +40,24 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
             return $this->encodeAnimated($image);
         }
 
-        $gd = Cloner::clone($image->core()->native());
+        $backgroundColor = $image->driver()->decodeColor(
+            $image->driver()->config()->backgroundColor,
+        )->toColorspace(Rgb::class);
+
+        if (!$backgroundColor instanceof RgbColor) {
+            throw new ModifierException('Failed to normalize background color to rgb color space');
+        }
+
+        $gd = Cloner::cloneBlended($image->core()->native(), $backgroundColor);
+
+        $transparent = imagecolorallocatealpha(
+            $gd,
+            $backgroundColor->red()->value(),
+            $backgroundColor->green()->value(),
+            $backgroundColor->blue()->value(),
+            (int) round((1 - $backgroundColor->alpha()->normalized()) * 127),
+        );
+        imagecolortransparent($gd, $transparent);
 
         return $this->createEncodedImage(function ($stream) use ($gd): void {
             imageinterlace($gd, $this->interlaced);
@@ -48,6 +69,7 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
      * @throws InvalidArgumentException
      * @throws EncoderException
      * @throws DriverException
+     * @throws ModifierException
      */
     protected function encodeAnimated(ImageInterface $image): EncodedImageInterface
     {

@@ -74,12 +74,6 @@ class Cloner
         imagealphablending($clone, true);
         imagesavealpha($clone, true);
 
-        // set background image as transparent if alpha channel value if color is below .5
-        // comes into effect when the end format only supports binary transparency (like GIF)
-        if ($background->alpha()->value() < .5) {
-            imagecolortransparent($clone, $processor->export($background));
-        }
-
         return $clone;
     }
 

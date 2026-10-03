@@ -94,6 +94,65 @@ jobs:
       - name: GD Version
         run: php -r 'var_dump(gd_info());'
 
+      - name: GD Transparency Diagnostics
+        run: |
+          php -r '
+            require "vendor/autoload.php";
+
+            use Intervention\Image\Colors\Rgb\Color;
+            use Intervention\Image\Drivers\Gd\Driver;
+            use Intervention\Image\Drivers\Gd\Encoders\GifEncoder;
+            use Intervention\Gif\Decoder as GifDecoder;
+            use Intervention\Image\ImageManager;
+
+            $manager = ImageManager::usingDriver(Driver::class, backgroundColor: "0000ff");
+            $encoder = new GifEncoder();
+
+            $cases = [
+                "full-transparent" => $manager->createImage(1, 1)->fill(new Color(255, 0, 0, 0)),
+                "semi-transparent" => $manager->createImage(1, 1)->fill(new Color(255, 0, 0, .25)),
+                "opaque" => $manager->createImage(1, 1)->fill(new Color(255, 0, 0, 1)),
+            ];
+
+            foreach ($cases as $label => $image) {
+                $source = $image->core()->native();
+                $sourceTopLeft = imagecolorat($source, 0, 0);
+                $sourceAlpha = ($sourceTopLeft >> 24) & 0x7F;
+
+                $encoded = $encoder->encode($image);
+                $binary = (string) $encoded;
+
+                $decoded = $manager->decodeBinary($binary);
+                $native = $decoded->core()->native();
+
+                $decodedTransparent = imagecolortransparent($native);
+                $decodedTopLeft = imagecolorat($native, 0, 0);
+                $decodedAlpha = ($decodedTopLeft >> 24) & 0x7F;
+
+                $raw = imagecreatefromstring($binary);
+                $rawTransparent = $raw instanceof GdImage ? imagecolortransparent($raw) : -2;
+                $rawTopLeft = $raw instanceof GdImage ? imagecolorat($raw, 0, 0) : 0;
+                $rawAlpha = $raw instanceof GdImage ? (($rawTopLeft >> 24) & 0x7F) : -1;
+
+                $gif = GifDecoder::decode($binary);
+                $gce = $gif->firstFrame()?->graphicControlExtension();
+                $gifHasTransparency = $gce?->transparentColorExistance() ? 1 : 0;
+                $gifTransparentIndex = $gce?->transparentColorIndex() ?? -1;
+
+                echo "[gd-diag] " . $label
+                    . " source_alpha=" . $sourceAlpha
+                    . " source_transparent_index=" . imagecolortransparent($source)
+                    . " gif_has_transparency=" . $gifHasTransparency
+                    . " gif_transparent_index=" . $gifTransparentIndex
+                    . " raw_transparent_index=" . $rawTransparent
+                    . " raw_alpha=" . $rawAlpha
+                    . " decoded_transparent_index=" . $decodedTransparent
+                    . " decoded_alpha=" . $decodedAlpha
+                    . " decoded_is_clear=" . ($decoded->colorAt(0, 0)->isClear() ? "1" : "0")
+                    . PHP_EOL;
+            }
+          '
+
       - name: Imagick Version
         run: php -r 'var_dump(Imagick::getVersion());'
 

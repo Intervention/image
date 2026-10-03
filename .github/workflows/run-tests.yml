@@ -102,6 +102,7 @@ jobs:
             use Intervention\Image\Colors\Rgb\Color;
             use Intervention\Image\Drivers\Gd\Driver;
             use Intervention\Image\Drivers\Gd\Encoders\GifEncoder;
+            use Intervention\Gif\Decoder as GifDecoder;
             use Intervention\Image\ImageManager;
 
             $manager = ImageManager::usingDriver(Driver::class, backgroundColor: "0000ff");
@@ -133,9 +134,16 @@ jobs:
                 $rawTopLeft = $raw instanceof GdImage ? imagecolorat($raw, 0, 0) : 0;
                 $rawAlpha = $raw instanceof GdImage ? (($rawTopLeft >> 24) & 0x7F) : -1;
 
+                $gif = GifDecoder::decode($binary);
+                $gce = $gif->firstFrame()?->graphicControlExtension();
+                $gifHasTransparency = $gce?->transparentColorExistance() ? 1 : 0;
+                $gifTransparentIndex = $gce?->transparentColorIndex() ?? -1;
+
                 echo "[gd-diag] " . $label
                     . " source_alpha=" . $sourceAlpha
                     . " source_transparent_index=" . imagecolortransparent($source)
+                    . " gif_has_transparency=" . $gifHasTransparency
+                    . " gif_transparent_index=" . $gifTransparentIndex
                     . " raw_transparent_index=" . $rawTransparent
                     . " raw_alpha=" . $rawAlpha
                     . " decoded_transparent_index=" . $decodedTransparent

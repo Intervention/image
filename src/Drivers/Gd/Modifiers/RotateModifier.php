@@ -72,8 +72,10 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
             default => $transparent,
         };
 
-        // rotate original image against transparent background
-        $rotated = imagerotate(
+        // rotate original image against transparent background, the bundled GD
+        // of PHP turns pixels of the transparent color opaque black when rotating
+        // by 0 degrees, so the original image is used directly in this case
+        $rotated = $this->rotationAngle() === 0.0 ? $frame->native() : imagerotate(
             $frame->native(),
             $this->rotationAngle() * -1,
             $transparent,
@@ -97,13 +99,20 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
         // create new gd image
         $modified = Cloner::cloneEmpty($frame->native(), $container, $background);
 
-        // draw the cutout on new gd image to have a transparent
-        // background where the rotated image will be placed
+        // draw the cutout on new gd image to have a fully transparent
+        // background where the rotated image will be placed, fully
+        // transparent pixels of the rotated image will keep this color
         imagealphablending($modified, false);
         imagefilledpolygon(
             $modified,
             $cutout->toArray(),
-            imagecolortransparent($modified),
+            imagecolorallocatealpha(
+                $modified,
+                $background->red()->value(),
+                $background->green()->value(),
+                $background->blue()->value(),
+                127,
+            ),
         );
 
         // place rotated image on new gd image

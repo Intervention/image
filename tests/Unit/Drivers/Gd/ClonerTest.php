@@ -51,6 +51,8 @@ final class ClonerTest extends BaseTestCase
             ['red' => 255, 'green' => 0, 'blue' => 0, 'alpha' => 127],
             imagecolorsforindex($clone, imagecolorat($clone, 10, 10)),
         );
+
+        $this->assertEquals(-1, imagecolortransparent($clone));
     }
 
     public function testCloneBlended(): void

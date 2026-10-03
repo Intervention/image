@@ -119,16 +119,25 @@ jobs:
                 $sourceAlpha = ($sourceTopLeft >> 24) & 0x7F;
 
                 $encoded = $encoder->encode($image);
-                $decoded = $manager->decodeBinary((string) $encoded);
+                $binary = (string) $encoded;
+
+                $decoded = $manager->decodeBinary($binary);
                 $native = $decoded->core()->native();
 
                 $decodedTransparent = imagecolortransparent($native);
                 $decodedTopLeft = imagecolorat($native, 0, 0);
                 $decodedAlpha = ($decodedTopLeft >> 24) & 0x7F;
 
+                $raw = imagecreatefromstring($binary);
+                $rawTransparent = $raw instanceof GdImage ? imagecolortransparent($raw) : -2;
+                $rawTopLeft = $raw instanceof GdImage ? imagecolorat($raw, 0, 0) : 0;
+                $rawAlpha = $raw instanceof GdImage ? (($rawTopLeft >> 24) & 0x7F) : -1;
+
                 echo "[gd-diag] " . $label
                     . " source_alpha=" . $sourceAlpha
                     . " source_transparent_index=" . imagecolortransparent($source)
+                    . " raw_transparent_index=" . $rawTransparent
+                    . " raw_alpha=" . $rawAlpha
                     . " decoded_transparent_index=" . $decodedTransparent
                     . " decoded_alpha=" . $decodedAlpha
                     . " decoded_is_clear=" . ($decoded->colorAt(0, 0)->isClear() ? "1" : "0")

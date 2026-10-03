@@ -94,6 +94,48 @@ jobs:
       - name: GD Version
         run: php -r 'var_dump(gd_info());'
 
+      - name: GD Transparency Diagnostics
+        run: |
+          php -r '
+            require "vendor/autoload.php";
+
+            use Intervention\Image\Colors\Rgb\Color;
+            use Intervention\Image\Drivers\Gd\Driver;
+            use Intervention\Image\Drivers\Gd\Encoders\GifEncoder;
+            use Intervention\Image\ImageManager;
+
+            $manager = ImageManager::usingDriver(Driver::class, backgroundColor: "0000ff");
+            $encoder = new GifEncoder();
+
+            $cases = [
+                "full-transparent" => $manager->createImage(1, 1)->fill(new Color(255, 0, 0, 0)),
+                "semi-transparent" => $manager->createImage(1, 1)->fill(new Color(255, 0, 0, .25)),
+                "opaque" => $manager->createImage(1, 1)->fill(new Color(255, 0, 0, 1)),
+            ];
+
+            foreach ($cases as $label => $image) {
+                $source = $image->core()->native();
+                $sourceTopLeft = imagecolorat($source, 0, 0);
+                $sourceAlpha = ($sourceTopLeft >> 24) & 0x7F;
+
+                $encoded = $encoder->encode($image);
+                $decoded = $manager->decodeBinary((string) $encoded);
+                $native = $decoded->core()->native();
+
+                $decodedTransparent = imagecolortransparent($native);
+                $decodedTopLeft = imagecolorat($native, 0, 0);
+                $decodedAlpha = ($decodedTopLeft >> 24) & 0x7F;
+
+                echo "[gd-diag] " . $label
+                    . " source_alpha=" . $sourceAlpha
+                    . " source_transparent_index=" . imagecolortransparent($source)
+                    . " decoded_transparent_index=" . $decodedTransparent
+                    . " decoded_alpha=" . $decodedAlpha
+                    . " decoded_is_clear=" . ($decoded->colorAt(0, 0)->isClear() ? "1" : "0")
+                    . PHP_EOL;
+            }
+          '
+
       - name: Imagick Version
         run: php -r 'var_dump(Imagick::getVersion());'
 

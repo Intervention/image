@@ -95,11 +95,12 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
     }
 
     /**
-     * Resolve a transparent palette index close to background color.
+     * Resolve the transparent palette index for GIF output.
      *
-     * This avoids relying on truecolor transparent handling differences between
-     * PHP versions while preventing accidental full transparency on opaque
-     * images that do not contain a background-like transparent area.
+     * GIF transparency is palette-index based. After quantization, the blended
+     * background color may not exist exactly in the palette, so we accept only
+     * a close match. This keeps intended transparent areas transparent without
+     * accidentally making unrelated opaque colors transparent.
      */
     private function resolveTransparentIndex(GdImage $gd, RgbColor $backgroundColor): ?int
     {

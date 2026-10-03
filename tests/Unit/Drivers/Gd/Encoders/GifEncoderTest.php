@@ -117,6 +117,7 @@ final class GifEncoderTest extends GdTestCase
         $result = $manager->decodeBinary((string) (new GifEncoder())->encode($image));
         $blendedPixel = $result->colorAt(16, 16);
 
+        var_dump((string) $result->colorAt(0, 0));
         $this->assertTrue($result->colorAt(0, 0)->isClear());
 
         if ($blended->isClear()) {

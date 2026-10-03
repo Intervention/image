@@ -21,8 +21,20 @@ class Cloner
      */
     public static function clone(GdImage $gd): GdImage
     {
+        $background = new Color(255, 255, 255, 0);
+        $processor = new ColorProcessor();
+
+        $transparent = imagecolortransparent($gd);
+        if ($transparent !== -1) {
+            $background = $processor->import(imagecolorsforindex($gd, $transparent));
+
+            if (!$background instanceof Color) {
+                throw new DriverException('Failed to read transparent color from source image');
+            }
+        }
+
         // create empty canvas with same size
-        $clone = static::cloneEmpty($gd);
+        $clone = static::cloneEmpty($gd, background: $background);
 
         // transfer actual image to clone
         imagecopy($clone, $gd, 0, 0, 0, 0, imagesx($gd), imagesy($gd));

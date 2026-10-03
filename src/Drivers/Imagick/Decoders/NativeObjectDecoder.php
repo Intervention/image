@@ -6,6 +6,7 @@ namespace Intervention\Image\Drivers\Imagick\Decoders;
 
 use Imagick;
 use ImagickException;
+use ImagickPixelException;
 use Intervention\Image\Drivers\Imagick\Core;
 use Intervention\Image\Drivers\SpecializableDecoder;
 use Intervention\Image\Exceptions\DriverException;
@@ -20,6 +21,14 @@ use Intervention\Image\Modifiers\RemoveAnimationModifier;
 
 class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInterface
 {
+    /**
+     * Media types by ImageMagick format name. Imagick::getImageMimeType() is
+     * expensive (~0.3ms per call) and only depends on the image format.
+     *
+     * @var array<string, string>
+     */
+    private static array $mediaTypes = [];
+
     /**
      * {@inheritdoc}
      *
@@ -46,8 +55,12 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
             throw new InvalidArgumentException('Image source must be an instance of Imagick');
         }
 
+        // work on a copy so the given object is never modified, which is cheap
+        // as ImageMagick shares the pixel data of clones until it is changed
+        $input = clone $input;
+
         try {
-            $originalMimeType = $input->getImageMimeType();
+            $originalMimeType = self::$mediaTypes[$input->getImageFormat()] ??= $input->getImageMimeType();
         } catch (ImagickException $e) {
             throw new ImageDecoderException('Failed to retrieve image media type', previous: $e);
         }
@@ -57,9 +70,11 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
         // incomprehensible for me; could be an imagick bug.
         try {
             if ($input->getImageFormat() !== 'JPEG') {
-                $input = $input->coalesceImages();
+                $input = $this->requiresCoalescing($input)
+                    ? $input->coalesceImages()
+                    : $this->resetVirtualCanvas($input);
             }
-        } catch (ImagickException $e) {
+        } catch (ImagickException | ImagickPixelException $e) {
             throw new DriverException('Failed to coalesce image', previous: $e);
         }
 
@@ -121,5 +136,62 @@ class NativeObjectDecoder extends SpecializableDecoder implements SpecializedInt
         $image->origin()->setMediaType($originalMimeType);
 
         return $image;
+    }
+
+    /**
+     * Determine if the given Imagick object must be coalesced.
+     *
+     * coalesceImages() renders every frame onto a canvas of the full virtual
+     * page size, which is required for animations but results in a costly full
+     * copy of the pixel data (~10-20ms for a 1920x1280 image) that is useless
+     * when the image is a single frame already covering its whole page.
+     *
+     * @throws ImagickException
+     */
+    private function requiresCoalescing(Imagick $imagick): bool
+    {
+        // animations must be rendered onto their virtual canvas frame by frame
+        if ($imagick->getNumberImages() !== 1) {
+            return true;
+        }
+
+        // filling the canvas converts palette images to truecolor and might
+        // convert other colorspaces to srgb, which must be preserved
+        if ($imagick->getImageColorspace() !== Imagick::COLORSPACE_SRGB) {
+            return true;
+        }
+
+        // IMGTYPE_TRUECOLORMATTE is used as IMGTYPE_TRUECOLORALPHA is not defined with ImageMagick 6
+        if (!in_array($imagick->getImageType(), [Imagick::IMGTYPE_TRUECOLOR, Imagick::IMGTYPE_TRUECOLORMATTE], true)) {
+            return true;
+        }
+
+        // the frame must cover its whole virtual canvas (page size 0 means undefined)
+        $page = $imagick->getImagePage();
+
+        return $page['x'] !== 0
+            || $page['y'] !== 0
+            || !in_array($page['width'], [0, $imagick->getImageWidth()], true)
+            || !in_array($page['height'], [0, $imagick->getImageHeight()], true);
+    }
+
+    /**
+     * Apply the same frame attributes to the given single frame image that
+     * coalesceImages() would set, without copying its pixel data.
+     *
+     * @throws ImagickException
+     * @throws ImagickPixelException
+     */
+    private function resetVirtualCanvas(Imagick $imagick): Imagick
+    {
+        $imagick->setImagePage($imagick->getImageWidth(), $imagick->getImageHeight(), 0, 0);
+        $imagick->setImageDispose(Imagick::DISPOSE_NONE);
+
+        // coalescing keeps the background color but makes it fully transparent
+        $background = $imagick->getImageBackgroundColor();
+        $background->setColorValue(Imagick::COLOR_ALPHA, 0);
+        $imagick->setImageBackgroundColor($background);
+
+        return $imagick;
     }
 }

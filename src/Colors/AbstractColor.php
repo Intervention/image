@@ -48,16 +48,13 @@ abstract class AbstractColor implements ColorInterface, Stringable, JsonSerializ
      */
     public function channel(string $classname): ColorChannelInterface
     {
-        $channels = array_filter(
-            $this->channels(),
-            fn(ColorChannelInterface $channel): bool => $channel::class === $classname,
-        );
-
-        if (count($channels) === 0) {
-            throw new InvalidArgumentException('Color channel ' . $classname . ' could not be found');
+        foreach ($this->channels() as $channel) {
+            if ($channel::class === $classname) {
+                return $channel;
+            }
         }
 
-        return reset($channels);
+        throw new InvalidArgumentException('Color channel ' . $classname . ' could not be found');
     }
 
     /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Encoders;
 
+use GDImage;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Gif\Builder as GifBuilder;
@@ -49,14 +50,13 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
         }
 
         $gd = Cloner::cloneBlended($image->core()->native(), $backgroundColor);
-        $transparent = imagecolorallocatealpha(
-            $gd,
-            $backgroundColor->red()->value(),
-            $backgroundColor->green()->value(),
-            $backgroundColor->blue()->value(),
-            (int) round((1 - $backgroundColor->alpha()->normalized()) * 127),
-        );
-        imagecolortransparent($gd, $transparent);
+
+        imagetruecolortopalette($gd, false, 256);
+
+        $transparent = $this->resolveTransparentIndex($gd, $backgroundColor);
+        if ($transparent !== null) {
+            imagecolortransparent($gd, $transparent);
+        }
 
         return $this->createEncodedImage(function ($stream) use ($gd): void {
             imageinterlace($gd, $this->interlaced);
@@ -92,5 +92,29 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
         } catch (GifException | FilesystemException $e) {
             throw new EncoderException('Failed to encode image to GIF format', previous: $e);
         }
+    }
+
+    /**
+     * Resolve a transparent palette index close to background color.
+     *
+     * This avoids relying on truecolor transparent handling differences between
+     * PHP versions while preventing accidental full transparency on opaque
+     * images that do not contain a background-like transparent area.
+     */
+    private function resolveTransparentIndex(GdImage $gd, RgbColor $backgroundColor): ?int
+    {
+        $index = imagecolorclosest(
+            $gd,
+            $backgroundColor->red()->value(),
+            $backgroundColor->green()->value(),
+            $backgroundColor->blue()->value(),
+        );
+
+        $color = imagecolorsforindex($gd, $index);
+        $distance = abs($color['red'] - $backgroundColor->red()->value())
+            + abs($color['green'] - $backgroundColor->green()->value())
+            + abs($color['blue'] - $backgroundColor->blue()->value());
+
+        return $distance <= 24 ? $index : null;
     }
 }

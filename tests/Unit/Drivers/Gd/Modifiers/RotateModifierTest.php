@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit\Drivers\Gd\Modifiers;
 
 use GdImage;
+use Generator;
+use Intervention\Image\Colors\Rgb\Color;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
@@ -148,5 +150,37 @@ final class RotateModifierTest extends GdTestCase
         $this->assertNotEquals(-1, imagecolortransparent($image->core()->native()));
         $image->modify(new RotateModifier(0, 'fff'));
         $this->assertEquals(-1, imagecolortransparent($image->core()->native()));
+    }
+
+    #[DataProvider('rotateKeepsSemiTransparentBackgroundDataProvider')]
+    public function testRotateKeepsSemiTransparentBackground(Color $background, int $alpha): void
+    {
+        $image = $this->createTestImage(10, 10);
+        $image->modify(new RotateModifier(45, $background));
+        $this->assertColor(255, 255, 0, $alpha, $image->colorAt(0, 0), 1);
+        $this->assertColor(255, 255, 0, $alpha, (clone $image)->colorAt(0, 0), 1);
+    }
+
+    public static function rotateKeepsSemiTransparentBackgroundDataProvider(): Generator
+    {
+        yield [
+            new Color(255, 255, 0, 0),
+            0,
+        ];
+
+        yield [
+            new Color(255, 255, 0, 0.25),
+            64,
+        ];
+
+        yield [
+            new Color(255, 255, 0, 0.75),
+            191,
+        ];
+
+        yield [
+            new Color(255, 255, 0, 1),
+            255,
+        ];
     }
 }

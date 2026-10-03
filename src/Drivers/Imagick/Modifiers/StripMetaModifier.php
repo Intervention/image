@@ -16,6 +16,16 @@ use Intervention\Image\Interfaces\SpecializedInterface;
 class StripMetaModifier implements ModifierInterface, SpecializedInterface
 {
     /**
+     * Profiles to be re-applied after the stripping process.
+     */
+    private const array PRESERVED_PROFILE_NAMES = ['icc', 'hdrgm'];
+
+    /**
+     * Property prefixes to be preserved.
+     */
+    private const array PRESERVED_PROPERTY_PREFIXES = ['png:', 'jpeg:', 'hdrgm:'];
+
+    /**
      * {@inheritdoc}
      *
      * @see Intervention\Image\Interfaces\ModifierInterface::apply()
@@ -25,9 +35,9 @@ class StripMetaModifier implements ModifierInterface, SpecializedInterface
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {
-            $profiles = $this->frameProfilesToKeep($frame);
-            $this->stripFrame($frame);
-            $this->reApplyProfiles($frame, $profiles);
+            $profiles = $this->collectPreservedProfiles($frame);
+            $this->stripFrameAndPurgeProperties($frame);
+            $this->restorePreservedProfiles($frame, $profiles);
         }
 
         $image->setExif(new Collection());
@@ -36,68 +46,19 @@ class StripMetaModifier implements ModifierInterface, SpecializedInterface
     }
 
     /**
-     * Strip meta data from frame.
-     *
-     * stripImage() leaves the meta data in the property cache and
-     * instead sets a "png:exclude-chunk" artifact to keep the png
-     * encoder from writing it back. That artifact also discards the
-     * icc profile, because the png encoder skips every profile as
-     * soon as the text chunks are excluded. We drop the artifact and
-     * clear the property cache instead, so that the meta data is
-     * really gone for every encoder and the icc profile can be
-     * restored.
-     *
-     * @throws ModifierException
-     */
-    private function stripFrame(FrameInterface $frame): void
-    {
-        try {
-            $result = $frame->native()->stripImage();
-            if ($result === false) {
-                throw new ModifierException(
-                    'Failed to apply ' . self::class . ', unable to strip meta data',
-                );
-            }
-        } catch (ImagickException $e) {
-            throw new ModifierException(
-                'Failed to apply ' . self::class . ', unable to strip meta data',
-                previous: $e,
-            );
-        }
-
-        try {
-            if ($frame->native()->getImageArtifact('png:exclude-chunk') !== null) {
-                $frame->native()->deleteImageArtifact('png:exclude-chunk');
-            }
-
-            $this->clearProperties($frame->native());
-        } catch (ImagickException $e) {
-            throw new ModifierException(
-                'Failed to apply ' . self::class . ', unable to clear image properties',
-                previous: $e,
-            );
-        }
-    }
-
-    /**
      * Return array of frame profiles to be re-applied after the stripping process.
-     *
-     * Currently the following profiles are preserved
-     *
-     * - ICC profile
-     * - Ultra HDR gain map
      *
      * @throws ModifierException
      * @return array<mixed>
      */
-    private function frameProfilesToKeep(FrameInterface $frame): array
+    private function collectPreservedProfiles(FrameInterface $frame): array
     {
-        $preserve = ['icc', 'hdrgm'];
+        $imagick = $frame->native();
         $profiles = [];
 
-        foreach ($preserve as $key) {
+        foreach (self::PRESERVED_PROFILE_NAMES as $key) {
             try {
-                $result = $frame->native()->getImageProfiles($key);
+                $result = $imagick->getImageProfiles($key);
                 if (array_key_exists($key, $result)) {
                     $profiles[$key] = $result[$key];
                 }
@@ -114,24 +75,69 @@ class StripMetaModifier implements ModifierInterface, SpecializedInterface
     }
 
     /**
+     * Strip meta data from frame.
+     *
+     * stripImage() leaves the meta data in the property cache and
+     * instead sets a "png:exclude-chunk" artifact to keep the png
+     * encoder from writing it back. That artifact also discards the
+     * icc profile, because the png encoder skips every profile as
+     * soon as the text chunks are excluded. We drop the artifact and
+     * clear the property cache instead, so that the meta data is
+     * really gone for every encoder and the icc profile can be
+     * restored.
+     *
+     * @throws ModifierException
+     */
+    private function stripFrameAndPurgeProperties(FrameInterface $frame): void
+    {
+        $imagick = $frame->native();
+
+        try {
+            $result = $imagick->stripImage();
+            if ($result === false) {
+                throw new ModifierException(
+                    'Failed to apply ' . self::class . ', unable to strip meta data',
+                );
+            }
+        } catch (ImagickException $e) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to strip meta data',
+                previous: $e,
+            );
+        }
+
+        try {
+            $this->removeArtifactIfPresent($imagick, 'png:exclude-chunk');
+            $this->purgeMetadataProperties($imagick);
+        } catch (ImagickException $e) {
+            throw new ModifierException(
+                'Failed to apply ' . self::class . ', unable to clear image properties',
+                previous: $e,
+            );
+        }
+    }
+
+    /**
      * Re-apply given profiles to the frame.
      *
      * @param array<mixed> $profiles
      * @throws ModifierException
      */
-    private function reApplyProfiles(FrameInterface $frame, array $profiles): void
+    private function restorePreservedProfiles(FrameInterface $frame, array $profiles): void
     {
+        $imagick = $frame->native();
+
         foreach ($profiles as $key => $profile) {
             try {
-                $result = $frame->native()->profileImage($key, $profile);
+                $result = $imagick->profileImage($key, $profile);
                 if ($result === false) {
                     throw new ModifierException(
-                        'Failed to apply ' . self::class . ', unable to re-apply icc profile',
+                        'Failed to apply ' . self::class . ', unable to re-apply ' . $key . ' profile',
                     );
                 }
             } catch (ImagickException $e) {
                 throw new ModifierException(
-                    'Failed to apply ' . self::class . ', unable to re-apply icc profile',
+                    'Failed to apply ' . self::class . ', unable to re-apply ' . $key . ' profile',
                     previous: $e,
                 );
             }
@@ -143,22 +149,10 @@ class StripMetaModifier implements ModifierInterface, SpecializedInterface
      *
      * @throws ImagickException
      */
-    private function clearProperties(Imagick $imagick): void
+    private function purgeMetadataProperties(Imagick $imagick): void
     {
-        $deleteProperty = function (Imagick $imagick, string $property): void {
-            if (
-                str_starts_with($property, 'png:')
-                || str_starts_with($property, 'jpeg:')
-                || str_starts_with($property, 'hdrgm:')
-            ) {
-                return;
-            }
-
-            $imagick->deleteImageProperty($property);
-        };
-
-        foreach ($imagick->getImageProperties('*', false) as $property) {
-            $deleteProperty($imagick, $property);
+        foreach ($this->propertyNames($imagick) as $property) {
+            $this->deletePropertyUnlessPreserved($imagick, $property);
         }
 
         // getImageProperties() silently skips every property whose name starts
@@ -167,11 +161,129 @@ class StripMetaModifier implements ModifierInterface, SpecializedInterface
         // the "%[*]" format. That format builds a string of every property and
         // its value, which is why it only runs once the properties above are
         // gone and there is almost never anything left to report.
-        foreach (explode("\n", (string) $imagick->identifyFormat('%[*]')) as $line) {
-            $position = strpos($line, '=');
-            if ($position !== false && $position > 0) {
-                $deleteProperty($imagick, substr($line, 0, $position));
+        foreach ($this->propertyLines($imagick) as $line) {
+            $property = $this->extractPropertyNameFromIdentifyLine($imagick, $line);
+            if (is_string($property)) {
+                $this->deletePropertyUnlessPreserved($imagick, $property);
             }
         }
+    }
+
+    /**
+     * Delete given image artifact if it exists.
+     *
+     * @throws ImagickException
+     */
+    private function removeArtifactIfPresent(Imagick $imagick, string $artifact): void
+    {
+        // @phpstan-ignore notIdentical.alwaysTrue
+        if ($imagick->getImageArtifact($artifact) !== null) {
+            $imagick->deleteImageArtifact($artifact);
+        }
+    }
+
+    /**
+     * Return property names visible through getImageProperties().
+     *
+     * @throws ImagickException
+     * @return array<string>
+     */
+    private function propertyNames(Imagick $imagick): array
+    {
+        return $imagick->getImageProperties('*', false);
+    }
+
+    /**
+     * Return one "%[*]" entry per line.
+     *
+     * @throws ImagickException
+     * @return array<string>
+     */
+    private function propertyLines(Imagick $imagick): array
+    {
+        $output = (string) $imagick->identifyFormat('%[*]');
+
+        if ($output === '') {
+            return [];
+        }
+
+        return array_filter(explode("\n", $output), static fn(string $line): bool => $line !== '');
+    }
+
+    /**
+     * Delete image property unless it is an encoder hint that must survive
+     * metadata stripping.
+     *
+     * @throws ImagickException
+     */
+    private function deletePropertyUnlessPreserved(Imagick $imagick, string $property): void
+    {
+        if ($this->isPreservedProperty($property)) {
+            return;
+        }
+
+        $imagick->deleteImageProperty($property);
+    }
+
+    /**
+     * Determine if given property should be preserved.
+     */
+    private function isPreservedProperty(string $property): bool
+    {
+        foreach (self::PRESERVED_PROPERTY_PREFIXES as $prefix) {
+            if (str_starts_with($property, $prefix)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Resolve an identifyFormat("%[*]") line back to the property name.
+     *
+     * @throws ImagickException
+     */
+    private function extractPropertyNameFromIdentifyLine(Imagick $imagick, string $line): ?string
+    {
+        if ($line === '' || $line[0] === '=') {
+            return null;
+        }
+
+        for ($position = strlen($line) - 1; $position > 0; $position--) {
+            if ($line[$position] !== '=') {
+                continue;
+            }
+
+            $property = substr($line, 0, $position);
+            if ($this->lineMatchesProperty($imagick, $line, $property)) {
+                return $property;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Check whether a "%[*]" output line belongs to the given property name.
+     *
+     * @throws ImagickException
+     */
+    private function lineMatchesProperty(Imagick $imagick, string $line, string $property): bool
+    {
+        $value = $imagick->getImageProperty($property);
+
+        // @phpstan-ignore identical.alwaysFalse
+        if ($value === false) {
+            return false;
+        }
+
+        $serialized = $property . '=' . $value;
+
+        if ($line === $serialized) {
+            return true;
+        }
+
+        return $line === explode("\n", $serialized, 2)[0];
     }
 }

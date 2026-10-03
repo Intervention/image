@@ -154,6 +154,32 @@ final class StripMetaModifierTest extends ImagickTestCase
         $this->assertFalse($result->getImageProperty('[hidden'), 'Encoded png carries hidden meta data');
     }
 
+    public function testApplyRemovesHiddenMetaDataWithEqualsInName(): void
+    {
+        $image = $this->readTestImage('test.jpg');
+        $image->core()->native()->setImageProperty('[=x', 'meta data');
+        $image->core()->native()->setImageProperty('[x=y', 'meta=data');
+
+        $image->modify(new StripMetaModifier());
+
+        $result = $this->decodeAgain($image->encode(new PngEncoder()));
+
+        $this->assertFalse($result->getImageProperty('[=x'), 'Encoded png carries hidden meta data');
+        $this->assertFalse($result->getImageProperty('[x=y'), 'Encoded png carries hidden meta data');
+    }
+
+    public function testApplyRemovesHiddenMetaDataWithComplexValue(): void
+    {
+        $image = $this->readTestImage('test.jpg');
+        $image->core()->native()->setImageProperty('[x=y', "line1\nline2=still-value\r\nline3");
+
+        $image->modify(new StripMetaModifier());
+
+        $result = $this->decodeAgain($image->encode(new PngEncoder()));
+
+        $this->assertFalse($result->getImageProperty('[x=y'), 'Encoded png carries hidden meta data');
+    }
+
     public function testApplyKeepsUltraHdrGainMapProfile(): void
     {
         $image = $this->createTestAnimation();

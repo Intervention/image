@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Gd\Encoders;
 
+use GdImage;
 use Intervention\Gif\Builder as GifBuilder;
 use Intervention\Gif\Exceptions\GifException;
 use Intervention\Image\Drivers\Gd\Cloner;
@@ -37,6 +38,7 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
         }
 
         $gd = Cloner::clone($image->core()->native());
+        $this->normalizeTransparencyForGif($gd);
 
         return $this->createEncodedImage(function ($stream) use ($gd): void {
             imageinterlace($gd, $this->interlaced);
@@ -72,4 +74,61 @@ class GifEncoder extends GenericGifEncoder implements SpecializedInterface
             throw new EncoderException('Failed to encode image to GIF format', previous: $e);
         }
     }
+
+    private function normalizeTransparencyForGif(GdImage $gd): void
+    {
+        $transparent = imagecolortransparent($gd);
+        if ($transparent === -1) {
+            return;
+        }
+
+        $color = imagecolorsforindex($gd, $transparent);
+        if (!is_array($color)) {
+            return;
+        }
+
+        if (imageistruecolor($gd) && !imagetruecolortopalette($gd, true, 256)) {
+            return;
+        }
+
+        $index = imagecolorexactalpha(
+            $gd,
+            $color['red'],
+            $color['green'],
+            $color['blue'],
+            $color['alpha'],
+        );
+
+        if ($index < 0) {
+            $index = imagecolorclosestalpha(
+                $gd,
+                $color['red'],
+                $color['green'],
+                $color['blue'],
+                $color['alpha'],
+            );
+        }
+
+        if ($index < 0) {
+            $index = imagecolorresolvealpha(
+                $gd,
+                $color['red'],
+                $color['green'],
+                $color['blue'],
+                $color['alpha'],
+            );
+        }
+
+        imagecolorset(
+            $gd,
+            $index,
+            $color['red'],
+            $color['green'],
+            $color['blue'],
+            127,
+        );
+
+        imagecolortransparent($gd, $index);
+    }
+
 }

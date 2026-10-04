@@ -24,6 +24,14 @@ final class ResolutionModifierTest extends ImagickTestCase
         $this->assertEquals(2.0, $image->resolution()->y());
     }
 
+    public function testResolutionChangeOfImageWithMetricResolution(): void
+    {
+        $image = $this->readTestImage('300dpi.png');
+        $image->modify(new ResolutionModifier(72, 96));
+        $this->assertEquals(72.0, $image->resolution()->perInch()->x());
+        $this->assertEquals(96.0, $image->resolution()->perInch()->y());
+    }
+
     public function testResolutionChangeAnimated(): void
     {
         $image = $this->createTestAnimation();

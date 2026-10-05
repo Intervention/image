@@ -249,7 +249,7 @@ class DataUri implements DataUriInterface, JsonSerializable
             return '';
         }
 
-        $parameters = array_map(function (mixed $key, mixed $value) {
+        $parameters = array_map(function (mixed $key, mixed $value): string {
             return $key . '=' . $value;
         }, array_keys($this->parameters), $this->parameters);
 

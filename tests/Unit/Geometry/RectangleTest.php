@@ -40,7 +40,7 @@ final class RectangleTest extends BaseTestCase
     {
         $rectangle = new Rectangle(300, 200);
         $this->assertEquals(null, $rectangle->backgroundColor());
-        $adjusted = $rectangle->adjust(fn(RectangleFactory $factory) => $factory->background('f50'));
+        $adjusted = $rectangle->adjust(fn(RectangleFactory $factory): RectangleFactory => $factory->background('f50'));
         $this->assertEquals(null, $rectangle->backgroundColor());
         $this->assertEquals('f50', $adjusted->backgroundColor());
     }

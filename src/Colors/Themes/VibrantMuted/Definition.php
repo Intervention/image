@@ -23,35 +23,35 @@ class Definition implements ThemeDefinitionInterface
     /**
      * Color swatches.
      */
-    private const VIBRANT = 'vibrant';
-    private const MUTED = 'muted';
-    private const DARK_VIBRANT = 'darkVibrant';
-    private const DARK_MUTED = 'darkMuted';
-    private const LIGHT_VIBRANT = 'lightVibrant';
-    private const LIGHT_MUTED = 'lightMuted';
+    private const string VIBRANT = 'vibrant';
+    private const string MUTED = 'muted';
+    private const string DARK_VIBRANT = 'darkVibrant';
+    private const string DARK_MUTED = 'darkMuted';
+    private const string LIGHT_VIBRANT = 'lightVibrant';
+    private const string LIGHT_MUTED = 'lightMuted';
 
     /**
      * HSL thresholds for category classification.
      */
-    private const MIN_VIBRANT_SATURATION = 0.35;
-    private const MIN_MUTED_SATURATION = 0.1;
-    private const MAX_MUTED_SATURATION = 0.4;
+    private const float MIN_VIBRANT_SATURATION = 0.35;
+    private const float MIN_MUTED_SATURATION = 0.1;
+    private const float MAX_MUTED_SATURATION = 0.4;
 
-    private const MIN_NORMAL_LIGHTNESS = 0.35;
-    private const MAX_NORMAL_LIGHTNESS = 0.7;
+    private const float MIN_NORMAL_LIGHTNESS = 0.35;
+    private const float MAX_NORMAL_LIGHTNESS = 0.7;
 
-    private const MIN_DARK_LIGHTNESS = 0.1;
-    private const MAX_DARK_LIGHTNESS = 0.45;
+    private const float MIN_DARK_LIGHTNESS = 0.1;
+    private const float MAX_DARK_LIGHTNESS = 0.45;
 
-    private const MIN_LIGHT_LIGHTNESS = 0.55;
-    private const MAX_LIGHT_LIGHTNESS = 0.9;
+    private const float MIN_LIGHT_LIGHTNESS = 0.55;
+    private const float MAX_LIGHT_LIGHTNESS = 0.9;
 
     /**
      * Scoring weights.
      */
-    private const WEIGHT_SATURATION = 3.0;
-    private const WEIGHT_LIGHTNESS = 6.0;
-    private const WEIGHT_POPULATION = 1.0;
+    private const float WEIGHT_SATURATION = 3.0;
+    private const float WEIGHT_LIGHTNESS = 6.0;
+    private const float WEIGHT_POPULATION = 1.0;
 
     /**
      * {@inheritdoc}

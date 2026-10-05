@@ -52,7 +52,7 @@ final class CollectionTest extends BaseTestCase
     {
         $collection = new Collection(['foo', 'bar', 'baz']);
         $this->assertEquals(3, $collection->count());
-        $collection = $collection->filter(function ($text): bool {
+        $collection = $collection->filter(function (string $text): bool {
             return substr($text, 0, 1) == 'b';
         });
         $this->assertEquals(2, $collection->count());
@@ -87,7 +87,7 @@ final class CollectionTest extends BaseTestCase
     public function testMap(): void
     {
         $collection = new Collection(['FOO', 'BAR', 'BAZ']);
-        $mapped = $collection->map(function ($item) {
+        $mapped = $collection->map(function (string $item): string {
             return strtolower($item);
         });
         $this->assertInstanceOf(Collection::class, $collection);

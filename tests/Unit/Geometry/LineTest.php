@@ -105,7 +105,7 @@ final class LineTest extends BaseTestCase
     {
         $line = new Line(new Point(1, 2), new Point(3, 4), 10);
         $this->assertEquals(null, $line->backgroundColor());
-        $adjusted = $line->adjust(fn(LineFactory $factory) => $factory->background('f50'));
+        $adjusted = $line->adjust(fn(LineFactory $factory): LineFactory => $factory->background('f50'));
         $this->assertEquals(null, $line->backgroundColor());
         $this->assertEquals('f50', $adjusted->backgroundColor());
     }

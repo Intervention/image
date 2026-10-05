@@ -48,7 +48,7 @@ class OrientModifier extends GenericOrientModifier implements SpecializedInterfa
      */
     private function markAligned(ImageInterface $image): ImageInterface
     {
-        $exif = $image->exif()->map(function ($item) {
+        $exif = $image->exif()->map(function (mixed $item): mixed {
             if (is_array($item) && array_key_exists('Orientation', $item)) {
                 $item['Orientation'] = 1;
                 return $item;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
+use Imagick;
 use ImagickException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -21,7 +22,8 @@ class ResolutionModifier extends GenericResolutionModifier implements Specialize
         // currently pointing at, so every frame has to be set individually.
         foreach ($image as $frame) {
             try {
-                $result = $frame->native()->setImageResolution($this->x, $this->y);
+                $result = $frame->native()->setImageUnits(Imagick::RESOLUTION_PIXELSPERINCH)
+                    && $frame->native()->setImageResolution($this->x, $this->y);
                 if ($result === false) {
                     throw new ModifierException(
                         'Failed to apply ' . self::class . ', unable to set image resolution',

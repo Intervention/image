@@ -83,7 +83,7 @@ final class EllipseTest extends BaseTestCase
     {
         $ellipse = new Ellipse(10, 10);
         $this->assertEquals(null, $ellipse->backgroundColor());
-        $adjusted = $ellipse->adjust(fn(EllipseFactory $factory) => $factory->background('f50'));
+        $adjusted = $ellipse->adjust(fn(EllipseFactory $factory): EllipseFactory => $factory->background('f50'));
         $this->assertEquals(null, $ellipse->backgroundColor());
         $this->assertEquals('f50', $adjusted->backgroundColor());
     }

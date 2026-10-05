@@ -23,6 +23,12 @@ use Intervention\Image\Fraction;
 use Intervention\Image\Geometry\Bezier;
 use Intervention\Image\Geometry\Circle;
 use Intervention\Image\Geometry\Ellipse;
+use Intervention\Image\Geometry\Factories\BezierFactory;
+use Intervention\Image\Geometry\Factories\CircleFactory;
+use Intervention\Image\Geometry\Factories\EllipseFactory;
+use Intervention\Image\Geometry\Factories\LineFactory;
+use Intervention\Image\Geometry\Factories\PolygonFactory;
+use Intervention\Image\Geometry\Factories\RectangleFactory;
 use Intervention\Image\Geometry\Line;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
@@ -609,7 +615,7 @@ final class ImageTest extends GdTestCase
     public function testDrawRectangle(): void
     {
         $image = $this->createTestImage(10, 10);
-        $result = $image->drawRectangle(function ($rectangle): void {
+        $result = $image->drawRectangle(function (RectangleFactory $rectangle): void {
             $rectangle->size(5, 5);
             $rectangle->background('ff0000');
         });
@@ -627,7 +633,7 @@ final class ImageTest extends GdTestCase
     public function testDrawEllipse(): void
     {
         $image = $this->createTestImage(10, 10);
-        $result = $image->drawEllipse(function ($ellipse): void {
+        $result = $image->drawEllipse(function (EllipseFactory $ellipse): void {
             $ellipse->size(6, 4);
             $ellipse->background('ff0000');
         });
@@ -637,7 +643,7 @@ final class ImageTest extends GdTestCase
     public function testDrawCircle(): void
     {
         $image = $this->createTestImage(10, 10);
-        $result = $image->drawCircle(function ($circle): void {
+        $result = $image->drawCircle(function (CircleFactory $circle): void {
             $circle->radius(3);
             $circle->background('ff0000');
         });
@@ -647,7 +653,7 @@ final class ImageTest extends GdTestCase
     public function testDrawPolygon(): void
     {
         $image = $this->createTestImage(10, 10);
-        $result = $image->drawPolygon(function ($polygon): void {
+        $result = $image->drawPolygon(function (PolygonFactory $polygon): void {
             $polygon->point(0, 0);
             $polygon->point(5, 0);
             $polygon->point(5, 5);
@@ -658,7 +664,7 @@ final class ImageTest extends GdTestCase
     public function testDrawLine(): void
     {
         $image = $this->createTestImage(10, 10);
-        $result = $image->drawLine(function ($line): void {
+        $result = $image->drawLine(function (LineFactory $line): void {
             $line->from(0, 0);
             $line->to(9, 9);
             $line->color('ff0000');
@@ -669,7 +675,7 @@ final class ImageTest extends GdTestCase
     public function testDrawBezier(): void
     {
         $image = $this->createTestImage(10, 10);
-        $result = $image->drawBezier(function ($bezier): void {
+        $result = $image->drawBezier(function (BezierFactory $bezier): void {
             $bezier->point(0, 0);
             $bezier->point(3, 5);
             $bezier->point(6, 2);

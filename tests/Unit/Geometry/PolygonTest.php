@@ -617,7 +617,7 @@ final class PolygonTest extends BaseTestCase
     {
         $polygon = new Polygon();
         $this->assertEquals(null, $polygon->backgroundColor());
-        $adjusted = $polygon->adjust(fn(PolygonFactory $factory) => $factory->background('f50'));
+        $adjusted = $polygon->adjust(fn(PolygonFactory $factory): PolygonFactory => $factory->background('f50'));
         $this->assertEquals(null, $polygon->backgroundColor());
         $this->assertEquals('f50', $adjusted->backgroundColor());
     }

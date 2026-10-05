@@ -11,6 +11,11 @@ use Intervention\Image\Fraction;
 use Intervention\Image\Geometry\Bezier;
 use Intervention\Image\Geometry\Circle;
 use Intervention\Image\Geometry\Ellipse;
+use Intervention\Image\Geometry\Factories\CircleFactory;
+use Intervention\Image\Geometry\Factories\EllipseFactory;
+use Intervention\Image\Geometry\Factories\LineFactory;
+use Intervention\Image\Geometry\Factories\PolygonFactory;
+use Intervention\Image\Geometry\Factories\RectangleFactory;
 use Intervention\Image\Geometry\Line;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Polygon;
@@ -26,6 +31,7 @@ use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 use Intervention\Image\Origin;
 use Intervention\Image\Tests\BaseTestCase;
+use Intervention\Image\Typography\FontFactory;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 #[CoversClass(Image::class)]
@@ -365,7 +371,7 @@ final class ImageTest extends BaseTestCase
     public function testDrawRectangle(): void
     {
         $image = $this->createImage();
-        $result = $image->drawRectangle(function ($rectangle): void {
+        $result = $image->drawRectangle(function (RectangleFactory $rectangle): void {
             $rectangle->size(50, 50);
             $rectangle->at(10, 10);
             $rectangle->background('ff0000');
@@ -385,7 +391,7 @@ final class ImageTest extends BaseTestCase
     public function testDrawEllipse(): void
     {
         $image = $this->createImage();
-        $result = $image->drawEllipse(function ($ellipse): void {
+        $result = $image->drawEllipse(function (EllipseFactory $ellipse): void {
             $ellipse->size(50, 30);
             $ellipse->at(50, 50);
             $ellipse->background('ff0000');
@@ -396,7 +402,7 @@ final class ImageTest extends BaseTestCase
     public function testDrawCircle(): void
     {
         $image = $this->createImage();
-        $result = $image->drawCircle(function ($circle): void {
+        $result = $image->drawCircle(function (CircleFactory $circle): void {
             $circle->radius(25);
             $circle->at(50, 50);
             $circle->background('ff0000');
@@ -407,7 +413,7 @@ final class ImageTest extends BaseTestCase
     public function testDrawLine(): void
     {
         $image = $this->createImage();
-        $result = $image->drawLine(function ($line): void {
+        $result = $image->drawLine(function (LineFactory $line): void {
             $line->from(0, 0);
             $line->to(100, 100);
             $line->color('ff0000');
@@ -418,7 +424,7 @@ final class ImageTest extends BaseTestCase
     public function testDrawPolygon(): void
     {
         $image = $this->createImage();
-        $result = $image->drawPolygon(function ($polygon): void {
+        $result = $image->drawPolygon(function (PolygonFactory $polygon): void {
             $polygon->point(10, 10);
             $polygon->point(90, 10);
             $polygon->point(50, 90);
@@ -739,7 +745,7 @@ final class ImageTest extends BaseTestCase
     public function testText(): void
     {
         $image = $this->createImage();
-        $result = $image->text('Hello', 10, 10, function ($font): void {
+        $result = $image->text('Hello', 10, 10, function (FontFactory $font): void {
             $font->size(20);
         });
         $this->assertInstanceOf(ImageInterface::class, $result);

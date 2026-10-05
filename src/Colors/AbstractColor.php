@@ -189,7 +189,7 @@ abstract class AbstractColor implements ColorInterface, Stringable, JsonSerializ
      */
     public function __debugInfo(): array
     {
-        return array_reduce($this->channels(), function (array $result, ColorChannelInterface $item) {
+        return array_reduce($this->channels(), function (array $result, ColorChannelInterface $item): array {
             $key = strtolower((new ReflectionClass($item))->getShortName());
             $result[$key] = $item->toString();
             return $result;

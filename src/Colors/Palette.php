@@ -269,7 +269,7 @@ class Palette implements PaletteInterface
         return new self(
             array_filter(
                 array_map(fn(Bin $bin): ColorInterface => $bin->color, $this->bins),
-                fn(ColorInterface $color) => $callback($color),
+                fn(ColorInterface $color): mixed => $callback($color),
             ),
         );
     }
@@ -283,7 +283,7 @@ class Palette implements PaletteInterface
     {
         return new self(
             array_map(
-                fn(ColorInterface $color) => $callback($color),
+                fn(ColorInterface $color): mixed => $callback($color),
                 array_map(fn(Bin $bin): ColorInterface => $bin->color, $this->bins),
             ),
         );

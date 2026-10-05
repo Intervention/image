@@ -62,7 +62,12 @@ class AnimationFactoryTest extends BaseTestCase
     #[DataProviderExternal(DriverProvider::class, 'drivers')]
     public function testBuild(DriverInterface $driver): void
     {
-        $image = AnimationFactory::build(12, 4, fn($animation) => $animation, $driver);
+        $image = AnimationFactory::build(
+            12,
+            4,
+            fn(AnimationFactory $animation): AnimationFactory => $animation,
+            $driver,
+        );
 
         $this->assertEquals(12, $image->width());
         $this->assertEquals(4, $image->height());

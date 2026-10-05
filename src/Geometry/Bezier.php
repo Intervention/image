@@ -230,7 +230,7 @@ class Bezier implements IteratorAggregate, Countable, ArrayAccess, DrawableInter
      */
     public function __clone(): void
     {
-        $this->points = array_map(fn($point) => clone $point, $this->points);
+        $this->points = array_map(fn(PointInterface $point): PointInterface => clone $point, $this->points);
         $this->pivot = clone $this->pivot;
 
         if ($this->backgroundColor instanceof AbstractColor) {

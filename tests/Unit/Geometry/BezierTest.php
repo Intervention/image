@@ -231,7 +231,7 @@ final class BezierTest extends BaseTestCase
     {
         $bezier = new Bezier();
         $this->assertEquals(null, $bezier->backgroundColor());
-        $adjusted = $bezier->adjust(fn(BezierFactory $factory) => $factory->background('f50'));
+        $adjusted = $bezier->adjust(fn(BezierFactory $factory): BezierFactory => $factory->background('f50'));
         $this->assertEquals(null, $bezier->backgroundColor());
         $this->assertEquals('f50', $adjusted->backgroundColor());
     }

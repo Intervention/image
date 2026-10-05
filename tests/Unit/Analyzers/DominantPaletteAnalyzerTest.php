@@ -27,7 +27,7 @@ final class DominantPaletteAnalyzerTest extends BaseTestCase
         $result = $analyzer->analyze($image);
         $this->assertInstanceOf(PaletteInterface::class, $result);
 
-        $counts = array_map(fn(ColorInterface $color) => $result->colorCount($color), $result->toArray());
+        $counts = array_map(fn(ColorInterface $color): int => $result->colorCount($color), $result->toArray());
         $this->assertEquals([351, 247, 226, 200], $counts);
         $this->assertEquals(
             [
@@ -60,7 +60,7 @@ final class DominantPaletteAnalyzerTest extends BaseTestCase
         $result = $analyzer->analyze($image);
         $this->assertInstanceOf(PaletteInterface::class, $result);
 
-        $counts = array_map(fn(ColorInterface $color) => $result->colorCount($color), $result->toArray());
+        $counts = array_map(fn(ColorInterface $color): int => $result->colorCount($color), $result->toArray());
         $this->assertEquals([25], $counts);
         $this->assertEquals(
             [

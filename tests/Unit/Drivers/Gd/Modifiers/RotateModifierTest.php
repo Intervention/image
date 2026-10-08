@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Unit\Drivers\Gd\Modifiers;
 
 use GdImage;
+use Intervention\Image\Drivers\Gd\Core;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Drivers\Gd\Frame;
+use Intervention\Image\Image;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
@@ -90,11 +94,11 @@ final class RotateModifierTest extends GdTestCase
         // tile.png has a transparent color, right angles do not add new areas
         $image = $this->readTestImage('tile.png');
         $this->assertNotEquals(-1, imagecolortransparent($image->core()->native()));
-        $transparent = $this->countFullyTransparentPixels($image->core()->native());
+        $transparent = $this->countTransparentPixels($image->core()->native(), 127);
         $this->assertGreaterThan(0, $transparent);
 
         $image->modify(new RotateModifier($angle, $background));
-        $this->assertEquals($transparent, $this->countFullyTransparentPixels($image->core()->native()));
+        $this->assertEquals($transparent, $this->countTransparentPixels($image->core()->native(), 127));
     }
 
     /**
@@ -112,12 +116,97 @@ final class RotateModifierTest extends GdTestCase
         return $data;
     }
 
-    private function countFullyTransparentPixels(GdImage $gd): int
+    #[DataProvider('rotateOpaqueImageOnOpaqueBackgroundDataProvider')]
+    public function testRotateOpaqueImageOnOpaqueBackgroundLeavesNoTransparentPixels(
+        string $filename,
+        float $angle,
+    ): void {
+        $image = $this->readTestImage($filename);
+        $image->modify(new RotateModifier($angle, 'ff0000'));
+        $this->assertEquals(0, $this->countTransparentPixels($image->core()->native()));
+    }
+
+    /**
+     * @return array<string, array{string, float}>
+     */
+    public static function rotateOpaqueImageOnOpaqueBackgroundDataProvider(): array
+    {
+        $data = [];
+        foreach (['test.jpg', 'green.gif'] as $filename) {
+            foreach ([45, 30, 10, -17.5] as $angle) {
+                $data[$filename . ' by ' . $angle . ' degrees'] = [$filename, $angle];
+            }
+        }
+
+        return $data;
+    }
+
+    #[DataProvider('rotateKeepsTransparencyOfTransparentColorOnObliqueAngleDataProvider')]
+    public function testRotateKeepsTransparencyOfTransparentColorOnObliqueAngle(
+        string $filename,
+        string $background,
+    ): void {
+        $image = $this->readTestImage($filename);
+        $this->assertNotEquals(-1, imagecolortransparent($image->core()->native()));
+        $transparent = $this->countTransparentPixels($image->core()->native(), 127);
+
+        // the exact count depends on the libgd version, as the edges are interpolated
+        // and the bundled GD of PHP leaves pixels at an alpha value of 126
+        $image->modify(new RotateModifier(30, $background));
+        $this->assertGreaterThan(
+            intdiv($transparent, 2),
+            $this->countTransparentPixels($image->core()->native(), 120),
+        );
+    }
+
+    /**
+     * @return array<string, array{string, string}>
+     */
+    public static function rotateKeepsTransparencyOfTransparentColorOnObliqueAngleDataProvider(): array
+    {
+        $data = [];
+        foreach (['tile.png', 'blocks.png'] as $filename) {
+            foreach (['ffffff', 'ff000080'] as $background) {
+                $data[$filename . ' on ' . $background] = [$filename, $background];
+            }
+        }
+
+        return $data;
+    }
+
+    #[DataProvider('rotateFullPaletteImageDataProvider')]
+    public function testRotateFullPaletteImageFillsNewAreasWithBackground(string $background, int $alpha): void
+    {
+        // palette with 256 colors, none of them red
+        $gd = imagecreate(16, 16);
+        for ($i = 0; $i < 256; $i++) {
+            $color = imagecolorallocate($gd, 0, $i, 255 - $i);
+            imagesetpixel($gd, $i % 16, intdiv($i, 16), $color);
+        }
+        $image = new Image(new Driver(), new Core([new Frame($gd)]));
+
+        $image->modify(new RotateModifier(30, $background));
+        $this->assertColor(255, 0, 0, $alpha, $image->colorAt(0, 0), 1);
+    }
+
+    /**
+     * @return array<string, array{string, int}>
+     */
+    public static function rotateFullPaletteImageDataProvider(): array
+    {
+        return [
+            'opaque' => ['ff0000', 255],
+            'semi transparent' => ['ff000080', 128],
+            'transparent' => ['ff000000', 0],
+        ];
+    }
+
+    private function countTransparentPixels(GdImage $gd, int $alpha = 1): int
     {
         $count = 0;
         for ($y = 0; $y < imagesy($gd); $y++) {
             for ($x = 0; $x < imagesx($gd); $x++) {
-                if ((imagecolorat($gd, $x, $y) >> 24 & 0x7F) === 127) {
+                if ((imagecolorat($gd, $x, $y) >> 24 & 0x7F) >= $alpha) {
                     $count++;
                 }
             }

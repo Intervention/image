@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use GdImage;
-use Intervention\Image\Alignment;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
 use Intervention\Image\Drivers\Gd\Cloner;
@@ -14,7 +13,6 @@ use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\StateException;
-use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -68,63 +66,29 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
             return;
         }
 
-        // get transparent color from frame core
-        $transparent = match ($transparent = imagecolortransparent($frame->native())) {
-            -1 => imagecolorallocatealpha(
-                $frame->native(),
-                $background->red()->value(),
-                $background->green()->value(),
-                $background->blue()->value(),
-                127,
-            ),
-            default => $transparent,
-        };
+        // remove a possible transparent color, libgd fills its pixels with the
+        // background color when rotating and imagecopy() would skip them
+        $source = $this->withoutTransparentColor($frame->native(), $background);
 
-        // rotate original image against transparent background, the bundled GD
-        // of PHP turns pixels of the transparent color opaque black when rotating
-        // by 0 degrees, so the original image is used directly in this case
-        $rotated = $this->rotationAngle() === 0.0 ? $frame->native() : imagerotate(
-            $frame->native(),
+        // rotate against background color, so the new areas match the edges of
+        // the rotated image, the bundled GD of PHP turns pixels of the transparent
+        // color opaque black when rotating by 0 degrees, so the source image is
+        // used directly in this case
+        $rotated = $this->rotationAngle() === 0.0 ? $source : imagerotate(
+            $source,
             $this->rotationAngle() * -1,
-            $transparent,
+            (new ColorProcessor())->export($background),
         );
-
-        // create size from original after rotation
-        $container = (new Size(
-            imagesx($rotated),
-            imagesy($rotated),
-        ))->movePivot(Alignment::CENTER);
-
-        // create size from original and rotate points
-        $cutout = Polygon::fromSize(new Size(
-            imagesx($frame->native()),
-            imagesy($frame->native()),
-            $container->pivot(),
-        ))->alignHorizontally(Alignment::CENTER)
-            ->alignVertically(Alignment::CENTER)
-            ->rotate($this->rotationAngle());
 
         // create new gd image
-        $modified = Cloner::cloneEmpty($frame->native(), $container, $background);
+        $modified = Cloner::cloneEmpty($frame->native(), new Size(
+            imagesx($rotated),
+            imagesy($rotated),
+        ), $background);
 
-        // draw the cutout on new gd image to have a fully transparent
-        // background where the rotated image will be placed, fully
-        // transparent pixels of the rotated image will keep this color
+        // place rotated image on new gd image without blending, as the rotated
+        // image already contains the background in the new areas
         imagealphablending($modified, false);
-        imagefilledpolygon(
-            $modified,
-            $cutout->toArray(),
-            imagecolorallocatealpha(
-                $modified,
-                $background->red()->value(),
-                $background->green()->value(),
-                $background->blue()->value(),
-                127,
-            ),
-        );
-
-        // place rotated image on new gd image
-        imagealphablending($modified, true);
         imagecopy(
             $modified,
             $rotated,
@@ -135,6 +99,7 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
             imagesx($rotated),
             imagesy($rotated),
         );
+        imagealphablending($modified, true);
 
         $frame->setNative($modified);
     }
@@ -163,6 +128,42 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
         }
 
         return true;
+    }
+
+    /**
+     * Return the given image as truecolor image without transparent color, pixels
+     * of the transparent color are turned into fully transparent pixels. The given
+     * image is returned unchanged if there is nothing to convert.
+     *
+     * @throws DriverException
+     */
+    private function withoutTransparentColor(GdImage $gd, RgbColor $background): GdImage
+    {
+        if (imageistruecolor($gd) && imagecolortransparent($gd) === -1) {
+            return $gd;
+        }
+
+        $width = imagesx($gd);
+        $height = imagesy($gd);
+        $converted = imagecreatetruecolor($width, $height);
+        if ($converted === false) {
+            throw new DriverException('Failed to create new image while rotating');
+        }
+
+        // pixels of the transparent color are skipped when copying and keep the
+        // fully transparent fill
+        imagealphablending($converted, false);
+        imagesavealpha($converted, true);
+        imagefilledrectangle($converted, 0, 0, $width - 1, $height - 1, imagecolorallocatealpha(
+            $converted,
+            $background->red()->value(),
+            $background->green()->value(),
+            $background->blue()->value(),
+            127,
+        ));
+        imagecopy($converted, $gd, 0, 0, 0, 0, $width, $height);
+
+        return $converted;
     }
 
     /**

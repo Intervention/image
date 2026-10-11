@@ -42,7 +42,7 @@ use Intervention\Image\Colors\Oklch\Channels\Lightness as OklchLightness;
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
-use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder as RgbHexColorDecoder;
+use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder;
 use Intervention\Image\Colors\Rgb\Decoders\NamedColorDecoder;
 use Intervention\Image\Colors\Rgb\Decoders\StringColorDecoder as RgbStringColorDecoder;
 use Intervention\Image\Exceptions\ColorException;
@@ -67,7 +67,7 @@ class Color
                 OklabStringColorDecoder::class,
                 OklchStringColorDecoder::class,
                 NamedColorDecoder::class,
-                RgbHexColorDecoder::class,
+                HexColorDecoder::class,
             ])->handle($input);
         } catch (NotSupportedException | DriverException $e) {
             throw new InvalidArgumentException(

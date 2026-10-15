@@ -154,7 +154,7 @@ class Frame extends AbstractFrame implements FrameInterface
         try {
             $this->native->setImageDelay(intval(round($delay * 100)));
         } catch (ImagickException $e) {
-            throw new DriverException('Failed to set frame disposal method', previous: $e);
+            throw new DriverException('Failed to set frame delay', previous: $e);
         }
 
         return $this;

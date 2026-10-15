@@ -44,12 +44,10 @@ class ResolutionAnalyzer extends GenericResolutionAnalyzer implements Specialize
         // we will make an attempt to find the resolution from origin.
         if ($this->isGdDefaultResolution($result) && $image->core()->meta()->get('resolutionChanged') !== true) {
             try {
-                $alternativeResoltion = $this->readResolutionFromOrigin($image->origin());
+                $result = $this->readResolutionFromOrigin($image->origin());
             } catch (Throwable) {
-                $alternativeResoltion = [96, 96];
+                $result = [96, 96];
             }
-
-            $result = $alternativeResoltion !== $result ? $alternativeResoltion : $result;
         }
 
         return new Resolution(...$result);

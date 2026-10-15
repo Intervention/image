@@ -5,6 +5,12 @@ declare(strict_types=1);
 namespace Intervention\Image\Tests\Providers;
 
 use Generator;
+use Intervention\Image\Colors\Cmyk;
+use Intervention\Image\Colors\Hsl;
+use Intervention\Image\Colors\Hsv;
+use Intervention\Image\Colors\Oklab;
+use Intervention\Image\Colors\Oklch;
+use Intervention\Image\Colors\Rgb;
 
 class ColorDataProvider
 {
@@ -12,6 +18,15 @@ class ColorDataProvider
     {
         yield [[255, 0, 55], [255, 0, 55, 255]];
         yield [[255, 0, 55, 1], [255, 0, 55, 255]];
+        yield [
+            [
+                new Rgb\Channels\Red(255),
+                new Rgb\Channels\Green(0),
+                new Rgb\Channels\Blue(55),
+                new Rgb\Channels\Alpha(1),
+            ],
+            [255, 0, 55, 255],
+        ];
     }
 
     public static function rgbString(): Generator
@@ -97,6 +112,15 @@ class ColorDataProvider
     {
         yield [[0, 0, 0, 0], [0, 0, 0, 0, 255]];
         yield [[0, 100, 100, 0], [0, 100, 100, 0, 255]];
+        yield [
+            [
+                new Cmyk\Channels\Cyan(0),
+                new Cmyk\Channels\Magenta(100),
+                new Cmyk\Channels\Yellow(100),
+                new Cmyk\Channels\Key(0),
+            ],
+            [0, 100, 100, 0, 255],
+        ];
     }
 
     public static function cmykString(): Generator
@@ -118,6 +142,15 @@ class ColorDataProvider
         yield [[0, 100, 50], [0, 100, 50, 255]];
         yield [[0, 0, 0, 0], [0, 0, 0, 0]];
         yield [[0, 100, 50, .2], [0, 100, 50, 51]];
+        yield [
+            [
+                new Hsl\Channels\Hue(0),
+                new Hsl\Channels\Saturation(100),
+                new Hsl\Channels\Luminance(50),
+                new Hsl\Channels\Alpha(.2),
+            ],
+            [0, 100, 50, 51],
+        ];
     }
 
     public static function hslString(): Generator
@@ -177,6 +210,16 @@ class ColorDataProvider
     {
         yield [[0, 0, 0, 0], [0, 0, 0, 0]];
         yield [[0, 100, 50, 1], [0, 100, 50, 255]];
+        yield [[0, 100, 50, 1], [0, 100, 50, 255]];
+        yield [
+            [
+                new Hsv\Channels\Hue(0),
+                new Hsv\Channels\Saturation(100),
+                new Hsv\Channels\Value(50),
+                new Hsv\Channels\Alpha(1),
+            ],
+            [0, 100, 50, 255],
+        ];
     }
 
     public static function hsvString(): Generator
@@ -211,6 +254,15 @@ class ColorDataProvider
         yield [[0.0, 0.0, 0.0, 1], [0.0, 0.0, 0.0, 255]];
         yield [[1.0, 0.0, 0.0, 1], [1.0, 0.0, 0.0, 255]];
         yield [[.49, .04, .2, .2], [.49, .04, .2, 51]];
+        yield [
+            [
+                new Oklab\Channels\Lightness(.49),
+                new Oklab\Channels\A(.04),
+                new Oklab\Channels\B(.2),
+                new Oklab\Channels\Alpha(.2),
+            ],
+            [.49, .04, .2, 51],
+        ];
     }
 
     public static function oklabString(): Generator
@@ -267,6 +319,15 @@ class ColorDataProvider
         yield [[1.0, 0.0, 0, 1], [1.0, 0.0, 0.0, 255]];
         yield [[.49, .04, 200, .2], [.49, .04, 200, 51]];
         yield [[.49, -0.04, 360, .2], [.49, -0.04, 360, 51]];
+        yield [
+            [
+                new Oklch\Channels\Lightness(.49),
+                new Oklch\Channels\Chroma(-0.04),
+                new Oklch\Channels\Hue(360),
+                new Oklch\Channels\Alpha(.2),
+            ],
+            [.49, -0.04, 360, 51],
+        ];
     }
 
     public static function oklchString(): Generator

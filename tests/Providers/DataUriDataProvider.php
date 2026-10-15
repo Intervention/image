@@ -6,6 +6,7 @@ namespace Intervention\Image\Tests\Providers;
 
 use Generator;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Stringable;
 
 class DataUriDataProvider
 {
@@ -68,6 +69,16 @@ class DataUriDataProvider
         yield [
             'data:text/html,<script>alert(\'hi\');</script>',
             '<script>alert(\'hi\');</script>',
+        ];
+
+        yield [
+            new class () implements Stringable {
+                public function __toString(): string
+                {
+                    return 'data:text/plain,foobar';
+                }
+            },
+            'foobar',
         ];
     }
 

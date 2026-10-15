@@ -11,9 +11,26 @@ use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Providers\DataUriDataProvider;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
+use Stringable;
 
 class DataUriTest extends BaseTestCase
 {
+    public function testConstructor(): void
+    {
+        $datauri = new DataUri('test');
+        $this->assertInstanceOf(DataUri::class, $datauri);
+        $this->assertEquals('test', $datauri->data());
+
+        $datauri = new DataUri(new class () implements Stringable {
+            public function __toString(): string
+            {
+                return 'test';
+            }
+        });
+        $this->assertInstanceOf(DataUri::class, $datauri);
+        $this->assertEquals('test', $datauri->data());
+    }
+
     public function testSetGetData(): void
     {
         $datauri = new DataUri(data: 'test');
@@ -175,7 +192,7 @@ class DataUriTest extends BaseTestCase
     }
 
     #[DataProviderExternal(DataUriDataProvider::class, 'validDataUris')]
-    public function testParse(string $dataUriScheme, string $resultData): void
+    public function testParse(string|Stringable $dataUriScheme, string $resultData): void
     {
         $datauri = DataUri::parse($dataUriScheme);
         $this->assertInstanceOf(DataUri::class, $datauri);

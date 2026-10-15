@@ -4,45 +4,12 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
-use Intervention\Image\Colors\Cmyk\Channels\Alpha as CmykAlpha;
-use Intervention\Image\Colors\Cmyk\Channels\Cyan;
-use Intervention\Image\Colors\Cmyk\Channels\Key;
-use Intervention\Image\Colors\Cmyk\Channels\Magenta;
-use Intervention\Image\Colors\Cmyk\Channels\Yellow;
-use Intervention\Image\Colors\Cmyk\Color as CmykColor;
-use Intervention\Image\Colors\Cmyk\Decoders\StringColorDecoder as CmykStringColorDecoder;
-use Intervention\Image\Colors\Hsl\Channels\Alpha as HslAlpha;
-use Intervention\Image\Colors\Hsl\Channels\Hue as HslHue;
-use Intervention\Image\Colors\Hsl\Channels\Luminance;
-use Intervention\Image\Colors\Hsl\Channels\Saturation as HslSaturation;
-use Intervention\Image\Colors\Hsl\Color as HslColor;
-use Intervention\Image\Colors\Hsl\Decoders\StringColorDecoder as HslStringColorDecoder;
-use Intervention\Image\Colors\Hsv\Channels\Alpha as HsvAlpha;
-use Intervention\Image\Colors\Hsv\Channels\Hue as HsvHue;
-use Intervention\Image\Colors\Hsv\Channels\Saturation;
-use Intervention\Image\Colors\Hsv\Channels\Value;
-use Intervention\Image\Colors\Hsv\Color as HsvColor;
-use Intervention\Image\Colors\Hsv\Decoders\StringColorDecoder as HsvStringColorDecoder;
-use Intervention\Image\Colors\Oklab\Channels\A;
-use Intervention\Image\Colors\Oklab\Channels\Alpha as OklabAlpha;
-use Intervention\Image\Colors\Oklab\Channels\B;
-use Intervention\Image\Colors\Oklab\Channels\Lightness as OklabLightness;
-use Intervention\Image\Colors\Oklab\Color as OklabColor;
-use Intervention\Image\Colors\Oklab\Decoders\StringColorDecoder as OklabStringColorDecoder;
-use Intervention\Image\Colors\Oklch\Channels\Alpha as OklchAlpha;
-use Intervention\Image\Colors\Oklch\Channels\Chroma;
-use Intervention\Image\Colors\Oklch\Channels\Hue as OklchHue;
-use Intervention\Image\Colors\Oklch\Channels\Lightness as OklchLightness;
-use Intervention\Image\Colors\Oklch\Color as OklchColor;
-use Intervention\Image\Colors\Oklch\Decoders\StringColorDecoder as OklchStringColorDecoder;
-use Intervention\Image\Colors\Rgb\Channels\Alpha as RgbAlpha;
-use Intervention\Image\Colors\Rgb\Channels\Blue;
-use Intervention\Image\Colors\Rgb\Channels\Green;
-use Intervention\Image\Colors\Rgb\Channels\Red;
-use Intervention\Image\Colors\Rgb\Color as RgbColor;
-use Intervention\Image\Colors\Rgb\Decoders\HexColorDecoder;
-use Intervention\Image\Colors\Rgb\Decoders\NamedColorDecoder;
-use Intervention\Image\Colors\Rgb\Decoders\StringColorDecoder as RgbStringColorDecoder;
+use Intervention\Image\Colors\Cmyk;
+use Intervention\Image\Colors\Hsl;
+use Intervention\Image\Colors\Hsv;
+use Intervention\Image\Colors\Oklab;
+use Intervention\Image\Colors\Oklch;
+use Intervention\Image\Colors\Rgb;
 use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
@@ -61,14 +28,14 @@ class Color
     {
         try {
             $color = InputHandler::usingDecoders([
-                RgbStringColorDecoder::class,
-                CmykStringColorDecoder::class,
-                HsvStringColorDecoder::class,
-                HslStringColorDecoder::class,
-                OklabStringColorDecoder::class,
-                OklchStringColorDecoder::class,
-                NamedColorDecoder::class,
-                HexColorDecoder::class,
+                Rgb\Decoders\StringColorDecoder::class,
+                Cmyk\Decoders\StringColorDecoder::class,
+                Hsv\Decoders\StringColorDecoder::class,
+                Hsl\Decoders\StringColorDecoder::class,
+                Oklab\Decoders\StringColorDecoder::class,
+                Oklch\Decoders\StringColorDecoder::class,
+                Rgb\Decoders\NamedColorDecoder::class,
+                Rgb\Decoders\HexColorDecoder::class,
             ])->handle($input);
         } catch (NotSupportedException | DriverException $e) {
             throw new InvalidArgumentException(
@@ -90,9 +57,13 @@ class Color
      * @throws InvalidArgumentException
      * @throws DriverException
      */
-    public static function rgb(int|Red $r, int|Green $g, int|Blue $b, float|RgbAlpha $a = 1): RgbColor
-    {
-        return new RgbColor($r, $g, $b, $a);
+    public static function rgb(
+        int|Rgb\Channels\Red $r,
+        int|Rgb\Channels\Green $g,
+        int|Rgb\Channels\Blue $b,
+        float|Rgb\Channels\Alpha $a = 1,
+    ): Rgb\Color {
+        return new Rgb\Color($r, $g, $b, $a);
     }
 
     /**
@@ -102,13 +73,13 @@ class Color
      * @throws DriverException
      */
     public static function cmyk(
-        int|Cyan $c,
-        int|Magenta $m,
-        int|Yellow $y,
-        int|Key $k,
-        float|CmykAlpha $a = 1,
-    ): CmykColor {
-        return new CmykColor($c, $m, $y, $k, $a);
+        int|Cmyk\Channels\Cyan $c,
+        int|Cmyk\Channels\Magenta $m,
+        int|Cmyk\Channels\Yellow $y,
+        int|Cmyk\Channels\Key $k,
+        float|Cmyk\Channels\Alpha $a = 1,
+    ): Cmyk\Color {
+        return new Cmyk\Color($c, $m, $y, $k, $a);
     }
 
     /**
@@ -117,9 +88,13 @@ class Color
      * @throws InvalidArgumentException
      * @throws DriverException
      */
-    public static function hsl(int|HslHue $h, int|HslSaturation $s, int|Luminance $l, float|HslAlpha $a = 1): HslColor
-    {
-        return new HslColor($h, $s, $l, $a);
+    public static function hsl(
+        int|Hsl\Channels\Hue $h,
+        int|Hsl\Channels\Saturation $s,
+        int|Hsl\Channels\Luminance $l,
+        float|Hsl\Channels\Alpha $a = 1,
+    ): Hsl\Color {
+        return new Hsl\Color($h, $s, $l, $a);
     }
 
     /**
@@ -128,9 +103,13 @@ class Color
      * @throws InvalidArgumentException
      * @throws DriverException
      */
-    public static function hsv(int|HsvHue $h, int|Saturation $s, int|Value $v, float|HsvAlpha $a = 1): HsvColor
-    {
-        return new HsvColor($h, $s, $v, $a);
+    public static function hsv(
+        int|Hsv\Channels\Hue $h,
+        int|Hsv\Channels\Saturation $s,
+        int|Hsv\Channels\Value $v,
+        float|Hsv\Channels\Alpha $a = 1,
+    ): Hsv\Color {
+        return new Hsv\Color($h, $s, $v, $a);
     }
 
     /**
@@ -140,12 +119,12 @@ class Color
      * @throws DriverException
      */
     public static function oklab(
-        float|OklabLightness $l,
-        float|A $a,
-        float|B $b,
-        float|OklabAlpha $alpha = 1,
-    ): OklabColor {
-        return new OklabColor($l, $a, $b, $alpha);
+        float|Oklab\Channels\Lightness $l,
+        float|Oklab\Channels\A $a,
+        float|Oklab\Channels\B $b,
+        float|Oklab\Channels\Alpha $alpha = 1,
+    ): Oklab\Color {
+        return new Oklab\Color($l, $a, $b, $alpha);
     }
 
     /**
@@ -155,12 +134,12 @@ class Color
      * @throws DriverException
      */
     public static function oklch(
-        float|OklchLightness $l,
-        float|Chroma $c,
-        float|OklchHue $h,
-        float|OklchAlpha $a = 1,
-    ): OklchColor {
-        return new OklchColor($l, $c, $h, $a);
+        float|Oklch\Channels\Lightness $l,
+        float|Oklch\Channels\Chroma $c,
+        float|Oklch\Channels\Hue $h,
+        float|Oklch\Channels\Alpha $a = 1,
+    ): Oklch\Color {
+        return new Oklch\Color($l, $c, $h, $a);
     }
 
     /**
@@ -169,6 +148,6 @@ class Color
     public static function transparent(): ColorInterface
     {
         // @phpstan-ignore missingType.checkedException
-        return new RgbColor(255, 255, 255, 0);
+        return new Rgb\Color(255, 255, 255, 0);
     }
 }

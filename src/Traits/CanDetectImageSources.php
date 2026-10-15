@@ -110,10 +110,6 @@ trait CanDetectImageSources
             return false;
         }
 
-        if (str_starts_with($input, DIRECTORY_SEPARATOR)) {
-            return true;
-        }
-
         return true;
     }
 }

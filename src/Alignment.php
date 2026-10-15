@@ -147,6 +147,11 @@ enum Alignment: string
      */
     public function alignHorizontally(string|self $alignment): self
     {
+        $alignment = self::tryCreate($alignment);
+        if ($alignment === null) {
+            return $this;
+        }
+
         // handle "leftish" alignments
         if (in_array($alignment, [self::LEFT, self::BOTTOM_LEFT, self::TOP_LEFT])) {
             return match ($this) {
@@ -182,6 +187,11 @@ enum Alignment: string
      */
     public function alignVertically(string|self $alignment): self
     {
+        $alignment = self::tryCreate($alignment);
+        if ($alignment === null) {
+            return $this;
+        }
+
         // handle "bottomish" alignments
         if (in_array($alignment, [self::BOTTOM, self::BOTTOM_RIGHT, self::BOTTOM_LEFT])) {
             return match ($this) {

@@ -38,11 +38,7 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
         if (function_exists('finfo_file') && function_exists('finfo_open')) {
             $mediaType = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $filepath);
             if (is_string($mediaType)) {
-                try {
-                    return MediaType::from($mediaType);
-                } catch (ValueError | TypeError) {
-                    throw new NotSupportedException('Unsupported media type (MIME) ' . $mediaType . '.');
-                }
+                return $this->parseMediaTypeOrFail($mediaType);
             }
         }
 
@@ -70,11 +66,7 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
         if (function_exists('finfo_buffer') && function_exists('finfo_open')) {
             $mediaType = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $data);
             if (is_string($mediaType)) {
-                try {
-                    return MediaType::from($mediaType);
-                } catch (ValueError | TypeError) {
-                    throw new NotSupportedException('Unsupported media type (MIME) ' . $mediaType . '.');
-                }
+                $this->parseMediaTypeOrFail($mediaType);
             }
         }
 
@@ -84,10 +76,20 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
             throw new ImageDecoderException('Failed to read media (MIME) type from binary data');
         }
 
+        return $this->parseMediaTypeOrFail($info['mime']);
+    }
+
+    /**
+     * Parse MediaType from given string or fail.
+     *
+     * @throws NotSupportedException
+     */
+    private function parseMediaTypeOrFail(string $mediaType): MediaType
+    {
         try {
-            return MediaType::from($info['mime']);
+            return MediaType::from($mediaType);
         } catch (ValueError | TypeError) {
-            throw new NotSupportedException('Unsupported media type (MIME) ' . $info['mime'] . '.');
+            throw new NotSupportedException('Unsupported media type (MIME) ' . $mediaType . '.');
         }
     }
 }

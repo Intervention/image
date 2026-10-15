@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
+use ImagickException;
 use Intervention\Image\Exceptions\ImageException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Interfaces\ImageInterface;
@@ -25,7 +26,7 @@ class ColorizeModifier extends GenericColorizeModifier implements SpecializedInt
         foreach ($image as $frame) {
             try {
                 $qrange = $frame->native()->getQuantumRange();
-            } catch (ImageException $e) {
+            } catch (ImagickException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to get quantum range',
                     previous: $e,

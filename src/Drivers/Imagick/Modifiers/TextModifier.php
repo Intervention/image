@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use ImagickDraw;
+use ImagickException;
 use Intervention\Image\Drivers\Imagick\FontProcessor;
 use Intervention\Image\Exceptions\DriverException;
-use Intervention\Image\Exceptions\ImageException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\ModifierException;
 use Intervention\Image\Exceptions\RuntimeException;
@@ -124,7 +124,7 @@ class TextModifier extends GenericTextModifier implements SpecializedInterface
                     $this->font->angle(),
                     (string) $textline,
                 );
-            } catch (ImageException $e) {
+            } catch (ImagickException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to draw text line',
                     previous: $e,

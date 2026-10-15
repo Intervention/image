@@ -80,6 +80,10 @@ class RotateModifier extends GenericRotateModifier implements SpecializedInterfa
             (new ColorProcessor())->export($background),
         );
 
+        if ($rotated === false) {
+            throw new ModifierException('Failed to apply ' . self::class . ', unable to rotate image');
+        }
+
         // create new gd image
         $modified = Cloner::cloneEmpty($frame->native(), new Size(
             imagesx($rotated),

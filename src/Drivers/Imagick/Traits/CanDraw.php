@@ -23,12 +23,12 @@ trait CanDraw
 
             if ($result === false) {
                 throw new ModifierException(
-                    'Failed to apply ' . self::class . ', unable to draw pixel on image',
+                    'Failed to apply ' . self::class . ', unable to draw on image',
                 );
             }
         } catch (ImagickException $e) {
             throw new ModifierException(
-                'Failed to apply ' . self::class . ', unable to draw pixel on image',
+                'Failed to apply ' . self::class . ', unable to draw on image',
                 previous: $e,
             );
         }

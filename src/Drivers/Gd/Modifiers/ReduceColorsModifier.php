@@ -54,9 +54,6 @@ class ReduceColorsModifier extends GenericReduceColorsModifier implements Specia
             // create new image for color quantization
             $reduced = Cloner::cloneEmpty($frame->native(), background: $backgroundColor);
 
-            // fill with background
-            imagefill($reduced, 0, 0, $nativeBackgroundColor);
-
             // set transparency
             imagecolortransparent($reduced, $nativeBackgroundColor);
 

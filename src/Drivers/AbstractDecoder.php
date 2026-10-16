@@ -31,7 +31,7 @@ abstract class AbstractDecoder implements DecoderInterface
 
     /**
      * Extract and return EXIF data from given input which can be a file path
-     * or a stream stream resource.
+     * or a stream resource.
      *
      * @throws InvalidArgumentException
      * @throws DecoderException

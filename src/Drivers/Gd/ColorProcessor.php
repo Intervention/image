@@ -96,7 +96,7 @@ class ColorProcessor implements ColorProcessorInterface
         }
 
         try {
-            // convert gd apha integer to intervention alpha integer
+            // convert gd alpha integer to intervention alpha integer
             // ([opaque]0-127[transparent]) to ([opaque]1-0[transparent])
             $a = self::convertRange($a, 127, 0, 0, 1);
         } catch (RuntimeException $e) {

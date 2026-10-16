@@ -39,13 +39,13 @@ class Color
             ])->handle($input);
         } catch (NotSupportedException | DriverException $e) {
             throw new InvalidArgumentException(
-                'Unable to parse RGB color from input "' . $input . '"',
+                'Unable to parse color from input "' . $input . '"',
                 previous: $e,
             );
         }
 
         if (!$color instanceof ColorInterface) {
-            throw new ColorException('Result must be instance of ' . self::class . ', got ' . $color::class);
+            throw new ColorException('Result must be instance of ' . ColorInterface::class . ', got ' . $color::class);
         }
 
         return $color;

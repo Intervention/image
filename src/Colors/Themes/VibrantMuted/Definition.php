@@ -68,7 +68,7 @@ class Definition implements ThemeDefinitionInterface
     /**
      * {@inheritdoc}
      *
-     * @see ThemeDefinitionInterface::theme()
+     * @see ThemeDefinitionInterface::themeColors()
      *
      * @throws ColorException
      */

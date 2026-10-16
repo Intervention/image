@@ -196,7 +196,7 @@ class Collection implements CollectionInterface, IteratorAggregate, Countable
     /**
      * {@inheritdoc}
      *
-     * @see CollectionInterface::map()
+     * @see CollectionInterface::filter()
      */
     public function filter(callable $callback): self
     {

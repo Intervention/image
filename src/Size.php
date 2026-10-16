@@ -457,7 +457,7 @@ class Size implements SizeInterface, ArrayAccess, IteratorAggregate
     /**
      * {@inheritdoc}
      *
-     * @see ArrayAccess::offsetExists()
+     * @see ArrayAccess::offsetGet()
      *
      * @throws RuntimeException
      */
@@ -473,7 +473,7 @@ class Size implements SizeInterface, ArrayAccess, IteratorAggregate
     /**
      * {@inheritdoc}
      *
-     * @see ArrayAccess::offsetExists()
+     * @see ArrayAccess::offsetSet()
      *
      * @throws RuntimeException
      */
@@ -485,7 +485,7 @@ class Size implements SizeInterface, ArrayAccess, IteratorAggregate
     /**
      * {@inheritdoc}
      *
-     * @see ArrayAccess::offsetExists()
+     * @see ArrayAccess::offsetUnset()
      *
      * @throws RuntimeException
      */

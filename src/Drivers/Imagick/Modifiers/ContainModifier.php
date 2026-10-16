@@ -53,7 +53,7 @@ class ContainModifier extends GenericContainModifier implements SpecializedInter
      *
      * @throws ModifierException
      */
-    private function scaleFrame(mixed $native, int $width, int $height): void
+    private function scaleFrame(Imagick $native, int $width, int $height): void
     {
         try {
             $result = $native->scaleImage($width, $height);

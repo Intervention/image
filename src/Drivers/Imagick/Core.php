@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick;
 
-use Exception;
 use Imagick;
 use ImagickException;
 use Intervention\Image\Collection;
@@ -77,11 +76,11 @@ class Core implements CoreInterface, Iterator
      *
      * @see CoreInterface::filter()
      *
-     * @throws Exception
+     * @throws NotSupportedException
      */
     public function filter(callable $callback): CoreInterface
     {
-        throw new \Exception('Not implemented');
+        throw new NotSupportedException('Not implemented');
     }
 
     /**

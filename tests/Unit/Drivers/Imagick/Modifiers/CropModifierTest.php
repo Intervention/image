@@ -63,9 +63,11 @@ final class CropModifierTest extends ImagickTestCase
     public function testModifyKeepsResolution(): void
     {
         $image = $this->readTestImage('300dpi.png');
+        $units = $image->core()->native()->getImageUnits();
         $this->assertEquals(300, round($image->resolution()->perInch()->x()));
         $image = $image->modify(new CropModifier(800, 100, -10, -10, 'ff0000'));
         $this->assertEquals(300, round($image->resolution()->perInch()->x()));
+        $this->assertEquals($units, $image->core()->native()->getImageUnits());
     }
 
     public function testHalfTransparent(): void

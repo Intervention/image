@@ -42,9 +42,6 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
             );
         }
 
-        // save resolution to add it later
-        $resolution = $image->resolution()->perInch();
-
         // define position of the image on the new canvas
         $crop = $this->crop($image);
         $position = [
@@ -57,7 +54,9 @@ class CropModifier extends GenericCropModifier implements SpecializedInterface
             try {
                 $canvas = new Imagick();
                 $canvas->newImage($crop->width(), $crop->height(), $background, 'png');
-                $canvas->setImageResolution($resolution->x(), $resolution->y());
+                $resolution = $frame->native()->getImageResolution();
+                $canvas->setImageResolution($resolution['x'], $resolution['y']);
+                $canvas->setImageUnits($frame->native()->getImageUnits());
                 $canvas->setImageAlphaChannel(Imagick::ALPHACHANNEL_SET); // or ALPHACHANNEL_ACTIVATE?
                 $canvas->setImageColorspace(match ($image->colorspace()::class) {
                     Cmyk::class => Imagick::COLORSPACE_CMYK,

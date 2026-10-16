@@ -230,7 +230,7 @@ class Core implements CoreInterface, Iterator
     /**
      * {@inheritdoc}
      *
-     * @see Iterator::rewind()
+     * @see Iterator::current()
      *
      * @throws DriverException
      */
@@ -248,7 +248,7 @@ class Core implements CoreInterface, Iterator
     /**
      * {@inheritdoc}
      *
-     * @see Iterator::rewind()
+     * @see Iterator::next()
      */
     public function next(): void
     {
@@ -258,7 +258,7 @@ class Core implements CoreInterface, Iterator
     /**
      * {@inheritdoc}
      *
-     * @see Iterator::rewind()
+     * @see Iterator::key()
      */
     public function key(): mixed
     {
@@ -268,7 +268,7 @@ class Core implements CoreInterface, Iterator
     /**
      * {@inheritdoc}
      *
-     * @see Iterator::rewind()
+     * @see Iterator::valid()
      */
     public function valid(): bool
     {
@@ -398,7 +398,7 @@ class Core implements CoreInterface, Iterator
     /**
      * {@inheritdoc}
      *
-     * @see CollectableInterface::last()
+     * @see CollectionInterface::last()
      *
      * @throws DriverException
      * @throws StateException

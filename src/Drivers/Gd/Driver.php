@@ -60,9 +60,9 @@ class Driver extends AbstractDriver
             throw new InvalidArgumentException('Invalid image size. Must be int<1, max>');
         }
 
-        // build new transparent GDImage
+        // build new transparent GdImage
         $data = imagecreatetruecolor($width, $height);
-        if (!$data instanceof GDImage) {
+        if (!$data instanceof GdImage) {
             throw new DriverException('Failed to create new image');
         }
 

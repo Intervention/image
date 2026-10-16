@@ -31,6 +31,9 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
 
         [$polygon, $polygonBorderSegments] = $this->calculateBezierPoints();
 
+        $backgroundColor = $this->driver()->colorProcessor($image)->export($this->backgroundColor());
+        $borderColor = $this->driver()->colorProcessor($image)->export($this->borderColor());
+
         foreach ($image as $frame) {
             if ($this->drawable->hasBackgroundColor() || $this->drawable->hasBorder()) {
                 imagealphablending($frame->native(), true);
@@ -38,12 +41,10 @@ class DrawBezierModifier extends GenericDrawBezierModifier implements Specialize
             }
 
             if ($this->drawable->hasBackgroundColor()) {
-                $backgroundColor = $this->driver()->colorProcessor($image)->export($this->backgroundColor());
                 $this->drawBezierBackground($frame->native(), $polygon, $backgroundColor);
             }
 
             if ($this->drawable->hasBorder() && $this->drawable->borderSize() > 0) {
-                $borderColor = $this->driver()->colorProcessor($image)->export($this->borderColor());
                 $this->drawBezierBorder($frame->native(), $polygon, $polygonBorderSegments, $borderColor);
             }
         }

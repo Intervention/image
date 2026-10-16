@@ -25,14 +25,15 @@ class DrawPolygonModifier extends GenericDrawPolygonModifier implements Speciali
      */
     public function apply(ImageInterface $image): ImageInterface
     {
+        $backgroundColor = $this->driver()->colorProcessor($image)->export($this->backgroundColor());
+        $borderColor = $this->driver()->colorProcessor($image)->export($this->borderColor());
+
         foreach ($image as $frame) {
             if ($this->drawable->hasBackgroundColor()) {
-                $color = $this->driver()->colorProcessor($image)->export($this->backgroundColor());
-                $this->drawPolygonBackground($frame->native(), $color);
+                $this->drawPolygonBackground($frame->native(), $backgroundColor);
             }
 
             if ($this->drawable->hasBorder()) {
-                $borderColor = $this->driver()->colorProcessor($image)->export($this->borderColor());
                 $this->drawPolygonBorder($frame->native(), $borderColor);
             }
         }

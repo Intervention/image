@@ -51,7 +51,7 @@ class Frame extends AbstractFrame implements FrameInterface
     /**
      * {@inheritdoc}
      *
-     * @see DriverInterface::toImage()
+     * @see FrameInterface::toImage()
      *
      * @throws DriverException
      */
@@ -76,7 +76,7 @@ class Frame extends AbstractFrame implements FrameInterface
     /**
      * {@inheritdoc}
      *
-     * @see DriverInterface::setNative()
+     * @see FrameInterface::setNative()
      *
      * @throws InvalidArgumentException
      */
@@ -100,7 +100,7 @@ class Frame extends AbstractFrame implements FrameInterface
     /**
      * {@inheritdoc}
      *
-     * @see DriverInterface::native()
+     * @see FrameInterface::native()
      */
     public function native(): Imagick
     {
@@ -110,7 +110,7 @@ class Frame extends AbstractFrame implements FrameInterface
     /**
      * {@inheritdoc}
      *
-     * @see DriverInterface::size()
+     * @see FrameInterface::size()
      *
      * @throws DriverException
      */
@@ -129,7 +129,7 @@ class Frame extends AbstractFrame implements FrameInterface
     /**
      * {@inheritdoc}
      *
-     * @see DriverInterface::delay()
+     * @see FrameInterface::delay()
      *
      * @throws DriverException
      */
@@ -145,7 +145,7 @@ class Frame extends AbstractFrame implements FrameInterface
     /**
      * {@inheritdoc}
      *
-     * @see DriverInterface::setDelay()
+     * @see FrameInterface::setDelay()
      *
      * @throws DriverException
      */
@@ -163,7 +163,7 @@ class Frame extends AbstractFrame implements FrameInterface
     /**
      * {@inheritdoc}
      *
-     * @see DriverInterface::disposalMethod()
+     * @see FrameInterface::disposalMethod()
      *
      * @throws DriverException
      */
@@ -179,7 +179,7 @@ class Frame extends AbstractFrame implements FrameInterface
     /**
      * {@inheritdoc}
      *
-     * @see DriverInterface::setDisposalMethod()
+     * @see FrameInterface::setDisposalMethod()
      *
      * @throws InvalidArgumentException
      * @throws DriverException
@@ -202,7 +202,7 @@ class Frame extends AbstractFrame implements FrameInterface
     /**
      * {@inheritdoc}
      *
-     * @see DriverInterface::setOffset()
+     * @see FrameInterface::setOffset()
      *
      * @throws DriverException
      */
@@ -225,7 +225,7 @@ class Frame extends AbstractFrame implements FrameInterface
     /**
      * {@inheritdoc}
      *
-     * @see DriverInterface::offsetLeft()
+     * @see FrameInterface::offsetLeft()
      *
      * @throws DriverException
      */
@@ -241,7 +241,7 @@ class Frame extends AbstractFrame implements FrameInterface
     /**
      * {@inheritdoc}
      *
-     * @see DriverInterface::setOffsetLeft()
+     * @see FrameInterface::setOffsetLeft()
      *
      * @throws RuntimeException
      */
@@ -253,7 +253,7 @@ class Frame extends AbstractFrame implements FrameInterface
     /**
      * {@inheritdoc}
      *
-     * @see DriverInterface::offsetTop()
+     * @see FrameInterface::offsetTop()
      *
      * @throws DriverException
      */
@@ -269,7 +269,7 @@ class Frame extends AbstractFrame implements FrameInterface
     /**
      * {@inheritdoc}
      *
-     * @see DriverInterface::setOffsetTop()
+     * @see FrameInterface::setOffsetTop()
      *
      * @throws RuntimeException
      */

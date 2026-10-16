@@ -336,7 +336,7 @@ class Core implements CoreInterface, Iterator
                     return new Frame($core);
                 }
             } catch (ImagickException | RuntimeException $e) {
-                throw new DriverException('Failed to load image frame a position ' . $position, previous: $e);
+                throw new DriverException('Failed to load image frame at position ' . $position, previous: $e);
             }
         }
 

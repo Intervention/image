@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Colors\Rgb;
 
-use Error;
 use Intervention\Image\Colors\Rgb\Channels\Alpha;
 use Intervention\Image\Colors\Rgb\Color as RgbColor;
 use Intervention\Image\Colors\Rgb\Colorspace as Rgb;
@@ -177,11 +176,7 @@ enum NamedColor: string implements ColorInterface
      */
     public static function tryCreate(string $input): ?ColorInterface
     {
-        try {
-            return self::from(strtolower($input));
-        } catch (Error) {
-            return null;
-        }
+        return self::tryFrom(strtolower($input));
     }
 
     /**

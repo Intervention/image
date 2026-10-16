@@ -45,12 +45,7 @@ class InsertModifier extends GenericInsertModifier implements SpecializedInterfa
                         'Failed to apply ' . self::class . ', unable to set transparency of watermark',
                     );
                 }
-            } catch (ImagickException $e) {
-                throw new ModifierException(
-                    'Failed to apply ' . self::class . ', unable to set transparency of watermark',
-                    previous: $e,
-                );
-            } catch (RuntimeException $e) {
+            } catch (ImagickException | RuntimeException $e) {
                 throw new ModifierException(
                     'Failed to apply ' . self::class . ', unable to set transparency of watermark',
                     previous: $e,

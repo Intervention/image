@@ -59,7 +59,7 @@ class DrawEllipseModifier extends GenericDrawEllipseModifier implements Speciali
         }
 
         // draw border
-        if ($this->drawable()->hasBorder()) {
+        if ($this->drawable->hasBorder()) {
             // gd's imageellipse ignores imagesetthickness
             // so i use imagearc with 360 degrees instead.
             imagesetthickness($canvas, $this->drawable->borderSize());

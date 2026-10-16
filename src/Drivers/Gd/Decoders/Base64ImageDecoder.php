@@ -8,12 +8,9 @@ use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\Exceptions\ImageDecoderException;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Traits\CanDetectImageSources;
 
 class Base64ImageDecoder extends BinaryImageDecoder implements DecoderInterface
 {
-    use CanDetectImageSources;
-
     /**
      * {@inheritdoc}
      *

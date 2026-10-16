@@ -15,12 +15,9 @@ use Intervention\Image\Exceptions\InvalidArgumentException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Traits\CanParseFilePath;
 
 class SplFileInfoImageDecoder extends FilePathImageDecoder implements DecoderInterface
 {
-    use CanParseFilePath;
-
     /**
      * {@inheritdoc}
      *

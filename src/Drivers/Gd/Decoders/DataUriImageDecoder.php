@@ -13,12 +13,9 @@ use Intervention\Image\Exceptions\NotSupportedException;
 use Intervention\Image\Exceptions\StateException;
 use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Traits\CanDetectImageSources;
 
 class DataUriImageDecoder extends BinaryImageDecoder implements DecoderInterface
 {
-    use CanDetectImageSources;
-
     /**
      * {@inheritdoc}
      *

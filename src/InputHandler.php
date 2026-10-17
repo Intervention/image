@@ -19,9 +19,11 @@ use Intervention\Image\Decoders\ColorObjectDecoder;
 use Intervention\Image\Decoders\DataUriImageDecoder;
 use Intervention\Image\Decoders\EncodedImageObjectDecoder;
 use Intervention\Image\Decoders\FilePathImageDecoder;
+use Intervention\Image\Decoders\HttpResponseImageDecoder;
 use Intervention\Image\Decoders\StreamImageDecoder;
 use Intervention\Image\Decoders\ImageObjectDecoder;
 use Intervention\Image\Decoders\NativeObjectDecoder;
+use Intervention\Image\Decoders\Psr7StreamImageDecoder;
 use Intervention\Image\Decoders\SplFileInfoImageDecoder;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
@@ -41,6 +43,8 @@ class InputHandler implements InputHandlerInterface
         ImageObjectDecoder::class,
         NativeObjectDecoder::class,
         StreamImageDecoder::class,
+        Psr7StreamImageDecoder::class,
+        HttpResponseImageDecoder::class,
         SplFileInfoImageDecoder::class,
         EncodedImageObjectDecoder::class,
         DataUriImageDecoder::class,

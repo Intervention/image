@@ -16,7 +16,7 @@ use Psr\Http\Message\StreamInterface;
 
 #[RequiresPhpExtension('gd')]
 #[CoversClass(Psr7StreamImageDecoder::class)]
-final class Psr7StreamImageDecoderTest extends GdTestCase
+class Psr7StreamImageDecoderTest extends GdTestCase
 {
     public function testDecode(): void
     {
@@ -27,7 +27,7 @@ final class Psr7StreamImageDecoderTest extends GdTestCase
         $this->assertInstanceOf(Image::class, $result);
     }
 
-    private function psr7Stream(): object
+    protected function psr7Stream(): object
     {
         return new class () implements StreamInterface
         {

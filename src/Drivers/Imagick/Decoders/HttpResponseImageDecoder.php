@@ -51,7 +51,8 @@ class HttpResponseImageDecoder extends BinaryImageDecoder
             return parent::decode($input->getBody());
         } catch (DecoderException) {
             throw new ImageDecoderException(
-                "Failed to decode image from " . self::DECODABLE_CLASSNAME . ", could be unsupported image format",
+                "Failed to decode image from "
+                    . self::DECODABLE_CLASSNAME . ", response body may contain unsupported image format",
             );
         }
     }

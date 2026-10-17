@@ -63,7 +63,7 @@ class StreamImageDecoder extends BinaryImageDecoder
             return parent::decode($contents);
         } catch (DecoderException) {
             throw new ImageDecoderException(
-                'Failed to decode image from stream, could be unsupported image format',
+                'Failed to decode image, stream may contain unsupported image format',
             );
         }
     }

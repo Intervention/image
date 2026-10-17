@@ -51,7 +51,8 @@ class Psr7StreamImageDecoder extends BinaryImageDecoder
             return parent::decode((string) $input);
         } catch (DecoderException) {
             throw new ImageDecoderException(
-                "Failed to decode image from 'GuzzleHttp\Psr7\Response', could be unsupported image format",
+                "Failed to decode image from "
+                    . self::DECODABLE_CLASSNAME . ", stream may contain unsupported image format",
             );
         }
     }

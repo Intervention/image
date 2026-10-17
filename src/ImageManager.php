@@ -4,12 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image;
 
-use Intervention\Image\Decoders\Base64ImageDecoder;
-use Intervention\Image\Decoders\BinaryImageDecoder;
-use Intervention\Image\Decoders\DataUriImageDecoder;
-use Intervention\Image\Decoders\FilePathImageDecoder;
-use Intervention\Image\Decoders\StreamImageDecoder;
-use Intervention\Image\Decoders\SplFileInfoImageDecoder;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\Exceptions\ImageDecoderException;
 use Intervention\Image\Exceptions\InvalidArgumentException;
@@ -19,13 +13,12 @@ use Intervention\Image\Interfaces\DecoderInterface;
 use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ImageManagerInterface;
-use Intervention\Image\Traits\CanResolveDriver;
 use SplFileInfo;
 use Stringable;
 
 class ImageManager implements ImageManagerInterface
 {
-    use CanResolveDriver;
+    use Traits\CanResolveDriver;
 
     public DriverInterface $driver;
 
@@ -105,7 +98,7 @@ class ImageManager implements ImageManagerInterface
      */
     public function decodePath(string|Stringable $path): ImageInterface
     {
-        return $this->decode($path, FilePathImageDecoder::class);
+        return $this->decode($path, Decoders\FilePathImageDecoder::class);
     }
 
     /**
@@ -119,7 +112,7 @@ class ImageManager implements ImageManagerInterface
      */
     public function decodeBinary(string|Stringable $binary): ImageInterface
     {
-        return $this->decode($binary, BinaryImageDecoder::class);
+        return $this->decode($binary, Decoders\BinaryImageDecoder::class);
     }
 
     /**
@@ -133,7 +126,7 @@ class ImageManager implements ImageManagerInterface
      */
     public function decodeSplFileInfo(SplFileInfo $splFileInfo): ImageInterface
     {
-        return $this->decode($splFileInfo, SplFileInfoImageDecoder::class);
+        return $this->decode($splFileInfo, Decoders\SplFileInfoImageDecoder::class);
     }
 
     /**
@@ -147,7 +140,7 @@ class ImageManager implements ImageManagerInterface
      */
     public function decodeBase64(string|Stringable $base64): ImageInterface
     {
-        return $this->decode($base64, Base64ImageDecoder::class);
+        return $this->decode($base64, Decoders\Base64ImageDecoder::class);
     }
 
     /**
@@ -161,7 +154,7 @@ class ImageManager implements ImageManagerInterface
      */
     public function decodeDataUri(string|Stringable|DataUriInterface $dataUri): ImageInterface
     {
-        return $this->decode($dataUri, DataUriImageDecoder::class);
+        return $this->decode($dataUri, Decoders\DataUriImageDecoder::class);
     }
 
     /**
@@ -175,6 +168,18 @@ class ImageManager implements ImageManagerInterface
      */
     public function decodeStream(mixed $stream): ImageInterface
     {
-        return $this->decode($stream, StreamImageDecoder::class);
+        return $this->decode($stream, [Decoders\StreamImageDecoder::class, Decoders\Psr7StreamImageDecoder::class]);
+    }
+
+    /**
+     * Decode an image from the contents of the HTTP response.
+     *
+     * @throws InvalidArgumentException
+     * @throws ImageDecoderException
+     * @throws DriverException
+     */
+    public function decodeHttpResponse(mixed $response): ImageInterface
+    {
+        return $this->decode($response, Decoders\HttpResponseImageDecoder::class);
     }
 }

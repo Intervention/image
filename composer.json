@@ -27,7 +27,8 @@
         "phpunit/phpunit": "^12.0",
         "mockery/mockery": "^1.6",
         "phpstan/phpstan": "^2.1",
-        "intervention/coding-standard": "^1"
+        "intervention/coding-standard": "^1",
+        "psr/http-message": "^2"
     },
     "suggest": {
         "ext-exif": "Recommended to be able to read EXIF data properly."

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Drivers\Imagick\Analyzers;
 
-use Error;
 use Imagick;
 use Intervention\Image\Analyzers\ColorspaceAnalyzer as GenericColorspaceAnalyzer;
 use Intervention\Image\Colors\Cmyk\Colorspace as Cmyk;
@@ -24,27 +23,40 @@ class ColorspaceAnalyzer extends GenericColorspaceAnalyzer implements Specialize
      */
     public function analyze(ImageInterface $image): mixed
     {
-        try {
-            $colorspace = $image->core()->native()->getImageColorspace();
+        $colorspace = $image->core()->native()->getImageColorspace();
 
-            // OKLAB/OKLCH only exist on recent ImageMagick builds, so the
-            // constants are resolved through defined()/constant() (mirroring the
-            // ColorspaceModifier) to avoid referencing them where they are
-            // undefined. Any unexpected resolution error is normalized below.
-            return match (true) {
-                $colorspace === Imagick::COLORSPACE_CMYK => new Cmyk(),
-                $colorspace === Imagick::COLORSPACE_SRGB,
-                $colorspace === Imagick::COLORSPACE_RGB => new Rgb(),
-                $colorspace === Imagick::COLORSPACE_HSL => new Hsl(),
-                $colorspace === Imagick::COLORSPACE_HSB => new Hsv(),
-                defined(Imagick::class . '::COLORSPACE_OKLAB')
-                    && $colorspace === constant(Imagick::class . '::COLORSPACE_OKLAB') => new Oklab(),
-                defined(Imagick::class . '::COLORSPACE_OKLCH')
-                    && $colorspace === constant(Imagick::class . '::COLORSPACE_OKLCH') => new Oklch(),
-                default => throw new AnalyzerException('Failed to analyze unknown colorspace'),
-            };
-        } catch (Error $e) {
-            throw new AnalyzerException('Failed to analyze colorspace', previous: $e);
+        switch ($colorspace) {
+            case Imagick::COLORSPACE_CMYK:
+                return new Cmyk();
+
+            case Imagick::COLORSPACE_SRGB:
+            case Imagick::COLORSPACE_RGB:
+                return new Rgb();
+
+            case Imagick::COLORSPACE_HSL:
+                return new Hsl();
+
+            case Imagick::COLORSPACE_HSV:
+                return new Hsv();
+
+            case $this->imagickColorspaceValue('COLORSPACE_OKLAB'):
+                return new Oklab();
+
+            case $this->imagickColorspaceValue('COLORSPACE_OKLCH'):
+                return new Oklch();
+
+            default:
+                throw new AnalyzerException('Failed to analyze unknown colorspace');
         }
+    }
+
+    /**
+     * COLORSPACE_OKLAB and COLORSPACE_OKLCH only exist in recent ImageMagick builds.
+     */
+    private function imagickColorspaceValue(string $name): int|false
+    {
+        $constantName = Imagick::class . '::' . $name;
+
+        return defined($constantName) ? constant($constantName) : false;
     }
 }

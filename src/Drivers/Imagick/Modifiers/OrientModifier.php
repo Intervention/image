@@ -18,20 +18,15 @@ class OrientModifier extends GenericOrientModifier implements SpecializedInterfa
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        // getImageOrientation() reads the frame the iterator is pointing at as
-        // well, so read it off the first frame rather than off whichever one
-        // the last operation happened to leave it on
+        // reset iterator
         $image->core()->native()->setFirstIterator();
 
+        // get current orientation
         $orientation = $image->core()->native()->getImageOrientation();
         $orientation = $orientation === Imagick::ORIENTATION_UNDEFINED
             ? $image->core()->meta()->get('originalImageOrientation', 0)
             : $orientation;
 
-        // rotateImage() and flopImage() only act on the frame the iterator is
-        // currently pointing at, so every frame has to be transformed
-        // individually. Otherwise an animated source comes back with only one
-        // frame turned and a mixed geometry sequence.
         foreach ($image as $frame) {
             try {
                 $result = match ($orientation) {

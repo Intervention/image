@@ -18,12 +18,8 @@ class ContrastModifier extends GenericContrastModifier implements SpecializedInt
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        // sigmoidalContrastImage's midpoint argument is in QuantumRange units,
-        // not the [0..1] range a normalized API would imply. Passing 0 pivots
-        // the sigmoidal curve around pure black, which lifts every pixel
-        // including the midtone — the opposite of a symmetric contrast
-        // adjustment. Pivot around the middle of the QuantumRange so a
-        // mid-grey pixel survives unchanged and the curve is symmetric.
+        // middle of the QuantumRange so a mid-grey pixel
+        // survives unchanged and the curve is symmetric.
         $midpoint = Imagick::QUANTUM_RANGE / 2;
 
         foreach ($image as $frame) {

@@ -17,8 +17,6 @@ class RemoveProfileModifier extends GenericRemoveProfileModifier implements Spec
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        // profileImage() only acts on the frame the iterator is currently
-        // pointing at, so every frame has to be cleared individually.
         foreach ($image as $frame) {
             try {
                 $result = $frame->native()->profileImage('icc', null);

@@ -18,11 +18,7 @@ class InvertModifier extends GenericInvertModifier implements SpecializedInterfa
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        // Imagick::CHANNEL_DEFAULT includes the alpha channel, so a plain
-        // negateImage() call inverts transparency along with color and turns
-        // fully transparent pixels opaque. Mask the alpha bit off so the
-        // result matches the GD driver, where IMG_FILTER_NEGATE only touches
-        // the color channels.
+        // only touch color channels for invertion
         $channel = Imagick::CHANNEL_ALL & ~Imagick::CHANNEL_ALPHA;
 
         foreach ($image as $frame) {

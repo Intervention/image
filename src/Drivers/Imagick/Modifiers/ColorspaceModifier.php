@@ -30,10 +30,6 @@ class ColorspaceModifier extends GenericColorspaceModifier implements Specialize
     {
         $target = $this->imagickColorspaceOrFail($this->targetColorspace());
 
-        // Imagick::transformImageColorspace() only affects the frame the
-        // iterator is currently pointing at, so every frame has to be
-        // transformed individually. Otherwise all frames but one would keep
-        // their original colorspace on animated images.
         foreach ($image as $frame) {
             try {
                 $result = $frame->native()->transformImageColorspace($target);

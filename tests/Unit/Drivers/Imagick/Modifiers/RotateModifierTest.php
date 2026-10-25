@@ -24,12 +24,14 @@ final class RotateModifierTest extends ImagickTestCase
         $this->assertEquals(320, $image->height());
     }
 
+    /**
+     * A non-right-angle rotation grows the virtual canvas; ImageMagick leaves
+     * each frame with a negative page offset. That offset mis-composes the
+     * animated-AVIF (libheif sequences) writer, leaving the bottom/right
+     * transparent, so rotate must reset every frame's page to +0+0.
+     */
     public function testRotateResetsFramePageOffset(): void
     {
-        // A non-right-angle rotation grows the virtual canvas; ImageMagick leaves
-        // each frame with a negative page offset. That offset mis-composes the
-        // animated-AVIF (libheif sequences) writer, leaving the bottom/right
-        // transparent, so rotate must reset every frame's page to +0+0.
         $image = $this->readTestImage('animation.gif');
         $image->modify(new RotateModifier(45, 'fff'));
 

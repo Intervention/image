@@ -17,11 +17,8 @@ class ProfileModifier extends GenericProfileModifier implements SpecializedInter
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        // read the profile once, casting it rewinds and drains its stream
         $profile = (string) $this->profile;
 
-        // profileImage() only acts on the frame the iterator is currently
-        // pointing at, so every frame has to be profiled individually.
         foreach ($image as $frame) {
             try {
                 $result = $frame->native()->profileImage('icc', $profile);

@@ -23,7 +23,7 @@ class ReduceColorsModifier extends GenericReduceColorsModifier implements Specia
             throw new InvalidArgumentException('Quantization limit must be greater than 0');
         }
 
-        // no color reduction if the limit is higher than the colors in the img
+        // no color reduction if the limit is higher than the colors in the image
         if ($this->limit > $image->core()->native()->getImageColors()) {
             return $image;
         }

@@ -18,8 +18,6 @@ class ResolutionModifier extends GenericResolutionModifier implements Specialize
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        // setImageResolution() only acts on the frame the iterator is
-        // currently pointing at, so every frame has to be set individually.
         foreach ($image as $frame) {
             try {
                 $result = $frame->native()->setImageUnits(Imagick::RESOLUTION_PIXELSPERINCH)

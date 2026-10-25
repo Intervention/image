@@ -17,8 +17,8 @@ class RemoveProfileModifier extends GenericRemoveProfileModifier implements Spec
      */
     public function apply(ImageInterface $image): ImageInterface
     {
-        // Color profiles are not supported by GD, so the decoded
-        // image is already free of profiles anyway.
+        // color profiles are not supported by GD, so the
+        // image is already without profiles anyway.
         return $image;
     }
 }

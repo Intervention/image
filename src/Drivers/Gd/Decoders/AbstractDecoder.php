@@ -66,7 +66,7 @@ abstract class AbstractDecoder extends SpecializableDecoder implements Specializ
         if (function_exists('finfo_buffer') && function_exists('finfo_open')) {
             $mediaType = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $data);
             if (is_string($mediaType)) {
-                $this->parseMediaTypeOrFail($mediaType);
+                return $this->parseMediaTypeOrFail($mediaType);
             }
         }
 

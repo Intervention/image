@@ -33,4 +33,13 @@ final class AbstractDecoderTest extends BaseTestCase
             $decoder->mediaTypeByBinary(Resource::create('test.jpg')->data()),
         );
     }
+
+    public function testGetMediaTypeFromFileBinaryDetectedByFileinfo(): void
+    {
+        $decoder = Mockery::mock(AbstractDecoder::class)->makePartial();
+        $this->assertEquals(
+            MediaType::IMAGE_JPEG,
+            $decoder->mediaTypeByBinary(substr(Resource::create('test.jpg')->data(), 0, 20)),
+        );
+    }
 }

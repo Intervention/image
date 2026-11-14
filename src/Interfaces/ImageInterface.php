@@ -76,7 +76,7 @@ interface ImageInterface extends IteratorAggregate, Countable
     /**
      * Apply the given modifier to the image.
      *
-     * @link https://image.intervention.io/v4/modifying-images/custom-modifiers
+     * @link https://image.intervention.io/v4/advanced/custom-extensions#custom-modifiers
      */
     public function modify(ModifierInterface $modifier): self;
 
@@ -182,7 +182,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Return the background color used to replace transparent areas during
      * encoding to formats that do not support transparency.
      *
-     * @link https://image.intervention.io/v4/basics/configuration-drivers#configuration-options
+     * @link https://image.intervention.io/v4/getting-started/configuration-drivers#configuration-options
      */
     public function backgroundColor(): ColorInterface;
 
@@ -190,7 +190,7 @@ interface ImageInterface extends IteratorAggregate, Countable
      * Set the background color used to replace transparent areas during
      * encoding to formats that do not support transparency.
      *
-     * @link https://image.intervention.io/v4/basics/configuration-drivers#configuration-options
+     * @link https://image.intervention.io/v4/getting-started/configuration-drivers#configuration-options
      */
     public function setBackgroundColor(string|ColorInterface $color): self;
 

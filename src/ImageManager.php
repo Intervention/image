@@ -25,7 +25,7 @@ class ImageManager implements ImageManagerInterface
     /**
      * Create new image manager instance.
      *
-     * @link https://image.intervention.io/v4/basics/configuration-drivers#create-a-new-image-manager-instance
+     * @link https://image.intervention.io/v4/getting-started/configuration-drivers#create-a-new-image-manager-instance
      *
      * @throws InvalidArgumentException
      */

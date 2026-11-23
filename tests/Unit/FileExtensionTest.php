@@ -166,7 +166,7 @@ final class FileExtensionTest extends BaseTestCase
         yield [FileExtension::JPEG, 4, MediaType::IMAGE_JPEG];
         yield [FileExtension::WEBP, 2, MediaType::IMAGE_WEBP];
         yield [FileExtension::GIF, 1, MediaType::IMAGE_GIF];
-        yield [FileExtension::PNG, 2, MediaType::IMAGE_PNG];
+        yield [FileExtension::PNG, 3, MediaType::IMAGE_PNG];
         yield [FileExtension::AVIF, 2, MediaType::IMAGE_AVIF];
         yield [FileExtension::BMP, 9, MediaType::IMAGE_BMP];
         yield [FileExtension::TIFF, 1, MediaType::IMAGE_TIFF];

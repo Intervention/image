@@ -151,6 +151,7 @@ final class DriverTest extends BaseTestCase
         yield [true, Format::PNG];
         yield [true, MediaType::IMAGE_PNG];
         yield [true, MediaType::IMAGE_X_PNG];
+        yield [true, MediaType::IMAGE_APNG];
         yield [true, FileExtension::PNG];
         yield [true, 'png'];
         yield [true, 'image/png'];

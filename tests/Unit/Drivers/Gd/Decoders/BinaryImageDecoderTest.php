@@ -9,6 +9,7 @@ use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use Intervention\Image\Drivers\Gd\Decoders\BinaryImageDecoder;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Exceptions\InvalidArgumentException;
+use Intervention\Image\Format;
 use Intervention\Image\Image;
 use Intervention\Image\Tests\BaseTestCase;
 use Intervention\Image\Tests\Resource;
@@ -51,6 +52,16 @@ final class BinaryImageDecoderTest extends BaseTestCase
         $this->assertEquals(75, $image->width());
         $this->assertEquals(50, $image->height());
         $this->assertCount(4, $image);
+    }
+
+    public function testDecodeAnimatedPng(): void
+    {
+        $image = $this->decoder->decode(Resource::create('animation.png')->data());
+        $this->assertInstanceOf(Image::class, $image);
+        $this->assertEquals(16, $image->width());
+        $this->assertEquals(16, $image->height());
+        $this->assertCount(1, $image);
+        $this->assertEquals(Format::PNG, $image->origin()->format());
     }
 
     public function testDecodeJpegWithExif(): void

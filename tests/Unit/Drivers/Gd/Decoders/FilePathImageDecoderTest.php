@@ -53,6 +53,7 @@ final class FilePathImageDecoderTest extends BaseTestCase
         yield [Resource::create('gradient.bmp')->path(), null];
         yield [Resource::create('circle.png')->path(), null];
         yield [Resource::create('circle.png')->stringablePath(), null];
+        yield [Resource::create('animation.png')->path(), null];
         yield ['no-path', FileNotFoundException::class];
         yield [str_repeat('x', PHP_MAXPATHLEN + 1), InvalidArgumentException::class];
     }

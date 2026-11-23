@@ -93,6 +93,9 @@ final class MediaTypeTest extends BaseTestCase
 
         $mime = MediaType::IMAGE_X_PNG;
         $this->assertEquals(Format::PNG, $mime->format());
+
+        $mime = MediaType::IMAGE_APNG;
+        $this->assertEquals(Format::PNG, $mime->format());
     }
 
     public function testFormatAvif(): void
@@ -206,6 +209,7 @@ final class MediaTypeTest extends BaseTestCase
         yield [MediaType::IMAGE_GIF, 1, FileExtension::GIF];
         yield [MediaType::IMAGE_PNG, 1, FileExtension::PNG];
         yield [MediaType::IMAGE_X_PNG, 1, FileExtension::PNG];
+        yield [MediaType::IMAGE_APNG, 1, FileExtension::PNG];
         yield [MediaType::IMAGE_AVIF, 1, FileExtension::AVIF];
         yield [MediaType::IMAGE_X_AVIF, 1, FileExtension::AVIF];
         yield [MediaType::IMAGE_BMP, 1, FileExtension::BMP];

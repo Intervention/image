@@ -19,6 +19,7 @@ enum MediaType: string
     case IMAGE_GIF = 'image/gif';
     case IMAGE_PNG = 'image/png';
     case IMAGE_X_PNG = 'image/x-png';
+    case IMAGE_APNG = 'image/apng';
     case IMAGE_AVIF = 'image/avif';
     case IMAGE_X_AVIF = 'image/x-avif';
     case IMAGE_BMP = 'image/bmp';
@@ -115,7 +116,8 @@ enum MediaType: string
             self::IMAGE_X_WEBP => Format::WEBP,
             self::IMAGE_GIF => Format::GIF,
             self::IMAGE_PNG,
-            self::IMAGE_X_PNG => Format::PNG,
+            self::IMAGE_X_PNG,
+            self::IMAGE_APNG => Format::PNG,
             self::IMAGE_AVIF,
             self::IMAGE_X_AVIF => Format::AVIF,
             self::IMAGE_BMP,

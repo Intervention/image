@@ -32,9 +32,9 @@ class FillModifier extends ModifiersFillModifier implements SpecializedInterface
 
         foreach ($image->core()->native() as $frame) {
             if ($this->hasPosition()) {
-                $this->floodFillWithColor($frame, $pixel);
+                $this->floodFill($frame, $pixel);
             } else {
-                $this->fillAllWithColor($frame, $pixel);
+                $this->fill($frame, $pixel);
             }
         }
 
@@ -42,9 +42,11 @@ class FillModifier extends ModifiersFillModifier implements SpecializedInterface
     }
 
     /**
+     * Perform "flood fill" on frame at the current position with given color.
+     *
      * @throws ModifierException
      */
-    private function floodFillWithColor(Imagick $frame, ImagickPixel $pixel): void
+    private function floodFill(Imagick $frame, ImagickPixel $color): void
     {
         try {
             $target = $frame->getImagePixelColor(
@@ -60,7 +62,7 @@ class FillModifier extends ModifiersFillModifier implements SpecializedInterface
 
         try {
             $result = $frame->floodFillPaintImage(
-                $pixel,
+                $color,
                 100,
                 $target,
                 $this->position->x(),
@@ -83,14 +85,23 @@ class FillModifier extends ModifiersFillModifier implements SpecializedInterface
     }
 
     /**
+     * Fill frame completely with given color.
+     *
      * @throws ModifierException
      */
-    private function fillAllWithColor(Imagick $frame, ImagickPixel $pixel): void
+    private function fill(Imagick $frame, ImagickPixel $pixel): void
     {
         try {
             $draw = new ImagickDraw();
             $draw->setFillColor($pixel);
-            $draw->rectangle(0, 0, $frame->getImageWidth(), $frame->getImageHeight());
+
+            if ($pixel->getColorValue(Imagick::COLOR_ALPHA) === 1.0) {
+                // opaque color replaces every pixel, so the frame can be reset to the color, which is faster
+                $draw->color(0, 0, Imagick::PAINT_RESET);
+            } else {
+                $draw->rectangle(0, 0, $frame->getImageWidth(), $frame->getImageHeight());
+            }
+
             $frame->drawImage($draw);
         } catch (ImagickException | ImagickDrawException | ImagickPixelException $e) {
             throw new ModifierException(

@@ -35,4 +35,30 @@ final class FillModifierTest extends ImagickTestCase
         $this->assertEquals('cccccc', $image->colorAt(420, 270)->toHex());
         $this->assertEquals('cccccc', $image->colorAt(540, 400)->toHex());
     }
+
+    public function testFillAllOpaqueColorCoversTransparentAndAnimatedImages(): void
+    {
+        foreach (['circle.png', 'animation.gif'] as $filename) {
+            $image = $this->readTestImage($filename);
+            $image->modify(new FillModifier(new Color(204, 204, 204)));
+            for ($index = 0; $index < count($image); $index++) {
+                $this->assertColor(204, 204, 204, 255, $image->colorAt(0, 0, $index));
+                $this->assertColor(
+                    204,
+                    204,
+                    204,
+                    255,
+                    $image->colorAt($image->width() - 1, $image->height() - 1, $index),
+                );
+            }
+        }
+    }
+
+    public function testFillAllTranslucentColorBlends(): void
+    {
+        $image = $this->readTestImage('blocks.png');
+        $image->modify(new FillModifier(new Color(255, 255, 255, .5)));
+        $this->assertColor(255, 128, 128, 255, $image->colorAt(540, 400), tolerance: 1);
+        $this->assertColor(128, 128, 255, 255, $image->colorAt(420, 270), tolerance: 1);
+    }
 }

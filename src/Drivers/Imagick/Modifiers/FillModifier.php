@@ -92,8 +92,7 @@ class FillModifier extends ModifiersFillModifier implements SpecializedInterface
             $draw->setFillColor($pixel);
 
             if ($pixel->getColorValue(Imagick::COLOR_ALPHA) === 1.0) {
-                // an opaque color replaces every pixel, so the frame can be reset to the color
-                // directly, which is many times faster than rasterizing a full size rectangle
+                // opaque color replaces every pixel, so the frame can be reset to the color, which is faster
                 $draw->color(0, 0, Imagick::PAINT_RESET);
             } else {
                 $draw->rectangle(0, 0, $frame->getImageWidth(), $frame->getImageHeight());

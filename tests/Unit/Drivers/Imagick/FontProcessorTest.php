@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Intervention\Image\Tests\Unit\Drivers\Imagick;
 
+use ImagickPixel;
 use Intervention\Image\Drivers\Imagick\FontProcessor;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Interfaces\SizeInterface;
@@ -70,6 +71,20 @@ final class FontProcessorTest extends BaseTestCase
         $processor = new FontProcessor();
         $result = $processor->leading($this->testFont());
         $this->assertEquals(9, $result);
+    }
+
+    public function testToImagickDrawReturnsIndependentObjects(): void
+    {
+        $processor = new FontProcessor();
+        $first = $processor->toImagickDraw($this->testFont()->setSize(10), new ImagickPixel('#ff0000'));
+        $second = $processor->toImagickDraw($this->testFont()->setSize(20));
+
+        $this->assertNotSame($first, $second);
+        $this->assertEquals(10, $first->getFontSize());
+        $this->assertEquals(20, $second->getFontSize());
+        $this->assertEquals($first->getFont(), $second->getFont());
+        $this->assertEquals('srgb(255,0,0)', $first->getFillColor()->getColorAsString());
+        $this->assertNotEquals('srgb(255,0,0)', $second->getFillColor()->getColorAsString());
     }
 
     private function testFont(): Font

@@ -24,6 +24,11 @@ use Intervention\Image\MediaType;
 class Driver extends AbstractDriver
 {
     /**
+     * Font processor shared by all text operations of the driver
+     */
+    private ?FontProcessor $fontProcessor = null;
+
+    /**
      * {@inheritdoc}
      *
      * @see DriverInterface::id()
@@ -117,7 +122,7 @@ class Driver extends AbstractDriver
      */
     public function fontProcessor(): FontProcessorInterface
     {
-        return new FontProcessor();
+        return $this->fontProcessor ??= new FontProcessor();
     }
 
     /**

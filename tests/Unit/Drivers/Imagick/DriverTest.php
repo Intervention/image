@@ -49,6 +49,11 @@ final class DriverTest extends BaseTestCase
         $this->assertEquals('Imagick', $this->driver->id());
     }
 
+    public function testFontProcessorIsShared(): void
+    {
+        $this->assertSame($this->driver->fontProcessor(), $this->driver->fontProcessor());
+    }
+
     public function testCreateImage(): void
     {
         $image = $this->driver->createImage(3, 2);

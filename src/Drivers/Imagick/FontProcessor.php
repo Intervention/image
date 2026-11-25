@@ -20,6 +20,13 @@ use Intervention\Image\Size;
 class FontProcessor extends AbstractFontProcessor
 {
     /**
+     * ImagickDraw objects with the font file already set, by real font file path
+     *
+     * @var array<string, ImagickDraw>
+     */
+    private array $prototypes = [];
+
+    /**
      * {@inheritdoc}
      *
      * @see FontProcessorInterface::boxSize()
@@ -63,12 +70,20 @@ class FontProcessor extends AbstractFontProcessor
         }
 
         try {
-            $draw = new ImagickDraw();
-            $draw->setStrokeAntialias(true);
-            $draw->setTextAntialias(true);
-            $draw->setFont($font->filepath());
+            // ImagickDraw::setFont() leaks memory in each call (imagick 3.8.1 and earlier, see
+            // Imagick/imagick#786), so the font is set only once per file and then cloned
+            $key = realpath($font->filepath()) ?: $font->filepath();
+            if (!isset($this->prototypes[$key])) {
+                $prototype = new ImagickDraw();
+                $prototype->setStrokeAntialias(true);
+                $prototype->setTextAntialias(true);
+                $prototype->setFont($font->filepath());
+                $prototype->setTextAlignment(Imagick::ALIGN_LEFT);
+                $this->prototypes[$key] = $prototype;
+            }
+
+            $draw = clone $this->prototypes[$key];
             $draw->setFontSize($this->nativeFontSize($font));
-            $draw->setTextAlignment(Imagick::ALIGN_LEFT);
 
             if ($color instanceof ImagickPixel) {
                 $draw->setFillColor($color);

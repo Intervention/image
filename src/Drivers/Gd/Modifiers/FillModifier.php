@@ -31,9 +31,9 @@ class FillModifier extends GenericFillModifier implements SpecializedInterface
 
         foreach ($image as $frame) {
             if ($this->hasPosition()) {
-                $this->floodFillWithColor($frame, $color);
+                $this->floodFill($frame, $color);
             } else {
-                $this->fillAllWithColor($frame, $color);
+                $this->fill($frame, $color);
             }
         }
 
@@ -41,9 +41,11 @@ class FillModifier extends GenericFillModifier implements SpecializedInterface
     }
 
     /**
+     * Perform "flood fill" on frame at the current position with given color.
+     *
      * @throws ModifierException
      */
-    private function floodFillWithColor(FrameInterface $frame, int $color): void
+    private function floodFill(FrameInterface $frame, int $color): void
     {
         imagefill(
             $frame->native(),
@@ -54,9 +56,11 @@ class FillModifier extends GenericFillModifier implements SpecializedInterface
     }
 
     /**
+     * Fill frame completely with given color.
+     *
      * @throws ModifierException
      */
-    private function fillAllWithColor(FrameInterface $frame, int $color): void
+    private function fill(FrameInterface $frame, int $color): void
     {
         imagealphablending($frame->native(), true);
         imagefilledrectangle(
